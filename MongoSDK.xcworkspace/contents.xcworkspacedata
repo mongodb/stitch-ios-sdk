@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:MongoCore/MongoCore.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:MongoDB/MongoDB.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:MongoExtendedJson/MongoExtendedJson.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:MongoBaasODM/MongoBaasODM.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:MongoBaasSDKLogger/MongoBaasSDKLogger.xcodeproj">
+   </FileRef>
+</Workspace>
