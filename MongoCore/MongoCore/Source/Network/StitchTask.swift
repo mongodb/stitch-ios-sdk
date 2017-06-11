@@ -1,18 +1,18 @@
 //
-//  BaasTask.swift
+//  StitchTask.swift
 //  MongoCore
 //
-//  Created by Ofer Meroz on 02/02/2017.
+//  Created by Ofir Zucker on 07/06/2017.
 //  Copyright © 2017 Zemingo. All rights reserved.
 //
 
 import Foundation
 
-open class BaasTask<Result> {
+open class StitchTask<Result> {
     
     private let queue: OperationQueue
     
-    internal var result: BaasResult<Result>? {
+    public var result: StitchResult<Result>? {
         didSet{
             queue.isSuspended = false
         }
@@ -20,7 +20,7 @@ open class BaasTask<Result> {
     
     // MARK: - Init
     
-    internal init() {
+    public init() {
         queue = {
             let operationQueue = OperationQueue()
             
@@ -44,7 +44,7 @@ open class BaasTask<Result> {
     // MARK: - Public
     
     @discardableResult
-    public func response(onQueue queue: DispatchQueue? = nil, completionHandler: @escaping (_ result: BaasResult<Result>) -> Swift.Void) -> BaasTask<Result> {
+    public func response(onQueue queue: DispatchQueue? = nil, completionHandler: @escaping (_ result: StitchResult<Result>) -> Swift.Void) -> StitchTask<Result> {
         self.queue.addOperation {
             (queue ?? DispatchQueue.main).async {
                 completionHandler(self.result!)
@@ -57,13 +57,13 @@ open class BaasTask<Result> {
 
 // MARK: - Continuation Task
 
-extension BaasTask {
+extension StitchTask {
     
     @discardableResult
-    public func continuationTask<NewResultType>(parser: @escaping (_ oldResult: Result) throws -> NewResultType) -> BaasTask<NewResultType>{
-        let newTask = BaasTask<NewResultType>()
-        response(onQueue: DispatchQueue.global(qos: .utility)) { (baasResult: BaasResult<Result>) in
-            switch baasResult {
+    public func continuationTask<NewResultType>(parser: @escaping (_ oldResult: Result) throws -> NewResultType) -> StitchTask<NewResultType>{
+        let newTask = StitchTask<NewResultType>()
+        response(onQueue: DispatchQueue.global(qos: .utility)) { (stitchResult: StitchResult<Result>) in
+            switch stitchResult {
             case .success(let oldResult):
                 do {
                     let newResult = try parser(oldResult)
@@ -80,9 +80,12 @@ extension BaasTask {
         }
         return newTask
     }
+    
 }
 
-public enum BaasResult<Value> {
+
+
+public enum StitchResult<Value> {
     case success(Value)
     case failure(Error)
     
@@ -105,4 +108,3 @@ public enum BaasResult<Value> {
     }
     
 }
-

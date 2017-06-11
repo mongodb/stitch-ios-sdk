@@ -11,7 +11,7 @@ import MongoCore
 
 public protocol MongoClient {
     
-    var baasClient: BaasClient { get }
+    var stitchClient: StitchClient { get }
     var serviceName: String { get }        
     
     @discardableResult

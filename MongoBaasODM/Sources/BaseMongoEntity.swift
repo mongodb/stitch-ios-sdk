@@ -9,19 +9,26 @@
 import Foundation
 import MongoExtendedJson
 import MongoCore
+import MongoBaasSDKLogger
 
-open class BaseMongoEntity : JsonExtendable {
+open class BaseMongoEntity : ExtendedJsonRepresentable {
     
     //MARK: Properties
     
-    internal var properties: [String : JsonExtendable?] = [:]
-    internal var modifiedProperties: [String : JsonExtendable?] = [:]
+    internal var properties: [String : ExtendedJsonRepresentable?] = [:]
+    internal var modifiedProperties: [String : ExtendedJsonRepresentable?] = [:]
     
-    private var arrayRemovals: [String : [JsonExtendable]] = [:]
-    private var arrayAdditionals: [String : [JsonExtendable]] = [:]
+    private var arrayRemovals: [String : [ExtendedJsonRepresentable]] = [:]
+    private var arrayAdditionals: [String : [ExtendedJsonRepresentable]] = [:]
     
     //MARK: Init
     
+    /// Use this contstructor in order to create entities that are created for the first time and stored on stitch
+    public init(){
+        
+    }
+    
+    /// Use this constructor when receiving a Document back from stitch.
     public init(document: Document) {
         let myClassIdentifier = Utils.getIdentifier(any: self)
         if let myEntityMetadata = Utils.entitiesDictionary[myClassIdentifier]{
@@ -34,18 +41,23 @@ open class BaseMongoEntity : JsonExtendable {
                         embeddedEntityValue?.embedIn(parent: self, keyInParent: key, isEmbeddedInArray: false)
                         properties[key] = embeddedEntityValue
                     }
+                    else{
+                         printLog(LogLevel.warning, text: "While parsing \(key) in a document received an embedded document that is not mapped by the entity meta data")
+                    }
                 }
                 else if let value = value as? BsonArray {
                     var bsonArray = BsonArray()
                     
                     for item in value{
                         if let item = item as? Document {
-                            
                             if let propertyObjectIdentifier = myEntityMetadata.getSchema()[key], let embeddedEntityMetaData = Utils.entitiesDictionary[propertyObjectIdentifier] {
                                 if let embeddedEntityValue = embeddedEntityMetaData.create(document: item){
                                     embeddedEntityValue.embedIn(parent: self, keyInParent: key, isEmbeddedInArray: true)
                                     bsonArray.append(embeddedEntityValue)
                                 }
+                            }
+                            else{
+                                printLog(LogLevel.warning, text: "While parsing an array (\(key))o f a document received an embedded document that is not mapped by the entity meta data")
                             }
                         }
                         else{
@@ -83,25 +95,25 @@ open class BaseMongoEntity : JsonExtendable {
         }
     }
     
-    //MARK: Inherit - Consider use protocols instead
+    //MARK: Inherit
     
-    internal func update(operationTypes: [UpdateOperationType]?, operationTypePrefix: String?, embeddedEntityInArrayObjectId: ObjectId?) -> BaasTask<Any> {
+    internal func update(operationTypes: [UpdateOperationType]?, operationTypePrefix: String?, embeddedEntityInArrayObjectId: ObjectId?) -> StitchTask<Any> {
         let error = OdmError.classMetaDataNotFound
-        return MongoCore.BaasTask(error: error)
+        return MongoCore.StitchTask(error: error)
     }
     
     internal func getUpdateOperationTypes() -> [UpdateOperationType] {
         var result: [UpdateOperationType] = []
-    
-        var setDictionary: [String : JsonExtendable] = [:]
-        var unsetDictionary: [String : JsonExtendable] = [:]
-        var pushDictionary: [String : JsonExtendable] = [:]
-        var pullDictionary: [String : JsonExtendable] = [:]
 
-        let ignoreSet: Set<String> = arrayRemovals.keys + arrayAdditionals.keys
+        var setDictionary: [String : ExtendedJsonRepresentable] = [:]
+        var unsetDictionary: [String : ExtendedJsonRepresentable] = [:]
+        var pushDictionary: [String : ExtendedJsonRepresentable] = [:]
+        var pullDictionary: [String : ExtendedJsonRepresentable] = [:]
+
+        let modifiedArrayKeys: Set<String> = Set(arrayRemovals.keys).union(Set(arrayAdditionals.keys))
         
         for (key,value) in arrayAdditionals {
-           pushDictionary[key] = BsonArray(array: value)
+           pushDictionary[key] = Document(key: "$each", value: BsonArray(array: value))
         }
         
         for (key,value) in arrayRemovals {
@@ -120,7 +132,7 @@ open class BaseMongoEntity : JsonExtendable {
         
         for (key,value) in modifiedProperties {
             
-            if ignoreSet.contains(key) {
+            if modifiedArrayKeys.contains(key) {
                 continue
             }
             
@@ -148,12 +160,29 @@ open class BaseMongoEntity : JsonExtendable {
         
         return result
     }
-
+    
+    
+    internal func handleOperationResult(stitchResult: StitchResult<Any>) {
+        switch (stitchResult) {
+        case .failure(let error):
+            if let error = error as? OdmError{
+                switch error {
+                case .partialUpdateSuccess:
+                    revertProperties(partially: true)
+                default: break
+                    // properties stays as before - do nothing
+                }
+            }
+            
+        case .success(_):
+            revertProperties(partially: false)
+        }
+    }
 
 
     //MARK: subscript
     
-    public subscript(key: String) -> JsonExtendable?{
+    public subscript(key: String) -> ExtendedJsonRepresentable?{
         get{
             if let value = modifiedProperties[key] {
                 return value
@@ -168,13 +197,135 @@ open class BaseMongoEntity : JsonExtendable {
             if let newValue = newValue as? EmbeddedMongoEntity{
                 newValue.embedIn(parent: self, keyInParent: key, isEmbeddedInArray: false)
             }
+            else if let newValue = newValue as? BsonArray {
+                for jsonExtendable in newValue {
+                    if let embeddedEntity = jsonExtendable as? EmbeddedMongoEntity {
+                        embeddedEntity.embedIn(parent: self, keyInParent: key, isEmbeddedInArray: true)
+                    }
+                }
+            }
         }
         
     }
     
+    //MARK: Public
+   
+    /// Use this method to easily convert a property that is stored as a BsonArray to an array of a specific type
+    /// will return an empty array in the original bson-array is nil or empty
+    /// may throw an OdmError in case the BsonArray contains elements with a type that does not match the provided type
+    public func asArray<T>(bsonArray: BsonArray?) throws -> [T]{
+        if let bsonArray = bsonArray{
+            return try bsonArray.map({ (element) -> T in
+                if let converted = element as? T {
+                    return converted
+                }
+                throw OdmError.corruptedData(message: "Type mismatch")
+            })
+        }
+        return []
+    }
+    
+       
+    @discardableResult
+    public func addToArray(path: String, item: ExtendedJsonRepresentable) -> Bool {
+        return modifyArray(path: path, item: item, toAdd: true)
+    }
+    
+    @discardableResult
+    public func removeFromArray(path: String, item: ExtendedJsonRepresentable) -> Bool {
+        return modifyArray(path: path, item: item, toAdd: false)
+    }
+    
+    //MARK: Private
+    
+    private func modifyArray(path: String, item: ExtendedJsonRepresentable, toAdd: Bool) -> Bool {
+//        if !isPropertyClassMetaDataExists(propertyName: path) {
+//            printLog(.error, text: "could not modify array, no property was found under the path: \(path) ")
+//            return false
+//        }
+        
+        //add the item to the currect dictionary
+        var modifyDictionary = toAdd ? arrayAdditionals : arrayRemovals
+        var modifyArray = modifyDictionary[path] ?? []
+        modifyArray.append(item)
+        
+        //change the current property and save to current dictionary
+        let property = getOrGenerateArrayProperty(propertyName: path)
+        if var property = property {
+            if toAdd {
+                property.append(item)
+                
+                if let item = item as? EmbeddedMongoEntity {
+                    item.embedIn(parent: self, keyInParent: path, isEmbeddedInArray: true)
+                }
+                
+                arrayAdditionals[path] = modifyArray
+            }
+            else {
+                let itemWasRemoved = property.remove(object: item)
+                if !itemWasRemoved {
+                    printLog(.error, text: "item \(item) was not found in the array :\(path) ")
+                    return false
+                }
+                arrayRemovals[path] = modifyArray
+
+            }
+            
+            modifiedProperties[path] = property
+        }
+        else {
+            printLog(.error, text: "Type mismatch, the object in the path: \(path) is not BsonArray type ")
+            return false
+        }
+
+        return true
+    }
+    
+    private func getOrGenerateArrayProperty(propertyName: String) -> BsonArray? {
+        let property = getProperty(propertyName: propertyName) ?? BsonArray()
+        if let property = property as? BsonArray {
+            return property
+        }
+        return nil
+    }
+    
+    private func getProperty(propertyName: String) -> ExtendedJsonRepresentable? {
+        if let property = modifiedProperties[propertyName] {
+            return property
+        }
+        if let propery = properties[propertyName] {
+            return propery
+        }
+        return nil
+    }
+    
+    private func isPropertyClassMetaDataExists(propertyName: String) -> Bool {
+        let myClassIdentifier = Utils.getIdentifier(any: self)
+        if let myEntityMetadata = Utils.entitiesDictionary[myClassIdentifier],
+            myEntityMetadata.getSchema()[propertyName] != nil {
+            return true
+        }
+        return false
+        
+    }
+    
+    private func revertProperties(partially: Bool) {
+        let arrayRemovalProperties = arrayRemovals.keys
+        for (key, value) in modifiedProperties {
+            // only if its complete removal or that property is not an array - revert the property
+            if !partially || !arrayRemovalProperties.contains(key) {
+                    properties[key] = value
+            }
+        }
+        
+        modifiedProperties = [:]
+        arrayRemovals = [:]
+        arrayAdditionals = [:]
+    }
+    
     //MARK: Document
     
-    func asDocument() -> Document{
+    var asDocument: Document {
         var document = Document()
         var deletedKeys: [String] = []
         
@@ -195,10 +346,17 @@ open class BaseMongoEntity : JsonExtendable {
         return document
     }
     
-    //MARK: JsonExtendable
+    //MARK: ExtendedJsonRepresentable
     
-     public var toExtendedJson: Any{
-        return asDocument().toExtendedJson
+     public var toExtendedJson: Any {
+        return asDocument.toExtendedJson
+    }
+    
+    public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
+        if let other = other as? BaseMongoEntity{
+            return self === other
+        }
+      return false
     }
     
     //MARK: Static Registration

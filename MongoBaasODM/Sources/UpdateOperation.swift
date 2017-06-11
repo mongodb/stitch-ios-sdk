@@ -22,7 +22,8 @@ public struct UpdateOperation <Entity: RootMongoEntity> {
         self.mongoClient = mongoClient
     }
     
-    public func execute(operations operationType: [UpdateOperationType], upsert: Bool = false, multi: Bool = false) -> BaasTask<Any>{
+    @discardableResult
+    public func execute(operations operationType: [UpdateOperationType], upsert: Bool = false, multi: Bool = false) -> StitchTask<Any>{
         do{
             
             guard let classMetaData = Utils.entitiesDictionary[Utils.getIdentifier(type: Entity.self)] else{
@@ -37,11 +38,12 @@ public struct UpdateOperation <Entity: RootMongoEntity> {
            return execute(operations: operationType, collection: collection, upsert: upsert, multi: multi)
         }
         catch{
-            return BaasTask<Any>(error: error)
+            return StitchTask<Any>(error: error)
         }
     }
     
-    internal func execute(operations operationType: [UpdateOperationType],collection: MongoDB.Collection, upsert: Bool = false, multi: Bool = false) -> BaasTask<Any> {
+    @discardableResult
+    internal func execute(operations operationType: [UpdateOperationType],collection: MongoDB.Collection, upsert: Bool = false, multi: Bool = false) -> StitchTask<Any> {
         let queryDocument = criteria.asDocument
         var updateDocument = Document()
         

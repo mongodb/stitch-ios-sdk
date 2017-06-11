@@ -9,8 +9,8 @@
 import Foundation
 
 public protocol NetworkAdapter {
-    func requestWithArray(url: String, method: NAHTTPMethod, parameters: [[String : Any]]?, headers: [String : String]?) ->  BaasTask<Any>
-    func requestWithJsonEncoding(url: String, method: NAHTTPMethod, parameters: [String : Any]?, headers: [String : String]?) ->  BaasTask<Any>
+    func requestWithArray(url: String, method: NAHTTPMethod, parameters: [[String : Any]]?, headers: [String : String]?) ->  StitchTask<Any>
+    func requestWithJsonEncoding(url: String, method: NAHTTPMethod, parameters: [String : Any]?, headers: [String : String]?) ->  StitchTask<Any>
     func cancelAllRequests()
     
 }

@@ -22,6 +22,7 @@ class EntityTests: XCTestCase {
     static let grade = "grade"
     static let report = "report"
     static let teachers = "teachers"
+    static let lunchBox = "lunchBox"
     
     override func setUp() {
         super.setUp()
@@ -37,7 +38,7 @@ class EntityTests: XCTestCase {
         super.tearDown()
     }
     
-    //MARK: Tests - Root
+    // MARK: - Tests Root
     
     // Test a root mongo entity Save operation
     func testRootMongoEntitySave() {
@@ -250,7 +251,7 @@ class EntityTests: XCTestCase {
         waitForExpectations(timeout: 30, handler: nil)
     }
     
-    //MARK: Tests - Embdedded
+    // MARK: - Tests Embdedded
     
     // Test a root mongo entity Save operation with an embedded entity
     func testRootMongoEntitySaveEmbedded() {
@@ -362,12 +363,7 @@ class EntityTests: XCTestCase {
         
         let mongoClient = TestMongoClient()
         
-        let student = Student(mongoClient: mongoClient)
-        
-        let teacher1 = Teacher(document: Document(key: EntityTests.name, value: "name1"))
-        let teacher2 = Teacher(document: Document(key: EntityTests.name, value: "name2"))
-        
-        student.teachers = BsonArray(array: [teacher1, teacher2])
+        let student = createStudentWithEmbeddedTeachersArray(mongoClient: mongoClient)
         
         mongoClient.database.collection.expectedMethod = .insert
         mongoClient.database.collection.expectedInputBlock = { document in
@@ -376,11 +372,11 @@ class EntityTests: XCTestCase {
             
             let teacher0Doc = teachersArray[0] as! Document
             let teacher0Name = teacher0Doc[EntityTests.name] as! String
-            XCTAssertEqual(teacher0Name, (student.teachers![0] as! Teacher).name!)
+            XCTAssertEqual(teacher0Name, (student.teachers[0]).name!)
             
             let teacher1Doc = teachersArray[1] as! Document
             let teacher1Name = teacher1Doc[EntityTests.name] as! String
-            XCTAssertEqual(teacher1Name, (student.teachers![1] as! Teacher).name!)
+            XCTAssertEqual(teacher1Name, (student.teachers[1]).name!)
             
             expectationCollection.fulfill()
         }
@@ -435,12 +431,7 @@ class EntityTests: XCTestCase {
         
         let mongoClient = TestMongoClient()
         
-        let student = Student(mongoClient: mongoClient)
-        
-        let teacher1 = Teacher(document: Document(key: EntityTests.name, value: "name1"))
-        let teacher2 = Teacher(document: Document(key: EntityTests.name, value: "name2"))
-        
-        student.teachers = BsonArray(array: [teacher1, teacher2])
+        let student = createStudentWithEmbeddedTeachersArray(mongoClient: mongoClient)
         
         do {
             // Convert Student to Document, and init new Student from Document (to immitate an object recieved from the server)
@@ -451,7 +442,7 @@ class EntityTests: XCTestCase {
 
             studentFromDocument.save().response { saveResponse in
                 
-                let teacher0 = studentFromDocument.teachers![0] as! Teacher
+                let teacher0 = studentFromDocument.teachers[0]
                 let newName = "name3"
                 teacher0.name = newName
                 
@@ -475,24 +466,22 @@ class EntityTests: XCTestCase {
         waitForExpectations(timeout: 30, handler: nil)
     }
     
+    // Unfinished tests - waiting fro implementation on ODM
+    
+    
     // Test an array of embedded mongo entities element Update operation, when the properties were added after the Root object init
     func testEmbeddedMongoEntityArrayElementUpdateAfterInit() {
         let expectation = self.expectation(description: "collection execution should be executed")
         
         let mongoClient = TestMongoClient()
         
-        let student = Student(mongoClient: mongoClient)
-        
-        let teacher1 = Teacher(document: Document(key: EntityTests.name, value: "name1"))
-        let teacher2 = Teacher(document: Document(key: EntityTests.name, value: "name2"))
-        
-        student.teachers = BsonArray(array: [teacher1, teacher2])
+        let student = createStudentWithEmbeddedTeachersArray(mongoClient: mongoClient)
         
         mongoClient.database.collection.expectedMethod = .insert
         
         student.save().response { saveResponse in
             
-            let teacher0 = student.teachers![0] as! Teacher
+            let teacher0 = student.teachers[0]
             let newName = "name3"
             teacher0.name = newName
             
@@ -518,9 +507,356 @@ class EntityTests: XCTestCase {
         
         waitForExpectations(timeout: 30, handler: nil)
     }
+    
+    // Test an array of embedded mongo entities Update operation with element added, when the properties were added after the Root object init
+    func testEmbeddedMongoEntityArrayUpdateAddAfterInit() {
+        let expectation = self.expectation(description: "collection execution should be executed")
+        
+        let mongoClient = TestMongoClient()
+        
+        let student = createStudentWithEmbeddedTeachersArray(mongoClient: mongoClient)
+        
+        mongoClient.database.collection.expectedMethod = .insert
+        
+        student.save().response { saveResponse in
+            
+            let teacher3 = Teacher(document: Document(key: EntityTests.name, value: "name3"))
+            student.addToArray(path: EntityTests.teachers, item: teacher3)
+            
+            mongoClient.database.collection.expectedMethod = .update
+            mongoClient.database.collection.expectedInputBlock = { document in
+                
+                let pushDocument = document["$push"] as! Document
+                let techersPushedDocument = pushDocument[EntityTests.teachers] as! Document
+                let teachersPushedArray = techersPushedDocument["$each"] as! BsonArray
+                let pushedTeacher = teachersPushedArray[0] as! Document
+                let name = pushedTeacher[EntityTests.name] as! String
+                XCTAssertEqual(name, teacher3.name!)
+                
+                expectation.fulfill()
+            }
+            
+            student.update().response { updateResponse in
+                switch updateResponse {
+                case .failure:
+                    XCTAssert(false, "Update failed")
+                case .success:
+                    break
+                }
+            }
+        }
+        
+        waitForExpectations(timeout: 30, handler: nil)
+    }
+    
+    // Test an array of embedded mongo entities Update operation with element added, when the Root entity was init from a Document
+    func testEmbeddedMongoEntityArrayUpdateAddInitFromDocument() {
+        let expectation = self.expectation(description: "collection execution should be executed")
+        
+        let mongoClient = TestMongoClient()
+        
+        let student = createStudentWithEmbeddedTeachersArray(mongoClient: mongoClient)
+        
+        do {
+            // Convert Student to Document, and init new Student from Document (to immitate an object recieved from the server)
+            let studentDocument = try Document(extendedJson: student.toExtendedJson as! [String : Any])
+            let studentFromDocument = Student(document: studentDocument, mongoClient: mongoClient)
+            
+            mongoClient.database.collection.expectedMethod = .insert
+            
+            studentFromDocument.save().response { saveResponse in
+                
+                let teacher3 = Teacher(document: Document(key: EntityTests.name, value: "name3"))
+                studentFromDocument.addToArray(path: EntityTests.teachers, item: teacher3)
+                
+                mongoClient.database.collection.expectedMethod = .update
+                mongoClient.database.collection.expectedInputBlock = { document in
+                    
+                    let pushDocument = document["$push"] as! Document
+                    let techersPushedDocument = pushDocument[EntityTests.teachers] as! Document
+                    let teachersPushedArray = techersPushedDocument["$each"] as! BsonArray
+                    let pushedTeacher = teachersPushedArray[0] as! Document
+                    let name = pushedTeacher[EntityTests.name] as! String
+                    XCTAssertEqual(name, teacher3.name!)
+                    
+                    expectation.fulfill()
+                }
+                
+                studentFromDocument.update().response { updateResponse in
+                    switch updateResponse {
+                    case .failure:
+                        XCTAssert(false, "Update failed")
+                    case .success:
+                        break
+                    }
+                }
+            }
+        }
+        catch {
+            XCTAssert(false, "Could not create document")
+        }
+        
+        waitForExpectations(timeout: 30, handler: nil)
+    }
+    
+    // Test an array of embedded mongo entities Update operation with element removed, when the properties were added after the Root object init
+    func testEmbeddedMongoEntityArrayUpdateRemoveAfterInit() {
+        let expectation = self.expectation(description: "collection execution should be executed")
+        
+        let mongoClient = TestMongoClient()
+        
+        let student = createStudentWithEmbeddedTeachersArray(mongoClient: mongoClient)
+        
+        mongoClient.database.collection.expectedMethod = .insert
+        
+        student.save().response { saveResponse in
+            
+            let teacher0 = student.teachers[0]
+            let objectId = teacher0.objectId
+            student.removeFromArray(path: EntityTests.teachers, item: teacher0)
+            
+            mongoClient.database.collection.expectedMethod = .update
+            mongoClient.database.collection.expectedInputBlock = { document in
+                
+                let pullDocument = document["$pull"] as? Document
+                let teachersDocument = pullDocument?[EntityTests.teachers] as? Document
+                let idDocument = teachersDocument![Utils.Consts.objectIdKey] as? Document
+                XCTAssertEqual(idDocument!["$eq"] as! ObjectId , objectId!)
+                
+                expectation.fulfill()
+            }
+            
+            student.update().response { updateResponse in
+                switch updateResponse {
+                case .failure:
+                    XCTAssert(false, "Update failed")
+                case .success:
+                    break
+                }
+            }
+        }
+        
+        waitForExpectations(timeout: 30, handler: nil)
+    }
+    
+    // Test an array of embedded mongo entities Update operation with element removed, when the Root entity was init from a Document
+    func testEmbeddedMongoEntityArrayUpdateRemoveInitFromDocument() {
+        let expectation = self.expectation(description: "collection execution should be executed")
+        
+        let mongoClient = TestMongoClient()
+        
+        let student = createStudentWithEmbeddedTeachersArray(mongoClient: mongoClient)
+        
+        do {
+            // Convert Student to Document, and init new Student from Document (to immitate an object recieved from the server)
+            let studentDocument = try Document(extendedJson: student.toExtendedJson as! [String : Any])
+            let studentFromDocument = Student(document: studentDocument, mongoClient: mongoClient)
+            
+            mongoClient.database.collection.expectedMethod = .insert
+            
+            studentFromDocument.save().response { saveResponse in
+                
+                let teacher0 = studentFromDocument.teachers[0]
+                let objectId = teacher0.objectId
+                studentFromDocument.removeFromArray(path: EntityTests.teachers, item: teacher0)
+                
+                mongoClient.database.collection.expectedMethod = .update
+                mongoClient.database.collection.expectedInputBlock = { document in
+                    
+                    let pullDocument = document["$pull"] as? Document
+                    let teachersDocument = pullDocument?[EntityTests.teachers] as? Document
+                    let idDocument = teachersDocument![Utils.Consts.objectIdKey] as? Document
+                    XCTAssertEqual(idDocument!["$eq"] as! ObjectId , objectId!)
+                    
+                    expectation.fulfill()
+                }
+                
+                studentFromDocument.update().response { updateResponse in
+                    switch updateResponse {
+                    case .failure:
+                        XCTAssert(false, "Update failed")
+                    case .success:
+                        break
+                    }
+                }
+            }
+        }
+        catch {
+            XCTAssert(false, "Could not create document")
+        }
+        
+        waitForExpectations(timeout: 30, handler: nil)
+    }
+    
+    // Test an array of embedded mongo entities Update operation with multiple elements removed, when the properties were added after the Root object init
+    func testEmbeddedMongoEntityArrayUpdateRemoveMultipleAfterInit() {
+        let expectation = self.expectation(description: "collection execution should be executed")
+        
+        let mongoClient = TestMongoClient()
+        
+        let student = createStudentWithEmbeddedTeachersArray(mongoClient: mongoClient)
+        
+        mongoClient.database.collection.expectedMethod = .insert
+        
+        student.save().response { saveResponse in
+            
+            let teacher1 = student.teachers[0]
+            let objectId1 = teacher1.objectId
+            student.removeFromArray(path: EntityTests.teachers, item: teacher1)
+            
+            let teacher2 = student.teachers[0] 
+            let objectId2 = teacher2.objectId
+            student.removeFromArray(path: EntityTests.teachers, item: teacher2)
+            
+            mongoClient.database.collection.expectedMethod = .update
+            mongoClient.database.collection.expectedInputBlock = { document in
+                
+                let pullDocument = document["$pull"] as? Document
+                let teachersDocument = pullDocument?[EntityTests.teachers] as? Document
+                
+                let orArray = teachersDocument?["$or"] as? BsonArray
+                let firstConditionDoc = orArray?[0] as? Document
+                let secondConditionDoc = orArray?[1] as? Document
+                
+                let firstIdDocument = firstConditionDoc![Utils.Consts.objectIdKey] as? Document
+                XCTAssertEqual(firstIdDocument!["$eq"] as! ObjectId , objectId1!)
+                
+                let secondIdDocument = secondConditionDoc![Utils.Consts.objectIdKey] as? Document
+                XCTAssertEqual(secondIdDocument!["$eq"] as! ObjectId , objectId2!)
+                
+                expectation.fulfill()
+            }
+            
+            student.update().response { updateResponse in
+                switch updateResponse {
+                case .failure:
+                    XCTAssert(false, "Update failed")
+                case .success:
+                    break
+                }
+            }
+        }
+        
+        waitForExpectations(timeout: 30, handler: nil)
+    }
 
     
-    //MARK: Root Entity
+    // Test an array of embedded mongo entities Update operation with elements added and removed, when the properties were added after the Root object init
+   func testEmbeddedMongoEntityArrayUpdateAddRemoveAfterInit() {
+        let expectation = self.expectation(description: "collection execution should be executed")
+        
+        let mongoClient = TestMongoClient()
+        
+        let student = createStudentWithEmbeddedTeachersArray(mongoClient: mongoClient)
+        
+        mongoClient.database.collection.expectedMethod = .insert
+        
+        student.save().response { saveResponse in
+            
+            let removeTeacher = student.teachers[0]
+            student.removeTeacher(removeTeacher)
+            let teacher3 = Teacher(name: "name3")
+            student.addTeacher(teacher3)
+            
+            var firstInvocation = true
+            mongoClient.database.collection.expectedMethod = .update
+            mongoClient.database.collection.expectedInputBlock = { document in
+                if firstInvocation{
+                    let pushDocument = document["$push"] as! Document
+                    let techersPushedDocument = pushDocument[EntityTests.teachers] as! Document
+                    let teachersPushedArray = techersPushedDocument["$each"] as! BsonArray
+                    let pushedTeacher = teachersPushedArray[0] as! Document
+                    let nameAdded = pushedTeacher[EntityTests.name] as! String
+                    XCTAssertEqual(nameAdded, teacher3.name!)
+                    firstInvocation = false
+                }
+                else{
+                    let pullDocument = document["$pull"] as! Document
+                    let teachersDocumentCriteria = pullDocument[EntityTests.teachers] as? Document
+                    let conditionDoc = teachersDocumentCriteria![Utils.Consts.objectIdKey] as? Document
+                    XCTAssertEqual(conditionDoc!["$eq"] as? ObjectId , removeTeacher.objectId)
+                    //removeTeacher
+                    expectation.fulfill()
+                }
+            }
+            
+            student.update().response { updateResponse in
+                switch updateResponse {
+                case .failure:
+                    XCTAssert(false, "Update failed")
+                case .success:
+                    break
+                }
+            }
+        }
+        
+        waitForExpectations(timeout: 30, handler: nil)
+    }
+    
+       
+    // Test an array of embedded mongo entities Update operation with simple elements removed, when the properties were added after the Root object init
+    func testEmbeddedMongoEntityArrayUpdateRemoveSimpleAfterInit() {
+        let expectation = self.expectation(description: "collection execution should be executed")
+        
+        let mongoClient = TestMongoClient()
+        
+        let student = Student(mongoClient: mongoClient)
+        student.lunchBox = ["apple", "banana"]
+        
+        mongoClient.database.collection.expectedMethod = .insert
+        
+        student.save().response { saveResponse in
+            
+            student.removeLunchBox("apple")
+            student.removeLunchBox("banana")
+            
+            mongoClient.database.collection.expectedMethod = .update
+            mongoClient.database.collection.expectedInputBlock = { document in
+                
+                let pullDocument = document["$pull"] as? Document
+                
+                let inDocument = pullDocument?[EntityTests.lunchBox] as? Document
+                let pullValuesBson = inDocument?["$in"] as? BsonArray
+                let pullValue1 = pullValuesBson?[0] as! String
+                let pullValue2 = pullValuesBson?[1] as! String
+                
+                XCTAssertEqual(pullValue1, "apple")
+                XCTAssertEqual(pullValue2, "banana")
+                
+                expectation.fulfill()
+            }
+            
+            student.update().response { updateResponse in
+                switch updateResponse {
+                case .failure:
+                    XCTAssert(false, "Update failed")
+                case .success:
+                    break
+                }
+            }
+        }
+        
+        waitForExpectations(timeout: 30, handler: nil)
+    }
+    
+
+
+    // MARK: Helper
+    
+    private func createStudentWithEmbeddedTeachersArray(mongoClient: MongoClient) -> Student {
+        let student = Student(mongoClient: mongoClient)
+        
+        let teacher1 = Teacher(document: Document(key: EntityTests.name, value: "name1"))
+        let teacher2 = Teacher(document: Document(key: EntityTests.name, value: "name2"))
+        
+        
+        student.addToArray(path: EntityTests.teachers, item: teacher1)
+        student.addToArray(path: EntityTests.teachers, item: teacher2)
+       
+        return student
+    }
+    
+    // MARK: - Root Entity
     
     class Student: RootMongoEntity {
         var name: String? {
@@ -541,14 +877,52 @@ class EntityTests: XCTestCase {
             }
         }
         
-        var teachers: BsonArray? {
+        var teachers: [Teacher] {
             get {
-                return self[EntityTests.teachers] as? BsonArray
+                do {
+                   return try asArray(bsonArray: self[EntityTests.teachers] as? BsonArray)
+                } catch  {
+                    // failed converting
+                    return []
+                }
+                
             }
             set(newTeachers) {
-                self[EntityTests.teachers] = newTeachers
+                self[EntityTests.teachers] = BsonArray(array: newTeachers)
             }
         }
+        
+        var lunchBox: [String] {
+            get {
+                do {
+                    return try asArray(bsonArray: self[EntityTests.lunchBox] as? BsonArray)
+                } catch  {
+                    // failed converting
+                    return []
+                }
+
+            }
+            set(newLunchBox) {
+                self[EntityTests.lunchBox] = BsonArray(array: newLunchBox)
+            }
+        }
+        
+        func addTeacher(_ teacher: Teacher){
+            addToArray(path: EntityTests.teachers, item: teacher)
+        }
+        
+        func removeTeacher(_ teacher: Teacher){
+            removeFromArray(path: EntityTests.teachers, item: teacher)
+        }
+        
+        func addLunchBox(_ lunchBox: String){
+            addToArray(path: EntityTests.lunchBox, item: lunchBox)
+        }
+        
+        func removeLunchBox(_ lunchBox: String){
+            removeFromArray(path: EntityTests.lunchBox, item: lunchBox)
+        }
+
     }
     
     class StudentMetaDataImp: EntityTypeMetaData {
@@ -563,7 +937,8 @@ class EntityTests: XCTestCase {
         func getSchema() -> [String : EntityIdentifier] {
             return [ EntityTests.name : EntityIdentifier(String.self),
                      EntityTests.report : EntityIdentifier(Report.self),
-                     EntityTests.teachers : EntityIdentifier(Teacher.self)
+                     EntityTests.teachers : EntityIdentifier(Teacher.self),
+                     EntityTests.lunchBox : EntityIdentifier(String.self)
             ]
         }
         
@@ -587,7 +962,7 @@ class EntityTests: XCTestCase {
         }
     }
     
-    //MARK: Embedded Entities
+    // MARK: - Embedded Entities
     
     class Report: EmbeddedMongoEntity {
         
@@ -626,7 +1001,12 @@ class EntityTests: XCTestCase {
     }
     
     class Teacher: EmbeddedMongoEntity {
-        
+
+        convenience init(name: String){
+            self.init()
+            self.name = name
+        }
+                
         var name: String? {
             get {
                 return self[EntityTests.name] as? String
@@ -661,7 +1041,7 @@ class EntityTests: XCTestCase {
         }
     }
     
-    //MARK: Mongo Client
+    // MARK: - Mongo Client
     
     enum ExpectedMethod {
         case update
@@ -675,17 +1055,17 @@ class EntityTests: XCTestCase {
         var expectedInputBlock: ((_ document: Document) -> ())?
         
         @discardableResult
-        func find(query: Document, projection: Document?, limit: Int?) -> BaasTask<[Document]> {
-            return BaasTask<[Document]>()
+        func find(query: Document, projection: Document?, limit: Int?) -> StitchTask<[Document]> {
+            return StitchTask<[Document]>()
         }
         
         @discardableResult
-        func update(query: Document, update: Document?, upsert: Bool, multi: Bool) -> BaasTask<Any> {
-            let baasTask = BaasTask<Any>()
+        func update(query: Document, update: Document?, upsert: Bool, multi: Bool) -> StitchTask<Any> {
+            let stitchTask = StitchTask<Any>()
             
             do {
                 let resultDoc = try Document(extendedJson: update!.toExtendedJson as! [String : Any])
-                baasTask.result = .success(BsonArray(array: [resultDoc]))
+                stitchTask.result = .success(BsonArray(array: [resultDoc]))
                 
                 if expectedMethod == .update {
                     expectedInputBlock?(resultDoc)
@@ -697,19 +1077,19 @@ class EntityTests: XCTestCase {
                 XCTAssert(false, "Could not create document")
             }
             
-            return baasTask
+            return stitchTask
         }
         
         @discardableResult
-        func insert(document: Document) ->  BaasTask<Any> {
-            let baasTask = BaasTask<Any>()
+        func insert(document: Document) ->  StitchTask<Any> {
+            let stitchTask = StitchTask<Any>()
             
             var doc = document
             doc[Utils.Consts.objectIdKey] = ObjectId()
             
             do {
                 let resultDoc = try Document(extendedJson: doc.toExtendedJson as! [String : Any])
-                baasTask.result = .success(BsonArray(array: [resultDoc]))
+                stitchTask.result = .success(BsonArray(array: [resultDoc]))
                 
                 if expectedMethod == .insert {
                     expectedInputBlock?(resultDoc)
@@ -721,18 +1101,18 @@ class EntityTests: XCTestCase {
                 XCTAssert(false, "Could not create document")
             }
             
-            return baasTask
+            return stitchTask
         }
         
         @discardableResult
-        func insert(documents: [Document]) ->  BaasTask<Any> {
-            return BaasTask<Any>()
+        func insert(documents: [Document]) ->  StitchTask<Any> {
+            return StitchTask<Any>()
         }
         
         @discardableResult
-        func delete(query: Document, singleDoc: Bool) -> BaasTask<Any> {
-            let baasTask = BaasTask<Any>()
-            baasTask.result = .success(BsonArray(array: [query]))
+        func delete(query: Document, singleDoc: Bool) -> StitchTask<Any> {
+            let stitchTask = StitchTask<Any>()
+            stitchTask.result = .success(BsonArray(array: [query]))
             
             if expectedMethod == .delete {
                 expectedInputBlock?(query)
@@ -740,17 +1120,17 @@ class EntityTests: XCTestCase {
                 XCTAssert(false, "Collection executed wrong method (delete)")
             }
             
-            return baasTask
+            return stitchTask
         }
         
         @discardableResult
-        func count(query: Document) -> BaasTask<Int> {
-            return BaasTask<Int>()
+        func count(query: Document) -> StitchTask<Int> {
+            return StitchTask<Int>()
         }
         
         @discardableResult
-        func aggregate(pipeline: [Document]) -> BaasTask<Any> {
-            return BaasTask<Any>()
+        func aggregate(pipeline: [Document]) -> StitchTask<Any> {
+            return StitchTask<Any>()
         }
     }
     
@@ -769,7 +1149,7 @@ class EntityTests: XCTestCase {
     
     class TestMongoClient: MongoClient {
         
-        var baasClient: BaasClient { return TestBaasClient() }
+        var stitchClient: StitchClient { return TestStitchClient() }
         var serviceName: String { return EntityTests.serviceName }
         
         let database = TestDatabase()
@@ -780,55 +1160,55 @@ class EntityTests: XCTestCase {
         }
     }
     
-    class TestBaasClient: BaasClient {
+    class TestStitchClient: StitchClient {
         
         var auth: Auth? { return nil }
         var authUser: AuthUser? { return nil }
         var isAuthenticated: Bool { return false }
         var isAnonymous: Bool { return false }
         
-        func fetchAuthProviders() -> BaasTask<AuthProviderInfo> {
-            return BaasTask<AuthProviderInfo>()
+        func fetchAuthProviders() -> StitchTask<AuthProviderInfo> {
+            return StitchTask<AuthProviderInfo>()
         }
         
-        func register(email: String, password: String) -> BaasTask<Void> {
-            return BaasTask<Void>()
+        func register(email: String, password: String) -> StitchTask<Void> {
+            return StitchTask<Void>()
         }
         
-        func emailConfirm(token: String, tokenId: String) -> BaasTask<Any> {
-            return BaasTask<Any>()
+        func emailConfirm(token: String, tokenId: String) -> StitchTask<Any> {
+            return StitchTask<Any>()
         }
         
-        func sendEmailConfirm(toEmail email: String) -> BaasTask<Void> {
-            return BaasTask<Void>()
+        func sendEmailConfirm(toEmail email: String) -> StitchTask<Void> {
+            return StitchTask<Void>()
         }
         
-        func resetPassword(token: String, tokenId: String) -> BaasTask<Any> {
-            return BaasTask<Any>()
+        func resetPassword(token: String, tokenId: String) -> StitchTask<Any> {
+            return StitchTask<Any>()
         }
         
-        func sendResetPassword(toEmail email: String) -> BaasTask<Void> {
-            return BaasTask<Void>()
+        func sendResetPassword(toEmail email: String) -> StitchTask<Void> {
+            return StitchTask<Void>()
         }
         
-        func anonymousAuth() -> BaasTask<Bool> {
-            return BaasTask<Bool>()
+        func anonymousAuth() -> StitchTask<Bool> {
+            return StitchTask<Bool>()
         }
         
-        func login(withProvider provider: AuthProvider) -> BaasTask<Bool> {
-            return BaasTask<Bool>()
+        func login(withProvider provider: AuthProvider) -> StitchTask<Bool> {
+            return StitchTask<Bool>()
         }
         
-        func logout() -> BaasTask<Provider?> {
-            return BaasTask<Provider?>()
+        func logout() -> StitchTask<Provider?> {
+            return StitchTask<Provider?>()
         }
         
-        func executePipeline(pipeline: Pipeline) -> BaasTask<Any> {
+        func executePipeline(pipeline: Pipeline) -> StitchTask<Any> {
             return executePipeline(pipelines: [pipeline])
         }
         
-        func executePipeline(pipelines: [Pipeline]) -> BaasTask<Any> {
-            return BaasTask<Any>()
+        func executePipeline(pipelines: [Pipeline]) -> StitchTask<Any> {
+            return StitchTask<Any>()
         }
         
     }

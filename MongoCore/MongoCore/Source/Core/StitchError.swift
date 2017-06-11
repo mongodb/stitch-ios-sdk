@@ -1,14 +1,14 @@
 //
-//  BaasError.swift
+//  StitchError.swift
 //  MongoCore
 //
-//  Created by Ofer Meroz on 02/02/2017.
+//  Created by Ofir Zucker on 07/06/2017.
 //  Copyright © 2017 Zemingo. All rights reserved.
 //
 
 import Foundation
 
-public enum BaasError: Error {
+public enum StitchError: Error {
     
     public enum ServerErrorReason {
         case invalidSession(message: String)
@@ -76,7 +76,7 @@ public enum BaasError: Error {
             default:
                 self = .other(message: errorMessage)
             }
-        }                
+        }
     }
     
     case serverError(reason: ServerErrorReason)
@@ -89,9 +89,9 @@ public enum BaasError: Error {
 
 // MARK: - Error Descriptions
 
-extension BaasError: LocalizedError {
+extension StitchError: LocalizedError {
     public var errorDescription: String? {
-        switch self {        
+        switch self {
         case .responseParsingFailed(let reason):
             return reason
         case .serverError(let reason):
@@ -101,12 +101,12 @@ extension BaasError: LocalizedError {
         case .illegalAction(let message):
             return message
         case .clientReleased:
-            return "BaasClient was released while performing the task."
+            return "StitchClient was released while performing the task."
         }
     }
 }
 
-extension BaasError.ServerErrorReason: LocalizedError {
+extension StitchError.ServerErrorReason: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .invalidSession(let message):

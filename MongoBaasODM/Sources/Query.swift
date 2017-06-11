@@ -18,46 +18,47 @@ public struct Query<Entity: RootMongoEntity> {
     private(set) var criteria: Criteria?
     let mongoClient: MongoClient
     
+    private var asDocument: Document {
+        return criteria?.asDocument ?? Document()
+    }
+    
     public init(criteria: Criteria? = nil, mongoClient: MongoClient) {
         self.criteria = criteria
         self.mongoClient = mongoClient
     }
     
-    public func count() -> BaasTask<Int>{
+    public func count() -> StitchTask<Int> {
         
-        do{
+        do {
             let collection = try getCollection()
-            let query = getCriteriaAsDocument()
-            return collection.count(query: query)
-
+            return collection.count(query: asDocument)
         }
-        catch{
-            return BaasTask<Int>(error: error)
+        catch {
+            return StitchTask<Int>(error: error)
         }
     }
     
-    public func find(limit: Int? = nil) -> BaasTask<[Entity]> {
+    public func find(limit: Int? = nil) -> StitchTask<[Entity]> {
         var projection: Projection?
         if let schema = Entity.schema {
             projection = Projection(schema.map{ return $0.key })
         }
         do{
             let collection = try getCollection()
-            let query = getCriteriaAsDocument()
-            return collection.find(query: query, projection: projection?.asDocument, limit: limit).continuationTask{(result: [Document]) -> [Entity] in
+            return collection.find(query: asDocument, projection: projection?.asDocument, limit: limit).continuationTask{(result: [Document]) -> [Entity] in
                 return result.flatMap{ Entity(document: $0, mongoClient: self.mongoClient) }
             }
         }
         catch{
-            return BaasTask<[Entity]>(error: error)
+            return StitchTask<[Entity]>(error: error)
         }
     }
     
-    public func find(sortParameter: SortParameter, pageSize: Int) -> BaasTask<PaginatedQueryResult<Entity>> {
+    public func find(sortParameter: SortParameter, pageSize: Int) -> StitchTask<PaginatedQueryResult<Entity>> {
         return find(originalCriteria: self.criteria, sortParameter: sortParameter, pageSize: pageSize)
     }
     
-    internal func find(originalCriteria: Criteria?, sortParameter: SortParameter, pageSize: Int) -> BaasTask<PaginatedQueryResult<Entity>> {
+    internal func find(originalCriteria: Criteria?, sortParameter: SortParameter, pageSize: Int) -> StitchTask<PaginatedQueryResult<Entity>> {
         let pipeline = aggregationPipelineFor(sortParameter: sortParameter, pageSize: pageSize)
         let aggregate = Aggregate<Entity>(mongoClient: mongoClient, stages: pipeline)
         return aggregate.execute().continuationTask{ (result) -> PaginatedQueryResult<Entity> in
@@ -91,12 +92,8 @@ public struct Query<Entity: RootMongoEntity> {
         return mongoClient.database(named: databaseName).collection(named: collectionName)
     }
     
-    private func getCriteriaAsDocument() -> Document {
-        return (criteria != nil) ? criteria!.asDocument : Document()
-    }
-    
-    
     //MARK: Sort helpers
+    
     //Sort is currently not supported at 'collection.find', so we are using aggeegation
     fileprivate func aggregationPipelineFor(sortParameter: SortParameter, pageSize: Int) -> [AggregationStage] {
         var pipeline = [AggregationStage]()

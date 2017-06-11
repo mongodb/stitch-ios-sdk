@@ -31,11 +31,11 @@ class MongoDBTests: XCTestCase {
     }
     
     static var response: Any {
-        var jsonExtendableArray: [JsonExtendable] = []
-        jsonExtendableArray.append(MongoDBTests.testResultDocument)
-        jsonExtendableArray.append(MongoDBTests.testResultDocument)
-        jsonExtendableArray.append(MongoDBTests.testResultDocument)
-        return BsonArray(array: jsonExtendableArray)
+        var extendedJsonRepresentableArray: [ExtendedJsonRepresentable] = []
+        extendedJsonRepresentableArray.append(MongoDBTests.testResultDocument)
+        extendedJsonRepresentableArray.append(MongoDBTests.testResultDocument)
+        extendedJsonRepresentableArray.append(MongoDBTests.testResultDocument)
+        return BsonArray(array: extendedJsonRepresentableArray)
     }
     
     
@@ -50,7 +50,7 @@ class MongoDBTests: XCTestCase {
     func testFind() {
         let expectation = self.expectation(description: "find call closure should be executed")
         
-        MongoClientImpl(baasClient: TestFindBaasClient(), serviceName: MongoDBTests.serviceName).database(named: MongoDBTests.dbName).collection(named: MongoDBTests.collectionName).find(query: Document(key: "owner_id", value: try! ObjectId(hexString: MongoDBTests.hexString))).response { (result) in
+        MongoClientImpl(stitchClient: TestFindStitchClient(), serviceName: MongoDBTests.serviceName).database(named: MongoDBTests.dbName).collection(named: MongoDBTests.collectionName).find(query: Document(key: "owner_id", value: try! ObjectId(hexString: MongoDBTests.hexString))).response { (result) in
             switch result {
             case .success(let documents):
                 XCTAssertEqual(documents.count, (MongoDBTests.response as! BsonArray).count)
@@ -70,36 +70,36 @@ class MongoDBTests: XCTestCase {
     }
     
     func testUpdate() {
-        MongoClientImpl(baasClient: TestUpdateBaasClient(), serviceName: MongoDBTests.serviceName).database(named: MongoDBTests.dbName).collection(named: MongoDBTests.collectionName).update(query: Document(key: "owner_id", value: try! ObjectId(hexString: MongoDBTests.hexString)))
+        MongoClientImpl(stitchClient: TestUpdateStitchClient(), serviceName: MongoDBTests.serviceName).database(named: MongoDBTests.dbName).collection(named: MongoDBTests.collectionName).update(query: Document(key: "owner_id", value: try! ObjectId(hexString: MongoDBTests.hexString)))
     }
     
     func testInsertSingle() {
-        MongoClientImpl(baasClient: TestInsertBaasClient(), serviceName: MongoDBTests.serviceName).database(named: MongoDBTests.dbName).collection(named: MongoDBTests.collectionName).insert(document: MongoDBTests.testResultDocument)
+        MongoClientImpl(stitchClient: TestInsertStitchClient(), serviceName: MongoDBTests.serviceName).database(named: MongoDBTests.dbName).collection(named: MongoDBTests.collectionName).insert(document: MongoDBTests.testResultDocument)
     }
     
     func testInsertMultiple() {
-        MongoClientImpl(baasClient: TestInsertBaasClient(), serviceName: MongoDBTests.serviceName).database(named: MongoDBTests.dbName).collection(named: MongoDBTests.collectionName).insert(documents: [MongoDBTests.testResultDocument, MongoDBTests.testResultDocument, MongoDBTests.testResultDocument])
+        MongoClientImpl(stitchClient: TestInsertStitchClient(), serviceName: MongoDBTests.serviceName).database(named: MongoDBTests.dbName).collection(named: MongoDBTests.collectionName).insert(documents: [MongoDBTests.testResultDocument, MongoDBTests.testResultDocument, MongoDBTests.testResultDocument])
     }
     
     func testDeleteSingle() {
-        MongoClientImpl(baasClient: TestDeleteBaasClient(isSingleDelete: true), serviceName: MongoDBTests.serviceName).database(named: MongoDBTests.dbName).collection(named: MongoDBTests.collectionName).delete(query: Document(key: "owner_id", value: try! ObjectId(hexString: MongoDBTests.hexString)))
+        MongoClientImpl(stitchClient: TestDeleteStitchClient(isSingleDelete: true), serviceName: MongoDBTests.serviceName).database(named: MongoDBTests.dbName).collection(named: MongoDBTests.collectionName).delete(query: Document(key: "owner_id", value: try! ObjectId(hexString: MongoDBTests.hexString)))
     }
     
     func testDeleteMultiple() {
-        MongoClientImpl(baasClient: TestDeleteBaasClient(isSingleDelete: false), serviceName: MongoDBTests.serviceName).database(named: MongoDBTests.dbName).collection(named: MongoDBTests.collectionName).delete(query: Document(key: "owner_id", value: try! ObjectId(hexString: MongoDBTests.hexString)), singleDoc: false)
+        MongoClientImpl(stitchClient: TestDeleteStitchClient(isSingleDelete: false), serviceName: MongoDBTests.serviceName).database(named: MongoDBTests.dbName).collection(named: MongoDBTests.collectionName).delete(query: Document(key: "owner_id", value: try! ObjectId(hexString: MongoDBTests.hexString)), singleDoc: false)
     }
     
     func testAggregate() {
         let queryDocument = Document(key: "owner_id", value: try! ObjectId(hexString: MongoDBTests.hexString))
         let aggregationPipelineDocument = Document(key: "$match", value: queryDocument)
 
-        MongoClientImpl(baasClient: TestAggregateBaasClient(), serviceName: MongoDBTests.serviceName).database(named: MongoDBTests.dbName).collection(named: MongoDBTests.collectionName).aggregate(pipeline: [aggregationPipelineDocument])
+        MongoClientImpl(stitchClient: TestAggregateStitchClient(), serviceName: MongoDBTests.serviceName).database(named: MongoDBTests.dbName).collection(named: MongoDBTests.collectionName).aggregate(pipeline: [aggregationPipelineDocument])
     }
     
     func testCount() {
         let expectation = self.expectation(description: "count call closure should be executed")
         
-        MongoClientImpl(baasClient: TestFindBaasClient(isCountRequest: true), serviceName: MongoDBTests.serviceName).database(named: MongoDBTests.dbName).collection(named: MongoDBTests.collectionName).count(query: Document(key: "owner_id", value: try! ObjectId(hexString: MongoDBTests.hexString))).response { (result) in
+        MongoClientImpl(stitchClient: TestFindStitchClient(isCountRequest: true), serviceName: MongoDBTests.serviceName).database(named: MongoDBTests.dbName).collection(named: MongoDBTests.collectionName).count(query: Document(key: "owner_id", value: try! ObjectId(hexString: MongoDBTests.hexString))).response { (result) in
             switch result {
             case .success(let number):
                 XCTAssertEqual(number, MongoDBTests.testNumber)
@@ -117,7 +117,7 @@ class MongoDBTests: XCTestCase {
     
     // MARK: - Helpers
     
-    class TestFindBaasClient: BaseTestBaasClient {
+    class TestFindStitchClient: BaseTestStitchClient {
         
         private let isCount: Bool
         
@@ -126,12 +126,12 @@ class MongoDBTests: XCTestCase {
         }
         
         @discardableResult
-        override func executePipeline(pipeline: Pipeline) -> BaasTask<Any> {
+        override func executePipeline(pipeline: Pipeline) -> StitchTask<Any> {
             return executePipeline(pipelines: [pipeline])
         }
         
         @discardableResult
-        override func executePipeline(pipelines: [Pipeline]) -> BaasTask<Any> {
+        override func executePipeline(pipelines: [Pipeline]) -> StitchTask<Any> {
             
             var foundFindAction = false
             
@@ -159,7 +159,7 @@ class MongoDBTests: XCTestCase {
             
             XCTAssertTrue(foundFindAction, "one of the pipelines must have a `find` action.")
             
-            let task = BaasTask<Any>()
+            let task = StitchTask<Any>()
             if isCount {
                 task.result = .success(BsonArray(array: [testNumber]))
             }
@@ -170,14 +170,14 @@ class MongoDBTests: XCTestCase {
         }
     }
     
-    class TestUpdateBaasClient: BaseTestBaasClient {
+    class TestUpdateStitchClient: BaseTestStitchClient {
         @discardableResult
-        override func executePipeline(pipeline: Pipeline) -> BaasTask<Any> {
+        override func executePipeline(pipeline: Pipeline) -> StitchTask<Any> {
             return executePipeline(pipelines: [pipeline])
         }
         
         @discardableResult
-        override func executePipeline(pipelines: [Pipeline]) -> BaasTask<Any> {
+        override func executePipeline(pipelines: [Pipeline]) -> StitchTask<Any> {
             
             var foundUpdateAction = false
             
@@ -203,20 +203,20 @@ class MongoDBTests: XCTestCase {
             
             XCTAssertTrue(foundUpdateAction, "one of the pipelines must have an `update` action.")
             
-            let task = BaasTask<Any>()
+            let task = StitchTask<Any>()
             task.result = .success(response)
             return task
         }
     }
     
-    class TestInsertBaasClient: BaseTestBaasClient {
+    class TestInsertStitchClient: BaseTestStitchClient {
         @discardableResult
-        override func executePipeline(pipeline: Pipeline) -> BaasTask<Any> {
+        override func executePipeline(pipeline: Pipeline) -> StitchTask<Any> {
             return executePipeline(pipelines: [pipeline])
         }
         
         @discardableResult
-        override func executePipeline(pipelines: [Pipeline]) -> BaasTask<Any> {
+        override func executePipeline(pipelines: [Pipeline]) -> StitchTask<Any> {
             
             var foundInsertAction = false
             var foundLiteralAction = false
@@ -244,13 +244,13 @@ class MongoDBTests: XCTestCase {
             XCTAssertTrue(foundInsertAction, "one of the pipelines must have an `insert` action.")
             XCTAssertTrue(foundLiteralAction, "one of the pipelines must have an `literal` action.")
             
-            let task = BaasTask<Any>()
+            let task = StitchTask<Any>()
             task.result = .success(response)
             return task
         }
     }
     
-    class TestDeleteBaasClient: BaseTestBaasClient {
+    class TestDeleteStitchClient: BaseTestStitchClient {
         
         private let isSingle: Bool
         
@@ -259,12 +259,12 @@ class MongoDBTests: XCTestCase {
         }
         
         @discardableResult
-        override func executePipeline(pipeline: Pipeline) -> BaasTask<Any> {
+        override func executePipeline(pipeline: Pipeline) -> StitchTask<Any> {
             return executePipeline(pipelines: [pipeline])
         }
         
         @discardableResult
-        override func executePipeline(pipelines: [Pipeline]) -> BaasTask<Any> {
+        override func executePipeline(pipelines: [Pipeline]) -> StitchTask<Any> {
             
             var foundDeleteAction = false
             
@@ -289,21 +289,21 @@ class MongoDBTests: XCTestCase {
             
             XCTAssertTrue(foundDeleteAction, "one of the pipelines must have an `delete` action.")
             
-            let task = BaasTask<Any>()
+            let task = StitchTask<Any>()
             task.result = .success(response)
             return task
         }
     }
     
-    class TestAggregateBaasClient: BaseTestBaasClient {
+    class TestAggregateStitchClient: BaseTestStitchClient {
         
         @discardableResult
-        override func executePipeline(pipeline: Pipeline) -> BaasTask<Any> {
+        override func executePipeline(pipeline: Pipeline) -> StitchTask<Any> {
             return executePipeline(pipelines: [pipeline])
         }
         
         @discardableResult
-        override func executePipeline(pipelines: [Pipeline]) -> BaasTask<Any> {
+        override func executePipeline(pipelines: [Pipeline]) -> StitchTask<Any> {
             
             var foundAggregateAction = false
             
@@ -329,14 +329,14 @@ class MongoDBTests: XCTestCase {
             
             XCTAssertTrue(foundAggregateAction, "one of the pipelines must have an `aggregate` action.")
             
-            let task = BaasTask<Any>()
+            let task = StitchTask<Any>()
             task.result = .success(response)
             return task
         }
     }
 
     
-    class BaseTestBaasClient: BaasClient {
+    class BaseTestStitchClient: StitchClient {
         
         var auth: Auth? { return nil }
         var authUser: AuthUser? { return nil }
@@ -344,58 +344,58 @@ class MongoDBTests: XCTestCase {
         var isAnonymous: Bool { return false }
         
         @discardableResult
-        func fetchAuthProviders() -> BaasTask<AuthProviderInfo> {
-            return BaasTask<AuthProviderInfo>()
+        func fetchAuthProviders() -> StitchTask<AuthProviderInfo> {
+            return StitchTask<AuthProviderInfo>()
         }
         
         @discardableResult
-        func register(email: String, password: String) -> BaasTask<Void> {
-            return BaasTask<Void>()
+        func register(email: String, password: String) -> StitchTask<Void> {
+            return StitchTask<Void>()
         }
         
         @discardableResult
-        func emailConfirm(token: String, tokenId: String) -> BaasTask<Any> {
-            return BaasTask<Any>()
+        func emailConfirm(token: String, tokenId: String) -> StitchTask<Any> {
+            return StitchTask<Any>()
         }
         
         @discardableResult
-        func sendEmailConfirm(toEmail email: String) -> BaasTask<Void> {
-            return BaasTask<Void>()
+        func sendEmailConfirm(toEmail email: String) -> StitchTask<Void> {
+            return StitchTask<Void>()
         }
         
         @discardableResult
-        func resetPassword(token: String, tokenId: String) -> BaasTask<Any> {
-            return BaasTask<Any>()
+        func resetPassword(token: String, tokenId: String) -> StitchTask<Any> {
+            return StitchTask<Any>()
         }
         
         @discardableResult
-        func sendResetPassword(toEmail email: String) -> BaasTask<Void> {
-            return BaasTask<Void>()
+        func sendResetPassword(toEmail email: String) -> StitchTask<Void> {
+            return StitchTask<Void>()
         }
         
         @discardableResult
-        func anonymousAuth() -> BaasTask<Bool> {
-            return BaasTask<Bool>()
+        func anonymousAuth() -> StitchTask<Bool> {
+            return StitchTask<Bool>()
         }
         
         @discardableResult
-        func login(withProvider provider: AuthProvider) -> BaasTask<Bool> {
-            return BaasTask<Bool>()
+        func login(withProvider provider: AuthProvider) -> StitchTask<Bool> {
+            return StitchTask<Bool>()
         }
         
         @discardableResult
-        func logout() -> BaasTask<Provider?> {
-            return BaasTask<Provider?>()
+        func logout() -> StitchTask<Provider?> {
+            return StitchTask<Provider?>()
         }
         
         @discardableResult
-        func executePipeline(pipeline: Pipeline) -> BaasTask<Any> {
+        func executePipeline(pipeline: Pipeline) -> StitchTask<Any> {
             return executePipeline(pipelines: [pipeline])
         }
         
         @discardableResult
-        func executePipeline(pipelines: [Pipeline]) -> BaasTask<Any> {
-            return BaasTask<Any>()
+        func executePipeline(pipelines: [Pipeline]) -> StitchTask<Any> {
+            return StitchTask<Any>()
         }
     }
 }

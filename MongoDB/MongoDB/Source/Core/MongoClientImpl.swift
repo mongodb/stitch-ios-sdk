@@ -11,13 +11,13 @@ import MongoCore
 
 public class MongoClientImpl: MongoClient {        
     
-    public let baasClient: BaasClient
+    public let stitchClient: StitchClient
     public let serviceName: String
     
     // MARK: - Init
     
-    public required init(baasClient: BaasClient, serviceName: String) {
-        self.baasClient = baasClient
+    public required init(stitchClient: StitchClient, serviceName: String) {
+        self.stitchClient = stitchClient
         self.serviceName = serviceName
     }
     

@@ -10,18 +10,18 @@ import Foundation
 
 public struct Document {
     
-    fileprivate var storage: [String : JsonExtendable] = [:]
+    fileprivate var storage: [String : ExtendedJsonRepresentable] = [:]
     fileprivate var orderedKeys: [String] = []
 
     private let writeQueue = DispatchQueue.global(qos: .utility)
     
     public init() {}
     
-    public init(key: String, value: JsonExtendable) {
+    public init(key: String, value: ExtendedJsonRepresentable) {
         self[key] = value
     }
     
-    public init(dictionary: [String: JsonExtendable?]){
+    public init(dictionary: [String: ExtendedJsonRepresentable?]){
         for (key, value) in dictionary{
             let concreteValue = value ?? NSNull()
             self[key] = concreteValue
@@ -30,7 +30,7 @@ public struct Document {
     
     public init(extendedJson json: [String : Any]) throws {
         
-        func read(value: Any) throws -> JsonExtendable {
+        func read(value: Any) throws -> ExtendedJsonRepresentable {
             
             if let json = value as? [String : Any] {
                 if let objectIdHexString = json[String(describing: ExtendedJsonKeys.objectid)] as? String {
@@ -118,7 +118,7 @@ public struct Document {
     /// Document keeps the order of entry while iterating over itskey-value pair.
     /// Writing `nil` removes the stored value from the document and takes O(n), all other read/write action take O(1).
     /// If you wish to set a MongoDB value to `null`, set the value to `NSNull`.
-    public subscript(key: String) -> JsonExtendable? {
+    public subscript(key: String) -> ExtendedJsonRepresentable? {
         get {
             return storage[key]
         }
@@ -141,7 +141,7 @@ public struct Document {
 
 extension Document: Sequence {
     
-    public typealias KeyValuPair = (key: String, value: JsonExtendable)
+    public typealias KeyValuPair = (key: String, value: ExtendedJsonRepresentable)
     
     //There is no concurency handling, therefor modifying the Document while itereting over it might cause unexpected behaviour
     public func makeIterator() -> AnyIterator<KeyValuPair> {
@@ -154,5 +154,27 @@ extension Document: Sequence {
             return (key: nextKey, value: nextValue)
         }        
     }
+}
+
+extension Document: Equatable {
+    
+    public static func ==(lhs: Document, rhs: Document) -> Bool {
+        let lKeySet = Set(lhs.storage.keys)
+        let rKeySet = Set(rhs.storage.keys)
+        if lKeySet == rKeySet {
+            for key in lKeySet {
+                if let lValue = lhs.storage[key], let rValue = rhs.storage[key] {
+                    if !lValue.isEqual(toOther: rValue) {
+                        return false
+                    }
+                }
+            }
+            return true
+        }
+        
+        return false
+    }
+
+    
 }
 

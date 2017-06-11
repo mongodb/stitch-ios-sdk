@@ -39,7 +39,7 @@ public struct Auth {
             let userDic = dictionary[Auth.userKey] as? [String : Any],
             let providerName = dictionary[Auth.providerKey] as? String,
             let provider = Provider(name: providerName) else {
-                throw BaasError.responseParsingFailed(reason: "failed creating Auth out of info: \(dictionary)")
+                throw StitchError.responseParsingFailed(reason: "failed creating Auth out of info: \(dictionary)")
         }
         
         self = Auth(accessToken: accessToken, user: try AuthUser(dictionary: userDic), provider: provider)

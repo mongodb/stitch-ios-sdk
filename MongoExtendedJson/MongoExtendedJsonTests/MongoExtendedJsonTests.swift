@@ -19,7 +19,7 @@ class MongoExtendedJsonTests: XCTestCase {
         super.tearDown()
     }
     
-    func testJsonExtendableInt() {
+    func testExtendedJsonRepresentableInt() {
         let num = 42
         var key = "$numberLong"
         if MemoryLayout<Int>.size == MemoryLayout<Int32>.size {
@@ -28,27 +28,27 @@ class MongoExtendedJsonTests: XCTestCase {
         XCTAssertEqual(num.toExtendedJson as! [String : String], [key : String(num)])
     }
     
-    func testJsonExtendableInt32() {
+    func testExtendedJsonRepresentableInt32() {
         let numInt32: Int32 = 42
         XCTAssertEqual(numInt32.toExtendedJson as! [String : String], ["$numberInt" : String(numInt32)])
     }
     
-    func testJsonExtendableInt64() {
+    func testExtendedJsonRepresentableInt64() {
         let numInt64: Int64 = 42
         XCTAssertEqual(numInt64.toExtendedJson as! [String : String], ["$numberLong" : String(numInt64)])
     }
     
-    func testJsonExtendableDouble() {
+    func testExtendedJsonRepresentableDouble() {
         let double: Double = 42
         XCTAssertEqual(double.toExtendedJson as! [String : String], ["$numberDouble" : String(double)])
     }
     
-    func testJsonExtendableString() {
+    func testExtendedJsonRepresentableString() {
         let string = "MongoDB"
         XCTAssertEqual(string.toExtendedJson as! String, string)
     }
     
-    func testJsonExtendableDate() {
+    func testExtendedJsonRepresentableDate() {
         let date = Date()
         if let dateExtJson = date.toExtendedJson as? [String : Any] {
             if let dateDictionary = dateExtJson["$date"] as? [String : String] {
@@ -63,24 +63,24 @@ class MongoExtendedJsonTests: XCTestCase {
         }
     }
     
-    func testJsonExtendableBool() {
+    func testExtendedJsonRepresentableBool() {
         XCTAssertEqual(true.toExtendedJson as! Bool, true)
         XCTAssertEqual(false.toExtendedJson as! Bool, false)
     }
     
-    func testJsonExtendableObjectId() throws {
+    func testExtendedJsonRepresentableObjectId() throws {
         let hexString = "1234567890abcdef12345678"
         let objectId = try ObjectId(hexString: hexString)
         XCTAssertEqual(objectId.toExtendedJson as! [String : String], ["$oid" : hexString])
     }
 
     
-    func testJsonExtendableBinary() {
+    func testExtendedJsonRepresentableBinary() {
         let binary = BsonBinary(type: .binary, data: [77, 111, 110, 103, 111, 68, 66])
         XCTAssertEqual(binary.toExtendedJson as! [String : String], ["$binary" : "TW9uZ29EQg==", "$type" : "0x0"])
     }
     
-    func testJsonExtendableBsonTimestamp() {
+    func testExtendedJsonRepresentableBsonTimestamp() {
         let date = Date()        
         let extJsonTimestamp = BsonTimestamp(time: date).toExtendedJson as! [String : String]
         if let timestamp = extJsonTimestamp["$timestamp"],
@@ -92,28 +92,28 @@ class MongoExtendedJsonTests: XCTestCase {
         }
     }
     
-    func testJsonExtendableRegularExpression() throws {
+    func testExtendedJsonRepresentableRegularExpression() throws {
         let regex = try NSRegularExpression(pattern: "[0-9a-fA-F]+", options: [.dotMatchesLineSeparators, .caseInsensitive, .allowCommentsAndWhitespace, .anchorsMatchLines])
         XCTAssertEqual(regex.toExtendedJson as! [String : String], ["$regex" : "[0-9a-fA-F]+", "$options" : "imsx"])
     }
     
-    func testJsonExtendableMinKey() {
+    func testExtendedJsonRepresentableMinKey() {
         XCTAssertEqual(MinKey().toExtendedJson as! [String : Int], ["$minKey" : 1])
     }
     
-    func testJsonExtendableMaxKey() {
+    func testExtendedJsonRepresentableMaxKey() {
         XCTAssertEqual(MaxKey().toExtendedJson as! [String : Int], ["$maxKey" : 1])
     }
     
-    func testJsonExtendableUndefined() {
+    func testExtendedJsonRepresentableUndefined() {
         XCTAssertEqual(BsonUndefined().toExtendedJson as! [String : Bool], ["$undefined" : true])
     }
     
-    func testJsonExtendableNull() {
+    func testExtendedJsonRepresentableNull() {
         XCTAssertEqual(NSNull().toExtendedJson as! NSNull, NSNull())
     }
     
-    func testJsonExtendableBsonArray() {
+    func testExtendedJsonRepresentableBsonArray() {
         var array = BsonArray()
         let number = 42
         array.append(Int64(number))
@@ -123,7 +123,7 @@ class MongoExtendedJsonTests: XCTestCase {
         XCTAssertEqual(extJsonArray[1] as! String, "MongoDB")
     }
     
-    func testJsonExtendableDocument() {
+    func testExtendedJsonRepresentableDocument() {
         var document = Document()
         let number = 42
         document["number"] = Int64(number)

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0688B9CD1EE83E2F00B7307E /* ExtendedJsonRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0688B9CC1EE83E2F00B7307E /* ExtendedJsonRepresentable.swift */; };
 		36A8A8B01E62E2960001EE2D /* BsonBinary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A8A8AF1E62E2960001EE2D /* BsonBinary.swift */; };
 		36D649C01ECA0FF800ECC1F8 /* MongoBaasSDKLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36D649BF1ECA0FE800ECC1F8 /* MongoBaasSDKLogger.framework */; };
 		36F220621E630DD8000DD7A0 /* BsonTimestamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F220611E630DD8000DD7A0 /* BsonTimestamp.swift */; };
@@ -18,7 +19,6 @@
 		36FA276D1E56278300909825 /* MongoExtendedJson.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36FA27631E56278300909825 /* MongoExtendedJson.framework */; };
 		36FA27721E56278300909825 /* MongoExtendedJsonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA27711E56278300909825 /* MongoExtendedJsonTests.swift */; };
 		36FA279F1E5628A200909825 /* MongoExtendedJson.h in Headers */ = {isa = PBXBuildFile; fileRef = 36FA279D1E5628A200909825 /* MongoExtendedJson.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		36FA27AD1E5631BC00909825 /* JsonExtendable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA27AC1E5631BC00909825 /* JsonExtendable.swift */; };
 		36FA27C11E56742C00909825 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA27C01E56742C00909825 /* Document.swift */; };
 		36FA287D1E5BB65100909825 /* ObjectId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA287C1E5BB65100909825 /* ObjectId.swift */; };
 		36FA28821E5BC9C300909825 /* Validators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA28811E5BC9C300909825 /* Validators.swift */; };
@@ -49,6 +49,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0688B9CC1EE83E2F00B7307E /* ExtendedJsonRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendedJsonRepresentable.swift; sourceTree = "<group>"; };
 		36A8A8AF1E62E2960001EE2D /* BsonBinary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BsonBinary.swift; sourceTree = "<group>"; };
 		36D649BA1ECA0FE800ECC1F8 /* MongoBaasSDKLogger.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MongoBaasSDKLogger.xcodeproj; path = ../../MongoBaasSDKLogger/MongoBaasSDKLogger.xcodeproj; sourceTree = "<group>"; };
 		36F220611E630DD8000DD7A0 /* BsonTimestamp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BsonTimestamp.swift; sourceTree = "<group>"; };
@@ -63,7 +64,6 @@
 		36FA27731E56278300909825 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		36FA279C1E5628A200909825 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		36FA279D1E5628A200909825 /* MongoExtendedJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MongoExtendedJson.h; sourceTree = "<group>"; };
-		36FA27AC1E5631BC00909825 /* JsonExtendable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonExtendable.swift; sourceTree = "<group>"; };
 		36FA27C01E56742C00909825 /* Document.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
 		36FA287C1E5BB65100909825 /* ObjectId.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectId.swift; sourceTree = "<group>"; };
 		36FA28811E5BC9C300909825 /* Validators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validators.swift; sourceTree = "<group>"; };
@@ -162,7 +162,7 @@
 		36FA279A1E56288800909825 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				36FA27AC1E5631BC00909825 /* JsonExtendable.swift */,
+				0688B9CC1EE83E2F00B7307E /* ExtendedJsonRepresentable.swift */,
 				36FA27C01E56742C00909825 /* Document.swift */,
 				36FA287C1E5BB65100909825 /* ObjectId.swift */,
 				36A8A8AF1E62E2960001EE2D /* BsonBinary.swift */,
@@ -326,12 +326,12 @@
 				36F220791E663321000DD7A0 /* BsonError.swift in Sources */,
 				36F2207B1E672519000DD7A0 /* BsonArray.swift in Sources */,
 				36A8A8B01E62E2960001EE2D /* BsonBinary.swift in Sources */,
+				0688B9CD1EE83E2F00B7307E /* ExtendedJsonRepresentable.swift in Sources */,
 				36F2206B1E632952000DD7A0 /* MaxKey.swift in Sources */,
 				36F220691E6328D3000DD7A0 /* MinKey.swift in Sources */,
 				36F2206D1E632A20000DD7A0 /* BsonUndefined.swift in Sources */,
 				36FA27C11E56742C00909825 /* Document.swift in Sources */,
 				36FA287D1E5BB65100909825 /* ObjectId.swift in Sources */,
-				36FA27AD1E5631BC00909825 /* JsonExtendable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

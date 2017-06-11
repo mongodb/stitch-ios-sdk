@@ -14,6 +14,7 @@ public enum OdmError: Error {
     case corruptedData(message: String)
     case updateParametersMissing
     case collectionOutOfRange
+    case partialUpdateSuccess(originalError: Error)
 }
 
 // MARK: - Error Descriptions
@@ -31,6 +32,8 @@ extension OdmError: LocalizedError {
             return "parameters missing for update operation"
         case .collectionOutOfRange:
             return "No more results are available"
+        case .partialUpdateSuccess(let originalError):
+            return "array item was not removed becaouse of an error : \(originalError), Operation could not be completed "
         }
     }
 }

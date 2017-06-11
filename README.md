@@ -1,1 +1,0 @@
-# stitch-ios-sdk

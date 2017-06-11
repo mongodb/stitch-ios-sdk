@@ -14,21 +14,21 @@ public indirect enum Criteria {
     case contains(field: String, value: NSRegularExpression)
     
     //Comparison Query Operators
-    case greaterThan(field: String, value: JsonExtendable)
+    case greaterThan(field: String, value: ExtendedJsonRepresentable)
     
-    case equals(field: String, value: JsonExtendable)
+    case equals(field: String, value: ExtendedJsonRepresentable)
     
-    case greaterThanOrEqual(field: String, value: JsonExtendable)
+    case greaterThanOrEqual(field: String, value: ExtendedJsonRepresentable)
     
-    case lessThan(field: String, value: JsonExtendable)
+    case lessThan(field: String, value: ExtendedJsonRepresentable)
     
-    case lessThanOrEqual(field: String, value: JsonExtendable)
+    case lessThanOrEqual(field: String, value: ExtendedJsonRepresentable)
     
-    case notEqual(field: String, value: JsonExtendable)
+    case notEqual(field: String, value: ExtendedJsonRepresentable)
     
-    case `in`(field: String, values: [JsonExtendable])
+    case `in`(field: String, values: [ExtendedJsonRepresentable])
     
-    case nin(field: String, values: [JsonExtendable])
+    case nin(field: String, values: [ExtendedJsonRepresentable])
     
     //Logical Query Operators
     case and([Criteria])

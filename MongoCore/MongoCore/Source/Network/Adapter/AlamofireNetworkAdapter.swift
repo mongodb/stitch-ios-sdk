@@ -12,44 +12,44 @@ import Alamofire
 public class AlamofireNetworkAdapter: NetworkAdapter {
     static var jsonArrayKey: String = "jsonArrayKey"
     
-    public func requestWithArray(url: String, method: NAHTTPMethod, parameters: [[String : Any]]?, headers: [String : String]?) ->  BaasTask<Any> {
-        let task = BaasTask<Any>()
+    public func requestWithArray(url: String, method: NAHTTPMethod, parameters: [[String : Any]]?, headers: [String : String]?) ->  StitchTask<Any> {
+        let task = StitchTask<Any>()
         
         let httpMethod = httpMehod(method: method)
         let parametersForAlamoFire = parameters != nil ? [AlamofireNetworkAdapter.jsonArrayKey : parameters!] : nil
         Alamofire.request(url, method: httpMethod, parameters: parametersForAlamoFire, encoding: JSONArrayEncoding(), headers: headers)
             .responseJSON(queue: DispatchQueue.global(qos: .utility)) { [weak self] (response) in
                 guard self != nil else {
-                    task.result = BaasResult.failure(BaasError.clientReleased)
+                    task.result = StitchResult.failure(StitchError.clientReleased)
                     return
                 }
                 
                 switch response.result {
                 case .success(let value):
-                    task.result = BaasResult.success(value)
+                    task.result = StitchResult.success(value)
                 case .failure(let error):
-                    task.result = BaasResult.failure(error)
+                    task.result = StitchResult.failure(error)
                 }
         }
         return task
     }
     
-    public func requestWithJsonEncoding(url: String, method: NAHTTPMethod, parameters: [String : Any]?, headers: [String : String]?) -> BaasTask<Any> {
-        let task = BaasTask<Any>()
+    public func requestWithJsonEncoding(url: String, method: NAHTTPMethod, parameters: [String : Any]?, headers: [String : String]?) -> StitchTask<Any> {
+        let task = StitchTask<Any>()
         
         let httpMethod = httpMehod(method: method)
         Alamofire.request(url, method: httpMethod, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
             .responseJSON(queue: DispatchQueue.global(qos: .utility)) { [weak self] (response) in
                 guard self != nil else {
-                    task.result = BaasResult.failure(BaasError.clientReleased)
+                    task.result = StitchResult.failure(StitchError.clientReleased)
                     return
                 }
                 
                 switch response.result {
                 case .success(let value):
-                    task.result = BaasResult.success(value)
+                    task.result = StitchResult.success(value)
                 case .failure(let error):
-                    task.result = BaasResult.failure(error)
+                    task.result = StitchResult.failure(error)
                 }
         }
         return task

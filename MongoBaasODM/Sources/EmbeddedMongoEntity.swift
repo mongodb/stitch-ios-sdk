@@ -24,7 +24,10 @@ open class EmbeddedMongoEntity: BaseMongoEntity {
 
     public override init(document: Document) {
         super.init(document: document)
-        
+    }
+    
+    public override init(){
+        super.init()
     }
     
     //MARK: Private
@@ -37,8 +40,11 @@ open class EmbeddedMongoEntity: BaseMongoEntity {
     
     //MARK: Public
     
-    public func update() -> MongoCore.BaasTask<Any> {
-        return update(operationTypes: nil, operationTypePrefix: nil, embeddedEntityInArrayObjectId: nil)
+    @discardableResult
+    public func update() -> MongoCore.StitchTask<Any> {
+        return update(operationTypes: nil, operationTypePrefix: nil, embeddedEntityInArrayObjectId: nil).response(completionHandler: { (result) in
+            self.handleOperationResult(stitchResult: result)
+        })
     }
     
     //MARK: Internal
@@ -49,7 +55,7 @@ open class EmbeddedMongoEntity: BaseMongoEntity {
         self.isEmbeddedInArray = isEmbeddedInArray
     }
     
-    override internal func update(operationTypes: [UpdateOperationType]?, operationTypePrefix: String?, embeddedEntityInArrayObjectId: ObjectId?) -> BaasTask<Any> {
+    override internal func update(operationTypes: [UpdateOperationType]?, operationTypePrefix: String?, embeddedEntityInArrayObjectId: ObjectId?) -> StitchTask<Any> {
         
         let updateTypesToReturn = operationTypes ?? getUpdateOperationTypes()
         var prefixToReturn = operationTypePrefix ?? ""
@@ -59,7 +65,7 @@ open class EmbeddedMongoEntity: BaseMongoEntity {
             let parent = parent,
             let isEmbeddedInArray = isEmbeddedInArray else {
             let error = OdmError.updateParametersMissing
-            return MongoCore.BaasTask(error: error)
+            return MongoCore.StitchTask(error: error)
         }
         
         let prefixToAdd = isEmbeddedInArray ? ".$." : "."
@@ -71,7 +77,7 @@ open class EmbeddedMongoEntity: BaseMongoEntity {
                 objectIdToReturn = objectId
             }
             else{
-                return BaasTask(error: OdmError.objectIdNotFound)
+                return StitchTask(error: OdmError.objectIdNotFound)
             }
         }
         

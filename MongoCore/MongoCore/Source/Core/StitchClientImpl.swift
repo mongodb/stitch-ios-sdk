@@ -1,35 +1,43 @@
 //
-//  BaasClientImpl.swift
+//  StitchClientImpl.swift
 //  MongoCore
 //
-//  Created by Ofer Meroz on 19/03/2017.
+//  Created by Ofir Zucker on 07/06/2017.
 //  Copyright © 2017 Zemingo. All rights reserved.
 //
 
 import Foundation
+
 import MongoExtendedJson
 import MongoBaasSDKLogger
+import Security
 
-public class BaasClientImpl: BaasClient {
+public class StitchClientImpl: StitchClient {
     
     private struct Consts {
-        static let DefaultBaseUrl =         "https://baas-dev.10gen.cc"
-        static let ApiPath =                "/api/client/v1.0/app/"
-        static let AuthJwtUDKey =           "MongoCoreAuthJwtUserDefaultsKey"
-        static let AuthRefreshTokenUDKey =  "MongoCoreAuthRefreshTokenUserDefaultsKey"
-        static let UserDefaultsName =       "com.mongodb.baas.sdk.UserDefaults"
+        static let DefaultBaseUrl =          "https://stitch.mongodb.com/"
+        static let ApiPath =                 "/api/client/v1.0/app/"
+        
+        //User Defaults
+        static let UserDefaultsName =        "com.mongodb.stitch.sdk.UserDefaults"
+        static let IsLoggedInUDKey =         "StitchCoreIsLoggedInUserDefaultsKey"
+        
+        //keychain
+        static let AuthJwtKey =              "StitchCoreAuthJwtKey"
+        static let AuthRefreshTokenKey =     "StitchCoreAuthRefreshTokenKey"
+        static let AuthKeychainServiceName = "com.mongodb.stitch.sdk.authentication"
         
         //keys
-        static let ResultKey =              "result"
-        static let AccessTokenKey =         "accessToken"
-        static let RefreshTokenKey =        "refreshToken"
-        static let ErrorKey =               "error"
-        static let ErrorCodeKey =           "errorCode"
+        static let ResultKey =               "result"
+        static let AccessTokenKey =          "accessToken"
+        static let RefreshTokenKey =         "refreshToken"
+        static let ErrorKey =                "error"
+        static let ErrorCodeKey =            "errorCode"
         
         //api
-        static let AuthPath =               "auth"
-        static let NewAccessTokenPath =     "newAccessToken"
-        static let PipelinePath =           "pipeline"
+        static let AuthPath =                "auth"
+        static let NewAccessTokenPath =      "newAccessToken"
+        static let PipelinePath =            "pipeline"
     }
     
     // MARK: - Properties
@@ -39,22 +47,29 @@ public class BaasClientImpl: BaasClient {
     private let networkAdapter: NetworkAdapter
     
     private let userDefaults = UserDefaults(suiteName: Consts.UserDefaultsName)
-    
+
     public private(set) var auth: Auth? {
         didSet{
             if let newValue = auth {
                 // save auth persistently
+                userDefaults?.set(true, forKey: Consts.IsLoggedInUDKey)
+                
                 do {
                     let jsonData = try JSONSerialization.data(withJSONObject: newValue.json, options: JSONSerialization.WritingOptions())
-                    let jsonString = String(data: jsonData, encoding: String.Encoding.utf8)
-                    userDefaults?.set(jsonString, forKey: Consts.AuthJwtUDKey)
+                    guard let jsonString = String(data: jsonData, encoding: String.Encoding.utf8) else {
+                        printLog(.error, text: "Error converting json String to Data")
+                        return
+                    }
+                    
+                    save(token: jsonString, withKey: Consts.AuthJwtKey)
                 } catch let error as NSError {
-                    printLog(.error, text: "failed saving auth to user defaults, array to JSON conversion failed: \(error.localizedDescription)")
+                    printLog(.error, text: "failed saving auth to keychain, array to JSON conversion failed: \(error.localizedDescription)")
                 }
             }
             else {
-                // remove from user defaults
-                userDefaults?.removeObject(forKey: Consts.AuthJwtUDKey)
+                // remove from keychain
+                try? deleteToken(withKey: Consts.AuthJwtKey)
+                userDefaults?.set(false, forKey: Consts.IsLoggedInUDKey)
             }
         }
     }
@@ -88,7 +103,15 @@ public class BaasClientImpl: BaasClient {
         guard isAuthenticated else {
             return nil
         }
-        return userDefaults?.object(forKey: Consts.AuthRefreshTokenUDKey) as? String
+        
+        return readToken(withKey: Consts.AuthRefreshTokenKey)
+    }
+    
+    private var isSimulator: Bool {
+        /*
+         This is computed in a separate variable due to a compiler warning when the check is done directly inside the 'if' statement, indicating that either the 'if' block or the 'else' block will never be executed - depending whether the build target is a simulator or a device.
+         */
+        return TARGET_OS_SIMULATOR != 0
     }
     
     // MARK: - Init
@@ -102,12 +125,12 @@ public class BaasClientImpl: BaasClient {
     // MARK: - Auth
     
     @discardableResult
-    public func fetchAuthProviders() -> BaasTask<AuthProviderInfo> {
-        let task = BaasTask<AuthProviderInfo>()
+    public func fetchAuthProviders() -> StitchTask<AuthProviderInfo> {
+        let task = StitchTask<AuthProviderInfo>()
         let url = "\(baseUrl)\(appId)/\(Consts.AuthPath)"
         networkAdapter.requestWithJsonEncoding(url: url, method: .get, parameters: nil, headers: nil).response(onQueue: DispatchQueue.global(qos: .utility)) { [weak self] (response) in
             guard let strongSelf = self else {
-                task.result = BaasResult.failure(BaasError.clientReleased)
+                task.result = StitchResult.failure(StitchError.clientReleased)
                 return
             }
             
@@ -127,20 +150,20 @@ public class BaasClientImpl: BaasClient {
                 
             }
         }
-       
+        
         return task
     }
     
     @discardableResult
-    public func register(email: String, password: String) -> BaasTask<Void> {
-        let task = BaasTask<Void>()
+    public func register(email: String, password: String) -> StitchTask<Void> {
+        let task = StitchTask<Void>()
         let provider = EmailPasswordAuthProvider(username: email, password: password)
         let url = "\(baseUrl)\(appId)/\(Consts.AuthPath)/\(provider.type)/\(provider.name)/register"
         let payload = ["email" : email, "password" : password]
         networkAdapter.requestWithJsonEncoding(url: url, method: .post, parameters: payload, headers: nil).response { [weak self] (result) in
             
             guard let strongSelf = self else {
-                task.result = BaasResult.failure(BaasError.clientReleased)
+                task.result = StitchResult.failure(StitchError.clientReleased)
                 return
             }
             
@@ -163,13 +186,13 @@ public class BaasClientImpl: BaasClient {
     }
     
     @discardableResult
-    public func emailConfirm(token: String, tokenId: String) -> BaasTask<Any> {
-        let task = BaasTask<Any>()
+    public func emailConfirm(token: String, tokenId: String) -> StitchTask<Any> {
+        let task = StitchTask<Any>()
         let url = "\(baseUrl)\(appId)/\(Consts.AuthPath)/local/userpass/confirm"
         let params = ["token" : token, "tokenId" : tokenId]
         networkAdapter.requestWithJsonEncoding(url: url, method: .post, parameters: params, headers: nil).response { [weak self] (result) in
             guard let strongSelf = self else {
-                task.result = BaasResult.failure(BaasError.clientReleased)
+                task.result = StitchResult.failure(StitchError.clientReleased)
                 return
             }
             
@@ -192,13 +215,13 @@ public class BaasClientImpl: BaasClient {
     }
     
     @discardableResult
-    public func sendEmailConfirm(toEmail email: String) -> BaasTask<Void> {
-        let task = BaasTask<Void>()
+    public func sendEmailConfirm(toEmail email: String) -> StitchTask<Void> {
+        let task = StitchTask<Void>()
         let url = "\(baseUrl)\(appId)/\(Consts.AuthPath)/local/userpass/confirm/send"
         let params = ["email" : email]
         networkAdapter.requestWithJsonEncoding(url: url, method: .post, parameters: params, headers: nil).response { [weak self] (result) in
             guard let strongSelf = self else {
-                task.result = BaasResult.failure(BaasError.clientReleased)
+                task.result = StitchResult.failure(StitchError.clientReleased)
                 return
             }
             
@@ -221,13 +244,13 @@ public class BaasClientImpl: BaasClient {
     }
     
     @discardableResult
-    public func resetPassword(token: String, tokenId: String) -> BaasTask<Any> {
-        let task = BaasTask<Any>()
+    public func resetPassword(token: String, tokenId: String) -> StitchTask<Any> {
+        let task = StitchTask<Any>()
         let url = "\(baseUrl)\(appId)/\(Consts.AuthPath)/local/userpass/reset"
         let params = ["token" : token, "tokenId" : tokenId]
         networkAdapter.requestWithJsonEncoding(url: url, method: .post, parameters: params, headers: nil).response { [weak self] (result) in
             guard let strongSelf = self else {
-                task.result = BaasResult.failure(BaasError.clientReleased)
+                task.result = StitchResult.failure(StitchError.clientReleased)
                 return
             }
             
@@ -250,13 +273,13 @@ public class BaasClientImpl: BaasClient {
     }
     
     @discardableResult
-    public func sendResetPassword(toEmail email: String) -> BaasTask<Void> {
-        let task = BaasTask<Void>()
+    public func sendResetPassword(toEmail email: String) -> StitchTask<Void> {
+        let task = StitchTask<Void>()
         let url = "\(baseUrl)\(appId)/\(Consts.AuthPath)/local/userpass/reset/send"
         let params = ["email" : email]
         networkAdapter.requestWithJsonEncoding(url: url, method: .post, parameters: params, headers: nil).response { [weak self] (result) in
             guard let strongSelf = self else {
-                task.result = BaasResult.failure(BaasError.clientReleased)
+                task.result = StitchResult.failure(StitchError.clientReleased)
                 return
             }
             
@@ -279,13 +302,13 @@ public class BaasClientImpl: BaasClient {
     }
     
     @discardableResult
-    public func anonymousAuth() -> BaasTask<Bool> {
+    public func anonymousAuth() -> StitchTask<Bool> {
         return login(withProvider: AnonymousAuthProvider())
     }
     
     @discardableResult
-    public func login(withProvider provider: AuthProvider, link: Bool = false) -> BaasTask<Bool> {
-        let task = BaasTask<Bool>()
+    public func login(withProvider provider: AuthProvider, link: Bool = false) -> StitchTask<Bool> {
+        let task = StitchTask<Bool>()
         
         if isAuthenticated && !link {
             printLog(.info, text: "Already logged in, using cached token.")
@@ -296,7 +319,7 @@ public class BaasClientImpl: BaasClient {
         var url = "\(baseUrl)\(appId)/\(Consts.AuthPath)/\(provider.type)/\(provider.name)"
         if link {
             guard let auth = auth else {
-                task.result = .failure(BaasError.illegalAction(message: "In order to link a new authentication provider you must first be authenticated."))
+                task.result = .failure(StitchError.illegalAction(message: "In order to link a new authentication provider you must first be authenticated."))
                 return task
             }
             
@@ -305,7 +328,7 @@ public class BaasClientImpl: BaasClient {
         
         networkAdapter.requestWithJsonEncoding(url: url, method: .post, parameters: provider.payload, headers: nil).response(onQueue: DispatchQueue.global(qos: .utility)) { [weak self] (response) in
             guard let strongSelf = self else {
-                task.result = BaasResult.failure(BaasError.clientReleased)
+                task.result = StitchResult.failure(StitchError.clientReleased)
                 return
             }
             
@@ -326,9 +349,8 @@ public class BaasClientImpl: BaasClient {
                         
                         if strongSelf.auth != nil {
                             
-                            
                             if let refreshToken = value[Consts.RefreshTokenKey] as? String {
-                                strongSelf.userDefaults?.set(refreshToken, forKey: Consts.AuthRefreshTokenUDKey)
+                                self?.save(token: refreshToken, withKey: Consts.AuthRefreshTokenKey)
                             }
                             task.result = .success(true)
                         }
@@ -336,7 +358,7 @@ public class BaasClientImpl: BaasClient {
                 }
                 else {
                     printLog(.error, text: "Login failed - failed parsing auth response.")
-                    task.result = .failure(BaasError.responseParsingFailed(reason: "Invalid auth response - expected json and received: \(value)"))
+                    task.result = .failure(StitchError.responseParsingFailed(reason: "Invalid auth response - expected json and received: \(value)"))
                 }
             case .failure(let error):
                 task.result = .failure(error)
@@ -348,8 +370,8 @@ public class BaasClientImpl: BaasClient {
     }
     
     @discardableResult
-    public func logout() -> BaasTask<Provider?> {
-        let task = BaasTask<Provider?>()
+    public func logout() -> StitchTask<Provider?> {
+        let task = StitchTask<Provider?>()
         
         if !isAuthenticated {
             printLog(.info, text: "Tried logging out while there was no authenticated user found.")
@@ -360,7 +382,7 @@ public class BaasClientImpl: BaasClient {
         let provider = auth!.provider
         performRequest(method: .delete, endpoint: Consts.AuthPath, parameters: nil, refreshOnFailure: false, useRefreshToken: true).response(onQueue: DispatchQueue.global(qos: .utility)) { [weak self] (result) in
             guard let strongSelf = self else {
-                task.result = BaasResult.failure(BaasError.clientReleased)
+                task.result = StitchResult.failure(StitchError.clientReleased)
                 return
             }
             
@@ -368,8 +390,12 @@ public class BaasClientImpl: BaasClient {
                 task.result = .failure(error)
             }
             else {
-                strongSelf.clearAuth()
-                task.result = .success(provider)
+                do {
+                    try strongSelf.clearAuth()
+                    task.result = .success(provider)
+                } catch {
+                    task.result = .failure(error)
+                }
             }
         }
         return task
@@ -377,25 +403,27 @@ public class BaasClientImpl: BaasClient {
     
     // MARK: Private
     
-    private func clearAuth() {
+    private func clearAuth() throws {
         guard auth != nil else {
             return
         }
         
         auth = nil
-        userDefaults?.removeObject(forKey: Consts.AuthRefreshTokenUDKey)
+        
+        try deleteToken(withKey: Consts.AuthRefreshTokenKey)
+        
         networkAdapter.cancelAllRequests()
     }
     
     // MARK: - Requests
     
     @discardableResult
-    public func executePipeline(pipeline: Pipeline) -> BaasTask<Any> {
+    public func executePipeline(pipeline: Pipeline) -> StitchTask<Any> {
         return executePipeline(pipelines: [pipeline])
     }
     
     @discardableResult
-    public func executePipeline(pipelines: [Pipeline]) -> BaasTask<Any> {
+    public func executePipeline(pipelines: [Pipeline]) -> StitchTask<Any> {
         let params = pipelines.map { $0.toJson }
         return performRequest(method: .post, endpoint: Consts.PipelinePath, parameters: params).continuationTask(parser: { (json) -> Any in
             let document = try Document(extendedJson: json)
@@ -403,7 +431,7 @@ public class BaasClientImpl: BaasClient {
                 return docResult
             }
             else {
-                throw BaasError.responseParsingFailed(reason: "Unexpected result received - expected a json reponse with a 'result' key, found: \(json).")
+                throw StitchError.responseParsingFailed(reason: "Unexpected result received - expected a json reponse with a 'result' key, found: \(json).")
             }
         })
     }
@@ -411,10 +439,10 @@ public class BaasClientImpl: BaasClient {
     // MARK: Private
     
     @discardableResult
-    private func performRequest(method: NAHTTPMethod, endpoint: String, parameters: [[String : Any]]?, refreshOnFailure: Bool = true, useRefreshToken: Bool = false) -> BaasTask<[String : Any]> {
-        let task = BaasTask<[String : Any]>()
+    private func performRequest(method: NAHTTPMethod, endpoint: String, parameters: [[String : Any]]?, refreshOnFailure: Bool = true, useRefreshToken: Bool = false) -> StitchTask<[String : Any]> {
+        let task = StitchTask<[String : Any]>()
         guard isAuthenticated else {
-            task.result = .failure(BaasError.unauthorized(message: "Must first authenticate"))
+            task.result = .failure(StitchError.unauthorized(message: "Must first authenticate"))
             return task
         }
         
@@ -422,7 +450,7 @@ public class BaasClientImpl: BaasClient {
         let token = useRefreshToken ? refreshToken ?? String() : auth?.accessToken ?? String()
         networkAdapter.requestWithArray(url: url, method: method, parameters: parameters, headers: ["Authorization" : "Bearer \(token)"]).response(onQueue: DispatchQueue.global(qos: .utility), completionHandler: { [weak self] (response) in
             guard let strongSelf = self else {
-                task.result = BaasResult.failure(BaasError.clientReleased)
+                task.result = StitchResult.failure(StitchError.clientReleased)
                 return
             }
             
@@ -439,7 +467,7 @@ public class BaasClientImpl: BaasClient {
         return task
     }
     
-    func handleSuccessfulResponse(withValue value: Any, method: NAHTTPMethod, endpoint: String, parameters: [[String : Any]]?, refreshOnFailure: Bool, task: BaasTask<[String : Any]>) {
+    func handleSuccessfulResponse(withValue value: Any, method: NAHTTPMethod, endpoint: String, parameters: [[String : Any]]?, refreshOnFailure: Bool, task: StitchTask<[String : Any]>) {
         if let value = value as? [String : Any] {
             if let error = parseError(from: value) {
                 switch error {
@@ -451,7 +479,7 @@ public class BaasClientImpl: BaasClient {
                             handleInvalidSession(method: method, endpoint: endpoint, parameters: parameters, task: task)
                         }
                         else {
-                            clearAuth()
+                            try? clearAuth()
                             task.result = .failure(error)
                         }
                     }
@@ -467,17 +495,23 @@ public class BaasClientImpl: BaasClient {
             }
         }
         else {
-            task.result = .failure(BaasError.responseParsingFailed(reason: "Unexpected result received - expected json and received: \(value)"))
+            task.result = .failure(StitchError.responseParsingFailed(reason: "Unexpected result received - expected json and received: \(value)"))
         }
     }
     
     private func getAuthFromSavedJwt() throws -> Auth? {
-        if let authDicString = userDefaults?.object(forKey: Consts.AuthJwtUDKey) as? String,
-            let authDicData = authDicString.data(using: .utf8) {
-            
-            if let authDic = try JSONSerialization.jsonObject(with: authDicData, options: []) as? [String: Any] {
+        guard userDefaults?.bool(forKey: Consts.IsLoggedInUDKey) == true else {
+            return nil
+        }
+        
+        do {
+            if let authDicString = readToken(withKey: Consts.AuthJwtKey),
+                let authDicData = authDicString.data(using: .utf8),
+                let authDic = try JSONSerialization.jsonObject(with: authDicData, options: []) as? [String: Any] {
                 return try Auth(dictionary: authDic)
             }
+        } catch {
+            printLog(.error, text: "Failed reading auth token from keychain")
         }
         
         return nil
@@ -485,10 +519,10 @@ public class BaasClientImpl: BaasClient {
     
     // MARK: - Refresh Access Token
     
-    private func handleInvalidSession(method: NAHTTPMethod, endpoint: String, parameters: [[String : Any]]?, task: BaasTask<[String : Any]>) {
+    private func handleInvalidSession(method: NAHTTPMethod, endpoint: String, parameters: [[String : Any]]?, task: StitchTask<[String : Any]>) {
         refreshAccessToken().response(onQueue: DispatchQueue.global(qos: .utility)) { [weak self] (result) in
             guard let strongSelf = self else {
-                task.result = BaasResult.failure(BaasError.clientReleased)
+                task.result = StitchResult.failure(StitchError.clientReleased)
                 return
             }
             
@@ -514,36 +548,83 @@ public class BaasClientImpl: BaasClient {
         }
     }
     
-    private func refreshAccessToken() -> BaasTask<Void> {
+    private func refreshAccessToken() -> StitchTask<Void> {
         return performRequest(method: .post, endpoint: "\(Consts.AuthPath)/\(Consts.NewAccessTokenPath)", parameters: nil, refreshOnFailure: false, useRefreshToken: true).continuationTask(parser: { [weak self] (json) -> Void in
             guard let strongSelf = self else {
-                throw BaasError.clientReleased
+                throw StitchError.clientReleased
             }
             
             if let accessToken = json[Consts.AccessTokenKey] as? String {
                 strongSelf.auth = strongSelf.auth?.auth(with: accessToken)
             }
             else {
-                throw BaasError.responseParsingFailed(reason: "failed parsing access token from result: \(json).")
+                throw StitchError.responseParsingFailed(reason: "failed parsing access token from result: \(json).")
             }
         })
     }
     
+    // MARK: - Token operations
+    
+    private func save(token: String, withKey key: String) {
+        if isSimulator {
+            printLog(.debug, text: "Falling back to saving token in UserDefaults because of simulator bug")
+            userDefaults?.set(token, forKey: key)
+        } else {
+            do {
+                let keychainItem = KeychainPasswordItem(service: Consts.AuthKeychainServiceName, account: key)
+                try keychainItem.savePassword(token)
+            } catch {
+                printLog(.warning, text: "failed saving token to keychain: \(error)")
+            }
+        }
+    }
+    
+    private func deleteToken(withKey key: String) throws {
+        if isSimulator {
+            printLog(.debug, text: "Falling back to deleting token from UserDefaults because of simulator bug")
+            userDefaults?.removeObject(forKey: key)
+        } else {
+            do {
+                let keychainItem = KeychainPasswordItem(service: Consts.AuthKeychainServiceName, account: key)
+                try keychainItem.deleteItem()
+            } catch {
+                printLog(.warning, text: "failed deleting auth token from keychain: \(error)")
+                throw error
+            }
+        }
+    }
+    
+    private func readToken(withKey key: String) -> String? {
+        if isSimulator {
+            printLog(.debug, text: "Falling back to reading token from UserDefaults because of simulator bug")
+            return userDefaults?.object(forKey: key) as? String
+        } else {
+            do {
+                let keychainItem = KeychainPasswordItem(service: Consts.AuthKeychainServiceName, account: key)
+                let token = try keychainItem.readPassword()
+                return token
+            } catch {
+                printLog(.warning, text: "failed reading auth token from keychain: \(error)")
+                return nil
+            }
+        }
+    }
+
     // MARK: - Error handling
     
-    private func parseError(from value: [String : Any]) -> BaasError? {
+    private func parseError(from value: [String : Any]) -> StitchError? {
         
         guard let errMsg = value[Consts.ErrorKey] as? String else {
             return nil
         }
         
-        printLog(.error, text: "request failed. error: \(errMsg)")        
+        printLog(.error, text: "request failed. error: \(errMsg)")
         
         if let errorCode = value[Consts.ErrorCodeKey] as? String {
-            return BaasError.serverError(reason: BaasError.ServerErrorReason(errorCode: errorCode, errorMessage: errMsg))
+            return StitchError.serverError(reason: StitchError.ServerErrorReason(errorCode: errorCode, errorMessage: errMsg))
         }
         
-        return BaasError.serverError(reason: .other(message: errMsg))
+        return StitchError.serverError(reason: .other(message: errMsg))
     }
     
 }

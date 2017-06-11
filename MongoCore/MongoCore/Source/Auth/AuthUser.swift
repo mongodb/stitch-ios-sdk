@@ -32,7 +32,7 @@ public struct AuthUser {
         guard let id = dictionary[AuthUser.idKey] as? String,
             let identitiesArr = dictionary[AuthUser.identitiesKey] as? [[String : Any]],
             let data = dictionary[AuthUser.dataKey] as? [String : Any] else {
-                throw BaasError.responseParsingFailed(reason: "failed creating AuthUser out of info: \(dictionary)")
+                throw StitchError.responseParsingFailed(reason: "failed creating AuthUser out of info: \(dictionary)")
         }
         
         var identities: [Identity] = []

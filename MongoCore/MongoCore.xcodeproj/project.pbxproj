@@ -7,17 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		366FA4EC1E7F2D1E00C8811E /* BaasClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366FA4EB1E7F2D1E00C8811E /* BaasClientImpl.swift */; };
+		060494DE1EE9622D0011AE05 /* KeychainPasswordItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060494DD1EE9622D0011AE05 /* KeychainPasswordItem.swift */; };
+		0688B9BB1EE836C500B7307E /* StitchClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0688B9BA1EE836C500B7307E /* StitchClient.swift */; };
+		0688B9C51EE8372100B7307E /* StitchError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0688B9C41EE8372100B7307E /* StitchError.swift */; };
+		0688B9C71EE8376600B7307E /* StitchClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0688B9C61EE8376600B7307E /* StitchClientImpl.swift */; };
+		0688B9C91EE8388B00B7307E /* StitchTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0688B9C81EE8388B00B7307E /* StitchTask.swift */; };
 		367E0B1F1E4341E900EE2C00 /* MongoCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 367E0B1D1E4341E900EE2C00 /* MongoCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		367E0B231E4342DC00EE2C00 /* BaasClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367E0B221E4342DC00EE2C00 /* BaasClient.swift */; };
 		367E0B251E434E3E00EE2C00 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367E0B241E434E3E00EE2C00 /* Auth.swift */; };
 		367E0B271E43526400EE2C00 /* AuthUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367E0B261E43526400EE2C00 /* AuthUser.swift */; };
 		367E0B291E4358F900EE2C00 /* AuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367E0B281E4358F900EE2C00 /* AuthProvider.swift */; };
 		367E0C3B1E438B1B00EE2C00 /* AuthProviderInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367E0C3A1E438B1B00EE2C00 /* AuthProviderInfo.swift */; };
 		367E0C3E1E438B6E00EE2C00 /* GoogleAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367E0C3D1E438B6E00EE2C00 /* GoogleAuthProvider.swift */; };
 		367E0C401E438C8D00EE2C00 /* GoogleAuthProviderInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367E0C3F1E438C8D00EE2C00 /* GoogleAuthProviderInfo.swift */; };
-		367E0C431E43BF1000EE2C00 /* BaasError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367E0C421E43BF1000EE2C00 /* BaasError.swift */; };
-		367E0C451E43D11700EE2C00 /* BaasTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367E0C441E43D11700EE2C00 /* BaasTask.swift */; };
 		36B1D49F1EE396D5006B15B7 /* EmailPasswordAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B1D49D1EE396D5006B15B7 /* EmailPasswordAuthProvider.swift */; };
 		36B1D4A01EE396D5006B15B7 /* EmailPasswordAuthProviderInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B1D49E1EE396D5006B15B7 /* EmailPasswordAuthProviderInfo.swift */; };
 		36D649A41ECA0D6700ECC1F8 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 367E0C281E435EBD00EE2C00 /* Alamofire.framework */; };
@@ -121,11 +122,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		366FA4EB1E7F2D1E00C8811E /* BaasClientImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaasClientImpl.swift; sourceTree = "<group>"; };
+		060494DD1EE9622D0011AE05 /* KeychainPasswordItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainPasswordItem.swift; sourceTree = "<group>"; };
+		0688B9BA1EE836C500B7307E /* StitchClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchClient.swift; sourceTree = "<group>"; };
+		0688B9C41EE8372100B7307E /* StitchError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchError.swift; sourceTree = "<group>"; };
+		0688B9C61EE8376600B7307E /* StitchClientImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchClientImpl.swift; sourceTree = "<group>"; };
+		0688B9C81EE8388B00B7307E /* StitchTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchTask.swift; sourceTree = "<group>"; };
 		367E0B0F1E43419500EE2C00 /* MongoCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MongoCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		367E0B1C1E4341E900EE2C00 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		367E0B1D1E4341E900EE2C00 /* MongoCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MongoCore.h; sourceTree = "<group>"; };
-		367E0B221E4342DC00EE2C00 /* BaasClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaasClient.swift; sourceTree = "<group>"; };
 		367E0B241E434E3E00EE2C00 /* Auth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
 		367E0B261E43526400EE2C00 /* AuthUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthUser.swift; sourceTree = "<group>"; };
 		367E0B281E4358F900EE2C00 /* AuthProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthProvider.swift; sourceTree = "<group>"; };
@@ -133,8 +137,6 @@
 		367E0C3A1E438B1B00EE2C00 /* AuthProviderInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthProviderInfo.swift; sourceTree = "<group>"; };
 		367E0C3D1E438B6E00EE2C00 /* GoogleAuthProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleAuthProvider.swift; sourceTree = "<group>"; };
 		367E0C3F1E438C8D00EE2C00 /* GoogleAuthProviderInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleAuthProviderInfo.swift; sourceTree = "<group>"; };
-		367E0C421E43BF1000EE2C00 /* BaasError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaasError.swift; sourceTree = "<group>"; };
-		367E0C441E43D11700EE2C00 /* BaasTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaasTask.swift; sourceTree = "<group>"; };
 		36B1D49D1EE396D5006B15B7 /* EmailPasswordAuthProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmailPasswordAuthProvider.swift; sourceTree = "<group>"; };
 		36B1D49E1EE396D5006B15B7 /* EmailPasswordAuthProviderInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmailPasswordAuthProviderInfo.swift; sourceTree = "<group>"; };
 		36DA09871E4BF11F00875C3C /* AnonymousAuthProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnonymousAuthProvider.swift; sourceTree = "<group>"; };
@@ -221,10 +223,11 @@
 		367E0B201E43420C00EE2C00 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				367E0B221E4342DC00EE2C00 /* BaasClient.swift */,
-				367E0C421E43BF1000EE2C00 /* BaasError.swift */,
+				0688B9BA1EE836C500B7307E /* StitchClient.swift */,
+				0688B9C41EE8372100B7307E /* StitchError.swift */,
 				36DA09FC1E4CF10200875C3C /* Pipeline.swift */,
-				366FA4EB1E7F2D1E00C8811E /* BaasClientImpl.swift */,
+				0688B9C61EE8376600B7307E /* StitchClientImpl.swift */,
+				060494DD1EE9622D0011AE05 /* KeychainPasswordItem.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -296,7 +299,7 @@
 			isa = PBXGroup;
 			children = (
 				8E8FF8321ED5C525004B92EB /* Adapter */,
-				367E0C441E43D11700EE2C00 /* BaasTask.swift */,
+				0688B9C81EE8388B00B7307E /* StitchTask.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -554,23 +557,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				36DA09881E4BF11F00875C3C /* AnonymousAuthProvider.swift in Sources */,
-				367E0B231E4342DC00EE2C00 /* BaasClient.swift in Sources */,
+				0688B9C91EE8388B00B7307E /* StitchTask.swift in Sources */,
+				0688B9C51EE8372100B7307E /* StitchError.swift in Sources */,
 				36DA09FD1E4CF10200875C3C /* Pipeline.swift in Sources */,
 				367E0C3E1E438B6E00EE2C00 /* GoogleAuthProvider.swift in Sources */,
 				367E0B271E43526400EE2C00 /* AuthUser.swift in Sources */,
+				0688B9C71EE8376600B7307E /* StitchClientImpl.swift in Sources */,
 				36FD99311E464D5900AD32AF /* FacebookAuthProvider.swift in Sources */,
 				36FA28051E587FF200909825 /* AnonymousAuthProviderInfo.swift in Sources */,
-				367E0C431E43BF1000EE2C00 /* BaasError.swift in Sources */,
 				8E8FF83F1EDACBED004B92EB /* AlamofireNetworkAdapter.swift in Sources */,
-				366FA4EC1E7F2D1E00C8811E /* BaasClientImpl.swift in Sources */,
 				367E0B291E4358F900EE2C00 /* AuthProvider.swift in Sources */,
 				8E8FF83C1ED5C54C004B92EB /* NetworkAdapter.swift in Sources */,
 				36B1D49F1EE396D5006B15B7 /* EmailPasswordAuthProvider.swift in Sources */,
 				36B1D4A01EE396D5006B15B7 /* EmailPasswordAuthProviderInfo.swift in Sources */,
 				367E0C3B1E438B1B00EE2C00 /* AuthProviderInfo.swift in Sources */,
+				0688B9BB1EE836C500B7307E /* StitchClient.swift in Sources */,
+				060494DE1EE9622D0011AE05 /* KeychainPasswordItem.swift in Sources */,
 				36FD992F1E464D4200AD32AF /* FacebookAuthProviderInfo.swift in Sources */,
 				367E0B251E434E3E00EE2C00 /* Auth.swift in Sources */,
-				367E0C451E43D11700EE2C00 /* BaasTask.swift in Sources */,
 				367E0C401E438C8D00EE2C00 /* GoogleAuthProviderInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

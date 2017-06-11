@@ -1,35 +1,50 @@
 //
-//  JsonExtendable.swift
+//  ExtendedJsonRepresentable.swift
 //  MongoExtendedJson
 //
-//  Created by Ofer Meroz on 16/02/2017.
+//  Created by Ofir Zucker on 07/06/2017.
 //  Copyright © 2017 MongoDB. All rights reserved.
 //
 
 import Foundation
 
-public protocol JsonExtendable {
+public protocol ExtendedJsonRepresentable {
     var toExtendedJson: Any {get}
+    func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool
 }
 
-extension ObjectId: JsonExtendable {
+extension ObjectId: ExtendedJsonRepresentable {
     
     public var toExtendedJson: Any {
         return [String(describing: ExtendedJsonKeys.objectid) : hexString]
     }
+    
+    public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
+        if let other = other as? ObjectId {
+            return self == other
+        }
+        return false
+    }
 }
 
-extension String: JsonExtendable {
+extension String: ExtendedJsonRepresentable {
     
     public var toExtendedJson: Any {
         return self
     }
+    
+    public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
+        if let other = other as? String {
+            return self == other
+        }
+        return false
+    }
 }
 
-extension Int: JsonExtendable {
+extension Int: ExtendedJsonRepresentable {
     
     public var toExtendedJson: Any {
-        // check if we're on a 32-bit or 64-bit platform and act accordingly 
+        // check if we're on a 32-bit or 64-bit platform and act accordingly
         if MemoryLayout<Int>.size == MemoryLayout<Int32>.size {
             let int32: Int32 = Int32(self)
             return int32.toExtendedJson
@@ -38,110 +53,228 @@ extension Int: JsonExtendable {
         let int64: Int64 = Int64(self)
         return int64.toExtendedJson
     }
+    
+    public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
+        if let other = other as? Int {
+            return self == other
+        }
+        return false
+    }
 }
 
-extension Int32: JsonExtendable {
+extension Int32: ExtendedJsonRepresentable {
     
     public var toExtendedJson: Any {
         return [String(describing: ExtendedJsonKeys.numberInt) : String(self)]
     }
+    
+    public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
+        if let other = other as? Int32 {
+            return self == other
+        }
+        return false
+    }
 }
 
-extension Int64: JsonExtendable {
+extension Int64: ExtendedJsonRepresentable {
     
     public var toExtendedJson: Any {
         return [String(describing: ExtendedJsonKeys.numberLong) : String(self)]
     }
+    
+    public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
+        if let other = other as? Int64 {
+            return self == other
+        }
+        return false
+    }
 }
 
-extension Double: JsonExtendable {
+extension Double: ExtendedJsonRepresentable {
     
     public var toExtendedJson: Any {
         return [String(describing: ExtendedJsonKeys.numberDouble) : String(self)]
     }
+    
+    public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
+        if let other = other as? Double {
+            return self == other
+        }
+        return false
+    }
 }
 
-extension BsonBinary: JsonExtendable {
+extension BsonBinary: ExtendedJsonRepresentable {
     
     public var toExtendedJson: Any {
         let base64String = Data(bytes: data).base64EncodedString()
         let type = String(self.type.rawValue, radix: 16)
         return [String(describing: ExtendedJsonKeys.binary) : base64String, String(describing: ExtendedJsonKeys.type) : "0x\(type)"]
     }
+    
+    public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
+        if let other = other as? BsonBinary {
+            return self == other
+        }
+        return false
+    }
 }
 
-extension Document: JsonExtendable {
+extension Document: ExtendedJsonRepresentable {
     
     //Documen't `makeIterator()` has is no concurency handling, therefor modifying the Document while itereting over it might cause unexpected behaviour
-    public var toExtendedJson: Any {        
+    public var toExtendedJson: Any {
         return reduce([:]) { (result, dic) -> [String : Any] in
             var result = result
             result[dic.key] = dic.value.toExtendedJson
             return result
         }
     }
+    
+    public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
+        if let other = other as? Document {
+            return self == other
+        }
+        return false
+    }
 }
 
-extension BsonTimestamp: JsonExtendable {
+extension BsonTimestamp: ExtendedJsonRepresentable {
     
     public var toExtendedJson: Any {
         return [String(describing: ExtendedJsonKeys.timestamp) : String(UInt64(self.time.timeIntervalSince1970))]
     }
+    
+    public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
+        if let other = other as? BsonTimestamp {
+            return self == other
+        }
+        return false
+    }
 }
 
-extension NSRegularExpression: JsonExtendable {
+extension NSRegularExpression: ExtendedJsonRepresentable {
+    
+    public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
+        if let other = other as? NSRegularExpression {
+            return self.pattern == other.pattern &&
+                self.options == other.options
+        }
+        return false
+        
+    }
     
     public var toExtendedJson: Any {
         return [String(describing: ExtendedJsonKeys.regex) : pattern, String(describing: ExtendedJsonKeys.options) : options.toExtendedJson]
     }
 }
 
-extension Date: JsonExtendable {
+extension Date: ExtendedJsonRepresentable {
     
     public var toExtendedJson: Any {
         return [String(describing: ExtendedJsonKeys.date) : [String(describing: ExtendedJsonKeys.numberLong) : String(Int64(timeIntervalSince1970 * 1000))]]
     }
+    
+    public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
+        if let other = other as? Date {
+            return self == other
+        }
+        return false
+    }
+    
 }
 
-extension MinKey: JsonExtendable {
+extension MinKey: ExtendedJsonRepresentable {
     
     public var toExtendedJson: Any {
         return [String(describing: ExtendedJsonKeys.minKey) : 1]
     }
+    
+    public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
+        if let other = other as? MinKey {
+            return self == other
+        }
+        return false
+    }
 }
 
-extension MaxKey: JsonExtendable {
+extension MaxKey: ExtendedJsonRepresentable {
     
     public var toExtendedJson: Any {
         return [String(describing: ExtendedJsonKeys.maxKey) : 1]
     }
+    
+    public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
+        if let other = other as? MaxKey {
+            return self == other
+        }
+        return false
+    }
 }
 
-extension BsonUndefined: JsonExtendable {
+extension BsonUndefined: ExtendedJsonRepresentable {
     
     public var toExtendedJson: Any {
         return [String(describing: ExtendedJsonKeys.undefined) : true]
     }
+    
+    public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
+        if let other = other as? BsonUndefined {
+            return self == other
+        }
+        return false
+    }
 }
 
-extension BsonArray: JsonExtendable {
+extension BsonArray: ExtendedJsonRepresentable {
     
     public var toExtendedJson: Any {
         return map{$0.toExtendedJson}
     }
+    
+    public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
+        if let other = other as? BsonArray, other.count == self.count {
+            for i in 0..<other.count {
+                let myExtendedJsonRepresentable = self[i]
+                let otherExtendedJsonRepresentable = other[i]
+                
+                if !myExtendedJsonRepresentable.isEqual(toOther: otherExtendedJsonRepresentable) {
+                    return false
+                }
+            }
+        }
+        else{
+            return false
+        }
+        return true
+    }
 }
 
-extension Bool: JsonExtendable {
+extension Bool: ExtendedJsonRepresentable {
     
     public var toExtendedJson: Any {
         return self
     }
+    
+    public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
+        if let other = other as? Bool {
+            return self == other
+        }
+        return false
+    }
 }
 
-extension NSNull: JsonExtendable {
+extension NSNull: ExtendedJsonRepresentable {
     
     public var toExtendedJson: Any {
         return self
+    }
+    
+    public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
+        if let other = other as? NSNull {
+            return self == other
+        }
+        return false
     }
 }
 

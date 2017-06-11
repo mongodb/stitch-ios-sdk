@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0688B94E1EDB1E2E00B7307E /* EntityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0688B94D1EDB1E2E00B7307E /* EntityTests.swift */; };
+		0688B9B81EE6B05800B7307E /* UpdateOperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0688B9B71EE6B05800B7307E /* UpdateOperationTests.swift */; };
 		220E79DB1E7EEE21006FE69E /* EntityTypeMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220E79DA1E7EEE21006FE69E /* EntityTypeMetaData.swift */; };
 		2229CE1A1EB72E5B00F9D966 /* UpdateOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2229CE191EB72E5B00F9D966 /* UpdateOperation.swift */; };
 		222AE4BD1EAF4A0200D8C74F /* EntityIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 222AE4BC1EAF4A0200D8C74F /* EntityIdentifier.swift */; };
@@ -65,6 +66,7 @@
 
 /* Begin PBXFileReference section */
 		0688B94D1EDB1E2E00B7307E /* EntityTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityTests.swift; sourceTree = "<group>"; };
+		0688B9B71EE6B05800B7307E /* UpdateOperationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateOperationTests.swift; sourceTree = "<group>"; };
 		220E79DA1E7EEE21006FE69E /* EntityTypeMetaData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntityTypeMetaData.swift; path = EntityTypeMetaData/EntityTypeMetaData.swift; sourceTree = "<group>"; };
 		2229CE191EB72E5B00F9D966 /* UpdateOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateOperation.swift; sourceTree = "<group>"; };
 		222AE4BC1EAF4A0200D8C74F /* EntityIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntityIdentifier.swift; path = Utils/EntityIdentifier.swift; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 				8E8FF82C1ED57315004B92EB /* CriteriaTests.swift */,
 				36DD05241E79807700E9A764 /* MongoBaasODMTests.swift */,
 				0688B94D1EDB1E2E00B7307E /* EntityTests.swift */,
+				0688B9B71EE6B05800B7307E /* UpdateOperationTests.swift */,
 				36DD05261E79807700E9A764 /* Info.plist */,
 			);
 			path = MongoBaasODMTests;
@@ -401,6 +404,7 @@
 			files = (
 				0688B94E1EDB1E2E00B7307E /* EntityTests.swift in Sources */,
 				8E8FF82B1ED5723C004B92EB /* AggregationTests.swift in Sources */,
+				0688B9B81EE6B05800B7307E /* UpdateOperationTests.swift in Sources */,
 				36DD05251E79807700E9A764 /* MongoBaasODMTests.swift in Sources */,
 				8E8FF82D1ED57315004B92EB /* CriteriaTests.swift in Sources */,
 			);

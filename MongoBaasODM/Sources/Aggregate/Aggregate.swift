@@ -21,7 +21,7 @@ public struct Aggregate<Entity: RootMongoEntity> {
         self.aggregationPipeline = stages
     }
     
-    public func execute() -> BaasTask<Any> {
+    public func execute() -> StitchTask<Any> {
         if let classMetaData = Utils.entitiesDictionary[Utils.getIdentifier(type: Entity.self)] {
             
             let databaseName = classMetaData.databaseName
@@ -32,7 +32,7 @@ public struct Aggregate<Entity: RootMongoEntity> {
         }
         else {
             printLog(.error, text: "Metadata is missing for class \(Entity.self)")
-            return BaasTask<Any>(error: OdmError.classMetaDataNotFound)
+            return StitchTask<Any>(error: OdmError.classMetaDataNotFound)
         }
     }
     

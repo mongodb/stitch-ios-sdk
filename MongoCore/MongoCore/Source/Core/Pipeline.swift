@@ -20,12 +20,12 @@ public struct Pipeline {
     
     public let action: String
     public let service: String?
-    public let args: [String : JsonExtendable]?
-    public let `let`: JsonExtendable?
+    public let args: [String : ExtendedJsonRepresentable]?
+    public let `let`: ExtendedJsonRepresentable?
     
     //MARK: - Init
     
-    public init(action: String, service: String? = nil, args: [String : JsonExtendable]? = nil, `let`: JsonExtendable? = nil) {
+    public init(action: String, service: String? = nil, args: [String : ExtendedJsonRepresentable]? = nil, `let`: ExtendedJsonRepresentable? = nil) {
         self.action = action
         self.service = service
         self.args = args

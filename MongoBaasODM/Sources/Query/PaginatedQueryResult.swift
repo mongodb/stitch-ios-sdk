@@ -48,7 +48,7 @@ public struct PaginatedQueryResult<Entity: RootMongoEntity> {
         }
     }
     
-    public func nextPage() -> BaasTask<PaginatedQueryResult<Entity>> {
+    public func nextPage() -> StitchTask<PaginatedQueryResult<Entity>> {
         if results.count > 0 {
             let lastItem: Document? = rawResults[rawResults.endIndex - 1] as? Document
             if let lastRootDocument = lastItem {
@@ -61,7 +61,7 @@ public struct PaginatedQueryResult<Entity: RootMongoEntity> {
                     else {
                         let errString = "Embeded document in sort field is corrupted \(field)"
                         printLog(.error, text: errString)
-                        return BaasTask<PaginatedQueryResult<Entity>>(error: OdmError.corruptedData(message: errString))
+                        return StitchTask<PaginatedQueryResult<Entity>>(error: OdmError.corruptedData(message: errString))
                     }
                 }
                 if let objectId = lastRootDocument["_id"], let lastSortFieldValue = lastEmbededEntityDocument[sortedFields[sortedFields.endIndex-1]] {
@@ -72,20 +72,20 @@ public struct PaginatedQueryResult<Entity: RootMongoEntity> {
                 else {
                     let errString = "objectId or last field are invalid"
                     printLog(.error, text: errString)
-                    return BaasTask<PaginatedQueryResult<Entity>>(error: OdmError.corruptedData(message: errString))
+                    return StitchTask<PaginatedQueryResult<Entity>>(error: OdmError.corruptedData(message: errString))
                 }
             }
             else {
                 let errString = "Unexpected type was received - expecting a document"
                 printLog(.error, text: errString)
-                return BaasTask<PaginatedQueryResult<Entity>>(error: OdmError.corruptedData(message: errString))
+                return StitchTask<PaginatedQueryResult<Entity>>(error: OdmError.corruptedData(message: errString))
             }
         }
         
-        return BaasTask<PaginatedQueryResult<Entity>>(error: OdmError.collectionOutOfRange)
+        return StitchTask<PaginatedQueryResult<Entity>>(error: OdmError.collectionOutOfRange)
     }
     
-    fileprivate func newCriteriaForPagination(originalCriteria: Criteria?, sortParameter: SortParameter, lastSortFieldValue: JsonExtendable, objectId: JsonExtendable) -> Criteria {
+    fileprivate func newCriteriaForPagination(originalCriteria: Criteria?, sortParameter: SortParameter, lastSortFieldValue: ExtendedJsonRepresentable, objectId: ExtendedJsonRepresentable) -> Criteria {
         var newCriteria: Criteria
         switch sortParameter.direction {
         case .ascending:
