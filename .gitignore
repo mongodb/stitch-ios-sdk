@@ -6,3 +6,12 @@ MongoExtendedJson/MongoExtendedJson.xcodeproj/xcuserdata
 */xcuserdata
 MongoDB/MongoDB.xcodeproj/xcuserdata
 MongoBaasSDKLogger/MongoBaasSDKLogger.xcodeproj/xcuserdata
+#
+#
+# OPTION 1: ---------------------------------
+#     throw away ALL personal settings (including custom schemes!
+#     - unless they are "shared")
+# As per build/ and DerivedData/, this ought to have a trailing slash
+#
+# NB: this is exclusive with OPTION 2 below
+xcuserdata/
