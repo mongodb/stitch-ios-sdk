@@ -99,6 +99,7 @@ public struct Query<Entity: RootMongoEntity> {
         var pipeline = [AggregationStage]()
         let matchStage: AggregationStage = .match(query: criteria)
         pipeline.append(matchStage)
+        
         let sortStage: AggregationStage
         //We are adding a secondary sort by _id to get the next items in the pagingation mechanism
         if sortParameter.field != "_id" {
@@ -109,9 +110,19 @@ public struct Query<Entity: RootMongoEntity> {
             sortStage = .sort(sortParameters: [sortParameter])
         }
         pipeline.append(sortStage)
+        
         let limitStage: AggregationStage = .limit(value: pageSize)
         pipeline.append(limitStage)
-    
+        
+        let projectionParameters = Entity.schema?.map{
+            return ProjectionParameter(field: $0.key, expression: true)
+        }
+        
+        if let projectionParameters = projectionParameters {
+            let projectStage: AggregationStage = .project(projectionParametes: projectionParameters)
+            pipeline.append(projectStage)
+        }
+        
         return pipeline
     }
     

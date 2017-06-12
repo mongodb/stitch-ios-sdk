@@ -15,6 +15,7 @@ public enum AggregationStage {
     case sort(sortParameters: [SortParameter])
     case limit(value: Int)
     case count(field: String)
+    case project(projectionParametes : [ProjectionParameter])
     
     internal var asDocument: Document {
         switch self {
@@ -39,6 +40,12 @@ public enum AggregationStage {
             case .count(let field):
                 return Document(key: "$count", value: field)
             
+            case .project(let projectionParameters):
+                var projectDocument = Document()
+                for projectionParameter in projectionParameters {
+                    projectDocument[projectionParameter.field] = projectionParameter.expression
+            }
+                return Document(key: "$project", value: projectDocument)
         }
     }
     

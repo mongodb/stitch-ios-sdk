@@ -15,6 +15,8 @@
 		2232283C1E829A4E00C2A1B8 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2232283B1E829A4E00C2A1B8 /* Utils.swift */; };
 		22327F501EB0A7FF00B77605 /* OdmError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22327F4F1EB0A7FF00B77605 /* OdmError.swift */; };
 		2233D95A1EB9CCB300939303 /* UpdateOperationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2233D9591EB9CCB300939303 /* UpdateOperationType.swift */; };
+		22CE7E701EED6EF900413A69 /* ProjectionParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CE7E6F1EED6EF900413A69 /* ProjectionParameter.swift */; };
+		22CE7E771EED774C00413A69 /* ProjectionExpressionRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CE7E761EED774C00413A69 /* ProjectionExpressionRepresentable.swift */; };
 		22D4A23D1E7FD13F00CB3961 /* EmbeddedMongoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22D4A23C1E7FD13F00CB3961 /* EmbeddedMongoEntity.swift */; };
 		36757C3B1E88330F0042E2C4 /* Projection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36757C3A1E88330F0042E2C4 /* Projection.swift */; };
 		36D649AF1ECA0DE100ECC1F8 /* MongoDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 366FA4E81E7EA06B00C8811E /* MongoDB.framework */; };
@@ -73,6 +75,8 @@
 		2232283B1E829A4E00C2A1B8 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = Utils/Utils.swift; sourceTree = "<group>"; };
 		22327F4F1EB0A7FF00B77605 /* OdmError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OdmError.swift; path = Utils/OdmError.swift; sourceTree = "<group>"; };
 		2233D9591EB9CCB300939303 /* UpdateOperationType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UpdateOperationType.swift; path = Update/UpdateOperationType.swift; sourceTree = "<group>"; };
+		22CE7E6F1EED6EF900413A69 /* ProjectionParameter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProjectionParameter.swift; path = Aggregate/ProjectionParameter.swift; sourceTree = "<group>"; };
+		22CE7E761EED774C00413A69 /* ProjectionExpressionRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectionExpressionRepresentable.swift; sourceTree = "<group>"; };
 		22D4A23C1E7FD13F00CB3961 /* EmbeddedMongoEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmbeddedMongoEntity.swift; sourceTree = "<group>"; };
 		366FA4E21E7EA06B00C8811E /* MongoDB.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MongoDB.xcodeproj; path = ../../MongoDB/MongoDB.xcodeproj; sourceTree = "<group>"; };
 		36757C3A1E88330F0042E2C4 /* Projection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Projection.swift; sourceTree = "<group>"; };
@@ -240,6 +244,8 @@
 				8E8FF7C71EC21349004B92EB /* AggregationStage.swift */,
 				8E8FF7F41ECB3E0D004B92EB /* PaginatedQueryResult.swift */,
 				8E8FF8051ED2D922004B92EB /* SortParameter.swift */,
+				22CE7E6F1EED6EF900413A69 /* ProjectionParameter.swift */,
+				22CE7E761EED774C00413A69 /* ProjectionExpressionRepresentable.swift */,
 			);
 			name = Aggregate;
 			sourceTree = "<group>";
@@ -390,8 +396,10 @@
 				222AE4BD1EAF4A0200D8C74F /* EntityIdentifier.swift in Sources */,
 				220E79DB1E7EEE21006FE69E /* EntityTypeMetaData.swift in Sources */,
 				36757C3B1E88330F0042E2C4 /* Projection.swift in Sources */,
+				22CE7E771EED774C00413A69 /* ProjectionExpressionRepresentable.swift in Sources */,
 				8E8FF7C81EC21349004B92EB /* AggregationStage.swift in Sources */,
 				2233D95A1EB9CCB300939303 /* UpdateOperationType.swift in Sources */,
+				22CE7E701EED6EF900413A69 /* ProjectionParameter.swift in Sources */,
 				2229CE1A1EB72E5B00F9D966 /* UpdateOperation.swift in Sources */,
 				36DD05701E7C4F4400E9A764 /* RootMongoEntity.swift in Sources */,
 				2232283C1E829A4E00C2A1B8 /* Utils.swift in Sources */,

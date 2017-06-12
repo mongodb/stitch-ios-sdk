@@ -1,5 +1,5 @@
-[submodule "MongoCore/MongoCore/Frameworks/Alamofire"]
-	path = MongoCore/MongoCore/Frameworks/Alamofire
+[submodule "StitchCore/StitchCore/Frameworks/Alamofire"]
+	path = StitchCore/StitchCore/Frameworks/Alamofire
 	url = https://github.com/Alamofire/Alamofire.git
 [submodule "Alamofire"]
 	branch = 4.3.0

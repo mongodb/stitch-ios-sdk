@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:StitchLogger/StitchLogger.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:ExtendedJson/ExtendedJson.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:StitchCore/StitchCore.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:MongoDBService/MongoDBService.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:MongoBaasODM/MongoBaasODM.xcodeproj">
+   </FileRef>
+</Workspace>
