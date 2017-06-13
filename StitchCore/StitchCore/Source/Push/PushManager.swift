@@ -1,0 +1,68 @@
+//
+//  PushManager.swift
+//  MongoCore
+//
+//  Created by Jay Flax on 6/5/17.
+//  Copyright © 2017 Zemingo. All rights reserved.
+//
+
+import Foundation
+
+/**
+    PushManager is responsible for handling the creation of {@link PushClient}s while handling
+    any events from the {@link StitchClient} that require changes to the clients.
+ */
+public class PushManager: AuthListener {
+    private let stitchClient: StitchClient
+    private var clients: [String: PushClient] = [:]
+    
+    init(stitchClient: StitchClient) {
+        self.stitchClient = stitchClient
+//        self.baasClient.addAuthListener(self)
+    }
+    
+    /**
+        - parameter info: Information required to build a client.
+        - returns: A [[PushClient]] representing the given provider.
+     */
+    func forProvider(info: PushProviderInfo) throws -> PushClient {
+        var client: PushClient? = nil
+        
+        switch (info.providerName) {
+            case .GCM:
+                client = StitchGCMPushClient(stitchClient: self.stitchClient, info: info as! StitchGCMPushProviderInfo);
+        }
+        
+        if let cl = clients[stitchClient.appId] {
+            return cl
+        } else {
+            clients[stitchClient.appId] = client
+            return client!
+        }
+    }
+    
+    /**
+        Does nothing on login
+    */
+    public func onLogin() {}
+    
+    /**
+        Deregisters all active and previously active clients. This is only a best effort and
+        there may be a period of time where the application will still receive notifications.
+     */
+    public func onLogout(lastProvider: String) {
+        do {
+            // Create any missing clients from saved data
+            try PushProviderInfoHelper.fromPreferences().forEach { info in
+                 try _ = self.forProvider(info: info)
+            }
+        } catch _ {
+            // Ignore errors
+        }
+        
+        // Notify Stitch that we no longer want updates
+        clients.values.forEach { client in client.deregister() }
+        
+        clients.removeAll()
+    }
+}

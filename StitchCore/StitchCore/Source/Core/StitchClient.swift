@@ -11,7 +11,7 @@ import Foundation
 public protocol StitchClient {
     
     // MARK: - Properties
-    
+    var appId: String { get }
     var auth: Auth? { get }
     var authUser: AuthUser? { get }
     var isAuthenticated: Bool { get }

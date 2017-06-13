@@ -1,0 +1,786 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		13C6F1C844352990B5C2D41725D3ADEB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
+		843A50BF0B6233E54890A09404BBD9BD /* Pods-StitchGCM-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7598F04CD37459B457DCCC16C0D1791B /* Pods-StitchGCM-dummy.m */; };
+		87AFC9412A250813229FC45FE9D4638F /* Pods-StitchGCMTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 142B654EE4A3FE915972BA3A5FDF77E7 /* Pods-StitchGCMTests-dummy.m */; };
+		98BBA3B4C9EE8AC6EEACF4C63671355D /* Pods-StitchGCM-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 251368CC480763723DCC0098F616B24F /* Pods-StitchGCM-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EEBDE2AA3FFA19811BD54B1B82E09AC8 /* Pods-StitchGCMTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 72F8937E5DC6018CDB4162FD12EB1F67 /* Pods-StitchGCMTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F1EE17990D3EB5460CA2BE62A6A5A2A5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0105B2D9FE8C35164C841EFD258FA832 /* libGGLCore.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGGLCore.a; path = Libraries/libGGLCore.a; sourceTree = "<group>"; };
+		02B5B976BE6C051DF8E388416D8B5DD6 /* Pods_StitchGCM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_StitchGCM.framework; path = "Pods-StitchGCM.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0441097A6727A2DD9E58557902EA60A9 /* SignIn-Module.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "SignIn-Module.h"; path = "Headers/ModuleHeaders/SignIn-Module.h"; sourceTree = "<group>"; };
+		061785BD72A0B457B857581C47C3EF90 /* GGLConfiguration.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GGLConfiguration.h; path = Headers/GGLCore/Public/GGLConfiguration.h; sourceTree = "<group>"; };
+		0D002A1205809545A006423A2455A4DC /* Pods-StitchGCMTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-StitchGCMTests-frameworks.sh"; sourceTree = "<group>"; };
+		0D546DE2B90020FBC21DC80809D334DD /* AppInvite-Module.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "AppInvite-Module.h"; path = "Headers/ModuleHeaders/AppInvite-Module.h"; sourceTree = "<group>"; };
+		0E2517EEB5F20D3513B4A16B4C486797 /* Pods-StitchGCM-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-StitchGCM-resources.sh"; sourceTree = "<group>"; };
+		142B654EE4A3FE915972BA3A5FDF77E7 /* Pods-StitchGCMTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-StitchGCMTests-dummy.m"; sourceTree = "<group>"; };
+		19B3498F23BEC1E11A183BAD657B98AE /* libGGLAdMob.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGGLAdMob.a; path = Libraries/libGGLAdMob.a; sourceTree = "<group>"; };
+		1A3618BD0A28E312C416A79CB0CAD0D1 /* Analytics-Module.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "Analytics-Module.h"; path = "Headers/ModuleHeaders/Analytics-Module.h"; sourceTree = "<group>"; };
+		1E7DE70311CE5554F15234C3DB907C08 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1F9229D47374646EFC53C990300C21DF /* GGLInstanceIDHeaders.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GGLInstanceIDHeaders.h; path = Headers/Public/GGLInstanceIDHeaders.h; sourceTree = "<group>"; };
+		251368CC480763723DCC0098F616B24F /* Pods-StitchGCM-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-StitchGCM-umbrella.h"; sourceTree = "<group>"; };
+		25555D26E6F830E22F3B5D6CAADD7E95 /* AdMob.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AdMob.h; path = Headers/GGLAdMob/Public/AdMob.h; sourceTree = "<group>"; };
+		2577FAD1B97545B6BD860A02C2B5ACA5 /* AdMob-Module.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "AdMob-Module.h"; path = "Headers/ModuleHeaders/AdMob-Module.h"; sourceTree = "<group>"; };
+		26E87319F78D0C6D4B206A2F4F4669A5 /* libGcmLib.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGcmLib.a; path = Libraries/libGcmLib.a; sourceTree = "<group>"; };
+		2B2E65A80FE72D041F41299F4C78F652 /* GGLInstanceID.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GGLInstanceID.h; path = Headers/Public/GGLInstanceID.h; sourceTree = "<group>"; };
+		2BEA50712F2E9AEF965903B345D461C7 /* Core-Module.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "Core-Module.h"; path = "Headers/ModuleHeaders/Core-Module.h"; sourceTree = "<group>"; };
+		43007D3EC8FB0266899AB12D3B45B6E7 /* GCMService.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GCMService.h; path = Headers/Public/GCMService.h; sourceTree = "<group>"; };
+		4CD4739BAA2746BCF7A6897F7E5D8B3C /* GoogleSymbolUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleSymbolUtilities.framework; path = Frameworks/frameworks/GoogleSymbolUtilities.framework; sourceTree = "<group>"; };
+		4E0DBAA55A398D4F779CEFCB7C2DD9CE /* GoogleNetworkingUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleNetworkingUtilities.framework; path = Frameworks/frameworks/GoogleNetworkingUtilities.framework; sourceTree = "<group>"; };
+		54E686407C9CF57D47BB55FBF8C7666C /* CloudMessaging-Module.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "CloudMessaging-Module.h"; path = "Headers/ModuleHeaders/CloudMessaging-Module.h"; sourceTree = "<group>"; };
+		55E75F2B222AB27158C2025234B3D4AC /* Pods-StitchGCM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-StitchGCM.debug.xcconfig"; sourceTree = "<group>"; };
+		6461FC2C365E616EE74E28FFFA157779 /* Pods-StitchGCM.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-StitchGCM.modulemap"; sourceTree = "<group>"; };
+		65E6F648D4A855E1BBEE22082D24B5C0 /* GGLInstanceIDDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GGLInstanceIDDelegate.h; path = Headers/Public/GGLInstanceIDDelegate.h; sourceTree = "<group>"; };
+		6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		712747A84760C8916B865EA9D6710299 /* GGLContext.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GGLContext.h; path = Headers/GGLCore/Public/GGLContext.h; sourceTree = "<group>"; };
+		72F8937E5DC6018CDB4162FD12EB1F67 /* Pods-StitchGCMTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-StitchGCMTests-umbrella.h"; sourceTree = "<group>"; };
+		7598F04CD37459B457DCCC16C0D1791B /* Pods-StitchGCM-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-StitchGCM-dummy.m"; sourceTree = "<group>"; };
+		7665485E1D6516B2EA5A566CB9D4ECCD /* GGLErrorCode.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GGLErrorCode.h; path = Headers/GGLCore/Public/GGLErrorCode.h; sourceTree = "<group>"; };
+		79496FC36D61F35F180C796ECBCA2BB0 /* GMRConfiguration.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GMRConfiguration.h; path = Headers/GGLCore/Public/GMRConfiguration.h; sourceTree = "<group>"; };
+		7C82767B7D0F9CF4499EB65172FC1F13 /* Pods-StitchGCMTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-StitchGCMTests.release.xcconfig"; sourceTree = "<group>"; };
+		7D1FF5D0D5B3081DF0239F67A2B77382 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMobileAds.framework; path = Frameworks/GoogleMobileAds.framework; sourceTree = "<group>"; };
+		83152C6A220C09B51A4C0ABDDC2E5548 /* GCMReceiverDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GCMReceiverDelegate.h; path = Headers/Public/GCMReceiverDelegate.h; sourceTree = "<group>"; };
+		84B221E4C90F38CE8AD03BD63E709C69 /* Pods-StitchGCMTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-StitchGCMTests.debug.xcconfig"; sourceTree = "<group>"; };
+		89A2E0DDE6D17A6F2C13D537BCF0CE71 /* GoogleUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleUtilities.framework; path = Frameworks/frameworks/GoogleUtilities.framework; sourceTree = "<group>"; };
+		8EEA8452B020087996809218E6AA55A8 /* Pods-StitchGCMTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-StitchGCMTests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		93DE70D3A3057394302D74EC2DAD0250 /* libGGLInstanceIDLib.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGGLInstanceIDLib.a; path = Libraries/libGGLInstanceIDLib.a; sourceTree = "<group>"; };
+		9447E580F951EB4FAB268E9774F42210 /* Pods-StitchGCMTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-StitchGCMTests-resources.sh"; sourceTree = "<group>"; };
+		9DAAF950E37676C23108CA573F79BC4E /* Core.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Core.h; path = Headers/GGLCore/Public/Core.h; sourceTree = "<group>"; };
+		A3AC92CF5D7048302718F471F8C1B355 /* Pods-StitchGCMTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-StitchGCMTests-acknowledgements.plist"; sourceTree = "<group>"; };
+		A6B4436E303BE719DEDAE7709D1E6B3A /* Pods_StitchGCMTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_StitchGCMTests.framework; path = "Pods-StitchGCMTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A858D8F8F4C346E5D3F86EC238A116B9 /* GoogleInterchangeUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleInterchangeUtilities.framework; path = Frameworks/frameworks/GoogleInterchangeUtilities.framework; sourceTree = "<group>"; };
+		AA2F9F3A463FA813A2242C35332E6CD9 /* GGLInstanceIDConfig.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GGLInstanceIDConfig.h; path = Headers/Public/GGLInstanceIDConfig.h; sourceTree = "<group>"; };
+		B172473C83E2B7304456FD667E13B111 /* GGLContext+AdMob.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "GGLContext+AdMob.h"; path = "Headers/GGLAdMob/Public/GGLContext+AdMob.h"; sourceTree = "<group>"; };
+		B4E57670675D2F19E1CD7DE1FFB065BA /* Pods-StitchGCM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-StitchGCM.release.xcconfig"; sourceTree = "<group>"; };
+		B545B9AE36739811DD7F61045A5229C7 /* Pods-StitchGCM-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-StitchGCM-acknowledgements.markdown"; sourceTree = "<group>"; };
+		B6276AEBD1AFBD44FA6230319B5FDDDC /* Pods-StitchGCM-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-StitchGCM-acknowledgements.plist"; sourceTree = "<group>"; };
+		BFFC7F228170F90153CFAFDDAA33FF3E /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C4864F397AB739E66D983E5BCCD37EA7 /* GoogleIPhoneUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleIPhoneUtilities.framework; path = Frameworks/GoogleIPhoneUtilities.framework; sourceTree = "<group>"; };
+		CE8A601D503285C9B59AA7E7F825578A /* libGGLCloudMessaging.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGGLCloudMessaging.a; path = Libraries/libGGLCloudMessaging.a; sourceTree = "<group>"; };
+		E6385A3E91DA47E68A06E3A4260C85A2 /* GCMConfig.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GCMConfig.h; path = Headers/Public/GCMConfig.h; sourceTree = "<group>"; };
+		E685D73E5101693DF662101F835F8A01 /* Pods-StitchGCMTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-StitchGCMTests.modulemap"; sourceTree = "<group>"; };
+		E7CDB85C87018C1BFC0C337A4F5C66B1 /* CloudMessaging.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CloudMessaging.h; path = Headers/GGLCloudMessaging/Public/CloudMessaging.h; sourceTree = "<group>"; };
+		ED760C746F572C6E85F88D97D1AC185B /* GGLContext+CloudMessaging.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "GGLContext+CloudMessaging.h"; path = "Headers/GGLCloudMessaging/Public/GGLContext+CloudMessaging.h"; sourceTree = "<group>"; };
+		F55DC30389ACB6225760EE1CC3EA3D00 /* GCMPubSub.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GCMPubSub.h; path = Headers/Public/GCMPubSub.h; sourceTree = "<group>"; };
+		FD925FED7E4C2EBE84BCB99D8763E846 /* GoogleCloudMessaging.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GoogleCloudMessaging.h; path = Headers/Public/GoogleCloudMessaging.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2B66C4ABC731041DBA7F3CF908C2F653 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F1EE17990D3EB5460CA2BE62A6A5A2A5 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7D6A3694A00EA84D2B06FC144A6F869B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				13C6F1C844352990B5C2D41725D3ADEB /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0D43A62508B1E1797DEF7FBD963CE98B /* GoogleUtilities */ = {
+			isa = PBXGroup;
+			children = (
+				B6647C2137034D9D281C85334B6B2D97 /* Frameworks */,
+			);
+			name = GoogleUtilities;
+			path = GoogleUtilities;
+			sourceTree = "<group>";
+		};
+		126C7105252034263DDA287826A7E032 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7D1FF5D0D5B3081DF0239F67A2B77382 /* GoogleMobileAds.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1D894B65B378E6D711528B2A59EA07AB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				93DE70D3A3057394302D74EC2DAD0250 /* libGGLInstanceIDLib.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2C91E33A0DB80E223CB60D08848BEF24 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4E0DBAA55A398D4F779CEFCB7C2DD9CE /* GoogleNetworkingUtilities.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2E689F2E619304A45EC5D8A283A28490 /* Pods-StitchGCM */ = {
+			isa = PBXGroup;
+			children = (
+				1E7DE70311CE5554F15234C3DB907C08 /* Info.plist */,
+				6461FC2C365E616EE74E28FFFA157779 /* Pods-StitchGCM.modulemap */,
+				B545B9AE36739811DD7F61045A5229C7 /* Pods-StitchGCM-acknowledgements.markdown */,
+				B6276AEBD1AFBD44FA6230319B5FDDDC /* Pods-StitchGCM-acknowledgements.plist */,
+				7598F04CD37459B457DCCC16C0D1791B /* Pods-StitchGCM-dummy.m */,
+				0E2517EEB5F20D3513B4A16B4C486797 /* Pods-StitchGCM-resources.sh */,
+				251368CC480763723DCC0098F616B24F /* Pods-StitchGCM-umbrella.h */,
+				55E75F2B222AB27158C2025234B3D4AC /* Pods-StitchGCM.debug.xcconfig */,
+				B4E57670675D2F19E1CD7DE1FFB065BA /* Pods-StitchGCM.release.xcconfig */,
+			);
+			name = "Pods-StitchGCM";
+			path = "Target Support Files/Pods-StitchGCM";
+			sourceTree = "<group>";
+		};
+		355CAEE14F5FA5C1296DB9DC4430B511 /* AdMob */ = {
+			isa = PBXGroup;
+			children = (
+				25555D26E6F830E22F3B5D6CAADD7E95 /* AdMob.h */,
+				B172473C83E2B7304456FD667E13B111 /* GGLContext+AdMob.h */,
+				709011F171C11834873CEA22FB3FE1EA /* Frameworks */,
+			);
+			name = AdMob;
+			sourceTree = "<group>";
+		};
+		3DE11148FEDE5849B9FD79D63E7E75AD /* GoogleSymbolUtilities */ = {
+			isa = PBXGroup;
+			children = (
+				53369A1EE64E2722BCC49A7EFEA027C0 /* Frameworks */,
+			);
+			name = GoogleSymbolUtilities;
+			path = GoogleSymbolUtilities;
+			sourceTree = "<group>";
+		};
+		4142F3B5672F3AFB18DAC8B4C089EBA6 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F2A48F0B179BB6E64DE069AAC9CFC17E /* GGLInstanceID */,
+				49B595811F8A6440830C6299B8F9DB5E /* Google */,
+				6FBC71A2D1A3250ECB70D5CCDD19F192 /* GoogleCloudMessaging */,
+				DCE30352369B5C7D525F48BEC3687E67 /* GoogleInterchangeUtilities */,
+				B43CACC305A4CE13E0ACCC1661095BF9 /* GoogleIPhoneUtilities */,
+				5D54419667E67CAEC2338B8A9C895419 /* GoogleMobileAds */,
+				A230E069457994CA5938F0C240C625EB /* GoogleNetworkingUtilities */,
+				3DE11148FEDE5849B9FD79D63E7E75AD /* GoogleSymbolUtilities */,
+				0D43A62508B1E1797DEF7FBD963CE98B /* GoogleUtilities */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		49B595811F8A6440830C6299B8F9DB5E /* Google */ = {
+			isa = PBXGroup;
+			children = (
+				355CAEE14F5FA5C1296DB9DC4430B511 /* AdMob */,
+				FCCB3342EDB0A5DEAC61B2CD5E1C6593 /* CloudMessaging */,
+				69FEE6F5A06A1868A2273F78FC555035 /* Core */,
+			);
+			name = Google;
+			path = Google;
+			sourceTree = "<group>";
+		};
+		53369A1EE64E2722BCC49A7EFEA027C0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4CD4739BAA2746BCF7A6897F7E5D8B3C /* GoogleSymbolUtilities.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5D54419667E67CAEC2338B8A9C895419 /* GoogleMobileAds */ = {
+			isa = PBXGroup;
+			children = (
+				126C7105252034263DDA287826A7E032 /* Frameworks */,
+			);
+			name = GoogleMobileAds;
+			path = GoogleMobileAds;
+			sourceTree = "<group>";
+		};
+		69FEE6F5A06A1868A2273F78FC555035 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				2577FAD1B97545B6BD860A02C2B5ACA5 /* AdMob-Module.h */,
+				1A3618BD0A28E312C416A79CB0CAD0D1 /* Analytics-Module.h */,
+				0D546DE2B90020FBC21DC80809D334DD /* AppInvite-Module.h */,
+				54E686407C9CF57D47BB55FBF8C7666C /* CloudMessaging-Module.h */,
+				9DAAF950E37676C23108CA573F79BC4E /* Core.h */,
+				2BEA50712F2E9AEF965903B345D461C7 /* Core-Module.h */,
+				061785BD72A0B457B857581C47C3EF90 /* GGLConfiguration.h */,
+				712747A84760C8916B865EA9D6710299 /* GGLContext.h */,
+				7665485E1D6516B2EA5A566CB9D4ECCD /* GGLErrorCode.h */,
+				79496FC36D61F35F180C796ECBCA2BB0 /* GMRConfiguration.h */,
+				0441097A6727A2DD9E58557902EA60A9 /* SignIn-Module.h */,
+				FED3919DF78B7EA4C8E9C45306EE23C8 /* Frameworks */,
+			);
+			name = Core;
+			sourceTree = "<group>";
+		};
+		6FBC71A2D1A3250ECB70D5CCDD19F192 /* GoogleCloudMessaging */ = {
+			isa = PBXGroup;
+			children = (
+				E6385A3E91DA47E68A06E3A4260C85A2 /* GCMConfig.h */,
+				F55DC30389ACB6225760EE1CC3EA3D00 /* GCMPubSub.h */,
+				83152C6A220C09B51A4C0ABDDC2E5548 /* GCMReceiverDelegate.h */,
+				43007D3EC8FB0266899AB12D3B45B6E7 /* GCMService.h */,
+				FD925FED7E4C2EBE84BCB99D8763E846 /* GoogleCloudMessaging.h */,
+				9A802A06AD4AA8B6492B4A200F701A3E /* Frameworks */,
+			);
+			name = GoogleCloudMessaging;
+			path = GoogleCloudMessaging;
+			sourceTree = "<group>";
+		};
+		709011F171C11834873CEA22FB3FE1EA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				19B3498F23BEC1E11A183BAD657B98AE /* libGGLAdMob.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7DB346D0F39D3F0E887471402A8071AB = {
+			isa = PBXGroup;
+			children = (
+				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
+				BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */,
+				4142F3B5672F3AFB18DAC8B4C089EBA6 /* Pods */,
+				ED8B51AEFFBBD295CF9B53066C5BBBBD /* Products */,
+				DB5E1B47624567AE5397623AC7C2F2F3 /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		8350DCE16B827233ADAF46AA50E28335 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C4864F397AB739E66D983E5BCCD37EA7 /* GoogleIPhoneUtilities.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8AA00E99FBE45E7313FB4C151AD16592 /* Pods-StitchGCMTests */ = {
+			isa = PBXGroup;
+			children = (
+				BFFC7F228170F90153CFAFDDAA33FF3E /* Info.plist */,
+				E685D73E5101693DF662101F835F8A01 /* Pods-StitchGCMTests.modulemap */,
+				8EEA8452B020087996809218E6AA55A8 /* Pods-StitchGCMTests-acknowledgements.markdown */,
+				A3AC92CF5D7048302718F471F8C1B355 /* Pods-StitchGCMTests-acknowledgements.plist */,
+				142B654EE4A3FE915972BA3A5FDF77E7 /* Pods-StitchGCMTests-dummy.m */,
+				0D002A1205809545A006423A2455A4DC /* Pods-StitchGCMTests-frameworks.sh */,
+				9447E580F951EB4FAB268E9774F42210 /* Pods-StitchGCMTests-resources.sh */,
+				72F8937E5DC6018CDB4162FD12EB1F67 /* Pods-StitchGCMTests-umbrella.h */,
+				84B221E4C90F38CE8AD03BD63E709C69 /* Pods-StitchGCMTests.debug.xcconfig */,
+				7C82767B7D0F9CF4499EB65172FC1F13 /* Pods-StitchGCMTests.release.xcconfig */,
+			);
+			name = "Pods-StitchGCMTests";
+			path = "Target Support Files/Pods-StitchGCMTests";
+			sourceTree = "<group>";
+		};
+		9A802A06AD4AA8B6492B4A200F701A3E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				26E87319F78D0C6D4B206A2F4F4669A5 /* libGcmLib.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9C6C9855A75F77CD94C7D96CA18D3672 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CE8A601D503285C9B59AA7E7F825578A /* libGGLCloudMessaging.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A230E069457994CA5938F0C240C625EB /* GoogleNetworkingUtilities */ = {
+			isa = PBXGroup;
+			children = (
+				2C91E33A0DB80E223CB60D08848BEF24 /* Frameworks */,
+			);
+			name = GoogleNetworkingUtilities;
+			path = GoogleNetworkingUtilities;
+			sourceTree = "<group>";
+		};
+		B43CACC305A4CE13E0ACCC1661095BF9 /* GoogleIPhoneUtilities */ = {
+			isa = PBXGroup;
+			children = (
+				8350DCE16B827233ADAF46AA50E28335 /* Frameworks */,
+			);
+			name = GoogleIPhoneUtilities;
+			path = GoogleIPhoneUtilities;
+			sourceTree = "<group>";
+		};
+		B6647C2137034D9D281C85334B6B2D97 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				89A2E0DDE6D17A6F2C13D537BCF0CE71 /* GoogleUtilities.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D35AF013A5F0BAD4F32504907A52519E /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D35AF013A5F0BAD4F32504907A52519E /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		DB5E1B47624567AE5397623AC7C2F2F3 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				2E689F2E619304A45EC5D8A283A28490 /* Pods-StitchGCM */,
+				8AA00E99FBE45E7313FB4C151AD16592 /* Pods-StitchGCMTests */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		DCE30352369B5C7D525F48BEC3687E67 /* GoogleInterchangeUtilities */ = {
+			isa = PBXGroup;
+			children = (
+				EA4F0DB3A886DC1D0D6551871E3F816D /* Frameworks */,
+			);
+			name = GoogleInterchangeUtilities;
+			path = GoogleInterchangeUtilities;
+			sourceTree = "<group>";
+		};
+		EA4F0DB3A886DC1D0D6551871E3F816D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A858D8F8F4C346E5D3F86EC238A116B9 /* GoogleInterchangeUtilities.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		ED8B51AEFFBBD295CF9B53066C5BBBBD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				02B5B976BE6C051DF8E388416D8B5DD6 /* Pods_StitchGCM.framework */,
+				A6B4436E303BE719DEDAE7709D1E6B3A /* Pods_StitchGCMTests.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F2A48F0B179BB6E64DE069AAC9CFC17E /* GGLInstanceID */ = {
+			isa = PBXGroup;
+			children = (
+				2B2E65A80FE72D041F41299F4C78F652 /* GGLInstanceID.h */,
+				AA2F9F3A463FA813A2242C35332E6CD9 /* GGLInstanceIDConfig.h */,
+				65E6F648D4A855E1BBEE22082D24B5C0 /* GGLInstanceIDDelegate.h */,
+				1F9229D47374646EFC53C990300C21DF /* GGLInstanceIDHeaders.h */,
+				1D894B65B378E6D711528B2A59EA07AB /* Frameworks */,
+			);
+			name = GGLInstanceID;
+			path = GGLInstanceID;
+			sourceTree = "<group>";
+		};
+		FCCB3342EDB0A5DEAC61B2CD5E1C6593 /* CloudMessaging */ = {
+			isa = PBXGroup;
+			children = (
+				E7CDB85C87018C1BFC0C337A4F5C66B1 /* CloudMessaging.h */,
+				ED760C746F572C6E85F88D97D1AC185B /* GGLContext+CloudMessaging.h */,
+				9C6C9855A75F77CD94C7D96CA18D3672 /* Frameworks */,
+			);
+			name = CloudMessaging;
+			sourceTree = "<group>";
+		};
+		FED3919DF78B7EA4C8E9C45306EE23C8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0105B2D9FE8C35164C841EFD258FA832 /* libGGLCore.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		12A25AD94CC2D72CA0C5B3542572A653 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EEBDE2AA3FFA19811BD54B1B82E09AC8 /* Pods-StitchGCMTests-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A2C2285E3AC2BC625F054F01A51CA3B3 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				98BBA3B4C9EE8AC6EEACF4C63671355D /* Pods-StitchGCM-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		AB86C2F73C75A130526ED18CC154F7BD /* Pods-StitchGCM */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BCCC03281B3A527F1185D95BEEE3BBDB /* Build configuration list for PBXNativeTarget "Pods-StitchGCM" */;
+			buildPhases = (
+				F83CCC5B4FA482DBA5EACB241F6F26F6 /* Sources */,
+				2B66C4ABC731041DBA7F3CF908C2F653 /* Frameworks */,
+				A2C2285E3AC2BC625F054F01A51CA3B3 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-StitchGCM";
+			productName = "Pods-StitchGCM";
+			productReference = 02B5B976BE6C051DF8E388416D8B5DD6 /* Pods_StitchGCM.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		B925F2935AA90D1EAF949B229D14DEB8 /* Pods-StitchGCMTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 98E01A369AAA37E00C5EA9821BE61892 /* Build configuration list for PBXNativeTarget "Pods-StitchGCMTests" */;
+			buildPhases = (
+				7B01308B55ABDA111927D208AE79A6C4 /* Sources */,
+				7D6A3694A00EA84D2B06FC144A6F869B /* Frameworks */,
+				12A25AD94CC2D72CA0C5B3542572A653 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-StitchGCMTests";
+			productName = "Pods-StitchGCMTests";
+			productReference = A6B4436E303BE719DEDAE7709D1E6B3A /* Pods_StitchGCMTests.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D41D8CD98F00B204E9800998ECF8427E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0830;
+				LastUpgradeCheck = 0700;
+			};
+			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
+			productRefGroup = ED8B51AEFFBBD295CF9B53066C5BBBBD /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AB86C2F73C75A130526ED18CC154F7BD /* Pods-StitchGCM */,
+				B925F2935AA90D1EAF949B229D14DEB8 /* Pods-StitchGCMTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7B01308B55ABDA111927D208AE79A6C4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87AFC9412A250813229FC45FE9D4638F /* Pods-StitchGCMTests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F83CCC5B4FA482DBA5EACB241F6F26F6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				843A50BF0B6233E54890A09404BBD9BD /* Pods-StitchGCM-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1397C2E3F80565C971FCA29ACBC05E77 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 55E75F2B222AB27158C2025234B3D4AC /* Pods-StitchGCM.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-StitchGCM/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-StitchGCM/Pods-StitchGCM.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_StitchGCM;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		163D87BE96A63549B0EACF1CC31A2E90 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_DEBUG=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		4C1FEA74179D7A31F0F7A64297AB88A3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B4E57670675D2F19E1CD7DE1FFB065BA /* Pods-StitchGCM.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-StitchGCM/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-StitchGCM/Pods-StitchGCM.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_StitchGCM;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		707B86CFB21B645E37109F39754D4051 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DB3CDCE21968AD3B9B359061053CA821 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84B221E4C90F38CE8AD03BD63E709C69 /* Pods-StitchGCMTests.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-StitchGCMTests/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-StitchGCMTests/Pods-StitchGCMTests.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_StitchGCMTests;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		F08E5FD0101123D85FD81F10B4A7176E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7C82767B7D0F9CF4499EB65172FC1F13 /* Pods-StitchGCMTests.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-StitchGCMTests/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-StitchGCMTests/Pods-StitchGCMTests.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_StitchGCMTests;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				163D87BE96A63549B0EACF1CC31A2E90 /* Debug */,
+				707B86CFB21B645E37109F39754D4051 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		98E01A369AAA37E00C5EA9821BE61892 /* Build configuration list for PBXNativeTarget "Pods-StitchGCMTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DB3CDCE21968AD3B9B359061053CA821 /* Debug */,
+				F08E5FD0101123D85FD81F10B4A7176E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BCCC03281B3A527F1185D95BEEE3BBDB /* Build configuration list for PBXNativeTarget "Pods-StitchGCM" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1397C2E3F80565C971FCA29ACBC05E77 /* Debug */,
+				4C1FEA74179D7A31F0F7A64297AB88A3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+}

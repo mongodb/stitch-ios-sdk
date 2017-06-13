@@ -12,37 +12,37 @@ import ExtendedJson
 import StitchLogger
 import Security
 
+internal struct Consts {
+    static let DefaultBaseUrl =          "https://stitch.mongodb.com/"
+    static let ApiPath =                 "/api/client/v1.0/app/"
+    
+    //User Defaults
+    static let UserDefaultsName =        "com.mongodb.stitch.sdk.UserDefaults"
+    static let IsLoggedInUDKey =         "StitchCoreIsLoggedInUserDefaultsKey"
+    
+    //keychain
+    static let AuthJwtKey =              "StitchCoreAuthJwtKey"
+    static let AuthRefreshTokenKey =     "StitchCoreAuthRefreshTokenKey"
+    static let AuthKeychainServiceName = "com.mongodb.stitch.sdk.authentication"
+    
+    //keys
+    static let ResultKey =               "result"
+    static let AccessTokenKey =          "accessToken"
+    static let RefreshTokenKey =         "refreshToken"
+    static let ErrorKey =                "error"
+    static let ErrorCodeKey =            "errorCode"
+    
+    //api
+    static let AuthPath =                "auth"
+    static let NewAccessTokenPath =      "newAccessToken"
+    static let PipelinePath =            "pipeline"
+    static let PushPath =                "push"
+}
+
 public class StitchClientImpl: StitchClient {
-    
-    private struct Consts {
-        static let DefaultBaseUrl =          "https://stitch.mongodb.com/"
-        static let ApiPath =                 "/api/client/v1.0/app/"
-        
-        //User Defaults
-        static let UserDefaultsName =        "com.mongodb.stitch.sdk.UserDefaults"
-        static let IsLoggedInUDKey =         "StitchCoreIsLoggedInUserDefaultsKey"
-        
-        //keychain
-        static let AuthJwtKey =              "StitchCoreAuthJwtKey"
-        static let AuthRefreshTokenKey =     "StitchCoreAuthRefreshTokenKey"
-        static let AuthKeychainServiceName = "com.mongodb.stitch.sdk.authentication"
-        
-        //keys
-        static let ResultKey =               "result"
-        static let AccessTokenKey =          "accessToken"
-        static let RefreshTokenKey =         "refreshToken"
-        static let ErrorKey =                "error"
-        static let ErrorCodeKey =            "errorCode"
-        
-        //api
-        static let AuthPath =                "auth"
-        static let NewAccessTokenPath =      "newAccessToken"
-        static let PipelinePath =            "pipeline"
-    }
-    
     // MARK: - Properties
+    public var appId: String
     
-    private var appId: String
     private var baseUrl: String
     private let networkAdapter: NetworkAdapter
     
@@ -627,4 +627,16 @@ public class StitchClientImpl: StitchClient {
         return StitchError.serverError(reason: .other(message: errMsg))
     }
     
+    
+    /**
+     * Gets all available push providers for the current app.
+     *
+     * - returns: A task containing {@link AvailablePushProviders} that can be resolved on completion
+     * of the request.
+     */
+    public func getPushProviders() -> StitchTask<AvailablePushProviders> {
+        return performRequest(method: .get, endpoint: Consts.PushPath, parameters: nil).continuationTask { json in
+            return AvailablePushProviders.fromQuery(json: json as! ExtendedJsonRepresentable)
+        }
+    }
 }
