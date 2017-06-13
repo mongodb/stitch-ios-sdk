@@ -272,8 +272,12 @@ extension Dictionary: ExtendedJsonRepresentable {
     public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
         if let other = other as? Dictionary {
             if self.count == other.count {
-                return self.elementsEqual(other, by: { (one, two) -> Bool in
-                    return one.key == two.key && one.value == two.value
+                return self.reduce(true, { (result, tup: (key: Key, value: Value)) -> Bool in
+                    if other[tup.key] != nil {
+                        return result && true
+                    } else {
+                        return false
+                    }
                 })
             }
         }

@@ -24,8 +24,8 @@ IMP applicationDidFailToRegisterForRemoteNotifications;
 IMP applicationDidReceiveRemoteNotification;
 IMP applicationDidReceiveRemoteNotificationHandler;
 
-NSString *const SubscriptionTopic = @"/topics/global";
 NSDictionary *stitchClients;
+BOOL _isLoggingEnabled = NO;
 
 static bool _connectedToGCM = false;
 static bool _subscribedToTopic = false;
@@ -35,7 +35,7 @@ static NSDictionary *_registrationOptions;
 
 static NSString *_registrationKey = @"onRegistrationCompleted";
 static NSString *_messageKey = @"onMessageReceived";
-static NSString *_subscriptionTopic = @"/topics/global";
+static NSString *const _globalSubscriptionTopic = @"/topics/global";
 static void (^registrationHandler)();
 
 -(IMP)swizzleMethod:(SEL)originalSelector swizzleSelector:(SEL) swizzleSelector {
@@ -76,9 +76,24 @@ static void (^registrationHandler)();
 -(void)setDelegate:(id<StitchGCMDelegate>) stitchGCMDelegate {
     _stitchGCMDelegate = stitchGCMDelegate;
 }
+-(void)setLogging:(BOOL)enabled {
+    _isLoggingEnabled = enabled;
+}
+-(void)log:(NSString *)format, ... {
+    if (_isLoggingEnabled) {
+        va_list args;
+        va_start(args, format);
+        NSLogv(format, args);
+        va_end(args);
+    }
+}
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions gcmSenderID:(NSString *)gcmSenderID stitchGCMDelegate:(id<StitchGCMDelegate>) stitchGCMDelegate {
+    return [self application:application didFinishLaunchingWithOptions:launchOptions gcmSenderID:gcmSenderID stitchGCMDelegate:stitchGCMDelegate uiUserNotificationSettings: nil];
+}
 
 // [START register_for_remote_notifications]
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions gcmSenderID:(NSString *)gcmSenderID stitchGCMDelegate:(id<StitchGCMDelegate>) stitchGCMDelegate {
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions gcmSenderID:(NSString *)gcmSenderID stitchGCMDelegate:(id<StitchGCMDelegate>) stitchGCMDelegate uiUserNotificationSettings:(UIUserNotificationSettings *)settings {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         applicationDidBecomeActive = [self swizzleMethod:@selector(applicationDidBecomeActive:)
@@ -113,21 +128,16 @@ static void (^registrationHandler)();
     [[GGLContext sharedInstance] configureWithError:&configureError];
     NSAssert(!configureError, @"Error configuring Google services: %@", configureError);
     // Register for remote notifications
-    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_7_1) {
-        // iOS 7.1 or earlier
-        UIRemoteNotificationType allNotificationTypes =
-        (UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge);
-        [application registerForRemoteNotificationTypes:allNotificationTypes];
-    } else {
-        // iOS 8 or later
-        // [END_EXCLUDE]
-        UIUserNotificationType allNotificationTypes =
-        (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
-        UIUserNotificationSettings *settings =
-        [UIUserNotificationSettings settingsForTypes:allNotificationTypes categories:nil];
+
+    // [END_EXCLUDE]
+    
+    if (settings == nil) {
+        UIUserNotificationType allNotificationTypes = (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
+        settings = [UIUserNotificationSettings settingsForTypes:allNotificationTypes categories:nil];
         [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
         [[UIApplication sharedApplication] registerForRemoteNotifications];
     }
+    
     // [END register_for_remote_notifications]
     // [START start_gcm_service]
     GCMConfig *gcmConfig = [GCMConfig defaultConfig];
@@ -137,13 +147,15 @@ static void (^registrationHandler)();
     // Handler for registration token request
     registrationHandler = ^(NSString *registrationToken, NSError *error) {
         if (registrationToken != nil) {
+            _connectedToGCM = YES;
             
             [stitchGCMDelegate didReceiveTokenWithRegistrationToken:registrationToken];
 
             _registrationToken = registrationToken;
             
-            NSLog(@"Registration Token: %@", registrationToken);
-            [StitchGCMContext subscribeToTopic];
+            [[StitchGCMContext sharedInstance] log:@"Registration Token: %@", registrationToken];
+
+            [[StitchGCMContext sharedInstance] subscribeToTopic: _globalSubscriptionTopic];
             NSDictionary *userInfo = @{@"registrationToken":registrationToken};
             [[NSNotificationCenter defaultCenter] postNotificationName:_registrationKey
                                                                 object:nil
@@ -151,37 +163,38 @@ static void (^registrationHandler)();
         } else {
             [[[StitchGCMContext sharedInstance] stitchGCMDelegate] didFailToRegisterWithError: error];
 
-            NSLog(@"Registration to GCM failed with error: %@", error.localizedDescription);
+            [[StitchGCMContext sharedInstance] log:@"Registration to GCM failed with error: %@", error.localizedDescription];
             NSDictionary *userInfo = @{@"error":error.localizedDescription};
             [[NSNotificationCenter defaultCenter] postNotificationName:_registrationKey
                                                                 object:nil
                                                               userInfo:userInfo];
         }
     };
+ 
     return YES;
 }
 
 
-+(void)subscribeToTopic {
+-(void)subscribeToTopic:(NSString *) topic {
     // If the app has a registration token and is connected to GCM, proceed to subscribe to the
     // topic
     if (_registrationToken && _connectedToGCM) {
         [[GCMPubSub sharedInstance] subscribeWithToken:_registrationToken
-                                                 topic:SubscriptionTopic
+                                                 topic:topic
                                                options:nil
                                                handler:^(NSError *error) {
                                                    if (error) {
                                                        // Treat the "already subscribed" error more gently
                                                        if (error.code == 3001) {
-                                                           NSLog(@"Already subscribed to %@",
-                                                                 SubscriptionTopic);
+                                                           [[StitchGCMContext sharedInstance] log:@"Already subscribed to %@",
+                                                                 topic];
                                                        } else {
-                                                           NSLog(@"Subscription failed: %@",
-                                                                 error.localizedDescription);
+                                                           [[StitchGCMContext sharedInstance] log:@"Subscription failed: %@",
+                                                                 error.localizedDescription];
                                                        }
                                                    } else {
                                                        _subscribedToTopic = true;
-                                                       NSLog(@"Subscribed to %@", SubscriptionTopic);
+                                                       [[StitchGCMContext sharedInstance] log:@"Subscribed to %@", topic];
                                                    }
                                                }];
     }
@@ -192,12 +205,12 @@ static void (^registrationHandler)();
     // Connect to the GCM server to receive non-APNS notifications
     [[GCMService sharedInstance] connectWithHandler:^(NSError *error) {
         if (error) {
-            NSLog(@"Could not connect to GCM: %@", error.localizedDescription);
+            [[StitchGCMContext sharedInstance] log:@"Could not connect to GCM: %@", error.localizedDescription];
         } else {
-            _connectedToGCM = true;
-            NSLog(@"Connected to GCM");
+            _connectedToGCM = YES;
+            [[StitchGCMContext sharedInstance] log:@"Connected to GCM"];
             // [START_EXCLUDE]
-            [StitchGCMContext subscribeToTopic];
+            [[StitchGCMContext sharedInstance] subscribeToTopic: _globalSubscriptionTopic];
             // [END_EXCLUDE]
         }
     }];
@@ -239,7 +252,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     [[[StitchGCMContext sharedInstance] stitchGCMDelegate] didFailToRegisterWithError: error];
 
-    NSLog(@"Registration for remote notification failed with error: %@", error.localizedDescription);
+    [[StitchGCMContext sharedInstance] log:@"Registration for remote notification failed with error: %@", error.localizedDescription];
     // [END receive_apns_token_error]
     NSDictionary *userInfo = @{@"error" :error.localizedDescription};
     [[NSNotificationCenter defaultCenter] postNotificationName:_registrationKey
@@ -250,7 +263,7 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
 // [START ack_message_reception]
 - (void)_application:(UIApplication *)application
 didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    NSLog(@"Notification received: %@", userInfo);
+    [[StitchGCMContext sharedInstance] log:@"Notification received: %@", userInfo];
     // This works only if the app started the GCM service
     [[GCMService sharedInstance] appDidReceiveMessage:userInfo];
     // Handle the received message
@@ -267,7 +280,7 @@ didReceiveRemoteNotification:(NSDictionary *)userInfo {
 - (void)_application:(UIApplication *)application
 didReceiveRemoteNotification:(NSDictionary *)userInfo
 fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))handler {
-    NSLog(@"Notification received: %@", userInfo);
+    [[StitchGCMContext sharedInstance] log:@"Notification received: %@", userInfo];
     // This works only if the app started the GCM service
     [[GCMService sharedInstance] appDidReceiveMessage:userInfo];
     // Handle the received message
@@ -295,7 +308,7 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))handler {
  */
 - (void)onTokenRefresh {
     // A rotation of the registration tokens is happening, so the app needs to request a new token.
-    NSLog(@"The GCM registration token needs to be changed.");
+    [[StitchGCMContext sharedInstance] log:@"The GCM registration token needs to be changed."];
     [[GGLInstanceID sharedInstance] tokenWithAuthorizedEntity:_gcmSenderID
                                                         scope:kGGLInstanceIDScopeGCM
                                                       options:_registrationOptions

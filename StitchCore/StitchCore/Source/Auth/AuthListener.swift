@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol AuthListener {
+public protocol AuthDelegate {
     /**
         Called when a user is logged in
     */

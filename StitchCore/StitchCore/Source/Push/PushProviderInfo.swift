@@ -17,6 +17,8 @@ public enum PushProviderInfoFields: String {
 public protocol PushProviderInfo {
     var providerName: PushProviderName { get }
     var serviceName: String { get }
+    
+    func toDict() -> [String : Any]
 }
 
 public class PushProviderInfoHelper {
@@ -45,14 +47,6 @@ public class PushProviderInfoHelper {
 }
 
 extension PushProviderInfo {
-    public func toDict() -> [String : Any] {
-        var dict = [String : Any]()
-        
-        dict[PushProviderInfoFields.FieldType.rawValue] = providerName.rawValue
-        dict[PushProviderInfoFields.Config.rawValue] = [String : Any]()
-        
-        return dict
-    }
     /**
      Convert PushProviderInfo to a document.
      -returns: The provider info as a serializable document.

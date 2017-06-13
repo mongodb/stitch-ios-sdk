@@ -53,6 +53,8 @@ public protocol StitchClient {
     
     @discardableResult
     func executePipeline(pipelines: [Pipeline]) -> StitchTask<Any>
+    
+    func addAuthDelegate(delegate: AuthDelegate)    
 }
 
 // MARK: - Defaul Values

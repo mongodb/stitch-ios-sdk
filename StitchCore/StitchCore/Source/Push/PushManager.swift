@@ -12,13 +12,13 @@ import Foundation
     PushManager is responsible for handling the creation of {@link PushClient}s while handling
     any events from the {@link StitchClient} that require changes to the clients.
  */
-public class PushManager: AuthListener {
+public class PushManager: AuthDelegate {
     private let stitchClient: StitchClient
     private var clients: [String: PushClient] = [:]
     
     init(stitchClient: StitchClient) {
         self.stitchClient = stitchClient
-//        self.baasClient.addAuthListener(self)
+        stitchClient.addAuthDelegate(delegate: self)
     }
     
     /**

@@ -12,7 +12,7 @@ import ExtendedJson
 
 public class StitchGCMPushClient: PushClient {
     enum Props: String {
-        case GCMServiceName = "push.gcm.service"
+        case GCMServiceName = "gcm"
         case GCMSenderID = "push.gcm.senderId"
     }
     

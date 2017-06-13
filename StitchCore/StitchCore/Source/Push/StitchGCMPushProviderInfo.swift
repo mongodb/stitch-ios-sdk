@@ -49,6 +49,18 @@ public class StitchGCMPushProviderInfo: PushProviderInfo {
         return StitchGCMPushProviderInfo(serviceName: serviceName, senderID: senderId, fromProperties: false);
     }
     
+    public func toDict() -> [String : Any] {
+        var doc = [String: Any]()
+        
+        doc[PushProviderInfoFields.FieldType.rawValue] = providerName.rawValue
+        
+        var config = [String : Any]()
+        config[StitchGCMProviderInfoFields.SenderID.rawValue] = self.senderID
+        config[PushProviderInfoFields.FieldType.rawValue] = providerName.rawValue
+
+        doc[PushProviderInfoFields.Config.rawValue] = config
+        return doc
+    }
     /**
      * - returns: The provider info as a serializable document.
      */

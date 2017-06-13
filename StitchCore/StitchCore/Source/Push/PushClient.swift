@@ -15,6 +15,11 @@ public enum DeviceFields: String {
     case ServiceName = "service"
     case Data = "data"
     case RegistrationToken = "registrationToken"
+    case DeviceId = "deviceId"
+    case AppId = "appId"
+    case AppVersion = "appVersion"
+    case Platform = "platform"
+    case PlatformVersion = "platformVersion"
 }
 
 public enum Actions: String {
