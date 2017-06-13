@@ -15,3 +15,5 @@ MongoBaasSDKLogger/MongoBaasSDKLogger.xcodeproj/xcuserdata
 #
 # NB: this is exclusive with OPTION 2 below
 xcuserdata/
+Pods/
+StitchGCM/Pods/
