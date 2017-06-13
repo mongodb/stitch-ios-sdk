@@ -13,7 +13,7 @@ import StitchLogger
 import Security
 
 internal struct Consts {
-    static let DefaultBaseUrl =          "https://stitch.mongodb.com/"
+    static let DefaultBaseUrl =          "http://192.168.0.5:8080"
     static let ApiPath =                 "/api/client/v1.0/app/"
     
     //User Defaults
@@ -636,7 +636,7 @@ public class StitchClientImpl: StitchClient {
      */
     public func getPushProviders() -> StitchTask<AvailablePushProviders> {
         return performRequest(method: .get, endpoint: Consts.PushPath, parameters: nil).continuationTask { json in
-            return AvailablePushProviders.fromQuery(json: json as! ExtendedJsonRepresentable)
+            return AvailablePushProviders.fromQuery(doc: try! Document(extendedJson: json))
         }
     }
 }

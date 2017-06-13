@@ -13,9 +13,12 @@ import ExtendedJson
 /**
  * Stitch GCMPushProviderInfo contains information needed to create a `StitchGCMPushClient`.
  */
-class StitchGCMPushProviderInfo: PushProviderInfo {
-    var providerName: PushProviderName
-    var serviceName: String
+enum StitchGCMProviderInfoFields: String {
+    case SenderID = "senderId"
+}
+public class StitchGCMPushProviderInfo: PushProviderInfo {
+    public var providerName: PushProviderName
+    public var serviceName: String
     
     public let senderID: String
     public let fromProperties: Bool
@@ -33,9 +36,8 @@ class StitchGCMPushProviderInfo: PushProviderInfo {
      * - parameter config: The persisted configuration of this provider.
      * - returns: A GCMPushProviderInfo sourced from a persisted config.
      */
-    static func fromConfig(serviceName: String, config: Document) -> StitchGCMPushProviderInfo {
-        let senderId = config[Fields.SenderID.rawValue]
-        return StitchGCMPushProviderInfo(serviceName: serviceName, senderID: senderId as! String, fromProperties: false)
+    public class func fromConfig(serviceName: String, senderId: String) -> StitchGCMPushProviderInfo {
+        return StitchGCMPushProviderInfo(serviceName: serviceName, senderID: senderId, fromProperties: false)
     }
     
     /**
@@ -43,7 +45,7 @@ class StitchGCMPushProviderInfo: PushProviderInfo {
      * - parameter senderId: The GCM Sender ID.
      * - returns: A GCMPushProviderInfo sourced from a Sender ID.
      */
-    static func fromSenderId(serviceName: String, senderId: String) -> StitchGCMPushProviderInfo {
+    public class func fromSenderId(serviceName: String, senderId: String) -> StitchGCMPushProviderInfo {
         return StitchGCMPushProviderInfo(serviceName: serviceName, senderID: senderId, fromProperties: false);
     }
     
@@ -57,11 +59,7 @@ class StitchGCMPushProviderInfo: PushProviderInfo {
         doc[PushProviderInfoFields.Config.rawValue] = Document()
         
         var config = doc[PushProviderInfoFields.Config.rawValue] as! Document
-        config[Fields.SenderID.rawValue] = self.senderID
+        config[StitchGCMProviderInfoFields.SenderID.rawValue] = self.senderID
         return doc
-    }
-    
-    enum Fields: String {
-        case SenderID = "senderId"
     }
 }

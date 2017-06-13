@@ -20,25 +20,22 @@ public protocol PushProviderInfo {
 }
 
 public class PushProviderInfoHelper {
-    static func fromPreferences() throws -> [PushProviderInfo] {
+    public class func fromPreferences() throws -> [PushProviderInfo] {
         let userDefaults: UserDefaults = UserDefaults(suiteName: Consts.UserDefaultsName)!
-        var configs = Document()
-        do {
-            configs = try Document(extendedJson: userDefaults.value(forKey: PrefConfigs) as! [String : Any])
-        } catch _ {
-            configs = Document()
-        }
+
+        let configs = userDefaults.value(forKey: PrefConfigs) as? [String: Any] ?? [String : Any]()
         
+        print(configs)
         return try configs.map { configEntry in
-            let info: Document = configEntry.value as! Document
+            let info: [String: Any]  = configEntry.value as! [String : Any]
             
             let providerNameOpt = PushProviderName.fromTypeName(typename: info[PushProviderInfoFields.FieldType.rawValue] as! String)
             
             if let providerName = providerNameOpt {
-                let config = info[PushProviderInfoFields.Config.rawValue] as! Document
+                let config = info[PushProviderInfoFields.Config.rawValue] as! [String: Any]
                 
                 switch (providerName) {
-                case .GCM: return StitchGCMPushProviderInfo.fromConfig(serviceName: configEntry.key, config: config)
+                case .GCM: return StitchGCMPushProviderInfo.fromConfig(serviceName: configEntry.key, senderId: config[StitchGCMProviderInfoFields.SenderID.rawValue] as! String)
                 }
             } else {
                 throw StitchError.illegalAction(message: "Provider does not exist")
@@ -48,6 +45,14 @@ public class PushProviderInfoHelper {
 }
 
 extension PushProviderInfo {
+    public func toDict() -> [String : Any] {
+        var dict = [String : Any]()
+        
+        dict[PushProviderInfoFields.FieldType.rawValue] = providerName.rawValue
+        dict[PushProviderInfoFields.Config.rawValue] = [String : Any]()
+        
+        return dict
+    }
     /**
      Convert PushProviderInfo to a document.
      -returns: The provider info as a serializable document.

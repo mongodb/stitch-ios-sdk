@@ -37,11 +37,11 @@ import ExtendedJson
         var stitchData: Document?
         
         if let json = data[MessageKeys.StitchData.rawValue] {
-            stitchData = try? Document(extendedJson: (json as! String).toExtendedJson as! [String : Any])
+            stitchData = try? Document(extendedJson: JSONSerialization.jsonObject(with: (json as! String).data(using: .utf8)!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : Any])
         }
     
-        let appId = data[MessageKeys.StitchAppId]
-        let providerId = data[MessageKeys.StitchProviderId]
+        let appId = data[MessageKeys.StitchAppId.rawValue]
+        let providerId = data[MessageKeys.StitchProviderId.rawValue]
         
         return PushMessage(rawData: data, appId: appId as! String, providerId: providerId as! String, data: stitchData);
     }

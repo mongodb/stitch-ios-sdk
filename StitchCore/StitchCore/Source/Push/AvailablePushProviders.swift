@@ -10,10 +10,10 @@ import Foundation
 import ExtendedJson
 
 public class AvailablePushProviders {
-    private let _gcm: StitchGCMPushProviderInfo?
+    public var gcm: StitchGCMPushProviderInfo?
     
     init(gcm: StitchGCMPushProviderInfo?) {
-        self._gcm = gcm
+        self.gcm = gcm
     }
     
     private class Builder {
@@ -28,27 +28,14 @@ public class AvailablePushProviders {
         fileprivate func withGCM(gcmInfo: StitchGCMPushProviderInfo) { _gcm = gcmInfo }
     }
     
-    var hasGCM: Bool {
-        get {
-            return _gcm != nil
-        }
-    }
-    
     /**
      * @param json The data returned from Stitch about the providers.
      * @return A manifest of available push providers.
      */
-    static func fromQuery(json: ExtendedJsonRepresentable) -> AvailablePushProviders {
-        var doc: Document?
-        do {
-            doc = try Document(extendedJson: json as! [String : Any])
-        } catch _ {
-            return AvailablePushProviders(gcm: nil)
-        }
-        
+    static func fromQuery(doc: Document) -> AvailablePushProviders {
         let builder = Builder()
         
-        doc?.forEach { configEntry in
+        doc.forEach { configEntry in
             let info = configEntry.value as! Document
             
             let providerName = PushProviderName.fromTypeName(typename: info[PushProviderInfoFields.FieldType.rawValue] as! String)
@@ -57,7 +44,7 @@ public class AvailablePushProviders {
             if let providerName = providerName {
                 switch (providerName) {
                 case .GCM:
-                    let provider = StitchGCMPushProviderInfo.fromConfig(serviceName: configEntry.key, config: config)
+                    let provider = StitchGCMPushProviderInfo.fromConfig(serviceName: configEntry.key, senderId: config[StitchGCMProviderInfoFields.SenderID.rawValue] as! String)
                     builder.withGCM(gcmInfo: provider)
                     break
                 }

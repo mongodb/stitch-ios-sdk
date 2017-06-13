@@ -35,7 +35,7 @@ public protocol PushClient {
         - returns: A task that can be resolved upon registering
     */
     @discardableResult
-    func registerToken(token: String) -> StitchTask<Void>
+    func registerToken(token: String) -> StitchTask<Any>
     
     /**
         Deregisters the client from the provider and Stitch.
@@ -43,7 +43,7 @@ public protocol PushClient {
         - returns: A task that can be resolved upon deregistering
     */
     @discardableResult
-    func deregister() -> StitchTask<Void>
+    func deregister() -> StitchTask<Any>
 }
 
 extension PushClient {
@@ -51,14 +51,10 @@ extension PushClient {
      - parameter info: The push provider info to persist.
      */
     func addInfoToConfigs(info: PushProviderInfo) {
-        var configs = Document()
-        do {
-            configs = try Document(extendedJson: userDefaults.value(forKey: PrefConfigs) as! [String : Any])
-        } catch _ {
-            configs = Document()
-        }
+        var configs: [String : Any] = userDefaults.value(forKey: PrefConfigs) as? [String : Any] ?? [String : Any]()
         
-        configs[info.serviceName] = info.toDocument().toExtendedJson as? ExtendedJsonRepresentable
+        configs[info.serviceName] = info.toDict()
+        
         userDefaults.setValue(configs, forKey: PrefConfigs)
     }
     
@@ -68,7 +64,11 @@ extension PushClient {
     public func removeInfoFromConfigs(info: PushProviderInfo) {
         var configs = Document()
         do {
-            configs = try Document(extendedJson: userDefaults.value(forKey: PrefConfigs) as! [String : Any])
+            let configOpt = userDefaults.value(forKey: PrefConfigs)
+            
+            if let config = configOpt {
+                configs = try Document(extendedJson: config as! [String : Any])
+            }
         } catch _ {
             configs = Document()
         }
@@ -82,11 +82,11 @@ extension PushClient {
      for this client
      - returns: A generic device registration request
      */
-    public func getBaseRegisterPushRequest(serviceName: String) -> Document {
-        var request = Document()
+    public func getBaseRegisterPushRequest(serviceName: String) -> [String : ExtendedJsonRepresentable] {
+        var request = [String : ExtendedJsonRepresentable]()
         
         request[DeviceFields.ServiceName.rawValue] = serviceName
-        request[DeviceFields.Data.rawValue] = Document()
+        request[DeviceFields.Data.rawValue] = ([String : ExtendedJsonRepresentable]() as ExtendedJsonRepresentable)
 
         return request
     }
