@@ -10,10 +10,8 @@
 #define StitchGCMContext_h
 
 @import Foundation;
-@import UIKit;
 
-@protocol GGLInstanceIDDelegate;
-@protocol GCMReceiverDelegate;
+#import <Google/CloudMessaging.h>
 
 @protocol StitchGCMDelegate
 -(void)didFailToRegister:(NSError *_Nonnull)error;
