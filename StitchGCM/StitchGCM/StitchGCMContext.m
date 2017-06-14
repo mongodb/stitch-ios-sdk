@@ -9,8 +9,7 @@
 
 #import "StitchGCMContext.h"
 #import <objc/runtime.h>
-#import <StitchGCM/StitchGCM-Swift.h>
-#import <StitchCore/StitchCore-Swift.h>
+//#import <StitchCore/StitchCore-Swift.h>
 
 @implementation StitchGCMContext
 
@@ -149,7 +148,7 @@ static void (^registrationHandler)();
         if (registrationToken != nil) {
             _connectedToGCM = YES;
             
-            [stitchGCMDelegate didReceiveTokenWithRegistrationToken:registrationToken];
+            [stitchGCMDelegate didReceiveToken:registrationToken];
 
             _registrationToken = registrationToken;
             
@@ -161,7 +160,7 @@ static void (^registrationHandler)();
                                                                 object:nil
                                                               userInfo:userInfo];
         } else {
-            [[[StitchGCMContext sharedInstance] stitchGCMDelegate] didFailToRegisterWithError: error];
+            [[[StitchGCMContext sharedInstance] stitchGCMDelegate] didFailToRegister:error];
 
             [[StitchGCMContext sharedInstance] log:@"Registration to GCM failed with error: %@", error.localizedDescription];
             NSDictionary *userInfo = @{@"error":error.localizedDescription};
@@ -250,7 +249,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 // [START receive_apns_token_error]
 - (void)_application:(UIApplication *)application
 didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    [[[StitchGCMContext sharedInstance] stitchGCMDelegate] didFailToRegisterWithError: error];
+    [[[StitchGCMContext sharedInstance] stitchGCMDelegate] didFailToRegister:error];
 
     [[StitchGCMContext sharedInstance] log:@"Registration for remote notification failed with error: %@", error.localizedDescription];
     // [END receive_apns_token_error]
@@ -273,7 +272,7 @@ didReceiveRemoteNotification:(NSDictionary *)userInfo {
                                                       userInfo:userInfo];
 
     
-    [[[StitchGCMContext sharedInstance] stitchGCMDelegate] didReceiveRemoteNotificationWithApplication:application pushMessage: [PushMessage fromGCMWithData:userInfo] handler: nil];
+    [[[StitchGCMContext sharedInstance] stitchGCMDelegate] didReceiveRemoteNotification:application pushMessage: userInfo handler: nil];
     // [END_EXCLUDE]
 }
 
@@ -290,7 +289,7 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))handler {
                                                         object:nil
                                                       userInfo:userInfo];
     
-    [[[StitchGCMContext sharedInstance] stitchGCMDelegate] didReceiveRemoteNotificationWithApplication:application pushMessage: [PushMessage fromGCMWithData:userInfo] handler: handler];
+    [[[StitchGCMContext sharedInstance] stitchGCMDelegate] didReceiveRemoteNotification:application pushMessage: userInfo handler: handler];
 
     handler(UIBackgroundFetchResultNoData);
     // [END_EXCLUDE]

@@ -13,7 +13,11 @@
 
 #import <Google/CloudMessaging.h>
 
-@protocol StitchGCMDelegate;
+@protocol StitchGCMDelegate
+-(void)didFailToRegister:(NSError *_Nonnull)error;
+-(void)didReceiveToken:(nonnull NSString *)registrationToken;
+-(void)didReceiveRemoteNotification:(nonnull UIApplication *)application pushMessage:(nonnull NSDictionary *)pushMessage handler:(void (^_Nullable)(UIBackgroundFetchResult)) handler;
+@end
 
 @interface StitchGCMContext: NSObject<GGLInstanceIDDelegate, GCMReceiverDelegate>
 
