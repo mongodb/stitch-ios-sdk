@@ -22,8 +22,13 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.frameworks = 'SafariServices'
-  #s.dependency "StitchCore", "~> 0.0.1"
+  s.pod_target_xcconfig = {
+    'FRAMEWORK_SEARCH_PATHS' => '$(inherited) $(PODS_ROOT)/GoogleCloudMessaging',
+    'OTHER_LDFLAGS' => '$(inherited) -undefined dynamic_lookup'
+  }
   s.dependency "Google/CloudMessaging"
-  s.dependency "Google/AdMob"
+
+  #s.dependency "Google/CloudMessaging"
+  #s.dependency "Google/AdMob"
 
 end

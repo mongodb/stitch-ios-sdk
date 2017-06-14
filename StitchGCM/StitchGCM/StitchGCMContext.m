@@ -9,7 +9,7 @@
 
 #import "StitchGCMContext.h"
 #import <objc/runtime.h>
-//#import <StitchCore/StitchCore-Swift.h>
+#import <Google/CloudMessaging.h>
 
 @implementation StitchGCMContext
 
