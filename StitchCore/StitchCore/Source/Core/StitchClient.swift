@@ -11,7 +11,7 @@ import Foundation
 public protocol StitchClient {
     
     // MARK: - Properties
-    
+    var appId: String { get }
     var auth: Auth? { get }
     var authUser: AuthUser? { get }
     var isAuthenticated: Bool { get }
@@ -53,6 +53,8 @@ public protocol StitchClient {
     
     @discardableResult
     func executePipeline(pipelines: [Pipeline]) -> StitchTask<Any>
+    
+    func addAuthDelegate(delegate: AuthDelegate)    
 }
 
 // MARK: - Defaul Values

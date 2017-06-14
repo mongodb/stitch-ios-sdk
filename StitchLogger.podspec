@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios, "9.0"
   s.requires_arc = true
   s.source       = { 
-  						 :git => "https://git.zemingo.com/MongoBaaS/mongo-baas-core-ios.git",
+  						 :git => "https://github.com/10gen/stitch-ios-sdk.git",
 					     :tag => "#{s.version}"
 					}
   s.source_files  = "StitchLogger/StitchLogger/**/*.swift"

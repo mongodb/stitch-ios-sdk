@@ -12,41 +12,44 @@ import ExtendedJson
 import StitchLogger
 import Security
 
+internal struct Consts {
+    static let DefaultBaseUrl =          "http://10.4.121.21:8080"
+    static let ApiPath =                 "/api/client/v1.0/app/"
+    
+    //User Defaults
+    static let UserDefaultsName =        "com.mongodb.stitch.sdk.UserDefaults"
+    static let IsLoggedInUDKey =         "StitchCoreIsLoggedInUserDefaultsKey"
+    
+    //keychain
+    static let AuthJwtKey =              "StitchCoreAuthJwtKey"
+    static let AuthRefreshTokenKey =     "StitchCoreAuthRefreshTokenKey"
+    static let AuthKeychainServiceName = "com.mongodb.stitch.sdk.authentication"
+    
+    //keys
+    static let ResultKey =               "result"
+    static let AccessTokenKey =          "accessToken"
+    static let RefreshTokenKey =         "refreshToken"
+    static let ErrorKey =                "error"
+    static let ErrorCodeKey =            "errorCode"
+    
+    //api
+    static let AuthPath =                "auth"
+    static let NewAccessTokenPath =      "newAccessToken"
+    static let PipelinePath =            "pipeline"
+    static let PushPath =                "push"
+}
+
 public class StitchClientImpl: StitchClient {
-    
-    private struct Consts {
-        static let DefaultBaseUrl =          "https://stitch.mongodb.com/"
-        static let ApiPath =                 "/api/client/v1.0/app/"
-        
-        //User Defaults
-        static let UserDefaultsName =        "com.mongodb.stitch.sdk.UserDefaults"
-        static let IsLoggedInUDKey =         "StitchCoreIsLoggedInUserDefaultsKey"
-        
-        //keychain
-        static let AuthJwtKey =              "StitchCoreAuthJwtKey"
-        static let AuthRefreshTokenKey =     "StitchCoreAuthRefreshTokenKey"
-        static let AuthKeychainServiceName = "com.mongodb.stitch.sdk.authentication"
-        
-        //keys
-        static let ResultKey =               "result"
-        static let AccessTokenKey =          "accessToken"
-        static let RefreshTokenKey =         "refreshToken"
-        static let ErrorKey =                "error"
-        static let ErrorCodeKey =            "errorCode"
-        
-        //api
-        static let AuthPath =                "auth"
-        static let NewAccessTokenPath =      "newAccessToken"
-        static let PipelinePath =            "pipeline"
-    }
-    
     // MARK: - Properties
+    public var appId: String
     
-    private var appId: String
     private var baseUrl: String
     private let networkAdapter: NetworkAdapter
     
     private let userDefaults = UserDefaults(suiteName: Consts.UserDefaultsName)
+
+    private var authProvider: AuthProvider?
+    private var authDelegates = [AuthDelegate?]()
 
     public private(set) var auth: Auth? {
         didSet{
@@ -91,6 +94,7 @@ public class StitchClientImpl: StitchClient {
             printLog(.error, text: error.localizedDescription)
         }
         
+        onLogin()
         return auth != nil
     }
     
@@ -310,6 +314,8 @@ public class StitchClientImpl: StitchClient {
     public func login(withProvider provider: AuthProvider, link: Bool = false) -> StitchTask<Bool> {
         let task = StitchTask<Bool>()
         
+        self.authProvider = provider
+        
         if isAuthenticated && !link {
             printLog(.info, text: "Already logged in, using cached token.")
             task.result = .success(true)
@@ -326,7 +332,12 @@ public class StitchClientImpl: StitchClient {
             url += "?link=\(auth.accessToken)"
         }
         
-        networkAdapter.requestWithJsonEncoding(url: url, method: .post, parameters: provider.payload, headers: nil).response(onQueue: DispatchQueue.global(qos: .utility)) { [weak self] (response) in
+        var parameters = provider.payload
+        self.getAuthRequest(provider: provider).forEach { (key: String, value: Any) in
+            parameters[key] = value
+        }
+        
+        networkAdapter.requestWithJsonEncoding(url: url, method: .post, parameters: parameters, headers: nil).response(onQueue: DispatchQueue.global(qos: .utility)) { [weak self] (response) in
             guard let strongSelf = self else {
                 task.result = StitchResult.failure(StitchError.clientReleased)
                 return
@@ -408,11 +419,51 @@ public class StitchClientImpl: StitchClient {
             return
         }
         
+        onLogout(lastProvider: (auth?.provider.name)!)
+
         auth = nil
         
         try deleteToken(withKey: Consts.AuthRefreshTokenKey)
         
         networkAdapter.cancelAllRequests()
+    }
+    
+    enum AuthFields : String {
+        case AccessToken = "accessToken";
+        case Options = "options";
+        case Device = "device";
+    }
+    
+    /**
+     * @return A {@link Document} representing the information for this device
+     * from the context of this app.
+     */
+    private func getDeviceInfo() -> [String : Any] {
+        var info = [String : Any]()
+        
+        if let deviceId = auth?.deviceId {
+            info[DeviceFields.DeviceId.rawValue] = deviceId
+        }
+        
+        info[DeviceFields.AppVersion.rawValue] = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+        info[DeviceFields.AppId.rawValue] = Bundle.main.bundleIdentifier
+        info[DeviceFields.Platform.rawValue] = "ios"
+        info[DeviceFields.PlatformVersion.rawValue] = UIDevice.current.systemVersion
+        
+        return info;
+    }
+    
+    /**
+     * -parameter provider: The provider that will handle authentication.
+     * -returns: A dict representing all information required for
+     *              an auth request against a specific provider.
+     */
+    private func getAuthRequest(provider: AuthProvider) -> [String : Any] {
+        var request = provider.payload
+        var options = [String : Any]()
+        options[AuthFields.Device.rawValue] = getDeviceInfo()
+    	request[AuthFields.Options.rawValue] = options
+        return request;
     }
     
     // MARK: - Requests
@@ -424,7 +475,8 @@ public class StitchClientImpl: StitchClient {
     
     @discardableResult
     public func executePipeline(pipelines: [Pipeline]) -> StitchTask<Any> {
-        let params = pipelines.map { $0.toJson }
+        let params: [[String: Any]] = pipelines.map { $0.toJson }
+        
         return performRequest(method: .post, endpoint: Consts.PipelinePath, parameters: params).continuationTask(parser: { (json) -> Any in
             let document = try Document(extendedJson: json)
             if let docResult = document[Consts.ResultKey] {
@@ -448,6 +500,7 @@ public class StitchClientImpl: StitchClient {
         
         let url = "\(baseUrl)\(appId)/\(endpoint)"
         let token = useRefreshToken ? refreshToken ?? String() : auth?.accessToken ?? String()
+        
         networkAdapter.requestWithArray(url: url, method: method, parameters: parameters, headers: ["Authorization" : "Bearer \(token)"]).response(onQueue: DispatchQueue.global(qos: .utility), completionHandler: { [weak self] (response) in
             guard let strongSelf = self else {
                 task.result = StitchResult.failure(StitchError.clientReleased)
@@ -627,4 +680,34 @@ public class StitchClientImpl: StitchClient {
         return StitchError.serverError(reason: .other(message: errMsg))
     }
     
+    
+    /**
+     * Gets all available push providers for the current app.
+     *
+     * - returns: A task containing {@link AvailablePushProviders} that can be resolved on completion
+     * of the request.
+     */
+    public func getPushProviders() -> StitchTask<AvailablePushProviders> {
+        return performRequest(method: .get, endpoint: Consts.PushPath, parameters: nil).continuationTask { json in
+            return AvailablePushProviders.fromQuery(doc: try! Document(extendedJson: json))
+        }
+    }
+    
+    /**
+     * Called when a user logs in with this client.
+     */
+    private func onLogin() {
+        authDelegates.forEach { $0?.onLogin() }
+    }
+    
+    /**
+     * Called when a user is logged out from this client.
+     */
+    private func onLogout(lastProvider: String) {
+        authDelegates.forEach { $0?.onLogout(lastProvider: lastProvider) }
+    }
+    
+    public func addAuthDelegate(delegate: AuthDelegate) {
+        self.authDelegates.append(delegate)
+    }
 }

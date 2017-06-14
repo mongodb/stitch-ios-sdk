@@ -264,6 +264,27 @@ extension Bool: ExtendedJsonRepresentable {
     }
 }
 
+extension Dictionary: ExtendedJsonRepresentable {
+    public var toExtendedJson: Any {
+        return self
+    }
+    
+    public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
+        if let other = other as? Dictionary {
+            if self.count == other.count {
+                return self.reduce(true, { (result, tup: (key: Key, value: Value)) -> Bool in
+                    if other[tup.key] != nil {
+                        return result && true
+                    } else {
+                        return false
+                    }
+                })
+            }
+        }
+        return false
+    }
+}
+
 extension NSNull: ExtendedJsonRepresentable {
     
     public var toExtendedJson: Any {

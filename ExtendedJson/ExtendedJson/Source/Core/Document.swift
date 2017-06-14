@@ -111,7 +111,7 @@ public struct Document {
             self[key] = try read(value: value)
         }
     }
-
+    
     // MARK: - Subscript
     
     /// Accesses the value associated with the given key for reading and writing, like a `Dictionary`.

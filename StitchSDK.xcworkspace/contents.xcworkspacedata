@@ -16,4 +16,7 @@
    <FileRef
       location = "group:MongoBaasODM/MongoBaasODM.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:StitchGCM/StitchGCM.xcodeproj">
+   </FileRef>
 </Workspace>
