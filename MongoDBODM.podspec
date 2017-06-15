@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.authors      = "MongoDB"  
   s.platform     = :ios, "9.0"
   s.source       = { 
-  						:git => "https://github.com/10gen/stitch-ios-sdk.git"
+  						:git => "https://github.com/10gen/stitch-ios-sdk.git",
   						:tag => "#{s.version}"
   				   }
   s.source_files  = "MongoDBODM/MongoDBODM/**/*.swift"

@@ -28,10 +28,10 @@ import StitchLogger
  
  */
 public struct Aggregate<Entity: RootEntity> {
-    let mongoDBClient: MongoDBClient
+    let mongoDBClient: MongoClient
     var aggregationPipeline: [AggregationStage]
     
-    public init(mongoDBClient: MongoDBClient, stages: [AggregationStage]) {
+    public init(mongoDBClient: MongoClient, stages: [AggregationStage]) {
         self.mongoDBClient = mongoDBClient
         self.aggregationPipeline = stages
     }

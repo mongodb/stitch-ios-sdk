@@ -13,7 +13,7 @@ import StitchLogger
 import Security
 
 internal struct Consts {
-    static let DefaultBaseUrl =          "http://10.4.121.21:8080"
+    static let DefaultBaseUrl =          "http://https://stitch.mongodb.com"
     static let ApiPath =                 "/api/client/v1.0/app/"
     
     //User Defaults
@@ -120,7 +120,7 @@ public class StitchClientImpl: StitchClient {
     
     // MARK: - Init
     
-    public init(appId: String, baseUrl: String = Consts.DefaultBaseUrl + Consts.ApiPath, networkAdapter: NetworkAdapter = AlamofireNetworkAdapter()) {
+    public init(appId: String, baseUrl: String = Consts.DefaultBaseUrl, networkAdapter: NetworkAdapter = AlamofireNetworkAdapter()) {
         self.appId = appId
         self.baseUrl = baseUrl
         self.networkAdapter = networkAdapter
@@ -131,7 +131,7 @@ public class StitchClientImpl: StitchClient {
     @discardableResult
     public func fetchAuthProviders() -> StitchTask<AuthProviderInfo> {
         let task = StitchTask<AuthProviderInfo>()
-        let url = "\(baseUrl)\(appId)/\(Consts.AuthPath)"
+        let url = self.url(withEndpoint: Consts.AuthPath)
         networkAdapter.requestWithJsonEncoding(url: url, method: .get, parameters: nil, headers: nil).response(onQueue: DispatchQueue.global(qos: .utility)) { [weak self] (response) in
             guard let strongSelf = self else {
                 task.result = StitchResult.failure(StitchError.clientReleased)
@@ -162,7 +162,8 @@ public class StitchClientImpl: StitchClient {
     public func register(email: String, password: String) -> StitchTask<Void> {
         let task = StitchTask<Void>()
         let provider = EmailPasswordAuthProvider(username: email, password: password)
-        let url = "\(baseUrl)\(appId)/\(Consts.AuthPath)/\(provider.type)/\(provider.name)/register"
+        let url = "\(self.url(withEndpoint: Consts.AuthPath))/\(provider.type)/\(provider.name)/register"
+        
         let payload = ["email" : email, "password" : password]
         networkAdapter.requestWithJsonEncoding(url: url, method: .post, parameters: payload, headers: nil).response { [weak self] (result) in
             
@@ -192,7 +193,7 @@ public class StitchClientImpl: StitchClient {
     @discardableResult
     public func emailConfirm(token: String, tokenId: String) -> StitchTask<Any> {
         let task = StitchTask<Any>()
-        let url = "\(baseUrl)\(appId)/\(Consts.AuthPath)/local/userpass/confirm"
+        let url = "\(self.url(withEndpoint: Consts.AuthPath))/local/userpass/confirm"
         let params = ["token" : token, "tokenId" : tokenId]
         networkAdapter.requestWithJsonEncoding(url: url, method: .post, parameters: params, headers: nil).response { [weak self] (result) in
             guard let strongSelf = self else {
@@ -221,7 +222,7 @@ public class StitchClientImpl: StitchClient {
     @discardableResult
     public func sendEmailConfirm(toEmail email: String) -> StitchTask<Void> {
         let task = StitchTask<Void>()
-        let url = "\(baseUrl)\(appId)/\(Consts.AuthPath)/local/userpass/confirm/send"
+        let url = "\(self.url(withEndpoint: Consts.AuthPath))/local/userpass/confirm/send"
         let params = ["email" : email]
         networkAdapter.requestWithJsonEncoding(url: url, method: .post, parameters: params, headers: nil).response { [weak self] (result) in
             guard let strongSelf = self else {
@@ -250,7 +251,7 @@ public class StitchClientImpl: StitchClient {
     @discardableResult
     public func resetPassword(token: String, tokenId: String) -> StitchTask<Any> {
         let task = StitchTask<Any>()
-        let url = "\(baseUrl)\(appId)/\(Consts.AuthPath)/local/userpass/reset"
+        let url = "\(self.url(withEndpoint: Consts.AuthPath))/local/userpass/reset"
         let params = ["token" : token, "tokenId" : tokenId]
         networkAdapter.requestWithJsonEncoding(url: url, method: .post, parameters: params, headers: nil).response { [weak self] (result) in
             guard let strongSelf = self else {
@@ -279,7 +280,7 @@ public class StitchClientImpl: StitchClient {
     @discardableResult
     public func sendResetPassword(toEmail email: String) -> StitchTask<Void> {
         let task = StitchTask<Void>()
-        let url = "\(baseUrl)\(appId)/\(Consts.AuthPath)/local/userpass/reset/send"
+        let url = "\(self.url(withEndpoint: Consts.AuthPath))/local/userpass/reset/send"
         let params = ["email" : email]
         networkAdapter.requestWithJsonEncoding(url: url, method: .post, parameters: params, headers: nil).response { [weak self] (result) in
             guard let strongSelf = self else {
@@ -322,7 +323,7 @@ public class StitchClientImpl: StitchClient {
             return task
         }
         
-        var url = "\(baseUrl)\(appId)/\(Consts.AuthPath)/\(provider.type)/\(provider.name)"
+        var url = "\(self.url(withEndpoint: Consts.AuthPath))/\(provider.type)/\(provider.name)"
         if link {
             guard let auth = auth else {
                 task.result = .failure(StitchError.illegalAction(message: "In order to link a new authentication provider you must first be authenticated."))
@@ -413,6 +414,9 @@ public class StitchClientImpl: StitchClient {
     }
     
     // MARK: Private
+    private func url(withEndpoint endpoint: String) -> String {
+        return "\(baseUrl)\(Consts.ApiPath)\(appId)/\(endpoint)"
+    }
     
     private func clearAuth() throws {
         guard auth != nil else {
@@ -498,7 +502,7 @@ public class StitchClientImpl: StitchClient {
             return task
         }
         
-        let url = "\(baseUrl)\(appId)/\(endpoint)"
+        let url = self.url(withEndpoint: endpoint)
         let token = useRefreshToken ? refreshToken ?? String() : auth?.accessToken ?? String()
         
         networkAdapter.requestWithArray(url: url, method: method, parameters: parameters, headers: ["Authorization" : "Bearer \(token)"]).response(onQueue: DispatchQueue.global(qos: .utility), completionHandler: { [weak self] (response) in

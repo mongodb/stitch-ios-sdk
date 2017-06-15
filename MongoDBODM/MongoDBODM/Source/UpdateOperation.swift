@@ -29,9 +29,9 @@ import StitchLogger
 public struct UpdateOperation <Entity: RootEntity> {
     
     let criteria: Criteria
-    let mongoDBClient: MongoDBClient
+    let mongoDBClient: MongoClient
     
-    public init(criteria: Criteria, mongoDBClient: MongoDBClient) {
+    public init(criteria: Criteria, mongoDBClient: MongoClient) {
         self.criteria = criteria
         self.mongoDBClient = mongoDBClient
     }

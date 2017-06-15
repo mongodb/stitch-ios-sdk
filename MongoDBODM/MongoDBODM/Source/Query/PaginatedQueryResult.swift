@@ -18,14 +18,14 @@ public struct PaginatedQueryResult<Entity: RootEntity> {
     fileprivate let rawResults: BsonArray
     fileprivate let sortParameter: SortParameter
     fileprivate let originalCriteria: Criteria?
-    fileprivate let mongoDBClient: MongoDBClient
+    fileprivate let mongoDBClient: MongoClient
     fileprivate let pageSize: Int
     
     public let results: [Entity]
     fileprivate(set) public var hasNext: Bool = false
 
     //The original criteria is being modified to get the next results page
-    init(results: BsonArray, originalCriteria: Criteria?, sortParameter: SortParameter, pageSize: Int, mongoDBClient: MongoDBClient) throws {
+    init(results: BsonArray, originalCriteria: Criteria?, sortParameter: SortParameter, pageSize: Int, mongoDBClient: MongoClient) throws {
         self.rawResults = results
         self.sortParameter = sortParameter
         self.originalCriteria = originalCriteria

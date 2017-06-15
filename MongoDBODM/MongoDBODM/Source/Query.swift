@@ -19,13 +19,13 @@ Used to perform querys to Stitch on top of a MongoDB collection
 public struct Query<Entity: RootEntity> {
     
     private(set) var criteria: Criteria?
-    let mongoDBClient: MongoDBClient
+    let mongoDBClient: MongoClient
     
     private var asDocument: Document {
         return criteria?.asDocument ?? Document()
     }
     
-    public init(criteria: Criteria? = nil, mongoDBClient: MongoDBClient) {
+    public init(criteria: Criteria? = nil, mongoDBClient: MongoClient) {
         self.criteria = criteria
         self.mongoDBClient = mongoDBClient
     }
