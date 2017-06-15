@@ -5,8 +5,8 @@ Pod::Spec.new do |s|
   s.homepage     = "https://stitch.mongodb.com"
   s.summary      = "A small logging library."
   s.license      = {
-  						:type => "MIT",
-  						:file => "LICENSE.md"
+  						:type => "Apache 2",
+  						:file => "LICENSE"
   				   }
   s.platform     = :ios, "9.0"
   s.requires_arc = true

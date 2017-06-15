@@ -3,8 +3,8 @@ Pod::Spec.new do |s|
   s.version      = "0.0.1"
   s.summary      = "A helper library to serialize and de-serialize Extended JSON to communicate with MongoDB's BaaS."
   s.license      = {
-  						:type => "MIT",
-  						:file => "LICENSE.md"
+  						:type => "Apache 2",
+  						:file => "LICENSE"
   				   }
   s.platform     = :ios, "9.0"
   s.authors		 = "MongoDB"
