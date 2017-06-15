@@ -35,44 +35,49 @@ TODO: Write usage instructions.
 
 2. To create a GCM Push Provider by asking Stitch, you must use the *getPushProviders* method and ensure a GCM provider exists:
 
-	```
-	self.stitchClient.getPushProviders().response { (result: StitchResult<AvailablePushProviders>) in
-                if let gcm = result.value?.gcm {
-                    let listener = MyGCMListener(gcmClient: StitchGCMPushClient(stitchClient: self.stitchClient, info: gcm))
-                    
-                    StitchGCMContext.sharedInstance().application(application,
-                                                                  didFinishLaunchingWithOptions: launchOptions,
-                                                                  gcmSenderID: "595341599960",
-                                                                  stitchGCMDelegate: listener)
-                }
-        }
-	```
+```swift
+self.stitchClient.getPushProviders().response { (result: StitchResult<AvailablePushProviders>) in
+    if let gcm = result.value?.gcm {
+        let listener = MyGCMListener(gcmClient: StitchGCMPushClient(stitchClient: self.stitchClient, info: gcm))
+
+	StitchGCMContext.sharedInstance().application(application,
+						      didFinishLaunchingWithOptions: launchOptions,
+						      gcmSenderID: "<YOUR-GCM-SENDER-ID>",
+						      stitchGCMDelegate: listener)
+    }
+}
+```
+
 3. To begin listening for notifications, set your `StitchGCMDelegate` to the StitchGCMContext:
-      	```
-	class MyGCMDelegate: StitchGCMDelegate {
-            let gcmClient: StitchGCMPushClient
+
+```swift
+class MyGCMDelegate: StitchGCMDelegate {
+    let gcmClient: StitchGCMPushClient
         
-            init(gcmClient: StitchGCMPushClient) {
-                self.gcmClient = gcmClient
-            }
+    init(gcmClient: StitchGCMPushClient) {
+        self.gcmClient = gcmClient
+    }
         
-            func didFailToRegister(error: Error) {
+    func didFailToRegister(error: Error) {
             
-            }
+    }
         
-            func didReceiveToken(registrationToken: String) {
+    func didReceiveToken(registrationToken: String) {
             
-            }
+    }
         
-	    func didReceiveRemoteNotification(application: UIApplication, pushMessage: PushMessage, handler: ((UIBackgroundFetchResult) -> Void)?) {
-            
-            }
-    	}
-	```
+    func didReceiveRemoteNotification(application: UIApplication, 
+				      pushMessage: PushMessage,
+				      handler: ((UIBackgroundFetchResult) -> Void)? 
+									  
+    }
+}
+```
+
 4. To register for push notifications, use the *registerToken* method on your StitchClient:
 
-	```
-	func didReceiveToken(registrationToken: String) {
-            gcmClient.registerToken(token: registrationToken)
-        }
-	```
+```swift
+func didReceiveToken(registrationToken: String) {
+    gcmClient.registerToken(token: registrationToken)
+}
+```
