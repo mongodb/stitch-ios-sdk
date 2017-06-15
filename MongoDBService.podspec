@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
   s.summary      = "An SDK to use the MongoDB service of the MongoDB's Baas."
   s.license      = {
   						:type => "Apache 2",
-  						:file => "LICENSE"
+  						:file => "./LICENSE"
   				   }
   s.platform     = :ios, "9.0"
   s.authors		 = "MongoDB"

@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.summary      = "A small logging library."
   s.license      = {
   						:type => "Apache 2",
-  						:file => "LICENSE"
+  						:file => "./LICENSE"
   				   }
   s.platform     = :ios, "9.0"
   s.requires_arc = true
