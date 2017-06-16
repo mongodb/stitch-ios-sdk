@@ -1,5 +1,5 @@
 //
-//  MongoClient.swift
+//  MongoDBClientType.swift
 //  MongoDBService
 //
 //  Created by Ofer Meroz on 09/02/2017.
@@ -9,11 +9,11 @@
 import Foundation
 import StitchCore
 
-public protocol MongoClient {
+public protocol MongoDBClientType {
     
-    var stitchClient: StitchClient { get }
+    var stitchClient: StitchClientType { get }
     var serviceName: String { get }        
     
     @discardableResult
-    func database(named name: String) -> Database
+    func database(named name: String) -> DatabaseType
 }

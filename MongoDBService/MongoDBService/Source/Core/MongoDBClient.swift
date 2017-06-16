@@ -1,5 +1,5 @@
 //
-//  MongoClientImpl.swift
+//  MongoDBClient.swift
 //  MongoDBService
 //
 //  Created by Ofer Meroz on 25/05/2017.
@@ -9,14 +9,14 @@
 import Foundation
 import StitchCore
 
-public class MongoClientImpl: MongoClient {        
+public class MongoDBClient: MongoDBClientType {
     
-    public let stitchClient: StitchClient
+    public let stitchClient: StitchClientType
     public let serviceName: String
     
     // MARK: - Init
     
-    public required init(stitchClient: StitchClient, serviceName: String) {
+    public required init(stitchClient: StitchClientType, serviceName: String) {
         self.stitchClient = stitchClient
         self.serviceName = serviceName
     }
@@ -24,7 +24,7 @@ public class MongoClientImpl: MongoClient {
     // MARK: - Public
     
     @discardableResult
-    public func database(named name: String) -> Database {
-        return DatabaseImpl(client: self, name: name)
+    public func database(named name: String) -> DatabaseType {
+        return Database(client: self, name: name)
     }
 }

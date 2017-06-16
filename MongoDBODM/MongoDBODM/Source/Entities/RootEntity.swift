@@ -56,9 +56,9 @@ open class RootEntity: BaseEntity {
     
     //MARK: Properties
     
-    var mongoDBClient: MongoClient
+    var mongoDBClient: MongoDBClientType
     
-    private var collection: MongoDBService.Collection? {
+    private var collection: MongoDBService.CollectionType? {
         if let classMetaData = self.getEntityMetaData(){
             let databaseName = classMetaData.databaseName
             let collectionName = classMetaData.collectionName
@@ -69,7 +69,7 @@ open class RootEntity: BaseEntity {
     
     //MARK: Init
     
-    required public init(document: Document = Document(), mongoDBClient: MongoClient) {
+    required public init(document: Document = Document(), mongoDBClient: MongoDBClientType) {
         self.mongoDBClient = mongoDBClient
         super.init(document: document)
     }
