@@ -34,6 +34,7 @@ internal struct Consts {
     
     //api
     static let AuthPath =                "auth"
+    static let UserProfilePath =         "auth/me"
     static let NewAccessTokenPath =      "newAccessToken"
     static let PipelinePath =            "pipeline"
     static let PushPath =                "push"
@@ -50,7 +51,7 @@ public class StitchClientImpl: StitchClient {
 
     private var authProvider: AuthProvider?
     private var authDelegates = [AuthDelegate?]()
-
+    
     public private(set) var auth: Auth? {
         didSet{
             if let newValue = auth {
@@ -75,10 +76,6 @@ public class StitchClientImpl: StitchClient {
                 userDefaults?.set(false, forKey: Consts.IsLoggedInUDKey)
             }
         }
-    }
-    
-    public var authUser: AuthUser? {
-        return auth?.user
     }
     
     public var isAuthenticated: Bool {
@@ -152,6 +149,46 @@ public class StitchClientImpl: StitchClient {
             case .failure(let error):
                 task.result = .failure(error)
                 
+            }
+        }
+        
+        return task
+    }
+    
+    @discardableResult
+    public func fetchUserProfile() -> StitchTask<AuthUser> {
+        let task = StitchTask<AuthUser>()
+        
+        if !isAuthenticated {
+            task.result = StitchResult.failure(StitchError.unauthorized(
+                message: "Tried fetching user while there was no authenticated user found."))
+            return task
+        }
+        
+        performRequest(method: .get,
+                       endpoint: Consts.UserProfilePath,
+                       parameters: nil,
+                       refreshOnFailure: false,
+                       useRefreshToken: false).response(onQueue: DispatchQueue.global(qos: .utility)) { [weak self] (result) in
+            guard let strongSelf = self else {
+                task.result = StitchResult.failure(StitchError.clientReleased)
+                return
+            }
+            
+            switch result {
+            case .success(let value):
+                if let value = value as [String : Any]? {
+                    if let error = strongSelf.parseError(from: value) {
+                        task.result = .failure(error)
+                    }
+                    else if let user = try? AuthUser(dictionary: value) {
+                        task.result = .success(user)
+                    } else {
+                        task.result = StitchResult.failure(StitchError.clientReleased)
+                    }
+                }
+            case .failure(let error):
+                task.result = .failure(error)
             }
         }
         

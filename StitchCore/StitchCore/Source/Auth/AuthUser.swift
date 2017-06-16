@@ -10,7 +10,7 @@ import Foundation
 
 public struct AuthUser {
     
-    private static let idKey =              "_id"
+    private static let idKey =              "userId"
     private static let identitiesKey =      "identities"
     private static let dataKey =            "data"
     
