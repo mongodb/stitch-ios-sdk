@@ -11,13 +11,14 @@ import Foundation
 public struct Auth {
     
     private static let accessTokenKey =         "accessToken"
-    private static let userIdKey =                "userId"
+    private static let userIdKey =              "userId"
     private static let providerKey =            "provider"
     private static let deviceId =               "deviceId"
     
     let accessToken: String
     let userId: String?
     let deviceId: String
+    
     public let provider: Provider
     
     var json: [String : Any] {

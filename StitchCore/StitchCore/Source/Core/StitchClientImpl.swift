@@ -13,7 +13,7 @@ import StitchLogger
 import Security
 
 internal struct Consts {
-    static let DefaultBaseUrl =          "http://https://stitch.mongodb.com"
+    static let DefaultBaseUrl =          "https://stitch.mongodb.com"
     static let ApiPath =                 "/api/client/v1.0/app/"
     
     //User Defaults
@@ -156,8 +156,8 @@ public class StitchClientImpl: StitchClient {
     }
     
     @discardableResult
-    public func fetchUserProfile() -> StitchTask<AuthUser> {
-        let task = StitchTask<AuthUser>()
+    public func fetchUserProfile() -> StitchTask<UserProfile> {
+        let task = StitchTask<UserProfile>()
         
         if !isAuthenticated {
             task.result = StitchResult.failure(StitchError.unauthorized(
@@ -181,7 +181,7 @@ public class StitchClientImpl: StitchClient {
                     if let error = strongSelf.parseError(from: value) {
                         task.result = .failure(error)
                     }
-                    else if let user = try? AuthUser(dictionary: value) {
+                    else if let user = try? UserProfile(dictionary: value) {
                         task.result = .success(user)
                     } else {
                         task.result = StitchResult.failure(StitchError.clientReleased)
@@ -349,19 +349,21 @@ public class StitchClientImpl: StitchClient {
     }
     
     @discardableResult
-    public func login(withProvider provider: AuthProvider, link: Bool = false) -> StitchTask<Bool> {
+    public func login(withProvider provider: AuthProvider) -> StitchTask<Bool> {
         let task = StitchTask<Bool>()
         
         self.authProvider = provider
         
-        if isAuthenticated && !link {
+        if isAuthenticated {
             printLog(.info, text: "Already logged in, using cached token.")
             task.result = .success(true)
             return task
         }
         
         var url = "\(self.url(withEndpoint: Consts.AuthPath))/\(provider.type)/\(provider.name)"
-        if link {
+        
+        // TODO: This is currently dead code as linking does not currently work
+        if false {
             guard let auth = auth else {
                 task.result = .failure(StitchError.illegalAction(message: "In order to link a new authentication provider you must first be authenticated."))
                 return task

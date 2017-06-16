@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct AuthUser {
+public struct UserProfile {
     
     private static let idKey =              "userId"
     private static let identitiesKey =      "identities"
@@ -19,9 +19,9 @@ public struct AuthUser {
     public private(set) var data: [String : Any]
     
     internal var json: [String : Any] {
-        return [AuthUser.idKey : id,
-                AuthUser.identitiesKey : identities.map{$0.json},
-                AuthUser.dataKey : data]
+        return [UserProfile.idKey : id,
+                UserProfile.identitiesKey : identities.map{$0.json},
+                UserProfile.dataKey : data]
     }
     
     
@@ -29,9 +29,9 @@ public struct AuthUser {
     
     internal init(dictionary: [String : Any]) throws {
         
-        guard let id = dictionary[AuthUser.idKey] as? String,
-            let identitiesArr = dictionary[AuthUser.identitiesKey] as? [[String : Any]],
-            let data = dictionary[AuthUser.dataKey] as? [String : Any] else {
+        guard let id = dictionary[UserProfile.idKey] as? String,
+            let identitiesArr = dictionary[UserProfile.identitiesKey] as? [[String : Any]],
+            let data = dictionary[UserProfile.dataKey] as? [String : Any] else {
                 throw StitchError.responseParsingFailed(reason: "failed creating AuthUser out of info: \(dictionary)")
         }
         

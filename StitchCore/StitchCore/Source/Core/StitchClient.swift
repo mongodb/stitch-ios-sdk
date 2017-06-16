@@ -22,7 +22,7 @@ public protocol StitchClient {
     func fetchAuthProviders() -> StitchTask<AuthProviderInfo>
     
     @discardableResult
-    func fetchUserProfile() -> StitchTask<AuthUser>
+    func fetchUserProfile() -> StitchTask<UserProfile>
 
     @discardableResult
     func register(email: String, password: String) -> StitchTask<Void>
