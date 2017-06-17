@@ -29,9 +29,9 @@ import StitchLogger
 public struct UpdateOperation <Entity: RootEntity> {
     
     let criteria: Criteria
-    let mongoDBClient: MongoClient
+    let mongoDBClient: MongoDBClientType
     
-    public init(criteria: Criteria, mongoDBClient: MongoClient) {
+    public init(criteria: Criteria, mongoDBClient: MongoDBClientType) {
         self.criteria = criteria
         self.mongoDBClient = mongoDBClient
     }
@@ -57,7 +57,7 @@ public struct UpdateOperation <Entity: RootEntity> {
     }
     
     @discardableResult
-    internal func execute(operations operationType: [UpdateOperationType],collection: MongoDBService.Collection, upsert: Bool = false, multi: Bool = false) -> StitchTask<Any> {
+    internal func execute(operations operationType: [UpdateOperationType],collection: MongoDBService.CollectionType, upsert: Bool = false, multi: Bool = false) -> StitchTask<Any> {
         let queryDocument = criteria.asDocument
         var updateDocument = Document()
         

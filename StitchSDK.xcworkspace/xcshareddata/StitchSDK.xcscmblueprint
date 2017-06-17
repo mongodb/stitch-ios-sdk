@@ -10,7 +10,7 @@
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "2453624A-A5FE-4F80-BFB9-8AE5046FD6CA",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
     "D7AFC34E65D7F96464AA7143563A2C9A79FD541E" : "stitch-ios-sdk\/",
-    "67620B5EFA902936DF04070AF595B76AB0333747" : "Alamofire\/"
+    "67620B5EFA902936DF04070AF595B76AB0333747" : "stitch-ios-sdk\/StitchCore\/StitchCore\/Frameworks\/Alamofire\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "StitchSDK",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,

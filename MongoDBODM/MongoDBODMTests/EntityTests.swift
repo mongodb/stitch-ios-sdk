@@ -843,7 +843,7 @@ class EntityTests: XCTestCase {
 
     // MARK: Helper
     
-    private func createStudentWithEmbeddedTeachersArray(mongoDBClient: MongoDBClient) -> Student {
+    private func createStudentWithEmbeddedTeachersArray(mongoDBClient: MongoDBClientType) -> Student {
         let student = Student(mongoDBClient: mongoDBClient)
         
         let teacher1 = Teacher(document: Document(key: EntityTests.name, value: "name1"))
@@ -1049,7 +1049,7 @@ class EntityTests: XCTestCase {
         case delete
     }
     
-    class TestCollection: MongoDBService.Collection {
+    class TestCollection: MongoDBService.CollectionType {
         
         var expectedMethod: ExpectedMethod?
         var expectedInputBlock: ((_ document: Document) -> ())?
@@ -1134,34 +1134,35 @@ class EntityTests: XCTestCase {
         }
     }
     
-    class TestDatabase: Database {
+    class TestDatabase: DatabaseType {
         
-        var client: MongoDBClient { return TestMongoDBClient() }
+        var client: MongoDBClientType { return TestMongoDBClient() }
         var name: String { return EntityTests.dbName }
         
         let collection = TestCollection()
         
         @discardableResult
-        func collection(named name: String) -> MongoDBService.Collection {
+        func collection(named name: String) -> MongoDBService.CollectionType {
             return collection
         }
     }
     
-    class TestMongoDBClient: MongoDBClient {
+    class TestMongoDBClient: MongoDBClientType {
         
-        var stitchClient: StitchClient { return TestStitchClient() }
+        var stitchClient: StitchClientType { return TestStitchClient() }
         var serviceName: String { return EntityTests.serviceName }
         
         let database = TestDatabase()
         
         @discardableResult
-        func database(named name: String) -> Database {
+        func database(named name: String) -> DatabaseType {
             return database
         }
     }
     
-    class TestStitchClient: StitchClient {
+    class TestStitchClient: StitchClientType {
         
+        var appId: String { return "" }
         var auth: Auth? { return nil }
         var authUser: AuthUser? { return nil }
         var isAuthenticated: Bool { return false }
@@ -1211,6 +1212,9 @@ class EntityTests: XCTestCase {
             return StitchTask<Any>()
         }
         
+        func addAuthDelegate(delegate: AuthDelegate) {
+            
+        }
     }
     
 }

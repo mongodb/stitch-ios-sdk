@@ -19,13 +19,13 @@ Used to perform querys to Stitch on top of a MongoDB collection
 public struct Query<Entity: RootEntity> {
     
     private(set) var criteria: Criteria?
-    let mongoDBClient: MongoClient
+    let mongoDBClient: MongoDBClientType
     
     private var asDocument: Document {
         return criteria?.asDocument ?? Document()
     }
     
-    public init(criteria: Criteria? = nil, mongoDBClient: MongoClient) {
+    public init(criteria: Criteria? = nil, mongoDBClient: MongoDBClientType) {
         self.criteria = criteria
         self.mongoDBClient = mongoDBClient
     }
@@ -118,7 +118,7 @@ public struct Query<Entity: RootEntity> {
         return Utils.entitiesDictionary[Utils.getIdentifier(type: Entity.self)]
     }
     
-    private func getCollection() throws -> MongoDBService.Collection {
+    private func getCollection() throws -> MongoDBService.CollectionType {
         guard let metaData = getTypeMetaData() else {
             printLog(.error, text: "not class meta data found on class: \(Entity.self)")
             throw OdmError.classMetaDataNotFound

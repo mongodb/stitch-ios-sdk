@@ -50,7 +50,7 @@ class MongoDBServiceTests: XCTestCase {
     func testFind() {
         let expectation = self.expectation(description: "find call closure should be executed")
         
-        MongoClientImpl(stitchClient: TestFindStitchClient(), serviceName: MongoDBServiceTests.serviceName).database(named: MongoDBServiceTests.dbName).collection(named: MongoDBServiceTests.collectionName).find(query: Document(key: "owner_id", value: try! ObjectId(hexString: MongoDBServiceTests.hexString))).response { (result) in
+        MongoDBClient(stitchClient: TestFindStitchClient(), serviceName: MongoDBServiceTests.serviceName).database(named: MongoDBServiceTests.dbName).collection(named: MongoDBServiceTests.collectionName).find(query: Document(key: "owner_id", value: try! ObjectId(hexString: MongoDBServiceTests.hexString))).response { (result) in
             switch result {
             case .success(let documents):
                 XCTAssertEqual(documents.count, (MongoDBServiceTests.response as! BsonArray).count)
@@ -70,36 +70,36 @@ class MongoDBServiceTests: XCTestCase {
     }
     
     func testUpdate() {
-        MongoClientImpl(stitchClient: TestUpdateStitchClient(), serviceName: MongoDBServiceTests.serviceName).database(named: MongoDBServiceTests.dbName).collection(named: MongoDBServiceTests.collectionName).update(query: Document(key: "owner_id", value: try! ObjectId(hexString: MongoDBServiceTests.hexString)))
+        MongoDBClient(stitchClient: TestUpdateStitchClient(), serviceName: MongoDBServiceTests.serviceName).database(named: MongoDBServiceTests.dbName).collection(named: MongoDBServiceTests.collectionName).update(query: Document(key: "owner_id", value: try! ObjectId(hexString: MongoDBServiceTests.hexString)))
     }
     
     func testInsertSingle() {
-        MongoClientImpl(stitchClient: TestInsertStitchClient(), serviceName: MongoDBServiceTests.serviceName).database(named: MongoDBServiceTests.dbName).collection(named: MongoDBServiceTests.collectionName).insert(document: MongoDBServiceTests.testResultDocument)
+        MongoDBClient(stitchClient: TestInsertStitchClient(), serviceName: MongoDBServiceTests.serviceName).database(named: MongoDBServiceTests.dbName).collection(named: MongoDBServiceTests.collectionName).insert(document: MongoDBServiceTests.testResultDocument)
     }
     
     func testInsertMultiple() {
-        MongoClientImpl(stitchClient: TestInsertStitchClient(), serviceName: MongoDBServiceTests.serviceName).database(named: MongoDBServiceTests.dbName).collection(named: MongoDBServiceTests.collectionName).insert(documents: [MongoDBServiceTests.testResultDocument, MongoDBServiceTests.testResultDocument, MongoDBServiceTests.testResultDocument])
+        MongoDBClient(stitchClient: TestInsertStitchClient(), serviceName: MongoDBServiceTests.serviceName).database(named: MongoDBServiceTests.dbName).collection(named: MongoDBServiceTests.collectionName).insert(documents: [MongoDBServiceTests.testResultDocument, MongoDBServiceTests.testResultDocument, MongoDBServiceTests.testResultDocument])
     }
     
     func testDeleteSingle() {
-        MongoClientImpl(stitchClient: TestDeleteStitchClient(isSingleDelete: true), serviceName: MongoDBServiceTests.serviceName).database(named: MongoDBServiceTests.dbName).collection(named: MongoDBServiceTests.collectionName).delete(query: Document(key: "owner_id", value: try! ObjectId(hexString: MongoDBServiceTests.hexString)))
+        MongoDBClient(stitchClient: TestDeleteStitchClient(isSingleDelete: true), serviceName: MongoDBServiceTests.serviceName).database(named: MongoDBServiceTests.dbName).collection(named: MongoDBServiceTests.collectionName).delete(query: Document(key: "owner_id", value: try! ObjectId(hexString: MongoDBServiceTests.hexString)))
     }
     
     func testDeleteMultiple() {
-        MongoClientImpl(stitchClient: TestDeleteStitchClient(isSingleDelete: false), serviceName: MongoDBServiceTests.serviceName).database(named: MongoDBServiceTests.dbName).collection(named: MongoDBServiceTests.collectionName).delete(query: Document(key: "owner_id", value: try! ObjectId(hexString: MongoDBServiceTests.hexString)), singleDoc: false)
+        MongoDBClient(stitchClient: TestDeleteStitchClient(isSingleDelete: false), serviceName: MongoDBServiceTests.serviceName).database(named: MongoDBServiceTests.dbName).collection(named: MongoDBServiceTests.collectionName).delete(query: Document(key: "owner_id", value: try! ObjectId(hexString: MongoDBServiceTests.hexString)), singleDoc: false)
     }
     
     func testAggregate() {
         let queryDocument = Document(key: "owner_id", value: try! ObjectId(hexString: MongoDBServiceTests.hexString))
         let aggregationPipelineDocument = Document(key: "$match", value: queryDocument)
 
-        MongoClientImpl(stitchClient: TestAggregateStitchClient(), serviceName: MongoDBServiceTests.serviceName).database(named: MongoDBServiceTests.dbName).collection(named: MongoDBServiceTests.collectionName).aggregate(pipeline: [aggregationPipelineDocument])
+        MongoDBClient(stitchClient: TestAggregateStitchClient(), serviceName: MongoDBServiceTests.serviceName).database(named: MongoDBServiceTests.dbName).collection(named: MongoDBServiceTests.collectionName).aggregate(pipeline: [aggregationPipelineDocument])
     }
     
     func testCount() {
         let expectation = self.expectation(description: "count call closure should be executed")
         
-        MongoClientImpl(stitchClient: TestFindStitchClient(isCountRequest: true), serviceName: MongoDBServiceTests.serviceName).database(named: MongoDBServiceTests.dbName).collection(named: MongoDBServiceTests.collectionName).count(query: Document(key: "owner_id", value: try! ObjectId(hexString: MongoDBServiceTests.hexString))).response { (result) in
+        MongoDBClient(stitchClient: TestFindStitchClient(isCountRequest: true), serviceName: MongoDBServiceTests.serviceName).database(named: MongoDBServiceTests.dbName).collection(named: MongoDBServiceTests.collectionName).count(query: Document(key: "owner_id", value: try! ObjectId(hexString: MongoDBServiceTests.hexString))).response { (result) in
             switch result {
             case .success(let number):
                 XCTAssertEqual(number, MongoDBServiceTests.testNumber)
@@ -336,8 +336,9 @@ class MongoDBServiceTests: XCTestCase {
     }
 
     
-    class BaseTestStitchClient: StitchClient {
+    class BaseTestStitchClient: StitchClientType {
         
+        var appId: String { return "" }
         var auth: Auth? { return nil }
         var authUser: AuthUser? { return nil }
         var isAuthenticated: Bool { return false }
@@ -396,6 +397,10 @@ class MongoDBServiceTests: XCTestCase {
         @discardableResult
         func executePipeline(pipelines: [Pipeline]) -> StitchTask<Any> {
             return StitchTask<Any>()
+        }
+        
+        func addAuthDelegate(delegate: AuthDelegate) {
+            
         }
     }
 }
