@@ -13,7 +13,7 @@ import StitchLogger
 import Security
 
 internal struct Consts {
-    static let DefaultBaseUrl =          "http://https://stitch.mongodb.com"
+    static let DefaultBaseUrl =          "https://stitch.mongodb.com"
     static let ApiPath =                 "/api/client/v1.0/app/"
     
     //User Defaults
@@ -34,6 +34,7 @@ internal struct Consts {
     
     //api
     static let AuthPath =                "auth"
+    static let UserProfilePath =         "auth/me"
     static let NewAccessTokenPath =      "newAccessToken"
     static let PipelinePath =            "pipeline"
     static let PushPath =                "push"
@@ -50,7 +51,7 @@ public class StitchClientImpl: StitchClient {
 
     private var authProvider: AuthProvider?
     private var authDelegates = [AuthDelegate?]()
-
+    
     public private(set) var auth: Auth? {
         didSet{
             if let newValue = auth {
@@ -75,10 +76,6 @@ public class StitchClientImpl: StitchClient {
                 userDefaults?.set(false, forKey: Consts.IsLoggedInUDKey)
             }
         }
-    }
-    
-    public var authUser: AuthUser? {
-        return auth?.user
     }
     
     public var isAuthenticated: Bool {
@@ -152,6 +149,46 @@ public class StitchClientImpl: StitchClient {
             case .failure(let error):
                 task.result = .failure(error)
                 
+            }
+        }
+        
+        return task
+    }
+    
+    @discardableResult
+    public func fetchUserProfile() -> StitchTask<UserProfile> {
+        let task = StitchTask<UserProfile>()
+        
+        if !isAuthenticated {
+            task.result = StitchResult.failure(StitchError.unauthorized(
+                message: "Tried fetching user while there was no authenticated user found."))
+            return task
+        }
+        
+        performRequest(method: .get,
+                       endpoint: Consts.UserProfilePath,
+                       parameters: nil,
+                       refreshOnFailure: false,
+                       useRefreshToken: false).response(onQueue: DispatchQueue.global(qos: .utility)) { [weak self] (result) in
+            guard let strongSelf = self else {
+                task.result = StitchResult.failure(StitchError.clientReleased)
+                return
+            }
+            
+            switch result {
+            case .success(let value):
+                if let value = value as [String : Any]? {
+                    if let error = strongSelf.parseError(from: value) {
+                        task.result = .failure(error)
+                    }
+                    else if let user = try? UserProfile(dictionary: value) {
+                        task.result = .success(user)
+                    } else {
+                        task.result = StitchResult.failure(StitchError.clientReleased)
+                    }
+                }
+            case .failure(let error):
+                task.result = .failure(error)
             }
         }
         
@@ -312,19 +349,21 @@ public class StitchClientImpl: StitchClient {
     }
     
     @discardableResult
-    public func login(withProvider provider: AuthProvider, link: Bool = false) -> StitchTask<Bool> {
+    public func login(withProvider provider: AuthProvider) -> StitchTask<Bool> {
         let task = StitchTask<Bool>()
         
         self.authProvider = provider
         
-        if isAuthenticated && !link {
+        if isAuthenticated {
             printLog(.info, text: "Already logged in, using cached token.")
             task.result = .success(true)
             return task
         }
         
         var url = "\(self.url(withEndpoint: Consts.AuthPath))/\(provider.type)/\(provider.name)"
-        if link {
+        
+        // TODO: This is currently dead code as linking does not currently work
+        if false {
             guard let auth = auth else {
                 task.result = .failure(StitchError.illegalAction(message: "In order to link a new authentication provider you must first be authenticated."))
                 return task

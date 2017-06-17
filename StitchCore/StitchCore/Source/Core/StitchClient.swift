@@ -13,7 +13,6 @@ public protocol StitchClient {
     // MARK: - Properties
     var appId: String { get }
     var auth: Auth? { get }
-    var authUser: AuthUser? { get }
     var isAuthenticated: Bool { get }
     var isAnonymous: Bool { get }
     
@@ -22,6 +21,9 @@ public protocol StitchClient {
     @discardableResult
     func fetchAuthProviders() -> StitchTask<AuthProviderInfo>
     
+    @discardableResult
+    func fetchUserProfile() -> StitchTask<UserProfile>
+
     @discardableResult
     func register(email: String, password: String) -> StitchTask<Void>
     
