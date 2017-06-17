@@ -11,18 +11,20 @@ import Foundation
 public struct Auth {
     
     private static let accessTokenKey =         "accessToken"
-    private static let userKey =                "user"
+    private static let userIdKey =              "userId"
     private static let providerKey =            "provider"
     private static let deviceId =               "deviceId"
     
     let accessToken: String
-    let user: AuthUser
+    let userId: String?
     let deviceId: String
+    
     public let provider: Provider
     
     var json: [String : Any] {
         return [Auth.accessTokenKey : accessToken,
-                Auth.userKey : user.json,
+                // TODO: remove once userId is guarenteed to be in the call (backend task)
+                Auth.userIdKey : userId ?? "",
                 Auth.providerKey : provider.name,
                 Auth.deviceId : deviceId]
     }
@@ -30,9 +32,9 @@ public struct Auth {
     
     //MARK: - Init
     
-    private init(accessToken: String, user: AuthUser, provider: Provider, deviceId: String) {
+    private init(accessToken: String, userId: String?, provider: Provider, deviceId: String) {
         self.accessToken = accessToken
-        self.user = user
+        self.userId = userId
         self.provider = provider
         self.deviceId = deviceId
     }
@@ -40,17 +42,17 @@ public struct Auth {
     internal init(dictionary: [String : Any]) throws {
         
         guard let accessToken = dictionary[Auth.accessTokenKey] as? String,
-            let userDic = dictionary[Auth.userKey] as? [String : Any],
+            let userId = dictionary[Auth.userIdKey] as? String?,
             let providerName = dictionary[Auth.providerKey] as? String,
             let provider = Provider(name: providerName),
             let deviceId = dictionary[Auth.deviceId] as? String else {
                 throw StitchError.responseParsingFailed(reason: "failed creating Auth out of info: \(dictionary)")
         }
         
-        self = Auth(accessToken: accessToken, user: try AuthUser(dictionary: userDic), provider: provider, deviceId: deviceId)
+        self = Auth(accessToken: accessToken, userId: userId, provider: provider, deviceId: deviceId)
     }
     
     internal func auth(with updatedAccessToken: String) -> Auth {
-        return Auth(accessToken: updatedAccessToken, user: user, provider: provider, deviceId: deviceId)
+        return Auth(accessToken: updatedAccessToken, userId: userId, provider: provider, deviceId: deviceId)
     }
 }
