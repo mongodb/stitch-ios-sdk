@@ -2,9 +2,6 @@
 //  StitchGCMTests.swift
 //  StitchGCMTests
 //
-//  Created by Jay Flax on 6/12/17.
-//  Copyright © 2017 Jay Flax. All rights reserved.
-//
 
 import XCTest
 @testable import StitchGCM

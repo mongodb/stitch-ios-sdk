@@ -1,11 +1,3 @@
-//
-//  PushClient.swift
-//  MongoCore
-//
-//  Created by Jay Flax on 6/5/17.
-//  Copyright © 2017 Zemingo. All rights reserved.
-//
-
 import Foundation
 import ExtendedJson
 

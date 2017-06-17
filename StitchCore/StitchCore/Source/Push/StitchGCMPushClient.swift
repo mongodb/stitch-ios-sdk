@@ -1,15 +1,13 @@
-//
-//  APNSPushClient.swift
-//  MongoCore
-//
-//  Created by Jay Flax on 6/5/17.
-//  Copyright © 2017 Zemingo. All rights reserved.
-//
-
 import Foundation
 import UserNotifications
 import ExtendedJson
 
+/**
+ * StitchGCMPushClient is the PushClient for GCM. It handles the logic of registering and
+ * deregistering with both GCM and Stitch.
+ *
+ * It does not actively handle updates to the Instance ID when it is refreshed.
+ */
 public class StitchGCMPushClient: PushClient {
     enum Props: String {
         case GCMServiceName = "gcm"

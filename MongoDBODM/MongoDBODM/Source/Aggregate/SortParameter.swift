@@ -2,9 +2,6 @@
 //  Sort.swift
 //  MongoDBODM
 //
-//  Created by Yanai Rozenberg on 22/05/2017.
-//  Copyright © 2017 MongoDB. All rights reserved.
-//
 
 import Foundation
 /**

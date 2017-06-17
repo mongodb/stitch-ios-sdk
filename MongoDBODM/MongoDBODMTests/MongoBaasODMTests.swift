@@ -2,9 +2,6 @@
 //  MongoBaasODMTests.swift
 //  MongoBaasODMTests
 //
-//  Created by Ofer Meroz on 15/03/2017.
-//  Copyright © 2017 MongoDB. All rights reserved.
-//
 
 import XCTest
 @testable import MongoDBODM

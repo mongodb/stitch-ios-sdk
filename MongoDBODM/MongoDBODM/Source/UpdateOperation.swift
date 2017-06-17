@@ -2,9 +2,6 @@
 //  UpdateOperation.swift
 //  MongoDBODM
 //
-//  Created by Miko Halevi on 5/1/17.
-//  Copyright © 2017 MongoDB. All rights reserved.
-//
 
 import Foundation
 import StitchCore

@@ -2,9 +2,6 @@
 //  Database.swift
 //  MongoDBService
 //
-//  Created by Ofer Meroz on 25/05/2017.
-//  Copyright © 2017 Mongo. All rights reserved.
-//
 
 import Foundation
 

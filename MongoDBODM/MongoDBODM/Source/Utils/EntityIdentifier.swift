@@ -2,9 +2,6 @@
 //  EntityIdentifier.swift
 //  MongoDBODM
 //
-//  Created by Miko Halevi on 4/25/17.
-//  Copyright © 2017 MongoDB. All rights reserved.
-//
 
 import Foundation
 /**

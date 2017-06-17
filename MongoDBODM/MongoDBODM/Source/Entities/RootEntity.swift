@@ -2,10 +2,6 @@
 //  RootEntity.swift
 //  MongoDBODM
 //
-//  Created by Miko Halevi on 6/14/17.
-//  Copyright © 2017 MongoDB. All rights reserved.
-//
-
 
 import Foundation
 import ExtendedJson

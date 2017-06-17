@@ -1,11 +1,3 @@
-//
-//  StitchError.swift
-//  StitchCore
-//
-//  Created by Ofir Zucker on 07/06/2017.
-//  Copyright © 2017 Zemingo. All rights reserved.
-//
-
 import Foundation
 
 public enum StitchError: Error {

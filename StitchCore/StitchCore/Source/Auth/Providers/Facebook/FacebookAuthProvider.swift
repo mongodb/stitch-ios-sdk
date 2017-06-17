@@ -1,11 +1,3 @@
-//
-//  FacebookAuthProvider.swift
-//  StitchCore
-//
-//  Created by Ofer Meroz on 04/02/2017.
-//  Copyright © 2017 Zemingo. All rights reserved.
-//
-
 import Foundation
 
 public struct FacebookAuthProvider: AuthProvider {

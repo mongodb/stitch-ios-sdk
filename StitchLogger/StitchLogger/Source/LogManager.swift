@@ -2,9 +2,6 @@
 //  LogManager.swift
 //  StitchLogger
 //
-//  Created by Ofer Meroz on 22/03/2017.
-//  Copyright © 2017 MongoDB. All rights reserved.
-//
 
 import Foundation
 

@@ -1,11 +1,3 @@
-//
-//  NetworkAdapter.swift
-//  StitchCore
-//
-//  Created by Yanai Rozenberg on 24/05/2017.
-//  Copyright © 2017 Zemingo. All rights reserved.
-//
-
 import Foundation
 
 public protocol NetworkAdapter {

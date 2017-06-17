@@ -2,9 +2,6 @@
 //  ExtendedJson.h
 //  ExtendedJson
 //
-//  Created by Ofer Meroz on 16/02/2017.
-//  Copyright © 2017 MongoDB. All rights reserved.
-//
 
 #import <UIKit/UIKit.h>
 

@@ -1,21 +1,17 @@
-//
-//  StitchGCMPushProviderInfo.swift
-//  StitchCore
-//
-//  Created by Jay Flax on 6/12/17.
-//  Copyright © 2017 Zemingo. All rights reserved.
-//
-
 import Foundation
 
 import ExtendedJson
 
 /**
- * Stitch GCMPushProviderInfo contains information needed to create a `StitchGCMPushClient`.
+ * Stitch GCMPushProviderInfoFields for payload management.
  */
 enum StitchGCMProviderInfoFields: String {
     case SenderID = "senderId"
 }
+
+/**
+ * Stitch GCMPushProviderInfo contains information needed to create a `StitchGCMPushClient`.
+ */
 public class StitchGCMPushProviderInfo: PushProviderInfo {
     public var providerName: PushProviderName
     public var serviceName: String

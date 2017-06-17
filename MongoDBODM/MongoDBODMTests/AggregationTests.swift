@@ -2,9 +2,6 @@
 //  AggregationTests.swift
 //  MongoBaasODM
 //
-//  Created by Yanai Rozenberg on 24/05/2017.
-//  Copyright © 2017 MongoDB. All rights reserved.
-//
 
 import XCTest
 @testable import MongoDBODM

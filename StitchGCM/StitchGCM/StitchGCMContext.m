@@ -1,12 +1,3 @@
-//
-//  StitchGCMContext.m
-//  MongoCore
-//
-//  Created by Jay Flax on 6/9/17.
-//  Copyright © 2017 Zemingo. All rights reserved.
-//
-
-
 #import "StitchGCMContext.h"
 #import <objc/runtime.h>
 

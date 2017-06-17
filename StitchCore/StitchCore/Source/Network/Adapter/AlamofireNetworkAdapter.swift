@@ -1,11 +1,3 @@
-//
-//  AlamofireNetworkAdapter.swift
-//  StitchCore
-//
-//  Created by Yanai Rozenberg on 28/05/2017.
-//  Copyright © 2017 Zemingo. All rights reserved.
-//
-
 import Foundation
 import Alamofire
 

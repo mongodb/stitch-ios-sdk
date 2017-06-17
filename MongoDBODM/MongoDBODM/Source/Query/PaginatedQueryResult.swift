@@ -2,9 +2,6 @@
 //  PaginatedQueryResult.swift
 //  MongoDBODM
 //
-//  Created by Yanai Rozenberg on 16/05/2017.
-//  Copyright © 2017 MongoDB. All rights reserved.
-//
 
 import Foundation
 import StitchCore

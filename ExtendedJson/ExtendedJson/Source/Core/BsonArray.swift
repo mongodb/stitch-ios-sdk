@@ -2,9 +2,6 @@
 //  BsonArray.swift
 //  ExtendedJson
 //
-//  Created by Ofer Meroz on 01/03/2017.
-//  Copyright © 2017 MongoDB. All rights reserved.
-//
 
 import Foundation
 

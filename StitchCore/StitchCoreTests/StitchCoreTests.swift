@@ -1,11 +1,3 @@
-//
-//  StitchCoreTests.swift
-//  StitchCoreTests
-//
-//  Created by Ofer Meroz on 17/03/2017.
-//  Copyright © 2017 Zemingo. All rights reserved.
-//
-
 import XCTest
 @testable import StitchCore
 import ExtendedJson

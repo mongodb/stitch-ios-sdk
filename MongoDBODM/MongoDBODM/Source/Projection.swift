@@ -2,9 +2,6 @@
 //  Projection.swift
 //  MongoDBODM
 //
-//  Created by Ofer Meroz on 26/03/2017.
-//  Copyright © 2017 MongoDB. All rights reserved.
-//
 
 import Foundation
 import ExtendedJson

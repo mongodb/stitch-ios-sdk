@@ -2,9 +2,6 @@
 //  MongoDBService.h
 //  MongoDBService
 //
-//  Created by Ofer Meroz on 09/02/2017.
-//  Copyright © 2017 Mongo. All rights reserved.
-//
 
 #import <UIKit/UIKit.h>
 
