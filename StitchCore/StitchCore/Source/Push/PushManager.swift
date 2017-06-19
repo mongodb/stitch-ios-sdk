@@ -1,8 +1,8 @@
 import Foundation
 
 /**
-    PushManager is responsible for handling the creation of {@link PushClient}s while handling
-    any events from the {@link StitchClient} that require changes to the clients.
+    PushManager is responsible for handling the creation of PushClient while handling
+    any events from the [StitchClient] that require changes to the clients.
  */
 public class PushManager: AuthDelegate {
     private let stitchClient: StitchClient

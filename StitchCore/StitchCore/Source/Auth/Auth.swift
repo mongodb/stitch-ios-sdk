@@ -8,9 +8,9 @@ public struct Auth {
     private static let deviceId =               "deviceId"
     
     let accessToken: String
-    let userId: String?
     let deviceId: String
     
+    public let userId: String?
     public let provider: Provider
     
     var json: [String : Any] {
