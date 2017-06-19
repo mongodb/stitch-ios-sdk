@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "MongoDBODM"
-  s.version      = "0.0.1"
+  s.version      = "0.1.0"
   s.summary      = "An ODM wrapper for using Stitch's MongoDB service."  
   s.homepage     = "https://stitch.mongodb.com"
   s.license      = {
@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.authors      = "MongoDB"  
   s.platform     = :ios, "9.0"
   s.source       = { 
-  						:git => "https://github.com/10gen/stitch-ios-sdk.git",
+  						:git => "https://github.com/mongodb/stitch-ios-sdk.git",
   						:tag => "#{s.version}"
   				   }
   s.source_files  = "MongoDBODM/MongoDBODM/**/*.swift"
