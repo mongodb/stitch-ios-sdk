@@ -15,8 +15,8 @@ Pod::Spec.new do |s|
   				   }
   s.source_files  = "MongoDBODM/MongoDBODM/**/*.swift"
   s.requires_arc = true
-  s.dependency "StitchLogger", "~> 0.0.1"
-  s.dependency "ExtendedJson", "~> 0.0.1"
-  s.dependency "StitchCore", "~> 0.0.1"
-  s.dependency "MongoDBService", "~> 0.0.1"
+  s.dependency "StitchLogger", "~> 0.1.0"
+  s.dependency "ExtendedJson", "~> 0.1.0"
+  s.dependency "StitchCore", "~> 0.1.0"
+  s.dependency "MongoDBService", "~> 0.1.0"
 end

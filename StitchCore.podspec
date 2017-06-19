@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
   s.source_files  = "StitchCore/StitchCore/**/*.swift"
   s.exclude_files = "StitchCore/StitchCore/Frameworks/Alamofire/**/*"
   s.requires_arc = true
-  s.dependency "StitchLogger", "~> 0.0.1"
-  s.dependency "ExtendedJson", "~> 0.0.1"
+  s.dependency "StitchLogger", "~> 0.1.0"
+  s.dependency "ExtendedJson", "~> 0.1.0"
   s.dependency "Alamofire", "~> 4.3.0"
 end
