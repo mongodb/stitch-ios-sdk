@@ -1,4 +1,4 @@
-# [![Stitch](docs/stitch_beta.png)](https://stitch.mongodb.com/)
+# [![Stitch](docs/stitch_beta.png)](https://mongodb.com/cloud/stitch)
 
 [![Join the chat at https://gitter.im/mongodb/stitch](https://badges.gitter.im/mongodb/stitch.svg)](https://gitter.im/mongodb/stitch?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) ![iOS](https://img.shields.io/badge/platform-iOS-blue.svg) [![Swift 3.0](https://img.shields.io/badge/swift-3.0-orange.svg)](https://developer.apple.com/swift/) ![Apache 2.0 License](https://img.shields.io/badge/license-Apache%202-lightgrey.svg) [![Cocoapods compatible](https://img.shields.io/badge/pod-v0.1.0-ff69b4.svg)](#Cocoapods)
 
