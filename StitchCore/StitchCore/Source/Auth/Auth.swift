@@ -1,14 +1,24 @@
 import Foundation
 
+/// Auth represents the current authorization state of the client
 public struct Auth {
     
     private static let accessTokenKey =         "accessToken"
     private static let userIdKey =              "userId"
     private static let deviceId =               "deviceId"
     
+    /**
+         The current access token for this session.
+     */
     let accessToken: String
+    /**
+         The user this session was created for.
+     */
     let deviceId: String
     
+    /**
+         The user this session was created for.
+     */
     public let userId: String?
     
     var json: [String : Any] {
@@ -20,13 +30,16 @@ public struct Auth {
     
     
     //MARK: - Init
-    
     private init(accessToken: String, userId: String?, deviceId: String) {
         self.accessToken = accessToken
         self.userId = userId
         self.deviceId = deviceId
     }
     
+    /**
+     - parameter dictionary: Dict containing the access token, userId, and deviceId necessary to create
+         this auth object
+     */
     internal init(dictionary: [String : Any]) throws {
         
         guard let accessToken = dictionary[Auth.accessTokenKey] as? String,

@@ -1,13 +1,28 @@
 import Foundation
 
+/**
+    An AuthProvider is responsible for providing the necessary information for a specific
+    authentication request.
+ */
 public protocol AuthProvider {
+    /// The authentication type of this provider.
     var type: String {get}
+    /// The name of this provider.
     var name: String {get}
+    /// The JSON payload containing authentication material.
     var payload: [String : Any] {get}
 }
 
+/// Provider enum representing current state of `AuthProvider`s.
 public enum Provider {
-    case google, facebook, emailPassword, anonymous
+    /// Google OAuth2 repr
+    case google,
+    /// Facebook OAuth2 repr
+         facebook,
+    /// Email and password authentication
+         emailPassword,
+    /// Anonymous Authentication
+         anonymous
     
     var name: String {
         switch self {

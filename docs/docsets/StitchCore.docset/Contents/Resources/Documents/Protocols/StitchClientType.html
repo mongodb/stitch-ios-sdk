@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>StitchClientType Protocol Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Protocol/StitchClientType" class="dashAnchor"></a>
+    <a title="StitchClientType Protocol Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">StitchCore Docs</a> (100% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">StitchCore Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        StitchClientType Protocol Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/AlamofireNetworkAdapter.html">AlamofireNetworkAdapter</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/AvailablePushProviders.html">AvailablePushProviders</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/PushManager.html">PushManager</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/PushMessage.html">PushMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/PushProviderInfoHelper.html">PushProviderInfoHelper</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/StitchClient.html">StitchClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/StitchGCMPushClient.html">StitchGCMPushClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/StitchGCMPushProviderInfo.html">StitchGCMPushProviderInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/StitchTask.html">StitchTask</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/NAHTTPMethod.html">NAHTTPMethod</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/Provider.html">Provider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/PushProviderName.html">PushProviderName</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/StitchError.html">StitchError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/StitchError/ServerErrorReason.html">– ServerErrorReason</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/StitchResult.html">StitchResult</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/AuthDelegate.html">AuthDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/AuthProvider.html">AuthProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/NetworkAdapter.html">NetworkAdapter</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/PushClient.html">PushClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/PushProviderInfo.html">PushProviderInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/StitchClientType.html">StitchClientType</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structs</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/AnonymousAuthProvider.html">AnonymousAuthProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs.html#/s:V10StitchCore25AnonymousAuthProviderInfo">AnonymousAuthProviderInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Auth.html">Auth</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/AuthProviderInfo.html">AuthProviderInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/EmailPasswordAuthProvider.html">EmailPasswordAuthProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs.html#/s:V10StitchCore29EmailPasswordAuthProviderInfo">EmailPasswordAuthProviderInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/FacebookAuthProvider.html">FacebookAuthProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/FacebookAuthProviderInfo.html">FacebookAuthProviderInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GoogleAuthProvider.html">GoogleAuthProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GoogleAuthProviderInfo.html">GoogleAuthProviderInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Pipeline.html">Pipeline</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/UserProfile.html">UserProfile</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/UserProfile.html#/s:VV10StitchCore11UserProfile8Identity">– Identity</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>StitchClientType</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">StitchClientType</span></code></pre>
+
+                </div>
+              </div>
+            <p>Protocol to lay out basic methods and fields for a StitchClient.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Properties"></a>
+                <a name="//apple_ref/swift/Section/Properties" class="dashAnchor"></a>
+                <a href="#/Properties">
+                  <h3 class="section-name">Properties</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vP10StitchCore16StitchClientType5appIdSS"></a>
+                    <a name="//apple_ref/swift/Property/appId" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vP10StitchCore16StitchClientType5appIdSS">appId</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Id of this application</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">appId</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vP10StitchCore16StitchClientType4authGSqVS_4Auth_"></a>
+                    <a name="//apple_ref/swift/Property/auth" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vP10StitchCore16StitchClientType4authGSqVS_4Auth_">auth</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The currently authenticated user (if authenticated).</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">auth</span><span class="p">:</span> <span class="kt"><a href="../Structs/Auth.html">Auth</a></span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vP10StitchCore16StitchClientType15isAuthenticatedSb"></a>
+                    <a name="//apple_ref/swift/Property/isAuthenticated" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vP10StitchCore16StitchClientType15isAuthenticatedSb">isAuthenticated</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Whether or not this client is authenticated.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">isAuthenticated</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Auth"></a>
+                <a name="//apple_ref/swift/Section/Auth" class="dashAnchor"></a>
+                <a href="#/Auth">
+                  <h3 class="section-name">Auth</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FP10StitchCore16StitchClientType18fetchAuthProvidersFT_GCS_10StitchTaskVS_16AuthProviderInfo_"></a>
+                    <a name="//apple_ref/swift/Method/fetchAuthProviders()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP10StitchCore16StitchClientType18fetchAuthProvidersFT_GCS_10StitchTaskVS_16AuthProviderInfo_">fetchAuthProviders()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Fetches all available auth providers for the current app.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">fetchAuthProviders</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/StitchTask.html">StitchTask</a></span><span class="o">&lt;</span><span class="kt"><a href="../Structs/AuthProviderInfo.html">AuthProviderInfo</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A task containing AuthProviderInfo that can be resolved 
+        on completion of the request.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FP10StitchCore16StitchClientType16fetchUserProfileFT_GCS_10StitchTaskVS_11UserProfile_"></a>
+                    <a name="//apple_ref/swift/Method/fetchUserProfile()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP10StitchCore16StitchClientType16fetchUserProfileFT_GCS_10StitchTaskVS_11UserProfile_">fetchUserProfile()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Fetch the current user profile, containing all user info. Can fail.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">fetchUserProfile</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/StitchTask.html">StitchTask</a></span><span class="o">&lt;</span><span class="kt"><a href="../Structs/UserProfile.html">UserProfile</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A StitchTask containing profile of the given user</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FP10StitchCore16StitchClientType8registerFT5emailSS8passwordSS_GCS_10StitchTaskT__"></a>
+                    <a name="//apple_ref/swift/Method/register(email:password:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP10StitchCore16StitchClientType8registerFT5emailSS8passwordSS_GCS_10StitchTaskT__">register(email:password:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Registers the current user using email and password.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">register</span><span class="p">(</span><span class="nv">email</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/StitchTask.html">StitchTask</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>email</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>email for the given user</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>password</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>password for the given user</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A task containing whether or not registration was successful.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FP10StitchCore16StitchClientType12emailConfirmFT5tokenSS7tokenIdSS_GCS_10StitchTaskP__"></a>
+                    <a name="//apple_ref/swift/Method/emailConfirm(token:tokenId:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP10StitchCore16StitchClientType12emailConfirmFT5tokenSS7tokenIdSS_GCS_10StitchTaskP__">emailConfirm(token:tokenId:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Confirm a newly registered email in this context</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">emailConfirm</span><span class="p">(</span><span class="nv">token</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">tokenId</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/StitchTask.html">StitchTask</a></span><span class="o">&lt;</span><span class="kt">Any</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>token</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>confirmation token emailed to new user</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>tokenId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>confirmation tokenId emailed to new user</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A task containing whether or not the email was confirmed successfully</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FP10StitchCore16StitchClientType16sendEmailConfirmFT7toEmailSS_GCS_10StitchTaskT__"></a>
+                    <a name="//apple_ref/swift/Method/sendEmailConfirm(toEmail:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP10StitchCore16StitchClientType16sendEmailConfirmFT7toEmailSS_GCS_10StitchTaskT__">sendEmailConfirm(toEmail:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Send a confirmation email for a newly registered user</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">sendEmailConfirm</span><span class="p">(</span><span class="n">toEmail</span> <span class="nv">email</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/StitchTask.html">StitchTask</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>email</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>email address of user</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A task containing whether or not the email was sent successfully.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FP10StitchCore16StitchClientType13resetPasswordFT5tokenSS7tokenIdSS_GCS_10StitchTaskP__"></a>
+                    <a name="//apple_ref/swift/Method/resetPassword(token:tokenId:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP10StitchCore16StitchClientType13resetPasswordFT5tokenSS7tokenIdSS_GCS_10StitchTaskP__">resetPassword(token:tokenId:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Reset a given user&rsquo;s password</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">resetPassword</span><span class="p">(</span><span class="nv">token</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">tokenId</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/StitchTask.html">StitchTask</a></span><span class="o">&lt;</span><span class="kt">Any</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>token</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>token associated with this user</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>tokenId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>id of the token associated with this user</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A task containing whether or not the reset was successful</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FP10StitchCore16StitchClientType17sendResetPasswordFT7toEmailSS_GCS_10StitchTaskT__"></a>
+                    <a name="//apple_ref/swift/Method/sendResetPassword(toEmail:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP10StitchCore16StitchClientType17sendResetPasswordFT7toEmailSS_GCS_10StitchTaskT__">sendResetPassword(toEmail:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Send a reset password email to a given email address</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">sendResetPassword</span><span class="p">(</span><span class="n">toEmail</span> <span class="nv">email</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/StitchTask.html">StitchTask</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>email</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>email address to reset password for</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A task containing whether or not the reset email was sent successfully</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FP10StitchCore16StitchClientType13anonymousAuthFT_GCS_10StitchTaskSb_"></a>
+                    <a name="//apple_ref/swift/Method/anonymousAuth()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP10StitchCore16StitchClientType13anonymousAuthFT_GCS_10StitchTaskSb_">anonymousAuth()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Logs the current user in anonymously.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">anonymousAuth</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/StitchTask.html">StitchTask</a></span><span class="o">&lt;</span><span class="kt">Bool</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A task containing whether or not the login as successful</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FP10StitchCore16StitchClientType5loginFT12withProviderPS_12AuthProvider_4linkSb_GCS_10StitchTaskSb_"></a>
+                    <a name="//apple_ref/swift/Method/login(withProvider:link:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP10StitchCore16StitchClientType5loginFT12withProviderPS_12AuthProvider_4linkSb_GCS_10StitchTaskSb_">login(withProvider:link:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Logs the current user in using a specific auth provider.</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">login</span><span class="p">(</span><span class="n">withProvider</span> <span class="nv">provider</span><span class="p">:</span> <span class="kt"><a href="../Protocols/AuthProvider.html">AuthProvider</a></span><span class="p">,</span> <span class="nv">link</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/StitchTask.html">StitchTask</a></span><span class="o">&lt;</span><span class="kt">Bool</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>withProvider</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The provider that will handle the login.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>link</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Whether or not to link a new auth provider.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A task containing whether or not the login as successful</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FP10StitchCore16StitchClientType6logoutFT_GCS_10StitchTaskSb_"></a>
+                    <a name="//apple_ref/swift/Method/logout()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP10StitchCore16StitchClientType6logoutFT_GCS_10StitchTaskSb_">logout()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Logs out the current user.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">logout</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/StitchTask.html">StitchTask</a></span><span class="o">&lt;</span><span class="kt">Bool</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A task that can be resolved upon completion of logout.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Requests"></a>
+                <a name="//apple_ref/swift/Section/Requests" class="dashAnchor"></a>
+                <a href="#/Requests">
+                  <h3 class="section-name">Requests</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FP10StitchCore16StitchClientType15executePipelineFT8pipelineVS_8Pipeline_GCS_10StitchTaskP__"></a>
+                    <a name="//apple_ref/swift/Method/executePipeline(pipeline:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP10StitchCore16StitchClientType15executePipelineFT8pipelineVS_8Pipeline_GCS_10StitchTaskP__">executePipeline(pipeline:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Executes a pipeline with the current app.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">executePipeline</span><span class="p">(</span><span class="nv">pipeline</span><span class="p">:</span> <span class="kt"><a href="../Structs/Pipeline.html">Pipeline</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/StitchTask.html">StitchTask</a></span><span class="o">&lt;</span><span class="kt">Any</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>stages</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The stages to execute as a contiguous pipeline.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A task containing the result of the pipeline that can be resolved on completion
+of the execution.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FP10StitchCore16StitchClientType15executePipelineFT9pipelinesGSaVS_8Pipeline__GCS_10StitchTaskP__"></a>
+                    <a name="//apple_ref/swift/Method/executePipeline(pipelines:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP10StitchCore16StitchClientType15executePipelineFT9pipelinesGSaVS_8Pipeline__GCS_10StitchTaskP__">executePipeline(pipelines:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Executes a pipeline with the current app.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">executePipeline</span><span class="p">(</span><span class="nv">pipelines</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Structs/Pipeline.html">Pipeline</a></span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/StitchTask.html">StitchTask</a></span><span class="o">&lt;</span><span class="kt">Any</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>pipeline</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The pipeline to execute.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A task containing the result of the pipeline that can be resolved on completion
+of the execution.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FP10StitchCore16StitchClientType15addAuthDelegateFT8delegatePS_12AuthDelegate__T_"></a>
+                    <a name="//apple_ref/swift/Method/addAuthDelegate(delegate:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP10StitchCore16StitchClientType15addAuthDelegateFT8delegatePS_12AuthDelegate__T_">addAuthDelegate(delegate:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Adds a delegate for auth events.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">addAuthDelegate</span><span class="p">(</span><span class="nv">delegate</span><span class="p">:</span> <span class="kt"><a href="../Protocols/AuthDelegate.html">AuthDelegate</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>delegate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The delegate that will receive auth events.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2017 <a class="link" href="https://stitch.mongodb.com" target="_blank" rel="external">MongoDB</a>. All rights reserved. (Last updated: 2017-06-22)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

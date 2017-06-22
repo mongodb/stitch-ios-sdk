@@ -1,9 +1,20 @@
 import Foundation
 import Alamofire
 
+/// Network Adapter implementation using the `AlamoFire` framework.
 public class AlamofireNetworkAdapter: NetworkAdapter {
     static var jsonArrayKey: String = "jsonArrayKey"
-    
+    /**
+     Make a network request with an array of key value pairs.
+     
+     - Parameters:
+         - url: Resource to call
+         - method: HTTP verb to use with this call
+         - parameters: Array of key value pairs to send upstream
+         - headers: Array of key value pairs to send as headers
+     
+     - Returns: A new `StitchTask`
+     */
     public func requestWithArray(url: String, method: NAHTTPMethod, parameters: [[String : Any]]?, headers: [String : String]?) ->  StitchTask<Any> {
         let task = StitchTask<Any>()
         
@@ -25,7 +36,17 @@ public class AlamofireNetworkAdapter: NetworkAdapter {
         }
         return task
     }
-    
+    /**
+     Make a network request using Json encoding for the params.
+     
+     - Parameters:
+         - url: Resource to call
+         - method: HTTP verb to use with this call
+         - parameters: JsonEncoded parameters as a dictionary
+         - headers: Array of key value pairs to send as headers
+     
+     - Returns: A new `StitchTask`
+     */
     public func requestWithJsonEncoding(url: String, method: NAHTTPMethod, parameters: [String : Any]?, headers: [String : String]?) -> StitchTask<Any> {
         let task = StitchTask<Any>()
         
@@ -48,6 +69,9 @@ public class AlamofireNetworkAdapter: NetworkAdapter {
 
     }
     
+    /**
+     Cancel all active requests.
+     */
     public func cancelAllRequests() {
         Alamofire.SessionManager.default.session.getAllTasks { (tasks) in
             tasks.forEach{$0.cancel()}

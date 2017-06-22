@@ -14,20 +14,24 @@ public class StitchGCMPushClient: PushClient {
         case GCMSenderID = "push.gcm.senderId"
     }
     
-    public let userDefaults: UserDefaults = UserDefaults(suiteName: Consts.UserDefaultsName)!
-
-    public let stitchClient: StitchClient
+    private let userDefaults: UserDefaults = UserDefaults(suiteName: Consts.UserDefaultsName)!
+    private let stitchClient: StitchClient
     
     private let _info: StitchGCMPushProviderInfo
     
+    /**
+        - Parameters:
+            - stitchClient: Current `StitchClient` you want to be associated with this push client
+            - info: Provider info for your applications gcm
+    */
     public init(stitchClient: StitchClient, info: StitchGCMPushProviderInfo) {
         self.stitchClient = stitchClient
         self._info = info
     }
     
     /**
-        -parameter registrationToken: The registration token from GCM.
-        -returns: The request payload for registering for push for GCM.
+        - parameter registrationToken: The registration token from GCM.
+        - returns: The request payload for registering for push for GCM.
      */
     private func getRegisterPushDeviceRequest(registrationToken: String) -> [String : ExtendedJsonRepresentable] {
         var request = getBaseRegisterPushRequest(serviceName: Props.GCMServiceName.rawValue)
@@ -37,6 +41,11 @@ public class StitchGCMPushClient: PushClient {
         return request
     }
 
+    /**
+     Registers the client with the provider and Stitch
+     
+     - returns: A task that can be resolved upon registering
+     */
     @discardableResult
     public func registerToken(token: String) -> StitchTask<Any> {
         userDefaults.setValue(token, forKey: DeviceFields.RegistrationToken.rawValue)

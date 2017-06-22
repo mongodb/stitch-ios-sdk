@@ -6,6 +6,7 @@ import ExtendedJson
     needed to utilize them.
  */
 public class AvailablePushProviders {
+    /// Google Cloud Messaging provider info
     public var gcm: StitchGCMPushProviderInfo?
     
     typealias AvailablePushProvidersBuilder = (AvailablePushProviders) -> Void

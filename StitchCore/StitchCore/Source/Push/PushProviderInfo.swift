@@ -1,19 +1,34 @@
 import Foundation
 import ExtendedJson
 
-public enum PushProviderInfoFields: String {
+internal enum PushProviderInfoFields: String {
     case FieldType = "type"
     case Config = "config"
 }
 
+/// Protocol for the information for any given push provider
 public protocol PushProviderInfo {
+    /// Name of this provider
     var providerName: PushProviderName { get }
+    /// Name of the associated service
     var serviceName: String { get }
-    
+    /**
+     Convert this into dictionary to be read/wrote to storage
+     
+     - Returns: A dictionary containing providerName, senderId, and config fields
+     */
     func toDict() -> [String : Any]
 }
 
+/// Helper class to construct PushProviderInfo from persistent storage
 public class PushProviderInfoHelper {
+    /**
+        Read saved provider information from the UserDefaults
+ 
+        - Throws: `StitchError` if non-existant providers have been saved
+ 
+        - Returns: A list of `PushProviderInfo`
+    */
     public class func fromPreferences() throws -> [PushProviderInfo] {
         let userDefaults: UserDefaults = UserDefaults(suiteName: Consts.UserDefaultsName)!
 

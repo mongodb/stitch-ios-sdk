@@ -13,10 +13,14 @@ enum StitchGCMProviderInfoFields: String {
  * Stitch GCMPushProviderInfo contains information needed to create a `StitchGCMPushClient`.
  */
 public class StitchGCMPushProviderInfo: PushProviderInfo {
+    /// Name of this provider
     public var providerName: PushProviderName
+    /// Name of the associated service
     public var serviceName: String
     
+    /// SenderId provided by Google
     public let senderID: String
+    /// Whether or not this was read from properties
     public let fromProperties: Bool
     
     private init(serviceName: String, senderID: String, fromProperties: Bool) {
@@ -45,6 +49,11 @@ public class StitchGCMPushProviderInfo: PushProviderInfo {
         return StitchGCMPushProviderInfo(serviceName: serviceName, senderID: senderId, fromProperties: false);
     }
     
+    /**
+        Convert this into dictionary to be read/wrote to storage
+        
+        - Returns: A dictionary containing providerName, senderId, and config fields
+    */
     public func toDict() -> [String : Any] {
         var doc = [String: Any]()
         
@@ -57,6 +66,7 @@ public class StitchGCMPushProviderInfo: PushProviderInfo {
         doc[PushProviderInfoFields.Config.rawValue] = config
         return doc
     }
+    
     /**
      * - returns: The provider info as a serializable document.
      */

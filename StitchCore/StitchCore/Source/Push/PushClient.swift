@@ -3,7 +3,7 @@ import ExtendedJson
 
 let PrefConfigs: String = "apns.configs"
 
-public enum DeviceFields: String {
+internal enum DeviceFields: String {
     case ServiceName = "service"
     case Data = "data"
     case RegistrationToken = "registrationToken"
@@ -14,7 +14,7 @@ public enum DeviceFields: String {
     case PlatformVersion = "platformVersion"
 }
 
-public enum Actions: String {
+internal enum Actions: String {
     case RegisterPush = "registerPush"
     case DeregisterPush = "deregisterPush"
 }
@@ -23,9 +23,6 @@ public enum Actions: String {
     A PushClient is responsible for allowing users to register and deregister for push notifications sent from Stitch or directly from the provider.
  */
 public protocol PushClient {
-    var stitchClient: StitchClient { get }
-    var userDefaults: UserDefaults { get }
-    
     /**
         Registers the client with the provider and Stitch
  
@@ -48,6 +45,8 @@ extension PushClient {
      - parameter info: The push provider info to persist.
      */
     func addInfoToConfigs(info: PushProviderInfo) {
+        let userDefaults = UserDefaults(suiteName: Consts.UserDefaultsName)!
+        
         var configs: [String : Any] = userDefaults.value(forKey: PrefConfigs) as? [String : Any] ?? [String : Any]()
         
         configs[info.serviceName] = info.toDict()
@@ -59,6 +58,8 @@ extension PushClient {
      - parameter info: The push provider info to no longer persist
      */
     public func removeInfoFromConfigs(info: PushProviderInfo) {
+        let userDefaults = UserDefaults(suiteName: Consts.UserDefaultsName)!
+
         var configs = Document()
         do {
             let configOpt = userDefaults.value(forKey: PrefConfigs)

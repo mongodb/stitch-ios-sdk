@@ -32,8 +32,12 @@ internal struct Consts {
     static let PushPath =                "push"
 }
 
+/**
+    A StitchClient is responsible for handling the overall interaction with all Stitch services.
+ */
 public class StitchClient: StitchClientType {
     // MARK: - Properties
+    /// Id of the current application
     public var appId: String
     
     private var baseUrl: String
@@ -43,7 +47,8 @@ public class StitchClient: StitchClientType {
 
     private var authProvider: AuthProvider?
     private var authDelegates = [AuthDelegate?]()
-
+    
+    /// The currently authenticated user (if authenticated).
     public private(set) var auth: Auth? {
         didSet{
             if let newValue = auth {
@@ -70,6 +75,7 @@ public class StitchClient: StitchClientType {
         }
     }
     
+    /// Whether or not the client is currently authenticated
     public var isAuthenticated: Bool {
         
         guard auth == nil else {
@@ -104,14 +110,28 @@ public class StitchClient: StitchClientType {
     }
     
     // MARK: - Init
-    
-    public init(appId: String, baseUrl: String = Consts.DefaultBaseUrl, networkAdapter: NetworkAdapter = AlamofireNetworkAdapter()) {
+    /**
+        Create a new object to interact with Stitch
+        - Parameters: 
+            - appId:  The App ID for the Stitch app.
+            - baseUrl: The base URL of the Stitch Client API server.
+            - networkAdapter: Optional interface if AlamoFire is not desired.
+     */
+    public init(appId: String,
+                baseUrl: String = Consts.DefaultBaseUrl,
+                networkAdapter: NetworkAdapter = AlamofireNetworkAdapter()) {
         self.appId = appId
         self.baseUrl = baseUrl
         self.networkAdapter = networkAdapter
     }
     
     // MARK: - Auth
+    
+    /**
+     Fetch the current user profile, containing all user info. Can fail.
+     
+     - Returns: A StitchTask containing profile of the given user
+     */
     @discardableResult
     public func fetchUserProfile() -> StitchTask<UserProfile> {
         let task = StitchTask<UserProfile>()
@@ -152,6 +172,12 @@ public class StitchClient: StitchClientType {
         return task
     }
     
+    /**
+     Fetches all available auth providers for the current app.
+     
+     - Returns: A task containing AuthProviderInfo that can be resolved
+     on completion of the request.
+     */
     @discardableResult
     public func fetchAuthProviders() -> StitchTask<AuthProviderInfo> {
         let task = StitchTask<AuthProviderInfo>()
@@ -182,6 +208,13 @@ public class StitchClient: StitchClientType {
         return task
     }
     
+    /**
+     Registers the current user using email and password.
+     
+     - parameter email: email for the given user
+     - parameter password: password for the given user
+     - returns: A task containing whether or not registration was successful.
+     */
     @discardableResult
     public func register(email: String, password: String) -> StitchTask<Void> {
         let task = StitchTask<Void>()
@@ -214,6 +247,12 @@ public class StitchClient: StitchClientType {
         return task
     }
     
+    /**
+     * Confirm a newly registered email in this context
+     * - parameter token: confirmation token emailed to new user
+     * - parameter tokenId: confirmation tokenId emailed to new user
+     * - returns: A task containing whether or not the email was confirmed successfully
+     */
     @discardableResult
     public func emailConfirm(token: String, tokenId: String) -> StitchTask<Any> {
         let task = StitchTask<Any>()
@@ -243,6 +282,11 @@ public class StitchClient: StitchClientType {
         return task
     }
     
+    /**
+     * Send a confirmation email for a newly registered user
+     * - parameter email: email address of user
+     * - returns: A task containing whether or not the email was sent successfully.
+     */
     @discardableResult
     public func sendEmailConfirm(toEmail email: String) -> StitchTask<Void> {
         let task = StitchTask<Void>()
@@ -272,6 +316,12 @@ public class StitchClient: StitchClientType {
         return task
     }
     
+    /**
+     * Reset a given user's password
+     * - parameter token: token associated with this user
+     * - parameter tokenId: id of the token associated with this user
+     * - returns: A task containing whether or not the reset was successful
+     */
     @discardableResult
     public func resetPassword(token: String, tokenId: String) -> StitchTask<Any> {
         let task = StitchTask<Any>()
@@ -301,6 +351,11 @@ public class StitchClient: StitchClientType {
         return task
     }
     
+    /**
+     * Send a reset password email to a given email address
+     * - parameter email: email address to reset password for
+     * - returns: A task containing whether or not the reset email was sent successfully
+     */
     @discardableResult
     public func sendResetPassword(toEmail email: String) -> StitchTask<Void> {
         let task = StitchTask<Void>()
@@ -330,11 +385,24 @@ public class StitchClient: StitchClientType {
         return task
     }
     
+    /**
+     Logs the current user in anonymously.
+     
+     - Returns: A task containing whether or not the login as successful
+     */
     @discardableResult
     public func anonymousAuth() -> StitchTask<Bool> {
         return login(withProvider: AnonymousAuthProvider())
     }
     
+    /**
+     Logs the current user in using a specific auth provider.
+     
+     - Parameters:
+     - withProvider: The provider that will handle the login.
+     - link: Whether or not to link a new auth provider.
+     - Returns: A task containing whether or not the login as successful
+     */
     @discardableResult
     public func login(withProvider provider: AuthProvider, link: Bool = false) -> StitchTask<Bool> {
         let task = StitchTask<Bool>()
@@ -405,6 +473,11 @@ public class StitchClient: StitchClientType {
         return task
     }
     
+    /**
+     * Logs out the current user.
+     *
+     * - returns: A task that can be resolved upon completion of logout.
+     */
     @discardableResult
     public func logout() -> StitchTask<Bool> {
         let task = StitchTask<Bool>()
@@ -495,11 +568,25 @@ public class StitchClient: StitchClientType {
     
     // MARK: - Requests
     
+    /**
+     * Executes a pipeline with the current app.
+     *
+     * - parameter stages: The stages to execute as a contiguous pipeline.
+     * - returns: A task containing the result of the pipeline that can be resolved on completion
+     * of the execution.
+     */
     @discardableResult
     public func executePipeline(pipeline: Pipeline) -> StitchTask<Any> {
         return executePipeline(pipelines: [pipeline])
     }
     
+    /**
+     * Executes a pipeline with the current app.
+     *
+     * - parameter pipeline: The pipeline to execute.
+     * - returns: A task containing the result of the pipeline that can be resolved on completion
+     * of the execution.
+     */
     @discardableResult
     public func executePipeline(pipelines: [Pipeline]) -> StitchTask<Any> {
         let params: [[String: Any]] = pipelines.map { $0.toJson }
@@ -734,6 +821,11 @@ public class StitchClient: StitchClientType {
         authDelegates.forEach { $0?.onLogout() }
     }
     
+    /**
+     Adds a delegate for auth events.
+     
+     - parameter delegate: The delegate that will receive auth events.
+     */
     public func addAuthDelegate(delegate: AuthDelegate) {
         self.authDelegates.append(delegate)
     }
