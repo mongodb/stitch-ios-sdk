@@ -86,7 +86,74 @@ If you prefer not to use any of the aforementioned dependency managers, you can 
 
 ### Using the SDK
 
-TODO: Write usage instructions.
+#### Logging In
+1. To initialize our connection to Stitch, go to your `AppDelegate` and within your `application:didFinishLoadingWithOptions` method, add the following line and replace your-app-id with the app ID you took note of when setting up the application in Stitch:
+
+	```swift
+	let client = StitchClient(appId: "your-app-id")
+	```
+
+2. This will only instantiate a client but will not make any outgoing connection to Stitch
+3. Since we enabled anonymous log in, let's log in with it; add the following after your new _client_:
+
+	```swift
+	client.fetchAuthProviders().response(completionHandler: { (result) in
+            if let authProviderInfo = result.value {
+                if (authProviderInfo.anonymousAuthProviderInfo != nil) {
+                    client.anonymousAuth().response(completionHandler: { (task) in
+                        var success = task.value != nil
+                        defer {
+                            if success {
+                                print("logged in anonymously as user \(String(describing: client.auth?.userId!))")
+                            } else {
+                                print("failed to log in anonymously: \(String(describing: task.error?.localizedDescription))")
+                            }
+                        }
+                        success = task.value!
+                    })
+                } else {
+                    print("no anonymous provider")
+                }
+            }
+        })
+	```
+
+4. Now run your app in XCode by going to product, Run (or hitting ⌘R).
+5. Once the app is running, open up the Android Monitor by going to View, Tool Windows, Android Monitor
+6. You should see log messages like:
+
+	```
+	logging in anonymously                                                    	
+	logged in anonymously as user 58c5d6ebb9ede022a3d75050
+	```
+
+#### Running a Pipeline
+
+1. Once logged in, running a pipeline happens via the client's executePipeline method
+2. To avoid nesting our tasks any further, after logging in we should call some init method that will use the client. We will also place the client as a member of our AppDelegate:
+
+	```swift
+	let client = StitchClient(appId: "your-app-id")
+	
+	func initializeClient() {
+		var literalArgs: [String: ExtendedJsonRepresentable] = [:]
+		literalArgs["items"] = BsonArray(array: ["Hello"])
+		self.client.executePipeline(pipeline: Pipeline(action: "literal", args: literalArgs)).response(completionHandler: { (result) in
+		    if let value = result.value {
+			if let strings = value as? BsonArray {
+			    print("number of results: \(strings.count)")
+			    strings.forEach { string in print(string) }
+			}
+		    }
+		})
+    }
+	```
+3. Call `initalizeClient()` after logging in and run your app. You should see a messages like:
+
+	```
+	number of results: 1
+	Hello world!
+	```
 
 #### Set up Push Notifications (GCM)
 
@@ -102,7 +169,7 @@ TODO: Write usage instructions.
 
 ##### Receive Push Notifications in iOS
 
-1. TODO: Write enabling push.
+1. Currently, StitchGCM needs to be added as a submodule.
 
 2. To create a GCM Push Provider by asking Stitch, you must use the *getPushProviders* method and ensure a GCM provider exists:
 
