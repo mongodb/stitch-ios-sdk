@@ -1,13 +1,25 @@
 import Foundation
 
+/**
+    UserProfile represents an authenticated user.
+ */
 public struct UserProfile {
     
     private static let idKey =              "userId"
     private static let identitiesKey =      "identities"
     private static let dataKey =            "data"
     
+    /**
+        The Unique ID of this user within Stitch.
+     */
     public private(set) var id: String
+    /**
+        The set of identities that this user is known by.
+     */
     public private(set) var identities: [Identity]
+    /**
+        The extra data associated with this user.
+     */
     public private(set) var data: [String : Any]
     
     internal var json: [String : Any] {
@@ -40,13 +52,21 @@ public struct UserProfile {
     }
     
     //MARK: - Identity
-    
+    /**
+        Identity is an alias by which this user can be authenticated in as.
+     */
     public struct Identity {
         
         private static let idKey =              "id"
         private static let providerKey =        "provider"
         
+        /**
+            The provider specific Unique ID.
+         */
         private var id: String
+        /**
+            The provider of this identity.
+         */
         private var provider: String
         
         internal var json: [String : Any] {

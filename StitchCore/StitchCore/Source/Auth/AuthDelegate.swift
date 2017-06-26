@@ -1,5 +1,9 @@
 import Foundation
 
+/**
+     An AuthListener provides an observer interface for users to listen in on auth
+     events from a StitchClient.
+ */
 public protocol AuthDelegate {
     /**
         Called when a user is logged in

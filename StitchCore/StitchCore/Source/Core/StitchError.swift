@@ -1,20 +1,34 @@
 import Foundation
 
+/// Network errors in response from the Stitch servers.
 public enum StitchError: Error {
-    
+    /// Reasons why the server may fail that contain more precise messaging.
     public enum ServerErrorReason {
+        /// Session was no longer valid
         case invalidSession(message: String)
+        /// Domain was not allowd
         case domainNotAllowed(message: String)
+        /// Stage used required another stage before it in order to function properly
         case stageSourceRequired(message: String)
+        /// Invalid parameter passed to server
         case invalidParameter(message: String)
+        /// Error with twilio service
         case twilioError(message: String)
+        /// Error with pubnub
         case pubNubError(message: String)
+        /// Standard http error
         case httpError(message: String)
+        /// Error with Amazon Web Services
         case awsError(message: String)
+        /// Error with MongoDB service
         case mongoDBError(message: String)
+        /// Error with Slack service
         case slackError(message: String)
+        /// Requested provided was not found
         case authProviderNotFound(message: String)
+        /// No rule in the app was found
         case noMatchingRuleFound(message: String)
+        /// Misc errors
         case other(message: String)
         
         internal var isInvalidSession: Bool {
@@ -26,6 +40,13 @@ public enum StitchError: Error {
             }
         }
         
+        /**
+             Create a new `StitchError`.
+ 
+             - Parameters:
+                 - errorCode: String based error code that should coincide with `ServerErrorReason`
+                 - errorMessage: More precise error message
+         */
         init(errorCode: String, errorMessage: String) {
             switch errorCode {
             case "InvalidSession":
@@ -71,10 +92,15 @@ public enum StitchError: Error {
         }
     }
     
+    /// General server error
     case serverError(reason: ServerErrorReason)
+    /// Failed pasing a response
     case responseParsingFailed(reason: String)
+    /// Not authorized to make this action
     case unauthorized(message: String)
+    /// This action was illegal
     case illegalAction(message: String)
+    /// StitchClient has already been released
     case clientReleased
 }
 
@@ -82,6 +108,7 @@ public enum StitchError: Error {
 // MARK: - Error Descriptions
 
 extension StitchError: LocalizedError {
+    /// String describing this error
     public var errorDescription: String? {
         switch self {
         case .responseParsingFailed(let reason):
@@ -99,6 +126,7 @@ extension StitchError: LocalizedError {
 }
 
 extension StitchError.ServerErrorReason: LocalizedError {
+    /// String describing this error
     public var errorDescription: String? {
         switch self {
         case .invalidSession(let message):

@@ -1,6 +1,7 @@
 import Foundation
 import ExtendedJson
 
+/// Simple data holder for push messages with Stitch formatting.
 @objc public class PushMessage: NSObject {
     enum MessageKeys: String {
         case StitchData = "stitch.data";
@@ -22,8 +23,8 @@ import ExtendedJson
     
     /**
      Convert rawData to a PushMessage struct
-     * -parameter data: The data from the GCM push notification.
-     * -returns: PushMessage constructed from a GCM push notification.
+        - parameter data: The data from the GCM push notification.
+        - returns: PushMessage constructed from a GCM push notification.
      */
     public class func fromGCM(data: [AnyHashable: Any]) ->  PushMessage {
         var stitchData: Document?

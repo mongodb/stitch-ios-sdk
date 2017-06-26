@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ServerErrorReason Enum Reference</title>
+    <link rel="stylesheet" type="text/css" href="../../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../../js/jquery.min.js" defer></script>
+    <script src="../../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Enum/ServerErrorReason" class="dashAnchor"></a>
+    <a title="ServerErrorReason Enum Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../../index.html">StitchCore Docs</a> (100% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../../index.html">StitchCore Reference</a>
+        <img id="carat" src="../../img/carat.png" />
+        ServerErrorReason Enum Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Classes/AlamofireNetworkAdapter.html">AlamofireNetworkAdapter</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/AvailablePushProviders.html">AvailablePushProviders</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/PushManager.html">PushManager</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/PushMessage.html">PushMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/PushProviderInfoHelper.html">PushProviderInfoHelper</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/StitchClient.html">StitchClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/StitchGCMPushClient.html">StitchGCMPushClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/StitchGCMPushProviderInfo.html">StitchGCMPushProviderInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/StitchTask.html">StitchTask</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../../Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Enums/NAHTTPMethod.html">NAHTTPMethod</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Enums/Provider.html">Provider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Enums/PushProviderName.html">PushProviderName</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Enums/StitchError.html">StitchError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Enums/StitchError/ServerErrorReason.html">– ServerErrorReason</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Enums/StitchResult.html">StitchResult</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Protocols/AuthDelegate.html">AuthDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Protocols/AuthProvider.html">AuthProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Protocols/NetworkAdapter.html">NetworkAdapter</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Protocols/PushClient.html">PushClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Protocols/PushProviderInfo.html">PushProviderInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Protocols/StitchClientType.html">StitchClientType</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../../Structs.html">Structs</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Structs/AnonymousAuthProvider.html">AnonymousAuthProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs.html#/s:V10StitchCore25AnonymousAuthProviderInfo">AnonymousAuthProviderInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/Auth.html">Auth</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/AuthProviderInfo.html">AuthProviderInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/EmailPasswordAuthProvider.html">EmailPasswordAuthProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs.html#/s:V10StitchCore29EmailPasswordAuthProviderInfo">EmailPasswordAuthProviderInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/FacebookAuthProvider.html">FacebookAuthProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/FacebookAuthProviderInfo.html">FacebookAuthProviderInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/GoogleAuthProvider.html">GoogleAuthProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/GoogleAuthProviderInfo.html">GoogleAuthProviderInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/Pipeline.html">Pipeline</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/UserProfile.html">UserProfile</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/UserProfile.html#/s:VV10StitchCore11UserProfile8Identity">– Identity</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>ServerErrorReason</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">ServerErrorReason</span></code></pre>
+
+                </div>
+              </div>
+            <p>Reasons why the server may fail that contain more precise messaging.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FOO10StitchCore11StitchError17ServerErrorReason14invalidSessionFMS1_FT7messageSS_S1_"></a>
+                    <a name="//apple_ref/swift/Element/invalidSession" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FOO10StitchCore11StitchError17ServerErrorReason14invalidSessionFMS1_FT7messageSS_S1_">invalidSession</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Session was no longer valid</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="nf">invalidSession</span><span class="p">(</span><span class="nv">message</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FOO10StitchCore11StitchError17ServerErrorReason16domainNotAllowedFMS1_FT7messageSS_S1_"></a>
+                    <a name="//apple_ref/swift/Element/domainNotAllowed" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FOO10StitchCore11StitchError17ServerErrorReason16domainNotAllowedFMS1_FT7messageSS_S1_">domainNotAllowed</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Domain was not allowd</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="nf">domainNotAllowed</span><span class="p">(</span><span class="nv">message</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FOO10StitchCore11StitchError17ServerErrorReason19stageSourceRequiredFMS1_FT7messageSS_S1_"></a>
+                    <a name="//apple_ref/swift/Element/stageSourceRequired" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FOO10StitchCore11StitchError17ServerErrorReason19stageSourceRequiredFMS1_FT7messageSS_S1_">stageSourceRequired</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Stage used required another stage before it in order to function properly</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="nf">stageSourceRequired</span><span class="p">(</span><span class="nv">message</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FOO10StitchCore11StitchError17ServerErrorReason16invalidParameterFMS1_FT7messageSS_S1_"></a>
+                    <a name="//apple_ref/swift/Element/invalidParameter" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FOO10StitchCore11StitchError17ServerErrorReason16invalidParameterFMS1_FT7messageSS_S1_">invalidParameter</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Invalid parameter passed to server</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="nf">invalidParameter</span><span class="p">(</span><span class="nv">message</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FOO10StitchCore11StitchError17ServerErrorReason11twilioErrorFMS1_FT7messageSS_S1_"></a>
+                    <a name="//apple_ref/swift/Element/twilioError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FOO10StitchCore11StitchError17ServerErrorReason11twilioErrorFMS1_FT7messageSS_S1_">twilioError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Error with twilio service</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="nf">twilioError</span><span class="p">(</span><span class="nv">message</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FOO10StitchCore11StitchError17ServerErrorReason11pubNubErrorFMS1_FT7messageSS_S1_"></a>
+                    <a name="//apple_ref/swift/Element/pubNubError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FOO10StitchCore11StitchError17ServerErrorReason11pubNubErrorFMS1_FT7messageSS_S1_">pubNubError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Error with pubnub</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="nf">pubNubError</span><span class="p">(</span><span class="nv">message</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FOO10StitchCore11StitchError17ServerErrorReason9httpErrorFMS1_FT7messageSS_S1_"></a>
+                    <a name="//apple_ref/swift/Element/httpError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FOO10StitchCore11StitchError17ServerErrorReason9httpErrorFMS1_FT7messageSS_S1_">httpError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Standard http error</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="nf">httpError</span><span class="p">(</span><span class="nv">message</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FOO10StitchCore11StitchError17ServerErrorReason8awsErrorFMS1_FT7messageSS_S1_"></a>
+                    <a name="//apple_ref/swift/Element/awsError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FOO10StitchCore11StitchError17ServerErrorReason8awsErrorFMS1_FT7messageSS_S1_">awsError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Error with Amazon Web Services</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="nf">awsError</span><span class="p">(</span><span class="nv">message</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FOO10StitchCore11StitchError17ServerErrorReason12mongoDBErrorFMS1_FT7messageSS_S1_"></a>
+                    <a name="//apple_ref/swift/Element/mongoDBError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FOO10StitchCore11StitchError17ServerErrorReason12mongoDBErrorFMS1_FT7messageSS_S1_">mongoDBError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Error with MongoDB service</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="nf">mongoDBError</span><span class="p">(</span><span class="nv">message</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FOO10StitchCore11StitchError17ServerErrorReason10slackErrorFMS1_FT7messageSS_S1_"></a>
+                    <a name="//apple_ref/swift/Element/slackError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FOO10StitchCore11StitchError17ServerErrorReason10slackErrorFMS1_FT7messageSS_S1_">slackError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Error with Slack service</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="nf">slackError</span><span class="p">(</span><span class="nv">message</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FOO10StitchCore11StitchError17ServerErrorReason20authProviderNotFoundFMS1_FT7messageSS_S1_"></a>
+                    <a name="//apple_ref/swift/Element/authProviderNotFound" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FOO10StitchCore11StitchError17ServerErrorReason20authProviderNotFoundFMS1_FT7messageSS_S1_">authProviderNotFound</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Requested provided was not found</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="nf">authProviderNotFound</span><span class="p">(</span><span class="nv">message</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FOO10StitchCore11StitchError17ServerErrorReason19noMatchingRuleFoundFMS1_FT7messageSS_S1_"></a>
+                    <a name="//apple_ref/swift/Element/noMatchingRuleFound" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FOO10StitchCore11StitchError17ServerErrorReason19noMatchingRuleFoundFMS1_FT7messageSS_S1_">noMatchingRuleFound</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>No rule in the app was found</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="nf">noMatchingRuleFound</span><span class="p">(</span><span class="nv">message</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FOO10StitchCore11StitchError17ServerErrorReason5otherFMS1_FT7messageSS_S1_"></a>
+                    <a name="//apple_ref/swift/Element/other" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FOO10StitchCore11StitchError17ServerErrorReason5otherFMS1_FT7messageSS_S1_">other</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Misc errors</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="nf">other</span><span class="p">(</span><span class="nv">message</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2017 <a class="link" href="https://stitch.mongodb.com" target="_blank" rel="external">MongoDB</a>. All rights reserved. (Last updated: 2017-06-22)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
