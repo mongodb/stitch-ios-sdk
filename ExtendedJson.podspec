@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "ExtendedJson"
-  s.version      = "0.1.0"
+  s.version      = "0.1.1"
   s.summary      = "A helper library to serialize and de-serialize Extended JSON to communicate with MongoDB's BaaS."
   s.license      = {
   						:type => "Apache 2",
@@ -15,5 +15,5 @@ Pod::Spec.new do |s|
   				   }
   s.source_files  = "ExtendedJson/ExtendedJson/**/*.swift"
   s.requires_arc = true
-  s.dependency "StitchLogger", "~> 0.1.0"
+  s.dependency "StitchLogger", "~> 0.1.1"
 end
