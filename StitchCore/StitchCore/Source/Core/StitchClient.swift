@@ -4,8 +4,8 @@ import ExtendedJson
 import StitchLogger
 import Security
 
-internal struct Consts {
-    static let DefaultBaseUrl =          "https://stitch.mongodb.com"
+public struct Consts {
+    public static let DefaultBaseUrl =          "https://stitch.mongodb.com"
     static let ApiPath =                 "/api/client/v1.0/app/"
     
     //User Defaults
@@ -236,7 +236,7 @@ public class StitchClient: StitchClientType {
                         task.result = .failure(error)
                     }
                     else {
-                        task.result = .success()
+                        task.result = .success(Void())
                     }
                 }
             case .failure(let error):
@@ -305,7 +305,7 @@ public class StitchClient: StitchClientType {
                         task.result = .failure(error)
                     }
                     else {
-                        task.result = .success()
+                        task.result = .success(Void())
                     }
                 }
             case .failure(let error):
@@ -374,7 +374,7 @@ public class StitchClient: StitchClientType {
                         task.result = .failure(error)
                     }
                     else {
-                        task.result = .success()
+                        task.result = .success(Void())
                     }
                 }
             case .failure(let error):

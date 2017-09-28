@@ -4,6 +4,7 @@ import Alamofire
 /// Network Adapter implementation using the `AlamoFire` framework.
 public class AlamofireNetworkAdapter: NetworkAdapter {
     static var jsonArrayKey: String = "jsonArrayKey"
+    public init() {}
     /**
      Make a network request with an array of key value pairs.
      
