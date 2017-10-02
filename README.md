@@ -20,7 +20,7 @@
 $ gem install cocoapods
 ```
 
-> CocoaPods 1.1.0+ is required to build Stitch iOS 0.1.0+.
+> CocoaPods 1.1.0+ is required to build Stitch iOS 0.2.0+.
 
 To integrate the iOS SDK into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
@@ -30,11 +30,11 @@ platform :ios, '10.0'
 use_frameworks!
 
 target '<Your Target Name>' do
-    pod 'StitchCore', '~> 0.1.0'
+    pod 'StitchCore', '~> 0.2.0'
     # optional: for accessing a mongodb client
-    pod 'MongoDBService', '~> 0.1.0'
+    pod 'MongoDBService', '~> 0.2.0'
     # optional: for using mongodb's ExtendedJson
-    pod 'ExtendedJson', '~> 0.1.0'
+    pod 'ExtendedJson', '~> 0.2.0'
 end
 ```
 

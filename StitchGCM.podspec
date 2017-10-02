@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "StitchGCM"
-  s.version      = "0.1.0"
+  s.version      = "0.2.0"
   s.summary      = "A helper library to easily have Google Cloud Messaging running on your application"
   s.license      = {
                                                 :type => "Apache 2",
