@@ -15,6 +15,12 @@ public struct BsonArray {
         underlyingArray = array
     }
     
+    public init(array: [Any]) throws {
+        underlyingArray = try array.map { (any) -> ExtendedJsonRepresentable in
+            return try Document.read(value: any)
+        }
+    }
+    
     public mutating func remove(object: ExtendedJsonRepresentable) -> Bool {
         for i in 0..<underlyingArray.count {
             let currentObject = underlyingArray[i]
@@ -70,7 +76,7 @@ extension BsonArray: Collection {
 
 }
 
-extension BsonArray: ExpressibleByArrayLiteral{
+extension BsonArray: ExpressibleByArrayLiteral {
     public init(arrayLiteral elements: ExtendedJsonRepresentable...) {
         self.init()
         underlyingArray = elements

@@ -23,6 +23,26 @@
 		36A0230F1EEEECC600450FB1 /* ExtendedJsonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A0230E1EEEECC600450FB1 /* ExtendedJsonTests.swift */; };
 		36A023211EEEFD4300450FB1 /* StitchLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36A023201EEEFD2A00450FB1 /* StitchLogger.framework */; };
 		36FA276D1E56278300909825 /* ExtendedJson.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36FA27631E56278300909825 /* ExtendedJson.framework */; };
+		4938E68D1F8438490038E242 /* Date+ExtenedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4938E68C1F8438490038E242 /* Date+ExtenedJson.swift */; };
+		4938E68F1F843D000038E242 /* NSNull+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4938E68E1F843D000038E242 /* NSNull+ExtendedJson.swift */; };
+		4938E6911F8440750038E242 /* MinKey+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4938E6901F8440750038E242 /* MinKey+ExtendedJson.swift */; };
+		4938E6931F8588CE0038E242 /* MaxKey+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4938E6921F8588CE0038E242 /* MaxKey+ExtendedJson.swift */; };
+		4938E6951F858A940038E242 /* BsonUndefined+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4938E6941F858A940038E242 /* BsonUndefined+ExtendedJson.swift */; };
+		4938E6971F858C9A0038E242 /* BsonArray+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4938E6961F858C9A0038E242 /* BsonArray+ExtendedJson.swift */; };
+		4938E6991F85930F0038E242 /* Bool+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4938E6981F85930F0038E242 /* Bool+ExtendedJson.swift */; };
+		4938E69B1F8683990038E242 /* BsonDBRef+ExtendedJsonRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4938E69A1F8683990038E242 /* BsonDBRef+ExtendedJsonRepresentable.swift */; };
+		4938E69D1F8687360038E242 /* BsonCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4938E69C1F8687360038E242 /* BsonCode.swift */; };
+		4938E69F1F86879B0038E242 /* BsonCode+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4938E69E1F86879B0038E242 /* BsonCode+ExtendedJson.swift */; };
+		4938E6A11F868A400038E242 /* Document+ExtendedJsonRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4938E6A01F868A400038E242 /* Document+ExtendedJsonRepresentable.swift */; };
+		496757051F82F3CD00F23F4D /* BsonDBRef.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496757041F82F3CD00F23F4D /* BsonDBRef.swift */; };
+		49D2E25B1F841CA4007B7A54 /* ObjectId+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D2E25A1F841CA4007B7A54 /* ObjectId+ExtendedJson.swift */; };
+		49D2E25D1F841F95007B7A54 /* String+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D2E25C1F841F95007B7A54 /* String+ExtendedJson.swift */; };
+		49D2E25F1F842021007B7A54 /* Int+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D2E25E1F842021007B7A54 /* Int+ExtendedJson.swift */; };
+		49D2E2611F842B44007B7A54 /* Double+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D2E2601F842B44007B7A54 /* Double+ExtendedJson.swift */; };
+		49D2E2631F842BCD007B7A54 /* Decimal+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D2E2621F842BCD007B7A54 /* Decimal+ExtendedJson.swift */; };
+		49D2E2651F842C28007B7A54 /* BsonBinary+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D2E2641F842C28007B7A54 /* BsonBinary+ExtendedJson.swift */; };
+		49D2E2671F842F47007B7A54 /* BsonTimestamp+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D2E2661F842F46007B7A54 /* BsonTimestamp+ExtendedJson.swift */; };
+		49D2E26B1F843335007B7A54 /* NSRegularExpression+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D2E26A1F843335007B7A54 /* NSRegularExpression+ExtendedJson.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +88,26 @@
 		36A0231B1EEEFD2A00450FB1 /* StitchLogger.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = StitchLogger.xcodeproj; path = ../../StitchLogger/StitchLogger.xcodeproj; sourceTree = "<group>"; };
 		36FA27631E56278300909825 /* ExtendedJson.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ExtendedJson.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		36FA276C1E56278300909825 /* ExtendedJsonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExtendedJsonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4938E68C1F8438490038E242 /* Date+ExtenedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+ExtenedJson.swift"; sourceTree = "<group>"; };
+		4938E68E1F843D000038E242 /* NSNull+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSNull+ExtendedJson.swift"; sourceTree = "<group>"; };
+		4938E6901F8440750038E242 /* MinKey+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MinKey+ExtendedJson.swift"; sourceTree = "<group>"; };
+		4938E6921F8588CE0038E242 /* MaxKey+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MaxKey+ExtendedJson.swift"; sourceTree = "<group>"; };
+		4938E6941F858A940038E242 /* BsonUndefined+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BsonUndefined+ExtendedJson.swift"; sourceTree = "<group>"; };
+		4938E6961F858C9A0038E242 /* BsonArray+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BsonArray+ExtendedJson.swift"; sourceTree = "<group>"; };
+		4938E6981F85930F0038E242 /* Bool+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+ExtendedJson.swift"; sourceTree = "<group>"; };
+		4938E69A1F8683990038E242 /* BsonDBRef+ExtendedJsonRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BsonDBRef+ExtendedJsonRepresentable.swift"; sourceTree = "<group>"; };
+		4938E69C1F8687360038E242 /* BsonCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BsonCode.swift; sourceTree = "<group>"; };
+		4938E69E1F86879B0038E242 /* BsonCode+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BsonCode+ExtendedJson.swift"; sourceTree = "<group>"; };
+		4938E6A01F868A400038E242 /* Document+ExtendedJsonRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Document+ExtendedJsonRepresentable.swift"; sourceTree = "<group>"; };
+		496757041F82F3CD00F23F4D /* BsonDBRef.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BsonDBRef.swift; sourceTree = "<group>"; };
+		49D2E25A1F841CA4007B7A54 /* ObjectId+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ObjectId+ExtendedJson.swift"; sourceTree = "<group>"; };
+		49D2E25C1F841F95007B7A54 /* String+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+ExtendedJson.swift"; sourceTree = "<group>"; };
+		49D2E25E1F842021007B7A54 /* Int+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+ExtendedJson.swift"; sourceTree = "<group>"; };
+		49D2E2601F842B44007B7A54 /* Double+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+ExtendedJson.swift"; sourceTree = "<group>"; };
+		49D2E2621F842BCD007B7A54 /* Decimal+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decimal+ExtendedJson.swift"; sourceTree = "<group>"; };
+		49D2E2641F842C28007B7A54 /* BsonBinary+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BsonBinary+ExtendedJson.swift"; sourceTree = "<group>"; };
+		49D2E2661F842F46007B7A54 /* BsonTimestamp+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BsonTimestamp+ExtendedJson.swift"; sourceTree = "<group>"; };
+		49D2E26A1F843335007B7A54 /* NSRegularExpression+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSRegularExpression+ExtendedJson.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,27 +142,12 @@
 		36A022EB1EEEEC1100450FB1 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				36A022EC1EEEEC1100450FB1 /* Core */,
+				49D2E2691F8432FC007B7A54 /* ExtendedJson */,
+				49D2E2681F8432D5007B7A54 /* Bson */,
 				36A022F61EEEEC1100450FB1 /* Helpers */,
 				36A022F91EEEEC1100450FB1 /* Supporting Files */,
 			);
 			path = Source;
-			sourceTree = "<group>";
-		};
-		36A022EC1EEEEC1100450FB1 /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				36A022ED1EEEEC1100450FB1 /* BsonArray.swift */,
-				36A022EE1EEEEC1100450FB1 /* BsonBinary.swift */,
-				36A022EF1EEEEC1100450FB1 /* BsonTimestamp.swift */,
-				36A022F01EEEEC1100450FB1 /* BsonUndefined.swift */,
-				36A022F11EEEEC1100450FB1 /* Document.swift */,
-				36A022F21EEEEC1100450FB1 /* ExtendedJsonRepresentable.swift */,
-				36A022F31EEEEC1100450FB1 /* MaxKey.swift */,
-				36A022F41EEEEC1100450FB1 /* MinKey.swift */,
-				36A022F51EEEEC1100450FB1 /* ObjectId.swift */,
-			);
-			path = Core;
 			sourceTree = "<group>";
 		};
 		36A022F61EEEEC1100450FB1 /* Helpers */ = {
@@ -184,6 +209,49 @@
 				36FA276C1E56278300909825 /* ExtendedJsonTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		49D2E2681F8432D5007B7A54 /* Bson */ = {
+			isa = PBXGroup;
+			children = (
+				36A022ED1EEEEC1100450FB1 /* BsonArray.swift */,
+				36A022EE1EEEEC1100450FB1 /* BsonBinary.swift */,
+				4938E69C1F8687360038E242 /* BsonCode.swift */,
+				496757041F82F3CD00F23F4D /* BsonDBRef.swift */,
+				36A022EF1EEEEC1100450FB1 /* BsonTimestamp.swift */,
+				36A022F01EEEEC1100450FB1 /* BsonUndefined.swift */,
+				36A022F11EEEEC1100450FB1 /* Document.swift */,
+				36A022F31EEEEC1100450FB1 /* MaxKey.swift */,
+				36A022F41EEEEC1100450FB1 /* MinKey.swift */,
+				36A022F51EEEEC1100450FB1 /* ObjectId.swift */,
+			);
+			path = Bson;
+			sourceTree = "<group>";
+		};
+		49D2E2691F8432FC007B7A54 /* ExtendedJson */ = {
+			isa = PBXGroup;
+			children = (
+				36A022F21EEEEC1100450FB1 /* ExtendedJsonRepresentable.swift */,
+				4938E6981F85930F0038E242 /* Bool+ExtendedJson.swift */,
+				4938E6961F858C9A0038E242 /* BsonArray+ExtendedJson.swift */,
+				49D2E2641F842C28007B7A54 /* BsonBinary+ExtendedJson.swift */,
+				4938E69E1F86879B0038E242 /* BsonCode+ExtendedJson.swift */,
+				4938E69A1F8683990038E242 /* BsonDBRef+ExtendedJsonRepresentable.swift */,
+				49D2E2661F842F46007B7A54 /* BsonTimestamp+ExtendedJson.swift */,
+				4938E6941F858A940038E242 /* BsonUndefined+ExtendedJson.swift */,
+				4938E68C1F8438490038E242 /* Date+ExtenedJson.swift */,
+				49D2E2621F842BCD007B7A54 /* Decimal+ExtendedJson.swift */,
+				4938E6A01F868A400038E242 /* Document+ExtendedJsonRepresentable.swift */,
+				49D2E2601F842B44007B7A54 /* Double+ExtendedJson.swift */,
+				49D2E25E1F842021007B7A54 /* Int+ExtendedJson.swift */,
+				4938E6921F8588CE0038E242 /* MaxKey+ExtendedJson.swift */,
+				4938E6901F8440750038E242 /* MinKey+ExtendedJson.swift */,
+				4938E68E1F843D000038E242 /* NSNull+ExtendedJson.swift */,
+				49D2E26A1F843335007B7A54 /* NSRegularExpression+ExtendedJson.swift */,
+				49D2E25A1F841CA4007B7A54 /* ObjectId+ExtendedJson.swift */,
+				49D2E25C1F841F95007B7A54 /* String+ExtendedJson.swift */,
+			);
+			path = ExtendedJson;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -316,15 +384,35 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4938E6971F858C9A0038E242 /* BsonArray+ExtendedJson.swift in Sources */,
+				4938E69B1F8683990038E242 /* BsonDBRef+ExtendedJsonRepresentable.swift in Sources */,
+				49D2E25F1F842021007B7A54 /* Int+ExtendedJson.swift in Sources */,
 				36A023051EEEEC1100450FB1 /* MaxKey.swift in Sources */,
+				4938E68F1F843D000038E242 /* NSNull+ExtendedJson.swift in Sources */,
+				49D2E26B1F843335007B7A54 /* NSRegularExpression+ExtendedJson.swift in Sources */,
+				4938E6991F85930F0038E242 /* Bool+ExtendedJson.swift in Sources */,
+				496757051F82F3CD00F23F4D /* BsonDBRef.swift in Sources */,
 				36A023011EEEEC1100450FB1 /* BsonTimestamp.swift in Sources */,
+				4938E6951F858A940038E242 /* BsonUndefined+ExtendedJson.swift in Sources */,
+				4938E69D1F8687360038E242 /* BsonCode.swift in Sources */,
 				36A023001EEEEC1100450FB1 /* BsonBinary.swift in Sources */,
+				49D2E2651F842C28007B7A54 /* BsonBinary+ExtendedJson.swift in Sources */,
+				4938E6911F8440750038E242 /* MinKey+ExtendedJson.swift in Sources */,
+				49D2E2611F842B44007B7A54 /* Double+ExtendedJson.swift in Sources */,
 				36A023021EEEEC1100450FB1 /* BsonUndefined.swift in Sources */,
+				49D2E25B1F841CA4007B7A54 /* ObjectId+ExtendedJson.swift in Sources */,
+				4938E69F1F86879B0038E242 /* BsonCode+ExtendedJson.swift in Sources */,
 				36A023091EEEEC1100450FB1 /* Validators.swift in Sources */,
 				36A023081EEEEC1100450FB1 /* BsonError.swift in Sources */,
 				36A023061EEEEC1100450FB1 /* MinKey.swift in Sources */,
+				4938E68D1F8438490038E242 /* Date+ExtenedJson.swift in Sources */,
 				36A022FF1EEEEC1100450FB1 /* BsonArray.swift in Sources */,
+				4938E6A11F868A400038E242 /* Document+ExtendedJsonRepresentable.swift in Sources */,
+				4938E6931F8588CE0038E242 /* MaxKey+ExtendedJson.swift in Sources */,
+				49D2E2631F842BCD007B7A54 /* Decimal+ExtendedJson.swift in Sources */,
 				36A023031EEEEC1100450FB1 /* Document.swift in Sources */,
+				49D2E25D1F841F95007B7A54 /* String+ExtendedJson.swift in Sources */,
+				49D2E2671F842F47007B7A54 /* BsonTimestamp+ExtendedJson.swift in Sources */,
 				36A023071EEEEC1100450FB1 /* ObjectId.swift in Sources */,
 				36A023041EEEEC1100450FB1 /* ExtendedJsonRepresentable.swift in Sources */,
 			);

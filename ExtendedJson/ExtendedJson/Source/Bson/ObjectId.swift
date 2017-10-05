@@ -13,7 +13,7 @@ public struct ObjectId: Equatable {
     
     private static let lock = DispatchSemaphore(value: 1)
     
-    public  var hexString: String {
+    public var hexString: String {
         get {
             var hexStr = String()
             for byte in byteArray {
@@ -28,10 +28,13 @@ public struct ObjectId: Equatable {
     }
     
     //MARK: Init
+    private init(bytes: [UInt8]) {
+        self.byteArray = bytes
+    }
     
     public init(hexString: String) throws {
         guard ObjectId.isValid(hexString: hexString) else {
-            throw BsonError.illegalArgument(message: "invalid hexadecimal representation of an ObjectId: [\(hexString)]")
+            throw BsonError<String>.illegalArgument(message: "invalid hexadecimal representation of an ObjectId: [\(hexString)]")
         }
         
         var characterIterator = hexString.characters.makeIterator()
@@ -39,16 +42,15 @@ public struct ObjectId: Equatable {
             let singleByteString = String([c1, c2])
             
             guard let stringAsBytes = UInt8(singleByteString, radix: 16) else {
-                throw BsonError.illegalArgument(message: "invalid hexadecimal representation of characters in object with with caracters: \(c1), \(c2)")
+                throw BsonError<String>.illegalArgument(message: "invalid hexadecimal representation of characters in object with with caracters: \(c1), \(c2)")
             }
             
             byteArray.append(stringAsBytes)
         }
         
         guard ObjectId.isValid(byteArray: byteArray) else {
-            throw BsonError.illegalArgument(message: "invalid hexadecimal representation of an ObjectId: [\(hexString)]")
+            throw BsonError<String>.illegalArgument(message: "invalid hexadecimal representation of an ObjectId: [\(hexString)]")
         }
-        
     }
     
     public init() {
@@ -59,7 +61,40 @@ public struct ObjectId: Equatable {
         byteArray.append(contentsOf: currentTimeStamp)
         byteArray.append(contentsOf: randomNumber)
         byteArray.append(contentsOf: counterNum)
+    }
+    
+    private static func appendUInt32(b: inout [UInt8], myInt: UInt32) {
+        _ = b[3] // early bounds check to guarantee safety of writes below
+        for i in 0...3 {
+            b.append(UInt8(myInt >> UInt32((MemoryLayout<UInt32>.size - 1 - i) * 8) & UInt32(0xff)))
+        }
+    }
+    
+    public static func NewObjectId() -> ObjectId {
+        func bytes(_ int: inout UInt32) -> [UInt8] {
+            return withUnsafeBytes(of: &int) { Array($0) }
+        }
         
+        var data = Array<UInt8>()
+        
+        // get timestamp - first 4 bytes
+        var date = UInt32(NSDate().timeIntervalSince1970).bigEndian
+        var random1 = arc4random().bigEndian
+        var pid = UInt32(ProcessInfo.processInfo.processIdentifier).bigEndian
+        var random2 = arc4random().bigEndian
+        
+        data.append(contentsOf: bytes(&date)[0..<4])
+        
+        // 3 bytes Just using a random number, but should be using device id and bigEndian
+        data.append(contentsOf: bytes(&random1)[0..<3])
+        
+        // 2 bytes pid - big endian
+        data.append(contentsOf: bytes(&pid)[0..<2])
+        
+        // 3 bytes big endian counter - using a random number
+        data.append(contentsOf: bytes(&random2)[0..<3])
+        
+        return ObjectId(bytes: data)
     }
     
     //MARK: Helpers

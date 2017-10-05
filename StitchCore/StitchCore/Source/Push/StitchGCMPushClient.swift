@@ -37,7 +37,7 @@ public class StitchGCMPushClient: PushClient {
         var request = getBaseRegisterPushRequest(serviceName: Props.GCMServiceName.rawValue)
         var data = request[DeviceFields.Data.rawValue] as! [String : ExtendedJsonRepresentable]
         data[DeviceFields.RegistrationToken.rawValue] = registrationToken
-        request[DeviceFields.Data.rawValue] = data as ExtendedJsonRepresentable
+        request[DeviceFields.Data.rawValue] = try! Document.read(value: data)
         return request
     }
 

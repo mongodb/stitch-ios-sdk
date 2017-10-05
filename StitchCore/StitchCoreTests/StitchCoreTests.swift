@@ -19,12 +19,17 @@ class StitchCoreTests: XCTestCase {
         let objectId = try ObjectId(hexString: hexString)
         let date = Date()
         var array = BsonArray()
-        var embeddedDoc = Document()
         let number = 42
+        var embeddedDoc: Document = [
+            "testObjectId": objectId,
+            "testLong": Int64(number)
+        ]
         embeddedDoc["testObjectId"] = objectId
         embeddedDoc["testLong"] = Int64(number)
         array.append(embeddedDoc)
         array.append(embeddedDoc)// add the same document twice
+        
+        let dbRefId = ObjectId.NewObjectId()
         
         // create pipline to test
         let pipeline = Pipeline(action: "testAction", service: "testService", args: [
@@ -37,12 +42,14 @@ class StitchCoreTests: XCTestCase {
             "testTrue" : true,
             "testFalse" : false,
             "testBinary" : BsonBinary(type: .binary, data: [77, 111, 110, 103, 111, 68, 66]),
-            "testTimestamp" : BsonTimestamp(time: date),
+            "testTimestamp" : BsonTimestamp(time: date, increment: 1),
             "testRegex" : try NSRegularExpression(pattern: "[0-9a-fA-F]+", options: .caseInsensitive),
             "testMinKey" : MinKey(),
             "testMaxKey" : MaxKey(),
-            "testArray" : array
-            ])
+            "testArray" : array,
+            "testCode": BsonCode(code: "foo", scope: ["bar": "baz"]),
+            "testRef": BsonDBRef(ref: "foo", id: dbRefId, db: "bar", otherFields: [:])
+        ])
         
         let pipelineJson = pipeline.toJson
         
@@ -51,26 +58,28 @@ class StitchCoreTests: XCTestCase {
         
         // the expected args result as extended json
         let numberAsString = String(number)
-        let dateAsString = String(date.timeIntervalSince1970 * 1000)
+        let dateAsString = String(UInt64(date.timeIntervalSince1970 * 1000))
         let expectedArgsExtendedJson: [String : Any] = [
             "testObjectId" : ["$oid" : hexString],
             "testInt" : ["$numberInt" : numberAsString],
             "testLong" : ["$numberLong" : numberAsString],
             "testDouble" : ["$numberDouble" : numberAsString],
             "testString" : "MongoDB",
-            "testDate" : ["$date" : dateAsString],
+            "testDate" : ["$date" : ["$numberLong" : dateAsString]],
             "testTrue" : true,
             "testFalse" : false,
-            "testBinary" : ["$binary" : "TW9uZ29EQg==", "$type" : "0x0"],
-            "testTimestamp" : ["$timestamp" : String(UInt64(date.timeIntervalSince1970))],
-            "testRegex" : ["$regex" :"[0-9a-fA-F]+", "$options" : "i"],
+            "testBinary" : ["$binary" : ["base64" : "TW9uZ29EQg==", "subType" : "0x0"]],
+            "testTimestamp" : ["$timestamp" : ["t": (UInt64(date.timeIntervalSince1970)), "i": 1]],
+            "testRegex" : ["$regularExpression" :["pattern": "[0-9a-fA-F]+", "options" : "i"]],
             "testMinKey" : ["$minKey" : 1],
             "testMaxKey" : ["$maxKey" : 1],
             "testArray" : [["testObjectId" : ["$oid" : hexString],
                             "testLong" : ["$numberLong" : numberAsString]],
                            ["testObjectId" : ["$oid" : hexString],
                             "testLong" : ["$numberLong" : numberAsString]]
-            ]
+            ],
+            "testCode": ["$code": "foo", "$scope": ["bar": "baz"]],
+            "testRef": ["$ref": "foo", "$id": ["$oid": dbRefId.hexString], "$db": "bar"]
         ]
         
         do {
@@ -83,7 +92,8 @@ class StitchCoreTests: XCTestCase {
             XCTAssertEqual(document["testLong"] as? Int64, expectedDocument["testLong"] as? Int64)
             XCTAssertEqual(document["testDouble"] as? Double, expectedDocument["testDouble"] as? Double)
             XCTAssertEqual(document["testString"] as? String, expectedDocument["testString"] as? String)
-            XCTAssertEqual(Int((document["testDate"] as? Date)!.timeIntervalSince1970 * 1000), Int(date.timeIntervalSince1970 * 1000))            
+            XCTAssertEqual(Int64((document["testDate"] as? Date)!.timeIntervalSince1970),
+                           Int64(date.timeIntervalSince1970 * 1000))
             XCTAssertEqual(document["testTrue"] as? Bool, expectedDocument["testTrue"] as? Bool)
             XCTAssertEqual(document["testFalse"] as? Bool, expectedDocument["testFalse"] as? Bool)
             XCTAssertEqual(document["testBinary"] as? BsonBinary, expectedDocument["testBinary"] as? BsonBinary)
@@ -98,10 +108,10 @@ class StitchCoreTests: XCTestCase {
             XCTAssertEqual(embeddedArray.count, expectedEmbeddedArray.count)
             
             XCTAssertEqual((embeddedArray[0] as! Document)["testObjectId"] as! ObjectId, (expectedEmbeddedArray[0] as! Document)["testObjectId"] as! ObjectId)
-            XCTAssertEqual((embeddedArray[0] as! Document)["testLong"] as! Int, (expectedEmbeddedArray[0] as! Document)["testLong"] as! Int)
+            XCTAssertEqual((embeddedArray[0] as! Document)["testLong"] as! Int64, (expectedEmbeddedArray[0] as! Document)["testLong"] as! Int64)
             
             XCTAssertEqual((embeddedArray[1] as! Document)["testObjectId"] as! ObjectId, (expectedEmbeddedArray[1] as! Document)["testObjectId"] as! ObjectId)
-            XCTAssertEqual((embeddedArray[1] as! Document)["testLong"] as! Int, (expectedEmbeddedArray[1] as! Document)["testLong"] as! Int)
+            XCTAssertEqual((embeddedArray[1] as! Document)["testLong"] as! Int64, (expectedEmbeddedArray[1] as! Document)["testLong"] as! Int64)
             
         } catch {
             XCTFail(error.localizedDescription)

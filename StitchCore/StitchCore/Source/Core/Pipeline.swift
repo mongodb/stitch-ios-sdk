@@ -1,9 +1,7 @@
 import Foundation
 import ExtendedJson
 
-/**
-    A pipeline that specifies an action, service, and its arguments.
- */
+// A pipeline that specifies an action, service, and its arguments.
 public struct Pipeline {
     
     private struct Consts {

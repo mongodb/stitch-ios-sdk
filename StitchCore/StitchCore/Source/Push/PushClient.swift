@@ -84,7 +84,7 @@ extension PushClient {
         var request = [String : ExtendedJsonRepresentable]()
         
         request[DeviceFields.ServiceName.rawValue] = serviceName
-        request[DeviceFields.Data.rawValue] = ([String : ExtendedJsonRepresentable]() as ExtendedJsonRepresentable)
+        request[DeviceFields.Data.rawValue] = Document()
 
         return request
     }

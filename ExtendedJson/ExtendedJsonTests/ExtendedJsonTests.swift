@@ -74,15 +74,25 @@ class ExtendedJsonTests: XCTestCase {
     
     func testExtendedJsonRepresentableBinary() {
         let binary = BsonBinary(type: .binary, data: [77, 111, 110, 103, 111, 68, 66])
-        XCTAssertEqual(binary.toExtendedJson as! [String : String], ["$binary" : "TW9uZ29EQg==", "$type" : "0x0"])
+        let binaryActual = (binary.toExtendedJson as! [String : [String : String]])["$binary"]
+        
+        XCTAssertNotNil(binaryActual)
+        XCTAssertNotNil(binaryActual!["base64"])
+        XCTAssertNotNil(binaryActual!["subType"])
+        
+        XCTAssertEqual(binaryActual!["base64"]!, "TW9uZ29EQg==")
+        XCTAssertEqual(binaryActual!["subType"]!, "0x0")
     }
     
     func testExtendedJsonRepresentableBsonTimestamp() {
-        let date = Date()        
-        let extJsonTimestamp = BsonTimestamp(time: date).toExtendedJson as! [String : String]
-        if let timestamp = extJsonTimestamp["$timestamp"],
-            let t = TimeInterval(timestamp) {
-            XCTAssertEqual(UInt64(t), UInt64(date.timeIntervalSince1970))
+        let date = Date()
+        let bsonTimestamp = BsonTimestamp(time: date, increment: 1)
+        let extJsonTimestamp = bsonTimestamp.toExtendedJson as! [String : [String : UInt64]]
+        if let timestampJson = extJsonTimestamp["$timestamp"],
+            let t = timestampJson["t"],
+            let i = timestampJson["i"] {
+            XCTAssertEqual(t, UInt64(date.timeIntervalSince1970))
+            XCTAssertEqual(i, 1)
         }
         else {
             XCTFail("timestamp missing.")
@@ -91,7 +101,16 @@ class ExtendedJsonTests: XCTestCase {
     
     func testExtendedJsonRepresentableRegularExpression() throws {
         let regex = try NSRegularExpression(pattern: "[0-9a-fA-F]+", options: [.dotMatchesLineSeparators, .caseInsensitive, .allowCommentsAndWhitespace, .anchorsMatchLines])
-        XCTAssertEqual(regex.toExtendedJson as! [String : String], ["$regex" : "[0-9a-fA-F]+", "$options" : "imsx"])
+        
+        let xjson = regex.toExtendedJson as! [String : [String: String]]
+        if let regexJson = xjson["$regularExpression"],
+            let pattern = regexJson["pattern"],
+            let options = regexJson["options"] {
+            XCTAssertEqual(pattern, "[0-9a-fA-F]+")
+            XCTAssertEqual(options, "imsx")
+        } else {
+            XCTFail("NSRegularExpression.toExtendedJson failed")
+        }
     }
     
     func testExtendedJsonRepresentableMinKey() {
@@ -153,15 +172,49 @@ class ExtendedJsonTests: XCTestCase {
         
         //test equality
         XCTAssertEqual(try ObjectId(hexString: hexString), try ObjectId(hexString: hexString))
-
-       
+        
+        for _ in 0..<1000 {
+            XCTAssertNotEqual(ObjectId.NewObjectId().hexString, ObjectId.NewObjectId().hexString)
+        }
+    }
+    
+    func testXJsonConversions() throws {
+        let doc: Document = [
+            "testOid": ObjectId.NewObjectId()
+        ]
+        
+        XCTAssertTrue(doc["testOid"] is ObjectId)
+    }
+    
+    func testDocumentLiteral() throws {
+        let testNumber = 42
+        let testDate = Int64(Date().timeIntervalSince1970 * 1000)
+        let hexString = "1234567890abcdef12345678"
+        let document: Document = [
+            "testNumber": testNumber,
+            "testDate" : testDate,
+            "testArray" : [
+                [
+                    "testObjectId" : hexString,
+                    "testLong" : testNumber
+                ] as Document,
+                [
+                    "testObjectId" : hexString,
+                    "testLong" : testNumber
+                ] as Document
+            ] as BsonArray
+        ]
+        
+        XCTAssertEqual(document["testNumber"] as! Int, testNumber)
+        XCTAssertEqual(document["testDate"] as! Int64, testDate)
+        XCTAssert(document["testArray"] is BsonArray)
     }
     
     func testDocument() throws {
         let hexString = "1234567890abcdef12345678"
         let date = Date()
         let binary = BsonBinary(type: .binary, data: [77, 111, 110, 103, 111, 68, 66])
-        let extJsonTimestamp = BsonTimestamp(time: date)
+        let extJsonTimestamp = BsonTimestamp(time: date, increment: 1)
         let regex = try NSRegularExpression(pattern: "[0-9a-fA-F]+", options: .caseInsensitive)
         
         let number = 42
@@ -172,12 +225,12 @@ class ExtendedJsonTests: XCTestCase {
             "testLong" : ["$numberLong" : numberAsString],
             "testDouble" : ["$numberDouble" : numberAsString],
             "testString" : "MongoDB",
-            "testDate" : ["$date" : ["$numberLong" : String(Int64(date.timeIntervalSince1970 * 1000))]],
+            "testDate" : ["$date" : ["$numberLong" : String(Int64(date.timeIntervalSince1970))]],
             "testTrue" : true,
             "testFalse" : false,
-            "testBinary" : ["$binary" : "TW9uZ29EQg==", "$type" : "0x0"],
-            "testTimestamp" : ["$timestamp" : String(UInt64(date.timeIntervalSince1970))],
-            "testRegex" : ["$regex" :"[0-9a-fA-F]+", "$options" : "i"],
+            "testBinary" : ["$binary" : ["base64": "TW9uZ29EQg==", "subType" : "0x0"]],
+            "testTimestamp" : ["$timestamp" : ["t": UInt64(date.timeIntervalSince1970), "i": 1]],
+            "testRegex" : ["$regularExpression" : ["pattern": "[0-9a-fA-F]+", "options" : "i"]],
             "testMinKey" : ["$minKey" : 1],
             "testMaxKey" : ["$maxKey" : 1],
             "testNull" : NSNull(),
@@ -188,37 +241,30 @@ class ExtendedJsonTests: XCTestCase {
             ]
         ]
         
-        do {
-            let document = try Document(extendedJson: extendedJson)
-            
-            XCTAssertEqual(document["testObjectId"] as! ObjectId, try ObjectId(hexString: hexString))
-            XCTAssertEqual(document["testInt"] as? Int, 42)
-            XCTAssertEqual(document["testLong"] as? Int, 42)
-            XCTAssertEqual(document["testDouble"] as? Double, 42)
-            XCTAssertEqual(document["testString"] as? String, "MongoDB")
-            XCTAssertEqual(Int((document["testDate"] as? Date)!.timeIntervalSince1970 * 1000), Int(date.timeIntervalSince1970 * 1000))
-            XCTAssertEqual(document["testTrue"] as? Bool, true)
-            XCTAssertEqual(document["testFalse"] as? Bool, false)
-            XCTAssertEqual(document["testBinary"] as? BsonBinary, binary)
-            XCTAssertEqual(document["testTimestamp"] as? BsonTimestamp, extJsonTimestamp)
-            XCTAssertEqual(document["testRegex"] as? NSRegularExpression, regex)
-            XCTAssertEqual(document["testMinKey"] as? MinKey, MinKey())
-            XCTAssertEqual(document["testMaxKey"] as? MaxKey, MaxKey())
-            XCTAssertEqual(document["testNull"] as? NSNull, NSNull())
-            
-            let embeddedArray = document["testArray"] as! BsonArray
-            
-            XCTAssertEqual(embeddedArray.count, 2)
-            
-            XCTAssertEqual((embeddedArray[0] as! Document)["testObjectId"] as! ObjectId, try ObjectId(hexString: hexString))
-            XCTAssertEqual((embeddedArray[0] as! Document)["testLong"] as! Int, 42)
-            
-            XCTAssertEqual((embeddedArray[1] as! Document)["testObjectId"] as! ObjectId, try ObjectId(hexString: hexString))
-            XCTAssertEqual((embeddedArray[1] as! Document)["testLong"] as! Int, 42)
-            
-        } catch {
-            XCTFail(error.localizedDescription)
-        }
+        let document = try Document(extendedJson: extendedJson)
+        XCTAssertEqual(document["testObjectId"] as! ObjectId, try ObjectId(hexString: hexString))
+        XCTAssertEqual(document["testInt"] as? Int32, 42)
+        XCTAssertEqual(document["testLong"] as? Int64, 42)
+        XCTAssertEqual(document["testDouble"] as? Double, 42)
+        XCTAssertEqual(document["testString"] as? String, "MongoDB")
+        XCTAssertEqual(Int((document["testDate"] as? Date)!.timeIntervalSince1970), Int(date.timeIntervalSince1970))
+        XCTAssertEqual(document["testTrue"] as? Bool, true)
+        XCTAssertEqual(document["testFalse"] as? Bool, false)
+        XCTAssertEqual(document["testBinary"] as? BsonBinary, binary)
+        XCTAssertEqual(document["testTimestamp"] as? BsonTimestamp, extJsonTimestamp)
+        XCTAssertEqual(document["testRegex"] as? NSRegularExpression, regex)
+        XCTAssertEqual(document["testMinKey"] as? MinKey, MinKey())
+        XCTAssertEqual(document["testMaxKey"] as? MaxKey, MaxKey())
+        XCTAssertEqual(document["testNull"] as? NSNull, NSNull())
+        
+        let embeddedArray = document["testArray"] as! BsonArray
+        
+        XCTAssertEqual(embeddedArray.count, 2)
+        
+        XCTAssertEqual((embeddedArray[0] as! Document)["testObjectId"] as! ObjectId, try ObjectId(hexString: hexString))
+        XCTAssertEqual((embeddedArray[0] as! Document)["testLong"] as! Int64, 42)
+        
+        XCTAssertEqual((embeddedArray[1] as! Document)["testObjectId"] as! ObjectId, try ObjectId(hexString: hexString))
+        XCTAssertEqual((embeddedArray[1] as! Document)["testLong"] as! Int64, 42)
     }
-    
 }

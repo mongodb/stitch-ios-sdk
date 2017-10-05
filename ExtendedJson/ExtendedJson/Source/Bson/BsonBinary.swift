@@ -16,7 +16,7 @@ public struct BsonBinary {
         self.data = data
     }
  
-    
+
 }
 
 // MARK: - Equatable
