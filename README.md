@@ -119,7 +119,7 @@ If you prefer not to use any of the aforementioned dependency managers, you can 
 	```
 
 4. Now run your app in XCode by going to product, Run (or hitting ⌘R).
-5. Once the app is running, open up the Android Monitor by going to View, Tool Windows, Android Monitor
+5. Once the app is running, open up the Debug Area by going to View, Debug Area, Show Debug Area.
 6. You should see log messages like:
 
 	```
