@@ -13,7 +13,8 @@ extension Date: ExtendedJsonRepresentable {
         guard let json = xjson as? [String : Any],
             let dateJson = json[ExtendedJsonKeys.date.rawValue] as? [String: String],
             let dateString = dateJson[ExtendedJsonKeys.numberLong.rawValue],
-            let dateNum = Double(dateString) else {
+            let dateNum = Double(dateString),
+            dateJson.count == 1 else {
                 throw BsonError.parseValueFailure(value: xjson, attemptedType: Date.self)
         }
         

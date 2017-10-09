@@ -13,7 +13,8 @@ extension BsonTimestamp: ExtendedJsonRepresentable {
         guard let json = xjson as? [String : Any],
             let timestampJson = json[ExtendedJsonKeys.timestamp.rawValue] as? [String : Int],
             let timestamp = timestampJson["t"],
-            let increment = timestampJson["i"] else {
+            let increment = timestampJson["i"],
+            timestampJson.count == 2 else {
                 throw BsonError.parseValueFailure(value: xjson, attemptedType: BsonTimestamp.self)
         }
         

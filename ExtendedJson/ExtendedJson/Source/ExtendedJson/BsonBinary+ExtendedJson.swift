@@ -10,10 +10,11 @@ import Foundation
 
 extension BsonBinary: ExtendedJsonRepresentable {
     public static func fromExtendedJson(xjson: Any) throws -> ExtendedJsonRepresentable {
-        guard  let json = xjson as? [String : Any],
+        guard let json = xjson as? [String : Any],
             let binaryJson = json[ExtendedJsonKeys.binary.rawValue] as? [String : String],
             let base64String = binaryJson["base64"],
-            let typeString = binaryJson["subType"] else {
+            let typeString = binaryJson["subType"],
+            binaryJson.count == 2 else {
                 throw BsonError.parseValueFailure(value: xjson, attemptedType: BsonBinary.self)
         }
         

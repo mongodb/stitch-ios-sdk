@@ -14,7 +14,8 @@ extension NSRegularExpression: ExtendedJsonRepresentable {
             let regex = json[ExtendedJsonKeys.regex.rawValue] as? [String : String],
             let pattern = regex["pattern"],
             let options = regex["options"],
-            let regularExpression = try? NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options(options)) else {
+            let regularExpression = try? NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options(options)),
+            regex.count == 2 else {
                 throw BsonError.parseValueFailure(value: xjson, attemptedType: NSRegularExpression.self)
         }
         

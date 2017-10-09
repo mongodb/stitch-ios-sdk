@@ -11,7 +11,8 @@ import Foundation
 extension ObjectId: ExtendedJsonRepresentable {
     public static func fromExtendedJson(xjson: Any) throws -> ExtendedJsonRepresentable {
         guard let json = xjson as? [String : Any],
-            let value = json[ExtendedJsonKeys.objectid.rawValue] as? String else {
+            let value = json[ExtendedJsonKeys.objectid.rawValue] as? String,
+            json.count == 1 else {
                 throw BsonError.parseValueFailure(value: xjson, attemptedType: ObjectId.self)
         }
         

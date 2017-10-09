@@ -14,7 +14,8 @@ extension BsonDBPointer : ExtendedJsonRepresentable {
             let dbPointer = json[ExtendedJsonKeys.dbPointer.rawValue] as? [String : Any],
             let ref = dbPointer[ExtendedJsonKeys.dbRef.rawValue] as? String,
             let oid = dbPointer["$id"],
-            let id = try ObjectId.fromExtendedJson(xjson: oid) as? ObjectId else {
+            let id = try ObjectId.fromExtendedJson(xjson: oid) as? ObjectId,
+            dbPointer.count == 2 else {
                 throw BsonError.parseValueFailure(value: xjson, attemptedType: BsonDBPointer.self)
         }
         
