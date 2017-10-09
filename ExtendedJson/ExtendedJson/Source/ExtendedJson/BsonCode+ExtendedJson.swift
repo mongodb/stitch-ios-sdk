@@ -15,8 +15,12 @@ extension BsonCode: ExtendedJsonRepresentable {
                 throw BsonError.parseValueFailure(value: xjson, attemptedType: BsonCode.self)
         }
         
-        return BsonCode(code: code,
-                        scope: try Document.fromExtendedJson(xjson: json["$scope"] ?? [:]) as? Document)
+        if let scope = json["$scope"] {
+            return BsonCode(code: code,
+                            scope: try BsonDocument.fromExtendedJson(xjson: scope) as? BsonDocument)
+        }
+        
+        return BsonCode(code: code, scope: nil)
     }
     
     public var toExtendedJson: Any {
@@ -32,8 +36,10 @@ extension BsonCode: ExtendedJsonRepresentable {
     }
     
     public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
+        if let other = other as? BsonCode {
+            return self.code == other.code  && self.scope == other.scope
+        }
+        
         return false
     }
-    
-    
 }

@@ -20,7 +20,7 @@ extension BsonDBRef: ExtendedJsonRepresentable {
         return BsonDBRef(ref: ref,
                          id: id,
                          db: json["$db"] as? String,
-                         otherFields: json.filter { $0.key.contains("$") })
+                         otherFields: json.filter { !$0.key.contains("$") })
     }
     
     public var toExtendedJson: Any {

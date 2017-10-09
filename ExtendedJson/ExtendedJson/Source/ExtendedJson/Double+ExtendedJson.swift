@@ -25,8 +25,9 @@ extension Double: ExtendedJsonRepresentable {
     
     public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
         if let other = other as? Double {
-            return self == other
+            return self == other || (self.isNaN && other.isNaN)
         }
+        
         return false
     }
 }

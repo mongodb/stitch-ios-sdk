@@ -22,7 +22,7 @@ extension ExtendedJsonRepresentableError: LocalizedError {
 
 public enum BsonError<T> {
     case illegalArgument(message: String)
-    case parseValueFailure(value: Any, attemptedType: T.Type)
+    case parseValueFailure(value: Any?, attemptedType: T.Type)
 }
 
 // MARK: - Bson Error Descriptions
@@ -32,7 +32,7 @@ extension BsonError: LocalizedError {
         case .illegalArgument(let message):
             return message
          case .parseValueFailure(let value, let attemptedType):
-            return "ExtendedJson \(value) is not valid \(attemptedType)"
+            return "ExtendedJson \(value ?? "nil") is not valid \(attemptedType)"
         }
     }
 }

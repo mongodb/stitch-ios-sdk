@@ -30,7 +30,7 @@ public struct PaginatedQueryResult<Entity: RootEntity> {
         self.pageSize = pageSize
         if results.count > 0 {
             let entitiesArray: [Entity] = try results.map({ (item) -> Entity in
-                if let entityDoc = item as? Document {
+                if let entityDoc = item as? BsonDocument {
                     return Entity(document: entityDoc, mongoDBClient: mongoDBClient)
                 }
                 else {
@@ -49,12 +49,12 @@ public struct PaginatedQueryResult<Entity: RootEntity> {
     
     public func nextPage() -> StitchTask<PaginatedQueryResult<Entity>> {
         if results.count > 0 {
-            let lastItem: Document? = rawResults[rawResults.endIndex - 1] as? Document
+            let lastItem: BsonDocument? = rawResults[rawResults.endIndex - 1] as? BsonDocument
             if let lastRootDocument = lastItem {
                 var lastEmbededEntityDocument = lastRootDocument
                 let sortedFields = sortParameter.field.components(separatedBy: ".")
                 for field in sortedFields.dropLast() {
-                    if let embededEntityDocument = lastEmbededEntityDocument[field] as? Document {
+                    if let embededEntityDocument = lastEmbededEntityDocument[field] as? BsonDocument {
                         lastEmbededEntityDocument = embededEntityDocument
                     }
                     else {

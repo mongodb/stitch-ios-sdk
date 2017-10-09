@@ -71,7 +71,7 @@ public enum UpdateOperationType {
         
     }
     
-    internal var valueAsDocument: Document {
+    internal var valueAsDocument: BsonDocument {
         switch self {
         case .set(let value),
              .unset(let value),
@@ -82,7 +82,7 @@ public enum UpdateOperationType {
              .mul(let value),
              .min(let value),
              .max(let value):
-            return Document(dictionary: value)
+            return BsonDocument(dictionary: value)
         }
     }
     

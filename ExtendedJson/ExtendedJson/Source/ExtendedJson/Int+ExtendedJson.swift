@@ -39,6 +39,10 @@ extension Int: ExtendedJsonRepresentable {
     public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
         if let other = other as? Int {
             return self == other
+        } else if let other = other as? Int32 {
+            return self == other
+        } else if let other = other as? Int64 {
+            return self == other
         }
         return false
     }
@@ -62,6 +66,8 @@ extension Int32: ExtendedJsonRepresentable {
     public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
         if let other = other as? Int32 {
             return self == other
+        } else if let other = other as? Int {
+            return self == other
         }
         return false
     }
@@ -84,6 +90,8 @@ extension Int64: ExtendedJsonRepresentable {
     
     public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
         if let other = other as? Int64 {
+            return self == other
+        } else if let other = other as? Int {
             return self == other
         }
         return false

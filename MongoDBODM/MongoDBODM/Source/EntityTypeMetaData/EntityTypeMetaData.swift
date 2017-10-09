@@ -48,7 +48,7 @@ import ExtendedJson
  */
 public protocol EntityTypeMetaData {
     ///implement this method in order to recieve embedded mongoDBentities from Stitch result
-     func create(document: Document) -> EmbeddedEntity? //for embedded entities
+     func create(document: BsonDocument) -> EmbeddedEntity? //for embedded entities
      func getSchema() -> [String : EntityIdentifier]
      func getEntityIdentifier() -> EntityIdentifier
     

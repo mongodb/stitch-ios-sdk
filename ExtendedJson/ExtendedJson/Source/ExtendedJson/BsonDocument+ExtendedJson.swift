@@ -8,11 +8,16 @@
 
 import Foundation
 
-extension Document: ExtendedJsonRepresentable {
+extension BsonDocument: ExtendedJsonRepresentable {
     public static func fromExtendedJson(xjson: Any) throws -> ExtendedJsonRepresentable {
         guard let json = xjson as? [String : Any],
-            let doc = try? Document(extendedJson: json) else {
-                throw BsonError.parseValueFailure(value: xjson, attemptedType: Document.self)
+            let doc = try? BsonDocument(extendedJson: json) else {
+                if let empty = xjson as? [Any] {
+                    if empty.count == 0 {
+                        return BsonDocument()
+                    }
+                }
+                throw BsonError.parseValueFailure(value: xjson, attemptedType: BsonDocument.self)
         }
         
         return doc
@@ -28,7 +33,7 @@ extension Document: ExtendedJsonRepresentable {
     }
     
     public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
-        if let other = other as? Document {
+        if let other = other as? BsonDocument {
             return self == other
         }
         return false

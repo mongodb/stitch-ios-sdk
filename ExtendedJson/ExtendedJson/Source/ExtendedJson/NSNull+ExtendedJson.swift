@@ -28,3 +28,4 @@ extension NSNull: ExtendedJsonRepresentable {
         return false
     }
 }
+

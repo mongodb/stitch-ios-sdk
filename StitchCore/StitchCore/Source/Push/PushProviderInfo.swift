@@ -58,10 +58,10 @@ extension PushProviderInfo {
      Convert PushProviderInfo to a document.
      -returns: The provider info as a serializable document.
      */
-    public func toDocument() -> Document {
-        var doc = Document()
+    public func toDocument() -> BsonDocument {
+        var doc = BsonDocument()
         doc[PushProviderInfoFields.FieldType.rawValue] = providerName as? ExtendedJsonRepresentable
-        doc[PushProviderInfoFields.Config.rawValue] = Document()
+        doc[PushProviderInfoFields.Config.rawValue] = BsonDocument()
         return doc
     }
 }

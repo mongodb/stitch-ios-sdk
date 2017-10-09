@@ -16,8 +16,8 @@ struct Projection {
         self.projecting = projecting
     }
     
-    var asDocument: Document {
-        return reduce(Document()) { (result, field) -> Document in
+    var asDocument: BsonDocument {
+        return reduce(BsonDocument()) { (result, field) -> BsonDocument in
             var result = result
             result[field] = true
             return result

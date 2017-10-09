@@ -25,13 +25,13 @@ public class AvailablePushProviders {
         -parameter json: The data returned from Stitch about the providers.
         -returns: A manifest of available push providers.
      */
-    static func fromQuery(doc: Document) -> AvailablePushProviders {
+    static func fromQuery(doc: BsonDocument) -> AvailablePushProviders {
         let builder: AvailablePushProvidersBuilder = { builder in
             doc.forEach { configEntry in
-                let info = configEntry.value as! Document
+                let info = configEntry.value as! BsonDocument
                 
                 let providerName = PushProviderName.fromTypeName(typename: info[PushProviderInfoFields.FieldType.rawValue] as! String)
-                let config = info[PushProviderInfoFields.Config.rawValue] as! Document
+                let config = info[PushProviderInfoFields.Config.rawValue] as! BsonDocument
                 
                 if let providerName = providerName {
                     switch (providerName) {

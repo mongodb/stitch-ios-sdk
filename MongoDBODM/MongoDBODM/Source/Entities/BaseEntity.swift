@@ -39,12 +39,12 @@ open class BaseEntity : ExtendedJsonRepresentable {
      
      - Returns: BaseEntity.
      */
-    public init(document: Document) {
+    public init(document: BsonDocument) {
         let myClassIdentifier = Utils.getIdentifier(any: self)
         if let myEntityMetadata = Utils.entitiesDictionary[myClassIdentifier]{
             
             for (key, value) in document{
-                if let value = value as? Document {
+                if let value = value as? BsonDocument {
                     if let propertyObjectIdentifier = myEntityMetadata.getSchema()[key], let embeddedEntityMetaData = Utils.entitiesDictionary[propertyObjectIdentifier] {
                         let embeddedEntityValue = embeddedEntityMetaData.create(document: value)
                         
@@ -59,7 +59,7 @@ open class BaseEntity : ExtendedJsonRepresentable {
                     var bsonArray = BsonArray()
                     
                     for item in value{
-                        if let item = item as? Document {
+                        if let item = item as? BsonDocument {
                             if let propertyObjectIdentifier = myEntityMetadata.getSchema()[key], let embeddedEntityMetaData = Utils.entitiesDictionary[propertyObjectIdentifier] {
                                 if let embeddedEntityValue = embeddedEntityMetaData.create(document: item){
                                     embeddedEntityValue.embedIn(parent: self, keyInParent: key, isEmbeddedInArray: true)
@@ -129,7 +129,7 @@ open class BaseEntity : ExtendedJsonRepresentable {
         let modifiedArrayKeys: Set<String> = Set(arrayRemovals.keys).union(Set(arrayAdditionals.keys))
         
         for (key,value) in arrayAdditionals {
-            pushDictionary[key] = Document(key: "$each", value: BsonArray(array: value))
+            pushDictionary[key] = BsonDocument(key: "$each", value: BsonArray(array: value))
         }
         
         for (key,value) in arrayRemovals {
@@ -142,7 +142,7 @@ open class BaseEntity : ExtendedJsonRepresentable {
                 }
                 pullDictionary[key] = criteria?.asDocument
             } else {
-                pullDictionary[key] = Document(key: "$in", value: BsonArray(array: value))
+                pullDictionary[key] = BsonDocument(key: "$in", value: BsonArray(array: value))
             }
         }
         
@@ -357,8 +357,8 @@ open class BaseEntity : ExtendedJsonRepresentable {
     
     //MARK: Document
     
-    var asDocument: Document {
-        var document = Document()
+    var asDocument: BsonDocument {
+        var document = BsonDocument()
         var deletedKeys: [String] = []
         
         for (key, value) in modifiedProperties {

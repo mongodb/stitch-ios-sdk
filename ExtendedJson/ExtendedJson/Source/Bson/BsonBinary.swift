@@ -15,12 +15,9 @@ public struct BsonBinary {
         self.type = type
         self.data = data
     }
- 
-
 }
 
 // MARK: - Equatable
-
 extension BsonBinary: Equatable {
     public static func ==(lhs: BsonBinary, rhs: BsonBinary) -> Bool {
         return lhs.type == rhs.type && lhs.data == rhs.data

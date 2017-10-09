@@ -592,7 +592,7 @@ public class StitchClient: StitchClientType {
         let params: [[String: Any]] = pipelines.map { $0.toJson }
         
         return performRequest(method: .post, endpoint: Consts.PipelinePath, parameters: params).continuationTask(parser: { (json) -> Any in
-            let document = try Document(extendedJson: json)
+            let document = try BsonDocument(extendedJson: json)
             if let docResult = document[Consts.ResultKey] {
                 return docResult
             }
@@ -803,7 +803,7 @@ public class StitchClient: StitchClientType {
      */
     public func getPushProviders() -> StitchTask<AvailablePushProviders> {
         return performRequest(method: .get, endpoint: Consts.PushPath, parameters: nil).continuationTask { json in
-            return AvailablePushProviders.fromQuery(doc: try! Document(extendedJson: json))
+            return AvailablePushProviders.fromQuery(doc: try! BsonDocument(extendedJson: json))
         }
     }
     

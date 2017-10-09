@@ -39,8 +39,19 @@ extension BsonBinary: ExtendedJsonRepresentable {
     }
     
     public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
+        func _compare(b1: [UInt8], b2: [UInt8]) -> Bool {
+            for i in 0..<b2.count {
+                if b1[i] != b2[i] {
+                    return false
+                }
+            }
+            return true
+        }
+        
         if let other = other as? BsonBinary {
-            return self == other
+            return _compare(b1: self.data, b2: other.data)
+        } else if let other = other as? UUID {
+            return _compare(b1: self.data, b2: other.toBsonBinary.data)
         }
         return false
     }

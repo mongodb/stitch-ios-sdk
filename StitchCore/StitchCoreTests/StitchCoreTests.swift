@@ -20,7 +20,7 @@ class StitchCoreTests: XCTestCase {
         let date = Date()
         var array = BsonArray()
         let number = 42
-        var embeddedDoc: Document = [
+        var embeddedDoc: BsonDocument = [
             "testObjectId": objectId,
             "testLong": Int64(number)
         ]
@@ -84,8 +84,8 @@ class StitchCoreTests: XCTestCase {
         
         do {
             // create documents from the generated args result and from the expected result
-            let document = try Document(extendedJson: pipelineJson["args"] as! [String : Any])
-            let expectedDocument = try Document(extendedJson: expectedArgsExtendedJson)
+            let document = try BsonDocument(extendedJson: pipelineJson["args"] as! [String : Any])
+            let expectedDocument = try BsonDocument(extendedJson: expectedArgsExtendedJson)
             
             XCTAssertEqual(document["testObjectId"] as! ObjectId, expectedDocument["testObjectId"] as! ObjectId)
             XCTAssertEqual(document["testInt"] as? Int32, expectedDocument["testInt"] as? Int32)
@@ -107,11 +107,11 @@ class StitchCoreTests: XCTestCase {
             
             XCTAssertEqual(embeddedArray.count, expectedEmbeddedArray.count)
             
-            XCTAssertEqual((embeddedArray[0] as! Document)["testObjectId"] as! ObjectId, (expectedEmbeddedArray[0] as! Document)["testObjectId"] as! ObjectId)
-            XCTAssertEqual((embeddedArray[0] as! Document)["testLong"] as! Int64, (expectedEmbeddedArray[0] as! Document)["testLong"] as! Int64)
+            XCTAssertEqual((embeddedArray[0] as! BsonDocument)["testObjectId"] as! ObjectId, (expectedEmbeddedArray[0] as! BsonDocument)["testObjectId"] as! ObjectId)
+            XCTAssertEqual((embeddedArray[0] as! BsonDocument)["testLong"] as! Int64, (expectedEmbeddedArray[0] as! BsonDocument)["testLong"] as! Int64)
             
-            XCTAssertEqual((embeddedArray[1] as! Document)["testObjectId"] as! ObjectId, (expectedEmbeddedArray[1] as! Document)["testObjectId"] as! ObjectId)
-            XCTAssertEqual((embeddedArray[1] as! Document)["testLong"] as! Int64, (expectedEmbeddedArray[1] as! Document)["testLong"] as! Int64)
+            XCTAssertEqual((embeddedArray[1] as! BsonDocument)["testObjectId"] as! ObjectId, (expectedEmbeddedArray[1] as! BsonDocument)["testObjectId"] as! ObjectId)
+            XCTAssertEqual((embeddedArray[1] as! BsonDocument)["testLong"] as! Int64, (expectedEmbeddedArray[1] as! BsonDocument)["testLong"] as! Int64)
             
         } catch {
             XCTFail(error.localizedDescription)

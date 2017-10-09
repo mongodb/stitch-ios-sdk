@@ -17,7 +17,7 @@ public struct BsonArray {
     
     public init(array: [Any]) throws {
         underlyingArray = try array.map { (any) -> ExtendedJsonRepresentable in
-            return try Document.read(value: any)
+            return try BsonDocument.decodeXJson(value: any)
         }
     }
     

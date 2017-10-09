@@ -65,7 +65,7 @@ open class RootEntity: BaseEntity {
     
     //MARK: Init
     
-    required public init(document: Document = Document(), mongoDBClient: MongoDBClientType) {
+    required public init(document: BsonDocument = BsonDocument(), mongoDBClient: MongoDBClientType) {
         self.mongoDBClient = mongoDBClient
         super.init(document: document)
     }
@@ -98,7 +98,7 @@ open class RootEntity: BaseEntity {
     public func save() -> StitchCore.StitchTask<Any> {
         if let collection = collection {
             return collection.insert(document: asDocument).response(completionHandler: { stitchResult in
-                if let bsonArray = stitchResult.value as? BsonArray , let document = bsonArray.first as? Document, let objectId = document[Utils.Consts.objectIdKey] as? ObjectId  {
+                if let bsonArray = stitchResult.value as? BsonArray , let document = bsonArray.first as? BsonDocument, let objectId = document[Utils.Consts.objectIdKey] as? ObjectId  {
                     self.objectId = objectId
                     self.handleOperationResult(stitchResult: stitchResult)
                 }
@@ -143,7 +143,7 @@ open class RootEntity: BaseEntity {
     public func delete() -> StitchCore.StitchTask<Any> {
         let error: OdmError
         if let entityId = self.objectId{
-            let queryDocument = Document(key: Utils.Consts.objectIdKey, value: entityId)
+            let queryDocument = BsonDocument(key: Utils.Consts.objectIdKey, value: entityId)
             if let collection = collection{
                 return collection.delete(query: queryDocument, singleDoc: true)
             }

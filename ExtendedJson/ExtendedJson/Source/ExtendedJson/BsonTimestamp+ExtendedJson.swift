@@ -11,7 +11,7 @@ import Foundation
 extension BsonTimestamp: ExtendedJsonRepresentable {
     public static func fromExtendedJson(xjson: Any) throws -> ExtendedJsonRepresentable {
         guard let json = xjson as? [String : Any],
-            let timestampJson = json[ExtendedJsonKeys.timestamp.rawValue] as? [String : UInt64],
+            let timestampJson = json[ExtendedJsonKeys.timestamp.rawValue] as? [String : Int],
             let timestamp = timestampJson["t"],
             let increment = timestampJson["i"] else {
                 throw BsonError.parseValueFailure(value: xjson, attemptedType: BsonTimestamp.self)
@@ -23,8 +23,8 @@ extension BsonTimestamp: ExtendedJsonRepresentable {
     public var toExtendedJson: Any {
         return [
             ExtendedJsonKeys.timestamp.rawValue : [
-                "t": UInt64(self.time.timeIntervalSince1970),
-                "i": UInt64(increment)
+                "t": self.time.timeIntervalSince1970,
+                "i": increment
             ]
         ]
     }

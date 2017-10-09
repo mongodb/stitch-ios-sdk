@@ -10,9 +10,9 @@ import Foundation
 
 public struct BsonCode {
     let code: String
-    let scope: Document?
+    let scope: BsonDocument?
     
-    public init(code: String, scope: Document?) {
+    public init(code: String, scope: BsonDocument? = nil) {
         self.code = code
         self.scope = scope
     }

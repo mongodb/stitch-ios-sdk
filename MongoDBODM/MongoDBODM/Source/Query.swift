@@ -17,8 +17,8 @@ public struct Query<Entity: RootEntity> {
     private(set) var criteria: Criteria?
     let mongoDBClient: MongoDBClientType
     
-    private var asDocument: Document {
-        return criteria?.asDocument ?? Document()
+    private var asDocument: BsonDocument {
+        return criteria?.asDocument ?? BsonDocument()
     }
     
     public init(criteria: Criteria? = nil, mongoDBClient: MongoDBClientType) {
@@ -57,7 +57,7 @@ public struct Query<Entity: RootEntity> {
         }
         do{
             let collection = try getCollection()
-            return collection.find(query: asDocument, projection: projection?.asDocument, limit: limit).continuationTask{(result: [Document]) -> [Entity] in
+            return collection.find(query: asDocument, projection: projection?.asDocument, limit: limit).continuationTask{(result: [BsonDocument]) -> [Entity] in
                 return result.flatMap{ Entity(document: $0, mongoDBClient: self.mongoDBClient) }
             }
         }

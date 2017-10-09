@@ -14,7 +14,7 @@ extension NSRegularExpression: ExtendedJsonRepresentable {
             let regex = json[ExtendedJsonKeys.regex.rawValue] as? [String : String],
             let pattern = regex["pattern"],
             let options = regex["options"],
-            let regularExpression = try? NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options(extendedJsonString: options)) else {
+            let regularExpression = try? NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options(options)) else {
                 throw BsonError.parseValueFailure(value: xjson, attemptedType: NSRegularExpression.self)
         }
         
@@ -67,7 +67,7 @@ extension NSRegularExpression.Options {
         return description
     }
     
-    internal init(extendedJsonString: String) {
+    internal init(_ extendedJsonString: String) {
         self = []
         if extendedJsonString.contains(ExtendedJsonOptions.caseInsensitive) {
             self.insert(.caseInsensitive)
