@@ -612,6 +612,11 @@ public class StitchClient: StitchClientType {
             return task
         }
         
+        if !useRefreshToken && (self.auth?.isAccessTokenExpired() ?? false) {
+            self.refreshAccessTokenAndRetry(method: method, endpoint: endpoint, parameters: parameters, task: task)
+            return task;
+        }
+        
         let url = self.url(withEndpoint: endpoint)
         let token = useRefreshToken ? refreshToken ?? String() : auth?.accessToken ?? String()
         
@@ -643,7 +648,7 @@ public class StitchClient: StitchClientType {
                     // check if error is invalid session
                     if reason.isInvalidSession {
                         if refreshOnFailure {
-                            handleInvalidSession(method: method, endpoint: endpoint, parameters: parameters, task: task)
+                            refreshAccessTokenAndRetry(method: method, endpoint: endpoint, parameters: parameters, task: task)
                         }
                         else {
                             try? clearAuth()
@@ -686,7 +691,7 @@ public class StitchClient: StitchClientType {
     
     // MARK: - Refresh Access Token
     
-    private func handleInvalidSession(method: NAHTTPMethod, endpoint: String, parameters: [[String : Any]]?, task: StitchTask<[String : Any]>) {
+    private func refreshAccessTokenAndRetry(method: NAHTTPMethod, endpoint: String, parameters: [[String : Any]]?, task: StitchTask<[String : Any]>) {
         refreshAccessToken().response(onQueue: DispatchQueue.global(qos: .utility)) { [weak self] (result) in
             guard let strongSelf = self else {
                 task.result = StitchResult.failure(StitchError.clientReleased)
