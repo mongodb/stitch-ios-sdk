@@ -11,6 +11,13 @@ public struct Auth {
          The current access token for this session.
      */
     let accessToken: String
+    
+    /**
+     *   The current access token for this session in decoded JWT form.
+     *   Will be nil if the token was malformed and could not be decoded.
+     */
+    let accessTokenJwt: DecodedJWT?
+    
     /**
          The user this session was created for.
      */
@@ -32,6 +39,7 @@ public struct Auth {
     //MARK: - Init
     private init(accessToken: String, userId: String?, deviceId: String) {
         self.accessToken = accessToken
+        self.accessTokenJwt = try? DecodedJWT(jwt: self.accessToken)
         self.userId = userId
         self.deviceId = deviceId
     }
@@ -53,5 +61,22 @@ public struct Auth {
     
     internal func auth(with updatedAccessToken: String) -> Auth {
         return Auth(accessToken: updatedAccessToken, userId: userId, deviceId: deviceId)
+    }
+    
+    /**
+         Determines if the access token stored in this Auth object is expired or expiring within
+         a provided number of seconds.
+     
+     - parameter withinSeconds: expiration threshold in seconds. 10 by default to account for latency and clock drift
+                                between client and Stitch server
+     - returns: true if the access token is expired or is going to expire within 'withinSeconds' seconds
+                false if the access token exists and is not expired nor expiring within 'withinSeconds' seconds
+                nil if the access token doesn't exist, is malformed, or does not have an 'exp' field.
+     */
+    public func isAccessTokenExpired(withinSeconds: Double = 10.0) -> Bool? {
+        if let exp = self.accessTokenJwt?.expiration {
+            return Date() >= (exp - TimeInterval(withinSeconds))
+        }
+        return nil
     }
 }

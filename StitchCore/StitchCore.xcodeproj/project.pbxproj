@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		116CF5361F97DE93005D3AED /* DecodedJWT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116CF5351F97DE93005D3AED /* DecodedJWT.swift */; };
 		36A0242A1EEEFE6200450FB1 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A023A91EEEFE6200450FB1 /* Auth.swift */; };
 		36A0242B1EEEFE6200450FB1 /* AuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A023AA1EEEFE6200450FB1 /* AuthProvider.swift */; };
 		36A0242C1EEEFE6200450FB1 /* AuthProviderInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A023AB1EEEFE6200450FB1 /* AuthProviderInfo.swift */; };
@@ -124,6 +125,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		116CF5351F97DE93005D3AED /* DecodedJWT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodedJWT.swift; sourceTree = "<group>"; };
 		367E0B0F1E43419500EE2C00 /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		36A023A91EEEFE6200450FB1 /* Auth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
 		36A023AA1EEEFE6200450FB1 /* AuthProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthProvider.swift; sourceTree = "<group>"; };
@@ -240,6 +242,7 @@
 				F44825681EEF434300FF0835 /* AuthDelegate.swift */,
 				36A023AA1EEEFE6200450FB1 /* AuthProvider.swift */,
 				36A023AB1EEEFE6200450FB1 /* AuthProviderInfo.swift */,
+				116CF5351F97DE93005D3AED /* DecodedJWT.swift */,
 				36A023AC1EEEFE6200450FB1 /* UserProfile.swift */,
 				36A023AD1EEEFE6200450FB1 /* Providers */,
 			);
@@ -620,6 +623,7 @@
 				36A024311EEEFE6200450FB1 /* EmailPasswordAuthProviderInfo.swift in Sources */,
 				36A024371EEEFE6200450FB1 /* Pipeline.swift in Sources */,
 				36A0242A1EEEFE6200450FB1 /* Auth.swift in Sources */,
+				116CF5361F97DE93005D3AED /* DecodedJWT.swift in Sources */,
 				36A024301EEEFE6200450FB1 /* EmailPasswordAuthProvider.swift in Sources */,
 				36A0243B1EEEFE6200450FB1 /* AlamofireNetworkAdapter.swift in Sources */,
 				36A024381EEEFE6200450FB1 /* StitchClientType.swift in Sources */,

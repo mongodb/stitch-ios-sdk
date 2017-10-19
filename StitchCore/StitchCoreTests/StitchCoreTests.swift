@@ -108,6 +108,47 @@ class StitchCoreTests: XCTestCase {
         }
     }
     
+    func testAuthTokenExpirationCheck() {
+        // access token with 5138-Nov-16
+        let testUnexpiredAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdC1hY2Nlc3MtdG9rZW4iLCJleHAiOjEwMDAwMDAwMDAwMH0.KMAoJOX8Dh9wvt-XzrUN_W6fnypsPrlu4e-AOyqSAGw"
+        
+        // acesss token with 1970-Jan-01 expiration
+        let testExpiredAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdC1hY2Nlc3MtdG9rZW4iLCJleHAiOjF9.7tOdF0LXC_2iQMjNfZvQwwfLNiEj-dd0VT0adP5bpjo"
+        
+        // access token where exp field is not a number
+        let nanToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdC1hY2Nlc3MtdG9rZW4iLCJleHAiOiJub3QgYSBudW1iZXIifQ.eeCE14Jd0Vh7WansvH4K2-VgC0n-khz9aY8rlzfMGug"
+        
+        // access token without exp field
+        let noExpToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdC1hY2Nlc3MtdG9rZW4iLCJub3RfZXhwIjo1MDAwfQ.0-T4a0ufpEMuwtZtJ-uDVCwuEgOf8ERY_ZWc3iKT3vo"
+        
+        // malformed access tokens
+        let malformedToken1 = "blah.blah.blah"
+        let malformedToken2 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdC1hY2Nlc3MtdG9rZW4iLCJleHAiOjF9"
+        
+        var authObj: Auth
+    
+        do {
+            authObj = try Auth(dictionary: ["accessToken" : testUnexpiredAccessToken, "deviceId" : "0"])
+            XCTAssertFalse(authObj.isAccessTokenExpired()!)
+            
+            authObj = try Auth(dictionary: ["accessToken" : testExpiredAccessToken, "deviceId" : "0"])
+            XCTAssertTrue(authObj.isAccessTokenExpired()!)
+            
+            authObj = try Auth(dictionary: ["accessToken" : nanToken, "deviceId" : "0"])
+            XCTAssertNil(authObj.isAccessTokenExpired())
+            
+            authObj = try Auth(dictionary: ["accessToken" : noExpToken, "deviceId" : "0"])
+            XCTAssertNil(authObj.isAccessTokenExpired())
+            
+            authObj = try Auth(dictionary: ["accessToken" : malformedToken1, "deviceId" : "0"])
+            XCTAssertNil(authObj.isAccessTokenExpired())
+            
+            authObj = try Auth(dictionary: ["accessToken" : malformedToken2, "deviceId" : "0"])
+            XCTAssertNil(authObj.isAccessTokenExpired())
+        } catch {
+            XCTFail("Could not create Auth object to test token expiration check.")
+        }
+    }
     
     
 }
