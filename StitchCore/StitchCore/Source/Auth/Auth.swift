@@ -1,57 +1,188 @@
+//
+//  Auth.swift
+//  StitchCore
+//
+//  Created by Jason Flax on 10/18/17.
+//  Copyright © 2017 MongoDB. All rights reserved.
+//
+
 import Foundation
 
-/// Auth represents the current authorization state of the client
-public struct Auth {
+public class Auth {
+    private let stitchClient: StitchClient
     
-    private static let accessTokenKey =         "accessToken"
-    private static let userIdKey =              "userId"
-    private static let deviceId =               "deviceId"
+    public internal(set) var authInfo: AuthInfo
     
-    /**
-         The current access token for this session.
-     */
-    let accessToken: String
-    /**
-         The user this session was created for.
-     */
-    let deviceId: String
-    
-    /**
-         The user this session was created for.
-     */
-    public let userId: String?
-    
-    var json: [String : Any] {
-        return [Auth.accessTokenKey : accessToken,
-                // TODO: remove once userId is guarenteed to be in the call (backend task)
-                Auth.userIdKey : userId ?? "",
-                Auth.deviceId : deviceId]
-    }
-    
-    
-    //MARK: - Init
-    private init(accessToken: String, userId: String?, deviceId: String) {
-        self.accessToken = accessToken
-        self.userId = userId
-        self.deviceId = deviceId
-    }
-    
-    /**
-     - parameter dictionary: Dict containing the access token, userId, and deviceId necessary to create
-         this auth object
-     */
-    internal init(dictionary: [String : Any]) throws {
-        
-        guard let accessToken = dictionary[Auth.accessTokenKey] as? String,
-            let userId = dictionary[Auth.userIdKey] as? String?,
-            let deviceId = dictionary[Auth.deviceId] as? String else {
-                throw StitchError.responseParsingFailed(reason: "failed creating Auth out of info: \(dictionary)")
+    public func createSelfApiKey(name: String) -> StitchTask<ApiKey> {
+        let task = StitchTask<ApiKey>()
+
+        stitchClient.performRequest(method: .post,
+                                    endpoint: Consts.UserProfileApiKeyPath,
+                                    parameters: [["name": name]],
+                                    refreshOnFailure: true,
+                                    useRefreshToken: true)
+            .response { (res) in
+                switch res {
+                case.success(let value):
+                    guard let apiKey = try? JSONDecoder().decode(ApiKey.self,
+                                                                 from: value as! Data)  else {
+                        task.result = .failure(StitchError.responseParsingFailed(
+                            reason: "api key did not contain valid info")
+                        )
+                        return
+                    }
+                    task.result = .success(apiKey)
+                case .failure(let error):
+                    task.result = .failure(error)
+                }
         }
         
-        self = Auth(accessToken: accessToken, userId: userId, deviceId: deviceId)
+        return task
     }
     
-    internal func auth(with updatedAccessToken: String) -> Auth {
-        return Auth(accessToken: updatedAccessToken, userId: userId, deviceId: deviceId)
+    public func fetchSelfApiKey(id: String) -> StitchTask<ApiKey> {
+        let task = StitchTask<ApiKey>()
+        
+        stitchClient.performRequest(method: .get,
+                                    endpoint: "\(Consts.UserProfileApiKeyPath)/\(id)",
+                                    parameters: nil,
+                                    refreshOnFailure: true,
+                                    useRefreshToken: true)
+            .response { (res) in
+                switch res {
+                case.success(let value):
+                    guard let apiKey = try? JSONDecoder().decode(ApiKey.self,
+                                                                 from: value as! Data)  else {
+                        task.result = .failure(StitchError.responseParsingFailed(
+                            reason: "api key did not contain valid info")
+                        )
+                        return
+                    }
+                    task.result = .success(apiKey)
+                case .failure(let error):
+                    task.result = .failure(error)
+                }
+        }
+        
+        return task
+    }
+    
+    public func fetchSelfApiKeys() -> StitchTask<[ApiKey]> {
+        let task = StitchTask<[ApiKey]>()
+        
+        stitchClient.performRequest(method: .get,
+                                    endpoint: "\(Consts.UserProfileApiKeyPath)",
+            parameters: nil,
+            refreshOnFailure: true,
+            useRefreshToken: true)
+            .response { (res) in
+                switch res {
+                case.success(let value):
+                    guard let apiKey = try? JSONDecoder().decode([ApiKey].self,
+                                                                 from: value as! Data) else {
+                        task.result = .failure(StitchError.responseParsingFailed(
+                            reason: "api key did not contain valid info")
+                        )
+                        return
+                    }
+                    task.result = .success(apiKey)
+                case .failure(let error):
+                    task.result = .failure(error)
+                }
+        }
+        
+        return task
+    }
+    
+    public func deleteSelfApiKey(id: String) -> StitchTask<Bool> {
+        let task = StitchTask<Bool>()
+        
+        stitchClient.performRequest(method: .delete,
+                                    endpoint: "\(Consts.UserProfileApiKeyPath)/\(id)",
+            parameters: nil,
+            refreshOnFailure: true,
+            useRefreshToken: true)
+            .response { (res) in
+                switch res {
+                case.success:
+                    task.result = .success(true)
+                case .failure(let error):
+                    task.result = .failure(error)
+                }
+        }
+        
+        return task
+    }
+    
+    private func enableDisableApiKey(id: String, shouldEnable: Bool) -> StitchTask<Bool> {
+        let task = StitchTask<Bool>()
+        
+        stitchClient.performRequest(method: .put,
+                                    endpoint: "\(Consts.UserProfileApiKeyPath)/\(id)/\(shouldEnable ? "enable" : "disable")",
+            parameters: nil,
+            refreshOnFailure: true,
+            useRefreshToken: true)
+            .response { (res) in
+                switch res {
+                case.success:
+                    task.result = .success(true)
+                case .failure(let error):
+                    task.result = .failure(error)
+                }
+        }
+        
+        return task
+    }
+    
+    public func enableApiKey(id: String) ->  StitchTask<Bool>{
+        return self.enableDisableApiKey(id: id, shouldEnable: true)
+    }
+    
+    public func disableApiKey(id: String) -> StitchTask<Bool> {
+        return self.enableDisableApiKey(id: id, shouldEnable: false)
+    }
+    
+    /**
+     Fetch the current user profile, containing all user info. Can fail.
+     
+     - Returns: A StitchTask containing profile of the given user
+     */
+    @discardableResult
+    public func fetchUserProfile() -> StitchTask<UserProfile> {
+        let task = StitchTask<UserProfile>()
+        stitchClient.performRequest(method: .get,
+                                    endpoint: Consts.UserProfilePath,
+                                    parameters: nil,
+                                    refreshOnFailure: false,
+                                    useRefreshToken: false)
+            .response(onQueue: DispatchQueue.global(qos: .utility)) { [weak self] (result) in
+                        guard let strongSelf = self else {
+                            task.result = StitchResult.failure(StitchError.clientReleased)
+                            return
+                        }
+                        
+                        switch result {
+                        case .success(let value):
+                            if let value = value as? [String : Any] {
+                                if let error = strongSelf.stitchClient.parseError(from: value) {
+                                    task.result = .failure(error)
+                                }
+                                else if let user = try? UserProfile(dictionary: value) {
+                                    task.result = .success(user)
+                                } else {
+                                    task.result = StitchResult.failure(StitchError.clientReleased)
+                                }
+                            }
+                        case .failure(let error):
+                            task.result = .failure(error)
+                        }
+        }
+        
+        return task
+    }
+    
+    internal init(stitchClient: StitchClient, authInfo: AuthInfo) {
+        self.stitchClient = stitchClient
+        self.authInfo = authInfo
     }
 }

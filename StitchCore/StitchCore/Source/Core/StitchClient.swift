@@ -5,7 +5,7 @@ import StitchLogger
 import Security
 
 public struct Consts {
-    public static let DefaultBaseUrl =          "https://stitch.mongodb.com"
+    public static let DefaultBaseUrl =   "https://stitch.mongodb.com"
     static let ApiPath =                 "/api/client/v1.0/app/"
     
     //User Defaults
@@ -27,6 +27,8 @@ public struct Consts {
     //api
     static let AuthPath =                "auth"
     static let UserProfilePath =         "auth/me"
+    static let UserProfileApiKeyPath =   "auth/me/api_keys"
+
     static let NewAccessTokenPath =      "newAccessToken"
     static let PipelinePath =            "pipeline"
     static let PushPath =                "push"
@@ -56,7 +58,7 @@ public class StitchClient: StitchClientType {
                 userDefaults?.set(true, forKey: Consts.IsLoggedInUDKey)
                 
                 do {
-                    let jsonData = try JSONSerialization.data(withJSONObject: newValue.json, options: JSONSerialization.WritingOptions())
+                    let jsonData = try JSONSerialization.data(withJSONObject: newValue.authInfo.json, options: JSONSerialization.WritingOptions())
                     guard let jsonString = String(data: jsonData, encoding: String.Encoding.utf8) else {
                         printLog(.error, text: "Error converting json String to Data")
                         return
@@ -77,15 +79,13 @@ public class StitchClient: StitchClientType {
     
     /// Whether or not the client is currently authenticated
     public var isAuthenticated: Bool {
-        
         guard auth == nil else {
             return true
         }
         
         do {
-            auth = try getAuthFromSavedJwt()
-        }
-        catch {
+            auth?.authInfo = try getAuthFromSavedJwt()
+        } catch {
             printLog(.error, text: error.localizedDescription)
         }
         
@@ -94,7 +94,6 @@ public class StitchClient: StitchClientType {
     }
     
     private var refreshToken: String? {
-        
         guard isAuthenticated else {
             return nil
         }
@@ -128,51 +127,6 @@ public class StitchClient: StitchClientType {
     // MARK: - Auth
     
     /**
-     Fetch the current user profile, containing all user info. Can fail.
-     
-     - Returns: A StitchTask containing profile of the given user
-     */
-    @discardableResult
-    public func fetchUserProfile() -> StitchTask<UserProfile> {
-        let task = StitchTask<UserProfile>()
-        
-        if !isAuthenticated {
-            task.result = StitchResult.failure(StitchError.unauthorized(
-                message: "Tried fetching user while there was no authenticated user found."))
-            return task
-        }
-        
-        performRequest(method: .get,
-                       endpoint: Consts.UserProfilePath,
-                       parameters: nil,
-                       refreshOnFailure: false,
-                       useRefreshToken: false).response(onQueue: DispatchQueue.global(qos: .utility)) { [weak self] (result) in
-                        guard let strongSelf = self else {
-                            task.result = StitchResult.failure(StitchError.clientReleased)
-                            return
-                        }
-                        
-                        switch result {
-                        case .success(let value):
-                            if let value = value as [String : Any]? {
-                                if let error = strongSelf.parseError(from: value) {
-                                    task.result = .failure(error)
-                                }
-                                else if let user = try? UserProfile(dictionary: value) {
-                                    task.result = .success(user)
-                                } else {
-                                    task.result = StitchResult.failure(StitchError.clientReleased)
-                                }
-                            }
-                        case .failure(let error):
-                            task.result = .failure(error)
-                        }
-        }
-        
-        return task
-    }
-    
-    /**
      Fetches all available auth providers for the current app.
      
      - Returns: A task containing AuthProviderInfo that can be resolved
@@ -182,7 +136,10 @@ public class StitchClient: StitchClientType {
     public func fetchAuthProviders() -> StitchTask<AuthProviderInfo> {
         let task = StitchTask<AuthProviderInfo>()
         let url = self.url(withEndpoint: Consts.AuthPath)
-        networkAdapter.requestWithJsonEncoding(url: url, method: .get, parameters: nil, headers: nil).response(onQueue: DispatchQueue.global(qos: .utility)) { [weak self] (response) in
+        networkAdapter.requestWithJsonEncoding(url: url,
+                                               method: .get,
+                                               parameters: nil,
+                                               headers: nil).response(onQueue: DispatchQueue.global(qos: .utility)) { [weak self] (response) in
             guard let strongSelf = self else {
                 task.result = StitchResult.failure(StitchError.clientReleased)
                 return
@@ -201,7 +158,6 @@ public class StitchClient: StitchClientType {
                 
             case .failure(let error):
                 task.result = .failure(error)
-                
             }
         }
         
@@ -422,7 +378,7 @@ public class StitchClient: StitchClientType {
                 return task
             }
             
-            url += "?link=\(auth.accessToken)"
+            url += "?link=\(auth.authInfo.accessToken)"
         }
         
         var parameters = provider.payload
@@ -444,7 +400,7 @@ public class StitchClient: StitchClientType {
                     }
                     else {
                         do {
-                            strongSelf.auth = try Auth(dictionary: value)
+                            strongSelf.auth?.authInfo = try AuthInfo(dictionary: value)
                         }
                         catch let error {
                             printLog(.error, text: "failed creating Auth: \(error)")
@@ -541,7 +497,7 @@ public class StitchClient: StitchClientType {
     private func getDeviceInfo() -> [String : Any] {
         var info = [String : Any]()
         
-        if let deviceId = auth?.deviceId {
+        if let deviceId = auth?.authInfo.deviceId {
             info[DeviceFields.DeviceId.rawValue] = deviceId
         }
         
@@ -592,7 +548,7 @@ public class StitchClient: StitchClientType {
         let params: [[String: Any]] = pipelines.map { $0.toJson }
         
         return performRequest(method: .post, endpoint: Consts.PipelinePath, parameters: params).continuationTask(parser: { (json) -> Any in
-            let document = try BsonDocument(extendedJson: json)
+            let document = try BsonDocument(extendedJson: json as! [String : Any?])
             if let docResult = document[Consts.ResultKey] {
                 return docResult
             }
@@ -605,15 +561,19 @@ public class StitchClient: StitchClientType {
     // MARK: Private
     
     @discardableResult
-    private func performRequest(method: NAHTTPMethod, endpoint: String, parameters: [[String : Any]]?, refreshOnFailure: Bool = true, useRefreshToken: Bool = false) -> StitchTask<[String : Any]> {
-        let task = StitchTask<[String : Any]>()
+    internal func performRequest(method: NAHTTPMethod,
+                                 endpoint: String,
+                                 parameters: [[String : Any]]?,
+                                 refreshOnFailure: Bool = true,
+                                 useRefreshToken: Bool = false) -> StitchTask<Any> {
+        let task = StitchTask<Any>()
         guard isAuthenticated else {
             task.result = .failure(StitchError.unauthorized(message: "Must first authenticate"))
             return task
         }
         
         let url = self.url(withEndpoint: endpoint)
-        let token = useRefreshToken ? refreshToken ?? String() : auth?.accessToken ?? String()
+        let token = useRefreshToken ? refreshToken ?? String() : auth?.authInfo.accessToken ?? String()
         
         networkAdapter.requestWithArray(url: url, method: method, parameters: parameters, headers: ["Authorization" : "Bearer \(token)"]).response(onQueue: DispatchQueue.global(qos: .utility), completionHandler: { [weak self] (response) in
             guard let strongSelf = self else {
@@ -634,16 +594,23 @@ public class StitchClient: StitchClientType {
         return task
     }
     
-    func handleSuccessfulResponse(withValue value: Any, method: NAHTTPMethod, endpoint: String, parameters: [[String : Any]]?, refreshOnFailure: Bool, task: StitchTask<[String : Any]>) {
-        if let value = value as? [String : Any] {
-            if let error = parseError(from: value) {
+    func handleSuccessfulResponse(withValue value: Any,
+                                  method: NAHTTPMethod,
+                                  endpoint: String,
+                                  parameters: [[String : Any]]?,
+                                  refreshOnFailure: Bool,
+                                  task: StitchTask<Any>) {
+        if let error = parseError(from: value as! [String : Any]) {
                 switch error {
                 case .serverError(let reason):
                     
                     // check if error is invalid session
                     if reason.isInvalidSession {
                         if refreshOnFailure {
-                            handleInvalidSession(method: method, endpoint: endpoint, parameters: parameters, task: task)
+                            handleInvalidSession(method: method,
+                                                 endpoint: endpoint,
+                                                 parameters: parameters,
+                                                 task: task)
                         }
                         else {
                             try? clearAuth()
@@ -656,37 +623,35 @@ public class StitchClient: StitchClientType {
                 default:
                     task.result = .failure(error)
                 }
-            }
-            else {
+            } else {
                 task.result = .success(value)
             }
-        }
-        else {
-            task.result = .failure(StitchError.responseParsingFailed(reason: "Unexpected result received - expected json and received: \(value)"))
-        }
     }
     
-    private func getAuthFromSavedJwt() throws -> Auth? {
+    private func getAuthFromSavedJwt() throws -> AuthInfo {
         guard userDefaults?.bool(forKey: Consts.IsLoggedInUDKey) == true else {
-            return nil
+            throw StitchError.unauthorized(message: "must be logged in")
         }
         
         do {
             if let authDicString = readToken(withKey: Consts.AuthJwtKey),
                 let authDicData = authDicString.data(using: .utf8),
                 let authDic = try JSONSerialization.jsonObject(with: authDicData, options: []) as? [String: Any] {
-                return try Auth(dictionary: authDic)
+                return try AuthInfo(dictionary: authDic)
             }
         } catch {
             printLog(.error, text: "Failed reading auth token from keychain")
         }
         
-        return nil
+        throw StitchError.unauthorized(message: "authorization failure")
     }
     
     // MARK: - Refresh Access Token
     
-    private func handleInvalidSession(method: NAHTTPMethod, endpoint: String, parameters: [[String : Any]]?, task: StitchTask<[String : Any]>) {
+    private func handleInvalidSession(method: NAHTTPMethod,
+                                      endpoint: String,
+                                      parameters: [[String : Any]]?,
+                                      task: StitchTask<Any>) {
         refreshAccessToken().response(onQueue: DispatchQueue.global(qos: .utility)) { [weak self] (result) in
             guard let strongSelf = self else {
                 task.result = StitchResult.failure(StitchError.clientReleased)
@@ -696,18 +661,18 @@ public class StitchClient: StitchClientType {
             switch result {
             case .failure(let error):
                 task.result = .failure(error)
-                
             case .success:
                 // retry once
-                strongSelf.performRequest(method: method, endpoint: endpoint, parameters: parameters, refreshOnFailure: false)
+                strongSelf.performRequest(method: method,
+                                          endpoint: endpoint,
+                                          parameters: parameters,
+                                          refreshOnFailure: false)
                     .response(onQueue: DispatchQueue.global(qos: .utility)) { (result) in
                         switch result {
                         case .failure(let error):
                             task.result = .failure(error)
-                            
                         case .success(let value):
                             task.result = .success(value)
-                            
                         }
                 }
                 
@@ -716,17 +681,22 @@ public class StitchClient: StitchClientType {
     }
     
     private func refreshAccessToken() -> StitchTask<Void> {
-        return performRequest(method: .post, endpoint: "\(Consts.AuthPath)/\(Consts.NewAccessTokenPath)", parameters: nil, refreshOnFailure: false, useRefreshToken: true).continuationTask(parser: { [weak self] (json) -> Void in
+        return performRequest(
+            method: .post,
+            endpoint: "\(Consts.AuthPath)/\(Consts.NewAccessTokenPath)",
+            parameters: nil,
+            refreshOnFailure: false,
+            useRefreshToken: true).continuationTask(parser: { [weak self] (json) -> Void in
             guard let strongSelf = self else {
                 throw StitchError.clientReleased
             }
             
-            if let accessToken = json[Consts.AccessTokenKey] as? String {
-                strongSelf.auth = strongSelf.auth?.auth(with: accessToken)
-            }
-            else {
-                throw StitchError.responseParsingFailed(reason: "failed parsing access token from result: \(json).")
-            }
+            guard let accessToken = (json as! [String : Any])[Consts.AccessTokenKey] as? String,
+                let auth = strongSelf.auth else {
+                    throw StitchError.unauthorized(message: "not authenticated")
+                }
+                
+            auth.authInfo = auth.authInfo.auth(with: accessToken)
         })
     }
     
@@ -779,8 +749,7 @@ public class StitchClient: StitchClientType {
 
     // MARK: - Error handling
     
-    private func parseError(from value: [String : Any]) -> StitchError? {
-        
+    internal func parseError(from value: [String : Any]) -> StitchError? {
         guard let errMsg = value[Consts.ErrorKey] as? String else {
             return nil
         }
@@ -802,8 +771,10 @@ public class StitchClient: StitchClientType {
      * of the request.
      */
     public func getPushProviders() -> StitchTask<AvailablePushProviders> {
-        return performRequest(method: .get, endpoint: Consts.PushPath, parameters: nil).continuationTask { json in
-            return AvailablePushProviders.fromQuery(doc: try! BsonDocument(extendedJson: json))
+        return performRequest(method: .get,
+                              endpoint: Consts.PushPath,
+                              parameters: nil).continuationTask { json in
+                                return AvailablePushProviders.fromQuery(doc: try! BsonDocument(extendedJson: json as! [String : Any?]))
         }
     }
     

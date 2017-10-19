@@ -13,7 +13,6 @@ class StitchCoreTests: XCTestCase {
     }
     
     func testPipelineToJson() throws {
-        
         // setup
         let hexString = "1234567890abcdef12345678"
         let objectId = try ObjectId(hexString: hexString)

@@ -52,7 +52,10 @@ public class AlamofireNetworkAdapter: NetworkAdapter {
         let task = StitchTask<Any>()
         
         let httpMethod = httpMehod(method: method)
-        Alamofire.request(url, method: httpMethod, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+        Alamofire.request(url, method: httpMethod,
+                          parameters: parameters,
+                          encoding: JSONEncoding.default,
+                          headers: headers)
             .responseJSON(queue: DispatchQueue.global(qos: .utility)) { [weak self] (response) in
                 guard self != nil else {
                     task.result = StitchResult.failure(StitchError.clientReleased)

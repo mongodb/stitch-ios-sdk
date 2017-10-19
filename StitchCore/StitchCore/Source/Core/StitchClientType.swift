@@ -23,14 +23,6 @@ public protocol StitchClientType {
     func fetchAuthProviders() -> StitchTask<AuthProviderInfo>
     
     /**
-     Fetch the current user profile, containing all user info. Can fail.
-     
-     - Returns: A StitchTask containing profile of the given user
-     */
-    @discardableResult
-    func fetchUserProfile() -> StitchTask<UserProfile>
-    
-    /**
         Registers the current user using email and password.
      
         - parameter email: email for the given user
@@ -131,8 +123,7 @@ public protocol StitchClientType {
     func addAuthDelegate(delegate: AuthDelegate)    
 }
 
-// MARK: - Defaul Values
-
+// MARK: - Default Values
 public extension StitchClientType {
     
     @discardableResult

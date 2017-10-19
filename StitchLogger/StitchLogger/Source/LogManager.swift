@@ -33,7 +33,6 @@ public struct LogManager {
 }
 
 public func printLog<T>(_ logLevel : LogLevel, text: T, _ file: String = #file, _ function: String = #function, _ line: Int = #line){
-    
     if LogManager.minimumLogLevel.rawValue <= logLevel.rawValue {
         let filename = (file as NSString).lastPathComponent
         print("\(prefix):[\(String(describing: logLevel))]: \(filename).\(function)[\(line)]: \(text)")
