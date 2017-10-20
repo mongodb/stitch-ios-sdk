@@ -17,7 +17,7 @@ public protocol PushProviderInfo {
      
      - Returns: A dictionary containing providerName, senderId, and config fields
      */
-    func toDict() -> [String : Any]
+    func toDict() -> [String: Any]
 }
 
 /// Helper class to construct PushProviderInfo from persistent storage
@@ -32,17 +32,17 @@ public class PushProviderInfoHelper {
     public class func fromPreferences() throws -> [PushProviderInfo] {
         let userDefaults: UserDefaults = UserDefaults(suiteName: Consts.UserDefaultsName)!
 
-        let configs = userDefaults.value(forKey: PrefConfigs) as? [String: Any] ?? [String : Any]()
-        
+        let configs = userDefaults.value(forKey: PrefConfigs) as? [String: Any] ?? [String: Any]()
+
         print(configs)
         return try configs.map { configEntry in
-            let info: [String: Any]  = configEntry.value as! [String : Any]
-            
+            let info: [String: Any]  = configEntry.value as! [String: Any]
+
             let providerNameOpt = PushProviderName.fromTypeName(typename: info[PushProviderInfoFields.FieldType.rawValue] as! String)
-            
+
             if let providerName = providerNameOpt {
                 let config = info[PushProviderInfoFields.Config.rawValue] as! [String: Any]
-                
+
                 switch (providerName) {
                 case .GCM: return StitchGCMPushProviderInfo.fromConfig(serviceName: configEntry.key, senderId: config[StitchGCMProviderInfoFields.SenderID.rawValue] as! String)
                 }

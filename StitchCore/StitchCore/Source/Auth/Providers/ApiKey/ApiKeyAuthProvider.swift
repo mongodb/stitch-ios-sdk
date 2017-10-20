@@ -13,11 +13,11 @@ public struct ApiKeyAuthProvider: AuthProvider {
 
     public var type: String = "api"
     public var name: String = "key"
-    
-    public var payload: [String : Any] {
-        return ["key" : key]
+
+    public var payload: [String: Any] {
+        return ["key": key]
     }
-    
+
     public init(key: String) {
         self.key = key
     }

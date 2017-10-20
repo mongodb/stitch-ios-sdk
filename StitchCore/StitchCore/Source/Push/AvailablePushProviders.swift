@@ -8,17 +8,17 @@ import ExtendedJson
 public class AvailablePushProviders {
     /// Google Cloud Messaging provider info
     public var gcm: StitchGCMPushProviderInfo?
-    
+
     typealias AvailablePushProvidersBuilder = (AvailablePushProviders) -> Void
-    
+
     private init(build: AvailablePushProvidersBuilder) {
         build(self)
     }
-    
+
     init(gcm: StitchGCMPushProviderInfo?) {
         self.gcm = gcm
     }
-    
+
     /**
         Fetch available push providers from a Stitch query.
      
@@ -29,10 +29,10 @@ public class AvailablePushProviders {
         let builder: AvailablePushProvidersBuilder = { builder in
             doc.forEach { configEntry in
                 let info = configEntry.value as! BsonDocument
-                
+
                 let providerName = PushProviderName.fromTypeName(typename: info[PushProviderInfoFields.FieldType.rawValue] as! String)
                 let config = info[PushProviderInfoFields.Config.rawValue] as! BsonDocument
-                
+
                 if let providerName = providerName {
                     switch (providerName) {
                     case .GCM:
@@ -44,7 +44,7 @@ public class AvailablePushProviders {
                 }
             }
         }
-        
+
         return AvailablePushProviders(build: builder)
     }
 }

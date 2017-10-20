@@ -30,7 +30,7 @@ public enum StitchError: Error {
         case noMatchingRuleFound(message: String)
         /// Misc errors
         case other(message: String)
-        
+
         internal var isInvalidSession: Bool {
             switch self {
             case .invalidSession:
@@ -39,7 +39,7 @@ public enum StitchError: Error {
                 return false
             }
         }
-        
+
         /**
              Create a new `StitchError`.
  
@@ -85,13 +85,13 @@ public enum StitchError: Error {
             case "NoMatchingRuleFound":
                 self = .noMatchingRuleFound(message: errorMessage)
                 break
-                
+
             default:
                 self = .other(message: errorMessage)
             }
         }
     }
-    
+
     /// General server error
     case serverError(reason: ServerErrorReason)
     /// Failed pasing a response
@@ -103,7 +103,6 @@ public enum StitchError: Error {
     /// StitchClient has already been released
     case clientReleased
 }
-
 
 // MARK: - Error Descriptions
 

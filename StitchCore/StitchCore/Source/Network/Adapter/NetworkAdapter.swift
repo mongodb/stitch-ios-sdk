@@ -3,21 +3,6 @@ import Foundation
 /// Protocol to be used to handle requests if Alamofire is not desired
 public protocol NetworkAdapter {
     /**
-     Make a network request with an array of key value pairs.
-     
-     - Parameters:
-         - url: Resource to call
-         - method: HTTP verb to use with this call
-         - parameters: Array of key value pairs to send upstream
-         - headers: Array of key value pairs to send as headers
-     
-     - Returns: A new `StitchTask`
-     */
-    func requestWithArray(url: String,
-                          method: NAHTTPMethod,
-                          parameters: [[String : Any]]?,
-                          headers: [String : String]?) ->  StitchTask<Any>
-    /**
      Make a network request using Json encoding for the params.
      
      - Parameters:
@@ -28,7 +13,10 @@ public protocol NetworkAdapter {
      
      - Returns: A new `StitchTask`
      */
-    func requestWithJsonEncoding(url: String, method: NAHTTPMethod, parameters: [String : Any]?, headers: [String : String]?) ->  StitchTask<Any>
+    func requestWithJsonEncoding(url: String,
+                                 method: NAHTTPMethod,
+                                 parameters: Encodable?,
+                                 headers: [String: String]?) ->  StitchTask<Data?>
     /**
      Cancel all active requests.
      */

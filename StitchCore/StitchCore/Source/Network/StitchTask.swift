@@ -6,7 +6,7 @@ public enum StitchResult<Value> {
     case success(Value)
     /// If the Task failed with a value
     case failure(Error)
-    
+
     /// Value from the `StitchTask` in the event of success
     public var value: Value? {
         switch self {
@@ -16,7 +16,7 @@ public enum StitchResult<Value> {
             return nil
         }
     }
-    
+
     /// Error from the `StitchTask` in the event of failure
     public var error: Error? {
         switch self {
@@ -39,19 +39,19 @@ extension DispatchQueue: ExecutionContext {
 }
 
 public final class InvalidatableQueue: ExecutionContext {
-    
+
     private var valid = true
-    
+
     private let queue: DispatchQueue
-    
+
     public init(queue: DispatchQueue = .main) {
         self.queue = queue
     }
-    
+
     public func invalidate() {
         valid = false
     }
-    
+
     public func execute(_ work: @escaping () -> Void) {
         guard valid else { return }
         self.queue.async(execute: work)
@@ -59,16 +59,16 @@ public final class InvalidatableQueue: ExecutionContext {
 }
 
 struct Callback<Value> {
-    let onFulfilled: (Value) -> ()
-    let onRejected: (Error) -> ()
+    let onFulfilled: (Value) -> Void
+    let onRejected: (Error) -> Void
     let queue: ExecutionContext
-    
+
     func callFulfill(_ value: Value) {
         queue.execute({
             self.onFulfilled(value)
         })
     }
-    
+
     func callReject(_ error: Error) {
         queue.execute({
             self.onRejected(error)
@@ -77,20 +77,19 @@ struct Callback<Value> {
 }
 
 enum State<Value>: CustomStringConvertible {
-    
+
     /// The promise has not completed yet.
     /// Will transition to either the `fulfilled` or `rejected` state.
     case pending
-    
+
     /// The promise now has a value.
     /// Will not transition to any other state.
     case fulfilled(value: Value)
-    
+
     /// The promise failed with the included error.
     /// Will not transition to any other state.
     case rejected(error: Error)
-    
-    
+
     var isPending: Bool {
         if case .pending = self {
             return true
@@ -98,7 +97,7 @@ enum State<Value>: CustomStringConvertible {
             return false
         }
     }
-    
+
     var isFulfilled: Bool {
         if case .fulfilled = self {
             return true
@@ -106,7 +105,7 @@ enum State<Value>: CustomStringConvertible {
             return false
         }
     }
-    
+
     var isRejected: Bool {
         if case .rejected = self {
             return true
@@ -114,22 +113,21 @@ enum State<Value>: CustomStringConvertible {
             return false
         }
     }
-    
+
     var value: Value? {
         if case let .fulfilled(value) = self {
             return value
         }
         return nil
     }
-    
+
     var error: Error? {
         if case let .rejected(error) = self {
             return error
         }
         return nil
     }
-    
-    
+
     var description: String {
         switch self {
         case .fulfilled(let value):
@@ -142,27 +140,26 @@ enum State<Value>: CustomStringConvertible {
     }
 }
 
-
 public final class StitchTask<Value> {
-    
+
     private var state: State<Value>
     private let lockQueue = DispatchQueue(label: "promise_lock_queue", qos: .userInitiated)
     private var callbacks: [Callback<Value>] = []
-    
+
     public init() {
         state = .pending
     }
-    
+
     public init(value: Value) {
         state = .fulfilled(value: value)
     }
-    
+
     public init(error: Error) {
         state = .rejected(error: error)
     }
-    
+
     public convenience init(queue: DispatchQueue = DispatchQueue.global(qos: .userInitiated),
-                            work: @escaping (_ fulfill: @escaping (Value) -> (), _ reject: @escaping (Error) -> () ) throws -> ()) {
+                            work: @escaping (_ fulfill: @escaping (Value) -> Void, _ reject: @escaping (Error) -> Void ) throws -> Void) {
         self.init()
         queue.async(execute: {
             do {
@@ -172,7 +169,7 @@ public final class StitchTask<Value> {
             }
         })
     }
-    
+
     @discardableResult
     public func response(onQueue: ExecutionContext = DispatchQueue.main,
                          completionHandler: @escaping (StitchResult<Value>) -> Void) -> StitchTask<Value> {
@@ -189,7 +186,7 @@ public final class StitchTask<Value> {
             )
         })
     }
-    
+
     @discardableResult
     public func continuationTask<NewValue>(parser: @escaping (Value) throws -> NewValue) -> StitchTask<NewValue> {
         // return a new `StitchTask` with an async block adding a new callback
@@ -210,7 +207,7 @@ public final class StitchTask<Value> {
             )
         })
     }
-    
+
     @discardableResult
     public func continuationTask<NewValue>(onQueue: ExecutionContext = DispatchQueue.main,
                                            _ onFulfilled: @escaping (Value) throws -> StitchTask<NewValue>) -> StitchTask<NewValue> {
@@ -228,11 +225,11 @@ public final class StitchTask<Value> {
             )
         })
     }
-    
+
     @discardableResult
     public func continuationTask(onQueue: ExecutionContext = DispatchQueue.main,
-                                 _ onFulfilled: @escaping (Value) -> (),
-                                 _ onRejected: @escaping (Error) -> () = { _ in }) -> StitchTask<Value> {
+                                 _ onFulfilled: @escaping (Value) -> Void,
+                                 _ onRejected: @escaping (Error) -> Void = { _ in }) -> StitchTask<Value> {
         _ = StitchTask<Value>(work: { fulfill, reject in
             self.addCallbacks(
                 on: onQueue,
@@ -248,32 +245,32 @@ public final class StitchTask<Value> {
         })
         return self
     }
-    
+
     @discardableResult
-    public func `catch`(onQueue: ExecutionContext = DispatchQueue.main, _ onRejected: @escaping (Error) -> ()) -> StitchTask<Value> {
+    public func `catch`(onQueue: ExecutionContext = DispatchQueue.main, _ onRejected: @escaping (Error) -> Void) -> StitchTask<Value> {
         return continuationTask(onQueue: onQueue, { _ in }, onRejected)
     }
-    
+
     public func reject(_ error: Error) {
         updateState(.rejected(error: error))
     }
-    
+
     public func fulfill(_ value: Value) {
         updateState(.fulfilled(value: value))
     }
-    
+
     public var isPending: Bool {
         return !isFulfilled && !isRejected
     }
-    
+
     public var isFulfilled: Bool {
         return result != nil
     }
-    
+
     public var isRejected: Bool {
         return error != nil
     }
-    
+
     public var result: StitchResult<Value>? {
         get {
             return lockQueue.sync(execute: {
@@ -292,23 +289,23 @@ public final class StitchTask<Value> {
             }
         }
     }
-    
+
     public var error: Error? {
         return lockQueue.sync(execute: {
             return self.state.error
         })
     }
-    
+
     private func updateState(_ state: State<Value>) {
         lockQueue.sync(execute: {
             self.state = state
         })
         fireCallbacksIfCompleted()
     }
-    
+
     private func addCallbacks(on queue: ExecutionContext = DispatchQueue.main,
-                              onFulfilled: @escaping (Value) -> (),
-                              onRejected: @escaping (Error) -> ()) {
+                              onFulfilled: @escaping (Value) -> Void,
+                              onRejected: @escaping (Error) -> Void) {
         let callback = Callback(onFulfilled: onFulfilled,
                                 onRejected: onRejected,
                                 queue: queue)
@@ -317,7 +314,7 @@ public final class StitchTask<Value> {
         })
         fireCallbacksIfCompleted()
     }
-    
+
     private func fireCallbacksIfCompleted() {
         lockQueue.async(execute: {
             guard !self.state.isPending else { return }

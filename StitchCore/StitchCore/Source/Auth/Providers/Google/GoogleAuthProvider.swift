@@ -11,13 +11,13 @@ public struct GoogleAuthProvider: AuthProvider {
         return "google"
     }
     /// The JSON payload containing the authCode.
-    public var payload: [String : Any] {
-        return ["authCode" : authCode]
+    public var payload: [String: Any] {
+        return ["authCode": authCode]
     }
-    
+
     private(set) var authCode: String
-    
-    //MARK: - Init
+
+    // MARK: - Init
     /**
          - parameter authCode: Authorization code needed for login
      */

@@ -30,7 +30,7 @@ public protocol PushClient {
     */
     @discardableResult
     func registerToken(token: String) -> StitchTask<Any>
-    
+
     /**
         Deregisters the client from the provider and Stitch.
         
@@ -46,14 +46,14 @@ extension PushClient {
      */
     func addInfoToConfigs(info: PushProviderInfo) {
         let userDefaults = UserDefaults(suiteName: Consts.UserDefaultsName)!
-        
-        var configs: [String : Any] = userDefaults.value(forKey: PrefConfigs) as? [String : Any] ?? [String : Any]()
-        
+
+        var configs: [String: Any] = userDefaults.value(forKey: PrefConfigs) as? [String: Any] ?? [String: Any]()
+
         configs[info.serviceName] = info.toDict()
-        
+
         userDefaults.setValue(configs, forKey: PrefConfigs)
     }
-    
+
     /**
      - parameter info: The push provider info to no longer persist
      */
@@ -63,32 +63,32 @@ extension PushClient {
         var configs = BsonDocument()
         do {
             let configOpt = userDefaults.value(forKey: PrefConfigs)
-            
+
             if let config = configOpt {
-                configs = try BsonDocument(extendedJson: config as! [String : Any])
+                configs = try BsonDocument(extendedJson: config as! [String: Any])
             }
         } catch _ {
             configs = BsonDocument()
         }
-        
+
         configs[info.serviceName] = nil
         userDefaults.setValue(configs, forKey: PrefConfigs)
     }
-    
+
     /**
      - parameter serviceName: The service that will handle push
      for this client
      - returns: A generic device registration request
      */
-    public func getBaseRegisterPushRequest(serviceName: String) -> [String : ExtendedJsonRepresentable] {
-        var request = [String : ExtendedJsonRepresentable]()
-        
+    public func getBaseRegisterPushRequest(serviceName: String) -> [String: ExtendedJsonRepresentable] {
+        var request = [String: ExtendedJsonRepresentable]()
+
         request[DeviceFields.ServiceName.rawValue] = serviceName
         request[DeviceFields.Data.rawValue] = BsonDocument()
 
         return request
     }
-    
+
     /**
      - parameter serviceName: The service that will handle push
      for this client
@@ -96,9 +96,9 @@ extension PushClient {
      */
     func getBaseDeregisterPushDeviceRequest(serviceName: String) -> BsonDocument {
         var request = BsonDocument()
-        
+
         request[DeviceFields.ServiceName.rawValue] = serviceName
-        
+
         return request
     }
 }

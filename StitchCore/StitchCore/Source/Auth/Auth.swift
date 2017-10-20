@@ -10,15 +10,15 @@ import Foundation
 
 public class Auth {
     private let stitchClient: StitchClient
-    
+
     public internal(set) var authInfo: AuthInfo
-    
+
     public func createSelfApiKey(name: String) -> StitchTask<ApiKey> {
         let task = StitchTask<ApiKey>()
 
         stitchClient.performRequest(method: .post,
                                     endpoint: Consts.UserProfileApiKeyPath,
-                                    parameters: [["name": name]],
+                                    parameters: ["name": name],
                                     refreshOnFailure: true,
                                     useRefreshToken: true)
             .response { (res) in
@@ -36,13 +36,13 @@ public class Auth {
                     task.result = .failure(error)
                 }
         }
-        
+
         return task
     }
-    
+
     public func fetchSelfApiKey(id: String) -> StitchTask<ApiKey> {
         let task = StitchTask<ApiKey>()
-        
+
         stitchClient.performRequest(method: .get,
                                     endpoint: "\(Consts.UserProfileApiKeyPath)/\(id)",
                                     parameters: nil,
@@ -63,13 +63,13 @@ public class Auth {
                     task.result = .failure(error)
                 }
         }
-        
+
         return task
     }
-    
+
     public func fetchSelfApiKeys() -> StitchTask<[ApiKey]> {
         let task = StitchTask<[ApiKey]>()
-        
+
         stitchClient.performRequest(method: .get,
                                     endpoint: "\(Consts.UserProfileApiKeyPath)",
             parameters: nil,
@@ -90,13 +90,13 @@ public class Auth {
                     task.result = .failure(error)
                 }
         }
-        
+
         return task
     }
-    
+
     public func deleteSelfApiKey(id: String) -> StitchTask<Bool> {
         let task = StitchTask<Bool>()
-        
+
         stitchClient.performRequest(method: .delete,
                                     endpoint: "\(Consts.UserProfileApiKeyPath)/\(id)",
             parameters: nil,
@@ -110,13 +110,13 @@ public class Auth {
                     task.result = .failure(error)
                 }
         }
-        
+
         return task
     }
-    
+
     private func enableDisableApiKey(id: String, shouldEnable: Bool) -> StitchTask<Bool> {
         let task = StitchTask<Bool>()
-        
+
         stitchClient.performRequest(method: .put,
                                     endpoint: "\(Consts.UserProfileApiKeyPath)/\(id)/\(shouldEnable ? "enable" : "disable")",
             parameters: nil,
@@ -130,18 +130,18 @@ public class Auth {
                     task.result = .failure(error)
                 }
         }
-        
+
         return task
     }
-    
-    public func enableApiKey(id: String) ->  StitchTask<Bool>{
+
+    public func enableApiKey(id: String) ->  StitchTask<Bool> {
         return self.enableDisableApiKey(id: id, shouldEnable: true)
     }
-    
+
     public func disableApiKey(id: String) -> StitchTask<Bool> {
         return self.enableDisableApiKey(id: id, shouldEnable: false)
     }
-    
+
     /**
      Fetch the current user profile, containing all user info. Can fail.
      
@@ -160,14 +160,13 @@ public class Auth {
                             task.result = StitchResult.failure(StitchError.clientReleased)
                             return
                         }
-                        
+
                         switch result {
                         case .success(let value):
-                            if let value = value as? [String : Any] {
+                            if let value = value as? [String: Any] {
                                 if let error = strongSelf.stitchClient.parseError(from: value) {
                                     task.result = .failure(error)
-                                }
-                                else if let user = try? UserProfile(dictionary: value) {
+                                } else if let user = try? UserProfile(dictionary: value) {
                                     task.result = .success(user)
                                 } else {
                                     task.result = StitchResult.failure(StitchError.clientReleased)
@@ -177,10 +176,10 @@ public class Auth {
                             task.result = .failure(error)
                         }
         }
-        
+
         return task
     }
-    
+
     internal init(stitchClient: StitchClient, authInfo: AuthInfo) {
         self.stitchClient = stitchClient
         self.authInfo = authInfo

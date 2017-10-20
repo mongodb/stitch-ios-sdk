@@ -15,7 +15,7 @@ public struct ApiKey: Decodable {
         case name
         case disabled
     }
-    
+
     public let id: String
     public let key: String?
     public let name: String

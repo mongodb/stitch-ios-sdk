@@ -10,23 +10,23 @@ public struct AuthProviderInfo {
     public private(set) var facebookProviderInfo: FacebookAuthProviderInfo?
     /// Info about the `EmailPasswordAuthProvider`
     public private(set) var emailPasswordAuthProviderInfo: EmailPasswordAuthProviderInfo?
-    
-    //MARK: - Init
+
+    // MARK: - Init
     /**
          - parameter dictionary: Dictionary containing all available provider
                                  names and their information (as a dict)
      */
-    init(dictionary: [String : Any]) {
-        
+    init(dictionary: [String: Any]) {
+
         for providerName in dictionary.keys {
             switch providerName {
             case Provider.google.name:
-                if let googleProviderInfoDic = dictionary[providerName] as? [String : Any],
+                if let googleProviderInfoDic = dictionary[providerName] as? [String: Any],
                     let googleProviderInfo = GoogleAuthProviderInfo(dictionary: googleProviderInfoDic) {
                     self.googleProviderInfo = googleProviderInfo
                 }
             case Provider.facebook.name:
-                if let facebookProviderInfoDic = dictionary[providerName] as? [String : Any],
+                if let facebookProviderInfoDic = dictionary[providerName] as? [String: Any],
                     let facebookProviderInfo = FacebookAuthProviderInfo(dictionary: facebookProviderInfoDic) {
                     self.facebookProviderInfo = facebookProviderInfo
                 }
@@ -39,6 +39,5 @@ public struct AuthProviderInfo {
             }
         }
     }
-    
-    
+
 }

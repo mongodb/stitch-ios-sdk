@@ -13,12 +13,12 @@ public class StitchGCMPushClient: PushClient {
         case GCMServiceName = "gcm"
         case GCMSenderID = "push.gcm.senderId"
     }
-    
+
     private let userDefaults: UserDefaults = UserDefaults(suiteName: Consts.UserDefaultsName)!
     private let stitchClient: StitchClient
-    
+
     private let _info: StitchGCMPushProviderInfo
-    
+
     /**
         - Parameters:
             - stitchClient: Current `StitchClient` you want to be associated with this push client
@@ -28,14 +28,14 @@ public class StitchGCMPushClient: PushClient {
         self.stitchClient = stitchClient
         self._info = info
     }
-    
+
     /**
         - parameter registrationToken: The registration token from GCM.
         - returns: The request payload for registering for push for GCM.
      */
-    private func getRegisterPushDeviceRequest(registrationToken: String) -> [String : ExtendedJsonRepresentable] {
+    private func getRegisterPushDeviceRequest(registrationToken: String) -> [String: ExtendedJsonRepresentable] {
         var request = getBaseRegisterPushRequest(serviceName: Props.GCMServiceName.rawValue)
-        var data = request[DeviceFields.Data.rawValue] as! [String : ExtendedJsonRepresentable]
+        var data = request[DeviceFields.Data.rawValue] as! [String: ExtendedJsonRepresentable]
         data[DeviceFields.RegistrationToken.rawValue] = registrationToken
         request[DeviceFields.Data.rawValue] = try! BsonDocument.decodeXJson(value: data)
         return request
@@ -51,7 +51,7 @@ public class StitchGCMPushClient: PushClient {
         userDefaults.setValue(token, forKey: DeviceFields.RegistrationToken.rawValue)
         let pipeline: Pipeline = Pipeline(action: Actions.RegisterPush.rawValue,
                                           args: getRegisterPushDeviceRequest(registrationToken: token))
-        
+
         return stitchClient.executePipeline(pipeline: pipeline).response(completionHandler: { (task: StitchResult<Any>) -> Void in
             if (task.error != nil) {
                 print(task.error ?? "")
@@ -60,7 +60,7 @@ public class StitchGCMPushClient: PushClient {
             }
         })
     }
-    
+
     /**
         Deregisters the client from the provider and Stitch.
      
@@ -70,9 +70,11 @@ public class StitchGCMPushClient: PushClient {
         let deviceToken = userDefaults.string(forKey: DeviceFields.RegistrationToken.rawValue)
         let pipeline: Pipeline = Pipeline(action: Actions.RegisterPush.rawValue,
                                           args: getRegisterPushDeviceRequest(registrationToken: deviceToken!))
-        
-        return stitchClient.executePipeline(pipeline: pipeline).response(completionHandler: { (task: StitchResult<Any>) -> Void in
-            if (task.error != nil) {
+
+        return stitchClient
+            .executePipeline(pipeline: pipeline)
+            .response(completionHandler: { (task: StitchResult<Any>) -> Void in
+            if task.error != nil {
                 print(task.error ?? "")
             } else {
                 self.removeInfoFromConfigs(info: self._info)
