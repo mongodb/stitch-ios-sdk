@@ -1,4 +1,5 @@
 import Foundation
+import ExtendedJson
 
 /// GoogleAuthProvider provides a way to authenticate via Google's OAuth 2.0 provider.
 public struct GoogleAuthProvider: AuthProvider {
@@ -11,7 +12,7 @@ public struct GoogleAuthProvider: AuthProvider {
         return "google"
     }
     /// The JSON payload containing the authCode.
-    public var payload: [String: Any] {
+    public var payload: BsonDocument {
         return ["authCode": authCode]
     }
 

@@ -13,14 +13,14 @@ extension NSNull: ExtendedJsonRepresentable {
         guard let _ = xjson as? NSNull else {
             throw BsonError.parseValueFailure(value: xjson, attemptedType: NSNull.self)
         }
-        
+
         return NSNull()
     }
-    
+
     public var toExtendedJson: Any {
         return self
     }
-    
+
     public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
         if let other = other as? NSNull {
             return self == other
@@ -28,4 +28,3 @@ extension NSNull: ExtendedJsonRepresentable {
         return false
     }
 }
-

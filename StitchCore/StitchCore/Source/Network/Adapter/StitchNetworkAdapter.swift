@@ -7,14 +7,16 @@
 //
 
 import Foundation
+import ExtendedJson
+import StitchLogger
 
 public class StitchNetworkAdapter: NetworkAdapter {
     private var tasks: [URLSessionDataTask] = []
 
-    public func requestWithJsonEncoding(url: String,
-                                        method: NAHTTPMethod,
-                                        parameters: Encodable?,
-                                        headers: [String: String]?) -> StitchTask<Data?> {
+    public func requestWithJsonEncoding<T>(url: String,
+                                           method: NAHTTPMethod,
+                                           parameters: T?,
+                                           headers: [String: String]? = [:]) -> StitchTask<Data?> where T: Encodable {
         let task = StitchTask<Data?>()
         let defaultSession = URLSession(configuration: .default)
 
@@ -23,23 +25,31 @@ public class StitchNetworkAdapter: NetworkAdapter {
             return task
         }
 
+        var contentHeaders = headers ?? [:]
+        contentHeaders["Content-Type"] = "application/json"
         var request = URLRequest(url: url)
-        request.allHTTPHeaderFields = headers
-
+        
+        request.allHTTPHeaderFields = contentHeaders
+        request.httpMethod = method.rawValue
+    
         if let parameters = parameters {
-            guard let jsonData = try? JSONSerialization.data(withJSONObject: parameters) else {
+            guard let bsonData = try? BsonEncoder().encode(parameters) else {
                 task.result = .failure(StitchError.illegalAction(message: "bad json"))
                 return task
             }
 
-            request.httpBody = jsonData
+            printLog(.debug, text: String(data: bsonData, encoding: .utf8)!)
+            request.httpBody = bsonData
         }
 
-        let dataTask = defaultSession.dataTask(with: request) { (data, _, error) in
+        printLog(.debug, text: request.allHTTPHeaderFields)
+        let dataTask = defaultSession.dataTask(with: request) { (data, response, error) in
             if let error = error {
                 task.result = .failure(error)
                 return
             }
+
+            printLog(.debug, text: response)
 
             task.result = .success(data)
         }

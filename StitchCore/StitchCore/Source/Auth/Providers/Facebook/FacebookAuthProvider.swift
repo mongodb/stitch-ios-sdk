@@ -1,4 +1,5 @@
 import Foundation
+import ExtendedJson
 
 /// FacebookAuthProvider provides a way to authenticate via Facebook's OAuth 2.0 provider.
 public struct FacebookAuthProvider: AuthProvider {
@@ -13,7 +14,7 @@ public struct FacebookAuthProvider: AuthProvider {
     }
 
     /// The JSON payload containing the accessToken.
-    public var payload: [String: Any] {
+    public var payload: BsonDocument {
         return ["accessToken": accessToken]
     }
 
@@ -26,5 +27,4 @@ public struct FacebookAuthProvider: AuthProvider {
     public init(accessToken: String) {
         self.accessToken = accessToken
     }
-
 }

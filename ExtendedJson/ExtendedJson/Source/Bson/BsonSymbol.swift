@@ -10,7 +10,7 @@ import Foundation
 
 public struct BsonSymbol {
     let symbol: String
-    
+
     public init(_ symbol: String) {
         self.symbol = symbol
     }

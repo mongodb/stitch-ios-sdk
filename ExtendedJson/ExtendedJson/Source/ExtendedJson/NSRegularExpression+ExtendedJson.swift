@@ -10,30 +10,30 @@ import Foundation
 
 extension NSRegularExpression: ExtendedJsonRepresentable {
     public static func fromExtendedJson(xjson: Any) throws -> ExtendedJsonRepresentable {
-        guard let json = xjson as? [String : Any],
-            let regex = json[ExtendedJsonKeys.regex.rawValue] as? [String : String],
+        guard let json = xjson as? [String: Any],
+            let regex = json[ExtendedJsonKeys.regex.rawValue] as? [String: String],
             let pattern = regex["pattern"],
             let options = regex["options"],
             let regularExpression = try? NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options(options)),
             regex.count == 2 else {
                 throw BsonError.parseValueFailure(value: xjson, attemptedType: NSRegularExpression.self)
         }
-        
+
         return regularExpression
     }
-    
+
     public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
         if let other = other as? NSRegularExpression {
             return self.pattern == other.pattern &&
                 self.options == other.options
         }
         return false
-        
+
     }
-    
+
     public var toExtendedJson: Any {
         return [
-            ExtendedJsonKeys.regex.rawValue : [
+            ExtendedJsonKeys.regex.rawValue: [
                 "pattern": pattern,
                 "options": options.toExtendedJson
             ]
@@ -42,14 +42,13 @@ extension NSRegularExpression: ExtendedJsonRepresentable {
 }
 
 extension NSRegularExpression.Options {
-    
     private struct ExtendedJsonOptions {
         static let caseInsensitive =            "i"
         static let anchorsMatchLines =          "m"
         static let dotMatchesLineSeparators =   "s"
         static let allowCommentsAndWhitespace = "x"
     }
-    
+
     internal var toExtendedJson: Any {
         var description = ""
         if contains(.caseInsensitive) {
@@ -64,11 +63,11 @@ extension NSRegularExpression.Options {
         if contains(.allowCommentsAndWhitespace) {
             description.append(ExtendedJsonOptions.allowCommentsAndWhitespace)
         }
-        
+
         return description
     }
-    
-    internal init(_ extendedJsonString: String) {
+
+    public init(_ extendedJsonString: String) {
         self = []
         if extendedJsonString.contains(ExtendedJsonOptions.caseInsensitive) {
             self.insert(.caseInsensitive)

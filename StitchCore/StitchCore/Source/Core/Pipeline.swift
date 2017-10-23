@@ -18,11 +18,11 @@ public struct Pipeline: Codable {
     /**
      * The arguments to invoke the action with.
      */
-    public let args: [String: ExtendedJsonRepresentable]?
+    public let args: BsonDocument?
     /**
      * The expression to evaluate for use within the arguments via expansion.
      */
-    public let `let`: ExtendedJsonRepresentable?
+    public let `let`: BsonDocument?
 
     // MARK: - Init
     /**
@@ -37,8 +37,8 @@ public struct Pipeline: Codable {
      */
     public init(action: String,
                 service: String? = nil,
-                args: [String: ExtendedJsonRepresentable]? = nil,
-                `let`: ExtendedJsonRepresentable? = nil) {
+                args: BsonDocument? = nil,
+                `let`: BsonDocument? = nil) {
         self.action = action
         self.service = service
         self.args = args
@@ -49,8 +49,8 @@ public struct Pipeline: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.action = try container.decode(String.self, forKey: CodingKeys.action)
         self.service = try container.decode(String?.self, forKey: CodingKeys.action)
-        self.args = try container.decode([String: ExtendedJsonRepresentable].self, forKey: CodingKeys.action)
-        self.`let` = try container.decode(ExtendedJsonRepresentable?.self, forKey: CodingKeys.action)
+        self.args = try container.decode(BsonDocument.self, forKey: CodingKeys.action)
+        self.`let` = try container.decode(BsonDocument?.self, forKey: CodingKeys.action)
     }
 
     public func encode(to encoder: Encoder) throws {

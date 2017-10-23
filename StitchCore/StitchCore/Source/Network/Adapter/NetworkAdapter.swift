@@ -13,10 +13,10 @@ public protocol NetworkAdapter {
      
      - Returns: A new `StitchTask`
      */
-    func requestWithJsonEncoding(url: String,
-                                 method: NAHTTPMethod,
-                                 parameters: Encodable?,
-                                 headers: [String: String]?) ->  StitchTask<Data?>
+    func requestWithJsonEncoding<T>(url: String,
+                                    method: NAHTTPMethod,
+                                    parameters: T?,
+                                    headers: [String: String]?) ->  StitchTask<Data?> where T: Encodable
     /**
      Cancel all active requests.
      */

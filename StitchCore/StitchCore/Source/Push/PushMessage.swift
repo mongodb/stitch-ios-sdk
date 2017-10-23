@@ -4,9 +4,9 @@ import ExtendedJson
 /// Simple data holder for push messages with Stitch formatting.
 @objc public class PushMessage: NSObject {
     enum MessageKeys: String {
-        case StitchData = "stitch.data"
-        case StitchAppId = "stitch.appId"
-        case StitchProviderId = "stitch.providerId"
+        case stitchData = "stitch.data"
+        case stitchAppId = "stitch.appId"
+        case stitchProviderId = "stitch.providerId"
     }
 
     let rawData: [AnyHashable: Any]
@@ -26,16 +26,22 @@ import ExtendedJson
         - parameter data: The data from the GCM push notification.
         - returns: PushMessage constructed from a GCM push notification.
      */
-    public class func fromGCM(data: [AnyHashable: Any]) -> PushMessage {
+    public class func fromGCM(data: [AnyHashable: Any]) throws -> PushMessage {
         var stitchData: BsonDocument?
 
-        if let json = data[MessageKeys.StitchData.rawValue] {
-            stitchData = try? BsonDocument(extendedJson: JSONSerialization.jsonObject(with: (json as! String).data(using: .utf8)!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String: Any])
+        if let strData = data[MessageKeys.stitchData.rawValue] as? String,
+            let json = strData.data(using: .utf8),
+            let rawJson = try? JSONSerialization.jsonObject(with: json,
+                                                            options: JSONSerialization.ReadingOptions.allowFragments),
+            let xjson = rawJson as? [String: Any?] {
+            stitchData = try? BsonDocument(extendedJson: xjson)
         }
 
-        let appId = data[MessageKeys.StitchAppId.rawValue]
-        let providerId = data[MessageKeys.StitchProviderId.rawValue]
+        guard let appId = data[MessageKeys.stitchAppId.rawValue] as? String,
+            let providerId = data[MessageKeys.stitchProviderId.rawValue] as? String else {
+            throw StitchError.responseParsingFailed(reason: "\(data) did not contain valid appId or providerId")
+        }
 
-        return PushMessage(rawData: data, appId: appId as! String, providerId: providerId as! String, data: stitchData)
+        return PushMessage(rawData: data, appId: appId, providerId: providerId, data: stitchData)
     }
 }

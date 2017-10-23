@@ -14,7 +14,7 @@ public class StitchGCMPushClient: PushClient {
         case GCMSenderID = "push.gcm.senderId"
     }
 
-    private let userDefaults: UserDefaults = UserDefaults(suiteName: Consts.UserDefaultsName)!
+    internal let userDefaults: UserDefaults = UserDefaults(suiteName: Consts.UserDefaultsName)!
     private let stitchClient: StitchClient
 
     private let _info: StitchGCMPushProviderInfo
@@ -33,11 +33,13 @@ public class StitchGCMPushClient: PushClient {
         - parameter registrationToken: The registration token from GCM.
         - returns: The request payload for registering for push for GCM.
      */
-    private func getRegisterPushDeviceRequest(registrationToken: String) -> [String: ExtendedJsonRepresentable] {
+    private func getRegisterPushDeviceRequest(registrationToken: String) throws -> BsonDocument {
         var request = getBaseRegisterPushRequest(serviceName: Props.GCMServiceName.rawValue)
-        var data = request[DeviceFields.Data.rawValue] as! [String: ExtendedJsonRepresentable]
-        data[DeviceFields.RegistrationToken.rawValue] = registrationToken
-        request[DeviceFields.Data.rawValue] = try! BsonDocument.decodeXJson(value: data)
+        guard var data = request[DeviceFields.data.rawValue] as? [String: ExtendedJsonRepresentable] else {
+            throw StitchError.responseParsingFailed(reason: "device fields not stored properly")
+        }
+        data[DeviceFields.registrationToken.rawValue] = registrationToken
+        request[DeviceFields.data.rawValue] = try BsonDocument.decodeXJson(value: data)
         return request
     }
 
@@ -47,18 +49,18 @@ public class StitchGCMPushClient: PushClient {
      - returns: A task that can be resolved upon registering
      */
     @discardableResult
-    public func registerToken(token: String) -> StitchTask<Any> {
-        userDefaults.setValue(token, forKey: DeviceFields.RegistrationToken.rawValue)
-        let pipeline: Pipeline = Pipeline(action: Actions.RegisterPush.rawValue,
-                                          args: getRegisterPushDeviceRequest(registrationToken: token))
+    public func registerToken(token: String) -> StitchTask<Void> {
+        userDefaults.setValue(token, forKey: DeviceFields.registrationToken.rawValue)
+        let pipeline: Pipeline = Pipeline(action: Actions.registerPush.rawValue,
+                                          args: try? getRegisterPushDeviceRequest(registrationToken: token))
 
-        return stitchClient.executePipeline(pipeline: pipeline).response(completionHandler: { (task: StitchResult<Any>) -> Void in
-            if (task.error != nil) {
+        return stitchClient.executePipeline(pipeline: pipeline).response { task in
+            if task.error != nil {
                 print(task.error ?? "")
             } else {
                 self.addInfoToConfigs(info: self._info)
             }
-        })
+        }.then { _ in return }
     }
 
     /**
@@ -66,19 +68,19 @@ public class StitchGCMPushClient: PushClient {
      
      - returns: A task that can be resolved upon deregistering
      */
-    public func deregister() -> StitchTask<Any> {
-        let deviceToken = userDefaults.string(forKey: DeviceFields.RegistrationToken.rawValue)
-        let pipeline: Pipeline = Pipeline(action: Actions.RegisterPush.rawValue,
-                                          args: getRegisterPushDeviceRequest(registrationToken: deviceToken!))
+    public func deregister() -> StitchTask<Void> {
+        let deviceToken = userDefaults.string(forKey: DeviceFields.registrationToken.rawValue)
+        let pipeline: Pipeline = Pipeline(action: Actions.registerPush.rawValue,
+                                          args: try? getRegisterPushDeviceRequest(registrationToken: deviceToken!))
 
         return stitchClient
             .executePipeline(pipeline: pipeline)
-            .response(completionHandler: { (task: StitchResult<Any>) -> Void in
+            .response { task in
             if task.error != nil {
                 print(task.error ?? "")
             } else {
                 self.removeInfoFromConfigs(info: self._info)
             }
-        })
+        }.then { _ in return }
     }
 }

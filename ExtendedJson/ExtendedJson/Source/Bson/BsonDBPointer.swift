@@ -11,7 +11,7 @@ import Foundation
 public struct BsonDBPointer {
     let ref: String
     let id: ObjectId
-    
+
     public init (ref: String, id: ObjectId) {
         self.ref = ref
         self.id = id

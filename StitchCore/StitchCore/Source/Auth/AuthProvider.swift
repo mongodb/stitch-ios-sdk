@@ -1,4 +1,5 @@
 import Foundation
+import ExtendedJson
 
 /**
     An AuthProvider is responsible for providing the necessary information for a specific
@@ -10,7 +11,7 @@ public protocol AuthProvider {
     /// The name of this provider.
     var name: String {get}
     /// The JSON payload containing authentication material.
-    var payload: [String: Any] {get}
+    var payload: BsonDocument {get}
 }
 
 /// Provider enum representing current state of `AuthProvider`s.

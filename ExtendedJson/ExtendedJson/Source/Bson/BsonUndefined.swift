@@ -6,7 +6,7 @@
 import Foundation
 
 public struct BsonUndefined {
-    public init(){}
+    public init() {}
 }
 
 // MARK: - Equatable

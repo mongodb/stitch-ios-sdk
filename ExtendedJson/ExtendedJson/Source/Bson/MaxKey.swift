@@ -6,7 +6,7 @@
 import Foundation
 
 public struct MaxKey {
-    public init(){}
+    public init() {}
 }
 
 // MARK: - Equatable

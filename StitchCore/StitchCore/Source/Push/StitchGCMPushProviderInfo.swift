@@ -6,7 +6,7 @@ import ExtendedJson
  * Stitch GCMPushProviderInfoFields for payload management.
  */
 enum StitchGCMProviderInfoFields: String {
-    case SenderID = "senderId"
+    case senderId
 }
 
 /**
@@ -57,13 +57,13 @@ public class StitchGCMPushProviderInfo: PushProviderInfo {
     public func toDict() -> [String: Any] {
         var doc = [String: Any]()
 
-        doc[PushProviderInfoFields.FieldType.rawValue] = providerName.rawValue
+        doc[PushProviderInfoFields.type.rawValue] = providerName.rawValue
 
         var config = [String: Any]()
-        config[StitchGCMProviderInfoFields.SenderID.rawValue] = self.senderID
-        config[PushProviderInfoFields.FieldType.rawValue] = providerName.rawValue
+        config[StitchGCMProviderInfoFields.senderId.rawValue] = self.senderID
+        config[PushProviderInfoFields.type.rawValue] = providerName.rawValue
 
-        doc[PushProviderInfoFields.Config.rawValue] = config
+        doc[PushProviderInfoFields.config.rawValue] = config
         return doc
     }
 
@@ -73,11 +73,11 @@ public class StitchGCMPushProviderInfo: PushProviderInfo {
     func toDocument() -> BsonDocument {
         var doc = BsonDocument()
 
-        doc[PushProviderInfoFields.FieldType.rawValue] = providerName as? ExtendedJsonRepresentable
-        doc[PushProviderInfoFields.Config.rawValue] = BsonDocument()
+        doc[PushProviderInfoFields.type.rawValue] = providerName as? ExtendedJsonRepresentable
+        doc[PushProviderInfoFields.config.rawValue] = BsonDocument()
 
-        var config = doc[PushProviderInfoFields.Config.rawValue] as! BsonDocument
-        config[StitchGCMProviderInfoFields.SenderID.rawValue] = self.senderID
+        var config = doc[PushProviderInfoFields.config.rawValue] as? BsonDocument
+        config?[StitchGCMProviderInfoFields.senderId.rawValue] = self.senderID
         return doc
     }
 }

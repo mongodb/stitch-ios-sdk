@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import ExtendedJson
 
 public struct ApiKeyAuthProvider: AuthProvider {
     private let key: String
@@ -14,7 +15,7 @@ public struct ApiKeyAuthProvider: AuthProvider {
     public var type: String = "api"
     public var name: String = "key"
 
-    public var payload: [String: Any] {
+    public var payload: BsonDocument {
         return ["key": key]
     }
 

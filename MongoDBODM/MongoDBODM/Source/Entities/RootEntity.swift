@@ -49,41 +49,41 @@ import StitchLogger
  */
 
 open class RootEntity: BaseEntity {
-    
-    //MARK: Properties
-    
+
+    // MARK: Properties
+
     var mongoDBClient: MongoDBClientType
-    
+
     private var collection: MongoDBService.CollectionType? {
-        if let classMetaData = self.getEntityMetaData(){
+        if let classMetaData = self.getEntityMetaData() {
             let databaseName = classMetaData.databaseName
             let collectionName = classMetaData.collectionName
-            return mongoDBClient.database(named:databaseName).collection(named:collectionName)
+            return mongoDBClient.database(named: databaseName).collection(named: collectionName)
         }
-        return nil;
+        return nil
     }
-    
-    //MARK: Init
-    
+
+    // MARK: Init
+
     required public init(document: BsonDocument = BsonDocument(), mongoDBClient: MongoDBClientType) {
         self.mongoDBClient = mongoDBClient
         super.init(document: document)
     }
-    
-    //MARK: Static getters
-    
-    internal static var schema: [String : EntityIdentifier]? {
-        
+
+    // MARK: Static getters
+
+    internal static var schema: [String: EntityIdentifier]? {
+
         let classIdentifier = EntityIdentifier(self)
-        
-        if let entityTypeMetaData = Utils.entitiesDictionary[classIdentifier]{
+
+        if let entityTypeMetaData = Utils.entitiesDictionary[classIdentifier] {
             return entityTypeMetaData.getSchema()
         }
         return nil
     }
-    
-    //MARK: Public
-    
+
+    // MARK: Public
+
     /**
      Use this method when you want to save a new created RootEntity to Stitch
      
@@ -98,7 +98,7 @@ open class RootEntity: BaseEntity {
     public func save() -> StitchCore.StitchTask<Any> {
         if let collection = collection {
             return collection.insert(document: asDocument).response(completionHandler: { stitchResult in
-                if let bsonArray = stitchResult.value as? BsonArray , let document = bsonArray.first as? BsonDocument, let objectId = document[Utils.Consts.objectIdKey] as? ObjectId  {
+                if let bsonArray = stitchResult.value as? BsonArray, let document = bsonArray.first as? BsonDocument, let objectId = document[Utils.Consts.objectIdKey] as? ObjectId {
                     self.objectId = objectId
                     self.handleOperationResult(stitchResult: stitchResult)
                 }
@@ -107,7 +107,7 @@ open class RootEntity: BaseEntity {
         let error = OdmError.classMetaDataNotFound
         return StitchCore.StitchTask(error: error)
     }
-    
+
     /**
      Use this method when you want to update an existing entity - this method would save all the new values that been changed since the entity was fetched
      
@@ -133,7 +133,7 @@ open class RootEntity: BaseEntity {
             self.handleOperationResult(stitchResult: result)
         })
     }
-    
+
     /**
      Use this method when you want to delete an existing entity
      
@@ -142,98 +142,92 @@ open class RootEntity: BaseEntity {
     @discardableResult
     public func delete() -> StitchCore.StitchTask<Any> {
         let error: OdmError
-        if let entityId = self.objectId{
+        if let entityId = self.objectId {
             let queryDocument = BsonDocument(key: Utils.Consts.objectIdKey, value: entityId)
-            if let collection = collection{
+            if let collection = collection {
                 return collection.delete(query: queryDocument, singleDoc: true)
-            }
-            else{
+            } else {
                 error = OdmError.classMetaDataNotFound
             }
-        }
-        else{
+        } else {
             printLog(.error, text: "trying to delete an entity without object id")
             error = OdmError.objectIdNotFound
             return StitchCore.StitchTask(error: error)
         }
-        
+
         return StitchCore.StitchTask(error: error)
     }
-    
-    //MARK: Internal
-    
+
+    // MARK: Internal
+
     override internal func update(operationTypes: [UpdateOperationType]?, operationTypePrefix: String?, embeddedEntityInArrayObjectId: ObjectId?) -> StitchTask<Any> {
         let error: OdmError
         var updateTypesToReturn = operationTypes ?? getUpdateOperationTypes()
-        
-        if let entityId = self.objectId{
-            
+
+        if let entityId = self.objectId {
+
             var criteriaToReturn = Criteria.equals(field: Utils.Consts.objectIdKey, value: entityId)
             // for embedded entity that is part of an array
             if let embeddedEntityInArrayObjectId = embeddedEntityInArrayObjectId, let operationTypePrefix = operationTypePrefix {
-                
+
                 let embeddedEntityFieldName = operationTypePrefix.replacingOccurrences(of: ".$", with: "") + Utils.Consts.objectIdKey
                 let embeddedEntityCriteria = Criteria.equals(field: embeddedEntityFieldName, value: embeddedEntityInArrayObjectId)
                 criteriaToReturn = criteriaToReturn && embeddedEntityCriteria
             }
-            
+
             // for embedded entity that is held in a simple property
             if let operationTypePrefix = operationTypePrefix {
                 updateTypesToReturn = embedPrefixIn(operationTypes: updateTypesToReturn, prefix: operationTypePrefix)
             }
             return executeUpdate(operationTypes: updateTypesToReturn, criteria: criteriaToReturn)
-        }
-            
-        else{
+        } else {
             printLog(.error, text: "trying to update an entity without object id")
             error = OdmError.objectIdNotFound
         }
-        
+
         return StitchCore.StitchTask(error: error)
     }
-    
-    //MARK: Private
-    
-    private func getEntityMetaData() -> EntityTypeMetaData?{
+
+    // MARK: Private
+
+    private func getEntityMetaData() -> EntityTypeMetaData? {
         let myType = type(of: self)
-        return Utils.entitiesDictionary[Utils.getIdentifier(type:myType)]
+        return Utils.entitiesDictionary[Utils.getIdentifier(type: myType)]
     }
-    
+
     private func createEntityCriteria() -> Criteria? {
         if let entityId = self.objectId {
             return Criteria.equals(field: Utils.Consts.objectIdKey, value: entityId)
         }
         return nil
     }
-    
+
     private func embedPrefixIn(operationTypes: [UpdateOperationType], prefix: String) -> [UpdateOperationType] {
         var mutatedOperationTypes: [UpdateOperationType] = []
-        
+
         for operationType in operationTypes {
             var tempOprationType = operationType
             tempOprationType.add(prefix: prefix)
             mutatedOperationTypes.append(tempOprationType)
         }
-        
+
         return mutatedOperationTypes
     }
-    
+
     private func isOperationsContainTwoArrayUpdateOperation(operations: [UpdateOperationType]) -> Bool {
         return operations.contains(.pull([:])) && operations.contains(.push([:]))
     }
-    
-    
-    
+
     private func executeUpdate(operationTypes: [UpdateOperationType], criteria: Criteria) ->StitchTask<Any> {
         if let collection = collection {
-            
+
             let updateOperation = UpdateOperation(criteria: criteria, mongoDBClient: mongoDBClient)
-            
+
             var firstUpdateOperation = operationTypes
             var secondUpdateOperation: [UpdateOperationType]?
-            
+
             let operationContainsTwoArrays = operationTypes.contains(.pull([:])) && operationTypes.contains(.push([:]))
-            
+
             if operationContainsTwoArrays {
                 // split the calls to two calls - push operation as the second operation
                 if let indexOfPush = firstUpdateOperation.index(where: { $0 == UpdateOperationType.pull([:]) }) {
@@ -241,11 +235,11 @@ open class RootEntity: BaseEntity {
                     secondUpdateOperation = [pushOperation]
                 }
             }
-            
+
             // pull & push are both in update operation - pull will execute second
             if let secondUpdateOperation = secondUpdateOperation {
                 let finalTask = StitchTask<Any>()
-                
+
                 updateOperation.execute(operations: firstUpdateOperation, collection: collection).response(onQueue: DispatchQueue.global(qos: .utility), completionHandler: { (firstResult) in
                     switch (firstResult) {
                     case .success(_):
@@ -260,23 +254,22 @@ open class RootEntity: BaseEntity {
                     case .failure(_):
                         finalTask.result = firstResult
                     }
-                    
+
                 })
-                
+
                 return finalTask
             }
-                
+
                 //regular execution
             else {
                 return updateOperation.execute(operations: firstUpdateOperation, collection: collection)
             }
-            
-        }
-        else{
+
+        } else {
             print("trying to update without a class metadata registration")
             let error = OdmError.classMetaDataNotFound
             return StitchCore.StitchTask(error: error)
         }
     }
-    
+
 }

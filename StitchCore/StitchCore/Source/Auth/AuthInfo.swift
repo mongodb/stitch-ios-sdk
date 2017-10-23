@@ -1,56 +1,45 @@
 import Foundation
 
 /// Auth represents the current authorization state of the client
-public struct AuthInfo {
+public struct AuthInfo: Codable {
+    enum CodingKeys: CodingKey {
+        case accessToken, userId, deviceId, refreshToken
+    }
 
-    private static let accessTokenKey =         "accessToken"
-    private static let userIdKey =              "userId"
-    private static let deviceId =               "deviceId"
+    // The current access token for this session in decoded JWT form.
+    // Will be nil if the token was malformed and could not be decoded.
+    let accessToken: DecodedJWT?
 
-    /**
-         The current access token for this session.
-     */
-    let accessToken: String
-    /**
-         The user this session was created for.
-     */
+    // The user this session was created for.
     let deviceId: String
 
-    /**
-         The user this session was created for.
-     */
+    // The user this session was created for.
     public let userId: String?
 
-    var json: [String: Any] {
-        return [AuthInfo.accessTokenKey: accessToken,
-                // TODO: remove once userId is guarenteed to be in the call (backend task)
-                AuthInfo.userIdKey: userId ?? "",
-                AuthInfo.deviceId: deviceId]
-    }
+    // The refresh token to refresh an expired access token
+    public internal(set) var refreshToken: String
 
-    // MARK: - Init
-    private init(accessToken: String, userId: String?, deviceId: String) {
-        self.accessToken = accessToken
-        self.userId = userId
-        self.deviceId = deviceId
+    internal func auth(with updatedAccessToken: String) -> AuthInfo {
+        return AuthInfo(accessToken: try? DecodedJWT(jwt: updatedAccessToken),
+                        deviceId: deviceId,
+                        userId: userId,
+                        refreshToken: refreshToken)
     }
 
     /**
-     - parameter dictionary: Dict containing the access token, userId, and deviceId necessary to create
-         this auth object
+     Determines if the access token stored in this Auth object is expired or expiring within
+     a provided number of seconds.
+
+     - parameter withinSeconds: expiration threshold in seconds. 10 by default to account for latency and clock drift
+     between client and Stitch server
+     - returns: true if the access token is expired or is going to expire within 'withinSeconds' seconds
+     false if the access token exists and is not expired nor expiring within 'withinSeconds' seconds
+     nil if the access token doesn't exist, is malformed, or does not have an 'exp' field.
      */
-    internal init(dictionary: [String: Any]) throws {
-
-        guard let accessToken = dictionary[AuthInfo.accessTokenKey] as? String,
-            let userId = dictionary[AuthInfo.userIdKey] as? String?,
-            let deviceId = dictionary[AuthInfo.deviceId] as? String else {
-                throw StitchError.responseParsingFailed(reason: "failed creating Auth out of info: \(dictionary)")
+    public func isAccessTokenExpired(withinSeconds: Double = 10.0) -> Bool? {
+        if let exp = self.accessToken?.expiration {
+            return Date() >= (exp - TimeInterval(withinSeconds))
         }
-
-        self = AuthInfo(accessToken: accessToken, userId: userId, deviceId: deviceId)
-    }
-
-    internal func auth(with updatedAccessToken: String) -> AuthInfo {
-        return AuthInfo(accessToken: updatedAccessToken, userId: userId, deviceId: deviceId)
+        return nil
     }
 }

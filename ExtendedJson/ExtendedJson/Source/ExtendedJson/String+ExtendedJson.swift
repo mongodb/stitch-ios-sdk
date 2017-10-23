@@ -13,14 +13,14 @@ extension String: ExtendedJsonRepresentable {
         guard let string = xjson as? String else {
             throw BsonError.parseValueFailure(value: xjson, attemptedType: String.self)
         }
-        
+
         return string
     }
-    
+
     public var toExtendedJson: Any {
         return self
     }
-    
+
     public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
         if let other = other as? String {
             return self == other

@@ -20,17 +20,16 @@ public enum AggregationStage {
     case limit(value: Int)
     case count(field: String)
     case project(projectionParametes : [ProjectionParameter])
-    
+
     internal var asDocument: BsonDocument {
         switch self {
             case .match(let query):
                 if let criteria = query {
                     return BsonDocument(key: "$match", value: criteria.asDocument)
-                }
-                else {
+                } else {
                     return BsonDocument(key: "$match", value: BsonDocument())
                 }
-            
+
             case .sort(let sortParameters):
                 var sortDocument = BsonDocument()
                 for sortParameter in sortParameters {
@@ -40,10 +39,10 @@ public enum AggregationStage {
 
             case .limit(let value):
                 return BsonDocument(key: "$limit", value: value)
-            
+
             case .count(let field):
                 return BsonDocument(key: "$count", value: field)
-            
+
             case .project(let projectionParameters):
                 var projectDocument = BsonDocument()
                 for projectionParameter in projectionParameters {
@@ -52,5 +51,5 @@ public enum AggregationStage {
                 return BsonDocument(key: "$project", value: projectDocument)
         }
     }
-    
+
 }

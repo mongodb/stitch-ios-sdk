@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct ApiKey: Decodable {
+public struct ApiKey: Codable {
     enum CodingKeys: String, CodingKey {
         case id = "_id"
         case key

@@ -51,41 +51,28 @@ public enum StitchError: Error {
             switch errorCode {
             case "InvalidSession":
                 self = .invalidSession(message: errorMessage)
-                break
             case "DomainNotAllowed":
                 self = .domainNotAllowed(message: errorMessage)
-                break
             case "StageSourceRequired":
                 self = .stageSourceRequired(message: errorMessage)
-                break
             case "InvalidParameter":
                 self = .invalidParameter(message: errorMessage)
-                break
             case "TwilioError":
                 self = .twilioError(message: errorMessage)
-                break
             case "PubNubError":
                 self = .pubNubError(message: errorMessage)
-                break
             case "HTTPError":
                 self = .httpError(message: errorMessage)
-                break
             case "AWSError":
                 self = .awsError(message: errorMessage)
-                break
             case "MongoDBError":
                 self = .mongoDBError(message: errorMessage)
-                break
             case "SlackError":
                 self = .slackError(message: errorMessage)
-                break
             case "AuthProviderNotFound":
                 self = .authProviderNotFound(message: errorMessage)
-                break
             case "NoMatchingRuleFound":
                 self = .noMatchingRuleFound(message: errorMessage)
-                break
-
             default:
                 self = .other(message: errorMessage)
             }

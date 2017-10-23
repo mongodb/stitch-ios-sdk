@@ -9,7 +9,7 @@ import ExtendedJson
 Represents the updateDucument in the UpdateOperation call, takes as argument dictionary of fields and values. The UpdateOperation call takes an array of UpdateOperationType in order to execute.  
  */
 public enum UpdateOperationType {
-    
+
     case set([String : ExtendedJsonRepresentable?])
     case unset([String : ExtendedJsonRepresentable?])
     case push([String : ExtendedJsonRepresentable?])
@@ -19,10 +19,10 @@ public enum UpdateOperationType {
     case mul([String : ExtendedJsonRepresentable?])
     case min([String : ExtendedJsonRepresentable?])
     case max([String : ExtendedJsonRepresentable?])
-    
-    //MARK: Private
-    
-    private struct Consts{
+
+    // MARK: Private
+
+    private struct Consts {
         static let updateEntrySetKey         = "$set"
         static let updateEntryUnsetKey       = "$unset"
         static let updateEntryPushKey        = "$push"
@@ -33,20 +33,20 @@ public enum UpdateOperationType {
         static let updateEntryMinKey         = "$min"
         static let updateEntryMaxKey         = "$max"
     }
-    
-    private func changePrefix(withPrefix prefix: String, dictionary: [String : ExtendedJsonRepresentable?]) -> [String : ExtendedJsonRepresentable?] {
-        var newValuesDict = [String : ExtendedJsonRepresentable?]()
-        
+
+    private func changePrefix(withPrefix prefix: String, dictionary: [String: ExtendedJsonRepresentable?]) -> [String: ExtendedJsonRepresentable?] {
+        var newValuesDict = [String: ExtendedJsonRepresentable?]()
+
         for (key, value) in dictionary {
             let newKey = prefix + key
             newValuesDict[newKey] = value
         }
-        
+
         return newValuesDict
     }
-    
-    //MARK: Internal
-    
+
+    // MARK: Internal
+
     internal var key: String {
         switch self {
         case .set:
@@ -68,9 +68,9 @@ public enum UpdateOperationType {
         case .max:
             return Consts.updateEntryMaxKey
         }
-        
+
     }
-    
+
     internal var valueAsDocument: BsonDocument {
         switch self {
         case .set(let value),
@@ -85,7 +85,7 @@ public enum UpdateOperationType {
             return BsonDocument(dictionary: value)
         }
     }
-    
+
     internal mutating func add(prefix: String) {
         switch self {
         case .set(let value):
@@ -108,7 +108,7 @@ public enum UpdateOperationType {
             self = .max(changePrefix(withPrefix: prefix, dictionary: value))
         }
     }
-    
+
 }
 
 extension UpdateOperationType: Equatable {
@@ -136,6 +136,3 @@ extension UpdateOperationType: Equatable {
         }
     }
 }
-
-
-

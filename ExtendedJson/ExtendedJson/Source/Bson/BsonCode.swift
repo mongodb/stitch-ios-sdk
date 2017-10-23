@@ -8,10 +8,10 @@
 
 import Foundation
 
-public struct BsonCode {
+public struct BsonCode: Codable {
     let code: String
     let scope: BsonDocument?
-    
+
     public init(code: String, scope: BsonDocument? = nil) {
         self.code = code
         self.scope = scope
