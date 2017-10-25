@@ -13,7 +13,7 @@ public class Auth {
 
     public internal(set) var authInfo: AuthInfo
 
-    public func createSelfApiKey(name: String) -> StitchTask<ApiKey> {
+    public func createApiKey(name: String) -> StitchTask<ApiKey> {
         return stitchClient.performRequest(method: .post,
                                            endpoint: Consts.UserProfileApiKeyPath,
                                            parameters: ["name": name],
@@ -22,7 +22,7 @@ public class Auth {
                                            responseType: ApiKey.self)
     }
 
-    public func fetchSelfApiKey(id: String) -> StitchTask<ApiKey> {
+    public func fetchApiKey(id: String) -> StitchTask<ApiKey> {
         return stitchClient.performRequest(method: .get,
                                            endpoint: "\(Consts.UserProfileApiKeyPath)/\(id)",
             refreshOnFailure: true,
@@ -30,7 +30,7 @@ public class Auth {
             responseType: ApiKey.self)
     }
 
-    public func fetchSelfApiKeys() -> StitchTask<[ApiKey]> {
+    public func fetchApiKeys() -> StitchTask<[ApiKey]> {
         return stitchClient.performRequest(method: .get,
                                            endpoint: "\(Consts.UserProfileApiKeyPath)",
                                            refreshOnFailure: true,
@@ -38,7 +38,7 @@ public class Auth {
                                            responseType: [ApiKey].self)
     }
 
-    public func deleteSelfApiKey(id: String) -> StitchTask<Bool> {
+    public func deleteApiKey(id: String) -> StitchTask<Bool> {
         return stitchClient.performRequest(method: .delete,
                                            endpoint: "\(Consts.UserProfileApiKeyPath)/\(id)",
                                            refreshOnFailure: true,
