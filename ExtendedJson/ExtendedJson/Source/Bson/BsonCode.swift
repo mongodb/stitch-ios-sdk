@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct BsonCode: Codable {
+public struct BsonCode {
     let code: String
     let scope: BsonDocument?
 

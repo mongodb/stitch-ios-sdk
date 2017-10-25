@@ -5,7 +5,7 @@
 
 import Foundation
 
-public struct ObjectId: Codable, Equatable {
+public struct ObjectId: Equatable {
     private var byteArray = [UInt8]()
 
     private static var counter: UInt32 = arc4random()

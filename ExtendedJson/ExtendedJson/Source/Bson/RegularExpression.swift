@@ -8,13 +8,18 @@
 
 import Foundation
 
-extension NSRegularExpression: ExtendedJsonRepresentable {
+public final class RegularExpression: NSRegularExpression, ExtendedJsonRepresentable {
+    enum CodingKeys: String, CodingKey {
+        case regex = "$regex", pattern, options
+    }
+
     public static func fromExtendedJson(xjson: Any) throws -> ExtendedJsonRepresentable {
         guard let json = xjson as? [String: Any],
             let regex = json[ExtendedJsonKeys.regex.rawValue] as? [String: String],
             let pattern = regex["pattern"],
             let options = regex["options"],
-            let regularExpression = try? NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options(options)),
+            let regularExpression = try? RegularExpression(pattern: pattern,
+                                                           options: NSRegularExpression.Options(options)),
             regex.count == 2 else {
                 throw BsonError.parseValueFailure(value: xjson, attemptedType: NSRegularExpression.self)
         }
@@ -28,7 +33,30 @@ extension NSRegularExpression: ExtendedJsonRepresentable {
                 self.options == other.options
         }
         return false
+    }
 
+    override public init(pattern: String, options: NSRegularExpression.Options = []) throws {
+        try super.init(pattern: pattern, options: options)
+    }
+
+    public required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+
+    public convenience init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let nestedContainer = try container.nestedContainer(keyedBy: CodingKeys.self, forKey: CodingKeys.regex)
+        try self.init(pattern: try nestedContainer.decode(String.self,
+                                                          forKey: CodingKeys.pattern),
+                      options: NSRegularExpression.Options(try nestedContainer.decode(String.self,
+                                                                                      forKey: CodingKeys.options)))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        var nestedContainer = container.nestedContainer(keyedBy: CodingKeys.self, forKey: CodingKeys.regex)
+        try nestedContainer.encode(pattern, forKey: CodingKeys.pattern)
+        try nestedContainer.encode(options.toExtendedJson as? String, forKey: CodingKeys.options)
     }
 
     public var toExtendedJson: Any {

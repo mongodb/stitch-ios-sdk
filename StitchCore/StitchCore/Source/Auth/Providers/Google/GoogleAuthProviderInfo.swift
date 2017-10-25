@@ -4,7 +4,7 @@ import Foundation
 public struct GoogleAuthProviderInfo: Codable {
     private enum CodingKeys: String, CodingKey {
         case clientId
-        case scopes =          "metadataFields"
+        case scopes = "metadataFields"
     }
 
     /// ClientId of your Google application

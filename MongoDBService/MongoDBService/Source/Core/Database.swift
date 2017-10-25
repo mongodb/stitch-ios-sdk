@@ -18,7 +18,7 @@ public struct Database: DatabaseType {
     // MARK: - Collection
 
     @discardableResult
-    public func collection(named name: String) -> CollectionType {
+    public func collection(named name: String) -> Collection {
         return Collection(database: self, name: name)
     }
 }

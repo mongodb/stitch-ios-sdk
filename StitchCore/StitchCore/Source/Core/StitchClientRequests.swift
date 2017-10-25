@@ -118,7 +118,7 @@ extension StitchClient {
         return self.performRequest(method: method,
                                    endpoint: endpoint,
                                    isAuthenticatedRequest: isAuthenticatedRequest,
-                                   parameters: nil as Encodable?,
+                                   parameters: [String: String](),
                                    refreshOnFailure: refreshOnFailure,
                                    useRefreshToken: useRefreshToken,
                                    responseType: responseType)
@@ -161,24 +161,14 @@ extension StitchClient {
 
                         switch internalTask.result {
                         case .success(let value):
-                            guard let data = value else {
+                            guard let data = value,
+                                let json = try? JSONSerialization.jsonObject(with: data,
+                                                                             options: []) as? [String: Any] else {
                                 return task.result = .failure(
-                                    StitchError.responseParsingFailed(reason: "Received no data from server"))
+                                    StitchError.responseParsingFailed(reason: "Received no valid data from server"))
                             }
 
-                            let test = try? JSONSerialization.jsonObject(with: data,
-                                                                         options: [])
-                            guard let value = try? BsonDecoder().decode(D.self, from: data) else {
-                                guard let errorDictOpt = try? JSONSerialization.jsonObject(with: data,
-                                                                                           options: []) as? [String: Any],
-                                    let errorDict = errorDictOpt else {
-                                        task.result = .failure(StitchError.responseParsingFailed(reason: "payload was not JSON"))
-                                        return
-                                }
-                                guard let error = strongSelf.parseError(from: errorDict) else {
-                                    task.result = .failure(StitchError.responseParsingFailed(reason: "invalid error"))
-                                    return
-                                }
+                            if let json = json, let error = strongSelf.parseError(from: json) {
                                 switch error {
                                 case .serverError(let reason):
                                     // check if error is invalid session
@@ -201,7 +191,21 @@ extension StitchClient {
                                 return
                             }
 
-                            task.result = .success(value)
+                            guard let payload: D = {
+                                switch D.self {
+                                case let superType as ExtendedJsonRepresentable.Type:
+                                    let ext = try? superType.fromExtendedJson(xjson: json as Any)
+                                    guard let d = ext as? D else { return nil }
+                                    return d
+                                default:
+                                    return try? JSONDecoder().decode(D.self, from: data)
+                                }
+                            }() else {
+                                return task.result = .failure(
+                                    StitchError.responseParsingFailed(reason: "invalid error"))
+                            }
+
+                            task.result = .success(payload)
                         case .failure(let error):
                             task.result = .failure(error)
                         }

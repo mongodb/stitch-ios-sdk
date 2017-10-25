@@ -61,7 +61,7 @@ let goodDoc: BsonDocument = [
     subDocument: try! BsonDocument(key: "foo", value: "bar"),
     array: [1, 2, 3, 4, 5] as BsonArray,
     timestamp: BsonTimestamp(time: 42, increment: 1),
-    regularExpression: try! NSRegularExpression(pattern: "foo*", options: NSRegularExpression.Options("xi")),
+    regularExpression: try! RegularExpression(pattern: "foo*", options: NSRegularExpression.Options("xi")),
     datetimeEpoch: Date(timeIntervalSince1970: TimeInterval(0)),
     datetimePositive: Date(timeIntervalSince1970: TimeInterval(Int64.max)),
     datetimeNegative: Date(timeIntervalSince1970: TimeInterval(Int64.min)),
@@ -79,7 +79,7 @@ let goodDoc: BsonDocument = [
                          otherFields: [String: ExtendedJsonRepresentable]()),
     minKey: MinKey(),
     maxKey: MaxKey(),
-    null: NSNull(),
+    null: Null(),
     undefined: BsonUndefined()
 ]
 
@@ -100,7 +100,7 @@ let badDoc: BsonDocument = [
     subDocument: try! BsonDocument(key: "baz", value: "qux"),
     array: [6, 7, 8, 9, 10] as BsonArray,
     timestamp: BsonTimestamp(time: 24, increment: 2),
-    regularExpression: try! NSRegularExpression(pattern: "bar*", options: NSRegularExpression.Options("xi")),
+    regularExpression: try! RegularExpression(pattern: "bar*", options: NSRegularExpression.Options("xi")),
     datetimeEpoch: Date.timeIntervalSinceReferenceDate,
     datetimePositive: Date(timeIntervalSince1970: TimeInterval(Int64.min)),
     datetimeNegative: Date(timeIntervalSince1970: TimeInterval(Int64.max)),
@@ -121,6 +121,36 @@ let badDoc: BsonDocument = [
     null: "nil",
     undefined: "undefined"
 ]
+
+struct SpecDocStruct: Codable {
+    let _id: ObjectId
+    let Symbol: BsonSymbol
+    let String: String
+    let Int32: Int32
+    let Int64: Int64
+    let Double: Double
+    let SpecialFloat: Double
+    let Decimal: Decimal
+    let Binary: BsonBinary
+    let BinaryUserDefined: BsonBinary
+    let Code: BsonCode
+    let CodeWithScope: BsonCode
+    let SubDocument: BsonDocument
+    let Array: BsonArray
+    let Timestamp: BsonTimestamp
+    let RegularExpression: RegularExpression
+    let DatetimeEpoch: Date
+    let DatetimePositive: Date
+    let DatetimeNegative: Date
+    let True: Bool
+    let False: Bool
+    let DBPointer: BsonDBPointer
+    let DBRef: BsonDBRef
+    let DBRefNoDB: BsonDBRef
+    let MinKey: MinKey
+    let MaxKey: MaxKey
+    let Undefined: BsonUndefined
+}
 
 let specDocDict: [String: Any?] = [
     _id: [
@@ -162,7 +192,7 @@ let specDocDict: [String: Any?] = [
     ],
     codeWithScope: [
         "$code": "function() {}",
-        "$scope": []
+        "$scope": [:]
     ],
     subDocument: [
         "foo": "bar"
@@ -175,7 +205,7 @@ let specDocDict: [String: Any?] = [
         ["$numberInt": "5"]
     ],
     timestamp: [
-        "$timestamp": [ "t": 42, "i": 1 ]
+        "$timestamp": [ "t": Int64(42), "i": 1 ]
     ],
     regularExpression: [
         "$regularExpression": [

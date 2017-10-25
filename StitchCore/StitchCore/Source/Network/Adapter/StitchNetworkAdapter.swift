@@ -28,18 +28,18 @@ public class StitchNetworkAdapter: NetworkAdapter {
         var contentHeaders = headers ?? [:]
         contentHeaders["Content-Type"] = "application/json"
         var request = URLRequest(url: url)
-        
+
         request.allHTTPHeaderFields = contentHeaders
         request.httpMethod = method.rawValue
-    
+
         if let parameters = parameters {
-            guard let bsonData = try? BsonEncoder().encode(parameters) else {
+            guard let jsonData = try? JSONEncoder().encode(parameters) else {
                 task.result = .failure(StitchError.illegalAction(message: "bad json"))
                 return task
             }
 
-            printLog(.debug, text: String(data: bsonData, encoding: .utf8)!)
-            request.httpBody = bsonData
+            printLog(.debug, text: String(data: jsonData, encoding: .utf8)!)
+            request.httpBody = jsonData
         }
 
         printLog(.debug, text: request.allHTTPHeaderFields)
@@ -51,6 +51,9 @@ public class StitchNetworkAdapter: NetworkAdapter {
 
             printLog(.debug, text: response)
 
+            if let data = data {
+                printLazy(.debug, text: { try? JSONSerialization.jsonObject(with: data, options: .allowFragments) })
+            }
             task.result = .success(data)
         }
 

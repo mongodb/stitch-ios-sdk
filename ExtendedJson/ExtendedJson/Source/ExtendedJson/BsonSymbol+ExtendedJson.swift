@@ -9,6 +9,20 @@
 import Foundation
 
 extension BsonSymbol: ExtendedJsonRepresentable {
+    enum CodingKeys: String, CodingKey {
+        case symbol = "$symbol"
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.init(try container.decode(String.self, forKey: CodingKeys.symbol))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.symbol, forKey: CodingKeys.symbol)
+    }
+
     public static func fromExtendedJson(xjson: Any) throws -> ExtendedJsonRepresentable {
         guard let json = xjson as? [String: Any],
             let symbol = json[ExtendedJsonKeys.symbol.rawValue] as? String,

@@ -8,8 +8,7 @@ import Foundation
 import StitchCore
 import ExtendedJson
 
-public struct Collection: CollectionType {
-
+public struct Collection {
     private struct Consts {
         static let databaseKey =        "database"
         static let collectionKey =      "collection"
@@ -38,17 +37,21 @@ public struct Collection: CollectionType {
     }
 
     // MARK: - Private
-
-    private func createPipeline(action: String, options: [String: ExtendedJsonRepresentable]? = nil) -> Pipeline {
+    private func createPipeline(action: String, options: BsonDocument? = nil) -> Pipeline {
         var args = options ?? [:]
         args[Consts.databaseKey] = database.name
         args[Consts.collectionKey] = name
-        return Pipeline(action: action, service: database.client.serviceName, args: args)
+        return Pipeline(action: action,
+                        service: database.client.serviceName,
+                        args: args)
     }
 
-    private func find(query: BsonDocument, projection: BsonDocument? = nil, limit: Int?, isCountRequest: Bool) -> StitchTask<Any> {
-        var options: [String: ExtendedJsonRepresentable] = [Consts.queryKey: query]
-        options[Consts.countKey] = isCountRequest
+    // MARK: - Public
+    @discardableResult
+    public func find(query: BsonDocument,
+                     projection: BsonDocument? = nil,
+                     limit: Int? = nil) -> StitchTask<[BsonDocument]> {
+        var options: BsonDocument = [Consts.queryKey: query]
         if let projection = projection {
             options[Consts.projectionKey] = projection
         }
@@ -57,68 +60,151 @@ public struct Collection: CollectionType {
             options[Consts.limitKey] = limit
         }
 
-        return database.client.stitchClient.executePipeline(pipeline: createPipeline(action: "find", options: options))
+        return database.client.stitchClient.executePipeline(pipeline: createPipeline(action: "find",
+                                                                                     options: options))
+        .then {
+            return try $0.asArray().map {
+                guard let doc = $0 as? BsonDocument else {
+                    throw BsonError.parseValueFailure(value: $0,
+                                                      attemptedType: BsonDocument.self)
+                }
+                return doc
+            }
+        }
     }
 
-    // MARK: - Public
-
     @discardableResult
-    public func find(query: BsonDocument, projection: BsonDocument? = nil, limit: Int? = nil) -> StitchTask<[BsonDocument]> {
-        return find(query: query, projection: projection, limit: limit, isCountRequest: false).continuationTask(parser: { (result) -> [BsonDocument] in
-            if let arrayResult = result as? BsonArray {
-                return arrayResult.flatMap {$0 as? BsonDocument}
+    public func updateOne(query: BsonDocument,
+                          update: BsonDocument,
+                          upsert: Bool = false) -> StitchTask<BsonDocument> {
+        return database
+            .client
+            .stitchClient
+            .executePipeline(pipeline: createPipeline(action: Consts.updateKey,
+                                                      options: [Consts.queryKey: query,
+                                                                Consts.updateKey: update,
+                                                                Consts.upsertKey: upsert]
+        )).then {
+            guard let doc = $0.asArray()[0] as? BsonDocument else {
+                throw BsonError.parseValueFailure(value: $0.asArray(),
+                                                  attemptedType: BsonDocument.self)
             }
 
-            throw StitchError.responseParsingFailed(reason: "failed converting result to documents array.")
-        })
-    }
-
-    @discardableResult
-    public func update(query: BsonDocument, update: BsonDocument? = nil, upsert: Bool = false, multi: Bool = false) -> StitchTask<Any> {
-        var options: [String: ExtendedJsonRepresentable] = [Consts.queryKey: query]
-        if let update = update {
-            options[Consts.updateKey] = update
+            return doc
         }
-        options[Consts.upsertKey] = upsert
-        options[Consts.multiKey] = multi
-        return database.client.stitchClient.executePipeline(pipeline: createPipeline(action: Consts.updateKey, options: options))
     }
 
     @discardableResult
-    public func insert(document: BsonDocument) ->  StitchTask<Any> {
-        return insert(documents: [document])
+    public func updateMany(query: BsonDocument,
+                           update: BsonDocument,
+                           upsert: Bool = false) -> StitchTask<[BsonDocument]> {
+        return database
+            .client
+            .stitchClient
+            .executePipeline(pipeline: createPipeline(action: Consts.updateKey,
+                                                      options: [Consts.updateKey: update,
+                                                                Consts.upsertKey: upsert,
+                                                                Consts.multiKey: true]))
+        .then {
+            return try $0.asArray().map {
+                guard let doc = $0 as? BsonDocument else {
+                    throw BsonError.parseValueFailure(value: $0,
+                                                      attemptedType: BsonDocument.self)
+                }
+                return doc
+            }
+        }
     }
 
     @discardableResult
-    public func insert(documents: [BsonDocument]) ->  StitchTask<Any> {
-        var piplines: [Pipeline] = []
-        piplines.append(Pipeline(action: Consts.literalKey, args: [Consts.itemsKey: BsonArray(array: documents)]))
-        piplines.append(createPipeline(action: Consts.insertKey))
-        return database.client.stitchClient.executePipeline(pipelines: piplines)
+    public func insertOne(document: BsonDocument) ->  StitchTask<BsonDocument> {
+        return database.client.stitchClient.executePipeline(pipelines: [
+            Pipeline(action: Consts.literalKey,
+                     args: [Consts.itemsKey: BsonArray(array: [document])]),
+            createPipeline(action: Consts.insertKey) ]).then {
+                guard let doc = $0.asArray()[0] as? BsonDocument else {
+                    throw BsonError.parseValueFailure(value: $0.asArray(),
+                                                      attemptedType: BsonDocument.self)
+                }
+
+                return doc
+        }
     }
 
     @discardableResult
-    public func delete(query: BsonDocument, singleDoc: Bool = true) -> StitchTask<Any> {
-        var options: [String: ExtendedJsonRepresentable] = [Consts.queryKey: query]
-        options[Consts.singleDocKey] = singleDoc
-        return database.client.stitchClient.executePipeline(pipeline: createPipeline(action: Consts.deleteKey, options: options))
+    public func insertMany(documents: [BsonDocument]) ->  StitchTask<[BsonDocument]> {
+        return database.client.stitchClient.executePipeline(pipelines: [
+            Pipeline(action: Consts.literalKey,
+                     args: [Consts.itemsKey: BsonArray(array: documents)]),
+            createPipeline(action: Consts.insertKey) ]).then {
+                return try $0.asArray().map {
+                    guard let doc = $0 as? BsonDocument else {
+                        throw BsonError.parseValueFailure(value: $0,
+                                                          attemptedType: BsonDocument.self)
+                    }
+                    return doc
+                }
+        }
+    }
+
+    @discardableResult
+    public func deleteOne(query: BsonDocument) -> StitchTask<Int> {
+        return database
+            .client
+            .stitchClient
+            .executePipeline(pipeline: createPipeline(action: Consts.deleteKey,
+                                                      options: [Consts.queryKey: query,
+                                                                Consts.singleDocKey: true]))
+            .then {
+                guard let doc = $0.asArray()[0] as? BsonDocument,
+                    let removed = doc["removed"] as? Double else {
+                    throw BsonError.parseValueFailure(value: $0,
+                                                      attemptedType: BsonDocument.self)
+                }
+                return Int(removed)
+        }
+    }
+
+    @discardableResult
+    public func deleteMany(query: BsonDocument) -> StitchTask<Int64> {
+        return database
+            .client
+            .stitchClient
+            .executePipeline(pipeline: createPipeline(action: Consts.deleteKey,
+                                                      options: [Consts.queryKey: query,
+                                                                Consts.singleDocKey: false]))
+            .then {
+                guard let doc = $0.asArray()[0] as? BsonDocument,
+                    let removed = doc["removed"] as? Double else {
+                        throw BsonError.parseValueFailure(value: $0,
+                                                          attemptedType: BsonDocument.self)
+                }
+                return Int64(removed)
+        }
     }
 
     @discardableResult
     public func count(query: BsonDocument) -> StitchTask<Int> {
-        return find(query: query, limit: nil, isCountRequest: true).continuationTask(parser: { (result) -> Int in
-            if let arrayResult = result as? BsonArray,
-                let intResult = arrayResult.first as? Int {
-                return intResult
+        return database
+            .client
+            .stitchClient
+            .executePipeline(pipeline: createPipeline(action: "find",
+                                                      options: [Consts.queryKey: query,
+                                                                Consts.countKey: true])).then { result in
+            guard let int = result.asArray().first as? Int32 else {
+                    throw StitchError.responseParsingFailed(reason: "failed converting result to documents array.")
             }
 
-            throw StitchError.responseParsingFailed(reason: "failed converting result to documents array.")
-        })
+            return Int(int)
+        }
     }
 
     @discardableResult
-    public func aggregate(pipeline: [BsonDocument]) -> StitchTask<Any> {
-        let options: [String: ExtendedJsonRepresentable] = [Consts.pipelineKey: BsonArray(array: pipeline)]
-        return database.client.stitchClient.executePipeline(pipeline: createPipeline(action: Consts.aggregateKey, options: options))
+    public func aggregate(pipeline: [BsonDocument]) -> StitchTask<BsonCollection> {
+        return database
+            .client
+            .stitchClient
+            .executePipeline(pipeline: createPipeline(action: Consts.aggregateKey,
+                                                      options: [Consts.pipelineKey: BsonArray(array: pipeline)]))
     }
 }

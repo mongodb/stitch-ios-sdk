@@ -74,6 +74,9 @@ extension Int32: ExtendedJsonRepresentable {
 }
 
 extension Int64: ExtendedJsonRepresentable {
+    enum CodingKeys: String,CodingKey {
+        case numberLong = "$numberLong"
+    }
     public static func fromExtendedJson(xjson: Any) throws -> ExtendedJsonRepresentable {
         guard let json = xjson as? [String: Any],
             let value = json[ExtendedJsonKeys.numberLong.rawValue] as? String,
@@ -86,6 +89,11 @@ extension Int64: ExtendedJsonRepresentable {
 
     public var toExtendedJson: Any {
         return [ExtendedJsonKeys.numberLong.rawValue: String(self)]
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.init(try container.decode(Double.self, forKey: CodingKeys.numberLong))
     }
 
     public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {

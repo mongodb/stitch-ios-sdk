@@ -5,7 +5,7 @@
 
 import Foundation
 
-public protocol ExtendedJsonRepresentable {
+public protocol ExtendedJsonRepresentable: Codable {
     static func fromExtendedJson(xjson: Any) throws -> ExtendedJsonRepresentable
 
     var toExtendedJson: Any { get }
@@ -31,133 +31,151 @@ internal struct ExtendedJsonCodingKeys: CodingKey {
 }
 
 extension ExtendedJsonRepresentable {
-
-    internal static func encode(to container: inout UnkeyedEncodingContainer,
-                                encodingInfo: inout [String: String],
-                                forKey key: String,
-                                withValue value: ExtendedJsonRepresentable) throws {
-        var infoKey: String?
-        func setInfoKey(_ key: String) {
-            if (infoKey == nil) {
-                infoKey = key
+    internal static func encodeUnkeyedContainer(sourceMap: inout [Int: String],
+                                                forKey key: Int,
+                                                withValue value: ExtendedJsonRepresentable) throws -> (inout UnkeyedEncodingContainer) throws -> () {
+        func setSourceKey<V>(_ xKey: String,
+                             andEncode value: V?) throws -> (inout UnkeyedEncodingContainer) throws -> () where V: ExtendedJsonRepresentable {
+            sourceMap[key] = xKey
+            if let value = value {
+                return { try $0.encode(value as V) }
+            } else {
+                return { try $0.encodeNil() }
             }
         }
-        switch value {
-        case is ObjectId: setInfoKey(ExtendedJsonKeys.objectid.rawValue); fallthrough
-        case is BsonSymbol: setInfoKey(ExtendedJsonKeys.symbol.rawValue); fallthrough
-        case is Decimal: setInfoKey(ExtendedJsonKeys.numberDecimal.rawValue); fallthrough
-        case is Double: setInfoKey(ExtendedJsonKeys.numberDouble.rawValue); fallthrough
-        case is Int32: setInfoKey(ExtendedJsonKeys.numberInt.rawValue); fallthrough
-        case is Int64: setInfoKey(ExtendedJsonKeys.numberLong.rawValue); fallthrough
-        case is Int: setInfoKey(ExtendedJsonKeys.numberLong.rawValue)
-        try container.encode(value.toExtendedJson as! [String: String])
-        case is BsonTimestamp: setInfoKey(ExtendedJsonKeys.timestamp.rawValue); fallthrough
-        case is BsonDBPointer: setInfoKey(ExtendedJsonKeys.dbPointer.rawValue); fallthrough
-        case is NSRegularExpression: setInfoKey(ExtendedJsonKeys.regex.rawValue); fallthrough
-        case is UUID: setInfoKey(ExtendedJsonKeys.binary.rawValue); fallthrough
-        case is Date: setInfoKey(ExtendedJsonKeys.date.rawValue); fallthrough
-        case is BsonBinary: setInfoKey(ExtendedJsonKeys.binary.rawValue)
-        try container.encode(value.toExtendedJson as! [String: [String: String]])
-        case is BsonUndefined: setInfoKey(ExtendedJsonKeys.undefined.rawValue)
-        try container.encode(value.toExtendedJson as! [String: Bool])
-        case is MaxKey: setInfoKey(ExtendedJsonKeys.maxKey.rawValue); fallthrough
-        case is MinKey: setInfoKey(ExtendedJsonKeys.minKey.rawValue)
-        try container.encode(value.toExtendedJson as! [String: Int])
-        case let val as BsonCode: setInfoKey(ExtendedJsonKeys.code.rawValue)
-        try val.encode(to: container.superEncoder())
-        case let val as BsonArray: setInfoKey("__$arr__")
-        try val.encode(to: container.superEncoder())
-        case let val as BsonDocument: setInfoKey("__$doc__")
-        try val.encode(to: container.superEncoder())
-        case is String: setInfoKey("__$str__")
-        try container.encode(value.toExtendedJson as! String)
-        case is Bool: setInfoKey("__$bool__")
-        try container.encode(value.toExtendedJson as! Bool)
-        case is NSNull: setInfoKey("__$nil__")
-        try container.encodeNil()
-        default: break
-        }
 
-        encodingInfo[key] = infoKey!
+        switch value {
+        case let val as ObjectId: return try setSourceKey(ExtendedJsonKeys.objectid.rawValue, andEncode: val)
+        case let val as BsonSymbol: return try setSourceKey(ExtendedJsonKeys.symbol.rawValue, andEncode: val)
+        case let val as Decimal: return try setSourceKey(ExtendedJsonKeys.numberDecimal.rawValue, andEncode: val)
+        case let val as Double: return try setSourceKey(ExtendedJsonKeys.numberDouble.rawValue, andEncode: val)
+        case let val as Int32: return try setSourceKey(ExtendedJsonKeys.numberInt.rawValue, andEncode: val)
+        case let val as Int64: return try setSourceKey(ExtendedJsonKeys.numberLong.rawValue, andEncode: val)
+        case let val as Int: return try setSourceKey(ExtendedJsonKeys.numberLong.rawValue, andEncode: val)
+        case let val as RegularExpression: return try setSourceKey(ExtendedJsonKeys.regex.rawValue, andEncode: val)
+        case let val as UUID: return try setSourceKey(ExtendedJsonKeys.binary.rawValue, andEncode: val)
+        case let val as Date: return try setSourceKey(ExtendedJsonKeys.date.rawValue, andEncode: val)
+        case let val as BsonBinary: return try setSourceKey(ExtendedJsonKeys.binary.rawValue, andEncode: val)
+        case let val as BsonDBPointer: return try setSourceKey(ExtendedJsonKeys.dbPointer.rawValue, andEncode: val)
+        case let val as BsonTimestamp: return try setSourceKey(ExtendedJsonKeys.timestamp.rawValue, andEncode: val)
+        case let val as BsonDBRef: return try setSourceKey(ExtendedJsonKeys.dbRef.rawValue, andEncode: val)
+        case let val as BsonUndefined: return try setSourceKey(ExtendedJsonKeys.undefined.rawValue, andEncode: val)
+        case let val as MaxKey: return try setSourceKey(ExtendedJsonKeys.maxKey.rawValue, andEncode: val)
+        case let val as MinKey: return try setSourceKey(ExtendedJsonKeys.minKey.rawValue, andEncode: val)
+        case let val as BsonCode: return try setSourceKey(ExtendedJsonKeys.code.rawValue, andEncode: val)
+        case let val as BsonArray: return try setSourceKey("__$arr__", andEncode: val)
+        case let val as BsonDocument: return try setSourceKey("__$doc__", andEncode: val)
+        case let val as String: return try setSourceKey("__$str__", andEncode: val)
+        case let val as Bool: return try setSourceKey("__$bool__", andEncode: val)
+        case let val as Null: return try setSourceKey("__$nil__", andEncode: val)
+        default: throw BsonError<BsonDocument>.illegalArgument(message: "\(value) not of XJson type")
+        }
     }
 
-    internal static func encode<T>(to container: inout KeyedEncodingContainer<T>,
-                                   encodingInfo: inout [String: String],
-                                   forKey key: T,
-                                   withValue value: ExtendedJsonRepresentable) throws {
-        var infoKey: String?
-        func setInfoKey(_ key: String) {
-            if (infoKey == nil) {
-                infoKey = key
+    internal static func encodeKeyedContainer<T>(to container: inout KeyedEncodingContainer<T>,
+                                                 sourceMap: inout [String: String],
+                                                 forKey key: T,
+                                                 withValue value: ExtendedJsonRepresentable?) throws {
+        func setSourceKey<V>(_ xKey: String,
+                             andEncode value: V?) throws where V: ExtendedJsonRepresentable {
+            sourceMap[key.stringValue] = xKey
+            if let value = value {
+                try container.encode(value as V, forKey: key)
+            } else {
+                try container.encodeNil(forKey: key)
             }
         }
+
         switch value {
-        case is ObjectId: setInfoKey(ExtendedJsonKeys.objectid.rawValue); fallthrough
-        case is BsonSymbol: setInfoKey(ExtendedJsonKeys.symbol.rawValue); fallthrough
-        case is Decimal: setInfoKey(ExtendedJsonKeys.numberDecimal.rawValue); fallthrough
-        case is Double: setInfoKey(ExtendedJsonKeys.numberDouble.rawValue); fallthrough
-        case is Int32: setInfoKey(ExtendedJsonKeys.numberInt.rawValue); fallthrough
-        case is Int64: setInfoKey(ExtendedJsonKeys.numberLong.rawValue); fallthrough
-        case is Int: setInfoKey(ExtendedJsonKeys.numberLong.rawValue)
-            try container.encode(value.toExtendedJson as! [String: String],
-                                 forKey: key)
-        case is BsonTimestamp: setInfoKey(ExtendedJsonKeys.timestamp.rawValue); fallthrough
-        case is BsonDBPointer: setInfoKey(ExtendedJsonKeys.dbPointer.rawValue); fallthrough
-        case is NSRegularExpression: setInfoKey(ExtendedJsonKeys.regex.rawValue); fallthrough
-        case is UUID: setInfoKey(ExtendedJsonKeys.binary.rawValue); fallthrough
-        case is Date: setInfoKey(ExtendedJsonKeys.date.rawValue); fallthrough
-        case is BsonBinary: setInfoKey(ExtendedJsonKeys.binary.rawValue)
-            try container.encode(value.toExtendedJson as! [String: [String: String]],
-                                 forKey: key)
-        case is BsonUndefined: setInfoKey(ExtendedJsonKeys.undefined.rawValue)
-            try container.encode(value.toExtendedJson as! [String: Bool],
-                                 forKey: key)
-        case is MaxKey: setInfoKey(ExtendedJsonKeys.maxKey.rawValue); fallthrough
-        case is MinKey: setInfoKey(ExtendedJsonKeys.minKey.rawValue)
-            try container.encode(value.toExtendedJson as! [String: Int],
-                                 forKey: key)
-        case let val as BsonCode: setInfoKey(ExtendedJsonKeys.code.rawValue)
-            try val.encode(to: container.superEncoder(forKey: key))
-        case let val as BsonArray: setInfoKey("__$arr__")
-            try val.encode(to: container.superEncoder(forKey: key))
-        case let val as BsonDocument: setInfoKey("__$doc__")
-            try val.encode(to: container.superEncoder(forKey: key))
-        case is String: setInfoKey("__$str__")
-            try container.encode(value.toExtendedJson as! String, forKey: key)
-        case is Bool: setInfoKey("__$bool__")
-            try container.encode(value.toExtendedJson as! Bool, forKey: key)
-        case is NSNull: setInfoKey("__$nil__")
-            try container.encodeNil(forKey: key)
+        case let val as ObjectId: try setSourceKey(ExtendedJsonKeys.objectid.rawValue, andEncode: val)
+        case let val as BsonSymbol: try setSourceKey(ExtendedJsonKeys.symbol.rawValue, andEncode: val)
+        case let val as Decimal: try setSourceKey(ExtendedJsonKeys.numberDecimal.rawValue, andEncode: val)
+        case let val as Double: try setSourceKey(ExtendedJsonKeys.numberDouble.rawValue, andEncode: val)
+        case let val as Int32: try setSourceKey(ExtendedJsonKeys.numberInt.rawValue, andEncode: val)
+        case let val as Int64: try setSourceKey(ExtendedJsonKeys.numberLong.rawValue, andEncode: val)
+        case let val as Int: try setSourceKey(ExtendedJsonKeys.numberLong.rawValue, andEncode: val)
+        case let val as RegularExpression: try setSourceKey(ExtendedJsonKeys.regex.rawValue, andEncode: val)
+        case let val as UUID: try setSourceKey(ExtendedJsonKeys.binary.rawValue, andEncode: val)
+        case let val as Date: try setSourceKey(ExtendedJsonKeys.date.rawValue, andEncode: val)
+        case let val as BsonBinary: try setSourceKey(ExtendedJsonKeys.binary.rawValue, andEncode: val)
+        case let val as BsonDBPointer: try setSourceKey(ExtendedJsonKeys.dbPointer.rawValue, andEncode: val)
+        case let val as BsonTimestamp: try setSourceKey(ExtendedJsonKeys.timestamp.rawValue, andEncode: val)
+        case let val as BsonDBRef: try setSourceKey(ExtendedJsonKeys.dbRef.rawValue, andEncode: val)
+        case let val as BsonUndefined: try setSourceKey(ExtendedJsonKeys.undefined.rawValue, andEncode: val)
+        case let val as MaxKey: try setSourceKey(ExtendedJsonKeys.maxKey.rawValue, andEncode: val)
+        case let val as MinKey: try setSourceKey(ExtendedJsonKeys.minKey.rawValue, andEncode: val)
+        case let val as BsonCode: try setSourceKey(ExtendedJsonKeys.code.rawValue, andEncode: val)
+        case let val as BsonArray: try setSourceKey("__$arr__", andEncode: val)
+        case let val as BsonDocument: try setSourceKey("__$doc__", andEncode: val)
+        case let val as String: try setSourceKey("__$str__", andEncode: val)
+        case let val as Bool: try setSourceKey("__$bool__", andEncode: val)
+        case let val as Null: try setSourceKey("__$nil__", andEncode: val)
         default: break
         }
+    }
 
-     encodingInfo[key.stringValue] = infoKey!
+    internal static func decode(from container: inout UnkeyedDecodingContainer,
+                                decodingTypeString: String) throws -> ExtendedJsonRepresentable {
+        func decode<V>(_ type: V.Type) throws -> V where V: ExtendedJsonRepresentable {
+            return try container.decode(type)
+        }
+        switch decodingTypeString {
+        case ExtendedJsonKeys.objectid.rawValue: return try decode(ObjectId.self)
+        case ExtendedJsonKeys.symbol.rawValue: return try decode(BsonSymbol.self)
+        case ExtendedJsonKeys.numberDecimal.rawValue: return try decode(Decimal.self)
+        case ExtendedJsonKeys.numberInt.rawValue: return try decode(Int.self)
+        case ExtendedJsonKeys.numberLong.rawValue: return try decode(Int64.self)
+        case ExtendedJsonKeys.numberDouble.rawValue: return try decode(Double.self)
+        case ExtendedJsonKeys.timestamp.rawValue: return try decode(BsonTimestamp.self)
+        case ExtendedJsonKeys.dbPointer.rawValue: return try decode(BsonDBPointer.self)
+        case ExtendedJsonKeys.regex.rawValue: return try decode(RegularExpression.self)
+        case ExtendedJsonKeys.date.rawValue: return try decode(Date.self)
+        case ExtendedJsonKeys.binary.rawValue: return try decode(BsonBinary.self)
+        case ExtendedJsonKeys.undefined.rawValue: return try decode(BsonUndefined.self)
+        case ExtendedJsonKeys.minKey.rawValue: return try decode(MinKey.self)
+        case ExtendedJsonKeys.maxKey.rawValue: return try decode(MaxKey.self)
+        case ExtendedJsonKeys.dbRef.rawValue: return try decode(BsonDBRef.self)
+        case ExtendedJsonKeys.code.rawValue: return try decode(BsonCode.self)
+        case "__$arr__": return try decode(BsonArray.self)
+        case "__$doc__": return try decode(BsonDocument.self)
+        case "__$str__": return try decode(String.self)
+        case "__$bool__": return try decode(Bool.self)
+        case "__$nil__": return try decode(Null.self)
+        default: throw BsonError<BsonDocument>.illegalArgument(message: "unknown key found while decoding bson: \(decodingTypeString)")
+        }
     }
 
     internal static func decode<T>(from container: KeyedDecodingContainer<T>,
-                                   decodingInfo: [String: Codable],
+                                   decodingTypeString: String,
                                    forKey key: T) throws -> ExtendedJsonRepresentable {
-        return try decodingInfo.map { (_: String, v: Codable) throws -> [String: ExtendedJsonRepresentable] in
-            switch v as! String {
-//            case ExtendedJsonKeys.objectid.rawValue: return [k: try ObjectId.fromExtendedJson(xjson: json)]
-//            case ExtendedJsonKeys.numberInt.rawValue: return [k: try Int32.fromExtendedJson(xjson: json)]
-//            case ExtendedJsonKeys.numberLong.rawValue: return try Int64.fromExtendedJson(xjson: json)
-//            case ExtendedJsonKeys.numberDouble.rawValue: return try Double.fromExtendedJson(xjson: json)
-//            case ExtendedJsonKeys.numberDecimal.rawValue: return try Decimal.fromExtendedJson(xjson: json)
-//            case ExtendedJsonKeys.date.rawValue: return try Date.fromExtendedJson(xjson: json)
-//            case ExtendedJsonKeys.binary.rawValue: return try BsonBinary.fromExtendedJson(xjson: json)
-//            case ExtendedJsonKeys.timestamp.rawValue: return try BsonTimestamp.fromExtendedJson(xjson: json)
-//            case ExtendedJsonKeys.regex.rawValue: return try NSRegularExpression.fromExtendedJson(xjson: json)
-//            case ExtendedJsonKeys.dbRef.rawValue: return try BsonDBRef.fromExtendedJson(xjson: json)
-//            case ExtendedJsonKeys.minKey.rawValue: return try MinKey.fromExtendedJson(xjson: json)
-//            case ExtendedJsonKeys.maxKey.rawValue: return try MaxKey.fromExtendedJson(xjson: json)
-//            case ExtendedJsonKeys.undefined.rawValue: return try BsonUndefined.fromExtendedJson(xjson: json)
-//            case ExtendedJsonKeys.code.rawValue: return try BsonCode.fromExtendedJson(xjson: json)
-//            case ExtendedJsonKeys.symbol.rawValue: return try BsonSymbol.fromExtendedJson(xjson: json)
-//            case ExtendedJsonKeys.dbPointer.rawValue: return try BsonDBPointer.fromExtendedJson(xjson: json)
-            default: throw BsonError.parseValueFailure(value: "<unknown>", attemptedType: Any.self)
-            }
-        } as! ExtendedJsonRepresentable
+        func decode<V>(_ type: V.Type) throws -> V where V: ExtendedJsonRepresentable {
+            return try container.decode(type, forKey: key)
+        }
+
+        switch decodingTypeString {
+        case ExtendedJsonKeys.objectid.rawValue: return try decode(ObjectId.self)
+        case ExtendedJsonKeys.symbol.rawValue: return try decode(BsonSymbol.self)
+        case ExtendedJsonKeys.numberDecimal.rawValue: return try decode(Decimal.self)
+        case ExtendedJsonKeys.numberInt.rawValue: return try decode(Int.self)
+        case ExtendedJsonKeys.numberLong.rawValue: return try decode(Int64.self)
+        case ExtendedJsonKeys.numberDouble.rawValue: return try decode(Double.self)
+        case ExtendedJsonKeys.timestamp.rawValue: return try decode(BsonTimestamp.self)
+        case ExtendedJsonKeys.dbPointer.rawValue: return try decode(BsonDBPointer.self)
+        case ExtendedJsonKeys.regex.rawValue: return try decode(RegularExpression.self)
+        case ExtendedJsonKeys.date.rawValue: return try decode(Date.self)
+        case ExtendedJsonKeys.binary.rawValue: return try decode(BsonBinary.self)
+        case ExtendedJsonKeys.undefined.rawValue: return try decode(BsonUndefined.self)
+        case ExtendedJsonKeys.minKey.rawValue: return try decode(MinKey.self)
+        case ExtendedJsonKeys.maxKey.rawValue: return try decode(MaxKey.self)
+        case ExtendedJsonKeys.dbRef.rawValue: return try decode(BsonDBRef.self)
+        case ExtendedJsonKeys.code.rawValue: return try decode(BsonCode.self)
+        case "__$arr__": return try decode(BsonArray.self)
+        case "__$doc__": return try decode(BsonDocument.self)
+        case "__$str__": return try decode(String.self)
+        case "__$bool__": return try decode(Bool.self)
+        case "__$nil__": return try decode(Null.self)
+        default: throw BsonError<BsonDocument>.illegalArgument(message: "unknown key found while decoding bson: \(decodingTypeString)")
+        }
     }
 
     public static func decodeXJson(value: Any?) throws -> ExtendedJsonRepresentable {
@@ -179,7 +197,7 @@ extension ExtendedJsonRepresentable {
                     case .date: return try Date.fromExtendedJson(xjson: json)
                     case .binary: return try BsonBinary.fromExtendedJson(xjson: json)
                     case .timestamp: return try BsonTimestamp.fromExtendedJson(xjson: json)
-                    case .regex: return try NSRegularExpression.fromExtendedJson(xjson: json)
+                    case .regex: return try RegularExpression.fromExtendedJson(xjson: json)
                     case .dbRef: return try BsonDBRef.fromExtendedJson(xjson: json)
                     case .minKey: return try MinKey.fromExtendedJson(xjson: json)
                     case .maxKey: return try MaxKey.fromExtendedJson(xjson: json)
@@ -193,7 +211,7 @@ extension ExtendedJsonRepresentable {
 
             return try BsonDocument(extendedJson: json)
         case is NSNull, nil:
-            return try NSNull.fromExtendedJson(xjson: NSNull())
+            return try Null.fromExtendedJson(xjson: NSNull())
         case is [Any]:
             return try BsonArray.fromExtendedJson(xjson: value!)
         case is String:

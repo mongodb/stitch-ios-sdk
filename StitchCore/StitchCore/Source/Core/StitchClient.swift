@@ -334,7 +334,7 @@ public class StitchClient: StitchClientType {
      * of the execution.
      */
     @discardableResult
-    public func executePipeline(pipeline: Pipeline) -> StitchTask<BsonDocument> {
+    public func executePipeline(pipeline: Pipeline) -> StitchTask<BsonCollection> {
         return executePipeline(pipelines: [pipeline])
     }
 
@@ -346,23 +346,20 @@ public class StitchClient: StitchClientType {
      * of the execution.
      */
     @discardableResult
-    public func executePipeline(pipelines: [Pipeline]) -> StitchTask<BsonDocument> {
+    public func executePipeline(pipelines: [Pipeline]) -> StitchTask<BsonCollection> {
         return performRequest(method: NAHTTPMethod.post,
                               endpoint: Consts.PipelinePath,
                               parameters: pipelines,
                               responseType: BsonDocument.self).response { task in
             switch task.result {
-            case .success(let document):
-                if let docResult = document[Consts.ResultKey] as? BsonDocument {
-                    task.result = .success(docResult)
-                } else {
-                        task.result = .failure(
-                            StitchError.responseParsingFailed(
-                            reason: "Unexpected result received - expected a json reponse" +
-                            "with a 'result' key, found: \(document)."))
-                }
-            case .failure(let err):
-                task.result = .failure(err)
+            case .success(let document): task.result = .success(document)
+            case .failure(let err): task.result = .failure(err)
+            }
+        }.then { doc in
+            switch doc[Consts.ResultKey] {
+            case let val as BsonDocument: return val
+            case let val as BsonArray: return val
+            default: throw StitchError.responseParsingFailed(reason: "pipeline did not return valid bson")
             }
         }
     }

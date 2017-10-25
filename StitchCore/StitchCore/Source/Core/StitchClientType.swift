@@ -103,7 +103,7 @@ public protocol StitchClientType {
      * of the execution.
      */
     @discardableResult
-    func executePipeline(pipeline: Pipeline) -> StitchTask<BsonDocument>
+    func executePipeline(pipeline: Pipeline) -> StitchTask<BsonCollection>
 
     /**
      * Executes a pipeline with the current app.
@@ -113,7 +113,7 @@ public protocol StitchClientType {
      * of the execution.
      */
     @discardableResult
-    func executePipeline(pipelines: [Pipeline]) -> StitchTask<BsonDocument>
+    func executePipeline(pipelines: [Pipeline]) -> StitchTask<BsonCollection>
 
     /**
         Adds a delegate for auth events.

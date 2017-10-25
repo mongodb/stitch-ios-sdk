@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Date: ExtendedJsonRepresentable {
+extension Date: Codable, ExtendedJsonRepresentable {
     public static func fromExtendedJson(xjson: Any) throws -> ExtendedJsonRepresentable {
         guard let json = xjson as? [String: Any],
             let dateJson = json[ExtendedJsonKeys.date.rawValue] as? [String: String],
@@ -24,7 +24,7 @@ extension Date: ExtendedJsonRepresentable {
     public var toExtendedJson: Any {
         return [
             ExtendedJsonKeys.date.rawValue: [
-                ExtendedJsonKeys.numberLong.rawValue: String(Int64(timeIntervalSince1970 * 1000))
+                ExtendedJsonKeys.numberLong.rawValue: String(Double(timeIntervalSince1970 * 1000))
             ]
         ]
     }

@@ -5,57 +5,33 @@
 
 import Foundation
 
-public class BsonEncoder: JSONEncoder {
-    public override func encode<T>(_ value: T) throws -> Data where T : Encodable {
-        switch value {
-        case let value as BsonDocument:
-            guard let data = try? JSONSerialization.data(withJSONObject: value.toExtendedJson) else {
-                fallthrough
-            }
-            return data
-        default: return try super.encode(value)
-        }
-    }
-}
-public class BsonDecoder: JSONDecoder {
-    public override func decode<T>(_ type: T.Type, from data: Data) throws -> T where T: Decodable {
-        switch type {
-        case is BsonDocument.Type:
-            guard let values = try JSONSerialization.jsonObject(with: data,
-                                                                options: .allowFragments) as? [String: Any?],
-                let doc = try? BsonDocument(extendedJson: values) else {
-                fallthrough
-            }
-            return doc as! T
-        default: return try super.decode(type, from: data)
-        }
-    }
-}
-
-public struct BsonDocument: Codable, Collection {
+public struct BsonDocument: BsonCollection, Codable, Collection {
     public typealias Element = (key: String, value: ExtendedJsonRepresentable)
 
     fileprivate var storage: [String: ExtendedJsonRepresentable] = [:]
-    fileprivate var orderedKeys: [String] = []
+    internal var orderedKeys: [String] = []
 
     private let writeQueue = DispatchQueue.global(qos: .utility)
 
     public init() {
     }
 
-    public init(key: String, value: ExtendedJsonRepresentable) throws {
-        self[key] = try BsonDocument.decodeXJson(value: value)
+    public init(key: String, value: ExtendedJsonRepresentable) {
+        self[key] = value
+        orderedKeys.append(key)
     }
 
     public init(dictionary: [String: ExtendedJsonRepresentable?]) {
         for (key, value) in dictionary {
             self[key] = value ?? nil
+            orderedKeys.append(key)
         }
     }
 
     public init(extendedJson json: [String: Any?]) throws {
         for (key, value) in json {
             self[key] = try BsonDocument.decodeXJson(value: value)
+            orderedKeys.append(key)
         }
     }
 
@@ -78,32 +54,37 @@ public struct BsonDocument: Codable, Collection {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ExtendedJsonCodingKeys.self)
 
-        var infoContainer = try container.superDecoder(forKey: ExtendedJsonCodingKeys.info)
+        guard let sourceMap = try? container.decode([String: String].self,
+                                                    forKey: ExtendedJsonCodingKeys.info) else {
+            throw BsonError<BsonDocument>.illegalArgument(
+                message: "decoder of type \(decoder) did enough information to map out a new bson document")
+        }
 
-        try container.allKeys.forEach { key in
-            let nested = try container.decode([String: [String: String]].self, forKey: key)
-            print(nested)
+        try sourceMap.forEach { (arg) throws in
+            let (key, value) = arg
+            self[key] = try BsonDocument.decode(from: container,
+                                                decodingTypeString: value,
+                                                forKey: ExtendedJsonCodingKeys.init(stringValue: key)!)
+            orderedKeys.append(key)
         }
     }
 
     public func encode(to encoder: Encoder) throws {
-        if let encoder = encoder as? JSONEncoder {
-            try encoder.encode(JSONSerialization.data(withJSONObject: self))
-            return
-        }
-        
         var container = encoder.container(keyedBy: ExtendedJsonCodingKeys.self)
-        //var infoEncoder = container.nestedContainer(keyedBy: ExtendedJsonCodingKeys.self, forKey: ExtendedJsonCodingKeys.info)
-        var infoContainer = [String: String]()
+        var sourceMap = [String: String]()
+
         try self.forEach { (arg) in
             let (k, v) = arg
 
-            try BsonDocument.encode(to: &container,
-                                    encodingInfo: &infoContainer,
-                                    forKey: ExtendedJsonCodingKeys(stringValue: k)!,
-                                    withValue: v)
+            try BsonDocument.encodeKeyedContainer(to: &container,
+                                                  sourceMap: &sourceMap,
+                                                  forKey: ExtendedJsonCodingKeys(stringValue: k)!,
+                                                  withValue: v)
         }
-        //try container.encode(infoContainer, forKey: ExtendedJsonCodingKeys.info)
+
+        if (encoder.userInfo[BSONEncoder.CodingKeys.shouldIncludeSourceMap] as? Bool ?? false) {
+            try container.encode(sourceMap, forKey: ExtendedJsonCodingKeys.info)
+        }
     }
 
     // MARK: - Subscript
@@ -136,6 +117,7 @@ extension BsonDocument: ExpressibleByDictionaryLiteral {
     public init(dictionaryLiteral elements: (String, ExtendedJsonRepresentable)...) {
         for (key, value) in elements {
             self[key] = value
+            self.orderedKeys.append(key)
         }
     }
 }

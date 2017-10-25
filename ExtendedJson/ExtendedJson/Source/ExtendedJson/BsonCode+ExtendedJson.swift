@@ -9,6 +9,10 @@
 import Foundation
 
 extension BsonCode: ExtendedJsonRepresentable {
+    enum CodingKeys: String, CodingKey {
+        case code = "$code", scope = "$scope"
+    }
+
     public static func fromExtendedJson(xjson: Any) throws -> ExtendedJsonRepresentable {
         guard let json = xjson as? [String: Any],
             let code = json[ExtendedJsonKeys.code.rawValue] as? String else {
@@ -33,6 +37,18 @@ extension BsonCode: ExtendedJsonRepresentable {
         }
 
         return code
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.init(code: try container.decode(String.self, forKey: CodingKeys.code),
+                  scope: try container.decodeIfPresent(BsonDocument.self, forKey: CodingKeys.scope))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.code, forKey: CodingKeys.code)
+        try container.encodeIfPresent(self.scope, forKey: CodingKeys.scope)
     }
 
     public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {

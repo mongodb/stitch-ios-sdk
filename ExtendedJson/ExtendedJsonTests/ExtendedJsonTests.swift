@@ -49,7 +49,7 @@ class ExtendedJsonTests: XCTestCase {
         let date = Date()
         if let dateExtJson = date.toExtendedJson as? [String: Any] {
             if let dateDictionary = dateExtJson["$date"] as? [String: String] {
-                XCTAssertEqual(dateDictionary, ["$numberLong": String(Int64(date.timeIntervalSince1970 * 1000))])
+                XCTAssertEqual(dateDictionary, ["$numberLong": String(Double(date.timeIntervalSince1970 * 1000))])
             } else {
                 XCTFail("expected dictionary to have a $date key with a dictionary value from String to String.")
             }
@@ -86,9 +86,9 @@ class ExtendedJsonTests: XCTestCase {
         let bsonTimestamp = BsonTimestamp(time: date, increment: 1)
         let extJsonTimestamp = bsonTimestamp.toExtendedJson as! [String: [String: Any]]
         if let timestampJson = extJsonTimestamp["$timestamp"],
-            let t = timestampJson["t"] as? Double,
+            let t = timestampJson["t"] as? Int64,
             let i = timestampJson["i"] as? Int {
-            XCTAssertEqual(t, date.timeIntervalSince1970)
+            XCTAssertEqual(t, Int64(date.timeIntervalSince1970))
             XCTAssertEqual(i, 1)
         } else {
             XCTFail("timestamp missing.")
@@ -96,7 +96,7 @@ class ExtendedJsonTests: XCTestCase {
     }
 
     func testExtendedJsonRepresentableRegularExpression() throws {
-        let regex = try NSRegularExpression(pattern: "[0-9a-fA-F]+", options: [.dotMatchesLineSeparators, .caseInsensitive, .allowCommentsAndWhitespace, .anchorsMatchLines])
+        let regex = try RegularExpression(pattern: "[0-9a-fA-F]+", options: [.dotMatchesLineSeparators, .caseInsensitive, .allowCommentsAndWhitespace, .anchorsMatchLines])
 
         let xjson = regex.toExtendedJson as! [String: [String: String]]
         if let regexJson = xjson["$regularExpression"],
@@ -122,7 +122,7 @@ class ExtendedJsonTests: XCTestCase {
     }
 
     func testExtendedJsonRepresentableNull() {
-        XCTAssertEqual(NSNull().toExtendedJson as! NSNull, NSNull())
+        XCTAssertEqual(Null().toExtendedJson as! NSNull, NSNull())
     }
 
     func testExtendedJsonRepresentableDecimal() {
@@ -230,11 +230,11 @@ class ExtendedJsonTests: XCTestCase {
             "testTrue": true,
             "testFalse": false,
             "testBinary": ["$binary": ["base64": "TW9uZ29EQg==", "subType": "0x0"]],
-            "testTimestamp": ["$timestamp": ["t": Int(date.timeIntervalSince1970), "i": 1]],
+            "testTimestamp": ["$timestamp": ["t": Int64(date.timeIntervalSince1970), "i": 1]],
             "testRegex": ["$regularExpression": ["pattern": "[0-9a-fA-F]+", "options": "i"]],
             "testMinKey": ["$minKey": 1],
             "testMaxKey": ["$maxKey": 1],
-            "testNull": NSNull(),
+            "testNull": Null(),
             "testArray": [["testObjectId": ["$oid": hexString],
                             "testLong": ["$numberLong": numberAsString]],
                            ["testObjectId": ["$oid": hexString],
@@ -248,7 +248,7 @@ class ExtendedJsonTests: XCTestCase {
         XCTAssertEqual(document["testLong"] as? Int64, 42)
         XCTAssertEqual(document["testDouble"] as? Double, 42)
         XCTAssertEqual(document["testString"] as? String, "MongoDB")
-        XCTAssertEqual(Int((document["testDate"] as? Date)!.timeIntervalSince1970), Int(date.timeIntervalSince1970))
+        XCTAssertEqual(Int64((document["testDate"] as? Date)!.timeIntervalSince1970), Int64(date.timeIntervalSince1970))
         XCTAssertEqual(document["testTrue"] as? Bool, true)
         XCTAssertEqual(document["testFalse"] as? Bool, false)
         XCTAssertEqual(document["testBinary"] as? BsonBinary, binary)

@@ -5,7 +5,19 @@
 
 import Foundation
 
-public struct BsonArray: Codable {
+public protocol BsonCollection {
+}
+extension BsonCollection {
+    public func asArray() -> BsonArray {
+        return self as! BsonArray
+    }
+
+    public func asDoc() -> BsonDocument {
+        return self as! BsonDocument
+    }
+}
+
+public struct BsonArray: BsonCollection, Codable {
     private struct CodingKeys: CodingKey {
         var stringValue: String
 
@@ -33,23 +45,37 @@ public struct BsonArray: Codable {
     }
 
     public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: ExtendedJsonCodingKeys.self)
-        let infoContainer = try container.superDecoder(forKey: ExtendedJsonCodingKeys.info)
+        var container = try decoder.unkeyedContainer()
+        let infoContainer = try container.decode([Int: String].self).sorted {
+            arg1, arg2 -> Bool in
+            return arg1.key < arg2.key
+        }
+
+        try infoContainer.forEach { arg in
+            let (key, value) = arg
+            self[key] = try BsonArray.decode(from: &container, decodingTypeString: value)
+        }
     }
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
-//        var infoEncoder = container.superEncoder(forKey: ExtendedJsonCodingKeys.info)
-        var infoContainer = [String: String]()
-        for index in 0..<self.count {
-            try BsonArray.encode(to: &container,
-                                 encodingInfo: &infoContainer,
-                                 forKey: String(index),
-                                 withValue: self[index])
+        var infoContainer = [Int: String]()
+
+        let encoders = try (0..<self.count).map { index in
+            return try BsonArray.encodeUnkeyedContainer(sourceMap: &infoContainer,
+                                                        forKey: Int(index),
+                                                        withValue: self[index])
         }
-//        var subContainer = infoEncoder.container(keyedBy: ExtendedJsonCodingKeys.self)
-//        try subContainer.encode(infoContainer, forKey: ExtendedJsonCodingKeys.info)
+
+        if (encoder.userInfo[BSONEncoder.CodingKeys.shouldIncludeSourceMap] as? Bool ?? false) {
+            try container.encode(infoContainer)
+        }
+
+        // this strategy is done to ensure the sourceMap (if included)
+        // is the first decodable object
+        try encoders.forEach { try $0(&container) }
     }
+
     public init(array: [Any]) throws {
         underlyingArray = try array.map { (any) -> ExtendedJsonRepresentable in
             return try BsonDocument.decodeXJson(value: any)

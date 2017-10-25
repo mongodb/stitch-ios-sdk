@@ -2,6 +2,7 @@ import XCTest
 @testable import StitchCore
 import ExtendedJson
 import StitchLogger
+import MongoDBService
 
 class StitchCoreTests: XCTestCase {
 
@@ -35,32 +36,107 @@ class StitchCoreTests: XCTestCase {
                 "jkwMjQ2MjI0YzFmMzllMzgyYjkifSwic3ViIjoiNTllZDU3NTE0ZmRkMWZhMWRhMzg1" +
                 "ODYxIiwidHlwIjoicmVmcmVzaCJ9.mMVCk5Ygo29dfLYY4TrmiIuR-18iIX12guiWIcpmGnk",
             "userId": "59ed57514fdd1fa1da385861"
-            ])
+        ])
         XCTAssertNoThrow(try JSONDecoder().decode(AuthInfo.self, from: data))
     }
-    
-    func testIntegration() throws {
-        let expectation = self.expectation(description: "fetch posts")
 
-        stitchClient.anonymousAuth().response {
-            switch $0.result {
-            case .success: break
-            case .failure(let error): XCTFail(error.localizedDescription)
-            }
-        }.then { _ -> StitchTask<BsonDocument> in
+    func testMongo() {
+        let expectation = self.expectation(description: "execute pipelines")
+
+        let collection = MongoDBClient(stitchClient: stitchClient,
+                                       serviceName: "mongodb-atlas")
+            .database(named: "todo").collection(named: "items")
+
+        stitchClient.anonymousAuth().then { (_: AuthInfo) -> StitchTask<Int> in
+            return collection.count(query: BsonDocument())
+        }.then { (docs: Int) -> StitchTask<BsonDocument> in
+            print(docs)
+            return collection.insertOne(document: ["bill": "jones",
+                                                   "owner_id": self.stitchClient.auth?.authInfo.userId ?? "0"])
+        }.then { (insertOne: BsonDocument) -> StitchTask<Int> in
+            XCTAssert(insertOne["bill"] as? String == "jones")
+            return collection.count(query: [:])
+        }.then { (count: Int) -> StitchTask<[BsonDocument]> in
+            XCTAssert(count == 1)
+            return collection.insertMany(documents: [["bill": "jones",
+                                                     "owner_id": self.stitchClient.auth?.authInfo.userId ?? "0"],
+                                                     ["bill": "jones",
+                                                      "owner_id": self.stitchClient.auth?.authInfo.userId ?? "0"]])
+        }.then { (_: [BsonDocument]) -> StitchTask<[BsonDocument]> in
+            return collection.find(query: ["owner_id": self.stitchClient.auth?.authInfo.userId ?? "0"])
+        }.then { (coll: [BsonDocument]) -> StitchTask<BsonDocument> in
+            XCTAssert(coll.count == 3)
+            return collection.updateOne(query: ["owner_id": self.stitchClient.auth?.authInfo.userId ?? "0"],
+                                        update: ["owner_id": self.stitchClient.auth?.authInfo.userId ?? "0",
+                                                 "bill": "thompson"])
+        }.then { (result: BsonDocument) -> StitchTask<[BsonDocument]> in
+            XCTAssert(result["bill"] as? String == "thompson")
+            return collection.updateMany(query: ["owner_id": self.stitchClient.auth?.authInfo.userId ?? "0"],
+                                        update: ["owner_id": self.stitchClient.auth?.authInfo.userId ?? "0",
+                                                 "bill": "jackson"])
+        }.then { (result: [BsonDocument]) -> StitchTask<Int> in
+            XCTAssert(result.count == 3)
+            return collection.deleteOne(query: ["owner_id": self.stitchClient.auth?.authInfo.userId ?? "0"])
+        }.then { (result: Int) -> StitchTask<Int64> in
+            XCTAssert(result == 1)
+            return collection.deleteMany(query: ["owner_id": self.stitchClient.auth?.authInfo.userId ?? "0"])
+        }.then { (result: Int64) in
+            XCTAssert(result == 2)
+            expectation.fulfill()
+        }.catch { err in
+            print(err)
+        }
+
+        waitForExpectations(timeout: 20, handler: nil)
+    }
+
+    func testIntegration() throws {
+        let expectation = self.expectation(description: "execute pipelines")
+
+        stitchClient.fetchAuthProviders().then { (auths: AuthProviderInfo) -> Void in
+            XCTAssertNotNil(auths.anonymousAuthProviderInfo)
+            XCTAssertNotNil(auths.emailPasswordAuthProviderInfo)
+            XCTAssertNotNil(auths.googleProviderInfo)
+            XCTAssertNil(auths.facebookProviderInfo)
+
+            XCTAssert(auths.googleProviderInfo?.clientId ==
+            "405021717222-8n19u6ij79kheu4lsaeekfh9b1dng7b7.apps.googleusercontent.com")
+            XCTAssert(auths.googleProviderInfo?.scopes?.contains("profile") ?? false)
+            XCTAssert(auths.googleProviderInfo?.scopes?.contains("email") ?? false)
+        }.then { _ -> StitchTask<AuthInfo> in
+            return self.stitchClient.login(withProvider: EmailPasswordAuthProvider(username: "stitch@mongodb.com",
+                                                                                   password: "stitchuser"))
+        }.then { (authInfo: AuthInfo) in
+            XCTAssert(authInfo.userId == "59ee23094fdd1fa1da3d1057")
+            XCTAssertNotNil(authInfo.accessToken)
+        }.then { _ -> StitchTask<BsonCollection> in
             return self.stitchClient.executePipeline(
                 pipeline: Pipeline(action: "literal",
                                    args: ["items": [
-                                        [ "type": "apples", "qty": 25 ] as BsonDocument,
-                                        [ "type": "oranges", "qty": 50 ] as BsonDocument
+                                    [ "type": "apples", "qty": 25 ] as BsonDocument,
+                                    [ "type": "oranges", "qty": 50 ] as BsonDocument
                                     ] as BsonArray]))
-        }.then { (doc: BsonDocument) in
-            print(doc)
+        }.then { (result: BsonCollection) in
+            let expectedResult: BsonArray = [
+                [
+                    "type": "apples",
+                    "qty": Double(25)
+                ] as BsonDocument,
+                [
+                    "type": "oranges",
+                    "qty": Double(50)
+                ] as BsonDocument
+            ]
+
+            XCTAssert(result.asArray().isEqual(toOther: expectedResult))
             expectation.fulfill()
+        }.catch { error in
+            XCTAssertNotNil(error)
         }
 
-        self.wait(for: [expectation], timeout: TimeInterval(20))
+        self.wait(for: [expectation], timeout: TimeInterval(200))
     }
+
     // swiftlint:disable:next function_body_length
     func testAuthTokenExpirationCheck() {
         // access token with 5138-Nov-16
