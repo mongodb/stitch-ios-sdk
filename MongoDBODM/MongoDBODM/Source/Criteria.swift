@@ -49,55 +49,55 @@ public indirect enum Criteria {
     case exists(field: String, value: Bool)
     
     
-    public var asDocument: Document {
+    public var asDocument: BsonDocument {
         switch self {
         case .greaterThan(let field, let value):
-            return Document(key: field, value: Document(key: key, value: value))
+            return BsonDocument(key: field, value: BsonDocument(key: key, value: value))
             
         case .contains(let field, let value):
-            return Document(key: field, value: value)
+            return BsonDocument(key: field, value: value)
             
         case .equals(let field, let value):
-            return Document(key: field, value: Document(key: key, value: value))
+            return BsonDocument(key: field, value: BsonDocument(key: key, value: value))
             
         case .and(let criterias):
-            return Document(key: key, value: BsonArray(array: criterias.map{ $0.asDocument} ))
+            return BsonDocument(key: key, value: BsonArray(array: criterias.map{ $0.asDocument} ))
             
         case .or(let criterias):
-            return Document(key: key, value: BsonArray(array: criterias.map{ $0.asDocument }))
+            return BsonDocument(key: key, value: BsonArray(array: criterias.map{ $0.asDocument }))
             
         case .greaterThanOrEqual(let field, let value):
-            return Document(key: field, value: Document(key: key, value: value))
+            return BsonDocument(key: field, value: BsonDocument(key: key, value: value))
             
         case .lessThan(let field, let value):
-            return Document(key: field, value: Document(key: key, value: value))
+            return BsonDocument(key: field, value: BsonDocument(key: key, value: value))
             
         case .lessThanOrEqual(let field, let value):
-            return Document(key: field, value: Document(key: key, value: value))
+            return BsonDocument(key: field, value: BsonDocument(key: key, value: value))
             
         case .notEqual(let field, let value):
-            return Document(key: field, value: Document(key: key, value: value))
+            return BsonDocument(key: field, value: BsonDocument(key: key, value: value))
             
         case .in(let field, let values):
-            return Document(key: field, value: Document(key: key, value: BsonArray(array: values)))
+            return BsonDocument(key: field, value: BsonDocument(key: key, value: BsonArray(array: values)))
             
         case .nin(let field, let values):
-            return Document(key: field, value: Document(key: key, value: BsonArray(array: values)))
+            return BsonDocument(key: field, value: BsonDocument(key: key, value: BsonArray(array: values)))
             
         case .not(let criteria):
             let criteriaDoc = criteria.asDocument
-            var notCriteria = Document()
+            var notCriteria = BsonDocument()
             for (key, value) in criteriaDoc {
-                notCriteria[key] = Document(key: self.key, value: value)
+                notCriteria[key] = BsonDocument(key: self.key, value: value)
             }
             
             return notCriteria
             
         case .nor(let criterias):
-            return Document(key: key, value: BsonArray(array: criterias.map{ $0.asDocument }))
+            return BsonDocument(key: key, value: BsonArray(array: criterias.map{ $0.asDocument }))
             
         case .text(let search, let language ,let caseSensitive, let diacriticSensitive):
-            var textParams = Document()
+            var textParams = BsonDocument()
             textParams["$search"] = search
             if let language = language {
                 textParams["$language"] = language
@@ -108,10 +108,10 @@ public indirect enum Criteria {
             if let diacriticSensitive = diacriticSensitive {
                 textParams["$diacriticSensitive"] = diacriticSensitive
             }
-            return Document(dictionary: [key : textParams])
+            return BsonDocument(dictionary: [key : textParams])
             
         case .exists(let field, let value):
-            return Document(key: field, value: Document(key: key, value: value))
+            return BsonDocument(key: field, value: BsonDocument(key: key, value: value))
             
         }
         

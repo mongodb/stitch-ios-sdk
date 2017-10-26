@@ -70,13 +70,13 @@ public class StitchGCMPushProviderInfo: PushProviderInfo {
     /**
      * - returns: The provider info as a serializable document.
      */
-    func toDocument() -> Document {
-        var doc = Document()
+    func toDocument() -> BsonDocument {
+        var doc = BsonDocument()
         
         doc[PushProviderInfoFields.FieldType.rawValue] = providerName as? ExtendedJsonRepresentable
-        doc[PushProviderInfoFields.Config.rawValue] = Document()
+        doc[PushProviderInfoFields.Config.rawValue] = BsonDocument()
         
-        var config = doc[PushProviderInfoFields.Config.rawValue] as! Document
+        var config = doc[PushProviderInfoFields.Config.rawValue] as! BsonDocument
         config[StitchGCMProviderInfoFields.SenderID.rawValue] = self.senderID
         return doc
     }

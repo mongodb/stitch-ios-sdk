@@ -27,7 +27,7 @@ open class EmbeddedEntity: BaseEntity {
         }
     }
     
-    public override init(document: Document) {
+    public override init(document: BsonDocument) {
         super.init(document: document)
     }
     

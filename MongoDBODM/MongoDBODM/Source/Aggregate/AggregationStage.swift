@@ -21,35 +21,35 @@ public enum AggregationStage {
     case count(field: String)
     case project(projectionParametes : [ProjectionParameter])
     
-    internal var asDocument: Document {
+    internal var asDocument: BsonDocument {
         switch self {
             case .match(let query):
                 if let criteria = query {
-                    return Document(key: "$match", value: criteria.asDocument)
+                    return BsonDocument(key: "$match", value: criteria.asDocument)
                 }
                 else {
-                    return Document(key: "$match", value: Document())
+                    return BsonDocument(key: "$match", value: BsonDocument())
                 }
             
             case .sort(let sortParameters):
-                var sortDocument = Document()
+                var sortDocument = BsonDocument()
                 for sortParameter in sortParameters {
                     sortDocument[sortParameter.field] = sortParameter.direction.rawValue
                 }
-                return  Document(key: "$sort", value: sortDocument)
+                return  BsonDocument(key: "$sort", value: sortDocument)
 
             case .limit(let value):
-                return Document(key: "$limit", value: value)
+                return BsonDocument(key: "$limit", value: value)
             
             case .count(let field):
-                return Document(key: "$count", value: field)
+                return BsonDocument(key: "$count", value: field)
             
             case .project(let projectionParameters):
-                var projectDocument = Document()
+                var projectDocument = BsonDocument()
                 for projectionParameter in projectionParameters {
                     projectDocument[projectionParameter.field] = projectionParameter.expression
             }
-                return Document(key: "$project", value: projectDocument)
+                return BsonDocument(key: "$project", value: projectDocument)
         }
     }
     

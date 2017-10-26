@@ -56,7 +56,7 @@ public struct UpdateOperation <Entity: RootEntity> {
     @discardableResult
     internal func execute(operations operationType: [UpdateOperationType],collection: MongoDBService.CollectionType, upsert: Bool = false, multi: Bool = false) -> StitchTask<Any> {
         let queryDocument = criteria.asDocument
-        var updateDocument = Document()
+        var updateDocument = BsonDocument()
         
         for updateOperation in operationType {
             updateDocument[updateOperation.key] = updateOperation.valueAsDocument

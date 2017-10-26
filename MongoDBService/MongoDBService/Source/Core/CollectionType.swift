@@ -10,25 +10,25 @@ import ExtendedJson
 public protocol CollectionType {
             
     @discardableResult
-    func find(query: Document, projection: Document?, limit: Int?) -> StitchTask<[Document]>
+    func find(query: BsonDocument, projection: BsonDocument?, limit: Int?) -> StitchTask<[BsonDocument]>
     
     @discardableResult
-    func update(query: Document, update: Document?, upsert: Bool, multi: Bool) -> StitchTask<Any>
+    func update(query: BsonDocument, update: BsonDocument?, upsert: Bool, multi: Bool) -> StitchTask<Any>
     
     @discardableResult
-    func insert(document: Document) ->  StitchTask<Any>
+    func insert(document: BsonDocument) ->  StitchTask<Any>
     
     @discardableResult
-    func insert(documents: [Document]) ->  StitchTask<Any>
+    func insert(documents: [BsonDocument]) ->  StitchTask<Any>
     
     @discardableResult
-    func delete(query: Document, singleDoc: Bool) -> StitchTask<Any>
+    func delete(query: BsonDocument, singleDoc: Bool) -> StitchTask<Any>
     
     @discardableResult
-    func count(query: Document) -> StitchTask<Int>
+    func count(query: BsonDocument) -> StitchTask<Int>
     
     @discardableResult
-    func aggregate(pipeline: [Document]) -> StitchTask<Any>
+    func aggregate(pipeline: [BsonDocument]) -> StitchTask<Any>
 }
 
 
@@ -37,17 +37,17 @@ public protocol CollectionType {
 extension CollectionType {
     
     @discardableResult
-    public func find(query: Document, projection: Document? = nil, limit: Int? = nil) -> StitchTask<[Document]> {
+    public func find(query: BsonDocument, projection: BsonDocument? = nil, limit: Int? = nil) -> StitchTask<[BsonDocument]> {
         return find(query: query, projection: projection, limit: limit)
     }
     
     @discardableResult
-    public func update(query: Document, update: Document? = nil, upsert: Bool = false, multi: Bool = false) -> StitchTask<Any> {
+    public func update(query: BsonDocument, update: BsonDocument? = nil, upsert: Bool = false, multi: Bool = false) -> StitchTask<Any> {
         return self.update(query: query, update: update, upsert: upsert, multi: multi)
     }
     
     @discardableResult
-    public func delete(query: Document, singleDoc: Bool = true) -> StitchTask<Any> {
+    public func delete(query: BsonDocument, singleDoc: Bool = true) -> StitchTask<Any> {
         return delete(query: query, singleDoc: singleDoc)
     }
 }

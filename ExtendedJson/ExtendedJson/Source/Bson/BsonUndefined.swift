@@ -6,7 +6,6 @@
 import Foundation
 
 public struct BsonUndefined {
-    
     public init(){}
 }
 
