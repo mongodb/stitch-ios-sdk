@@ -12,9 +12,9 @@ import ExtendedJson
     let rawData: [AnyHashable: Any]
     let appId: String
     let providerId: String
-    let data: BsonDocument?
+    let data: Document?
 
-    init(rawData: [AnyHashable: Any], appId: String, providerId: String, data: BsonDocument?) {
+    init(rawData: [AnyHashable: Any], appId: String, providerId: String, data: Document?) {
         self.rawData = rawData
         self.appId = appId
         self.providerId = providerId
@@ -27,14 +27,14 @@ import ExtendedJson
         - returns: PushMessage constructed from a GCM push notification.
      */
     public class func fromGCM(data: [AnyHashable: Any]) throws -> PushMessage {
-        var stitchData: BsonDocument?
+        var stitchData: Document?
 
         if let strData = data[MessageKeys.stitchData.rawValue] as? String,
             let json = strData.data(using: .utf8),
             let rawJson = try? JSONSerialization.jsonObject(with: json,
                                                             options: JSONSerialization.ReadingOptions.allowFragments),
             let xjson = rawJson as? [String: Any?] {
-            stitchData = try? BsonDocument(extendedJson: xjson)
+            stitchData = try? Document(extendedJson: xjson)
         }
 
         guard let appId = data[MessageKeys.stitchAppId.rawValue] as? String,

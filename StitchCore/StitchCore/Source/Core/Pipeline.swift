@@ -18,11 +18,11 @@ public struct Pipeline: Codable {
     /**
      * The arguments to invoke the action with.
      */
-    public let args: BsonDocument?
+    public let args: Document?
     /**
      * The expression to evaluate for use within the arguments via expansion.
      */
-    public let `let`: BsonDocument?
+    public let `let`: Document?
 
     // MARK: - Init
     /**
@@ -37,8 +37,8 @@ public struct Pipeline: Codable {
      */
     public init(action: String,
                 service: String? = nil,
-                args: BsonDocument? = nil,
-                `let`: BsonDocument? = nil) {
+                args: Document? = nil,
+                `let`: Document? = nil) {
         self.action = action
         self.service = service
         self.args = args

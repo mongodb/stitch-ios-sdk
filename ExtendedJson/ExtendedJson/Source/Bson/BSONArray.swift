@@ -5,19 +5,19 @@
 
 import Foundation
 
-public protocol BsonCollection {
+public protocol BSONCollection {
 }
-extension BsonCollection {
-    public func asArray() -> BsonArray {
-        return self as! BsonArray
+extension BSONCollection {
+    public func asArray() -> BSONArray {
+        return self as! BSONArray
     }
 
-    public func asDoc() -> BsonDocument {
-        return self as! BsonDocument
+    public func asDoc() -> Document {
+        return self as! Document
     }
 }
 
-public struct BsonArray: BsonCollection, Codable {
+public struct BSONArray: BSONCollection, Codable {
     private struct CodingKeys: CodingKey {
         var stringValue: String
 
@@ -53,7 +53,7 @@ public struct BsonArray: BsonCollection, Codable {
 
         try infoContainer.forEach { arg in
             let (key, value) = arg
-            self[key] = try BsonArray.decode(from: &container, decodingTypeString: value)
+            self[key] = try BSONArray.decode(from: &container, decodingTypeString: value)
         }
     }
 
@@ -62,7 +62,7 @@ public struct BsonArray: BsonCollection, Codable {
         var infoContainer = [Int: String]()
 
         let encoders = try (0..<self.count).map { index in
-            return try BsonArray.encodeUnkeyedContainer(sourceMap: &infoContainer,
+            return try BSONArray.encodeUnkeyedContainer(sourceMap: &infoContainer,
                                                         forKey: Int(index),
                                                         withValue: self[index])
         }
@@ -78,7 +78,7 @@ public struct BsonArray: BsonCollection, Codable {
 
     public init(array: [Any]) throws {
         underlyingArray = try array.map { (any) -> ExtendedJsonRepresentable in
-            return try BsonDocument.decodeXJson(value: any)
+            return try Document.decodeXJson(value: any)
         }
     }
 
@@ -96,7 +96,7 @@ public struct BsonArray: BsonCollection, Codable {
 
 // MARK: - Collection
 
-extension BsonArray: Collection {
+extension BSONArray: Collection {
 
     public typealias Index = Int
 
@@ -137,7 +137,7 @@ extension BsonArray: Collection {
 
 }
 
-extension BsonArray: ExpressibleByArrayLiteral {
+extension BSONArray: ExpressibleByArrayLiteral {
     public init(arrayLiteral elements: ExtendedJsonRepresentable...) {
         self.init()
         underlyingArray = elements

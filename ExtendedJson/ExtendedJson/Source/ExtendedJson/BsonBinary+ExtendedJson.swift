@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension BsonBinary: ExtendedJsonRepresentable {
+extension Binary: ExtendedJsonRepresentable {
     enum CodingKeys: String, CodingKey {
         case binary = "$binary", base64, subType
     }
@@ -20,7 +20,7 @@ extension BsonBinary: ExtendedJsonRepresentable {
             let typeInt = UInt8(fixedTypeString, radix: 16),
             let type = BsonBinarySubType(rawValue: typeInt) else {
                 throw BsonError.parseValueFailure(value: base64String,
-                                                  attemptedType: BsonBinary.self)
+                                                  attemptedType: Binary.self)
         }
 
         self.init(type: type, data: [UInt8](data))
@@ -32,10 +32,10 @@ extension BsonBinary: ExtendedJsonRepresentable {
             let base64String = binaryJson["base64"],
             let typeString = binaryJson["subType"],
             binaryJson.count == 2 else {
-                throw BsonError.parseValueFailure(value: xjson, attemptedType: BsonBinary.self)
+                throw BsonError.parseValueFailure(value: xjson, attemptedType: Binary.self)
         }
 
-        return try BsonBinary(typeString: typeString, base64String: base64String)
+        return try Binary(typeString: typeString, base64String: base64String)
     }
 
     public var toExtendedJson: Any {
@@ -79,7 +79,7 @@ extension BsonBinary: ExtendedJsonRepresentable {
             return true
         }
 
-        if let other = other as? BsonBinary {
+        if let other = other as? Binary {
             return _compare(b1: self.data, b2: other.data)
         } else if let other = other as? UUID {
             return _compare(b1: self.data, b2: other.toBsonBinary.data)

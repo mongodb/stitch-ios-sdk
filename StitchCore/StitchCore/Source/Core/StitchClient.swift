@@ -217,7 +217,7 @@ public class StitchClient: StitchClientType {
      - Returns: A task containing whether or not the login as successful
      */
     @discardableResult
-    public func anonymousAuth() -> StitchTask<AuthInfo> {
+    public func anonymousAuth() -> StitchTask<UserId> {
         return login(withProvider: AnonymousAuthProvider())
     }
 
@@ -230,12 +230,12 @@ public class StitchClient: StitchClientType {
      - Returns: A task containing whether or not the login as successful
      */
     @discardableResult
-    public func login(withProvider provider: AuthProvider) -> StitchTask<AuthInfo> {
+    public func login(withProvider provider: AuthProvider) -> StitchTask<UserId> {
         self.authProvider = provider
 
         if isAuthenticated, let auth = auth {
             printLog(.info, text: "Already logged in, using cached token.")
-            return StitchTask<AuthInfo>.withSuccess(auth.authInfo)
+            return StitchTask<UserId>.withSuccess(auth.userId)
         }
 
         return self.performRequest(method: .post,
@@ -250,7 +250,7 @@ public class StitchClient: StitchClientType {
                 }
 
                 strongSelf.auth = Auth(stitchClient: strongSelf, authInfo: authInfo)
-        }
+        }.then { return $0.userId }
     }
 
     /**
@@ -295,8 +295,8 @@ public class StitchClient: StitchClientType {
      * @return A {@link Document} representing the information for this device
      * from the context of this app.
      */
-    private func getDeviceInfo() -> BsonDocument {
-        var info = BsonDocument()
+    private func getDeviceInfo() -> Document {
+        var info = Document()
 
         if let deviceId = auth?.authInfo.deviceId {
             info[DeviceFields.deviceId.rawValue] = deviceId
@@ -315,9 +315,9 @@ public class StitchClient: StitchClientType {
      * -returns: A dict representing all information required for
      *              an auth request against a specific provider.
      */
-    private func getAuthRequest(provider: AuthProvider) -> BsonDocument {
+    private func getAuthRequest(provider: AuthProvider) -> Document {
         var request = provider.payload
-        let options: BsonDocument = [
+        let options: Document = [
             AuthFields.device.rawValue: getDeviceInfo()
         ]
     	request[AuthFields.options.rawValue] = options
@@ -334,7 +334,7 @@ public class StitchClient: StitchClientType {
      * of the execution.
      */
     @discardableResult
-    public func executePipeline(pipeline: Pipeline) -> StitchTask<BsonCollection> {
+    public func executePipeline(pipeline: Pipeline) -> StitchTask<BSONCollection> {
         return executePipeline(pipelines: [pipeline])
     }
 
@@ -346,19 +346,19 @@ public class StitchClient: StitchClientType {
      * of the execution.
      */
     @discardableResult
-    public func executePipeline(pipelines: [Pipeline]) -> StitchTask<BsonCollection> {
+    public func executePipeline(pipelines: [Pipeline]) -> StitchTask<BSONCollection> {
         return performRequest(method: NAHTTPMethod.post,
                               endpoint: Consts.PipelinePath,
                               parameters: pipelines,
-                              responseType: BsonDocument.self).response { task in
+                              responseType: Document.self).response { task in
             switch task.result {
             case .success(let document): task.result = .success(document)
             case .failure(let err): task.result = .failure(err)
             }
         }.then { doc in
             switch doc[Consts.ResultKey] {
-            case let val as BsonDocument: return val
-            case let val as BsonArray: return val
+            case let val as Document: return val
+            case let val as BSONArray: return val
             default: throw StitchError.responseParsingFailed(reason: "pipeline did not return valid bson")
             }
         }

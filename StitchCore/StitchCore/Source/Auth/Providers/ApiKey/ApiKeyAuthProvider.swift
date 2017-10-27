@@ -15,7 +15,7 @@ public struct ApiKeyAuthProvider: AuthProvider {
     public var type: String = "api"
     public var name: String = "key"
 
-    public var payload: BsonDocument {
+    public var payload: Document {
         return ["key": key]
     }
 

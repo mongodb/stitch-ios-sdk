@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension BsonDBPointer: ExtendedJsonRepresentable {
+extension DBPointer: ExtendedJsonRepresentable {
     enum CodingKeys: String, CodingKey {
         case dbPointer = "$dbPointer", ref = "$ref", oid = "$id"
     }
@@ -20,10 +20,10 @@ extension BsonDBPointer: ExtendedJsonRepresentable {
             let oid = dbPointer["$id"],
             let id = try ObjectId.fromExtendedJson(xjson: oid) as? ObjectId,
             dbPointer.count == 2 else {
-                throw BsonError.parseValueFailure(value: xjson, attemptedType: BsonDBPointer.self)
+                throw BsonError.parseValueFailure(value: xjson, attemptedType: DBPointer.self)
         }
 
-        return BsonDBPointer(ref: ref, id: id)
+        return DBPointer(ref: ref, id: id)
     }
 
     public var toExtendedJson: Any {
@@ -52,8 +52,8 @@ extension BsonDBPointer: ExtendedJsonRepresentable {
     }
     
     public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
-        return other is BsonDBPointer &&
-            (other as! BsonDBPointer).id == self.id &&
-            (other as! BsonDBPointer).ref == self.ref
+        return other is DBPointer &&
+            (other as! DBPointer).id == self.id &&
+            (other as! DBPointer).ref == self.ref
     }
 }

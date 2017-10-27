@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Date: Codable, ExtendedJsonRepresentable {
+extension Date: ExtendedJsonRepresentable {
     public static func fromExtendedJson(xjson: Any) throws -> ExtendedJsonRepresentable {
         guard let json = xjson as? [String: Any],
             let dateJson = json[ExtendedJsonKeys.date.rawValue] as? [String: String],

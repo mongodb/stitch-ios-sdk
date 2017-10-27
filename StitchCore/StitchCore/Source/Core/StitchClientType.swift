@@ -3,6 +3,7 @@ import ExtendedJson
 
 /// Protocol to lay out basic methods and fields for a StitchClient.
 public protocol StitchClientType {
+    typealias UserId = String
 
     // MARK: - Properties
     /// Id of this application
@@ -73,7 +74,7 @@ public protocol StitchClientType {
      - Returns: A task containing whether or not the login as successful
      */
     @discardableResult
-    func anonymousAuth() -> StitchTask<AuthInfo>
+    func anonymousAuth() -> StitchTask<UserId>
 
     /**
         Logs the current user in using a specific auth provider.
@@ -83,7 +84,7 @@ public protocol StitchClientType {
         - Returns: A task containing whether or not the login as successful
      */
     @discardableResult
-    func login(withProvider provider: AuthProvider) -> StitchTask<AuthInfo>
+    func login(withProvider provider: AuthProvider) -> StitchTask<UserId>
 
     /**
      * Logs out the current user.
@@ -103,7 +104,7 @@ public protocol StitchClientType {
      * of the execution.
      */
     @discardableResult
-    func executePipeline(pipeline: Pipeline) -> StitchTask<BsonCollection>
+    func executePipeline(pipeline: Pipeline) -> StitchTask<BSONCollection>
 
     /**
      * Executes a pipeline with the current app.
@@ -113,7 +114,7 @@ public protocol StitchClientType {
      * of the execution.
      */
     @discardableResult
-    func executePipeline(pipelines: [Pipeline]) -> StitchTask<BsonCollection>
+    func executePipeline(pipelines: [Pipeline]) -> StitchTask<BSONCollection>
 
     /**
         Adds a delegate for auth events.

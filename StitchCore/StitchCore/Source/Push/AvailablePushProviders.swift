@@ -32,14 +32,14 @@ public class AvailablePushProviders: Codable {
         -parameter json: The data returned from Stitch about the providers.
         -returns: A manifest of available push providers.
      */
-    static func fromQuery(doc: BsonDocument) throws -> AvailablePushProviders {
+    static func fromQuery(doc: Document) throws -> AvailablePushProviders {
         let builder: AvailablePushProvidersBuilder = { builder in
             try doc.forEach { configEntry in
-                guard let info = configEntry.value as? BsonDocument,
+                guard let info = configEntry.value as? Document,
                     let typename = info[PushProviderInfoFields.type.rawValue] as? String,
                     let providerName = PushProviderName.fromTypeName(typename: typename),
-                    let config = info[PushProviderInfoFields.config.rawValue] as? BsonDocument else {
-                    throw BsonError.parseValueFailure(value: configEntry, attemptedType: BsonDocument.self)
+                    let config = info[PushProviderInfoFields.config.rawValue] as? Document else {
+                    throw BsonError.parseValueFailure(value: configEntry, attemptedType: Document.self)
                 }
 
                 switch providerName {

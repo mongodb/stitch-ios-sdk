@@ -37,7 +37,7 @@ public struct Collection {
     }
 
     // MARK: - Private
-    private func createPipeline(action: String, options: BsonDocument? = nil) -> Pipeline {
+    private func createPipeline(action: String, options: Document? = nil) -> Pipeline {
         var args = options ?? [:]
         args[Consts.databaseKey] = database.name
         args[Consts.collectionKey] = name
@@ -48,10 +48,10 @@ public struct Collection {
 
     // MARK: - Public
     @discardableResult
-    public func find(query: BsonDocument,
-                     projection: BsonDocument? = nil,
-                     limit: Int? = nil) -> StitchTask<[BsonDocument]> {
-        var options: BsonDocument = [Consts.queryKey: query]
+    public func find(query: Document,
+                     projection: Document? = nil,
+                     limit: Int? = nil) -> StitchTask<[Document]> {
+        var options: Document = [Consts.queryKey: query]
         if let projection = projection {
             options[Consts.projectionKey] = projection
         }
@@ -64,9 +64,9 @@ public struct Collection {
                                                                                      options: options))
         .then {
             return try $0.asArray().map {
-                guard let doc = $0 as? BsonDocument else {
+                guard let doc = $0 as? Document else {
                     throw BsonError.parseValueFailure(value: $0,
-                                                      attemptedType: BsonDocument.self)
+                                                      attemptedType: Document.self)
                 }
                 return doc
             }
@@ -74,9 +74,9 @@ public struct Collection {
     }
 
     @discardableResult
-    public func updateOne(query: BsonDocument,
-                          update: BsonDocument,
-                          upsert: Bool = false) -> StitchTask<BsonDocument> {
+    public func updateOne(query: Document,
+                          update: Document,
+                          upsert: Bool = false) -> StitchTask<Document> {
         return database
             .client
             .stitchClient
@@ -85,9 +85,9 @@ public struct Collection {
                                                                 Consts.updateKey: update,
                                                                 Consts.upsertKey: upsert]
         )).then {
-            guard let doc = $0.asArray()[0] as? BsonDocument else {
+            guard let doc = $0.asArray()[0] as? Document else {
                 throw BsonError.parseValueFailure(value: $0.asArray(),
-                                                  attemptedType: BsonDocument.self)
+                                                  attemptedType: Document.self)
             }
 
             return doc
@@ -95,9 +95,9 @@ public struct Collection {
     }
 
     @discardableResult
-    public func updateMany(query: BsonDocument,
-                           update: BsonDocument,
-                           upsert: Bool = false) -> StitchTask<[BsonDocument]> {
+    public func updateMany(query: Document,
+                           update: Document,
+                           upsert: Bool = false) -> StitchTask<[Document]> {
         return database
             .client
             .stitchClient
@@ -107,9 +107,9 @@ public struct Collection {
                                                                 Consts.multiKey: true]))
         .then {
             return try $0.asArray().map {
-                guard let doc = $0 as? BsonDocument else {
+                guard let doc = $0 as? Document else {
                     throw BsonError.parseValueFailure(value: $0,
-                                                      attemptedType: BsonDocument.self)
+                                                      attemptedType: Document.self)
                 }
                 return doc
             }
@@ -117,14 +117,14 @@ public struct Collection {
     }
 
     @discardableResult
-    public func insertOne(document: BsonDocument) ->  StitchTask<BsonDocument> {
+    public func insertOne(document: Document) ->  StitchTask<Document> {
         return database.client.stitchClient.executePipeline(pipelines: [
             Pipeline(action: Consts.literalKey,
-                     args: [Consts.itemsKey: BsonArray(array: [document])]),
+                     args: [Consts.itemsKey: BSONArray(array: [document])]),
             createPipeline(action: Consts.insertKey) ]).then {
-                guard let doc = $0.asArray()[0] as? BsonDocument else {
+                guard let doc = $0.asArray()[0] as? Document else {
                     throw BsonError.parseValueFailure(value: $0.asArray(),
-                                                      attemptedType: BsonDocument.self)
+                                                      attemptedType: Document.self)
                 }
 
                 return doc
@@ -132,15 +132,15 @@ public struct Collection {
     }
 
     @discardableResult
-    public func insertMany(documents: [BsonDocument]) ->  StitchTask<[BsonDocument]> {
+    public func insertMany(documents: [Document]) ->  StitchTask<[Document]> {
         return database.client.stitchClient.executePipeline(pipelines: [
             Pipeline(action: Consts.literalKey,
-                     args: [Consts.itemsKey: BsonArray(array: documents)]),
+                     args: [Consts.itemsKey: BSONArray(array: documents)]),
             createPipeline(action: Consts.insertKey) ]).then {
                 return try $0.asArray().map {
-                    guard let doc = $0 as? BsonDocument else {
+                    guard let doc = $0 as? Document else {
                         throw BsonError.parseValueFailure(value: $0,
-                                                          attemptedType: BsonDocument.self)
+                                                          attemptedType: Document.self)
                     }
                     return doc
                 }
@@ -148,7 +148,7 @@ public struct Collection {
     }
 
     @discardableResult
-    public func deleteOne(query: BsonDocument) -> StitchTask<Int> {
+    public func deleteOne(query: Document) -> StitchTask<Int> {
         return database
             .client
             .stitchClient
@@ -156,17 +156,17 @@ public struct Collection {
                                                       options: [Consts.queryKey: query,
                                                                 Consts.singleDocKey: true]))
             .then {
-                guard let doc = $0.asArray()[0] as? BsonDocument,
+                guard let doc = $0.asArray()[0] as? Document,
                     let removed = doc["removed"] as? Double else {
                     throw BsonError.parseValueFailure(value: $0,
-                                                      attemptedType: BsonDocument.self)
+                                                      attemptedType: Document.self)
                 }
                 return Int(removed)
         }
     }
 
     @discardableResult
-    public func deleteMany(query: BsonDocument) -> StitchTask<Int64> {
+    public func deleteMany(query: Document) -> StitchTask<Int64> {
         return database
             .client
             .stitchClient
@@ -174,17 +174,17 @@ public struct Collection {
                                                       options: [Consts.queryKey: query,
                                                                 Consts.singleDocKey: false]))
             .then {
-                guard let doc = $0.asArray()[0] as? BsonDocument,
+                guard let doc = $0.asArray()[0] as? Document,
                     let removed = doc["removed"] as? Double else {
                         throw BsonError.parseValueFailure(value: $0,
-                                                          attemptedType: BsonDocument.self)
+                                                          attemptedType: Document.self)
                 }
                 return Int64(removed)
         }
     }
 
     @discardableResult
-    public func count(query: BsonDocument) -> StitchTask<Int> {
+    public func count(query: Document) -> StitchTask<Int> {
         return database
             .client
             .stitchClient
@@ -192,7 +192,7 @@ public struct Collection {
                                                       options: [Consts.queryKey: query,
                                                                 Consts.countKey: true])).then { result in
             guard let int = result.asArray().first as? Int32 else {
-                    throw StitchError.responseParsingFailed(reason: "failed converting result to documents array.")
+                throw StitchError.responseParsingFailed(reason: "failed converting result to documents array.")
             }
 
             return Int(int)
@@ -200,11 +200,11 @@ public struct Collection {
     }
 
     @discardableResult
-    public func aggregate(pipeline: [BsonDocument]) -> StitchTask<BsonCollection> {
+    public func aggregate(pipeline: [Document]) -> StitchTask<BSONCollection> {
         return database
             .client
             .stitchClient
             .executePipeline(pipeline: createPipeline(action: Consts.aggregateKey,
-                                                      options: [Consts.pipelineKey: BsonArray(array: pipeline)]))
+                                                      options: [Consts.pipelineKey: BSONArray(array: pipeline)]))
     }
 }

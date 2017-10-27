@@ -12,7 +12,7 @@ public struct GoogleAuthProvider: AuthProvider {
         return "google"
     }
     /// The JSON payload containing the authCode.
-    public var payload: BsonDocument {
+    public var payload: Document {
         return ["authCode": authCode]
     }
 

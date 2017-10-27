@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension BsonSymbol: ExtendedJsonRepresentable {
+extension Symbol: ExtendedJsonRepresentable {
     enum CodingKeys: String, CodingKey {
         case symbol = "$symbol"
     }
@@ -27,10 +27,10 @@ extension BsonSymbol: ExtendedJsonRepresentable {
         guard let json = xjson as? [String: Any],
             let symbol = json[ExtendedJsonKeys.symbol.rawValue] as? String,
             json.count == 1 else {
-                throw BsonError.parseValueFailure(value: xjson, attemptedType: BsonSymbol.self)
+                throw BsonError.parseValueFailure(value: xjson, attemptedType: Symbol.self)
         }
 
-        return BsonSymbol(symbol)
+        return Symbol(symbol)
     }
 
     public var toExtendedJson: Any {
@@ -38,6 +38,6 @@ extension BsonSymbol: ExtendedJsonRepresentable {
     }
 
     public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
-        return other is BsonSymbol && (other as! BsonSymbol).symbol == self.symbol
+        return other is Symbol && (other as! Symbol).symbol == self.symbol
     }
 }

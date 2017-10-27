@@ -25,7 +25,7 @@ public class BSONEncoder {
         static let shouldIncludeSourceMap = CodingUserInfoKey(rawValue: "withSourceMap")!
     }
 
-    public func encode(_ value: Encodable) throws -> BsonDocument {
+    public func encode(_ value: Encodable) throws -> Document {
         let encoder = _BSONEncoder()
         try value.encode(to: encoder)
 
@@ -67,15 +67,15 @@ public class BSONEncoder {
 
 fileprivate class _BSONEncoder : Encoder, _BSONCodingPathContaining {
     enum Target {
-        case document(BsonDocument)
+        case document(Document)
         case primitive(get: () -> ExtendedJsonRepresentable?,
                        set: (ExtendedJsonRepresentable?) -> ())
 
-        var document: BsonDocument {
+        var document: Document {
             get {
                 switch self {
                 case .document(let doc): return doc
-                case .primitive(let get, _): return get() as? BsonDocument ?? BsonDocument()
+                case .primitive(let get, _): return get() as? Document ?? Document()
                 }
             }
             set {
@@ -95,7 +95,7 @@ fileprivate class _BSONEncoder : Encoder, _BSONCodingPathContaining {
             }
             set {
                 switch self {
-                case .document: self = .document(newValue as! BsonDocument)
+                case .document: self = .document(newValue as! Document)
                 case .primitive(_, let set): set(newValue)
                 }
             }
@@ -235,7 +235,7 @@ fileprivate struct _BSONUnkeyedEncodingContainer : UnkeyedEncodingContainer {
 
     private func nestedEncoder() -> _BSONEncoder {
         let index = self.encoder.target.document.count
-        self.encoder.target.document[String(index)] = BsonDocument()
+        self.encoder.target.document[String(index)] = Document()
         return _BSONEncoder(codingPath: codingPath, target: .primitive(get: { self.encoder.target.document[String(index)] }, set: { self.encoder.target.document[String(index)] = $0 }))
     }
 
@@ -308,7 +308,7 @@ fileprivate struct _BSONSingleValueEncodingContainer : SingleValueEncodingContai
 
 public class BSONDecoder {
     public func decode<T : Decodable>(_ type: T.Type,
-                                      from document: BsonDocument) throws -> T {
+                                      from document: Document) throws -> T {
         let decoder = _BSONDecoder(target: .document(document))
         return try T(from: decoder)
     }
@@ -341,16 +341,16 @@ public class BSONDecoder {
 
 fileprivate class _BSONDecoder: Decoder, _BSONCodingPathContaining {
     enum Target {
-        case document(BsonDocument)
+        case document(Document)
         case primitive(get: () -> ExtendedJsonRepresentable?)
         case storedExtendedJsonRepresentable(ExtendedJsonRepresentable?)
 
-        var document: BsonDocument {
+        var document: Document {
             get {
                 switch self {
                 case .document(let doc): return doc
-                case .primitive(let get): return get() as? BsonDocument ?? BsonDocument()
-                case .storedExtendedJsonRepresentable(let val): return val as? BsonDocument ?? BsonDocument()
+                case .primitive(let get): return get() as? Document ?? Document()
+                case .storedExtendedJsonRepresentable(let val): return val as? Document ?? Document()
                 }
             }
         }
@@ -593,26 +593,26 @@ fileprivate class _BSONDecoder: Decoder, _BSONCodingPathContaining {
         }
 
         switch T.self {
-        case is BsonDocument.Type:
-            return try ExtendedJson.unwrap(unwrap(value), codingPath: codingPath) as BsonDocument as! T
-        case is BsonArray.Type:
-            return try ExtendedJson.unwrap(unwrap(value), codingPath: codingPath) as BsonArray as! T
+        case is Document.Type:
+            return try ExtendedJson.unwrap(unwrap(value), codingPath: codingPath) as Document as! T
+        case is BSONArray.Type:
+            return try ExtendedJson.unwrap(unwrap(value), codingPath: codingPath) as BSONArray as! T
         case is ObjectId.Type:
             return try ExtendedJson.unwrap(unwrap(value), codingPath: codingPath) as ObjectId as! T
-        case is BsonSymbol.Type:
-            return try ExtendedJson.unwrap(unwrap(value), codingPath: codingPath) as BsonSymbol as! T
-        case is BsonBinary.Type:
-            return try ExtendedJson.unwrap(unwrap(value), codingPath: codingPath) as BsonBinary as! T
-        case is BsonCode.Type:
-            return try ExtendedJson.unwrap(unwrap(value), codingPath: codingPath) as BsonCode as! T
-        case is BsonDBPointer.Type:
-            return try ExtendedJson.unwrap(unwrap(value), codingPath: codingPath) as BsonDBPointer as! T
-        case is BsonDBRef.Type:
-            return try ExtendedJson.unwrap(unwrap(value), codingPath: codingPath) as BsonDBRef as! T
-        case is BsonTimestamp.Type:
-            return try ExtendedJson.unwrap(unwrap(value), codingPath: codingPath) as BsonTimestamp as! T
-        case is BsonUndefined.Type:
-            return try ExtendedJson.unwrap(unwrap(value), codingPath: codingPath) as BsonUndefined as! T
+        case is Symbol.Type:
+            return try ExtendedJson.unwrap(unwrap(value), codingPath: codingPath) as Symbol as! T
+        case is Binary.Type:
+            return try ExtendedJson.unwrap(unwrap(value), codingPath: codingPath) as Binary as! T
+        case is Code.Type:
+            return try ExtendedJson.unwrap(unwrap(value), codingPath: codingPath) as Code as! T
+        case is DBPointer.Type:
+            return try ExtendedJson.unwrap(unwrap(value), codingPath: codingPath) as DBPointer as! T
+        case is DBRef.Type:
+            return try ExtendedJson.unwrap(unwrap(value), codingPath: codingPath) as DBRef as! T
+        case is Timestamp.Type:
+            return try ExtendedJson.unwrap(unwrap(value), codingPath: codingPath) as Timestamp as! T
+        case is Undefined.Type:
+            return try ExtendedJson.unwrap(unwrap(value), codingPath: codingPath) as Undefined as! T
         case is MaxKey.Type:
             return try ExtendedJson.unwrap(unwrap(value), codingPath: codingPath) as MaxKey as! T
         case is MinKey.Type:

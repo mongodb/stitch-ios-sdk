@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension BsonTimestamp: ExtendedJsonRepresentable {
+extension Timestamp: ExtendedJsonRepresentable {
     enum CodingKeys: String, CodingKey {
         case timestamp = "$timestamp", t, i
     }
@@ -18,10 +18,10 @@ extension BsonTimestamp: ExtendedJsonRepresentable {
             let timestamp = timestampJson["t"],
             let increment = timestampJson["i"],
             timestampJson.count == 2 else {
-                throw BsonError.parseValueFailure(value: xjson, attemptedType: BsonTimestamp.self)
+                throw BsonError.parseValueFailure(value: xjson, attemptedType: Timestamp.self)
         }
 
-        return BsonTimestamp(time: TimeInterval(timestamp), increment: Int(increment))
+        return Timestamp(time: TimeInterval(timestamp), increment: Int(increment))
     }
 
     public var toExtendedJson: Any {
@@ -52,7 +52,7 @@ extension BsonTimestamp: ExtendedJsonRepresentable {
     }
 
     public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
-        if let other = other as? BsonTimestamp {
+        if let other = other as? Timestamp {
             return self == other
         }
         return false

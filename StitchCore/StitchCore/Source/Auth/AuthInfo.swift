@@ -1,7 +1,7 @@
 import Foundation
 
 /// Auth represents the current authorization state of the client
-public struct AuthInfo: Codable {
+internal struct AuthInfo: Codable {
     enum CodingKeys: CodingKey {
         case accessToken, userId, deviceId, refreshToken
     }
@@ -14,10 +14,10 @@ public struct AuthInfo: Codable {
     let deviceId: String
 
     // The user this session was created for.
-    public let userId: String?
+    let userId: String
 
     // The refresh token to refresh an expired access token
-    public internal(set) var refreshToken: String
+    internal var refreshToken: String
 
     internal func auth(with updatedAccessToken: String) -> AuthInfo {
         return AuthInfo(accessToken: try? DecodedJWT(jwt: updatedAccessToken),

@@ -875,7 +875,7 @@ class EntityTests: XCTestCase {
 
             }
             set(newTeachers) {
-                self[EntityTests.teachers] = BsonArray(array: newTeachers)
+                self[EntityTests.teachers] = BSONArray(array: newTeachers)
             }
         }
 
@@ -890,7 +890,7 @@ class EntityTests: XCTestCase {
 
             }
             set(newLunchBox) {
-                self[EntityTests.lunchBox] = BsonArray(array: newLunchBox)
+                self[EntityTests.lunchBox] = BSONArray(array: newLunchBox)
             }
         }
 
@@ -1052,7 +1052,7 @@ class EntityTests: XCTestCase {
 
             do {
                 let resultDoc = try Document(extendedJson: update!.toExtendedJson as! [String: Any])
-                stitchTask.result = .success(BsonArray(array: [resultDoc]))
+                stitchTask.result = .success(BSONArray(array: [resultDoc]))
 
                 if expectedMethod == .update {
                     expectedInputBlock?(resultDoc)
@@ -1075,7 +1075,7 @@ class EntityTests: XCTestCase {
 
             do {
                 let resultDoc = try Document(extendedJson: doc.toExtendedJson as! [String: Any])
-                stitchTask.result = .success(BsonArray(array: [resultDoc]))
+                stitchTask.result = .success(BSONArray(array: [resultDoc]))
 
                 if expectedMethod == .insert {
                     expectedInputBlock?(resultDoc)
@@ -1097,7 +1097,7 @@ class EntityTests: XCTestCase {
         @discardableResult
         func delete(query: Document, singleDoc: Bool) -> StitchTask<Any> {
             let stitchTask = StitchTask<Any>()
-            stitchTask.result = .success(BsonArray(array: [query]))
+            stitchTask.result = .success(BSONArray(array: [query]))
 
             if expectedMethod == .delete {
                 expectedInputBlock?(query)

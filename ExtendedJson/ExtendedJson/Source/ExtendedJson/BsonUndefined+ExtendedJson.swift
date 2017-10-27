@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension BsonUndefined: ExtendedJsonRepresentable {
+extension Undefined: ExtendedJsonRepresentable {
     enum CodingKeys: String, CodingKey {
         case undefined = "$undefined"
     }
@@ -16,10 +16,10 @@ extension BsonUndefined: ExtendedJsonRepresentable {
         guard let json = xjson as? [String: Any],
             let undefined = json[ExtendedJsonKeys.undefined.rawValue] as? Bool,
             undefined else {
-                throw BsonError.parseValueFailure(value: xjson, attemptedType: BsonUndefined.self)
+                throw BsonError.parseValueFailure(value: xjson, attemptedType: Undefined.self)
         }
 
-        return BsonUndefined()
+        return Undefined()
     }
 
     public var toExtendedJson: Any {
@@ -43,7 +43,7 @@ extension BsonUndefined: ExtendedJsonRepresentable {
     }
 
     public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
-        if let other = other as? BsonUndefined {
+        if let other = other as? Undefined {
             return self == other
         }
         return false

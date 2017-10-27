@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension BsonCode: ExtendedJsonRepresentable {
+extension Code: ExtendedJsonRepresentable {
     enum CodingKeys: String, CodingKey {
         case code = "$code", scope = "$scope"
     }
@@ -16,15 +16,15 @@ extension BsonCode: ExtendedJsonRepresentable {
     public static func fromExtendedJson(xjson: Any) throws -> ExtendedJsonRepresentable {
         guard let json = xjson as? [String: Any],
             let code = json[ExtendedJsonKeys.code.rawValue] as? String else {
-                throw BsonError.parseValueFailure(value: xjson, attemptedType: BsonCode.self)
+                throw BsonError.parseValueFailure(value: xjson, attemptedType: Code.self)
         }
 
         if let scope = json["$scope"] {
-            return BsonCode(code: code,
-                            scope: try BsonDocument.fromExtendedJson(xjson: scope) as? BsonDocument)
+            return Code(code: code,
+                            scope: try Document.fromExtendedJson(xjson: scope) as? Document)
         }
 
-        return BsonCode(code: code, scope: nil)
+        return Code(code: code, scope: nil)
     }
 
     public var toExtendedJson: Any {
@@ -42,7 +42,7 @@ extension BsonCode: ExtendedJsonRepresentable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.init(code: try container.decode(String.self, forKey: CodingKeys.code),
-                  scope: try container.decodeIfPresent(BsonDocument.self, forKey: CodingKeys.scope))
+                  scope: try container.decodeIfPresent(Document.self, forKey: CodingKeys.scope))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -52,7 +52,7 @@ extension BsonCode: ExtendedJsonRepresentable {
     }
 
     public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
-        if let other = other as? BsonCode {
+        if let other = other as? Code {
             return self.code == other.code  && self.scope == other.scope
         }
 

@@ -9,9 +9,21 @@
 import Foundation
 
 public class Auth {
+    public let userId: String
+
+    internal var authInfo: AuthInfo
+
     private let stitchClient: StitchClient
 
-    public internal(set) var authInfo: AuthInfo
+    // Initializes new Auth resource
+    // - parameter stitchClient: associated stitch client
+    // - parameter authInfo: information about the logged in status
+    internal init(stitchClient: StitchClient,
+                  authInfo: AuthInfo) {
+        self.stitchClient = stitchClient
+        self.authInfo = authInfo
+        self.userId = authInfo.userId
+    }
 
     public func createApiKey(name: String) -> StitchTask<ApiKey> {
         return stitchClient.performRequest(method: .post,
@@ -75,11 +87,6 @@ public class Auth {
                                            useRefreshToken: false,
                                            responseType: UserProfile.self)
             .response(onQueue: DispatchQueue.global(qos: .utility)) { _ in }
-    }
-
-    internal init(stitchClient: StitchClient, authInfo: AuthInfo) {
-        self.stitchClient = stitchClient
-        self.authInfo = authInfo
     }
 
     /**

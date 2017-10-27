@@ -9,5 +9,5 @@ public struct AnonymousAuthProvider: AuthProvider {
     public let name: String = "user"
 
     /// The JSON payload containing authentication material.
-    public var payload: BsonDocument = [:]
+    public var payload: Document = [:]
 }

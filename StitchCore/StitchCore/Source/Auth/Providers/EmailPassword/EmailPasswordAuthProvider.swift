@@ -14,7 +14,7 @@ public struct EmailPasswordAuthProvider: AuthProvider {
     }
 
     /// The JSON payload containing the username and password.
-    public var payload: BsonDocument {
+    public var payload: Document {
         return ["username": username,
                 "password": password]
     }

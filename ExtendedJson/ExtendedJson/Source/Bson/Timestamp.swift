@@ -5,7 +5,7 @@
 
 import Foundation
 
-public struct BsonTimestamp {
+public struct Timestamp {
 
     public private(set) var time: Date
     public private(set) var increment: Int
@@ -23,8 +23,8 @@ public struct BsonTimestamp {
 
 // MARK: - Equatable
 
-extension BsonTimestamp: Equatable {
-    public static func ==(lhs: BsonTimestamp, rhs: BsonTimestamp) -> Bool {
+extension Timestamp: Equatable {
+    public static func ==(lhs: Timestamp, rhs: Timestamp) -> Bool {
         return UInt64(lhs.time.timeIntervalSince1970) == UInt64(rhs.time.timeIntervalSince1970)
     }
 }

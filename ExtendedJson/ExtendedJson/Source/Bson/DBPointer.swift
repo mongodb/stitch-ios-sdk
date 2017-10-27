@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct BsonDBPointer {
+public struct DBPointer {
     let ref: String
     let id: ObjectId
 

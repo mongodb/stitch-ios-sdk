@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct BsonDBRef {
+public struct DBRef {
     let ref: String
     let id: ObjectId
     let db: String?

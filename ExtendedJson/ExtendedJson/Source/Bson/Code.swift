@@ -8,11 +8,11 @@
 
 import Foundation
 
-public struct BsonCode {
+public struct Code {
     let code: String
-    let scope: BsonDocument?
+    let scope: Document?
 
-    public init(code: String, scope: BsonDocument? = nil) {
+    public init(code: String, scope: Document? = nil) {
         self.code = code
         self.scope = scope
     }

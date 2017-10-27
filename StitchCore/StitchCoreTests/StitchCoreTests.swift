@@ -47,34 +47,34 @@ class StitchCoreTests: XCTestCase {
                                        serviceName: "mongodb-atlas")
             .database(named: "todo").collection(named: "items")
 
-        stitchClient.anonymousAuth().then { (_: AuthInfo) -> StitchTask<Int> in
-            return collection.count(query: BsonDocument())
-        }.then { (docs: Int) -> StitchTask<BsonDocument> in
+        stitchClient.anonymousAuth().then { (_: String) -> StitchTask<Int> in
+            return collection.count(query: Document())
+        }.then { (docs: Int) -> StitchTask<Document> in
             print(docs)
             return collection.insertOne(document: ["bill": "jones",
                                                    "owner_id": self.stitchClient.auth?.authInfo.userId ?? "0"])
-        }.then { (insertOne: BsonDocument) -> StitchTask<Int> in
+        }.then { (insertOne: Document) -> StitchTask<Int> in
             XCTAssert(insertOne["bill"] as? String == "jones")
             return collection.count(query: [:])
-        }.then { (count: Int) -> StitchTask<[BsonDocument]> in
+        }.then { (count: Int) -> StitchTask<[Document]> in
             XCTAssert(count == 1)
             return collection.insertMany(documents: [["bill": "jones",
                                                      "owner_id": self.stitchClient.auth?.authInfo.userId ?? "0"],
                                                      ["bill": "jones",
                                                       "owner_id": self.stitchClient.auth?.authInfo.userId ?? "0"]])
-        }.then { (_: [BsonDocument]) -> StitchTask<[BsonDocument]> in
+        }.then { (_: [Document]) -> StitchTask<[Document]> in
             return collection.find(query: ["owner_id": self.stitchClient.auth?.authInfo.userId ?? "0"])
-        }.then { (coll: [BsonDocument]) -> StitchTask<BsonDocument> in
+        }.then { (coll: [Document]) -> StitchTask<Document> in
             XCTAssert(coll.count == 3)
             return collection.updateOne(query: ["owner_id": self.stitchClient.auth?.authInfo.userId ?? "0"],
                                         update: ["owner_id": self.stitchClient.auth?.authInfo.userId ?? "0",
                                                  "bill": "thompson"])
-        }.then { (result: BsonDocument) -> StitchTask<[BsonDocument]> in
+        }.then { (result: Document) -> StitchTask<[Document]> in
             XCTAssert(result["bill"] as? String == "thompson")
             return collection.updateMany(query: ["owner_id": self.stitchClient.auth?.authInfo.userId ?? "0"],
                                         update: ["owner_id": self.stitchClient.auth?.authInfo.userId ?? "0",
                                                  "bill": "jackson"])
-        }.then { (result: [BsonDocument]) -> StitchTask<Int> in
+        }.then { (result: [Document]) -> StitchTask<Int> in
             XCTAssert(result.count == 3)
             return collection.deleteOne(query: ["owner_id": self.stitchClient.auth?.authInfo.userId ?? "0"])
         }.then { (result: Int) -> StitchTask<Int64> in
@@ -103,29 +103,28 @@ class StitchCoreTests: XCTestCase {
             "405021717222-8n19u6ij79kheu4lsaeekfh9b1dng7b7.apps.googleusercontent.com")
             XCTAssert(auths.googleProviderInfo?.scopes?.contains("profile") ?? false)
             XCTAssert(auths.googleProviderInfo?.scopes?.contains("email") ?? false)
-        }.then { _ -> StitchTask<AuthInfo> in
+        }.then { _ -> StitchTask<String> in
             return self.stitchClient.login(withProvider: EmailPasswordAuthProvider(username: "stitch@mongodb.com",
                                                                                    password: "stitchuser"))
-        }.then { (authInfo: AuthInfo) in
-            XCTAssert(authInfo.userId == "59ee23094fdd1fa1da3d1057")
-            XCTAssertNotNil(authInfo.accessToken)
-        }.then { _ -> StitchTask<BsonCollection> in
+        }.then { (userId: String) in
+            XCTAssert(userId == "59ee23094fdd1fa1da3d1057")
+        }.then { _ -> StitchTask<BSONCollection> in
             return self.stitchClient.executePipeline(
                 pipeline: Pipeline(action: "literal",
                                    args: ["items": [
-                                    [ "type": "apples", "qty": 25 ] as BsonDocument,
-                                    [ "type": "oranges", "qty": 50 ] as BsonDocument
-                                    ] as BsonArray]))
-        }.then { (result: BsonCollection) in
-            let expectedResult: BsonArray = [
+                                    [ "type": "apples", "qty": 25 ] as Document,
+                                    [ "type": "oranges", "qty": 50 ] as Document
+                                    ] as BSONArray]))
+        }.then { (result: BSONCollection) in
+            let expectedResult: BSONArray = [
                 [
                     "type": "apples",
                     "qty": Double(25)
-                ] as BsonDocument,
+                ] as Document,
                 [
                     "type": "oranges",
                     "qty": Double(50)
-                ] as BsonDocument
+                ] as Document
             ]
 
             XCTAssert(result.asArray().isEqual(toOther: expectedResult))
@@ -170,41 +169,47 @@ class StitchCoreTests: XCTestCase {
                 AuthInfo.self,
                 from: JSONSerialization.data(withJSONObject: ["accessToken": testUnexpiredAccessToken,
                                                               "deviceId": "0",
-                                                              "refreshToken": "0"]))
+                                                              "refreshToken": "0",
+                                                              "userId": "0"]))
             XCTAssertFalse(authObj.isAccessTokenExpired()!)
 
             authObj = try JSONDecoder().decode(
                 AuthInfo.self,
                 from: JSONSerialization.data(withJSONObject: ["accessToken": testExpiredAccessToken,
                                                               "deviceId": "0",
-                                                              "refreshToken": "0"]))
+                                                              "refreshToken": "0",
+                                                              "userId": "0"]))
             XCTAssertTrue(authObj.isAccessTokenExpired()!)
 
             authObj = try JSONDecoder().decode(
                 AuthInfo.self,
                 from: JSONSerialization.data(withJSONObject: ["accessToken": nanToken,
                                                               "deviceId": "0",
-                                                              "refreshToken": "0"]))
+                                                              "refreshToken": "0",
+                                                              "userId": "0"]))
             XCTAssertNil(authObj.isAccessTokenExpired())
 
             authObj = try JSONDecoder().decode(
                 AuthInfo.self,
                 from: JSONSerialization.data(withJSONObject: ["accessToken": noExpToken,
                                                               "deviceId": "0",
-                                                              "refreshToken": "0"]))
+                                                              "refreshToken": "0",
+                                                              "userId": "0"]))
             XCTAssertNil(authObj.isAccessTokenExpired())
 
             XCTAssertThrowsError(try JSONDecoder().decode(
                 AuthInfo.self,
                 from: JSONSerialization.data(withJSONObject: ["accessToken": malformedToken1,
                                                               "deviceId": "0",
-                                                              "refreshToken": "0"])))
+                                                              "refreshToken": "0",
+                                                              "userId": "0"])))
 
             XCTAssertThrowsError(try JSONDecoder().decode(
                 AuthInfo.self,
                 from: JSONSerialization.data(withJSONObject: ["accessToken": malformedToken2,
                                                               "deviceId": "0",
-                                                              "refreshToken": "0"])))
+                                                              "refreshToken": "0",
+                                                              "userId": "0"])))
         } catch let error {
             XCTFail("Could not create Auth object to test token expiration check: \(error)")
         }

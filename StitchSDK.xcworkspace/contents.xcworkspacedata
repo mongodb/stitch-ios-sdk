@@ -11,10 +11,10 @@
       location = "group:StitchCore/StitchCore.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:MongoDBODM/MongoDBODM.xcodeproj">
+      location = "group:MongoDBService/MongoDBService.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:MongoDBService/MongoDBService.xcodeproj">
+      location = "group:MongoDBODM/MongoDBODM.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:StitchGCM/StitchGCM.xcodeproj">

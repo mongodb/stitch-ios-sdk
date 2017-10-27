@@ -11,7 +11,7 @@ public protocol AuthProvider {
     /// The name of this provider.
     var name: String {get}
     /// The JSON payload containing authentication material.
-    var payload: BsonDocument {get}
+    var payload: Document {get}
 }
 
 /// Provider enum representing current state of `AuthProvider`s.

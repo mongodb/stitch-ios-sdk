@@ -8,10 +8,10 @@
 
 import Foundation
 
-extension BsonDBRef: Codable, ExtendedJsonRepresentable {
+extension DBRef: Codable, ExtendedJsonRepresentable {
     private struct CodingKeys: CodingKey, Hashable {
-        static func ==(lhs: BsonDBRef.CodingKeys,
-                       rhs: BsonDBRef.CodingKeys) -> Bool {
+        static func ==(lhs: DBRef.CodingKeys,
+                       rhs: DBRef.CodingKeys) -> Bool {
             return lhs.stringValue == rhs.stringValue
         }
 
@@ -38,15 +38,15 @@ extension BsonDBRef: Codable, ExtendedJsonRepresentable {
             let ref = json[ExtendedJsonKeys.dbRef.rawValue] as? String,
             let idKey = json["$id"],
             let id = try ObjectId.fromExtendedJson(xjson: idKey) as? ObjectId else {
-                throw BsonError.parseValueFailure(value: xjson, attemptedType: BsonDBRef.self)
+                throw BsonError.parseValueFailure(value: xjson, attemptedType: DBRef.self)
         }
 
-        return BsonDBRef(ref: ref,
+        return DBRef(ref: ref,
                          id: id,
                          db: json["$db"] as? String,
                          otherFields: try json.filter {
                             !$0.key.contains("$")
-                        }.mapValues { try BsonDBRef.decodeXJson(value: $0) })
+                        }.mapValues { try DBRef.decodeXJson(value: $0) })
     }
 
     public var toExtendedJson: Any {
@@ -79,7 +79,7 @@ extension BsonDBRef: Codable, ExtendedJsonRepresentable {
         ).symmetricDifference(container.allKeys)
 
         self.otherFields = try otherFieldKeys.reduce(into: [String: ExtendedJsonRepresentable]()) { (result: inout [String: ExtendedJsonRepresentable], key: CodingKeys) throws in
-            result[key.stringValue] = try BsonDBRef.decode(from: container,
+            result[key.stringValue] = try DBRef.decode(from: container,
                                                            decodingTypeString: sourceMap[key.stringValue]!,
                                                            forKey: key)
         }
@@ -94,7 +94,7 @@ extension BsonDBRef: Codable, ExtendedJsonRepresentable {
         var sourceMap = [String: String]()
         try otherFields.forEach {
             let (k, v) = $0
-            try BsonDBRef.encodeKeyedContainer(to: &container,
+            try DBRef.encodeKeyedContainer(to: &container,
                                                sourceMap: &sourceMap,
                                                forKey: CodingKeys(stringValue: k)!,
                                                withValue: v)
@@ -104,7 +104,7 @@ extension BsonDBRef: Codable, ExtendedJsonRepresentable {
     }
 
     public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
-        if let other = other as? BsonDBRef {
+        if let other = other as? DBRef {
             return other.id == self.id
         }
 

@@ -15,22 +15,22 @@ class MongoDBServiceTests: XCTestCase {
     static let collectionName = "collection"
 
     static let hexString = "1234567890abcdef12345678"
-    static let testNumber = 42
+    static let testNumber = Int32(42)
 
-    static var testResultDocument: BsonDocument {
-        var doc = BsonDocument()
+    static var testResultDocument: Document {
+        var doc = Document()
         doc["_id"] = try! ObjectId(hexString: MongoDBServiceTests.hexString)
         doc["name"] = "name"
         doc["age"] = testNumber
         return doc
     }
 
-    static var response: [BsonDocument] {
+    static var response: BSONCollection {
         var extendedJsonRepresentableArray: [ExtendedJsonRepresentable] = []
         extendedJsonRepresentableArray.append(MongoDBServiceTests.testResultDocument)
         extendedJsonRepresentableArray.append(MongoDBServiceTests.testResultDocument)
         extendedJsonRepresentableArray.append(MongoDBServiceTests.testResultDocument)
-        return BsonArray(array: extendedJsonRepresentableArray).map { $0 as! BsonDocument }
+        return BSONArray(array: extendedJsonRepresentableArray)
     }
 
     override func setUp() {
@@ -48,11 +48,11 @@ class MongoDBServiceTests: XCTestCase {
                       serviceName: MongoDBServiceTests.serviceName)
             .database(named: MongoDBServiceTests.dbName)
             .collection(named: MongoDBServiceTests.collectionName)
-            .find(query: try BsonDocument(key: "owner_id",
+            .find(query: try Document(key: "owner_id",
                                           value: try! ObjectId(hexString: MongoDBServiceTests.hexString))).response { (result) in
             switch result.result {
             case .success(let documents):
-                XCTAssertEqual(documents.count, (MongoDBServiceTests.response).count)
+                XCTAssertEqual(documents.count, (MongoDBServiceTests.response).asArray().count)
                 XCTAssertEqual(documents[0]["_id"] as! ObjectId,
                                MongoDBServiceTests.testResultDocument["_id"] as! ObjectId)
                 XCTAssertEqual(documents[0]["name"] as! String,
@@ -76,9 +76,9 @@ class MongoDBServiceTests: XCTestCase {
                       serviceName: MongoDBServiceTests.serviceName)
             .database(named: MongoDBServiceTests.dbName)
             .collection(named: MongoDBServiceTests.collectionName)
-            .updateOne(query: BsonDocument(key: "owner_id",
+            .updateOne(query: Document(key: "owner_id",
                                            value: try! ObjectId(hexString: MongoDBServiceTests.hexString)),
-                       update: BsonDocument(key: "owner_id",
+                       update: Document(key: "owner_id",
                                             value: try! ObjectId(hexString: MongoDBServiceTests.hexString)))
     }
 
@@ -105,7 +105,7 @@ class MongoDBServiceTests: XCTestCase {
                       serviceName: MongoDBServiceTests.serviceName)
             .database(named: MongoDBServiceTests.dbName)
             .collection(named: MongoDBServiceTests.collectionName)
-            .deleteOne(query: try BsonDocument(key: "owner_id", value: try! ObjectId(hexString: MongoDBServiceTests.hexString)))
+            .deleteOne(query: try Document(key: "owner_id", value: try! ObjectId(hexString: MongoDBServiceTests.hexString)))
     }
 
     func testDeleteMultiple() throws {
@@ -113,13 +113,13 @@ class MongoDBServiceTests: XCTestCase {
                       serviceName: MongoDBServiceTests.serviceName)
             .database(named: MongoDBServiceTests.dbName)
             .collection(named: MongoDBServiceTests.collectionName)
-            .deleteMany(query: try BsonDocument(key: "owner_id", value: try! ObjectId(hexString: MongoDBServiceTests.hexString)))
+            .deleteMany(query: try Document(key: "owner_id", value: try! ObjectId(hexString: MongoDBServiceTests.hexString)))
     }
 
     func testAggregate() throws {
-        let queryDocument = try BsonDocument(key: "owner_id",
+        let queryDocument = try Document(key: "owner_id",
                                              value: try! ObjectId(hexString: MongoDBServiceTests.hexString))
-        let aggregationPipelineDocument = try BsonDocument(key: "$match", value: queryDocument)
+        let aggregationPipelineDocument = try Document(key: "$match", value: queryDocument)
 
         MongoDBClient(stitchClient: TestAggregateStitchClient(), serviceName: MongoDBServiceTests.serviceName).database(named: MongoDBServiceTests.dbName).collection(named: MongoDBServiceTests.collectionName).aggregate(pipeline: [aggregationPipelineDocument])
     }
@@ -131,11 +131,11 @@ class MongoDBServiceTests: XCTestCase {
                       serviceName: MongoDBServiceTests.serviceName)
             .database(named: MongoDBServiceTests.dbName)
             .collection(named: MongoDBServiceTests.collectionName)
-            .count(query: BsonDocument(key: "owner_id",
-                                       value: try! ObjectId(hexString: MongoDBServiceTests.hexString))).response { (result) in
+            .count(query: Document(key: "owner_id",
+                                   value: try! ObjectId(hexString: MongoDBServiceTests.hexString))).response { (result) in
             switch result.result {
             case .success(let number):
-                XCTAssertEqual(number, MongoDBServiceTests.testNumber)
+                XCTAssertEqual(number, Int(MongoDBServiceTests.testNumber))
                 break
             case .failure(let error):
                 XCTFail(error.localizedDescription)
@@ -159,12 +159,12 @@ class MongoDBServiceTests: XCTestCase {
         }
 
         @discardableResult
-        override func executePipeline(pipeline: Pipeline) -> StitchTask<[BsonDocument]> {
+        override func executePipeline(pipeline: Pipeline) -> StitchTask<BSONCollection> {
             return executePipeline(pipelines: [pipeline])
         }
 
         @discardableResult
-        override func executePipeline(pipelines: [Pipeline]) -> StitchTask<[BsonDocument]> {
+        override func executePipeline(pipelines: [Pipeline]) -> StitchTask<BSONCollection> {
 
             var foundFindAction = false
 
@@ -180,7 +180,7 @@ class MongoDBServiceTests: XCTestCase {
                     XCTAssertEqual(pipeline.args?["collection"] as! String, collectionName)
 
                     XCTAssertNotNil(pipeline.args?["query"])
-                    XCTAssertEqual((pipeline.args?["query"] as! BsonDocument)["owner_id"] as! ObjectId, try ObjectId(hexString: hexString))
+                    XCTAssertEqual((pipeline.args?["query"] as! Document)["owner_id"] as! ObjectId, try ObjectId(hexString: hexString))
 
                     if isCount {
                         XCTAssertNotNil(pipeline.args?["count"])
@@ -192,9 +192,9 @@ class MongoDBServiceTests: XCTestCase {
 
             XCTAssertTrue(foundFindAction, "one of the pipelines must have a `find` action.")
 
-            let task = StitchTask<[BsonDocument]>()
+            let task = StitchTask<BSONCollection>()
             if isCount {
-                task.result = .success([BsonDocument(key: "count", value: testNumber)])
+                task.result = .success(BSONArray(array: [testNumber]))
             } else {
                 task.result = .success(response)
             }
@@ -204,12 +204,12 @@ class MongoDBServiceTests: XCTestCase {
 
     class TestUpdateStitchClient: BaseTestStitchClient {
         @discardableResult
-        override func executePipeline(pipeline: Pipeline) -> StitchTask<[BsonDocument]> {
+        override func executePipeline(pipeline: Pipeline) -> StitchTask<BSONCollection> {
             return executePipeline(pipelines: [pipeline])
         }
 
         @discardableResult
-        override func executePipeline(pipelines: [Pipeline]) -> StitchTask<[BsonDocument]> {
+        override func executePipeline(pipelines: [Pipeline]) -> StitchTask<BSONCollection> {
 
             var foundUpdateAction = false
 
@@ -225,7 +225,7 @@ class MongoDBServiceTests: XCTestCase {
                     XCTAssertEqual(pipeline.args?["collection"] as! String, collectionName)
 
                     XCTAssertNotNil(pipeline.args?["query"])
-                    XCTAssertEqual((pipeline.args?["query"] as! BsonDocument)["owner_id"] as! ObjectId, try ObjectId(hexString: hexString))
+                    XCTAssertEqual((pipeline.args?["query"] as! Document)["owner_id"] as! ObjectId, try ObjectId(hexString: hexString))
 
                     XCTAssertNotNil(pipeline.args?["upsert"])
                 }
@@ -234,7 +234,7 @@ class MongoDBServiceTests: XCTestCase {
 
             XCTAssertTrue(foundUpdateAction, "one of the pipelines must have an `update` action.")
 
-            let task = StitchTask<[BsonDocument]>()
+            let task = StitchTask<BSONCollection>()
             task.result = .success(response)
             return task
         }
@@ -242,12 +242,12 @@ class MongoDBServiceTests: XCTestCase {
 
     class TestInsertStitchClient: BaseTestStitchClient {
         @discardableResult
-        override func executePipeline(pipeline: Pipeline) -> StitchTask<[BsonDocument]> {
+        override func executePipeline(pipeline: Pipeline) -> StitchTask<BSONCollection> {
             return executePipeline(pipelines: [pipeline])
         }
 
         @discardableResult
-        override func executePipeline(pipelines: [Pipeline]) -> StitchTask<[BsonDocument]> {
+        override func executePipeline(pipelines: [Pipeline]) -> StitchTask<BSONCollection> {
 
             var foundInsertAction = false
             var foundLiteralAction = false
@@ -275,7 +275,7 @@ class MongoDBServiceTests: XCTestCase {
             XCTAssertTrue(foundInsertAction, "one of the pipelines must have an `insert` action.")
             XCTAssertTrue(foundLiteralAction, "one of the pipelines must have an `literal` action.")
 
-            let task = StitchTask<[BsonDocument]>()
+            let task = StitchTask<BSONCollection>()
             task.result = .success(response)
             return task
         }
@@ -290,12 +290,12 @@ class MongoDBServiceTests: XCTestCase {
         }
 
         @discardableResult
-        override func executePipeline(pipeline: Pipeline) -> StitchTask<[BsonDocument]> {
+        override func executePipeline(pipeline: Pipeline) -> StitchTask<BSONCollection> {
             return executePipeline(pipelines: [pipeline])
         }
 
         @discardableResult
-        override func executePipeline(pipelines: [Pipeline]) -> StitchTask<[BsonDocument]> {
+        override func executePipeline(pipelines: [Pipeline]) -> StitchTask<BSONCollection> {
 
             var foundDeleteAction = false
 
@@ -311,7 +311,7 @@ class MongoDBServiceTests: XCTestCase {
                     XCTAssertEqual(pipeline.args?["collection"] as! String, collectionName)
 
                     XCTAssertNotNil(pipeline.args?["query"])
-                    XCTAssertEqual((pipeline.args?["query"] as! BsonDocument)["owner_id"] as! ObjectId, try ObjectId(hexString: hexString))
+                    XCTAssertEqual((pipeline.args?["query"] as! Document)["owner_id"] as! ObjectId, try ObjectId(hexString: hexString))
 
                     XCTAssertNotNil(pipeline.args?["singleDoc"])
                     XCTAssertEqual(pipeline.args?["singleDoc"] as! Bool, isSingle)
@@ -320,7 +320,7 @@ class MongoDBServiceTests: XCTestCase {
 
             XCTAssertTrue(foundDeleteAction, "one of the pipelines must have an `delete` action.")
 
-            let task = StitchTask<[BsonDocument]>()
+            let task = StitchTask<BSONCollection>()
             task.result = .success(response)
             return task
         }
@@ -329,12 +329,12 @@ class MongoDBServiceTests: XCTestCase {
     class TestAggregateStitchClient: BaseTestStitchClient {
 
         @discardableResult
-        override func executePipeline(pipeline: Pipeline) -> StitchTask<[BsonDocument]> {
+        override func executePipeline(pipeline: Pipeline) -> StitchTask<BSONCollection> {
             return executePipeline(pipelines: [pipeline])
         }
 
         @discardableResult
-        override func executePipeline(pipelines: [Pipeline]) -> StitchTask<[BsonDocument]> {
+        override func executePipeline(pipelines: [Pipeline]) -> StitchTask<BSONCollection> {
 
             var foundAggregateAction = false
 
@@ -350,9 +350,9 @@ class MongoDBServiceTests: XCTestCase {
                     XCTAssertEqual(pipeline.args?["collection"] as! String, collectionName)
 
                     XCTAssertNotNil(pipeline.args?["pipeline"])
-                    let pipelineBsonArray = pipeline.args?["pipeline"] as? BsonArray
-                    let pipelineFirstElement = pipelineBsonArray?[0] as? BsonDocument
-                    let matchDocument = pipelineFirstElement?["$match"] as? BsonDocument
+                    let pipelineBsonArray = pipeline.args?["pipeline"] as? BSONArray
+                    let pipelineFirstElement = pipelineBsonArray?[0] as? Document
+                    let matchDocument = pipelineFirstElement?["$match"] as? Document
                     let ownerId = matchDocument?["owner_id"] as? ObjectId
                     XCTAssertEqual(ownerId, try ObjectId(hexString: hexString))
                 }
@@ -360,7 +360,7 @@ class MongoDBServiceTests: XCTestCase {
 
             XCTAssertTrue(foundAggregateAction, "one of the pipelines must have an `aggregate` action.")
 
-            let task = StitchTask<[BsonDocument]>()
+            let task = StitchTask<BSONCollection>()
             task.result = .success(response)
             return task
         }
@@ -395,24 +395,24 @@ class MongoDBServiceTests: XCTestCase {
             return StitchTask<Void>()
         }
 
-        func anonymousAuth() -> StitchTask<AuthInfo> {
-            return StitchTask<AuthInfo>()
+        func anonymousAuth() -> StitchTask<String> {
+            return StitchTask<String>()
         }
 
-        func login(withProvider provider: AuthProvider) -> StitchTask<AuthInfo> {
-            return StitchTask<AuthInfo>()
+        func login(withProvider provider: AuthProvider) -> StitchTask<String> {
+            return StitchTask<String>()
         }
 
         func logout() -> StitchTask<Void> {
             return StitchTask<Void>()
         }
 
-        func executePipeline(pipeline: Pipeline) -> StitchTask<[BsonDocument]> {
-            return StitchTask<[BsonDocument]>()
+        func executePipeline(pipeline: Pipeline) -> StitchTask<BSONCollection> {
+            return StitchTask<BSONCollection>()
         }
 
-        func executePipeline(pipelines: [Pipeline]) -> StitchTask<[BsonDocument]> {
-            return StitchTask<[BsonDocument]>()
+        func executePipeline(pipelines: [Pipeline]) -> StitchTask<BSONCollection> {
+            return StitchTask<BSONCollection>()
         }
 
 

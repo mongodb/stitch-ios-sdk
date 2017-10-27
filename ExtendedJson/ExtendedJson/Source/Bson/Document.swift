@@ -5,7 +5,7 @@
 
 import Foundation
 
-public struct BsonDocument: BsonCollection, Codable, Collection {
+public struct Document: BSONCollection, Codable, Collection {
     public typealias Element = (key: String, value: ExtendedJsonRepresentable)
 
     fileprivate var storage: [String: ExtendedJsonRepresentable] = [:]
@@ -30,16 +30,16 @@ public struct BsonDocument: BsonCollection, Codable, Collection {
 
     public init(extendedJson json: [String: Any?]) throws {
         for (key, value) in json {
-            self[key] = try BsonDocument.decodeXJson(value: value)
+            self[key] = try Document.decodeXJson(value: value)
             orderedKeys.append(key)
         }
     }
 
-    public func index(after i: Dictionary<BsonDocument.Key, BsonDocument.Value>.Index) -> Dictionary<BsonDocument.Key, BsonDocument.Value>.Index {
+    public func index(after i: Dictionary<Document.Key, Document.Value>.Index) -> Dictionary<Document.Key, Document.Value>.Index {
         return self.storage.index(after: i)
     }
 
-    public subscript(position: Dictionary<String, BsonDocument.Value>.Index) -> (key: String, value: ExtendedJsonRepresentable) {
+    public subscript(position: Dictionary<String, Document.Value>.Index) -> (key: String, value: ExtendedJsonRepresentable) {
         return self.storage[position]
     }
 
@@ -56,13 +56,13 @@ public struct BsonDocument: BsonCollection, Codable, Collection {
 
         guard let sourceMap = try? container.decode([String: String].self,
                                                     forKey: ExtendedJsonCodingKeys.info) else {
-            throw BsonError<BsonDocument>.illegalArgument(
+            throw BsonError<Document>.illegalArgument(
                 message: "decoder of type \(decoder) did enough information to map out a new bson document")
         }
 
         try sourceMap.forEach { (arg) throws in
             let (key, value) = arg
-            self[key] = try BsonDocument.decode(from: container,
+            self[key] = try Document.decode(from: container,
                                                 decodingTypeString: value,
                                                 forKey: ExtendedJsonCodingKeys.init(stringValue: key)!)
             orderedKeys.append(key)
@@ -76,7 +76,7 @@ public struct BsonDocument: BsonCollection, Codable, Collection {
         try self.forEach { (arg) in
             let (k, v) = arg
 
-            try BsonDocument.encodeKeyedContainer(to: &container,
+            try Document.encodeKeyedContainer(to: &container,
                                                   sourceMap: &sourceMap,
                                                   forKey: ExtendedJsonCodingKeys(stringValue: k)!,
                                                   withValue: v)
@@ -113,7 +113,7 @@ public struct BsonDocument: BsonCollection, Codable, Collection {
     }
 }
 
-extension BsonDocument: ExpressibleByDictionaryLiteral {
+extension Document: ExpressibleByDictionaryLiteral {
     public init(dictionaryLiteral elements: (String, ExtendedJsonRepresentable)...) {
         for (key, value) in elements {
             self[key] = value
@@ -122,8 +122,8 @@ extension BsonDocument: ExpressibleByDictionaryLiteral {
     }
 }
 
-extension BsonDocument: Equatable {
-    public static func ==(lhs: BsonDocument, rhs: BsonDocument) -> Bool {
+extension Document: Equatable {
+    public static func ==(lhs: Document, rhs: Document) -> Bool {
         let lKeySet = Set(lhs.storage.keys)
         let rKeySet = Set(rhs.storage.keys)
         if lKeySet == rKeySet {

@@ -123,7 +123,7 @@ class UpdateOperationTests: XCTestCase {
         let updateOperation = UpdateOperation(criteria: .exists(field: UpdateOperationTests.fieldKey, value: true), mongoDBClient: mongoDBClient)
 
         let pullValues = [1, 2]
-        let inDocument = Document(key: "$in", value: BsonArray(array: pullValues))
+        let inDocument = Document(key: "$in", value: BSONArray(array: pullValues))
         let type = UpdateOperationType.pull([ UpdateOperationTests.fieldKey: inDocument ])
 
         mongoDBClient.database.collection.expectedInputBlock = { (queryDocument, updateDocument) in
@@ -166,7 +166,7 @@ class UpdateOperationTests: XCTestCase {
 
             do {
                 let resultDoc = try Document(extendedJson: update!.toExtendedJson as! [String: Any])
-                stitchTask.result = .success(BsonArray(array: [resultDoc]))
+                stitchTask.result = .success(BSONArray(array: [resultDoc]))
 
                 expectedInputBlock?(query, resultDoc)
             } catch {

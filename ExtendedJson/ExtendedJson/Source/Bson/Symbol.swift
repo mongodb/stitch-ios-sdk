@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct BsonSymbol {
+public struct Symbol {
     let symbol: String
 
     public init(_ symbol: String) {

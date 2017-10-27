@@ -44,9 +44,9 @@ let keys = [_id, symbol, string, int32, int64, double, specialFloat, decimal,
             datetimeNegative, `true`, `false`, dbPointer, dbRef, dbRefNoDB,
             minKey, maxKey, null, undefined]
 
-let goodDoc: BsonDocument = [
+let goodDoc: Document = [
     _id: try! ObjectId(hexString: "57e193d7a9cc81b4027498b5"),
-    symbol: BsonSymbol("symbol"),
+    symbol: Symbol("symbol"),
     string: "string",
     int32: Int32(42),
     int64: Int64(42),
@@ -54,38 +54,38 @@ let goodDoc: BsonDocument = [
     specialFloat: Double.nan,
     decimal: Decimal(1234),
     binary: UUID(uuidString: "a34c38f7-c3ab-edc8-a378-14a992ab8db6")!,
-    binaryUserDefined: BsonBinary(type: BsonBinarySubType(rawValue: 0x80)!,
+    binaryUserDefined: Binary(type: BsonBinarySubType(rawValue: 0x80)!,
                                   data: [UInt8](arrayLiteral: 1, 2, 3, 4, 5)),
-    code: BsonCode(code: "function() {}"),
-    codeWithScope: BsonCode(code: "function() {}", scope: BsonDocument()),
-    subDocument: try! BsonDocument(key: "foo", value: "bar"),
-    array: [1, 2, 3, 4, 5] as BsonArray,
-    timestamp: BsonTimestamp(time: 42, increment: 1),
+    code: Code(code: "function() {}"),
+    codeWithScope: Code(code: "function() {}", scope: Document()),
+    subDocument: try! Document(key: "foo", value: "bar"),
+    array: [1, 2, 3, 4, 5] as BSONArray,
+    timestamp: Timestamp(time: 42, increment: 1),
     regularExpression: try! RegularExpression(pattern: "foo*", options: NSRegularExpression.Options("xi")),
     datetimeEpoch: Date(timeIntervalSince1970: TimeInterval(0)),
     datetimePositive: Date(timeIntervalSince1970: TimeInterval(Int64.max)),
     datetimeNegative: Date(timeIntervalSince1970: TimeInterval(Int64.min)),
     `true`: true,
     `false`: false,
-    dbPointer: BsonDBPointer(ref: "db.collection",
+    dbPointer: DBPointer(ref: "db.collection",
                              id: try! ObjectId(hexString: "57e193d7a9cc81b4027498b1")),
-    dbRef: BsonDBRef(ref: "collection",
+    dbRef: DBRef(ref: "collection",
                      id: try! ObjectId(hexString: "57fd71e96e32ab4225b723fb"),
                      db: "database",
                      otherFields: [String: ExtendedJsonRepresentable]()),
-    dbRefNoDB: BsonDBRef(ref: "collection",
+    dbRefNoDB: DBRef(ref: "collection",
                          id: try! ObjectId(hexString: "57fd71e96e32ab4225b723fb"),
                          db: nil,
                          otherFields: [String: ExtendedJsonRepresentable]()),
     minKey: MinKey(),
     maxKey: MaxKey(),
     null: Null(),
-    undefined: BsonUndefined()
+    undefined: Undefined()
 ]
 
-let badDoc: BsonDocument = [
+let badDoc: Document = [
     _id: ObjectId.NewObjectId(),
-    symbol: BsonSymbol("lobmys"),
+    symbol: Symbol("lobmys"),
     string: "gnirts",
     int32: Int32(24),
     int64: Int64(24),
@@ -93,26 +93,26 @@ let badDoc: BsonDocument = [
     specialFloat: Double.infinity,
     decimal: Decimal(4321),
     binary: UUID(uuidString: "c8edabc3-f739-4ca3-b68d-ab92a91478a3")!,
-    binaryUserDefined: BsonBinary(type: BsonBinarySubType(rawValue: 0x80)!,
+    binaryUserDefined: Binary(type: BsonBinarySubType(rawValue: 0x80)!,
                                   data: [UInt8](arrayLiteral: 6, 7, 8, 9, 10)),
-    code: BsonCode(code: "function() { console.log('foo') }"),
-    codeWithScope: BsonCode(code: "function() { console.log('foo') }", scope: BsonDocument()),
-    subDocument: try! BsonDocument(key: "baz", value: "qux"),
-    array: [6, 7, 8, 9, 10] as BsonArray,
-    timestamp: BsonTimestamp(time: 24, increment: 2),
+    code: Code(code: "function() { console.log('foo') }"),
+    codeWithScope: Code(code: "function() { console.log('foo') }", scope: Document()),
+    subDocument: try! Document(key: "baz", value: "qux"),
+    array: [6, 7, 8, 9, 10] as BSONArray,
+    timestamp: Timestamp(time: 24, increment: 2),
     regularExpression: try! RegularExpression(pattern: "bar*", options: NSRegularExpression.Options("xi")),
     datetimeEpoch: Date.timeIntervalSinceReferenceDate,
     datetimePositive: Date(timeIntervalSince1970: TimeInterval(Int64.min)),
     datetimeNegative: Date(timeIntervalSince1970: TimeInterval(Int64.max)),
     `true`: false,
     `false`: true,
-    dbPointer: BsonDBPointer(ref: "db.collection",
+    dbPointer: DBPointer(ref: "db.collection",
                              id: ObjectId.NewObjectId()),
-    dbRef: BsonDBRef(ref: "collection",
+    dbRef: DBRef(ref: "collection",
                      id: ObjectId.NewObjectId(),
                      db: "database",
                      otherFields: [:]),
-    dbRefNoDB: BsonDBRef(ref: "collection",
+    dbRefNoDB: DBRef(ref: "collection",
                          id: ObjectId.NewObjectId(),
                          db: nil,
                          otherFields: [:]),
@@ -124,32 +124,32 @@ let badDoc: BsonDocument = [
 
 struct SpecDocStruct: Codable {
     let _id: ObjectId
-    let Symbol: BsonSymbol
+    let Symbol: Symbol
     let String: String
     let Int32: Int32
     let Int64: Int64
     let Double: Double
     let SpecialFloat: Double
     let Decimal: Decimal
-    let Binary: BsonBinary
-    let BinaryUserDefined: BsonBinary
-    let Code: BsonCode
-    let CodeWithScope: BsonCode
-    let SubDocument: BsonDocument
-    let Array: BsonArray
-    let Timestamp: BsonTimestamp
+    let Binary: Binary
+    let BinaryUserDefined: Binary
+    let Code: Code
+    let CodeWithScope: Code
+    let SubDocument: Document
+    let Array: BSONArray
+    let Timestamp: Timestamp
     let RegularExpression: RegularExpression
     let DatetimeEpoch: Date
     let DatetimePositive: Date
     let DatetimeNegative: Date
     let True: Bool
     let False: Bool
-    let DBPointer: BsonDBPointer
-    let DBRef: BsonDBRef
-    let DBRefNoDB: BsonDBRef
+    let DBPointer: DBPointer
+    let DBRef: DBRef
+    let DBRefNoDB: DBRef
     let MinKey: MinKey
     let MaxKey: MaxKey
-    let Undefined: BsonUndefined
+    let Undefined: Undefined
 }
 
 let specDocDict: [String: Any?] = [

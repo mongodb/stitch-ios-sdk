@@ -14,7 +14,7 @@ public struct FacebookAuthProvider: AuthProvider {
     }
 
     /// The JSON payload containing the accessToken.
-    public var payload: BsonDocument {
+    public var payload: Document {
         return ["accessToken": accessToken]
     }
 

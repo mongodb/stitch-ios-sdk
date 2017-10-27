@@ -70,7 +70,7 @@ class ExtendedJsonTests: XCTestCase {
     }
 
     func testExtendedJsonRepresentableBinary() {
-        let binary = BsonBinary(type: .binary, data: [77, 111, 110, 103, 111, 68, 66])
+        let binary = Binary(type: .binary, data: [77, 111, 110, 103, 111, 68, 66])
         let binaryActual = (binary.toExtendedJson as! [String: [String: String]])["$binary"]
 
         XCTAssertNotNil(binaryActual)
@@ -83,7 +83,7 @@ class ExtendedJsonTests: XCTestCase {
 
     func testExtendedJsonRepresentableBsonTimestamp() {
         let date = Date()
-        let bsonTimestamp = BsonTimestamp(time: date, increment: 1)
+        let bsonTimestamp = Timestamp(time: date, increment: 1)
         let extJsonTimestamp = bsonTimestamp.toExtendedJson as! [String: [String: Any]]
         if let timestampJson = extJsonTimestamp["$timestamp"],
             let t = timestampJson["t"] as? Int64,
@@ -118,7 +118,7 @@ class ExtendedJsonTests: XCTestCase {
     }
 
     func testExtendedJsonRepresentableUndefined() {
-        XCTAssertEqual(BsonUndefined().toExtendedJson as! [String: Bool], ["$undefined": true])
+        XCTAssertEqual(Undefined().toExtendedJson as! [String: Bool], ["$undefined": true])
     }
 
     func testExtendedJsonRepresentableNull() {
@@ -131,7 +131,7 @@ class ExtendedJsonTests: XCTestCase {
     }
 
     func testExtendedJsonRepresentableBsonArray() {
-        var array = BsonArray()
+        var array = BSONArray()
         let number = 42
         array.append(Int64(number))
         array.append("MongoDB")
@@ -141,7 +141,7 @@ class ExtendedJsonTests: XCTestCase {
     }
 
     func testExtendedJsonRepresentableDocument() {
-        var document = BsonDocument()
+        var document = Document()
         let number = 42
         document["number"] = Int64(number)
         document["string"] = "MongoDB"
@@ -180,7 +180,7 @@ class ExtendedJsonTests: XCTestCase {
     }
 
     func testXJsonConversions() throws {
-        let doc: BsonDocument = [
+        let doc: Document = [
             "testOid": ObjectId.NewObjectId()
         ]
 
@@ -191,31 +191,31 @@ class ExtendedJsonTests: XCTestCase {
         let testNumber = 42
         let testDate = Int64(Date().timeIntervalSince1970 * 1000)
         let hexString = "1234567890abcdef12345678"
-        let document: BsonDocument = [
+        let document: Document = [
             "testNumber": testNumber,
             "testDate": testDate,
             "testArray": [
                 [
                     "testObjectId": hexString,
                     "testLong": testNumber
-                ] as BsonDocument,
+                ] as Document,
                 [
                     "testObjectId": hexString,
                     "testLong": testNumber
-                ] as BsonDocument
-            ] as BsonArray
+                ] as Document
+            ] as BSONArray
         ]
 
         XCTAssertEqual(document["testNumber"] as! Int, testNumber)
         XCTAssertEqual(document["testDate"] as! Int64, testDate)
-        XCTAssert(document["testArray"] is BsonArray)
+        XCTAssert(document["testArray"] is BSONArray)
     }
 
     func testDocument() throws {
         let hexString = "1234567890abcdef12345678"
         let date = Date()
-        let binary = BsonBinary(type: .binary, data: [77, 111, 110, 103, 111, 68, 66])
-        let extJsonTimestamp = BsonTimestamp(time: date, increment: 1)
+        let binary = Binary(type: .binary, data: [77, 111, 110, 103, 111, 68, 66])
+        let extJsonTimestamp = Timestamp(time: date, increment: 1)
         let regex = try NSRegularExpression(pattern: "[0-9a-fA-F]+", options: .caseInsensitive)
 
         let number = 42
@@ -242,7 +242,7 @@ class ExtendedJsonTests: XCTestCase {
             ]
         ]
 
-        let document = try BsonDocument(extendedJson: extendedJson)
+        let document = try Document(extendedJson: extendedJson)
         XCTAssertEqual(document["testObjectId"] as! ObjectId, try ObjectId(hexString: hexString))
         XCTAssertEqual(document["testInt"] as? Int32, 42)
         XCTAssertEqual(document["testLong"] as? Int64, 42)
@@ -251,26 +251,26 @@ class ExtendedJsonTests: XCTestCase {
         XCTAssertEqual(Int64((document["testDate"] as? Date)!.timeIntervalSince1970), Int64(date.timeIntervalSince1970))
         XCTAssertEqual(document["testTrue"] as? Bool, true)
         XCTAssertEqual(document["testFalse"] as? Bool, false)
-        XCTAssertEqual(document["testBinary"] as? BsonBinary, binary)
-        XCTAssertEqual(document["testTimestamp"] as? BsonTimestamp, extJsonTimestamp)
+        XCTAssertEqual(document["testBinary"] as? Binary, binary)
+        XCTAssertEqual(document["testTimestamp"] as? Timestamp, extJsonTimestamp)
         XCTAssertEqual(document["testRegex"] as? NSRegularExpression, regex)
         XCTAssertEqual(document["testMinKey"] as? MinKey, MinKey())
         XCTAssertEqual(document["testMaxKey"] as? MaxKey, MaxKey())
         XCTAssertEqual(document["testNull"] as? NSNull, NSNull())
 
-        let embeddedArray = document["testArray"] as! BsonArray
+        let embeddedArray = document["testArray"] as! BSONArray
 
         XCTAssertEqual(embeddedArray.count, 2)
 
-        XCTAssertEqual((embeddedArray[0] as! BsonDocument)["testObjectId"] as! ObjectId, try ObjectId(hexString: hexString))
-        XCTAssertEqual((embeddedArray[0] as! BsonDocument)["testLong"] as! Int64, 42)
+        XCTAssertEqual((embeddedArray[0] as! Document)["testObjectId"] as! ObjectId, try ObjectId(hexString: hexString))
+        XCTAssertEqual((embeddedArray[0] as! Document)["testLong"] as! Int64, 42)
 
-        XCTAssertEqual((embeddedArray[1] as! BsonDocument)["testObjectId"] as! ObjectId, try ObjectId(hexString: hexString))
-        XCTAssertEqual((embeddedArray[1] as! BsonDocument)["testLong"] as! Int64, 42)
+        XCTAssertEqual((embeddedArray[1] as! Document)["testObjectId"] as! ObjectId, try ObjectId(hexString: hexString))
+        XCTAssertEqual((embeddedArray[1] as! Document)["testLong"] as! Int64, 42)
     }
 
     func testRoundTrip() throws {
-        let specDoc = try BsonDocument.init(extendedJson: specDocDict)
+        let specDoc = try Document.init(extendedJson: specDocDict)
 
         keys.forEach { (key) in
             print()

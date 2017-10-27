@@ -61,15 +61,15 @@ extension PushClient {
     public func removeInfoFromConfigs(info: PushProviderInfo) {
         let userDefaults = UserDefaults(suiteName: Consts.UserDefaultsName)!
 
-        var configs = BsonDocument()
+        var configs = Document()
         do {
             let configOpt = userDefaults.value(forKey: prefConfigs)
 
             if let config = configOpt as? [String: Any] {
-                configs = try BsonDocument(extendedJson: config)
+                configs = try Document(extendedJson: config)
             }
         } catch _ {
-            configs = BsonDocument()
+            configs = Document()
         }
 
         configs[info.serviceName] = nil
@@ -81,10 +81,10 @@ extension PushClient {
      for this client
      - returns: A generic device registration request
      */
-    public func getBaseRegisterPushRequest(serviceName: String) -> BsonDocument {
+    public func getBaseRegisterPushRequest(serviceName: String) -> Document {
         return [
             DeviceFields.service.rawValue: serviceName,
-            DeviceFields.data.rawValue: BsonDocument()
+            DeviceFields.data.rawValue: Document()
         ]
     }
 
@@ -93,8 +93,8 @@ extension PushClient {
      for this client
      - returns: A generic device deregistration request
      */
-    func getBaseDeregisterPushDeviceRequest(serviceName: String) -> BsonDocument {
-        var request = BsonDocument()
+    func getBaseDeregisterPushDeviceRequest(serviceName: String) -> Document {
+        var request = Document()
 
         request[DeviceFields.service.rawValue] = serviceName
 

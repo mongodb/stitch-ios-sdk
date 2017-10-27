@@ -6,7 +6,7 @@
 import Foundation
 
 /// A representation of the BSON Binary type.
-public struct BsonBinary {
+public struct Binary {
 
     public private(set) var type: BsonBinarySubType
 	public private(set) var data: [UInt8]
@@ -18,8 +18,8 @@ public struct BsonBinary {
 }
 
 // MARK: - Equatable
-extension BsonBinary: Equatable {
-    public static func ==(lhs: BsonBinary, rhs: BsonBinary) -> Bool {
+extension Binary: Equatable {
+    public static func ==(lhs: Binary, rhs: Binary) -> Bool {
         return lhs.type == rhs.type && lhs.data == rhs.data
     }
 }

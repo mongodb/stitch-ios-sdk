@@ -29,24 +29,24 @@ class CodableTests: XCTestCase {
     }
 
     func testBsonBinaryCodable() throws {
-        let bsonBinary = goodDoc[binaryUserDefined] as! BsonBinary
+        let bsonBinary = goodDoc[binaryUserDefined] as! Binary
         try assertCodable(original: bsonBinary)
     }
 
     func testBsonCodeCodable() throws {
-        let bsonCode = goodDoc[codeWithScope] as! BsonCode
+        let bsonCode = goodDoc[codeWithScope] as! Code
         try assertCodable(original: bsonCode)
     }
 
     func testBSONDBPointerCodable() throws {
-        let bsonDbPointer = goodDoc[dbPointer] as! BsonDBPointer
+        let bsonDbPointer = goodDoc[dbPointer] as! DBPointer
         try assertCodable(original: bsonDbPointer)  
     }
 
     func testBSONRoundTrip() throws {
         let data = try JSONSerialization.data(withJSONObject: specDocDict)
         let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-        let doc = try BsonDocument.fromExtendedJson(xjson: json) as! BsonDocument
+        let doc = try Document.fromExtendedJson(xjson: json) as! Document
         try BSONDecoder().decode(SpecDocStruct.self, from: doc)
     }
 }
