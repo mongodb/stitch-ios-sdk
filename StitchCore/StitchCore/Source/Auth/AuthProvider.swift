@@ -1,4 +1,5 @@
 import Foundation
+import ExtendedJson
 
 /**
     An AuthProvider is responsible for providing the necessary information for a specific
@@ -10,7 +11,7 @@ public protocol AuthProvider {
     /// The name of this provider.
     var name: String {get}
     /// The JSON payload containing authentication material.
-    var payload: [String : Any] {get}
+    var payload: Document {get}
 }
 
 /// Provider enum representing current state of `AuthProvider`s.
@@ -23,7 +24,7 @@ public enum Provider {
          emailPassword,
     /// Anonymous Authentication
          anonymous
-    
+
     var name: String {
         switch self {
         case .google:
@@ -33,10 +34,10 @@ public enum Provider {
         case .emailPassword:
             return "local/userpass"
         case .anonymous:
-            return "anon/user"    
+            return "anon/user"
         }
     }
-    
+
     init?(name: String) {
         switch name {
         case Provider.google.name:

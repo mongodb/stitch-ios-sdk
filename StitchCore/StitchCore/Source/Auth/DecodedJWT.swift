@@ -25,42 +25,55 @@
 
 import Foundation
 
-public struct DecodedJWT {
-    
+public struct DecodedJWT: Codable {
     let payload: [String: Any]
-    
+    let token: String
+
     init(jwt: String) throws {
         do {
+            self.token = jwt
             self.payload = try DecodedJWT.jwtDecodePayload(jwt: jwt)
         } catch let e as DecodeError {
             throw e
         }
     }
-    
+
+    public init(from decoder: Decoder) throws {
+        try self.init(jwt: decoder.singleValueContainer().decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(self.token)
+    }
+
     public var expiration: Date? {
         guard let exp = self.payload["exp"] else {
             return nil
         }
-        
+
         guard let timestamp: TimeInterval = exp as? TimeInterval else {
             return nil
         }
         return Date(timeIntervalSince1970: timestamp)
     }
-    
+
     public enum DecodeError: LocalizedError {
         case invalidBase64Url(String)
         case invalidJSON(String)
         case invalidPartCount(String, Int)
-        
+
         public var localizedDescription: String {
             switch self {
             case .invalidJSON(let value):
-                return NSLocalizedString("Malformed jwt token, failed to parse JSON value from base64Url \(value)", comment: "Invalid JSON value inside base64Url")
+                return NSLocalizedString("Malformed jwt token, failed to parse JSON value from base64Url \(value)",
+                                        comment: "Invalid JSON value inside base64Url")
             case .invalidPartCount(let jwt, let parts):
-                return NSLocalizedString("Malformed jwt token \(jwt) has \(parts) parts when it should have 3 parts", comment: "Invalid amount of jwt parts")
+                return NSLocalizedString("Malformed jwt token \(jwt) has \(parts) parts when it should have 3 parts",
+                                        comment: "Invalid amount of jwt parts")
             case .invalidBase64Url(let value):
-                return NSLocalizedString("Malformed jwt token, failed to decode base64Url value \(value)", comment: "Invalid JWT token base64Url value")
+                return NSLocalizedString("Malformed jwt token, failed to decode base64Url value \(value)",
+                                        comment: "Invalid JWT token base64Url value")
             }
         }
     }
@@ -70,7 +83,7 @@ public struct DecodedJWT {
         guard parts.count == 3 else {
             throw DecodeError.invalidPartCount(jwt, parts.count)
         }
-        
+
         return try decodeJWTPart(parts[1])
     }
 
@@ -78,14 +91,15 @@ public struct DecodedJWT {
         guard let bodyData = base64UrlDecode(value) else {
             throw DecodeError.invalidBase64Url(value)
         }
-        
-        guard let json = try? JSONSerialization.jsonObject(with: bodyData, options: []), let payload = json as? [String: Any] else {
+
+        guard let json = try? JSONSerialization.jsonObject(with: bodyData, options: []),
+            let payload = json as? [String: Any] else {
             throw DecodeError.invalidJSON(value)
         }
-        
+
         return payload
     }
-    
+
     private static func base64UrlDecode(_ value: String) -> Data? {
         var base64 = value
             .replacingOccurrences(of: "-", with: "+")

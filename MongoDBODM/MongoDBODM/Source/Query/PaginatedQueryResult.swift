@@ -17,7 +17,7 @@ public struct PaginatedQueryResult<Entity: RootEntity> {
     fileprivate let originalCriteria: Criteria?
     fileprivate let mongoDBClient: MongoDBClientType
     fileprivate let pageSize: Int
-    
+
     public let results: [Entity]
     fileprivate(set) public var hasNext: Bool = false
 
@@ -32,8 +32,7 @@ public struct PaginatedQueryResult<Entity: RootEntity> {
             let entitiesArray: [Entity] = try results.map({ (item) -> Entity in
                 if let entityDoc = item as? BsonDocument {
                     return Entity(document: entityDoc, mongoDBClient: mongoDBClient)
-                }
-                else {
+                } else {
                     let errString = "Unexpected type was received - expecting a document. Recieved: \(item)"
                     printLog(.error, text: errString)
                     throw OdmError.corruptedData(message: errString)
@@ -41,12 +40,11 @@ public struct PaginatedQueryResult<Entity: RootEntity> {
             })
             self.results = entitiesArray
             self.hasNext = !(entitiesArray.count < pageSize)
-        }
-        else {
+        } else {
             self.results = [Entity]()
         }
     }
-    
+
     public func nextPage() -> StitchTask<PaginatedQueryResult<Entity>> {
         if results.count > 0 {
             let lastItem: BsonDocument? = rawResults[rawResults.endIndex - 1] as? BsonDocument
@@ -56,8 +54,7 @@ public struct PaginatedQueryResult<Entity: RootEntity> {
                 for field in sortedFields.dropLast() {
                     if let embededEntityDocument = lastEmbededEntityDocument[field] as? BsonDocument {
                         lastEmbededEntityDocument = embededEntityDocument
-                    }
-                    else {
+                    } else {
                         let errString = "Embeded document in sort field is corrupted \(field)"
                         printLog(.error, text: errString)
                         return StitchTask<PaginatedQueryResult<Entity>>(error: OdmError.corruptedData(message: errString))
@@ -67,46 +64,42 @@ public struct PaginatedQueryResult<Entity: RootEntity> {
                     let newCriteria = newCriteriaForPagination(originalCriteria: originalCriteria, sortParameter: sortParameter, lastSortFieldValue: lastSortFieldValue, objectId: objectId)
                     let nextPageQuery = Query<Entity>(criteria: newCriteria, mongoDBClient: mongoDBClient)
                     return nextPageQuery.find(originalCriteria: originalCriteria, sortParameter: sortParameter, pageSize: pageSize)
-                }
-                else {
+                } else {
                     let errString = "objectId or last field are invalid"
                     printLog(.error, text: errString)
                     return StitchTask<PaginatedQueryResult<Entity>>(error: OdmError.corruptedData(message: errString))
                 }
-            }
-            else {
+            } else {
                 let errString = "Unexpected type was received - expecting a document"
                 printLog(.error, text: errString)
                 return StitchTask<PaginatedQueryResult<Entity>>(error: OdmError.corruptedData(message: errString))
             }
         }
-        
+
         return StitchTask<PaginatedQueryResult<Entity>>(error: OdmError.collectionOutOfRange)
     }
-    
+
     fileprivate func newCriteriaForPagination(originalCriteria: Criteria?, sortParameter: SortParameter, lastSortFieldValue: ExtendedJsonRepresentable, objectId: ExtendedJsonRepresentable) -> Criteria {
         var newCriteria: Criteria
         switch sortParameter.direction {
         case .ascending:
             if sortParameter.field != "_id" {
                 newCriteria = .greaterThan(field: sortParameter.field, value: lastSortFieldValue) || (.equals(field: sortParameter.field, value: lastSortFieldValue) && .greaterThan(field: "_id", value: objectId))
-            }
-            else {
+            } else {
                 newCriteria = .greaterThan(field: sortParameter.field, value: lastSortFieldValue)
             }
-            
+
         case .descending:
             if sortParameter.field != "_id" {
                 newCriteria = .lessThan(field: sortParameter.field, value: lastSortFieldValue) || (.equals(field: sortParameter.field, value: lastSortFieldValue) && .greaterThan(field: "_id", value: objectId))
-            }
-            else {
+            } else {
                 newCriteria = .lessThan(field: sortParameter.field, value: lastSortFieldValue)
             }
         }
         if let originalCriteria = originalCriteria {
             newCriteria = originalCriteria && newCriteria
         }
-        
+
         return newCriteria
     }
 }

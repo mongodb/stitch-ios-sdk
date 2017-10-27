@@ -13,25 +13,25 @@ import StitchLogger
  - Note: This class represents a MongoDB/stitch Document as it is in the DB, Therefore the property names must be identical to the document fields in the DB.
  */
 
-open class BaseEntity : ExtendedJsonRepresentable {
-    
-    //MARK: Properties
-    
-    internal var properties: [String : ExtendedJsonRepresentable?] = [:]
-    internal var modifiedProperties: [String : ExtendedJsonRepresentable?] = [:]
-    
-    private var arrayRemovals: [String : [ExtendedJsonRepresentable]] = [:]
-    private var arrayAdditionals: [String : [ExtendedJsonRepresentable]] = [:]
-    
-    //MARK: Init
-    
+open class BaseEntity: ExtendedJsonRepresentable {
+
+    // MARK: Properties
+
+    internal var properties: [String: ExtendedJsonRepresentable?] = [:]
+    internal var modifiedProperties: [String: ExtendedJsonRepresentable?] = [:]
+
+    private var arrayRemovals: [String: [ExtendedJsonRepresentable]] = [:]
+    private var arrayAdditionals: [String: [ExtendedJsonRepresentable]] = [:]
+
+    // MARK: Init
+
     /**
      Empty constructor - use this contstructor in order to create entities that are created for the first time and are not yet stored in stitch.
      
      - Returns: BaseEntity.
      */
-    public init(){}
-    
+    public init() {}
+
     /**
      This constructor should be used in order to create an entity based on a document returned from Stitch.
      
@@ -41,55 +41,47 @@ open class BaseEntity : ExtendedJsonRepresentable {
      */
     public init(document: BsonDocument) {
         let myClassIdentifier = Utils.getIdentifier(any: self)
-        if let myEntityMetadata = Utils.entitiesDictionary[myClassIdentifier]{
-            
-            for (key, value) in document{
+        if let myEntityMetadata = Utils.entitiesDictionary[myClassIdentifier] {
+
+            for (key, value) in document {
                 if let value = value as? BsonDocument {
                     if let propertyObjectIdentifier = myEntityMetadata.getSchema()[key], let embeddedEntityMetaData = Utils.entitiesDictionary[propertyObjectIdentifier] {
                         let embeddedEntityValue = embeddedEntityMetaData.create(document: value)
-                        
+
                         embeddedEntityValue?.embedIn(parent: self, keyInParent: key, isEmbeddedInArray: false)
                         properties[key] = embeddedEntityValue
-                    }
-                    else{
+                    } else {
                         printLog(LogLevel.warning, text: "While parsing \(key) in a document received an embedded document that is not mapped by the entity meta data")
                     }
-                }
-                else if let value = value as? BsonArray {
+                } else if let value = value as? BsonArray {
                     var bsonArray = BsonArray()
-                    
-                    for item in value{
+
+                    for item in value {
                         if let item = item as? BsonDocument {
                             if let propertyObjectIdentifier = myEntityMetadata.getSchema()[key], let embeddedEntityMetaData = Utils.entitiesDictionary[propertyObjectIdentifier] {
-                                if let embeddedEntityValue = embeddedEntityMetaData.create(document: item){
+                                if let embeddedEntityValue = embeddedEntityMetaData.create(document: item) {
                                     embeddedEntityValue.embedIn(parent: self, keyInParent: key, isEmbeddedInArray: true)
                                     bsonArray.append(embeddedEntityValue)
                                 }
-                            }
-                            else{
+                            } else {
                                 printLog(LogLevel.warning, text: "While parsing an array (\(key))o f a document received an embedded document that is not mapped by the entity meta data")
                             }
-                        }
-                        else{
+                        } else {
                             bsonArray.append(item)
                         }
                     }
                     properties[key] = bsonArray
-                    
-                }
-                    
-                else if value is NSNull{
+
+                } else if value is NSNull {
                     properties[key] = nil
-                }
-                    
-                else{
+                } else {
                     properties[key] = value
                 }
             }
         }
     }
-    
-    //MARK: Public properties
+
+    // MARK: Public properties
     /**
      Getter for '_id' field, returns the entity objectId if exists.
      - important: The id will exist in the following cases:
@@ -98,41 +90,41 @@ open class BaseEntity : ExtendedJsonRepresentable {
      
      */
     internal(set) public var objectId: ExtendedJson.ObjectId? {
-        get{
+        get {
             if let objectId = self[Utils.Consts.objectIdKey] as? ObjectId {
                 return objectId
             }
             return nil
         }
-        set(newObjectId){
-            if let newObjectId = newObjectId{
+        set(newObjectId) {
+            if let newObjectId = newObjectId {
                 self[Utils.Consts.objectIdKey] = newObjectId
             }
         }
     }
-    
-    //MARK: Inherit
-    
+
+    // MARK: Inherit
+
     internal func update(operationTypes: [UpdateOperationType]?, operationTypePrefix: String?, embeddedEntityInArrayObjectId: ObjectId?) -> StitchTask<Any> {
         let error = OdmError.classMetaDataNotFound
         return StitchCore.StitchTask(error: error)
     }
-    
+
     internal func getUpdateOperationTypes() -> [UpdateOperationType] {
         var result: [UpdateOperationType] = []
-        
-        var setDictionary: [String : ExtendedJsonRepresentable] = [:]
-        var unsetDictionary: [String : ExtendedJsonRepresentable] = [:]
-        var pushDictionary: [String : ExtendedJsonRepresentable] = [:]
-        var pullDictionary: [String : ExtendedJsonRepresentable] = [:]
-        
+
+        var setDictionary: [String: ExtendedJsonRepresentable] = [:]
+        var unsetDictionary: [String: ExtendedJsonRepresentable] = [:]
+        var pushDictionary: [String: ExtendedJsonRepresentable] = [:]
+        var pullDictionary: [String: ExtendedJsonRepresentable] = [:]
+
         let modifiedArrayKeys: Set<String> = Set(arrayRemovals.keys).union(Set(arrayAdditionals.keys))
-        
-        for (key,value) in arrayAdditionals {
+
+        for (key, value) in arrayAdditionals {
             pushDictionary[key] = BsonDocument(key: "$each", value: BsonArray(array: value))
         }
-        
-        for (key,value) in arrayRemovals {
+
+        for (key, value) in arrayRemovals {
             if value.first is EmbeddedEntity {
                 var criteria: Criteria?
                 for entity in value {
@@ -145,21 +137,20 @@ open class BaseEntity : ExtendedJsonRepresentable {
                 pullDictionary[key] = BsonDocument(key: "$in", value: BsonArray(array: value))
             }
         }
-        
-        for (key,value) in modifiedProperties {
-            
+
+        for (key, value) in modifiedProperties {
+
             if modifiedArrayKeys.contains(key) {
                 continue
             }
-            
+
             if value == nil {
                 unsetDictionary[key] = ""
-            }
-            else  {
+            } else {
                 setDictionary[key] = value
             }
         }
-        
+
         if !setDictionary.isEmpty {
             result.append(.set(setDictionary))
         }
@@ -172,16 +163,14 @@ open class BaseEntity : ExtendedJsonRepresentable {
         if !unsetDictionary.isEmpty {
             result.append(.unset(unsetDictionary))
         }
-        
-        
+
         return result
     }
-    
-    
+
     internal func handleOperationResult(stitchResult: StitchResult<Any>) {
         switch (stitchResult) {
         case .failure(let error):
-            if let error = error as? OdmError{
+            if let error = error as? OdmError {
                 switch error {
                 case .partialUpdateSuccess:
                     revertProperties(partially: true)
@@ -189,36 +178,34 @@ open class BaseEntity : ExtendedJsonRepresentable {
                     // properties stays as before - do nothing
                 }
             }
-            
+
         case .success(_):
             revertProperties(partially: false)
         }
     }
-    
-    
-    //MARK: subscript
+
+    // MARK: subscript
     /**
      Accesses the Entity associated properties with the given key for reading and writing. usually from computed variables from your class
      Writing `nil` removes the property value from the Entity.
      
      - parameter key: Property name
      */
-    public subscript(key: String) -> ExtendedJsonRepresentable?{
-        get{
+    public subscript(key: String) -> ExtendedJsonRepresentable? {
+        get {
             if let value = modifiedProperties[key] {
                 return value
             }
-            if let value = properties[key]{
+            if let value = properties[key] {
                 return value
             }
             return nil
         }
-        set{
+        set {
             modifiedProperties[key] = newValue
-            if let newValue = newValue as? EmbeddedEntity{
+            if let newValue = newValue as? EmbeddedEntity {
                 newValue.embedIn(parent: self, keyInParent: key, isEmbeddedInArray: false)
-            }
-            else if let newValue = newValue as? BsonArray {
+            } else if let newValue = newValue as? BsonArray {
                 for jsonExtendable in newValue {
                     if let embeddedEntity = jsonExtendable as? EmbeddedEntity {
                         embeddedEntity.embedIn(parent: self, keyInParent: key, isEmbeddedInArray: true)
@@ -226,11 +213,11 @@ open class BaseEntity : ExtendedJsonRepresentable {
                 }
             }
         }
-        
+
     }
-    
-    //MARK: Public
-    
+
+    // MARK: Public
+
     /**
      Use this method to easily convert a property that is stored as a BsonArray to an array of a specific type.
      
@@ -241,8 +228,8 @@ open class BaseEntity : ExtendedJsonRepresentable {
      - Returns: An empty array if the original bson-array is nil or empty, otherwise return the corresponding array.
      
      */
-    public func asArray<T>(bsonArray: BsonArray?) throws -> [T]{
-        if let bsonArray = bsonArray{
+    public func asArray<T>(bsonArray: BsonArray?) throws -> [T] {
+        if let bsonArray = bsonArray {
             return try bsonArray.map({ (element) -> T in
                 if let converted = element as? T {
                     return converted
@@ -252,7 +239,7 @@ open class BaseEntity : ExtendedJsonRepresentable {
         }
         return []
     }
-    
+
     /**
      Use this method to add item to an array.
      
@@ -262,12 +249,12 @@ open class BaseEntity : ExtendedJsonRepresentable {
      - Returns: True upon successfull operation, An operation will fail if the field name corresponds to a field which is not a BsonArray type
      
      */
-    
+
     @discardableResult
     public func addToArray(path: String, item: ExtendedJsonRepresentable) -> Bool {
         return modifyArray(path: path, item: item, toAdd: true)
     }
-    
+
     /**
      Use this method to remove item from an array.
      
@@ -276,53 +263,51 @@ open class BaseEntity : ExtendedJsonRepresentable {
      
      - Returns: True upon successfull operation, An operation will fail if the field name corresponds to a field which is not a BsonArray type or that there is no matching item in the BsonArray
      */
-    
+
     @discardableResult
     public func removeFromArray(path: String, item: ExtendedJsonRepresentable) -> Bool {
         return modifyArray(path: path, item: item, toAdd: false)
     }
-    
-    //MARK: Private
-    
+
+    // MARK: Private
+
     private func modifyArray(path: String, item: ExtendedJsonRepresentable, toAdd: Bool) -> Bool {
-        
+
         //add the item to the currect dictionary
         var modifyDictionary = toAdd ? arrayAdditionals : arrayRemovals
         var modifyArray = modifyDictionary[path] ?? []
         modifyArray.append(item)
-        
+
         //change the current property and save to current dictionary
         let property = getOrGenerateArrayProperty(propertyName: path)
         if var property = property {
             if toAdd {
                 property.append(item)
-                
+
                 if let item = item as? EmbeddedEntity {
                     item.embedIn(parent: self, keyInParent: path, isEmbeddedInArray: true)
                 }
-                
+
                 arrayAdditionals[path] = modifyArray
-            }
-            else {
+            } else {
                 let itemWasRemoved = property.remove(object: item)
                 if !itemWasRemoved {
                     printLog(.error, text: "item \(item) was not found in the array :\(path) ")
                     return false
                 }
                 arrayRemovals[path] = modifyArray
-                
+
             }
-            
+
             modifiedProperties[path] = property
-        }
-        else {
+        } else {
             printLog(.error, text: "Type mismatch, the object in the path: \(path) is not BsonArray type ")
             return false
         }
-        
+
         return true
     }
-    
+
     private func getOrGenerateArrayProperty(propertyName: String) -> BsonArray? {
         let property = getProperty(propertyName: propertyName) ?? BsonArray()
         if let property = property as? BsonArray {
@@ -330,7 +315,7 @@ open class BaseEntity : ExtendedJsonRepresentable {
         }
         return nil
     }
-    
+
     private func getProperty(propertyName: String) -> ExtendedJsonRepresentable? {
         if let property = modifiedProperties[propertyName] {
             return property
@@ -340,7 +325,7 @@ open class BaseEntity : ExtendedJsonRepresentable {
         }
         return nil
     }
-    
+
     private func revertProperties(partially: Bool) {
         let arrayRemovalProperties = arrayRemovals.keys
         for (key, value) in modifiedProperties {
@@ -349,50 +334,49 @@ open class BaseEntity : ExtendedJsonRepresentable {
                 properties[key] = value
             }
         }
-        
+
         modifiedProperties = [:]
         arrayRemovals = [:]
         arrayAdditionals = [:]
     }
-    
-    //MARK: Document
-    
+
+    // MARK: Document
+
     var asDocument: BsonDocument {
         var document = BsonDocument()
         var deletedKeys: [String] = []
-        
+
         for (key, value) in modifiedProperties {
             if value == nil {
                 deletedKeys.append(key)
-            }
-            else {
+            } else {
                 document[key] = value
             }
         }
-        
-        for (key, value) in properties{
-            if document[key] == nil, value != nil,  !deletedKeys.contains(key) {
+
+        for (key, value) in properties {
+            if document[key] == nil, value != nil, !deletedKeys.contains(key) {
                 document[key] = value
             }
         }
         return document
     }
-    
-    //MARK: ExtendedJsonRepresentable
-    
+
+    // MARK: ExtendedJsonRepresentable
+
     public var toExtendedJson: Any {
         return asDocument.toExtendedJson
     }
-    
+
     public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
-        if let other = other as? EmbeddedEntity{
+        if let other = other as? EmbeddedEntity {
             return self === other
         }
         return false
     }
-    
-    //MARK: Static Registration
-    
+
+    // MARK: Static Registration
+
     /**
      Use this method to register you entity, this action is mandatory for using Stitch ODM.
      for further explenation check EntityTypeMetaData
@@ -402,10 +386,10 @@ open class BaseEntity : ExtendedJsonRepresentable {
      - parameter entityMetaData: The correspond entity meta data class
      
      */
-    
-    public static func registerClass(entityMetaData: EntityTypeMetaData)  {
+
+    public static func registerClass(entityMetaData: EntityTypeMetaData) {
         let classIdentifier = entityMetaData.getEntityIdentifier()
         Utils.entitiesDictionary[classIdentifier] = entityMetaData
     }
-    
+
 }

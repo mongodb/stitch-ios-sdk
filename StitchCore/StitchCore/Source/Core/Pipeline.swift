@@ -2,15 +2,10 @@ import Foundation
 import ExtendedJson
 
 // A pipeline that specifies an action, service, and its arguments.
-public struct Pipeline {
-    
-    private struct Consts {
-        static let actionKey =  "action"
-        static let serviceKey = "service"
-        static let argsKey =    "args"
-        static let letKey =     "let"
+public struct Pipeline: Codable {
+    private enum CodingKeys: String, CodingKey {
+        case action, service, args, `let`
     }
-    
     /**
         The action that represents this stage.
      */
@@ -23,13 +18,13 @@ public struct Pipeline {
     /**
      * The arguments to invoke the action with.
      */
-    public let args: [String : ExtendedJsonRepresentable]?
+    public let args: Document?
     /**
      * The expression to evaluate for use within the arguments via expansion.
      */
-    public let `let`: ExtendedJsonRepresentable?
-    
-    //MARK: - Init
+    public let `let`: Document?
+
+    // MARK: - Init
     /**
         Constructs a completely specified pipeline stage
         
@@ -42,36 +37,11 @@ public struct Pipeline {
      */
     public init(action: String,
                 service: String? = nil,
-                args: [String : ExtendedJsonRepresentable]? = nil,
-                `let`: ExtendedJsonRepresentable? = nil) {
+                args: Document? = nil,
+                `let`: Document? = nil) {
         self.action = action
         self.service = service
         self.args = args
-        self.let = `let`
-    }
-    
-    // MARK: - Mapper
-    /// Map this pipeline into a Json dict
-    internal var toJson: [String : Any] {
-        
-        var json: [String : Any] = [Consts.actionKey : action]
-        
-        if let service = service {
-            json[Consts.serviceKey] = service
-        }
-        
-        if let args = args {            
-            json[Consts.argsKey] = args.reduce([:], { (result, pair) -> [String : Any] in
-                var res = result
-                res[pair.key] = pair.value.toExtendedJson
-                return res
-            })
-        }
-        
-        if let `let` = `let` {
-            json[Consts.letKey] = `let`.toExtendedJson
-        }
-        
-        return json
+        self.`let` = `let`
     }
 }

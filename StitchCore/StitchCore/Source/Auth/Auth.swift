@@ -1,68 +1,94 @@
+//
+//  Auth.swift
+//  StitchCore
+//
+//  Created by Jason Flax on 10/18/17.
+//  Copyright © 2017 MongoDB. All rights reserved.
+//
+
 import Foundation
 
-/// Auth represents the current authorization state of the client
-public struct Auth {
-    
-    private static let accessTokenKey =         "accessToken"
-    private static let userIdKey =              "userId"
-    private static let deviceId =               "deviceId"
-    
-    /**
-         The current access token for this session.
-     */
-    let accessToken: String
-    
-    /**
-     *   The current access token for this session in decoded JWT form.
-     *   Will be nil if the token was malformed and could not be decoded.
-     */
-    let accessTokenJwt: DecodedJWT?
-    
-    /**
-         The user this session was created for.
-     */
-    let deviceId: String
-    
-    /**
-         The user this session was created for.
-     */
-    public let userId: String?
-    
-    var json: [String : Any] {
-        return [Auth.accessTokenKey : accessToken,
-                // TODO: remove once userId is guarenteed to be in the call (backend task)
-                Auth.userIdKey : userId ?? "",
-                Auth.deviceId : deviceId]
+public class Auth {
+    public let userId: String
+
+    internal var authInfo: AuthInfo
+
+    private let stitchClient: StitchClient
+
+    // Initializes new Auth resource
+    // - parameter stitchClient: associated stitch client
+    // - parameter authInfo: information about the logged in status
+    internal init(stitchClient: StitchClient,
+                  authInfo: AuthInfo) {
+        self.stitchClient = stitchClient
+        self.authInfo = authInfo
+        self.userId = authInfo.userId
     }
-    
-    
-    //MARK: - Init
-    private init(accessToken: String, userId: String?, deviceId: String) {
-        self.accessToken = accessToken
-        self.accessTokenJwt = try? DecodedJWT(jwt: self.accessToken)
-        self.userId = userId
-        self.deviceId = deviceId
+
+    public func createApiKey(name: String) -> StitchTask<ApiKey> {
+        return stitchClient.performRequest(method: .post,
+                                           endpoint: Consts.UserProfileApiKeyPath,
+                                           parameters: ["name": name],
+                                           refreshOnFailure: true,
+                                           useRefreshToken: true,
+                                           responseType: ApiKey.self)
     }
-    
+
+    public func fetchApiKey(id: String) -> StitchTask<ApiKey> {
+        return stitchClient.performRequest(method: .get,
+                                           endpoint: "\(Consts.UserProfileApiKeyPath)/\(id)",
+            refreshOnFailure: true,
+            useRefreshToken: true,
+            responseType: ApiKey.self)
+    }
+
+    public func fetchApiKeys() -> StitchTask<[ApiKey]> {
+        return stitchClient.performRequest(method: .get,
+                                           endpoint: "\(Consts.UserProfileApiKeyPath)",
+                                           refreshOnFailure: true,
+                                           useRefreshToken: true,
+                                           responseType: [ApiKey].self)
+    }
+
+    public func deleteApiKey(id: String) -> StitchTask<Bool> {
+        return stitchClient.performRequest(method: .delete,
+                                           endpoint: "\(Consts.UserProfileApiKeyPath)/\(id)",
+                                           refreshOnFailure: true,
+                                           useRefreshToken: true,
+                                           responseType: Bool.self)
+    }
+
+    private func enableDisableApiKey(id: String, shouldEnable: Bool) -> StitchTask<Bool> {
+        return stitchClient.performRequest(method: .put,
+                                           endpoint: Consts.UserProfileApiKeyPath +
+                                              "\(id)/\(shouldEnable ? "enable" : "disable")",
+                                           refreshOnFailure: true,
+                                           useRefreshToken: true,
+                                           responseType: Bool.self)
+    }
+
+    public func enableApiKey(id: String) ->  StitchTask<Bool> {
+        return self.enableDisableApiKey(id: id, shouldEnable: true)
+    }
+
+    public func disableApiKey(id: String) -> StitchTask<Bool> {
+        return self.enableDisableApiKey(id: id, shouldEnable: false)
+    }
     /**
-     - parameter dictionary: Dict containing the access token, userId, and deviceId necessary to create
-         this auth object
+     Fetch the current user profile, containing all user info. Can fail.
+     
+     - Returns: A StitchTask containing profile of the given user
      */
-    internal init(dictionary: [String : Any]) throws {
-        
-        guard let accessToken = dictionary[Auth.accessTokenKey] as? String,
-            let userId = dictionary[Auth.userIdKey] as? String?,
-            let deviceId = dictionary[Auth.deviceId] as? String else {
-                throw StitchError.responseParsingFailed(reason: "failed creating Auth out of info: \(dictionary)")
-        }
-        
-        self = Auth(accessToken: accessToken, userId: userId, deviceId: deviceId)
+    @discardableResult
+    public func fetchUserProfile() -> StitchTask<UserProfile> {
+        return stitchClient.performRequest(method: .get,
+                                           endpoint: Consts.UserProfilePath,
+                                           refreshOnFailure: false,
+                                           useRefreshToken: false,
+                                           responseType: UserProfile.self)
+            .response(onQueue: DispatchQueue.global(qos: .utility)) { _ in }
     }
-    
-    internal func auth(with updatedAccessToken: String) -> Auth {
-        return Auth(accessToken: updatedAccessToken, userId: userId, deviceId: deviceId)
-    }
-    
+
     /**
          Determines if the access token stored in this Auth object is expired or expiring within
          a provided number of seconds.
@@ -74,7 +100,7 @@ public struct Auth {
                 nil if the access token doesn't exist, is malformed, or does not have an 'exp' field.
      */
     public func isAccessTokenExpired(withinSeconds: Double = 10.0) -> Bool? {
-        if let exp = self.accessTokenJwt?.expiration {
+        if let exp = self.authInfo.accessToken?.expiration {
             return Date() >= (exp - TimeInterval(withinSeconds))
         }
         return nil

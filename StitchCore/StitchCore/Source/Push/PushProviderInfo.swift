@@ -2,8 +2,7 @@ import Foundation
 import ExtendedJson
 
 internal enum PushProviderInfoFields: String {
-    case FieldType = "type"
-    case Config = "config"
+    case type, config
 }
 
 /// Protocol for the information for any given push provider
@@ -17,7 +16,7 @@ public protocol PushProviderInfo {
      
      - Returns: A dictionary containing providerName, senderId, and config fields
      */
-    func toDict() -> [String : Any]
+    func toDict() -> [String: Any]
 }
 
 /// Helper class to construct PushProviderInfo from persistent storage
@@ -32,22 +31,27 @@ public class PushProviderInfoHelper {
     public class func fromPreferences() throws -> [PushProviderInfo] {
         let userDefaults: UserDefaults = UserDefaults(suiteName: Consts.UserDefaultsName)!
 
-        let configs = userDefaults.value(forKey: PrefConfigs) as? [String: Any] ?? [String : Any]()
-        
+        let configs = userDefaults.value(forKey: prefConfigs) as? [String: Any] ?? [String: Any]()
+
         print(configs)
         return try configs.map { configEntry in
-            let info: [String: Any]  = configEntry.value as! [String : Any]
-            
-            let providerNameOpt = PushProviderName.fromTypeName(typename: info[PushProviderInfoFields.FieldType.rawValue] as! String)
-            
-            if let providerName = providerNameOpt {
-                let config = info[PushProviderInfoFields.Config.rawValue] as! [String: Any]
-                
-                switch (providerName) {
-                case .GCM: return StitchGCMPushProviderInfo.fromConfig(serviceName: configEntry.key, senderId: config[StitchGCMProviderInfoFields.SenderID.rawValue] as! String)
-                }
-            } else {
-                throw StitchError.illegalAction(message: "Provider does not exist")
+            guard let info = configEntry.value as? [String: Any],
+                let providerName = info[PushProviderInfoFields.type.rawValue] as? String,
+                let pushProviderName = PushProviderName.fromTypeName(typename: providerName) else {
+                throw StitchError.responseParsingFailed(reason: "\(configs) did not contain valid provider")
+            }
+
+            guard let config = info[PushProviderInfoFields.config.rawValue] as? [String: Any] else {
+                throw StitchError.responseParsingFailed(reason: "\(configs) did not contain valid configuration")
+            }
+
+            switch pushProviderName {
+            case .GCM: guard let senderId = config[StitchGCMProviderInfoFields.senderId.rawValue] as? String else {
+                throw StitchError.responseParsingFailed(
+                    reason: "GCM push provider for \(configs) did not contain valid senderId")
+            }
+            return StitchGCMPushProviderInfo.fromConfig(serviceName: configEntry.key,
+                                                        senderId: senderId)
             }
         }
     }
@@ -58,10 +62,10 @@ extension PushProviderInfo {
      Convert PushProviderInfo to a document.
      -returns: The provider info as a serializable document.
      */
-    public func toDocument() -> BsonDocument {
-        var doc = BsonDocument()
-        doc[PushProviderInfoFields.FieldType.rawValue] = providerName as? ExtendedJsonRepresentable
-        doc[PushProviderInfoFields.Config.rawValue] = BsonDocument()
+    public func toDocument() -> Document {
+        var doc = Document()
+        doc[PushProviderInfoFields.type.rawValue] = providerName as? ExtendedJsonRepresentable
+        doc[PushProviderInfoFields.config.rawValue] = Document()
         return doc
     }
 }

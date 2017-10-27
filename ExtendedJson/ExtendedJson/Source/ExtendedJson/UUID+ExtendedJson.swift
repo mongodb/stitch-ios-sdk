@@ -8,10 +8,10 @@
 
 import Foundation
 
-extension UUID : ExtendedJsonRepresentable {
+extension UUID: ExtendedJsonRepresentable {
     public static func fromExtendedJson(xjson: Any) throws -> ExtendedJsonRepresentable {
-        guard let json = xjson as? [String : Any],
-            let binary = json[ExtendedJsonKeys.binary.rawValue] as? [String : String],
+        guard let json = xjson as? [String: Any],
+            let binary = json[ExtendedJsonKeys.binary.rawValue] as? [String: String],
             let base64 = binary["base64"],
             let subType = binary["subType"],
             BsonBinarySubType.uuid.rawValue == UInt8(subType),
@@ -25,28 +25,28 @@ extension UUID : ExtendedJsonRepresentable {
             data[10], data[11], data[12], data[13], data[14], data[15]
         ))
     }
-    
-    public var toBsonBinary: BsonBinary {
-        return BsonBinary(type: BsonBinarySubType.uuid, data: [uuid.0, uuid.1, uuid.2, uuid.3, uuid.4,
+
+    public var toBsonBinary: Binary {
+        return Binary(type: BsonBinarySubType.uuid, data: [uuid.0, uuid.1, uuid.2, uuid.3, uuid.4,
                                                                uuid.5, uuid.6, uuid.7, uuid.8, uuid.9,
                                                                uuid.10, uuid.11, uuid.12, uuid.13, uuid.14, uuid.15])
     }
-    
+
     public var toExtendedJson: Any {
         return [
-            ExtendedJsonKeys.binary.rawValue : [
-                "base64" : Data(bytes:
+            ExtendedJsonKeys.binary.rawValue: [
+                "base64": Data(bytes:
                     [uuid.0, uuid.1, uuid.2, uuid.3, uuid.4,
                      uuid.5, uuid.6, uuid.7, uuid.8, uuid.9,
                      uuid.10, uuid.11, uuid.12, uuid.13, uuid.14, uuid.15]
                     ).base64EncodedString(),
-                "subType" : String(describing: BsonBinarySubType.uuid)
+                "subType": String(describing: BsonBinarySubType.uuid)
             ]
         ]
     }
-    
+
     public func isEqual(toOther other: ExtendedJsonRepresentable) -> Bool {
         return (other is UUID && (other as! UUID).uuidString == self.uuidString) ||
-            (other is BsonBinary && (other as! BsonBinary).isEqual(toOther: self.toBsonBinary))
+            (other is Binary && (other as! Binary).isEqual(toOther: self.toBsonBinary))
     }
 }

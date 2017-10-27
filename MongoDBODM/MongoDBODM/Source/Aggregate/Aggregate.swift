@@ -27,25 +27,24 @@ import StitchLogger
 public struct Aggregate<Entity: RootEntity> {
     let mongoDBClient: MongoDBClientType
     var aggregationPipeline: [AggregationStage]
-    
+
     public init(mongoDBClient: MongoDBClientType, stages: [AggregationStage]) {
         self.mongoDBClient = mongoDBClient
         self.aggregationPipeline = stages
     }
-    
+
     public func execute() -> StitchTask<Any> {
         if let classMetaData = Utils.entitiesDictionary[Utils.getIdentifier(type: Entity.self)] {
-            
+
             let databaseName = classMetaData.databaseName
             let collectionName = classMetaData.collectionName
-            
-            let aggregationPipelineDocument = aggregationPipeline.map{ $0.asDocument }
+
+            let aggregationPipelineDocument = aggregationPipeline.map { $0.asDocument }
             return mongoDBClient.database(named: databaseName).collection(named: collectionName).aggregate(pipeline: aggregationPipelineDocument)
-        }
-        else {
+        } else {
             printLog(.error, text: "Metadata is missing for class \(Entity.self)")
             return StitchTask<Any>(error: OdmError.classMetaDataNotFound)
         }
     }
-    
+
 }

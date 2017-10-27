@@ -19,7 +19,6 @@ extension ExtendedJsonRepresentableError: LocalizedError {
     }
 }
 
-
 public enum BsonError<T> {
     case illegalArgument(message: String)
     case parseValueFailure(value: Any?, attemptedType: T.Type)

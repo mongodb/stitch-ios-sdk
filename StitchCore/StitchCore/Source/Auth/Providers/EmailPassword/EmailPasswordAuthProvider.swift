@@ -1,4 +1,5 @@
 import Foundation
+import ExtendedJson
 
 /// EmailPasswordAuthProvider provides a way to authenticate using an email and password.
 public struct EmailPasswordAuthProvider: AuthProvider {
@@ -6,21 +7,21 @@ public struct EmailPasswordAuthProvider: AuthProvider {
     public var type: String {
         return "local"
     }
-    
+
     /// The name for email/pass login
     public var name: String {
         return "userpass"
     }
-    
+
     /// The JSON payload containing the username and password.
-    public var payload: [String : Any] {
-        return ["username" : username,
-                "password" : password]
+    public var payload: Document {
+        return ["username": username,
+                "password": password]
     }
-    
+
     private(set) var username: String
     private(set) var password: String
-    
+
     // MARK: - Init
     /**
          Create a new provider object using an email and password.

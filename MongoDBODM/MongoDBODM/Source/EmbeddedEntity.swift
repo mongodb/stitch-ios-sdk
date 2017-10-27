@@ -5,7 +5,6 @@
 
 import Foundation
 
-
 import UIKit
 import ExtendedJson
 import StitchCore
@@ -16,34 +15,34 @@ import StitchCore
  */
 
 open class EmbeddedEntity: BaseEntity {
-    
+
     var parent: BaseEntity?
     var keyInParent: String?
     var isEmbeddedInArray: Bool? {
         willSet(embeddedInArray) {
-            if embeddedInArray == true{
+            if embeddedInArray == true {
                 setObjectIdIfNeeded()
             }
         }
     }
-    
+
     public override init(document: BsonDocument) {
         super.init(document: document)
     }
-    
-    public override init(){
+
+    public override init() {
         super.init()
     }
-    
-    //MARK: Private
-    
+
+    // MARK: Private
+
     private func setObjectIdIfNeeded() {
-        if (self.objectId == nil){
+        if (self.objectId == nil) {
             self.objectId = ObjectId()
         }
     }
-    
-    //MARK: Public
+
+    // MARK: Public
     /**
      Use this method when you want to update an existing entity - this method would save all the new values that been changed since the entity was fetched
      
@@ -70,42 +69,40 @@ open class EmbeddedEntity: BaseEntity {
             self.handleOperationResult(stitchResult: result)
         })
     }
-    
-    //MARK: Internal
-    
-    internal func embedIn(parent baseEntity: BaseEntity, keyInParent: String, isEmbeddedInArray: Bool){
+
+    // MARK: Internal
+
+    internal func embedIn(parent baseEntity: BaseEntity, keyInParent: String, isEmbeddedInArray: Bool) {
         parent = baseEntity
         self.keyInParent = keyInParent
         self.isEmbeddedInArray = isEmbeddedInArray
     }
-    
+
     override internal func update(operationTypes: [UpdateOperationType]?, operationTypePrefix: String?, embeddedEntityInArrayObjectId: ObjectId?) -> StitchTask<Any> {
-        
+
         let updateTypesToReturn = operationTypes ?? getUpdateOperationTypes()
         var prefixToReturn = operationTypePrefix ?? ""
         var objectIdToReturn: ObjectId?
-        
+
         guard let keyInParent = keyInParent,
             let parent = parent,
             let isEmbeddedInArray = isEmbeddedInArray else {
                 let error = OdmError.updateParametersMissing
                 return StitchCore.StitchTask(error: error)
         }
-        
+
         let prefixToAdd = isEmbeddedInArray ? ".$." : "."
         prefixToReturn = keyInParent + prefixToAdd + prefixToReturn
-        
-        
+
         if isEmbeddedInArray && embeddedEntityInArrayObjectId == nil {
             if let objectId = objectId {
                 objectIdToReturn = objectId
-            }
-            else{
+            } else {
                 return StitchTask(error: OdmError.objectIdNotFound)
             }
         }
-        
+
         return parent.update(operationTypes: updateTypesToReturn, operationTypePrefix: prefixToReturn, embeddedEntityInArrayObjectId: objectIdToReturn)
     }
-    
+
 }

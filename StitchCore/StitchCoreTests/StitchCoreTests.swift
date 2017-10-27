@@ -1,164 +1,218 @@
 import XCTest
 @testable import StitchCore
 import ExtendedJson
+import StitchLogger
+import MongoDBService
 
 class StitchCoreTests: XCTestCase {
-    
+
     override func setUp() {
         super.setUp()
+        LogManager.minimumLogLevel = .debug
     }
-    
+
     override func tearDown() {
         super.tearDown()
     }
-    
-    func testPipelineToJson() throws {
-        
-        // setup
-        let hexString = "1234567890abcdef12345678"
-        let objectId = try ObjectId(hexString: hexString)
-        let date = Date()
-        var array = BsonArray()
-        let number = 42
-        var embeddedDoc: BsonDocument = [
-            "testObjectId": objectId,
-            "testLong": Int64(number)
-        ]
-        embeddedDoc["testObjectId"] = objectId
-        embeddedDoc["testLong"] = Int64(number)
-        array.append(embeddedDoc)
-        array.append(embeddedDoc)// add the same document twice
-        
-        let dbRefId = ObjectId.NewObjectId()
-        
-        // create pipline to test
-        let pipeline = Pipeline(action: "testAction", service: "testService", args: [
-            "testObjectId" : objectId,
-            "testInt" : Int32(number),
-            "testLong" : Int64(number),
-            "testDouble" : Double(number),
-            "testString" : "MongoDB",
-            "testDate" : date,
-            "testTrue" : true,
-            "testFalse" : false,
-            "testBinary" : BsonBinary(type: .binary, data: [77, 111, 110, 103, 111, 68, 66]),
-            "testTimestamp" : BsonTimestamp(time: date, increment: 1),
-            "testRegex" : try NSRegularExpression(pattern: "[0-9a-fA-F]+", options: .caseInsensitive),
-            "testMinKey" : MinKey(),
-            "testMaxKey" : MaxKey(),
-            "testArray" : array,
-            "testCode": BsonCode(code: "foo", scope: ["bar": "baz"]),
-            "testRef": BsonDBRef(ref: "foo", id: dbRefId, db: "bar", otherFields: [:])
+
+    let stitchClient = StitchClient(appId: "test-uybga")
+
+    func testAuthInfoCodable() throws {
+        let data = try JSONSerialization.data(withJSONObject: [
+            "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
+                "eyJleHAiOjE1MDg3Mjg0MDksImlhdCI6MTUwODcyN" +
+                "jYwOSwiaXNzIjoiNTllZDU3NTE0ZmRkMWZhMWRhMzg1ODYyIiwic3RpdGNoX2RhdGEiOm51" +
+                "bGwsInN0aXRjaF9kZXZJZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCIsInN0aXRjaF9kb21haW" +
+                "5JZCI6IjU5OTc0MTc5MDU4NDI5NTFkOGRiOThhNyIsInN1YiI6IjU5ZWQ1NzUxNGZkZDFm" +
+                "YTFkYTM4NTg2MSIsInR5cCI6ImFjY2VzcyJ9.3P2uL5HSOBVUDxVEDSJIz3iMIPCCccSr-i9_gzNkoL8",
+            "deviceId": "000000000000000000000000",
+            "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
+                "eyJleHAiOjE1MTM5MTA2MDksImlhdCI6MTUwODcyNjYwOSwic3" +
+                "RpdGNoX2RhdGEiOm51bGwsInN0aXRjaF9kZXZJZCI6IjAwMDAwMDAwMDAwMDAwMDA" +
+                "wMDAwMDAwMCIsInN0aXRjaF9kb21haW5JZCI6IjU5OTc0MTc5MDU4NDI5NT" +
+                "FkOGRiOThhNyIsInN0aXRjaF9pZCI6IjU5ZWQ1NzUxNGZkZDFmYTFkYTM4NTg2MiIsInN0aXRjaF" +
+                "9pZGVudCI6eyJpZCI6IjU5ZWQ1NzUxNGZkZDFmYTFkYTM4NTg2MC1jcWlnaXJkcGNldWx6am5hdG" +
+                "xpdHlkZ3kiLCJwcm92aWRlcl90eXBlIjoiYW5vbi11c2VyIiwicHJvdmlkZXJfaWQiOiI1OTlkZ" +
+                "jkwMjQ2MjI0YzFmMzllMzgyYjkifSwic3ViIjoiNTllZDU3NTE0ZmRkMWZhMWRhMzg1" +
+                "ODYxIiwidHlwIjoicmVmcmVzaCJ9.mMVCk5Ygo29dfLYY4TrmiIuR-18iIX12guiWIcpmGnk",
+            "userId": "59ed57514fdd1fa1da385861"
         ])
-        
-        let pipelineJson = pipeline.toJson
-        
-        XCTAssertEqual(pipelineJson["action"] as! String, "testAction")
-        XCTAssertEqual(pipelineJson["service"] as! String, "testService")
-        
-        // the expected args result as extended json
-        let numberAsString = String(number)
-        let dateAsString = String(UInt64(date.timeIntervalSince1970 * 1000))
-        let expectedArgsExtendedJson: [String : Any] = [
-            "testObjectId" : ["$oid" : hexString],
-            "testInt" : ["$numberInt" : numberAsString],
-            "testLong" : ["$numberLong" : numberAsString],
-            "testDouble" : ["$numberDouble" : numberAsString],
-            "testString" : "MongoDB",
-            "testDate" : ["$date" : ["$numberLong" : dateAsString]],
-            "testTrue" : true,
-            "testFalse" : false,
-            "testBinary" : ["$binary" : ["base64" : "TW9uZ29EQg==", "subType" : "0x0"]],
-            "testTimestamp" : ["$timestamp" : ["t": (UInt64(date.timeIntervalSince1970)), "i": 1]],
-            "testRegex" : ["$regularExpression" :["pattern": "[0-9a-fA-F]+", "options" : "i"]],
-            "testMinKey" : ["$minKey" : 1],
-            "testMaxKey" : ["$maxKey" : 1],
-            "testArray" : [["testObjectId" : ["$oid" : hexString],
-                            "testLong" : ["$numberLong" : numberAsString]],
-                           ["testObjectId" : ["$oid" : hexString],
-                            "testLong" : ["$numberLong" : numberAsString]]
-            ],
-            "testCode": ["$code": "foo", "$scope": ["bar": "baz"]],
-            "testRef": ["$ref": "foo", "$id": ["$oid": dbRefId.hexString], "$db": "bar"]
-        ]
-        
-        do {
-            // create documents from the generated args result and from the expected result
-            let document = try BsonDocument(extendedJson: pipelineJson["args"] as! [String : Any])
-            let expectedDocument = try BsonDocument(extendedJson: expectedArgsExtendedJson)
-            
-            XCTAssertEqual(document["testObjectId"] as! ObjectId, expectedDocument["testObjectId"] as! ObjectId)
-            XCTAssertEqual(document["testInt"] as? Int32, expectedDocument["testInt"] as? Int32)
-            XCTAssertEqual(document["testLong"] as? Int64, expectedDocument["testLong"] as? Int64)
-            XCTAssertEqual(document["testDouble"] as? Double, expectedDocument["testDouble"] as? Double)
-            XCTAssertEqual(document["testString"] as? String, expectedDocument["testString"] as? String)
-            XCTAssertEqual(Int64((document["testDate"] as? Date)!.timeIntervalSince1970),
-                           Int64(date.timeIntervalSince1970 * 1000))
-            XCTAssertEqual(document["testTrue"] as? Bool, expectedDocument["testTrue"] as? Bool)
-            XCTAssertEqual(document["testFalse"] as? Bool, expectedDocument["testFalse"] as? Bool)
-            XCTAssertEqual(document["testBinary"] as? BsonBinary, expectedDocument["testBinary"] as? BsonBinary)
-            XCTAssertEqual(document["testTimestamp"] as? BsonTimestamp, expectedDocument["testTimestamp"] as? BsonTimestamp)
-            XCTAssertEqual(document["testRegex"] as? NSRegularExpression, expectedDocument["testRegex"] as? NSRegularExpression)
-            XCTAssertEqual(document["testMinKey"] as? MinKey, expectedDocument["testMinKey"] as? MinKey)
-            XCTAssertEqual(document["testMaxKey"] as? MaxKey, expectedDocument["testMaxKey"] as? MaxKey)
-            
-            let embeddedArray = document["testArray"] as! BsonArray
-            let expectedEmbeddedArray = expectedDocument["testArray"] as! BsonArray
-            
-            XCTAssertEqual(embeddedArray.count, expectedEmbeddedArray.count)
-            
-            XCTAssertEqual((embeddedArray[0] as! BsonDocument)["testObjectId"] as! ObjectId, (expectedEmbeddedArray[0] as! BsonDocument)["testObjectId"] as! ObjectId)
-            XCTAssertEqual((embeddedArray[0] as! BsonDocument)["testLong"] as! Int64, (expectedEmbeddedArray[0] as! BsonDocument)["testLong"] as! Int64)
-            
-            XCTAssertEqual((embeddedArray[1] as! BsonDocument)["testObjectId"] as! ObjectId, (expectedEmbeddedArray[1] as! BsonDocument)["testObjectId"] as! ObjectId)
-            XCTAssertEqual((embeddedArray[1] as! BsonDocument)["testLong"] as! Int64, (expectedEmbeddedArray[1] as! BsonDocument)["testLong"] as! Int64)
-            
-        } catch {
-            XCTFail(error.localizedDescription)
-        }
+        XCTAssertNoThrow(try JSONDecoder().decode(AuthInfo.self, from: data))
     }
-    
+
+    func testMongo() {
+        let expectation = self.expectation(description: "execute pipelines")
+
+        let collection = MongoDBClient(stitchClient: stitchClient,
+                                       serviceName: "mongodb-atlas")
+            .database(named: "todo").collection(named: "items")
+
+        stitchClient.anonymousAuth().then { (_: String) -> StitchTask<Int> in
+            return collection.count(query: Document())
+        }.then { (docs: Int) -> StitchTask<Document> in
+            print(docs)
+            return collection.insertOne(document: ["bill": "jones",
+                                                   "owner_id": self.stitchClient.auth?.authInfo.userId ?? "0"])
+        }.then { (insertOne: Document) -> StitchTask<Int> in
+            XCTAssert(insertOne["bill"] as? String == "jones")
+            return collection.count(query: [:])
+        }.then { (count: Int) -> StitchTask<[Document]> in
+            XCTAssert(count == 1)
+            return collection.insertMany(documents: [["bill": "jones",
+                                                     "owner_id": self.stitchClient.auth?.authInfo.userId ?? "0"],
+                                                     ["bill": "jones",
+                                                      "owner_id": self.stitchClient.auth?.authInfo.userId ?? "0"]])
+        }.then { (_: [Document]) -> StitchTask<[Document]> in
+            return collection.find(query: ["owner_id": self.stitchClient.auth?.authInfo.userId ?? "0"])
+        }.then { (coll: [Document]) -> StitchTask<Document> in
+            XCTAssert(coll.count == 3)
+            return collection.updateOne(query: ["owner_id": self.stitchClient.auth?.authInfo.userId ?? "0"],
+                                        update: ["owner_id": self.stitchClient.auth?.authInfo.userId ?? "0",
+                                                 "bill": "thompson"])
+        }.then { (result: Document) -> StitchTask<[Document]> in
+            XCTAssert(result["bill"] as? String == "thompson")
+            return collection.updateMany(query: ["owner_id": self.stitchClient.auth?.authInfo.userId ?? "0"],
+                                        update: ["owner_id": self.stitchClient.auth?.authInfo.userId ?? "0",
+                                                 "bill": "jackson"])
+        }.then { (result: [Document]) -> StitchTask<Int> in
+            XCTAssert(result.count == 3)
+            return collection.deleteOne(query: ["owner_id": self.stitchClient.auth?.authInfo.userId ?? "0"])
+        }.then { (result: Int) -> StitchTask<Int64> in
+            XCTAssert(result == 1)
+            return collection.deleteMany(query: ["owner_id": self.stitchClient.auth?.authInfo.userId ?? "0"])
+        }.then { (result: Int64) in
+            XCTAssert(result == 2)
+            expectation.fulfill()
+        }.catch { err in
+            print(err)
+        }
+
+        waitForExpectations(timeout: 20, handler: nil)
+    }
+
+    func testIntegration() throws {
+        let expectation = self.expectation(description: "execute pipelines")
+
+        stitchClient.fetchAuthProviders().then { (auths: AuthProviderInfo) -> Void in
+            XCTAssertNotNil(auths.anonymousAuthProviderInfo)
+            XCTAssertNotNil(auths.emailPasswordAuthProviderInfo)
+            XCTAssertNotNil(auths.googleProviderInfo)
+            XCTAssertNil(auths.facebookProviderInfo)
+
+            XCTAssert(auths.googleProviderInfo?.clientId ==
+            "405021717222-8n19u6ij79kheu4lsaeekfh9b1dng7b7.apps.googleusercontent.com")
+            XCTAssert(auths.googleProviderInfo?.scopes?.contains("profile") ?? false)
+            XCTAssert(auths.googleProviderInfo?.scopes?.contains("email") ?? false)
+        }.then { _ -> StitchTask<String> in
+            return self.stitchClient.login(withProvider: EmailPasswordAuthProvider(username: "stitch@mongodb.com",
+                                                                                   password: "stitchuser"))
+        }.then { (userId: String) in
+            XCTAssert(userId == "59ee23094fdd1fa1da3d1057")
+        }.then { _ -> StitchTask<BSONCollection> in
+            return self.stitchClient.executePipeline(
+                pipeline: Pipeline(action: "literal",
+                                   args: ["items": [
+                                    [ "type": "apples", "qty": 25 ] as Document,
+                                    [ "type": "oranges", "qty": 50 ] as Document
+                                    ] as BSONArray]))
+        }.then { (result: BSONCollection) in
+            let expectedResult: BSONArray = [
+                [
+                    "type": "apples",
+                    "qty": Double(25)
+                ] as Document,
+                [
+                    "type": "oranges",
+                    "qty": Double(50)
+                ] as Document
+            ]
+
+            XCTAssert(result.asArray().isEqual(toOther: expectedResult))
+            expectation.fulfill()
+        }.catch { error in
+            XCTAssertNotNil(error)
+        }
+
+        self.wait(for: [expectation], timeout: TimeInterval(200))
+    }
+
+    // swiftlint:disable:next function_body_length
     func testAuthTokenExpirationCheck() {
         // access token with 5138-Nov-16
-        let testUnexpiredAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdC1hY2Nlc3MtdG9rZW4iLCJleHAiOjEwMDAwMDAwMDAwMH0.KMAoJOX8Dh9wvt-XzrUN_W6fnypsPrlu4e-AOyqSAGw"
-        
+        let testUnexpiredAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" +
+            ".eyJuYW1lIjoidGVzdC1hY2Nlc3MtdG9rZW4iLCJleHAiOjEwMDAwMDAwMDAwMH0" +
+            ".KMAoJOX8Dh9wvt-XzrUN_W6fnypsPrlu4e-AOyqSAGw"
+
         // acesss token with 1970-Jan-01 expiration
-        let testExpiredAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdC1hY2Nlc3MtdG9rZW4iLCJleHAiOjF9.7tOdF0LXC_2iQMjNfZvQwwfLNiEj-dd0VT0adP5bpjo"
-        
+        let testExpiredAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" +
+            ".eyJuYW1lIjoidGVzdC1hY2Nlc3MtdG9rZW4iLCJleHAiOjF9.7tOdF0LXC_2iQMjNfZvQwwfLNiEj" +
+            "-dd0VT0adP5bpjo"
+
         // access token where exp field is not a number
-        let nanToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdC1hY2Nlc3MtdG9rZW4iLCJleHAiOiJub3QgYSBudW1iZXIifQ.eeCE14Jd0Vh7WansvH4K2-VgC0n-khz9aY8rlzfMGug"
-        
+        let nanToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" +
+            ".eyJuYW1lIjoidGVzdC1hY2Nlc3MtdG9rZW4iLCJleHAiOiJub3QgYSBudW1iZXIifQ.eeCE14Jd0Vh7WansvH4K2" +
+            "-VgC0n-khz9aY8rlzfMGug"
+
         // access token without exp field
-        let noExpToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdC1hY2Nlc3MtdG9rZW4iLCJub3RfZXhwIjo1MDAwfQ.0-T4a0ufpEMuwtZtJ-uDVCwuEgOf8ERY_ZWc3iKT3vo"
-        
+        let noExpToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" +
+            ".eyJuYW1lIjoidGVzdC1hY2Nlc3MtdG9rZW4iLCJub3RfZXhwIjo1MDAwfQ" +
+            ".0-T4a0ufpEMuwtZtJ-uDVCwuEgOf8ERY_ZWc3iKT3vo"
+
         // malformed access tokens
         let malformedToken1 = "blah.blah.blah"
         let malformedToken2 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdC1hY2Nlc3MtdG9rZW4iLCJleHAiOjF9"
-        
-        var authObj: Auth
-    
+
+        var authObj: AuthInfo
+
         do {
-            authObj = try Auth(dictionary: ["accessToken" : testUnexpiredAccessToken, "deviceId" : "0"])
+            authObj = try JSONDecoder().decode(
+                AuthInfo.self,
+                from: JSONSerialization.data(withJSONObject: ["accessToken": testUnexpiredAccessToken,
+                                                              "deviceId": "0",
+                                                              "refreshToken": "0",
+                                                              "userId": "0"]))
             XCTAssertFalse(authObj.isAccessTokenExpired()!)
-            
-            authObj = try Auth(dictionary: ["accessToken" : testExpiredAccessToken, "deviceId" : "0"])
+
+            authObj = try JSONDecoder().decode(
+                AuthInfo.self,
+                from: JSONSerialization.data(withJSONObject: ["accessToken": testExpiredAccessToken,
+                                                              "deviceId": "0",
+                                                              "refreshToken": "0",
+                                                              "userId": "0"]))
             XCTAssertTrue(authObj.isAccessTokenExpired()!)
-            
-            authObj = try Auth(dictionary: ["accessToken" : nanToken, "deviceId" : "0"])
+
+            authObj = try JSONDecoder().decode(
+                AuthInfo.self,
+                from: JSONSerialization.data(withJSONObject: ["accessToken": nanToken,
+                                                              "deviceId": "0",
+                                                              "refreshToken": "0",
+                                                              "userId": "0"]))
             XCTAssertNil(authObj.isAccessTokenExpired())
-            
-            authObj = try Auth(dictionary: ["accessToken" : noExpToken, "deviceId" : "0"])
+
+            authObj = try JSONDecoder().decode(
+                AuthInfo.self,
+                from: JSONSerialization.data(withJSONObject: ["accessToken": noExpToken,
+                                                              "deviceId": "0",
+                                                              "refreshToken": "0",
+                                                              "userId": "0"]))
             XCTAssertNil(authObj.isAccessTokenExpired())
-            
-            authObj = try Auth(dictionary: ["accessToken" : malformedToken1, "deviceId" : "0"])
-            XCTAssertNil(authObj.isAccessTokenExpired())
-            
-            authObj = try Auth(dictionary: ["accessToken" : malformedToken2, "deviceId" : "0"])
-            XCTAssertNil(authObj.isAccessTokenExpired())
-        } catch {
-            XCTFail("Could not create Auth object to test token expiration check.")
+
+            XCTAssertThrowsError(try JSONDecoder().decode(
+                AuthInfo.self,
+                from: JSONSerialization.data(withJSONObject: ["accessToken": malformedToken1,
+                                                              "deviceId": "0",
+                                                              "refreshToken": "0",
+                                                              "userId": "0"])))
+
+            XCTAssertThrowsError(try JSONDecoder().decode(
+                AuthInfo.self,
+                from: JSONSerialization.data(withJSONObject: ["accessToken": malformedToken2,
+                                                              "deviceId": "0",
+                                                              "refreshToken": "0",
+                                                              "userId": "0"])))
+        } catch let error {
+            XCTFail("Could not create Auth object to test token expiration check: \(error)")
         }
     }
-    
-    
+
 }

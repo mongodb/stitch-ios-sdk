@@ -30,7 +30,7 @@ public enum StitchError: Error {
         case noMatchingRuleFound(message: String)
         /// Misc errors
         case other(message: String)
-        
+
         internal var isInvalidSession: Bool {
             switch self {
             case .invalidSession:
@@ -39,7 +39,7 @@ public enum StitchError: Error {
                 return false
             }
         }
-        
+
         /**
              Create a new `StitchError`.
  
@@ -51,47 +51,34 @@ public enum StitchError: Error {
             switch errorCode {
             case "InvalidSession":
                 self = .invalidSession(message: errorMessage)
-                break
             case "DomainNotAllowed":
                 self = .domainNotAllowed(message: errorMessage)
-                break
             case "StageSourceRequired":
                 self = .stageSourceRequired(message: errorMessage)
-                break
             case "InvalidParameter":
                 self = .invalidParameter(message: errorMessage)
-                break
             case "TwilioError":
                 self = .twilioError(message: errorMessage)
-                break
             case "PubNubError":
                 self = .pubNubError(message: errorMessage)
-                break
             case "HTTPError":
                 self = .httpError(message: errorMessage)
-                break
             case "AWSError":
                 self = .awsError(message: errorMessage)
-                break
             case "MongoDBError":
                 self = .mongoDBError(message: errorMessage)
-                break
             case "SlackError":
                 self = .slackError(message: errorMessage)
-                break
             case "AuthProviderNotFound":
                 self = .authProviderNotFound(message: errorMessage)
-                break
             case "NoMatchingRuleFound":
                 self = .noMatchingRuleFound(message: errorMessage)
-                break
-                
             default:
                 self = .other(message: errorMessage)
             }
         }
     }
-    
+
     /// General server error
     case serverError(reason: ServerErrorReason)
     /// Failed pasing a response
@@ -103,7 +90,6 @@ public enum StitchError: Error {
     /// StitchClient has already been released
     case clientReleased
 }
-
 
 // MARK: - Error Descriptions
 

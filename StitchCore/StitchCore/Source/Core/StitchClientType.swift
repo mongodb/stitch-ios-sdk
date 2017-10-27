@@ -1,8 +1,10 @@
 import Foundation
+import ExtendedJson
 
 /// Protocol to lay out basic methods and fields for a StitchClient.
 public protocol StitchClientType {
-    
+    typealias UserId = String
+
     // MARK: - Properties
     /// Id of this application
     var appId: String { get }
@@ -10,9 +12,9 @@ public protocol StitchClientType {
     var auth: Auth? { get }
     /// Whether or not this client is authenticated.
     var isAuthenticated: Bool { get }
-    
+
     // MARK: - Auth
-    
+
     /**
         Fetches all available auth providers for the current app.
      
@@ -21,15 +23,7 @@ public protocol StitchClientType {
      */
     @discardableResult
     func fetchAuthProviders() -> StitchTask<AuthProviderInfo>
-    
-    /**
-     Fetch the current user profile, containing all user info. Can fail.
-     
-     - Returns: A StitchTask containing profile of the given user
-     */
-    @discardableResult
-    func fetchUserProfile() -> StitchTask<UserProfile>
-    
+
     /**
         Registers the current user using email and password.
      
@@ -39,7 +33,7 @@ public protocol StitchClientType {
      */
     @discardableResult
     func register(email: String, password: String) -> StitchTask<Void>
-    
+
     /**
      * Confirm a newly registered email in this context
      * - parameter token: confirmation token emailed to new user
@@ -47,8 +41,8 @@ public protocol StitchClientType {
      * - returns: A task containing whether or not the email was confirmed successfully
      */
     @discardableResult
-    func emailConfirm(token: String, tokenId: String) -> StitchTask<Any>
-    
+    func emailConfirm(token: String, tokenId: String) -> StitchTask<Void>
+
     /**
      * Send a confirmation email for a newly registered user
      * - parameter email: email address of user
@@ -56,7 +50,7 @@ public protocol StitchClientType {
      */
     @discardableResult
     func sendEmailConfirm(toEmail email: String) -> StitchTask<Void>
-    
+
     /**
      * Reset a given user's password
      * - parameter token: token associated with this user
@@ -64,8 +58,8 @@ public protocol StitchClientType {
      * - returns: A task containing whether or not the reset was successful
      */
     @discardableResult
-    func resetPassword(token: String, tokenId: String) -> StitchTask<Any>
-    
+    func resetPassword(token: String, tokenId: String) -> StitchTask<Void>
+
     /**
      * Send a reset password email to a given email address
      * - parameter email: email address to reset password for
@@ -73,36 +67,35 @@ public protocol StitchClientType {
      */
     @discardableResult
     func sendResetPassword(toEmail email: String) -> StitchTask<Void>
-    
+
     /**
      Logs the current user in anonymously.
      
      - Returns: A task containing whether or not the login as successful
      */
     @discardableResult
-    func anonymousAuth() -> StitchTask<Bool>
-    
+    func anonymousAuth() -> StitchTask<UserId>
+
     /**
         Logs the current user in using a specific auth provider.
      
         - Parameters:
             - withProvider: The provider that will handle the login.
-            - link: Whether or not to link a new auth provider.
         - Returns: A task containing whether or not the login as successful
      */
     @discardableResult
-    func login(withProvider provider: AuthProvider, link: Bool) -> StitchTask<Bool>
-    
+    func login(withProvider provider: AuthProvider) -> StitchTask<UserId>
+
     /**
      * Logs out the current user.
      *
      * - returns: A task that can be resolved upon completion of logout.
      */
     @discardableResult
-    func logout() -> StitchTask<Bool>
-    
+    func logout() -> StitchTask<Void>
+
     // MARK: - Requests
-    
+
     /**
      * Executes a pipeline with the current app.
      *
@@ -111,8 +104,8 @@ public protocol StitchClientType {
      * of the execution.
      */
     @discardableResult
-    func executePipeline(pipeline: Pipeline) -> StitchTask<Any>
-    
+    func executePipeline(pipeline: Pipeline) -> StitchTask<BSONCollection>
+
     /**
      * Executes a pipeline with the current app.
      *
@@ -121,22 +114,13 @@ public protocol StitchClientType {
      * of the execution.
      */
     @discardableResult
-    func executePipeline(pipelines: [Pipeline]) -> StitchTask<Any>
-    
+    func executePipeline(pipelines: [Pipeline]) -> StitchTask<BSONCollection>
+
     /**
         Adds a delegate for auth events.
      
         - parameter delegate: The delegate that will receive auth events.
      */
-    func addAuthDelegate(delegate: AuthDelegate)    
+    func addAuthDelegate(delegate: AuthDelegate)
 }
 
-// MARK: - Defaul Values
-
-public extension StitchClientType {
-    
-    @discardableResult
-    func login(withProvider provider: AuthProvider, link: Bool = false) -> StitchTask<Bool> {
-        return login(withProvider: provider, link: link)
-    }
-}
