@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|  
   s.name         = "StitchLogger"
-  s.version      = "0.2.0"
+  s.version      = "1.0.0"
   s.authors		 = "MongoDB"
   s.homepage     = "https://stitch.mongodb.com"
   s.summary      = "A small logging library."
