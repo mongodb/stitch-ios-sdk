@@ -17,3 +17,4 @@ MongoBaasSDKLogger/MongoBaasSDKLogger.xcodeproj/xcuserdata
 xcuserdata/
 Pods/
 StitchGCM/Pods/
+.DS_Store
