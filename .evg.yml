@@ -1,15 +1,23 @@
+functions:
+  "fetch_source":
+    - command: git.get_project
+      params:
+        directory: "stitch-ios-sdk"
 tasks:
   - name: run_tests
+    priority: 100
     commands:
+      - func: "fetch_source"
       - command: shell.exec
         params:
-          background: false
           script: |
             set -e
-            git clone https://github.com/mongodb/stitch-ios-sdk/
             cd stitch-ios-sdk                                                                                                                                                                    
             export PATH=/Applications/Xcode8.3.app/Contents/Developer/usr/bin:$PATH
             
+            xcodebuild test -destination 'platform=iOS Simulator,name=iPhone 7 Plus' -scheme StitchCore
+            xcodebuild test -destination 'platform=iOS Simulator,name=iPhone 7 Plus' -scheme ExtendedJson
+            xcodebuild test -destination 'platform=iOS Simulator,name=iPhone 7 Plus' -scheme MongoDBService
 buildvariants:
 - name: macos-1012
   display_name: macos-1012
