@@ -1,0 +1,19 @@
+tasks:
+  - name: run_tests
+    commands:
+      - command: shell.exec
+        params:
+          background: false
+          script: |
+            set -e
+            git clone https://github.com/mongodb/stitch-ios-sdk/
+            cd stitch-ios-sdk                                                                                                                                                                    
+            export PATH=/Applications/Xcode8.3.app/Contents/Developer/usr/bin:$PATH
+            
+buildvariants:
+- name: macos-1012
+  display_name: macos-1012
+  run_on:
+    - macos-1012
+  tasks:
+    - name: run_tests
