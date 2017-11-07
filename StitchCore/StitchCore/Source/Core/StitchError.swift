@@ -14,16 +14,12 @@ public enum StitchError: Error {
         case invalidParameter(message: String)
         /// Error with twilio service
         case twilioError(message: String)
-        /// Error with pubnub
-        case pubNubError(message: String)
         /// Standard http error
         case httpError(message: String)
         /// Error with Amazon Web Services
         case awsError(message: String)
         /// Error with MongoDB service
         case mongoDBError(message: String)
-        /// Error with Slack service
-        case slackError(message: String)
         /// Requested provided was not found
         case authProviderNotFound(message: String)
         /// No rule in the app was found
@@ -59,16 +55,12 @@ public enum StitchError: Error {
                 self = .invalidParameter(message: errorMessage)
             case "TwilioError":
                 self = .twilioError(message: errorMessage)
-            case "PubNubError":
-                self = .pubNubError(message: errorMessage)
             case "HTTPError":
                 self = .httpError(message: errorMessage)
             case "AWSError":
                 self = .awsError(message: errorMessage)
             case "MongoDBError":
                 self = .mongoDBError(message: errorMessage)
-            case "SlackError":
-                self = .slackError(message: errorMessage)
             case "AuthProviderNotFound":
                 self = .authProviderNotFound(message: errorMessage)
             case "NoMatchingRuleFound":
@@ -125,15 +117,11 @@ extension StitchError.ServerErrorReason: LocalizedError {
             return message
         case .twilioError(let message):
             return message
-        case .pubNubError(let message):
-            return message
         case .httpError(let message):
             return message
         case .awsError(let message):
             return message
         case .mongoDBError(let message):
-            return message
-        case .slackError(let message):
             return message
         case .authProviderNotFound(let message):
             return message
