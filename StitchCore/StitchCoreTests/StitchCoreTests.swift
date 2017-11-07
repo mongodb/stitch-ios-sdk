@@ -119,11 +119,11 @@ class StitchCoreTests: XCTestCase {
             let expectedResult: BSONArray = [
                 [
                     "type": "apples",
-                    "qty": Double(25)
+                    "qty": Int32(25)
                 ] as Document,
                 [
                     "type": "oranges",
-                    "qty": Double(50)
+                    "qty": Int32(50)
                 ] as Document
             ]
 
