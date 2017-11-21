@@ -6,7 +6,7 @@ import Security
 
 public struct Consts {
     public static let DefaultBaseUrl =   "https://stitch.mongodb.com"
-    static let ApiPathV2 =               "/api/client/v2.0/"
+    static let ApiPath =                 "/api/client/v2.0/"
 
     //User Defaults
     static let UserDefaultsName =        "com.mongodb.stitch.sdk.UserDefaults"
@@ -18,11 +18,7 @@ public struct Consts {
     static let AuthKeychainServiceName = "com.mongodb.stitch.sdk.authentication"
 
     //keys
-    static let ResultKey =               "result"
-    static let AccessTokenKey =          "accessToken"
-    static let RefreshTokenKey =         "refreshToken"
     static let ErrorKey =                "error"
-    static let ErrorCodeKey =            "errorCode"
 }
 
 /// A StitchClient is responsible for handling the overall interaction with all Stitch services.
@@ -55,6 +51,12 @@ public class StitchClient: StitchClientType {
         mutating func authProvidersLoginRoute(provider: String) -> String {
             return "\(authProvidersExtensionRoute)/\(provider)/login"
         }
+
+        lazy var localUserpassResetRoute = "\(authProvidersExtensionRoute)/local-userpass/reset"
+        lazy var localUserpassResetSendRoute = "\(authProvidersExtensionRoute)/local-userpass/reset/send"
+        lazy var localUserpassRegisterRoute = "\(authProvidersExtensionRoute)/local-userpass/register/"
+        lazy var localUserpassConfirmRoute = "\(authProvidersExtensionRoute)/local-userpass/confirm"
+        lazy var localUserpassConfirmSendRoute = "\(authProvidersExtensionRoute)/local-userpass/confirm/send"
 
         lazy var functionsCallRoute = "app/\(appId)/functions/call"
 
@@ -163,7 +165,7 @@ public class StitchClient: StitchClientType {
     public func register(email: String, password: String) -> StitchTask<Void> {
         return httpClient.doRequest {
             $0.method = .post
-            $0.endpoint = self.routes.authProvidersExtensionRoute + "/local-userpass/register"
+            $0.endpoint = self.routes.localUserpassRegisterRoute
             $0.isAuthenticatedRequest = false
             $0.parameters = ["email": email, "password": password]
         }.then { _ in }
@@ -179,7 +181,7 @@ public class StitchClient: StitchClientType {
     public func emailConfirm(token: String, tokenId: String) -> StitchTask<Void> {
         return httpClient.doRequest {
             $0.method = .post
-            $0.endpoint = self.routes.authProvidersExtensionRoute + "/local-userpass/confirm"
+            $0.endpoint = self.routes.localUserpassConfirmRoute
             $0.isAuthenticatedRequest = false
             $0.parameters = ["token": token, "tokenId": tokenId]
         }.then { _ in }
@@ -194,7 +196,7 @@ public class StitchClient: StitchClientType {
     public func sendEmailConfirm(toEmail email: String) -> StitchTask<Void> {
         return httpClient.doRequest {
             $0.method = .post
-            $0.endpoint = self.routes.authProvidersExtensionRoute + "/local-userpass/confirm/send"
+            $0.endpoint = self.routes.localUserpassConfirmSendRoute
             $0.isAuthenticatedRequest = false
             $0.parameters = ["email": email]
         }.then { _ in }
@@ -210,7 +212,7 @@ public class StitchClient: StitchClientType {
     public func resetPassword(token: String, tokenId: String) -> StitchTask<Void> {
         return httpClient.doRequest {
             $0.method = .post
-            $0.endpoint = self.routes.authProvidersExtensionRoute + "/local-userpass/reset"
+            $0.endpoint = self.routes.localUserpassResetRoute
             $0.isAuthenticatedRequest = false
             $0.parameters = ["token": token, "tokenId": tokenId]
         }.then { _ in }
@@ -225,7 +227,7 @@ public class StitchClient: StitchClientType {
     public func sendResetPassword(toEmail email: String) -> StitchTask<Void> {
         return httpClient.doRequest {
             $0.method = .post
-            $0.endpoint = self.routes.authProvidersExtensionRoute + "/local-userpass/reset/send"
+            $0.endpoint = self.routes.localUserpassResetSendRoute
             $0.isAuthenticatedRequest = false
             $0.parameters = ["email": email]
         }.then { _ in }
@@ -268,7 +270,9 @@ public class StitchClient: StitchClientType {
             let authInfo = try JSONDecoder().decode(AuthInfo.self,
                                                     from: JSONSerialization.data(withJSONObject: any))
             strongSelf.httpClient.authInfo = authInfo
-            strongSelf.auth = Auth(stitchClient: strongSelf, stitchHttpClient: strongSelf.httpClient, userId: authInfo.userId)
+            strongSelf.auth = Auth(stitchClient: strongSelf,
+                                   stitchHttpClient: strongSelf.httpClient,
+                                   userId: authInfo.userId)
             strongSelf.onLogin()
             return authInfo.userId
         }

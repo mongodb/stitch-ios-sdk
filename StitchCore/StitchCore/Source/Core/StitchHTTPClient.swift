@@ -195,8 +195,8 @@ internal class StitchHTTPClient {
         }
     }
 
-    private func urlV2(withEndpoint endpoint: String) -> String {
-        return "\(baseUrl)\(Consts.ApiPathV2)\(endpoint)"
+    private func url(withEndpoint endpoint: String) -> String {
+        return "\(baseUrl)\(Consts.ApiPath)\(endpoint)"
     }
 
     internal typealias RequestBuilder = (inout RequestOptions) throws -> Void
@@ -239,7 +239,7 @@ internal class StitchHTTPClient {
         }
 
         let bearer = requestOptions.useRefreshToken ? refreshToken ?? String() : authInfo?.accessToken?.token ?? String()
-        let url: String = self.urlV2(withEndpoint: requestOptions.endpoint)
+        let url: String = self.url(withEndpoint: requestOptions.endpoint)
         networkAdapter.requestWithJsonEncoding(url: url,
                                                method: requestOptions.method,
                                                parameters: requestOptions.parameters,
@@ -261,7 +261,7 @@ internal class StitchHTTPClient {
                                     StitchError.responseParsingFailed(reason: "Received no valid data from server"))
                         }
 
-                        if let json = json as? [String: Any], let error = strongSelf.parseErrorV2(from: json) {
+                        if let json = json as? [String: Any], let error = strongSelf.parseError(from: json) {
                             switch error {
                             case .serverError(let reason):
                                 // check if error is invalid session
@@ -291,7 +291,7 @@ internal class StitchHTTPClient {
         return task
     }
 
-    internal func parseErrorV2(from value: [String: Any]) -> StitchError? {
+    internal func parseError(from value: [String: Any]) -> StitchError? {
         guard let errMsg = value[Consts.ErrorKey] as? String else {
             return nil
         }

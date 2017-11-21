@@ -1,11 +1,3 @@
-//
-//  StitchNetworkAdapter.swift
-//  StitchCore
-//
-//  Created by Jason Flax on 10/18/17.
-//  Copyright © 2017 MongoDB. All rights reserved.
-//
-
 import Foundation
 import ExtendedJson
 import StitchLogger
@@ -25,7 +17,6 @@ public class StitchNetworkAdapter: NetworkAdapter {
         let defaultSession = URLSession(configuration: config)
 
         guard let url = URL(string: url) else {
-            printLog(.error, text: "bad url")
             task.result = .failure(StitchError.illegalAction(message: "bad url"))
             return task
         }

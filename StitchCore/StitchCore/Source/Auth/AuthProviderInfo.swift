@@ -2,87 +2,63 @@ import Foundation
 import ExtendedJson
 
 public protocol AuthProviderType: Codable {
-    var id: String { get }
     var name: String { get }
     var type: String { get }
-    var disabled: Bool { get }
 }
 
 public struct AnonymousAuthProviderInfo: AuthProviderType {
-    public let id: String
     public let name: String
     public let type: String
-    public let disabled: Bool
-
-    enum CodingKeys: String, CodingKey {
-        case id = "_id", name, type, disabled
-    }
 }
 public struct EmailPasswordAuthProviderInfo: AuthProviderType {
-    struct Config: Codable {
+    public struct Config: Codable {
         let emailConfirmationUrl: String
         let resetPasswordUrl: String
     }
 
-    let config: Config
-    public let id: String
+    public let config: Config
     public let name: String
     public let type: String
-    public let disabled: Bool
-
-    enum CodingKeys: String, CodingKey {
-        case id = "_id", name, type, disabled, config
-    }
 }
 public struct ApiKeyAuthProviderInfo: AuthProviderType {
-    public let id: String
     public let name: String
     public let type: String
-    public let disabled: Bool
-
-    enum CodingKeys: String, CodingKey {
-        case id = "_id", name, type, disabled
-    }
 }
 public struct GoogleAuthProviderInfo: AuthProviderType {
-    struct Config: Codable {
+    public struct Config: Codable {
         let clientId: String
     }
-    struct MetadataField: Codable {
+    public struct MetadataField: Codable {
         let name: String
         let required: Bool
     }
 
-    let config: Config
-    let metadataFields: [MetadataField]?
+    public let config: Config
+    public let metadataFields: [MetadataField]?
 
-    public let id: String
     public let name: String
     public let type: String
-    public let disabled: Bool
 
     enum CodingKeys: String, CodingKey {
-        case id = "_id", metadataFields = "metadata_fields", name, type, disabled, config
+        case metadataFields = "metadata_fields", name, type, config
     }
 }
 public struct FacebookAuthProviderInfo: AuthProviderType {
-    struct Config: Codable {
+    public struct Config: Codable {
         let clientId: String
     }
-    struct MetadataField: Codable {
+    public struct MetadataField: Codable {
         let name: String
         let required: Bool
     }
 
-    let config: Config
-    let metadataFields: [MetadataField]?
-    public let id: String
+    public let config: Config
+    public let metadataFields: [MetadataField]?
     public let name: String
     public let type: String
-    public let disabled: Bool
 
     enum CodingKeys: String, CodingKey {
-        case id = "_id", name, type, disabled, config, metadataFields = "metadata_fields"
+        case name, type, config, metadataFields = "metadata_fields"
     }
 }
 

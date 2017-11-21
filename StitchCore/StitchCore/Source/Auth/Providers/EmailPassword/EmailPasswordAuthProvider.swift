@@ -8,11 +8,6 @@ public struct EmailPasswordAuthProvider: AuthProvider {
         return "local-userpass"
     }
 
-    /// The name for email/pass login
-    public var name: String {
-        return "local-userpass"
-    }
-
     /// The JSON payload containing the username and password.
     public var payload: Document {
         return ["username": username,

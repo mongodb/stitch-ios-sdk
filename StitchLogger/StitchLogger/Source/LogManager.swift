@@ -5,7 +5,7 @@
 
 import Foundation
 
-private let prefix = "[🍃Mongo🍃]"
+private let prefix = "[Mongo]"
 
 public enum LogLevel: Int, CustomStringConvertible {
     case trace, debug, info, warning, error, none
@@ -19,9 +19,9 @@ public enum LogLevel: Int, CustomStringConvertible {
         case .info:
             return "Info"
         case .warning:
-            return "⚠️ Warning ⚠️"
+            return "Warning"
         case .error:
-            return "🚨 Error 🚨"
+            return "Error"
         case .none:
             return "None"
         }

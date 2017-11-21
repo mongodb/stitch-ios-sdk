@@ -35,7 +35,6 @@
 		498C7B881F9FEC36009CB84D /* MongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498C7B891F9FEC36009CB84D /* MongoDBService.framework */; };
 		499152F91F9D84C90001C5AC /* StitchHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499152F81F9D84C90001C5AC /* StitchHTTPClient.swift */; };
 		49B2AA1F1F97EB69004AF23D /* ApiKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B2AA1E1F97EB69004AF23D /* ApiKey.swift */; };
-		49CB28561FBB800800F99DCD /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CB28551FBB800800F99DCD /* Functions.swift */; };
 		49CB28591FBB856200F99DCD /* TwilioService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CB28581FBB856200F99DCD /* TwilioService.swift */; };
 		49CB285C1FBB89BF00F99DCD /* Services.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CB285B1FBB89BF00F99DCD /* Services.swift */; };
 		F44825691EEF434300FF0835 /* AuthDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44825681EEF434300FF0835 /* AuthDelegate.swift */; };
@@ -91,7 +90,6 @@
 		498C7B891F9FEC36009CB84D /* MongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		499152F81F9D84C90001C5AC /* StitchHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchHTTPClient.swift; sourceTree = "<group>"; };
 		49B2AA1E1F97EB69004AF23D /* ApiKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKey.swift; sourceTree = "<group>"; };
-		49CB28551FBB800800F99DCD /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		49CB28581FBB856200F99DCD /* TwilioService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioService.swift; sourceTree = "<group>"; };
 		49CB285B1FBB89BF00F99DCD /* Services.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services.swift; sourceTree = "<group>"; };
 		F44825681EEF434300FF0835 /* AuthDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthDelegate.swift; sourceTree = "<group>"; };
@@ -232,7 +230,6 @@
 				36A023BB1EEEFE6200450FB1 /* KeychainPasswordItem.swift */,
 				36A023BD1EEEFE6200450FB1 /* StitchClientType.swift */,
 				36A023BE1EEEFE6200450FB1 /* StitchClient.swift */,
-				49CB28551FBB800800F99DCD /* Functions.swift */,
 				499152F81F9D84C90001C5AC /* StitchHTTPClient.swift */,
 				36A023BF1EEEFE6200450FB1 /* StitchError.swift */,
 			);
@@ -481,7 +478,6 @@
 				F4F065341EEF40E900F10A83 /* PushProviderName.swift in Sources */,
 				36A024391EEEFE6200450FB1 /* StitchClient.swift in Sources */,
 				490572EE1F9A4F8F00CC8230 /* DecodedJWT.swift in Sources */,
-				49CB28561FBB800800F99DCD /* Functions.swift in Sources */,
 				36A024321EEEFE6200450FB1 /* FacebookAuthProvider.swift in Sources */,
 				49CB285C1FBB89BF00F99DCD /* Services.swift in Sources */,
 				49B2AA1F1F97EB69004AF23D /* ApiKey.swift in Sources */,
