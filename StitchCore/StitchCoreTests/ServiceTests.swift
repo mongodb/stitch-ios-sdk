@@ -25,9 +25,9 @@ class ServiceTests: XCTestCase {
     func testTwilio() throws {
         let exp = self.expectation(description: "twilio sent")
         self.client.anonymousAuth().then { _ -> StitchTask<Undefined> in
-            return self.client.services.twilio(name: "tw1").send(from: "+15005550006",
-                                                                 to: "+19088392649",
-                                                                 body: "Fee-fi-fo-fum")
+            return TwilioService(client: self.client, name: "tw1").send(from: "+15005550006",
+                                                                        to: "+19088392649",
+                                                                        body: "Fee-fi-fo-fum")
         }.then { (_: Undefined) in
             exp.fulfill()
         }.catch { err in

@@ -72,7 +72,7 @@ public struct Collection {
     @discardableResult
     public func updateOne(query: Document,
                           update: Document,
-                          upsert: Bool = false) -> StitchTask<Int> {
+                          upsert: Bool = false) -> StitchTask<Document> {
         return database.client.stitchClient.executeServiceFunction(name: "updateOne",
                                                                     service: database.client.serviceName,
                                                                     args: [Consts.queryKey: query,
@@ -81,19 +81,19 @@ public struct Collection {
                                                                            Consts.databaseKey: database.name,
                                                                            Consts.collectionKey: self.name] as Document)
         .then {
-            guard let doc = try Document.fromExtendedJson(xjson: $0) as? Document,
-                let matchedCount = doc["matchedCount"] as? Int32 else {
-                    throw BsonError.parseValueFailure(value: $0,
-                                                      attemptedType: Document.self)
+            guard let doc = try Document.fromExtendedJson(xjson: $0) as? Document else {
+                throw BsonError.parseValueFailure(value: $0,
+                                                   attemptedType: Document.self)
             }
-            return Int(matchedCount)
+
+            return doc
         }
     }
 
     @discardableResult
     public func updateMany(query: Document,
                            update: Document,
-                           upsert: Bool = false) -> StitchTask<Int> {
+                           upsert: Bool = false) -> StitchTask<Document> {
         return database.client.stitchClient.executeServiceFunction(name: "updateMany",
                                                                     service: database.client.serviceName,
                                                                     args: [Consts.updateKey: update,
@@ -102,12 +102,12 @@ public struct Collection {
                                                                            Consts.databaseKey: database.name,
                                                                            Consts.collectionKey: self.name] as Document)
         .then {
-            guard let doc = try Document.fromExtendedJson(xjson: $0) as? Document,
-                let matchedCount = doc["matchedCount"] as? Int32 else {
+            guard let doc = try Document.fromExtendedJson(xjson: $0) as? Document else {
                 throw BsonError.parseValueFailure(value: $0,
                                                   attemptedType: Document.self)
             }
-            return Int(matchedCount)
+
+            return doc
         }
     }
 
@@ -154,7 +154,7 @@ public struct Collection {
     }
 
     @discardableResult
-    public func deleteOne(query: Document) -> StitchTask<Int> {
+    public func deleteOne(query: Document) -> StitchTask<Document> {
         return database.client.stitchClient.executeServiceFunction(name: "deleteOne",
                                                                    service: database.client.serviceName,
                                                                    args: [Consts.queryKey: query,
@@ -162,18 +162,17 @@ public struct Collection {
                                                                           Consts.databaseKey: database.name,
                                                                           Consts.collectionKey: self.name] as Document)
             .then {
-                guard let doc = try Document.fromExtendedJson(xjson: $0) as? Document,
-                    let deletedCount = doc["deletedCount"] as? Int32 else {
+                guard let doc = try Document.fromExtendedJson(xjson: $0) as? Document else {
                     throw BsonError.parseValueFailure(value: $0,
                                                       attemptedType: Document.self)
                 }
 
-                return Int(deletedCount)
+                return doc
         }
     }
 
     @discardableResult
-    public func deleteMany(query: Document) -> StitchTask<Int> {
+    public func deleteMany(query: Document) -> StitchTask<Document> {
         return database.client.stitchClient.executeServiceFunction(name: "deleteMany",
                                                                     service: database.client.serviceName,
                                                                     args: [Consts.queryKey: query,
@@ -181,13 +180,12 @@ public struct Collection {
                                                                            Consts.databaseKey: database.name,
                                                                            Consts.collectionKey: self.name] as Document)
             .then {
-                guard let doc = try Document.fromExtendedJson(xjson: $0) as? Document,
-                    let deletedCount = doc["deletedCount"] as? Int32 else {
-                        throw BsonError.parseValueFailure(value: $0,
-                                                          attemptedType: Document.self)
+                guard let doc = try Document.fromExtendedJson(xjson: $0) as? Document else {
+                    throw BsonError.parseValueFailure(value: $0,
+                                                      attemptedType: Document.self)
                 }
 
-                return Int(deletedCount)
+                return doc
         }
     }
 

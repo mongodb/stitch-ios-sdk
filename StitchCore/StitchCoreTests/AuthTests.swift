@@ -23,7 +23,6 @@ class AuthTests: XCTestCase {
             XCTAssertNotNil(anon)
             XCTAssertEqual(anon?.name, "anon-user")
             XCTAssertEqual(anon?.type, "anon-user")
-            XCTAssertFalse(anon?.disabled ?? true)
             XCTAssertNotNil(authInfo.emailPasswordAuthProviderInfo)
             XCTAssertNotNil(authInfo.googleProviderInfo)
             XCTAssertNil(authInfo.facebookProviderInfo)
