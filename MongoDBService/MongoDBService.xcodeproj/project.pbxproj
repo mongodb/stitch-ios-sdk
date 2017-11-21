@@ -12,11 +12,11 @@
 		36A024D21EEF072500450FB1 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A024C91EEF072500450FB1 /* Database.swift */; };
 		36A024D31EEF072500450FB1 /* MongoDBClientType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A024CA1EEF072500450FB1 /* MongoDBClientType.swift */; };
 		36A024D41EEF072500450FB1 /* MongoDBClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A024CB1EEF072500450FB1 /* MongoDBClient.swift */; };
-		36A024EA1EEF07AB00450FB1 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36A024E71EEF07A000450FB1 /* StitchCore.framework */; };
 		36A024EE1EEF07FD00450FB1 /* MongoDBService.h in Headers */ = {isa = PBXBuildFile; fileRef = 36A024ED1EEF07FD00450FB1 /* MongoDBService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		36A024EF1EEF0AE400450FB1 /* MongoDBServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A024D91EEF076000450FB1 /* MongoDBServiceTests.swift */; };
 		36DA09BA1E4CE78300875C3C /* MongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36DA09B01E4CE78200875C3C /* MongoDBService.framework */; };
 		498C7B8B1F9FF94D009CB84D /* MongoDBError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498C7B8A1F9FF94D009CB84D /* MongoDBError.swift */; };
+		499DD45A1FC33E2800D637B5 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36A024E71EEF07A000450FB1 /* StitchCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,7 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				36A024EA1EEF07AB00450FB1 /* StitchCore.framework in Frameworks */,
+				499DD45A1FC33E2800D637B5 /* StitchCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -166,6 +166,7 @@
 				36A024C31EEF072500450FB1 /* MongoDBService */,
 				36A024D71EEF076000450FB1 /* MongoDBServiceTests */,
 				36DA09B11E4CE78200875C3C /* Products */,
+				499DD4591FC33E2800D637B5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -176,6 +177,13 @@
 				36DA09B91E4CE78300875C3C /* MongoDBServiceTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		499DD4591FC33E2800D637B5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -248,8 +248,13 @@ public final class StitchTask<Value> {
             self.addCallbacks(
                 on: onQueue,
                 onFulfilled: { value in
-                    fulfill(value)
-                    onFulfilled(value)
+                    do {
+                        fulfill(value)
+                        onFulfilled(value)
+                    } catch let error {
+                        reject(error)
+                        onRejected(error)
+                    }
                 },
                 onRejected: { error in
                     reject(error)

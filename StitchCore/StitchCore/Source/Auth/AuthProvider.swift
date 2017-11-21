@@ -8,8 +8,7 @@ import ExtendedJson
 public protocol AuthProvider {
     /// The authentication type of this provider.
     var type: String {get}
-    /// The name of this provider.
-    var name: String {get}
+
     /// The JSON payload containing authentication material.
     var payload: Document {get}
 }
@@ -25,7 +24,7 @@ public enum Provider {
     /// Anonymous Authentication
          anonymous
 
-    var name: String {
+    var type: String {
         switch self {
         case .google:
             return "oauth2/google"
@@ -38,15 +37,15 @@ public enum Provider {
         }
     }
 
-    init?(name: String) {
-        switch name {
-        case Provider.google.name:
+    init?(type: String) {
+        switch type {
+        case Provider.google.type:
             self = .google
-        case Provider.facebook.name:
+        case Provider.facebook.type:
             self = .facebook
-        case Provider.emailPassword.name:
+        case Provider.emailPassword.type:
             self = .emailPassword
-        case Provider.anonymous.name:
+        case Provider.anonymous.type:
             self = .anonymous
         default:
             return nil

@@ -32,10 +32,10 @@ public class AvailablePushProviders: Codable {
         -parameter json: The data returned from Stitch about the providers.
         -returns: A manifest of available push providers.
      */
-    static func fromQuery(doc: Document) throws -> AvailablePushProviders {
+    static func fromQuery(doc: BSONArray) throws -> AvailablePushProviders {
         let builder: AvailablePushProvidersBuilder = { builder in
             try doc.forEach { configEntry in
-                guard let info = configEntry.value as? Document,
+                guard let info = configEntry as? Document,
                     let typename = info[PushProviderInfoFields.type.rawValue] as? String,
                     let providerName = PushProviderName.fromTypeName(typename: typename),
                     let config = info[PushProviderInfoFields.config.rawValue] as? Document else {
@@ -44,11 +44,12 @@ public class AvailablePushProviders: Codable {
 
                 switch providerName {
                 case .GCM:
-                    guard let senderId = config[StitchGCMProviderInfoFields.senderId.rawValue] as? String else {
+                    guard let senderId = config[StitchGCMProviderInfoFields.senderId.rawValue] as? String,
+                        let name = info["name"] as? String else {
                         throw StitchError.responseParsingFailed(
                             reason: "gcm provider info fields did not contain valid senderId: \(config)")
                     }
-                    let provider = StitchGCMPushProviderInfo.fromConfig(serviceName: configEntry.key,
+                    let provider = StitchGCMPushProviderInfo.fromConfig(serviceName: name,
                                                                         senderId: senderId)
                     builder.gcm = provider
                 }

@@ -395,7 +395,6 @@ fileprivate class _BSONDecoder: Decoder, _BSONCodingPathContaining {
     /// - parameter key: The key to push. May be nil for unkeyed containers.
     /// - parameter work: The work to perform with the key in the path.
     func with<T>(pushedKey key: CodingKey, _ work: () throws -> T) rethrows -> T {
-        print(key)
         self.codingPath.append(key)
         let ret: T = try work()
         self.codingPath.removeLast()
@@ -625,7 +624,7 @@ fileprivate class _BSONDecoder: Decoder, _BSONCodingPathContaining {
             return Null() as! T
         case is RegularExpression.Type:
             return try ExtendedJson.unwrap(unwrap(value), codingPath: codingPath) as RegularExpression as! T
-        default: print(T.self)
+        default: break
         }
 
         let decoder = _BSONDecoder(target: .storedExtendedJsonRepresentable(value))

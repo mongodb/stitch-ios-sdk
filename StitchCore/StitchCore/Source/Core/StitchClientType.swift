@@ -13,17 +13,6 @@ public protocol StitchClientType {
     /// Whether or not this client is authenticated.
     var isAuthenticated: Bool { get }
 
-    // MARK: - Auth
-
-    /**
-        Fetches all available auth providers for the current app.
-     
-        - Returns: A task containing AuthProviderInfo that can be resolved 
-                    on completion of the request.
-     */
-    @discardableResult
-    func fetchAuthProviders() -> StitchTask<AuthProviderInfo>
-
     /**
         Registers the current user using email and password.
      
@@ -97,30 +86,9 @@ public protocol StitchClientType {
     // MARK: - Requests
 
     /**
-     * Executes a pipeline with the current app.
-     *
-     * - parameter stages: The stages to execute as a contiguous pipeline.
-     * - returns: A task containing the result of the pipeline that can be resolved on completion
-     * of the execution.
-     */
-    @discardableResult
-    func executePipeline(pipeline: Pipeline) -> StitchTask<BSONCollection>
-
-    /**
-     * Executes a pipeline with the current app.
-     *
-     * - parameter pipeline: The pipeline to execute.
-     * - returns: A task containing the result of the pipeline that can be resolved on completion
-     * of the execution.
-     */
-    @discardableResult
-    func executePipeline(pipelines: [Pipeline]) -> StitchTask<BSONCollection>
-
-    /**
         Adds a delegate for auth events.
      
         - parameter delegate: The delegate that will receive auth events.
      */
     func addAuthDelegate(delegate: AuthDelegate)
 }
-

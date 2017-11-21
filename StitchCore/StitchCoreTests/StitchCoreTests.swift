@@ -41,7 +41,7 @@ class StitchCoreTests: XCTestCase {
     }
 
     func testMongo() {
-        let expectation = self.expectation(description: "execute pipelines")
+        let expectation = self.expectation(description: "execute mongo funcs")
 
         let collection = MongoDBClient(stitchClient: stitchClient,
                                        serviceName: "mongodb-atlas")
@@ -49,42 +49,41 @@ class StitchCoreTests: XCTestCase {
 
         stitchClient.anonymousAuth().then { (_: String) -> StitchTask<Int> in
             return collection.count(query: Document())
-        }.then { (docs: Int) -> StitchTask<Document> in
-            print(docs)
+        }.then { (_: Int) -> StitchTask<ObjectId> in
             return collection.insertOne(document: ["bill": "jones",
-                                                   "owner_id": self.stitchClient.auth?.authInfo.userId ?? "0"])
-        }.then { (insertOne: Document) -> StitchTask<Int> in
-            XCTAssert(insertOne["bill"] as? String == "jones")
+                                                   "owner_id": self.stitchClient.auth?.userId ?? "0"])
+        }.then { (_: ObjectId) -> StitchTask<Int> in
             return collection.count(query: [:])
-        }.then { (count: Int) -> StitchTask<[Document]> in
+        }.then { (count: Int) -> StitchTask<[ObjectId]> in
             XCTAssert(count == 1)
             return collection.insertMany(documents: [["bill": "jones",
-                                                     "owner_id": self.stitchClient.auth?.authInfo.userId ?? "0"],
+                                                     "owner_id": self.stitchClient.auth?.userId ?? "0"],
                                                      ["bill": "jones",
-                                                      "owner_id": self.stitchClient.auth?.authInfo.userId ?? "0"]])
-        }.then { (_: [Document]) -> StitchTask<[Document]> in
-            return collection.find(query: ["owner_id": self.stitchClient.auth?.authInfo.userId ?? "0"])
+                                                      "owner_id": self.stitchClient.auth?.userId ?? "0"]])
+        }.then { (_: [ObjectId]) -> StitchTask<[Document]> in
+            return collection.find(query: ["owner_id": self.stitchClient.auth?.userId ?? "0"], limit: 10)
         }.then { (coll: [Document]) -> StitchTask<Document> in
             XCTAssert(coll.count == 3)
-            return collection.updateOne(query: ["owner_id": self.stitchClient.auth?.authInfo.userId ?? "0"],
-                                        update: ["owner_id": self.stitchClient.auth?.authInfo.userId ?? "0",
+            return collection.updateOne(query: ["owner_id": self.stitchClient.auth?.userId ?? "0"],
+                                        update: ["owner_id": self.stitchClient.auth?.userId ?? "0",
                                                  "bill": "thompson"])
-        }.then { (result: Document) -> StitchTask<[Document]> in
-            XCTAssert(result["bill"] as? String == "thompson")
-            return collection.updateMany(query: ["owner_id": self.stitchClient.auth?.authInfo.userId ?? "0"],
-                                        update: ["owner_id": self.stitchClient.auth?.authInfo.userId ?? "0",
+        }.then { (result: Document) -> StitchTask<Document> in
+            XCTAssertEqual(result["matchedCount"] as? Int32, 1)
+            return collection.updateMany(query: ["owner_id": self.stitchClient.auth?.userId ?? "0"],
+                                        update: ["owner_id": self.stitchClient.auth?.userId ?? "0",
                                                  "bill": "jackson"])
-        }.then { (result: [Document]) -> StitchTask<Int> in
-            XCTAssert(result.count == 3)
-            return collection.deleteOne(query: ["owner_id": self.stitchClient.auth?.authInfo.userId ?? "0"])
-        }.then { (result: Int) -> StitchTask<Int64> in
-            XCTAssert(result == 1)
-            return collection.deleteMany(query: ["owner_id": self.stitchClient.auth?.authInfo.userId ?? "0"])
-        }.then { (result: Int64) in
-            XCTAssert(result == 2)
+        }.then { (result: Document) -> StitchTask<Document> in
+            XCTAssertEqual(result["matchedCount"] as? Int32, 3)
+            return collection.deleteOne(query: ["owner_id": self.stitchClient.auth?.userId ?? "0"])
+        }.then { (result: Document) -> StitchTask<Document> in
+            XCTAssert(result["deletedCount"] as? Int32 == 1)
+            return collection.deleteMany(query: ["owner_id": self.stitchClient.auth?.userId ?? "0"])
+        }.then { (result: Document) -> Void in
+            XCTAssert(result["deletedCount"] as? Int32 == 2)
             expectation.fulfill()
         }.catch { err in
-            print(err)
+            XCTFail(err.localizedDescription)
+            expectation.fulfill()
         }
 
         waitForExpectations(timeout: 20, handler: nil)
@@ -99,41 +98,43 @@ class StitchCoreTests: XCTestCase {
             XCTAssertNotNil(auths.googleProviderInfo)
             XCTAssertNil(auths.facebookProviderInfo)
 
-            XCTAssert(auths.googleProviderInfo?.clientId ==
-            "405021717222-8n19u6ij79kheu4lsaeekfh9b1dng7b7.apps.googleusercontent.com")
-            XCTAssert(auths.googleProviderInfo?.scopes?.contains("profile") ?? false)
-            XCTAssert(auths.googleProviderInfo?.scopes?.contains("email") ?? false)
+            XCTAssert(auths.googleProviderInfo?.config.clientId ==
+            "56878686513-8o8rs9ehotamtovnqmmvhohdr23g6p2c.apps.googleusercontent.com")
+            XCTAssert(auths.googleProviderInfo?.metadataFields?.contains {$0.name == "profile"} ?? false)
+            XCTAssert(auths.googleProviderInfo?.metadataFields?.contains {$0.name == "email"} ?? false)
         }.then { _ -> StitchTask<String> in
             return self.stitchClient.login(withProvider: EmailPasswordAuthProvider(username: "stitch@mongodb.com",
-                                                                                   password: "stitchuser"))
-        }.then { (userId: String) in
-            XCTAssert(userId == "59ee23094fdd1fa1da3d1057")
-        }.then { _ -> StitchTask<BSONCollection> in
-            return self.stitchClient.executePipeline(
-                pipeline: Pipeline(action: "literal",
-                                   args: ["items": [
-                                    [ "type": "apples", "qty": 25 ] as Document,
-                                    [ "type": "oranges", "qty": 50 ] as Document
-                                    ] as BSONArray]))
-        }.then { (result: BSONCollection) in
-            let expectedResult: BSONArray = [
-                [
-                    "type": "apples",
-                    "qty": Int32(25)
-                ] as Document,
-                [
-                    "type": "oranges",
-                    "qty": Int32(50)
-                ] as Document
-            ]
-
-            XCTAssert(result.asArray().isEqual(toOther: expectedResult))
+                                                                                    password: "stitchuser"))
+        }.then { (userId: String) -> StitchTask<ApiKey> in
+            XCTAssert(userId == "5a0dfe59afa50c06f1a1ed0e")
+            return self.stitchClient.auth!.createApiKey(name: "test4")
+        }.then { _ -> StitchTask<[ApiKey]> in
+            return self.stitchClient.auth!.fetchApiKeys()
+        }.then { (keys: [ApiKey]) -> StitchTask<ApiKey> in
+            return self.stitchClient.auth!.fetchApiKey(id: keys.first { $0.name == "test4"}!.id)
+        }.then { (key: ApiKey) -> StitchTask<Void> in
+            return self.stitchClient.auth!.disableApiKey(id: key.id)
+        }.then { _ -> StitchTask<[ApiKey]> in
+            return self.stitchClient.auth!.fetchApiKeys()
+        }.then { (keys: [ApiKey]) -> StitchTask<Void> in
+            XCTAssert(keys.first { $0.name == "test4"}!.disabled)
+            return self.stitchClient.auth!.enableApiKey(id: keys.first { $0.name == "test4"}!.id)
+        }.then { _ -> StitchTask<[ApiKey]> in
+            return self.stitchClient.auth!.fetchApiKeys()
+        }.then { (keys: [ApiKey]) -> StitchTask<Void> in
+            XCTAssert(!keys[0].disabled)
+            return self.stitchClient.auth!.deleteApiKey(id: keys.first { $0.name == "test4"}!.id)
+        }.then { _ -> StitchTask<[ApiKey]> in
+            return self.stitchClient.auth!.fetchApiKeys()
+        }.then { (keys: [ApiKey]) in
+            XCTAssert(keys.isEmpty)
             expectation.fulfill()
         }.catch { error in
             XCTAssertNotNil(error)
+            expectation.fulfill()
         }
 
-        self.wait(for: [expectation], timeout: TimeInterval(200))
+        self.wait(for: [expectation], timeout: TimeInterval(30))
     }
 
     // swiftlint:disable:next function_body_length

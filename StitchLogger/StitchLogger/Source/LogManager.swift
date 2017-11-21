@@ -5,7 +5,7 @@
 
 import Foundation
 
-private let prefix = "[🍃Mongo🍃]"
+private let prefix = "[Mongo]"
 
 public enum LogLevel: Int, CustomStringConvertible {
     case trace, debug, info, warning, error, none

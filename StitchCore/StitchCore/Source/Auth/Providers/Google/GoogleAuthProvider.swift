@@ -5,12 +5,9 @@ import ExtendedJson
 public struct GoogleAuthProvider: AuthProvider {
     /// The authentication type for google login.
     public var type: String {
-        return "oauth2"
+        return "oauth2-google"
     }
-    /// The name for google login
-    public var name: String {
-        return "google"
-    }
+
     /// The JSON payload containing the authCode.
     public var payload: Document {
         return ["authCode": authCode]
