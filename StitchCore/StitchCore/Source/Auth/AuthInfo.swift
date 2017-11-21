@@ -2,8 +2,11 @@ import Foundation
 
 /// Auth represents the current authorization state of the client
 internal struct AuthInfo: Codable {
-    enum CodingKeys: CodingKey {
-        case accessToken, userId, deviceId, refreshToken
+    enum CodingKeys: String, CodingKey {
+        case accessToken = "access_token",
+        userId = "user_id",
+        deviceId = "device_id",
+        refreshToken = "refresh_token"
     }
 
     // The current access token for this session in decoded JWT form.

@@ -18,22 +18,29 @@ public class StitchNetworkAdapter: NetworkAdapter {
                                            parameters: T?,
                                            headers: [String: String]? = [:]) -> StitchTask<Data?> where T: Encodable {
         let task = StitchTask<Data?>()
-        let defaultSession = URLSession(configuration: .default)
+
+        let config = URLSessionConfiguration.default
+        config.requestCachePolicy = .reloadIgnoringLocalCacheData
+
+        let defaultSession = URLSession(configuration: config)
 
         guard let url = URL(string: url) else {
+            printLog(.error, text: "bad url")
             task.result = .failure(StitchError.illegalAction(message: "bad url"))
             return task
         }
 
         var contentHeaders = headers ?? [:]
         contentHeaders["Content-Type"] = "application/json"
+
         var request = URLRequest(url: url)
 
         request.allHTTPHeaderFields = contentHeaders
         request.httpMethod = method.rawValue
 
-        if let parameters = parameters {
+        if method != .get, let parameters = parameters {
             guard let jsonData = try? JSONEncoder().encode(parameters) else {
+                printLog(.error, text: "bad json")
                 task.result = .failure(StitchError.illegalAction(message: "bad json"))
                 return task
             }
@@ -42,9 +49,13 @@ public class StitchNetworkAdapter: NetworkAdapter {
             request.httpBody = jsonData
         }
 
+        printLog(.debug, text: request.url)
+        printLog(.debug, text: request.httpMethod)
         printLog(.debug, text: request.allHTTPHeaderFields)
+
         let dataTask = defaultSession.dataTask(with: request) { (data, response, error) in
             if let error = error {
+                printLog(.error, text: error.localizedDescription)
                 task.result = .failure(error)
                 return
             }
@@ -52,7 +63,7 @@ public class StitchNetworkAdapter: NetworkAdapter {
             printLog(.debug, text: response)
 
             if let data = data {
-                printLazy(.debug, text: { try? JSONSerialization.jsonObject(with: data, options: .allowFragments) })
+                printLog(.debug, text: String(data: data, encoding: .utf8))
             }
             task.result = .success(data)
         }

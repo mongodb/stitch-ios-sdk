@@ -8,8 +8,8 @@ public class PushManager: AuthDelegate {
     private let stitchClient: StitchClient
     private var clients: [String: PushClient] = [:]
 
-    init(stitchClient: StitchClient) {
-        self.stitchClient = stitchClient
+    init(client: StitchClient) {
+        self.stitchClient = client
         stitchClient.addAuthDelegate(delegate: self)
     }
 
@@ -21,8 +21,9 @@ public class PushManager: AuthDelegate {
         var client: PushClient? = nil
 
         switch info {
-        case let gcmInfo as StitchGCMPushProviderInfo: client = StitchGCMPushClient(stitchClient: self.stitchClient,
-                                                                                    info: gcmInfo)
+        case let gcmInfo as StitchGCMPushProviderInfo: client =
+            StitchGCMPushClient(stitchClient: self.stitchClient,
+                                info: gcmInfo)
         default:
             throw StitchError.illegalAction(message: "unknown push provider info \(info)")
         }

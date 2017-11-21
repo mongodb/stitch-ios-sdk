@@ -19,9 +19,9 @@ public enum LogLevel: Int, CustomStringConvertible {
         case .info:
             return "Info"
         case .warning:
-            return "Warning"
+            return "⚠️ Warning ⚠️"
         case .error:
-            return "Error"
+            return "🚨 Error 🚨"
         case .none:
             return "None"
         }
