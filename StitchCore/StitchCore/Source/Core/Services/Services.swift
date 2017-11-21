@@ -13,7 +13,7 @@ protocol Service {
     var name: String { get }
 }
 
-public class Services {
+internal class Services {
     let client: StitchClient
 
     func twilio(name: String) -> TwilioService {

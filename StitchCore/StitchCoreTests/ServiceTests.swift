@@ -12,7 +12,7 @@ import ExtendedJson
 @testable import StitchCore
 
 class ServiceTests: XCTestCase {
-    let client = StitchClient(appId: "test-jsf-fpleb", baseUrl: "https://stitch-dev.mongodb.com")
+    let client = StitchClient(appId: "test-uybga")
     let epProvider = EmailPasswordAuthProvider(username: "stitch@mongodb.com",
                                                password: "stitchuser")
 

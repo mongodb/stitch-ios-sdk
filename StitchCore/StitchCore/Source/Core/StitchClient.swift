@@ -38,7 +38,7 @@ public class StitchClient: StitchClientType {
     private var authProvider: AuthProvider?
     private var authDelegates = [AuthDelegate?]()
 
-    public lazy var services = Services(client: self)
+    private lazy var services = Services(client: self)
     public lazy var push = PushManager(client: self)
 
     internal struct Routes {

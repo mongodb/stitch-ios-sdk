@@ -15,7 +15,7 @@ class StitchCoreTests: XCTestCase {
         super.tearDown()
     }
 
-    let stitchClient = StitchClient(appId: "android-zgeec", baseUrl: "https://stitch-qa.mongodb.com")
+    let stitchClient = StitchClient(appId: "test-uybga")
 
     func testAuthInfoCodable() throws {
         let data = try JSONSerialization.data(withJSONObject: [

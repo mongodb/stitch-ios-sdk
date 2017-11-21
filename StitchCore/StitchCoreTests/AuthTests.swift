@@ -1,11 +1,3 @@
-//
-//  AuthTests.swift
-//  StitchCoreTests
-//
-//  Created by Jason Flax on 11/18/17.
-//  Copyright © 2017 MongoDB. All rights reserved.
-//
-
 import XCTest
 import Foundation
 import StitchLogger
@@ -22,7 +14,7 @@ class AuthTests: XCTestCase {
         super.tearDown()
     }
 
-    let stitchClient = StitchClient(appId: "test-jsf-fpleb", baseUrl: "https://stitch-dev.mongodb.com")
+    let stitchClient = StitchClient(appId: "test-uybga")
 
     func testFetchAuthProviders() throws {
         let exp = expectation(description: "fetched auth providers")
