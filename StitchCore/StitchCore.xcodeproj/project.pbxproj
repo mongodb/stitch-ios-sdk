@@ -16,7 +16,6 @@
 		36A024321EEEFE6200450FB1 /* FacebookAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A023B51EEEFE6200450FB1 /* FacebookAuthProvider.swift */; };
 		36A024341EEEFE6200450FB1 /* GoogleAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A023B81EEEFE6200450FB1 /* GoogleAuthProvider.swift */; };
 		36A024361EEEFE6200450FB1 /* KeychainPasswordItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A023BB1EEEFE6200450FB1 /* KeychainPasswordItem.swift */; };
-		36A024371EEEFE6200450FB1 /* Pipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A023BC1EEEFE6200450FB1 /* Pipeline.swift */; };
 		36A024381EEEFE6200450FB1 /* StitchClientType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A023BD1EEEFE6200450FB1 /* StitchClientType.swift */; };
 		36A024391EEEFE6200450FB1 /* StitchClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A023BE1EEEFE6200450FB1 /* StitchClient.swift */; };
 		36A0243A1EEEFE6200450FB1 /* StitchError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A023BF1EEEFE6200450FB1 /* StitchError.swift */; };
@@ -71,7 +70,6 @@
 		36A023B51EEEFE6200450FB1 /* FacebookAuthProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookAuthProvider.swift; sourceTree = "<group>"; };
 		36A023B81EEEFE6200450FB1 /* GoogleAuthProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleAuthProvider.swift; sourceTree = "<group>"; };
 		36A023BB1EEEFE6200450FB1 /* KeychainPasswordItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainPasswordItem.swift; sourceTree = "<group>"; };
-		36A023BC1EEEFE6200450FB1 /* Pipeline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pipeline.swift; sourceTree = "<group>"; };
 		36A023BD1EEEFE6200450FB1 /* StitchClientType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchClientType.swift; sourceTree = "<group>"; };
 		36A023BE1EEEFE6200450FB1 /* StitchClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchClient.swift; sourceTree = "<group>"; };
 		36A023BF1EEEFE6200450FB1 /* StitchError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchError.swift; sourceTree = "<group>"; };
@@ -232,7 +230,6 @@
 			children = (
 				49CB28571FBB854100F99DCD /* Services */,
 				36A023BB1EEEFE6200450FB1 /* KeychainPasswordItem.swift */,
-				36A023BC1EEEFE6200450FB1 /* Pipeline.swift */,
 				36A023BD1EEEFE6200450FB1 /* StitchClientType.swift */,
 				36A023BE1EEEFE6200450FB1 /* StitchClient.swift */,
 				49CB28551FBB800800F99DCD /* Functions.swift */,
@@ -498,7 +495,6 @@
 				36A0242D1EEEFE6200450FB1 /* UserProfile.swift in Sources */,
 				F4F065321EEF40E900F10A83 /* PushManager.swift in Sources */,
 				36A0242C1EEEFE6200450FB1 /* AuthProviderInfo.swift in Sources */,
-				36A024371EEEFE6200450FB1 /* Pipeline.swift in Sources */,
 				36A0242A1EEEFE6200450FB1 /* AuthInfo.swift in Sources */,
 				498536071F97E697007DAACA /* ApiKeyAuthProvider.swift in Sources */,
 				36A024301EEEFE6200450FB1 /* EmailPasswordAuthProvider.swift in Sources */,

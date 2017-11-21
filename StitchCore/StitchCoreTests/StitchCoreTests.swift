@@ -15,7 +15,7 @@ class StitchCoreTests: XCTestCase {
         super.tearDown()
     }
 
-    let stitchClient = StitchClient(appId: "test-jsf-fpleb", baseUrl: "https://stitch-dev.mongodb.com")
+    let stitchClient = StitchClient(appId: "android-zgeec", baseUrl: "https://stitch-qa.mongodb.com")
 
     func testAuthInfoCodable() throws {
         let data = try JSONSerialization.data(withJSONObject: [
@@ -49,38 +49,37 @@ class StitchCoreTests: XCTestCase {
 
         stitchClient.anonymousAuth().then { (_: String) -> StitchTask<Int> in
             return collection.count(query: Document())
-        }.then { (docs: Int) -> StitchTask<InsertOneResult> in
-            print(docs)
+        }.then { (_: Int) -> StitchTask<ObjectId> in
             return collection.insertOne(document: ["bill": "jones",
                                                    "owner_id": self.stitchClient.auth?.userId ?? "0"])
-        }.then { (insertOne: InsertOneResult) -> StitchTask<Int> in
+        }.then { (_: ObjectId) -> StitchTask<Int> in
             return collection.count(query: [:])
-        }.then { (count: Int) -> StitchTask<InsertManyResult> in
+        }.then { (count: Int) -> StitchTask<[ObjectId]> in
             XCTAssert(count == 1)
             return collection.insertMany(documents: [["bill": "jones",
                                                      "owner_id": self.stitchClient.auth?.userId ?? "0"],
                                                      ["bill": "jones",
                                                       "owner_id": self.stitchClient.auth?.userId ?? "0"]])
-        }.then { (_: InsertManyResult) -> StitchTask<[Document]> in
-            return collection.find(query: ["owner_id": self.stitchClient.auth?.userId ?? "0"])
-        }.then { (coll: [Document]) -> StitchTask<UpdateResult> in
+        }.then { (_: [ObjectId]) -> StitchTask<[Document]> in
+            return collection.find(query: ["owner_id": self.stitchClient.auth?.userId ?? "0"], limit: 10)
+        }.then { (coll: [Document]) -> StitchTask<Int> in
             XCTAssert(coll.count == 3)
             return collection.updateOne(query: ["owner_id": self.stitchClient.auth?.userId ?? "0"],
                                         update: ["owner_id": self.stitchClient.auth?.userId ?? "0",
                                                  "bill": "thompson"])
-        }.then { (result: UpdateResult) -> StitchTask<UpdateResult> in
-            XCTAssertEqual(result.matchedCount, 1)
+        }.then { (result: Int) -> StitchTask<Int> in
+            XCTAssertEqual(result, 1)
             return collection.updateMany(query: ["owner_id": self.stitchClient.auth?.userId ?? "0"],
                                         update: ["owner_id": self.stitchClient.auth?.userId ?? "0",
                                                  "bill": "jackson"])
-        }.then { (result: UpdateResult) -> StitchTask<DeleteResult> in
-            XCTAssertEqual(result.matchedCount, 3)
+        }.then { (result: Int) -> StitchTask<Int> in
+            XCTAssertEqual(result, 3)
             return collection.deleteOne(query: ["owner_id": self.stitchClient.auth?.userId ?? "0"])
-        }.then { (result: DeleteResult) -> StitchTask<DeleteResult> in
-            XCTAssert(result.deletedCount == 1)
+        }.then { (result: Int) -> StitchTask<Int> in
+            XCTAssert(result == 1)
             return collection.deleteMany(query: ["owner_id": self.stitchClient.auth?.userId ?? "0"])
-        }.then { (result: DeleteResult) -> Void in
-            XCTAssert(result.deletedCount == 2)
+        }.then { (result: Int) -> Void in
+            XCTAssert(result == 2)
             expectation.fulfill()
         }.catch { err in
             XCTFail(err.localizedDescription)

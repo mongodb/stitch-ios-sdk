@@ -8,22 +8,6 @@ import Foundation
 import StitchCore
 import ExtendedJson
 
-public struct UpdateResult: Codable {
-    public let matchedCount: Int32
-}
-
-public struct DeleteResult: Codable {
-    public let deletedCount: Int32
-}
-
-public struct InsertOneResult: Codable {
-    public let insertedId: ObjectId
-}
-
-public struct InsertManyResult: Codable {
-    public let insertedIds: [ObjectId]
-}
-
 public struct Collection {
     private struct Consts {
         static let databaseKey =        "database"
@@ -52,32 +36,19 @@ public struct Collection {
         self.name = name
     }
 
-    // MARK: - Private
-    private func createPipeline(action: String, options: Document? = nil) -> Pipeline {
-        var args = options ?? [:]
-        args[Consts.databaseKey] = database.name
-        args[Consts.collectionKey] = name
-        return Pipeline(action: action,
-                        service: database.client.serviceName,
-                        args: args)
-    }
-
     // MARK: - Public
     @discardableResult
     public func find(query: Document,
                      projection: Document? = nil,
-                     limit: Int? = nil) -> StitchTask<[Document]> {
+                     limit: Int) -> StitchTask<[Document]> {
         var options: Document = [
             Consts.queryKey: query,
             Consts.databaseKey: database.name,
-            Consts.collectionKey: self.name
+            Consts.collectionKey: self.name,
+            Consts.limitKey: limit
         ]
         if let projection = projection {
             options[Consts.projectionKey] = projection
-        }
-
-        if let limit = limit {
-            options[Consts.limitKey] = limit
         }
 
         return database.client.stitchClient.executeServiceFunction(name: "find",
@@ -101,7 +72,7 @@ public struct Collection {
     @discardableResult
     public func updateOne(query: Document,
                           update: Document,
-                          upsert: Bool = false) -> StitchTask<UpdateResult> {
+                          upsert: Bool = false) -> StitchTask<Int> {
         return database.client.stitchClient.executeServiceFunction(name: "updateOne",
                                                                     service: database.client.serviceName,
                                                                     args: [Consts.queryKey: query,
@@ -110,18 +81,19 @@ public struct Collection {
                                                                            Consts.databaseKey: database.name,
                                                                            Consts.collectionKey: self.name] as Document)
         .then {
-            guard let doc = try Document.fromExtendedJson(xjson: $0) as? Document else {
-                throw BsonError.parseValueFailure(value: $0,
-                                                  attemptedType: Document.self)
+            guard let doc = try Document.fromExtendedJson(xjson: $0) as? Document,
+                let matchedCount = doc["matchedCount"] as? Int32 else {
+                    throw BsonError.parseValueFailure(value: $0,
+                                                      attemptedType: Document.self)
             }
-            return try BSONDecoder().decode(UpdateResult.self, from: doc)
+            return Int(matchedCount)
         }
     }
 
     @discardableResult
     public func updateMany(query: Document,
                            update: Document,
-                           upsert: Bool = false) -> StitchTask<UpdateResult> {
+                           upsert: Bool = false) -> StitchTask<Int> {
         return database.client.stitchClient.executeServiceFunction(name: "updateMany",
                                                                     service: database.client.serviceName,
                                                                     args: [Consts.updateKey: update,
@@ -130,50 +102,59 @@ public struct Collection {
                                                                            Consts.databaseKey: database.name,
                                                                            Consts.collectionKey: self.name] as Document)
         .then {
-            guard let doc = try Document.fromExtendedJson(xjson: $0) as? Document else {
+            guard let doc = try Document.fromExtendedJson(xjson: $0) as? Document,
+                let matchedCount = doc["matchedCount"] as? Int32 else {
                 throw BsonError.parseValueFailure(value: $0,
                                                   attemptedType: Document.self)
             }
-            return try BSONDecoder().decode(UpdateResult.self, from: doc)
+            return Int(matchedCount)
         }
     }
 
     @discardableResult
-    public func insertOne(document: Document) ->  StitchTask<InsertOneResult> {
+    public func insertOne(document: Document) ->  StitchTask<ObjectId> {
         return database.client.stitchClient.executeServiceFunction(name: "insertOne",
                                                                     service: database.client.serviceName,
                                                                     args: ["document": document,
                                                                            Consts.databaseKey: database.name,
                                                                            Consts.collectionKey: self.name] as Document)
         .then {
-            guard let doc = try Document.fromExtendedJson(xjson: $0) as? Document else {
+            guard let doc = try Document.fromExtendedJson(xjson: $0) as? Document,
+                let insertedId = doc["insertedId"] as? ObjectId else {
                 throw BsonError.parseValueFailure(value: $0,
                                                   attemptedType: Document.self)
             }
 
-            return try BSONDecoder().decode(InsertOneResult.self, from: doc)
+            return insertedId
         }
     }
 
     @discardableResult
-    public func insertMany(documents: [Document]) ->  StitchTask<InsertManyResult> {
+    public func insertMany(documents: [Document]) ->  StitchTask<[ObjectId]> {
         return database.client.stitchClient.executeServiceFunction(name: "insertMany",
                                                                    service: database.client.serviceName,
                                                                    args: ["documents": BSONArray(array: documents),
                                                                           Consts.databaseKey: database.name,
                                                                           Consts.collectionKey: self.name] as Document)
             .then {
-                guard let doc = try Document.fromExtendedJson(xjson: $0) as? Document else {
-                    throw BsonError.parseValueFailure(value: $0,
-                                                      attemptedType: Document.self)
+                guard let doc = try Document.fromExtendedJson(xjson: $0) as? Document,
+                    let insertedIds = doc["insertedIds"] as? BSONArray else {
+                        throw BsonError.parseValueFailure(value: $0,
+                                                          attemptedType: Document.self)
                 }
 
-                return try BSONDecoder().decode(InsertManyResult.self, from: doc)
+                return try insertedIds.map {
+                    guard let oid = $0 as? ObjectId else {
+                        throw BsonError.parseValueFailure(value: $0,
+                                                          attemptedType: ObjectId.self)
+                    }
+                    return oid
+                }
         }
     }
 
     @discardableResult
-    public func deleteOne(query: Document) -> StitchTask<DeleteResult> {
+    public func deleteOne(query: Document) -> StitchTask<Int> {
         return database.client.stitchClient.executeServiceFunction(name: "deleteOne",
                                                                    service: database.client.serviceName,
                                                                    args: [Consts.queryKey: query,
@@ -181,17 +162,18 @@ public struct Collection {
                                                                           Consts.databaseKey: database.name,
                                                                           Consts.collectionKey: self.name] as Document)
             .then {
-                guard let doc = try Document.fromExtendedJson(xjson: $0) as? Document else {
+                guard let doc = try Document.fromExtendedJson(xjson: $0) as? Document,
+                    let deletedCount = doc["deletedCount"] as? Int32 else {
                     throw BsonError.parseValueFailure(value: $0,
                                                       attemptedType: Document.self)
                 }
 
-                return try BSONDecoder().decode(DeleteResult.self, from: doc)
+                return Int(deletedCount)
         }
     }
 
     @discardableResult
-    public func deleteMany(query: Document) -> StitchTask<DeleteResult> {
+    public func deleteMany(query: Document) -> StitchTask<Int> {
         return database.client.stitchClient.executeServiceFunction(name: "deleteMany",
                                                                     service: database.client.serviceName,
                                                                     args: [Consts.queryKey: query,
@@ -199,23 +181,30 @@ public struct Collection {
                                                                            Consts.databaseKey: database.name,
                                                                            Consts.collectionKey: self.name] as Document)
             .then {
-                guard let doc = try Document.fromExtendedJson(xjson: $0) as? Document else {
-                    throw BsonError.parseValueFailure(value: $0,
-                                                      attemptedType: Document.self)
+                guard let doc = try Document.fromExtendedJson(xjson: $0) as? Document,
+                    let deletedCount = doc["deletedCount"] as? Int32 else {
+                        throw BsonError.parseValueFailure(value: $0,
+                                                          attemptedType: Document.self)
                 }
 
-                return try BSONDecoder().decode(DeleteResult.self, from: doc)
+                return Int(deletedCount)
         }
     }
 
     @discardableResult
-    public func count(query: Document) -> StitchTask<Int> {
-        return database.client.stitchClient.executeServiceFunction(name: "find",
+    public func count(query: Document, projection: Document? = nil) -> StitchTask<Int> {
+        var opts: Document = [Consts.queryKey: query,
+                              Consts.countKey: true,
+                              Consts.databaseKey: database.name,
+                              Consts.collectionKey: self.name]
+
+        if (projection != nil) {
+            opts[Consts.projectionKey] = projection
+        }
+
+        return database.client.stitchClient.executeServiceFunction(name: "count",
                                                                    service: database.client.serviceName,
-                                                                   args: [Consts.queryKey: query,
-                                                                          Consts.countKey: true,
-                                                                          Consts.databaseKey: database.name,
-                                                                          Consts.collectionKey: self.name] as Document)
+                                                                   args: opts)
         .then {
             guard let count = try Int.fromExtendedJson(xjson: $0) as? Int else {
                 throw BsonError.parseValueFailure(value: $0,
@@ -227,10 +216,10 @@ public struct Collection {
     }
 
     @discardableResult
-    public func aggregate(pipeline: [Document]) -> StitchTask<BSONArray> {
+    public func aggregate(docs: [Document]) -> StitchTask<BSONArray> {
         return database.client.stitchClient.executeServiceFunction(name: "aggregate",
                                                                     service: database.client.serviceName,
-                                                                    args: [Consts.pipelineKey: BSONArray(array: pipeline),
+                                                                    args: [Consts.pipelineKey: BSONArray(array: docs),
                                                                            Consts.databaseKey: database.name,
                                                                            Consts.collectionKey: self.name] as Document)
         .then {
