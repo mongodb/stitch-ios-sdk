@@ -343,6 +343,12 @@ public class StitchClient: StitchClientType {
     }
 
     // MARK: - Requests
+    /**
+     * Execute a named function
+     * -parameter name: name of the function
+     * -parameter args: extended JSON arguments associated with the function
+     * -returns: return value of the associated function
+    */
     public func executeFunction(name: String,
                                 args: ExtendedJsonRepresentable...) -> StitchTask<Any> {
         return httpClient.doRequest {
@@ -353,7 +359,13 @@ public class StitchClient: StitchClientType {
         }
     }
 
-    // MARK: - Requests
+    /**
+     * Execute a named function associated with a service
+     * -parameter name: name of the function
+     * -parameter serviceName: name of your service
+     * -parameter args: extended JSON arguments associated with the function
+     * -returns: return value of the associated function
+     */
     public func executeServiceFunction(name: String,
                                        service: String,
                                        args: ExtendedJsonRepresentable...) -> StitchTask<Any> {
@@ -365,6 +377,7 @@ public class StitchClient: StitchClientType {
                              "service": service]
         }
     }
+
     // MARK: - Error handling
     /**
      * Gets all available push providers for the current app.
