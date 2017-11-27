@@ -41,7 +41,7 @@ class ServiceTests: XCTestCase {
     func testGcm() throws {
         let exp = self.expectation(description: "gcm")
 
-        self.client.anonymousAuth().then { _ -> StitchTask<AvailablePushProviders> in
+        self.client.login(withProvider: epProvider).then { _ -> StitchTask<AvailablePushProviders> in
             return self.client.getPushProviders()
         }.then { (providers: AvailablePushProviders) -> PushClient in
             guard let gcm = providers.gcm else {
@@ -52,16 +52,17 @@ class ServiceTests: XCTestCase {
 
             return try self.client.push.forProvider(info: gcm)
         }.then { (gcm: PushClient) -> StitchTask<Void> in
-            return gcm.registerToken(token: "000000000").then {
-                gcm.deregister()
+            return gcm.registerToken(token: "1234567891011").then {
+                gcm.deregister().then {
+                    exp.fulfill()
+                }
             }
         }.then { _ in
-            exp.fulfill()
         }.catch {
             XCTFail($0.localizedDescription)
             exp.fulfill()
         }
 
-        self.wait(for: [exp], timeout: 10)
+        self.wait(for: [exp], timeout: 30)
     }
 }

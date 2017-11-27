@@ -34,13 +34,7 @@ public class StitchGCMPushClient: PushClient {
         - returns: The request payload for registering for push for GCM.
      */
     private func getRegisterPushDeviceRequest(registrationToken: String) throws -> Document {
-        var request = getBaseRegisterPushRequest(serviceName: Props.GCMServiceName.rawValue)
-        guard var data = request[DeviceFields.data.rawValue] as? [String: ExtendedJsonRepresentable] else {
-            throw StitchError.responseParsingFailed(reason: "device fields not stored properly")
-        }
-        data[DeviceFields.registrationToken.rawValue] = registrationToken
-        request[DeviceFields.data.rawValue] = try Document.decodeXJson(value: data)
-        return request
+        return Document(key: DeviceFields.registrationToken.rawValue, value: registrationToken)
     }
 
     /**

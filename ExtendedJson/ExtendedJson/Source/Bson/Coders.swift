@@ -638,7 +638,7 @@ fileprivate struct _BSONKeyedDecodingContainer<Key : CodingKey> : KeyedDecodingC
     var codingPath: [CodingKey]
 
     var allKeys: [Key] {
-        return decoder.target.document.orderedKeys.flatMap { Key(stringValue: $0) }
+        return decoder.target.document.orderedKeys.flatMap { Key(stringValue: $0 as! String) }
     }
 
     func decodeNil(forKey key: Key) throws -> Bool {
@@ -785,7 +785,7 @@ fileprivate class _BSONUnkeyedDecodingContainer : UnkeyedDecodingContainer, _BSO
     }
 
     func next() -> ExtendedJsonRepresentable? {
-        let value = decoder.target.document[decoder.target.document.orderedKeys[currentIndex]]
+        let value = decoder.target.document[decoder.target.document.orderedKeys[currentIndex] as! String]
         currentIndex += 1
         return value
     }
@@ -804,7 +804,7 @@ fileprivate class _BSONUnkeyedDecodingContainer : UnkeyedDecodingContainer, _BSO
     /// - throws: `DecodingError.valueNotFound` if there are no more values to decode.
     func decodeNil() throws -> Bool {
         try assertNotAtEnd(NSNull.self)
-        if decoder.target.document[decoder.target.document.orderedKeys[currentIndex]] == nil {
+        if decoder.target.document[decoder.target.document.orderedKeys[currentIndex] as! String] == nil {
             currentIndex += 1
             return true
         } else {

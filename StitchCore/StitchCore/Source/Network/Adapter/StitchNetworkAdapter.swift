@@ -8,8 +8,8 @@ public class StitchNetworkAdapter: NetworkAdapter {
     public func requestWithJsonEncoding<T>(url: String,
                                            method: NAHTTPMethod,
                                            parameters: T?,
-                                           headers: [String: String]? = [:]) -> StitchTask<Data?> where T: Encodable {
-        let task = StitchTask<Data?>()
+                                           headers: [String: String]? = [:]) -> StitchTask<(Int, Data?)> where T: Encodable {
+        let task = StitchTask<(Int, Data?)>()
 
         let config = URLSessionConfiguration.default
         config.requestCachePolicy = .reloadIgnoringLocalCacheData
@@ -44,7 +44,7 @@ public class StitchNetworkAdapter: NetworkAdapter {
         printLog(.debug, text: request.httpMethod)
         printLog(.debug, text: request.allHTTPHeaderFields)
 
-        let dataTask = defaultSession.dataTask(with: request) { (data, response, error) in
+        let dataTask = defaultSession.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
             if let error = error {
                 printLog(.error, text: error.localizedDescription)
                 task.result = .failure(error)
@@ -56,7 +56,7 @@ public class StitchNetworkAdapter: NetworkAdapter {
             if let data = data {
                 printLog(.debug, text: String(data: data, encoding: .utf8))
             }
-            task.result = .success(data)
+            task.result = .success(((response as? HTTPURLResponse)?.statusCode ?? 500, data))
         }
 
         dataTask.resume()

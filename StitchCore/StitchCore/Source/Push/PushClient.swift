@@ -61,15 +61,15 @@ extension PushClient {
     public func removeInfoFromConfigs(info: PushProviderInfo) {
         let userDefaults = UserDefaults(suiteName: Consts.UserDefaultsName)!
 
-        var configs = Document()
+        var configs = [String: Any]()
         do {
             let configOpt = userDefaults.value(forKey: prefConfigs)
 
             if let config = configOpt as? [String: Any] {
-                configs = try Document(extendedJson: config)
+                configs = config
             }
         } catch _ {
-            configs = Document()
+            configs = [:]
         }
 
         configs[info.serviceName] = nil
