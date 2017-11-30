@@ -5,10 +5,10 @@ import StitchLogger
 public class StitchNetworkAdapter: NetworkAdapter {
     private var tasks: [URLSessionDataTask] = []
 
-    public func requestWithJsonEncoding<T>(url: String,
-                                           method: NAHTTPMethod,
-                                           parameters: T?,
-                                           headers: [String: String]? = [:]) -> StitchTask<(Int, Data?)> where T: Encodable {
+    public func requestWithJsonEncoding(url: String,
+                                        method: NAHTTPMethod,
+                                        data: Data?,
+                                        headers: [String: String]? = [:]) -> StitchTask<(Int, Data?)> {
         let task = StitchTask<(Int, Data?)>()
 
         let config = URLSessionConfiguration.default
@@ -29,15 +29,9 @@ public class StitchNetworkAdapter: NetworkAdapter {
         request.allHTTPHeaderFields = contentHeaders
         request.httpMethod = method.rawValue
 
-        if method != .get, let parameters = parameters {
-            guard let jsonData = try? JSONEncoder().encode(parameters) else {
-                printLog(.error, text: "bad json")
-                task.result = .failure(StitchError.illegalAction(message: "bad json"))
-                return task
-            }
-
-            printLog(.debug, text: String(data: jsonData, encoding: .utf8)!)
-            request.httpBody = jsonData
+        if method != .get, let data = data {
+            printLog(.debug, text: String(data: data, encoding: .utf8)!)
+            request.httpBody = data
         }
 
         printLog(.debug, text: request.url)

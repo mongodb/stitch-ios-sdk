@@ -14,7 +14,7 @@ class AuthTests: XCTestCase {
         super.tearDown()
     }
 
-    let stitchClient = StitchClient(appId: "test-uybga")
+    let stitchClient = StitchClient(appId: "test-jsf-fpleb", baseUrl: "https://stitch-dev.mongodb.com")
 
     func testFetchAuthProviders() throws {
         let exp = expectation(description: "fetched auth providers")
@@ -72,5 +72,59 @@ class AuthTests: XCTestCase {
         }
 
         wait(for: [exp], timeout: 30)
+    }
+
+    private struct DummyCustomPayload: Codable {
+        //swiftlint:disable:next nesting
+        struct Metadata: Codable {
+            let email = "name@example.com"
+            let name = "Joe Bloggs"
+            let picture = "https://goo.gl/xqR6Jd"
+        }
+
+        let aud = "test-jsf-fpleb"
+        let sub = "uniqueUserID"
+        let exp = UInt(Date().addingTimeInterval(5 * 60.0).timeIntervalSince1970)
+        let iat = UInt(Date().timeIntervalSince1970)
+        let nbf = UInt(Date().timeIntervalSince1970)
+        //swiftlint:disable:next identifier_name
+        let stitch_meta: Metadata = Metadata()
+    }
+
+    func testCustomLogin() throws {
+        let exp = expectation(description: "logged in")
+
+        let headers = try JSONEncoder().encode([
+            "alg": "HS256",
+            "typ": "JWT"
+        ]).base64URLEncodedString()
+
+        let dummyPayload = DummyCustomPayload()
+        let payload = try JSONEncoder().encode(
+            dummyPayload
+        ).base64URLEncodedString()
+
+        let signature = try Hmac.sha256(
+            data: headers + "." + payload,
+            key: "abcdefghijklmnopqrstuvwxyz1234567890"
+        ).digest().base64URLEncodedString()
+
+        let jwt = headers + "." + payload + "." + signature
+        var userId: String = ""
+        stitchClient.login(withProvider: CustomAuthProvider(jwt: jwt))
+            .then { (uid: String) -> StitchTask<Void> in
+            userId = uid
+            return self.stitchClient.logout()
+        }.then { _ -> StitchTask<String> in
+            return self.stitchClient.login(withProvider: CustomAuthProvider(jwt: jwt))
+        }.then { (uid: String) in
+            XCTAssertEqual(userId, uid)
+            exp.fulfill()
+        }.catch { err in
+            XCTFail(err.localizedDescription)
+            exp.fulfill()
+        }
+
+        wait(for: [exp], timeout: 10)
     }
 }

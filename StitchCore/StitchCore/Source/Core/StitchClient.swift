@@ -167,7 +167,7 @@ public class StitchClient: StitchClientType {
             $0.method = .post
             $0.endpoint = self.routes.localUserpassRegisterRoute
             $0.isAuthenticatedRequest = false
-            $0.parameters = ["email": email, "password": password]
+            try $0.encode(withData: ["email": email, "password": password])
         }.then { _ in }
     }
 
@@ -183,7 +183,7 @@ public class StitchClient: StitchClientType {
             $0.method = .post
             $0.endpoint = self.routes.localUserpassConfirmRoute
             $0.isAuthenticatedRequest = false
-            $0.parameters = ["token": token, "tokenId": tokenId]
+            try $0.encode(withData: ["token": token, "tokenId": tokenId])
         }.then { _ in }
     }
 
@@ -198,7 +198,7 @@ public class StitchClient: StitchClientType {
             $0.method = .post
             $0.endpoint = self.routes.localUserpassConfirmSendRoute
             $0.isAuthenticatedRequest = false
-            $0.parameters = ["email": email]
+            try $0.encode(withData: ["email": email])
         }.then { _ in }
     }
 
@@ -214,7 +214,7 @@ public class StitchClient: StitchClientType {
             $0.method = .post
             $0.endpoint = self.routes.localUserpassResetRoute
             $0.isAuthenticatedRequest = false
-            $0.parameters = ["token": token, "tokenId": tokenId]
+            try $0.encode(withData: ["token": token, "tokenId": tokenId])
         }.then { _ in }
     }
 
@@ -229,7 +229,7 @@ public class StitchClient: StitchClientType {
             $0.method = .post
             $0.endpoint = self.routes.localUserpassResetSendRoute
             $0.isAuthenticatedRequest = false
-            $0.parameters = ["email": email]
+            try $0.encode(withData: ["email": email])
         }.then { _ in }
     }
 
@@ -264,7 +264,7 @@ public class StitchClient: StitchClientType {
             $0.method = .post
             $0.endpoint = self.routes.authProvidersLoginRoute(provider: provider.type)
             $0.isAuthenticatedRequest = false
-            $0.parameters = self.getAuthRequest(provider: provider)
+            try $0.encode(withData: self.getAuthRequest(provider: provider))
         }.then { [weak self] any in
             guard let strongSelf = self else { throw StitchError.clientReleased }
             let authInfo = try JSONDecoder().decode(AuthInfo.self,
@@ -354,8 +354,8 @@ public class StitchClient: StitchClientType {
         return httpClient.doRequest {
             $0.method = .post
             $0.endpoint = self.routes.functionsCallRoute
-            $0.parameters = ["name": name,
-                             "arguments": BSONArray(array: args)]
+            try $0.encode(withData: ["name": name,
+                                     "arguments": BSONArray(array: args)])
         }
     }
 
@@ -372,9 +372,9 @@ public class StitchClient: StitchClientType {
         return httpClient.doRequest {
             $0.method = .post
             $0.endpoint = self.routes.functionsCallRoute
-            $0.parameters = ["name": name,
-                             "arguments": BSONArray(array: args),
-                             "service": service]
+            try $0.encode(withData: ["name": name,
+                                     "arguments": BSONArray(array: args),
+                                     "service": service])
         }
     }
 
