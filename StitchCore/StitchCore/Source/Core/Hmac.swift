@@ -1,11 +1,3 @@
-//
-//  Sha5.swift
-//  StitchCore
-//
-//  Created by Jason Flax on 11/30/17.
-//  Copyright © 2017 MongoDB. All rights reserved.
-//
-
 import Foundation
 import CommonCrypto
 
