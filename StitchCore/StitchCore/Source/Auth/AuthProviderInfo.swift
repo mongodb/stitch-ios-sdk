@@ -70,7 +70,7 @@ public struct CustomAuthProviderInfo: AuthProviderType {
         public let required: Bool
     }
 
-    public let config: Config
+    public let config: Config?
     public let metadataFields: [MetadataField]?
     public let name: String
     public let type: String

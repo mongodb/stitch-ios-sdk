@@ -216,8 +216,16 @@ internal class StitchHTTPClient {
             try builder(&self)
         }
 
+        mutating func encode(withJson json: [String: Any]) throws {
+            self.data = try JSONSerialization.data(withJSONObject: json)
+        }
+
         mutating func encode<T>(withData data: T) throws where T: Encodable {
-            self.data = try JSONEncoder().encode(data)
+            if let data = data as? [String: Any] {
+                self.data = try JSONEncoder().encode(Document.init(extendedJson: data))
+            } else {
+                self.data = try JSONEncoder().encode(data)
+            }
         }
     }
 
