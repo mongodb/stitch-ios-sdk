@@ -253,36 +253,40 @@ internal class StitchHTTPClient {
                     }
 
                     switch internalTask.result {
-                    case .success(let value):
-                        guard let data = value,
-                            let json = try? JSONSerialization.jsonObject(with: data,
-                                                                        options: .allowFragments) else {
-                                return task.result = .failure(
-                                    StitchError.responseParsingFailed(reason: "Received no valid data from server"))
-                        }
+                    case .success(let args):
+                        let (statusCode, value) = args
+                        if statusCode != 204 {
+                            guard let data = value,
+                                let json = try? JSONSerialization.jsonObject(with: data,
+                                                                             options: .allowFragments) else {
+                                    return task.result = .failure(
+                                        StitchError.responseParsingFailed(reason: "Received no valid data from server"))
+                            }
 
-                        if let json = json as? [String: Any], let error = strongSelf.parseError(from: json) {
-                            switch error {
-                            case .serverError(let reason):
-                                // check if error is invalid session
-                                if reason.isInvalidSession {
-                                    if requestOptions.refreshOnFailure {
-                                        strongSelf.refreshAccessTokenAndRetry(requestOptions: requestOptions,
-                                                                              task: task)
+                            if let json = json as? [String: Any], let error = strongSelf.parseError(from: json) {
+                                switch error {
+                                case .serverError(let reason):
+                                    // check if error is invalid session
+                                    if reason.isInvalidSession {
+                                        if requestOptions.refreshOnFailure {
+                                            strongSelf.refreshAccessTokenAndRetry(requestOptions: requestOptions,
+                                                                                  task: task)
+                                        } else {
+                                            try? strongSelf.clearAuth()
+                                            task.result = .failure(error)
+                                        }
                                     } else {
-                                        try? strongSelf.clearAuth()
                                         task.result = .failure(error)
                                     }
-                                } else {
+                                default:
                                     task.result = .failure(error)
                                 }
-                            default:
-                                task.result = .failure(error)
+                                return
                             }
-                            return
+                            task.result = .success(json)
+                        } else {
+                            task.result = .success(Data())
                         }
-
-                        task.result = .success(json)
                     case .failure(let error):
                         task.result = .failure(error)
                     }

@@ -90,7 +90,7 @@ class StitchCoreTests: XCTestCase {
     }
 
     func testIntegration() throws {
-        let expectation = self.expectation(description: "execute pipelines")
+        let expectation = self.expectation(description: "execute various requests")
 
         stitchClient.fetchAuthProviders().then { (auths: AuthProviderInfo) -> Void in
             XCTAssertNotNil(auths.anonymousAuthProviderInfo)
@@ -99,14 +99,34 @@ class StitchCoreTests: XCTestCase {
             XCTAssertNil(auths.facebookProviderInfo)
 
             XCTAssert(auths.googleProviderInfo?.config.clientId ==
-            "56878686513-8o8rs9ehotamtovnqmmvhohdr23g6p2c.apps.googleusercontent.com")
+            "405021717222-8n19u6ij79kheu4lsaeekfh9b1dng7b7.apps.googleusercontent.com")
             XCTAssert(auths.googleProviderInfo?.metadataFields?.contains {$0.name == "profile"} ?? false)
             XCTAssert(auths.googleProviderInfo?.metadataFields?.contains {$0.name == "email"} ?? false)
         }.then { _ -> StitchTask<String> in
             return self.stitchClient.login(withProvider: EmailPasswordAuthProvider(username: "stitch@mongodb.com",
                                                                                     password: "stitchuser"))
-        }.then { (userId: String) -> StitchTask<ApiKey> in
-            XCTAssert(userId == "5a0dfe59afa50c06f1a1ed0e")
+        }.then { (userId: String) -> StitchTask<[ApiKey]> in
+            XCTAssert(userId == "59ee23094fdd1fa1da3d1057")
+            return self.stitchClient.auth!.fetchApiKeys()
+        }.then { (keys: [ApiKey]) -> StitchTask<Void> in
+            let task = StitchTask<Void>()
+            if !keys.isEmpty {
+                var counter = 0
+                keys.forEach {
+                    self.stitchClient.auth!.deleteApiKey(id: $0.id).then {
+                        counter += 1
+                        if counter == keys.count {
+                            task.result = .success(Void())
+                        }
+                    }.catch { err in
+                        task.result = .failure(err)
+                    }
+                }
+            } else {
+                task.result = .success(Void())
+            }
+            return task
+        }.then { _ -> StitchTask<ApiKey> in
             return self.stitchClient.auth!.createApiKey(name: "test4")
         }.then { _ -> StitchTask<[ApiKey]> in
             return self.stitchClient.auth!.fetchApiKeys()
@@ -134,7 +154,7 @@ class StitchCoreTests: XCTestCase {
             expectation.fulfill()
         }
 
-        self.wait(for: [expectation], timeout: TimeInterval(30))
+        self.wait(for: [expectation], timeout: TimeInterval(60))
     }
 
     // swiftlint:disable:next function_body_length

@@ -9,7 +9,7 @@ public struct Document: BSONCollection, Codable, Collection {
     public typealias Element = (key: String, value: ExtendedJsonRepresentable)
 
     fileprivate var storage: [String: ExtendedJsonRepresentable] = [:]
-    internal var orderedKeys: [String] = []
+    internal var orderedKeys = NSMutableOrderedSet()
 
     private let writeQueue = DispatchQueue.global(qos: .utility)
 
@@ -18,20 +18,20 @@ public struct Document: BSONCollection, Codable, Collection {
 
     public init(key: String, value: ExtendedJsonRepresentable) {
         self[key] = value
-        orderedKeys.append(key)
+        orderedKeys.add(key)
     }
 
     public init(dictionary: [String: ExtendedJsonRepresentable?]) {
         for (key, value) in dictionary {
             self[key] = value ?? nil
-            orderedKeys.append(key)
+            orderedKeys.add(key)
         }
     }
 
     public init(extendedJson json: [String: Any?]) throws {
         for (key, value) in json {
             self[key] = try Document.decodeXJson(value: value)
-            orderedKeys.append(key)
+            orderedKeys.add(key)
         }
     }
 
@@ -65,7 +65,7 @@ public struct Document: BSONCollection, Codable, Collection {
             self[key] = try Document.decode(from: container,
                                                 decodingTypeString: value,
                                                 forKey: ExtendedJsonCodingKeys.init(stringValue: key)!)
-            orderedKeys.append(key)
+            orderedKeys.add(key)
         }
     }
 
@@ -100,11 +100,9 @@ public struct Document: BSONCollection, Codable, Collection {
         set {
             writeQueue.sync {
                 if newValue == nil {
-                    if let index = orderedKeys.index(of: key) {
-                        orderedKeys.remove(at: index)
-                    }
+                    orderedKeys.remove(key)
                 } else if storage[key] == nil {
-                    orderedKeys.append(key)
+                    orderedKeys.add(key)
                 }
 
                 storage[key] = newValue
@@ -117,7 +115,7 @@ extension Document: ExpressibleByDictionaryLiteral {
     public init(dictionaryLiteral elements: (String, ExtendedJsonRepresentable)...) {
         for (key, value) in elements {
             self[key] = value
-            self.orderedKeys.append(key)
+            self.orderedKeys.add(key)
         }
     }
 }

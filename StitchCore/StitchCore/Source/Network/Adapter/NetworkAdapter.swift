@@ -16,7 +16,7 @@ public protocol NetworkAdapter {
     func requestWithJsonEncoding<T>(url: String,
                                     method: NAHTTPMethod,
                                     parameters: T?,
-                                    headers: [String: String]?) ->  StitchTask<Data?> where T: Encodable
+                                    headers: [String: String]?) ->  StitchTask<(Int, Data?)> where T: Encodable
     /**
      Cancel all active requests.
      */
