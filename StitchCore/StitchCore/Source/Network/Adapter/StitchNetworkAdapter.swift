@@ -30,13 +30,8 @@ public class StitchNetworkAdapter: NetworkAdapter {
         request.httpMethod = method.rawValue
 
         if method != .get, let data = data {
-            printLog(.debug, text: String(data: data, encoding: .utf8)!)
             request.httpBody = data
         }
-
-        printLog(.debug, text: request.url)
-        printLog(.debug, text: request.httpMethod)
-        printLog(.debug, text: request.allHTTPHeaderFields)
 
         let dataTask = defaultSession.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
             if let error = error {
@@ -45,11 +40,6 @@ public class StitchNetworkAdapter: NetworkAdapter {
                 return
             }
 
-            printLog(.debug, text: response)
-
-            if let data = data {
-                printLog(.debug, text: String(data: data, encoding: .utf8))
-            }
             task.result = .success(((response as? HTTPURLResponse)?.statusCode ?? 500, data))
         }
 

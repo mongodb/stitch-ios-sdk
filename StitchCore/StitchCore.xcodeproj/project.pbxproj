@@ -37,7 +37,6 @@
 		49B2AA1F1F97EB69004AF23D /* ApiKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B2AA1E1F97EB69004AF23D /* ApiKey.swift */; };
 		49CB28591FBB856200F99DCD /* TwilioService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CB28581FBB856200F99DCD /* TwilioService.swift */; };
 		49CB285C1FBB89BF00F99DCD /* Services.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CB285B1FBB89BF00F99DCD /* Services.swift */; };
-		49D0D0A61FD192FE00AA9BCB /* Hmac.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D0D0A51FD192FE00AA9BCB /* Hmac.swift */; };
 		49DAF50D1FD058FB00325F10 /* CustomAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DAF50C1FD058FB00325F10 /* CustomAuthProvider.swift */; };
 		F44825691EEF434300FF0835 /* AuthDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44825681EEF434300FF0835 /* AuthDelegate.swift */; };
 		F448256B1EEF49FA00FF0835 /* StitchGCMPushProviderInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F448256A1EEF49FA00FF0835 /* StitchGCMPushProviderInfo.swift */; };
@@ -94,7 +93,6 @@
 		49B2AA1E1F97EB69004AF23D /* ApiKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKey.swift; sourceTree = "<group>"; };
 		49CB28581FBB856200F99DCD /* TwilioService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioService.swift; sourceTree = "<group>"; };
 		49CB285B1FBB89BF00F99DCD /* Services.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services.swift; sourceTree = "<group>"; };
-		49D0D0A51FD192FE00AA9BCB /* Hmac.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Hmac.swift; path = StitchCore/Source/Core/Hmac.swift; sourceTree = SOURCE_ROOT; };
 		49DAF50C1FD058FB00325F10 /* CustomAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAuthProvider.swift; sourceTree = "<group>"; };
 		F44825681EEF434300FF0835 /* AuthDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthDelegate.swift; sourceTree = "<group>"; };
 		F448256A1EEF49FA00FF0835 /* StitchGCMPushProviderInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchGCMPushProviderInfo.swift; sourceTree = "<group>"; };
@@ -158,7 +156,6 @@
 		36A023A71EEEFE6200450FB1 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				49DAF50E1FD05E0E00325F10 /* Internal */,
 				F4F0652C1EEF40E900F10A83 /* Push */,
 				36A023A81EEEFE6200450FB1 /* Auth */,
 				36A023BA1EEEFE6200450FB1 /* Core */,
@@ -321,15 +318,6 @@
 				49CB28581FBB856200F99DCD /* TwilioService.swift */,
 			);
 			path = Twilio;
-			sourceTree = "<group>";
-		};
-		49DAF50E1FD05E0E00325F10 /* Internal */ = {
-			isa = PBXGroup;
-			children = (
-				49D0D0A51FD192FE00AA9BCB /* Hmac.swift */,
-			);
-			name = Internal;
-			path = Push;
 			sourceTree = "<group>";
 		};
 		F44825791EEF66F100FF0835 /* GCM */ = {
@@ -506,7 +494,6 @@
 				36A0242D1EEEFE6200450FB1 /* UserProfile.swift in Sources */,
 				F4F065321EEF40E900F10A83 /* PushManager.swift in Sources */,
 				36A0242C1EEEFE6200450FB1 /* AuthProviderInfo.swift in Sources */,
-				49D0D0A61FD192FE00AA9BCB /* Hmac.swift in Sources */,
 				36A0242A1EEEFE6200450FB1 /* AuthInfo.swift in Sources */,
 				498536071F97E697007DAACA /* ApiKeyAuthProvider.swift in Sources */,
 				36A024301EEEFE6200450FB1 /* EmailPasswordAuthProvider.swift in Sources */,
