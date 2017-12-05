@@ -2,6 +2,7 @@ import XCTest
 import Foundation
 import StitchLogger
 import ExtendedJson
+import JWT
 @testable import StitchCore
 
 class AuthTests: XCTestCase {
@@ -14,7 +15,7 @@ class AuthTests: XCTestCase {
         super.tearDown()
     }
 
-    let stitchClient = StitchClient(appId: "test-uybga")
+    let stitchClient = StitchClient(appId: "test-test-uybga")
 
     func testFetchAuthProviders() throws {
         let exp = expectation(description: "fetched auth providers")
@@ -94,22 +95,21 @@ class AuthTests: XCTestCase {
     func testCustomLogin() throws {
         let exp = expectation(description: "logged in")
 
-        let headers = try JSONEncoder().encode([
-            "alg": "HS256",
-            "typ": "JWT"
-        ]).base64URLEncodedString()
+        let jwt = JWT.encode(Algorithm.hs256(
+            "abcdefghijklmnopqrstuvwxyz1234567890".data(using: .utf8)!)
+        ) { (builder: ClaimSetBuilder) in
+            builder.audience = "test-uybga"
+            builder.notBefore = Date()
+            builder.issuedAt = Date()
+            builder.expiration = Date().addingTimeInterval(TimeInterval(60 * 5))
+            builder["sub"] = "uniqueUserID"
+            builder["stitch_meta"] = [
+                "email": "name@example.com",
+                "name": "Joe Bloggs",
+                "picture": "https://goo.gl/xqR6Jd"
+            ]
+        }
 
-        let dummyPayload = DummyCustomPayload()
-        let payload = try JSONEncoder().encode(
-            dummyPayload
-        ).base64URLEncodedString()
-
-        let signature = try Hmac.sha256(
-            data: headers + "." + payload,
-            key: "abcdefghijklmnopqrstuvwxyz1234567890"
-        ).digest().base64URLEncodedString()
-
-        let jwt = headers + "." + payload + "." + signature
         var userId: String = ""
         stitchClient.login(withProvider: CustomAuthProvider(jwt: jwt))
             .then { (uid: String) -> StitchTask<Void> in

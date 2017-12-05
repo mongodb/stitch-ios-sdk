@@ -3,3 +3,6 @@ identifier_name:
     - id
     - URL
     - GlobalAPIKey
+
+excluded:
+    - JSONWebToken.swift
