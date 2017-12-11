@@ -15,7 +15,7 @@ class AuthTests: XCTestCase {
         super.tearDown()
     }
 
-    let stitchClient = StitchClient(appId: "test-test-uybga")
+    let stitchClient = StitchClient(appId: "test-jsf-fpleb", baseUrl: "https://stitch-dev.mongodb.com")
 
     func testFetchAuthProviders() throws {
         let exp = expectation(description: "fetched auth providers")
@@ -75,30 +75,13 @@ class AuthTests: XCTestCase {
         wait(for: [exp], timeout: 30)
     }
 
-    private struct DummyCustomPayload: Codable {
-        //swiftlint:disable:next nesting
-        struct Metadata: Codable {
-            let email = "name@example.com"
-            let name = "Joe Bloggs"
-            let picture = "https://goo.gl/xqR6Jd"
-        }
-
-        let aud = "test-jsf-fpleb"
-        let sub = "uniqueUserID"
-        let exp = UInt(Date().addingTimeInterval(5 * 60.0).timeIntervalSince1970)
-        let iat = UInt(Date().timeIntervalSince1970)
-        let nbf = UInt(Date().timeIntervalSince1970)
-        //swiftlint:disable:next identifier_name
-        let stitch_meta: Metadata = Metadata()
-    }
-
     func testCustomLogin() throws {
         let exp = expectation(description: "logged in")
 
         let jwt = JWT.encode(Algorithm.hs256(
             "abcdefghijklmnopqrstuvwxyz1234567890".data(using: .utf8)!)
         ) { (builder: ClaimSetBuilder) in
-            builder.audience = "test-uybga"
+            builder.audience = "test-jsf-fpleb"
             builder.notBefore = Date()
             builder.issuedAt = Date()
             builder.expiration = Date().addingTimeInterval(TimeInterval(60 * 5))
