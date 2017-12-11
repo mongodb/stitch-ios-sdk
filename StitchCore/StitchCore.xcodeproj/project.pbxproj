@@ -34,8 +34,10 @@
 		498C7B881F9FEC36009CB84D /* MongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498C7B891F9FEC36009CB84D /* MongoDBService.framework */; };
 		499152F91F9D84C90001C5AC /* StitchHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499152F81F9D84C90001C5AC /* StitchHTTPClient.swift */; };
 		49B2AA1F1F97EB69004AF23D /* ApiKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B2AA1E1F97EB69004AF23D /* ApiKey.swift */; };
+		49B5DB321FD7042E00A3B692 /* JWT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49B5DB2B1FD7041800A3B692 /* JWT.framework */; };
 		49CB28591FBB856200F99DCD /* TwilioService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CB28581FBB856200F99DCD /* TwilioService.swift */; };
 		49CB285C1FBB89BF00F99DCD /* Services.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CB285B1FBB89BF00F99DCD /* Services.swift */; };
+		49DAF50D1FD058FB00325F10 /* CustomAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DAF50C1FD058FB00325F10 /* CustomAuthProvider.swift */; };
 		F44825691EEF434300FF0835 /* AuthDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44825681EEF434300FF0835 /* AuthDelegate.swift */; };
 		F448256B1EEF49FA00FF0835 /* StitchGCMPushProviderInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F448256A1EEF49FA00FF0835 /* StitchGCMPushProviderInfo.swift */; };
 		F448256F1EEF4FA800FF0835 /* StitchGCMPushClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F448256E1EEF4FA800FF0835 /* StitchGCMPushClient.swift */; };
@@ -54,6 +56,41 @@
 			proxyType = 1;
 			remoteGlobalIDString = 367E0B0E1E43419500EE2C00;
 			remoteInfo = MongoCore;
+		};
+		49B5DB281FD7041800A3B692 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 49B5DB201FD7041700A3B692 /* JWT.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 279D639C1AD07FFF0024E2BC;
+			remoteInfo = "JWT-OSX";
+		};
+		49B5DB2A1FD7041800A3B692 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 49B5DB201FD7041700A3B692 /* JWT.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CD9B62231C7753D8005D4844;
+			remoteInfo = "JWT-iOS";
+		};
+		49B5DB2C1FD7041800A3B692 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 49B5DB201FD7041700A3B692 /* JWT.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CD9B62351C7753EC005D4844;
+			remoteInfo = "JWT-tvOS";
+		};
+		49B5DB2E1FD7041800A3B692 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 49B5DB201FD7041700A3B692 /* JWT.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CD9B62471C7753FB005D4844;
+			remoteInfo = "JWT-watchOS";
+		};
+		49B5DB301FD7041800A3B692 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 49B5DB201FD7041700A3B692 /* JWT.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 279D63A71AD07FFF0024E2BC;
+			remoteInfo = JWTTests;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -88,8 +125,10 @@
 		498C7B891F9FEC36009CB84D /* MongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		499152F81F9D84C90001C5AC /* StitchHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchHTTPClient.swift; sourceTree = "<group>"; };
 		49B2AA1E1F97EB69004AF23D /* ApiKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKey.swift; sourceTree = "<group>"; };
+		49B5DB201FD7041700A3B692 /* JWT.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = JWT.xcodeproj; path = JSONWebToken.swift/JWT.xcodeproj; sourceTree = SOURCE_ROOT; };
 		49CB28581FBB856200F99DCD /* TwilioService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioService.swift; sourceTree = "<group>"; };
 		49CB285B1FBB89BF00F99DCD /* Services.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services.swift; sourceTree = "<group>"; };
+		49DAF50C1FD058FB00325F10 /* CustomAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAuthProvider.swift; sourceTree = "<group>"; };
 		F44825681EEF434300FF0835 /* AuthDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthDelegate.swift; sourceTree = "<group>"; };
 		F448256A1EEF49FA00FF0835 /* StitchGCMPushProviderInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchGCMPushProviderInfo.swift; sourceTree = "<group>"; };
 		F448256E1EEF4FA800FF0835 /* StitchGCMPushClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchGCMPushClient.swift; sourceTree = "<group>"; };
@@ -114,6 +153,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49B5DB321FD7042E00A3B692 /* JWT.framework in Frameworks */,
 				498C7B881F9FEC36009CB84D /* MongoDBService.framework in Frameworks */,
 				36DD055C1E7C412100E9A764 /* StitchCore.framework in Frameworks */,
 			);
@@ -184,6 +224,7 @@
 				36A023B11EEEFE6200450FB1 /* EmailPassword */,
 				36A023B41EEEFE6200450FB1 /* Facebook */,
 				36A023B71EEEFE6200450FB1 /* Google */,
+				493CE3691FD0AF220006E730 /* Custom */,
 			);
 			path = Providers;
 			sourceTree = "<group>";
@@ -263,12 +304,21 @@
 		36A023C81EEEFE6200450FB1 /* StitchCoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				49B5DB201FD7041700A3B692 /* JWT.xcodeproj */,
 				36A023C91EEEFE6200450FB1 /* Info.plist */,
 				36A023CA1EEEFE6200450FB1 /* StitchCoreTests.swift */,
 				4927D74B1FC0EE21006D8031 /* AuthTests.swift */,
 				49160CFA1FBE227700966194 /* ServiceTests.swift */,
 			);
 			path = StitchCoreTests;
+			sourceTree = "<group>";
+		};
+		493CE3691FD0AF220006E730 /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+				49DAF50C1FD058FB00325F10 /* CustomAuthProvider.swift */,
+			);
+			path = Custom;
 			sourceTree = "<group>";
 		};
 		498536111F97E739007DAACA /* ApiKey */ = {
@@ -287,6 +337,18 @@
 				498C7B891F9FEC36009CB84D /* MongoDBService.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		49B5DB211FD7041700A3B692 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				49B5DB291FD7041800A3B692 /* JWT.framework */,
+				49B5DB2B1FD7041800A3B692 /* JWT.framework */,
+				49B5DB2D1FD7041800A3B692 /* JWT.framework */,
+				49B5DB2F1FD7041800A3B692 /* JWT.framework */,
+				49B5DB311FD7041800A3B692 /* JWTTests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		49CB28571FBB854100F99DCD /* Services */ = {
@@ -412,6 +474,12 @@
 			mainGroup = 367E0B051E43419500EE2C00;
 			productRefGroup = 367E0B101E43419500EE2C00 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 49B5DB211FD7041700A3B692 /* Products */;
+					ProjectRef = 49B5DB201FD7041700A3B692 /* JWT.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				367E0B0E1E43419500EE2C00 /* StitchCore */,
@@ -419,6 +487,44 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		49B5DB291FD7041800A3B692 /* JWT.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = JWT.framework;
+			remoteRef = 49B5DB281FD7041800A3B692 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		49B5DB2B1FD7041800A3B692 /* JWT.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = JWT.framework;
+			remoteRef = 49B5DB2A1FD7041800A3B692 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		49B5DB2D1FD7041800A3B692 /* JWT.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = JWT.framework;
+			remoteRef = 49B5DB2C1FD7041800A3B692 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		49B5DB2F1FD7041800A3B692 /* JWT.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = JWT.framework;
+			remoteRef = 49B5DB2E1FD7041800A3B692 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		49B5DB311FD7041800A3B692 /* JWTTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = JWTTests.xctest;
+			remoteRef = 49B5DB301FD7041800A3B692 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		367E0B0D1E43419500EE2C00 /* Resources */ = {
@@ -469,6 +575,7 @@
 				36A024321EEEFE6200450FB1 /* FacebookAuthProvider.swift in Sources */,
 				49CB285C1FBB89BF00F99DCD /* Services.swift in Sources */,
 				49B2AA1F1F97EB69004AF23D /* ApiKey.swift in Sources */,
+				49DAF50D1FD058FB00325F10 /* CustomAuthProvider.swift in Sources */,
 				F44825781EEF54B200FF0835 /* AvailablePushProviders.swift in Sources */,
 				36A0243C1EEEFE6200450FB1 /* NetworkAdapter.swift in Sources */,
 				F448257B1EEF66FD00FF0835 /* PushMessage.swift in Sources */,
@@ -628,6 +735,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
@@ -641,6 +749,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchCore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/CommonCrypto";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 			};
@@ -650,6 +759,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
@@ -663,6 +773,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchCore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/CommonCrypto";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;

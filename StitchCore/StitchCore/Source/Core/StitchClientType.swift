@@ -1,10 +1,10 @@
 import Foundation
 import ExtendedJson
 
+public typealias UserId = String
+
 /// Protocol to lay out basic methods and fields for a StitchClient.
 public protocol StitchClientType {
-    typealias UserId = String
-
     // MARK: - Properties
     /// Id of this application
     var appId: String { get }

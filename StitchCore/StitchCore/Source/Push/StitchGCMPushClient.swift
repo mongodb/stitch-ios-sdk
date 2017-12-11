@@ -50,7 +50,7 @@ public class StitchGCMPushClient: PushClient {
                 .stitchClient
                 .routes
                 .pushProvidersRegistartionRoute(provider: self._info.providerName.rawValue)
-            $0.parameters = try self.getRegisterPushDeviceRequest(registrationToken: token)
+            try $0.encode(withData: self.getRegisterPushDeviceRequest(registrationToken: token))
         }.then { _ in
             self.addInfoToConfigs(info: self._info)
         }

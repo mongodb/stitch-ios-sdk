@@ -86,7 +86,7 @@ class StitchCoreTests: XCTestCase {
             expectation.fulfill()
         }
 
-        waitForExpectations(timeout: 20, handler: nil)
+        waitForExpectations(timeout: 200, handler: nil)
     }
 
     func testIntegration() throws {

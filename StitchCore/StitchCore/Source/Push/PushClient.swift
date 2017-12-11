@@ -62,14 +62,11 @@ extension PushClient {
         let userDefaults = UserDefaults(suiteName: Consts.UserDefaultsName)!
 
         var configs = [String: Any]()
-        do {
-            let configOpt = userDefaults.value(forKey: prefConfigs)
 
-            if let config = configOpt as? [String: Any] {
-                configs = config
-            }
-        } catch _ {
-            configs = [:]
+        let configOpt = userDefaults.value(forKey: prefConfigs)
+
+        if let config = configOpt as? [String: Any] {
+            configs = config
         }
 
         configs[info.serviceName] = nil

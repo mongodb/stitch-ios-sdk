@@ -29,7 +29,7 @@ public class Auth {
         return stitchHttpClient.doRequest {
             $0.method =  .post
             $0.endpoint = self.stitchClient.routes.apiKeysRoute
-            $0.parameters = ["name": name]
+            try $0.encode(withData: ["name": name])
             $0.refreshOnFailure = true
             $0.useRefreshToken = true
         }.then {
@@ -83,6 +83,7 @@ public class Auth {
     public func disableApiKey(id: String) -> StitchTask<Void> {
         return self.enableDisableApiKey(id: id, shouldEnable: false)
     }
+
     /**
      Fetch the current user profile, containing all user info. Can fail.
      

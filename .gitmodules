@@ -1,5 +1,3 @@
-[submodule "StitchCore/StitchCore/Frameworks/Alamofire"]
-	path = StitchCore/StitchCore/Frameworks/Alamofire
-	url = https://github.com/Alamofire/Alamofire.git
-[submodule "Alamofire"]
-	branch = 4.3.0
+[submodule "StitchCore/JSONWebToken.swift"]
+	path = StitchCore/JSONWebToken.swift
+	url = https://github.com/kylef/JSONWebToken.swift.git

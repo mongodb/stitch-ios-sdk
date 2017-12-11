@@ -207,12 +207,25 @@ internal class StitchHTTPClient {
         var isAuthenticatedRequest: Bool = true
         var refreshOnFailure: Bool = false
         var useRefreshToken: Bool = false
-        var parameters: Document = [:]
+        var data: Data?
+        var headers: [String: String]?
 
         let builder: RequestBuilder
         init(builder: @escaping RequestBuilder) throws {
             self.builder = builder
             try builder(&self)
+        }
+
+        mutating func encode(withJson json: [String: Any]) throws {
+            self.data = try JSONSerialization.data(withJSONObject: json)
+        }
+
+        mutating func encode<T>(withData data: T) throws where T: Encodable {
+            if let data = data as? [String: Any] {
+                self.data = try JSONEncoder().encode(Document.init(extendedJson: data))
+            } else {
+                self.data = try JSONEncoder().encode(data)
+            }
         }
     }
 
@@ -220,6 +233,7 @@ internal class StitchHTTPClient {
     internal func doRequest(with requestBuilder: @escaping RequestBuilder) -> StitchTask<Any> {
         let task = StitchTask<Any>()
         let requestOptions: RequestOptions
+
         do {
             requestOptions = try RequestOptions(builder: requestBuilder)
         } catch let err {
@@ -232,19 +246,28 @@ internal class StitchHTTPClient {
             return task
         }
 
-        if requestOptions.isAuthenticatedRequest && !requestOptions.useRefreshToken && (self.isAccessTokenExpired() ?? false) {
+        if requestOptions.isAuthenticatedRequest &&
+            !requestOptions.useRefreshToken &&
+            (self.isAccessTokenExpired() ?? false) {
             self.refreshAccessTokenAndRetry(requestOptions: requestOptions,
                                             task: task)
             return task
         }
 
-        let bearer = requestOptions.useRefreshToken ? refreshToken ?? String() : authInfo?.accessToken?.token ?? String()
+
+        var headers: [String: String]?
+        if let requestOptionsHeaders = requestOptions.headers {
+            headers = requestOptionsHeaders
+        } else if requestOptions.isAuthenticatedRequest {
+            let bearer = requestOptions.useRefreshToken ? refreshToken ?? String() : authInfo?.accessToken?.token ?? String()
+            headers = ["Authorization": "Bearer \(bearer)"]
+        }
+
         let url: String = self.url(withEndpoint: requestOptions.endpoint)
         networkAdapter.requestWithJsonEncoding(url: url,
-                                               method: requestOptions.method,
-                                               parameters: requestOptions.parameters,
-                                               headers: requestOptions.isAuthenticatedRequest ?
-                                                ["Authorization": "Bearer \(bearer)"] : nil)
+                                                method: requestOptions.method,
+                                                data: requestOptions.data,
+                                                headers: headers)
             .response(onQueue: DispatchQueue.global(qos: .default),
                       completionHandler: { [weak self] internalTask in
                     guard let strongSelf = self else {
