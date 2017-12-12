@@ -154,7 +154,7 @@ internal class StitchHTTPClient {
             $0.endpoint = "auth/session"
             $0.refreshOnFailure = false
             $0.useRefreshToken = true
-        }.then(parser: { [weak self] (any) -> Void in
+        }.then { [weak self] (any) -> Void in
             guard let strongSelf = self else {
                 throw StitchError.clientReleased
             }
@@ -166,32 +166,24 @@ internal class StitchHTTPClient {
                 }
 
             strongSelf.authInfo = authInfo.auth(with: accessToken)
-        })
+        }.catch { err in
+            print(err)
+        }
     }
 
     private func refreshAccessTokenAndRetry(requestOptions: RequestOptions,
                                             task: StitchTask<Any>) {
-        refreshAccessToken().response(onQueue: DispatchQueue.global(qos: .utility)) { [weak self] (innerTask) in
+        refreshAccessToken().then { [weak self] _ -> StitchTask<Any> in
             guard let strongSelf = self else {
                 task.result = StitchResult.failure(StitchError.clientReleased)
-                return
+                throw StitchError.clientReleased
             }
 
-            switch innerTask.result {
-            case .failure(let error):
-                task.result = .failure(error)
-            case .success:
-                // retry once
-                strongSelf.doRequest(with: requestOptions.builder)
-                    .response(onQueue: DispatchQueue.global(qos: .utility)) { innerTask in
-                        switch innerTask.result {
-                        case .failure(let error):
-                            task.result = .failure(error)
-                        case .success(let value):
-                            task.result = .success(value)
-                        }
-                }
-            }
+            return strongSelf.doRequest(with: requestOptions.builder)
+        }.then {
+            task.result = .success($0)
+        }.catch { err in
+            task.result = .failure(err)
         }
     }
 

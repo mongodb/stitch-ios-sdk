@@ -82,7 +82,7 @@ public class StitchClient: StitchClientType {
     }
 
     /// The currently authenticated user (if authenticated).
-    public private(set) var auth: Auth? {
+    private var _auth: Auth? {
         didSet {
             if let refreshToken = httpClient.authInfo?.refreshToken {
                 // save auth persistently
@@ -92,8 +92,8 @@ public class StitchClient: StitchClientType {
                     let jsonData = try JSONEncoder().encode(httpClient.authInfo)
                     guard let jsonString = String(data: jsonData,
                                                   encoding: .utf8) else {
-                        printLog(.error, text: "Error converting json String to Data")
-                        return
+                                                    printLog(.error, text: "Error converting json String to Data")
+                                                    return
                     }
 
                     self.httpClient.save(token: refreshToken, withKey: Consts.AuthRefreshTokenKey)
@@ -109,6 +109,16 @@ public class StitchClient: StitchClientType {
                 userDefaults?.set(false, forKey: Consts.IsLoggedInUDKey)
             }
         }
+    }
+
+    public var auth: Auth? {
+        if _auth == nil && isAuthenticated, let userId = self.httpClient.authInfo?.userId {
+            _auth = Auth(stitchClient: self,
+                         stitchHttpClient: self.httpClient,
+                         userId: userId)
+        }
+
+        return _auth
     }
 
     /// Whether or not the client is currently authenticated
@@ -270,9 +280,9 @@ public class StitchClient: StitchClientType {
             let authInfo = try JSONDecoder().decode(AuthInfo.self,
                                                     from: JSONSerialization.data(withJSONObject: any))
             strongSelf.httpClient.authInfo = authInfo
-            strongSelf.auth = Auth(stitchClient: strongSelf,
-                                   stitchHttpClient: strongSelf.httpClient,
-                                   userId: authInfo.userId)
+            strongSelf._auth = Auth(stitchClient: strongSelf,
+                                    stitchHttpClient: strongSelf.httpClient,
+                                    userId: authInfo.userId)
             strongSelf.onLogin()
             return authInfo.userId
         }

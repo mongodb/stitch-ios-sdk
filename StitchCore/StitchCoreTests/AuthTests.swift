@@ -15,7 +15,7 @@ class AuthTests: XCTestCase {
         super.tearDown()
     }
 
-    let stitchClient = StitchClient(appId: "test-jsf-fpleb", baseUrl: "https://stitch-dev.mongodb.com")
+    let stitchClient = StitchClient(appId: "test-uybga")
 
     func testFetchAuthProviders() throws {
         let exp = expectation(description: "fetched auth providers")
@@ -70,9 +70,10 @@ class AuthTests: XCTestCase {
         }.catch { err in
             print(err)
             XCTFail(err.localizedDescription)
+            exit(1)
         }
 
-        wait(for: [exp], timeout: 30)
+        wait(for: [exp], timeout: 200)
     }
 
     func testCustomLogin() throws {
