@@ -76,6 +76,11 @@ buildvariants:
   run_on:
     - macos-1012
   tasks:
-    - name: github_pull_request_start
     - name: run_tests
+- name: linux-64
+  display_name: Linux-64
+  run_on:
+    - baas-linux
+  tasks:
+    - name: github_pull_request_start
     - name: github_pull_request_end
