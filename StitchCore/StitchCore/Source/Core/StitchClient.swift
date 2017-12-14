@@ -54,7 +54,7 @@ public class StitchClient: StitchClientType {
 
         lazy var localUserpassResetRoute = "\(authProvidersExtensionRoute)/local-userpass/reset"
         lazy var localUserpassResetSendRoute = "\(authProvidersExtensionRoute)/local-userpass/reset/send"
-        lazy var localUserpassRegisterRoute = "\(authProvidersExtensionRoute)/local-userpass/register/"
+        lazy var localUserpassRegisterRoute = "\(authProvidersExtensionRoute)/local-userpass/register"
         lazy var localUserpassConfirmRoute = "\(authProvidersExtensionRoute)/local-userpass/confirm"
         lazy var localUserpassConfirmSendRoute = "\(authProvidersExtensionRoute)/local-userpass/confirm/send"
 
