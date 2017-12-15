@@ -35,7 +35,7 @@ tasks:
       - name: github_pull_request_start
       - name: run_tests
         status: "*"
-        variant: macos-1012
+        variant: linux-64
     commands:
       - command: shell.exec
         params:
@@ -58,7 +58,6 @@ tasks:
       - func: "set_github_build_status"
 
   - name: run_tests
-    priority: 100
     commands:
       - func: "fetch_source"
       - command: shell.exec
@@ -68,23 +67,35 @@ tasks:
             cd stitch-ios-sdk
             git submodule update --init --recursive
 
-            export PATH=/Applications/Xcode8.3.app/Contents/Developer/usr/bin:$PATH
-            
-            xcodebuild test -destination 'platform=iOS Simulator,name=iPhone 7 Plus' -scheme StitchCore
-            xcodebuild test -destination 'platform=iOS Simulator,name=iPhone 7 Plus' -scheme ExtendedJson
-            xcodebuild test -destination 'platform=iOS Simulator,name=iPhone 7 Plus' -scheme MongoDBService
+            echo "packaging source files"
+            tar -czf source.tgz *
+
+            urlencodepipe() {
+              local LANG=C; local c; while IFS= read -r c; do
+                case $c in [a-zA-Z0-9.~_-]) printf "$c"; continue ;; esac
+                printf "$c" | od -An -tx1 | tr ' ' % | tr -d '\n'
+              done <<EOF
+            $(fold -w1)
+            EOF
+              echo
+            }
+
+            urlencode() { printf "$*" | urlencodepipe ;}
+
+            echo "running tests remotely"
+            TEST_DESTINATION=`urlencode "platform=iOS Simulator,name=iPhone 7 Plus"`
+            TEST_SCHEMES=`urlencode "StitchCore,ExtendedJson,MongoDBService"`
+            URL="${device_farm_url}?test_type=ios&test_destination=$TEST_DESTINATION&test_schemes=$TEST_SCHEMES"
+            RESULT=`cat source.tgz | curl $URL -H "Authorization: ${device_farm_secret}" --data-binary @-`
+            echo $RESULT
+            echo $RESULT | grep '!!ALL TESTS PASSED!!'
 
 buildvariants:
-- name: macos-1012
-  display_name: macos-1012
-  run_on:
-    - macos-1012
-  tasks:
-    - name: run_tests
 - name: linux-64
   display_name: Linux-64
   run_on:
     - baas-linux
   tasks:
     - name: github_pull_request_start
+    - name: run_tests
     - name: github_pull_request_end
