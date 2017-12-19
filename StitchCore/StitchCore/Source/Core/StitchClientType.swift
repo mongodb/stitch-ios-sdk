@@ -47,7 +47,7 @@ public protocol StitchClientType {
      * - returns: A task containing whether or not the reset was successful
      */
     @discardableResult
-    func resetPassword(token: String, tokenId: String) -> StitchTask<Void>
+    func resetPassword(token: String, tokenId: String, password: String) -> StitchTask<Void>
 
     /**
      * Send a reset password email to a given email address
