@@ -219,12 +219,14 @@ public class StitchClient: StitchClientType {
      * - returns: A task containing whether or not the reset was successful
      */
     @discardableResult
-    public func resetPassword(token: String, tokenId: String) -> StitchTask<Void> {
+    public func resetPassword(token: String, tokenId: String, password: String) -> StitchTask<Void> {
         return httpClient.doRequest {
             $0.method = .post
             $0.endpoint = self.routes.localUserpassResetRoute
             $0.isAuthenticatedRequest = false
-            try $0.encode(withData: ["token": token, "tokenId": tokenId])
+            try $0.encode(withData: ["token": token,
+                                     "tokenId": tokenId,
+                                     "password": password])
         }.then { _ in }
     }
 
