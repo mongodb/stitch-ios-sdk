@@ -20,7 +20,6 @@
 		36A024391EEEFE6200450FB1 /* StitchClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A023BE1EEEFE6200450FB1 /* StitchClient.swift */; };
 		36A0243A1EEEFE6200450FB1 /* StitchError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A023BF1EEEFE6200450FB1 /* StitchError.swift */; };
 		36A0243C1EEEFE6200450FB1 /* NetworkAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A023C31EEEFE6200450FB1 /* NetworkAdapter.swift */; };
-		36A0243D1EEEFE6200450FB1 /* StitchTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A023C41EEEFE6200450FB1 /* StitchTask.swift */; };
 		36A0245C1EEEFF9D00450FB1 /* StitchCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 36A0245B1EEEFF9D00450FB1 /* StitchCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		36A024C01EEF043A00450FB1 /* StitchCoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A023CA1EEEFE6200450FB1 /* StitchCoreTests.swift */; };
 		36DD055C1E7C412100E9A764 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 367E0B0F1E43419500EE2C00 /* StitchCore.framework */; };
@@ -125,7 +124,6 @@
 		36A023BE1EEEFE6200450FB1 /* StitchClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchClient.swift; sourceTree = "<group>"; };
 		36A023BF1EEEFE6200450FB1 /* StitchError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchError.swift; sourceTree = "<group>"; };
 		36A023C31EEEFE6200450FB1 /* NetworkAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkAdapter.swift; sourceTree = "<group>"; };
-		36A023C41EEEFE6200450FB1 /* StitchTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchTask.swift; sourceTree = "<group>"; };
 		36A023C61EEEFE6200450FB1 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		36A023C91EEEFE6200450FB1 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		36A023CA1EEEFE6200450FB1 /* StitchCoreTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchCoreTests.swift; sourceTree = "<group>"; };
@@ -299,7 +297,6 @@
 			isa = PBXGroup;
 			children = (
 				36A023C11EEEFE6200450FB1 /* Adapter */,
-				36A023C41EEEFE6200450FB1 /* StitchTask.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -614,7 +611,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				36A024341EEEFE6200450FB1 /* GoogleAuthProvider.swift in Sources */,
-				36A0243D1EEEFE6200450FB1 /* StitchTask.swift in Sources */,
 				F448256F1EEF4FA800FF0835 /* StitchGCMPushClient.swift in Sources */,
 				36A0243A1EEEFE6200450FB1 /* StitchError.swift in Sources */,
 				36A0242B1EEEFE6200450FB1 /* AuthProvider.swift in Sources */,
