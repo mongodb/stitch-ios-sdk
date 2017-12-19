@@ -315,31 +315,7 @@
 <pre class="highlight plaintext"><code>logging in anonymously                                                      
 logged in anonymously as user 58c5d6ebb9ede022a3d75050
 </code></pre></li>
-<h4 id='running-a-pipeline' class='heading'>Running a Pipeline</h4>
 
-<ol>
-<li>Once logged in, running a pipeline happens via the client&rsquo;s executePipeline method</li>
-<li><p>To avoid nesting our tasks any further, after logging in we should call some init method that will use the client. We will also place the client as a member of our AppDelegate:</p>
-<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">client</span> <span class="o">=</span> <span class="kt">StitchClient</span><span class="p">(</span><span class="nv">appId</span><span class="p">:</span> <span class="s">"your-app-id"</span><span class="p">)</span>
-
-<span class="kd">func</span> <span class="nf">initializeClient</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">var</span> <span class="nv">literalArgs</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">ExtendedJsonRepresentable</span><span class="p">]</span> <span class="o">=</span> <span class="p">[:]</span>
-    <span class="n">literalArgs</span><span class="p">[</span><span class="s">"items"</span><span class="p">]</span> <span class="o">=</span> <span class="kt">BsonArray</span><span class="p">(</span><span class="nv">array</span><span class="p">:</span> <span class="p">[</span><span class="s">"Hello"</span><span class="p">])</span>
-    <span class="k">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="nf">executePipeline</span><span class="p">(</span><span class="nv">pipeline</span><span class="p">:</span> <span class="kt">Pipeline</span><span class="p">(</span><span class="nv">action</span><span class="p">:</span> <span class="s">"literal"</span><span class="p">,</span> <span class="nv">args</span><span class="p">:</span> <span class="n">literalArgs</span><span class="p">))</span><span class="o">.</span><span class="nf">response</span><span class="p">(</span><span class="nv">completionHandler</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="k">in</span>
-        <span class="k">if</span> <span class="k">let</span> <span class="nv">value</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">value</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="k">let</span> <span class="nv">strings</span> <span class="o">=</span> <span class="n">value</span> <span class="k">as?</span> <span class="kt">BsonArray</span> <span class="p">{</span>
-            <span class="nf">print</span><span class="p">(</span><span class="s">"number of results: </span><span class="se">\(</span><span class="n">strings</span><span class="o">.</span><span class="n">count</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
-            <span class="n">strings</span><span class="o">.</span><span class="n">forEach</span> <span class="p">{</span> <span class="n">string</span> <span class="k">in</span> <span class="nf">print</span><span class="p">(</span><span class="n">string</span><span class="p">)</span> <span class="p">}</span>
-        <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">})</span>
-<span class="p">}</span>
-</code></pre></li>
-<li><p>Call <code>initalizeClient()</code> after logging in and run your app. You should see a messages like:</p>
-<pre class="highlight plaintext"><code>number of results: 1
-Hello world!
-</code></pre></li>
-</ol>
 <h4 id='set-up-push-notifications-gcm' class='heading'>Set up Push Notifications (GCM)</h4>
 <h5 id='set-up-a-gcm-provider' class='heading'>Set up a GCM provider</h5>
 
