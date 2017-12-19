@@ -9,6 +9,7 @@
 import Foundation
 import StitchLogger
 import ExtendedJson
+import PromiseKit
 
 internal class StitchHTTPClient {
     internal let userDefaults = UserDefaults(suiteName: Consts.UserDefaultsName)
@@ -96,13 +97,11 @@ internal class StitchHTTPClient {
 
     // MARK: Private
     internal func clearAuth() throws {
-        guard authInfo != nil else {
-            return
-        }
-
         authInfo = nil
 
         try deleteToken(withKey: Consts.AuthRefreshTokenKey)
+        try deleteToken(withKey: Consts.IsLoggedInUDKey)
+        try deleteToken(withKey: Consts.AuthJwtKey)
 
         self.networkAdapter.cancelAllRequests()
     }
@@ -148,13 +147,13 @@ internal class StitchHTTPClient {
         return readToken(withKey: Consts.AuthRefreshTokenKey)
     }
 
-    private func refreshAccessToken() -> StitchTask<Void> {
+    private func refreshAccessToken() -> Promise<Void> {
         return doRequest {
             $0.method = .post
             $0.endpoint = "auth/session"
             $0.refreshOnFailure = false
             $0.useRefreshToken = true
-        }.then { [weak self] (any) -> Void in
+        }.done { [weak self] (any: Any) throws in
             guard let strongSelf = self else {
                 throw StitchError.clientReleased
             }
@@ -166,24 +165,16 @@ internal class StitchHTTPClient {
                 }
 
             strongSelf.authInfo = authInfo.auth(with: accessToken)
-        }.catch { err in
-            print(err)
         }
     }
 
-    private func refreshAccessTokenAndRetry(requestOptions: RequestOptions,
-                                            task: StitchTask<Any>) {
-        refreshAccessToken().then { [weak self] _ -> StitchTask<Any> in
+    private func refreshAccessTokenAndRetry(requestOptions: RequestOptions) -> Promise<Any> {
+        return refreshAccessToken().then { [weak self] _ -> Promise<Any> in
             guard let strongSelf = self else {
-                task.result = StitchResult.failure(StitchError.clientReleased)
                 throw StitchError.clientReleased
             }
 
             return strongSelf.doRequest(with: requestOptions.builder)
-        }.then {
-            task.result = .success($0)
-        }.catch { err in
-            task.result = .failure(err)
         }
     }
 
@@ -222,28 +213,23 @@ internal class StitchHTTPClient {
     }
 
     @discardableResult
-    internal func doRequest(with requestBuilder: @escaping RequestBuilder) -> StitchTask<Any> {
-        let task = StitchTask<Any>()
+    internal func doRequest(with requestBuilder: @escaping RequestBuilder) -> Promise<Any> {
         let requestOptions: RequestOptions
 
         do {
             requestOptions = try RequestOptions(builder: requestBuilder)
         } catch let err {
-            task.result = .failure(err)
-            return task
+            return Promise.init(error: err)
         }
 
         if requestOptions.isAuthenticatedRequest && !isAuthenticated {
-            task.result = .failure(StitchError.unauthorized(message: "Must first authenticate"))
-            return task
+            return Promise.init(error: StitchError.unauthorized(message: "Must first authenticate"))
         }
 
         if requestOptions.isAuthenticatedRequest &&
             !requestOptions.useRefreshToken &&
             (self.isAccessTokenExpired() ?? false) {
-            self.refreshAccessTokenAndRetry(requestOptions: requestOptions,
-                                            task: task)
-            return task
+            return self.refreshAccessTokenAndRetry(requestOptions: requestOptions)
         }
 
 
@@ -256,58 +242,47 @@ internal class StitchHTTPClient {
         }
 
         let url: String = self.url(withEndpoint: requestOptions.endpoint)
-        networkAdapter.requestWithJsonEncoding(url: url,
+        return networkAdapter.requestWithJsonEncoding(url: url,
                                                 method: requestOptions.method,
                                                 data: requestOptions.data,
                                                 headers: headers)
-            .response(onQueue: DispatchQueue.global(qos: .default),
-                      completionHandler: { [weak self] internalTask in
-                    guard let strongSelf = self else {
-                        task.result = StitchResult.failure(StitchError.clientReleased)
-                        return
-                    }
+            .flatMap(on: DispatchQueue.global(qos: .default)) { [weak self] (args: (Int, Data?)) throws -> Any in
+            guard let strongSelf = self else {
+                throw StitchError.clientReleased
+            }
 
-                    switch internalTask.result {
-                    case .success(let args):
-                        let (statusCode, value) = args
-                        if statusCode != 204 {
-                            guard let data = value,
-                                let json = try? JSONSerialization.jsonObject(with: data,
-                                                                             options: .allowFragments) else {
-                                    return task.result = .failure(
-                                        StitchError.responseParsingFailed(reason: "Received no valid data from server"))
-                            }
+            let (statusCode, value) = args
+            if statusCode != 204 {
+                guard let data = value,
+                    let json = try? JSONSerialization.jsonObject(with: data,
+                                                                 options: .allowFragments) else {
+                    throw StitchError.responseParsingFailed(reason: "Received no valid data from server")
+                }
 
-                            if let json = json as? [String: Any], let error = strongSelf.parseError(from: json) {
-                                switch error {
-                                case .serverError(let reason):
-                                    // check if error is invalid session
-                                    if reason.isInvalidSession {
-                                        if requestOptions.refreshOnFailure {
-                                            strongSelf.refreshAccessTokenAndRetry(requestOptions: requestOptions,
-                                                                                  task: task)
-                                        } else {
-                                            try? strongSelf.clearAuth()
-                                            task.result = .failure(error)
-                                        }
-                                    } else {
-                                        task.result = .failure(error)
-                                    }
-                                default:
-                                    task.result = .failure(error)
-                                }
-                                return
+                if let json = json as? [String: Any],
+                    let error = strongSelf.parseError(from: json) {
+                    switch error {
+                    case .serverError(let reason):
+                        // check if error is invalid session
+                        if reason.isInvalidSession {
+                            if requestOptions.refreshOnFailure {
+                                return strongSelf.refreshAccessTokenAndRetry(requestOptions: requestOptions)
+                            } else {
+                                try? strongSelf.clearAuth()
+                                throw error
                             }
-                            task.result = .success(json)
                         } else {
-                            task.result = .success(Data())
+                            throw error
                         }
-                    case .failure(let error):
-                        task.result = .failure(error)
+                    default:
+                        throw error
                     }
-            })
-
-        return task
+                }
+                return json
+            } else {
+                return Data()
+            }
+        }
     }
 
     internal func parseError(from value: [String: Any]) -> StitchError? {

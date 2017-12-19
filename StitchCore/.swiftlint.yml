@@ -6,3 +6,4 @@ identifier_name:
 
 excluded:
     - JSONWebToken.swift
+    - PMKFoundation

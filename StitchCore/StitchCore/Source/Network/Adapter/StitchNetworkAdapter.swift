@@ -1,6 +1,8 @@
 import Foundation
 import ExtendedJson
 import StitchLogger
+import PromiseKit
+import PMKFoundation
 
 public class StitchNetworkAdapter: NetworkAdapter {
     private var tasks: [URLSessionDataTask] = []
@@ -8,17 +10,14 @@ public class StitchNetworkAdapter: NetworkAdapter {
     public func requestWithJsonEncoding(url: String,
                                         method: NAHTTPMethod,
                                         data: Data?,
-                                        headers: [String: String]? = [:]) -> StitchTask<(Int, Data?)> {
-        let task = StitchTask<(Int, Data?)>()
-
+                                        headers: [String: String]? = [:]) -> Promise<(Int, Data?)> {
         let config = URLSessionConfiguration.default
         config.requestCachePolicy = .reloadIgnoringLocalCacheData
 
         let defaultSession = URLSession(configuration: config)
 
         guard let url = URL(string: url) else {
-            task.result = .failure(StitchError.illegalAction(message: "bad url"))
-            return task
+            return Promise.init(error: StitchError.illegalAction(message: "bad url"))
         }
 
         var contentHeaders = headers ?? [:]
@@ -33,19 +32,11 @@ public class StitchNetworkAdapter: NetworkAdapter {
             request.httpBody = data
         }
 
-        let dataTask = defaultSession.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
-            if let error = error {
-                printLog(.error, text: error.localizedDescription)
-                task.result = .failure(error)
-                return
-            }
-
-            task.result = .success(((response as? HTTPURLResponse)?.statusCode ?? 500, data))
+        return firstly {
+            defaultSession.dataTask(.promise, with: request)
+        }.flatMap {
+            return (($0.response as? HTTPURLResponse)?.statusCode ?? 500, $0.data)
         }
-
-        dataTask.resume()
-        tasks.append(dataTask)
-        return task
     }
 
     public func cancelAllRequests() {
