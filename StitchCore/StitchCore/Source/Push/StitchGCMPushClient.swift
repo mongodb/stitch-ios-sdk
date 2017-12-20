@@ -1,6 +1,7 @@
 import Foundation
 import UserNotifications
 import ExtendedJson
+import PromiseKit
 
 /**
  * StitchGCMPushClient is the PushClient for GCM. It handles the logic of registering and
@@ -43,7 +44,7 @@ public class StitchGCMPushClient: PushClient {
      - returns: A task that can be resolved upon registering
      */
     @discardableResult
-    public func registerToken(token: String) -> StitchTask<Void> {
+    public func registerToken(token: String) -> Promise<Void> {
         return stitchClient.httpClient.doRequest {
             $0.method = .put
             $0.endpoint = self
@@ -51,7 +52,7 @@ public class StitchGCMPushClient: PushClient {
                 .routes
                 .pushProvidersRegistartionRoute(provider: self._info.providerName.rawValue)
             try $0.encode(withData: self.getRegisterPushDeviceRequest(registrationToken: token))
-        }.then { _ in
+        }.done { _ in
             self.addInfoToConfigs(info: self._info)
         }
     }
@@ -61,14 +62,14 @@ public class StitchGCMPushClient: PushClient {
      
      - returns: A task that can be resolved upon deregistering
      */
-    public func deregister() -> StitchTask<Void> {
+    public func deregister() -> Promise<Void> {
         return stitchClient.httpClient.doRequest {
             $0.method = .delete
             $0.endpoint = self
                 .stitchClient
                 .routes
                 .pushProvidersRegistartionRoute(provider: self._info.providerName.rawValue)
-        }.then { _ in
+        }.done { _ in
             self.removeInfoFromConfigs(info: self._info)
         }
     }

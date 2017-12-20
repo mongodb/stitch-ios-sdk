@@ -1,4 +1,5 @@
 import Foundation
+import PromiseKit
 
 /// Protocol to be used to handle requests if Alamofire is not desired
 public protocol NetworkAdapter {
@@ -16,7 +17,7 @@ public protocol NetworkAdapter {
     func requestWithJsonEncoding(url: String,
                                  method: NAHTTPMethod,
                                  data: Data?,
-                                 headers: [String: String]?) ->  StitchTask<(Int, Data?)>
+                                 headers: [String: String]?) ->  Promise<(Int, Data?)>
     /**
      Cancel all active requests.
      */

@@ -3,6 +3,7 @@ import Foundation
 import ExtendedJson
 import StitchLogger
 import Security
+import PromiseKit
 
 public struct Consts {
     public static let DefaultBaseUrl =   "https://stitch.mongodb.com"
@@ -33,8 +34,8 @@ public class StitchClient: StitchClientType {
     internal let userDefaults = UserDefaults(suiteName: Consts.UserDefaultsName)
 
     internal lazy var httpClient = StitchHTTPClient(baseUrl: baseUrl,
-                                                   appId: appId,
-                                                   networkAdapter: networkAdapter)
+                                                    appId: appId,
+                                                    networkAdapter: networkAdapter)
     private var authProvider: AuthProvider?
     private var authDelegates = [AuthDelegate?]()
 
@@ -151,11 +152,11 @@ public class StitchClient: StitchClientType {
      on completion of the request.
      */
     @discardableResult
-    public func fetchAuthProviders() -> StitchTask<AuthProviderInfo> {
+    public func fetchAuthProviders() -> Promise<AuthProviderInfo> {
         return httpClient.doRequest {
             $0.endpoint = self.routes.authProvidersExtensionRoute
             $0.isAuthenticatedRequest = false
-        }.then { any in
+        }.flatMap { any in
             guard let json = any as? [[String: Any]] else {
                 throw StitchError.responseParsingFailed(reason: "\(any) was not valid")
             }
@@ -172,13 +173,13 @@ public class StitchClient: StitchClientType {
      - returns: A task containing whether or not registration was successful.
      */
     @discardableResult
-    public func register(email: String, password: String) -> StitchTask<Void> {
+    public func register(email: String, password: String) -> Promise<Void> {
         return httpClient.doRequest {
             $0.method = .post
             $0.endpoint = self.routes.localUserpassRegisterRoute
             $0.isAuthenticatedRequest = false
             try $0.encode(withData: ["email": email, "password": password])
-        }.then { _ in }
+        }.asVoid()
     }
 
     /**
@@ -188,13 +189,13 @@ public class StitchClient: StitchClientType {
      * - returns: A task containing whether or not the email was confirmed successfully
      */
     @discardableResult
-    public func emailConfirm(token: String, tokenId: String) -> StitchTask<Void> {
+    public func emailConfirm(token: String, tokenId: String) -> Promise<Void> {
         return httpClient.doRequest {
             $0.method = .post
             $0.endpoint = self.routes.localUserpassConfirmRoute
             $0.isAuthenticatedRequest = false
             try $0.encode(withData: ["token": token, "tokenId": tokenId])
-        }.then { _ in }
+        }.asVoid()
     }
 
     /**
@@ -203,13 +204,13 @@ public class StitchClient: StitchClientType {
      * - returns: A task containing whether or not the email was sent successfully.
      */
     @discardableResult
-    public func sendEmailConfirm(toEmail email: String) -> StitchTask<Void> {
+    public func sendEmailConfirm(toEmail email: String) -> Promise<Void> {
         return httpClient.doRequest {
             $0.method = .post
             $0.endpoint = self.routes.localUserpassConfirmSendRoute
             $0.isAuthenticatedRequest = false
             try $0.encode(withData: ["email": email])
-        }.then { _ in }
+        }.asVoid()
     }
 
     /**
@@ -219,15 +220,15 @@ public class StitchClient: StitchClientType {
      * - returns: A task containing whether or not the reset was successful
      */
     @discardableResult
-    public func resetPassword(token: String, tokenId: String, password: String) -> StitchTask<Void> {
+    public func resetPassword(token: String, tokenId: String, password: String) -> Promise<Void> {
         return httpClient.doRequest {
             $0.method = .post
             $0.endpoint = self.routes.localUserpassResetRoute
             $0.isAuthenticatedRequest = false
             try $0.encode(withData: ["token": token,
-                                     "tokenId": tokenId,
-                                     "password": password])
-        }.then { _ in }
+                                    "tokenId": tokenId,
+                                    "password": password])
+        }.asVoid()
     }
 
     /**
@@ -236,13 +237,13 @@ public class StitchClient: StitchClientType {
      * - returns: A task containing whether or not the reset email was sent successfully
      */
     @discardableResult
-    public func sendResetPassword(toEmail email: String) -> StitchTask<Void> {
+    public func sendResetPassword(toEmail email: String) -> Promise<Void> {
         return httpClient.doRequest {
             $0.method = .post
             $0.endpoint = self.routes.localUserpassResetSendRoute
             $0.isAuthenticatedRequest = false
             try $0.encode(withData: ["email": email])
-        }.then { _ in }
+        }.asVoid()
     }
 
     /**
@@ -251,7 +252,7 @@ public class StitchClient: StitchClientType {
      - Returns: A task containing whether or not the login as successful
      */
     @discardableResult
-    public func anonymousAuth() -> StitchTask<UserId> {
+    public func anonymousAuth() -> Promise<UserId> {
         return login(withProvider: AnonymousAuthProvider())
     }
 
@@ -264,12 +265,12 @@ public class StitchClient: StitchClientType {
      - Returns: A task containing whether or not the login as successful
      */
     @discardableResult
-    public func login(withProvider provider: AuthProvider) -> StitchTask<UserId> {
+    public func login(withProvider provider: AuthProvider) -> Promise<UserId> {
         self.authProvider = provider
 
         if isAuthenticated, let auth = auth {
             printLog(.info, text: "Already logged in, using cached token.")
-            return StitchTask<UserId>.withSuccess(auth.userId)
+            return Promise.init(value: auth.userId)
         }
 
         return httpClient.doRequest {
@@ -277,7 +278,7 @@ public class StitchClient: StitchClientType {
             $0.endpoint = self.routes.authProvidersLoginRoute(provider: provider.type)
             $0.isAuthenticatedRequest = false
             try $0.encode(withData: self.getAuthRequest(provider: provider))
-        }.then { [weak self] any in
+        }.flatMap { [weak self] any in
             guard let strongSelf = self else { throw StitchError.clientReleased }
             let authInfo = try JSONDecoder().decode(AuthInfo.self,
                                                     from: JSONSerialization.data(withJSONObject: any))
@@ -296,10 +297,10 @@ public class StitchClient: StitchClientType {
      * - returns: A task that can be resolved upon completion of logout.
      */
     @discardableResult
-    public func logout() -> StitchTask<Void> {
+    public func logout() -> Promise<Void> {
         if !isAuthenticated {
             printLog(.info, text: "Tried logging out while there was no authenticated user found.")
-            return StitchTask<Void>(value: Void())
+            return Promise<Void>(value: Void())
         }
 
         return httpClient.doRequest {
@@ -307,7 +308,7 @@ public class StitchClient: StitchClientType {
             $0.endpoint = self.routes.authSessionRoute
             $0.refreshOnFailure = false
             $0.useRefreshToken = true
-        }.then { _ in }
+        }.asVoid()
     }
 
     // MARK: Private
@@ -362,7 +363,7 @@ public class StitchClient: StitchClientType {
      * -returns: return value of the associated function
     */
     public func executeFunction(name: String,
-                                args: ExtendedJsonRepresentable...) -> StitchTask<Any> {
+                                args: ExtendedJsonRepresentable...) -> Promise<Any> {
         return httpClient.doRequest {
             $0.method = .post
             $0.endpoint = self.routes.functionsCallRoute
@@ -380,7 +381,7 @@ public class StitchClient: StitchClientType {
      */
     public func executeServiceFunction(name: String,
                                        service: String,
-                                       args: ExtendedJsonRepresentable...) -> StitchTask<Any> {
+                                       args: ExtendedJsonRepresentable...) -> Promise<Any> {
         return httpClient.doRequest {
             $0.method = .post
             $0.endpoint = self.routes.functionsCallRoute
@@ -397,11 +398,11 @@ public class StitchClient: StitchClientType {
      * - returns: A task containing {@link AvailablePushProviders} that can be resolved on completion
      * of the request.
      */
-    public func getPushProviders() -> StitchTask<AvailablePushProviders> {
+    public func getPushProviders() -> Promise<AvailablePushProviders> {
         return httpClient.doRequest {
             $0.endpoint = self.routes.pushProvidersRoute
             $0.isAuthenticatedRequest = false
-        }.then {
+        }.flatMap {
             guard let array = $0 as? [Any] else {
                 throw StitchError.responseParsingFailed(reason: "\($0) was not of expected type array")
             }

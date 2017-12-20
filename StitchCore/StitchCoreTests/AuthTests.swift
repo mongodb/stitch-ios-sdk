@@ -4,11 +4,13 @@ import StitchLogger
 import ExtendedJson
 import JWT
 @testable import StitchCore
+import PromiseKit
 
 class AuthTests: XCTestCase {
     override func setUp() {
         super.setUp()
         LogManager.minimumLogLevel = .debug
+        try! stitchClient.clearAuth()
     }
 
     override func tearDown() {
@@ -19,7 +21,7 @@ class AuthTests: XCTestCase {
 
     func testFetchAuthProviders() throws {
         let exp = expectation(description: "fetched auth providers")
-        stitchClient.fetchAuthProviders().then { (authInfo: AuthProviderInfo) in
+        stitchClient.fetchAuthProviders().done { (authInfo: AuthProviderInfo) in
             let anon = authInfo.anonymousAuthProviderInfo
             XCTAssertNotNil(anon)
             XCTAssertEqual(anon?.name, "anon-user")
@@ -48,7 +50,7 @@ class AuthTests: XCTestCase {
 
     func testLogin() throws {
         let exp = expectation(description: "logged in")
-        stitchClient.login(withProvider: AnonymousAuthProvider()).then { (userId: String) in
+        stitchClient.login(withProvider: AnonymousAuthProvider()).done { (userId: String) in
             print(userId)
             exp.fulfill()
         }.catch { err in
@@ -60,10 +62,11 @@ class AuthTests: XCTestCase {
 
     func testUserProfile() throws {
         let exp = expectation(description: "user profile matched")
-        stitchClient.login(withProvider: AnonymousAuthProvider()).then { (_: String)-> StitchTask<UserProfile> in
-            return (self.stitchClient.auth?.fetchUserProfile())!
-        }.then { (userProfile: UserProfile) in
+        stitchClient.login(withProvider: AnonymousAuthProvider()).then { _ in
+            (self.stitchClient.auth?.fetchUserProfile())!
+        }.done { (userProfile: UserProfile) in
             XCTAssertEqual("normal", userProfile.type)
+            print(userProfile)
             XCTAssertEqual("anon-user", userProfile.identities[0].providerType)
             print(userProfile)
             exp.fulfill()
@@ -82,7 +85,7 @@ class AuthTests: XCTestCase {
         let jwt = JWT.encode(Algorithm.hs256(
             "abcdefghijklmnopqrstuvwxyz1234567890".data(using: .utf8)!)
         ) { (builder: ClaimSetBuilder) in
-            builder.audience = "test-jsf-fpleb"
+            builder.audience = "test-uybga"
             builder.notBefore = Date()
             builder.issuedAt = Date()
             builder.expiration = Date().addingTimeInterval(TimeInterval(60 * 5))
@@ -95,13 +98,14 @@ class AuthTests: XCTestCase {
         }
 
         var userId: String = ""
-        stitchClient.login(withProvider: CustomAuthProvider(jwt: jwt))
-            .then { (uid: String) -> StitchTask<Void> in
+        stitchClient.login(
+            withProvider: CustomAuthProvider(jwt: jwt)
+        ).then { (uid: String) throws -> Promise<Void> in
             userId = uid
             return self.stitchClient.logout()
-        }.then { _ -> StitchTask<String> in
+        }.then { _ in
             return self.stitchClient.login(withProvider: CustomAuthProvider(jwt: jwt))
-        }.then { (uid: String) in
+        }.done { (uid: String) in
             XCTAssertEqual(userId, uid)
             exp.fulfill()
         }.catch { err in
