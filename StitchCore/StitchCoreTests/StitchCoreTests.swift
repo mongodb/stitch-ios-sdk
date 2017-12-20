@@ -10,6 +10,7 @@ class StitchCoreTests: XCTestCase {
     override func setUp() {
         super.setUp()
         LogManager.minimumLogLevel = .debug
+        try! stitchClient.clearAuth()
     }
 
     override func tearDown() {
