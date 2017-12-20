@@ -63,6 +63,7 @@
 		36A024ED1EEF07FD00450FB1 /* MongoDBService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MongoDBService.h; sourceTree = "<group>"; };
 		36DA09B01E4CE78200875C3C /* MongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		36DA09B91E4CE78300875C3C /* MongoDBServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MongoDBServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		495F4C0B1FE9E52C00EC0009 /* PromiseKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PromiseKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		498C7B8A1F9FF94D009CB84D /* MongoDBError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MongoDBError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -182,6 +183,7 @@
 		499DD4591FC33E2800D637B5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				495F4C0B1FE9E52C00EC0009 /* PromiseKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
