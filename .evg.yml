@@ -69,7 +69,7 @@ tasks:
             git submodule update --init --recursive
 
             echo "packaging source files"
-            tar -czf source.tgz *
+            tar -czf ../source.tgz .
 
             urlencodepipe() {
               local LANG=C; local c; while IFS= read -r c; do
@@ -87,7 +87,7 @@ tasks:
             TEST_DESTINATION=`urlencode "platform=iOS Simulator,name=iPhone 7 Plus"`
             TEST_SCHEMES=`urlencode "StitchCore,ExtendedJson,MongoDBService"`
             URL="${device_farm_url}?test_type=ios&test_destination=$TEST_DESTINATION&test_schemes=$TEST_SCHEMES"
-            RESULT=`cat source.tgz | curl $URL -H "Authorization: ${device_farm_secret}" --data-binary @-`
+            RESULT=`cat ../source.tgz | curl $URL -H "Authorization: ${device_farm_secret}" --data-binary @-`
             echo $RESULT
             echo $RESULT | grep '!!ALL TESTS PASSED!!'
 
