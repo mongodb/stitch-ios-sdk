@@ -31,6 +31,7 @@
 		498536071F97E697007DAACA /* ApiKeyAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498536061F97E697007DAACA /* ApiKeyAuthProvider.swift */; };
 		498536131F97E7AF007DAACA /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498536121F97E7AF007DAACA /* Auth.swift */; };
 		498A74B91FE9EB640078FFEC /* ExtendedJson.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498A74BA1FE9EB640078FFEC /* ExtendedJson.framework */; };
+		498E07FE1FE9F4680091A9A8 /* MongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E07FF1FE9F4680091A9A8 /* MongoDBService.framework */; };
 		499152F91F9D84C90001C5AC /* StitchHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499152F81F9D84C90001C5AC /* StitchHTTPClient.swift */; };
 		499C73831FE9BFB90022898C /* PMKFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 499C73801FE9BFAB0022898C /* PMKFoundation.framework */; };
 		49B2AA1F1F97EB69004AF23D /* ApiKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B2AA1E1F97EB69004AF23D /* ApiKey.swift */; };
@@ -171,6 +172,7 @@
 		498536061F97E697007DAACA /* ApiKeyAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKeyAuthProvider.swift; sourceTree = "<group>"; };
 		498536121F97E7AF007DAACA /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
 		498A74BA1FE9EB640078FFEC /* ExtendedJson.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = ExtendedJson.framework; path = "../../../../../../../../../Users/jasonflax/Library/Developer/Xcode/DerivedData/StitchSDK-fcfdkailasvbudguglaoafhnayqb/Build/Products/Debug-iphoneos/ExtendedJson.framework"; sourceTree = SDKROOT; };
+		498E07FF1FE9F4680091A9A8 /* MongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		499152F81F9D84C90001C5AC /* StitchHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchHTTPClient.swift; sourceTree = "<group>"; };
 		499C737A1FE9BFAB0022898C /* PMKFoundation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PMKFoundation.xcodeproj; path = Foundation/PMKFoundation.xcodeproj; sourceTree = "<group>"; };
 		49B2AA1E1F97EB69004AF23D /* ApiKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKey.swift; sourceTree = "<group>"; };
@@ -206,6 +208,7 @@
 			files = (
 				49B5DB321FD7042E00A3B692 /* JWT.framework in Frameworks */,
 				36DD055C1E7C412100E9A764 /* StitchCore.framework in Frameworks */,
+				498E07FE1FE9F4680091A9A8 /* MongoDBService.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -396,6 +399,7 @@
 		498C7B871F9FEC36009CB84D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				498E07FF1FE9F4680091A9A8 /* MongoDBService.framework */,
 				498A74BA1FE9EB640078FFEC /* ExtendedJson.framework */,
 			);
 			name = Frameworks;
