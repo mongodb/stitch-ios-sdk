@@ -61,6 +61,7 @@ tasks:
     commands:
       - func: "fetch_source"
       - command: shell.exec
+        silent: true
         params:
           script: |
             set -e
