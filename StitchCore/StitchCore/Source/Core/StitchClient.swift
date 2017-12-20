@@ -34,8 +34,8 @@ public class StitchClient: StitchClientType {
     internal let userDefaults = UserDefaults(suiteName: Consts.UserDefaultsName)
 
     internal lazy var httpClient = StitchHTTPClient(baseUrl: baseUrl,
-                                                    appId: appId,
                                                     networkAdapter: networkAdapter)
+
     private var authProvider: AuthProvider?
     private var authDelegates = [AuthDelegate?]()
 

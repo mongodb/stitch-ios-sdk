@@ -24,13 +24,12 @@ internal class StitchHTTPClient {
         return TARGET_OS_SIMULATOR != 0
     }
 
-    let baseUrl, appId: String
+    let baseUrl: String
     let networkAdapter: NetworkAdapter
     internal var authInfo: AuthInfo?
 
-    init(baseUrl: String, appId: String, networkAdapter: NetworkAdapter) {
+    init(baseUrl: String, networkAdapter: NetworkAdapter) {
         self.baseUrl = baseUrl
-        self.appId = appId
         self.networkAdapter = networkAdapter
     }
 

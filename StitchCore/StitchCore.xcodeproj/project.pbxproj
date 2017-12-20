@@ -34,6 +34,7 @@
 		498E07FE1FE9F4680091A9A8 /* MongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E07FF1FE9F4680091A9A8 /* MongoDBService.framework */; };
 		499152F91F9D84C90001C5AC /* StitchHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499152F81F9D84C90001C5AC /* StitchHTTPClient.swift */; };
 		499C73831FE9BFB90022898C /* PMKFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 499C73801FE9BFAB0022898C /* PMKFoundation.framework */; };
+		499452A11FE8773D00A6855C /* StitchAdminClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499452A01FE8773D00A6855C /* StitchAdminClient.swift */; };
 		49B2AA1F1F97EB69004AF23D /* ApiKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B2AA1E1F97EB69004AF23D /* ApiKey.swift */; };
 		49B5DB321FD7042E00A3B692 /* JWT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49B5DB2B1FD7041800A3B692 /* JWT.framework */; };
 		49CB28591FBB856200F99DCD /* TwilioService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CB28581FBB856200F99DCD /* TwilioService.swift */; };
@@ -175,6 +176,7 @@
 		498E07FF1FE9F4680091A9A8 /* MongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		499152F81F9D84C90001C5AC /* StitchHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchHTTPClient.swift; sourceTree = "<group>"; };
 		499C737A1FE9BFAB0022898C /* PMKFoundation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PMKFoundation.xcodeproj; path = Foundation/PMKFoundation.xcodeproj; sourceTree = "<group>"; };
+		499452A01FE8773D00A6855C /* StitchAdminClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAdminClient.swift; sourceTree = "<group>"; };
 		49B2AA1E1F97EB69004AF23D /* ApiKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKey.swift; sourceTree = "<group>"; };
 		49B5DB201FD7041700A3B692 /* JWT.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = JWT.xcodeproj; path = JSONWebToken.swift/JWT.xcodeproj; sourceTree = SOURCE_ROOT; };
 		49CB28581FBB856200F99DCD /* TwilioService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioService.swift; sourceTree = "<group>"; };
@@ -323,6 +325,7 @@
 				36A023BB1EEEFE6200450FB1 /* KeychainPasswordItem.swift */,
 				36A023BD1EEEFE6200450FB1 /* StitchClientType.swift */,
 				36A023BE1EEEFE6200450FB1 /* StitchClient.swift */,
+				499452A01FE8773D00A6855C /* StitchAdminClient.swift */,
 				499152F81F9D84C90001C5AC /* StitchHTTPClient.swift */,
 				36A023BF1EEEFE6200450FB1 /* StitchError.swift */,
 			);
@@ -704,6 +707,7 @@
 				36A024391EEEFE6200450FB1 /* StitchClient.swift in Sources */,
 				490572EE1F9A4F8F00CC8230 /* DecodedJWT.swift in Sources */,
 				36A024321EEEFE6200450FB1 /* FacebookAuthProvider.swift in Sources */,
+				499452A11FE8773D00A6855C /* StitchAdminClient.swift in Sources */,
 				49CB285C1FBB89BF00F99DCD /* Services.swift in Sources */,
 				49B2AA1F1F97EB69004AF23D /* ApiKey.swift in Sources */,
 				49DAF50D1FD058FB00325F10 /* CustomAuthProvider.swift in Sources */,
