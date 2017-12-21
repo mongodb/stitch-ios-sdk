@@ -33,7 +33,7 @@ public class Auth {
             try $0.encode(withData: ["name": name])
             $0.refreshOnFailure = true
             $0.useRefreshToken = true
-        }.flatMap {
+        }.then {
             return try JSONDecoder().decode(ApiKey.self, from: JSONSerialization.data(withJSONObject: $0))
         }
     }
@@ -43,7 +43,7 @@ public class Auth {
             $0.endpoint = self.stitchClient.routes.apiKeyRoute(id: id)
             $0.refreshOnFailure = true
             $0.useRefreshToken = true
-        }.flatMap {
+        }.then {
             return try JSONDecoder().decode(ApiKey.self, from: JSONSerialization.data(withJSONObject: $0))
         }
     }
@@ -53,7 +53,7 @@ public class Auth {
             $0.endpoint = self.stitchClient.routes.apiKeysRoute
             $0.refreshOnFailure = true
             $0.useRefreshToken = true
-        }.flatMap {
+        }.then {
             return try JSONDecoder().decode([ApiKey].self, from: JSONSerialization.data(withJSONObject: $0))
         }
     }
@@ -96,7 +96,7 @@ public class Auth {
             $0.endpoint = self.stitchClient.routes.authProfileRoute
             $0.refreshOnFailure = false
             $0.useRefreshToken = false
-        }.flatMap {
+        }.then {
             return try JSONDecoder().decode(UserProfile.self,
                                             from: JSONSerialization.data(withJSONObject: $0))
         }

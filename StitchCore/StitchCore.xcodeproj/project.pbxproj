@@ -33,7 +33,6 @@
 		498A74B91FE9EB640078FFEC /* ExtendedJson.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498A74BA1FE9EB640078FFEC /* ExtendedJson.framework */; };
 		498E07FE1FE9F4680091A9A8 /* MongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E07FF1FE9F4680091A9A8 /* MongoDBService.framework */; };
 		499152F91F9D84C90001C5AC /* StitchHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499152F81F9D84C90001C5AC /* StitchHTTPClient.swift */; };
-		499C73831FE9BFB90022898C /* PMKFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 499C73801FE9BFAB0022898C /* PMKFoundation.framework */; };
 		49B2AA1F1F97EB69004AF23D /* ApiKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B2AA1E1F97EB69004AF23D /* ApiKey.swift */; };
 		49B5DB321FD7042E00A3B692 /* JWT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49B5DB2B1FD7041800A3B692 /* JWT.framework */; };
 		49CB28591FBB856200F99DCD /* TwilioService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CB28581FBB856200F99DCD /* TwilioService.swift */; };
@@ -92,20 +91,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 6314112F1D5978D700E24B9E;
 			remoteInfo = PMKDispatchTests;
-		};
-		499C737F1FE9BFAB0022898C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 499C737A1FE9BFAB0022898C /* PMKFoundation.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 63C7FFA71D5BEE09003BAE60;
-			remoteInfo = PMKFoundation;
-		};
-		499C73811FE9BFAB0022898C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 499C737A1FE9BFAB0022898C /* PMKFoundation.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 63C7FFF21D5C020D003BAE60;
-			remoteInfo = PMKNSTests;
 		};
 		49B5DB281FD7041800A3B692 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -174,7 +159,6 @@
 		498A74BA1FE9EB640078FFEC /* ExtendedJson.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = ExtendedJson.framework; path = "../../../../../../../../../Users/jasonflax/Library/Developer/Xcode/DerivedData/StitchSDK-fcfdkailasvbudguglaoafhnayqb/Build/Products/Debug-iphoneos/ExtendedJson.framework"; sourceTree = SDKROOT; };
 		498E07FF1FE9F4680091A9A8 /* MongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		499152F81F9D84C90001C5AC /* StitchHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchHTTPClient.swift; sourceTree = "<group>"; };
-		499C737A1FE9BFAB0022898C /* PMKFoundation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PMKFoundation.xcodeproj; path = Foundation/PMKFoundation.xcodeproj; sourceTree = "<group>"; };
 		49B2AA1E1F97EB69004AF23D /* ApiKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKey.swift; sourceTree = "<group>"; };
 		49B5DB201FD7041700A3B692 /* JWT.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = JWT.xcodeproj; path = JSONWebToken.swift/JWT.xcodeproj; sourceTree = SOURCE_ROOT; };
 		49CB28581FBB856200F99DCD /* TwilioService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioService.swift; sourceTree = "<group>"; };
@@ -198,7 +182,6 @@
 			files = (
 				498A74B91FE9EB640078FFEC /* ExtendedJson.framework in Frameworks */,
 				495F4C0D1FE9E53700EC0009 /* PromiseKit.framework in Frameworks */,
-				499C73831FE9BFB90022898C /* PMKFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,7 +202,6 @@
 			isa = PBXGroup;
 			children = (
 				495F4BF81FE9E52100EC0009 /* PromiseKit.xcodeproj */,
-				499C737A1FE9BFAB0022898C /* PMKFoundation.xcodeproj */,
 				36A0232D1EEEFE6100450FB1 /* StitchCore */,
 				36A023C81EEEFE6200450FB1 /* StitchCoreTests */,
 				367E0B101E43419500EE2C00 /* Products */,
@@ -405,15 +387,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		499C737B1FE9BFAB0022898C /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				499C73801FE9BFAB0022898C /* PMKFoundation.framework */,
-				499C73821FE9BFAB0022898C /* PMKNSTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		49B5DB211FD7041700A3B692 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -555,10 +528,6 @@
 					ProjectRef = 49B5DB201FD7041700A3B692 /* JWT.xcodeproj */;
 				},
 				{
-					ProductGroup = 499C737B1FE9BFAB0022898C /* Products */;
-					ProjectRef = 499C737A1FE9BFAB0022898C /* PMKFoundation.xcodeproj */;
-				},
-				{
 					ProductGroup = 495F4BF91FE9E52100EC0009 /* Products */;
 					ProjectRef = 495F4BF81FE9E52100EC0009 /* PromiseKit.xcodeproj */;
 				},
@@ -605,20 +574,6 @@
 			fileType = wrapper.cfbundle;
 			path = PMKDispatchTests.xctest;
 			remoteRef = 495F4C081FE9E52100EC0009 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		499C73801FE9BFAB0022898C /* PMKFoundation.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = PMKFoundation.framework;
-			remoteRef = 499C737F1FE9BFAB0022898C /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		499C73821FE9BFAB0022898C /* PMKNSTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = PMKNSTests.xctest;
-			remoteRef = 499C73811FE9BFAB0022898C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		49B5DB291FD7041800A3B692 /* JWT.framework */ = {

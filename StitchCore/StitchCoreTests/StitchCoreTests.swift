@@ -49,13 +49,13 @@ class StitchCoreTests: XCTestCase {
                                        serviceName: "mongodb-atlas")
             .database(named: "todo").collection(named: "items")
 
-        stitchClient.anonymousAuth().then { _ in
+        stitchClient.anonymousAuth().then { _ -> Promise<Int> in
             return collection.count(query: Document())
         }.then { (count: Int) -> Promise<ObjectId> in
             let document: Document =  ["bill": "jones",
                                        "owner_id": self.stitchClient.auth?.userId ?? "0"]
             return collection.insertOne(document: document)
-        }.then { _ in
+        }.then { _ -> Promise<Int> in
             return collection.count(query: [:])
         }.then { (count: Int) -> Promise<[ObjectId]> in
             XCTAssert(count == 1)
@@ -82,7 +82,7 @@ class StitchCoreTests: XCTestCase {
         }.then { (result: Document) -> Promise<Document> in
             XCTAssert(result["deletedCount"] as? Int32 == 1)
             return collection.deleteMany(query: ["owner_id": self.stitchClient.auth?.userId ?? "0"])
-        }.done { (result: Document) in
+        }.then { (result: Document) -> Void in
             XCTAssert(result["deletedCount"] as? Int32 == 2)
             expectation.fulfill()
         }.catch { err in
@@ -111,28 +111,28 @@ class StitchCoreTests: XCTestCase {
         }.then { userId -> Promise<[ApiKey]> in
             XCTAssert(userId == "59ee23094fdd1fa1da3d1057")
             return self.stitchClient.auth!.fetchApiKeys()
-        }.then { _ in
+        }.then { _ -> Promise<ApiKey> in
             return self.stitchClient.auth!.createApiKey(name: "test4")
-        }.then { _ in
+        }.then { _  -> Promise<[ApiKey]> in
             return self.stitchClient.auth!.fetchApiKeys()
         }.then { (keys: [ApiKey]) -> Promise<ApiKey> in
             let key = keys.first { $0.name == "test4"}!.id
             return self.stitchClient.auth!.fetchApiKey(id: key)
-        }.then { key in
+        }.then { (key: ApiKey) -> Promise<Void> in
             return self.stitchClient.auth!.disableApiKey(id: key.id)
-        }.then { _ in
+        }.then { _ -> Promise<[ApiKey]> in
             return self.stitchClient.auth!.fetchApiKeys()
         }.then { (keys: [ApiKey]) -> Promise<Void> in
             XCTAssert(keys.first { $0.name == "test4"}!.disabled)
             return self.stitchClient.auth!.enableApiKey(id: keys.first { $0.name == "test4"}!.id)
-        }.then { _ in
+        }.then { _ -> Promise<[ApiKey]> in
             return self.stitchClient.auth!.fetchApiKeys()
         }.then { (keys: [ApiKey]) -> Promise<Void> in
             XCTAssert(!keys[0].disabled)
             return self.stitchClient.auth!.deleteApiKey(id: keys.first { $0.name == "test4"}!.id)
-        }.then { _ in
+        }.then { _ -> Promise<[ApiKey]> in
             return self.stitchClient.auth!.fetchApiKeys()
-        }.done { keys in
+        }.then { (keys: [ApiKey]) -> Void in
             XCTAssert(keys.isEmpty)
             expectation.fulfill()
         }.catch { error in

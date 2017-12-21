@@ -2,7 +2,6 @@ import Foundation
 import ExtendedJson
 import StitchLogger
 import PromiseKit
-import PMKFoundation
 
 public class StitchNetworkAdapter: NetworkAdapter {
     private var tasks: [URLSessionDataTask] = []
@@ -13,7 +12,6 @@ public class StitchNetworkAdapter: NetworkAdapter {
                                         headers: [String: String]? = [:]) -> Promise<(Int, Data?)> {
         let config = URLSessionConfiguration.default
         config.requestCachePolicy = .reloadIgnoringLocalCacheData
-
         let defaultSession = URLSession(configuration: config)
 
         guard let url = URL(string: url) else {
@@ -32,10 +30,18 @@ public class StitchNetworkAdapter: NetworkAdapter {
             request.httpBody = data
         }
 
-        return firstly {
-            defaultSession.dataTask(.promise, with: request)
-        }.flatMap {
-            return (($0.response as? HTTPURLResponse)?.statusCode ?? 500, $0.data)
+        return Promise { fulfill, reject in
+            defaultSession.dataTask(with: request) { data, response, error in
+                guard let resp = response as? HTTPURLResponse else {
+                    if let error = error {
+                        reject(error)
+                    }
+
+                    return
+                }
+
+                fulfill((resp.statusCode, data))
+            }.resume()
         }
     }
 

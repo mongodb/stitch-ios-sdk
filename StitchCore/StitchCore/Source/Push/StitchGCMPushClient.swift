@@ -52,7 +52,7 @@ public class StitchGCMPushClient: PushClient {
                 .routes
                 .pushProvidersRegistartionRoute(provider: self._info.providerName.rawValue)
             try $0.encode(withData: self.getRegisterPushDeviceRequest(registrationToken: token))
-        }.done { _ in
+        }.then { _ in
             self.addInfoToConfigs(info: self._info)
         }
     }
@@ -69,7 +69,7 @@ public class StitchGCMPushClient: PushClient {
                 .stitchClient
                 .routes
                 .pushProvidersRegistartionRoute(provider: self._info.providerName.rawValue)
-        }.done { _ in
+        }.then { _ in
             self.removeInfoFromConfigs(info: self._info)
         }
     }

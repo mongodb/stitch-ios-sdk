@@ -16,9 +16,9 @@ public class TwilioService: Service {
                                               args: ["from": from,
                                                      "to": to,
                                                      "body": body] as Document)
-        .flatMap {
-            guard let doc = try Document.fromExtendedJson(xjson: $0) as? Document else {
-                throw StitchError.responseParsingFailed(reason: "\($0) was not a valid document")
+        .then { (any: Any) -> Undefined in
+            guard let doc = try Document.fromExtendedJson(xjson: any) as? Document else {
+                throw StitchError.responseParsingFailed(reason: "\(any) was not a valid document")
             }
             return try BSONDecoder().decode(Undefined.self,
                                              from: doc)

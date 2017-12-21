@@ -21,7 +21,7 @@ class AuthTests: XCTestCase {
 
     func testFetchAuthProviders() throws {
         let exp = expectation(description: "fetched auth providers")
-        stitchClient.fetchAuthProviders().done { (authInfo: AuthProviderInfo) in
+        stitchClient.fetchAuthProviders().then { (authInfo: AuthProviderInfo) -> Void in
             let anon = authInfo.anonymousAuthProviderInfo
             XCTAssertNotNil(anon)
             XCTAssertEqual(anon?.name, "anon-user")
@@ -50,7 +50,7 @@ class AuthTests: XCTestCase {
 
     func testLogin() throws {
         let exp = expectation(description: "logged in")
-        stitchClient.login(withProvider: AnonymousAuthProvider()).done { (userId: String) in
+        stitchClient.login(withProvider: AnonymousAuthProvider()).then { (userId: String) -> Void in
             print(userId)
             exp.fulfill()
         }.catch { err in
@@ -64,7 +64,7 @@ class AuthTests: XCTestCase {
         let exp = expectation(description: "user profile matched")
         stitchClient.login(withProvider: AnonymousAuthProvider()).then { _ in
             (self.stitchClient.auth?.fetchUserProfile())!
-        }.done { (userProfile: UserProfile) in
+        }.then { (userProfile: UserProfile) -> Void in
             XCTAssertEqual("normal", userProfile.type)
             print(userProfile)
             XCTAssertEqual("anon-user", userProfile.identities[0].providerType)
@@ -105,7 +105,7 @@ class AuthTests: XCTestCase {
             return self.stitchClient.logout()
         }.then { _ in
             return self.stitchClient.login(withProvider: CustomAuthProvider(jwt: jwt))
-        }.done { (uid: String) in
+        }.then { (uid: String) -> Void in
             XCTAssertEqual(userId, uid)
             exp.fulfill()
         }.catch { err in

@@ -55,14 +55,14 @@ public struct Collection {
         return database.client.stitchClient.executeServiceFunction(name: "find",
                                                                      service: database.client.serviceName,
                                                                      args: options)
-        .flatMap {
-            guard let array = $0 as? [Any] else {
-                throw StitchError.responseParsingFailed(reason: "\($0) was not array")
+        .then { (any: Any) -> [Document] in
+            guard let array = any as? [Any] else {
+                throw StitchError.responseParsingFailed(reason: "\(any) was not array")
             }
 
-            return try array.map {
-                guard let doc = try Document.fromExtendedJson(xjson: $0) as? Document else {
-                    throw BsonError.parseValueFailure(value: $0,
+            return try array.map { (any: Any) -> Document in
+                guard let doc = try Document.fromExtendedJson(xjson: any) as? Document else {
+                    throw BsonError.parseValueFailure(value: any,
                                                       attemptedType: Document.self)
                 }
                 return doc
@@ -81,9 +81,9 @@ public struct Collection {
                                                                            Consts.upsertKey: upsert,
                                                                            Consts.databaseKey: database.name,
                                                                            Consts.collectionKey: self.name] as Document)
-        .flatMap {
-            guard let doc = try Document.fromExtendedJson(xjson: $0) as? Document else {
-                throw BsonError.parseValueFailure(value: $0,
+        .then { (any: Any) -> Document in
+            guard let doc = try Document.fromExtendedJson(xjson: any) as? Document else {
+                throw BsonError.parseValueFailure(value: any,
                                                    attemptedType: Document.self)
             }
 
@@ -102,9 +102,9 @@ public struct Collection {
                                                                            Consts.multiKey: true,
                                                                            Consts.databaseKey: database.name,
                                                                            Consts.collectionKey: self.name] as Document)
-        .flatMap {
-            guard let doc = try Document.fromExtendedJson(xjson: $0) as? Document else {
-                throw BsonError.parseValueFailure(value: $0,
+        .then { (any: Any) -> Document in
+            guard let doc = try Document.fromExtendedJson(xjson: any) as? Document else {
+                throw BsonError.parseValueFailure(value: any,
                                                   attemptedType: Document.self)
             }
 
@@ -119,10 +119,10 @@ public struct Collection {
                                                                     args: ["document": document,
                                                                            Consts.databaseKey: database.name,
                                                                            Consts.collectionKey: self.name] as Document)
-        .flatMap {
-            guard let doc = try Document.fromExtendedJson(xjson: $0) as? Document,
+        .then { (any: Any) -> ObjectId in
+            guard let doc = try Document.fromExtendedJson(xjson: any) as? Document,
                 let insertedId = doc["insertedId"] as? ObjectId else {
-                throw BsonError.parseValueFailure(value: $0,
+                throw BsonError.parseValueFailure(value: any,
                                                   attemptedType: Document.self)
             }
 
@@ -137,16 +137,16 @@ public struct Collection {
                                                                    args: ["documents": BSONArray(array: documents),
                                                                           Consts.databaseKey: database.name,
                                                                           Consts.collectionKey: self.name] as Document)
-            .flatMap {
-                guard let doc = try Document.fromExtendedJson(xjson: $0) as? Document,
+            .then { (any: Any) -> [ObjectId] in
+                guard let doc = try Document.fromExtendedJson(xjson: any) as? Document,
                     let insertedIds = doc["insertedIds"] as? BSONArray else {
-                        throw BsonError.parseValueFailure(value: $0,
+                        throw BsonError.parseValueFailure(value: any,
                                                           attemptedType: Document.self)
                 }
 
-                return try insertedIds.map {
-                    guard let oid = $0 as? ObjectId else {
-                        throw BsonError.parseValueFailure(value: $0,
+                return try insertedIds.map { (any: Any) -> ObjectId in
+                    guard let oid = any as? ObjectId else {
+                        throw BsonError.parseValueFailure(value: any,
                                                           attemptedType: ObjectId.self)
                     }
                     return oid
@@ -162,9 +162,9 @@ public struct Collection {
                                                                           Consts.singleDocKey: true,
                                                                           Consts.databaseKey: database.name,
                                                                           Consts.collectionKey: self.name] as Document)
-            .flatMap {
-                guard let doc = try Document.fromExtendedJson(xjson: $0) as? Document else {
-                    throw BsonError.parseValueFailure(value: $0,
+            .then { (any: Any) -> Document in
+                guard let doc = try Document.fromExtendedJson(xjson: any) as? Document else {
+                    throw BsonError.parseValueFailure(value: any,
                                                       attemptedType: Document.self)
                 }
 
@@ -180,9 +180,9 @@ public struct Collection {
                                                                            Consts.singleDocKey: false,
                                                                            Consts.databaseKey: database.name,
                                                                            Consts.collectionKey: self.name] as Document)
-            .flatMap {
-                guard let doc = try Document.fromExtendedJson(xjson: $0) as? Document else {
-                    throw BsonError.parseValueFailure(value: $0,
+            .then { (any: Any) -> Document in
+                guard let doc = try Document.fromExtendedJson(xjson: any) as? Document else {
+                    throw BsonError.parseValueFailure(value: any,
                                                       attemptedType: Document.self)
                 }
 
@@ -204,9 +204,9 @@ public struct Collection {
         return database.client.stitchClient.executeServiceFunction(name: "count",
                                                                    service: database.client.serviceName,
                                                                    args: opts)
-        .flatMap {
-            guard let count = try Int.fromExtendedJson(xjson: $0) as? Int else {
-                throw BsonError.parseValueFailure(value: $0,
+        .then { (any: Any) -> Int in
+            guard let count = try Int.fromExtendedJson(xjson: any) as? Int else {
+                throw BsonError.parseValueFailure(value: any,
                                                   attemptedType: Int.self)
             }
 
@@ -221,9 +221,9 @@ public struct Collection {
                                                                     args: [Consts.pipelineKey: BSONArray(array: docs),
                                                                            Consts.databaseKey: database.name,
                                                                            Consts.collectionKey: self.name] as Document)
-        .flatMap {
-            guard let bson = try BSONArray.fromExtendedJson(xjson: $0) as? BSONArray else {
-                throw BsonError.parseValueFailure(value: $0,
+        .then { (any: Any) -> BSONArray in
+            guard let bson = try BSONArray.fromExtendedJson(xjson: any) as? BSONArray else {
+                throw BsonError.parseValueFailure(value: any,
                                                   attemptedType: BSONArray.self)
             }
 

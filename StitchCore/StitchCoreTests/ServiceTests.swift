@@ -28,7 +28,7 @@ class ServiceTests: XCTestCase {
             return TwilioService(client: self.client, name: "tw1").send(from: "+15005550006",
                                                                         to: "+19088392649",
                                                                         body: "Fee-fi-fo-fum")
-        }.done { (_: Undefined) in
+        }.then { (_: Undefined) in
             exp.fulfill()
         }.catch { err in
             XCTFail(err.localizedDescription)
@@ -43,7 +43,7 @@ class ServiceTests: XCTestCase {
 
         self.client.login(withProvider: epProvider).then { _ in
             return self.client.getPushProviders()
-        }.flatMap { (providers: AvailablePushProviders) -> PushClient in
+        }.then { (providers: AvailablePushProviders) -> PushClient in
             guard let gcm = providers.gcm else {
                 XCTFail("\(providers) does not contain gcm")
                 exp.fulfill()
@@ -51,12 +51,12 @@ class ServiceTests: XCTestCase {
             }
 
             return try self.client.push.forProvider(info: gcm)
-        }.flatMap { (gcm: PushClient) throws -> PushClient  in
+        }.then { (gcm: PushClient) throws -> PushClient  in
             gcm.registerToken(token: "1234567891011")
             return gcm
         }.then {
-            $0.deregister()
-        }.done {
+            return $0.deregister()
+        }.then {
             exp.fulfill()
         }.catch {
             XCTFail($0.localizedDescription)

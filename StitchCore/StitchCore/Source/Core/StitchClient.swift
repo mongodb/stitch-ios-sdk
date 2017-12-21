@@ -156,7 +156,7 @@ public class StitchClient: StitchClientType {
         return httpClient.doRequest {
             $0.endpoint = self.routes.authProvidersExtensionRoute
             $0.isAuthenticatedRequest = false
-        }.flatMap { any in
+        }.then { (any: Any) -> AuthProviderInfo in
             guard let json = any as? [[String: Any]] else {
                 throw StitchError.responseParsingFailed(reason: "\(any) was not valid")
             }
@@ -278,7 +278,7 @@ public class StitchClient: StitchClientType {
             $0.endpoint = self.routes.authProvidersLoginRoute(provider: provider.type)
             $0.isAuthenticatedRequest = false
             try $0.encode(withData: self.getAuthRequest(provider: provider))
-        }.flatMap { [weak self] any in
+        }.then { [weak self] (any) -> String in
             guard let strongSelf = self else { throw StitchError.clientReleased }
             let authInfo = try JSONDecoder().decode(AuthInfo.self,
                                                     from: JSONSerialization.data(withJSONObject: any))
@@ -402,9 +402,9 @@ public class StitchClient: StitchClientType {
         return httpClient.doRequest {
             $0.endpoint = self.routes.pushProvidersRoute
             $0.isAuthenticatedRequest = false
-        }.flatMap {
-            guard let array = $0 as? [Any] else {
-                throw StitchError.responseParsingFailed(reason: "\($0) was not of expected type array")
+        }.then { any -> AvailablePushProviders in
+            guard let array = any as? [Any] else {
+                throw StitchError.responseParsingFailed(reason: "\(any) was not of expected type array")
             }
             return try AvailablePushProviders.fromQuery(doc: BSONArray(array: array))
         }

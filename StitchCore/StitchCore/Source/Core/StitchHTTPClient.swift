@@ -43,7 +43,6 @@ internal class StitchHTTPClient {
         do {
             authInfo = try self.getAuthFromSavedJwt()
         } catch {
-            printLog(.error, text: error.localizedDescription)
         }
 
         return authInfo != nil
@@ -153,7 +152,7 @@ internal class StitchHTTPClient {
             $0.endpoint = "auth/session"
             $0.refreshOnFailure = false
             $0.useRefreshToken = true
-        }.done { [weak self] (any: Any) throws in
+        }.then { [weak self] (any: Any) throws -> Void in
             guard let strongSelf = self else {
                 throw StitchError.clientReleased
             }
@@ -165,7 +164,7 @@ internal class StitchHTTPClient {
                 }
 
             strongSelf.authInfo = authInfo.auth(with: accessToken)
-        }
+        }.asVoid()
     }
 
     private func refreshAccessTokenAndRetry(requestOptions: RequestOptions) -> Promise<Any> {
@@ -243,10 +242,10 @@ internal class StitchHTTPClient {
 
         let url: String = self.url(withEndpoint: requestOptions.endpoint)
         return networkAdapter.requestWithJsonEncoding(url: url,
-                                                method: requestOptions.method,
-                                                data: requestOptions.data,
-                                                headers: headers)
-            .flatMap(on: DispatchQueue.global(qos: .default)) { [weak self] (args: (Int, Data?)) throws -> Any in
+                                                      method: requestOptions.method,
+                                                      data: requestOptions.data,
+                                                      headers: headers)
+            .then(on: DispatchQueue.global(qos: .default)) { [weak self] (args: (Int, Data?)) throws -> Any in
             guard let strongSelf = self else {
                 throw StitchError.clientReleased
             }
