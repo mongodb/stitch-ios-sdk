@@ -180,6 +180,8 @@ extension ExtendedJsonRepresentable {
 
     public static func decodeXJson(value: Any?) throws -> ExtendedJsonRepresentable {
         switch (value) {
+        case let xjson as ExtendedJsonRepresentable:
+            return xjson
         case let json as [String: Any]:
             if json.count == 0 {
                 return Document()
