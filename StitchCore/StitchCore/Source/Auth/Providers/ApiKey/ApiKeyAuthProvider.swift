@@ -12,7 +12,7 @@ import ExtendedJson
 public struct ApiKeyAuthProvider: AuthProvider {
     private let key: String
 
-    public var type: String = "api"
+    public var type: String = "api-key"
     public var name: String = "key"
 
     public var payload: Document {
