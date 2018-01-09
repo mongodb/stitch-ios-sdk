@@ -132,8 +132,11 @@ class StitchCoreTests: XCTestCase {
             return self.stitchClient.auth!.deleteApiKey(id: keys.first { $0.name == "test4"}!.id)
         }.then { _ in
             return self.stitchClient.auth!.fetchApiKeys()
-        }.done { keys in
+        }.then { (keys: [ApiKey]) -> Promise<Void> in
             XCTAssert(keys.isEmpty)
+            return self.stitchClient.logout()
+        }.done { _ in
+            XCTAssert(!self.stitchClient.isAuthenticated)
             expectation.fulfill()
         }.catch { error in
             XCTFail(error.localizedDescription)
