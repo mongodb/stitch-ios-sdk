@@ -308,7 +308,9 @@ public class StitchClient: StitchClientType {
             $0.endpoint = self.routes.authSessionRoute
             $0.refreshOnFailure = false
             $0.useRefreshToken = true
-        }.asVoid()
+        }.done { _ in
+            try self.clearAuth()
+        }
     }
 
     // MARK: Private
