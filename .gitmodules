@@ -1,9 +1,6 @@
 [submodule "StitchCore/JSONWebToken.swift"]
 	path = StitchCore/JSONWebToken.swift
 	url = https://github.com/kylef/JSONWebToken.swift.git
-[submodule "StitchCore/Foundation"]
-	path = StitchCore/Foundation
-	url = https://github.com/PromiseKit/Foundation
 [submodule "StitchCore/PromiseKit"]
 	path = StitchCore/PromiseKit
 	url = https://github.com/mxcl/PromiseKit/
