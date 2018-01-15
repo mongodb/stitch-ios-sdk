@@ -12,7 +12,7 @@ This project follows [Semantic Versioning 2.0](https://semver.org/). In general,
 # make live
 TODO: ADD STEPS
 
-# send an email detailing the changes to the stitch-users@mongodb.com mailing list
+# send an email detailing the changes to the https://groups.google.com/d/forum/mongodb-stitch-announce mailing list
 ```
 
 ### Patch Versions
