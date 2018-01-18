@@ -31,11 +31,12 @@ public class StitchClient: StitchClientType {
     internal var baseUrl: String
     internal let networkAdapter: NetworkAdapter
 
-    internal let userDefaults = UserDefaults(suiteName: Consts.UserDefaultsName)
+    internal var storage: Storage
 
     internal lazy var httpClient = StitchHTTPClient(baseUrl: baseUrl,
-                                                    appId: appId,
-                                                    networkAdapter: networkAdapter)
+                                                     appId: appId,
+                                                     networkAdapter: networkAdapter,
+                                                     storage: storage)
     private var authProvider: AuthProvider?
     private var authDelegates = [AuthDelegate?]()
 
@@ -87,7 +88,7 @@ public class StitchClient: StitchClientType {
         didSet {
             if let refreshToken = httpClient.authInfo?.refreshToken {
                 // save auth persistently
-                userDefaults?.set(true, forKey: Consts.IsLoggedInUDKey)
+                storage.set(true, forKey: Consts.IsLoggedInUDKey)
 
                 do {
                     let jsonData = try JSONEncoder().encode(httpClient.authInfo)
@@ -107,7 +108,7 @@ public class StitchClient: StitchClientType {
             } else {
                 // remove from keychain
                 try? self.httpClient.deleteToken(withKey: Consts.AuthJwtKey)
-                userDefaults?.set(false, forKey: Consts.IsLoggedInUDKey)
+                storage.set(false, forKey: Consts.IsLoggedInUDKey)
             }
         }
     }
@@ -137,10 +138,24 @@ public class StitchClient: StitchClientType {
      */
     public init(appId: String,
                 baseUrl: String = Consts.DefaultBaseUrl,
-                networkAdapter: NetworkAdapter = StitchNetworkAdapter()) {
+                networkAdapter: NetworkAdapter = StitchNetworkAdapter(),
+                storage: Storage? = nil) {
         self.appId = appId
         self.baseUrl = baseUrl
         self.networkAdapter = networkAdapter
+        if let storage = storage {
+            self.storage = storage
+        } else {
+            let suiteName = "\(Consts.UserDefaultsName).\(appId)"
+            guard let userDefaults = UserDefaults.init(suiteName: suiteName) else {
+                self.storage = MemoryStorage.init(suiteName: suiteName)!
+                printLog(.warning, text: "Invalid suiteName: \(suiteName)")
+                printLog(.warning, text: "Defaulting to memory storage. NOTE: App will not persist data in this state")
+                return
+            }
+
+            self.storage = userDefaults
+        }
     }
 
     // MARK: - Auth

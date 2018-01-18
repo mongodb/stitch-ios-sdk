@@ -19,6 +19,17 @@ class StitchCoreTests: XCTestCase {
 
     let stitchClient = StitchClient(appId: "test-uybga")
 
+    func testMultipleClientStorage() throws {
+        let sc1 = StitchClient(appId: "test1")
+        let sc2 = StitchClient(appId: "test2")
+
+        sc1.storage.set("foo", forKey: "fizz")
+        sc2.storage.set("bar", forKey: "fizz")
+
+        XCTAssertEqual(sc1.storage.value(forKey: "fizz") as? String, "foo")
+        XCTAssertEqual(sc2.storage.value(forKey: "fizz") as? String, "bar")
+    }
+
     func testAuthInfoCodable() throws {
         let data = try JSONSerialization.data(withJSONObject: [
             "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
