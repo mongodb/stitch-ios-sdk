@@ -5,7 +5,7 @@ import ExtendedJson
 public struct EmailPasswordAuthProvider: AuthProvider {
     /// The authentication type for email/pass login.
     public var type: String {
-        return "local-userpass"
+        return AuthProviderTypes.emailPass.rawValue
     }
 
     /// The JSON payload containing the username and password.

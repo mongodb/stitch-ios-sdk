@@ -48,6 +48,10 @@ internal class StitchHTTPClient {
 
         return authInfo != nil
     }
+    
+    public var loggedInProviderType: String? {
+        return userDefaults?.string(forKey: Consts.AuthProviderTypeUDKey)
+    }
 
     /**
      Determines if the access token stored in this Auth object is expired or expiring within
@@ -102,6 +106,8 @@ internal class StitchHTTPClient {
         try deleteToken(withKey: Consts.AuthRefreshTokenKey)
         try deleteToken(withKey: Consts.IsLoggedInUDKey)
         try deleteToken(withKey: Consts.AuthJwtKey)
+        
+        userDefaults?.removeObject(forKey: Consts.AuthProviderTypeUDKey)
 
         self.networkAdapter.cancelAllRequests()
     }

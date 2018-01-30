@@ -12,6 +12,7 @@ public struct Consts {
     //User Defaults
     static let UserDefaultsName =        "com.mongodb.stitch.sdk.UserDefaults"
     static let IsLoggedInUDKey =         "StitchCoreIsLoggedInUserDefaultsKey"
+    static let AuthProviderTypeUDKey =   "StitchCoreProviderTypeUserDefaultsKey"
 
     //keychain
     static let AuthJwtKey =              "StitchCoreAuthJwtKey"
@@ -88,6 +89,7 @@ public class StitchClient: StitchClientType {
             if let refreshToken = httpClient.authInfo?.refreshToken {
                 // save auth persistently
                 userDefaults?.set(true, forKey: Consts.IsLoggedInUDKey)
+                userDefaults?.set(self.authProvider?.type, forKey: Consts.AuthProviderTypeUDKey)
 
                 do {
                     let jsonData = try JSONEncoder().encode(httpClient.authInfo)
@@ -108,6 +110,7 @@ public class StitchClient: StitchClientType {
                 // remove from keychain
                 try? self.httpClient.deleteToken(withKey: Consts.AuthJwtKey)
                 userDefaults?.set(false, forKey: Consts.IsLoggedInUDKey)
+                userDefaults?.removeObject(forKey: Consts.AuthProviderTypeUDKey)
             }
         }
     }
@@ -125,6 +128,11 @@ public class StitchClient: StitchClientType {
     /// Whether or not the client is currently authenticated
     public var isAuthenticated: Bool {
         return self.httpClient.isAuthenticated
+    }
+    
+    // Returns the type of the provider used to log into the current session. nil if not authenticated
+    public var loggedInProviderType: String? {
+        return self.httpClient.loggedInProviderType
     }
 
     // MARK: - Init
@@ -268,27 +276,41 @@ public class StitchClient: StitchClientType {
     public func login(withProvider provider: AuthProvider) -> Promise<UserId> {
         self.authProvider = provider
 
-        if isAuthenticated, let auth = auth {
-            printLog(.info, text: "Already logged in, using cached token.")
-            return Promise.init(value: auth.userId)
+        func doLoginRequest() -> Promise<UserId> {
+            return httpClient.doRequest {
+                $0.method = .post
+                $0.endpoint = self.routes.authProvidersLoginRoute(provider: provider.type)
+                $0.isAuthenticatedRequest = false
+                try $0.encode(withData: self.getAuthRequest(provider: provider))
+                }.flatMap { [weak self] any in
+                    guard let strongSelf = self else { throw StitchError.clientReleased }
+                    let authInfo = try JSONDecoder().decode(AuthInfo.self,
+                                                            from: JSONSerialization.data(withJSONObject: any))
+                    strongSelf.httpClient.authInfo = authInfo
+                    strongSelf._auth = Auth(stitchClient: strongSelf,
+                                            stitchHttpClient: strongSelf.httpClient,
+                                            userId: authInfo.userId)
+                    strongSelf.onLogin()
+                    return authInfo.userId
+                }
         }
 
-        return httpClient.doRequest {
-            $0.method = .post
-            $0.endpoint = self.routes.authProvidersLoginRoute(provider: provider.type)
-            $0.isAuthenticatedRequest = false
-            try $0.encode(withData: self.getAuthRequest(provider: provider))
-        }.flatMap { [weak self] any in
-            guard let strongSelf = self else { throw StitchError.clientReleased }
-            let authInfo = try JSONDecoder().decode(AuthInfo.self,
-                                                    from: JSONSerialization.data(withJSONObject: any))
-            strongSelf.httpClient.authInfo = authInfo
-            strongSelf._auth = Auth(stitchClient: strongSelf,
-                                    stitchHttpClient: strongSelf.httpClient,
-                                    userId: authInfo.userId)
-            strongSelf.onLogin()
-            return authInfo.userId
+        if isAuthenticated, let auth = auth {
+            if provider.type == AuthProviderTypes.anonymous.rawValue &&
+                loggedInProviderType == AuthProviderTypes.anonymous.rawValue {
+                printLog(.info, text: "Already logged in as anonymous user, using cached token.")
+                return Promise.init(value: auth.userId)
+            }
+
+            // Using a different provider, log outand then perform login.
+            printLog(.info, text: "Already logged in, logging out of existing session.")
+            return self.logout().then {
+                return doLoginRequest()
+            }
         }
+
+        // Not currently authenticated, perform login.
+        return doLoginRequest()
     }
 
     /**

@@ -5,7 +5,7 @@ import ExtendedJson
 public struct FacebookAuthProvider: AuthProvider {
     /// The authentication type for facebook login.
     public var type: String {
-        return "oauth2-facebook"
+        return AuthProviderTypes.facebook.rawValue
     }
 
     /// The JSON payload containing the accessToken.

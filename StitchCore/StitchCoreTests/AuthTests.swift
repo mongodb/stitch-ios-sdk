@@ -115,4 +115,42 @@ class AuthTests: XCTestCase {
 
         wait(for: [exp], timeout: 10)
     }
+    
+    func testMultipleLoginSemantics() throws {
+        let exp = expectation(description: "multiple logins work as expected")
+        let mlsStitchClient = StitchClient(appId: "stitch-tests-ios-sdk-jjmum")
+        var anonUserId = ""
+        var emailUserId = ""
+        
+        // login anonymously
+        mlsStitchClient.login(withProvider: AnonymousAuthProvider()).then { (userId: String) -> Promise<String> in
+            anonUserId = userId
+            
+            // login anonymously again
+            return mlsStitchClient.login(withProvider: AnonymousAuthProvider())
+        }.then { (userId: String) -> Promise<String> in
+            // make sure user ID is the same
+            XCTAssertEqual(anonUserId, userId)
+            
+            // login with email provider
+            return mlsStitchClient.login(withProvider: EmailPasswordAuthProvider(username: "test1@example.com", password: "hunter1"))
+        }.then{ (userId: String) -> Promise<String> in
+            // make sure the user ID is updated
+            XCTAssertNotEqual(anonUserId, userId)
+            emailUserId = userId
+            
+            // login with email provider under different user
+            return mlsStitchClient.login(withProvider: EmailPasswordAuthProvider(username: "test2@example.com", password: "hunter2"))
+        }.done{ (userId: String) in
+            // make sure the user ID is updated
+            XCTAssertNotEqual(emailUserId, userId)
+            exp.fulfill()
+        }.catch { err in
+            print(err)
+            XCTFail(err.localizedDescription)
+            exp.fulfill()
+        }
+        
+        wait(for: [exp], timeout: 10)
+    }
 }
