@@ -129,10 +129,10 @@ public class StitchClient: StitchClientType {
     public var isAuthenticated: Bool {
         return self.httpClient.isAuthenticated
     }
-    
+
     // Returns the type of the provider used to log into the current session. nil if not authenticated
     public var loggedInProviderType: String? {
-        return self.httpClient.loggedInProviderType
+        return userDefaults?.string(forKey: Consts.AuthProviderTypeUDKey)
     }
 
     // MARK: - Init
@@ -302,9 +302,12 @@ public class StitchClient: StitchClientType {
                 return Promise.init(value: auth.userId)
             }
 
-            // Using a different provider, log outand then perform login.
+            // Using a different provider, log out and then perform login.
             printLog(.info, text: "Already logged in, logging out of existing session.")
             return self.logout().then {
+                return doLoginRequest()
+            }.recover { _ -> Promise<UserId> in
+                printLog(.info, text: "Error logging out of existing session. Logging in with new user anyway.")
                 return doLoginRequest()
             }
         }

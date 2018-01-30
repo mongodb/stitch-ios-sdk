@@ -48,10 +48,6 @@ internal class StitchHTTPClient {
 
         return authInfo != nil
     }
-    
-    public var loggedInProviderType: String? {
-        return userDefaults?.string(forKey: Consts.AuthProviderTypeUDKey)
-    }
 
     /**
      Determines if the access token stored in this Auth object is expired or expiring within
