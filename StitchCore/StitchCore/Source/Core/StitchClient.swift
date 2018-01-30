@@ -306,9 +306,6 @@ public class StitchClient: StitchClientType {
             printLog(.info, text: "Already logged in, logging out of existing session.")
             return self.logout().then {
                 return doLoginRequest()
-            }.recover { _ -> Promise<UserId> in
-                printLog(.info, text: "Error logging out of existing session. Logging in with new user anyway.")
-                return doLoginRequest()
             }
         }
 
@@ -333,7 +330,12 @@ public class StitchClient: StitchClientType {
             $0.endpoint = self.routes.authSessionRoute
             $0.refreshOnFailure = false
             $0.useRefreshToken = true
+        }.recover { _ in
+            // We don't really care about errors in doing the request.
+            // Try clearing auth, but throw again if it fails.
+            return Promise.init(value: true)
         }.done { _ in
+            // This block will always be reached regardless of whether doRequest fails or succeeds
             try self.clearAuth()
         }
     }
