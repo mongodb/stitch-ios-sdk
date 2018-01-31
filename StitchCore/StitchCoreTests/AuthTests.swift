@@ -122,15 +122,27 @@ class AuthTests: XCTestCase {
         var anonUserId = ""
         var emailUserId = ""
         
+        // check storage
+        XCTAssertFalse(mlsStitchClient.isAuthenticated)
+        XCTAssertNil(mlsStitchClient.loggedInProviderType)
+        
         // login anonymously
         mlsStitchClient.login(withProvider: AnonymousAuthProvider()).then { (userId: String) -> Promise<String> in
             anonUserId = userId
+            
+            // check storage
+            XCTAssertTrue(mlsStitchClient.isAuthenticated)
+            XCTAssertEqual(mlsStitchClient.loggedInProviderType, AuthProviderTypes.anonymous)
             
             // login anonymously again
             return mlsStitchClient.login(withProvider: AnonymousAuthProvider())
         }.then { (userId: String) -> Promise<String> in
             // make sure user ID is the same
             XCTAssertEqual(anonUserId, userId)
+            
+            // check storage
+            XCTAssertTrue(mlsStitchClient.isAuthenticated)
+            XCTAssertEqual(mlsStitchClient.loggedInProviderType, AuthProviderTypes.anonymous)
             
             // login with email provider
             return mlsStitchClient.login(withProvider: EmailPasswordAuthProvider(username: "test1@example.com", password: "hunter1"))
@@ -139,11 +151,27 @@ class AuthTests: XCTestCase {
             XCTAssertNotEqual(anonUserId, userId)
             emailUserId = userId
             
+            // check storage
+            XCTAssertTrue(mlsStitchClient.isAuthenticated)
+            XCTAssertEqual(mlsStitchClient.loggedInProviderType, AuthProviderTypes.emailPass)
+            
             // login with email provider under different user
             return mlsStitchClient.login(withProvider: EmailPasswordAuthProvider(username: "test2@example.com", password: "hunter2"))
-        }.done{ (userId: String) in
+        }.then{ (userId: String) -> Promise<Void> in
             // make sure the user ID is updated
             XCTAssertNotEqual(emailUserId, userId)
+            
+            // check storage
+            XCTAssertTrue(mlsStitchClient.isAuthenticated)
+            XCTAssertEqual(mlsStitchClient.loggedInProviderType, AuthProviderTypes.emailPass)
+            
+            // logout
+            return mlsStitchClient.logout()
+        }.done {
+            // check storage
+            XCTAssertFalse(mlsStitchClient.isAuthenticated)
+            XCTAssertNil(mlsStitchClient.loggedInProviderType)
+            
             exp.fulfill()
         }.catch { err in
             print(err)

@@ -130,7 +130,8 @@ public class StitchClient: StitchClientType {
         return self.httpClient.isAuthenticated
     }
 
-    // Returns the type of the provider used to log into the current session. nil if not authenticated or if unknown auth provider type
+    // Returns the type of the provider used to log into the current session.
+    //         nil if not authenticated or if unknown auth provider type
     public var loggedInProviderType: AuthProviderTypes? {
         if let rawProviderType = userDefaults?.string(forKey: Consts.AuthProviderTypeUDKey) {
             return AuthProviderTypes(rawValue: rawProviderType)
@@ -298,7 +299,7 @@ public class StitchClient: StitchClientType {
                 }
         }
 
-        guard self.isAuthenticated, let auth = self.auth else {
+        guard let userId = self.auth?.userId else {
             // Not currently authenticated, perform login.
             return doLoginRequest()
         }
@@ -307,7 +308,7 @@ public class StitchClient: StitchClientType {
         if provider.type == AuthProviderTypes.anonymous &&
             self.loggedInProviderType == AuthProviderTypes.anonymous {
             printLog(.info, text: "Already logged in as anonymous user, using cached token.")
-            return Promise.init(value: auth.userId)
+            return Promise.init(value: userId)
         }
 
         // Using a different provider, log out and then perform login.
