@@ -7,17 +7,23 @@ import JWT
 import PromiseKit
 
 class AuthTests: XCTestCase {
+    var stitchClient: StitchClient!
+
     override func setUp() {
         super.setUp()
         LogManager.minimumLogLevel = .debug
-        try! stitchClient.clearAuth()
+        let expectation = self.expectation(description: "should create stitchClient")
+        DefaultStitchClientFactory.create(appId: "test-uybga").done {
+            self.stitchClient = $0
+            try! self.stitchClient.clearAuth()
+            expectation.fulfill()
+        }.cauterize()
+        wait(for: [expectation], timeout: 10)
     }
 
     override func tearDown() {
         super.tearDown()
     }
-
-    let stitchClient = StitchClient(appId: "test-uybga")
 
     func testFetchAuthProviders() throws {
         let exp = expectation(description: "fetched auth providers")
