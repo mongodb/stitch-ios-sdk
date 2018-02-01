@@ -6,18 +6,24 @@ import MongoDBService
 import PromiseKit
 
 class StitchCoreTests: XCTestCase {
+    var stitchClient: StitchClient!
 
     override func setUp() {
         super.setUp()
         LogManager.minimumLogLevel = .debug
-        try! stitchClient.clearAuth()
+        let expectation = self.expectation(description: "should create stitchClient")
+        StitchClientFactory.create(appId: "test-uybga").done {
+            self.stitchClient = $0
+            try! self.stitchClient.clearAuth()
+            expectation.fulfill()
+        }.cauterize()
+        wait(for: [expectation], timeout: 10)
     }
 
     override func tearDown() {
         super.tearDown()
     }
 
-    let stitchClient = StitchClient(appId: "test-uybga")
 
     func testAuthInfoCodable() throws {
         let data = try JSONSerialization.data(withJSONObject: [
@@ -132,8 +138,11 @@ class StitchCoreTests: XCTestCase {
             return self.stitchClient.auth!.deleteApiKey(id: keys.first { $0.name == "test4"}!.id)
         }.then { _ in
             return self.stitchClient.auth!.fetchApiKeys()
-        }.done { keys in
+        }.then { (keys: [ApiKey]) -> Promise<Void> in
             XCTAssert(keys.isEmpty)
+            return self.stitchClient.logout()
+        }.done { _ in
+            XCTAssert(!self.stitchClient.isAuthenticated)
             expectation.fulfill()
         }.catch { error in
             XCTFail(error.localizedDescription)

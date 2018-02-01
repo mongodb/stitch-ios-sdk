@@ -12,7 +12,7 @@ import ExtendedJson
 @testable import StitchCore
 
 class ServiceTests: XCTestCase {
-    let client = StitchClient(appId: "test-uybga")
+    var client: StitchClient!
     let epProvider = EmailPasswordAuthProvider(username: "stitch@mongodb.com",
                                                password: "stitchuser")
 
@@ -20,6 +20,12 @@ class ServiceTests: XCTestCase {
         super.setUp()
 
         LogManager.minimumLogLevel = LogLevel.debug
+        let expectation = self.expectation(description: "should create stitchClient")
+        StitchClientFactory.create(appId: "test-uybga").done {
+            self.client = $0
+            expectation.fulfill()
+        }.cauterize()
+        wait(for: [expectation], timeout: 10)
     }
 
     func testTwilio() throws {
