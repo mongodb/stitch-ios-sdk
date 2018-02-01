@@ -23,6 +23,26 @@ public struct Consts {
     static let ErrorKey =                "error"
 }
 
+internal protocol StitchClientFactoryProtocol {
+    associatedtype TClient = StitchClientType
+
+    static func create(appId: String,
+                       baseUrl: String,
+                       networkAdapter: NetworkAdapter) -> Promise<TClient>
+}
+
+public final class StitchClientFactory: StitchClientFactoryProtocol {
+    typealias TClient = StitchClient
+
+    static func create(appId: String,
+                       baseUrl: String = Consts.DefaultBaseUrl,
+                       networkAdapter: NetworkAdapter = StitchNetworkAdapter()) -> Promise<StitchClient> {
+        return Promise(value: StitchClient.init(appId: appId,
+                                                baseUrl: baseUrl,
+                                                networkAdapter: networkAdapter))
+    }
+}
+
 /// A StitchClient is responsible for handling the overall interaction with all Stitch services.
 public class StitchClient: StitchClientType {
     // MARK: - Properties
@@ -147,9 +167,9 @@ public class StitchClient: StitchClientType {
             - baseUrl: The base URL of the Stitch Client API server.
             - networkAdapter: Optional interface if AlamoFire is not desired.
      */
-    public init(appId: String,
-                baseUrl: String = Consts.DefaultBaseUrl,
-                networkAdapter: NetworkAdapter = StitchNetworkAdapter()) {
+    fileprivate init(appId: String,
+                     baseUrl: String = Consts.DefaultBaseUrl,
+                     networkAdapter: NetworkAdapter = StitchNetworkAdapter()) {
         self.appId = appId
         self.baseUrl = baseUrl
         self.networkAdapter = networkAdapter
