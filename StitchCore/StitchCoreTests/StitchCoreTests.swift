@@ -12,7 +12,7 @@ class StitchCoreTests: XCTestCase {
         super.setUp()
         LogManager.minimumLogLevel = .debug
         let expectation = self.expectation(description: "should create stitchClient")
-        DefaultStitchClientFactory.create(appId: "test-uybga").done {
+        StitchClientFactory.create(appId: "test-uybga").done {
             self.stitchClient = $0
             try! self.stitchClient.clearAuth()
             expectation.fulfill()

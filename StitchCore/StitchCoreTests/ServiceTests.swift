@@ -21,7 +21,7 @@ class ServiceTests: XCTestCase {
 
         LogManager.minimumLogLevel = LogLevel.debug
         let expectation = self.expectation(description: "should create stitchClient")
-        DefaultStitchClientFactory.create(appId: "test-uybga").done {
+        StitchClientFactory.create(appId: "test-uybga").done {
             self.client = $0
             expectation.fulfill()
         }.cauterize()

@@ -22,7 +22,7 @@ public struct Consts {
     static let ErrorKey =                "error"
 }
 
-internal protocol StitchClientFactory {
+internal protocol StitchClientFactoryProtocol {
     associatedtype TClient = StitchClientType
 
     static func create(appId: String,
@@ -30,7 +30,7 @@ internal protocol StitchClientFactory {
                        networkAdapter: NetworkAdapter) -> Promise<TClient>
 }
 
-public final class DefaultStitchClientFactory: StitchClientFactory {
+public final class StitchClientFactory: StitchClientFactoryProtocol {
     typealias TClient = StitchClient
 
     static func create(appId: String,
