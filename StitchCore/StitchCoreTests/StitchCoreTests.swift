@@ -50,6 +50,23 @@ class StitchCoreTests: XCTestCase {
         wait(for: [exp], timeout: 10)
     }
 
+    func testMigrationLogic() throws {
+        let exp = expectation(description: "multiple clients should store separately")
+
+        StitchClientFactory.create(appId: "test3", storage: UserDefaults.init(suiteName: "test3")!)
+        .done { stitchClient in
+            let version = stitchClient.storage.value(forKey: "__stitch_storage_version__") as? Int
+            XCTAssertEqual(version ?? -1, 1)
+
+            let checkVersion = UserDefaults.init(suiteName: "test3")?
+                .value(forKey: "__stitch_storage_version__") as? Int
+            XCTAssertEqual(version, checkVersion)
+            exp.fulfill()
+        }.cauterize()
+
+        wait(for: [exp], timeout: 10)
+    }
+
     func testAuthInfoCodable() throws {
         let data = try JSONSerialization.data(withJSONObject: [
             "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +

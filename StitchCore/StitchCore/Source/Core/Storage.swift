@@ -3,16 +3,13 @@ import Foundation
 private let latestVersion = 1
 private let versionKey = "__stitch_storage_version__"
 
-/**
- * Run a migration on the currently used storage
- * that checks to see if the current version is up to date.
- * If the version has not been set, this method will migrate
- * to the latest version.
- * @param {Integer} version version number of storage
- * @param {Object} storage storage class being checked
- * @returns {Promise} nullable promise containing migration logic
- */
-internal func runMigration(suiteName: String, storage: Storage) {
+/// Run a migration on the currently used storage
+/// that checks to see if the current version is up to date.
+/// If the version has not been set, this method will migrate
+/// to the latest version.
+/// - parameter suiteName: namespace to key with
+/// - parameter storage: storage to check for version key
+internal func runMigration(suiteName: String, storage: inout Storage) {
     switch storage.value(forKey: versionKey) {
     case .none:
     #if !os(Linux)
@@ -23,9 +20,8 @@ internal func runMigration(suiteName: String, storage: Storage) {
         // and set the version number
         // we only care about UserDefaults here since no other
         // `Storage` type was available before version 1
-        guard var originalStorage = UserDefaults.init(suiteName: "com.mongodb.stitch.sdk.UserDefaults"),
-            var newStorage = UserDefaults.init(suiteName: "com.mongodb.stitch.sdk.UserDefaults.\(suiteName)") else {
-                return
+        guard var originalStorage = UserDefaults.init(suiteName: "com.mongodb.stitch.sdk.UserDefaults") else {
+            return
         }
 
         // legacy keys
@@ -33,10 +29,11 @@ internal func runMigration(suiteName: String, storage: Storage) {
          "StitchCoreAuthRefreshTokenKey",
          "com.mongodb.stitch.sdk.authentication",
          "StitchCoreIsLoggedInUserDefaultsKey"].forEach { key in
-            newStorage[key] = originalStorage[key]
+            storage[key] = originalStorage[key]
             originalStorage[key] = nil
         }
-        newStorage[versionKey] = latestVersion
+        
+        storage[versionKey] = latestVersion
     #endif
     // in future versions, `case 1:`, `case 2:` and so on
     // could be added to perform similar migrations
@@ -116,20 +113,16 @@ internal struct MemoryStorage: Storage {
         self.suiteName = suiteName
     }
 
-    fileprivate func generateKey(forKey key: String) -> String {
-        return "\(suiteName).\(key)"
-    }
-
     func value(forKey key: String) -> Any? {
-        return self.storage[generateKey(forKey: key)]
+        return self.storage[key]
     }
 
     mutating func set(_ value: Any?, forKey key: String) {
-        self.storage[generateKey(forKey: key)] = value
+        self.storage[key] = value
     }
 
     mutating func removeObject(forKey key: String) {
-        self.storage.removeValue(forKey: generateKey(forKey: key))
+        self.storage.removeValue(forKey: key)
     }
 }
 
