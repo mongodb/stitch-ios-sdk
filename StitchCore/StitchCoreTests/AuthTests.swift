@@ -7,17 +7,23 @@ import JWT
 import PromiseKit
 
 class AuthTests: XCTestCase {
+    var stitchClient: StitchClient!
+
     override func setUp() {
         super.setUp()
         LogManager.minimumLogLevel = .debug
-        try! stitchClient.clearAuth()
+        let expectation = self.expectation(description: "should create stitchClient")
+        StitchClientFactory.create(appId: "test-uybga").done {
+            self.stitchClient = $0
+            try! self.stitchClient.clearAuth()
+            expectation.fulfill()
+        }.cauterize()
+        wait(for: [expectation], timeout: 10)
     }
 
     override func tearDown() {
         super.tearDown()
     }
-
-    let stitchClient = StitchClient(appId: "test-uybga")
 
     func testFetchAuthProviders() throws {
         let exp = expectation(description: "fetched auth providers")
@@ -113,6 +119,75 @@ class AuthTests: XCTestCase {
             exp.fulfill()
         }
 
+        wait(for: [exp], timeout: 10)
+    }
+    
+    func testMultipleLoginSemantics() throws {
+        let exp = expectation(description: "multiple logins work as expected")
+        var anonUserId = ""
+        var emailUserId = ""
+        var mlsStitchClient: StitchClient!
+
+        // login anonymously
+        StitchClientFactory.create(appId: "stitch-tests-ios-sdk-jjmum").then {
+            (stitchClient: StitchClient) -> Promise<UserId> in
+            mlsStitchClient = stitchClient
+            // check storage
+            XCTAssertFalse(mlsStitchClient.isAuthenticated)
+            XCTAssertNil(mlsStitchClient.loggedInProviderType)
+            return stitchClient.login(withProvider: AnonymousAuthProvider())
+        }.then { (userId: String) -> Promise<String> in
+            anonUserId = userId
+            
+            // check storage
+            XCTAssertTrue(mlsStitchClient.isAuthenticated)
+            XCTAssertEqual(mlsStitchClient.loggedInProviderType, AuthProviderTypes.anonymous)
+            
+            // login anonymously again
+            return mlsStitchClient.login(withProvider: AnonymousAuthProvider())
+        }.then { (userId: String) -> Promise<String> in
+            // make sure user ID is the same
+            XCTAssertEqual(anonUserId, userId)
+            
+            // check storage
+            XCTAssertTrue(mlsStitchClient.isAuthenticated)
+            XCTAssertEqual(mlsStitchClient.loggedInProviderType, AuthProviderTypes.anonymous)
+            
+            // login with email provider
+            return mlsStitchClient.login(withProvider: EmailPasswordAuthProvider(username: "test1@example.com", password: "hunter1"))
+        }.then{ (userId: String) -> Promise<String> in
+            // make sure the user ID is updated
+            XCTAssertNotEqual(anonUserId, userId)
+            emailUserId = userId
+            
+            // check storage
+            XCTAssertTrue(mlsStitchClient.isAuthenticated)
+            XCTAssertEqual(mlsStitchClient.loggedInProviderType, AuthProviderTypes.emailPass)
+            
+            // login with email provider under different user
+            return mlsStitchClient.login(withProvider: EmailPasswordAuthProvider(username: "test2@example.com", password: "hunter2"))
+        }.then{ (userId: String) -> Promise<Void> in
+            // make sure the user ID is updated
+            XCTAssertNotEqual(emailUserId, userId)
+            
+            // check storage
+            XCTAssertTrue(mlsStitchClient.isAuthenticated)
+            XCTAssertEqual(mlsStitchClient.loggedInProviderType, AuthProviderTypes.emailPass)
+            
+            // logout
+            return mlsStitchClient.logout()
+        }.done {
+            // check storage
+            XCTAssertFalse(mlsStitchClient.isAuthenticated)
+            XCTAssertNil(mlsStitchClient.loggedInProviderType)
+            
+            exp.fulfill()
+        }.catch { err in
+            print(err)
+            XCTFail(err.localizedDescription)
+            exp.fulfill()
+        }
+        
         wait(for: [exp], timeout: 10)
     }
 }

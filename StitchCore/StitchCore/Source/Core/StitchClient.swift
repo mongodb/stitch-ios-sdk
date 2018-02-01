@@ -15,6 +15,29 @@ internal struct Consts {
     static let ErrorKey = "error"
 }
 
+internal protocol StitchClientFactoryProtocol {
+    associatedtype TClient = StitchClientType
+
+    static func create(appId: String,
+                       baseUrl: String,
+                       networkAdapter: NetworkAdapter,
+                       storage: Storage?) -> Promise<TClient>
+}
+
+public final class StitchClientFactory: StitchClientFactoryProtocol {
+    typealias TClient = StitchClient
+
+    static func create(appId: String,
+                       baseUrl: String = "https://stitch.mongodb.com",
+                       networkAdapter: NetworkAdapter = StitchNetworkAdapter(),
+                       storage: Storage? = nil) -> Promise<StitchClient> {
+        return Promise(value: StitchClient.init(appId: appId,
+                                                baseUrl: baseUrl,
+                                                networkAdapter: networkAdapter,
+                                                storage: storage))
+    }
+}
+
 /// A StitchClient is responsible for handling the overall interaction with all Stitch services.
 public class StitchClient: StitchClientType {
     // MARK: - Properties
@@ -84,6 +107,7 @@ public class StitchClient: StitchClientType {
             if let refreshToken = httpClient.authInfo?.refreshToken {
                 // save auth persistently
                 storage.set(true, forKey: self.storageKeys.isLoggedInUDKey)
+                storage.set(self.authProvider?.type.rawValue, forKey: self.storageKeys.authProviderTypeUDKey)
 
                 do {
                     let jsonData = try JSONEncoder().encode(httpClient.authInfo)
@@ -104,6 +128,7 @@ public class StitchClient: StitchClientType {
                 // remove from keychain
                 try? self.httpClient.deleteToken(withKey: self.storageKeys.authJwtKey)
                 storage.set(false, forKey: self.storageKeys.isLoggedInUDKey)
+                storage.removeObject(forKey: self.storageKeys.authProviderTypeUDKey)
             }
         }
     }
@@ -123,6 +148,16 @@ public class StitchClient: StitchClientType {
         return self.httpClient.isAuthenticated
     }
 
+    // Returns the type of the provider used to log into the current session.
+    //         nil if not authenticated or if unknown auth provider type
+    public var loggedInProviderType: AuthProviderTypes? {
+        if let rawProviderType =
+            storage.value(forKey: self.storageKeys.authProviderTypeUDKey) as? String {
+            return AuthProviderTypes(rawValue: rawProviderType)
+        }
+        return nil
+    }
+
     // MARK: - Init
     /**
         Create a new object to interact with Stitch
@@ -131,10 +166,10 @@ public class StitchClient: StitchClientType {
             - baseUrl: The base URL of the Stitch Client API server.
             - networkAdapter: Optional interface if AlamoFire is not desired.
      */
-    public init(appId: String,
-                baseUrl: String = "https://stitch.mongodb.com",
-                networkAdapter: NetworkAdapter = StitchNetworkAdapter(),
-                storage: Storage? = nil) {
+    fileprivate init(appId: String,
+                     baseUrl: String = "https://stitch.mongodb.com",
+                     networkAdapter: NetworkAdapter = StitchNetworkAdapter(),
+                     storage: Storage? = nil) {
         self.appId = appId
         self.baseUrl = baseUrl
         self.networkAdapter = networkAdapter
@@ -285,26 +320,41 @@ public class StitchClient: StitchClientType {
     public func login(withProvider provider: AuthProvider) -> Promise<UserId> {
         self.authProvider = provider
 
-        if isAuthenticated, let auth = auth {
-            printLog(.info, text: "Already logged in, using cached token.")
-            return Promise.init(value: auth.userId)
+        func doLoginRequest() -> Promise<UserId> {
+            return httpClient.doRequest { request in
+                request.method = .post
+                request.endpoint = self.routes.authProvidersLoginRoute(provider: provider.type.rawValue)
+                request.isAuthenticatedRequest = false
+                try request.encode(withData: self.getAuthRequest(provider: provider))
+                }.flatMap { [weak self] any in
+                    guard let strongSelf = self else { throw StitchError.clientReleased }
+                    let authInfo = try JSONDecoder().decode(AuthInfo.self,
+                                                            from: JSONSerialization.data(withJSONObject: any))
+                    strongSelf.httpClient.authInfo = authInfo
+                    strongSelf._auth = Auth(stitchClient: strongSelf,
+                                            stitchHttpClient: strongSelf.httpClient,
+                                            userId: authInfo.userId)
+                    strongSelf.onLogin()
+                    return authInfo.userId
+                }
         }
 
-        return httpClient.doRequest {
-            $0.method = .post
-            $0.endpoint = self.routes.authProvidersLoginRoute(provider: provider.type)
-            $0.isAuthenticatedRequest = false
-            try $0.encode(withData: self.getAuthRequest(provider: provider))
-        }.flatMap { [weak self] any in
-            guard let strongSelf = self else { throw StitchError.clientReleased }
-            let authInfo = try JSONDecoder().decode(AuthInfo.self,
-                                                    from: JSONSerialization.data(withJSONObject: any))
-            strongSelf.httpClient.authInfo = authInfo
-            strongSelf._auth = Auth(stitchClient: strongSelf,
-                                    stitchHttpClient: strongSelf.httpClient,
-                                    userId: authInfo.userId)
-            strongSelf.onLogin()
-            return authInfo.userId
+        guard let userId = self.auth?.userId else {
+            // Not currently authenticated, perform login.
+            return doLoginRequest()
+        }
+
+        // Check if logging in as anonymous user while already logged in as anonymous user
+        if provider.type == AuthProviderTypes.anonymous &&
+            self.loggedInProviderType == AuthProviderTypes.anonymous {
+            printLog(.info, text: "Already logged in as anonymous user, using cached token.")
+            return Promise.init(value: userId)
+        }
+
+        // Using a different provider, log out and then perform login.
+        printLog(.info, text: "Already logged in, logging out of existing session.")
+        return self.logout().then {
+            return doLoginRequest()
         }
     }
 
@@ -325,8 +375,15 @@ public class StitchClient: StitchClientType {
             $0.endpoint = self.routes.authSessionRoute
             $0.refreshOnFailure = false
             $0.useRefreshToken = true
+        }.recover { _ in
+            // We don't really care about errors in doing the request.
+            // Try clearing auth, but throw again if it fails.
+            printLog(.info, text: "Logout request to Stitch resulted in error. Clearing locally stored tokens anyway.")
+            return Guarantee.init(value: true)
         }.done { _ in
+            // This block will always be reached regardless of whether doRequest fails or succeeds
             try self.clearAuth()
+            return
         }
     }
 

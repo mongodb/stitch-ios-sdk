@@ -112,6 +112,8 @@ internal class StitchHTTPClient {
         try deleteToken(withKey: self.storageKeys.isLoggedInUDKey)
         try deleteToken(withKey: self.storageKeys.authJwtKey)
 
+        self.storage.removeObject(forKey: self.storageKeys.authProviderTypeUDKey)
+
         self.networkAdapter.cancelAllRequests()
     }
 

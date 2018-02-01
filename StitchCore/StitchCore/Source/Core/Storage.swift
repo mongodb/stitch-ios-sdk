@@ -49,12 +49,14 @@ internal struct StorageKeys {
     internal let authJwtKey: String
     internal let authRefreshTokenKey: String
     internal let authKeychainServiceName: String
+    internal let authProviderTypeUDKey: String
 
     init(suiteName: String) {
         self.isLoggedInUDKey = "StitchCoreIsLoggedInUserDefaultsKey.\(suiteName)"
         self.authJwtKey = "StitchCoreAuthJwtKey.\(suiteName)"
         self.authRefreshTokenKey = "StitchCoreAuthRefreshTokenKey.\(suiteName)"
         self.authKeychainServiceName = "com.mongodb.stitch.sdk.authentication.\(suiteName)"
+        self.authProviderTypeUDKey = "StitchCoreProviderTypeUserDefaultsKey.\(suiteName)"
     }
 }
 

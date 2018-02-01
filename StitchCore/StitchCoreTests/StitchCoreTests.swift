@@ -6,28 +6,48 @@ import MongoDBService
 import PromiseKit
 
 class StitchCoreTests: XCTestCase {
+    var stitchClient: StitchClient!
 
     override func setUp() {
         super.setUp()
         LogManager.minimumLogLevel = .debug
-        try! stitchClient.clearAuth()
+        let expectation = self.expectation(description: "should create stitchClient")
+        StitchClientFactory.create(appId: "test-uybga").done {
+            self.stitchClient = $0
+            try! self.stitchClient.clearAuth()
+            expectation.fulfill()
+        }.cauterize()
+        wait(for: [expectation], timeout: 10)
     }
 
     override func tearDown() {
         super.tearDown()
     }
 
-    let stitchClient = StitchClient(appId: "test-uybga")
 
     func testMultipleClientStorage() throws {
-        let sc1 = StitchClient(appId: "test1")
-        let sc2 = StitchClient(appId: "test2")
+        let exp = expectation(description: "multiple clients should store separately")
 
-        sc1.storage.set("foo", forKey: "fizz")
-        sc2.storage.set("bar", forKey: "fizz")
+        let creators = [StitchClientFactory.create(appId: "test1"),
+                        StitchClientFactory.create(appId: "test2")]
 
-        XCTAssertEqual(sc1.storage.value(forKey: "fizz") as? String, "foo")
-        XCTAssertEqual(sc2.storage.value(forKey: "fizz") as? String, "bar")
+        when(resolved: creators).done { (results: [Result<StitchClient>]) in
+            guard case .fulfilled(let sc1) = results[0],
+                  case .fulfilled(let sc2) = results[1] else {
+                XCTFail("multiple clients could not be created")
+                exp.fulfill()
+                return
+            }
+
+            sc1.storage.set("foo", forKey: "fizz")
+            sc2.storage.set("bar", forKey: "fizz")
+
+            XCTAssertEqual(sc1.storage.value(forKey: "fizz") as? String, "foo")
+            XCTAssertEqual(sc2.storage.value(forKey: "fizz") as? String, "bar")
+            exp.fulfill()
+        }
+
+        wait(for: [exp], timeout: 10)
     }
 
     func testAuthInfoCodable() throws {
