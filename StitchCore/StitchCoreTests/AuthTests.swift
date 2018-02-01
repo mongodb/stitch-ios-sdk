@@ -187,4 +187,41 @@ class AuthTests: XCTestCase {
         
         wait(for: [exp], timeout: 10)
     }
+
+    // NOTE: This test works locally when logging in with an email identity not associated with a Stitch user, but with our
+    // current testing framework we cannot dynamically create identities to test this functionality. Once we have the
+    // appropriate framework we can re-enable this test.
+    /*
+    func testIdentityLinking() throws {
+        let exp = expectation(description: "identity linking works as expected")
+        let ilStitchClient = StitchClient(appId: "stitch-tests-ios-sdk-jjmum")
+
+        var firstUserId = ""
+
+        ilStitchClient.login(withProvider: AnonymousAuthProvider()).then{ (userId: String) -> Promise<String> in
+            XCTAssertEqual(ilStitchClient.loggedInProviderType, AuthProviderTypes.anonymous)
+
+            firstUserId = userId
+            return ilStitchClient.link(withProvider: EmailPasswordAuthProvider(username: "linktest0@example.com", password: "hunter2"))
+        }.then { (newUserId: String) -> Promise<UserProfile> in
+            XCTAssertEqual(firstUserId, newUserId)
+            XCTAssertEqual(ilStitchClient.loggedInProviderType, AuthProviderTypes.emailPass)
+
+            return ilStitchClient.auth!.fetchUserProfile()
+        }.then { (userProfile: UserProfile) -> Promise<Void> in
+            XCTAssertEqual(userProfile.identities.count, 2)
+
+            return ilStitchClient.logout()
+        }.done {
+            XCTAssertFalse(ilStitchClient.isAuthenticated)
+            exp.fulfill()
+        }.catch { err in
+            print(err)
+            XCTFail(err.localizedDescription)
+            exp.fulfill()
+        }
+
+        wait(for: [exp], timeout: 10)
+    }
+    */
 }

@@ -14,13 +14,13 @@ internal struct AuthInfo: Codable {
     let accessToken: DecodedJWT?
 
     // The user this session was created for.
-    let deviceId: String
+    let deviceId: String?
 
     // The user this session was created for.
     let userId: String
 
     // The refresh token to refresh an expired access token
-    internal var refreshToken: String
+    internal var refreshToken: String?
 
     internal func auth(with updatedAccessToken: String) -> AuthInfo {
         return AuthInfo(accessToken: try? DecodedJWT(jwt: updatedAccessToken),
