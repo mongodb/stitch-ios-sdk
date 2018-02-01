@@ -124,16 +124,20 @@ class AuthTests: XCTestCase {
     
     func testMultipleLoginSemantics() throws {
         let exp = expectation(description: "multiple logins work as expected")
-        let mlsStitchClient = StitchClient(appId: "stitch-tests-ios-sdk-jjmum")
+        var mlsStitchClient: StitchClient! = nil
         var anonUserId = ""
         var emailUserId = ""
         
-        // check storage
-        XCTAssertFalse(mlsStitchClient.isAuthenticated)
-        XCTAssertNil(mlsStitchClient.loggedInProviderType)
-        
-        // login anonymously
-        mlsStitchClient.login(withProvider: AnonymousAuthProvider()).then { (userId: String) -> Promise<String> in
+        StitchClientFactory.create(appId: "stitch-tests-ios-sdk-jjmum").then { (client: StitchClient) -> Promise<String> in
+            mlsStitchClient = client
+            
+            // check storage
+            XCTAssertFalse(mlsStitchClient.isAuthenticated)
+            XCTAssertNil(mlsStitchClient.loggedInProviderType)
+            
+            // login anonymously
+            return mlsStitchClient.login(withProvider: AnonymousAuthProvider())
+        }.then { (userId: String) -> Promise<String> in
             anonUserId = userId
             
             // check storage
