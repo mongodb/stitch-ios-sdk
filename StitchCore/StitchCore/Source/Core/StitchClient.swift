@@ -366,6 +366,7 @@ public class StitchClient: StitchClientType {
         return self.doAuthRequest(withProvider: provider, withLinking: true)
     }
 
+    // MARK: Private
     private func doAuthRequest(withProvider provider: AuthProvider,
                                withLinking linking: Bool = false) -> Promise<UserId> {
         return httpClient.doRequest { request in
@@ -376,27 +377,29 @@ public class StitchClient: StitchClientType {
             request.isAuthenticatedRequest = linking
 
             try request.encode(withData: self.getAuthRequest(provider: provider))
-            }.flatMap { [weak self] any in
+        }.flatMap { [weak self] json in
                 guard let strongSelf = self else { throw StitchError.clientReleased }
-                let authInfo = try JSONDecoder().decode(AuthInfo.self,
-                                                        from: JSONSerialization.data(withJSONObject: any))
                 strongSelf.authProvider = provider
                 if !linking {
+                    let authInfo = try JSONDecoder().decode(AuthInfo.self,
+                                                            from: JSONSerialization.data(withJSONObject: json))
                     strongSelf.httpClient.authInfo = authInfo
                     strongSelf._auth = Auth(stitchClient: strongSelf,
                                             stitchHttpClient: strongSelf.httpClient,
                                             userId: authInfo.userId)
                     strongSelf.onLogin()
+                    return authInfo.userId
                 } else {
+                    let linkInfo = try JSONDecoder().decode(LinkInfo.self,
+                                                            from: JSONSerialization.data(withJSONObject: json))
                     strongSelf.userDefaults?.set(strongSelf.authProvider?.type.rawValue,
                                                  forKey: Consts.AuthProviderTypeUDKey)
+                    return linkInfo.userId
                 }
-
-                return authInfo.userId
         }
     }
 
-    // MARK: Private
+    
     internal func clearAuth() throws {
         onLogout()
 

@@ -1,7 +1,19 @@
 import Foundation
 
+protocol AuthResponse: Codable {
+    var userId: String { get }
+}
+
+internal struct LinkInfo: AuthResponse {
+    enum CodingKeys: String, CodingKey {
+        case userId = "user_id"
+    }
+    
+    var userId: String
+}
+
 /// Auth represents the current authorization state of the client
-internal struct AuthInfo: Codable {
+internal struct AuthInfo: AuthResponse {
     enum CodingKeys: String, CodingKey {
         case accessToken = "access_token",
         userId = "user_id",
@@ -14,13 +26,13 @@ internal struct AuthInfo: Codable {
     let accessToken: DecodedJWT?
 
     // The user this session was created for.
-    let deviceId: String?
+    let deviceId: String
 
     // The user this session was created for.
     let userId: String
 
     // The refresh token to refresh an expired access token
-    internal var refreshToken: String?
+    internal var refreshToken: String
 
     internal func auth(with updatedAccessToken: String) -> AuthInfo {
         return AuthInfo(accessToken: try? DecodedJWT(jwt: updatedAccessToken),

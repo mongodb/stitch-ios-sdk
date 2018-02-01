@@ -198,15 +198,19 @@ class AuthTests: XCTestCase {
     /*
     func testIdentityLinking() throws {
         let exp = expectation(description: "identity linking works as expected")
-        let ilStitchClient = StitchClient(appId: "stitch-tests-ios-sdk-jjmum")
-
+        var ilStitchClient: StitchClient! = nil
         var firstUserId = ""
 
-        ilStitchClient.login(withProvider: AnonymousAuthProvider()).then{ (userId: String) -> Promise<String> in
+        StitchClientFactory.create(appId: "stitch-tests-ios-sdk-jjmum").then { (client: StitchClient) -> Promise<String> in
+            ilStitchClient = client
+            
+            // login anonymously
+            return ilStitchClient.login(withProvider: AnonymousAuthProvider())
+        }.then{ (userId: String) -> Promise<String> in
             XCTAssertEqual(ilStitchClient.loggedInProviderType, AuthProviderTypes.anonymous)
 
             firstUserId = userId
-            return ilStitchClient.link(withProvider: EmailPasswordAuthProvider(username: "linktest0@example.com", password: "hunter2"))
+            return ilStitchClient.link(withProvider: EmailPasswordAuthProvider(username: "link_test@10gen.com", password: "hunter2"))
         }.then { (newUserId: String) -> Promise<UserProfile> in
             XCTAssertEqual(firstUserId, newUserId)
             XCTAssertEqual(ilStitchClient.loggedInProviderType, AuthProviderTypes.emailPass)
