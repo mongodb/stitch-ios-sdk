@@ -26,16 +26,19 @@ internal class StitchHTTPClient {
 
     let baseUrl, appId: String
     let networkAdapter: NetworkAdapter
+    internal let storageKeys: StorageKeys
     internal var authInfo: AuthInfo?
 
     init(baseUrl: String,
          appId: String,
          networkAdapter: NetworkAdapter,
-         storage: Storage) {
+         storage: Storage,
+         storageKeys: StorageKeys) {
         self.baseUrl = baseUrl
         self.appId = appId
         self.networkAdapter = networkAdapter
         self.storage = storage
+        self.storageKeys = storageKeys
     }
 
     /// Whether or not the client is currently authenticated
@@ -76,7 +79,8 @@ internal class StitchHTTPClient {
             storage.set(token, forKey: key)
         } else {
             do {
-                let keychainItem = KeychainPasswordItem(service: Consts.AuthKeychainServiceName, account: key)
+                let keychainItem = KeychainPasswordItem(service: self.storageKeys.authKeychainServiceName,
+                                                        account: key)
                 try keychainItem.savePassword(token)
             } catch {
                 printLog(.warning, text: "failed saving token to keychain: \(error)")
@@ -90,7 +94,8 @@ internal class StitchHTTPClient {
             storage.removeObject(forKey: key)
         } else {
             do {
-                let keychainItem = KeychainPasswordItem(service: Consts.AuthKeychainServiceName, account: key)
+                let keychainItem = KeychainPasswordItem(service: self.storageKeys.authKeychainServiceName,
+                                                        account: key)
                 try keychainItem.deleteItem()
             } catch {
                 printLog(.warning, text: "failed deleting auth token from keychain: \(error)")
@@ -103,21 +108,21 @@ internal class StitchHTTPClient {
     internal func clearAuth() throws {
         authInfo = nil
 
-        try deleteToken(withKey: Consts.AuthRefreshTokenKey)
-        try deleteToken(withKey: Consts.IsLoggedInUDKey)
-        try deleteToken(withKey: Consts.AuthJwtKey)
+        try deleteToken(withKey: self.storageKeys.authRefreshTokenKey)
+        try deleteToken(withKey: self.storageKeys.isLoggedInUDKey)
+        try deleteToken(withKey: self.storageKeys.authJwtKey)
 
         self.networkAdapter.cancelAllRequests()
     }
 
     internal func getAuthFromSavedJwt() throws -> AuthInfo {
-        guard let isLoggedIn = storage.value(forKey: Consts.IsLoggedInUDKey) as? Bool,
+        guard let isLoggedIn = storage.value(forKey: self.storageKeys.isLoggedInUDKey) as? Bool,
             isLoggedIn == true else {
             throw StitchError.unauthorized(message: "must be logged in")
         }
 
         do {
-            if let authDicString = readToken(withKey: Consts.AuthJwtKey),
+            if let authDicString = readToken(withKey: self.storageKeys.authJwtKey),
                 let authDicData = authDicString.data(using: .utf8) {
                 return try JSONDecoder().decode(AuthInfo.self, from: authDicData)
             }
@@ -134,7 +139,7 @@ internal class StitchHTTPClient {
             return storage.value(forKey: key) as? String
         } else {
             do {
-                let keychainItem = KeychainPasswordItem(service: Consts.AuthKeychainServiceName, account: key)
+                let keychainItem = KeychainPasswordItem(service: self.storageKeys.authKeychainServiceName, account: key)
                 let token = try keychainItem.readPassword()
                 return token
             } catch {
@@ -149,7 +154,7 @@ internal class StitchHTTPClient {
             return nil
         }
 
-        return readToken(withKey: Consts.AuthRefreshTokenKey)
+        return readToken(withKey: self.storageKeys.authRefreshTokenKey)
     }
 
     private func refreshAccessToken() -> Promise<Void> {
