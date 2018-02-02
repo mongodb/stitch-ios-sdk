@@ -399,7 +399,6 @@ public class StitchClient: StitchClientType {
         }
     }
 
-    
     internal func clearAuth() throws {
         onLogout()
 
