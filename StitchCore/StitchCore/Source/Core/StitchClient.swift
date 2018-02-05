@@ -6,21 +6,15 @@ import Security
 import PromiseKit
 
 public struct Consts {
-    public static let DefaultBaseUrl =   "https://stitch.mongodb.com"
-    static let ApiPath =                 "/api/client/v2.0/"
+    static let ApiPath = "/api/client/v2.0/"
 
     //User Defaults
-    static let UserDefaultsName =        "com.mongodb.stitch.sdk.UserDefaults"
-    static let IsLoggedInUDKey =         "StitchCoreIsLoggedInUserDefaultsKey"
-    static let AuthProviderTypeUDKey =   "StitchCoreProviderTypeUserDefaultsKey"
+    static let UserDefaultsName = "com.mongodb.stitch.sdk.UserDefaults"
 
-    //keychain
-    static let AuthJwtKey =              "StitchCoreAuthJwtKey"
-    static let AuthRefreshTokenKey =     "StitchCoreAuthRefreshTokenKey"
-    static let AuthKeychainServiceName = "com.mongodb.stitch.sdk.authentication"
+    public static let defaultServerUrl = "https://stitch.mongodb.com"
 
     //keys
-    static let ErrorKey =                "error"
+    static let ErrorKey = "error"
 }
 
 internal protocol StitchClientFactoryProtocol {
@@ -28,18 +22,21 @@ internal protocol StitchClientFactoryProtocol {
 
     static func create(appId: String,
                        baseUrl: String,
-                       networkAdapter: NetworkAdapter) -> Promise<TClient>
+                       networkAdapter: NetworkAdapter,
+                       storage: Storage?) -> Promise<TClient>
 }
 
 public final class StitchClientFactory: StitchClientFactoryProtocol {
     typealias TClient = StitchClient
 
-    static func create(appId: String,
-                       baseUrl: String = Consts.DefaultBaseUrl,
-                       networkAdapter: NetworkAdapter = StitchNetworkAdapter()) -> Promise<StitchClient> {
+    public static func create(appId: String,
+                              baseUrl: String = Consts.defaultServerUrl,
+                              networkAdapter: NetworkAdapter = StitchNetworkAdapter(),
+                              storage: Storage? = nil) -> Promise<StitchClient> {
         return Promise(value: StitchClient.init(appId: appId,
-                                                baseUrl: baseUrl,
-                                                networkAdapter: networkAdapter))
+                                                 baseUrl: baseUrl,
+                                                 networkAdapter: networkAdapter,
+                                                 storage: storage))
     }
 }
 
@@ -52,11 +49,14 @@ public class StitchClient: StitchClientType {
     internal var baseUrl: String
     internal let networkAdapter: NetworkAdapter
 
-    internal let userDefaults = UserDefaults(suiteName: Consts.UserDefaultsName)
+    internal var storage: Storage
+    internal lazy var storageKeys = StorageKeys(suiteName: self.appId)
 
     internal lazy var httpClient = StitchHTTPClient(baseUrl: baseUrl,
-                                                    appId: appId,
-                                                    networkAdapter: networkAdapter)
+                                                     appId: appId,
+                                                     networkAdapter: networkAdapter,
+                                                     storage: storage,
+                                                     storageKeys: storageKeys)
     private var authProvider: AuthProvider?
     private var authDelegates = [AuthDelegate?]()
 
@@ -108,19 +108,19 @@ public class StitchClient: StitchClientType {
         didSet {
             if let refreshToken = httpClient.authInfo?.refreshToken {
                 // save auth persistently
-                userDefaults?.set(true, forKey: Consts.IsLoggedInUDKey)
-                userDefaults?.set(self.authProvider?.type.rawValue, forKey: Consts.AuthProviderTypeUDKey)
+                storage.set(true, forKey: self.storageKeys.isLoggedInUDKey)
+                storage.set(self.authProvider?.type.rawValue, forKey: self.storageKeys.authProviderTypeUDKey)
 
                 do {
                     let jsonData = try JSONEncoder().encode(httpClient.authInfo)
                     guard let jsonString = String(data: jsonData,
                                                   encoding: .utf8) else {
-                                                    printLog(.error, text: "Error converting json String to Data")
-                                                    return
+                        printLog(.error, text: "Error converting json String to Data")
+                        return
                     }
 
-                    self.httpClient.save(token: refreshToken, withKey: Consts.AuthRefreshTokenKey)
-                    self.httpClient.save(token: jsonString, withKey: Consts.AuthJwtKey)
+                    self.httpClient.save(token: refreshToken, withKey: self.storageKeys.authRefreshTokenKey)
+                    self.httpClient.save(token: jsonString, withKey: self.storageKeys.authJwtKey)
                 } catch let error as NSError {
                     printLog(.error,
                              text: "failed saving auth to keychain, array to JSON conversion failed: " +
@@ -128,9 +128,9 @@ public class StitchClient: StitchClientType {
                 }
             } else {
                 // remove from keychain
-                try? self.httpClient.deleteToken(withKey: Consts.AuthJwtKey)
-                userDefaults?.set(false, forKey: Consts.IsLoggedInUDKey)
-                userDefaults?.removeObject(forKey: Consts.AuthProviderTypeUDKey)
+                try? self.httpClient.deleteToken(withKey: self.storageKeys.authJwtKey)
+                storage.set(false, forKey: self.storageKeys.isLoggedInUDKey)
+                storage.removeObject(forKey: self.storageKeys.authProviderTypeUDKey)
             }
         }
     }
@@ -153,7 +153,8 @@ public class StitchClient: StitchClientType {
     // The type of the provider used to log into the current session, or the most recent
     // provider linked. nil if not authenticated or if provider type is not recognized
     public var loggedInProviderType: AuthProviderTypes? {
-        if let rawProviderType = userDefaults?.string(forKey: Consts.AuthProviderTypeUDKey) {
+        if let rawProviderType =
+            storage.value(forKey: self.storageKeys.authProviderTypeUDKey) as? String {
             return AuthProviderTypes(rawValue: rawProviderType)
         }
         return nil
@@ -168,11 +169,32 @@ public class StitchClient: StitchClientType {
             - networkAdapter: Optional interface if AlamoFire is not desired.
      */
     fileprivate init(appId: String,
-                     baseUrl: String = Consts.DefaultBaseUrl,
-                     networkAdapter: NetworkAdapter = StitchNetworkAdapter()) {
+                     baseUrl: String = "https://stitch.mongodb.com",
+                     networkAdapter: NetworkAdapter = StitchNetworkAdapter(),
+                     storage: Storage? = nil) {
         self.appId = appId
         self.baseUrl = baseUrl
         self.networkAdapter = networkAdapter
+
+        let suiteName = "\(Consts.UserDefaultsName).\(appId)"
+        if let storage = storage {
+            self.storage = storage
+        } else {
+            #if !os(Linux)
+            guard let userDefaults = UserDefaults.init(suiteName: suiteName) else {
+                self.storage = MemoryStorage.init(suiteName: suiteName)!
+                printLog(.warning, text: "Invalid suiteName: \(suiteName)")
+                printLog(.warning, text: "Defaulting to memory storage. NOTE: App will not persist authentication status")
+                return
+            }
+            self.storage = userDefaults
+            #else
+            printLog(.warning, text: "Defaulting to memory storage. NOTE: App will not persist authentication status")
+            self.storage = MemoryStorage.init(suiteName: suiteName)!
+            #endif
+        }
+
+        runMigration(suiteName: suiteName, storage: &self.storage)
     }
 
     // MARK: - Auth

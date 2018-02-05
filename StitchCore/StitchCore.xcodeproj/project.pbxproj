@@ -28,6 +28,7 @@
 		4927D74C1FC0EE21006D8031 /* AuthTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4927D74B1FC0EE21006D8031 /* AuthTests.swift */; };
 		49580F121F98356800D4B9B3 /* StitchNetworkAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49580F111F98356800D4B9B3 /* StitchNetworkAdapter.swift */; };
 		495F4C0D1FE9E53700EC0009 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 495F4C011FE9E52100EC0009 /* PromiseKit.framework */; };
+		4975C6E520110E1200F5AF6B /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4975C6E420110E1200F5AF6B /* Storage.swift */; };
 		498536071F97E697007DAACA /* ApiKeyAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498536061F97E697007DAACA /* ApiKeyAuthProvider.swift */; };
 		498536131F97E7AF007DAACA /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498536121F97E7AF007DAACA /* Auth.swift */; };
 		498A74B91FE9EB640078FFEC /* ExtendedJson.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498A74BA1FE9EB640078FFEC /* ExtendedJson.framework */; };
@@ -154,6 +155,7 @@
 		4927D74B1FC0EE21006D8031 /* AuthTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTests.swift; sourceTree = "<group>"; };
 		49580F111F98356800D4B9B3 /* StitchNetworkAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchNetworkAdapter.swift; sourceTree = "<group>"; };
 		495F4BF81FE9E52100EC0009 /* PromiseKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PromiseKit.xcodeproj; path = PromiseKit/PromiseKit.xcodeproj; sourceTree = "<group>"; };
+		4975C6E420110E1200F5AF6B /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		498536061F97E697007DAACA /* ApiKeyAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKeyAuthProvider.swift; sourceTree = "<group>"; };
 		498536121F97E7AF007DAACA /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
 		498A74BA1FE9EB640078FFEC /* ExtendedJson.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = ExtendedJson.framework; path = "../../../../../../../../../Users/jasonflax/Library/Developer/Xcode/DerivedData/StitchSDK-fcfdkailasvbudguglaoafhnayqb/Build/Products/Debug-iphoneos/ExtendedJson.framework"; sourceTree = SDKROOT; };
@@ -306,6 +308,7 @@
 				36A023BD1EEEFE6200450FB1 /* StitchClientType.swift */,
 				36A023BE1EEEFE6200450FB1 /* StitchClient.swift */,
 				499152F81F9D84C90001C5AC /* StitchHTTPClient.swift */,
+				4975C6E420110E1200F5AF6B /* Storage.swift */,
 				36A023BF1EEEFE6200450FB1 /* StitchError.swift */,
 			);
 			path = Core;
@@ -680,6 +683,7 @@
 				F448256B1EEF49FA00FF0835 /* StitchGCMPushProviderInfo.swift in Sources */,
 				498536131F97E7AF007DAACA /* Auth.swift in Sources */,
 				49580F121F98356800D4B9B3 /* StitchNetworkAdapter.swift in Sources */,
+				4975C6E520110E1200F5AF6B /* Storage.swift in Sources */,
 				F4F065331EEF40E900F10A83 /* PushProviderInfo.swift in Sources */,
 				F4F065311EEF40E900F10A83 /* PushClient.swift in Sources */,
 			);

@@ -25,6 +25,48 @@ class StitchCoreTests: XCTestCase {
     }
 
 
+    func testMultipleClientStorage() throws {
+        let exp = expectation(description: "multiple clients should store separately")
+
+        let creators = [StitchClientFactory.create(appId: "test1"),
+                        StitchClientFactory.create(appId: "test2")]
+
+        when(resolved: creators).done { (results: [Result<StitchClient>]) in
+            guard case .fulfilled(let sc1) = results[0],
+                  case .fulfilled(let sc2) = results[1] else {
+                XCTFail("multiple clients could not be created")
+                exp.fulfill()
+                return
+            }
+
+            sc1.storage.set("foo", forKey: "fizz")
+            sc2.storage.set("bar", forKey: "fizz")
+
+            XCTAssertEqual(sc1.storage.value(forKey: "fizz") as? String, "foo")
+            XCTAssertEqual(sc2.storage.value(forKey: "fizz") as? String, "bar")
+            exp.fulfill()
+        }
+
+        wait(for: [exp], timeout: 10)
+    }
+
+    func testMigrationLogic() throws {
+        let exp = expectation(description: "a new client should migrate properly from 0 to 1")
+
+        StitchClientFactory.create(appId: "test3", storage: UserDefaults.init(suiteName: "test3")!)
+        .done { stitchClient in
+            let version = stitchClient.storage.value(forKey: "__stitch_storage_version__") as? Int
+            XCTAssertEqual(version ?? -1, 1)
+
+            let checkVersion = UserDefaults.init(suiteName: "test3")?
+                .value(forKey: "__stitch_storage_version__") as? Int
+            XCTAssertEqual(version, checkVersion)
+            exp.fulfill()
+        }.cauterize()
+
+        wait(for: [exp], timeout: 10)
+    }
+
     func testAuthInfoCodable() throws {
         let data = try JSONSerialization.data(withJSONObject: [
             "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +

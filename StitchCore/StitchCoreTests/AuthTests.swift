@@ -124,6 +124,7 @@ class AuthTests: XCTestCase {
     
     func testMultipleLoginSemantics() throws {
         let exp = expectation(description: "multiple logins work as expected")
+
         var mlsStitchClient: StitchClient! = nil
         var anonUserId = ""
         var emailUserId = ""
