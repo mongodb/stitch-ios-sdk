@@ -22,7 +22,6 @@
 		36A0243C1EEEFE6200450FB1 /* NetworkAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A023C31EEEFE6200450FB1 /* NetworkAdapter.swift */; };
 		36A0245C1EEEFF9D00450FB1 /* StitchCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 36A0245B1EEEFF9D00450FB1 /* StitchCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		36A024C01EEF043A00450FB1 /* StitchCoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A023CA1EEEFE6200450FB1 /* StitchCoreTests.swift */; };
-		36DD055C1E7C412100E9A764 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 367E0B0F1E43419500EE2C00 /* StitchCore.framework */; };
 		490572EE1F9A4F8F00CC8230 /* DecodedJWT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490572EC1F9A4F8F00CC8230 /* DecodedJWT.swift */; };
 		49160CFB1FBE227700966194 /* ServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49160CFA1FBE227700966194 /* ServiceTests.swift */; };
 		4927D74C1FC0EE21006D8031 /* AuthTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4927D74B1FC0EE21006D8031 /* AuthTests.swift */; };
@@ -30,15 +29,21 @@
 		495F4C0D1FE9E53700EC0009 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 495F4C011FE9E52100EC0009 /* PromiseKit.framework */; };
 		498536071F97E697007DAACA /* ApiKeyAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498536061F97E697007DAACA /* ApiKeyAuthProvider.swift */; };
 		498536131F97E7AF007DAACA /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498536121F97E7AF007DAACA /* Auth.swift */; };
-		498A74B91FE9EB640078FFEC /* ExtendedJson.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498A74BA1FE9EB640078FFEC /* ExtendedJson.framework */; };
-		498E07FE1FE9F4680091A9A8 /* MongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E07FF1FE9F4680091A9A8 /* MongoDBService.framework */; };
 		499152F91F9D84C90001C5AC /* StitchHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499152F81F9D84C90001C5AC /* StitchHTTPClient.swift */; };
 		499452A11FE8773D00A6855C /* StitchAdminClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499452A01FE8773D00A6855C /* StitchAdminClient.swift */; };
 		49B2AA1F1F97EB69004AF23D /* ApiKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B2AA1E1F97EB69004AF23D /* ApiKey.swift */; };
 		49B5DB321FD7042E00A3B692 /* JWT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49B5DB2B1FD7041800A3B692 /* JWT.framework */; };
+		49B71B00202513A500F634D1 /* UsersEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B71AFF202513A500F634D1 /* UsersEndpoints.swift */; };
+		49B71B3F202557AD00F634D1 /* ExtendedJson.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49B71B40202557AD00F634D1 /* ExtendedJson.framework */; };
+		49B71B41202557BA00F634D1 /* ExtendedJson.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49B71B42202557BA00F634D1 /* ExtendedJson.framework */; };
+		49B71B43202557E100F634D1 /* MongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49B71B44202557E100F634D1 /* MongoDBService.framework */; };
 		49CB28591FBB856200F99DCD /* TwilioService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CB28581FBB856200F99DCD /* TwilioService.swift */; };
 		49CB285C1FBB89BF00F99DCD /* Services.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CB285B1FBB89BF00F99DCD /* Services.swift */; };
 		49DAF50D1FD058FB00325F10 /* CustomAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DAF50C1FD058FB00325F10 /* CustomAuthProvider.swift */; };
+		49DBA513202404EA00E8A9C9 /* TestHarness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DBA512202404EA00E8A9C9 /* TestHarness.swift */; };
+		49DBA5162024E8EE00E8A9C9 /* AuthProvidersEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DBA5152024E8EE00E8A9C9 /* AuthProvidersEndpoints.swift */; };
+		49DBA5182024EA3A00E8A9C9 /* AdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DBA5172024EA3A00E8A9C9 /* AdminView.swift */; };
+		49DBA51A2024ECAA00E8A9C9 /* StitchFixture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DBA5192024ECAA00E8A9C9 /* StitchFixture.swift */; };
 		F44825691EEF434300FF0835 /* AuthDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44825681EEF434300FF0835 /* AuthDelegate.swift */; };
 		F448256B1EEF49FA00FF0835 /* StitchGCMPushProviderInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F448256A1EEF49FA00FF0835 /* StitchGCMPushProviderInfo.swift */; };
 		F448256F1EEF4FA800FF0835 /* StitchGCMPushClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F448256E1EEF4FA800FF0835 /* StitchGCMPushClient.swift */; };
@@ -155,17 +160,25 @@
 		4927D74B1FC0EE21006D8031 /* AuthTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTests.swift; sourceTree = "<group>"; };
 		49580F111F98356800D4B9B3 /* StitchNetworkAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchNetworkAdapter.swift; sourceTree = "<group>"; };
 		495F4BF81FE9E52100EC0009 /* PromiseKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PromiseKit.xcodeproj; path = PromiseKit/PromiseKit.xcodeproj; sourceTree = "<group>"; };
+		4982DF6D2024F1D10032657D /* StitchCoreTests-BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "StitchCoreTests-BridgingHeader.h"; sourceTree = "<group>"; };
+		4982DFB22024FA840032657D /* libmongoc-1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libmongoc-1.0.0.dylib"; path = "../../../../../usr/local/lib/libmongoc-1.0.0.dylib"; sourceTree = "<group>"; };
 		498536061F97E697007DAACA /* ApiKeyAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKeyAuthProvider.swift; sourceTree = "<group>"; };
 		498536121F97E7AF007DAACA /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
-		498A74BA1FE9EB640078FFEC /* ExtendedJson.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = ExtendedJson.framework; path = "../../../../../../../../../Users/jasonflax/Library/Developer/Xcode/DerivedData/StitchSDK-fcfdkailasvbudguglaoafhnayqb/Build/Products/Debug-iphoneos/ExtendedJson.framework"; sourceTree = SDKROOT; };
-		498E07FF1FE9F4680091A9A8 /* MongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		499152F81F9D84C90001C5AC /* StitchHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchHTTPClient.swift; sourceTree = "<group>"; };
 		499452A01FE8773D00A6855C /* StitchAdminClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAdminClient.swift; sourceTree = "<group>"; };
 		49B2AA1E1F97EB69004AF23D /* ApiKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKey.swift; sourceTree = "<group>"; };
 		49B5DB201FD7041700A3B692 /* JWT.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = JWT.xcodeproj; path = JSONWebToken.swift/JWT.xcodeproj; sourceTree = SOURCE_ROOT; };
+		49B71AFF202513A500F634D1 /* UsersEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersEndpoints.swift; sourceTree = "<group>"; };
+		49B71B40202557AD00F634D1 /* ExtendedJson.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ExtendedJson.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		49B71B42202557BA00F634D1 /* ExtendedJson.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ExtendedJson.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		49B71B44202557E100F634D1 /* MongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		49CB28581FBB856200F99DCD /* TwilioService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioService.swift; sourceTree = "<group>"; };
 		49CB285B1FBB89BF00F99DCD /* Services.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services.swift; sourceTree = "<group>"; };
 		49DAF50C1FD058FB00325F10 /* CustomAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAuthProvider.swift; sourceTree = "<group>"; };
+		49DBA512202404EA00E8A9C9 /* TestHarness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHarness.swift; sourceTree = "<group>"; };
+		49DBA5152024E8EE00E8A9C9 /* AuthProvidersEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthProvidersEndpoints.swift; sourceTree = "<group>"; };
+		49DBA5172024EA3A00E8A9C9 /* AdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminView.swift; sourceTree = "<group>"; };
+		49DBA5192024ECAA00E8A9C9 /* StitchFixture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchFixture.swift; sourceTree = "<group>"; };
 		F44825681EEF434300FF0835 /* AuthDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthDelegate.swift; sourceTree = "<group>"; };
 		F448256A1EEF49FA00FF0835 /* StitchGCMPushProviderInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchGCMPushProviderInfo.swift; sourceTree = "<group>"; };
 		F448256E1EEF4FA800FF0835 /* StitchGCMPushClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchGCMPushClient.swift; sourceTree = "<group>"; };
@@ -182,7 +195,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				498A74B91FE9EB640078FFEC /* ExtendedJson.framework in Frameworks */,
+				49B71B41202557BA00F634D1 /* ExtendedJson.framework in Frameworks */,
 				495F4C0D1FE9E53700EC0009 /* PromiseKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -191,9 +204,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49B71B43202557E100F634D1 /* MongoDBService.framework in Frameworks */,
+				49B71B3F202557AD00F634D1 /* ExtendedJson.framework in Frameworks */,
 				49B5DB321FD7042E00A3B692 /* JWT.framework in Frameworks */,
-				36DD055C1E7C412100E9A764 /* StitchCore.framework in Frameworks */,
-				498E07FE1FE9F4680091A9A8 /* MongoDBService.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,7 +320,7 @@
 				36A023BB1EEEFE6200450FB1 /* KeychainPasswordItem.swift */,
 				36A023BD1EEEFE6200450FB1 /* StitchClientType.swift */,
 				36A023BE1EEEFE6200450FB1 /* StitchClient.swift */,
-				499452A01FE8773D00A6855C /* StitchAdminClient.swift */,
+				49DBA5142024E8B300E8A9C9 /* Admin */,
 				499152F81F9D84C90001C5AC /* StitchHTTPClient.swift */,
 				36A023BF1EEEFE6200450FB1 /* StitchError.swift */,
 			);
@@ -346,7 +359,10 @@
 				49B5DB201FD7041700A3B692 /* JWT.xcodeproj */,
 				36A023C91EEEFE6200450FB1 /* Info.plist */,
 				36A023CA1EEEFE6200450FB1 /* StitchCoreTests.swift */,
+				4982DF6D2024F1D10032657D /* StitchCoreTests-BridgingHeader.h */,
 				4927D74B1FC0EE21006D8031 /* AuthTests.swift */,
+				49DBA512202404EA00E8A9C9 /* TestHarness.swift */,
+				49DBA5192024ECAA00E8A9C9 /* StitchFixture.swift */,
 				49160CFA1FBE227700966194 /* ServiceTests.swift */,
 			);
 			path = StitchCoreTests;
@@ -384,8 +400,10 @@
 		498C7B871F9FEC36009CB84D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				498E07FF1FE9F4680091A9A8 /* MongoDBService.framework */,
-				498A74BA1FE9EB640078FFEC /* ExtendedJson.framework */,
+				49B71B44202557E100F634D1 /* MongoDBService.framework */,
+				49B71B42202557BA00F634D1 /* ExtendedJson.framework */,
+				49B71B40202557AD00F634D1 /* ExtendedJson.framework */,
+				4982DFB22024FA840032657D /* libmongoc-1.0.0.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -417,6 +435,17 @@
 				49CB28581FBB856200F99DCD /* TwilioService.swift */,
 			);
 			path = Twilio;
+			sourceTree = "<group>";
+		};
+		49DBA5142024E8B300E8A9C9 /* Admin */ = {
+			isa = PBXGroup;
+			children = (
+				499452A01FE8773D00A6855C /* StitchAdminClient.swift */,
+				49B71AFF202513A500F634D1 /* UsersEndpoints.swift */,
+				49DBA5152024E8EE00E8A9C9 /* AuthProvidersEndpoints.swift */,
+				49DBA5172024EA3A00E8A9C9 /* AdminView.swift */,
+			);
+			path = Admin;
 			sourceTree = "<group>";
 		};
 		F44825791EEF66F100FF0835 /* GCM */ = {
@@ -645,7 +674,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\nswiftlint --path StitchCore/Source\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint --path StitchCore/Source --config .swiftlint.yml\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -670,12 +699,15 @@
 				36A0243C1EEEFE6200450FB1 /* NetworkAdapter.swift in Sources */,
 				F448257B1EEF66FD00FF0835 /* PushMessage.swift in Sources */,
 				F44825691EEF434300FF0835 /* AuthDelegate.swift in Sources */,
+				49DBA5182024EA3A00E8A9C9 /* AdminView.swift in Sources */,
+				49DBA5162024E8EE00E8A9C9 /* AuthProvidersEndpoints.swift in Sources */,
 				499152F91F9D84C90001C5AC /* StitchHTTPClient.swift in Sources */,
 				36A0242E1EEEFE6200450FB1 /* AnonymousAuthProvider.swift in Sources */,
 				49CB28591FBB856200F99DCD /* TwilioService.swift in Sources */,
 				36A0242D1EEEFE6200450FB1 /* UserProfile.swift in Sources */,
 				F4F065321EEF40E900F10A83 /* PushManager.swift in Sources */,
 				36A0242C1EEEFE6200450FB1 /* AuthProviderInfo.swift in Sources */,
+				49B71B00202513A500F634D1 /* UsersEndpoints.swift in Sources */,
 				36A0242A1EEEFE6200450FB1 /* AuthInfo.swift in Sources */,
 				498536071F97E697007DAACA /* ApiKeyAuthProvider.swift in Sources */,
 				36A024301EEEFE6200450FB1 /* EmailPasswordAuthProvider.swift in Sources */,
@@ -693,9 +725,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49DBA513202404EA00E8A9C9 /* TestHarness.swift in Sources */,
 				36A024C01EEF043A00450FB1 /* StitchCoreTests.swift in Sources */,
 				4927D74C1FC0EE21006D8031 /* AuthTests.swift in Sources */,
 				49160CFB1FBE227700966194 /* ServiceTests.swift in Sources */,
+				49DBA51A2024ECAA00E8A9C9 /* StitchFixture.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -872,10 +906,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				HEADER_SEARCH_PATHS = /usr/include/CommonCrypto/;
 				INFOPLIST_FILE = StitchCoreTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchCoreTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/mongoc";
+				SWIFT_OBJC_BRIDGING_HEADER = "StitchCoreTests/StitchCoreTests-BridgingHeader.h";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
@@ -884,10 +922,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				HEADER_SEARCH_PATHS = /usr/include/CommonCrypto/;
 				INFOPLIST_FILE = StitchCoreTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchCoreTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/mongoc";
+				SWIFT_OBJC_BRIDGING_HEADER = "StitchCoreTests/StitchCoreTests-BridgingHeader.h";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;

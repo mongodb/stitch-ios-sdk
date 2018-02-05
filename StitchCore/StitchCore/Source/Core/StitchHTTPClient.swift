@@ -27,10 +27,12 @@ internal class StitchHTTPClient {
     let baseUrl: String
     let networkAdapter: NetworkAdapter
     internal var authInfo: AuthInfo?
+    private let apiPath: String
 
-    init(baseUrl: String, networkAdapter: NetworkAdapter) {
+    init(baseUrl: String, apiPath: String = Consts.ApiPath, networkAdapter: NetworkAdapter) {
         self.baseUrl = baseUrl
         self.networkAdapter = networkAdapter
+        self.apiPath = apiPath
     }
 
     /// Whether or not the client is currently authenticated
@@ -180,7 +182,7 @@ internal class StitchHTTPClient {
     }
 
     private func url(withEndpoint endpoint: String) -> String {
-        return "\(baseUrl)\(Consts.ApiPath)\(endpoint)"
+        return "\(baseUrl)\(apiPath)\(endpoint)"
     }
 
     internal typealias RequestBuilder = (inout RequestOptions) throws -> Void
@@ -244,9 +246,9 @@ internal class StitchHTTPClient {
 
         let url: String = self.url(withEndpoint: requestOptions.endpoint)
         return networkAdapter.requestWithJsonEncoding(url: url,
-                                                method: requestOptions.method,
-                                                data: requestOptions.data,
-                                                headers: headers)
+                                                       method: requestOptions.method,
+                                                       data: requestOptions.data,
+                                                       headers: headers)
             .flatMap(on: DispatchQueue.global(qos: .default)) { [weak self] (args: (Int, Data?)) throws -> Any in
             guard let strongSelf = self else {
                 throw StitchError.clientReleased

@@ -23,7 +23,7 @@ public struct Consts {
     static let ErrorKey =                "error"
 }
 
-internal protocol StitchClientFactoryProtocol {
+protocol StitchClientFactoryProtocol {
     associatedtype TClient = StitchClientType
 
     static func create(appId: String,
@@ -34,7 +34,7 @@ internal protocol StitchClientFactoryProtocol {
 public final class StitchClientFactory: StitchClientFactoryProtocol {
     typealias TClient = StitchClient
 
-    static func create(appId: String,
+    public static func create(appId: String,
                        baseUrl: String = Consts.DefaultBaseUrl,
                        networkAdapter: NetworkAdapter = StitchNetworkAdapter()) -> Promise<StitchClient> {
         return Promise(value: StitchClient.init(appId: appId,
@@ -306,17 +306,17 @@ public class StitchClient: StitchClientType {
                 request.endpoint = self.routes.authProvidersLoginRoute(provider: provider.type.rawValue)
                 request.isAuthenticatedRequest = false
                 try request.encode(withData: self.getAuthRequest(provider: provider))
-                }.flatMap { [weak self] any in
-                    guard let strongSelf = self else { throw StitchError.clientReleased }
-                    let authInfo = try JSONDecoder().decode(AuthInfo.self,
-                                                            from: JSONSerialization.data(withJSONObject: any))
-                    strongSelf.httpClient.authInfo = authInfo
-                    strongSelf._auth = Auth(stitchClient: strongSelf,
-                                            stitchHttpClient: strongSelf.httpClient,
-                                            userId: authInfo.userId)
-                    strongSelf.onLogin()
-                    return authInfo.userId
-                }
+            }.flatMap { [weak self] any in
+                guard let strongSelf = self else { throw StitchError.clientReleased }
+                let authInfo = try JSONDecoder().decode(AuthInfo.self,
+                                                        from: JSONSerialization.data(withJSONObject: any))
+                strongSelf.httpClient.authInfo = authInfo
+                strongSelf._auth = Auth(stitchClient: strongSelf,
+                                        stitchHttpClient: strongSelf.httpClient,
+                                        userId: authInfo.userId)
+                strongSelf.onLogin()
+                return authInfo.userId
+            }
         }
 
         guard let userId = self.auth?.userId else {
@@ -405,9 +405,9 @@ public class StitchClient: StitchClientType {
     private func getAuthRequest(provider: AuthProvider) -> Document {
         var request = provider.payload
         let options: Document = [
-            AuthFields.device.rawValue: getDeviceInfo()
+            StitchClient.AuthFields.device.rawValue: self.getDeviceInfo()
         ]
-    	request[AuthFields.options.rawValue] = options
+    	request[StitchClient.AuthFields.options.rawValue] = options
         return request
     }
 
