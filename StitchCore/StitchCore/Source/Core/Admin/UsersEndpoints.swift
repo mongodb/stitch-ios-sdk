@@ -15,6 +15,7 @@ struct UserCreator: Encodable {
 struct UserView: Decodable {
     var id: String?
 }
+
 public final class UserEndpoint: Endpoint, Get, Remove {
     typealias Model = UserView
 
@@ -25,9 +26,6 @@ public final class UserEndpoint: Endpoint, Get, Remove {
                   userUrl: String) {
         self.httpClient = httpClient
         self.url = userUrl
-
-        var userView = UserView.init()
-        userView.id = "123"
     }
 }
 

@@ -147,6 +147,10 @@ public final class AppEndpoint: Endpoint, Get, Remove {
     lazy var users: UsersEndpoint =
         UsersEndpoint.init(httpClient: self.httpClient,
                            usersUrl: "\(self.url)/users")
+
+    lazy var userRegistrations: UserRegistrationsEndpoint =
+        UserRegistrationsEndpoint.init(httpClient: self.httpClient,
+                                       userRegistrationsUrl: "\(self.url)/user_registrations")
 }
 
 public final class AppsEndpoint: Endpoint, List {
@@ -271,8 +275,8 @@ public class StitchAdminClient {
             $0.refreshOnFailure = false
             $0.useRefreshToken = false
         }.flatMap {
-                return try JSONDecoder().decode(UserProfile.self,
-                                                from: JSONSerialization.data(withJSONObject: $0))
+            return try JSONDecoder().decode(UserProfile.self,
+                                            from: JSONSerialization.data(withJSONObject: $0))
         }
     }
 }

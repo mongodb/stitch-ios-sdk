@@ -42,5 +42,5 @@ public struct UserProfile: Codable {
     public let identities: [Identity]
     /// The extra data associated with this user.
     public let data: [String: String]
-    public let roles: [Role]
+    internal let roles: [Role]?
 }

@@ -235,7 +235,6 @@ internal class StitchHTTPClient {
             return self.refreshAccessTokenAndRetry(requestOptions: requestOptions)
         }
 
-
         var headers: [String: String]?
         if let requestOptionsHeaders = requestOptions.headers {
             headers = requestOptionsHeaders

@@ -85,6 +85,10 @@ final class TestHarness {
         }.cauterize()
     }
 
+    func teardown() -> Promise<Void> {
+        return self.app.remove().asVoid()
+    }
+
     func authenticate() -> Promise<Void> {
         return self.adminClient.authenticate(
             provider: EmailPasswordAuthProvider.init(username: self.username,
@@ -92,7 +96,7 @@ final class TestHarness {
         ).then { (_) -> Promise<UserProfile> in
             return self.adminClient.fetchUserProfile()
         }.done { (userProfile: UserProfile) in
-            self.groupId = userProfile.roles.first?.groupId
+            self.groupId = userProfile.roles!.first?.groupId
         }
     }
 
@@ -106,7 +110,7 @@ final class TestHarness {
     func createUser(email: String = "test_user@domain.com",
                     password: String = "password") -> Promise<UserView> {
         self.userCredentials = (username: email, password: password)
-        return self.app().users.create(data: UserCreator.init(email: email, password: password)).flatMap {
+        return self.app.users.create(data: UserCreator.init(email: email, password: password)).flatMap {
             self.user = $0
             return self.user
         }
@@ -114,11 +118,17 @@ final class TestHarness {
 
     lazy var apps: AppsEndpoint = self.adminClient.apps(withGroupId: self.groupId!)
 
-    func app() -> AppEndpoint {
+    var app: AppEndpoint {
         guard let testApp = self.testApp else {
             fatalError("App must be created first")
         }
         return self.apps.app(withAppId: testApp.id)
+    }
+
+    func configureAnon() -> Promise<AuthProviderView> {
+        return self.app.authProviders.create(
+            data: AuthProviderCreator.init(type: "anon-user", config: [:])
+        )
     }
 
     func configureUserpass(userpassConfig: [String: String] = [
@@ -127,11 +137,24 @@ final class TestHarness {
         "confirmEmailSubject": "email subject",
         "resetPasswordSubject": "password subject"
     ]) -> Promise<Void> {
-        return self.app().authProviders.create(
+        return self.app.authProviders.create(
             data: AuthProviderCreator.init(type: "local-userpass",
                                             config: userpassConfig)
         ).then { (authProviderView: AuthProviderView) in
-            return self.app().authProviders.authProvider(
+            return self.app.authProviders.authProvider(
+                providerId: authProviderView.id
+            ).enable()
+        }.asVoid()
+    }
+
+    func configureCustomToken(tokenConfig: [String: String] = [
+        "signingKey": "abcdefghijklmnopqrstuvwxyz1234567890"
+    ]) -> Promise<Void> {
+        return self.app.authProviders.create(
+        data: AuthProviderCreator.init(type: "custom-token",
+                                       config: tokenConfig)
+        ).then { (authProviderView: AuthProviderView) in
+            return self.app.authProviders.authProvider(
                 providerId: authProviderView.id
             ).enable()
         }.asVoid()
@@ -150,6 +173,8 @@ final class TestHarness {
             return self.stitchClient!.login(
                 withProvider: EmailPasswordAuthProvider.init(username: userCredentials.username,
                                                              password: userCredentials.password)).asVoid()
+        }.then {
+            self.configureAnon()
         }.asVoid()
     }
 }
