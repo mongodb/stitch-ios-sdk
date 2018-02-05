@@ -44,7 +44,6 @@
 		49DAF50D1FD058FB00325F10 /* CustomAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DAF50C1FD058FB00325F10 /* CustomAuthProvider.swift */; };
 		49DBA513202404EA00E8A9C9 /* TestHarness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DBA512202404EA00E8A9C9 /* TestHarness.swift */; };
 		49DBA5162024E8EE00E8A9C9 /* AuthProvidersEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DBA5152024E8EE00E8A9C9 /* AuthProvidersEndpoints.swift */; };
-		49DBA5182024EA3A00E8A9C9 /* AdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DBA5172024EA3A00E8A9C9 /* AdminView.swift */; };
 		F44825691EEF434300FF0835 /* AuthDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44825681EEF434300FF0835 /* AuthDelegate.swift */; };
 		F448256B1EEF49FA00FF0835 /* StitchGCMPushProviderInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F448256A1EEF49FA00FF0835 /* StitchGCMPushProviderInfo.swift */; };
 		F448256F1EEF4FA800FF0835 /* StitchGCMPushClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F448256E1EEF4FA800FF0835 /* StitchGCMPushClient.swift */; };
@@ -180,7 +179,6 @@
 		49DAF50C1FD058FB00325F10 /* CustomAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAuthProvider.swift; sourceTree = "<group>"; };
 		49DBA512202404EA00E8A9C9 /* TestHarness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHarness.swift; sourceTree = "<group>"; };
 		49DBA5152024E8EE00E8A9C9 /* AuthProvidersEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthProvidersEndpoints.swift; sourceTree = "<group>"; };
-		49DBA5172024EA3A00E8A9C9 /* AdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminView.swift; sourceTree = "<group>"; };
 		F44825681EEF434300FF0835 /* AuthDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthDelegate.swift; sourceTree = "<group>"; };
 		F448256A1EEF49FA00FF0835 /* StitchGCMPushProviderInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchGCMPushProviderInfo.swift; sourceTree = "<group>"; };
 		F448256E1EEF4FA800FF0835 /* StitchGCMPushClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchGCMPushClient.swift; sourceTree = "<group>"; };
@@ -446,7 +444,6 @@
 				49B71B772028FE1300F634D1 /* UserRegistrationsEndpoints.swift */,
 				49B71AFF202513A500F634D1 /* UsersEndpoints.swift */,
 				49DBA5152024E8EE00E8A9C9 /* AuthProvidersEndpoints.swift */,
-				49DBA5172024EA3A00E8A9C9 /* AdminView.swift */,
 			);
 			path = Admin;
 			sourceTree = "<group>";
@@ -703,7 +700,6 @@
 				36A0243C1EEEFE6200450FB1 /* NetworkAdapter.swift in Sources */,
 				F448257B1EEF66FD00FF0835 /* PushMessage.swift in Sources */,
 				F44825691EEF434300FF0835 /* AuthDelegate.swift in Sources */,
-				49DBA5182024EA3A00E8A9C9 /* AdminView.swift in Sources */,
 				49DBA5162024E8EE00E8A9C9 /* AuthProvidersEndpoints.swift in Sources */,
 				499152F91F9D84C90001C5AC /* StitchHTTPClient.swift in Sources */,
 				36A0242E1EEEFE6200450FB1 /* AnonymousAuthProvider.swift in Sources */,

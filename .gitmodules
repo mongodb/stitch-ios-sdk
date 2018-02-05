@@ -4,6 +4,4 @@
 [submodule "StitchCore/PromiseKit"]
 	path = StitchCore/PromiseKit
 	url = https://github.com/mxcl/PromiseKit/
-[submodule "StitchCore/StitchCoreTests/libmongoc-xcode"]
-	path = StitchCore/StitchCoreTests/libmongoc-xcode
-	url = https://github.com/Danappelxx/libmongoc-xcode
+

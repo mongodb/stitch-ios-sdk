@@ -1,11 +1,3 @@
-//
-//  StitchAdminClient.swift
-//  StitchCore
-//
-//  Created by Jason Flax on 12/18/17.
-//  Copyright © 2017 MongoDB. All rights reserved.
-//
-
 import Foundation
 import PromiseKit
 import ExtendedJson
@@ -93,38 +85,6 @@ extension Disable {
     }
 }
 
-public final class ValueEndpoint: Endpoint, Get, Remove, Update {
-    typealias Model = ValueView
-
-    internal let httpClient: StitchHTTPClient
-    internal let url: String
-
-    fileprivate init(httpClient: StitchHTTPClient,
-                     valueUrl: String) {
-        self.httpClient = httpClient
-        self.url = valueUrl
-    }
-}
-
-public final class ValuesEndpoint: Endpoint, List, Create {
-    typealias CreatorModel = ValueView
-
-    typealias Model = ValueView
-
-    internal let httpClient: StitchHTTPClient
-    internal let url: String
-
-    fileprivate init(httpClient: StitchHTTPClient,
-                     appUrl: String) {
-        self.httpClient = httpClient
-        self.url = appUrl
-    }
-
-    func value(withId id: String) -> ValueEndpoint {
-        return ValueEndpoint.init(httpClient: self.httpClient, valueUrl: "\(url)/\(id)")
-    }
-}
-
 public final class AppEndpoint: Endpoint, Get, Remove {
     typealias Model = AppView
 
@@ -136,10 +96,7 @@ public final class AppEndpoint: Endpoint, Get, Remove {
         self.httpClient = httpClient
         self.url = appUrl
     }
-
-    lazy var values: ValuesEndpoint =
-        ValuesEndpoint.init(httpClient: self.httpClient, appUrl: "\(self.url)/values")
-
+    
     lazy var authProviders: AuthProvidersEndpoint =
         AuthProvidersEndpoint.init(httpClient: self.httpClient,
                                    authProvidersUrl: "\(self.url)/auth_providers")
@@ -179,16 +136,6 @@ public final class AppsEndpoint: Endpoint, List {
     func app(withAppId appId: String) -> AppEndpoint {
         return AppEndpoint.init(httpClient: self.httpClient, appUrl: "\(url)/\(appId)")
     }
-}
-struct PushNotificationView: Codable {
-}
-struct IncomingWebhookView: Codable {
-}
-struct RuleView: Codable {
-}
-struct ServiceInputView: Codable {
-}
-struct ValueView: Codable {
 }
 struct AppView: Codable {
     enum CodingKeys: String, CodingKey {
