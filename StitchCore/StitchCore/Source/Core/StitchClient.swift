@@ -150,8 +150,8 @@ public class StitchClient: StitchClientType {
         return self.httpClient.isAuthenticated
     }
 
-    // Returns the type of the provider used to log into the current session.
-    //         nil if not authenticated or if unknown auth provider type
+    // The type of the provider used to log into the current session, or the most recent
+    // provider linked. nil if not authenticated or if provider type is not recognized
     public var loggedInProviderType: AuthProviderTypes? {
         if let rawProviderType =
             storage.value(forKey: self.storageKeys.authProviderTypeUDKey) as? String {
@@ -320,30 +320,9 @@ public class StitchClient: StitchClientType {
      */
     @discardableResult
     public func login(withProvider provider: AuthProvider) -> Promise<UserId> {
-        self.authProvider = provider
-
-        func doLoginRequest() -> Promise<UserId> {
-            return httpClient.doRequest { request in
-                request.method = .post
-                request.endpoint = self.routes.authProvidersLoginRoute(provider: provider.type.rawValue)
-                request.isAuthenticatedRequest = false
-                try request.encode(withData: self.getAuthRequest(provider: provider))
-                }.flatMap { [weak self] any in
-                    guard let strongSelf = self else { throw StitchError.clientReleased }
-                    let authInfo = try JSONDecoder().decode(AuthInfo.self,
-                                                            from: JSONSerialization.data(withJSONObject: any))
-                    strongSelf.httpClient.authInfo = authInfo
-                    strongSelf._auth = Auth(stitchClient: strongSelf,
-                                            stitchHttpClient: strongSelf.httpClient,
-                                            userId: authInfo.userId)
-                    strongSelf.onLogin()
-                    return authInfo.userId
-                }
-        }
-
         guard let userId = self.auth?.userId else {
             // Not currently authenticated, perform login.
-            return doLoginRequest()
+            return self.doAuthRequest(withProvider: provider)
         }
 
         // Check if logging in as anonymous user while already logged in as anonymous user
@@ -356,7 +335,7 @@ public class StitchClient: StitchClientType {
         // Using a different provider, log out and then perform login.
         printLog(.info, text: "Already logged in, logging out of existing session.")
         return self.logout().then {
-            return doLoginRequest()
+            return self.doAuthRequest(withProvider: provider)
         }
     }
 
@@ -389,10 +368,63 @@ public class StitchClient: StitchClientType {
         }
     }
 
+    /**
+     * Links the current user to another identity.
+     *
+     * - Parameters:
+     * - withProvider: The authentication provider which will provide the new identity
+     *
+     * - Returns:
+     * - The user ID of the current, original user
+     */
+    @discardableResult
+    public func link(withProvider provider: AuthProvider) -> Promise<UserId> {
+        if !isAuthenticated {
+            return Promise.init(
+                error: StitchError.illegalAction(message: "Must be authenticated to link a user to new identity.")
+            )
+        }
+
+        return self.doAuthRequest(withProvider: provider, withLinking: true)
+    }
+
     // MARK: Private
+    private func doAuthRequest(withProvider provider: AuthProvider,
+                               withLinking linking: Bool = false) -> Promise<UserId> {
+        return httpClient.doRequest { request in
+            request.method = .post
+
+            let authRoute = self.routes.authProvidersLoginRoute(provider: provider.type.rawValue)
+            request.endpoint = "\(authRoute)\(linking ? "?link=true" : "")"
+            request.isAuthenticatedRequest = linking
+
+            try request.encode(withData: self.getAuthRequest(provider: provider))
+        }.flatMap { [weak self] json in
+                guard let strongSelf = self else { throw StitchError.clientReleased }
+                strongSelf.authProvider = provider
+                if !linking {
+                    let authInfo = try JSONDecoder().decode(AuthInfo.self,
+                                                            from: JSONSerialization.data(withJSONObject: json))
+                    strongSelf.httpClient.authInfo = authInfo
+                    strongSelf._auth = Auth(stitchClient: strongSelf,
+                                            stitchHttpClient: strongSelf.httpClient,
+                                            userId: authInfo.userId)
+                    strongSelf.onLogin()
+                    return authInfo.userId
+                } else {
+                    let linkInfo = try JSONDecoder().decode(LinkInfo.self,
+                                                            from: JSONSerialization.data(withJSONObject: json))
+                    strongSelf.userDefaults?.set(strongSelf.authProvider?.type.rawValue,
+                                                 forKey: Consts.AuthProviderTypeUDKey)
+                    return linkInfo.userId
+                }
+        }
+    }
+
     internal func clearAuth() throws {
         onLogout()
 
+        self.authProvider = nil
         try self.httpClient.clearAuth()
     }
 

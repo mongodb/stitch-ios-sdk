@@ -124,18 +124,20 @@ class AuthTests: XCTestCase {
     
     func testMultipleLoginSemantics() throws {
         let exp = expectation(description: "multiple logins work as expected")
+
+        var mlsStitchClient: StitchClient! = nil
         var anonUserId = ""
         var emailUserId = ""
-        var mlsStitchClient: StitchClient!
-
-        // login anonymously
-        StitchClientFactory.create(appId: "stitch-tests-ios-sdk-jjmum").then {
-            (stitchClient: StitchClient) -> Promise<UserId> in
-            mlsStitchClient = stitchClient
+        
+        StitchClientFactory.create(appId: "stitch-tests-ios-sdk-jjmum").then { (client: StitchClient) -> Promise<String> in
+            mlsStitchClient = client
+            
             // check storage
             XCTAssertFalse(mlsStitchClient.isAuthenticated)
             XCTAssertNil(mlsStitchClient.loggedInProviderType)
-            return stitchClient.login(withProvider: AnonymousAuthProvider())
+            
+            // login anonymously
+            return mlsStitchClient.login(withProvider: AnonymousAuthProvider())
         }.then { (userId: String) -> Promise<String> in
             anonUserId = userId
             
@@ -190,4 +192,45 @@ class AuthTests: XCTestCase {
         
         wait(for: [exp], timeout: 10)
     }
+
+    // NOTE: This test works locally when logging in with an email identity not associated with a Stitch user, but with our
+    // current testing framework we cannot dynamically create identities to test this functionality. Once we have the
+    // appropriate framework we can re-enable this test.
+    /*
+    func testIdentityLinking() throws {
+        let exp = expectation(description: "identity linking works as expected")
+        var ilStitchClient: StitchClient! = nil
+        var firstUserId = ""
+
+        StitchClientFactory.create(appId: "stitch-tests-ios-sdk-jjmum").then { (client: StitchClient) -> Promise<String> in
+            ilStitchClient = client
+            
+            // login anonymously
+            return ilStitchClient.login(withProvider: AnonymousAuthProvider())
+        }.then{ (userId: String) -> Promise<String> in
+            XCTAssertEqual(ilStitchClient.loggedInProviderType, AuthProviderTypes.anonymous)
+
+            firstUserId = userId
+            return ilStitchClient.link(withProvider: EmailPasswordAuthProvider(username: "link_test@10gen.com", password: "hunter2"))
+        }.then { (newUserId: String) -> Promise<UserProfile> in
+            XCTAssertEqual(firstUserId, newUserId)
+            XCTAssertEqual(ilStitchClient.loggedInProviderType, AuthProviderTypes.emailPass)
+
+            return ilStitchClient.auth!.fetchUserProfile()
+        }.then { (userProfile: UserProfile) -> Promise<Void> in
+            XCTAssertEqual(userProfile.identities.count, 2)
+
+            return ilStitchClient.logout()
+        }.done {
+            XCTAssertFalse(ilStitchClient.isAuthenticated)
+            exp.fulfill()
+        }.catch { err in
+            print(err)
+            XCTFail(err.localizedDescription)
+            exp.fulfill()
+        }
+
+        wait(for: [exp], timeout: 10)
+    }
+    */
 }
