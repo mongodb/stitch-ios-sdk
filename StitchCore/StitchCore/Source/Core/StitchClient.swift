@@ -5,11 +5,13 @@ import StitchLogger
 import Security
 import PromiseKit
 
-internal struct Consts {
+public struct Consts {
     static let ApiPath = "/api/client/v2.0/"
 
     //User Defaults
     static let UserDefaultsName = "com.mongodb.stitch.sdk.UserDefaults"
+
+    public static let defaultServerUrl = "https://stitch.mongodb.com"
 
     //keys
     static let ErrorKey = "error"
@@ -27,14 +29,14 @@ internal protocol StitchClientFactoryProtocol {
 public final class StitchClientFactory: StitchClientFactoryProtocol {
     typealias TClient = StitchClient
 
-    static func create(appId: String,
-                       baseUrl: String = "https://stitch.mongodb.com",
-                       networkAdapter: NetworkAdapter = StitchNetworkAdapter(),
-                       storage: Storage? = nil) -> Promise<StitchClient> {
+    public static func create(appId: String,
+                              baseUrl: String = Consts.defaultServerUrl,
+                              networkAdapter: NetworkAdapter = StitchNetworkAdapter(),
+                              storage: Storage? = nil) -> Promise<StitchClient> {
         return Promise(value: StitchClient.init(appId: appId,
-                                                baseUrl: baseUrl,
-                                                networkAdapter: networkAdapter,
-                                                storage: storage))
+                                                 baseUrl: baseUrl,
+                                                 networkAdapter: networkAdapter,
+                                                 storage: storage))
     }
 }
 
@@ -182,12 +184,12 @@ public class StitchClient: StitchClientType {
             guard let userDefaults = UserDefaults.init(suiteName: suiteName) else {
                 self.storage = MemoryStorage.init(suiteName: suiteName)!
                 printLog(.warning, text: "Invalid suiteName: \(suiteName)")
-                printLog(.warning, text: "Defaulting to memory storage. NOTE: App will not persist data in this state")
+                printLog(.warning, text: "Defaulting to memory storage. NOTE: App will not persist authentication status")
                 return
             }
             self.storage = userDefaults
             #else
-            printLog(.warning, text: "Defaulting to memory storage. NOTE: App will not persist data in this state")
+            printLog(.warning, text: "Defaulting to memory storage. NOTE: App will not persist authentication status")
             self.storage = MemoryStorage.init(suiteName: suiteName)!
             #endif
         }

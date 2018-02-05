@@ -103,7 +103,7 @@ internal struct MemoryStorage: Storage {
     /// Namespace of this suite
     private let suiteName: String
     /// Internal storage unit
-    fileprivate var storage: [String: Any] = [:]
+    private var storage: [String: Any] = [:]
 
     init?(suiteName: String?) {
         guard let suiteName = suiteName else {

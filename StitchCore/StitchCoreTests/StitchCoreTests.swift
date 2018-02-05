@@ -51,7 +51,7 @@ class StitchCoreTests: XCTestCase {
     }
 
     func testMigrationLogic() throws {
-        let exp = expectation(description: "multiple clients should store separately")
+        let exp = expectation(description: "a new client should migrate properly from 0 to 1")
 
         StitchClientFactory.create(appId: "test3", storage: UserDefaults.init(suiteName: "test3")!)
         .done { stitchClient in
