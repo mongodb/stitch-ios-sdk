@@ -414,8 +414,8 @@ public class StitchClient: StitchClientType {
                 } else {
                     let linkInfo = try JSONDecoder().decode(LinkInfo.self,
                                                             from: JSONSerialization.data(withJSONObject: json))
-                    strongSelf.userDefaults?.set(strongSelf.authProvider?.type.rawValue,
-                                                 forKey: Consts.AuthProviderTypeUDKey)
+                    strongSelf.storage.set(strongSelf.authProvider?.type.rawValue,
+                                           forKey: strongSelf.storageKeys.authProviderTypeUDKey)
                     return linkInfo.userId
                 }
         }
