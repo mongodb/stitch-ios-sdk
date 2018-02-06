@@ -4,3 +4,4 @@
 [submodule "StitchCore/PromiseKit"]
 	path = StitchCore/PromiseKit
 	url = https://github.com/mxcl/PromiseKit/
+

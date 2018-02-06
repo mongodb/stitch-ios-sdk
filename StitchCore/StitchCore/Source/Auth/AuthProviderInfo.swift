@@ -80,7 +80,7 @@ public struct CustomAuthProviderInfo: AuthProviderType {
     }
 }
 
-public enum AuthProviderTypes: String {
+public enum AuthProviderTypes: String, Codable {
     case google = "oauth2-google"
     case facebook = "oauth2-facebook"
     case apiKey = "api-key"

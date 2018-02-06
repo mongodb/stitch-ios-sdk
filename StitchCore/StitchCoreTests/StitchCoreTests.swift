@@ -20,11 +20,6 @@ class StitchCoreTests: XCTestCase {
         wait(for: [expectation], timeout: 10)
     }
 
-    override func tearDown() {
-        super.tearDown()
-    }
-
-
     func testMultipleClientStorage() throws {
         let exp = expectation(description: "multiple clients should store separately")
 

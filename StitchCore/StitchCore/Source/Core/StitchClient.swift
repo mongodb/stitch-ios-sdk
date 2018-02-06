@@ -17,7 +17,7 @@ public struct Consts {
     static let ErrorKey = "error"
 }
 
-internal protocol StitchClientFactoryProtocol {
+protocol StitchClientFactoryProtocol {
     associatedtype TClient = StitchClientType
 
     static func create(appId: String,
@@ -53,7 +53,7 @@ public class StitchClient: StitchClientType {
     internal lazy var storageKeys = StorageKeys(suiteName: self.appId)
 
     internal lazy var httpClient = StitchHTTPClient(baseUrl: baseUrl,
-                                                     appId: appId,
+                                                     apiPath: Consts.ApiPath,
                                                      networkAdapter: networkAdapter,
                                                      storage: storage,
                                                      storageKeys: storageKeys)
@@ -182,7 +182,7 @@ public class StitchClient: StitchClientType {
         } else {
             #if !os(Linux)
             guard let userDefaults = UserDefaults.init(suiteName: suiteName) else {
-                self.storage = MemoryStorage.init(suiteName: suiteName)!
+                self.storage = MemoryStorage.init()
                 printLog(.warning, text: "Invalid suiteName: \(suiteName)")
                 printLog(.warning, text: "Defaulting to memory storage. NOTE: App will not persist authentication status")
                 return
@@ -320,6 +320,27 @@ public class StitchClient: StitchClientType {
      */
     @discardableResult
     public func login(withProvider provider: AuthProvider) -> Promise<UserId> {
+        self.authProvider = provider
+
+        func doLoginRequest() -> Promise<UserId> {
+            return httpClient.doRequest { request in
+                request.method = .post
+                request.endpoint = self.routes.authProvidersLoginRoute(provider: provider.type.rawValue)
+                request.isAuthenticatedRequest = false
+                try request.encode(withData: self.getAuthRequest(provider: provider))
+            }.flatMap { [weak self] any in
+                guard let strongSelf = self else { throw StitchError.clientReleased }
+                let authInfo = try JSONDecoder().decode(AuthInfo.self,
+                                                        from: JSONSerialization.data(withJSONObject: any))
+                strongSelf.httpClient.authInfo = authInfo
+                strongSelf._auth = Auth(stitchClient: strongSelf,
+                                        stitchHttpClient: strongSelf.httpClient,
+                                        userId: authInfo.userId)
+                strongSelf.onLogin()
+                return authInfo.userId
+            }
+        }
+
         guard let userId = self.auth?.userId else {
             // Not currently authenticated, perform login.
             return self.doAuthRequest(withProvider: provider)
@@ -414,8 +435,8 @@ public class StitchClient: StitchClientType {
                 } else {
                     let linkInfo = try JSONDecoder().decode(LinkInfo.self,
                                                             from: JSONSerialization.data(withJSONObject: json))
-                    strongSelf.userDefaults?.set(strongSelf.authProvider?.type.rawValue,
-                                                 forKey: Consts.AuthProviderTypeUDKey)
+                    strongSelf.storage.set(strongSelf.authProvider?.type.rawValue,
+                                           forKey: strongSelf.storageKeys.authProviderTypeUDKey)
                     return linkInfo.userId
                 }
         }
@@ -459,9 +480,9 @@ public class StitchClient: StitchClientType {
     private func getAuthRequest(provider: AuthProvider) -> Document {
         var request = provider.payload
         let options: Document = [
-            AuthFields.device.rawValue: getDeviceInfo()
+            StitchClient.AuthFields.device.rawValue: self.getDeviceInfo()
         ]
-    	request[AuthFields.options.rawValue] = options
+    	request[StitchClient.AuthFields.options.rawValue] = options
         return request
     }
 

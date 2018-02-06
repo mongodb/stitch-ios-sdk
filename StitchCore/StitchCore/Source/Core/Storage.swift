@@ -12,30 +12,30 @@ private let versionKey = "__stitch_storage_version__"
 internal func runMigration(suiteName: String, storage: inout Storage) {
     switch storage.value(forKey: versionKey) {
     case .none:
-    #if !os(Linux)
-        // map each of the store's keys to a Promise
-        // that fetches the each value for each key,
-        // sets the old value to the new "namespaced" key
-        // remove the old key value pair,
-        // and set the version number
-        // we only care about UserDefaults here since no other
-        // `Storage` type was available before version 1
-        guard var originalStorage = UserDefaults.init(suiteName: "com.mongodb.stitch.sdk.UserDefaults") else {
-            return
-        }
+        #if !os(Linux)
+            // map each of the store's keys to a Promise
+            // that fetches the each value for each key,
+            // sets the old value to the new "namespaced" key
+            // remove the old key value pair,
+            // and set the version number
+            // we only care about UserDefaults here since no other
+            // `Storage` type was available before version 1
+            guard var originalStorage = UserDefaults.init(suiteName: "com.mongodb.stitch.sdk.UserDefaults") else {
+                return
+            }
 
-        // legacy keys
-        ["StitchCoreAuthJwtKey",
-         "StitchCoreAuthRefreshTokenKey",
-         "com.mongodb.stitch.sdk.authentication",
-         "StitchCoreIsLoggedInUserDefaultsKey"].forEach { key in
-            storage[key] = originalStorage[key]
-            originalStorage[key] = nil
-        }
-        
-        storage[versionKey] = latestVersion
-    #endif
-    // in future versions, `case 1:`, `case 2:` and so on
+            // legacy keys
+            ["StitchCoreAuthJwtKey",
+             "StitchCoreAuthRefreshTokenKey",
+             "com.mongodb.stitch.sdk.authentication",
+             "StitchCoreIsLoggedInUserDefaultsKey"].forEach { key in
+                storage[key] = originalStorage[key]
+                originalStorage[key] = nil
+            }
+
+            storage[versionKey] = latestVersion
+        #endif
+        // in future versions, `case 1:`, `case 2:` and so on
     // could be added to perform similar migrations
     default: break
     }
@@ -61,11 +61,6 @@ internal struct StorageKeys {
 /// an arbitrary source. The protocol is modeled
 /// after Foundation.UserDefaults.
 public protocol Storage {
-    /// Initialize new Storage unit
-    /// - parameter suiteName: namespace for this storage suite
-    /// - returns: a new Storage unit, or nil if the suiteName is invalid
-    init?(suiteName: String?)
-
     /// Read value for key
     /// - parameter forKey key: key to read from
     /// - returns: value for key
@@ -100,18 +95,8 @@ extension Storage {
 /// in the event that no other storage unit can
 /// be found.
 internal struct MemoryStorage: Storage {
-    /// Namespace of this suite
-    private let suiteName: String
     /// Internal storage unit
     private var storage: [String: Any] = [:]
-
-    init?(suiteName: String?) {
-        guard let suiteName = suiteName else {
-            return nil
-        }
-
-        self.suiteName = suiteName
-    }
 
     func value(forKey key: String) -> Any? {
         return self.storage[key]
@@ -127,6 +112,6 @@ internal struct MemoryStorage: Storage {
 }
 
 #if !os(Linux)
-/// Protocol conformance for Foundation.UserDefaults
-extension UserDefaults: Storage {}
+    /// Protocol conformance for Foundation.UserDefaults
+    extension UserDefaults: Storage {}
 #endif
