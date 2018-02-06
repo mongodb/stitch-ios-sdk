@@ -1,11 +1,18 @@
 import Foundation
 import PromiseKit
 import ExtendedJson
+@testable import StitchCore
 
+// Any endpoint that can be described with basic
+// CRUD operations
 internal protocol Endpoint {
+    /// absolute url to this endpoint
     var url: String { get }
+    // stitch http client for making requests
     var httpClient: StitchHTTPClient { get }
 }
+
+// Adds an endpoint method that GETs some list
 internal protocol List: Endpoint { associatedtype Model: Decodable }
 extension List {
     public func list() -> Promise<[Model]> {
@@ -17,6 +24,8 @@ extension List {
         }
     }
 }
+
+// Adds an endpoint method that GETs some id
 internal protocol Get: Endpoint { associatedtype Model: Decodable }
 extension Get {
     public func get() -> Promise<Model> {
@@ -28,6 +37,8 @@ extension Get {
         }
     }
 }
+
+// Adds an endpoint method that DELETEs some id
 internal protocol Remove: Endpoint { }
 extension Remove {
     public func remove() -> Promise<Any> {
@@ -37,6 +48,8 @@ extension Remove {
         }
     }
 }
+
+// Adds an endpoint method that POSTs new data
 internal protocol Create: Endpoint {
     associatedtype CreatorModel: Encodable
     associatedtype Model: Decodable
@@ -53,6 +66,8 @@ extension Create {
         }
     }
 }
+
+// Adds an endpoint method that PUTs some data
 internal protocol Update: Endpoint { associatedtype Model: Codable }
 extension Update {
     public func update(data: Model) -> Promise<Model> {
@@ -66,6 +81,8 @@ extension Update {
         }
     }
 }
+
+// Adds an endpoint that enables a given resource
 internal protocol Enable: Endpoint { }
 extension Enable {
     public func enable() -> Promise<Any> {
@@ -75,6 +92,8 @@ extension Enable {
         }
     }
 }
+
+// Adds an endpoint that disables a given resource
 internal protocol Disable: Endpoint { }
 extension Disable {
     public func disable() -> Promise<Any> {
@@ -85,69 +104,8 @@ extension Disable {
     }
 }
 
-public final class AppEndpoint: Endpoint, Get, Remove {
-    typealias Model = AppView
-
-    internal let httpClient: StitchHTTPClient
-    internal let url: String
-
-    fileprivate init(httpClient: StitchHTTPClient,
-                     appUrl: String) {
-        self.httpClient = httpClient
-        self.url = appUrl
-    }
-    
-    lazy var authProviders: AuthProvidersEndpoint =
-        AuthProvidersEndpoint.init(httpClient: self.httpClient,
-                                   authProvidersUrl: "\(self.url)/auth_providers")
-
-    lazy var users: UsersEndpoint =
-        UsersEndpoint.init(httpClient: self.httpClient,
-                           usersUrl: "\(self.url)/users")
-
-    lazy var userRegistrations: UserRegistrationsEndpoint =
-        UserRegistrationsEndpoint.init(httpClient: self.httpClient,
-                                       userRegistrationsUrl: "\(self.url)/user_registrations")
-}
-
-public final class AppsEndpoint: Endpoint, List {
-    typealias Model = AppView
-
-    let httpClient: StitchHTTPClient
-    let url: String
-
-    fileprivate init(httpClient: StitchHTTPClient,
-                     groupUrl: String) {
-        self.httpClient = httpClient
-        self.url = groupUrl
-    }
-
-    func create(name: String, defaults: Bool = false) -> Promise<AppView> {
-        return httpClient.doRequest {
-            $0.endpoint = "\(self.url)?defaults=\(defaults)"
-            $0.method = .post
-            try $0.encode(withData: ["name": name])
-        }.flatMap {
-            return try JSONDecoder().decode(Model.self,
-                                            from: JSONSerialization.data(withJSONObject: $0))
-        }
-    }
-
-    func app(withAppId appId: String) -> AppEndpoint {
-        return AppEndpoint.init(httpClient: self.httpClient, appUrl: "\(url)/\(appId)")
-    }
-}
-struct AppView: Codable {
-    enum CodingKeys: String, CodingKey {
-        case name, id = "_id", clientAppId = "client_app_id"
-    }
-    let id: String
-    let name: String
-    let clientAppId: String
-}
-
 public final class StitchAdminClientFactory {
-    public static func create(baseUrl: String = Consts.DefaultBaseUrl) -> Promise<StitchAdminClient> {
+    public static func create(baseUrl: String = Consts.defaultServerUrl) -> Promise<StitchAdminClient> {
         return Promise(value: StitchAdminClient.init(baseUrl: baseUrl))
     }
 }
@@ -160,7 +118,9 @@ public class StitchAdminClient {
         self.baseUrl = baseUrl
         self.httpClient = StitchHTTPClient.init(baseUrl: baseUrl,
                                                 apiPath: "/api/admin/v3.0",
-                                                networkAdapter: StitchNetworkAdapter())
+                                                networkAdapter: StitchNetworkAdapter(),
+                                                storage: MemoryStorage(),
+                                                storageKeys: StorageKeys.init(suiteName: "__admin__"))
     }
 
     func apps(withGroupId groupId: String) -> AppsEndpoint {
@@ -210,11 +170,8 @@ public class StitchAdminClient {
         }
     }
 
-    /**
-     Fetch the current user profile, containing all user info. Can fail.
-
-     - Returns: A Promise containing profile of the given user
-     */
+    /// Fetch the current user profile, containing all user info. Can fail.
+    /// - returns: A Promise containing profile of the given user
     @discardableResult
     public func fetchUserProfile() -> Promise<UserProfile> {
         return self.httpClient.doRequest {

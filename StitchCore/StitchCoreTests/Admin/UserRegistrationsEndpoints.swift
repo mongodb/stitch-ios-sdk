@@ -1,18 +1,12 @@
-//
-//  UserRegistrationsEndpoints.swift
-//  StitchCore
-//
-//  Created by Jason Flax on 2/5/18.
-//  Copyright © 2018 MongoDB. All rights reserved.
-//
-
 import Foundation
 import PromiseKit
+@testable import StitchCore
 
 public struct ConfirmationEmail: Codable {
     private enum CodingKeys: String, CodingKey {
         case token, tokenId = "token_id"
     }
+    
     let token: String
     let tokenId: String
 }

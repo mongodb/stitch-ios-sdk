@@ -42,7 +42,7 @@ func buildClientTestHarness(username: String = "unique_user@domain.com",
                                  password: password,
                                  serverUrl: serverUrl).then { (testHarness: TestHarness) -> Promise<Void> in
         harness = testHarness
-        return harness.configureUserpass()
+        return harness.addDefaultUserpassConfig().asVoid()
     }.then { _ in
         return harness.createUser()
     }.then { _ in
@@ -50,7 +50,7 @@ func buildClientTestHarness(username: String = "unique_user@domain.com",
     }.flatMap { harness }
 }
 
-class TestHarnessFactory {
+private class TestHarnessFactory {
     static func create(username: String = "unique_user@domain.com",
                        password: String = "password",
                        serverUrl: String = defaultServerUrl) -> Promise<TestHarness> {
@@ -70,6 +70,15 @@ final class TestHarness {
     var userCredentials: (username: String, password: String)?
     var groupId: String?
     var user: UserView?
+
+    lazy var apps: AppsEndpoint = self.adminClient.apps(withGroupId: self.groupId!)
+
+    var app: AppEndpoint {
+        guard let testApp = self.testApp else {
+            fatalError("App must be created first")
+        }
+        return self.apps.app(withAppId: testApp.id)
+    }
 
     fileprivate init(username: String = "unique_user@domain.com",
                      password: String = "password",
@@ -116,48 +125,31 @@ final class TestHarness {
         }
     }
 
-    lazy var apps: AppsEndpoint = self.adminClient.apps(withGroupId: self.groupId!)
-
-    var app: AppEndpoint {
-        guard let testApp = self.testApp else {
-            fatalError("App must be created first")
+    func add(serviceConfig: ServiceConfigs, withRules rules: Rule...) -> Promise<ServiceView> {
+        return self.app.services.create(data: serviceConfig).then { view in
+            return when(resolved: rules.map {
+                return self.app.services.service(withId: view.id).rules.create(data: $0)
+            }).flatMap { _ in view }
         }
-        return self.apps.app(withAppId: testApp.id)
+    }
+    
+    func add(providerConfig: ProviderConfigs) -> Promise<AuthProviderView> {
+        return self.app.authProviders.create(data: providerConfig)
     }
 
-    func configureAnon() -> Promise<AuthProviderView> {
-        return self.app.authProviders.create(
-            data: AuthProviderCreator.init(type: "anon-user", config: [:])
-        )
+    func addDefaultUserpassConfig() -> Promise<AuthProviderView> {
+        return self.add(providerConfig: .userpass(emailConfirmationUrl: "http://emailConfirmURL.com",
+                                                  resetPasswordUrl: "http://resetPasswordURL.com",
+                                                  confirmEmailSubject: "email subject",
+                                                  resetPasswordSubject: "password subject"))
     }
 
-    func configureUserpass(userpassConfig: [String: String] = [
-        "emailConfirmationUrl": "http://emailConfirmURL.com",
-        "resetPasswordUrl": "http://resetPasswordURL.com",
-        "confirmEmailSubject": "email subject",
-        "resetPasswordSubject": "password subject"
-    ]) -> Promise<Void> {
-        return self.app.authProviders.create(
-            data: AuthProviderCreator.init(type: "local-userpass",
-                                            config: userpassConfig)
-        ).then { (authProviderView: AuthProviderView) in
-            return self.app.authProviders.authProvider(
-                providerId: authProviderView.id
-            ).enable()
-        }.asVoid()
+    func addDefaultAnonConfig() -> Promise<AuthProviderView> {
+        return self.add(providerConfig: .anon())
     }
 
-    func configureCustomToken(tokenConfig: [String: String] = [
-        "signingKey": "abcdefghijklmnopqrstuvwxyz1234567890"
-    ]) -> Promise<Void> {
-        return self.app.authProviders.create(
-        data: AuthProviderCreator.init(type: "custom-token",
-                                       config: tokenConfig)
-        ).then { (authProviderView: AuthProviderView) in
-            return self.app.authProviders.authProvider(
-                providerId: authProviderView.id
-            ).enable()
-        }.asVoid()
+    func addDefaultCustomTokenConfig() -> Promise<AuthProviderView> {
+        return self.add(providerConfig: .custom(signingKey: "abcdefghijklmnopqrstuvwxyz1234567890"))
     }
 
     func setupStitchClient(shouldConfigureUserAuth: Bool = true) -> Promise<Void> {
@@ -174,7 +166,7 @@ final class TestHarness {
                 withProvider: EmailPasswordAuthProvider.init(username: userCredentials.username,
                                                              password: userCredentials.password)).asVoid()
         }.then {
-            self.configureAnon()
+            self.addDefaultAnonConfig()
         }.asVoid()
     }
 }

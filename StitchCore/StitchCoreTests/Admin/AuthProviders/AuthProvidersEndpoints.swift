@@ -1,17 +1,5 @@
-//
-//  AuthProvidersEndpoints.swift
-//  StitchCore
-//
-//  Created by Jason Flax on 2/2/18.
-//  Copyright © 2018 MongoDB. All rights reserved.
-//
-
 import Foundation
-
-struct AuthProviderCreator: Encodable {
-    let type: String
-    let config: [String: String]
-}
+@testable import StitchCore
 
 public struct AuthProviderView: Codable {
     private enum CodingKeys: String, CodingKey {
@@ -35,7 +23,7 @@ public struct AuthProviderView: Codable {
 
 public final class AuthProviderEndpoint: Endpoint, Get, Update, Remove, Enable, Disable {
     typealias Model = AuthProviderView
-    typealias CreatorModel = AuthProviderCreator
+    typealias CreatorModel = ProviderConfigs
 
     internal let httpClient: StitchHTTPClient
     internal let url: String
@@ -49,7 +37,7 @@ public final class AuthProviderEndpoint: Endpoint, Get, Update, Remove, Enable, 
 
 public final class AuthProvidersEndpoint: Endpoint, List, Create {
     typealias Model = AuthProviderView
-    typealias CreatorModel = AuthProviderCreator
+    typealias CreatorModel = ProviderConfigs
 
     internal let httpClient: StitchHTTPClient
     internal let url: String

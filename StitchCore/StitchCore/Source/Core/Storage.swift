@@ -1,54 +1,66 @@
 import Foundation
 
-private let version = 1
+private let latestVersion = 1
 private let versionKey = "__stitch_storage_version__"
 
-
-/**
- * Run a migration on the currently used storage
- * that checks to see if the current version is up to date.
- * If the version has not been set, this method will migrate
- * to the latest version.
- * @param {Integer} version version number of storage
- * @param {Object} storage storage class being checked
- * @returns {Promise} nullable promise containing migration logic
- */
-fileprivate func runMigration(version: Int?, storage: Storage) {
-    switch version {
+/// Run a migration on the currently used storage
+/// that checks to see if the current version is up to date.
+/// If the version has not been set, this method will migrate
+/// to the latest version.
+/// - parameter suiteName: namespace to key with
+/// - parameter storage: storage to check for version key
+internal func runMigration(suiteName: String, storage: inout Storage) {
+    switch storage.value(forKey: versionKey) {
     case .none:
-        // return a promise,
-        // mapping each of the store's keys to a Promise
-        // that fetches the each value for each key,
-        // sets the old value to the new "namespaced" key
-        // remove the old key value pair,
-        // and set the version number
-        let migrations = [
-            Consts.AuthJwtKey,
-            Consts.AuthRefreshTokenKey,
-            Consts.AuthKeychainServiceName,
-            Consts.IsLoggedInUDKey
-        ].map { key in
-            let item = storage.storage.value(forKey: key)
-            Promise.resolve(storage.storage.getItem(key))
-                .then(item => !!item && storage.store.setItem(storage._generateKey(key), item))
-                .then(() => storage.store.removeItem(key))
-        }
-        return Promise.all(migrations)
-            .then(() => storage.store.setItem(_VERSION_KEY, _VERSION));
+        #if !os(Linux)
+            // map each of the store's keys to a Promise
+            // that fetches the each value for each key,
+            // sets the old value to the new "namespaced" key
+            // remove the old key value pair,
+            // and set the version number
+            // we only care about UserDefaults here since no other
+            // `Storage` type was available before version 1
+            guard var originalStorage = UserDefaults.init(suiteName: "com.mongodb.stitch.sdk.UserDefaults") else {
+                return
+            }
+
+            // legacy keys
+            ["StitchCoreAuthJwtKey",
+             "StitchCoreAuthRefreshTokenKey",
+             "com.mongodb.stitch.sdk.authentication",
+             "StitchCoreIsLoggedInUserDefaultsKey"].forEach { key in
+                storage[key] = originalStorage[key]
+                originalStorage[key] = nil
+            }
+
+            storage[versionKey] = latestVersion
+        #endif
         // in future versions, `case 1:`, `case 2:` and so on
     // could be added to perform similar migrations
-    default: break;
+    default: break
     }
 }
+
+internal struct StorageKeys {
+    internal let isLoggedInUDKey: String
+    internal let authJwtKey: String
+    internal let authRefreshTokenKey: String
+    internal let authKeychainServiceName: String
+    internal let authProviderTypeUDKey: String
+
+    init(suiteName: String) {
+        self.isLoggedInUDKey = "StitchCoreIsLoggedInUserDefaultsKey.\(suiteName)"
+        self.authJwtKey = "StitchCoreAuthJwtKey.\(suiteName)"
+        self.authRefreshTokenKey = "StitchCoreAuthRefreshTokenKey.\(suiteName)"
+        self.authKeychainServiceName = "com.mongodb.stitch.sdk.authentication.\(suiteName)"
+        self.authProviderTypeUDKey = "StitchCoreProviderTypeUserDefaultsKey.\(suiteName)"
+    }
+}
+
 /// Storage allows us to store arbitrary data via
 /// an arbitrary source. The protocol is modeled
-/// after \(Foundation.UserDefaults).
+/// after Foundation.UserDefaults.
 public protocol Storage {
-    /// Initialize new Storage unit
-    /// - parameter suiteName: namespace for this storage suite
-    /// - returns: a new Storage unit, or nil if the suiteName is invalid
-    init?(suiteName: String?)
-
     /// Read value for key
     /// - parameter forKey key: key to read from
     /// - returns: value for key
@@ -64,39 +76,42 @@ public protocol Storage {
     mutating func removeObject(forKey key: String)
 }
 
+extension Storage {
+    subscript(key: String) -> Any? {
+        get {
+            return self.value(forKey: key)
+        }
+        set {
+            if let value = newValue {
+                self.set(value, forKey: key)
+            } else {
+                self.removeObject(forKey: key)
+            }
+        }
+    }
+}
+
 /// Failover implementation of the Storage protocol
 /// in the event that no other storage unit can
 /// be found.
 internal struct MemoryStorage: Storage {
-    /// Namespace of this suite
-    private let suiteName: String
     /// Internal storage unit
-    fileprivate var storage: [String: Any] = [:]
-
-    init?(suiteName: String?) {
-        guard let suiteName = suiteName else {
-            return nil
-        }
-
-        self.suiteName = suiteName
-    }
-
-    fileprivate func generateKey(forKey key: String) -> String {
-        return "\(suiteName).\(key)"
-    }
+    private var storage: [String: Any] = [:]
 
     func value(forKey key: String) -> Any? {
-        return self.storage[generateKey(forKey: key)]
+        return self.storage[key]
     }
 
     mutating func set(_ value: Any?, forKey key: String) {
-        self.storage[generateKey(forKey: key)] = value
+        self.storage[key] = value
     }
 
     mutating func removeObject(forKey key: String) {
-        self.storage.removeValue(forKey: generateKey(forKey: key))
+        self.storage.removeValue(forKey: key)
     }
 }
 
-/// Protocol conformance for Foundation.UserDefaults
-extension UserDefaults: Storage {}
+#if !os(Linux)
+    /// Protocol conformance for Foundation.UserDefaults
+    extension UserDefaults: Storage {}
+#endif

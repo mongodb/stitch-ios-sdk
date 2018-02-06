@@ -1,30 +1,13 @@
 import XCTest
 import Foundation
-import StitchLogger
 import ExtendedJson
 import JWT
 @testable import StitchCore
 import PromiseKit
 
 class AuthTests: StitchTestCase {
-    var stitchClient: StitchClient!
-    var harness: TestHarness!
-
-    override func setUp() {
-        super.setUp()
-        LogManager.minimumLogLevel = .debug
-        self.harness = await(buildClientTestHarness())
-        self.stitchClient = harness.stitchClient
-        try! self.stitchClient.clearAuth()
-    }
-
-    override func tearDown() {
-        try! self.stitchClient.clearAuth()
-        await(self.harness.teardown())
-    }
-
     func testFetchAuthProviders() throws {
-        let authInfo = await(stitchClient.fetchAuthProviders())!
+        let authInfo = try await(stitchClient.fetchAuthProviders())
         let anon = authInfo.anonymousAuthProviderInfo
         XCTAssertNotNil(anon)
         XCTAssertEqual(anon?.name, "anon-user")
@@ -37,20 +20,20 @@ class AuthTests: StitchTestCase {
         XCTAssertEqual(authInfo.emailPasswordAuthProviderInfo?.name, "local-userpass")
         XCTAssertEqual(authInfo.emailPasswordAuthProviderInfo?.type, "local-userpass")
         
-        XCTAssertNil(authInfo.customAuthProviderInfos)
+        XCTAssertEqual(authInfo.customAuthProviderInfos.count, 0)
         XCTAssertNil(authInfo.googleProviderInfo)
         XCTAssertNil(authInfo.facebookProviderInfo)
     }
 
     func testAnonymousLogin() throws {
-        XCTAssertNotNil(
-            await(stitchClient.login(withProvider: AnonymousAuthProvider()))
+        XCTAssertNoThrow(
+            try await(stitchClient.login(withProvider: AnonymousAuthProvider()))
         )
     }
 
     func testUserProfile() throws {
-        await(stitchClient.login(withProvider: AnonymousAuthProvider()))
-        let userProfile = await(self.stitchClient.auth!.fetchUserProfile())!
+        try await(stitchClient.login(withProvider: AnonymousAuthProvider()))
+        let userProfile = try await(self.stitchClient.auth!.fetchUserProfile())
         XCTAssertEqual("normal", userProfile.type)
         XCTAssertEqual("anon-user", userProfile.identities[0].providerType)
     }
@@ -71,10 +54,10 @@ class AuthTests: StitchTestCase {
             ]
         }
 
-        await(self.harness.configureCustomToken())
-        let userId = await(stitchClient.login(withProvider: CustomAuthProvider(jwt: jwt)))
-        await(stitchClient.logout())
-        let nextId = await(stitchClient.login(withProvider: CustomAuthProvider(jwt: jwt)))
+        try await(self.harness.addDefaultCustomTokenConfig())
+        let userId = try await(stitchClient.login(withProvider: CustomAuthProvider(jwt: jwt)))
+        try await(stitchClient.logout())
+        let nextId = try await(stitchClient.login(withProvider: CustomAuthProvider(jwt: jwt)))
         XCTAssertEqual(userId, nextId)
     }
     
@@ -84,13 +67,13 @@ class AuthTests: StitchTestCase {
         XCTAssertNil(self.stitchClient.loggedInProviderType)
 
         // login anonymously
-        let anonUserId = await(self.stitchClient.login(withProvider: AnonymousAuthProvider()))
+        let anonUserId = try await(self.stitchClient.login(withProvider: AnonymousAuthProvider()))
         // check storage
         XCTAssertTrue(self.stitchClient.isAuthenticated)
         XCTAssertEqual(self.stitchClient.loggedInProviderType, AuthProviderTypes.anonymous)
 
         // login anonymously again
-        var emailUserId = await(self.stitchClient.login(withProvider: AnonymousAuthProvider()))
+        var emailUserId = try await(self.stitchClient.login(withProvider: AnonymousAuthProvider()))
 
         // make sure user ID is the same
         XCTAssertEqual(anonUserId, emailUserId)
@@ -99,12 +82,12 @@ class AuthTests: StitchTestCase {
         XCTAssertTrue(self.stitchClient.isAuthenticated)
         XCTAssertEqual(self.stitchClient.loggedInProviderType, AuthProviderTypes.anonymous)
 
-        await(self.stitchClient.register(email: "test1@10gen.com", password: "hunter1"))
-        let conf = await(self.harness.app.userRegistrations.sendConfirmation(toEmail: "test1@10gen.com"))!
-        self.stitchClient.emailConfirm(token: conf.token, tokenId: conf.tokenId)
+        try await(self.stitchClient.registerAndConfirm(email: "test1@10gen.com",
+                                                       password: "hunter1",
+                                                       withHarness: self.harness))
 
         // login with email provider
-        var nextUserId = await(self.stitchClient.login(
+        var nextUserId = try await(self.stitchClient.login(
             withProvider: EmailPasswordAuthProvider(username: "test1@10gen.com",
                                                     password: "hunter1")
         ))
@@ -116,12 +99,12 @@ class AuthTests: StitchTestCase {
         XCTAssertTrue(self.stitchClient.isAuthenticated)
         XCTAssertEqual(self.stitchClient.loggedInProviderType, AuthProviderTypes.emailPass)
 
-        await(self.stitchClient.register(email: "test2@10gen.com", password: "hunter2"))
-        let conf2 = await(self.harness.app.userRegistrations.sendConfirmation(toEmail: "test2@10gen.com"))!
-        self.stitchClient.emailConfirm(token: conf2.token, tokenId: conf2.tokenId)
+        try await(self.stitchClient.registerAndConfirm(email: "test2@10gen.com",
+                                                       password: "hunter2",
+                                                       withHarness: self.harness))
         
         // login with email provider under different user
-        nextUserId = await(self.stitchClient.login(
+        nextUserId = try await(self.stitchClient.login(
             withProvider: EmailPasswordAuthProvider(username: "test2@10gen.com",
                                                     password: "hunter2"))
         )
@@ -133,9 +116,32 @@ class AuthTests: StitchTestCase {
         XCTAssertEqual(self.stitchClient.loggedInProviderType, AuthProviderTypes.emailPass)
 
         // logout
-        await(self.stitchClient.logout())
+        try await(self.stitchClient.logout())
+
         // check storage
         XCTAssertFalse(self.stitchClient.isAuthenticated)
         XCTAssertNil(self.stitchClient.loggedInProviderType)
+    }
+
+    func testIdentityLinking() throws {
+        let firstUserId = try await(stitchClient.login(withProvider: AnonymousAuthProvider()))
+        XCTAssertEqual(stitchClient.loggedInProviderType, AuthProviderTypes.anonymous)
+
+        try await(self.stitchClient.registerAndConfirm(email: "link_test@10gen.com",
+                                                        password: "hunter2",
+                                                        withHarness: self.harness))
+
+        let newUserId = try await(
+            self.stitchClient.link(withProvider: EmailPasswordAuthProvider(username: "link_test@10gen.com",
+                                                                            password: "hunter2"))
+        )
+        XCTAssertEqual(firstUserId, newUserId)
+        XCTAssertEqual(self.stitchClient.loggedInProviderType, AuthProviderTypes.emailPass)
+
+        let userProfile =  try await(self.stitchClient.auth!.fetchUserProfile())
+        XCTAssertEqual(userProfile.identities.count, 2)
+
+        try await(self.stitchClient.logout())
+        XCTAssertFalse(self.stitchClient.isAuthenticated)
     }
 }
