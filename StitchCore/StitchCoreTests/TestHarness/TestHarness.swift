@@ -38,7 +38,7 @@ func buildClientTestHarness(username: String = "unique_user@domain.com",
     }.then { _ in
         return harness.createUser()
     }.then { _ in
-        return harness.setupStitchClient(shouldConfigureUserAuth: false)
+        return harness.setupStitchClient()
     }.flatMap { harness }
 }
 
