@@ -30,6 +30,27 @@ class AuthTests: StitchTestCase {
             try await(stitchClient.login(withProvider: AnonymousAuthProvider()))
         )
     }
+    
+    func testAuthStorage() throws {
+        let exp = expectation(description: "login status and provider stored when logging in and cleared when logging out")
+        
+        stitchClient.login(withProvider: AnonymousAuthProvider()).then { (userId: String) -> Promise<Void> in
+            print(userId)
+            XCTAssertTrue(self.stitchClient.storage.value(forKey: self.stitchClient.storageKeys.isLoggedInUDKey) as? Bool ?? false)
+            XCTAssertNotNil(self.stitchClient.storage.value(forKey: self.stitchClient.storageKeys.authProviderTypeUDKey))
+            
+            return self.stitchClient.logout()
+        }.done {
+            XCTAssertFalse(self.stitchClient.storage.value(forKey: self.stitchClient.storageKeys.isLoggedInUDKey) as? Bool ?? true)
+            XCTAssertNil(self.stitchClient.storage.value(forKey: self.stitchClient.storageKeys.authProviderTypeUDKey))
+        
+            exp.fulfill()
+        }.catch { err in
+            print(err)
+            XCTFail(err.localizedDescription)
+        }
+        wait(for: [exp], timeout: 10)
+    }
 
     func testUserProfile() throws {
         try await(stitchClient.login(withProvider: AnonymousAuthProvider()))

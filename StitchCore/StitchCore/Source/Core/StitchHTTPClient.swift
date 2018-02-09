@@ -108,9 +108,9 @@ internal class StitchHTTPClient {
         authInfo = nil
 
         try deleteToken(withKey: self.storageKeys.authRefreshTokenKey)
-        try deleteToken(withKey: self.storageKeys.isLoggedInUDKey)
         try deleteToken(withKey: self.storageKeys.authJwtKey)
 
+        self.storage.set(false, forKey: self.storageKeys.isLoggedInUDKey)
         self.storage.removeObject(forKey: self.storageKeys.authProviderTypeUDKey)
 
         self.networkAdapter.cancelAllRequests()
