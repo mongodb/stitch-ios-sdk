@@ -24,19 +24,20 @@ internal class StitchHTTPClient {
         return TARGET_OS_SIMULATOR != 0
     }
 
-    let baseUrl, appId: String
+    let baseUrl: String
     let networkAdapter: NetworkAdapter
     internal let storageKeys: StorageKeys
     internal var authInfo: AuthInfo?
+    private let apiPath: String
 
     init(baseUrl: String,
-         appId: String,
+         apiPath: String = Consts.ApiPath,
          networkAdapter: NetworkAdapter,
          storage: Storage,
          storageKeys: StorageKeys) {
         self.baseUrl = baseUrl
-        self.appId = appId
         self.networkAdapter = networkAdapter
+        self.apiPath = apiPath
         self.storage = storage
         self.storageKeys = storageKeys
     }
@@ -75,7 +76,7 @@ internal class StitchHTTPClient {
 
     internal func save(token: String, withKey key: String) {
         if isSimulator {
-            printLog(.debug, text: "Falling back to saving token in UserDefaults because of simulator bug")
+            // Falling back to saving token in UserDefaults because of simulator bug
             storage.set(token, forKey: key)
         } else {
             do {
@@ -90,7 +91,7 @@ internal class StitchHTTPClient {
 
     internal func deleteToken(withKey key: String) throws {
         if isSimulator {
-            printLog(.debug, text: "Falling back to deleting token from UserDefaults because of simulator bug")
+            // Falling back to saving token in UserDefaults because of simulator bug
             storage.removeObject(forKey: key)
         } else {
             do {
@@ -137,7 +138,7 @@ internal class StitchHTTPClient {
 
     private func readToken(withKey key: String) -> String? {
         if isSimulator {
-            printLog(.debug, text: "Falling back to reading token from UserDefaults because of simulator bug")
+            // Falling back to saving token in UserDefaults because of simulator bug
             return storage.value(forKey: key) as? String
         } else {
             do {
@@ -191,7 +192,7 @@ internal class StitchHTTPClient {
     }
 
     private func url(withEndpoint endpoint: String) -> String {
-        return "\(baseUrl)\(Consts.ApiPath)\(endpoint)"
+        return "\(baseUrl)\(apiPath)\(endpoint)"
     }
 
     internal typealias RequestBuilder = (inout RequestOptions) throws -> Void
@@ -244,7 +245,6 @@ internal class StitchHTTPClient {
             return self.refreshAccessTokenAndRetry(requestOptions: requestOptions)
         }
 
-
         var headers: [String: String]?
         if let requestOptionsHeaders = requestOptions.headers {
             headers = requestOptionsHeaders
@@ -255,9 +255,9 @@ internal class StitchHTTPClient {
 
         let url: String = self.url(withEndpoint: requestOptions.endpoint)
         return networkAdapter.requestWithJsonEncoding(url: url,
-                                                method: requestOptions.method,
-                                                data: requestOptions.data,
-                                                headers: headers)
+                                                       method: requestOptions.method,
+                                                       data: requestOptions.data,
+                                                       headers: headers)
             .flatMap(on: DispatchQueue.global(qos: .default)) { [weak self] (args: (Int, Data?)) throws -> Any in
             guard let strongSelf = self else {
                 throw StitchError.clientReleased

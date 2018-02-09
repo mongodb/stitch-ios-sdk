@@ -53,7 +53,7 @@ public class StitchClient: StitchClientType {
     internal lazy var storageKeys = StorageKeys(suiteName: self.appId)
 
     internal lazy var httpClient = StitchHTTPClient(baseUrl: baseUrl,
-                                                     appId: appId,
+                                                     apiPath: Consts.ApiPath,
                                                      networkAdapter: networkAdapter,
                                                      storage: storage,
                                                      storageKeys: storageKeys)
@@ -182,7 +182,7 @@ public class StitchClient: StitchClientType {
         } else {
             #if !os(Linux)
             guard let userDefaults = UserDefaults.init(suiteName: suiteName) else {
-                self.storage = MemoryStorage.init(suiteName: suiteName)!
+                self.storage = MemoryStorage.init()
                 printLog(.warning, text: "Invalid suiteName: \(suiteName)")
                 printLog(.warning, text: "Defaulting to memory storage. NOTE: App will not persist authentication status")
                 return
@@ -194,7 +194,7 @@ public class StitchClient: StitchClientType {
             #endif
         }
 
-        runMigration(suiteName: suiteName, storage: &self.storage)
+        runMigration(storage: &self.storage)
     }
 
     // MARK: - Auth
@@ -312,7 +312,7 @@ public class StitchClient: StitchClientType {
 
     /**
      Logs the current user in using a specific auth provider.
-     
+
      - Parameters:
      - withProvider: The provider that will handle the login.
      - link: Whether or not to link a new auth provider.
@@ -356,15 +356,15 @@ public class StitchClient: StitchClientType {
             $0.endpoint = self.routes.authSessionRoute
             $0.refreshOnFailure = false
             $0.useRefreshToken = true
-        }.recover { _ in
-            // We don't really care about errors in doing the request.
-            // Try clearing auth, but throw again if it fails.
-            printLog(.info, text: "Logout request to Stitch resulted in error. Clearing locally stored tokens anyway.")
-            return Guarantee.init(value: true)
-        }.done { _ in
-            // This block will always be reached regardless of whether doRequest fails or succeeds
-            try self.clearAuth()
-            return
+            }.recover { _ in
+                // We don't really care about errors in doing the request.
+                // Try clearing auth, but throw again if it fails.
+                printLog(.info, text: "Logout request to Stitch resulted in error. Clearing locally stored tokens anyway.")
+                return Guarantee.init(value: true)
+            }.done { _ in
+                // This block will always be reached regardless of whether doRequest fails or succeeds
+                try self.clearAuth()
+                return
         }
     }
 
@@ -399,7 +399,7 @@ public class StitchClient: StitchClientType {
             request.isAuthenticatedRequest = linking
 
             try request.encode(withData: self.getAuthRequest(provider: provider))
-        }.flatMap { [weak self] json in
+            }.flatMap { [weak self] json in
                 guard let strongSelf = self else { throw StitchError.clientReleased }
                 strongSelf.authProvider = provider
                 if !linking {
@@ -459,9 +459,9 @@ public class StitchClient: StitchClientType {
     private func getAuthRequest(provider: AuthProvider) -> Document {
         var request = provider.payload
         let options: Document = [
-            AuthFields.device.rawValue: getDeviceInfo()
+            StitchClient.AuthFields.device.rawValue: self.getDeviceInfo()
         ]
-    	request[AuthFields.options.rawValue] = options
+    	request[StitchClient.AuthFields.options.rawValue] = options
         return request
     }
 
