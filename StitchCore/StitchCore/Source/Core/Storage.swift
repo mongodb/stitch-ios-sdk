@@ -9,7 +9,7 @@ private let versionKey = "__stitch_storage_version__"
 /// to the latest version.
 /// - parameter suiteName: namespace to key with
 /// - parameter storage: storage to check for version key
-internal func runMigration(suiteName: String, storage: inout Storage) {
+internal func runMigration(storage: inout Storage) {
     switch storage.value(forKey: versionKey) {
     case .none:
         #if !os(Linux)

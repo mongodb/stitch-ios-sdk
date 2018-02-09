@@ -54,7 +54,7 @@ class AuthTests: StitchTestCase {
             ]
         }
 
-        try await(self.harness.addDefaultCustomTokenConfig())
+        try await(self.harness.addDefaultCustomTokenProvider())
         let userId = try await(stitchClient.login(withProvider: CustomAuthProvider(jwt: jwt)))
         try await(stitchClient.logout())
         let nextId = try await(stitchClient.login(withProvider: CustomAuthProvider(jwt: jwt)))

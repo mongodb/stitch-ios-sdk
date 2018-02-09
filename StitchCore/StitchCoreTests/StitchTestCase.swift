@@ -1,11 +1,3 @@
-//
-//  Utils.swift
-//  StitchCoreTests
-//
-//  Created by Jason Flax on 2/5/18.
-//  Copyright © 2018 MongoDB. All rights reserved.
-//
-
 import Foundation
 import XCTest
 import PromiseKit
@@ -29,7 +21,7 @@ enum StitchTestError: Error {
     case unknown
 }
 
-open class StitchTestCase: XCTestCase {
+internal class StitchTestCase: XCTestCase {
     internal private(set) var stitchClient: StitchClient!
     internal private(set) var harness: TestHarness!
 

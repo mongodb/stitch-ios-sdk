@@ -194,7 +194,7 @@ public class StitchClient: StitchClientType {
             #endif
         }
 
-        runMigration(suiteName: suiteName, storage: &self.storage)
+        runMigration(storage: &self.storage)
     }
 
     // MARK: - Auth

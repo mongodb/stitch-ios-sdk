@@ -1,11 +1,3 @@
-//
-//  TestHarness.swift
-//  StitchCoreTests
-//
-//  Created by Jason Flax on 2/1/18.
-//  Copyright © 2018 MongoDB. All rights reserved.
-//
-
 import Foundation
 @testable import StitchCore
 import PromiseKit
@@ -42,7 +34,7 @@ func buildClientTestHarness(username: String = "unique_user@domain.com",
                                  password: password,
                                  serverUrl: serverUrl).then { (testHarness: TestHarness) -> Promise<Void> in
         harness = testHarness
-        return harness.addDefaultUserpassConfig().asVoid()
+        return harness.addDefaultUserpassProvider().asVoid()
     }.then { _ in
         return harness.createUser()
     }.then { _ in
@@ -133,26 +125,26 @@ final class TestHarness {
         }
     }
     
-    func add(providerConfig: ProviderConfigs) -> Promise<AuthProviderView> {
-        return self.app.authProviders.create(data: providerConfig)
+    func addProvider(withConfig config: ProviderConfigs) -> Promise<AuthProviderView> {
+        return self.app.authProviders.create(data: config)
     }
 
-    func addDefaultUserpassConfig() -> Promise<AuthProviderView> {
-        return self.add(providerConfig: .userpass(emailConfirmationUrl: "http://emailConfirmURL.com",
-                                                  resetPasswordUrl: "http://resetPasswordURL.com",
-                                                  confirmEmailSubject: "email subject",
-                                                  resetPasswordSubject: "password subject"))
+    func addDefaultUserpassProvider() -> Promise<AuthProviderView> {
+        return self.addProvider(withConfig: .userpass(emailConfirmationUrl: "http://emailConfirmURL.com",
+                                                      resetPasswordUrl: "http://resetPasswordURL.com",
+                                                      confirmEmailSubject: "email subject",
+                                                      resetPasswordSubject: "password subject"))
     }
 
-    func addDefaultAnonConfig() -> Promise<AuthProviderView> {
-        return self.add(providerConfig: .anon())
+    func addDefaultAnonProvider() -> Promise<AuthProviderView> {
+        return self.addProvider(withConfig: .anon())
     }
 
-    func addDefaultCustomTokenConfig() -> Promise<AuthProviderView> {
-        return self.add(providerConfig: .custom(signingKey: "abcdefghijklmnopqrstuvwxyz1234567890"))
+    func addDefaultCustomTokenProvider() -> Promise<AuthProviderView> {
+        return self.addProvider(withConfig: .custom(signingKey: "abcdefghijklmnopqrstuvwxyz1234567890"))
     }
 
-    func setupStitchClient(shouldConfigureUserAuth: Bool = true) -> Promise<Void> {
+    func setupStitchClient() -> Promise<Void> {
         guard let userCredentials = self.userCredentials else {
             fatalError("must have user before setting up stitch client")
         }
@@ -166,7 +158,7 @@ final class TestHarness {
                 withProvider: EmailPasswordAuthProvider.init(username: userCredentials.username,
                                                              password: userCredentials.password)).asVoid()
         }.then {
-            self.addDefaultAnonConfig()
+            self.addDefaultAnonProvider()
         }.asVoid()
     }
 }

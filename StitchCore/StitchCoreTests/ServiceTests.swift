@@ -1,10 +1,3 @@
-//
-//  ServiceTests.swift
-//  StitchCoreTests
-//
-//  Created by Jason Flax on 11/16/17.
-//  Copyright © 2017 MongoDB. All rights reserved.
-//
 import XCTest
 import Foundation
 import StitchLogger
