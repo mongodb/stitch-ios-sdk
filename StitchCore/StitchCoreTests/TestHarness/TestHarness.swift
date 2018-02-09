@@ -71,9 +71,9 @@ final class TestHarness {
     var groupId: String?
     var user: UserView?
 
-    lazy var apps: AppsEndpoint = self.adminClient.apps(withGroupId: self.groupId!)
+    lazy var apps: AppsResource = self.adminClient.apps(withGroupId: self.groupId!)
 
-    var app: AppEndpoint {
+    var app: AppsResource.AppResource {
         guard let testApp = self.testApp else {
             fatalError("App must be created first")
         }

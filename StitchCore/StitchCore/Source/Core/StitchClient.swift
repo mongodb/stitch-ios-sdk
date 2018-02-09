@@ -17,7 +17,7 @@ public struct Consts {
     static let ErrorKey = "error"
 }
 
-protocol StitchClientFactoryProtocol {
+internal protocol StitchClientFactoryProtocol {
     associatedtype TClient = StitchClientType
 
     static func create(appId: String,

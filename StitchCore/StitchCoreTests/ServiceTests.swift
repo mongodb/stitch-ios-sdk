@@ -44,5 +44,5 @@ class ServiceTests: StitchTestCase {
         let pushClient = try self.stitchClient.push.forProvider(info: gcm)
         try await(pushClient.registerToken(token: "1234567891011"))
         try await(pushClient.deregister())
-    }*/
+    }*/ 
 }

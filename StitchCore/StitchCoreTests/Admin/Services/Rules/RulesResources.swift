@@ -24,22 +24,36 @@ internal struct Rule: Encodable {
     let when: Document = [:]
 }
 
+/// Allowed actions for an AWS SES service rule
 private struct AwsSesRuleActions: RuleActions {
     let send: Bool
 }
+
+/// Allowed actions for a Twilio service rule
 private struct TwilioRuleActions: RuleActions {
     let send: Bool
 }
+
+/// Allowed actions for an Http service rule
 private struct HttpRuleActions: RuleActions {
     let get, post, put, delete, patch, head: Bool
 }
 
 internal enum RuleActionsCreator: Encodable {
+    /// - parameter get: allow GET method
+    /// - parameter post: allow POST method
+    /// - parameter put: allow PUT method
+    /// - parameter delete: allow DELETE method
+    /// - parameter patch: allow PATCH method
+    /// - parameter head: allow HEAD method
     case http(get: Bool, post: Bool, put: Bool, delete: Bool, patch: Bool, head: Bool)
+    /// - parameter send: allow message sending
     case twilio(send: Bool)
+    /// - parameter send: allow message sending
     case awsSes(send: Bool)
 
     func encode(to encoder: Encoder) throws {
+        /// encode a rule to its associated wrapper
         switch self {
         case .http(let get, let post, let put, let delete, let patch, let head):
             try HttpRuleActions.init(get: get,
@@ -56,29 +70,9 @@ internal enum RuleActionsCreator: Encodable {
     }
 }
 
+/// TODO: Fill in model
 internal struct RuleView: Codable {
-}
-
-public final class RuleEndpoint: Endpoint, Get, Remove {
-    var url: String
-    var httpClient: StitchHTTPClient
-    typealias Model = RuleView
-
-    init(httpClient: StitchHTTPClient, ruleUrl: String) {
-        self.url = ruleUrl
-        self.httpClient = httpClient
-    }
-}
-
-public final class RulesEndpoint: Endpoint, List, Create {
-    var url: String
-    var httpClient: StitchHTTPClient
-
-    typealias Model = RuleView
-    typealias CreatorModel = Rule
-
-    init(httpClient: StitchHTTPClient, rulesUrl: String) {
-        self.url = rulesUrl
-        self.httpClient = httpClient
+    init() {
+        fatalError("RuleView not implemented")
     }
 }
