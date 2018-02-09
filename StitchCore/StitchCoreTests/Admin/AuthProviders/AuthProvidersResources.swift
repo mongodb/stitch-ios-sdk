@@ -2,7 +2,7 @@ import Foundation
 @testable import StitchCore
 
 /// View into a specific auth provider
-internal struct AuthProviderView: Codable {
+internal struct AuthProviderResponse: Codable {
     private enum CodingKeys: String, CodingKey {
         case id = "_id", disabled, name, type
     }
@@ -30,12 +30,12 @@ internal struct AuthProviderView: Codable {
     }
 }
 
-extension AppsResource.AppResource.AuthProvidersResource {
+extension Apps.App.AuthProviders {
     /// GET an auth provider
     /// - parameter providerId: id of the provider
-    func authProvider(providerId: String) -> AppsResource.AppResource.AuthProvidersResource.AuthProviderResource {
-        return AppsResource.AppResource.AuthProvidersResource
-            .AuthProviderResource.init(httpClient: self.httpClient,
+    func authProvider(providerId: String) -> Apps.App.AuthProviders.AuthProvider {
+        return Apps.App.AuthProviders
+            .AuthProvider.init(httpClient: self.httpClient,
                                        url: "\(url)/\(providerId)")
     }
 }

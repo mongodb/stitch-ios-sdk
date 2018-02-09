@@ -24,8 +24,8 @@ public class StitchAdminClient {
                                                  storageKeys: StorageKeys.init(suiteName: "__admin__"))
     }
 
-    func apps(withGroupId groupId: String) -> AppsResource {
-        return AppsResource.init(httpClient: httpClient, url: "/groups/\(groupId)/apps")
+    func apps(withGroupId groupId: String) -> Apps {
+        return Apps.init(httpClient: httpClient, url: "/groups/\(groupId)/apps")
     }
 
     /**

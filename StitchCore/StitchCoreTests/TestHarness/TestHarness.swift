@@ -57,15 +57,15 @@ final class TestHarness {
     let serverUrl: String
     let username: String
     let password: String
-    var testApp: AppView?
+    var testApp: AppResponse?
     var stitchClient: StitchClient?
     var userCredentials: (username: String, password: String)?
     var groupId: String?
-    var user: UserView?
+    var user: UserResponse?
 
-    lazy var apps: AppsResource = self.adminClient.apps(withGroupId: self.groupId!)
+    lazy var apps: Apps = self.adminClient.apps(withGroupId: self.groupId!)
 
-    var app: AppsResource.AppResource {
+    var app: Apps.App {
         guard let testApp = self.testApp else {
             fatalError("App must be created first")
         }
@@ -101,7 +101,7 @@ final class TestHarness {
         }
     }
 
-    func createApp(testAppName: String = "test-\(ObjectId.init().hexString)") -> Promise<AppView> {
+    func createApp(testAppName: String = "test-\(ObjectId.init().hexString)") -> Promise<AppResponse> {
         return self.apps.create(name: testAppName).flatMap {
             self.testApp = $0
             return $0
@@ -109,7 +109,7 @@ final class TestHarness {
     }
 
     func createUser(email: String = "test_user@domain.com",
-                    password: String = "password") -> Promise<UserView> {
+                    password: String = "password") -> Promise<UserResponse> {
         self.userCredentials = (username: email, password: password)
         return self.app.users.create(data: UserCreator.init(email: email, password: password)).flatMap {
             self.user = $0
@@ -117,7 +117,7 @@ final class TestHarness {
         }
     }
 
-    func add(serviceConfig: ServiceConfigs, withRules rules: Rule...) -> Promise<ServiceView> {
+    func add(serviceConfig: ServiceConfigs, withRules rules: RuleCreator...) -> Promise<ServiceResponse> {
         return self.app.services.create(data: serviceConfig).then { view in
             return when(resolved: rules.map {
                 return self.app.services.service(withId: view.id).rules.create(data: $0)
@@ -125,22 +125,22 @@ final class TestHarness {
         }
     }
     
-    func addProvider(withConfig config: ProviderConfigs) -> Promise<AuthProviderView> {
+    func addProvider(withConfig config: ProviderConfigs) -> Promise<AuthProviderResponse> {
         return self.app.authProviders.create(data: config)
     }
 
-    func addDefaultUserpassProvider() -> Promise<AuthProviderView> {
+    func addDefaultUserpassProvider() -> Promise<AuthProviderResponse> {
         return self.addProvider(withConfig: .userpass(emailConfirmationUrl: "http://emailConfirmURL.com",
                                                       resetPasswordUrl: "http://resetPasswordURL.com",
                                                       confirmEmailSubject: "email subject",
                                                       resetPasswordSubject: "password subject"))
     }
 
-    func addDefaultAnonProvider() -> Promise<AuthProviderView> {
+    func addDefaultAnonProvider() -> Promise<AuthProviderResponse> {
         return self.addProvider(withConfig: .anon())
     }
 
-    func addDefaultCustomTokenProvider() -> Promise<AuthProviderView> {
+    func addDefaultCustomTokenProvider() -> Promise<AuthProviderResponse> {
         return self.addProvider(withConfig: .custom(signingKey: "abcdefghijklmnopqrstuvwxyz1234567890"))
     }
 

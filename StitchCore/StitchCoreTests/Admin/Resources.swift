@@ -114,80 +114,80 @@ extension Disablable {
 }
 
 /// Resource that lists the current groupId's applications
-internal final class AppsResource: BasicResource, Listable {
-    typealias Model = AppView
+internal final class Apps: BasicResource, Listable {
+    typealias Model = AppResponse
 
     /// Resource for specific application. Can fetch users, authProviders,
     /// userRegistrations, and services of this application
-    internal final class AppResource: BasicResource, Gettable, Removable {
-        typealias Model = AppView
+    internal final class App: BasicResource, Gettable, Removable {
+        typealias Model = AppResponse
 
         /// Resource for listing the auth providers of an application
-        internal final class AuthProvidersResource: BasicResource, Listable, Creatable {
-            typealias Model = AuthProviderView
+        internal final class AuthProviders: BasicResource, Listable, Creatable {
+            typealias Model = AuthProviderResponse
             typealias CreatorModel = ProviderConfigs
 
             /// Resource for a specific auth provider of an application
-            internal final class AuthProviderResource: BasicResource, Gettable, Updatable, Removable, Enablable, Disablable {
-                typealias Model = AuthProviderView
+            internal final class AuthProvider: BasicResource, Gettable, Updatable, Removable, Enablable, Disablable {
+                typealias Model = AuthProviderResponse
                 typealias CreatorModel = ProviderConfigs
             }
         }
 
         /// Resource for user registrations of an application
-        internal final class UserRegistrationsResource: BasicResource {}
+        internal final class UserRegistrations: BasicResource {}
 
         /// Resource for a list of users of an application
-        internal final class UsersResource: BasicResource, Listable, Creatable {
-            typealias Model = UserView
+        internal final class Users: BasicResource, Listable, Creatable {
+            typealias Model = UserResponse
             typealias CreatorModel = UserCreator
 
             /// Resource for a single user of an application
-            internal final class UserResource: BasicResource, Gettable, Removable {
-                typealias Model = UserView
+            internal final class User: BasicResource, Gettable, Removable {
+                typealias Model = UserResponse
             }
         }
 
         /// Resource for listing services of an application
-        internal final class ServicesResource: BasicResource, Listable, Creatable {
-            typealias Model = ServiceView
+        internal final class Services: BasicResource, Listable, Creatable {
+            typealias Model = ServiceResponse
             typealias CreatorModel = ServiceConfigs
 
             /// Resource for a specific service of an application. Can fetch rules
             /// of the service
-            internal final class ServiceResource: BasicResource, Gettable, Removable {
-                typealias Model = ServiceView
+            internal final class Service: BasicResource, Gettable, Removable {
+                typealias Model = ServiceResponse
 
                 /// Resource for listing the rules of a service
-                internal final class RulesResource: BasicResource, Listable, Creatable {
-                    typealias Model = RuleView
-                    typealias CreatorModel = Rule
+                internal final class Rules: BasicResource, Listable, Creatable {
+                    typealias Model = RuleResponse
+                    typealias CreatorModel = RuleCreator
 
                     /// Resource for a specific rule of a service
-                    internal final class RuleResource: BasicResource, Gettable, Removable {
-                        typealias Model = RuleView
+                    internal final class Rule: BasicResource, Gettable, Removable {
+                        typealias Model = RuleResponse
                     }
                 }
 
-                lazy var rules = RulesResource.init(httpClient: self.httpClient,
+                lazy var rules = Rules.init(httpClient: self.httpClient,
                                                     url: "\(self.url)/rules")
             }
         }
 
-        lazy var authProviders: AuthProvidersResource =
-            AuthProvidersResource.init(httpClient: self.httpClient,
+        lazy var authProviders: AuthProviders =
+            AuthProviders.init(httpClient: self.httpClient,
                                        url: "\(self.url)/auth_providers")
 
-        lazy var users: UsersResource =
-            UsersResource.init(httpClient: self.httpClient,
+        lazy var users: Users =
+            Users.init(httpClient: self.httpClient,
                                url: "\(self.url)/users")
 
-        lazy var userRegistrations: UserRegistrationsResource =
-            UserRegistrationsResource.init(httpClient: self.httpClient,
+        lazy var userRegistrations: UserRegistrations =
+            UserRegistrations.init(httpClient: self.httpClient,
                                            url: "\(self.url)/user_registrations")
 
-        lazy var services: ServicesResource =
-            ServicesResource.init(httpClient: self.httpClient,
+        lazy var services: Services =
+            Services.init(httpClient: self.httpClient,
                                   url: "\(self.url)/services")
     }
 }

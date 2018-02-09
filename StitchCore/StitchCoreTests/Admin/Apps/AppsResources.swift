@@ -3,7 +3,7 @@ import PromiseKit
 @testable import StitchCore
 
 /// View into a specific application
-struct AppView: Codable {
+struct AppResponse: Codable {
     enum CodingKeys: String, CodingKey {
         case name, id = "_id", clientAppId = "client_app_id"
     }
@@ -16,11 +16,11 @@ struct AppView: Codable {
     let clientAppId: String
 }
 
-extension AppsResource {
+extension Apps {
     /// POST a new application
     /// - parameter name: name of the new application
     /// - parameter defaults: whether or not to enable default values
-    func create(name: String, defaults: Bool = false) -> Promise<AppView> {
+    func create(name: String, defaults: Bool = false) -> Promise<AppResponse> {
         return httpClient.doRequest {
             $0.endpoint = "\(self.url)?defaults=\(defaults)"
             $0.method = .post
@@ -33,7 +33,7 @@ extension AppsResource {
 
     /// GET an application
     /// - parameter id: id for the application
-    func app(withAppId appId: String) -> AppResource {
-        return AppResource.init(httpClient: self.httpClient, url: "\(url)/\(appId)")
+    func app(withAppId appId: String) -> App {
+        return App.init(httpClient: self.httpClient, url: "\(url)/\(appId)")
     }
 }

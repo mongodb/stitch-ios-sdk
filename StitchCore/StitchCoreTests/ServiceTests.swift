@@ -13,7 +13,7 @@ class ServiceTests: StitchTestCase {
             serviceConfig: .twilio(name: "tw1",
                                    accountSid: "ACba1e2cfa6a2f1022f4ea426aaba0b36a",
                                    authToken: "7c285cb134e53244601db8cce7c8d06f"),
-            withRules: Rule.init(name: "foo", actions: .twilio(send: true))
+            withRules: RuleCreator.init(name: "foo", actions: .twilio(send: true))
         )))
 
         try await(self.stitchClient.anonymousAuth())

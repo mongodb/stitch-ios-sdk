@@ -2,7 +2,7 @@ import Foundation
 @testable import StitchCore
 
 /// View into a specific Service
-internal struct ServiceView: Codable {
+internal struct ServiceResponse: Codable {
     private enum CodingKeys: String, CodingKey {
         case id = "_id", name, type
     }
@@ -15,11 +15,11 @@ internal struct ServiceView: Codable {
     let type: String
 }
 
-extension AppsResource.AppResource.ServicesResource {
+extension Apps.App.Services {
     /// GET a service
     /// - parameter id: id of the requested service
-    func service(withId id: String) -> ServiceResource {
-        return ServiceResource.init(httpClient: self.httpClient,
+    func service(withId id: String) -> Service {
+        return Service.init(httpClient: self.httpClient,
                                      url: "\(self.url)/\(id)")
     }
 }

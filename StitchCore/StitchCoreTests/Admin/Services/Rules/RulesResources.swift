@@ -18,7 +18,7 @@ extension RuleActions {
     }
 }
 
-internal struct Rule: Encodable {
+internal struct RuleCreator: Encodable {
     let name: String
     let actions: RuleActionsCreator
     let when: Document = [:]
@@ -71,7 +71,7 @@ internal enum RuleActionsCreator: Encodable {
 }
 
 /// TODO: Fill in model
-internal struct RuleView: Codable {
+internal struct RuleResponse: Codable {
     init() {
         fatalError("RuleView not implemented")
     }

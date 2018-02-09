@@ -76,6 +76,7 @@ internal class StitchHTTPClient {
 
     internal func save(token: String, withKey key: String) {
         if isSimulator {
+            // Falling back to saving token in UserDefaults because of simulator bug
             storage.set(token, forKey: key)
         } else {
             do {
@@ -90,6 +91,7 @@ internal class StitchHTTPClient {
 
     internal func deleteToken(withKey key: String) throws {
         if isSimulator {
+            // Falling back to saving token in UserDefaults because of simulator bug
             storage.removeObject(forKey: key)
         } else {
             do {
@@ -136,7 +138,7 @@ internal class StitchHTTPClient {
 
     private func readToken(withKey key: String) -> String? {
         if isSimulator {
-            printLog(.debug, text: "Falling back to reading token from UserDefaults because of simulator bug")
+            // Falling back to saving token in UserDefaults because of simulator bug
             return storage.value(forKey: key) as? String
         } else {
             do {

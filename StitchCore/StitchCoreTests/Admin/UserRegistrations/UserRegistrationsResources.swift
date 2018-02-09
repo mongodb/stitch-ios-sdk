@@ -16,7 +16,7 @@ public struct ConfirmationEmail: Codable {
     let tokenId: String
 }
 
-extension AppsResource.AppResource.UserRegistrationsResource {
+extension Apps.App.UserRegistrations {
     /// GET confirmation email token and tokenId
     /// - parameter email: email that the confirmation email was sent to
     func sendConfirmation(toEmail email: String) -> Promise<ConfirmationEmail> {
