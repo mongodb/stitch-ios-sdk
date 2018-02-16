@@ -31,9 +31,10 @@ public class StitchNetworkAdapter: NetworkAdapter {
             request.httpBody = data
         }
 
-        return Promise(.pending) { seal in
+        return Promise { resolver in
             defaultSession.dataTask(with: request) { data, response, _ in
-                seal.fulfill(((response as? HTTPURLResponse)?.statusCode ?? 500, data))
+                let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 500
+                resolver.fulfill((statusCode, data))
             }.resume()
         }
     }

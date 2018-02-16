@@ -33,10 +33,12 @@ public final class StitchClientFactory: StitchClientFactoryProtocol {
                               baseUrl: String = Consts.defaultServerUrl,
                               networkAdapter: NetworkAdapter = StitchNetworkAdapter(),
                               storage: Storage? = nil) -> Promise<StitchClient> {
-        return Promise(value: StitchClient.init(appId: appId,
-                                                 baseUrl: baseUrl,
-                                                 networkAdapter: networkAdapter,
-                                                 storage: storage))
+        return Promise { resolver in
+            resolver.fulfill(StitchClient.init(appId: appId,
+                                               baseUrl: baseUrl,
+                                               networkAdapter: networkAdapter,
+                                               storage: storage))
+        }
     }
 }
 
@@ -329,7 +331,7 @@ public class StitchClient: StitchClientType {
         if provider.type == AuthProviderTypes.anonymous &&
             self.loggedInProviderType == AuthProviderTypes.anonymous {
             printLog(.info, text: "Already logged in as anonymous user, using cached token.")
-            return Promise.init(value: userId)
+            return Promise.init { $0.fulfill(userId) }
         }
 
         // Using a different provider, log out and then perform login.
@@ -348,7 +350,7 @@ public class StitchClient: StitchClientType {
     public func logout() -> Promise<Void> {
         if !isAuthenticated {
             printLog(.info, text: "Tried logging out while there was no authenticated user found.")
-            return Promise<Void>(value: Void())
+            return Promise<Void>.init { _ in }
         }
 
         return httpClient.doRequest {
@@ -356,15 +358,15 @@ public class StitchClient: StitchClientType {
             $0.endpoint = self.routes.authSessionRoute
             $0.refreshOnFailure = false
             $0.useRefreshToken = true
-            }.recover { _ in
-                // We don't really care about errors in doing the request.
-                // Try clearing auth, but throw again if it fails.
-                printLog(.info, text: "Logout request to Stitch resulted in error. Clearing locally stored tokens anyway.")
-                return Guarantee.init(value: true)
-            }.done { _ in
-                // This block will always be reached regardless of whether doRequest fails or succeeds
-                try self.clearAuth()
-                return
+        }.recover { _ in
+            // We don't really care about errors in doing the request.
+            // Try clearing auth, but throw again if it fails.
+            printLog(.info, text: "Logout request to Stitch resulted in error. Clearing locally stored tokens anyway.")
+            return Guarantee.init { _ in }
+        }.done { _ in
+            // This block will always be reached regardless of whether doRequest fails or succeeds
+            try self.clearAuth()
+            return
         }
     }
 

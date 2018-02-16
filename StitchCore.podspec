@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
 
   s.requires_arc = true
 
-  s.dependency 'PromiseKit', "~> 5.0.0"
+  s.dependency "PromiseKit/CorePromise", "~> 6.0.0"
   s.dependency "StitchLogger", "~> 2.0.0"
   s.dependency "ExtendedJson", "~> 2.0.1"
 end
