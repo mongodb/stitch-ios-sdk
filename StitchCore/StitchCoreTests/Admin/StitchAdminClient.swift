@@ -5,7 +5,7 @@ import ExtendedJson
 
 public final class StitchAdminClientFactory {
     public static func create(baseUrl: String = Consts.defaultServerUrl) -> Promise<StitchAdminClient> {
-        return Promise(value: StitchAdminClient.init(baseUrl: baseUrl))
+        return Promise.value(StitchAdminClient.init(baseUrl: baseUrl))
     }
 }
 

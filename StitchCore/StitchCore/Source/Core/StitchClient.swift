@@ -33,12 +33,10 @@ public final class StitchClientFactory: StitchClientFactoryProtocol {
                               baseUrl: String = Consts.defaultServerUrl,
                               networkAdapter: NetworkAdapter = StitchNetworkAdapter(),
                               storage: Storage? = nil) -> Promise<StitchClient> {
-        return Promise { resolver in
-            resolver.fulfill(StitchClient.init(appId: appId,
+        return Promise.value(StitchClient.init(appId: appId,
                                                baseUrl: baseUrl,
                                                networkAdapter: networkAdapter,
                                                storage: storage))
-        }
     }
 }
 
@@ -350,7 +348,7 @@ public class StitchClient: StitchClientType {
     public func logout() -> Promise<Void> {
         if !isAuthenticated {
             printLog(.info, text: "Tried logging out while there was no authenticated user found.")
-            return Promise<Void>.init { _ in }
+            return Promise.init { $0.fulfill(()) }
         }
 
         return httpClient.doRequest {
