@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "StitchCore"
-  s.version      = "3.0.0"
+  s.version      = "3.0.1"
   s.authors	 = "MongoDB"
   s.homepage     = "https://mongodb.com/cloud/stitch"
   s.summary      = "An SDK to use MongoDB's Stitch Core features."
@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
     :submodules => true
   }
 
-  
+  s.source_files  = "StitchCore/StitchCore/**/*.swift"
 
   s.requires_arc = true
 
