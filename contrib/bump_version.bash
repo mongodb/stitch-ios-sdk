@@ -12,10 +12,8 @@ if [ "$BUMP_TYPE" != "patch" ] && [ "$BUMP_TYPE" != "minor" ] && [ "$BUMP_TYPE" 
 	exit 1
 fi
 
-# TODO: This is from https://github.com/mongodb/stitch-android-sdk/blob/master/contrib/bump_version.bash and doesn't actually work
-
 # Get current package version
-LAST_VERSION=`cat gradle.properties | grep POM_VERSION_NAME | sed s/POM_VERSION_NAME=//`
+LAST_VERSION=`cat StitchCore.podspec | grep "s.version" | head -1 | sed -E 's/[[:space:]]+s\.version.*=.*"(.*)"/\1/'`
 LAST_VERSION_MAJOR=$(echo $LAST_VERSION | cut -d. -f1)
 LAST_VERSION_MINOR=$(echo $LAST_VERSION | cut -d. -f2)
 LAST_VERSION_PATCH=$(echo $LAST_VERSION | cut -d. -f3)
@@ -39,16 +37,17 @@ NEW_VERSION=$NEW_VERSION_MAJOR.$NEW_VERSION_MINOR.$NEW_VERSION_PATCH
 
 echo "Bumping $LAST_VERSION to $NEW_VERSION ($BUMP_TYPE)"
 
-echo "Updating gradle.properties"
-sed -i "" "s/^POM_VERSION_NAME=.*$/POM_VERSION_NAME=$NEW_VERSION/" gradle.properties
+echo "Updating StitchCore.podspec"
+sed -i "" -E "s/([[:space:]]+s\.version[[[:space:]]+=).*$/\1 \"$NEW_VERSION\"/" ./StitchCore.podspec
 
-echo "Updating stitch/build.gradle"
-VERSION_CODE=`date -u "+%Y%m%d"`
-sed -i "" "s/libraryVersion.*$/libraryVersion = '$NEW_VERSION'/" stitch/build.gradle
-sed -i "" "s/versionName.*$/versionName \"$NEW_VERSION\"/" stitch/build.gradle
-sed -i "" "s/versionCode.*$/versionCode $VERSION_CODE/" stitch/build.gradle
+for file in ./*.podspec ; do
+  if grep 's\.dependency "StitchCore' > /dev/null $file; then
+	sed -i "" -E "s/([[:space:]]+s\.dependency[[:space:]]+\"StitchCore\",[[:space:]]+\"~>[[:space:]]+).*(\".*)$/\1$NEW_VERSION\2/" $file
+	sed -i "" -E "s/([[:space:]]+s\.version[[[:space:]]+=).*$/\1 \"$NEW_VERSION\"/" ./$file
+  fi
+  git add $file
+done
 
-git add gradle.properties stitch/build.gradle
 git commit -m "Release $NEW_VERSION"
 BODY=`git log --no-merges $LAST_VERSION..HEAD --pretty="format:%s (%h); %an"`
 BODY="Changelog since $LAST_VERSION:

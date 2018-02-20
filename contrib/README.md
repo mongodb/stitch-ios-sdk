@@ -6,11 +6,21 @@ This project follows [Semantic Versioning 2.0](https://semver.org/). In general,
 
 ### Publishing a New SDK version
 ```bash
+# update podspecs for affected modules in relation to semver as it applies
+
 # run bump_version.bash with either patch, minor, or major
 ./bump_version.bash <patch|minor|major>
 
 # make live
-TODO: ADD STEPS
+VERSION=`cat StitchCore.podspec | grep "s.version" | head -1 | sed -E 's/[[:space:]]+s\.version.*=.*"(.*)"/\1/'`
+for spec in *.podspec ; do
+	name=`echo $spec | sed -E 's/(.*)\.podspec/\1/'`
+	if pod trunk info $name | grep "$VERSION" > /dev/null; then
+		continue
+	fi
+	echo pushing $spec @ $VERSION to trunk
+	pod trunk push $spec
+done
 
 # send an email detailing the changes to the https://groups.google.com/d/forum/mongodb-stitch-announce mailing list
 ```
