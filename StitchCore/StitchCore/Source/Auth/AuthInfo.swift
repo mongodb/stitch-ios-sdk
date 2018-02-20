@@ -8,7 +8,7 @@ internal struct LinkInfo: AuthResponse {
     enum CodingKeys: String, CodingKey {
         case userId = "user_id"
     }
-    
+
     var userId: String
 }
 

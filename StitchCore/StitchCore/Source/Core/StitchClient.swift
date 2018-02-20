@@ -41,6 +41,7 @@ public final class StitchClientFactory: StitchClientFactoryProtocol {
 }
 
 /// A StitchClient is responsible for handling the overall interaction with all Stitch services.
+// swiftlint:disable:next type_body_length
 public class StitchClient: StitchClientType {
     // MARK: - Properties
     /// Id of the current application
@@ -184,7 +185,8 @@ public class StitchClient: StitchClientType {
             guard let userDefaults = UserDefaults.init(suiteName: suiteName) else {
                 self.storage = MemoryStorage.init()
                 printLog(.warning, text: "Invalid suiteName: \(suiteName)")
-                printLog(.warning, text: "Defaulting to memory storage. NOTE: App will not persist authentication status")
+                printLog(.warning,
+                         text: "Defaulting to memory storage. NOTE: App will not persist authentication status")
                 return
             }
             self.storage = userDefaults
@@ -329,7 +331,7 @@ public class StitchClient: StitchClientType {
         if provider.type == AuthProviderTypes.anonymous &&
             self.loggedInProviderType == AuthProviderTypes.anonymous {
             printLog(.info, text: "Already logged in as anonymous user, using cached token.")
-            return Promise.init { $0.fulfill(userId) }
+            return Promise.value(userId)
         }
 
         // Using a different provider, log out and then perform login.
@@ -348,7 +350,7 @@ public class StitchClient: StitchClientType {
     public func logout() -> Promise<Void> {
         if !isAuthenticated {
             printLog(.info, text: "Tried logging out while there was no authenticated user found.")
-            return Promise.init { $0.fulfill(()) }
+            return Promise.value(())
         }
 
         return httpClient.doRequest {
@@ -360,7 +362,7 @@ public class StitchClient: StitchClientType {
             // We don't really care about errors in doing the request.
             // Try clearing auth, but throw again if it fails.
             printLog(.info, text: "Logout request to Stitch resulted in error. Clearing locally stored tokens anyway.")
-            return Guarantee.init { _ in }
+            return Guarantee.value(())
         }.done { _ in
             // This block will always be reached regardless of whether doRequest fails or succeeds
             try self.clearAuth()
@@ -477,8 +479,8 @@ public class StitchClient: StitchClientType {
         return httpClient.doRequest {
             $0.method = .post
             $0.endpoint = self.routes.functionsCallRoute
-            try $0.encode(withData: ["name": name,
-                                     "arguments": BSONArray(array: args)])
+            try $0.encode(withDocument: ["name": name,
+                                         "arguments": BSONArray(array: args)])
         }
     }
 
@@ -495,9 +497,9 @@ public class StitchClient: StitchClientType {
         return httpClient.doRequest {
             $0.method = .post
             $0.endpoint = self.routes.functionsCallRoute
-            try $0.encode(withData: ["name": name,
-                                     "arguments": BSONArray(array: args),
-                                     "service": service])
+            try $0.encode(withDocument: ["name": name,
+                                         "arguments": BSONArray(array: args),
+                                         "service": service])
         }
     }
 
@@ -543,3 +545,4 @@ public class StitchClient: StitchClientType {
         self.authDelegates.append(delegate)
     }
 }
+// swiftlint:disable:this file_length

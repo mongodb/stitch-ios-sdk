@@ -80,8 +80,12 @@ public class StitchAdminClient {
             $0.refreshOnFailure = false
             $0.useRefreshToken = false
         }.flatMap {
-            return try JSONDecoder().decode(UserProfile.self,
-                                            from: JSONSerialization.data(withJSONObject: $0))
+            do {
+                return try JSONDecoder().decode(UserProfile.self,
+                                                from: JSONSerialization.data(withJSONObject: $0))
+            } catch {
+                throw error
+            }
         }
     }
 }

@@ -216,16 +216,17 @@ internal class StitchHTTPClient {
             self.data = try JSONSerialization.data(withJSONObject: json)
         }
 
-        mutating func encode<T>(withData data: T) throws where T: Encodable {
-            if let data = data as? [String: Any] {
-                self.data = try JSONEncoder().encode(Document.init(extendedJson: data))
-            } else {
-                self.data = try JSONEncoder().encode(data)
-            }
+        mutating func encode(withDocument doc: Document) throws {
+            try encode(withData: doc)
+        }
+
+        mutating func encode<T: Encodable>(withData data: T) throws {
+            self.data = try JSONEncoder().encode(data)
         }
     }
 
     @discardableResult
+    // swiftlint:disable:next cyclomatic_complexity function_body_length
     internal func doRequest(with requestBuilder: @escaping RequestBuilder) -> Promise<Any> {
         let requestOptions: RequestOptions
 
@@ -249,7 +250,8 @@ internal class StitchHTTPClient {
         if let requestOptionsHeaders = requestOptions.headers {
             headers = requestOptionsHeaders
         } else if requestOptions.isAuthenticatedRequest {
-            let bearer = requestOptions.useRefreshToken ? refreshToken ?? String() : authInfo?.accessToken?.token ?? String()
+            let bearer = requestOptions.useRefreshToken ? refreshToken ??
+                String() : authInfo?.accessToken?.token ?? String()
             headers = ["Authorization": "Bearer \(bearer)"]
         }
 

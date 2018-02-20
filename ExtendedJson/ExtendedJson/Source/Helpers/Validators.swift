@@ -8,7 +8,7 @@ import Foundation
 internal extension ObjectId {
 
     static func isValid(hexString: String) -> Bool {
-        return hexString.characters.count == 24 && hexString.isHexadecimal()
+        return hexString.count == 24 && hexString.isHexadecimal()
     }
 
     static func isValid(byteArray array: [UInt8]) -> Bool {

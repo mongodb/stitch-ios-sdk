@@ -28,12 +28,20 @@ internal class StitchTestCase: XCTestCase {
     override open func setUp() {
         super.setUp()
         LogManager.minimumLogLevel = .debug
-        self.harness = try! await(buildClientTestHarness())
+        do {
+            self.harness = try await(buildClientTestHarness())
+        } catch {
+            continueAfterFailure = false
+            XCTFail(error.localizedDescription)
+        }
         self.stitchClient = harness.stitchClient
         try! self.stitchClient.clearAuth()
     }
 
     override open func tearDown() {
+        guard self.harness != nil else {
+            return
+        }
         try! await(self.stitchClient.logout())
         try! self.stitchClient.clearAuth()
         try! await(self.harness.teardown())

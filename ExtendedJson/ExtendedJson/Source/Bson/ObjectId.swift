@@ -36,7 +36,7 @@ public struct ObjectId: Equatable {
             throw BsonError<String>.illegalArgument(message: "invalid hexadecimal representation of an ObjectId: [\(hexString)]")
         }
 
-        var characterIterator = hexString.characters.makeIterator()
+        var characterIterator = hexString.makeIterator()
         while let c1 = characterIterator.next(), let c2 = characterIterator.next() {
             let singleByteString = String([c1, c2])
 
