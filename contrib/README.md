@@ -15,13 +15,14 @@ This project follows [Semantic Versioning 2.0](https://semver.org/). In general,
 ./bump_version.bash <patch|minor|major>
 
 # make live
+git push upstream && git push upstream --tags
 VERSION=`cat StitchCore.podspec | grep "s.version" | head -1 | sed -E 's/[[:space:]]+s\.version.*=.*"(.*)"/\1/'`
 for spec in *.podspec ; do
 	name=`echo $spec | sed -E 's/(.*)\.podspec/\1/'`
 	if pod trunk info $name | grep "$VERSION" > /dev/null; then
 		continue
 	fi
-	echo pushing $spec @ $VERSION to trunk
+	echo pushing $name @ $VERSION to trunk
 	pod trunk push $spec
 done
 
