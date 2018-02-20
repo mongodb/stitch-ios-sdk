@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "MongoDBService"
-  s.version      = "3.0.1"
+  s.version      = "3.0.2"
   s.summary      = "An SDK to use the MongoDB service of the MongoDB's Baas."
   s.license      = {
   						:type => "Apache 2",
@@ -18,5 +18,5 @@ Pod::Spec.new do |s|
   s.dependency "PromiseKit/CorePromise", "~> 6.1.0"
   s.dependency "StitchLogger", "~> 2.0.0"
   s.dependency "ExtendedJson", "~> 2.0.2"
-  s.dependency "StitchCore", "~> 3.0.1"
+  s.dependency "StitchCore", "~> 3.0.2"
 end
