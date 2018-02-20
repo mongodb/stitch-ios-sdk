@@ -69,9 +69,9 @@ extension Creatable {
             $0.endpoint = self.url
             $0.method = .post
             try $0.encode(withData: data)
-            }.flatMap {
-                return try JSONDecoder().decode(Model.self,
-                                                from: JSONSerialization.data(withJSONObject: $0))
+        }.flatMap {
+            return try JSONDecoder().decode(Model.self,
+                                            from: JSONSerialization.data(withJSONObject: $0))
         }
     }
 }
@@ -84,9 +84,9 @@ extension Updatable {
             $0.endpoint = self.url
             $0.method = .put
             try $0.encode(withData: data)
-            }.flatMap {
-                return try JSONDecoder().decode(Model.self,
-                                                from: JSONSerialization.data(withJSONObject: $0))
+        }.flatMap {
+            return try JSONDecoder().decode(Model.self,
+                                            from: JSONSerialization.data(withJSONObject: $0))
         }
     }
 }

@@ -28,7 +28,4 @@ Pod::Spec.new do |s|
   }
   s.dependency "Google/CloudMessaging"
 
-  #s.dependency "Google/CloudMessaging"
-  #s.dependency "Google/AdMob"
-
 end

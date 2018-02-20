@@ -34,7 +34,7 @@ platform :ios, '11.0'
 use_frameworks!
 
 target '<Your Target Name>' do
-    pod 'StitchCore', '~> 3.0.0'
+    pod 'StitchCore', '~> 3.0.1'
     # optional: for accessing a mongodb client
     pod 'MongoDBService', '~> 2.0.0'
     # optional: for using mongodb's ExtendedJson

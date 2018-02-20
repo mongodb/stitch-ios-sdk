@@ -24,7 +24,7 @@ internal struct AuthProviderResponse: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         self.id = try container.decode(String.self, forKey: .id)
-        self.disabled = try container.decode(Int.self, forKey: .disabled) == 0 ? false : true
+        self.disabled = try container.decode(Bool.self, forKey: .disabled)
         self.name = try container.decode(String.self, forKey: .name)
         self.type = try container.decode(String.self, forKey: .type)
     }

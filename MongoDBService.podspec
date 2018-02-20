@@ -15,8 +15,8 @@ Pod::Spec.new do |s|
   				   }
   s.source_files  = "MongoDBService/MongoDBService/**/*.swift"
   s.requires_arc = true
-  s.dependency "PromiseKit/CorePromise", "~> 6.0.0"
+  s.dependency "PromiseKit/CorePromise", "~> 6.1.0"
   s.dependency "StitchLogger", "~> 2.0.0"
-  s.dependency "ExtendedJson", "~> 2.0.0"
-  s.dependency "StitchCore", "~> 3.0.0"
+  s.dependency "ExtendedJson", "~> 2.0.2"
+  s.dependency "StitchCore", "~> 3.0.1"
 end

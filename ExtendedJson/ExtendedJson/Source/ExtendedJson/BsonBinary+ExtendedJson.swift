@@ -15,7 +15,7 @@ extension Binary: ExtendedJsonRepresentable {
 
     fileprivate init(typeString: String, base64String: String) throws {
         let fixedTypeString = typeString.hasHexadecimalPrefix() ?
-            String(typeString.characters.dropFirst(2)) : typeString
+            String(typeString.dropFirst(2)) : typeString
         guard let data = Data(base64Encoded: base64String),
             let typeInt = UInt8(fixedTypeString, radix: 16),
             let type = BsonBinarySubType(rawValue: typeInt) else {

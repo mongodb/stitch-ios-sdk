@@ -10,6 +10,7 @@ public class TwilioService: Service {
         self.name = name
     }
 
+    // swiftlint:disable:next identifier_name
     func send(from: String, to: String, body: String) -> Promise<Undefined> {
         return client.executeServiceFunction(name: "send",
                                               service: name,

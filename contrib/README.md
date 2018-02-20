@@ -7,6 +7,9 @@ This project follows [Semantic Versioning 2.0](https://semver.org/). In general,
 ### Publishing a New SDK version
 ```bash
 # update podspecs for affected modules in relation to semver as it applies
+# Only StitchCore and pods depending on it are updated. For example this
+# excludes ExtendedJson. So if that were to update, you must manually bump
+# its version.
 
 # run bump_version.bash with either patch, minor, or major
 ./bump_version.bash <patch|minor|major>
