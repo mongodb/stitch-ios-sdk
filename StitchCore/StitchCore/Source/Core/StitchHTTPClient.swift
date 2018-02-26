@@ -172,7 +172,7 @@ internal class StitchHTTPClient {
             }
 
             guard let json = any as? [String: String],
-                let accessToken = json["auth_info"],
+                let accessToken = json["access_token"],
                     let authInfo = strongSelf.authInfo else {
                         throw StitchError.unauthorized(message: "not authenticated")
                 }
