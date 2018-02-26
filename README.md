@@ -105,16 +105,17 @@ If you prefer not to use any of the aforementioned dependency managers, you can 
     }.cauterize()
 	```
 
-    For guidance on how to perform this initialization cleanly in the context of developing an iOS app, see the page [Initialize StitchClient](https://docs.mongodb.com/stitch/getting-started/init-stitchclient/#ios-sdk) in the MongoDB Stitch documentation.
+This will only instantiate a client but will not make any outgoing connection to Stitch.
 
-2. This will only instantiate a client but will not make any outgoing connection to Stitch
-3. Since we enabled anonymous log in, let's log in with it; add the following after your new _client_:
+2. For guidance on how to perform this initialization cleanly in the context of developing an iOS app, see the page [Initialize StitchClient](https://docs.mongodb.com/stitch/getting-started/init-stitchclient/#ios-sdk) in the MongoDB Stitch documentation.
+
+3. Since we enabled anonymous log in, let's log in with it; add the following after you've initialized your new `StitchClient`:
 
 	```swift
 	self.stitchClient.fetchAuthProviders().then { (authProviderInfo: AuthProviderInfo) in
             if (authProviderInfo.anonymousAuthProviderInfo != nil) {
                 print("logging in anonymously")
-                return client.anonymousAuth()
+                return self.stitchClient.anonymousAuth()
             } else {
                 print("no anonymous provider")
             }
