@@ -93,8 +93,10 @@ If you prefer not to use any of the aforementioned dependency managers, you can 
 #### Logging In
 1. To initialize our connection to Stitch, use the static `StitchClientFactory.create()` method to asynchronously create a `StitchClient` that can be used to make requests to Stitch.
 
-	```swift
-	StitchClientFactory.create(appId: "<your-client-app-id>").done { (client: StitchClient) in
+    ```swift
+    StitchClientFactory
+        .create(appId: "<your-client-app-id>")
+        .done { (client: StitchClient) in
             // Perform requests to Stitch using the variable "client",
             // or assign the value of the variable "client" to some
             // property accessible outside this closure.
@@ -102,8 +104,8 @@ If you prefer not to use any of the aforementioned dependency managers, you can 
             // For example, if this is in a class which has a
             // stored StitchClient property named "stitchClient":
             self.stitchClient = client
-    }.cauterize()
-	```
+        }.cauterize()
+    ```
 
     This will only instantiate a client but will not make any outgoing connection to Stitch.
 
