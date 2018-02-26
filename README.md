@@ -34,9 +34,9 @@ platform :ios, '11.0'
 use_frameworks!
 
 target '<Your Target Name>' do
-    pod 'StitchCore', '~> 3.0.1'
+    pod 'StitchCore', '~> 3.0.2'
     # optional: for accessing a mongodb client
-    pod 'MongoDBService', '~> 2.0.0'
+    pod 'MongoDBService', '~> 3.0.2'
     # optional: for using mongodb's ExtendedJson
     pod 'ExtendedJson', '~> 2.0.4'
 end
@@ -91,19 +91,33 @@ If you prefer not to use any of the aforementioned dependency managers, you can 
 ### Using the SDK
 
 #### Logging In
-1. To initialize our connection to Stitch, go to your `AppDelegate` and within your `application:didFinishLoadingWithOptions` method, add the following line and replace your-app-id with the app ID you took note of when setting up the application in Stitch:
+1. To initialize our connection to Stitch, use the static `StitchClientFactory.create()` method to asynchronously create a `StitchClient` that can be used to make requests to Stitch.
+
+    ```swift
+    StitchClientFactory
+        .create(appId: "<your-client-app-id>")
+        .done { (client: StitchClient) in
+            // Perform requests to Stitch using the variable "client",
+            // or assign the value of the variable "client" to some
+            // property accessible outside this closure.
+
+            // For example, if this is in a class which has a
+            // stored StitchClient property named "stitchClient":
+            self.stitchClient = client
+        }.cauterize()
+    ```
+
+    This will only instantiate a client but will not make any outgoing connection to Stitch.
+
+2. For guidance on how to perform this initialization cleanly in the context of developing an iOS app, see the page [Initialize StitchClient](https://docs.mongodb.com/stitch/getting-started/init-stitchclient/#ios-sdk) in the MongoDB Stitch documentation.
+
+3. Since we enabled anonymous log in, let's log in with it; add the following after you've initialized your new `StitchClient`:
 
 	```swift
-	let client = StitchClient(appId: "your-app-id")
-	```
-
-2. This will only instantiate a client but will not make any outgoing connection to Stitch
-3. Since we enabled anonymous log in, let's log in with it; add the following after your new _client_:
-
-	```swift
-	client.fetchAuthProviders().then { (authProviderInfo: AuthProviderInfo) in
+	self.stitchClient.fetchAuthProviders().then { (authProviderInfo: AuthProviderInfo) in
             if (authProviderInfo.anonymousAuthProviderInfo != nil) {
-                return client.anonymousAuth()
+                print("logging in anonymously")
+                return self.stitchClient.anonymousAuth()
             } else {
                 print("no anonymous provider")
             }
@@ -123,31 +137,23 @@ If you prefer not to use any of the aforementioned dependency managers, you can 
 	logged in anonymously as user 58c5d6ebb9ede022a3d75050
 	```
 
-#### Running a Pipeline
+#### Executing a Function
 
-1. Once logged in, running a pipeline happens via the client's executePipeline method
-2. To avoid nesting our tasks any further, after logging in we should call some init method that will use the client. We will also place the client as a member of our AppDelegate:
+1. Once logged in, executing a function happens via the StitchClient's `executeFunction()` method
 
 	```swift
-	let client = StitchClient(appId: "your-app-id")
-	
-	func initializeClient() {
-		var literalArgs: [String: ExtendedJsonRepresentable] = [:]
-		literalArgs["items"] = BsonArray(array: ["Hello"])
-		self.client.executePipeline(pipeline: Pipeline(action: "literal", args: literalArgs)).response(completionHandler: { (result) in
-		    if let value = result.value {
-			if let strings = value as? BsonArray {
-			    print("number of results: \(strings.count)")
-			    strings.forEach { string in print(string) }
-			}
-		    }
-		})
-    }
+    self.stitchClient
+        .executeFunction(name: "echoArg", args: "Hello world!")
+        .done { (echoedArg: Any) in
+            print(echoedArg as? String ?? "return value not a string")
+        }.catch { error in
+            print("Could not execute function: \(error)")
+        }
 	```
-3. Call `initalizeClient()` after logging in and run your app. You should see a messages like:
+
+2. If you've configured your Stitch application to have a function named "echoArg" that returns its argument, you should see a message like:
 
 	```
-	number of results: 1
 	Hello world!
 	```
 
@@ -170,8 +176,8 @@ If you prefer not to use any of the aforementioned dependency managers, you can 
 2. To create a GCM Push Provider by asking Stitch, you must use the *getPushProviders* method and ensure a GCM provider exists:
 
 ```swift
-self.stitchClient.getPushProviders().response { (result: StitchResult<AvailablePushProviders>) in
-    if let gcm = result.value?.gcm {
+self.stitchClient.getPushProviders().done { (result: AvailablePushProviders) in
+    if let gcm = result.gcm {
         let listener = MyGCMListener(gcmClient: StitchGCMPushClient(stitchClient: self.stitchClient, info: gcm))
 
 	StitchGCMContext.sharedInstance().application(application,
