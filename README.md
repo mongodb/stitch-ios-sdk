@@ -105,7 +105,7 @@ If you prefer not to use any of the aforementioned dependency managers, you can 
     }.cauterize()
 	```
 
-This will only instantiate a client but will not make any outgoing connection to Stitch.
+    This will only instantiate a client but will not make any outgoing connection to Stitch.
 
 2. For guidance on how to perform this initialization cleanly in the context of developing an iOS app, see the page [Initialize StitchClient](https://docs.mongodb.com/stitch/getting-started/init-stitchclient/#ios-sdk) in the MongoDB Stitch documentation.
 
