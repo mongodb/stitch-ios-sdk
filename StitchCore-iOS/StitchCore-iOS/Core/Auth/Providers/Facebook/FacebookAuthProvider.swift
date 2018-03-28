@@ -2,23 +2,26 @@ import Foundation
 import StitchCore
 
 /**
- * A utility class which contains a property that can be used with `StitchAuth` to retrieve a `FacebookAuthProviderClient`.
+ * A utility class which contains a property that can be used with `StitchAuth` to retrieve a
+ * `FacebookAuthProviderClient`.
  */
 public final class FacebookAuthProvider {
-    
+
     /**
      * An `AuthProviderClientSupplier` which can be used with `StitchAuth` to retrieve an `FacebookAuthProviderClient`.
      */
     public static let clientProvider: ClientProviderImpl = ClientProviderImpl.init()
-    
+
     /**
      * :nodoc:
      * An implementation of `AuthProviderClientSupplier` that produces a `FacebookAuthProviderClient`.
      */
     public final class ClientProviderImpl: AuthProviderClientSupplier {
         public typealias Client = FacebookAuthProviderClient
-        
-        public func client(withRequestClient _: StitchRequestClient, withRoutes _: StitchAuthRoutes, withDispatcher _: OperationDispatcher) -> FacebookAuthProviderClient {
+
+        public func client(withRequestClient _: StitchRequestClient,
+                           withRoutes _: StitchAuthRoutes,
+                           withDispatcher _: OperationDispatcher) -> FacebookAuthProviderClient {
             return CoreFacebookAuthProviderClient.init()
         }
     }
@@ -29,7 +32,7 @@ public final class FacebookAuthProvider {
  * that can be used to log in with the Facebook authentication provider.
  */
 public protocol FacebookAuthProviderClient {
-    
+
     /**
      * Gets a credential that can be used to log in with the Facebook authentication provider.
      *

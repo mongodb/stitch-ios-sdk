@@ -1,16 +1,16 @@
 public protocol StitchUserFactory {
-    associatedtype T: CoreStitchUser
+    associatedtype UserType: CoreStitchUser
 
     func makeUser(withId id: String,
                   withLoggedInProviderType loggedInProviderType: String,
                   withLoggedInProviderName loggedInProviderName: String,
-                  withUserProfile userProfile: StitchUserProfile) -> T
+                  withUserProfile userProfile: StitchUserProfile) -> UserType
 }
 
 public class AnyStitchUserFactory<T: CoreStitchUser> {
     private let makeUserBlock: (String, String, String, StitchUserProfile) -> T
 
-    public init<U: StitchUserFactory>(stitchUserFactory: U) where U.T == T {
+    public init<U: StitchUserFactory>(stitchUserFactory: U) where U.UserType == T {
         self.makeUserBlock = stitchUserFactory.makeUser
     }
 

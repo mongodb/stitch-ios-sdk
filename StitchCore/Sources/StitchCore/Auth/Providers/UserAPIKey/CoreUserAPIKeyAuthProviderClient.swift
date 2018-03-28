@@ -10,4 +10,3 @@ open class CoreUserAPIKeyAuthProviderClient {
         return UserAPIKeyCredential(withProviderName: self.providerName, withKey: key)
     }
 }
-

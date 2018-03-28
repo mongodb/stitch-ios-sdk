@@ -41,7 +41,7 @@ internal struct StoreAuthInfo: Codable, AuthInfo {
         self.loggedInProviderName = authInfo.loggedInProviderName
         self.userProfile = authInfo.userProfile
     }
-    
+
     /**
      * Initializer for existing auth info but new access token.
      */

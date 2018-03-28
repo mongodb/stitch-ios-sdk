@@ -1,6 +1,5 @@
 import Foundation
 
-// TODO: Handle timeouts
 public final class FoundationHTTPTransport: Transport {
 
     public init() { }
@@ -17,7 +16,6 @@ public final class FoundationHTTPTransport: Transport {
             ContentTypes.applicationJson.rawValue
 
         var urlRequest = URLRequest(url: url)
-
 
         urlRequest.allHTTPHeaderFields = contentHeaders
         urlRequest.httpMethod = request.method.rawValue
@@ -44,7 +42,7 @@ public final class FoundationHTTPTransport: Transport {
                                           headers: headers,
                                           body: data)
         }.resume()
-        
+
         sema.wait()
 
         guard let response = finalResponse else {

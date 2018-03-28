@@ -70,11 +70,8 @@ public struct StitchClientConfigurationBuilderImpl: StitchClientConfigurationBui
     public init(_ builder: (inout StitchClientConfigurationBuilderImpl) -> Void) {
         builder(&self)
     }
-    
+
     public func build() throws -> TBuildee {
         return try StitchClientConfigurationImpl.init(self)
     }
 }
-
-
-

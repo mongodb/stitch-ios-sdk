@@ -3,7 +3,7 @@ public struct APIStitchUserIdentity: StitchUserIdentity, Hashable {
         return self.id.hashValue
     }
 
-    public static func ==(lhs: APIStitchUserIdentity, rhs: APIStitchUserIdentity) -> Bool {
+    public static func == (lhs: APIStitchUserIdentity, rhs: APIStitchUserIdentity) -> Bool {
         return lhs.id == rhs.id
     }
 

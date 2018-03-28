@@ -43,8 +43,7 @@ class FoundationHTTPTransportTests: StitchXCTestCase {
 
         XCTAssertThrowsError(
             try transport.roundTrip(request: builder.build()),
-            StitchErrorCode.invalidURL.rawValue,
-            { _ in }
+            StitchErrorCode.invalidURL.rawValue, { _ in }
         )
 
         builder.url = "\(self.baseURL)\(self.getEndpoint)"
@@ -71,9 +70,7 @@ class FoundationHTTPTransportTests: StitchXCTestCase {
         builder.url = "http://localhost:9000/notreal"
         XCTAssertThrowsError(
             try transport.roundTrip(request: builder.build()),
-            StitchErrorCode.unknown.rawValue,
-            { _ in }
+            StitchErrorCode.unknown.rawValue, { _ in }
         )
     }
 }
-

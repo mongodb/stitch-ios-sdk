@@ -44,9 +44,3 @@ class StitchAppClientConfigurationBuilderTests: XCTestCase {
         XCTAssert(config.transport is FoundationHTTPTransport)
     }
 }
-
-
-
-
-
-

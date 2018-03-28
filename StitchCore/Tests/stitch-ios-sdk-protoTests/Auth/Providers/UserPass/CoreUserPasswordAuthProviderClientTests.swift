@@ -12,7 +12,7 @@ private final class MockRoutes {
         self.providerName = providerName
     }
 
-    private func extensionRoute(forPath path: String) -> String{
+    private func extensionRoute(forPath path: String) -> String {
         return "\(authRoutes.authProviderLoginRoute(withProviderName: providerName))/\(path)"
     }
 
@@ -33,7 +33,7 @@ class CoreUserPasswordAuthProviderClientTests: StitchXCTestCase {
     let providerName = "local-userpass"
 
     var core: CoreUserPasswordAuthProviderClient!
-    
+
     private lazy var mockRoutes = MockRoutes.init(withAuthRoutes: routes.authRoutes,
                                                   withProviderName: providerName)
 

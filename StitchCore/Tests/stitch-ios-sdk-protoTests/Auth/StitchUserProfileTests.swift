@@ -27,7 +27,7 @@ class StitchUserProfileTests: XCTestCase {
         "provider_type": "anon-user"
     ]
 
-    func testStitchUserProfileImplInit() throws {   
+    func testStitchUserProfileImplInit() throws {
         let anonIdentity = try BSONDecoder().decode(APIStitchUserIdentity.self, from: anonIdentityDoc)
         let stitchUserProfileImpl = StitchUserProfileImpl.init(userType: "local-userpass",
                                                                identities: [anonIdentity],

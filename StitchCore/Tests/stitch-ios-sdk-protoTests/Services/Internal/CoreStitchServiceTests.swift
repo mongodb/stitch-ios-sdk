@@ -25,26 +25,17 @@ class CoreStitchServiceTests: XCTestCase {
             return self
         }
 
-        func doAuthenticatedJSONRequestForResult<TResult>(_ stitchReq: StitchAuthDocRequest,
-                                                          withResultClass resultClass: TResult.Type) throws -> TResult where TResult : Decodable, TResult : Encodable {
-            XCTAssertEqual(stitchReq.method, .post)
-            XCTAssertEqual(stitchReq.path, appRoutes.serviceRoutes.functionCallRoute)
-            XCTAssertEqual(stitchReq.document, expectedDoc)
-            XCTAssert(resultClass is Int.Type)
-            return 0 as! TResult
-        }
-
         func doAuthenticatedJSONRequestRaw(_ stitchReq: StitchAuthDocRequest) throws -> Response {
             return Response.init(statusCode: 200, headers: [:], body: nil)
         }
     }
-    
+
     func testCallFunctionInternal() throws {
         let coreStitchService = CoreStitchService.init(requestClient: MockAuthRequestClient(),
                                                        routes: appRoutes.serviceRoutes,
                                                        name: mockServiceName)
 
-        let _ = try coreStitchService.callFunctionInternal(withName: mockFunctionName,
+        _ = try coreStitchService.callFunctionInternal(withName: mockFunctionName,
                                                            withArgs: mockArgs)
     }
 }

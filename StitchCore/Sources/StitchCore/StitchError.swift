@@ -78,7 +78,6 @@ public struct StitchErrorCodable: Codable {
         case error, errorCode = "error_code"
     }
 
-
     let error: String?
     let errorCode: StitchErrorCode?
 
@@ -113,8 +112,8 @@ public struct StitchErrorCodable: Codable {
         } catch let err {
             return err
         }
-        
-        if (response.statusCode >= 400 && response.statusCode < 600) {
+
+        if response.statusCode >= 400 && response.statusCode < 600 {
             return StitchError.serviceError(withMessage: error.error!,
                                             withErrorCode: error.errorCode ?? .unknown)
         }

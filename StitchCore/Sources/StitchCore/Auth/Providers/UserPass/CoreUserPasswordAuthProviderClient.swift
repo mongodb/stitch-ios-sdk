@@ -8,7 +8,7 @@ private final class Routes {
         self.providerName = providerName
     }
 
-    private func extensionRoute(forPath path: String) -> String{
+    private func extensionRoute(forPath path: String) -> String {
         return "\(authRoutes.authProviderLoginRoute(withProviderName: providerName))/\(path)"
     }
 
@@ -48,7 +48,7 @@ open class CoreUserPasswordAuthProviderClient: CoreAuthProviderClient {
     }
 
     public func register(withEmail email: String,
-                           withPassword password: String) throws -> Response {
+                         withPassword password: String) throws -> Response {
         return try self.requestClient.doJSONRequestRaw(StitchDocRequestBuilderImpl {
             $0.method = .post
             $0.document = [emailKey: email,
@@ -58,7 +58,7 @@ open class CoreUserPasswordAuthProviderClient: CoreAuthProviderClient {
     }
 
     public func confirmUser(withToken token: String,
-                              withTokenId tokenId: String) throws -> Response {
+                            withTokenId tokenId: String) throws -> Response {
         return try self.requestClient.doJSONRequestRaw(StitchDocRequestBuilderImpl {
             $0.method = .post
             $0.document = [tokenKey: token,
@@ -76,8 +76,8 @@ open class CoreUserPasswordAuthProviderClient: CoreAuthProviderClient {
     }
 
     public func reset(password: String,
-                        withToken token: String,
-                        withTokenId tokenId: String) throws -> Response {
+                      withToken token: String,
+                      withTokenId tokenId: String) throws -> Response {
         return try self.requestClient.doJSONRequestRaw(StitchDocRequestBuilderImpl {
             $0.method = .post
             $0.document = [tokenKey: token,

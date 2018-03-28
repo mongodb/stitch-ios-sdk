@@ -34,7 +34,7 @@ public final class StitchRequestClientImpl: StitchRequestClient {
 
     public func doJSONRequestRaw(_ stitchReq: StitchDocRequest) throws -> Response {
         return try doRequest(StitchRequestBuilderImpl { builder in
-            builder.body = try! BSONEncoder().encode(stitchReq.document,
+            builder.body = try? BSONEncoder().encode(stitchReq.document,
                                                       shouldIncludeSourceMap: false)
             builder.headers = [
                 Headers.contentType.rawValue: ContentTypes.applicationJson.rawValue

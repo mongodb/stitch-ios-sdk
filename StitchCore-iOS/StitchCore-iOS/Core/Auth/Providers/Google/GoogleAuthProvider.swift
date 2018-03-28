@@ -2,23 +2,25 @@ import Foundation
 import StitchCore
 
 /**
- * A utility class which contains a property that can be used with `StitchAuth` to retrieve a `GoogleAuthProviderClient`.
+ * A utility class which contains a property that can be used with `StitchAuth` to retrieve a
+ * `GoogleAuthProviderClient`.
  */
 public final class GoogleAuthProvider {
-    
     /**
      * An `AuthProviderClientSupplier` which can be used with `StitchAuth` to retrieve an `GoogleAuthProviderClient`.
      */
     public static let clientProvider: ClientProviderImpl = ClientProviderImpl.init()
-    
+
     /**
      * :nodoc:
      * An implementation of `AuthProviderClientSupplier` that produces a `GoogleAuthProviderClient`.
      */
     public final class ClientProviderImpl: AuthProviderClientSupplier {
         public typealias Client = GoogleAuthProviderClient
-    
-        public func client(withRequestClient _: StitchRequestClient, withRoutes _: StitchAuthRoutes, withDispatcher _: OperationDispatcher) -> GoogleAuthProviderClient {
+
+        public func client(withRequestClient _: StitchRequestClient,
+                           withRoutes _: StitchAuthRoutes,
+                           withDispatcher _: OperationDispatcher) -> GoogleAuthProviderClient {
             return CoreGoogleAuthProviderClient.init()
         }
     }
@@ -29,7 +31,6 @@ public final class GoogleAuthProvider {
  * that can be used to log in with the Google authentication provider.
  */
 public protocol GoogleAuthProviderClient {
-    
     /**
      * Gets a credential that can be used to log in with the Google authentication provider.
      *

@@ -66,10 +66,8 @@ public final class StitchAppRoutes {
     public let serviceRoutes: StitchServiceRoutes
 
     public init(clientAppId: String) {
-        self.clientAppId = clientAppId;
+        self.clientAppId = clientAppId
         self.authRoutes = StitchAppAuthRoutes.init(clientAppId: clientAppId)
         self.serviceRoutes = StitchServiceRoutes.init(clientAppId: clientAppId)
     }
 }
-
-

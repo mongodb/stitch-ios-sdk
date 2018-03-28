@@ -23,8 +23,8 @@ public protocol StitchAppClient {
      *     - forProvider: An `AnyNamedServiceClientProvider` object which contains a `NamedServiceClientProvider`
      *                    class which will provide the client for this service.
      *     - withName: The name of the service as defined in the MongoDB Stitch application.
-     * - returns: a service client whose type is determined by the `T` type parameter of the `AnyNamedServiceClientProvider`
-     *            passed in the `forProvider` parameter.
+     * - returns: a service client whose type is determined by the `T` type parameter of the
+     *            `AnyNamedServiceClientProvider` passed in the `forProvider` parameter.
      */
     func serviceClient<T>(forService provider: AnyNamedServiceClientProvider<T>,
                           withName serviceName: String) -> T
@@ -39,7 +39,7 @@ public protocol StitchAppClient {
      *            passed in the `forProvider` parameter.
      */
     func serviceClient<T>(forService provider: AnyServiceClientProvider<T>) -> T
-    
+
     /**
      * Calls the MongoDB Stitch function with the provided name and arguments.
      *
@@ -49,7 +49,8 @@ public protocol StitchAppClient {
      *     - completionHandler: The completion handler to call when the function call is complete.
      *                          This handler is executed on a non-main global `DispatchQueue`.
      *     - result: The result of the function call as an `Any`, or `nil` if the function call failed.
-     *     - error: An error object that indicates why the function call failed, or `nil` if the function call was successful.
+     *     - error: An error object that indicates why the function call failed, or `nil` if the function call was
+     *              successful.
      *
      */
     func callFunction(withName name: String,

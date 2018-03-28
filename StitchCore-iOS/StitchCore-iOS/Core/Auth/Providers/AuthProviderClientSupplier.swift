@@ -14,10 +14,9 @@ import StitchCore
  */
 public protocol AuthProviderClientSupplier {
     associatedtype Client
-    
+
     /** :nodoc: */
     func client(withRequestClient requestClient: StitchRequestClient,
                 withRoutes routes: StitchAuthRoutes,
                 withDispatcher dispatcher: OperationDispatcher) -> Client
-    
 }

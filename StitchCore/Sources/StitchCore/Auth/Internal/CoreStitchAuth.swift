@@ -2,36 +2,8 @@ import Foundation
 import ExtendedJSON
 
 private enum AuthKey: String {
-    case options = "options"
-    case device = "device"
-}
-
-private struct AuthStateHolder {
-    var apiAuthInfo: APIAuthInfo?
-    var extendedAuthInfo: ExtendedAuthInfo?
-    var authInfo: AuthInfo?
-
-    var isLoggedIn: Bool {
-        return apiAuthInfo != nil || authInfo != nil
-    }
-
-    var accessToken: String? {
-        return apiAuthInfo?.accessToken ?? authInfo?.accessToken
-    }
-
-    var refreshToken: String? {
-        return apiAuthInfo?.refreshToken ?? authInfo?.refreshToken
-    }
-
-    var userId: String? {
-        return apiAuthInfo?.userId ?? authInfo?.userId
-    }
-
-    mutating func clearState() {
-        self.apiAuthInfo = nil
-        self.extendedAuthInfo = nil
-        self.authInfo = nil
-    }
+    case options
+    case device
 }
 
 /**
@@ -40,8 +12,8 @@ private struct AuthStateHolder {
  *
  * @param <TStitchUser>
  */
-open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUser: CoreStitchUser {
-    private var authStateHolder = AuthStateHolder()
+open class CoreStitchAuth<TStitchUser> where TStitchUser: CoreStitchUser {
+    internal var authStateHolder = AuthStateHolder()
     private var storage: Storage
     private var refresherThread: Thread?
     private var currentUser: TStitchUser?
@@ -104,53 +76,19 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
     }
 
     public var isLoggedIn: Bool {
+        // swiftlint:disable force_try
         return try! sync(self) {
+            // swiftlint:enable force_try
             self.authStateHolder.isLoggedIn
         }
     }
 
     public var user: TStitchUser? {
+        // swiftlint:disable force_try
         return try! sync(self) {
+            // swiftlint:enable force_try
             self.currentUser
         }
-    }
-
-    public func doAuthenticatedRequest<R>(_ stitchReq: R) throws -> Response where R: StitchAuthRequest {
-        do {
-            return try requestClient.doRequest(prepareAuthRequest(stitchReq))
-        } catch let err {
-            return try handleAuthFailure(forError: err, withRequest: stitchReq)
-        }
-    }
-
-    public func doAuthenticatedJSONRequest(_ stitchReq: StitchAuthDocRequest) throws -> Any {
-        do {
-            let response = try doAuthenticatedJSONRequestRaw(stitchReq)
-            
-            guard let responseBody = response.body else {
-                throw StitchError.requestError(withMessage: "no body in request response")
-            }
-            
-            // TODO: This should return a BSONCodable
-            return try JSONSerialization.jsonObject(with: responseBody, options: JSONSerialization.ReadingOptions.allowFragments)
-            
-        } catch let err {
-            return try handleAuthFailure(forError: err, withRequest: stitchReq) as Any
-        }
-    }
-
-    public func doAuthenticatedJSONRequestRaw(_ stitchReq: StitchAuthDocRequest) throws -> Response {
-        var builder = StitchAuthDocRequestBuilderImpl { _ in }
-        builder.path = stitchReq.path
-        builder.useRefreshToken = stitchReq.useRefreshToken
-        builder.method = stitchReq.method
-        builder.body = try JSONSerialization.data(withJSONObject: stitchReq.document.toExtendedJSON)
-        builder.document = stitchReq.document
-        builder.headers = stitchReq.headers.merging(
-            [Headers.contentType.rawValue:
-                ContentTypes.applicationJson.rawValue]
-        ) { s1, s2 in return s1 }
-        return try self.doAuthenticatedRequest(builder.build())
     }
 
     public func loginWithCredentialBlocking(withCredential credential: StitchCredential) throws -> TStitchUser {
@@ -171,11 +109,12 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
     }
 
     public func linkUserWithCredentialBlocking(withUser user: TStitchUser,
-                                                            withCredential credential: StitchCredential) throws -> TStitchUser {
+                                               withCredential credential: StitchCredential) throws -> TStitchUser {
         return try sync(self) {
             guard let currentUser = self.currentUser,
                 user == currentUser else {
-                throw StitchError.requestError(withMessage: "user no longer valid; please try again with a new user from StitchAuth.user")
+                throw StitchError.requestError(
+                    withMessage: "user no longer valid; please try again with a new user from StitchAuth.user")
             }
 
             return try self.doLogin(withCredential: credential, asLinkRequest: true)
@@ -206,63 +145,10 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
         return authInfo?.deviceId
     }
 
-    private func prepareAuthRequest<R>(_ stitchReq: R) throws -> StitchRequestImpl where R: StitchAuthRequest {
-        return try sync(self) {
-            guard self.isLoggedIn,
-                let refreshToken = self.authStateHolder.refreshToken,
-                let accessToken = self.authStateHolder.accessToken else {
-                throw StitchClientErrors.mustAuthenticateFirst
-            }
-
-            return try StitchRequestBuilderImpl {
-                var newHeaders = stitchReq.headers
-                if (stitchReq.useRefreshToken) {
-                    newHeaders[Headers.authorization.rawValue] =
-                        Headers.authorizationBearer(forValue: refreshToken)
-                } else {
-                    newHeaders[Headers.authorization.rawValue] =
-                        Headers.authorizationBearer(forValue: accessToken)
-                }
-                $0.headers = newHeaders
-                $0.path = stitchReq.path
-                $0.method = stitchReq.method
-                $0.body = stitchReq.body
-            }.build()
-        }
-    }
-
-    // Will propagate non-Stitch errors, and Stitch errors that aren't related to authentication failure
-    private func handleAuthFailure<R>(forError error: Error,
-                                      withRequest req: R) throws -> Response where R: StitchAuthRequest {
-        guard let sError = error as? StitchError else {
-            throw error
-        }
-
-        switch sError {
-        case .serviceError(_, let withErrorCode):
-            guard withErrorCode == .invalidSession else {
-                throw error
-            }
-        case .requestError(_):
-            throw error
-        }
-
-        // using a refresh token implies we cannot refresh anything, so clear auth and
-        // notify
-        if req.useRefreshToken || !req.shouldRefreshOnFailure {
-            try self.clearAuth()
-            throw error
-        }
-
-        try self.tryRefreshAccessToken(reqStartedAt: req.startedAt)
-
-        return try doAuthenticatedRequest(req)
-    }
-
     // use this critical section to create a queue of pending outbound requests
     // that should wait on the result of doing a token refresh or logout. This will
     // prevent too many refreshes happening one after the other.
-    private func tryRefreshAccessToken(reqStartedAt: TimeInterval) throws {
+    internal func tryRefreshAccessToken(reqStartedAt: TimeInterval) throws {
         try sync(self) {
             guard isLoggedIn, let accessToken = self.authStateHolder.accessToken else {
                 throw StitchError.requestError(withMessage: "logged out during request")
@@ -278,8 +164,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
     }
 
     /// NOTE: This method must be called within a lock
-    /// TODO: Make sure of the note
-    func refreshAccessToken() throws {
+    internal func refreshAccessToken() throws {
         let response = try self.doAuthenticatedRequest(StitchAuthRequestBuilderImpl {
             $0.useRefreshToken = true
             $0.path = self.authRoutes.sessionRoute
@@ -288,7 +173,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
 
         let newAccessToken = try JSONDecoder().decode(APIAccessToken.self,
                                                    from: response.body!)
-        
+
         self.authInfo = self.authInfo?.refresh(withNewAccessToken: newAccessToken)
 
         try self.authInfo?.write(toStorage: &self.storage)
@@ -372,7 +257,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
                                                             loggedInProviderName: credential.providerName,
                                                             userProfile: profile)
         )
-        
+
         try self.authInfo?.write(toStorage: &storage)
         self.currentUser =
             userFactory
@@ -407,7 +292,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
         }.build())
     }
 
-    private func clearAuth() throws {
+    internal func clearAuth() throws {
         try sync(self) {
             guard self.isLoggedIn else { return }
             self.authStateHolder.clearState()

@@ -1,3 +1,4 @@
+// swiftlint:disable force_try
 import XCTest
 @testable import StitchCore
 import JWT
@@ -32,7 +33,7 @@ class AccessTokenRefresherTests: XCTestCase {
         )
         print(mockCoreAuth.setterAccessed)
 
-        let _ = try mockCoreAuth.loginWithCredentialBlocking(withCredential: AnonymousCredential.init())
+        _ = try mockCoreAuth.loginWithCredentialBlocking(withCredential: AnonymousCredential.init())
         print(mockCoreAuth.setterAccessed)
 
         let accessTokenRefresher = AccessTokenRefresher<MockStitchUser>.init(authRef: mockCoreAuth)
@@ -51,7 +52,7 @@ class AccessTokenRefresherTests: XCTestCase {
 
         // logout and relogin. setterAccessor should be accessed twice after this
         try mockCoreAuth.logoutBlocking()
-        let _ = try mockCoreAuth.loginWithCredentialBlocking(withCredential: AnonymousCredential.init())
+        _ = try mockCoreAuth.loginWithCredentialBlocking(withCredential: AnonymousCredential.init())
 
         // check refresh, which SHOULD trigger a refresh, and the setter
         accessTokenRefresher.checkRefresh()

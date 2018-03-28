@@ -1,16 +1,16 @@
 import StitchCore
 
 public protocol NamedServiceClientProvider {
-    associatedtype T
+    associatedtype ClientType
 
     func client(forService service: StitchService,
-                withClient client: StitchAppClientInfo) -> T
+                withClient client: StitchAppClientInfo) -> ClientType
 }
 
 public struct AnyNamedServiceClientProvider<T> {
     private let clientBlock: (StitchService, StitchAppClientInfo) -> T
 
-    fileprivate init<U: NamedServiceClientProvider>(provider: U) where U.T == T {
+    fileprivate init<U: NamedServiceClientProvider>(provider: U) where U.ClientType == T {
         self.clientBlock = provider.client
     }
 
