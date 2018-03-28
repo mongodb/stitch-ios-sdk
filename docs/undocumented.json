@@ -1,607 +1,691 @@
 {
   "warnings": [
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Auth.swift",
-      "line": 11,
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Auth.swift",
+      "line": 12,
       "symbol": "Auth",
       "symbol_kind": "source.lang.swift.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Auth.swift",
-      "line": 12,
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Auth.swift",
+      "line": 13,
       "symbol": "Auth.userId",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Auth.swift",
-      "line": 28,
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Auth.swift",
+      "line": 29,
       "symbol": "Auth.createApiKey(name:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Auth.swift",
-      "line": 40,
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Auth.swift",
+      "line": 41,
       "symbol": "Auth.fetchApiKey(id:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Auth.swift",
-      "line": 50,
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Auth.swift",
+      "line": 51,
       "symbol": "Auth.fetchApiKeys()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Auth.swift",
-      "line": 60,
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Auth.swift",
+      "line": 61,
       "symbol": "Auth.deleteApiKey(id:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Auth.swift",
-      "line": 79,
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Auth.swift",
+      "line": 80,
       "symbol": "Auth.enableApiKey(id:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Auth.swift",
-      "line": 83,
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Auth.swift",
+      "line": 84,
       "symbol": "Auth.disableApiKey(id:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
       "line": 4,
       "symbol": "AuthProviderType",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
       "line": 5,
       "symbol": "AuthProviderType.name",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
       "line": 6,
       "symbol": "AuthProviderType.type",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
       "line": 9,
       "symbol": "AnonymousAuthProviderInfo",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
       "line": 10,
       "symbol": "AnonymousAuthProviderInfo.name",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
       "line": 11,
       "symbol": "AnonymousAuthProviderInfo.type",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
       "line": 13,
       "symbol": "EmailPasswordAuthProviderInfo",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
       "line": 14,
       "symbol": "EmailPasswordAuthProviderInfo.Config",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "line": 15,
+      "symbol": "EmailPasswordAuthProviderInfo.Config.emailConfirmationUrl",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "line": 16,
+      "symbol": "EmailPasswordAuthProviderInfo.Config.resetPasswordUrl",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
       "line": 19,
       "symbol": "EmailPasswordAuthProviderInfo.config",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
       "line": 20,
       "symbol": "EmailPasswordAuthProviderInfo.name",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
       "line": 21,
       "symbol": "EmailPasswordAuthProviderInfo.type",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
       "line": 23,
       "symbol": "ApiKeyAuthProviderInfo",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
       "line": 24,
       "symbol": "ApiKeyAuthProviderInfo.name",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
       "line": 25,
       "symbol": "ApiKeyAuthProviderInfo.type",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
       "line": 27,
       "symbol": "GoogleAuthProviderInfo",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
       "line": 28,
       "symbol": "GoogleAuthProviderInfo.Config",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "line": 29,
+      "symbol": "GoogleAuthProviderInfo.Config.clientId",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
       "line": 31,
       "symbol": "GoogleAuthProviderInfo.MetadataField",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "line": 32,
+      "symbol": "GoogleAuthProviderInfo.MetadataField.name",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "line": 33,
+      "symbol": "GoogleAuthProviderInfo.MetadataField.required",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
       "line": 36,
       "symbol": "GoogleAuthProviderInfo.config",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
       "line": 37,
       "symbol": "GoogleAuthProviderInfo.metadataFields",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
       "line": 39,
       "symbol": "GoogleAuthProviderInfo.name",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
       "line": 40,
       "symbol": "GoogleAuthProviderInfo.type",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
       "line": 46,
       "symbol": "FacebookAuthProviderInfo",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
       "line": 47,
       "symbol": "FacebookAuthProviderInfo.Config",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "line": 48,
+      "symbol": "FacebookAuthProviderInfo.Config.clientId",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
       "line": 50,
       "symbol": "FacebookAuthProviderInfo.MetadataField",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "line": 51,
+      "symbol": "FacebookAuthProviderInfo.MetadataField.name",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "line": 52,
+      "symbol": "FacebookAuthProviderInfo.MetadataField.required",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
       "line": 55,
       "symbol": "FacebookAuthProviderInfo.config",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
       "line": 56,
       "symbol": "FacebookAuthProviderInfo.metadataFields",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
       "line": 57,
       "symbol": "FacebookAuthProviderInfo.name",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
       "line": 58,
       "symbol": "FacebookAuthProviderInfo.type",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "line": 64,
+      "symbol": "CustomAuthProviderInfo",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "line": 65,
+      "symbol": "CustomAuthProviderInfo.Config",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "line": 66,
+      "symbol": "CustomAuthProviderInfo.Config.clientId",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "line": 68,
+      "symbol": "CustomAuthProviderInfo.MetadataField",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "line": 69,
+      "symbol": "CustomAuthProviderInfo.MetadataField.name",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "line": 70,
+      "symbol": "CustomAuthProviderInfo.MetadataField.required",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "line": 73,
+      "symbol": "CustomAuthProviderInfo.config",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "line": 74,
+      "symbol": "CustomAuthProviderInfo.metadataFields",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "line": 75,
+      "symbol": "CustomAuthProviderInfo.name",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "line": 76,
+      "symbol": "CustomAuthProviderInfo.type",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "line": 83,
+      "symbol": "AuthProviderTypes",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "line": 84,
+      "symbol": "AuthProviderTypes.google",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "line": 85,
+      "symbol": "AuthProviderTypes.facebook",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
       "line": 86,
+      "symbol": "AuthProviderTypes.apiKey",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "line": 87,
+      "symbol": "AuthProviderTypes.emailPass",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "line": 88,
+      "symbol": "AuthProviderTypes.anonymous",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "line": 89,
+      "symbol": "AuthProviderTypes.custom",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/AuthProviderInfo.swift",
+      "line": 107,
       "symbol": "AuthProviderInfo.init(from:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/DecodedJWT.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/DecodedJWT.swift",
       "line": 28,
       "symbol": "DecodedJWT",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/DecodedJWT.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/DecodedJWT.swift",
       "line": 50,
       "symbol": "DecodedJWT.expiration",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/DecodedJWT.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/DecodedJWT.swift",
       "line": 61,
       "symbol": "DecodedJWT.DecodeError",
       "symbol_kind": "source.lang.swift.decl.enum",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/DecodedJWT.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/DecodedJWT.swift",
       "line": 62,
       "symbol": "DecodedJWT.DecodeError.invalidBase64Url",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/DecodedJWT.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/DecodedJWT.swift",
       "line": 63,
       "symbol": "DecodedJWT.DecodeError.invalidJSON",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/DecodedJWT.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/DecodedJWT.swift",
       "line": 64,
       "symbol": "DecodedJWT.DecodeError.invalidPartCount",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/DecodedJWT.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/DecodedJWT.swift",
       "line": 66,
       "symbol": "DecodedJWT.DecodeError.localizedDescription",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Providers/ApiKey/ApiKey.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Providers/ApiKey/ApiKey.swift",
       "line": 11,
       "symbol": "ApiKey",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Providers/ApiKey/ApiKey.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Providers/ApiKey/ApiKey.swift",
       "line": 19,
       "symbol": "ApiKey.id",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Providers/ApiKey/ApiKey.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Providers/ApiKey/ApiKey.swift",
       "line": 20,
       "symbol": "ApiKey.key",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Providers/ApiKey/ApiKey.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Providers/ApiKey/ApiKey.swift",
       "line": 21,
       "symbol": "ApiKey.name",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Providers/ApiKey/ApiKey.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Providers/ApiKey/ApiKey.swift",
       "line": 22,
       "symbol": "ApiKey.disabled",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Providers/ApiKey/ApiKeyAuthProvider.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Providers/ApiKey/ApiKeyAuthProvider.swift",
       "line": 12,
       "symbol": "ApiKeyAuthProvider",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Providers/ApiKey/ApiKeyAuthProvider.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Providers/ApiKey/ApiKeyAuthProvider.swift",
       "line": 15,
       "symbol": "ApiKeyAuthProvider.type",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Providers/ApiKey/ApiKeyAuthProvider.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Providers/ApiKey/ApiKeyAuthProvider.swift",
       "line": 16,
       "symbol": "ApiKeyAuthProvider.name",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Providers/ApiKey/ApiKeyAuthProvider.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Providers/ApiKey/ApiKeyAuthProvider.swift",
       "line": 18,
       "symbol": "ApiKeyAuthProvider.payload",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Providers/ApiKey/ApiKeyAuthProvider.swift",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Providers/ApiKey/ApiKeyAuthProvider.swift",
       "line": 22,
       "symbol": "ApiKeyAuthProvider.init(key:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Core/Services/Twilio/TwilioService.swift",
-      "line": 10,
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Providers/Custom/CustomAuthProvider.swift",
+      "line": 6,
+      "symbol": "CustomAuthProvider",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Providers/Custom/CustomAuthProvider.swift",
+      "line": 7,
+      "symbol": "CustomAuthProvider.type",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Providers/Custom/CustomAuthProvider.swift",
+      "line": 9,
+      "symbol": "CustomAuthProvider.payload",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Providers/Custom/CustomAuthProvider.swift",
+      "line": 11,
+      "symbol": "CustomAuthProvider.jwt",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/Providers/Custom/CustomAuthProvider.swift",
+      "line": 13,
+      "symbol": "CustomAuthProvider.init(jwt:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Auth/UserProfile.swift",
+      "line": 20,
+      "symbol": "Role",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Core/Services/Twilio/TwilioService.swift",
+      "line": 4,
       "symbol": "TwilioService",
       "symbol_kind": "source.lang.swift.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Core/StitchClient.swift",
-      "line": 7,
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Core/StitchClient.swift",
+      "line": 8,
       "symbol": "Consts",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Core/StitchClient.swift",
-      "line": 8,
-      "symbol": "Consts.DefaultBaseUrl",
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Core/StitchClient.swift",
+      "line": 14,
+      "symbol": "Consts.defaultServerUrl",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Core/StitchClient.swift",
-      "line": 42,
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Core/StitchClient.swift",
+      "line": 29,
+      "symbol": "StitchClientFactory",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Core/StitchClient.swift",
+      "line": 32,
+      "symbol": "StitchClientFactory.create(appId:baseUrl:networkAdapter:storage:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Core/StitchClient.swift",
+      "line": 45,
+      "symbol": "StitchClient",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Core/StitchClient.swift",
+      "line": 65,
       "symbol": "StitchClient.push",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Network/Adapter/StitchNetworkAdapter.swift",
-      "line": 5,
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Core/StitchClient.swift",
+      "line": 139,
+      "symbol": "StitchClient.auth",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Core/StitchClient.swift",
+      "line": 156,
+      "symbol": "StitchClient.loggedInProviderType",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Network/Adapter/StitchNetworkAdapter.swift",
+      "line": 6,
       "symbol": "StitchNetworkAdapter",
       "symbol_kind": "source.lang.swift.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Network/Adapter/StitchNetworkAdapter.swift",
-      "line": 71,
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Network/Adapter/StitchNetworkAdapter.swift",
+      "line": 9,
+      "symbol": "StitchNetworkAdapter.requestWithJsonEncoding(url:method:data:headers:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Network/Adapter/StitchNetworkAdapter.swift",
+      "line": 42,
+      "symbol": "StitchNetworkAdapter.cancelAllRequests()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/adamchel/stitch/sdks/stitch-ios-sdk/StitchCore/StitchCore/Source/Network/Adapter/StitchNetworkAdapter.swift",
+      "line": 46,
       "symbol": "StitchNetworkAdapter.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
-    },
-    {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Network/StitchTask.swift",
-      "line": 31,
-      "symbol": "ExecutionContext",
-      "symbol_kind": "source.lang.swift.decl.protocol",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Network/StitchTask.swift",
-      "line": 32,
-      "symbol": "ExecutionContext.execute(_:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Network/StitchTask.swift",
-      "line": 36,
-      "symbol": "DispatchQueue.execute(_:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Network/StitchTask.swift",
-      "line": 41,
-      "symbol": "InvalidatableQueue",
-      "symbol_kind": "source.lang.swift.decl.class",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Network/StitchTask.swift",
-      "line": 47,
-      "symbol": "InvalidatableQueue.init(queue:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Network/StitchTask.swift",
-      "line": 51,
-      "symbol": "InvalidatableQueue.invalidate()",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Network/StitchTask.swift",
-      "line": 55,
-      "symbol": "InvalidatableQueue.execute(_:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Network/StitchTask.swift",
-      "line": 143,
-      "symbol": "StitchTask",
-      "symbol_kind": "source.lang.swift.decl.class",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Network/StitchTask.swift",
-      "line": 150,
-      "symbol": "StitchTask.init()",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Network/StitchTask.swift",
-      "line": 154,
-      "symbol": "StitchTask.init(value:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Network/StitchTask.swift",
-      "line": 158,
-      "symbol": "StitchTask.init(error:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Network/StitchTask.swift",
-      "line": 162,
-      "symbol": "StitchTask.init(queue:work:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Network/StitchTask.swift",
-      "line": 176,
-      "symbol": "StitchTask.withSuccess(_:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.static",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Network/StitchTask.swift",
-      "line": 180,
-      "symbol": "StitchTask.withFailure(_:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.static",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Network/StitchTask.swift",
-      "line": 185,
-      "symbol": "StitchTask.response(onQueue:completionHandler:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Network/StitchTask.swift",
-      "line": 204,
-      "symbol": "StitchTask.then(parser:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Network/StitchTask.swift",
-      "line": 225,
-      "symbol": "StitchTask.then(onQueue:_:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Network/StitchTask.swift",
-      "line": 244,
-      "symbol": "StitchTask.then(onQueue:_:_:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Network/StitchTask.swift",
-      "line": 269,
-      "symbol": "StitchTask.catch(onQueue:_:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Network/StitchTask.swift",
-      "line": 274,
-      "symbol": "StitchTask.reject(_:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Network/StitchTask.swift",
-      "line": 278,
-      "symbol": "StitchTask.fulfill(_:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Network/StitchTask.swift",
-      "line": 282,
-      "symbol": "StitchTask.isPending",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Network/StitchTask.swift",
-      "line": 286,
-      "symbol": "StitchTask.isFulfilled",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Network/StitchTask.swift",
-      "line": 290,
-      "symbol": "StitchTask.isRejected",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Network/StitchTask.swift",
-      "line": 313,
-      "symbol": "StitchTask.result",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore/StitchCore/Source/Network/StitchTask.swift",
-      "line": 321,
-      "symbol": "StitchTask.error",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
     }
   ],
-  "source_directory": "/Users/jasonflax/Development/stitch-ios-sdk/StitchCore"
+  "source_directory": "/Users/adamchel/stitch/sdks/stitch-ios-sdk"
 }
