@@ -1,0 +1,697 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		11297B1E205301C9001D0711 /* AuthProviderClientSupplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11297B1D205301C9001D0711 /* AuthProviderClientSupplier.swift */; };
+		11297B20205301D5001D0711 /* NamedAuthProviderClientSupplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11297B1F205301D5001D0711 /* NamedAuthProviderClientSupplier.swift */; };
+		112C5A822053334400463147 /* AnonymousAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112C5A812053334400463147 /* AnonymousAuthProvider.swift */; };
+		11981A112061B9D50074BB11 /* OperationDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11981A102061B9D50074BB11 /* OperationDispatcher.swift */; };
+		11981A1E2062C4AA0074BB11 /* StitchCore_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4902C678205006C800E53674 /* StitchCore_iOS.framework */; };
+		11981A242062C4B60074BB11 /* OperationDispatcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11981A132062C12D0074BB11 /* OperationDispatcherTests.swift */; };
+		11C587D82056D06000B34DD1 /* CustomAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C587D72056D06000B34DD1 /* CustomAuthProvider.swift */; };
+		11C587DA2056D28F00B34DD1 /* FacebookAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C587D92056D28F00B34DD1 /* FacebookAuthProvider.swift */; };
+		11C587DC2056D40B00B34DD1 /* GoogleAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C587DB2056D40B00B34DD1 /* GoogleAuthProvider.swift */; };
+		11C587DE2056D54300B34DD1 /* ServerAPIKeyAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C587DD2056D54300B34DD1 /* ServerAPIKeyAuthProvider.swift */; };
+		11C587E02056D6F300B34DD1 /* UserAPIKeyAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C587DF2056D6F300B34DD1 /* UserAPIKeyAuthProvider.swift */; };
+		11C587E22056D82700B34DD1 /* UserPasswordAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C587E12056D82700B34DD1 /* UserPasswordAuthProvider.swift */; };
+		11C587E42057094B00B34DD1 /* StitchUserImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C587E32057094B00B34DD1 /* StitchUserImpl.swift */; };
+		11C587EA20581C8000B34DD1 /* Stitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C587E920581C8000B34DD1 /* Stitch.swift */; };
+		11C587EF2058445200B34DD1 /* StitchUserFactoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C587EE2058445200B34DD1 /* StitchUserFactoryImpl.swift */; };
+		11CAF8CE205995C0003AF24D /* StitchCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CAF8CD205995C0003AF24D /* StitchCore.swift */; };
+		4902C67D205006C800E53674 /* StitchCore_iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 4902C67B205006C800E53674 /* StitchCore_iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4902C6882050076B00E53674 /* ExtendedJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4902C68A2050076B00E53674 /* ExtendedJSON.framework */; };
+		4902C68D2050078F00E53674 /* StitchAppClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C68C2050078F00E53674 /* StitchAppClient.swift */; };
+		4902C6902050083C00E53674 /* StitchAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C68F2050083C00E53674 /* StitchAuth.swift */; };
+		4902C694205009C400E53674 /* StitchUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C693205009C400E53674 /* StitchUser.swift */; };
+		4902C6AF20500FAD00E53674 /* StitchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C6AE20500FAD00E53674 /* StitchService.swift */; };
+		4902C6B12050103300E53674 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4902C6B22050103300E53674 /* StitchCore.framework */; };
+		4902C6B8205010AE00E53674 /* StitchAuthDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C6B7205010AE00E53674 /* StitchAuthDelegate.swift */; };
+		4902C6BA2050112300E53674 /* StitchServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C6B92050112300E53674 /* StitchServiceImpl.swift */; };
+		4902C6C9205174A100E53674 /* NamedServiceClientProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C6C8205174A100E53674 /* NamedServiceClientProvider.swift */; };
+		4902C6CF2051753000E53674 /* ServiceClientProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C6CE2051753000E53674 /* ServiceClientProvider.swift */; };
+		49368D6D2052F350006153D3 /* StitchAppClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49368D6C2052F350006153D3 /* StitchAppClientImpl.swift */; };
+		49368D702052F35B006153D3 /* StitchAuthImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49368D6F2052F35B006153D3 /* StitchAuthImpl.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		11981A1F2062C4AA0074BB11 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4902C66F205006C800E53674 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4902C677205006C800E53674;
+			remoteInfo = "StitchCore-iOS";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		11297B1D205301C9001D0711 /* AuthProviderClientSupplier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthProviderClientSupplier.swift; sourceTree = "<group>"; };
+		11297B1F205301D5001D0711 /* NamedAuthProviderClientSupplier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamedAuthProviderClientSupplier.swift; sourceTree = "<group>"; };
+		112C5A812053334400463147 /* AnonymousAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonymousAuthProvider.swift; sourceTree = "<group>"; };
+		11981A102061B9D50074BB11 /* OperationDispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationDispatcher.swift; sourceTree = "<group>"; };
+		11981A132062C12D0074BB11 /* OperationDispatcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationDispatcherTests.swift; sourceTree = "<group>"; };
+		11981A192062C4AA0074BB11 /* StitchCore_iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StitchCore_iOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		11981A1D2062C4AA0074BB11 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		11C587D72056D06000B34DD1 /* CustomAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAuthProvider.swift; sourceTree = "<group>"; };
+		11C587D92056D28F00B34DD1 /* FacebookAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookAuthProvider.swift; sourceTree = "<group>"; };
+		11C587DB2056D40B00B34DD1 /* GoogleAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAuthProvider.swift; sourceTree = "<group>"; };
+		11C587DD2056D54300B34DD1 /* ServerAPIKeyAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerAPIKeyAuthProvider.swift; sourceTree = "<group>"; };
+		11C587DF2056D6F300B34DD1 /* UserAPIKeyAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPIKeyAuthProvider.swift; sourceTree = "<group>"; };
+		11C587E12056D82700B34DD1 /* UserPasswordAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPasswordAuthProvider.swift; sourceTree = "<group>"; };
+		11C587E32057094B00B34DD1 /* StitchUserImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchUserImpl.swift; sourceTree = "<group>"; };
+		11C587E920581C8000B34DD1 /* Stitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stitch.swift; sourceTree = "<group>"; };
+		11C587EE2058445200B34DD1 /* StitchUserFactoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchUserFactoryImpl.swift; sourceTree = "<group>"; };
+		11CAF8CD205995C0003AF24D /* StitchCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchCore.swift; sourceTree = "<group>"; };
+		4902C678205006C800E53674 /* StitchCore_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StitchCore_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4902C67B205006C800E53674 /* StitchCore_iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StitchCore_iOS.h; sourceTree = "<group>"; };
+		4902C67C205006C800E53674 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4902C68A2050076B00E53674 /* ExtendedJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ExtendedJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4902C68B2050076B00E53674 /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4902C68C2050078F00E53674 /* StitchAppClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAppClient.swift; sourceTree = "<group>"; };
+		4902C68F2050083C00E53674 /* StitchAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAuth.swift; sourceTree = "<group>"; };
+		4902C693205009C400E53674 /* StitchUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchUser.swift; sourceTree = "<group>"; };
+		4902C6AE20500FAD00E53674 /* StitchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchService.swift; sourceTree = "<group>"; };
+		4902C6B22050103300E53674 /* StitchCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4902C6B7205010AE00E53674 /* StitchAuthDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAuthDelegate.swift; sourceTree = "<group>"; };
+		4902C6B92050112300E53674 /* StitchServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchServiceImpl.swift; sourceTree = "<group>"; };
+		4902C6C8205174A100E53674 /* NamedServiceClientProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamedServiceClientProvider.swift; sourceTree = "<group>"; };
+		4902C6CE2051753000E53674 /* ServiceClientProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceClientProvider.swift; sourceTree = "<group>"; };
+		49368D6C2052F350006153D3 /* StitchAppClientImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchAppClientImpl.swift; sourceTree = "<group>"; };
+		49368D6F2052F35B006153D3 /* StitchAuthImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchAuthImpl.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		11981A162062C4AA0074BB11 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				11981A1E2062C4AA0074BB11 /* StitchCore_iOS.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4902C674205006C800E53674 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4902C6B12050103300E53674 /* StitchCore.framework in Frameworks */,
+				4902C6882050076B00E53674 /* ExtendedJSON.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		11297B1B20530192001D0711 /* Providers */ = {
+			isa = PBXGroup;
+			children = (
+				11297B212053020C001D0711 /* Anonymous */,
+				11297B2220530214001D0711 /* Custom */,
+				11297B2320530219001D0711 /* Facebook */,
+				11297B242053021D001D0711 /* Google */,
+				11297B2520530221001D0711 /* ServerAPIKey */,
+				11297B262053022B001D0711 /* UserAPIKey */,
+				11297B2720530234001D0711 /* UserPassword */,
+				11297B1D205301C9001D0711 /* AuthProviderClientSupplier.swift */,
+				11297B1F205301D5001D0711 /* NamedAuthProviderClientSupplier.swift */,
+			);
+			path = Providers;
+			sourceTree = "<group>";
+		};
+		11297B212053020C001D0711 /* Anonymous */ = {
+			isa = PBXGroup;
+			children = (
+				112C5A812053334400463147 /* AnonymousAuthProvider.swift */,
+			);
+			path = Anonymous;
+			sourceTree = "<group>";
+		};
+		11297B2220530214001D0711 /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+				11C587D72056D06000B34DD1 /* CustomAuthProvider.swift */,
+			);
+			path = Custom;
+			sourceTree = "<group>";
+		};
+		11297B2320530219001D0711 /* Facebook */ = {
+			isa = PBXGroup;
+			children = (
+				11C587D92056D28F00B34DD1 /* FacebookAuthProvider.swift */,
+			);
+			path = Facebook;
+			sourceTree = "<group>";
+		};
+		11297B242053021D001D0711 /* Google */ = {
+			isa = PBXGroup;
+			children = (
+				11C587DB2056D40B00B34DD1 /* GoogleAuthProvider.swift */,
+			);
+			path = Google;
+			sourceTree = "<group>";
+		};
+		11297B2520530221001D0711 /* ServerAPIKey */ = {
+			isa = PBXGroup;
+			children = (
+				11C587DD2056D54300B34DD1 /* ServerAPIKeyAuthProvider.swift */,
+			);
+			path = ServerAPIKey;
+			sourceTree = "<group>";
+		};
+		11297B262053022B001D0711 /* UserAPIKey */ = {
+			isa = PBXGroup;
+			children = (
+				11C587DF2056D6F300B34DD1 /* UserAPIKeyAuthProvider.swift */,
+			);
+			path = UserAPIKey;
+			sourceTree = "<group>";
+		};
+		11297B2720530234001D0711 /* UserPassword */ = {
+			isa = PBXGroup;
+			children = (
+				11C587E12056D82700B34DD1 /* UserPasswordAuthProvider.swift */,
+			);
+			path = UserPassword;
+			sourceTree = "<group>";
+		};
+		11981A0F2061B9AC0074BB11 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				11981A102061B9D50074BB11 /* OperationDispatcher.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		11981A1A2062C4AA0074BB11 /* StitchCore_iOSTests */ = {
+			isa = PBXGroup;
+			children = (
+				11981A252062C8160074BB11 /* Core */,
+				11981A1D2062C4AA0074BB11 /* Info.plist */,
+			);
+			path = StitchCore_iOSTests;
+			sourceTree = "<group>";
+		};
+		11981A252062C8160074BB11 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				11981A262062C8190074BB11 /* Internal */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		11981A262062C8190074BB11 /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				11981A272062C81D0074BB11 /* Common */,
+			);
+			path = Internal;
+			sourceTree = "<group>";
+		};
+		11981A272062C81D0074BB11 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				11981A132062C12D0074BB11 /* OperationDispatcherTests.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		4902C66E205006C800E53674 = {
+			isa = PBXGroup;
+			children = (
+				4902C67A205006C800E53674 /* StitchCore-iOS */,
+				11981A1A2062C4AA0074BB11 /* StitchCore_iOSTests */,
+				4902C679205006C800E53674 /* Products */,
+				4902C6872050076B00E53674 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		4902C679205006C800E53674 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4902C678205006C800E53674 /* StitchCore_iOS.framework */,
+				11981A192062C4AA0074BB11 /* StitchCore_iOSTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4902C67A205006C800E53674 /* StitchCore-iOS */ = {
+			isa = PBXGroup;
+			children = (
+				4902C67B205006C800E53674 /* StitchCore_iOS.h */,
+				4902C6AD20500FA000E53674 /* Core */,
+				4902C6B020500FB300E53674 /* Services */,
+				4902C67C205006C800E53674 /* Info.plist */,
+			);
+			path = "StitchCore-iOS";
+			sourceTree = "<group>";
+		};
+		4902C6872050076B00E53674 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4902C6B22050103300E53674 /* StitchCore.framework */,
+				4902C68A2050076B00E53674 /* ExtendedJSON.framework */,
+				4902C68B2050076B00E53674 /* StitchCore.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4902C68E2050083300E53674 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				11297B1B20530192001D0711 /* Providers */,
+				49368D6E2052F35B006153D3 /* Internal */,
+				4902C68F2050083C00E53674 /* StitchAuth.swift */,
+				4902C6B7205010AE00E53674 /* StitchAuthDelegate.swift */,
+				4902C693205009C400E53674 /* StitchUser.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		4902C6AD20500FA000E53674 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				4902C68E2050083300E53674 /* Auth */,
+				49368D6B2052F350006153D3 /* Internal */,
+				4902C68C2050078F00E53674 /* StitchAppClient.swift */,
+				11C587E920581C8000B34DD1 /* Stitch.swift */,
+				11CAF8CD205995C0003AF24D /* StitchCore.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		4902C6B020500FB300E53674 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				4902C6BB2050112C00E53674 /* Internal */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		4902C6BB2050112C00E53674 /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				4902C6AE20500FAD00E53674 /* StitchService.swift */,
+				4902C6B92050112300E53674 /* StitchServiceImpl.swift */,
+				4902C6C8205174A100E53674 /* NamedServiceClientProvider.swift */,
+				4902C6CE2051753000E53674 /* ServiceClientProvider.swift */,
+			);
+			path = Internal;
+			sourceTree = "<group>";
+		};
+		49368D6B2052F350006153D3 /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				11981A0F2061B9AC0074BB11 /* Common */,
+				49368D6C2052F350006153D3 /* StitchAppClientImpl.swift */,
+			);
+			path = Internal;
+			sourceTree = "<group>";
+		};
+		49368D6E2052F35B006153D3 /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				49368D6F2052F35B006153D3 /* StitchAuthImpl.swift */,
+				11C587E32057094B00B34DD1 /* StitchUserImpl.swift */,
+				11C587EE2058445200B34DD1 /* StitchUserFactoryImpl.swift */,
+			);
+			path = Internal;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		4902C675205006C800E53674 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4902C67D205006C800E53674 /* StitchCore_iOS.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		11981A182062C4AA0074BB11 /* StitchCore_iOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 11981A212062C4AA0074BB11 /* Build configuration list for PBXNativeTarget "StitchCore_iOSTests" */;
+			buildPhases = (
+				11981A152062C4AA0074BB11 /* Sources */,
+				11981A162062C4AA0074BB11 /* Frameworks */,
+				11981A172062C4AA0074BB11 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				11981A202062C4AA0074BB11 /* PBXTargetDependency */,
+			);
+			name = StitchCore_iOSTests;
+			productName = StitchCore_iOSTests;
+			productReference = 11981A192062C4AA0074BB11 /* StitchCore_iOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		4902C677205006C800E53674 /* StitchCore-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4902C680205006C800E53674 /* Build configuration list for PBXNativeTarget "StitchCore-iOS" */;
+			buildPhases = (
+				4902C673205006C800E53674 /* Sources */,
+				4902C674205006C800E53674 /* Frameworks */,
+				4902C675205006C800E53674 /* Headers */,
+				4902C676205006C800E53674 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "StitchCore-iOS";
+			productName = "StitchCore-iOS";
+			productReference = 4902C678205006C800E53674 /* StitchCore_iOS.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4902C66F205006C800E53674 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0920;
+				LastUpgradeCheck = 0920;
+				ORGANIZATIONNAME = mongodb;
+				TargetAttributes = {
+					11981A182062C4AA0074BB11 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+					4902C677205006C800E53674 = {
+						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0920;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 4902C672205006C800E53674 /* Build configuration list for PBXProject "StitchCore-iOS" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 4902C66E205006C800E53674;
+			productRefGroup = 4902C679205006C800E53674 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4902C677205006C800E53674 /* StitchCore-iOS */,
+				11981A182062C4AA0074BB11 /* StitchCore_iOSTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		11981A172062C4AA0074BB11 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4902C676205006C800E53674 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		11981A152062C4AA0074BB11 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				11981A242062C4B60074BB11 /* OperationDispatcherTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4902C673205006C800E53674 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4902C6902050083C00E53674 /* StitchAuth.swift in Sources */,
+				11297B20205301D5001D0711 /* NamedAuthProviderClientSupplier.swift in Sources */,
+				4902C6CF2051753000E53674 /* ServiceClientProvider.swift in Sources */,
+				49368D702052F35B006153D3 /* StitchAuthImpl.swift in Sources */,
+				11C587EF2058445200B34DD1 /* StitchUserFactoryImpl.swift in Sources */,
+				49368D6D2052F350006153D3 /* StitchAppClientImpl.swift in Sources */,
+				11C587DE2056D54300B34DD1 /* ServerAPIKeyAuthProvider.swift in Sources */,
+				11C587DA2056D28F00B34DD1 /* FacebookAuthProvider.swift in Sources */,
+				4902C6C9205174A100E53674 /* NamedServiceClientProvider.swift in Sources */,
+				4902C694205009C400E53674 /* StitchUser.swift in Sources */,
+				11C587D82056D06000B34DD1 /* CustomAuthProvider.swift in Sources */,
+				11C587EA20581C8000B34DD1 /* Stitch.swift in Sources */,
+				112C5A822053334400463147 /* AnonymousAuthProvider.swift in Sources */,
+				4902C6BA2050112300E53674 /* StitchServiceImpl.swift in Sources */,
+				4902C6AF20500FAD00E53674 /* StitchService.swift in Sources */,
+				4902C6B8205010AE00E53674 /* StitchAuthDelegate.swift in Sources */,
+				11C587E02056D6F300B34DD1 /* UserAPIKeyAuthProvider.swift in Sources */,
+				11C587DC2056D40B00B34DD1 /* GoogleAuthProvider.swift in Sources */,
+				4902C68D2050078F00E53674 /* StitchAppClient.swift in Sources */,
+				11C587E22056D82700B34DD1 /* UserPasswordAuthProvider.swift in Sources */,
+				11981A112061B9D50074BB11 /* OperationDispatcher.swift in Sources */,
+				11297B1E205301C9001D0711 /* AuthProviderClientSupplier.swift in Sources */,
+				11C587E42057094B00B34DD1 /* StitchUserImpl.swift in Sources */,
+				11CAF8CE205995C0003AF24D /* StitchCore.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		11981A202062C4AA0074BB11 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4902C677205006C800E53674 /* StitchCore-iOS */;
+			targetProxy = 11981A1F2062C4AA0074BB11 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		11981A222062C4AA0074BB11 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = StitchCore_iOSTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mongodb.StitchCore-iOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		11981A232062C4AA0074BB11 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = StitchCore_iOSTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mongodb.StitchCore-iOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		4902C67E205006C800E53674 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		4902C67F205006C800E53674 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		4902C681205006C800E53674 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 2Z8M9MTEVV;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "StitchCore-iOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "mongo.StitchCore-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4902C682205006C800E53674 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 2Z8M9MTEVV;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "StitchCore-iOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "mongo.StitchCore-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		11981A212062C4AA0074BB11 /* Build configuration list for PBXNativeTarget "StitchCore_iOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				11981A222062C4AA0074BB11 /* Debug */,
+				11981A232062C4AA0074BB11 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4902C672205006C800E53674 /* Build configuration list for PBXProject "StitchCore-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4902C67E205006C800E53674 /* Debug */,
+				4902C67F205006C800E53674 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4902C680205006C800E53674 /* Build configuration list for PBXNativeTarget "StitchCore-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4902C681205006C800E53674 /* Debug */,
+				4902C682205006C800E53674 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4902C66F205006C800E53674 /* Project object */;
+}

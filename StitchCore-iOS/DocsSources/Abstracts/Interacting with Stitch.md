@@ -1,0 +1,1 @@
+The `Stitch` utility class and the rest of the protocols here provide functionality for interacting with a MongoDB Stitch application. None of these classes or protocols are meant to be instantiated directly. All interaction with Stitch begins at the level of the `Stitch` utility class.

@@ -1,0 +1,58 @@
+{
+    "xcodebuild_arguments": ["-project", "StitchCore-iOS.xcodeproj"],
+    "author": "MongoDB",
+    "author_url": "https://github.com/mongodb/stitch-ios-sdk",
+    "module": "StitchCore_iOS",
+    "theme": "fullwidth",
+
+    "documentation":"DocsSources/Pages/*.md",
+    "abstract":"DocsSources/Abstracts/*.md",
+
+    "exclude": "/*/Internal*",
+
+    "custom_categories": [{
+        "name": "Overview",
+        "children": [
+            "Getting Started",
+            "Note on StitchCore Module",
+            "Notes on Multithreading"
+        ]
+    }, {
+        "name": "Interacting with Stitch",
+        "children": [
+            "Stitch",
+            "StitchAppClient",
+            "StitchAuth",
+            "StitchUser",
+            "StitchService"
+        ]
+    }, {
+        "name": "Delegates",
+        "children": [
+            "StitchAuthDelegate"
+        ]
+    }, {
+        "name": "Errors",
+        "children": [
+            "StitchInitializationError"
+        ]
+    }, {
+        "name": "Authentication Providers",
+        "children": [
+            "AnonymousAuthProvider",
+            "AnonymousAuthProviderClient",
+            "CustomAuthProvider",
+            "CustomAuthProviderClient",
+            "FacebookAuthProvider",
+            "FacebookAuthProviderClient",
+            "GoogleAuthProvider",
+            "GoogleAuthProviderClient",
+            "ServerAPIKeyAuthProvider",
+            "ServerAPIKeyAuthProviderClient",
+            "UserAPIKeyAuthProvider",
+            "UserAPIKeyAuthProviderClient",
+            "UserPasswordAuthProvider",
+            "UserPasswordAuthProviderClient"
+        ]
+    }]
+}

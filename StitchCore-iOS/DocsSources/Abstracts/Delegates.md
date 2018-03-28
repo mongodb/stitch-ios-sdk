@@ -1,0 +1,1 @@
+If you'd like to build classes in your application that can react to Stitch-related events that may occur in your application, you can implement one of these delegates and register its instances with the appropriate class.
