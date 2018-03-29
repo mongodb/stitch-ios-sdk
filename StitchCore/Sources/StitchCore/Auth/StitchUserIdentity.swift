@@ -1,6 +1,5 @@
 /**
- * A class representing an identity that a Stitch user is linked to
- * and can use to sign into their account.
+ * A class representing an identity that a Stitch user is linked to and can use to sign into their account.
  */
 public protocol StitchUserIdentity: Decodable {
     /**
@@ -16,6 +15,9 @@ public protocol StitchUserIdentity: Decodable {
     var providerType: String { get }
 }
 
+/**
+ * An overload of `==` that checks if two `StitchUserIdentity` objects are equal based on their ID and provider type.
+ */
 public func == (_ lhs: StitchUserIdentity, _ rhs: StitchUserIdentity) -> Bool {
     return lhs.id == rhs.id && lhs.providerType == rhs.providerType
 }

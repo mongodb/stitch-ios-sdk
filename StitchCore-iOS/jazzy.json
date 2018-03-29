@@ -7,13 +7,13 @@
 
     "documentation":"DocsSources/Pages/*.md",
     "abstract":"DocsSources/Abstracts/*.md",
+    "commentreadme":"README.md",
 
     "exclude": "/*/Internal*",
 
     "custom_categories": [{
-        "name": "Overview",
+        "name": "Getting Started",
         "children": [
-            "Getting Started",
             "Note on StitchCore Module",
             "Notes on Multithreading"
         ]
@@ -23,8 +23,7 @@
             "Stitch",
             "StitchAppClient",
             "StitchAuth",
-            "StitchUser",
-            "StitchService"
+            "StitchUser"
         ]
     }, {
         "name": "Delegates",

@@ -1,5 +1,5 @@
 /**
- * Defines the behavior of this credential based on its authentication provider.
+ * Defines the behavior of a credential based on its authentication provider.
  */
 public struct ProviderCapabilities {
     /**
@@ -10,6 +10,13 @@ public struct ProviderCapabilities {
      */
     public let reusesExistingSession: Bool
 
+    /**
+     * Initializes this ProviderCapabilities struct.
+     *
+     * - parameters:
+     *     - reusesExistingSession: Whether or not the credential described by this `ProviderCapabilities` should reuse
+     *                              an existing session when logging in.
+     */
     public init(reusesExistingSession: Bool = false) {
         self.reusesExistingSession = reusesExistingSession
     }

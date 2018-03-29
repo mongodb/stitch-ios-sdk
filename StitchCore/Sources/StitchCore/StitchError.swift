@@ -1,7 +1,19 @@
 import Foundation
 
+/**
+ * An enum representing an error related to Stitch.
+ */
 public enum StitchError: Error {
+    /**
+     * Indicates that the error is related specifically to Stitch, and has an error code defined in the
+     * `StitchErrorCode` enum.
+     */
     case serviceError(withMessage: String, withErrorCode: StitchErrorCode)
+    
+    /**
+     * Indicates that the error was with the request made to the Stitch server. This could (but is not
+     * limited to) be due to the lack of connectivity or a request timeout.
+     */
     case requestError(withMessage: String)
 }
 
