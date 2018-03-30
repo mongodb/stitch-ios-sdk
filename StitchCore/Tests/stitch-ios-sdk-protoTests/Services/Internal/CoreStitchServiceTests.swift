@@ -9,7 +9,7 @@ private let mockArgs = BSONArray(arrayLiteral: 0, 1, 2)
 private let expectedDoc: Document = [
     "name": mockFunctionName,
     "service": mockServiceName,
-    "args": mockArgs
+    "arguments": mockArgs
 ]
 
 class CoreStitchServiceTests: XCTestCase {

@@ -21,12 +21,12 @@ public struct RequestBuilder: Builder {
      * The HTTP method of the request to be built.
      */
     public var method: Method?
-    
+
     /**
      * The URL of the request to be built.
      */
     public var url: String?
-    
+
     /**
      * The HTTP headers of the request to be built.
      */
@@ -85,7 +85,7 @@ public struct Request: Buildee {
     public var body: Data?
 
     // MARK: Initializer
-    
+
     /**
      * Initializes this request by accepting a `RequestBuilder`.
      *
@@ -115,12 +115,12 @@ public struct Response {
      * The status code of the HTTP response.
      */
     public let statusCode: Int
-    
+
     /**
      * The headers of the HTTP response.
      */
     public let headers: [String: String]
-    
+
     /**
      * The body of the HTTP response.
      */

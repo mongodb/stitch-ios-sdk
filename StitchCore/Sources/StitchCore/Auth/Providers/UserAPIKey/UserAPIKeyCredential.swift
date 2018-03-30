@@ -1,24 +1,41 @@
 import ExtendedJSON
 
 /**
- * :nodoc:
  * A credential which can be used to log in as a Stitch user
  * using the User API Key authentication provider.
  */
 public struct UserAPIKeyCredential: StitchCredential {
+    /**
+     * The name of the provider for this credential.
+     */
     public var providerName: String
 
+    /**
+     * The type of the provider for this credential.
+     */
     public var providerType: String = "api-key"
 
+    /**
+     * The contents of this credential as they will be passed to the Stitch server.
+     */
     public var material: Document {
         return ["key": key]
     }
 
+    /**
+     * The behavior of this credential when logging in.
+     */
     public var providerCapabilities: ProviderCapabilities =
         ProviderCapabilities.init(reusesExistingSession: false)
 
+    /**
+     * The user API key contained within this credential.
+     */
     public let key: String
 
+    /**
+     * Initializes this credential with the name of the provider, and a user API key.
+     */
     internal init(withProviderName providerName: String = "api-key",
                   withKey key: String) {
         self.providerName = providerName

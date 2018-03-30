@@ -9,7 +9,7 @@ public protocol StitchAuthRequestClient {
      * - returns: The response to the request as a `Response`.
      */
     func doAuthenticatedRequest<R>(_ stitchReq: R) throws -> Response where R: StitchAuthRequest
-    
+
     /**
      * Performs an authenticated request to the Stitch server with a JSON request body, using the current
      * authentication state, and should throw when not currently authenticated.
@@ -17,7 +17,7 @@ public protocol StitchAuthRequestClient {
      * - returns: An `Any` representing the response body as decoded JSON.
      */
     func doAuthenticatedJSONRequest(_ stitchReq: StitchAuthDocRequest) throws -> Any
-    
+
     /**
      * Performs the underlying logic of performing the authenticated JSON request to the Stitch server.
      *

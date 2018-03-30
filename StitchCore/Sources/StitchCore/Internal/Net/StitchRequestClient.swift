@@ -28,7 +28,7 @@ public protocol StitchRequestClient {
      * - returns: the response to the request as a `Response` object.
      */
     func doRequest<R>(_ stitchReq: R) throws -> Response where R: StitchRequest
-    
+
     /**
      * Performs a request against the Stitch server with the given `StitchDocRequest` object.
      *
@@ -45,7 +45,7 @@ public final class StitchRequestClientImpl: StitchRequestClient {
      * The base URL of the Stitch server to which this client will make requests.
      */
     private let baseURL: String
-    
+
     /**
      * The `Transport` which this client will use to make round trips to the Stitch server.
      */

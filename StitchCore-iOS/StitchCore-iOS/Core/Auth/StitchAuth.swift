@@ -6,6 +6,21 @@ import StitchCore
  */
 public protocol StitchAuth {
 
+    // MARK: Properties
+
+    /**
+     * Whether or not the client containing this `StitchAuth` object is currently authenticated.
+     */
+    var isLoggedIn: Bool { get }
+
+    /**
+     * A `StitchUser` object representing the user that the client is currently authenticated as.
+     * `nil` if the client is not currently authenticated.
+     */
+    var currentUser: StitchUser? { get }
+
+    // MARK: Authentication Provider Clients
+
     /**
      * Retrieves the authentication provider client associated with the authentication provider type specified in the
      * argument.
@@ -19,6 +34,8 @@ public protocol StitchAuth {
      */
     func providerClient<Provider: AuthProviderClientSupplier>(forProvider provider: Provider) -> Provider.Client
 
+    // swiftlint:disable line_length
+
     /**
      * Retrieves the authentication provider client associated with the authentication provider with the specified name
      * and type.
@@ -31,14 +48,15 @@ public protocol StitchAuth {
      * - returns: an authentication provider client whose type is determined by the `Client` typealias in the type
      *            specified in the `forProvider` parameter.
      */
-    func providerClient<Provider: NamedAuthProviderClientSupplier>(forProvider provider: Provider,
-                                                                   withName name: String) -> Provider.Client
+    func providerClient<Provider: NamedAuthProviderClientSupplier>(forProvider provider: Provider, withName name: String) -> Provider.Client
+
+    // MARK: Authentication Actions
 
     /**
      * Authenticates the client as a MongoDB Stitch user using the provided `StitchCredential`.
      *
      * - parameters:
-     *     - withCredential: The `StitchCredential` used to authenticate the
+     *     - withCredential: The `StitchCore.StitchCredential` used to authenticate the
      *                       client. Credentials can be retrieved from an
      *                       authentication provider client, which is retrieved
      *                       using the `providerClient` method.
@@ -48,8 +66,9 @@ public protocol StitchAuth {
      *             login failed.
      *     - error: An error object that indicates why the login failed, or `nil` if the login was successful.
      */
-    func login(withCredential credential: StitchCredential,
-               _ completionHandler: @escaping (_ user: StitchUser?, _ error: Error?) -> Void)
+    func login(withCredential credential: StitchCredential, _ completionHandler: @escaping (_ user: StitchUser?, _ error: Error?) -> Void)
+
+    // swiftlint:enable line_length
 
     /**
      * Logs out the currently authenticated user, and clears any persisted
@@ -62,16 +81,7 @@ public protocol StitchAuth {
      */
     func logout(_ completionHandler: @escaping (_ error: Error?) -> Void)
 
-    /**
-     * Whether or not the client containing this `StitchAuth` object is currently authenticated.
-     */
-    var isLoggedIn: Bool { get }
-
-    /**
-     * A `StitchUser` object representing the user that the client is currently authenticated as.
-     * `nil` if the client is not currently authenticated.
-     */
-    var currentUser: StitchUser? { get }
+    // MARK: Delegate Registration
 
     /**
      * Registers a `StitchAuthDelegate` with the client. The `StitchAuthDelegate`'s `onAuthEvent(:fromAuth)`

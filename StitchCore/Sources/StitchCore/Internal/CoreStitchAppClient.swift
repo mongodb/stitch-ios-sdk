@@ -5,21 +5,21 @@ import ExtendedJSON
  * requests.
  */
 public final class CoreStitchAppClient {
-    
+
     // MARK: Properties
-    
+
     /**
      * The `StitchAuthRequestClient` that this app client will use to make authenticated requests to the Stitch server.
      */
     private let authRequestClient: StitchAuthRequestClient
-    
+
     /**
      * The `StitchAppRoutes` object representing the API routes of the Stitch server for the current app.
      */
     private let routes: StitchAppRoutes
 
     // MARK: Initializer
-    
+
     /**
      * Initializes the app client with the provided `StitchAuthRequestClient` and `StitchAppRoutes`.
      */
@@ -27,7 +27,7 @@ public final class CoreStitchAppClient {
         self.authRequestClient = authRequestClient
         self.routes = routes
     }
-    
+
     // MARK: Methods
 
     /**
@@ -42,7 +42,7 @@ public final class CoreStitchAppClient {
             callFunctionRequest(withName: name, withArgs: args)
         )
     }
-    
+
     /**
      * Builds the request object necessary to make a function call against the Stitch server. Takes the function name
      * and arguments as parameters.
@@ -55,7 +55,7 @@ public final class CoreStitchAppClient {
             $0.path = route
             $0.document = [
                 "name": name,
-                "args": args
+                "arguments": args
             ]
             }.build()
     }

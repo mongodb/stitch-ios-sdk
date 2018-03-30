@@ -5,6 +5,8 @@ import StitchCore
  * Can be instantiated from a `StitchAuth` or as a parameter to an authentication completion handler.
  */
 public protocol StitchUser: CoreStitchUser {
+    // MARK: Properties
+
     /**
      * The String representation of the id of this Stitch user.
      */
@@ -16,7 +18,7 @@ public protocol StitchUser: CoreStitchUser {
     var loggedInProviderType: String { get }
 
     /**
-     * A string describing the name of the authentication provider used to log in as this user.
+     * The name of the authentication provider used to log in as this user.
      */
     var loggedInProviderName: String { get }
 
@@ -26,15 +28,19 @@ public protocol StitchUser: CoreStitchUser {
     var userType: String { get }
 
     /**
-     * A `StitchUserProfile` object describing this user.
+     * A `StitchCore.StitchUserProfile` object describing this user.
      */
     var profile: StitchUserProfile { get }
 
     /**
-     * An array of `StitchUserIdentity` objects representing the identities linked
+     * An array of `StitchCore.StitchUserIdentity` objects representing the identities linked
      * to this user which can be used to log in as this user.
      */
     var identities: [StitchUserIdentity] { get }
+
+    // MARK: Methods
+
+    // swiftlint:disable line_length
 
     /**
      * Links this `StitchUser` with a new identity, where the identity is defined by the credential specified as a
@@ -42,7 +48,7 @@ public protocol StitchUser: CoreStitchUser {
      * client from which it was created.
      *
      * - parameters:
-     *     - withCredential: The `StitchCredential` used to link the user to a new
+     *     - withCredential: The `StitchCore.StitchCredential` used to link the user to a new
      *                       identity. Credentials can be retrieved from an
      *                       authentication provider client, which is retrieved
      *                       using the `getProviderClient` method on `StitchAuth`.
@@ -51,6 +57,7 @@ public protocol StitchUser: CoreStitchUser {
      *     - user: The current user, or `nil` if the link failed.
      *     - error: An error object that indicates why the link failed, or `nil` if the link was successful.
      */
-    func link(withCredential credential: StitchCredential,
-              _ completionHandler: @escaping (_ user: StitchUser?, _ error: Error?) -> Void)
+    func link(withCredential credential: StitchCredential, _ completionHandler: @escaping (_ user: StitchUser?, _ error: Error?) -> Void)
+
+    // swiftlint:enable line_length
 }

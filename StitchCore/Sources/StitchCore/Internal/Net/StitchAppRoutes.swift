@@ -5,7 +5,7 @@ private final class RouteParts {
     static let baseRoute = "/api/client/v2.0"
     static let appRoute = baseRoute + "/app/%@"
     static let functionCallRoute = appRoute + "/functions/call"
-    
+
     static let sessionRoute = baseRoute + "/auth/session"
     static let profileRoute = baseRoute + "/auth/profile"
     static let authProviderRoute = appRoute + "/auth/providers/%@"
@@ -21,7 +21,7 @@ public protocol StitchAuthRoutes {
      * The route on the server for getting a new access token.
      */
     var sessionRoute: String { get }
-    
+
     /**
      * The route on the server for fetching the currently authenticated user's profile.
      */
@@ -31,12 +31,12 @@ public protocol StitchAuthRoutes {
      * Returns the route on the server for getting information about a particular authentication provider.
      */
     func authProviderRoute(withProviderName providerName: String) -> String
-    
+
     /**
      * Returns the route on the server for logging in with a particular authentication provider.
      */
     func authProviderLoginRoute(withProviderName providerName: String) -> String
-    
+
     /**
      * Returns the route on the server for linking the currently authenticated user with an identity associated with a
      * particular authentication provider.
@@ -45,7 +45,7 @@ public protocol StitchAuthRoutes {
 }
 
 /**
- * A protocol representing the service API routes on the Stitch server for a particular app.
+ * A class representing the service API routes on the Stitch server for a particular app.
  */
 public final class StitchServiceRoutes {
     /**
@@ -68,7 +68,7 @@ public final class StitchServiceRoutes {
 }
 
 /**
- * A protocol representing the authentication API routes on the Stitch server for a particular app.
+ * A struct representing the authentication API routes on the Stitch server for a particular app.
  */
 public struct StitchAppAuthRoutes: StitchAuthRoutes {
     /**
@@ -80,7 +80,7 @@ public struct StitchAppAuthRoutes: StitchAuthRoutes {
      * The route on the server for getting a new access token.
      */
     public var sessionRoute: String = RouteParts.sessionRoute
-    
+
     /**
      * The route on the server for fetching the currently authenticated user's profile.
      */
@@ -123,7 +123,7 @@ public struct StitchAppAuthRoutes: StitchAuthRoutes {
 }
 
 /**
- * A protocol representing all API routes on the Stitch server for a particular app.
+ * A class representing all API routes on the Stitch server for a particular app.
  */
 public final class StitchAppRoutes {
     /**
@@ -135,7 +135,7 @@ public final class StitchAppRoutes {
      * Returns the authentication routes for the current app.
      */
     public let authRoutes: StitchAppAuthRoutes
-    
+
     /**
      * Returns the service routes for the current app.
      */

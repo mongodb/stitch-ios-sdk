@@ -6,12 +6,12 @@ public protocol Builder {
      * The type that this builder can build.
      */
     associatedtype TBuildee: Buildee
-    
+
     /**
      * Initializes the builder with a closure that sets the builder's desired properties.
      */
     init(_ builder: (inout Self) -> Void)
-    
+
     /**
      * Builds the `TBuildee` object.
      */
@@ -26,7 +26,7 @@ public protocol Buildee {
      * The builder type that builds this buildee.
      */
     associatedtype TBuilder: Builder
-    
+
     /**
      * Initializes this object by accepting a TBuilder and building the object.
      */

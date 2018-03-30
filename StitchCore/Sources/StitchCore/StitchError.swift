@@ -9,7 +9,7 @@ public enum StitchError: Error {
      * `StitchErrorCode` enum.
      */
     case serviceError(withMessage: String, withErrorCode: StitchErrorCode)
-    
+
     /**
      * Indicates that the error was with the request made to the Stitch server. This could (but is not
      * limited to) be due to the lack of connectivity or a request timeout.
@@ -17,25 +17,20 @@ public enum StitchError: Error {
     case requestError(withMessage: String)
 }
 
-public struct StitchServiceError: Error {
-    let message: String
-    let errorCode: StitchErrorCode
-
-    fileprivate init(withMessage message: String,
-                     withErrorCode errorCode: StitchErrorCode = .unknown) {
-        self.message = message
-        self.errorCode = errorCode
-    }
-}
-
-public enum StitchClientErrors: Error {
+/**
+ * An enumeration indicating the errors that may occur when using a Stitch client. These errors would be thrown
+ * before the client performs any request against the server.
+ */
+public enum StitchClientError: Error {
     case mustAuthenticateFirst
 }
 
-/// ErrorCode represents the set of errors that can come back from a Stitch request.
+/**
+ * An enumeration of the types of errors that can come back from a completed Stitch request.
+ */
 public enum StitchErrorCode: String, Codable, Error {
     case missingAuthReq = "MissingAuthReq",
-    // Invalid session, expired, no associated user, or app domain mismatch
+    /// Invalid session, expired, no associated user, or app domain mismatch
     invalidSession = "InvalidSession",
     userAppDomainMismatch = "UserAppDomainMismatch",
     domainNotAllowed = "DomainNotAllowed",
@@ -85,14 +80,28 @@ public enum StitchErrorCode: String, Codable, Error {
     invalidURL = "Invalid URL"
 }
 
-public struct StitchErrorCodable: Codable {
+/**
+ * `StitchErrorCodable` represents a Stitch error as it is returned by the Stitch server. The class contains a
+ * static function that can return the appropriate `StitchError` or `StitchErrorCode` from an HTTP `Response`.
+ */
+internal struct StitchErrorCodable: Codable {
     private enum CodingKeys: String, CodingKey {
         case error, errorCode = "error_code"
     }
 
+    /**
+     * The error message from the Stitch server.
+     */
     let error: String?
+
+    /**
+     * The error code from the Stitch server.
+     */
     let errorCode: StitchErrorCode?
 
+    /**
+     * Private helper method which decodes the Stitch error from the body of an HTTP `Response` object.
+     */
     private static func handleRichError(forResponse response: Response,
                                         withBody body: Data) throws -> StitchErrorCodable {
         guard let contentType = response.headers[Headers.contentType.rawValue],
@@ -112,7 +121,12 @@ public struct StitchErrorCodable: Codable {
         return error
     }
 
-    internal static func handleRequestError(response: Response) -> Error {
+    /**
+     * Static utility method that accepts an HTTP `Response` object, and returns the `StitchError` contained within
+     * the response body. If there is no Stitch error in the body of the response, this will return
+     * `StitchErrorCode.unknown`.
+     */
+    public static func handleRequestError(response: Response) -> Error {
         guard let body = response.body else {
             return StitchErrorCode.unknown
         }

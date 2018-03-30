@@ -9,17 +9,17 @@ public protocol StitchRequestBuilder: Builder {
      * The HTTP method of the request to be built.
      */
     var method: Method? { get set }
-    
+
     /**
      * The HTTP headers of the request to be built.
      */
     var headers: [String: String]? { get set }
-    
+
     /**
      * The body of the rqeuest to be built.
      */
     var body: Data? { get set }
-    
+
     /**
      * The URL of the request to be built.
      */
@@ -49,7 +49,7 @@ public struct StitchRequestBuilderImpl: StitchRequestBuilder {
      * The HTTP headers of the request to be built.
      */
     public var headers: [String: String]?
-    
+
     /**
      * The URL of the request to be built.
      */
@@ -182,27 +182,27 @@ public struct StitchDocRequestBuilderImpl: StitchDocRequestBuilder {
      * The type that this builder builds.
      */
     public typealias TBuildee = StitchDocRequest
-    
+
     /**
      * The BSON document that will become the body of the request to be built.
      */
     public var document: Document?
-    
+
     /**
      * The URL of the request to be built.
      */
     public var path: String?
-    
+
     /**
      * The HTTP method of the request to be built.
      */
     public var method: Method?
-    
+
     /**
      * The HTTP headers of the request to be built.
      */
     public var headers: [String: String]?
-    
+
     /**
      * The body of the request to be built. This body will be overwritten with the contents of the BSON document
      * when the request is performed.
@@ -232,32 +232,32 @@ public struct StitchDocRequest: StitchRequest {
      * The URL to which this request will be made.
      */
     public var path: String
-    
+
     /**
      * The HTTP method of this request.
      */
     public var method: Method
-    
+
     /**
      * The HTTP headers of this request.
      */
     public var headers: [String: String]
-    
+
     /**
      * The body of the request.
      */
     public var body: Data?
-    
+
     /**
      * A `TimeInterval` indicating the time that the request was made (since the Unix epoch).
      */
     public var startedAt: TimeInterval
-    
+
     /**
      * The BSON document that will become the body of the request when it is performed.
      */
     public let document: Document
-    
+
     /**
      * Initializes this request by accepting a `StitchDocRequestBuilderImpl`.
      *

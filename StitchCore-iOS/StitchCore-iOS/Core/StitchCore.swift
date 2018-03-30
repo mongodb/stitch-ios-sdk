@@ -8,6 +8,5 @@ import Foundation
 @_exported import protocol StitchCore.StitchUserIdentity
 
 @_exported import enum StitchCore.StitchError
-@_exported import enum StitchCore.StitchClientErrors
+@_exported import enum StitchCore.StitchClientError
 @_exported import enum StitchCore.StitchErrorCode
-@_exported import struct StitchCore.StitchErrorCodable

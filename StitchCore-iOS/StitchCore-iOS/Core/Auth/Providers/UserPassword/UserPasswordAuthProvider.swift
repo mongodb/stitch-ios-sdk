@@ -53,9 +53,9 @@ public protocol UserPasswordAuthProviderClient {
      *     - withPassword: The password that the user created for the new username/password identity.
      *     - completionHandler: The handler to be executed when the request is complete.
      */
-    func register(withEmail email: String,
-                  withPassword password: String,
-                  completionHandler: @escaping (Error?) -> Void)
+    func register(withEmail email: String, withPassword password: String, completionHandler: @escaping (Error?) -> Void)
+
+    // swiftlint:disable line_length
 
     /**
      * Confirms an email identity with the username/password provider.
@@ -65,9 +65,9 @@ public protocol UserPasswordAuthProviderClient {
      *     - withTokenId: The confirmation token ID that was emailed to the user.
      *     - completionHandler: The handler to be executed when the request is complete.
      */
-    func confirmUser(withToken token: String,
-                     withTokenId tokenId: String,
-                     completionHandler: @escaping (Error?) -> Void)
+    func confirmUser(withToken token: String, withTokenId tokenId: String, completionHandler: @escaping (Error?) -> Void)
+
+    // swiftlint:enable line_length
 
     /**
      * Re-sends a confirmation email to a user that has registered but not yet confirmed their email address.
@@ -87,6 +87,8 @@ public protocol UserPasswordAuthProviderClient {
      */
     func sendResetPasswordEmail(toEmail email: String, completionHandler: @escaping (Error?) -> Void)
 
+    // swiftlint:disable line_length
+
     /**
      * Resets the password of an email identity using the password reset token emailed to a user.
      *
@@ -96,10 +98,9 @@ public protocol UserPasswordAuthProviderClient {
      *     - withTokenId: The password reset token ID that was emailed to the user.
      *     - completionHandler: The handler to be executed when the request is complete.
      */
-    func reset(password: String,
-               withToken token: String,
-               withTokenId tokenId: String,
-               completionHandler: @escaping (Error?) -> Void)
+    func reset(password: String, withToken token: String, withTokenId tokenId: String, completionHandler: @escaping (Error?) -> Void)
+
+    // swiftlint:enable line_length
 }
 
 private class UserPasswordAuthProviderClientImpl: CoreUserPasswordAuthProviderClient, UserPasswordAuthProviderClient {

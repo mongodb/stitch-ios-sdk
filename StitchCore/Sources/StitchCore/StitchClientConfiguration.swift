@@ -7,12 +7,12 @@ public protocol StitchClientConfiguration {
      * The base URL of the Stitch server that the client will communicate with.
      */
     var baseURL: String { get }
-    
+
     /**
      * The underlying storage for authentication info.
      */
     var storage: Storage { get }
-    
+
     /**
      * The `Transport` that the client will use to make round trips to the Stitch server.
      */
@@ -33,12 +33,12 @@ public struct StitchClientConfigurationImpl: StitchClientConfiguration, Buildee 
      * The base URL of the Stitch server that the client will communicate with.
      */
     public let baseURL: String
-    
+
     /**
      * The underlying storage for authentication info.
      */
     public let storage: Storage
-    
+
     /**
      * The `Transport` that the client will use to make round trips to the Stitch server.
      */
@@ -69,6 +69,7 @@ public struct StitchClientConfigurationImpl: StitchClientConfiguration, Buildee 
 }
 
 /**
+ * :nodoc:
  * An error that a Stitch client configuration can throw if it is missing certain properties.
  */
 public enum StitchClientConfigurationError: Error {
@@ -86,12 +87,12 @@ public protocol StitchClientConfigurationBuilder {
      * The base URL of the Stitch server that the client will communicate with.
      */
     var baseURL: String? { get }
-    
+
     /**
      * The underlying storage for authentication info.
      */
     var storage: Storage? { get }
-    
+
     /**
      * The `Transport` that the client will use to make round trips to the Stitch server.
      */
@@ -107,12 +108,12 @@ public struct StitchClientConfigurationBuilderImpl: StitchClientConfigurationBui
      * The base URL of the Stitch server that the client will communicate with.
      */
     public var baseURL: String?
-    
+
     /**
      * The underlying storage for authentication info.
      */
     public var storage: Storage?
-    
+
     /**
      * The `Transport` that the client will use to make round trips to the Stitch server.
      */

@@ -6,12 +6,12 @@ public protocol StitchAppClientConfiguration: StitchClientConfiguration {
      * The client app ID of the Stitch application that this client is going to communicate with.
      */
     var clientAppId: String { get }
-    
+
     /**
      * The name of the local application.
      */
     var localAppName: String { get }
-    
+
     /**
      * The current version of the local application.
      */
@@ -32,27 +32,27 @@ public struct StitchAppClientConfigurationImpl: StitchAppClientConfiguration, Bu
      * The base URL of the Stitch server that the client will communicate with.
      */
     public let baseURL: String
-    
+
     /**
      * The underlying storage for authentication info.
      */
     public let storage: Storage
-    
+
     /**
      * The `Transport` that the client will use to make round trips to the Stitch server.
      */
     public let transport: Transport
-    
+
     /**
      * The client app ID of the Stitch application that this client is going to communicate with.
      */
     public let clientAppId: String
-    
+
     /**
      * The name of the local application.
      */
     public let localAppName: String
-    
+
     /**
      * The current version of the local application.
      */
@@ -137,12 +137,12 @@ public struct StitchAppClientConfigurationBuilder: StitchClientConfigurationBuil
      * The client app ID of the Stitch application that this client is going to communicate with.
      */
     public var clientAppId: String?
-    
+
     /**
      * The name of the local application.
      */
     public var localAppName: String?
-    
+
     /**
      * The current version of the local application.
      */

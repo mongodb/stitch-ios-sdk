@@ -16,7 +16,9 @@ public protocol StitchCredential {
      */
     var providerType: String { get }
 
-    /** :nodoc: */
+    /**
+     * The contents of this credential as they will be passed to the Stitch server.
+     */
     var material: Document { get }
 
     /**

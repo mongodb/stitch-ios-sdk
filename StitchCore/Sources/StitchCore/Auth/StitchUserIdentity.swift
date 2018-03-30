@@ -16,6 +16,7 @@ public protocol StitchUserIdentity: Decodable {
 }
 
 /**
+ * :nodoc:
  * An overload of `==` that checks if two `StitchUserIdentity` objects are equal based on their ID and provider type.
  */
 public func == (_ lhs: StitchUserIdentity, _ rhs: StitchUserIdentity) -> Bool {

@@ -9,7 +9,7 @@ public protocol StitchAuthRequestBuilder: StitchRequestBuilder {
      * Whether or not the request to be built should use the refresh token instead of the temporary access token.
      */
     var useRefreshToken: Bool? { get set }
-    
+
     /**
      * Whether or not the request client carrying out this request should attempt to refresh the access token and retry
      * the operation if there was an invalid sesion error.
@@ -50,7 +50,7 @@ public struct StitchAuthRequestBuilderImpl: StitchAuthRequestBuilder {
      * The body of the request to be built.
      */
     public var body: Data?
-    
+
     /**
      * Whether or not the request client carrying out the request to be built should attempt to refresh the access
      * token and retry the operation if there was an invalid sesion error.
@@ -80,7 +80,7 @@ public protocol StitchAuthRequest: StitchRequest {
      * Whether or not the request should use the refresh token instead of the temporary access token.
      */
     var useRefreshToken: Bool { get }
-    
+
     /**
      * Whether or not the request client carrying out this request should attempt to refresh the access token and retry
      * the operation if there was an invalid sesion error.
@@ -126,14 +126,13 @@ public struct StitchAuthRequestImpl: StitchAuthRequest {
      * Whether or not the request should use the refresh token instead of the temporary access token.
      */
     public let useRefreshToken: Bool
-    
+
     /**
      * Whether or not the request client carrying out this request should attempt to refresh the access token and retry
      * the operation if there was an invalid sesion error.
      */
     public let shouldRefreshOnFailure: Bool
 
-    
     /**
      * Initializes this request by accepting a `StitchAuthRequestBuilderImpl`.
      *

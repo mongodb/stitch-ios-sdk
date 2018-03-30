@@ -19,17 +19,17 @@ public struct StitchAppClientInfo {
      * The client app ID of the Stitch application that this client communicates with.
      */
     public let clientAppId: String
-    
+
     /**
      * The local data directory for any attached instance of mobile MongoDB.
      */
     public let dataDirectory: String
-    
+
     /**
      * The name of the local application.
      */
     public let localAppName: String
-    
+
     /**
      * The current version of the local application.
      */

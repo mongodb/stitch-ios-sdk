@@ -69,7 +69,7 @@ extension CoreStitchAuth: StitchAuthRequestClient {
             guard self.isLoggedIn,
                 let refreshToken = self.authStateHolder.refreshToken,
                 let accessToken = self.authStateHolder.accessToken else {
-                    throw StitchClientErrors.mustAuthenticateFirst
+                    throw StitchClientError.mustAuthenticateFirst
             }
 
             return try StitchRequestBuilderImpl {

@@ -42,13 +42,12 @@ class ViewController: UIViewController {
     }
 
     @IBAction func functionThreePressed(_ sender: Any) {
-        self.stitchClient.callFunction(withName: "getNumber", withArgs: []) { (value, error) in
-            print("Number: \(String(describing: value)), Error: \(String(describing: error))")
+        stitchClient.callFunction(withName: "echoArg", withArgs: ["Hello world!"]) { (value, error) in
+            print("Message: \(value ?? "None")\nError: \(String(describing: error))")
         }
     }
 
     @IBAction func loginButtonPressed(_ sender: Any) {
-
         let anonAuthClient =
             stitchClient.auth.providerClient(forProvider: AnonymousAuthProvider.clientProvider)
 

@@ -5,26 +5,26 @@ import ExtendedJSON
  * Stitch service.
  */
 open class CoreStitchService {
-    
+
     // MARK: Properties
-    
+
     /**
      * The `StitchAuthRequestClient` that this service will use to make authenticated requests to the Stitch server.
      */
     private let requestClient: StitchAuthRequestClient
-    
+
     /**
      * The `StitchServiceRoutes` object representing the service API routes of the Stitch server for the current app.
      */
     private let serviceRoutes: StitchServiceRoutes
-    
+
     /**
      * The name of the service that this `CoreStitchService` can make function calls for.
      */
     private let serviceName: String
 
     // MARK: Initializer
-    
+
     /**
      * Initializes the service with the provided request client, routes, and service name.
      */
@@ -35,9 +35,9 @@ open class CoreStitchService {
         self.serviceRoutes = routes
         self.serviceName = name
     }
-    
+
     // MARK: Methods
-    
+
     /**
      * Performs a request against the Stitch server to call a function of this service. Takes the function
      * name and arguments as parameters.
@@ -63,7 +63,7 @@ open class CoreStitchService {
             $0.document = [
                 "name": name,
                 "service": self.serviceName,
-                "args": args
+                "arguments": args
             ]
         }.build()
     }

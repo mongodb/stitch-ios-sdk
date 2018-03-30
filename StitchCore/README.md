@@ -6,6 +6,6 @@
 
 [MongoDB Stitch Announcements - Google Group](https://groups.google.com/d/forum/mongodb-stitch-announce)
 
-StitchCore_iOS is the primary Swift module for the MongoDB Stitch iOS SDK.
+StitchCore is an internal Swift module for the MongoDB Stitch iOS SDK. Some of the functionality in this module is exposed in the primary Swift module, and is documented here for your convenience 
 
-See the [Getting Started](/Getting%20Started.html) page for instructions on how to begin integrating MongoDB Stitch with your iOS apps.
+Note, however, that this you should not import this module to use Stitch in your app. See the [Warning](/Warning.html) page for more information.

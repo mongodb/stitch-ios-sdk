@@ -1,6 +1,7 @@
 /**
  * :nodoc:
- * The class from which all Core auth provider clients inherit.
+ * The class from which all Core auth provider clients inherit. Only auth provider clients that make requests
+ * to the Stitch server need to inherit this class.
  */
 open class CoreAuthProviderClient {
     // MARK: Properties

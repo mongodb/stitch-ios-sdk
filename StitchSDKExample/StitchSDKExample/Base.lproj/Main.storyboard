@@ -19,38 +19,38 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="SHR-Ox-eIq">
-                                <rect key="frame" x="136" y="263" width="103" height="140.5"/>
+                                <rect key="frame" x="134.5" y="263" width="106" height="140.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Not logged in" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j2m-Xj-IP9">
-                                        <rect key="frame" x="0.0" y="0.0" width="103" height="20.5"/>
+                                        <rect key="frame" x="1.5" y="0.0" width="103" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jgg-Ry-0BA">
-                                        <rect key="frame" x="32.5" y="20.5" width="38" height="30"/>
+                                        <rect key="frame" x="34" y="20.5" width="38" height="30"/>
                                         <state key="normal" title="Login"/>
                                         <connections>
                                             <action selector="loginButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hV4-GK-gfC"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pnv-Yl-UZN">
-                                        <rect key="frame" x="22" y="50.5" width="59" height="30"/>
+                                        <rect key="frame" x="23.5" y="50.5" width="59" height="30"/>
                                         <state key="normal" title="Get Bool"/>
                                         <connections>
                                             <action selector="functionOnePressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HMy-qa-F3J"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I1Q-GH-Y28" userLabel="Function 2">
-                                        <rect key="frame" x="14" y="80.5" width="75" height="30"/>
+                                        <rect key="frame" x="15.5" y="80.5" width="75" height="30"/>
                                         <state key="normal" title="Get Object"/>
                                         <connections>
                                             <action selector="functionTwoPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="t1h-BX-jN5"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AAj-DU-mPb" userLabel="Function 3">
-                                        <rect key="frame" x="9.5" y="110.5" width="84" height="30"/>
-                                        <state key="normal" title="Get Number"/>
+                                        <rect key="frame" x="0.0" y="110.5" width="106" height="30"/>
+                                        <state key="normal" title="Echo Argument"/>
                                         <connections>
                                             <action selector="functionThreePressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7yJ-47-wqm"/>
                                         </connections>

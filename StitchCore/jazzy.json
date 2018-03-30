@@ -20,13 +20,15 @@
         "children": [
             "StitchAppClientConfigurationBuilder",
             "StitchAppClientConfiguration",
-            "StitchClientConfiguration"
+            "StitchAppClientInfo"
         ]
 
     }, {
         "name": "Users",
         "children": [
             "StitchUserProfile",
+            "APIStitchUserProfile",
+            "ExtendedStitchUserProfile",
             "StitchUserIdentity"
         ]
     }, {
@@ -40,9 +42,8 @@
         "children": [
             "StitchError",
             "StitchErrorCode",
-            "StitchErrorCodable",
-            "StitchClientErrors",
-            "StitchServiceException"
+            "StitchClientError",
+            "StitchAppClientConfigurationError"
         ]
     }]
 }
