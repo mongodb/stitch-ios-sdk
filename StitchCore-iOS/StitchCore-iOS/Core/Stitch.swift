@@ -7,6 +7,9 @@ import StitchCore
  * and for retrieving a `StitchAppClient`. Not meant to be instantiated.
  */
 public class Stitch {
+
+    // MARK: Properties
+
     /**
      * The version of this MongoDB Stitch iOS SDK, which will be reported to Stitch in device info.
      */
@@ -25,6 +28,8 @@ public class Stitch {
 
     // Privatize default initializer to prevent instantation.
     private init() { }
+
+    // MARK: Global Initialization
 
     /**
      * Initializes the MongoDB Stitch SDK. Must be called before initializing any Stitch clients.
@@ -53,52 +58,7 @@ public class Stitch {
         }
     }
 
-    /**
-     * Retrieves the default StitchAppClient associated with the application.
-     *
-     * - returns: A StitchAppClient with the configuration specified when
-     *            `initializeDefaultAppClient(:withConfigBuilder)` was called.
-     * - throws: A `StitchInitializationError` if `initialize()` was never called, or if `initializeDefaultAppClient`
-     *           was never called.
-     */
-    public static func getDefaultAppClient() throws -> StitchAppClient {
-        return try! StitchCore.sync(self) {
-            guard initialized else {
-                throw StitchInitializationError.stitchNotInitialized
-            }
-
-            guard let clientAppId = defaultClientAppId,
-                  let client = appClients[clientAppId] else {
-                throw StitchInitializationError.defaultClientNotInitialized
-            }
-            return client
-        }
-    }
-
-    /**
-     * Retrieves the StitchAppClient associated with the provided client app ID.
-     *
-     * - returns: A StitchAppClient with the configuration specified when
-     *            `initializeAppClient(:withConfigBuilder)` was called with
-     *            a configuration that created a client for the provided client app ID.
-     * - throws: A `StitchInitializationError` if `initialize()` was never called, or
-     *           if `initializeAppClient(:withConfigBuilder)` was never called with a
-     *           configuration that created a client for the provided client app ID.
-     * - parameters:
-     *     - forAppId: The client app ID of the app client to be retrieved.
-     */
-    public static func getAppClient(forAppId appId: String) throws -> StitchAppClient {
-        return try! StitchCore.sync(self) {
-            guard initialized else {
-                throw StitchInitializationError.stitchNotInitialized
-            }
-
-            guard let client = appClients[appId] else {
-                throw StitchInitializationError.clientNotInitialized(clientAppId: appId)
-            }
-            return client
-        }
-    }
+    // MARK: Initializing Clients
 
     /**
      * Initializes the default StitchAppClient associated with the application.
@@ -107,9 +67,9 @@ public class Stitch {
      *     - withConfigBuilder: a StitchAppClientConfigurationBuilder containing the configuration desired
      *       for the default StitchAppClient.
      * - returns: A StitchAppClient configured with the provided configuration.
-     * - throws: A `StitchInitializationError if the provided configuation is missing a client app ID,
+     * - throws: A `StitchInitializationError if the provided configuation is missing a client app id,
      *           if a default app client has already been initialized, or the provided configuration
-     *           contains a client app ID for which a non-default StitchAppClient has already been created.
+     *           contains a client app id for which a non-default StitchAppClient has already been created.
      */
     public static func initializeDefaultAppClient(
         withConfigBuilder configBuilder: StitchAppClientConfigurationBuilder) throws -> StitchAppClient {
@@ -139,8 +99,8 @@ public class Stitch {
      *     - withConfigBuilder: a StitchAppClientConfigurationBuilder containing the configuration desired
      *       for the new StitchAppClient.
      * - returns: A StitchAppClient configured with the provided configuration.
-     * - throws: A `StitchInitializationError` if the provided configuation is missing a client app ID,
-     *           or if an app client has already been initialized for the client app ID in the provided configuration.
+     * - throws: A `StitchInitializationError` if the provided configuation is missing a client app id,
+     *           or if an app client has already been initialized for the client app id in the provided configuration.
      */
     public static func initializeAppClient(
         withConfigBuilder configBuilder: StitchAppClientConfigurationBuilder) throws -> StitchAppClient {
@@ -168,9 +128,9 @@ public class Stitch {
             }
 
             // STITCH-1346:
-//            if configBuilder.dataDirectory == nil {
-//                finalConfigBuilder.dataDirectory = "/some/default/data/directory"
-//            }
+            //            if configBuilder.dataDirectory == nil {
+            //                finalConfigBuilder.dataDirectory = "/some/default/data/directory"
+            //            }
 
             if configBuilder.transport == nil {
                 finalConfigBuilder.transport = FoundationHTTPTransport.init()
@@ -193,6 +153,56 @@ public class Stitch {
             return client
         }
     }
+
+    // MARK: Retrieving Clients
+
+    /**
+     * Retrieves the default StitchAppClient associated with the application.
+     *
+     * - returns: A StitchAppClient with the configuration specified when
+     *            `initializeDefaultAppClient(:withConfigBuilder)` was called.
+     * - throws: A `StitchInitializationError` if `initialize()` was never called, or if `initializeDefaultAppClient`
+     *           was never called.
+     */
+    public static func getDefaultAppClient() throws -> StitchAppClient {
+        return try! StitchCore.sync(self) {
+            guard initialized else {
+                throw StitchInitializationError.stitchNotInitialized
+            }
+
+            guard let clientAppId = defaultClientAppId,
+                  let client = appClients[clientAppId] else {
+                throw StitchInitializationError.defaultClientNotInitialized
+            }
+            return client
+        }
+    }
+
+    /**
+     * Retrieves the StitchAppClient associated with the provided client app id.
+     *
+     * - returns: A StitchAppClient with the configuration specified when
+     *            `initializeAppClient(:withConfigBuilder)` was called with
+     *            a configuration that created a client for the provided client app id.
+     * - throws: A `StitchInitializationError` if `initialize()` was never called, or
+     *           if `initializeAppClient(:withConfigBuilder)` was never called with a
+     *           configuration that created a client for the provided client app id.
+     * - parameters:
+     *     - forAppId: The client app id of the app client to be retrieved.
+     */
+    public static func getAppClient(forAppId appId: String) throws -> StitchAppClient {
+        return try! StitchCore.sync(self) {
+            guard initialized else {
+                throw StitchInitializationError.stitchNotInitialized
+            }
+
+            guard let client = appClients[appId] else {
+                throw StitchInitializationError.clientNotInitialized(clientAppId: appId)
+            }
+            return client
+        }
+    }
+
 }
 
 /**
@@ -234,7 +244,7 @@ public enum StitchInitializationError: Error {
 
     /**
      * An error indicating the client initialization failed because `UserDefaults` could not be initialized.
-     * This typically means you've specified an invalid client app ID.
+     * This typically means you've specified an invalid client app id.
      */
     case userDefaultsFailure
 

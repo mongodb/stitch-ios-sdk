@@ -1,10 +1,3 @@
-//
-//  NamedAuthProviderClientSupplier.swift
-//  StitchCore-iOS
-//
-//  Copyright © 2018 mongodb. All rights reserved.
-//
-
 import Foundation
 import StitchCore
 
@@ -13,9 +6,17 @@ import StitchCore
  * provider. This protocol is not to be inherited except internally within the StitchCore-iOS module.
  */
 public protocol NamedAuthProviderClientSupplier {
+    /**
+     * The type of client that this supplier will supply.
+     */
     associatedtype Client
 
-    /** :nodoc: */
+    /**
+     * :nodoc:
+     * Returns the client that this `AuthProviderClientSupplier` supplies. If the client will be making requests,
+     * it will use the provided `StitchRequestClient`, `StitchAuthRoutes`, and `OperationDispatcher` to perform those
+     * requests, and it will make those requests for the authentication provider with the provided name.
+     */
     func client(forProviderName providerName: String,
                 withRequestClient requestClient: StitchRequestClient,
                 withRoutes routes: StitchAuthRoutes,

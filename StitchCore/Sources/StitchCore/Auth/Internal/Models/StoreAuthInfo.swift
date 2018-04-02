@@ -1,5 +1,8 @@
 import Foundation
 
+/**
+ * A struct describing the structure of how authentication information is stored in persisted `Storage`.
+ */
 internal struct StoreAuthInfo: Codable, AuthInfo {
     enum CodingKeys: CodingKey {
         case userId, deviceId, accessToken
@@ -7,20 +10,44 @@ internal struct StoreAuthInfo: Codable, AuthInfo {
         case userProfile
     }
 
+    /**
+     * The id of the Stitch user.
+     */
     let userId: String
 
+    /**
+     * The device id.
+     */
     let deviceId: String
 
+    /**
+     * The temporary access token for the user.
+     */
     let accessToken: String
 
+    /**
+     * The permanent (though potentially invalidated) refresh token for the user.
+     */
     let refreshToken: String
 
-    let loggedInProviderType: String
+    /**
+     * A string indicating the type of authentication provider used to log into the current session.
+     */
+    let loggedInProviderType: StitchProviderType
 
+    /**
+     * A string indicating the name of authentication provider used to log into the current session.
+     */
     let loggedInProviderName: String
 
+    /**
+     * The profile of the currently authenticated user as a `StitchUserProfile`.
+     */
     let userProfile: StitchUserProfile
 
+    /**
+     * Initializes the `StoreAuthInfo` with an `APIAuthInfo` and `ExtendedAuthInfo`.
+     */
     init(withAPIAuthInfo apiAuthInfo: APIAuthInfo,
          withExtendedAuthInfo extendedAuthInfo: ExtendedAuthInfo) {
         self.userId = apiAuthInfo.userId
@@ -32,6 +59,9 @@ internal struct StoreAuthInfo: Codable, AuthInfo {
         self.userProfile = extendedAuthInfo.userProfile
     }
 
+    /**
+     * Initializes the `StoreAuthInfo` with a plain `AuthInfo`.
+     */
     init(withAuthInfo authInfo: AuthInfo) {
         self.userId = authInfo.userId
         self.deviceId = authInfo.deviceId
@@ -43,7 +73,8 @@ internal struct StoreAuthInfo: Codable, AuthInfo {
     }
 
     /**
-     * Initializer for existing auth info but new access token.
+     * Initializes the `StoreAuthInfo`, and an `APIAccessToken` containing a new access token that will
+     * overwrite the `AuthInfo`'s acccess token.
      */
     init(withAuthInfo authInfo: AuthInfo, withNewAPIAccessToken newAPIAccessToken: APIAccessToken) {
         self.userId = authInfo.userId
@@ -55,6 +86,9 @@ internal struct StoreAuthInfo: Codable, AuthInfo {
         self.userProfile = authInfo.userProfile
     }
 
+    /**
+     * Initializes the `StoreAuthInfo` from a decoder.
+     */
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
@@ -62,11 +96,14 @@ internal struct StoreAuthInfo: Codable, AuthInfo {
         self.deviceId = try container.decode(String.self, forKey: .deviceId)
         self.accessToken = try container.decode(String.self, forKey: .accessToken)
         self.refreshToken = try container.decode(String.self, forKey: .refreshToken)
-        self.loggedInProviderType = try container.decode(String.self, forKey: .loggedInProviderType)
+        self.loggedInProviderType = try container.decode(StitchProviderType.self, forKey: .loggedInProviderType)
         self.loggedInProviderName = try container.decode(String.self, forKey: .loggedInProviderName)
         self.userProfile = try container.decode(StoreCoreUserProfile.self, forKey: .userProfile)
     }
 
+    /**
+     * Encodes the `StoreAuthInfo` to an encoder.
+     */
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 

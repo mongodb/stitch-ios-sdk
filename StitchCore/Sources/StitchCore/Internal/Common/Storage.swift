@@ -1,7 +1,7 @@
 import Foundation
 
-/// Storage allows us to store arbitrary data via
-/// an arbitrary source. The protocol is modeled
+/// Storage allows us to store arbitrary key-value
+/// data via an arbitrary source. The protocol is modeled
 /// after Foundation.UserDefaults.
 public protocol Storage {
     /// Read value for key
@@ -19,6 +19,8 @@ public protocol Storage {
     mutating func removeObject(forKey key: String)
 }
 
+/// An extension to the Storage protocol allowing for subscripted
+/// access to underlying values.
 extension Storage {
     subscript(key: String) -> Any? {
         get {

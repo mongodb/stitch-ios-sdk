@@ -1,6 +1,9 @@
 import Foundation
 import ExtendedJSON
 
+/**
+ * A struct containing the fields returned by the Stitch client API in the `data` field of a user profile request.
+ */
 public struct APIExtendedUserProfileImpl: Codable, ExtendedStitchUserProfile {
     enum CodingKeys: String, CodingKey {
         case name, email, pictureURL = "picture_url"
@@ -9,24 +12,54 @@ public struct APIExtendedUserProfileImpl: Codable, ExtendedStitchUserProfile {
         case minAge = "min_age", maxAge = "max_age"
     }
 
+    /**
+     * The full name of the user.
+     */
     public let name: String?
 
+    /**
+     * The email address of the user.
+     */
     public let email: String?
 
+    /**
+     * A URL to the user's profile picture.
+     */
     public let pictureURL: String?
 
+    /**
+     * The first name of the user.
+     */
     public let firstName: String?
 
+    /**
+     * The last name of the user.
+     */
     public let lastName: String?
 
+    /**
+     * The gender of the user.
+     */
     public let gender: String?
 
+    /**
+     * The birthdate of the user.
+     */
     public let birthday: String?
 
+    /**
+     * The minimum age of the user.
+     */
     public let minAge: Int?
 
+    /**
+     * The maximum age of the user.
+     */
     public let maxAge: Int?
 
+    /**
+     * Initializes the user profile object with each of its properties as optional parameters.
+     */
     internal init(name: String? = nil,
                   email: String? = nil,
                   pictureURL: String? = nil,
@@ -48,9 +81,24 @@ public struct APIExtendedUserProfileImpl: Codable, ExtendedStitchUserProfile {
     }
 }
 
+/**
+ * A struct containing the fields returned by the Stitch client API in a user profile request.
+ */
 public struct APICoreUserProfileImpl: Decodable, APIStitchUserProfile {
+    /**
+     * A string describing the type of this user. (Either `server` or `normal`)
+     */
     public let userType: String
+
+    /**
+     * An array of `StitchUserIdentity` objects representing the identities linked
+     * to this user which can be used to log in as this user.
+     */
     public let identities: [StitchUserIdentity]
+
+    /**
+     * An object containing extra metadata about the user as supplied by the authentication provider.
+     */
     public let data: APIExtendedUserProfileImpl
 
     private enum CodingKeys: String, CodingKey {
@@ -59,6 +107,9 @@ public struct APICoreUserProfileImpl: Decodable, APIStitchUserProfile {
         case data
     }
 
+    /**
+     * Initializes the user profile from a `Decoder`.
+     */
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
@@ -67,6 +118,9 @@ public struct APICoreUserProfileImpl: Decodable, APIStitchUserProfile {
         self.data = try container.decode(APIExtendedUserProfileImpl.self, forKey: .data)
     }
 
+    /**
+     * Initializes the API user profile with its properties as arguments.
+     */
     internal init(userType: String,
                   identities: [StitchUserIdentity],
                   data: APIExtendedUserProfileImpl) {

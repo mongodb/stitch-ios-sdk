@@ -13,7 +13,7 @@ private final class MockRoutes {
     }
 
     private func extensionRoute(forPath path: String) -> String {
-        return "\(authRoutes.authProviderLoginRoute(withProviderName: providerName))/\(path)"
+        return "\(authRoutes.authProviderRoute(withProviderName: providerName))/\(path)"
     }
 
     fileprivate lazy var registerWithEmailRoute = self.extensionRoute(forPath: "register")

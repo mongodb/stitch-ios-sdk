@@ -1,9 +1,18 @@
 import Foundation
 
+/**
+ * A basic implementation of the `Transport` protocol using the `URLSession.dataTask` method in the Foundation library.
+ */
 public final class FoundationHTTPTransport: Transport {
 
+    /**
+     * Empty public initializer to make initialization of this Transport available outside of this module.
+     */
     public init() { }
 
+    /**
+     * The round trip functionality for this Transport, which uses `URLSession.dataTask`.
+     */
     public func roundTrip(request: Request) throws -> Response {
         guard let url = URL(string: request.url) else {
             throw StitchErrorCode.invalidURL

@@ -1,8 +1,7 @@
 import Foundation
 
 /**
- * A class holding a `DispatchQueue` that can run arbitrary code
- * blocks with arbitrary completion handlers.
+ * A class holding a `DispatchQueue` that can run arbitrary code blocks with arbitrary completion handlers.
  */
 public class OperationDispatcher {
     /**

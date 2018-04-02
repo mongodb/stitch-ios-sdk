@@ -7,6 +7,9 @@ import ExtendedJSON
  * implementation can be instantiated using the `Stitch` utility class.
  */
 public protocol StitchAppClient {
+
+    // MARK: Authentication
+
     /**
      * The StitchAuth object representing the authentication state of this client.
      *
@@ -15,6 +18,8 @@ public protocol StitchAppClient {
      *              authenticated when first initialized.
      */
     var auth: StitchAuth { get }
+
+    // MARK: Services
 
     /**
      * Retrieves the service client associated with the Stitch service with the specified name and type.
@@ -26,8 +31,7 @@ public protocol StitchAppClient {
      * - returns: a service client whose type is determined by the `T` type parameter of the
      *            `AnyNamedServiceClientProvider` passed in the `forProvider` parameter.
      */
-    func serviceClient<T>(forService provider: AnyNamedServiceClientProvider<T>,
-                          withName serviceName: String) -> T
+    func serviceClient<T>(forService provider: AnyNamedServiceClientProvider<T>, withName serviceName: String) -> T
 
     /**
      * Retrieves the service client associated with the service type specified in the argument.
@@ -40,6 +44,9 @@ public protocol StitchAppClient {
      */
     func serviceClient<T>(forService provider: AnyServiceClientProvider<T>) -> T
 
+    // MARK: Functions
+
+    // swiftlint:disable line_length
     /**
      * Calls the MongoDB Stitch function with the provided name and arguments.
      *
@@ -53,7 +60,7 @@ public protocol StitchAppClient {
      *              successful.
      *
      */
-    func callFunction(withName name: String,
-                      withArgs args: BSONArray,
-                      _ completionHandler: @escaping (_ result: Any?, _ error: Error?) -> Void)
+    func callFunction(withName name: String, withArgs args: BSONArray, _ completionHandler: @escaping (_ result: Any?, _ error: Error?) -> Void)
+
+    // swiftlint:enable line_length
 }

@@ -114,7 +114,7 @@ final class MockStitchUserFactory: StitchUserFactory {
     typealias UserType = MockStitchUser
 
     func makeUser(withId id: String,
-                  withLoggedInProviderType loggedInProviderType: String,
+                  withLoggedInProviderType loggedInProviderType: StitchProviderType,
                   withLoggedInProviderName loggedInProviderName: String,
                   withUserProfile userProfile: StitchUserProfile) -> MockStitchUser {
         return MockStitchUser.init(id: id,
@@ -168,7 +168,7 @@ class CoreStitchAuthTests: StitchXCTestCase {
 
         XCTAssertEqual(user.id, userId)
         XCTAssertEqual(user.loggedInProviderName, "anon-user")
-        XCTAssertEqual(user.loggedInProviderType, "anon-user")
+        XCTAssertEqual(user.loggedInProviderType.name, "anon-user")
         XCTAssertEqual(user.profile.userType, "foo")
         XCTAssert(user.profile.identities.first!.id == "bar")
     }

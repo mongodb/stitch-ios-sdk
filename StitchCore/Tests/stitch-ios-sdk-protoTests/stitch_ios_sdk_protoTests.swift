@@ -7,7 +7,7 @@ import Swifter
 struct MockStitchUser: CoreStitchUser {
     var id: String = ""
 
-    var loggedInProviderType: String = ""
+    var loggedInProviderType: StitchProviderType = .anonymous
 
     var loggedInProviderName: String = ""
 
@@ -30,7 +30,7 @@ struct MockStitchUser: CoreStitchUser {
 
     init() {}
     init(id: String,
-         loggedInProviderType: String,
+         loggedInProviderType: StitchProviderType,
          loggedInProviderName: String,
          profile: StitchUserProfile) {
         self.id = id

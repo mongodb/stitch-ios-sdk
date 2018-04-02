@@ -7,6 +7,8 @@ import ExtendedJSON
  */
 public protocol StitchService {
 
+    // swiftlint:disable line_length
+
     /**
      * Calls the function for this service with the provided name and arguments.
      *
@@ -20,7 +22,7 @@ public protocol StitchService {
      *              successful.
      *
      */
-    func callFunction(withName name: String,
-                      withArgs args: BSONArray,
-                      _ completionHandler: @escaping (_ result: Any?, _ error: Error?) -> Void)
+    func callFunction(withName name: String, withArgs args: BSONArray, _ completionHandler: @escaping (_ result: Any?, _ error: Error?) -> Void)
+
+    // swiftlint:enable line_length
 }
