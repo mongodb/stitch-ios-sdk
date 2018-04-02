@@ -65,28 +65,28 @@ extension CoreStitchAuth: StitchAuthRequestClient {
      * (depending on the type of request) to the request's `"Authorization"` header.
      */
     private func prepareAuthRequest<R>(_ stitchReq: R) throws -> StitchRequestImpl where R: StitchAuthRequest {
-        return try sync(self) {
-            guard self.isLoggedIn,
-                let refreshToken = self.authStateHolder.refreshToken,
-                let accessToken = self.authStateHolder.accessToken else {
-                    throw StitchClientError.mustAuthenticateFirst
-            }
-
-            return try StitchRequestBuilderImpl {
-                var newHeaders = stitchReq.headers
-                if stitchReq.useRefreshToken {
-                    newHeaders[Headers.authorization.rawValue] =
-                        Headers.authorizationBearer(forValue: refreshToken)
-                } else {
-                    newHeaders[Headers.authorization.rawValue] =
-                        Headers.authorizationBearer(forValue: accessToken)
-                }
-                $0.headers = newHeaders
-                $0.path = stitchReq.path
-                $0.method = stitchReq.method
-                $0.body = stitchReq.body
-                }.build()
+        objc_sync_enter(self)
+        defer { objc_sync_exit(self) }
+        guard self.isLoggedIn,
+            let refreshToken = self.authStateHolder.refreshToken,
+            let accessToken = self.authStateHolder.accessToken else {
+                throw StitchClientError.mustAuthenticateFirst
         }
+
+        return try StitchRequestBuilderImpl {
+            var newHeaders = stitchReq.headers
+            if stitchReq.useRefreshToken {
+                newHeaders[Headers.authorization.rawValue] =
+                    Headers.authorizationBearer(forValue: refreshToken)
+            } else {
+                newHeaders[Headers.authorization.rawValue] =
+                    Headers.authorizationBearer(forValue: accessToken)
+            }
+            $0.headers = newHeaders
+            $0.path = stitchReq.path
+            $0.method = stitchReq.method
+            $0.body = stitchReq.body
+        }.build()
     }
 
     /**
@@ -130,18 +130,18 @@ extension CoreStitchAuth: StitchAuthRequestClient {
         // use this critical section to create a queue of pending outbound requests
         // that should wait on the result of doing a token refresh or logout. This will
         // prevent too many refreshes happening one after the other.
-        try sync(self) {
-            guard isLoggedIn, let accessToken = self.authStateHolder.accessToken else {
-                throw StitchError.requestError(withMessage: "logged out during request")
-            }
-
-            let jwt = try DecodedJWT.init(jwt: accessToken)
-            guard let issuedAt = jwt.issuedAt,
-                issuedAt.timeIntervalSince1970 < reqStartedAt else {
-                    return
-            }
-            try refreshAccessToken()
+        objc_sync_enter(self)
+        defer { objc_sync_exit(self) }
+        guard isLoggedIn, let accessToken = self.authStateHolder.accessToken else {
+            throw StitchError.requestError(withMessage: "logged out during request")
         }
+
+        let jwt = try DecodedJWT.init(jwt: accessToken)
+        guard let issuedAt = jwt.issuedAt,
+            issuedAt.timeIntervalSince1970 < reqStartedAt else {
+                return
+        }
+        try refreshAccessToken()
     }
 
     /**

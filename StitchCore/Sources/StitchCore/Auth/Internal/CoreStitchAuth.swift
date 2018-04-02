@@ -134,22 +134,18 @@ open class CoreStitchAuth<TStitchUser> where TStitchUser: CoreStitchUser {
      * Whether or not a user is currently logged in.
      */
     public var isLoggedIn: Bool {
-        // swiftlint:disable force_try
-        return try! sync(self) {
-            // swiftlint:enable force_try
-            self.authStateHolder.isLoggedIn
-        }
+        objc_sync_enter(self)
+        defer { objc_sync_exit(self) }
+        return self.authStateHolder.isLoggedIn
     }
 
     /**
      * The currently authenticated user as a `TStitchUser`, or `nil` if no user is currently authenticated.
      */
     public var user: TStitchUser? {
-        // swiftlint:disable force_try
-        return try! sync(self) {
-            // swiftlint:enable force_try
-            self.currentUser
-        }
+        objc_sync_enter(self)
+        defer { objc_sync_exit(self) }
+        return self.currentUser
     }
 
     /**
@@ -176,20 +172,20 @@ open class CoreStitchAuth<TStitchUser> where TStitchUser: CoreStitchUser {
      * request is completed.
      */
     public func loginWithCredentialBlocking(withCredential credential: StitchCredential) throws -> TStitchUser {
-        return try sync(self) {
-            if !isLoggedIn {
-                return try doLogin(withCredential: credential, asLinkRequest: false)
-            }
-
-            if credential.providerCapabilities.reusesExistingSession {
-                if type(of: credential).providerType == currentUser?.loggedInProviderType {
-                    return self.currentUser!
-                }
-            }
-
-            try logoutBlocking()
+        objc_sync_enter(self)
+        defer { objc_sync_exit(self) }
+        if !isLoggedIn {
             return try doLogin(withCredential: credential, asLinkRequest: false)
         }
+
+        if credential.providerCapabilities.reusesExistingSession {
+            if type(of: credential).providerType == currentUser?.loggedInProviderType {
+                return self.currentUser!
+            }
+        }
+
+        try logoutBlocking()
+        return try doLogin(withCredential: credential, asLinkRequest: false)
     }
 
     /**
@@ -198,15 +194,15 @@ open class CoreStitchAuth<TStitchUser> where TStitchUser: CoreStitchUser {
      */
     public func linkUserWithCredentialBlocking(withUser user: TStitchUser,
                                                withCredential credential: StitchCredential) throws -> TStitchUser {
-        return try sync(self) {
-            guard let currentUser = self.currentUser,
-                user == currentUser else {
-                throw StitchError.requestError(
-                    withMessage: "user no longer valid; please try again with a new user from StitchAuth.user")
-            }
-
-            return try self.doLogin(withCredential: credential, asLinkRequest: true)
+        objc_sync_enter(self)
+        defer { objc_sync_exit(self) }
+        guard let currentUser = self.currentUser,
+            user == currentUser else {
+            throw StitchError.requestError(
+                withMessage: "user no longer valid; please try again with a new user from StitchAuth.user")
         }
+
+        return try self.doLogin(withCredential: credential, asLinkRequest: true)
     }
 
     /**
@@ -381,12 +377,12 @@ open class CoreStitchAuth<TStitchUser> where TStitchUser: CoreStitchUser {
      * storage.
      */
     internal func clearAuth() throws {
-        try sync(self) {
-            guard self.isLoggedIn else { return }
-            self.authStateHolder.clearState()
-            StoreAuthInfo.clear(storage: &storage)
-            currentUser = nil
-            onAuthEvent()
-        }
+        objc_sync_enter(self)
+        defer { objc_sync_exit(self) }
+        guard self.isLoggedIn else { return }
+        self.authStateHolder.clearState()
+        StoreAuthInfo.clear(storage: &storage)
+        currentUser = nil
+        onAuthEvent()
     }
 }
