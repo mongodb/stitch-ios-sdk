@@ -41,7 +41,7 @@ extension AuthInfo {
         return StoreAuthInfo.init(withAPIAuthInfo: partialInfo,
                                   withExtendedAuthInfo: oldInfo)
     }
-    
+
     func refresh(withNewAccessToken newAccessToken: APIAccessToken) -> AuthInfo {
         return StoreAuthInfo.init(withAuthInfo: self, withNewAPIAccessToken: newAccessToken)
     }

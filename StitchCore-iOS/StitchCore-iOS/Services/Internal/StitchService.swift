@@ -6,7 +6,7 @@ import ExtendedJSON
  * concrete methods that use these methods internally.
  */
 public protocol StitchService {
-    
+
     /**
      * Calls the function for this service with the provided name and arguments.
      *
@@ -16,7 +16,8 @@ public protocol StitchService {
      *     - completionHandler: The completion handler to call when the function call is complete.
      *                          This handler is executed on a non-main global `DispatchQueue`.
      *     - result: The result of the function call as an `Any`, or `nil` if the function call failed.
-     *     - error: An error object that indicates why the function call failed, or `nil` if the function call was successful.
+     *     - error: An error object that indicates why the function call failed, or `nil` if the function call was
+     *              successful.
      *
      */
     func callFunction(withName name: String,

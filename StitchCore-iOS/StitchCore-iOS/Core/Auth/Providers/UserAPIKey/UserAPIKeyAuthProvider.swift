@@ -2,23 +2,26 @@ import Foundation
 import StitchCore
 
 /**
- * A utility class which contains a property that can be used with `StitchAuth` to retrieve a `UserAPIKeyAuthProviderClient`.
+ * A utility class which contains a property that can be used with `StitchAuth` to retrieve a
+ * `UserAPIKeyAuthProviderClient`.
  */
 public final class UserAPIKeyAuthProvider {
-    
     /**
-     * An `AuthProviderClientSupplier` which can be used with `StitchAuth` to retrieve an `UserAPIKeyAuthProviderClient`.
+     * An `AuthProviderClientSupplier` which can be used with `StitchAuth` to retrieve an
+     * `UserAPIKeyAuthProviderClient`.
      */
     public static let clientProvider: ClientProviderImpl = ClientProviderImpl.init()
-    
+
     /**
      * :nodoc:
      * An implementation of `AuthProviderClientSupplier` that produces a `UserAPIKeyAuthProviderClient`.
      */
     public final class ClientProviderImpl: AuthProviderClientSupplier {
         public typealias Client = UserAPIKeyAuthProviderClient
-        
-        public func client(withRequestClient _: StitchRequestClient, withRoutes _: StitchAuthRoutes, withDispatcher _: OperationDispatcher) -> UserAPIKeyAuthProviderClient {
+
+        public func client(withRequestClient _: StitchRequestClient,
+                           withRoutes _: StitchAuthRoutes,
+                           withDispatcher _: OperationDispatcher) -> UserAPIKeyAuthProviderClient {
             return CoreUserAPIKeyAuthProviderClient.init()
         }
     }
@@ -29,7 +32,6 @@ public final class UserAPIKeyAuthProvider {
  * that can be used to log in with the User API Key authentication provider.
  */
 public protocol UserAPIKeyAuthProviderClient {
-    
     /**
      * Gets a credential that can be used to log in with the User API Key authentication provider.
      *

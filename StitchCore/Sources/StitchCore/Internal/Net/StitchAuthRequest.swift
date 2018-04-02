@@ -16,7 +16,7 @@ public struct StitchAuthRequestBuilderImpl: StitchAuthRequestBuilder {
 
     public var url: String?
 
-    public var headers: [String : String]?
+    public var headers: [String: String]?
 
     public var body: Data?
     public var shouldRefreshOnFailure: Bool?
@@ -41,7 +41,7 @@ public struct StitchAuthRequestImpl: StitchAuthRequest {
 
     public var method: Method
 
-    public var headers: [String : String]
+    public var headers: [String: String]
 
     public var body: Data?
 
@@ -88,7 +88,7 @@ public struct StitchAuthDocRequestBuilderImpl: StitchAuthDocRequestBuilder {
 
     public var method: Method?
 
-    public var headers: [String : String]?
+    public var headers: [String: String]?
 
     public var body: Data?
 
@@ -110,7 +110,7 @@ public struct StitchAuthDocRequest: StitchAuthRequest {
 
     public var method: Method
 
-    public var headers: [String : String]
+    public var headers: [String: String]
 
     public var body: Data?
 

@@ -1,3 +1,4 @@
+// swiftlint:disable force_try
 import XCTest
 import ExtendedJSON
 import Swifter
@@ -22,8 +23,8 @@ struct MockStitchUser: CoreStitchUser {
 
     var identities: [StitchUserIdentity] = []
 
-    static func ==(lhs: MockStitchUser,
-                   rhs: MockStitchUser) -> Bool {
+    static func == (lhs: MockStitchUser,
+                    rhs: MockStitchUser) -> Bool {
         return lhs.id == rhs.id
     }
 

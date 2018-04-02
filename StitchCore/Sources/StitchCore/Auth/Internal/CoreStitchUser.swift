@@ -7,7 +7,7 @@ public protocol CoreStitchUser {
     var identities: [StitchUserIdentity] { get }
 }
 
-public func ==(_ lhs: CoreStitchUser,
-               _ rhs: CoreStitchUser) -> Bool {
+public func == (_ lhs: CoreStitchUser,
+                _ rhs: CoreStitchUser) -> Bool {
     return lhs.id == rhs.id
 }

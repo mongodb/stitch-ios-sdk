@@ -21,19 +21,19 @@ public struct StitchAppClientConfigurationImpl: StitchAppClientConfiguration, Bu
         }
 
         self.clientAppId = clientAppId
-        
+
         if let appName = builder.localAppName {
             self.localAppName = appName
         } else {
             self.localAppName = "unkown app name"
         }
-        
+
         if let appVersion = builder.localAppVersion {
             self.localAppVersion = appVersion
         } else {
             self.localAppVersion = "unknown app version"
         }
-        
+
         guard let baseURL = builder.baseURL else {
             throw StitchClientConfigurationError.missingBaseURL
         }

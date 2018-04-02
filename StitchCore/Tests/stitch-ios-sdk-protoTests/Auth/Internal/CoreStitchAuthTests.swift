@@ -1,3 +1,4 @@
+// swiftlint:disable force_try
 import XCTest
 import ExtendedJSON
 import Swifter
@@ -33,7 +34,7 @@ private let baseJSONHeaders = [
     Headers.contentType.rawValue: ContentTypes.applicationJson.rawValue
 ]
 
-private let mockAPIProfile: [String : Any] = [
+private let mockAPIProfile: [String: Any] = [
     "type": "foo",
     "identities": [
         ["id": "bar",
@@ -69,12 +70,12 @@ final class MockStitchRequestClient: StitchRequestClient {
 
     init() { }
     init(baseURL: String, transport: Transport) { }
-    
+
     private func checkAuth(headers: [String: String]) throws {
         guard let authHeader = headers["Authorization"] else {
             throw StitchError.requestError(withMessage: "Authorization header missing")
         }
-        
+
         let headerComponents = authHeader.split(" ")
         guard headerComponents[0] == "Bearer",
               headerComponents.count == 2 else {
@@ -100,7 +101,7 @@ final class MockStitchRequestClient: StitchRequestClient {
         }
     }
 
-    func doRequest<R>(_ stitchReq: R) throws -> Response where R : StitchRequest {
+    func doRequest<R>(_ stitchReq: R) throws -> Response where R: StitchRequest {
         return try mockResponse(forRequest: stitchReq)
     }
 
@@ -110,7 +111,7 @@ final class MockStitchRequestClient: StitchRequestClient {
 }
 
 final class MockStitchUserFactory: StitchUserFactory {
-    typealias T = MockStitchUser
+    typealias UserType = MockStitchUser
 
     func makeUser(withId id: String,
                   withLoggedInProviderType loggedInProviderType: String,
@@ -158,8 +159,6 @@ class CoreStitchAuthTests: StitchXCTestCase {
         let errorCode: StitchErrorCode = StitchErrorCode.invalidSession
     }
 
-
-
     func testLoginWithCredentialBlocking() throws {
         let coreStitchAuth = try! MockCoreStitchAuth.init(requestClient: MockStitchRequestClient.init(),
                                                           authRoutes: appRoutes.authRoutes,
@@ -194,7 +193,7 @@ class CoreStitchAuthTests: StitchXCTestCase {
                                                          authRoutes: appRoutes.authRoutes,
                                                          storage: MemoryStorage())
 
-        let _ = try coreStitchAuth.loginWithCredentialBlocking(withCredential: AnonymousCredential.init())
+        _ = try coreStitchAuth.loginWithCredentialBlocking(withCredential: AnonymousCredential.init())
 
         XCTAssert(coreStitchAuth.isLoggedIn)
     }
@@ -205,7 +204,7 @@ class CoreStitchAuthTests: StitchXCTestCase {
                                                          storage: MemoryStorage())
 
         XCTAssert(!coreStitchAuth.isLoggedIn)
-        let _ = try coreStitchAuth.loginWithCredentialBlocking(withCredential: AnonymousCredential.init())
+        _ = try coreStitchAuth.loginWithCredentialBlocking(withCredential: AnonymousCredential.init())
         XCTAssert(coreStitchAuth.isLoggedIn)
 
         try coreStitchAuth.logoutBlocking()
@@ -218,7 +217,7 @@ class CoreStitchAuthTests: StitchXCTestCase {
                                                      storage: MemoryStorage())
 
         XCTAssert(!coreStitchAuth.hasDeviceId)
-        let _ = try coreStitchAuth.loginWithCredentialBlocking(withCredential: AnonymousCredential.init())
+        _ = try coreStitchAuth.loginWithCredentialBlocking(withCredential: AnonymousCredential.init())
         XCTAssert(coreStitchAuth.hasDeviceId)
     }
 
@@ -239,7 +238,7 @@ class CoreStitchAuthTests: StitchXCTestCase {
         }
 
         let user = try coreStitchAuth.loginWithCredentialBlocking(withCredential: AnonymousCredential.init())
-        let _ = try coreStitchAuth.linkUserWithCredentialBlocking(
+        _ = try coreStitchAuth.linkUserWithCredentialBlocking(
             withUser: user,
             withCredential: UserPasswordCredential.init(withUsername: "foo@foo.com",
                                                         withPassword: "bar"))

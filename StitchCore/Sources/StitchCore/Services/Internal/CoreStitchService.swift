@@ -16,7 +16,6 @@ open class CoreStitchService {
     private final func callFunctionRequest(withName name: String,
                                            withArgs args: BSONArray) throws -> StitchAuthDocRequest {
         return try StitchAuthDocRequestBuilderImpl {
-            
             $0.method = .post
             $0.path = self.serviceRoutes.functionCallRoute
             $0.document = [
@@ -29,8 +28,6 @@ open class CoreStitchService {
 
     public func callFunctionInternal(withName name: String,
                                      withArgs args: BSONArray) throws -> Any {
-        
-        
         return try self.requestClient.doAuthenticatedJSONRequest(
             callFunctionRequest(withName: name, withArgs: args)
         )

@@ -17,7 +17,7 @@ public struct StitchRequestBuilderImpl: StitchRequestBuilder {
 
     public var method: Method?
     public var body: Data?
-    public var headers: [String : String]?
+    public var headers: [String: String]?
     public var path: String?
     public var shouldRefreshOnFailure: Bool?
 
@@ -79,7 +79,7 @@ public struct StitchDocRequestBuilderImpl: StitchDocRequestBuilder {
     public var path: String?
     public var method: Method?
     public var url: String?
-    public var headers: [String : String]?
+    public var headers: [String: String]?
     public var body: Data?
     public var shouldRefreshOnFailure: Bool?
 
@@ -97,7 +97,7 @@ public struct StitchDocRequest: StitchRequest {
 
     public var method: Method
 
-    public var headers: [String : String]
+    public var headers: [String: String]
 
     public var body: Data?
 
@@ -127,5 +127,3 @@ public struct StitchDocRequest: StitchRequest {
         self.shouldRefreshOnFailure = builder.shouldRefreshOnFailure ?? true
     }
 }
-
-

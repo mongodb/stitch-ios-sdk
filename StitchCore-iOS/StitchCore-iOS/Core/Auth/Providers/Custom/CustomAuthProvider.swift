@@ -2,23 +2,26 @@ import Foundation
 import StitchCore
 
 /**
- * A utility class which contains a property that can be used with `StitchAuth` to retrieve an `CustomAuthProviderClient`.
+ * A utility class which contains a property that can be used with `StitchAuth` to retrieve a
+ * `CustomAuthProviderClient`.
  */
 public final class CustomAuthProvider {
-    
+
     /**
      * An `AuthProviderClientSupplier` which can be used with `StitchAuth` to retrieve an `CustomAuthProviderClient`.
      */
     public static let clientProvider: ClientProviderImpl = ClientProviderImpl.init()
-    
+
     /**
      * :nodoc:
      * An implementation of `AuthProviderClientSupplier` that produces a `CustomAuthProviderClient`.
      */
     public final class ClientProviderImpl: AuthProviderClientSupplier {
         public typealias Client = CustomAuthProviderClient
-        
-        public func client(withRequestClient _: StitchRequestClient, withRoutes _: StitchAuthRoutes, withDispatcher _: OperationDispatcher) -> CustomAuthProviderClient {
+
+        public func client(withRequestClient _: StitchRequestClient,
+                           withRoutes _: StitchAuthRoutes,
+                           withDispatcher _: OperationDispatcher) -> CustomAuthProviderClient {
             return CoreCustomAuthProviderClient.init()
         }
     }
@@ -29,7 +32,7 @@ public final class CustomAuthProvider {
  * that can be used to log in with the custom authentication provider.
  */
 public protocol CustomAuthProviderClient {
-    
+
     /**
      * Gets a credential that can be used to log in with the custom authentication provider.
      *

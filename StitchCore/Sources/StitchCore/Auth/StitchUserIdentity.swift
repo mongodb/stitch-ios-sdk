@@ -16,6 +16,6 @@ public protocol StitchUserIdentity: Decodable {
     var providerType: String { get }
 }
 
-public func ==(_ lhs: StitchUserIdentity, _ rhs: StitchUserIdentity) -> Bool {
+public func == (_ lhs: StitchUserIdentity, _ rhs: StitchUserIdentity) -> Bool {
     return lhs.id == rhs.id && lhs.providerType == rhs.providerType
 }

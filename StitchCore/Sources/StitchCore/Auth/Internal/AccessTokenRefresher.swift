@@ -12,7 +12,7 @@ class AccessTokenRefresher<T> where T: CoreStitchUser {
         self.sleepMillis = Double(sleepMillis)
         self.expirationWindowSeconds = expirationWindowSeconds
     }
-    
+
     public func run() {
         repeat {
             if !checkRefresh() {
