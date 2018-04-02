@@ -13,7 +13,7 @@ public struct UserPasswordCredential: StitchCredential {
     /**
      * The type of the provider for this credential.
      */
-    public var providerType: String = "local-userpass"
+    public static let providerType: StitchProviderType = .userPassword
 
     /**
      * The contents of this credential as they will be passed to the Stitch server.
@@ -43,7 +43,7 @@ public struct UserPasswordCredential: StitchCredential {
      * Initializes this credential with the name of the provider, the username of the user, and the password of the
      * user.
      */
-    public init(withProviderName providerName: String = "local-userpass",
+    public init(withProviderName providerName: String = providerType.name,
                 withUsername username: String,
                 withPassword password: String) {
         self.providerName = providerName

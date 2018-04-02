@@ -14,7 +14,7 @@ public protocol StitchCredential {
     /**
      * The type of the authentication provider that this credential will be used to authenticate with.
      */
-    var providerType: String { get }
+    static var providerType: StitchProviderType { get }
 
     /**
      * The contents of this credential as they will be passed to the Stitch server.

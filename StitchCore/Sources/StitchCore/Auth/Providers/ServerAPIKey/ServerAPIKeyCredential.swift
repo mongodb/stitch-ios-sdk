@@ -13,7 +13,7 @@ public struct ServerAPIKeyCredential: StitchCredential {
     /**
      * The type of the provider for this credential.
      */
-    public var providerType: String = "api-key"
+    public static let providerType: StitchProviderType = .serverAPIKey
 
     /**
      * The contents of this credential as they will be passed to the Stitch server.
@@ -36,7 +36,7 @@ public struct ServerAPIKeyCredential: StitchCredential {
     /**
      * Initializes this credential with the name of the provider, and a server API key.
      */
-    public init(withProviderName providerName: String = "api-key",
+    public init(withProviderName providerName: String = providerType.name,
                 withKey key: String) {
         self.providerName = providerName
         self.key = key

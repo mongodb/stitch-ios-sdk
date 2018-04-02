@@ -49,7 +49,7 @@ class ViewController: UIViewController {
 
     @IBAction func loginButtonPressed(_ sender: Any) {
         let anonAuthClient =
-            stitchClient.auth.providerClient(forProvider: AnonymousAuthProvider.clientProvider)
+            stitchClient.auth.providerClient(forProvider: AnonymousAuthProvider.clientSupplier)
 
         print(UIDevice.current.systemName)
 

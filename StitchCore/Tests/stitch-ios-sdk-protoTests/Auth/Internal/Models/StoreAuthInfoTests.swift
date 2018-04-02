@@ -25,7 +25,7 @@ private let stitchUserProfile = StitchUserProfileImpl.init(
                                           maxAge: 84)
 )
 
-private let extendedAuthInfo = ExtendedAuthInfoImpl.init(loggedInProviderType: "quux",
+private let extendedAuthInfo = ExtendedAuthInfoImpl.init(loggedInProviderType: .anonymous,
                                                          loggedInProviderName: "corge",
                                                          userProfile: stitchUserProfile)
 

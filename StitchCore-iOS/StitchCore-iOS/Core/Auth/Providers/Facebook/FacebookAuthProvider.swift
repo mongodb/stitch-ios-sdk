@@ -10,13 +10,13 @@ public final class FacebookAuthProvider {
     /**
      * An `AuthProviderClientSupplier` which can be used with `StitchAuth` to retrieve an `FacebookAuthProviderClient`.
      */
-    public static let clientProvider: ClientProviderImpl = ClientProviderImpl.init()
+    public static let clientSupplier: ClientSupplierImpl = ClientSupplierImpl.init()
 
     /**
      * :nodoc:
      * An implementation of `AuthProviderClientSupplier` that produces a `FacebookAuthProviderClient`.
      */
-    public final class ClientProviderImpl: AuthProviderClientSupplier {
+    public final class ClientSupplierImpl: AuthProviderClientSupplier {
         public typealias Client = FacebookAuthProviderClient
 
         public func client(withRequestClient _: StitchRequestClient,

@@ -6,11 +6,11 @@ import StitchCore
  */
 internal final class StitchUserFactoryImpl: StitchUserFactory {
     /**
-     * The factory function which can produce a `StitchUserImpl` with the provided ID, logged in provider type/name,
+     * The factory function which can produce a `StitchUserImpl` with the provided id, logged in provider type/name,
      * and a user profile.
      */
     func makeUser(withId id: String,
-                  withLoggedInProviderType loggedInProviderType: String,
+                  withLoggedInProviderType loggedInProviderType: StitchProviderType,
                   withLoggedInProviderName loggedInProviderName: String,
                   withUserProfile userProfile: StitchUserProfile
         ) -> StitchUserImpl {

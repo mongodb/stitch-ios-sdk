@@ -9,7 +9,7 @@ public protocol StitchClientConfiguration {
     var baseURL: String { get }
 
     /**
-     * The underlying storage for authentication info.
+     * The underlying storage for persisting authentication and app state.
      */
     var storage: Storage { get }
 

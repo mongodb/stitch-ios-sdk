@@ -5,7 +5,7 @@ import Foundation
  */
 public enum DeviceField: String {
     /**
-     * The current user's device ID.
+     * The current user's device id.
      */
     case deviceId
 

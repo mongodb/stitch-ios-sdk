@@ -31,7 +31,7 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
     }
 
     /**
-     * An array of weak references to `StitchAuthDelegate`, each of which will be notified when authentication events
+     * A list of weak references to `StitchAuthDelegate`, each of which will be notified when authentication events
      * occur.
      */
     private var delegates: [DelegateWeakRef] = []
@@ -61,7 +61,7 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
      *
      * - parameters:
      *     - forProvider: The authentication provider conforming to `AuthProviderClientSupplier` which will provide the
-     *                    client for this authentication provider. Use the `clientProvider` field of the desired
+     *                    client for this authentication provider. Use the `clientSupplier` field of the desired
      *                    authentication provider class.
      * - returns: an authentication provider client whose type is determined by the `Client` typealias in the type
      *            specified in the `forProvider` parameter.
@@ -79,7 +79,7 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
      *
      * - parameters:
      *     - forProvider: The authentication provider conforming to `NamedAuthProviderClientSupplier` which will
-     *                    provide the client for this authentication provider. Use the `NamedClientProvider` field of
+     *                    provide the client for this authentication provider. Use the `namedClientSupplier` field of
      *                    the desired authentication provider class.
      *     - withName: The name of the authentication provider as defined in the MongoDB Stitch application.
      * - returns: an authentication provider client whose type is determined by the `Client` typealias in the type
@@ -158,7 +158,7 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
     }
 
     /**
-     * A BSON document containing information about the current device such as device ID, local app name and version,
+     * A BSON document containing information about the current device such as device id, local app name and version,
      * platform and platform version, and the current version of the Stitch SDK.
      */
     public final override var deviceInfo: Document {

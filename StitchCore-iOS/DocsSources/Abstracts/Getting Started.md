@@ -59,7 +59,7 @@ TODO: For STITCH-1293, Replace this with instructions on how to integrate the SD
 
 #### Executing a Function
 
-1. Once logged in, executing a function happens via the StitchClient's `executeFunction()` method
+1. Once logged in, executing a function happens via the StitchAppClient's `callFunction()` method
 
 	```swift
     stitchClient.callFunction(withName: "echoArg", withArgs: ["Hello world!"]) { (value, error) in

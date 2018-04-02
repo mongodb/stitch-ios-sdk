@@ -26,7 +26,7 @@ private final class Routes {
      * Private helper which returns the provided path, appended to the base route for the authentication provider.
      */
     private func extensionRoute(forPath path: String) -> String {
-        return "\(authRoutes.authProviderLoginRoute(withProviderName: providerName))/\(path)"
+        return "\(authRoutes.authProviderRoute(withProviderName: providerName))/\(path)"
     }
 
     /**
@@ -118,7 +118,7 @@ open class CoreUserPasswordAuthProviderClient: CoreAuthProviderClient {
      *
      * - parameters:
      *     - withToken: The confirmation token that was emailed to the user.
-     *     - withTokenId: The confirmation token ID that was emailed to the user.
+     *     - withTokenId: The confirmation token id that was emailed to the user.
      */
     public func confirmUser(withToken token: String,
                             withTokenId tokenId: String) throws -> Response {
@@ -167,7 +167,7 @@ open class CoreUserPasswordAuthProviderClient: CoreAuthProviderClient {
      * - parameters:
      *     - password: The desired new password.
      *     - withToken: The password reset token that was emailed to the user.
-     *     - withTokenId: The password reset token ID that was emailed to the user.
+     *     - withTokenId: The password reset token id that was emailed to the user.
      */
     public func reset(password: String,
                       withToken token: String,

@@ -5,12 +5,12 @@ import Foundation
  */
 public protocol APIAuthInfo: Decodable {
     /**
-     * The ID of the Stitch user.
+     * The id of the Stitch user.
      */
     var userId: String { get }
 
     /**
-     * The device ID.
+     * The device id.
      */
     var deviceId: String { get }
 
@@ -20,7 +20,7 @@ public protocol APIAuthInfo: Decodable {
     var accessToken: String { get }
 
     /**
-     * The permanent refresh token for the user.
+     * The permanent (though potentially invalidated) refresh token for the user.
      */
     var refreshToken: String { get }
 }
@@ -31,9 +31,9 @@ public protocol APIAuthInfo: Decodable {
  */
 public protocol ExtendedAuthInfo {
     /**
-     * A string indicating the type of authentication provider used to log into the current session.
+     * The type of authentication provider used to log into the current session.
      */
-    var loggedInProviderType: String { get }
+    var loggedInProviderType: StitchProviderType { get }
 
     /**
      * A string indicating the name of authentication provider used to log into the current session.

@@ -5,7 +5,7 @@ import Foundation
  */
 internal struct AuthStateHolder {
     /**
-     * Basic authentication information such as user ID, device ID, and access and refresh tokens.
+     * Basic authentication information such as user id, device id, and access and refresh tokens.
      */
     var apiAuthInfo: APIAuthInfo?
 
@@ -34,14 +34,14 @@ internal struct AuthStateHolder {
     }
 
     /**
-     * The permanent refresh token of the current user.
+     * The permanent (though potentially invalidated) refresh token of the current user.
      */
     var refreshToken: String? {
         return apiAuthInfo?.refreshToken ?? authInfo?.refreshToken
     }
 
     /**
-     * The ID of the current user.
+     * The id of the current user.
      */
     var userId: String? {
         return apiAuthInfo?.userId ?? authInfo?.userId

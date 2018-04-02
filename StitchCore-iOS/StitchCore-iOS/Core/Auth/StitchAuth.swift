@@ -27,7 +27,7 @@ public protocol StitchAuth {
      *
      * - parameters:
      *     - forProvider: The authentication provider conforming to `AuthProviderClientSupplier` which will provide the
-     *                    client for this authentication provider. Use the `clientProvider` field of the desired
+     *                    client for this authentication provider. Use the `clientSupplier` field of the desired
      *                    authentication provider class.
      * - returns: an authentication provider client whose type is determined by the `Client` typealias in the type
      *            specified in the `forProvider` parameter.

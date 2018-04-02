@@ -13,7 +13,7 @@ public struct AnonymousCredential: StitchCredential {
     /**
      * The type of the provider for this credential.
      */
-    public var providerType: String = "anon-user"
+    public static let providerType: StitchProviderType = .anonymous
 
     /**
      * The contents of this credential as they will be passed to the Stitch server.
@@ -29,7 +29,7 @@ public struct AnonymousCredential: StitchCredential {
     /**
      * Initializes this credential with the name of the provider.
      */
-    public init(withProviderName providerName: String = "anon-user") {
+    public init(withProviderName providerName: String = providerType.name) {
         self.providerName = providerName
     }
 }

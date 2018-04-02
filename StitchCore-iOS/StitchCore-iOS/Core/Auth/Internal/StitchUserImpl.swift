@@ -19,7 +19,7 @@ internal final class StitchUserImpl: StitchUser {
      * Initializes this user with its basic properties.
      */
     init(withId id: String,
-         withProviderType providerType: String,
+         withProviderType providerType: StitchProviderType,
          withProviderName providerName: String,
          withUserProfile userProfile: StitchUserProfile,
          withAuth auth: StitchAuthImpl) {
@@ -62,7 +62,7 @@ internal final class StitchUserImpl: StitchUser {
     /**
      * A string describing the type of authentication provider used to log in as this user.
      */
-    public private(set) var loggedInProviderType: String
+    public private(set) var loggedInProviderType: StitchProviderType
 
     /**
      * The name of the authentication provider used to log in as this user.

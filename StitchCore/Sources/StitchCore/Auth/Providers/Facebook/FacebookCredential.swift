@@ -13,7 +13,7 @@ public struct FacebookCredential: StitchCredential {
     /**
      * The type of the provider for this credential.
      */
-    public var providerType: String = "oauth2-facebook"
+    public static let providerType: StitchProviderType = .facebook
 
     /**
      * The contents of this credential as they will be passed to the Stitch server.
@@ -36,7 +36,7 @@ public struct FacebookCredential: StitchCredential {
     /**
      * Initializes this credential with the name of the provider, and a Facebook OAuth2 access token.
      */
-    public init(withProviderName providerName: String = "oauth2-facebook",
+    public init(withProviderName providerName: String = providerType.name,
                 withAccessToken accessToken: String) {
         self.providerName = providerName
         self.accessToken = accessToken

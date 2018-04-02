@@ -49,12 +49,12 @@ public protocol StitchAuthRoutes {
  */
 public final class StitchServiceRoutes {
     /**
-     * The client app ID of the app that these routes are for.
+     * The client app id of the app that these routes are for.
      */
     private let clientAppId: String
 
     /**
-     * Initializes these routes with the provided client app ID.
+     * Initializes these routes with the provided client app id.
      */
     fileprivate init(clientAppId: String) {
         self.clientAppId = clientAppId
@@ -72,7 +72,7 @@ public final class StitchServiceRoutes {
  */
 public struct StitchAppAuthRoutes: StitchAuthRoutes {
     /**
-     * The client app ID of the app that these routes are for.
+     * The client app id of the app that these routes are for.
      */
     private let clientAppId: String
 
@@ -87,7 +87,7 @@ public struct StitchAppAuthRoutes: StitchAuthRoutes {
     public var profileRoute: String = RouteParts.profileRoute
 
     /**
-     * Initializes these routes with the provided client app ID.
+     * Initializes these routes with the provided client app id.
      */
     fileprivate init(clientAppId: String) {
         self.clientAppId = clientAppId
@@ -127,7 +127,7 @@ public struct StitchAppAuthRoutes: StitchAuthRoutes {
  */
 public final class StitchAppRoutes {
     /**
-     * The client app ID of the app that these routes are for.
+     * The client app id of the app that these routes are for.
      */
     private let clientAppId: String
 
@@ -142,7 +142,7 @@ public final class StitchAppRoutes {
     public let serviceRoutes: StitchServiceRoutes
 
     /**
-     * Initializes the app routes with the provided client app ID.
+     * Initializes the app routes with the provided client app id.
      */
     public init(clientAppId: String) {
         self.clientAppId = clientAppId

@@ -3,17 +3,17 @@
  */
 public protocol CoreStitchUser {
     /**
-     * The ID of the Stitch user.
+     * The id of the Stitch user.
      */
     var id: String { get }
 
     /**
-     * A string describing the type of authentication provider used to log in as this user.
+     * The type of authentication provider used to log in as this user.
      */
-    var loggedInProviderType: String { get }
+    var loggedInProviderType: StitchProviderType { get }
 
     /**
-     * A string describing the name of the authentication provider used to log in as this user.
+     * The name of the authentication provider used to log in as this user.
      */
     var loggedInProviderName: String { get }
 
@@ -35,7 +35,7 @@ public protocol CoreStitchUser {
 }
 
 /**
- * An `==` overload checking if the two provided `CoreStitchUser`s have the same ID.
+ * An `==` overload checking if the two provided `CoreStitchUser`s have the same id.
  */
 public func == (_ lhs: CoreStitchUser,
                 _ rhs: CoreStitchUser) -> Bool {

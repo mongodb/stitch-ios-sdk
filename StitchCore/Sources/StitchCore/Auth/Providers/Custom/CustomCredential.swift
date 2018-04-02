@@ -13,7 +13,7 @@ public struct CustomCredential: StitchCredential {
     /**
      * The type of the provider for this credential.
      */
-    public var providerType: String = "custom-token"
+    public static let providerType: StitchProviderType = .custom
 
     /**
      * The contents of this credential as they will be passed to the Stitch server.
@@ -36,7 +36,7 @@ public struct CustomCredential: StitchCredential {
     /**
      * Initializes this credential with the name of the provider, and a JWT.
      */
-    public init(withProviderName providerName: String = "custom-token", withToken token: String) {
+    public init(withProviderName providerName: String = providerType.name, withToken token: String) {
         self.providerName = providerName
         self.token = token
     }

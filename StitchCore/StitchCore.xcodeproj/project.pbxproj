@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		110DDB3420729F350044B6F3 /* StitchProviderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110DDB3320729F350044B6F3 /* StitchProviderType.swift */; };
 		111E748C206C115800DFC43C /* AuthStateHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111E748B206C115800DFC43C /* AuthStateHolder.swift */; };
 		111E748E206C127D00DFC43C /* CoreStitchAuth+StitchAuthRequestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111E748D206C127D00DFC43C /* CoreStitchAuth+StitchAuthRequestClient.swift */; };
 		1127A37B206D85B900FE9200 /* Builder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1127A379206D85B300FE9200 /* Builder.swift */; };
@@ -212,6 +213,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		110DDB3320729F350044B6F3 /* StitchProviderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchProviderType.swift; sourceTree = "<group>"; };
 		111E748B206C115800DFC43C /* AuthStateHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthStateHolder.swift; sourceTree = "<group>"; };
 		111E748D206C127D00DFC43C /* CoreStitchAuth+StitchAuthRequestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreStitchAuth+StitchAuthRequestClient.swift"; sourceTree = "<group>"; };
 		1127A379206D85B300FE9200 /* Builder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Builder.swift; path = Common/Builder.swift; sourceTree = SOURCE_ROOT; };
@@ -624,6 +626,7 @@
 				OBJ_41 /* ServerAPIKey */,
 				OBJ_44 /* UserAPIKey */,
 				OBJ_47 /* UserPass */,
+				110DDB3320729F350044B6F3 /* StitchProviderType.swift */,
 			);
 			path = Providers;
 			sourceTree = "<group>";
@@ -1249,6 +1252,7 @@
 				OBJ_332 /* Transport.swift in Sources */,
 				OBJ_333 /* CoreStitchService.swift in Sources */,
 				OBJ_334 /* StitchAppClientConfiguration.swift in Sources */,
+				110DDB3420729F350044B6F3 /* StitchProviderType.swift in Sources */,
 				OBJ_335 /* StitchAppClientInfo.swift in Sources */,
 				OBJ_336 /* StitchClientConfiguration.swift in Sources */,
 				OBJ_337 /* StitchError.swift in Sources */,

@@ -153,7 +153,7 @@ open class CoreStitchAuth<TStitchUser> where TStitchUser: CoreStitchUser {
     }
 
     /**
-     * Returns whether or not the current authentication state has a meaningful device ID.
+     * Returns whether or not the current authentication state has a meaningful device id.
      */
     public var hasDeviceId: Bool {
         return authInfo?.deviceId != nil
@@ -162,8 +162,8 @@ open class CoreStitchAuth<TStitchUser> where TStitchUser: CoreStitchUser {
     }
 
     /**
-     * Returns the currently authenticated user's device ID, or `nil` is no user is currently authenticated, or if the
-     * device ID does not exist.
+     * Returns the currently authenticated user's device id, or `nil` is no user is currently authenticated, or if the
+     * device id does not exist.
      */
     public var deviceId: String? {
         return authInfo?.deviceId
@@ -182,7 +182,7 @@ open class CoreStitchAuth<TStitchUser> where TStitchUser: CoreStitchUser {
             }
 
             if credential.providerCapabilities.reusesExistingSession {
-                if credential.providerType == currentUser?.loggedInProviderType {
+                if type(of: credential).providerType == currentUser?.loggedInProviderType {
                     return self.currentUser!
                 }
             }
@@ -331,7 +331,7 @@ open class CoreStitchAuth<TStitchUser> where TStitchUser: CoreStitchUser {
         // Finally set the info and user
         self.authInfo = StoreAuthInfo.init(
             withAPIAuthInfo: decodedInfo,
-            withExtendedAuthInfo: ExtendedAuthInfoImpl.init(loggedInProviderType: credential.providerType,
+            withExtendedAuthInfo: ExtendedAuthInfoImpl.init(loggedInProviderType: type(of: credential).providerType,
                                                             loggedInProviderName: credential.providerName,
                                                             userProfile: profile)
         )
@@ -341,7 +341,7 @@ open class CoreStitchAuth<TStitchUser> where TStitchUser: CoreStitchUser {
             userFactory
                 .makeUser(
                     withId: authInfo!.userId,
-                    withLoggedInProviderType: credential.providerType,
+                    withLoggedInProviderType: type(of: credential).providerType,
                     withLoggedInProviderName: credential.providerName,
                     withUserProfile: profile)
         return self.currentUser!

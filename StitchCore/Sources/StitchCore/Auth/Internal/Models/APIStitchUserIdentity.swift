@@ -4,23 +4,23 @@
  */
 public struct APIStitchUserIdentity: StitchUserIdentity, Hashable {
     /**
-     * The hash value of the ID to provide conformance to `Hashable`.
+     * The hash value of the id to provide conformance to `Hashable`.
      */
     public var hashValue: Int {
         return self.id.hashValue
     }
 
     /**
-     * An overload of `==` to compare two `APIStitchUserIdentity` objects by ID.
+     * An overload of `==` to compare two `APIStitchUserIdentity` objects by id.
      */
     public static func == (lhs: APIStitchUserIdentity, rhs: APIStitchUserIdentity) -> Bool {
         return lhs.id == rhs.id
     }
 
     /**
-     * The ID of this identity in MongoDB Stitch
+     * The id of this identity in MongoDB Stitch
      *
-     * - important: This is **not** the ID of the Stitch user.
+     * - important: This is **not** the id of the Stitch user.
      */
     public var id: String
 

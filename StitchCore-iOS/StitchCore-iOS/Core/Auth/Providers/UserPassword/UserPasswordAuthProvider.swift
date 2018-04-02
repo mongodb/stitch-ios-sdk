@@ -10,13 +10,13 @@ public final class UserPasswordAuthProvider {
      * An `AuthProviderClientSupplier` which can be used with `StitchAuth` to retrieve a
      * `UserPasswordAuthProviderClient`.
      */
-    public static let clientProvider: ClientProviderImpl = ClientProviderImpl.init()
+    public static let clientSupplier: ClientSupplierImpl = ClientSupplierImpl.init()
 
     /**
      * :nodoc:
      * An implementation of `AuthProviderClientSupplier` that produces a `UserPasswordAuthProviderClient`.
      */
-    public final class ClientProviderImpl: AuthProviderClientSupplier {
+    public final class ClientSupplierImpl: AuthProviderClientSupplier {
         public typealias Client = UserPasswordAuthProviderClient
 
         public func client(withRequestClient requestClient: StitchRequestClient,
@@ -62,7 +62,7 @@ public protocol UserPasswordAuthProviderClient {
      *
      * - parameters:
      *     - withToken: The confirmation token that was emailed to the user.
-     *     - withTokenId: The confirmation token ID that was emailed to the user.
+     *     - withTokenId: The confirmation token id that was emailed to the user.
      *     - completionHandler: The handler to be executed when the request is complete.
      */
     func confirmUser(withToken token: String, withTokenId tokenId: String, completionHandler: @escaping (Error?) -> Void)
@@ -95,7 +95,7 @@ public protocol UserPasswordAuthProviderClient {
      * - parameters:
      *     - password: The desired new password.
      *     - withToken: The password reset token that was emailed to the user.
-     *     - withTokenId: The password reset token ID that was emailed to the user.
+     *     - withTokenId: The password reset token id that was emailed to the user.
      *     - completionHandler: The handler to be executed when the request is complete.
      */
     func reset(password: String, withToken token: String, withTokenId tokenId: String, completionHandler: @escaping (Error?) -> Void)

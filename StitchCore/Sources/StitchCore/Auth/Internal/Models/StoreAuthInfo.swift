@@ -11,12 +11,12 @@ internal struct StoreAuthInfo: Codable, AuthInfo {
     }
 
     /**
-     * The ID of the Stitch user.
+     * The id of the Stitch user.
      */
     let userId: String
 
     /**
-     * The device ID.
+     * The device id.
      */
     let deviceId: String
 
@@ -26,14 +26,14 @@ internal struct StoreAuthInfo: Codable, AuthInfo {
     let accessToken: String
 
     /**
-     * The permanent refresh token for the user.
+     * The permanent (though potentially invalidated) refresh token for the user.
      */
     let refreshToken: String
 
     /**
      * A string indicating the type of authentication provider used to log into the current session.
      */
-    let loggedInProviderType: String
+    let loggedInProviderType: StitchProviderType
 
     /**
      * A string indicating the name of authentication provider used to log into the current session.
@@ -96,7 +96,7 @@ internal struct StoreAuthInfo: Codable, AuthInfo {
         self.deviceId = try container.decode(String.self, forKey: .deviceId)
         self.accessToken = try container.decode(String.self, forKey: .accessToken)
         self.refreshToken = try container.decode(String.self, forKey: .refreshToken)
-        self.loggedInProviderType = try container.decode(String.self, forKey: .loggedInProviderType)
+        self.loggedInProviderType = try container.decode(StitchProviderType.self, forKey: .loggedInProviderType)
         self.loggedInProviderName = try container.decode(String.self, forKey: .loggedInProviderName)
         self.userProfile = try container.decode(StoreCoreUserProfile.self, forKey: .userProfile)
     }

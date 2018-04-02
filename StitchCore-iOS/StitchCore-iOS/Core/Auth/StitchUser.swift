@@ -13,9 +13,9 @@ public protocol StitchUser: CoreStitchUser {
     var id: String { get }
 
     /**
-     * A string describing the type of authentication provider used to log in as this user.
+     * The type of authentication provider used to log in as this user.
      */
-    var loggedInProviderType: String { get }
+    var loggedInProviderType: StitchProviderType { get }
 
     /**
      * The name of the authentication provider used to log in as this user.

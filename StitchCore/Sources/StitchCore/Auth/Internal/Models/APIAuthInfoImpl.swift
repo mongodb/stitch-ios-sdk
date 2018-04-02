@@ -12,12 +12,12 @@ public struct APIAuthInfoImpl: APIAuthInfo {
     }
 
     /**
-     * The ID of the newly authenticated user.
+     * The id of the newly authenticated user.
      */
     public let userId: String
 
     /**
-     * The device ID of the newly authenticated user.
+     * The device id of the newly authenticated user.
      */
     public let deviceId: String
 
@@ -27,7 +27,7 @@ public struct APIAuthInfoImpl: APIAuthInfo {
     public let accessToken: String
 
     /**
-     * The permanent access token for the newly authenticated user.
+     * The permanent (though potentially invalidated) access token for the newly authenticated user.
      */
     public let refreshToken: String
 }
@@ -37,12 +37,12 @@ public struct APIAuthInfoImpl: APIAuthInfo {
  */
 public struct ExtendedAuthInfoImpl: ExtendedAuthInfo {
     /**
-     * A string describing the type of authentication provider used to log in as this user.
+     * The type of authentication provider used to log in as this user.
      */
-    public let loggedInProviderType: String
+    public let loggedInProviderType: StitchProviderType
 
     /**
-     * A string describing the name of the authentication provider used to log in as this user.
+     * The name of the authentication provider used to log in as this user.
      */
     public let loggedInProviderName: String
 

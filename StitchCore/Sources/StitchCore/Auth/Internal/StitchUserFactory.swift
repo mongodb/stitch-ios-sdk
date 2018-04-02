@@ -8,11 +8,11 @@ public protocol StitchUserFactory {
     associatedtype UserType: CoreStitchUser
 
     /**
-     * The factory function which will produce the user with the provided ID, logged in provider type/name, and a user
+     * The factory function which will produce the user with the provided id, logged in provider type/name, and a user
      * profile.
      */
     func makeUser(withId id: String,
-                  withLoggedInProviderType loggedInProviderType: String,
+                  withLoggedInProviderType loggedInProviderType: StitchProviderType,
                   withLoggedInProviderName loggedInProviderName: String,
                   withUserProfile userProfile: StitchUserProfile) -> UserType
 }
@@ -25,7 +25,7 @@ public class AnyStitchUserFactory<T: CoreStitchUser> {
     /**
      * A property containing the function that produces a Stitch user object.
      */
-    private let makeUserBlock: (String, String, String, StitchUserProfile) -> T
+    private let makeUserBlock: (String, StitchProviderType, String, StitchUserProfile) -> T
 
     /**
      * Initializes this `AnyStitchUserFactory` with an arbitrary `StitchUserFactory`.
@@ -38,7 +38,7 @@ public class AnyStitchUserFactory<T: CoreStitchUser> {
      * Produces a new Stitch user with the stored `makeUserBlock`.
      */
     func makeUser(withId id: String,
-                  withLoggedInProviderType loggedInProviderType: String,
+                  withLoggedInProviderType loggedInProviderType: StitchProviderType,
                   withLoggedInProviderName loggedInProviderName: String,
                   withUserProfile userProfile: StitchUserProfile) -> T {
         return self.makeUserBlock(id, loggedInProviderType, loggedInProviderName, userProfile)

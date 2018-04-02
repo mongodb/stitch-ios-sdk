@@ -3,7 +3,7 @@
  */
 public protocol StitchAppClientConfiguration: StitchClientConfiguration {
     /**
-     * The client app ID of the Stitch application that this client is going to communicate with.
+     * The client app id of the Stitch application that this client is going to communicate with.
      */
     var clientAppId: String { get }
 
@@ -44,7 +44,7 @@ public struct StitchAppClientConfigurationImpl: StitchAppClientConfiguration, Bu
     public let transport: Transport
 
     /**
-     * The client app ID of the Stitch application that this client is going to communicate with.
+     * The client app id of the Stitch application that this client is going to communicate with.
      */
     public let clientAppId: String
 
@@ -134,7 +134,7 @@ public struct StitchAppClientConfigurationBuilder: StitchClientConfigurationBuil
     public var transport: Transport?
 
     /**
-     * The client app ID of the Stitch application that this client is going to communicate with.
+     * The client app id of the Stitch application that this client is going to communicate with.
      */
     public var clientAppId: String?
 

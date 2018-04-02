@@ -6,9 +6,9 @@ import Foundation
 internal struct StoreStitchUserIdentity: Codable, StitchUserIdentity {
 
     /**
-     * The ID of this identity in MongoDB Stitch
+     * The id of this identity in MongoDB Stitch
      *
-     * - important: This is **not** the ID of the Stitch user.
+     * - important: This is **not** the id of the Stitch user.
      */
     let id: String
 
