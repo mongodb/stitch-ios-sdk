@@ -110,7 +110,6 @@
 		OBJ_318 /* ImplFailureFatalErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_55 /* ImplFailureFatalErrors.swift */; };
 		OBJ_319 /* JWT.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_56 /* JWT.swift */; };
 		OBJ_320 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_57 /* Storage.swift */; };
-		OBJ_321 /* Synchronized.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_58 /* Synchronized.swift */; };
 		OBJ_322 /* CoreStitchAppClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_59 /* CoreStitchAppClient.swift */; };
 		OBJ_323 /* ContentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_61 /* ContentType.swift */; };
 		OBJ_324 /* FoundationHTTPTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_62 /* FoundationHTTPTransport.swift */; };
@@ -327,7 +326,6 @@
 		OBJ_55 /* ImplFailureFatalErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImplFailureFatalErrors.swift; sourceTree = "<group>"; };
 		OBJ_56 /* JWT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWT.swift; sourceTree = "<group>"; };
 		OBJ_57 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
-		OBJ_58 /* Synchronized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Synchronized.swift; sourceTree = "<group>"; };
 		OBJ_59 /* CoreStitchAppClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchAppClient.swift; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		OBJ_61 /* ContentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentType.swift; sourceTree = "<group>"; };
@@ -722,7 +720,6 @@
 				OBJ_55 /* ImplFailureFatalErrors.swift */,
 				OBJ_56 /* JWT.swift */,
 				OBJ_57 /* Storage.swift */,
-				OBJ_58 /* Synchronized.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1238,7 +1235,6 @@
 				OBJ_318 /* ImplFailureFatalErrors.swift in Sources */,
 				OBJ_319 /* JWT.swift in Sources */,
 				OBJ_320 /* Storage.swift in Sources */,
-				OBJ_321 /* Synchronized.swift in Sources */,
 				OBJ_322 /* CoreStitchAppClient.swift in Sources */,
 				OBJ_323 /* ContentType.swift in Sources */,
 				OBJ_324 /* FoundationHTTPTransport.swift in Sources */,

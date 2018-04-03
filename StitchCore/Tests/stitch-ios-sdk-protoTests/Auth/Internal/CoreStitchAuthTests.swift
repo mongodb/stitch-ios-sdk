@@ -128,9 +128,9 @@ final class MockCoreStitchAuth: CoreStitchAuth<MockStitchUser> {
     var setterAccessed = 0
     override var authInfo: AuthInfo? {
         didSet {
-            try! sync(self) {
-                setterAccessed += 1
-            }
+            objc_sync_enter(self)
+            defer { objc_sync_exit(self) }
+            setterAccessed += 1
         }
     }
 

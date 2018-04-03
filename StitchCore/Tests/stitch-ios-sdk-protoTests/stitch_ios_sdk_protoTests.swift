@@ -1,4 +1,3 @@
-// swiftlint:disable force_try
 import XCTest
 import ExtendedJSON
 import Swifter
@@ -54,10 +53,10 @@ public final class AtomicPort {
     }
 
     public func incrementAndGet() -> UInt16 {
-        return try! sync(self) {
-            _value += 1
-            return _value
-        }
+        objc_sync_enter(self)
+        defer { objc_sync_exit(self) }
+        _value += 1
+        return _value
     }
 }
 
