@@ -30,7 +30,7 @@ extension CoreStitchAuth: StitchAuthRequestClient {
             let response = try doAuthenticatedJSONRequestRaw(stitchReq)
 
             guard let responseBody = response.body else {
-                throw StitchError.requestError(withMessage: "no body in request response")
+                throw StitchError.unknownError(withMessage: nil)
             }
 
             return try JSONSerialization.jsonObject(with: responseBody,
@@ -106,7 +106,7 @@ extension CoreStitchAuth: StitchAuthRequestClient {
             guard withErrorCode == .invalidSession else {
                 throw error
             }
-        case .requestError:
+        default:
             throw error
         }
 
@@ -133,7 +133,7 @@ extension CoreStitchAuth: StitchAuthRequestClient {
         objc_sync_enter(self)
         defer { objc_sync_exit(self) }
         guard isLoggedIn, let accessToken = self.authStateHolder.accessToken else {
-            throw StitchError.requestError(withMessage: "logged out during request")
+            throw StitchClientError.loggedOutDuringRequest
         }
 
         let jwt = try DecodedJWT.init(jwt: accessToken)

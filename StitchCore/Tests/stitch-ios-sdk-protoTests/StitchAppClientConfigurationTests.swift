@@ -12,25 +12,33 @@ class StitchAppClientConfigurationBuilderTests: XCTestCase {
     func testStitchAppClientConfigurationBuilderInit() throws {
         var builder = StitchAppClientConfigurationBuilder { _ in }
 
-        XCTAssertThrowsError(try builder.build(),
-                             StitchAppClientConfigurationError.missingClientAppId.localizedDescription)
+        XCTAssertThrowsError(try builder.build()) { error in
+            XCTAssertEqual(error as? StitchAppClientConfigurationError,
+                           StitchAppClientConfigurationError.missingClientAppId)
+        }
 
         builder.clientAppId = self.clientAppId
         builder.localAppVersion = self.localAppVersion
         builder.localAppName = self.localAppName
 
-        XCTAssertThrowsError(try builder.build(),
-                             StitchClientConfigurationError.missingBaseURL.localizedDescription)
+        XCTAssertThrowsError(try builder.build()) { error in
+            XCTAssertEqual(error as? StitchClientConfigurationError,
+                           StitchClientConfigurationError.missingBaseURL)
+        }
 
         builder.baseURL = self.baseURL
 
-        XCTAssertThrowsError(try builder.build(),
-                             StitchClientConfigurationError.missingStorage.localizedDescription)
+        XCTAssertThrowsError(try builder.build()) { error in
+            XCTAssertEqual(error as? StitchClientConfigurationError,
+                           StitchClientConfigurationError.missingStorage)
+        }
 
         builder.storage = self.storage
 
-        XCTAssertThrowsError(try builder.build(),
-                             StitchClientConfigurationError.missingTransport.localizedDescription)
+        XCTAssertThrowsError(try builder.build()) { error in
+            XCTAssertEqual(error as? StitchClientConfigurationError,
+                           StitchClientConfigurationError.missingTransport)
+        }
 
         builder.transport = self.transport
 

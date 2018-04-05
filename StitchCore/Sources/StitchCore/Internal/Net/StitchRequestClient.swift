@@ -7,7 +7,7 @@ import ExtendedJSON
 private func inspectResponse(response: Response) throws -> Response {
     guard response.statusCode >= 200,
         response.statusCode < 300 else {
-        throw StitchErrorCodable.handleRequestError(response: response)
+        throw StitchErrorCodable.handleError(inResponse: response)
     }
 
     return response

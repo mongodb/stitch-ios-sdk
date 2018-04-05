@@ -73,13 +73,15 @@ final class MockStitchRequestClient: StitchRequestClient {
 
     private func checkAuth(headers: [String: String]) throws {
         guard let authHeader = headers["Authorization"] else {
-            throw StitchError.requestError(withMessage: "Authorization header missing")
+            throw StitchError.serviceError(withMessage: "Invalid session authorization header",
+                                           withErrorCode: .invalidSession)
         }
 
         let headerComponents = authHeader.split(" ")
         guard headerComponents[0] == "Bearer",
               headerComponents.count == 2 else {
-            throw StitchError.requestError(withMessage: "Invalid authorization header")
+                throw StitchError.serviceError(withMessage: "Invalid session authorization header",
+                                               withErrorCode: .invalidSession)
         }
     }
 
@@ -97,7 +99,7 @@ final class MockStitchRequestClient: StitchRequestClient {
             try checkAuth(headers: stitchReq.headers)
             return try self.handleSessionRoute()
         default:
-            throw StitchError.requestError(withMessage: "Unknown mock path.")
+            throw StitchError.unknownError(withMessage: "404 page not found")
         }
     }
 
@@ -154,11 +156,6 @@ final class MockCoreStitchAuth: CoreStitchAuth<MockStitchUser> {
 }
 
 class CoreStitchAuthTests: StitchXCTestCase {
-    final class MockInvalidSessionError {
-        let error: String = StitchErrorCode.invalidSession.rawValue
-        let errorCode: StitchErrorCode = StitchErrorCode.invalidSession
-    }
-
     func testLoginWithCredentialBlocking() throws {
         let coreStitchAuth = try! MockCoreStitchAuth.init(requestClient: MockStitchRequestClient.init(),
                                                           authRoutes: appRoutes.authRoutes,
