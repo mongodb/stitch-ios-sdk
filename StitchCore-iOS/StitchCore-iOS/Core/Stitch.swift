@@ -130,10 +130,12 @@ public class Stitch {
             finalConfigBuilder.storage = userDefaults
         }
 
-        // STITCH-1346:
-        //            if configBuilder.dataDirectory == nil {
-        //                finalConfigBuilder.dataDirectory = "/some/default/data/directory"
-        //            }
+        if configBuilder.dataDirectory == nil {
+            finalConfigBuilder.dataDirectory = try? FileManager.default.url(for: .applicationSupportDirectory,
+                                                                            in: .userDomainMask,
+                                                                            appropriateFor: nil,
+                                                                            create: true)
+        }
 
         if configBuilder.transport == nil {
             finalConfigBuilder.transport = FoundationHTTPTransport.init()
