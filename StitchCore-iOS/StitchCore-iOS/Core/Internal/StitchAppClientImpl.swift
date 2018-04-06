@@ -52,7 +52,7 @@ internal final class StitchAppClientImpl: StitchAppClient {
         self.dispatcher = OperationDispatcher.init(withDispatchQueue: queue)
         self.routes = StitchAppRoutes.init(clientAppId: config.clientAppId)
         self.info = StitchAppClientInfo(clientAppId: config.clientAppId,
-                                        dataDirectory: "", // STITCH-1346: make this non-empty
+                                        dataDirectory: config.dataDirectory, // STITCH-1346: make this non-empty
                                         localAppName: config.localAppName,
                                         localAppVersion: config.localAppVersion
         )

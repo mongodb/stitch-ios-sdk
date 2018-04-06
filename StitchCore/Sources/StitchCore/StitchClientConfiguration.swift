@@ -1,3 +1,5 @@
+import Foundation
+
 /**
  * :nodoc:
  * Properties representing the configuration of a client that can communicate with MongoDB Stitch.
@@ -7,6 +9,11 @@ public protocol StitchClientConfiguration {
      * The base URL of the Stitch server that the client will communicate with.
      */
     var baseURL: String { get }
+
+    /**
+     * The local directory in which Stitch can store any data (e.g. embedded MongoDB data directory).
+     */
+    var dataDirectory: URL? { get }
 
     /**
      * The underlying storage for persisting authentication and app state.
@@ -33,6 +40,11 @@ public struct StitchClientConfigurationImpl: StitchClientConfiguration, Buildee 
      * The base URL of the Stitch server that the client will communicate with.
      */
     public let baseURL: String
+
+    /**
+     * The local directory in which Stitch can store any data (e.g. embedded MongoDB data directory).
+     */
+    public let dataDirectory: URL?
 
     /**
      * The underlying storage for authentication info.
@@ -63,6 +75,7 @@ public struct StitchClientConfigurationImpl: StitchClientConfiguration, Buildee 
         }
 
         self.baseURL = baseURL
+        self.dataDirectory = builder.dataDirectory
         self.storage = storage
         self.transport = transport
     }
@@ -89,6 +102,11 @@ public protocol StitchClientConfigurationBuilder {
     var baseURL: String? { get }
 
     /**
+     * The local directory in which Stitch can store any data (e.g. embedded MongoDB data directory).
+     */
+    var dataDirectory: URL? { get }
+
+    /**
      * The underlying storage for authentication info.
      */
     var storage: Storage? { get }
@@ -108,6 +126,11 @@ public struct StitchClientConfigurationBuilderImpl: StitchClientConfigurationBui
      * The base URL of the Stitch server that the client will communicate with.
      */
     public var baseURL: String?
+
+    /**
+     * The local directory in which Stitch can store any data (e.g. embedded MongoDB data directory).
+     */
+    public var dataDirectory: URL?
 
     /**
      * The underlying storage for authentication info.
