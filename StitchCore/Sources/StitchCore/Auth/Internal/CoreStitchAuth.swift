@@ -198,7 +198,7 @@ open class CoreStitchAuth<TStitchUser> where TStitchUser: CoreStitchUser {
         defer { objc_sync_exit(self) }
         guard let currentUser = self.currentUser,
             user == currentUser else {
-            throw StitchClientError.userNoLongerValid
+            throw StitchError.clientError(withClientErrorCode: .userNoLongerValid)
         }
 
         return try self.doLogin(withCredential: credential, asLinkRequest: true)
@@ -301,7 +301,7 @@ open class CoreStitchAuth<TStitchUser> where TStitchUser: CoreStitchUser {
     private func processLoginResponse(withCredential credential: StitchCredential,
                                       forResponse response: Response) throws -> TStitchUser {
         guard let body = response.body else {
-            throw StitchError.unknownError(withMessage: nil)
+            throw StitchError.serviceError(withMessage: nil, withServiceErrorCode: .unknown)
         }
 
         let decodedInfo = try JSONDecoder().decode(APIAuthInfoImpl.self, from: body)

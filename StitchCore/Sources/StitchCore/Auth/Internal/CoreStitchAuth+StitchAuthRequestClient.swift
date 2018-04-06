@@ -30,7 +30,7 @@ extension CoreStitchAuth: StitchAuthRequestClient {
             let response = try doAuthenticatedJSONRequestRaw(stitchReq)
 
             guard let responseBody = response.body else {
-                throw StitchError.unknownError(withMessage: nil)
+                throw StitchError.serviceError(withMessage: nil, withServiceErrorCode: .unknown)
             }
 
             return try JSONSerialization.jsonObject(with: responseBody,
@@ -70,7 +70,7 @@ extension CoreStitchAuth: StitchAuthRequestClient {
         guard self.isLoggedIn,
             let refreshToken = self.authStateHolder.refreshToken,
             let accessToken = self.authStateHolder.accessToken else {
-                throw StitchClientError.mustAuthenticateFirst
+                throw StitchError.clientError(withClientErrorCode: .mustAuthenticateFirst)
         }
 
         return try StitchRequestBuilderImpl {
@@ -133,7 +133,7 @@ extension CoreStitchAuth: StitchAuthRequestClient {
         objc_sync_enter(self)
         defer { objc_sync_exit(self) }
         guard isLoggedIn, let accessToken = self.authStateHolder.accessToken else {
-            throw StitchClientError.loggedOutDuringRequest
+            throw StitchError.clientError(withClientErrorCode: .loggedOutDuringRequest)
         }
 
         let jwt = try DecodedJWT.init(jwt: accessToken)

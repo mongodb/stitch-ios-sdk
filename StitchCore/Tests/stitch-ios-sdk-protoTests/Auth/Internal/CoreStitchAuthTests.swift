@@ -74,14 +74,14 @@ final class MockStitchRequestClient: StitchRequestClient {
     private func checkAuth(headers: [String: String]) throws {
         guard let authHeader = headers["Authorization"] else {
             throw StitchError.serviceError(withMessage: "Invalid session authorization header",
-                                           withErrorCode: .invalidSession)
+                                           withServiceErrorCode: .invalidSession)
         }
 
         let headerComponents = authHeader.split(" ")
         guard headerComponents[0] == "Bearer",
               headerComponents.count == 2 else {
                 throw StitchError.serviceError(withMessage: "Invalid session authorization header",
-                                               withErrorCode: .invalidSession)
+                                               withServiceErrorCode: .invalidSession)
         }
     }
 
@@ -99,7 +99,7 @@ final class MockStitchRequestClient: StitchRequestClient {
             try checkAuth(headers: stitchReq.headers)
             return try self.handleSessionRoute()
         default:
-            throw StitchError.unknownError(withMessage: "404 page not found")
+            throw StitchError.serviceError(withMessage: "404 page not found", withServiceErrorCode: .unknown)
         }
     }
 
@@ -231,7 +231,7 @@ class CoreStitchAuthTests: StitchXCTestCase {
                     oldLinkFunc
             }
             throw StitchError.serviceError(withMessage: "invalidSession",
-                                           withErrorCode: .invalidSession)
+                                           withServiceErrorCode: .invalidSession)
         }
 
         let user = try coreStitchAuth.loginWithCredentialBlocking(withCredential: AnonymousCredential.init())
