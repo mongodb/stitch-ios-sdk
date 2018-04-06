@@ -1,4 +1,3 @@
-// swiftlint:disable force_try
 import Foundation
 import StitchCore
 
@@ -37,25 +36,26 @@ public class Stitch {
      * - throws: A `StitchInitializationError` if initialization fails for any reason.
      */
     public static func initialize() throws {
-        try! StitchCore.sync(self) {
-            guard !initialized else { return }
+        objc_sync_enter(self)
+        defer { objc_sync_exit(self) }
 
-            if let appName = Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String {
-                localAppName = appName
-            } else {
-                print("WARNING: Failed to get name of application, will not be sent to MongoDB Stitch in device info.")
-            }
-            if let appVersion = Bundle.main.infoDictionary?[kCFBundleVersionKey as String] as? String {
-                localAppVersion = appVersion
-            } else {
-                print(
-                    "WARNING: Failed to get version of application, will not be sent to MongoDB Stitch in device info."
-                )
-            }
+        guard !initialized else { return }
 
-            initialized = true
-            print("Initialized MongoDB Stitch iOS SDK")
+        if let appName = Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String {
+            localAppName = appName
+        } else {
+            print("WARNING: Failed to get name of application, will not be sent to MongoDB Stitch in device info.")
         }
+        if let appVersion = Bundle.main.infoDictionary?[kCFBundleVersionKey as String] as? String {
+            localAppVersion = appVersion
+        } else {
+            print(
+                "WARNING: Failed to get version of application, will not be sent to MongoDB Stitch in device info."
+            )
+        }
+
+        initialized = true
+        print("Initialized MongoDB Stitch iOS SDK")
     }
 
     // MARK: Initializing Clients
@@ -73,23 +73,24 @@ public class Stitch {
      */
     public static func initializeDefaultAppClient(
         withConfigBuilder configBuilder: StitchAppClientConfigurationBuilder) throws -> StitchAppClient {
-        return try! StitchCore.sync(self) {
-            guard initialized else {
-                throw StitchInitializationError.stitchNotInitialized
-            }
+        objc_sync_enter(self)
+        defer { objc_sync_exit(self) }
 
-            guard let clientAppId = configBuilder.clientAppId, clientAppId != "" else {
-                throw StitchInitializationError.clientAppIdNotSpecified
-            }
-
-            guard defaultClientAppId == nil else {
-                throw StitchInitializationError.defaultClientAlreadyInitialized(clientAppId: defaultClientAppId!)
-            }
-
-            let client = try initializeAppClient(withConfigBuilder: configBuilder)
-            defaultClientAppId = clientAppId
-            return client
+        guard initialized else {
+            throw StitchInitializationError.stitchNotInitialized
         }
+
+        guard let clientAppId = configBuilder.clientAppId, clientAppId != "" else {
+            throw StitchInitializationError.clientAppIdNotSpecified
+        }
+
+        guard defaultClientAppId == nil else {
+            throw StitchInitializationError.defaultClientAlreadyInitialized(clientAppId: defaultClientAppId!)
+        }
+
+        let client = try initializeAppClient(withConfigBuilder: configBuilder)
+        defaultClientAppId = clientAppId
+        return client
     }
 
     /**
@@ -104,54 +105,55 @@ public class Stitch {
      */
     public static func initializeAppClient(
         withConfigBuilder configBuilder: StitchAppClientConfigurationBuilder) throws -> StitchAppClient {
-        return try! StitchCore.sync(self) {
-            guard initialized else {
-                throw StitchInitializationError.stitchNotInitialized
-            }
+        objc_sync_enter(self)
+        defer { objc_sync_exit(self) }
 
-            guard let clientAppId = configBuilder.clientAppId, clientAppId != "" else {
-                throw StitchInitializationError.clientAppIdNotSpecified
-            }
-
-            guard appClients[clientAppId] == nil else {
-                throw StitchInitializationError.clientAlreadyInitialized(clientAppId: clientAppId)
-            }
-
-            var finalConfigBuilder = configBuilder
-
-            if configBuilder.storage == nil {
-                let suiteName = "\(userDefaultsName).\(clientAppId)"
-                guard let userDefaults = UserDefaults.init(suiteName: suiteName) else {
-                    throw StitchInitializationError.userDefaultsFailure
-                }
-                finalConfigBuilder.storage = userDefaults
-            }
-
-            // STITCH-1346:
-            //            if configBuilder.dataDirectory == nil {
-            //                finalConfigBuilder.dataDirectory = "/some/default/data/directory"
-            //            }
-
-            if configBuilder.transport == nil {
-                finalConfigBuilder.transport = FoundationHTTPTransport.init()
-            }
-
-            if configBuilder.baseURL == nil {
-                finalConfigBuilder.baseURL = defaultBaseUrl
-            }
-
-            if configBuilder.localAppName == nil {
-                finalConfigBuilder.localAppName = localAppName
-            }
-
-            if configBuilder.localAppVersion == nil {
-                finalConfigBuilder.localAppVersion = localAppVersion
-            }
-
-            let client = try StitchAppClientImpl.init(withConfig: finalConfigBuilder.build())
-            appClients[clientAppId] = client
-            return client
+        guard initialized else {
+            throw StitchInitializationError.stitchNotInitialized
         }
+
+        guard let clientAppId = configBuilder.clientAppId, clientAppId != "" else {
+            throw StitchInitializationError.clientAppIdNotSpecified
+        }
+
+        guard appClients[clientAppId] == nil else {
+            throw StitchInitializationError.clientAlreadyInitialized(clientAppId: clientAppId)
+        }
+
+        var finalConfigBuilder = configBuilder
+
+        if configBuilder.storage == nil {
+            let suiteName = "\(userDefaultsName).\(clientAppId)"
+            guard let userDefaults = UserDefaults.init(suiteName: suiteName) else {
+                throw StitchInitializationError.userDefaultsFailure
+            }
+            finalConfigBuilder.storage = userDefaults
+        }
+
+        // STITCH-1346:
+        //            if configBuilder.dataDirectory == nil {
+        //                finalConfigBuilder.dataDirectory = "/some/default/data/directory"
+        //            }
+
+        if configBuilder.transport == nil {
+            finalConfigBuilder.transport = FoundationHTTPTransport.init()
+        }
+
+        if configBuilder.baseURL == nil {
+            finalConfigBuilder.baseURL = defaultBaseUrl
+        }
+
+        if configBuilder.localAppName == nil {
+            finalConfigBuilder.localAppName = localAppName
+        }
+
+        if configBuilder.localAppVersion == nil {
+            finalConfigBuilder.localAppVersion = localAppVersion
+        }
+
+        let client = try StitchAppClientImpl.init(withConfig: finalConfigBuilder.build())
+        appClients[clientAppId] = client
+        return client
     }
 
     // MARK: Retrieving Clients
@@ -165,17 +167,18 @@ public class Stitch {
      *           was never called.
      */
     public static func getDefaultAppClient() throws -> StitchAppClient {
-        return try! StitchCore.sync(self) {
-            guard initialized else {
-                throw StitchInitializationError.stitchNotInitialized
-            }
+        objc_sync_enter(self)
+        defer { objc_sync_exit(self) }
 
-            guard let clientAppId = defaultClientAppId,
-                  let client = appClients[clientAppId] else {
-                throw StitchInitializationError.defaultClientNotInitialized
-            }
-            return client
+        guard initialized else {
+            throw StitchInitializationError.stitchNotInitialized
         }
+
+        guard let clientAppId = defaultClientAppId,
+              let client = appClients[clientAppId] else {
+            throw StitchInitializationError.defaultClientNotInitialized
+        }
+        return client
     }
 
     /**
@@ -191,16 +194,17 @@ public class Stitch {
      *     - forAppId: The client app id of the app client to be retrieved.
      */
     public static func getAppClient(forAppId appId: String) throws -> StitchAppClient {
-        return try! StitchCore.sync(self) {
-            guard initialized else {
-                throw StitchInitializationError.stitchNotInitialized
-            }
+        objc_sync_enter(self)
+        defer { objc_sync_exit(self) }
 
-            guard let client = appClients[appId] else {
-                throw StitchInitializationError.clientNotInitialized(clientAppId: appId)
-            }
-            return client
+        guard initialized else {
+            throw StitchInitializationError.stitchNotInitialized
         }
+
+        guard let client = appClients[appId] else {
+            throw StitchInitializationError.clientNotInitialized(clientAppId: appId)
+        }
+        return client
     }
 
 }
