@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		111CCA05207C08A3002FEB4A /* StitchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111CCA04207C08A3002FEB4A /* StitchTests.swift */; };
 		11297B1E205301C9001D0711 /* AuthProviderClientSupplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11297B1D205301C9001D0711 /* AuthProviderClientSupplier.swift */; };
 		11297B20205301D5001D0711 /* NamedAuthProviderClientSupplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11297B1F205301D5001D0711 /* NamedAuthProviderClientSupplier.swift */; };
 		112C5A822053334400463147 /* AnonymousAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112C5A812053334400463147 /* AnonymousAuthProvider.swift */; };
@@ -49,6 +50,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		111CCA04207C08A3002FEB4A /* StitchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchTests.swift; sourceTree = "<group>"; };
 		11297B1D205301C9001D0711 /* AuthProviderClientSupplier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthProviderClientSupplier.swift; sourceTree = "<group>"; };
 		11297B1F205301D5001D0711 /* NamedAuthProviderClientSupplier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamedAuthProviderClientSupplier.swift; sourceTree = "<group>"; };
 		112C5A812053334400463147 /* AnonymousAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonymousAuthProvider.swift; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				11981A262062C8190074BB11 /* Internal */,
+				111CCA04207C08A3002FEB4A /* StitchTests.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -448,6 +451,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				111CCA05207C08A3002FEB4A /* StitchTests.swift in Sources */,
 				11981A242062C4B60074BB11 /* OperationDispatcherTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

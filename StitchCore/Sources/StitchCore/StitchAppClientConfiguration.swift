@@ -1,3 +1,5 @@
+import Foundation
+
 /**
  * Properties representing the configuration of a client that communicate with a particular MongoDB Stitch application.
  */
@@ -32,6 +34,11 @@ public struct StitchAppClientConfigurationImpl: StitchAppClientConfiguration, Bu
      * The base URL of the Stitch server that the client will communicate with.
      */
     public let baseURL: String
+
+    /**
+     * The local directory in which Stitch can store any data (e.g. embedded MongoDB data directory).
+     */
+    public let dataDirectory: URL
 
     /**
      * The underlying storage for authentication info.
@@ -87,6 +94,10 @@ public struct StitchAppClientConfigurationImpl: StitchAppClientConfiguration, Bu
             throw StitchClientConfigurationError.missingBaseURL
         }
 
+        guard let dataDirectory = builder.dataDirectory else {
+            throw StitchClientConfigurationError.missingDataDirectory
+        }
+
         guard let storage = builder.storage else {
             throw StitchClientConfigurationError.missingStorage
         }
@@ -96,6 +107,7 @@ public struct StitchAppClientConfigurationImpl: StitchAppClientConfiguration, Bu
         }
 
         self.baseURL = baseURL
+        self.dataDirectory = dataDirectory
         self.storage = storage
         self.transport = transport
     }
@@ -122,6 +134,11 @@ public struct StitchAppClientConfigurationBuilder: StitchClientConfigurationBuil
      * The base URL of the Stitch server that the client will communicate with.
      */
     public var baseURL: String?
+
+    /**
+     * The local directory in which Stitch can store any data (e.g. embedded MongoDB data directory).
+     */
+    public var dataDirectory: URL?
 
     /**
      * The underlying storage for authentication info.

@@ -4,7 +4,7 @@ import XCTest
 
 class StitchAppClientInfoTests: XCTestCase {
     private let clientAppId = "foo"
-    private let dataDirectory = "bar"
+    private let dataDirectory = URL.init(string: "bar")
     private let localAppName = "baz"
     private let localAppVersion = "qux"
 

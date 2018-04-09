@@ -34,7 +34,7 @@ internal final class StitchAppClientImpl: StitchAppClient {
     /**
      * A `StitchAppClientInfo` describing the basic properties of this app client.
      */
-    private let info: StitchAppClientInfo
+    internal let info: StitchAppClientInfo
 
     /**
      * The API routes on the Stitch server to perform actions for this particular app.
@@ -52,7 +52,7 @@ internal final class StitchAppClientImpl: StitchAppClient {
         self.dispatcher = OperationDispatcher.init(withDispatchQueue: queue)
         self.routes = StitchAppRoutes.init(clientAppId: config.clientAppId)
         self.info = StitchAppClientInfo(clientAppId: config.clientAppId,
-                                        dataDirectory: "", // STITCH-1346: make this non-empty
+                                        dataDirectory: config.dataDirectory,
                                         localAppName: config.localAppName,
                                         localAppVersion: config.localAppVersion
         )
