@@ -34,7 +34,7 @@ internal final class StitchAppClientImpl: StitchAppClient {
     /**
      * A `StitchAppClientInfo` describing the basic properties of this app client.
      */
-    private let info: StitchAppClientInfo
+    internal let info: StitchAppClientInfo
 
     /**
      * The API routes on the Stitch server to perform actions for this particular app.

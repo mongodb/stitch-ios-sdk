@@ -13,7 +13,7 @@ public protocol StitchClientConfiguration {
     /**
      * The local directory in which Stitch can store any data (e.g. embedded MongoDB data directory).
      */
-    var dataDirectory: URL? { get }
+    var dataDirectory: URL { get }
 
     /**
      * The underlying storage for persisting authentication and app state.
@@ -44,7 +44,7 @@ public struct StitchClientConfigurationImpl: StitchClientConfiguration, Buildee 
     /**
      * The local directory in which Stitch can store any data (e.g. embedded MongoDB data directory).
      */
-    public let dataDirectory: URL?
+    public let dataDirectory: URL
 
     /**
      * The underlying storage for authentication info.
@@ -66,6 +66,10 @@ public struct StitchClientConfigurationImpl: StitchClientConfiguration, Buildee 
             throw StitchClientConfigurationError.missingBaseURL
         }
 
+        guard let dataDirectory = builder.dataDirectory else {
+            throw StitchClientConfigurationError.missingDataDirectory
+        }
+
         guard let storage = builder.storage else {
             throw StitchClientConfigurationError.missingStorage
         }
@@ -75,7 +79,7 @@ public struct StitchClientConfigurationImpl: StitchClientConfiguration, Buildee 
         }
 
         self.baseURL = baseURL
-        self.dataDirectory = builder.dataDirectory
+        self.dataDirectory = dataDirectory
         self.storage = storage
         self.transport = transport
     }
@@ -87,6 +91,7 @@ public struct StitchClientConfigurationImpl: StitchClientConfiguration, Buildee 
  */
 public enum StitchClientConfigurationError: Error {
     case missingBaseURL
+    case missingDataDirectory
     case missingStorage
     case missingTransport
 }

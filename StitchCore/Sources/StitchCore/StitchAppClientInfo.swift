@@ -8,7 +8,7 @@ public struct StitchAppClientInfo {
      * Initializes the `StitchAppClientInfo`.
      */
     public init(clientAppId: String,
-                dataDirectory: URL?,
+                dataDirectory: URL,
                 localAppName: String,
                 localAppVersion: String) {
         self.clientAppId = clientAppId
@@ -25,7 +25,7 @@ public struct StitchAppClientInfo {
     /**
      * The local directory in which Stitch can store any data (e.g. MongoDB Mobile data directory).
      */
-    public let dataDirectory: URL?
+    public let dataDirectory: URL
 
     /**
      * The name of the local application.
