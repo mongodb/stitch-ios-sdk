@@ -17,7 +17,7 @@ public enum StitchError: Error {
     case serviceError(withMessage: String?, withServiceErrorCode: StitchServiceErrorCode)
 
     /**
-     * Indicates that an error occured while a request was being carried out. This could be due to (but is not
+     * Indicates that an error occurred while a request was being carried out. This could be due to (but is not
      * limited to) an unreachable server or a connection timeout. These errors are thrown by the underlying `Transport`
      * of the Stitch client, and thus contain the error that the transport threw. For the default transport, these
      * errors will be `NSError`s in the `NSURLErrorDomain` domain.
@@ -25,7 +25,7 @@ public enum StitchError: Error {
     case requestError(withError: Error)
 
     /**
-     * Indicates that the error occured before the client performed a request. An error code describing the reason
+     * Indicates that the error occured before the client performed a request. An error code indicating the reason
      * for the error is included.
      */
     case clientError(withClientErrorCode: StitchClientErrorCode)
