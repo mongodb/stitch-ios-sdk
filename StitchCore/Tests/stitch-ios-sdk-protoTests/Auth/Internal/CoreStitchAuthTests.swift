@@ -204,7 +204,7 @@ class CoreStitchAuthTests: StitchXCTestCase {
         _ = try coreStitchAuth.loginWithCredentialBlocking(withCredential: AnonymousCredential.init())
         XCTAssert(coreStitchAuth.isLoggedIn)
 
-        try coreStitchAuth.logoutBlocking()
+        coreStitchAuth.logoutBlocking()
         XCTAssert(!coreStitchAuth.isLoggedIn)
     }
 

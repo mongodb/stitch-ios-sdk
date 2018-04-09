@@ -42,7 +42,7 @@ class StitchRequestClientTests: StitchXCTestCase {
             let stitchError = error as? StitchError
             XCTAssertNotNil(error as? StitchError)
             if let err = stitchError {
-                guard case .requestError = err else {
+                guard case .serviceError = err else {
                     XCTFail("doRequest returned an incorrect error type")
                     return
                 }

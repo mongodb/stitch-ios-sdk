@@ -56,7 +56,10 @@ public final class FoundationHTTPTransport: Transport {
 
         guard let response = finalResponse else {
             guard let err = error else {
-                throw StitchError.serviceError(withMessage: nil, withServiceErrorCode: .unknown)
+                throw StitchError.serviceError(
+                    withMessage: "no response from server",
+                    withServiceErrorCode: .unknown
+                )
             }
 
             throw err

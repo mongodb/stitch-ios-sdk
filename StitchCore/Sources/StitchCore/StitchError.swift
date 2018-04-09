@@ -14,31 +14,23 @@ public enum StitchError: Error {
      * unexpected message, or the response was corrupted. In these cases, the associated message will be the plain text
      * body of the response, or `nil` if the body is empty or not decodable as plain text.
      */
-    case serviceError(withMessage: String?, withServiceErrorCode: StitchServiceErrorCode)
+    case serviceError(withMessage: String, withServiceErrorCode: StitchServiceErrorCode)
 
     /**
      * Indicates that an error occurred while a request was being carried out. This could be due to (but is not
-     * limited to) an unreachable server or a connection timeout. These errors are thrown by the underlying `Transport`
-     * of the Stitch client, and thus contain the error that the transport threw. For the default transport, these
-     * errors will be `NSError`s in the `NSURLErrorDomain` domain.
+     * limited to) an unreachable server, a connection timeout, or an inability to decode the result. In the case of
+     * transport errors, these errors are thrown by the underlying `Transport` of the Stitch client, and thus contain
+     * the error that the transport threw. Errors in decoding the result from the server include the specific error
+     * thrown when attempting to decode the response. An error code is included, which indicates whether the error
+     * was a transport error or decoding error..
      */
-    case requestError(withError: Error)
+    case requestError(withError: Error, withRequestErrorCode: StitchRequestErrorCode)
 
     /**
-     * Indicates that the error occured before the client performed a request. An error code indicating the reason
-     * for the error is included.
+     * Indicates that an error occurred when using the Stitch client, typically before the client performed a request.
+     * An error code indicating the reason for the error is included.
      */
     case clientError(withClientErrorCode: StitchClientErrorCode)
-}
-
-/**
- * An enumeration indicating the types of errors that may occur when using a Stitch client, before the request is made.
- */
-public enum StitchClientErrorCode {
-    case loggedOutDuringRequest
-    case missingURL
-    case mustAuthenticateFirst
-    case userNoLongerValid
 }
 
 /**
@@ -97,6 +89,27 @@ public enum StitchServiceErrorCode: String, Codable {
 }
 
 /**
+ * An enumeration indicating the types of errors that may occur when carrying out a Stitch request.
+ */
+public enum StitchRequestErrorCode {
+    case transportError
+    case decodingError
+}
+
+/**
+ * An enumeration indicating the types of errors that may occur when using a Stitch client, typically before a
+ * request is made.
+ */
+public enum StitchClientErrorCode {
+    case loggedOutDuringRequest
+    case missingURL
+    case mustAuthenticateFirst
+    case userNoLongerValid
+    case couldNotLoadPersistedAuthInfo
+    case couldNotPersistAuthInfo
+}
+
+/**
  * `StitchErrorCodable` represents a Stitch error as it exists in the response to a request to the Stitch server. The
  * class contains a static function that can return the appropriate `StitchError` from an HTTP `Response`.
  */
@@ -128,7 +141,10 @@ internal struct StitchErrorCodable: Codable {
         guard let contentType = response.headers[Headers.contentType.rawValue],
             contentType == ContentTypes.applicationJson.rawValue else {
                 guard let content = String.init(data: body, encoding: .utf8) else {
-                    throw StitchError.serviceError(withMessage: nil, withServiceErrorCode: .unknown)
+                    throw StitchError.serviceError(
+                        withMessage: StitchErrorCodable.genericErrorMessage(withStatusCode: response.statusCode),
+                        withServiceErrorCode: .unknown
+                    )
                 }
 
                 throw StitchError.serviceError(withMessage: content, withServiceErrorCode: .unknown)
@@ -139,7 +155,10 @@ internal struct StitchErrorCodable: Codable {
         guard let error = try? JSONDecoder().decode(StitchErrorCodable.self,
                                                    from: body) else {
             guard let content = String.init(data: body, encoding: .utf8) else {
-                throw StitchError.serviceError(withMessage: nil, withServiceErrorCode: .unknown)
+                throw StitchError.serviceError(
+                    withMessage: StitchErrorCodable.genericErrorMessage(withStatusCode: response.statusCode),
+                    withServiceErrorCode: .unknown
+                )
             }
 
             throw StitchError.serviceError(withMessage: content, withServiceErrorCode: .unknown)
@@ -154,9 +173,12 @@ internal struct StitchErrorCodable: Codable {
      * the error in the response. If the error cannot be recognized, this will return a `StitchError.serviceError` with
      * the `.unknown` error code.
      */
-    public static func handleError(inResponse response: Response) -> StitchError {
+    public static func handleError(forResponse response: Response) -> StitchError {
         guard let body = response.body else {
-            return StitchError.serviceError(withMessage: nil, withServiceErrorCode: .unknown)
+            return StitchError.serviceError(
+                withMessage: StitchErrorCodable.genericErrorMessage(withStatusCode: response.statusCode),
+                withServiceErrorCode: .unknown
+            )
         }
 
         var errorCodable: StitchErrorCodable!
@@ -166,12 +188,22 @@ internal struct StitchErrorCodable: Codable {
         } catch let err {
             // If handleRichError threw an error, return it as the error if it is a `StitchError`, or a
             // `StitchError.serviceError` with an unknown code otherwise.
-            return err as? StitchError ?? StitchError.serviceError(withMessage: nil, withServiceErrorCode: .unknown)
+            return err as? StitchError ?? StitchError.serviceError(
+                withMessage: StitchErrorCodable.genericErrorMessage(withStatusCode: response.statusCode),
+                withServiceErrorCode: .unknown
+            )
         }
 
         // Return the StitchError.serviceError for the decoded error
         return StitchError.serviceError(withMessage: errorCodable.error,
                                         withServiceErrorCode: errorCodable.errorCode)
 
+    }
+
+    /**
+     * Static utility function which returns a generic error message for a particualr HTTP status code.
+     */
+    public static func genericErrorMessage(withStatusCode statusCode: Int) -> String {
+        return "received unexpected status code \(statusCode)"
     }
 }

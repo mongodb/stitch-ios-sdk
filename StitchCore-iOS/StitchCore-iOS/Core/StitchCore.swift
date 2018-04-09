@@ -9,5 +9,6 @@ import Foundation
 
 @_exported import enum StitchCore.StitchAppClientConfigurationError
 @_exported import enum StitchCore.StitchError
-@_exported import enum StitchCore.StitchClientErrorCode
 @_exported import enum StitchCore.StitchServiceErrorCode
+@_exported import enum StitchCore.StitchRequestErrorCode
+@_exported import enum StitchCore.StitchClientErrorCode
