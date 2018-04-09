@@ -192,11 +192,9 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
      *                     called whenever this client experiences an authentication event.
      */
     public func add(authDelegate: StitchAuthDelegate) {
-        // swiftlint:disable force_try
-        try! sync(self) {
-            // swiftlint:enable force_try
-            self.delegates.append(DelegateWeakRef(value: authDelegate))
-        }
+        objc_sync_enter(self)
+        self.delegates.append(DelegateWeakRef(value: authDelegate))
+        objc_sync_exit(self)
 
         // Trigger the onUserLoggedIn event in case some event happens and
         // this caller would miss out on this event other wise.
