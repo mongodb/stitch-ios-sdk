@@ -142,10 +142,10 @@ extension CoreStitchAuth: StitchAuthRequestClient {
             throw StitchError.clientError(withClientErrorCode: .loggedOutDuringRequest)
         }
 
-        let jwt = try DecodedJWT.init(jwt: accessToken)
+        let jwt = try StitchJWT.init(fromEncodedJWT: accessToken)
         guard let issuedAt = jwt.issuedAt,
-            issuedAt.timeIntervalSince1970 < reqStartedAt else {
-                return
+            issuedAt < reqStartedAt else {
+            return
         }
         try refreshAccessToken()
     }

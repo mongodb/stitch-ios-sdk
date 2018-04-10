@@ -1,8 +1,8 @@
 import Foundation
 
 internal final class StitchJWT {
-    public let expires: Int64
-    public let issuedAt: Int64
+    public let expires: TimeInterval?
+    public let issuedAt: TimeInterval?
 
     enum CodingKeys: String, CodingKey {
         case expires = "exp"
@@ -13,18 +13,23 @@ internal final class StitchJWT {
         case shouldHaveThreeParts
         case couldNotDecodeBase64
         case couldNotParseJSON
-        case missingExpiration
-        case missingIssuedAt
     }
 
     init(fromEncodedJWT encodedJWT: String) throws {
         let parts = try StitchJWT.splitToken(jwt: encodedJWT)
 
-        guard let firstPart = parts.first else {
-            throw MalformedJWTError.shouldHaveThreeParts
+        var secondPart = String(parts[1])
+
+        let extraCharacters = secondPart.count % 4
+        if extraCharacters != 0 {
+            secondPart = secondPart.padding(
+                toLength: secondPart.count + (4 - extraCharacters),
+                withPad: "=",
+                startingAt: 0
+            )
         }
 
-        guard let json = Data.init(base64Encoded: String(firstPart)) else {
+        guard let json = Data.init(base64Encoded: secondPart) else {
             throw MalformedJWTError.couldNotDecodeBase64
         }
 
@@ -32,16 +37,8 @@ internal final class StitchJWT {
             throw MalformedJWTError.couldNotParseJSON
         }
 
-        guard let expires = token[CodingKeys.expires.stringValue] as? Int64 else {
-            throw MalformedJWTError.missingExpiration
-        }
-
-        guard let issuedAt = token[CodingKeys.issuedAt.stringValue] as? Int64 else {
-            throw MalformedJWTError.missingIssuedAt
-        }
-
-        self.expires = expires
-        self.issuedAt = issuedAt
+        self.expires = token[CodingKeys.expires.stringValue] as? TimeInterval
+        self.issuedAt = token[CodingKeys.issuedAt.stringValue] as? TimeInterval
     }
 
     private static func splitToken(jwt: String) throws -> [String.SubSequence] {

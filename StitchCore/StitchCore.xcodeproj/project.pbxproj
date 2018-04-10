@@ -109,7 +109,6 @@
 		OBJ_316 /* StitchUserIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_51 /* StitchUserIdentity.swift */; };
 		OBJ_317 /* StitchUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_52 /* StitchUserProfile.swift */; };
 		OBJ_318 /* ImplFailureFatalErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_55 /* ImplFailureFatalErrors.swift */; };
-		OBJ_319 /* OldJWT.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_56 /* OldJWT.swift */; };
 		OBJ_320 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_57 /* Storage.swift */; };
 		OBJ_322 /* CoreStitchAppClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_59 /* CoreStitchAppClient.swift */; };
 		OBJ_323 /* ContentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_61 /* ContentType.swift */; };
@@ -326,7 +325,6 @@
 		OBJ_51 /* StitchUserIdentity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchUserIdentity.swift; sourceTree = "<group>"; };
 		OBJ_52 /* StitchUserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchUserProfile.swift; sourceTree = "<group>"; };
 		OBJ_55 /* ImplFailureFatalErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImplFailureFatalErrors.swift; sourceTree = "<group>"; };
-		OBJ_56 /* OldJWT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldJWT.swift; sourceTree = "<group>"; };
 		OBJ_57 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		OBJ_59 /* CoreStitchAppClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchAppClient.swift; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
@@ -721,7 +719,6 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_55 /* ImplFailureFatalErrors.swift */,
-				OBJ_56 /* OldJWT.swift */,
 				OBJ_57 /* Storage.swift */,
 			);
 			path = Common;
@@ -1237,7 +1234,6 @@
 				111CCA07207D0FFD002FEB4A /* StitchJWT.swift in Sources */,
 				OBJ_317 /* StitchUserProfile.swift in Sources */,
 				OBJ_318 /* ImplFailureFatalErrors.swift in Sources */,
-				OBJ_319 /* OldJWT.swift in Sources */,
 				OBJ_320 /* Storage.swift in Sources */,
 				OBJ_322 /* CoreStitchAppClient.swift in Sources */,
 				OBJ_323 /* ContentType.swift in Sources */,
