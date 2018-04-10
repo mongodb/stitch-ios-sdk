@@ -7,6 +7,8 @@ import Foundation
 @_exported import protocol StitchCore.StitchUserProfile
 @_exported import protocol StitchCore.StitchUserIdentity
 
+@_exported import enum StitchCore.StitchAppClientConfigurationError
 @_exported import enum StitchCore.StitchError
-@_exported import enum StitchCore.StitchClientError
-@_exported import enum StitchCore.StitchErrorCode
+@_exported import enum StitchCore.StitchServiceErrorCode
+@_exported import enum StitchCore.StitchRequestErrorCode
+@_exported import enum StitchCore.StitchClientErrorCode

@@ -15,7 +15,7 @@ public final class FoundationHTTPTransport: Transport {
      */
     public func roundTrip(request: Request) throws -> Response {
         guard let url = URL(string: request.url) else {
-            throw StitchErrorCode.invalidURL
+            throw StitchError.clientError(withClientErrorCode: .missingURL)
         }
 
         let defaultSession = URLSession(configuration: URLSessionConfiguration.default)
@@ -56,7 +56,10 @@ public final class FoundationHTTPTransport: Transport {
 
         guard let response = finalResponse else {
             guard let err = error else {
-                throw StitchErrorCode.unknown
+                throw StitchError.serviceError(
+                    withMessage: "no response from server",
+                    withServiceErrorCode: .unknown
+                )
             }
 
             throw err

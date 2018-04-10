@@ -38,7 +38,16 @@ class StitchRequestClientTests: StitchXCTestCase {
             $0.method = .get
         }
 
-        XCTAssertThrowsError(try stitchRequestClient.doRequest(builder.build()))
+        XCTAssertThrowsError(try stitchRequestClient.doRequest(builder.build())) { error in
+            let stitchError = error as? StitchError
+            XCTAssertNotNil(error as? StitchError)
+            if let err = stitchError {
+                guard case .serviceError = err else {
+                    XCTFail("doRequest returned an incorrect error type")
+                    return
+                }
+            }
+        }
 
         builder.path = self.getEndpoint
 

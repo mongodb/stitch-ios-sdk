@@ -77,7 +77,8 @@ public protocol StitchAuth {
      * - parameters:
      *     - completionHandler: The completion handler to call when the logout is complete.
      *                          This handler is executed on a non-main global `DispatchQueue`.
-     *     - error: An error object that indicates why the logout failed, or `nil` if the logout was successful.
+     *     - error: Will always be nil, since the underlying implementation squashes errors and always clears local
+     *              authentication information.
      */
     func logout(_ completionHandler: @escaping (_ error: Error?) -> Void)
 

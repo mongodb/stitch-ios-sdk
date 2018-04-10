@@ -70,7 +70,11 @@ open class CoreStitchAuth<TStitchUser> where TStitchUser: CoreStitchUser {
         self.authRoutes = authRoutes
         self.storage = storage
 
-        self.authStateHolder.authInfo = try StoreAuthInfo.read(fromStorage: storage)
+        do {
+            self.authStateHolder.authInfo = try StoreAuthInfo.read(fromStorage: storage)
+        } catch {
+            throw StitchError.clientError(withClientErrorCode: .couldNotLoadPersistedAuthInfo)
+        }
 
         if let authInfo = authInfo {
             // this implies other properties we are interested should be set
@@ -184,7 +188,7 @@ open class CoreStitchAuth<TStitchUser> where TStitchUser: CoreStitchUser {
             }
         }
 
-        try logoutBlocking()
+        logoutBlocking()
         return try doLogin(withCredential: credential, asLinkRequest: false)
     }
 
@@ -198,8 +202,7 @@ open class CoreStitchAuth<TStitchUser> where TStitchUser: CoreStitchUser {
         defer { objc_sync_exit(self) }
         guard let currentUser = self.currentUser,
             user == currentUser else {
-            throw StitchError.requestError(
-                withMessage: "user no longer valid; please try again with a new user from StitchAuth.user")
+            throw StitchError.clientError(withClientErrorCode: .userNoLongerValid)
         }
 
         return try self.doLogin(withCredential: credential, asLinkRequest: true)
@@ -208,21 +211,13 @@ open class CoreStitchAuth<TStitchUser> where TStitchUser: CoreStitchUser {
     /**
      * Logs out the current user, and clears authentication state from this `CoreStitchAuth` as well as underlying
      * storage. Blocks the current thread until the request is completed. If the logout request fails, this method will
-     * still attempt to clear local authentication state. This method will only throw if clearing authentication state
-     * fails.
+     * still clear local authentication state.
      */
-    public func logoutBlocking() throws {
+    public func logoutBlocking() {
         guard isLoggedIn else { return }
 
-        do {
-            try doLogout()
-        } catch StitchError.serviceError {
-        } catch let err {
-            try clearAuth()
-            throw err
-        }
-
-        try clearAuth()
+        _ = try? self.doLogout()
+        clearAuth()
     }
 
     // MARK: Internal Methods
@@ -234,13 +229,10 @@ open class CoreStitchAuth<TStitchUser> where TStitchUser: CoreStitchUser {
      * - important: Callers of `doLogin` should be synchronized before calling in.
      */
     private func doLogin(withCredential credential: StitchCredential, asLinkRequest: Bool) throws -> TStitchUser {
-        let response = try self.doLoginRequest(withCredential: credential,
-                                               asLinkRequest: asLinkRequest)
-        let user = try self.processLoginResponse(withCredential: credential,
-                                                 forResponse: response)
+        let response = try self.doLoginRequest(withCredential: credential, asLinkRequest: asLinkRequest)
+        let user = try self.processLoginResponse(withCredential: credential, forResponse: response)
 
         onAuthEvent()
-
         return user
     }
 
@@ -258,9 +250,7 @@ open class CoreStitchAuth<TStitchUser> where TStitchUser: CoreStitchUser {
      * the login request.
      */
     private func attachAuthOptions(authBody: inout Document) {
-        authBody[AuthKey.options.rawValue] = [
-            AuthKey.device.rawValue: deviceInfo
-            ] as Document
+        authBody[AuthKey.options.rawValue] = [AuthKey.device.rawValue: deviceInfo] as Document
     }
 
     /**
@@ -302,10 +292,18 @@ open class CoreStitchAuth<TStitchUser> where TStitchUser: CoreStitchUser {
     private func processLoginResponse(withCredential credential: StitchCredential,
                                       forResponse response: Response) throws -> TStitchUser {
         guard let body = response.body else {
-            throw StitchErrorCode.missingAuthReq
+            throw StitchError.serviceError(
+                withMessage: StitchErrorCodable.genericErrorMessage(withStatusCode: response.statusCode),
+                withServiceErrorCode: .unknown
+            )
         }
 
-        let decodedInfo = try JSONDecoder().decode(APIAuthInfoImpl.self, from: body)
+        var decodedInfo: APIAuthInfoImpl!
+        do {
+            decodedInfo = try JSONDecoder().decode(APIAuthInfoImpl.self, from: body)
+        } catch {
+            throw StitchError.requestError(withError: error, withRequestErrorCode: .decodingError)
+        }
 
         // Provisionally set so we can make a profile request
         if self.authInfo == nil {
@@ -320,7 +318,7 @@ open class CoreStitchAuth<TStitchUser> where TStitchUser: CoreStitchUser {
         do {
             profile = try doGetUserProfile()
         } catch let err {
-            try self.logoutBlocking()
+            self.logoutBlocking()
             throw err
         }
 
@@ -329,10 +327,14 @@ open class CoreStitchAuth<TStitchUser> where TStitchUser: CoreStitchUser {
             withAPIAuthInfo: decodedInfo,
             withExtendedAuthInfo: ExtendedAuthInfoImpl.init(loggedInProviderType: type(of: credential).providerType,
                                                             loggedInProviderName: credential.providerName,
-                                                            userProfile: profile)
-        )
+                                                            userProfile: profile))
 
-        try self.authInfo?.write(toStorage: &storage)
+        do {
+            try self.authInfo?.write(toStorage: &storage)
+        } catch {
+            throw StitchError.clientError(withClientErrorCode: .couldNotPersistAuthInfo)
+        }
+
         self.currentUser =
             userFactory
                 .makeUser(
@@ -352,8 +354,12 @@ open class CoreStitchAuth<TStitchUser> where TStitchUser: CoreStitchUser {
             $0.path = self.authRoutes.profileRoute
         }.build())
 
-        let decodedProfile = try JSONDecoder.init().decode(APICoreUserProfileImpl.self,
-                                                           from: response.body!)
+        var decodedProfile: APICoreUserProfileImpl!
+        do {
+            decodedProfile = try JSONDecoder.init().decode(APICoreUserProfileImpl.self, from: response.body!)
+        } catch {
+            throw StitchError.requestError(withError: error, withRequestErrorCode: .decodingError)
+        }
 
         return StitchUserProfileImpl.init(userType: decodedProfile.userType,
                                           identities: decodedProfile.identities,
@@ -376,7 +382,7 @@ open class CoreStitchAuth<TStitchUser> where TStitchUser: CoreStitchUser {
      * Clears the `CoreStitchAuth`'s authentication state, as well as associated authentication state in underlying
      * storage.
      */
-    internal func clearAuth() throws {
+    internal func clearAuth() {
         objc_sync_enter(self)
         defer { objc_sync_exit(self) }
         guard self.isLoggedIn else { return }

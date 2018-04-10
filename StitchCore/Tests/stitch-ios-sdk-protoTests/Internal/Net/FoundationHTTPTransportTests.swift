@@ -42,9 +42,10 @@ class FoundationHTTPTransportTests: StitchXCTestCase {
         }
 
         XCTAssertThrowsError(
-            try transport.roundTrip(request: builder.build()),
-            StitchErrorCode.invalidURL.rawValue, { _ in }
-        )
+            try transport.roundTrip(request: builder.build())
+        ) { error in
+            XCTAssertEqual(error.localizedDescription, "unsupported URL")
+        }
 
         builder.url = "\(self.baseURL)\(self.getEndpoint)"
 
@@ -69,8 +70,9 @@ class FoundationHTTPTransportTests: StitchXCTestCase {
 
         builder.url = "http://localhost:9000/notreal"
         XCTAssertThrowsError(
-            try transport.roundTrip(request: builder.build()),
-            StitchErrorCode.unknown.rawValue, { _ in }
-        )
+            try transport.roundTrip(request: builder.build())
+        ) { error in
+            XCTAssertEqual(error.localizedDescription, "Could not connect to the server.")
+        }
     }
 }

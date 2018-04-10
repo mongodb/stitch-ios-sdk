@@ -51,7 +51,7 @@ class AccessTokenRefresherTests: XCTestCase {
         }
 
         // logout and relogin. setterAccessor should be accessed twice after this
-        try mockCoreAuth.logoutBlocking()
+        mockCoreAuth.logoutBlocking()
         _ = try mockCoreAuth.loginWithCredentialBlocking(withCredential: AnonymousCredential.init())
 
         // check refresh, which SHOULD trigger a refresh, and the setter

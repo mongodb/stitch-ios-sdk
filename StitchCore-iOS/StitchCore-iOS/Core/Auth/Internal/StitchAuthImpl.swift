@@ -117,13 +117,19 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
     }
 
     /**
-     * Logs out the currently authenticated user, and clears any persisted
-     * authentication information.
+     * Links the currently authenticated user with a new identity, where the identity is defined by the credential
+     * specified as a parameter. This will only be successful if this `StitchUser` is the currently authenticated
+     * `StitchUser` for the client from which it was created.
      *
      * - parameters:
-     *     - completionHandler: The completion handler to call when the logout is complete.
+     *     - withCredential: The `StitchCore.StitchCredential` used to link the user to a new
+     *                       identity. Credentials can be retrieved from an
+     *                       authentication provider client, which is retrieved
+     *                       using the `getProviderClient` method on `StitchAuth`.
+     *     - completionHandler: The completion handler to call when the linking is complete.
      *                          This handler is executed on a non-main global `DispatchQueue`.
-     *     - error: An error object that indicates why the logout failed, or `nil` if the logout was successful.
+     *     - user: The current user, or `nil` if the link failed.
+     *     - error: An error object that indicates why the link failed, or `nil` if the link was successful.
      */
     internal func link(withCredential credential: StitchCredential,
                        withUser user: StitchUserImpl,
@@ -133,9 +139,18 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
         }
     }
 
+    /**
+     * Logs out the currently authenticated user, and clears any persisted authentication information.
+     *
+     * - parameters:
+     *     - completionHandler: The completion handler to call when the logout is complete.
+     *                          This handler is executed on a non-main global `DispatchQueue`.
+     *     - error: Will always be nil, since the underlying implementation squashes errors and always clears local
+     *              authentication information.
+     */
     public func logout(_ completionHandler: @escaping ((Error?) -> Void)) {
         dispatcher.run(withCompletionHandler: completionHandler) {
-            try self.logoutBlocking()
+            self.logoutBlocking()
         }
     }
 

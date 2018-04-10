@@ -7,7 +7,7 @@ import ExtendedJSON
 private func inspectResponse(response: Response) throws -> Response {
     guard response.statusCode >= 200,
         response.statusCode < 300 else {
-        throw StitchErrorCodable.handleRequestError(response: response)
+        throw StitchErrorCodable.handleError(forResponse: response)
     }
 
     return response
@@ -65,9 +65,15 @@ public final class StitchRequestClientImpl: StitchRequestClient {
      * - returns: the response to the request as a `Response` object.
      */
     public func doRequest<R>(_ stitchReq: R) throws -> Response where R: StitchRequest {
-        return try inspectResponse(
-            response: transport.roundTrip(request: buildRequest(stitchReq))
-        )
+        var response: Response!
+        do {
+            response = try transport.roundTrip(request: buildRequest(stitchReq))
+        } catch {
+            // Wrap the error from the transport in a `StitchError.requestError`
+            throw StitchError.requestError(withError: error, withRequestErrorCode: .transportError)
+        }
+
+        return try inspectResponse(response: response)
     }
 
     /**

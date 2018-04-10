@@ -9,18 +9,24 @@ class StitchClientConfigurationTests: XCTestCase {
     func testStitchClientConfigurationBuilderImplInit() throws {
         var builder = StitchClientConfigurationBuilderImpl { _ in }
 
-        XCTAssertThrowsError(try builder.build(),
-                             StitchClientConfigurationError.missingBaseURL.localizedDescription)
+        XCTAssertThrowsError(try builder.build()) { error in
+            XCTAssertEqual(error as? StitchClientConfigurationError,
+                           StitchClientConfigurationError.missingBaseURL)
+        }
 
         builder.baseURL = self.baseURL
 
-        XCTAssertThrowsError(try builder.build(),
-                             StitchClientConfigurationError.missingStorage.localizedDescription)
+        XCTAssertThrowsError(try builder.build()) { error in
+            XCTAssertEqual(error as? StitchClientConfigurationError,
+                           StitchClientConfigurationError.missingStorage)
+        }
 
         builder.storage = self.storage
 
-        XCTAssertThrowsError(try builder.build(),
-                             StitchClientConfigurationError.missingTransport.localizedDescription)
+        XCTAssertThrowsError(try builder.build()) { error in
+            XCTAssertEqual(error as? StitchClientConfigurationError,
+                           StitchClientConfigurationError.missingTransport)
+        }
 
         builder.transport = self.transport
 

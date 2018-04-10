@@ -30,12 +30,18 @@ extension CoreStitchAuth: StitchAuthRequestClient {
             let response = try doAuthenticatedJSONRequestRaw(stitchReq)
 
             guard let responseBody = response.body else {
-                throw StitchError.requestError(withMessage: "no body in request response")
+                throw StitchError.serviceError(
+                    withMessage: StitchErrorCodable.genericErrorMessage(withStatusCode: response.statusCode),
+                    withServiceErrorCode: .unknown
+                )
             }
 
-            return try JSONSerialization.jsonObject(with: responseBody,
-                                                    options: JSONSerialization.ReadingOptions.allowFragments)
-
+            do {
+                return try JSONSerialization.jsonObject(with: responseBody,
+                                                        options: JSONSerialization.ReadingOptions.allowFragments)
+            } catch let err {
+                throw StitchError.requestError(withError: err, withRequestErrorCode: .decodingError)
+            }
         } catch let err {
             return try handleAuthFailure(forError: err, withRequest: stitchReq) as Any
         }
@@ -70,7 +76,7 @@ extension CoreStitchAuth: StitchAuthRequestClient {
         guard self.isLoggedIn,
             let refreshToken = self.authStateHolder.refreshToken,
             let accessToken = self.authStateHolder.accessToken else {
-                throw StitchClientError.mustAuthenticateFirst
+                throw StitchError.clientError(withClientErrorCode: .mustAuthenticateFirst)
         }
 
         return try StitchRequestBuilderImpl {
@@ -106,14 +112,14 @@ extension CoreStitchAuth: StitchAuthRequestClient {
             guard withErrorCode == .invalidSession else {
                 throw error
             }
-        case .requestError:
+        default:
             throw error
         }
 
         // using a refresh token implies we cannot refresh anything, so clear auth and
         // notify
         if req.useRefreshToken || !req.shouldRefreshOnFailure {
-            try self.clearAuth()
+            self.clearAuth()
             throw error
         }
 
@@ -133,7 +139,7 @@ extension CoreStitchAuth: StitchAuthRequestClient {
         objc_sync_enter(self)
         defer { objc_sync_exit(self) }
         guard isLoggedIn, let accessToken = self.authStateHolder.accessToken else {
-            throw StitchError.requestError(withMessage: "logged out during request")
+            throw StitchError.clientError(withClientErrorCode: .loggedOutDuringRequest)
         }
 
         let jwt = try DecodedJWT.init(jwt: accessToken)
@@ -156,11 +162,20 @@ extension CoreStitchAuth: StitchAuthRequestClient {
             $0.method = .post
             }.build())
 
-        let newAccessToken = try JSONDecoder().decode(APIAccessToken.self,
+        var newAccessToken: APIAccessToken!
+        do {
+            newAccessToken = try JSONDecoder().decode(APIAccessToken.self,
                                                       from: response.body!)
+        } catch let err {
+            throw StitchError.requestError(withError: err, withRequestErrorCode: .decodingError)
+        }
 
         self.authInfo = self.authInfo?.refresh(withNewAccessToken: newAccessToken)
 
-        try self.authInfo?.write(toStorage: &self.storage)
+        do {
+            try self.authInfo?.write(toStorage: &self.storage)
+        } catch {
+            throw StitchError.clientError(withClientErrorCode: .couldNotPersistAuthInfo)
+        }
     }
 }
