@@ -3,6 +3,7 @@ import XCTest
 
 class StitchClientConfigurationTests: XCTestCase {
     private let baseURL = "qux"
+    private let dataDirectory = URL.init(string: "foo/bar")!
     private let storage = MemoryStorage.init()
     private let transport = FoundationHTTPTransport.init()
 
@@ -15,6 +16,13 @@ class StitchClientConfigurationTests: XCTestCase {
         }
 
         builder.baseURL = self.baseURL
+
+        XCTAssertThrowsError(try builder.build()) { error in
+            XCTAssertEqual(error as? StitchClientConfigurationError,
+                           StitchClientConfigurationError.missingDataDirectory)
+        }
+
+        builder.dataDirectory = self.dataDirectory
 
         XCTAssertThrowsError(try builder.build()) { error in
             XCTAssertEqual(error as? StitchClientConfigurationError,

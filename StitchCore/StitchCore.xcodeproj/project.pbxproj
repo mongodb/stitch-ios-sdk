@@ -22,6 +22,7 @@
 
 /* Begin PBXBuildFile section */
 		110DDB3420729F350044B6F3 /* StitchProviderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110DDB3320729F350044B6F3 /* StitchProviderType.swift */; };
+		111CCA07207D0FFD002FEB4A /* JWT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111CCA06207D0FFD002FEB4A /* JWT.swift */; };
 		111E748C206C115800DFC43C /* AuthStateHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111E748B206C115800DFC43C /* AuthStateHolder.swift */; };
 		111E748E206C127D00DFC43C /* CoreStitchAuth+StitchAuthRequestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111E748D206C127D00DFC43C /* CoreStitchAuth+StitchAuthRequestClient.swift */; };
 		1127A37B206D85B900FE9200 /* Builder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1127A379206D85B300FE9200 /* Builder.swift */; };
@@ -108,7 +109,6 @@
 		OBJ_316 /* StitchUserIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_51 /* StitchUserIdentity.swift */; };
 		OBJ_317 /* StitchUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_52 /* StitchUserProfile.swift */; };
 		OBJ_318 /* ImplFailureFatalErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_55 /* ImplFailureFatalErrors.swift */; };
-		OBJ_319 /* JWT.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_56 /* JWT.swift */; };
 		OBJ_320 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_57 /* Storage.swift */; };
 		OBJ_322 /* CoreStitchAppClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_59 /* CoreStitchAppClient.swift */; };
 		OBJ_323 /* ContentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_61 /* ContentType.swift */; };
@@ -213,6 +213,7 @@
 
 /* Begin PBXFileReference section */
 		110DDB3320729F350044B6F3 /* StitchProviderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchProviderType.swift; sourceTree = "<group>"; };
+		111CCA06207D0FFD002FEB4A /* JWT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWT.swift; sourceTree = "<group>"; };
 		111E748B206C115800DFC43C /* AuthStateHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthStateHolder.swift; sourceTree = "<group>"; };
 		111E748D206C127D00DFC43C /* CoreStitchAuth+StitchAuthRequestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreStitchAuth+StitchAuthRequestClient.swift"; sourceTree = "<group>"; };
 		1127A379206D85B300FE9200 /* Builder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Builder.swift; path = Common/Builder.swift; sourceTree = SOURCE_ROOT; };
@@ -324,7 +325,6 @@
 		OBJ_51 /* StitchUserIdentity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchUserIdentity.swift; sourceTree = "<group>"; };
 		OBJ_52 /* StitchUserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchUserProfile.swift; sourceTree = "<group>"; };
 		OBJ_55 /* ImplFailureFatalErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImplFailureFatalErrors.swift; sourceTree = "<group>"; };
-		OBJ_56 /* JWT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWT.swift; sourceTree = "<group>"; };
 		OBJ_57 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		OBJ_59 /* CoreStitchAppClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchAppClient.swift; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
@@ -461,6 +461,7 @@
 				OBJ_17 /* Models */,
 				OBJ_25 /* StitchAuthRequestClient.swift */,
 				OBJ_26 /* StitchUserFactory.swift */,
+				111CCA06207D0FFD002FEB4A /* JWT.swift */,
 			);
 			path = Internal;
 			sourceTree = "<group>";
@@ -718,7 +719,6 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_55 /* ImplFailureFatalErrors.swift */,
-				OBJ_56 /* JWT.swift */,
 				OBJ_57 /* Storage.swift */,
 			);
 			path = Common;
@@ -1231,9 +1231,9 @@
 				OBJ_314 /* UserPasswordCredential.swift in Sources */,
 				OBJ_315 /* StitchCredential.swift in Sources */,
 				OBJ_316 /* StitchUserIdentity.swift in Sources */,
+				111CCA07207D0FFD002FEB4A /* JWT.swift in Sources */,
 				OBJ_317 /* StitchUserProfile.swift in Sources */,
 				OBJ_318 /* ImplFailureFatalErrors.swift in Sources */,
-				OBJ_319 /* JWT.swift in Sources */,
 				OBJ_320 /* Storage.swift in Sources */,
 				OBJ_322 /* CoreStitchAppClient.swift in Sources */,
 				OBJ_323 /* ContentType.swift in Sources */,

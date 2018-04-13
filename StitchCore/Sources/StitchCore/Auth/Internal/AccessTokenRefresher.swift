@@ -63,13 +63,12 @@ class AccessTokenRefresher<T> where T: CoreStitchUser {
         guard auth.isLoggedIn else { return true }
         guard let accessToken = auth.authInfo?.accessToken else { return true }
 
-        guard let expiration = (try? DecodedJWT.init(jwt: accessToken))?.expiration else {
+        guard let expires = (try? JWT.init(fromEncodedJWT: accessToken))?.expires else {
             return true
         }
 
         // Check if it's time to refresh the access token
-        if Date.init().timeIntervalSince1970 <
-            expiration.timeIntervalSince1970 - expirationWindowSeconds {
+        if Date.init().timeIntervalSince1970 < expires - expirationWindowSeconds {
             return true
         }
 
