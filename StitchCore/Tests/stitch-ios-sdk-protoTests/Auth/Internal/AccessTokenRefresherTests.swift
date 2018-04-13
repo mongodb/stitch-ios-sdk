@@ -1,10 +1,13 @@
 // swiftlint:disable force_try
 import XCTest
 @testable import StitchCore
-import JWT
 import ExtendedJSON
 
-let expiredJWT = JWT.encode(Algorithm.hs256("secret".data(using: .utf8)!), closure: { (csb: ClaimSetBuilder) in
+import func JWT.encode
+import enum JWT.Algorithm
+import class JWT.ClaimSetBuilder
+
+let expiredJWT = encode(Algorithm.hs256("secret".data(using: .utf8)!), closure: { (csb: ClaimSetBuilder) in
     var date = Date()
     date.addTimeInterval(-(Date.init().timeIntervalSince1970 - 10000.0))
     csb.expiration = date

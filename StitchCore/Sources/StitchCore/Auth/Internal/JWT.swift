@@ -3,7 +3,7 @@ import Foundation
 /**
  * A simple class representing a JWT issued by the Stitch server. Only contains claims relevant to the SDK.
  */
-internal final class StitchJWT {
+internal final class JWT {
     /**
      * Per RFC 7519:
      * 4.1.4.  "exp" (Expiration Time) Claim
@@ -14,7 +14,7 @@ internal final class StitchJWT {
      * MUST be before the expiration date/time listed in the "exp" claim.
      */
     public let expires: TimeInterval?
-    
+
     /**
      * Per RFC 7519:
      * 4.1.6.  "iat" (Issued At) Claim
@@ -44,7 +44,7 @@ internal final class StitchJWT {
      * Initializes the `StitchJWT` with a base64-encoded string, with or without padding characters.
      */
     init(fromEncodedJWT encodedJWT: String) throws {
-        let parts = try StitchJWT.splitToken(jwt: encodedJWT)
+        let parts = try JWT.splitToken(jwt: encodedJWT)
 
         var secondPart = String(parts[1])
 

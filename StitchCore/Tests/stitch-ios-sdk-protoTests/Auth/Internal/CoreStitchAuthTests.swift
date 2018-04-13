@@ -2,20 +2,22 @@
 import XCTest
 import ExtendedJSON
 import Swifter
-import JWT
 @testable import StitchCore
+
+import func JWT.encode
+import enum JWT.Algorithm
 
 private let appRoutes = StitchAppRoutes.init(clientAppId: "")
 private let userId = ObjectId.NewObjectId().hexString
 private let mockApiAuthInfo = [
     "user_id": userId,
     "device_id": ObjectId.NewObjectId().hexString,
-    "access_token": JWT.encode(Algorithm.hs256("foobar".data(using: .utf8)!)) {
+    "access_token": encode(Algorithm.hs256("foobar".data(using: .utf8)!)) {
         var date = Date()
         date.addTimeInterval(1000)
         $0.expiration = date
     },
-    "refresh_token": JWT.encode(Algorithm.hs256("foobar".data(using: .utf8)!)) {
+    "refresh_token": encode(Algorithm.hs256("foobar".data(using: .utf8)!)) {
         var date = Date()
         date.addTimeInterval(1000)
         $0.expiration = date
@@ -23,7 +25,7 @@ private let mockApiAuthInfo = [
 ]
 
 private let mockApiAccessToken = [
-    "access_token": JWT.encode(Algorithm.hs256("foobar".data(using: .utf8)!)) {
+    "access_token": encode(Algorithm.hs256("foobar".data(using: .utf8)!)) {
         var date = Date()
         date.addTimeInterval(1000)
         $0.expiration = date
