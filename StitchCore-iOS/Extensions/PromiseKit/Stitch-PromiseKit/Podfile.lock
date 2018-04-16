@@ -1,0 +1,16 @@
+PODS:
+  - PromiseKit/CorePromise (6.2.4)
+
+DEPENDENCIES:
+  - PromiseKit/CorePromise (~> 6.0)
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - PromiseKit
+
+SPEC CHECKSUMS:
+  PromiseKit: 625b1fc69944fc839503748101c5968cf54b527b
+
+PODFILE CHECKSUM: 81b0fb4aad312df18a0e7da6cafa8c8d54699171
+
+COCOAPODS: 1.5.0

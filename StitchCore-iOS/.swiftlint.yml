@@ -1,6 +1,7 @@
 excluded:
-    - build/
-    - .build/
+  - Extensions
+  - build/
+  - .build/
 identifier_name:
   excluded: # excluded via string array
     - id
