@@ -13,10 +13,10 @@ extension StitchUser {
      *                       identity. Credentials can be retrieved from an
      *                       authentication provider client, which is retrieved
      *                       using the `getProviderClient` method on `StitchAuth`.
-     *     - completionHandler: The completion handler to call when the linking is complete.
+     * - returns: A `Promise` resolved when the linking is complete.
      *                          This handler is executed on a non-main global `DispatchQueue`.
-     *     - user: The current user, or `nil` if the link failed.
-     *     - error: An error object that indicates why the link failed, or `nil` if the link was successful.
+     *     If resolved, it returns the current user.
+     *     If rejected, it returns an error object that indicates why the link failed.
      */
     func link(withCredential credential: StitchCredential) -> Promise<StitchUser> {
         return Promise { self.link(withCredential: credential, adapter($0)) }

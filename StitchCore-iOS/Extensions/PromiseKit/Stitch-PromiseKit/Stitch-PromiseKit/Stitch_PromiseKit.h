@@ -1,11 +1,3 @@
-//
-//  Stitch_PromiseKit.h
-//  Stitch-PromiseKit
-//
-//  Created by Jason Flax on 16/04/2018.
-//  Copyright © 2018 mongodb. All rights reserved.
-//
-
 #import <UIKit/UIKit.h>
 
 //! Project version number for Stitch_PromiseKit.

@@ -10,7 +10,7 @@ extension UserPasswordAuthProviderClient {
      * - parameters:
      *     - withEmail: The email address of the user to register.
      *     - withPassword: The password that the user created for the new username/password identity.
-     *     - completionHandler: The handler to be executed when the request is complete.
+     * - returns: A `Promise` to be resolved when the request is complete.
      */
     func register(withEmail email: String, withPassword password: String) -> Promise<Void> {
         return Promise {
@@ -26,7 +26,7 @@ extension UserPasswordAuthProviderClient {
      * - parameters:
      *     - withToken: The confirmation token that was emailed to the user.
      *     - withTokenId: The confirmation token id that was emailed to the user.
-     *     - completionHandler: The handler to be executed when the request is complete.
+     * - returns: A `Promise` to be resolved when the request is complete.
      */
     func confirmUser(withToken token: String, withTokenId tokenId: String) -> Promise<Void> {
         return Promise {
@@ -36,14 +36,12 @@ extension UserPasswordAuthProviderClient {
         }
     }
 
-    // swiftlint:enable line_length
-
     /**
      * Re-sends a confirmation email to a user that has registered but not yet confirmed their email address.
      *
      * - parameters:
      *     - toEmail: The email address of the user to re-send a confirmation for.
-     *     - completionHandler: The handler to be executed when the request is complete.
+     * - returns: A `Promise` to be resolved when the request is complete.
      */
     func resendConfirmation(toEmail email: String) -> Promise<Void> {
         return Promise {
@@ -57,7 +55,7 @@ extension UserPasswordAuthProviderClient {
      *
      * - parameters:
      *     - toEmail: The email address of the user to send a password reset email for.
-     *     - completionHandler: The handler to be executed when the request is complete.
+     * - returns: A `Promise` to be resolved when the request is complete.
      */
     func sendResetPasswordEmail(toEmail email: String) -> Promise<Void> {
         return Promise {
@@ -73,7 +71,7 @@ extension UserPasswordAuthProviderClient {
      *     - password: The desired new password.
      *     - withToken: The password reset token that was emailed to the user.
      *     - withTokenId: The password reset token id that was emailed to the user.
-     *     - completionHandler: The handler to be executed when the request is complete.
+     * - returns: A `Promise` to be resolved when the request is complete.
      */
     func reset(password: String, withToken token: String, withTokenId tokenId: String) -> Promise<Void> {
         return Promise {
