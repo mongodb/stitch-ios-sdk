@@ -16,7 +16,11 @@
 		4912267420853D7900C29CFE /* StitchAuth+PMK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4912267320853D7900C29CFE /* StitchAuth+PMK.swift */; };
 		4912267620853E2400C29CFE /* Adapters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4912267520853E2400C29CFE /* Adapters.swift */; };
 		4912267820853E7900C29CFE /* StitchUser+PMK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4912267720853E7900C29CFE /* StitchUser+PMK.swift */; };
+		49422ABF20865767003FFCF5 /* Stitch_PromiseKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49422ABE20865767003FFCF5 /* Stitch_PromiseKitTests.swift */; };
+		49422AC120865767003FFCF5 /* Stitch_PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 491226082084ED6D00C29CFE /* Stitch_PromiseKit.framework */; };
+		55BC9F83DD4E67DB11DB1A56 /* Pods_Stitch_PromiseKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A30306A8D1647459910C509 /* Pods_Stitch_PromiseKitTests.framework */; };
 		6B3E60A4F7379054C9FA725D /* Pods_Stitch_PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31012989AFDB8A91619B8213 /* Pods_Stitch_PromiseKit.framework */; };
+		E4DA33EE282FE453458F4ADC /* Pods_Stitch_PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49422AD62086597A003FFCF5 /* Pods_Stitch_PromiseKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,11 +73,19 @@
 			remoteGlobalIDString = 11981A192062C4AA0074BB11;
 			remoteInfo = StitchCore_iOSTests;
 		};
+		49422AC220865767003FFCF5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 491225FF2084ED6D00C29CFE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 491226072084ED6D00C29CFE;
+			remoteInfo = "Stitch-PromiseKit";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		2DDCECD17F3DFA8D61D0060A /* Pods-Stitch-PromiseKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Stitch-PromiseKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-Stitch-PromiseKit/Pods-Stitch-PromiseKit.release.xcconfig"; sourceTree = "<group>"; };
 		31012989AFDB8A91619B8213 /* Pods_Stitch_PromiseKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Stitch_PromiseKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D8DEEA33233EA4DD824DC6B /* Pods-Stitch_PromiseKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Stitch_PromiseKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Stitch_PromiseKitTests/Pods-Stitch_PromiseKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		491226082084ED6D00C29CFE /* Stitch_PromiseKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Stitch_PromiseKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4912260B2084ED6D00C29CFE /* Stitch_PromiseKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Stitch_PromiseKit.h; sourceTree = "<group>"; };
 		4912260C2084ED6D00C29CFE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -84,7 +96,15 @@
 		4912267320853D7900C29CFE /* StitchAuth+PMK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StitchAuth+PMK.swift"; sourceTree = "<group>"; };
 		4912267520853E2400C29CFE /* Adapters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Adapters.swift; sourceTree = "<group>"; };
 		4912267720853E7900C29CFE /* StitchUser+PMK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StitchUser+PMK.swift"; sourceTree = "<group>"; };
+		49422ABC20865767003FFCF5 /* Stitch_PromiseKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Stitch_PromiseKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		49422ABE20865767003FFCF5 /* Stitch_PromiseKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stitch_PromiseKitTests.swift; sourceTree = "<group>"; };
+		49422AC020865767003FFCF5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		49422AD42086596D003FFCF5 /* PromiseKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PromiseKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		49422AD62086597A003FFCF5 /* Pods_Stitch_PromiseKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_Stitch_PromiseKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		49422AD820865988003FFCF5 /* PromiseKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PromiseKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		60C4048B74262097DF5A0CAB /* Pods-Stitch-PromiseKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Stitch-PromiseKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Stitch-PromiseKit/Pods-Stitch-PromiseKit.debug.xcconfig"; sourceTree = "<group>"; };
+		6A30306A8D1647459910C509 /* Pods_Stitch_PromiseKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Stitch_PromiseKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD020F3798F46E876500B11A /* Pods-Stitch_PromiseKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Stitch_PromiseKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Stitch_PromiseKitTests/Pods-Stitch_PromiseKitTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +116,16 @@
 				491226492084F33900C29CFE /* StitchCore_iOS.framework in Frameworks */,
 				491226482084F33500C29CFE /* StitchCore.framework in Frameworks */,
 				6B3E60A4F7379054C9FA725D /* Pods_Stitch_PromiseKit.framework in Frameworks */,
+				E4DA33EE282FE453458F4ADC /* Pods_Stitch_PromiseKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49422AB920865767003FFCF5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49422AC120865767003FFCF5 /* Stitch_PromiseKit.framework in Frameworks */,
+				55BC9F83DD4E67DB11DB1A56 /* Pods_Stitch_PromiseKitTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,6 +138,7 @@
 				491226282084F32A00C29CFE /* StitchCore.xcodeproj */,
 				4912263F2084F32E00C29CFE /* StitchCore-iOS.xcodeproj */,
 				4912260A2084ED6D00C29CFE /* Stitch-PromiseKit */,
+				49422ABD20865767003FFCF5 /* Stitch_PromiseKitTests */,
 				491226092084ED6D00C29CFE /* Products */,
 				CA987235710564EBD79AAC38 /* Pods */,
 				9C4EDAEB7EE8ED89C7B0A1E8 /* Frameworks */,
@@ -118,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				491226082084ED6D00C29CFE /* Stitch_PromiseKit.framework */,
+				49422ABC20865767003FFCF5 /* Stitch_PromiseKitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -157,10 +189,23 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		49422ABD20865767003FFCF5 /* Stitch_PromiseKitTests */ = {
+			isa = PBXGroup;
+			children = (
+				49422ABE20865767003FFCF5 /* Stitch_PromiseKitTests.swift */,
+				49422AC020865767003FFCF5 /* Info.plist */,
+			);
+			path = Stitch_PromiseKitTests;
+			sourceTree = "<group>";
+		};
 		9C4EDAEB7EE8ED89C7B0A1E8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				49422AD820865988003FFCF5 /* PromiseKit.framework */,
+				49422AD62086597A003FFCF5 /* Pods_Stitch_PromiseKit.framework */,
+				49422AD42086596D003FFCF5 /* PromiseKit.framework */,
 				31012989AFDB8A91619B8213 /* Pods_Stitch_PromiseKit.framework */,
+				6A30306A8D1647459910C509 /* Pods_Stitch_PromiseKitTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -170,6 +215,8 @@
 			children = (
 				60C4048B74262097DF5A0CAB /* Pods-Stitch-PromiseKit.debug.xcconfig */,
 				2DDCECD17F3DFA8D61D0060A /* Pods-Stitch-PromiseKit.release.xcconfig */,
+				AD020F3798F46E876500B11A /* Pods-Stitch_PromiseKitTests.debug.xcconfig */,
+				3D8DEEA33233EA4DD824DC6B /* Pods-Stitch_PromiseKitTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -207,18 +254,43 @@
 			productReference = 491226082084ED6D00C29CFE /* Stitch_PromiseKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		49422ABB20865767003FFCF5 /* Stitch_PromiseKitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 49422AD220865767003FFCF5 /* Build configuration list for PBXNativeTarget "Stitch_PromiseKitTests" */;
+			buildPhases = (
+				328CE7853F2A610429D6F4FC /* [CP] Check Pods Manifest.lock */,
+				49422AB820865767003FFCF5 /* Sources */,
+				49422AB920865767003FFCF5 /* Frameworks */,
+				49422ABA20865767003FFCF5 /* Resources */,
+				7E051005591F2F3A9A3688F9 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				49422AC320865767003FFCF5 /* PBXTargetDependency */,
+			);
+			name = Stitch_PromiseKitTests;
+			productName = Stitch_PromiseKitTests;
+			productReference = 49422ABC20865767003FFCF5 /* Stitch_PromiseKitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		491225FF2084ED6D00C29CFE /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0920;
 				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = mongodb;
 				TargetAttributes = {
 					491226072084ED6D00C29CFE = {
 						CreatedOnToolsVersion = 9.2;
 						LastSwiftMigration = 0920;
+						ProvisioningStyle = Automatic;
+					};
+					49422ABB20865767003FFCF5 = {
+						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -246,6 +318,7 @@
 			projectRoot = "";
 			targets = (
 				491226072084ED6D00C29CFE /* Stitch-PromiseKit */,
+				49422ABB20865767003FFCF5 /* Stitch_PromiseKitTests */,
 			);
 		};
 /* End PBXProject section */
@@ -311,6 +384,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		49422ABA20865767003FFCF5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -332,6 +412,42 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		328CE7853F2A610429D6F4FC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Stitch_PromiseKitTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7E051005591F2F3A9A3688F9 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Stitch_PromiseKitTests/Pods-Stitch_PromiseKitTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Stitch_PromiseKitTests/Pods-Stitch_PromiseKitTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -347,7 +463,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		49422AB820865767003FFCF5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49422ABF20865767003FFCF5 /* Stitch_PromiseKitTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		49422AC320865767003FFCF5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 491226072084ED6D00C29CFE /* Stitch-PromiseKit */;
+			targetProxy = 49422AC220865767003FFCF5 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		4912260E2084ED6D00C29CFE /* Debug */ = {
@@ -510,6 +642,36 @@
 			};
 			name = Release;
 		};
+		49422AC420865767003FFCF5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AD020F3798F46E876500B11A /* Pods-Stitch_PromiseKitTests.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2Z8M9MTEVV;
+				INFOPLIST_FILE = Stitch_PromiseKitTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "mongo.Stitch-PromiseKitTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		49422AC520865767003FFCF5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3D8DEEA33233EA4DD824DC6B /* Pods-Stitch_PromiseKitTests.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2Z8M9MTEVV;
+				INFOPLIST_FILE = Stitch_PromiseKitTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "mongo.Stitch-PromiseKitTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -527,6 +689,15 @@
 			buildConfigurations = (
 				491226112084ED6D00C29CFE /* Debug */,
 				491226122084ED6D00C29CFE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		49422AD220865767003FFCF5 /* Build configuration list for PBXNativeTarget "Stitch_PromiseKitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				49422AC420865767003FFCF5 /* Debug */,
+				49422AC520865767003FFCF5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

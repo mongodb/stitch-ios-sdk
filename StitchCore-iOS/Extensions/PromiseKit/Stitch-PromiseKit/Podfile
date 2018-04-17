@@ -8,3 +8,9 @@ target 'Stitch-PromiseKit' do
   # Pods for Stitch-PromiseKit
   pod "PromiseKit/CorePromise", "~> 6.0"
 end
+
+target 'Stitch_PromiseKitTests' do
+  use_frameworks!
+
+  pod "PromiseKit/CorePromise", "~> 6.0"
+end
