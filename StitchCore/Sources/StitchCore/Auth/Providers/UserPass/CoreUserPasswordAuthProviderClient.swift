@@ -126,7 +126,7 @@ open class CoreUserPasswordAuthProviderClient: CoreAuthProviderClient {
             $0.method = .post
             $0.document = [tokenKey: token,
                            tokenIdKey: tokenId]
-            $0.path = self.routes.resendConfirmationEmailRoute
+            $0.path = self.routes.confirmUserRoute
         }.build())
     }
 

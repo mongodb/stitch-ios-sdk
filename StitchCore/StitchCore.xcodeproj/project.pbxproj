@@ -26,6 +26,21 @@
 		111E748C206C115800DFC43C /* AuthStateHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111E748B206C115800DFC43C /* AuthStateHolder.swift */; };
 		111E748E206C127D00DFC43C /* CoreStitchAuth+StitchAuthRequestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111E748D206C127D00DFC43C /* CoreStitchAuth+StitchAuthRequestClient.swift */; };
 		1127A37B206D85B900FE9200 /* Builder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1127A379206D85B300FE9200 /* Builder.swift */; };
+		116168A32088ED3000967A7E /* StitchAdminClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116168932088ED2F00967A7E /* StitchAdminClient.swift */; };
+		116168A42088ED3000967A7E /* AuthProvidersResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116168952088ED2F00967A7E /* AuthProvidersResources.swift */; };
+		116168A52088ED3000967A7E /* ProviderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116168962088ED2F00967A7E /* ProviderConfig.swift */; };
+		116168A62088ED3000967A7E /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116168972088ED3000967A7E /* Resources.swift */; };
+		116168A72088ED3000967A7E /* ServiceConfigs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116168992088ED3000967A7E /* ServiceConfigs.swift */; };
+		116168A82088ED3000967A7E /* ServicesResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1161689A2088ED3000967A7E /* ServicesResources.swift */; };
+		116168A92088ED3000967A7E /* RulesResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1161689C2088ED3000967A7E /* RulesResources.swift */; };
+		116168AA2088ED3000967A7E /* UsersResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1161689E2088ED3000967A7E /* UsersResources.swift */; };
+		116168AB2088ED3000967A7E /* UserRegistrationsResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116168A02088ED3000967A7E /* UserRegistrationsResources.swift */; };
+		116168AC2088ED3000967A7E /* AppsResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116168A22088ED3000967A7E /* AppsResources.swift */; };
+		116168AE2088EE5200967A7E /* StitchAdminAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116168AD2088EE5200967A7E /* StitchAdminAuth.swift */; };
+		116168B02088EE5D00967A7E /* StitchAdminAuthRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116168AF2088EE5D00967A7E /* StitchAdminAuthRoutes.swift */; };
+		116168B22088EE6D00967A7E /* StitchAdminUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116168B12088EE6D00967A7E /* StitchAdminUser.swift */; };
+		116168B42088EE7D00967A7E /* StitchAdminUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116168B32088EE7D00967A7E /* StitchAdminUserProfile.swift */; };
+		116168C2208FDAE900967A7E /* FunctionsResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116168C1208FDAE900967A7E /* FunctionsResources.swift */; };
 		OBJ_193 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_199 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_106 /* Package.swift */; };
 		OBJ_205 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_138 /* Package.swift */; };
@@ -217,6 +232,21 @@
 		111E748B206C115800DFC43C /* AuthStateHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthStateHolder.swift; sourceTree = "<group>"; };
 		111E748D206C127D00DFC43C /* CoreStitchAuth+StitchAuthRequestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreStitchAuth+StitchAuthRequestClient.swift"; sourceTree = "<group>"; };
 		1127A379206D85B300FE9200 /* Builder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Builder.swift; path = Common/Builder.swift; sourceTree = SOURCE_ROOT; };
+		116168932088ED2F00967A7E /* StitchAdminClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchAdminClient.swift; sourceTree = "<group>"; };
+		116168952088ED2F00967A7E /* AuthProvidersResources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthProvidersResources.swift; sourceTree = "<group>"; };
+		116168962088ED2F00967A7E /* ProviderConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProviderConfig.swift; sourceTree = "<group>"; };
+		116168972088ED3000967A7E /* Resources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
+		116168992088ED3000967A7E /* ServiceConfigs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceConfigs.swift; sourceTree = "<group>"; };
+		1161689A2088ED3000967A7E /* ServicesResources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServicesResources.swift; sourceTree = "<group>"; };
+		1161689C2088ED3000967A7E /* RulesResources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RulesResources.swift; sourceTree = "<group>"; };
+		1161689E2088ED3000967A7E /* UsersResources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersResources.swift; sourceTree = "<group>"; };
+		116168A02088ED3000967A7E /* UserRegistrationsResources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRegistrationsResources.swift; sourceTree = "<group>"; };
+		116168A22088ED3000967A7E /* AppsResources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppsResources.swift; sourceTree = "<group>"; };
+		116168AD2088EE5200967A7E /* StitchAdminAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAdminAuth.swift; sourceTree = "<group>"; };
+		116168AF2088EE5D00967A7E /* StitchAdminAuthRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAdminAuthRoutes.swift; sourceTree = "<group>"; };
+		116168B12088EE6D00967A7E /* StitchAdminUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAdminUser.swift; sourceTree = "<group>"; };
+		116168B32088EE7D00967A7E /* StitchAdminUserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAdminUserProfile.swift; sourceTree = "<group>"; };
+		116168C1208FDAE900967A7E /* FunctionsResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FunctionsResources.swift; path = Admin/Functions/FunctionsResources.swift; sourceTree = SOURCE_ROOT; };
 		"ExtendedJSON::ExtendedJSON::Product" /* ExtendedJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ExtendedJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"JWT::JWT::Product" /* JWT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = JWT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_10 /* CoreAuthProviderClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAuthProviderClient.swift; sourceTree = "<group>"; };
@@ -418,6 +448,84 @@
 				1127A379206D85B300FE9200 /* Builder.swift */,
 			);
 			path = Common;
+			sourceTree = SOURCE_ROOT;
+		};
+		116168922088EC8A00967A7E /* Admin */ = {
+			isa = PBXGroup;
+			children = (
+				116168C0208FDACA00967A7E /* Functions */,
+				116168A12088ED3000967A7E /* Apps */,
+				116168942088ED2F00967A7E /* AuthProviders */,
+				116168982088ED3000967A7E /* Services */,
+				1161689F2088ED3000967A7E /* UserRegistrations */,
+				1161689D2088ED3000967A7E /* Users */,
+				116168972088ED3000967A7E /* Resources.swift */,
+				116168AD2088EE5200967A7E /* StitchAdminAuth.swift */,
+				116168AF2088EE5D00967A7E /* StitchAdminAuthRoutes.swift */,
+				116168932088ED2F00967A7E /* StitchAdminClient.swift */,
+				116168B12088EE6D00967A7E /* StitchAdminUser.swift */,
+				116168B32088EE7D00967A7E /* StitchAdminUserProfile.swift */,
+			);
+			path = Admin;
+			sourceTree = SOURCE_ROOT;
+		};
+		116168942088ED2F00967A7E /* AuthProviders */ = {
+			isa = PBXGroup;
+			children = (
+				116168952088ED2F00967A7E /* AuthProvidersResources.swift */,
+				116168962088ED2F00967A7E /* ProviderConfig.swift */,
+			);
+			path = AuthProviders;
+			sourceTree = "<group>";
+		};
+		116168982088ED3000967A7E /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				116168992088ED3000967A7E /* ServiceConfigs.swift */,
+				1161689A2088ED3000967A7E /* ServicesResources.swift */,
+				1161689B2088ED3000967A7E /* Rules */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		1161689B2088ED3000967A7E /* Rules */ = {
+			isa = PBXGroup;
+			children = (
+				1161689C2088ED3000967A7E /* RulesResources.swift */,
+			);
+			path = Rules;
+			sourceTree = "<group>";
+		};
+		1161689D2088ED3000967A7E /* Users */ = {
+			isa = PBXGroup;
+			children = (
+				1161689E2088ED3000967A7E /* UsersResources.swift */,
+			);
+			path = Users;
+			sourceTree = "<group>";
+		};
+		1161689F2088ED3000967A7E /* UserRegistrations */ = {
+			isa = PBXGroup;
+			children = (
+				116168A02088ED3000967A7E /* UserRegistrationsResources.swift */,
+			);
+			path = UserRegistrations;
+			sourceTree = "<group>";
+		};
+		116168A12088ED3000967A7E /* Apps */ = {
+			isa = PBXGroup;
+			children = (
+				116168A22088ED3000967A7E /* AppsResources.swift */,
+			);
+			path = Apps;
+			sourceTree = "<group>";
+		};
+		116168C0208FDACA00967A7E /* Functions */ = {
+			isa = PBXGroup;
+			children = (
+				116168C1208FDAE900967A7E /* FunctionsResources.swift */,
+			);
+			path = Functions;
 			sourceTree = SOURCE_ROOT;
 		};
 		OBJ_104 /* Dependencies */ = {
@@ -789,6 +897,7 @@
 		OBJ_8 /* StitchCore */ = {
 			isa = PBXGroup;
 			children = (
+				116168922088EC8A00967A7E /* Admin */,
 				OBJ_9 /* Auth */,
 				1127A378206D85A100FE9200 /* Common */,
 				OBJ_53 /* Internal */,
@@ -1199,6 +1308,7 @@
 				OBJ_285 /* CoreAuthProviderClient.swift in Sources */,
 				OBJ_286 /* AccessTokenRefresher.swift in Sources */,
 				OBJ_287 /* AuthInfo.swift in Sources */,
+				116168A32088ED3000967A7E /* StitchAdminClient.swift in Sources */,
 				OBJ_288 /* CoreStitchAuth.swift in Sources */,
 				OBJ_289 /* CoreStitchUser.swift in Sources */,
 				OBJ_290 /* DeviceField.swift in Sources */,
@@ -1221,24 +1331,34 @@
 				OBJ_305 /* CoreFacebookAuthProviderClient.swift in Sources */,
 				1127A37B206D85B900FE9200 /* Builder.swift in Sources */,
 				OBJ_306 /* FacebookCredential.swift in Sources */,
+				116168A42088ED3000967A7E /* AuthProvidersResources.swift in Sources */,
 				OBJ_307 /* CoreGoogleAuthProviderClient.swift in Sources */,
 				OBJ_308 /* GoogleCredential.swift in Sources */,
+				116168A52088ED3000967A7E /* ProviderConfig.swift in Sources */,
 				OBJ_309 /* CoreServerAPIKeyAuthProviderClient.swift in Sources */,
 				OBJ_310 /* ServerAPIKeyCredential.swift in Sources */,
 				OBJ_311 /* CoreUserAPIKeyAuthProviderClient.swift in Sources */,
+				116168B42088EE7D00967A7E /* StitchAdminUserProfile.swift in Sources */,
+				116168A62088ED3000967A7E /* Resources.swift in Sources */,
 				OBJ_312 /* UserAPIKeyCredential.swift in Sources */,
+				116168A82088ED3000967A7E /* ServicesResources.swift in Sources */,
 				OBJ_313 /* CoreUserPasswordAuthProviderClient.swift in Sources */,
+				116168AE2088EE5200967A7E /* StitchAdminAuth.swift in Sources */,
+				116168B02088EE5D00967A7E /* StitchAdminAuthRoutes.swift in Sources */,
 				OBJ_314 /* UserPasswordCredential.swift in Sources */,
 				OBJ_315 /* StitchCredential.swift in Sources */,
 				OBJ_316 /* StitchUserIdentity.swift in Sources */,
 				111CCA07207D0FFD002FEB4A /* JWT.swift in Sources */,
 				OBJ_317 /* StitchUserProfile.swift in Sources */,
+				116168B22088EE6D00967A7E /* StitchAdminUser.swift in Sources */,
+				116168AB2088ED3000967A7E /* UserRegistrationsResources.swift in Sources */,
 				OBJ_318 /* ImplFailureFatalErrors.swift in Sources */,
 				OBJ_320 /* Storage.swift in Sources */,
 				OBJ_322 /* CoreStitchAppClient.swift in Sources */,
 				OBJ_323 /* ContentType.swift in Sources */,
 				OBJ_324 /* FoundationHTTPTransport.swift in Sources */,
 				OBJ_325 /* Headers.swift in Sources */,
+				116168A92088ED3000967A7E /* RulesResources.swift in Sources */,
 				OBJ_326 /* Method.swift in Sources */,
 				OBJ_327 /* Request.swift in Sources */,
 				OBJ_328 /* StitchAuthRequest.swift in Sources */,
@@ -1246,12 +1366,16 @@
 				OBJ_330 /* StitchRequest.swift in Sources */,
 				OBJ_331 /* StitchRequestClient.swift in Sources */,
 				OBJ_332 /* Transport.swift in Sources */,
+				116168AC2088ED3000967A7E /* AppsResources.swift in Sources */,
 				OBJ_333 /* CoreStitchService.swift in Sources */,
 				OBJ_334 /* StitchAppClientConfiguration.swift in Sources */,
 				110DDB3420729F350044B6F3 /* StitchProviderType.swift in Sources */,
+				116168C2208FDAE900967A7E /* FunctionsResources.swift in Sources */,
 				OBJ_335 /* StitchAppClientInfo.swift in Sources */,
+				116168AA2088ED3000967A7E /* UsersResources.swift in Sources */,
 				OBJ_336 /* StitchClientConfiguration.swift in Sources */,
 				OBJ_337 /* StitchError.swift in Sources */,
+				116168A72088ED3000967A7E /* ServiceConfigs.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

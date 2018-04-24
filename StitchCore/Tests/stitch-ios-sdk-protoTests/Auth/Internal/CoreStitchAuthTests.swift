@@ -24,6 +24,15 @@ private let mockApiAuthInfo = [
     }
 ]
 
+private let mockApiAuthInfoForLinkRequest = [
+    "user_id": userId,
+    "access_token": encode(Algorithm.hs256("foobar".data(using: .utf8)!)) {
+        var date = Date()
+        date.addTimeInterval(1000)
+        $0.expiration = date
+    }
+]
+
 private let mockApiAccessToken = [
     "access_token": encode(Algorithm.hs256("foobar".data(using: .utf8)!)) {
         var date = Date()

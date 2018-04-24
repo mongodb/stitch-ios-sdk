@@ -17,9 +17,9 @@ public struct APIAuthInfoImpl: APIAuthInfo {
     public let userId: String
 
     /**
-     * The device id of the newly authenticated user.
+     * The device id of the newly authenticated user. This will be `nil` in a link request.
      */
-    public let deviceId: String
+    public let deviceId: String?
 
     /**
      * The temporary access token for the newly authenticated user.
@@ -27,9 +27,10 @@ public struct APIAuthInfoImpl: APIAuthInfo {
     public let accessToken: String
 
     /**
-     * The permanent (though potentially invalidated) access token for the newly authenticated user.
+     * The permanent (though potentially invalidated) access token for the newly authenticated user. This will be `nil`
+     * in a link request.
      */
-    public let refreshToken: String
+    public let refreshToken: String?
 }
 
 /**

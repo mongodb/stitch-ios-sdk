@@ -11,6 +11,8 @@
 		11297B1E205301C9001D0711 /* AuthProviderClientSupplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11297B1D205301C9001D0711 /* AuthProviderClientSupplier.swift */; };
 		11297B20205301D5001D0711 /* NamedAuthProviderClientSupplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11297B1F205301D5001D0711 /* NamedAuthProviderClientSupplier.swift */; };
 		112C5A822053334400463147 /* AnonymousAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112C5A812053334400463147 /* AnonymousAuthProvider.swift */; };
+		116168B6208A6B1000967A7E /* StitchAppClientIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116168B5208A6B1000967A7E /* StitchAppClientIntegrationTests.swift */; };
+		116168B9208A6B3200967A7E /* TestHarness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116168B8208A6B3200967A7E /* TestHarness.swift */; };
 		11981A112061B9D50074BB11 /* OperationDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11981A102061B9D50074BB11 /* OperationDispatcher.swift */; };
 		11981A1E2062C4AA0074BB11 /* StitchCore_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4902C678205006C800E53674 /* StitchCore_iOS.framework */; };
 		11981A242062C4B60074BB11 /* OperationDispatcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11981A132062C12D0074BB11 /* OperationDispatcherTests.swift */; };
@@ -54,6 +56,8 @@
 		11297B1D205301C9001D0711 /* AuthProviderClientSupplier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthProviderClientSupplier.swift; sourceTree = "<group>"; };
 		11297B1F205301D5001D0711 /* NamedAuthProviderClientSupplier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamedAuthProviderClientSupplier.swift; sourceTree = "<group>"; };
 		112C5A812053334400463147 /* AnonymousAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonymousAuthProvider.swift; sourceTree = "<group>"; };
+		116168B5208A6B1000967A7E /* StitchAppClientIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAppClientIntegrationTests.swift; sourceTree = "<group>"; };
+		116168B8208A6B3200967A7E /* TestHarness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHarness.swift; sourceTree = "<group>"; };
 		11981A102061B9D50074BB11 /* OperationDispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationDispatcher.swift; sourceTree = "<group>"; };
 		11981A132062C12D0074BB11 /* OperationDispatcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationDispatcherTests.swift; sourceTree = "<group>"; };
 		11981A192062C4AA0074BB11 /* StitchCore_iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StitchCore_iOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -179,6 +183,14 @@
 			path = UserPassword;
 			sourceTree = "<group>";
 		};
+		116168B7208A6B2600967A7E /* TestUtil */ = {
+			isa = PBXGroup;
+			children = (
+				116168B8208A6B3200967A7E /* TestHarness.swift */,
+			);
+			path = TestUtil;
+			sourceTree = "<group>";
+		};
 		11981A0F2061B9AC0074BB11 /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -199,8 +211,10 @@
 		11981A252062C8160074BB11 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				116168B7208A6B2600967A7E /* TestUtil */,
 				11981A262062C8190074BB11 /* Internal */,
 				111CCA04207C08A3002FEB4A /* StitchTests.swift */,
+				116168B5208A6B1000967A7E /* StitchAppClientIntegrationTests.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -451,7 +465,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				116168B9208A6B3200967A7E /* TestHarness.swift in Sources */,
 				111CCA05207C08A3002FEB4A /* StitchTests.swift in Sources */,
+				116168B6208A6B1000967A7E /* StitchAppClientIntegrationTests.swift in Sources */,
 				11981A242062C4B60074BB11 /* OperationDispatcherTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
