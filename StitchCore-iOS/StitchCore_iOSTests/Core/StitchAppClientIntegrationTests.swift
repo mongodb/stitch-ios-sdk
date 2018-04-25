@@ -129,11 +129,15 @@ class StitchAppClientIntegrationTests: XCTestCase {
 //        }
 //
 //        self.harness.addDefaultCustomTokenProvider()
-//        let customAuthClient = self.stitchAppClient.auth.providerClient(forProvider: CustomAuthProvider.clientSupplier)
+//        let customAuthClient = self.stitchAppClient.auth.providerClient(forProvider:
+//            CustomAuthProvider.clientSupplier
+//        )
 //
 //        let exp1 = expectation(description: "first custom login")
 //        var userId: String!
-//        self.stitchAppClient.auth.login(withCredential: customAuthClient.credential(withToken: jwt)) { user, error in
+//        self.stitchAppClient.auth.login(withCredential:
+//            customAuthClient.credential(withToken: jwt)
+//        ) { user, error in
 //            XCTAssertNotNil(user)
 //            userId = user.id
 //            exp1.fulfill()
@@ -142,11 +146,13 @@ class StitchAppClientIntegrationTests: XCTestCase {
 //
 //        let exp2 = expectation(description: "second custom login")
 //        stitchAppClient.auth.logout { _ in
-//            self.stitchAppClient.auth.login(withCredential: customAuthClient.credential(withToken: jwt)) { user, error in
+//            self.stitchAppClient.auth.login(withCredential:
+//                customAuthClient.credential(withToken: jwt)
+//            ) { user, error in
 //                XCTAssertNotNil(user)
 //                XCTAssertEqual(userId, user!.id)
 //
-// TODO: Verify profile information in metadata
+//                // TODO: Verify profile information in metadata
 //                exp2.fulfill()
 //            }
 //        }

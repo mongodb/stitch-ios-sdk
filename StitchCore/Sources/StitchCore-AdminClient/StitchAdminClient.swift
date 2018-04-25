@@ -1,5 +1,6 @@
 import Foundation
 import ExtendedJSON
+import StitchCore
 
 public class StitchAdminClient {
     private let adminAuth: StitchAdminAuth
@@ -25,7 +26,7 @@ public class StitchAdminClient {
         }
     }
 
-    func adminProfile() throws -> StitchAdminUserProfile {
+    public func adminProfile() throws -> StitchAdminUserProfile {
         let req = try StitchAuthRequestBuilderImpl {
             $0.method = Method.get
             $0.path = authRoutes.profileRoute
@@ -40,15 +41,15 @@ public class StitchAdminClient {
         return try JSONDecoder().decode(StitchAdminUserProfile.self, from: responseBody)
     }
 
-    func apps(withGroupId groupId: String) -> Apps {
+    public func apps(withGroupId groupId: String) -> Apps {
         return Apps.init(adminAuth: adminAuth, url: "\(StitchAdminClient.apiPath)/groups/\(groupId)/apps")
     }
 
-    func loginWithCredential(credential: StitchCredential) throws -> StitchAdminUser {
+    public func loginWithCredential(credential: StitchCredential) throws -> StitchAdminUser {
         return try adminAuth.loginWithCredentialBlocking(withCredential: credential)
     }
 
-    func logout() {
+    public func logout() {
         return adminAuth.logoutBlocking()
     }
 }

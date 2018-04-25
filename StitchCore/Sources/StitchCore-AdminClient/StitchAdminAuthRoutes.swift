@@ -1,4 +1,5 @@
 import Foundation
+import StitchCore
 
 /**
  * The set of authentication routes on the Stitch server to authenticate as an admin user. 

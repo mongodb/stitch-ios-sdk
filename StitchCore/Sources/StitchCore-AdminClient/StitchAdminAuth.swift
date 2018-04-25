@@ -1,5 +1,6 @@
 import ExtendedJSON
 import Foundation
+import StitchCore
 
 /**
  * A special implementation of CoreStitchAuth that communicates with the MongoDB Stitch Admin API.

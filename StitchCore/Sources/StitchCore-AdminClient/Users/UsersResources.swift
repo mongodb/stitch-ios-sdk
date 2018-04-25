@@ -2,6 +2,11 @@ import Foundation
 
 /// Creates a new user for an application
 public struct UserCreator: Encodable {
+    public init(email: String, password: String) {
+        self.email = email
+        self.password = password
+    }
+    
     /// email for the new user
     let email: String
     /// password for the new user

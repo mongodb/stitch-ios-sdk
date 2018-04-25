@@ -1,4 +1,5 @@
 import Foundation
+import StitchCore
 
 /// Any endpoint that can be described with basic
 /// CRUD operations
@@ -210,7 +211,7 @@ public final class Apps: BasicResource, Listable {
                     }
                 }
 
-                lazy var rules = Rules.init(adminAuth: self.adminAuth,
+                public lazy var rules = Rules.init(adminAuth: self.adminAuth,
                                             url: "\(self.url)/rules")
             }
         }

@@ -32,7 +32,7 @@ public struct AuthProviderResponse: Codable {
 extension Apps.App.AuthProviders {
     /// GET an auth provider
     /// - parameter providerId: id of the provider
-    func authProvider(providerId: String) -> Apps.App.AuthProviders.AuthProvider {
+    public func authProvider(providerId: String) -> Apps.App.AuthProviders.AuthProvider {
         return Apps.App.AuthProviders
             .AuthProvider.init(adminAuth: self.adminAuth,
                                url: "\(url)/\(providerId)")

@@ -1,3 +1,5 @@
+import StitchCore
+
 public final class StitchAdminUser: CoreStitchUser {
 
     /**

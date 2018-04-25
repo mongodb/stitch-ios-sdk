@@ -1,4 +1,5 @@
 import Foundation
+import StitchCore
 
 /// Struct that allows the retrieval of the token
 /// and tokenId of a confirmation email, for the sake

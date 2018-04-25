@@ -39,19 +39,21 @@ extension Storage {
 /// Failover implementation of the Storage protocol
 /// in the event that no other storage unit can
 /// be found.
-internal struct MemoryStorage: Storage {
+public struct MemoryStorage: Storage {
+    public init() { }
+    
     /// Internal storage unit
     private var storage: [String: Any] = [:]
 
-    func value(forKey key: String) -> Any? {
+    public func value(forKey key: String) -> Any? {
         return self.storage[key]
     }
 
-    mutating func set(_ value: Any?, forKey key: String) {
+    public mutating func set(_ value: Any?, forKey key: String) {
         self.storage[key] = value
     }
 
-    mutating func removeObject(forKey key: String) {
+    public mutating func removeObject(forKey key: String) {
         self.storage.removeValue(forKey: key)
     }
 }

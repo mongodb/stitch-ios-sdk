@@ -1,11 +1,5 @@
-//
-//  StitchAdminUserProfile.swift
-//  StitchCore
-//
-//  Created by Adam Chelminski on 4/19/18.
-//
-
 import Foundation
+import StitchCore
 
 /**
  * A struct containing the fields returned by the Stitch client API in a user profile request.
@@ -52,7 +46,7 @@ public struct StitchAdminUserProfile: Decodable {
 //    }
 }
 
-public class StitchAdminRole: Decodable {
+public struct StitchAdminRole: Decodable {
     public var name: String
     public var groupId: String
 

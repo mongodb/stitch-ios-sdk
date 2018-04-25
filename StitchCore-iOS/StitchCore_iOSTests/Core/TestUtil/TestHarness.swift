@@ -1,5 +1,6 @@
 import Foundation
-@testable import StitchCore
+import StitchCore
+import StitchCore_AdminClient
 import StitchCore_iOS
 import ExtendedJSON
 import XCTest
