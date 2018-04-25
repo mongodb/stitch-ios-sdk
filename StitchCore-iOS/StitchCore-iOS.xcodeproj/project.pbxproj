@@ -11,6 +11,8 @@
 		11297B1E205301C9001D0711 /* AuthProviderClientSupplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11297B1D205301C9001D0711 /* AuthProviderClientSupplier.swift */; };
 		11297B20205301D5001D0711 /* NamedAuthProviderClientSupplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11297B1F205301D5001D0711 /* NamedAuthProviderClientSupplier.swift */; };
 		112C5A822053334400463147 /* AnonymousAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112C5A812053334400463147 /* AnonymousAuthProvider.swift */; };
+		112F050C2091440A00DDB147 /* StitchCore_AdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 112F050D2091440A00DDB147 /* StitchCore_AdminClient.framework */; };
+		112F050F209149B500DDB147 /* StitchIntegrationTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112F050E209149B500DDB147 /* StitchIntegrationTestCase.swift */; };
 		116168B6208A6B1000967A7E /* StitchAppClientIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116168B5208A6B1000967A7E /* StitchAppClientIntegrationTests.swift */; };
 		116168B9208A6B3200967A7E /* TestHarness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116168B8208A6B3200967A7E /* TestHarness.swift */; };
 		11981A112061B9D50074BB11 /* OperationDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11981A102061B9D50074BB11 /* OperationDispatcher.swift */; };
@@ -56,6 +58,8 @@
 		11297B1D205301C9001D0711 /* AuthProviderClientSupplier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthProviderClientSupplier.swift; sourceTree = "<group>"; };
 		11297B1F205301D5001D0711 /* NamedAuthProviderClientSupplier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamedAuthProviderClientSupplier.swift; sourceTree = "<group>"; };
 		112C5A812053334400463147 /* AnonymousAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonymousAuthProvider.swift; sourceTree = "<group>"; };
+		112F050D2091440A00DDB147 /* StitchCore_AdminClient.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = StitchCore_AdminClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		112F050E209149B500DDB147 /* StitchIntegrationTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchIntegrationTestCase.swift; sourceTree = "<group>"; };
 		116168B5208A6B1000967A7E /* StitchAppClientIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAppClientIntegrationTests.swift; sourceTree = "<group>"; };
 		116168B8208A6B3200967A7E /* TestHarness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHarness.swift; sourceTree = "<group>"; };
 		11981A102061B9D50074BB11 /* OperationDispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationDispatcher.swift; sourceTree = "<group>"; };
@@ -72,6 +76,8 @@
 		11C587E920581C8000B34DD1 /* Stitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stitch.swift; sourceTree = "<group>"; };
 		11C587EE2058445200B34DD1 /* StitchUserFactoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchUserFactoryImpl.swift; sourceTree = "<group>"; };
 		11CAF8CD205995C0003AF24D /* StitchCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchCore.swift; sourceTree = "<group>"; };
+		11F5D37520912EF2005FED94 /* module.map */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.map; sourceTree = "<group>"; };
+		11F5D37720913016005FED94 /* CommonCrypto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommonCrypto.h; sourceTree = "<group>"; };
 		4902C678205006C800E53674 /* StitchCore_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StitchCore_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4902C67B205006C800E53674 /* StitchCore_iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StitchCore_iOS.h; sourceTree = "<group>"; };
 		4902C67C205006C800E53674 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -95,6 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				112F050C2091440A00DDB147 /* StitchCore_AdminClient.framework in Frameworks */,
 				11981A1E2062C4AA0074BB11 /* StitchCore_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -186,7 +193,9 @@
 		116168B7208A6B2600967A7E /* TestUtil */ = {
 			isa = PBXGroup;
 			children = (
+				11F5D37620912F70005FED94 /* CommonCrypto */,
 				116168B8208A6B3200967A7E /* TestHarness.swift */,
+				112F050E209149B500DDB147 /* StitchIntegrationTestCase.swift */,
 			);
 			path = TestUtil;
 			sourceTree = "<group>";
@@ -235,6 +244,15 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
+		11F5D37620912F70005FED94 /* CommonCrypto */ = {
+			isa = PBXGroup;
+			children = (
+				11F5D37520912EF2005FED94 /* module.map */,
+				11F5D37720913016005FED94 /* CommonCrypto.h */,
+			);
+			path = CommonCrypto;
+			sourceTree = "<group>";
+		};
 		4902C66E205006C800E53674 = {
 			isa = PBXGroup;
 			children = (
@@ -268,6 +286,7 @@
 		4902C6872050076B00E53674 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				112F050D2091440A00DDB147 /* StitchCore_AdminClient.framework */,
 				4902C6B22050103300E53674 /* StitchCore.framework */,
 				4902C68A2050076B00E53674 /* ExtendedJSON.framework */,
 				4902C68B2050076B00E53674 /* StitchCore.framework */,
@@ -400,6 +419,7 @@
 				TargetAttributes = {
 					11981A182062C4AA0074BB11 = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 					4902C677205006C800E53674 = {
@@ -466,6 +486,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				116168B9208A6B3200967A7E /* TestHarness.swift in Sources */,
+				112F050F209149B500DDB147 /* StitchIntegrationTestCase.swift in Sources */,
 				111CCA05207C08A3002FEB4A /* StitchTests.swift in Sources */,
 				116168B6208A6B1000967A7E /* StitchAppClientIntegrationTests.swift in Sources */,
 				11981A242062C4B60074BB11 /* OperationDispatcherTests.swift in Sources */,
@@ -517,11 +538,15 @@
 		11981A222062C4AA0074BB11 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = StitchCore_iOSTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mongodb.StitchCore-iOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_INCLUDE_PATHS = StitchCore_iOSTests/Core/TestUtil;
+				SWIFT_INSTALL_OBJC_HEADER = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -530,11 +555,14 @@
 		11981A232062C4AA0074BB11 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = StitchCore_iOSTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mongodb.StitchCore-iOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_INCLUDE_PATHS = StitchCore_iOSTests/Core/TestUtil;
+				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

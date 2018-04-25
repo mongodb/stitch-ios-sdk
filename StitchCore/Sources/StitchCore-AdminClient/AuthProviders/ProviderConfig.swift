@@ -3,10 +3,10 @@ import StitchCore
 
 /// Base keys for a provider configuration
 private enum ConfigKeys: String, CodingKey {
-    case type, config
+    case type, config, metadataFields = "metadata_fields"
 }
 
-/// Key for the `custom-token` provider configuration
+/// Keys for the `custom-token` provider configuration
 private enum CustomTokenCodingKeys: String, CodingKey {
     case signingKey
 }
@@ -23,6 +23,17 @@ private enum UserpassCodingKeys: String, CodingKey {
 /// are only a finite number of providers, this conforms users
 /// to only pick one of the available providers
 public enum ProviderConfigs: Encodable {
+    // Representation of a metadata field that can be configured for an authentication provider
+    public struct MetadataField: Codable {
+        public init(required: Bool, name: String) {
+            self.required = required
+            self.name = name
+        }
+        
+        public let required: Bool
+        public let name: String
+    }
+    
     case anon()
     /// - parameter emailConfirmationUrl: url to redirect user to for email confirmation
     /// - parameter resetPasswordUrl: url to redirect user to for password reset
@@ -33,7 +44,8 @@ public enum ProviderConfigs: Encodable {
                   confirmEmailSubject: String,
                   resetPasswordSubject: String)
     /// - parameter signingKey: key used to sign a JWT for `custom-token`
-    case custom(signingKey: String)
+    case custom(signingKey: String,
+                metadataFields: [MetadataField])
 
     private var type: StitchProviderType {
         switch self {
@@ -58,7 +70,9 @@ public enum ProviderConfigs: Encodable {
             try configContainer.encode(resetPasswordUrl, forKey: .resetPasswordUrl)
             try configContainer.encode(confirmEmailSubject, forKey: .confirmEmailSubject)
             try configContainer.encode(resetPasswordSubject, forKey: .resetPasswordSubject)
-        case .custom(let signingKey):
+        case .custom(let signingKey,
+                     let metadataFields):
+            try container.encode(metadataFields, forKey: .metadataFields)
             var configContainer = container.nestedContainer(keyedBy: CustomTokenCodingKeys.self,
                                                             forKey: .config)
             try configContainer.encode(signingKey, forKey: .signingKey)

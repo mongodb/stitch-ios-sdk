@@ -128,7 +128,13 @@ final class TestHarness {
     }
 
     func addDefaultCustomTokenProvider() -> AuthProviderResponse {
-        return self.addProvider(withConfig: .custom(signingKey: "abcdefghijklmnopqrstuvwxyz1234567890"))
+        return self.addProvider(withConfig: .custom(
+            signingKey: "abcdefghijklmnopqrstuvwxyz1234567890",
+            metadataFields: [ProviderConfigs.MetadataField.init(required: true, name: "email"),
+                             ProviderConfigs.MetadataField.init(required: true, name: "name"),
+                             ProviderConfigs.MetadataField.init(required: true, name: "picture_url")]
+            )
+        )
     }
 
     func addTestFunction() -> FunctionResponse {

@@ -1,40 +1,11 @@
 import Foundation
 import XCTest
-//import JWT
+import JWT
 import StitchCore
 import ExtendedJSON
 @testable import StitchCore_iOS
 
-class StitchAppClientIntegrationTests: XCTestCase {
-    private var harness: TestHarness!
-    private var stitchAppClient: StitchAppClient!
-
-    private static let email = "stitch@10gen.com"
-    private static let pass = "stitchuser"
-
-    override func setUp() {
-        let exp = expectation(description: "set up integration tests")
-        buildClientTestHarness { harness in
-            self.harness = harness
-            self.stitchAppClient = harness.stitchAppClient
-            self.stitchAppClient.auth.logout { _ in
-                exp.fulfill()
-            }
-
-        }
-        wait(for: [exp], timeout: 10.0)
-    }
-
-    override func tearDown() {
-        let exp = expectation(description: "tore down integration tests")
-        self.stitchAppClient.auth.logout { _ in
-            self.harness.teardown()
-            exp.fulfill()
-        }
-
-        wait(for: [exp], timeout: 10.0)
-    }
-
+class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
     private func registerAndLogin(email: String = email,
                                   password: String = pass,
                                   _ completionHandler: @escaping (StitchUser) -> Void) {
@@ -112,52 +83,61 @@ class StitchAppClientIntegrationTests: XCTestCase {
         wait(for: [exp], timeout: 10.0)
     }
 
-//    func testCustomLogin() throws {
-//        let jwt = JWT.encode(Algorithm.hs256(
-//            "abcdefghijklmnopqrstuvwxyz1234567890".data(using: .utf8)!)
-//        ) { (builder: ClaimSetBuilder) in
-//            builder.audience = harness.testApp?.clientAppId
-//            builder.notBefore = Date()
-//            builder.issuedAt = Date()
-//            builder.expiration = Date().addingTimeInterval(TimeInterval(60 * 5))
-//            builder["sub"] = "uniqueUserID"
-//            builder["stitch_meta"] = [
-//                "email": "name@example.com",
-//                "name": "Joe Bloggs",
-//                "picture": "https://goo.gl/xqR6Jd"
-//            ]
-//        }
-//
-//        self.harness.addDefaultCustomTokenProvider()
-//        let customAuthClient = self.stitchAppClient.auth.providerClient(forProvider:
-//            CustomAuthProvider.clientSupplier
-//        )
-//
-//        let exp1 = expectation(description: "first custom login")
-//        var userId: String!
-//        self.stitchAppClient.auth.login(withCredential:
-//            customAuthClient.credential(withToken: jwt)
-//        ) { user, error in
-//            XCTAssertNotNil(user)
-//            userId = user.id
-//            exp1.fulfill()
-//        }
-//        wait(for: [exp1], timeout: 10.0)
-//
-//        let exp2 = expectation(description: "second custom login")
-//        stitchAppClient.auth.logout { _ in
-//            self.stitchAppClient.auth.login(withCredential:
-//                customAuthClient.credential(withToken: jwt)
-//            ) { user, error in
-//                XCTAssertNotNil(user)
-//                XCTAssertEqual(userId, user!.id)
-//
-//                // TODO: Verify profile information in metadata
-//                exp2.fulfill()
-//            }
-//        }
-//        wait(for: [exp2], timeout: 10.0)
-//    }
+    func testCustomLogin() throws {
+        let jwt = JWT.encode(Algorithm.hs256(
+            "abcdefghijklmnopqrstuvwxyz1234567890".data(using: .utf8)!)
+        ) { (builder: ClaimSetBuilder) in
+            builder.audience = harness.testApp?.clientAppId
+            builder.notBefore = Date()
+            builder.issuedAt = Date()
+            builder.expiration = Date().addingTimeInterval(TimeInterval(60 * 5))
+            builder["sub"] = "uniqueUserID"
+            builder["stitch_meta"] = [
+                "email": "name@example.com",
+                "name": "Joe Bloggs",
+                "picture_url": "https://goo.gl/xqR6Jd"
+            ]
+        }
+
+        _ = self.harness.addDefaultCustomTokenProvider()
+        let customAuthClient = self.stitchAppClient.auth.providerClient(forProvider:
+            CustomAuthProvider.clientSupplier
+        )
+
+        let exp1 = expectation(description: "first custom login")
+        var userId: String!
+        self.stitchAppClient.auth.login(withCredential:
+            customAuthClient.credential(withToken: jwt)
+        ) { user, _ in
+            XCTAssertNotNil(user)
+
+            userId = user!.id
+
+            // Verify profile information in metadata
+            let profile = user!.profile
+            XCTAssertEqual(profile.email, "name@example.com")
+            XCTAssertEqual(profile.name, "Joe Bloggs")
+            XCTAssertEqual(profile.pictureURL, "https://goo.gl/xqR6Jd")
+
+            exp1.fulfill()
+        }
+        wait(for: [exp1], timeout: 10.0)
+
+        let exp2 = expectation(description: "second custom login")
+        stitchAppClient.auth.logout { _ in
+            self.stitchAppClient.auth.login(withCredential:
+                customAuthClient.credential(withToken: jwt)
+            ) { user, _ in
+                XCTAssertNotNil(user)
+
+                // Ensure that the same user logs in if the token has the same unique user ID.
+                XCTAssertEqual(userId, user!.id)
+
+                exp2.fulfill()
+            }
+        }
+        wait(for: [exp2], timeout: 10.0)
+    }
 
     func testMultipleLoginSemantics() throws {
         // check storage
