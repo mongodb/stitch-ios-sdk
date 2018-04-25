@@ -64,7 +64,7 @@ final class MockStitchRequestClient: StitchRequestClient {
     var handleAuthProviderLinkRoute: () throws -> Response = {
         Response.init(statusCode: 200,
                       headers: baseJSONHeaders,
-                      body: try! JSONEncoder().encode(mockApiAuthInfo))
+                      body: try! JSONEncoder().encode(mockApiAuthInfoForLinkRequest))
     }
 
     var handleProfileRoute: () throws -> Response = {

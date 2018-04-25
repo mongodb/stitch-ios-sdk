@@ -161,12 +161,12 @@ public final class Apps: BasicResource, Listable {
                 public typealias UpdaterModel = AuthProviderResponse
             }
         }
-        
+
         /// Resource for listing the functions of an application
         public final class Functions: BasicResource, Listable, Creatable {
             public typealias Model = FunctionResponse
             public typealias CreatorModel = FunctionCreator
-            
+
             /// Resource for a specific function of an application
             public final class Function: BasicResource, Gettable, Updatable, Removable {
                 public typealias Model = FunctionResponse
@@ -218,7 +218,7 @@ public final class Apps: BasicResource, Listable {
         public lazy var authProviders: AuthProviders =
             AuthProviders.init(adminAuth: self.adminAuth,
                                url: "\(self.url)/auth_providers")
-        
+
         public lazy var functions: Functions =
             Functions.init(adminAuth: self.adminAuth, url: "\(self.url)/functions")
 
