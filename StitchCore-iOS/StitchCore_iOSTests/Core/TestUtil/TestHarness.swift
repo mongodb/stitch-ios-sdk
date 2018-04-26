@@ -6,6 +6,7 @@ import ExtendedJSON
 import XCTest
 
 internal let defaultServerUrl = "http://localhost:9090"
+internal let defaultTimeoutSeconds = 5.0
 
 func buildAdminTestHarness(seedTestApp: Bool,
                            username: String = "unique_user@domain.com",

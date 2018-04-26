@@ -37,7 +37,7 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
             self.verifyBasicAuthStorageInfo(loggedIn: false)
             exp.fulfill()
         }
-        wait(for: [exp], timeout: 10.0)
+        wait(for: [exp], timeout: defaultTimeoutSeconds)
     }
 
     private func verifyBasicAuthStorageInfo(loggedIn: Bool,
@@ -66,7 +66,7 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
             exp.fulfill()
         }
 
-        wait(for: [exp], timeout: 10.0)
+        wait(for: [exp], timeout: defaultTimeoutSeconds)
     }
 
     func testUserProfile() throws {
@@ -80,7 +80,7 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
             exp.fulfill()
         }
 
-        wait(for: [exp], timeout: 10.0)
+        wait(for: [exp], timeout: defaultTimeoutSeconds)
     }
 
     func testCustomLogin() throws {
@@ -121,7 +121,7 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
 
             exp1.fulfill()
         }
-        wait(for: [exp1], timeout: 10.0)
+        wait(for: [exp1], timeout: defaultTimeoutSeconds)
 
         let exp2 = expectation(description: "second custom login")
         stitchAppClient.auth.logout { _ in
@@ -136,7 +136,7 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
                 exp2.fulfill()
             }
         }
-        wait(for: [exp2], timeout: 10.0)
+        wait(for: [exp2], timeout: defaultTimeoutSeconds)
     }
 
     func testMultipleLoginSemantics() throws {
@@ -156,7 +156,7 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
             self.verifyBasicAuthStorageInfo(loggedIn: true, expectedProviderType: StitchProviderType.anonymous)
             exp1.fulfill()
         }
-        wait(for: [exp1], timeout: 10.0)
+        wait(for: [exp1], timeout: defaultTimeoutSeconds)
 
         // login anonymously again
         let exp2 = expectation(description: "log in anonymously again")
@@ -173,7 +173,7 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
             self.verifyBasicAuthStorageInfo(loggedIn: true, expectedProviderType: StitchProviderType.anonymous)
             exp2.fulfill()
         }
-        wait(for: [exp2], timeout: 10.0)
+        wait(for: [exp2], timeout: defaultTimeoutSeconds)
 
         let exp3 = expectation(description: "logged in as email/password user")
         var emailUserId: String!
@@ -185,7 +185,7 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
             self.verifyBasicAuthStorageInfo(loggedIn: true, expectedProviderType: StitchProviderType.userPassword)
             exp3.fulfill()
         }
-        wait(for: [exp3], timeout: 10.0)
+        wait(for: [exp3], timeout: defaultTimeoutSeconds)
 
         let exp4 = expectation(description: "logged in as second email/password user")
         self.registerAndLogin(email: "test2@10gen.com", password: "hunter2") { user in
@@ -195,7 +195,7 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
             self.verifyBasicAuthStorageInfo(loggedIn: true, expectedProviderType: StitchProviderType.userPassword)
             exp4.fulfill()
         }
-        wait(for: [exp4], timeout: 10.0)
+        wait(for: [exp4], timeout: defaultTimeoutSeconds)
 
         logoutAndCheckStorage()
     }
@@ -211,7 +211,7 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
             anonUser = user
             exp1.fulfill()
         }
-        wait(for: [exp1], timeout: 10.0)
+        wait(for: [exp1], timeout: defaultTimeoutSeconds)
 
         let userPassClient = self.stitchAppClient.auth.providerClient(
             forProvider: UserPasswordAuthProvider.clientSupplier
@@ -222,7 +222,7 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
             XCTAssertNil(error)
             exp2.fulfill()
         }
-        wait(for: [exp2], timeout: 10.0)
+        wait(for: [exp2], timeout: defaultTimeoutSeconds)
 
         let exp3 = expectation(description: "new email/password identity is confirmed")
         let conf = try? self.harness.app.userRegistrations.sendConfirmation(toEmail: "stitch@10gen.com")
@@ -235,7 +235,7 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
             XCTAssertNil(error)
             exp3.fulfill()
         }
-        wait(for: [exp3], timeout: 10.0)
+        wait(for: [exp3], timeout: defaultTimeoutSeconds)
 
         let exp4 = expectation(description: "original account linked with new email/password identity")
         anonUser.link(
@@ -247,7 +247,7 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
             XCTAssertEqual(linkedUser?.profile.identities.count, 2)
             exp4.fulfill()
         }
-        wait(for: [exp4], timeout: 10.0)
+        wait(for: [exp4], timeout: defaultTimeoutSeconds)
 
         logoutAndCheckStorage()
     }
@@ -262,7 +262,7 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
             self.verifyBasicAuthStorageInfo(loggedIn: true, expectedProviderType: StitchProviderType.anonymous)
             exp1.fulfill()
         }
-        wait(for: [exp1], timeout: 10.0)
+        wait(for: [exp1], timeout: defaultTimeoutSeconds)
 
         let exp2 = expectation(description: "called function successfully")
         let randomInt = Int(arc4random())
@@ -287,6 +287,6 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
 
             exp2.fulfill()
         }
-        wait(for: [exp2], timeout: 10.0)
+        wait(for: [exp2], timeout: defaultTimeoutSeconds)
     }
 }

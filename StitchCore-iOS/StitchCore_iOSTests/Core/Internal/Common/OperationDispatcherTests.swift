@@ -46,7 +46,7 @@ class OperationDispatcherTests: XCTestCase {
             return try self.sampleDivision(numerator: 6, denominator: 2)
         })
 
-        wait(for: [expectation], timeout: 5.0)
+        wait(for: [expectation], timeout: defaultTimeoutSeconds)
     }
 
     func testThrowingDispatch() {
@@ -60,7 +60,7 @@ class OperationDispatcherTests: XCTestCase {
             return try self.sampleDivision(numerator: 6, denominator: 0)
         })
 
-        wait(for: [expectation], timeout: 5.0)
+        wait(for: [expectation], timeout: defaultTimeoutSeconds)
     }
 
     func testSuccessfulVoidDispatch() {
@@ -73,7 +73,7 @@ class OperationDispatcherTests: XCTestCase {
             return try self.sampleNoop(shouldThrow: false)
         })
 
-        wait(for: [expectation], timeout: 5.0)
+        wait(for: [expectation], timeout: defaultTimeoutSeconds)
     }
 
     func testThrowingVoidDispatch() {
@@ -86,6 +86,6 @@ class OperationDispatcherTests: XCTestCase {
             return try self.sampleNoop(shouldThrow: true)
         })
 
-        wait(for: [expectation], timeout: 5.0)
+        wait(for: [expectation], timeout: defaultTimeoutSeconds)
     }
 }

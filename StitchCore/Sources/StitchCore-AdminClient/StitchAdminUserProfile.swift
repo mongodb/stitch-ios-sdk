@@ -32,18 +32,6 @@ public struct StitchAdminUserProfile: Decodable {
         case data
         case roles
     }
-
-//    /**
-//     * Initializes the user profile from a `Decoder`.
-//     */
-//    public init(from decoder: Decoder) throws {
-//        let container = try decoder.container(keyedBy: CodingKeys.self)
-//
-//        self.userType = try container.decode(String.self, forKey: .userType)
-//        self.identities = try container.decode([APIStitchUserIdentity].self, forKey: .identities)
-//        self.data = try container.decode([String: String].self, forKey: .data)
-//        self.roles = try container.decode([Role].self, forKey: .roles)
-//    }
 }
 
 public struct StitchAdminRole: Decodable {

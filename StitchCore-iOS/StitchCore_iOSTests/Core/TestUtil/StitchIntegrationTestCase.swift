@@ -19,7 +19,7 @@ internal class StitchIntegrationTestCase: XCTestCase {
             }
 
         }
-        wait(for: [exp], timeout: 10.0)
+        wait(for: [exp], timeout: defaultTimeoutSeconds)
     }
 
     override func tearDown() {
@@ -29,7 +29,7 @@ internal class StitchIntegrationTestCase: XCTestCase {
             exp.fulfill()
         }
 
-        wait(for: [exp], timeout: 10.0)
+        wait(for: [exp], timeout: defaultTimeoutSeconds)
     }
 
 }
