@@ -9,11 +9,11 @@
 /* Begin PBXAggregateTarget section */
 		"StitchCore::StitchCorePackageTests::ProductTarget" /* StitchCorePackageTests */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = OBJ_384 /* Build configuration list for PBXAggregateTarget "StitchCorePackageTests" */;
+			buildConfigurationList = OBJ_442 /* Build configuration list for PBXAggregateTarget "StitchCorePackageTests" */;
 			buildPhases = (
 			);
 			dependencies = (
-				OBJ_387 /* PBXTargetDependency */,
+				OBJ_445 /* PBXTargetDependency */,
 			);
 			name = StitchCorePackageTests;
 			productName = StitchCorePackageTests;
@@ -21,188 +21,219 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		110DDB3420729F350044B6F3 /* StitchProviderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110DDB3320729F350044B6F3 /* StitchProviderType.swift */; };
-		111CCA07207D0FFD002FEB4A /* JWT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111CCA06207D0FFD002FEB4A /* JWT.swift */; };
-		111E748C206C115800DFC43C /* AuthStateHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111E748B206C115800DFC43C /* AuthStateHolder.swift */; };
-		111E748E206C127D00DFC43C /* CoreStitchAuth+StitchAuthRequestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111E748D206C127D00DFC43C /* CoreStitchAuth+StitchAuthRequestClient.swift */; };
-		1127A37B206D85B900FE9200 /* Builder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1127A379206D85B300FE9200 /* Builder.swift */; };
-		OBJ_193 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
-		OBJ_199 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_106 /* Package.swift */; };
-		OBJ_205 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_138 /* Package.swift */; };
-		OBJ_211 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_181 /* Package.swift */; };
-		OBJ_217 /* AccessTokenRefresherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_82 /* AccessTokenRefresherTests.swift */; };
-		OBJ_218 /* CoreStitchAuthTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_83 /* CoreStitchAuthTests.swift */; };
-		OBJ_219 /* StoreAuthInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_85 /* StoreAuthInfoTests.swift */; };
-		OBJ_220 /* CoreUserPasswordAuthProviderClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_88 /* CoreUserPasswordAuthProviderClientTests.swift */; };
-		OBJ_221 /* StitchUserProfileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_89 /* StitchUserProfileTests.swift */; };
-		OBJ_222 /* SynchronizedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_92 /* SynchronizedTests.swift */; };
-		OBJ_223 /* FoundationHTTPTransportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_94 /* FoundationHTTPTransportTests.swift */; };
-		OBJ_224 /* StitchRequestClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_95 /* StitchRequestClientTests.swift */; };
-		OBJ_225 /* CoreStitchServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_98 /* CoreStitchServiceTests.swift */; };
-		OBJ_226 /* StitchAppClientConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_99 /* StitchAppClientConfigurationTests.swift */; };
-		OBJ_227 /* StitchAppClientInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_100 /* StitchAppClientInfoTests.swift */; };
-		OBJ_228 /* StitchClientConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_101 /* StitchClientConfigurationTests.swift */; };
-		OBJ_229 /* stitch_ios_sdk_protoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_102 /* stitch_ios_sdk_protoTests.swift */; };
-		OBJ_231 /* JWT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "JWT::JWT::Product" /* JWT.framework */; };
-		OBJ_232 /* Swifter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Swifter::Swifter::Product" /* Swifter.framework */; };
-		OBJ_233 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "StitchCore::StitchCore::Product" /* StitchCore.framework */; };
-		OBJ_234 /* ExtendedJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "ExtendedJSON::ExtendedJSON::Product" /* ExtendedJSON.framework */; };
-		OBJ_247 /* Base64.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_107 /* Base64.swift */; };
-		OBJ_248 /* ClaimSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_108 /* ClaimSet.swift */; };
-		OBJ_249 /* Claims.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_109 /* Claims.swift */; };
-		OBJ_250 /* Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_110 /* Decode.swift */; };
-		OBJ_251 /* Encode.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_111 /* Encode.swift */; };
-		OBJ_252 /* HMAC.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_112 /* HMAC.swift */; };
-		OBJ_253 /* HMACCommonCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_113 /* HMACCommonCrypto.swift */; };
-		OBJ_254 /* JOSEHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_114 /* JOSEHeader.swift */; };
-		OBJ_255 /* JWT.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_115 /* JWT.swift */; };
-		OBJ_261 /* DemoServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_118 /* DemoServer.swift */; };
-		OBJ_262 /* Errno.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_119 /* Errno.swift */; };
-		OBJ_263 /* Files.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_120 /* Files.swift */; };
-		OBJ_264 /* HttpParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_121 /* HttpParser.swift */; };
-		OBJ_265 /* HttpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_122 /* HttpRequest.swift */; };
-		OBJ_266 /* HttpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_123 /* HttpResponse.swift */; };
-		OBJ_267 /* HttpRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_124 /* HttpRouter.swift */; };
-		OBJ_268 /* HttpServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_125 /* HttpServer.swift */; };
-		OBJ_269 /* HttpServerIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_126 /* HttpServerIO.swift */; };
-		OBJ_270 /* Process.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_127 /* Process.swift */; };
-		OBJ_271 /* Scopes.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_128 /* Scopes.swift */; };
-		OBJ_272 /* Socket+File.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_129 /* Socket+File.swift */; };
-		OBJ_273 /* Socket+Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_130 /* Socket+Server.swift */; };
-		OBJ_274 /* Socket.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_131 /* Socket.swift */; };
-		OBJ_275 /* String+BASE64.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_132 /* String+BASE64.swift */; };
-		OBJ_276 /* String+File.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_133 /* String+File.swift */; };
-		OBJ_277 /* String+Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_134 /* String+Misc.swift */; };
-		OBJ_278 /* String+SHA1.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_135 /* String+SHA1.swift */; };
-		OBJ_279 /* WebSockets.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_136 /* WebSockets.swift */; };
-		OBJ_285 /* CoreAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* CoreAuthProviderClient.swift */; };
-		OBJ_286 /* AccessTokenRefresher.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* AccessTokenRefresher.swift */; };
-		OBJ_287 /* AuthInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* AuthInfo.swift */; };
-		OBJ_288 /* CoreStitchAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* CoreStitchAuth.swift */; };
-		OBJ_289 /* CoreStitchUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* CoreStitchUser.swift */; };
-		OBJ_290 /* DeviceField.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* DeviceField.swift */; };
-		OBJ_291 /* APIAccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_18 /* APIAccessToken.swift */; };
-		OBJ_292 /* APIAuthInfoImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_19 /* APIAuthInfoImpl.swift */; };
-		OBJ_293 /* APICoreUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_20 /* APICoreUserProfile.swift */; };
-		OBJ_294 /* APIStitchUserIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_21 /* APIStitchUserIdentity.swift */; };
-		OBJ_295 /* StoreAuthInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_22 /* StoreAuthInfo.swift */; };
-		OBJ_296 /* StoreCoreUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_23 /* StoreCoreUserProfile.swift */; };
-		OBJ_297 /* StoreStitchUserIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_24 /* StoreStitchUserIdentity.swift */; };
-		OBJ_298 /* StitchAuthRequestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* StitchAuthRequestClient.swift */; };
-		OBJ_299 /* StitchUserFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_26 /* StitchUserFactory.swift */; };
-		OBJ_300 /* ProviderCapabilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_27 /* ProviderCapabilities.swift */; };
-		OBJ_301 /* AnonymousCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_30 /* AnonymousCredential.swift */; };
-		OBJ_302 /* CoreAnonymousAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_31 /* CoreAnonymousAuthProviderClient.swift */; };
-		OBJ_303 /* CoreCustomAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_33 /* CoreCustomAuthProviderClient.swift */; };
-		OBJ_304 /* CustomCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_34 /* CustomCredential.swift */; };
-		OBJ_305 /* CoreFacebookAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_36 /* CoreFacebookAuthProviderClient.swift */; };
-		OBJ_306 /* FacebookCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_37 /* FacebookCredential.swift */; };
-		OBJ_307 /* CoreGoogleAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_39 /* CoreGoogleAuthProviderClient.swift */; };
-		OBJ_308 /* GoogleCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_40 /* GoogleCredential.swift */; };
-		OBJ_309 /* CoreServerAPIKeyAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_42 /* CoreServerAPIKeyAuthProviderClient.swift */; };
-		OBJ_310 /* ServerAPIKeyCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_43 /* ServerAPIKeyCredential.swift */; };
-		OBJ_311 /* CoreUserAPIKeyAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_45 /* CoreUserAPIKeyAuthProviderClient.swift */; };
-		OBJ_312 /* UserAPIKeyCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_46 /* UserAPIKeyCredential.swift */; };
-		OBJ_313 /* CoreUserPasswordAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_48 /* CoreUserPasswordAuthProviderClient.swift */; };
-		OBJ_314 /* UserPasswordCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_49 /* UserPasswordCredential.swift */; };
-		OBJ_315 /* StitchCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_50 /* StitchCredential.swift */; };
-		OBJ_316 /* StitchUserIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_51 /* StitchUserIdentity.swift */; };
-		OBJ_317 /* StitchUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_52 /* StitchUserProfile.swift */; };
-		OBJ_318 /* ImplFailureFatalErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_55 /* ImplFailureFatalErrors.swift */; };
-		OBJ_320 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_57 /* Storage.swift */; };
-		OBJ_322 /* CoreStitchAppClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_59 /* CoreStitchAppClient.swift */; };
-		OBJ_323 /* ContentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_61 /* ContentType.swift */; };
-		OBJ_324 /* FoundationHTTPTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_62 /* FoundationHTTPTransport.swift */; };
-		OBJ_325 /* Headers.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_63 /* Headers.swift */; };
-		OBJ_326 /* Method.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_64 /* Method.swift */; };
-		OBJ_327 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_65 /* Request.swift */; };
-		OBJ_328 /* StitchAuthRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_66 /* StitchAuthRequest.swift */; };
-		OBJ_329 /* StitchAppRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_67 /* StitchAppRoutes.swift */; };
-		OBJ_330 /* StitchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_68 /* StitchRequest.swift */; };
-		OBJ_331 /* StitchRequestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_69 /* StitchRequestClient.swift */; };
-		OBJ_332 /* Transport.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_70 /* Transport.swift */; };
-		OBJ_333 /* CoreStitchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_73 /* CoreStitchService.swift */; };
-		OBJ_334 /* StitchAppClientConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_74 /* StitchAppClientConfiguration.swift */; };
-		OBJ_335 /* StitchAppClientInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_75 /* StitchAppClientInfo.swift */; };
-		OBJ_336 /* StitchClientConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_76 /* StitchClientConfiguration.swift */; };
-		OBJ_337 /* StitchError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_77 /* StitchError.swift */; };
-		OBJ_339 /* ExtendedJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "ExtendedJSON::ExtendedJSON::Product" /* ExtendedJSON.framework */; };
-		OBJ_345 /* BSONArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_142 /* BSONArray.swift */; };
-		OBJ_346 /* Binary.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_143 /* Binary.swift */; };
-		OBJ_347 /* Code.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_144 /* Code.swift */; };
-		OBJ_348 /* Coders.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_145 /* Coders.swift */; };
-		OBJ_349 /* DBPointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_146 /* DBPointer.swift */; };
-		OBJ_350 /* DBRef.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_147 /* DBRef.swift */; };
-		OBJ_351 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_148 /* Document.swift */; };
-		OBJ_352 /* MaxKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_149 /* MaxKey.swift */; };
-		OBJ_353 /* MinKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_150 /* MinKey.swift */; };
-		OBJ_354 /* Null.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_151 /* Null.swift */; };
-		OBJ_355 /* ObjectId.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_152 /* ObjectId.swift */; };
-		OBJ_356 /* RegularExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_153 /* RegularExpression.swift */; };
-		OBJ_357 /* Symbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_154 /* Symbol.swift */; };
-		OBJ_358 /* Timestamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_155 /* Timestamp.swift */; };
-		OBJ_359 /* Undefined.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_156 /* Undefined.swift */; };
-		OBJ_360 /* Bool+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_158 /* Bool+ExtendedJson.swift */; };
-		OBJ_361 /* BsonArray+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_159 /* BsonArray+ExtendedJson.swift */; };
-		OBJ_362 /* BsonBinary+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_160 /* BsonBinary+ExtendedJson.swift */; };
-		OBJ_363 /* BsonCode+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_161 /* BsonCode+ExtendedJson.swift */; };
-		OBJ_364 /* BsonDBPointer+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_162 /* BsonDBPointer+ExtendedJson.swift */; };
-		OBJ_365 /* BsonDBRef+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_163 /* BsonDBRef+ExtendedJson.swift */; };
-		OBJ_366 /* BsonDocument+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_164 /* BsonDocument+ExtendedJson.swift */; };
-		OBJ_367 /* BsonSymbol+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_165 /* BsonSymbol+ExtendedJson.swift */; };
-		OBJ_368 /* BsonTimestamp+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_166 /* BsonTimestamp+ExtendedJson.swift */; };
-		OBJ_369 /* BsonUndefined+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_167 /* BsonUndefined+ExtendedJson.swift */; };
-		OBJ_370 /* Date+ExtenedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_168 /* Date+ExtenedJson.swift */; };
-		OBJ_371 /* Decimal+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_169 /* Decimal+ExtendedJson.swift */; };
-		OBJ_372 /* Double+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_170 /* Double+ExtendedJson.swift */; };
-		OBJ_373 /* ExtendedJsonRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_171 /* ExtendedJsonRepresentable.swift */; };
-		OBJ_374 /* Int+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_172 /* Int+ExtendedJson.swift */; };
-		OBJ_375 /* MaxKey+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_173 /* MaxKey+ExtendedJson.swift */; };
-		OBJ_376 /* MinKey+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_174 /* MinKey+ExtendedJson.swift */; };
-		OBJ_377 /* ObjectId+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_175 /* ObjectId+ExtendedJson.swift */; };
-		OBJ_378 /* String+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_176 /* String+ExtendedJson.swift */; };
-		OBJ_379 /* UUID+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_177 /* UUID+ExtendedJson.swift */; };
-		OBJ_380 /* BsonError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_179 /* BsonError.swift */; };
-		OBJ_381 /* Validators.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_180 /* Validators.swift */; };
+		OBJ_223 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
+		OBJ_229 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_135 /* Package.swift */; };
+		OBJ_235 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_167 /* Package.swift */; };
+		OBJ_241 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_210 /* Package.swift */; };
+		OBJ_247 /* AppsResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_84 /* AppsResources.swift */; };
+		OBJ_248 /* AuthProvidersResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_86 /* AuthProvidersResources.swift */; };
+		OBJ_249 /* ProviderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_87 /* ProviderConfig.swift */; };
+		OBJ_250 /* FunctionsResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_89 /* FunctionsResources.swift */; };
+		OBJ_251 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_90 /* Resources.swift */; };
+		OBJ_252 /* RulesResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_93 /* RulesResources.swift */; };
+		OBJ_253 /* ServiceConfigs.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_94 /* ServiceConfigs.swift */; };
+		OBJ_254 /* ServicesResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_95 /* ServicesResources.swift */; };
+		OBJ_255 /* StitchAdminAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_96 /* StitchAdminAuth.swift */; };
+		OBJ_256 /* StitchAdminAuthRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_97 /* StitchAdminAuthRoutes.swift */; };
+		OBJ_257 /* StitchAdminClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_98 /* StitchAdminClient.swift */; };
+		OBJ_258 /* StitchAdminUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_99 /* StitchAdminUser.swift */; };
+		OBJ_259 /* StitchAdminUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_100 /* StitchAdminUserProfile.swift */; };
+		OBJ_260 /* UserRegistrationsResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_102 /* UserRegistrationsResources.swift */; };
+		OBJ_261 /* UsersResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_104 /* UsersResources.swift */; };
+		OBJ_263 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "StitchCore::StitchCore::Product" /* StitchCore.framework */; };
+		OBJ_264 /* ExtendedJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "ExtendedJSON::ExtendedJSON::Product" /* ExtendedJSON.framework */; };
+		OBJ_274 /* AccessTokenRefresherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_109 /* AccessTokenRefresherTests.swift */; };
+		OBJ_275 /* CoreStitchAuthTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_110 /* CoreStitchAuthTests.swift */; };
+		OBJ_276 /* StoreAuthInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_112 /* StoreAuthInfoTests.swift */; };
+		OBJ_277 /* CoreUserPasswordAuthProviderClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_115 /* CoreUserPasswordAuthProviderClientTests.swift */; };
+		OBJ_278 /* StitchUserProfileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_116 /* StitchUserProfileTests.swift */; };
+		OBJ_279 /* SynchronizedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_119 /* SynchronizedTests.swift */; };
+		OBJ_280 /* FoundationHTTPTransportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_121 /* FoundationHTTPTransportTests.swift */; };
+		OBJ_281 /* StitchRequestClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_122 /* StitchRequestClientTests.swift */; };
+		OBJ_282 /* CoreStitchServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_125 /* CoreStitchServiceTests.swift */; };
+		OBJ_283 /* StitchAppClientConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_126 /* StitchAppClientConfigurationTests.swift */; };
+		OBJ_284 /* StitchAppClientInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_127 /* StitchAppClientInfoTests.swift */; };
+		OBJ_285 /* StitchClientConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_128 /* StitchClientConfigurationTests.swift */; };
+		OBJ_286 /* stitch_ios_sdk_protoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_129 /* stitch_ios_sdk_protoTests.swift */; };
+		OBJ_288 /* JWT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "JWT::JWT::Product" /* JWT.framework */; };
+		OBJ_289 /* Swifter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Swifter::Swifter::Product" /* Swifter.framework */; };
+		OBJ_290 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "StitchCore::StitchCore::Product" /* StitchCore.framework */; };
+		OBJ_291 /* ExtendedJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "ExtendedJSON::ExtendedJSON::Product" /* ExtendedJSON.framework */; };
+		OBJ_302 /* Base64.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_136 /* Base64.swift */; };
+		OBJ_303 /* ClaimSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_137 /* ClaimSet.swift */; };
+		OBJ_304 /* Claims.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_138 /* Claims.swift */; };
+		OBJ_305 /* Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_139 /* Decode.swift */; };
+		OBJ_306 /* Encode.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_140 /* Encode.swift */; };
+		OBJ_307 /* HMAC.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_141 /* HMAC.swift */; };
+		OBJ_308 /* HMACCommonCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_142 /* HMACCommonCrypto.swift */; };
+		OBJ_309 /* JOSEHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_143 /* JOSEHeader.swift */; };
+		OBJ_310 /* JWT.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_144 /* JWT.swift */; };
+		OBJ_316 /* DemoServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_147 /* DemoServer.swift */; };
+		OBJ_317 /* Errno.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_148 /* Errno.swift */; };
+		OBJ_318 /* Files.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_149 /* Files.swift */; };
+		OBJ_319 /* HttpParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_150 /* HttpParser.swift */; };
+		OBJ_320 /* HttpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_151 /* HttpRequest.swift */; };
+		OBJ_321 /* HttpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_152 /* HttpResponse.swift */; };
+		OBJ_322 /* HttpRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_153 /* HttpRouter.swift */; };
+		OBJ_323 /* HttpServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_154 /* HttpServer.swift */; };
+		OBJ_324 /* HttpServerIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_155 /* HttpServerIO.swift */; };
+		OBJ_325 /* Process.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_156 /* Process.swift */; };
+		OBJ_326 /* Scopes.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_157 /* Scopes.swift */; };
+		OBJ_327 /* Socket+File.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_158 /* Socket+File.swift */; };
+		OBJ_328 /* Socket+Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_159 /* Socket+Server.swift */; };
+		OBJ_329 /* Socket.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_160 /* Socket.swift */; };
+		OBJ_330 /* String+BASE64.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_161 /* String+BASE64.swift */; };
+		OBJ_331 /* String+File.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_162 /* String+File.swift */; };
+		OBJ_332 /* String+Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_163 /* String+Misc.swift */; };
+		OBJ_333 /* String+SHA1.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_164 /* String+SHA1.swift */; };
+		OBJ_334 /* WebSockets.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_165 /* WebSockets.swift */; };
+		OBJ_340 /* CoreAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* CoreAuthProviderClient.swift */; };
+		OBJ_341 /* AccessTokenRefresher.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* AccessTokenRefresher.swift */; };
+		OBJ_342 /* AuthInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* AuthInfo.swift */; };
+		OBJ_343 /* AuthStateHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* AuthStateHolder.swift */; };
+		OBJ_344 /* CoreStitchAuth+StitchAuthRequestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* CoreStitchAuth+StitchAuthRequestClient.swift */; };
+		OBJ_345 /* CoreStitchAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* CoreStitchAuth.swift */; };
+		OBJ_346 /* CoreStitchUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* CoreStitchUser.swift */; };
+		OBJ_347 /* DeviceField.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_18 /* DeviceField.swift */; };
+		OBJ_348 /* JWT.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_19 /* JWT.swift */; };
+		OBJ_349 /* APIAccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_21 /* APIAccessToken.swift */; };
+		OBJ_350 /* APIAuthInfoImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_22 /* APIAuthInfoImpl.swift */; };
+		OBJ_351 /* APICoreUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_23 /* APICoreUserProfile.swift */; };
+		OBJ_352 /* APIStitchUserIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_24 /* APIStitchUserIdentity.swift */; };
+		OBJ_353 /* StoreAuthInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* StoreAuthInfo.swift */; };
+		OBJ_354 /* StoreCoreUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_26 /* StoreCoreUserProfile.swift */; };
+		OBJ_355 /* StoreStitchUserIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_27 /* StoreStitchUserIdentity.swift */; };
+		OBJ_356 /* StitchAuthRequestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_28 /* StitchAuthRequestClient.swift */; };
+		OBJ_357 /* StitchUserFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_29 /* StitchUserFactory.swift */; };
+		OBJ_358 /* ProviderCapabilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_30 /* ProviderCapabilities.swift */; };
+		OBJ_359 /* AnonymousCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_33 /* AnonymousCredential.swift */; };
+		OBJ_360 /* CoreAnonymousAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_34 /* CoreAnonymousAuthProviderClient.swift */; };
+		OBJ_361 /* CoreCustomAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_36 /* CoreCustomAuthProviderClient.swift */; };
+		OBJ_362 /* CustomCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_37 /* CustomCredential.swift */; };
+		OBJ_363 /* CoreFacebookAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_39 /* CoreFacebookAuthProviderClient.swift */; };
+		OBJ_364 /* FacebookCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_40 /* FacebookCredential.swift */; };
+		OBJ_365 /* CoreGoogleAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_42 /* CoreGoogleAuthProviderClient.swift */; };
+		OBJ_366 /* GoogleCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_43 /* GoogleCredential.swift */; };
+		OBJ_367 /* CoreServerAPIKeyAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_45 /* CoreServerAPIKeyAuthProviderClient.swift */; };
+		OBJ_368 /* ServerAPIKeyCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_46 /* ServerAPIKeyCredential.swift */; };
+		OBJ_369 /* StitchProviderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_47 /* StitchProviderType.swift */; };
+		OBJ_370 /* CoreUserAPIKeyAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_49 /* CoreUserAPIKeyAuthProviderClient.swift */; };
+		OBJ_371 /* UserAPIKeyCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_50 /* UserAPIKeyCredential.swift */; };
+		OBJ_372 /* CoreUserPasswordAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_52 /* CoreUserPasswordAuthProviderClient.swift */; };
+		OBJ_373 /* UserPasswordCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_53 /* UserPasswordCredential.swift */; };
+		OBJ_374 /* StitchCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_54 /* StitchCredential.swift */; };
+		OBJ_375 /* StitchUserIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_55 /* StitchUserIdentity.swift */; };
+		OBJ_376 /* StitchUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_56 /* StitchUserProfile.swift */; };
+		OBJ_377 /* Builder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_59 /* Builder.swift */; };
+		OBJ_378 /* ImplFailureFatalErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_60 /* ImplFailureFatalErrors.swift */; };
+		OBJ_379 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_61 /* Storage.swift */; };
+		OBJ_380 /* CoreStitchAppClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_62 /* CoreStitchAppClient.swift */; };
+		OBJ_381 /* ContentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_64 /* ContentType.swift */; };
+		OBJ_382 /* FoundationHTTPTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_65 /* FoundationHTTPTransport.swift */; };
+		OBJ_383 /* Headers.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_66 /* Headers.swift */; };
+		OBJ_384 /* Method.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_67 /* Method.swift */; };
+		OBJ_385 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_69 /* Request.swift */; };
+		OBJ_386 /* StitchAuthRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_70 /* StitchAuthRequest.swift */; };
+		OBJ_387 /* StitchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_71 /* StitchRequest.swift */; };
+		OBJ_388 /* StitchAppRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_72 /* StitchAppRoutes.swift */; };
+		OBJ_389 /* StitchRequestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_73 /* StitchRequestClient.swift */; };
+		OBJ_390 /* Transport.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_74 /* Transport.swift */; };
+		OBJ_391 /* CoreStitchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_77 /* CoreStitchService.swift */; };
+		OBJ_392 /* StitchAppClientConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_78 /* StitchAppClientConfiguration.swift */; };
+		OBJ_393 /* StitchAppClientInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_79 /* StitchAppClientInfo.swift */; };
+		OBJ_394 /* StitchClientConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_80 /* StitchClientConfiguration.swift */; };
+		OBJ_395 /* StitchError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_81 /* StitchError.swift */; };
+		OBJ_397 /* ExtendedJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "ExtendedJSON::ExtendedJSON::Product" /* ExtendedJSON.framework */; };
+		OBJ_403 /* BSONArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_171 /* BSONArray.swift */; };
+		OBJ_404 /* Binary.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_172 /* Binary.swift */; };
+		OBJ_405 /* Code.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_173 /* Code.swift */; };
+		OBJ_406 /* Coders.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_174 /* Coders.swift */; };
+		OBJ_407 /* DBPointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_175 /* DBPointer.swift */; };
+		OBJ_408 /* DBRef.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_176 /* DBRef.swift */; };
+		OBJ_409 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_177 /* Document.swift */; };
+		OBJ_410 /* MaxKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_178 /* MaxKey.swift */; };
+		OBJ_411 /* MinKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_179 /* MinKey.swift */; };
+		OBJ_412 /* Null.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_180 /* Null.swift */; };
+		OBJ_413 /* ObjectId.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_181 /* ObjectId.swift */; };
+		OBJ_414 /* RegularExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_182 /* RegularExpression.swift */; };
+		OBJ_415 /* Symbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_183 /* Symbol.swift */; };
+		OBJ_416 /* Timestamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_184 /* Timestamp.swift */; };
+		OBJ_417 /* Undefined.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_185 /* Undefined.swift */; };
+		OBJ_418 /* Bool+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_187 /* Bool+ExtendedJson.swift */; };
+		OBJ_419 /* BsonArray+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_188 /* BsonArray+ExtendedJson.swift */; };
+		OBJ_420 /* BsonBinary+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_189 /* BsonBinary+ExtendedJson.swift */; };
+		OBJ_421 /* BsonCode+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_190 /* BsonCode+ExtendedJson.swift */; };
+		OBJ_422 /* BsonDBPointer+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_191 /* BsonDBPointer+ExtendedJson.swift */; };
+		OBJ_423 /* BsonDBRef+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_192 /* BsonDBRef+ExtendedJson.swift */; };
+		OBJ_424 /* BsonDocument+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_193 /* BsonDocument+ExtendedJson.swift */; };
+		OBJ_425 /* BsonSymbol+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_194 /* BsonSymbol+ExtendedJson.swift */; };
+		OBJ_426 /* BsonTimestamp+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_195 /* BsonTimestamp+ExtendedJson.swift */; };
+		OBJ_427 /* BsonUndefined+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_196 /* BsonUndefined+ExtendedJson.swift */; };
+		OBJ_428 /* Date+ExtenedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_197 /* Date+ExtenedJson.swift */; };
+		OBJ_429 /* Decimal+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_198 /* Decimal+ExtendedJson.swift */; };
+		OBJ_430 /* Double+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_199 /* Double+ExtendedJson.swift */; };
+		OBJ_431 /* ExtendedJsonRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_200 /* ExtendedJsonRepresentable.swift */; };
+		OBJ_432 /* Int+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_201 /* Int+ExtendedJson.swift */; };
+		OBJ_433 /* MaxKey+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_202 /* MaxKey+ExtendedJson.swift */; };
+		OBJ_434 /* MinKey+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_203 /* MinKey+ExtendedJson.swift */; };
+		OBJ_435 /* ObjectId+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_204 /* ObjectId+ExtendedJson.swift */; };
+		OBJ_436 /* String+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_205 /* String+ExtendedJson.swift */; };
+		OBJ_437 /* UUID+ExtendedJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_206 /* UUID+ExtendedJson.swift */; };
+		OBJ_438 /* BsonError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_208 /* BsonError.swift */; };
+		OBJ_439 /* Validators.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_209 /* Validators.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		111E7482206BF5A600DFC43C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = "ExtendedJSON::ExtendedJSON";
-			remoteInfo = ExtendedJSON;
-		};
-		111E7483206BF5A600DFC43C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = "JWT::JWT";
-			remoteInfo = JWT;
-		};
-		111E7484206BF5A600DFC43C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = "Swifter::Swifter";
-			remoteInfo = Swifter;
-		};
-		111E7485206BF5A600DFC43C /* PBXContainerItemProxy */ = {
+		11CEA4AF2091018600D63C23 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "StitchCore::StitchCore";
 			remoteInfo = StitchCore;
 		};
-		111E7486206BF5A600DFC43C /* PBXContainerItemProxy */ = {
+		11CEA4B02091018600D63C23 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "ExtendedJSON::ExtendedJSON";
 			remoteInfo = ExtendedJSON;
 		};
-		111E7487206BF5A600DFC43C /* PBXContainerItemProxy */ = {
+		11CEA4B12091018600D63C23 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "ExtendedJSON::ExtendedJSON";
+			remoteInfo = ExtendedJSON;
+		};
+		11CEA4B22091018600D63C23 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "JWT::JWT";
+			remoteInfo = JWT;
+		};
+		11CEA4B32091018600D63C23 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "Swifter::Swifter";
+			remoteInfo = Swifter;
+		};
+		11CEA4B42091018600D63C23 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "StitchCore::StitchCore";
+			remoteInfo = StitchCore;
+		};
+		11CEA4B52091018600D63C23 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "ExtendedJSON::ExtendedJSON";
+			remoteInfo = ExtendedJSON;
+		};
+		11CEA4B62091018700D63C23 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
@@ -212,187 +243,214 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		110DDB3320729F350044B6F3 /* StitchProviderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchProviderType.swift; sourceTree = "<group>"; };
-		111CCA06207D0FFD002FEB4A /* JWT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWT.swift; sourceTree = "<group>"; };
-		111E748B206C115800DFC43C /* AuthStateHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthStateHolder.swift; sourceTree = "<group>"; };
-		111E748D206C127D00DFC43C /* CoreStitchAuth+StitchAuthRequestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreStitchAuth+StitchAuthRequestClient.swift"; sourceTree = "<group>"; };
-		1127A379206D85B300FE9200 /* Builder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Builder.swift; path = Common/Builder.swift; sourceTree = SOURCE_ROOT; };
 		"ExtendedJSON::ExtendedJSON::Product" /* ExtendedJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ExtendedJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"JWT::JWT::Product" /* JWT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = JWT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_10 /* CoreAuthProviderClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAuthProviderClient.swift; sourceTree = "<group>"; };
-		OBJ_100 /* StitchAppClientInfoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAppClientInfoTests.swift; sourceTree = "<group>"; };
-		OBJ_101 /* StitchClientConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchClientConfigurationTests.swift; sourceTree = "<group>"; };
-		OBJ_102 /* stitch_ios_sdk_protoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = stitch_ios_sdk_protoTests.swift; sourceTree = "<group>"; };
-		OBJ_103 /* DocsSources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = DocsSources; sourceTree = SOURCE_ROOT; };
-		OBJ_106 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/adamchel/stitch/sdks/v4/stitch-ios-sdk/StitchCore/.build/checkouts/JSONWebToken.swift.git-7307767730484492200/Package.swift"; sourceTree = "<group>"; };
-		OBJ_107 /* Base64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base64.swift; sourceTree = "<group>"; };
-		OBJ_108 /* ClaimSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaimSet.swift; sourceTree = "<group>"; };
-		OBJ_109 /* Claims.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Claims.swift; sourceTree = "<group>"; };
-		OBJ_110 /* Decode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decode.swift; sourceTree = "<group>"; };
-		OBJ_111 /* Encode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encode.swift; sourceTree = "<group>"; };
-		OBJ_112 /* HMAC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HMAC.swift; sourceTree = "<group>"; };
-		OBJ_113 /* HMACCommonCrypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HMACCommonCrypto.swift; sourceTree = "<group>"; };
-		OBJ_114 /* JOSEHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JOSEHeader.swift; sourceTree = "<group>"; };
-		OBJ_115 /* JWT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWT.swift; sourceTree = "<group>"; };
-		OBJ_118 /* DemoServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoServer.swift; sourceTree = "<group>"; };
-		OBJ_119 /* Errno.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errno.swift; sourceTree = "<group>"; };
+		OBJ_100 /* StitchAdminUserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAdminUserProfile.swift; sourceTree = "<group>"; };
+		OBJ_102 /* UserRegistrationsResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRegistrationsResources.swift; sourceTree = "<group>"; };
+		OBJ_104 /* UsersResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersResources.swift; sourceTree = "<group>"; };
+		OBJ_109 /* AccessTokenRefresherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenRefresherTests.swift; sourceTree = "<group>"; };
+		OBJ_110 /* CoreStitchAuthTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchAuthTests.swift; sourceTree = "<group>"; };
+		OBJ_112 /* StoreAuthInfoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreAuthInfoTests.swift; sourceTree = "<group>"; };
+		OBJ_115 /* CoreUserPasswordAuthProviderClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreUserPasswordAuthProviderClientTests.swift; sourceTree = "<group>"; };
+		OBJ_116 /* StitchUserProfileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchUserProfileTests.swift; sourceTree = "<group>"; };
+		OBJ_119 /* SynchronizedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronizedTests.swift; sourceTree = "<group>"; };
 		OBJ_12 /* AccessTokenRefresher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenRefresher.swift; sourceTree = "<group>"; };
-		OBJ_120 /* Files.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Files.swift; sourceTree = "<group>"; };
-		OBJ_121 /* HttpParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpParser.swift; sourceTree = "<group>"; };
-		OBJ_122 /* HttpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpRequest.swift; sourceTree = "<group>"; };
-		OBJ_123 /* HttpResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpResponse.swift; sourceTree = "<group>"; };
-		OBJ_124 /* HttpRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpRouter.swift; sourceTree = "<group>"; };
-		OBJ_125 /* HttpServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpServer.swift; sourceTree = "<group>"; };
-		OBJ_126 /* HttpServerIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpServerIO.swift; sourceTree = "<group>"; };
-		OBJ_127 /* Process.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Process.swift; sourceTree = "<group>"; };
-		OBJ_128 /* Scopes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scopes.swift; sourceTree = "<group>"; };
-		OBJ_129 /* Socket+File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Socket+File.swift"; sourceTree = "<group>"; };
+		OBJ_121 /* FoundationHTTPTransportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationHTTPTransportTests.swift; sourceTree = "<group>"; };
+		OBJ_122 /* StitchRequestClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchRequestClientTests.swift; sourceTree = "<group>"; };
+		OBJ_125 /* CoreStitchServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchServiceTests.swift; sourceTree = "<group>"; };
+		OBJ_126 /* StitchAppClientConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAppClientConfigurationTests.swift; sourceTree = "<group>"; };
+		OBJ_127 /* StitchAppClientInfoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAppClientInfoTests.swift; sourceTree = "<group>"; };
+		OBJ_128 /* StitchClientConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchClientConfigurationTests.swift; sourceTree = "<group>"; };
+		OBJ_129 /* stitch_ios_sdk_protoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = stitch_ios_sdk_protoTests.swift; sourceTree = "<group>"; };
 		OBJ_13 /* AuthInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInfo.swift; sourceTree = "<group>"; };
-		OBJ_130 /* Socket+Server.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Socket+Server.swift"; sourceTree = "<group>"; };
-		OBJ_131 /* Socket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Socket.swift; sourceTree = "<group>"; };
-		OBJ_132 /* String+BASE64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+BASE64.swift"; sourceTree = "<group>"; };
-		OBJ_133 /* String+File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+File.swift"; sourceTree = "<group>"; };
-		OBJ_134 /* String+Misc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Misc.swift"; sourceTree = "<group>"; };
-		OBJ_135 /* String+SHA1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+SHA1.swift"; sourceTree = "<group>"; };
-		OBJ_136 /* WebSockets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSockets.swift; sourceTree = "<group>"; };
-		OBJ_138 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/adamchel/stitch/sdks/v4/stitch-ios-sdk/StitchCore/.build/checkouts/swifter.git--8814129713726061435/Package.swift"; sourceTree = "<group>"; };
-		OBJ_14 /* CoreStitchAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchAuth.swift; sourceTree = "<group>"; };
-		OBJ_142 /* BSONArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSONArray.swift; sourceTree = "<group>"; };
-		OBJ_143 /* Binary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binary.swift; sourceTree = "<group>"; };
-		OBJ_144 /* Code.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Code.swift; sourceTree = "<group>"; };
-		OBJ_145 /* Coders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coders.swift; sourceTree = "<group>"; };
-		OBJ_146 /* DBPointer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBPointer.swift; sourceTree = "<group>"; };
-		OBJ_147 /* DBRef.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBRef.swift; sourceTree = "<group>"; };
-		OBJ_148 /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
-		OBJ_149 /* MaxKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaxKey.swift; sourceTree = "<group>"; };
-		OBJ_15 /* CoreStitchUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchUser.swift; sourceTree = "<group>"; };
-		OBJ_150 /* MinKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinKey.swift; sourceTree = "<group>"; };
-		OBJ_151 /* Null.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Null.swift; sourceTree = "<group>"; };
-		OBJ_152 /* ObjectId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectId.swift; sourceTree = "<group>"; };
-		OBJ_153 /* RegularExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegularExpression.swift; sourceTree = "<group>"; };
-		OBJ_154 /* Symbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Symbol.swift; sourceTree = "<group>"; };
-		OBJ_155 /* Timestamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timestamp.swift; sourceTree = "<group>"; };
-		OBJ_156 /* Undefined.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Undefined.swift; sourceTree = "<group>"; };
-		OBJ_158 /* Bool+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+ExtendedJson.swift"; sourceTree = "<group>"; };
-		OBJ_159 /* BsonArray+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BsonArray+ExtendedJson.swift"; sourceTree = "<group>"; };
-		OBJ_16 /* DeviceField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceField.swift; sourceTree = "<group>"; };
-		OBJ_160 /* BsonBinary+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BsonBinary+ExtendedJson.swift"; sourceTree = "<group>"; };
-		OBJ_161 /* BsonCode+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BsonCode+ExtendedJson.swift"; sourceTree = "<group>"; };
-		OBJ_162 /* BsonDBPointer+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BsonDBPointer+ExtendedJson.swift"; sourceTree = "<group>"; };
-		OBJ_163 /* BsonDBRef+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BsonDBRef+ExtendedJson.swift"; sourceTree = "<group>"; };
-		OBJ_164 /* BsonDocument+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BsonDocument+ExtendedJson.swift"; sourceTree = "<group>"; };
-		OBJ_165 /* BsonSymbol+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BsonSymbol+ExtendedJson.swift"; sourceTree = "<group>"; };
-		OBJ_166 /* BsonTimestamp+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BsonTimestamp+ExtendedJson.swift"; sourceTree = "<group>"; };
-		OBJ_167 /* BsonUndefined+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BsonUndefined+ExtendedJson.swift"; sourceTree = "<group>"; };
-		OBJ_168 /* Date+ExtenedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+ExtenedJson.swift"; sourceTree = "<group>"; };
-		OBJ_169 /* Decimal+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decimal+ExtendedJson.swift"; sourceTree = "<group>"; };
-		OBJ_170 /* Double+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+ExtendedJson.swift"; sourceTree = "<group>"; };
-		OBJ_171 /* ExtendedJsonRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendedJsonRepresentable.swift; sourceTree = "<group>"; };
-		OBJ_172 /* Int+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+ExtendedJson.swift"; sourceTree = "<group>"; };
-		OBJ_173 /* MaxKey+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MaxKey+ExtendedJson.swift"; sourceTree = "<group>"; };
-		OBJ_174 /* MinKey+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MinKey+ExtendedJson.swift"; sourceTree = "<group>"; };
-		OBJ_175 /* ObjectId+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ObjectId+ExtendedJson.swift"; sourceTree = "<group>"; };
-		OBJ_176 /* String+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+ExtendedJson.swift"; sourceTree = "<group>"; };
-		OBJ_177 /* UUID+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UUID+ExtendedJson.swift"; sourceTree = "<group>"; };
-		OBJ_179 /* BsonError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BsonError.swift; sourceTree = "<group>"; };
-		OBJ_18 /* APIAccessToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIAccessToken.swift; sourceTree = "<group>"; };
-		OBJ_180 /* Validators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validators.swift; sourceTree = "<group>"; };
-		OBJ_181 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/adamchel/stitch/sdks/v4/stitch-ios-sdk/StitchCore/.build/checkouts/ExtendedJSON-4567327050272746131/Package.swift"; sourceTree = "<group>"; };
-		OBJ_19 /* APIAuthInfoImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIAuthInfoImpl.swift; sourceTree = "<group>"; };
-		OBJ_20 /* APICoreUserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICoreUserProfile.swift; sourceTree = "<group>"; };
-		OBJ_21 /* APIStitchUserIdentity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIStitchUserIdentity.swift; sourceTree = "<group>"; };
-		OBJ_22 /* StoreAuthInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreAuthInfo.swift; sourceTree = "<group>"; };
-		OBJ_23 /* StoreCoreUserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreCoreUserProfile.swift; sourceTree = "<group>"; };
-		OBJ_24 /* StoreStitchUserIdentity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreStitchUserIdentity.swift; sourceTree = "<group>"; };
-		OBJ_25 /* StitchAuthRequestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAuthRequestClient.swift; sourceTree = "<group>"; };
-		OBJ_26 /* StitchUserFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchUserFactory.swift; sourceTree = "<group>"; };
-		OBJ_27 /* ProviderCapabilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderCapabilities.swift; sourceTree = "<group>"; };
-		OBJ_30 /* AnonymousCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonymousCredential.swift; sourceTree = "<group>"; };
-		OBJ_31 /* CoreAnonymousAuthProviderClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAnonymousAuthProviderClient.swift; sourceTree = "<group>"; };
-		OBJ_33 /* CoreCustomAuthProviderClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreCustomAuthProviderClient.swift; sourceTree = "<group>"; };
-		OBJ_34 /* CustomCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCredential.swift; sourceTree = "<group>"; };
-		OBJ_36 /* CoreFacebookAuthProviderClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreFacebookAuthProviderClient.swift; sourceTree = "<group>"; };
-		OBJ_37 /* FacebookCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookCredential.swift; sourceTree = "<group>"; };
-		OBJ_39 /* CoreGoogleAuthProviderClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreGoogleAuthProviderClient.swift; sourceTree = "<group>"; };
-		OBJ_40 /* GoogleCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleCredential.swift; sourceTree = "<group>"; };
-		OBJ_42 /* CoreServerAPIKeyAuthProviderClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreServerAPIKeyAuthProviderClient.swift; sourceTree = "<group>"; };
-		OBJ_43 /* ServerAPIKeyCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerAPIKeyCredential.swift; sourceTree = "<group>"; };
-		OBJ_45 /* CoreUserAPIKeyAuthProviderClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreUserAPIKeyAuthProviderClient.swift; sourceTree = "<group>"; };
-		OBJ_46 /* UserAPIKeyCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPIKeyCredential.swift; sourceTree = "<group>"; };
-		OBJ_48 /* CoreUserPasswordAuthProviderClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreUserPasswordAuthProviderClient.swift; sourceTree = "<group>"; };
-		OBJ_49 /* UserPasswordCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPasswordCredential.swift; sourceTree = "<group>"; };
-		OBJ_50 /* StitchCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchCredential.swift; sourceTree = "<group>"; };
-		OBJ_51 /* StitchUserIdentity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchUserIdentity.swift; sourceTree = "<group>"; };
-		OBJ_52 /* StitchUserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchUserProfile.swift; sourceTree = "<group>"; };
-		OBJ_55 /* ImplFailureFatalErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImplFailureFatalErrors.swift; sourceTree = "<group>"; };
-		OBJ_57 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
-		OBJ_59 /* CoreStitchAppClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchAppClient.swift; sourceTree = "<group>"; };
+		OBJ_130 /* docs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = docs; sourceTree = SOURCE_ROOT; };
+		OBJ_131 /* build */ = {isa = PBXFileReference; lastKnownFileType = folder; path = build; sourceTree = SOURCE_ROOT; };
+		OBJ_132 /* DocsSources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = DocsSources; sourceTree = SOURCE_ROOT; };
+		OBJ_135 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/adamchel/stitch/sdks/v4/stitch-ios-sdk/StitchCore/.build/checkouts/JSONWebToken.swift.git-7307767730484492200/Package.swift"; sourceTree = "<group>"; };
+		OBJ_136 /* Base64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base64.swift; sourceTree = "<group>"; };
+		OBJ_137 /* ClaimSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaimSet.swift; sourceTree = "<group>"; };
+		OBJ_138 /* Claims.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Claims.swift; sourceTree = "<group>"; };
+		OBJ_139 /* Decode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decode.swift; sourceTree = "<group>"; };
+		OBJ_14 /* AuthStateHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthStateHolder.swift; sourceTree = "<group>"; };
+		OBJ_140 /* Encode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encode.swift; sourceTree = "<group>"; };
+		OBJ_141 /* HMAC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HMAC.swift; sourceTree = "<group>"; };
+		OBJ_142 /* HMACCommonCrypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HMACCommonCrypto.swift; sourceTree = "<group>"; };
+		OBJ_143 /* JOSEHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JOSEHeader.swift; sourceTree = "<group>"; };
+		OBJ_144 /* JWT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWT.swift; sourceTree = "<group>"; };
+		OBJ_147 /* DemoServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoServer.swift; sourceTree = "<group>"; };
+		OBJ_148 /* Errno.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errno.swift; sourceTree = "<group>"; };
+		OBJ_149 /* Files.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Files.swift; sourceTree = "<group>"; };
+		OBJ_15 /* CoreStitchAuth+StitchAuthRequestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreStitchAuth+StitchAuthRequestClient.swift"; sourceTree = "<group>"; };
+		OBJ_150 /* HttpParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpParser.swift; sourceTree = "<group>"; };
+		OBJ_151 /* HttpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpRequest.swift; sourceTree = "<group>"; };
+		OBJ_152 /* HttpResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpResponse.swift; sourceTree = "<group>"; };
+		OBJ_153 /* HttpRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpRouter.swift; sourceTree = "<group>"; };
+		OBJ_154 /* HttpServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpServer.swift; sourceTree = "<group>"; };
+		OBJ_155 /* HttpServerIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpServerIO.swift; sourceTree = "<group>"; };
+		OBJ_156 /* Process.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Process.swift; sourceTree = "<group>"; };
+		OBJ_157 /* Scopes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scopes.swift; sourceTree = "<group>"; };
+		OBJ_158 /* Socket+File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Socket+File.swift"; sourceTree = "<group>"; };
+		OBJ_159 /* Socket+Server.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Socket+Server.swift"; sourceTree = "<group>"; };
+		OBJ_16 /* CoreStitchAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchAuth.swift; sourceTree = "<group>"; };
+		OBJ_160 /* Socket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Socket.swift; sourceTree = "<group>"; };
+		OBJ_161 /* String+BASE64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+BASE64.swift"; sourceTree = "<group>"; };
+		OBJ_162 /* String+File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+File.swift"; sourceTree = "<group>"; };
+		OBJ_163 /* String+Misc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Misc.swift"; sourceTree = "<group>"; };
+		OBJ_164 /* String+SHA1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+SHA1.swift"; sourceTree = "<group>"; };
+		OBJ_165 /* WebSockets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSockets.swift; sourceTree = "<group>"; };
+		OBJ_167 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/adamchel/stitch/sdks/v4/stitch-ios-sdk/StitchCore/.build/checkouts/swifter.git--8814129713726061435/Package.swift"; sourceTree = "<group>"; };
+		OBJ_17 /* CoreStitchUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchUser.swift; sourceTree = "<group>"; };
+		OBJ_171 /* BSONArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSONArray.swift; sourceTree = "<group>"; };
+		OBJ_172 /* Binary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binary.swift; sourceTree = "<group>"; };
+		OBJ_173 /* Code.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Code.swift; sourceTree = "<group>"; };
+		OBJ_174 /* Coders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coders.swift; sourceTree = "<group>"; };
+		OBJ_175 /* DBPointer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBPointer.swift; sourceTree = "<group>"; };
+		OBJ_176 /* DBRef.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBRef.swift; sourceTree = "<group>"; };
+		OBJ_177 /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
+		OBJ_178 /* MaxKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaxKey.swift; sourceTree = "<group>"; };
+		OBJ_179 /* MinKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinKey.swift; sourceTree = "<group>"; };
+		OBJ_18 /* DeviceField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceField.swift; sourceTree = "<group>"; };
+		OBJ_180 /* Null.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Null.swift; sourceTree = "<group>"; };
+		OBJ_181 /* ObjectId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectId.swift; sourceTree = "<group>"; };
+		OBJ_182 /* RegularExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegularExpression.swift; sourceTree = "<group>"; };
+		OBJ_183 /* Symbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Symbol.swift; sourceTree = "<group>"; };
+		OBJ_184 /* Timestamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timestamp.swift; sourceTree = "<group>"; };
+		OBJ_185 /* Undefined.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Undefined.swift; sourceTree = "<group>"; };
+		OBJ_187 /* Bool+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+ExtendedJson.swift"; sourceTree = "<group>"; };
+		OBJ_188 /* BsonArray+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BsonArray+ExtendedJson.swift"; sourceTree = "<group>"; };
+		OBJ_189 /* BsonBinary+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BsonBinary+ExtendedJson.swift"; sourceTree = "<group>"; };
+		OBJ_19 /* JWT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWT.swift; sourceTree = "<group>"; };
+		OBJ_190 /* BsonCode+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BsonCode+ExtendedJson.swift"; sourceTree = "<group>"; };
+		OBJ_191 /* BsonDBPointer+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BsonDBPointer+ExtendedJson.swift"; sourceTree = "<group>"; };
+		OBJ_192 /* BsonDBRef+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BsonDBRef+ExtendedJson.swift"; sourceTree = "<group>"; };
+		OBJ_193 /* BsonDocument+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BsonDocument+ExtendedJson.swift"; sourceTree = "<group>"; };
+		OBJ_194 /* BsonSymbol+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BsonSymbol+ExtendedJson.swift"; sourceTree = "<group>"; };
+		OBJ_195 /* BsonTimestamp+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BsonTimestamp+ExtendedJson.swift"; sourceTree = "<group>"; };
+		OBJ_196 /* BsonUndefined+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BsonUndefined+ExtendedJson.swift"; sourceTree = "<group>"; };
+		OBJ_197 /* Date+ExtenedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+ExtenedJson.swift"; sourceTree = "<group>"; };
+		OBJ_198 /* Decimal+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decimal+ExtendedJson.swift"; sourceTree = "<group>"; };
+		OBJ_199 /* Double+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+ExtendedJson.swift"; sourceTree = "<group>"; };
+		OBJ_200 /* ExtendedJsonRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendedJsonRepresentable.swift; sourceTree = "<group>"; };
+		OBJ_201 /* Int+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+ExtendedJson.swift"; sourceTree = "<group>"; };
+		OBJ_202 /* MaxKey+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MaxKey+ExtendedJson.swift"; sourceTree = "<group>"; };
+		OBJ_203 /* MinKey+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MinKey+ExtendedJson.swift"; sourceTree = "<group>"; };
+		OBJ_204 /* ObjectId+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ObjectId+ExtendedJson.swift"; sourceTree = "<group>"; };
+		OBJ_205 /* String+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+ExtendedJson.swift"; sourceTree = "<group>"; };
+		OBJ_206 /* UUID+ExtendedJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UUID+ExtendedJson.swift"; sourceTree = "<group>"; };
+		OBJ_208 /* BsonError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BsonError.swift; sourceTree = "<group>"; };
+		OBJ_209 /* Validators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validators.swift; sourceTree = "<group>"; };
+		OBJ_21 /* APIAccessToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIAccessToken.swift; sourceTree = "<group>"; };
+		OBJ_210 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/adamchel/stitch/sdks/v4/stitch-ios-sdk/StitchCore/.build/checkouts/ExtendedJSON-4567327050272746131/Package.swift"; sourceTree = "<group>"; };
+		OBJ_22 /* APIAuthInfoImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIAuthInfoImpl.swift; sourceTree = "<group>"; };
+		OBJ_23 /* APICoreUserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICoreUserProfile.swift; sourceTree = "<group>"; };
+		OBJ_24 /* APIStitchUserIdentity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIStitchUserIdentity.swift; sourceTree = "<group>"; };
+		OBJ_25 /* StoreAuthInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreAuthInfo.swift; sourceTree = "<group>"; };
+		OBJ_26 /* StoreCoreUserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreCoreUserProfile.swift; sourceTree = "<group>"; };
+		OBJ_27 /* StoreStitchUserIdentity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreStitchUserIdentity.swift; sourceTree = "<group>"; };
+		OBJ_28 /* StitchAuthRequestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAuthRequestClient.swift; sourceTree = "<group>"; };
+		OBJ_29 /* StitchUserFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchUserFactory.swift; sourceTree = "<group>"; };
+		OBJ_30 /* ProviderCapabilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderCapabilities.swift; sourceTree = "<group>"; };
+		OBJ_33 /* AnonymousCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonymousCredential.swift; sourceTree = "<group>"; };
+		OBJ_34 /* CoreAnonymousAuthProviderClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAnonymousAuthProviderClient.swift; sourceTree = "<group>"; };
+		OBJ_36 /* CoreCustomAuthProviderClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreCustomAuthProviderClient.swift; sourceTree = "<group>"; };
+		OBJ_37 /* CustomCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCredential.swift; sourceTree = "<group>"; };
+		OBJ_39 /* CoreFacebookAuthProviderClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreFacebookAuthProviderClient.swift; sourceTree = "<group>"; };
+		OBJ_40 /* FacebookCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookCredential.swift; sourceTree = "<group>"; };
+		OBJ_42 /* CoreGoogleAuthProviderClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreGoogleAuthProviderClient.swift; sourceTree = "<group>"; };
+		OBJ_43 /* GoogleCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleCredential.swift; sourceTree = "<group>"; };
+		OBJ_45 /* CoreServerAPIKeyAuthProviderClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreServerAPIKeyAuthProviderClient.swift; sourceTree = "<group>"; };
+		OBJ_46 /* ServerAPIKeyCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerAPIKeyCredential.swift; sourceTree = "<group>"; };
+		OBJ_47 /* StitchProviderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchProviderType.swift; sourceTree = "<group>"; };
+		OBJ_49 /* CoreUserAPIKeyAuthProviderClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreUserAPIKeyAuthProviderClient.swift; sourceTree = "<group>"; };
+		OBJ_50 /* UserAPIKeyCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPIKeyCredential.swift; sourceTree = "<group>"; };
+		OBJ_52 /* CoreUserPasswordAuthProviderClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreUserPasswordAuthProviderClient.swift; sourceTree = "<group>"; };
+		OBJ_53 /* UserPasswordCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPasswordCredential.swift; sourceTree = "<group>"; };
+		OBJ_54 /* StitchCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchCredential.swift; sourceTree = "<group>"; };
+		OBJ_55 /* StitchUserIdentity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchUserIdentity.swift; sourceTree = "<group>"; };
+		OBJ_56 /* StitchUserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchUserProfile.swift; sourceTree = "<group>"; };
+		OBJ_59 /* Builder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Builder.swift; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
-		OBJ_61 /* ContentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentType.swift; sourceTree = "<group>"; };
-		OBJ_62 /* FoundationHTTPTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationHTTPTransport.swift; sourceTree = "<group>"; };
-		OBJ_63 /* Headers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Headers.swift; sourceTree = "<group>"; };
-		OBJ_64 /* Method.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Method.swift; sourceTree = "<group>"; };
-		OBJ_65 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
-		OBJ_66 /* StitchAuthRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAuthRequest.swift; sourceTree = "<group>"; };
-		OBJ_67 /* StitchAppRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAppRoutes.swift; sourceTree = "<group>"; };
-		OBJ_68 /* StitchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchRequest.swift; sourceTree = "<group>"; };
-		OBJ_69 /* StitchRequestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchRequestClient.swift; sourceTree = "<group>"; };
-		OBJ_70 /* Transport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transport.swift; sourceTree = "<group>"; };
-		OBJ_73 /* CoreStitchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchService.swift; sourceTree = "<group>"; };
-		OBJ_74 /* StitchAppClientConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAppClientConfiguration.swift; sourceTree = "<group>"; };
-		OBJ_75 /* StitchAppClientInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAppClientInfo.swift; sourceTree = "<group>"; };
-		OBJ_76 /* StitchClientConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchClientConfiguration.swift; sourceTree = "<group>"; };
-		OBJ_77 /* StitchError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchError.swift; sourceTree = "<group>"; };
-		OBJ_82 /* AccessTokenRefresherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenRefresherTests.swift; sourceTree = "<group>"; };
-		OBJ_83 /* CoreStitchAuthTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchAuthTests.swift; sourceTree = "<group>"; };
-		OBJ_85 /* StoreAuthInfoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreAuthInfoTests.swift; sourceTree = "<group>"; };
-		OBJ_88 /* CoreUserPasswordAuthProviderClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreUserPasswordAuthProviderClientTests.swift; sourceTree = "<group>"; };
-		OBJ_89 /* StitchUserProfileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchUserProfileTests.swift; sourceTree = "<group>"; };
-		OBJ_92 /* SynchronizedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronizedTests.swift; sourceTree = "<group>"; };
-		OBJ_94 /* FoundationHTTPTransportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationHTTPTransportTests.swift; sourceTree = "<group>"; };
-		OBJ_95 /* StitchRequestClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchRequestClientTests.swift; sourceTree = "<group>"; };
-		OBJ_98 /* CoreStitchServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchServiceTests.swift; sourceTree = "<group>"; };
-		OBJ_99 /* StitchAppClientConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAppClientConfigurationTests.swift; sourceTree = "<group>"; };
+		OBJ_60 /* ImplFailureFatalErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImplFailureFatalErrors.swift; sourceTree = "<group>"; };
+		OBJ_61 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		OBJ_62 /* CoreStitchAppClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchAppClient.swift; sourceTree = "<group>"; };
+		OBJ_64 /* ContentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentType.swift; sourceTree = "<group>"; };
+		OBJ_65 /* FoundationHTTPTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationHTTPTransport.swift; sourceTree = "<group>"; };
+		OBJ_66 /* Headers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Headers.swift; sourceTree = "<group>"; };
+		OBJ_67 /* Method.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Method.swift; sourceTree = "<group>"; };
+		OBJ_69 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		OBJ_70 /* StitchAuthRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAuthRequest.swift; sourceTree = "<group>"; };
+		OBJ_71 /* StitchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchRequest.swift; sourceTree = "<group>"; };
+		OBJ_72 /* StitchAppRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAppRoutes.swift; sourceTree = "<group>"; };
+		OBJ_73 /* StitchRequestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchRequestClient.swift; sourceTree = "<group>"; };
+		OBJ_74 /* Transport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transport.swift; sourceTree = "<group>"; };
+		OBJ_77 /* CoreStitchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchService.swift; sourceTree = "<group>"; };
+		OBJ_78 /* StitchAppClientConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAppClientConfiguration.swift; sourceTree = "<group>"; };
+		OBJ_79 /* StitchAppClientInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAppClientInfo.swift; sourceTree = "<group>"; };
+		OBJ_80 /* StitchClientConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchClientConfiguration.swift; sourceTree = "<group>"; };
+		OBJ_81 /* StitchError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchError.swift; sourceTree = "<group>"; };
+		OBJ_84 /* AppsResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsResources.swift; sourceTree = "<group>"; };
+		OBJ_86 /* AuthProvidersResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthProvidersResources.swift; sourceTree = "<group>"; };
+		OBJ_87 /* ProviderConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderConfig.swift; sourceTree = "<group>"; };
+		OBJ_89 /* FunctionsResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionsResources.swift; sourceTree = "<group>"; };
+		OBJ_90 /* Resources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
+		OBJ_93 /* RulesResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesResources.swift; sourceTree = "<group>"; };
+		OBJ_94 /* ServiceConfigs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceConfigs.swift; sourceTree = "<group>"; };
+		OBJ_95 /* ServicesResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesResources.swift; sourceTree = "<group>"; };
+		OBJ_96 /* StitchAdminAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAdminAuth.swift; sourceTree = "<group>"; };
+		OBJ_97 /* StitchAdminAuthRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAdminAuthRoutes.swift; sourceTree = "<group>"; };
+		OBJ_98 /* StitchAdminClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAdminClient.swift; sourceTree = "<group>"; };
+		OBJ_99 /* StitchAdminUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAdminUser.swift; sourceTree = "<group>"; };
+		"StitchCore::StitchCore-AdminClient::Product" /* StitchCore_AdminClient.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = StitchCore_AdminClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"StitchCore::StitchCore::Product" /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"StitchCore::stitch-ios-sdk-protoTests::Product" /* stitch_ios_sdk_protoTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; name = stitch_ios_sdk_protoTests.xctest; path = "stitch-ios-sdk-protoTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		"Swifter::Swifter::Product" /* Swifter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Swifter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		OBJ_230 /* Frameworks */ = {
+		OBJ_262 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_231 /* JWT.framework in Frameworks */,
-				OBJ_232 /* Swifter.framework in Frameworks */,
-				OBJ_233 /* StitchCore.framework in Frameworks */,
-				OBJ_234 /* ExtendedJSON.framework in Frameworks */,
+				OBJ_263 /* StitchCore.framework in Frameworks */,
+				OBJ_264 /* ExtendedJSON.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_256 /* Frameworks */ = {
+		OBJ_287 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_288 /* JWT.framework in Frameworks */,
+				OBJ_289 /* Swifter.framework in Frameworks */,
+				OBJ_290 /* StitchCore.framework in Frameworks */,
+				OBJ_291 /* ExtendedJSON.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_311 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_280 /* Frameworks */ = {
+		OBJ_335 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_338 /* Frameworks */ = {
+		OBJ_396 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_339 /* ExtendedJSON.framework in Frameworks */,
+				OBJ_397 /* ExtendedJSON.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_382 /* Frameworks */ = {
+		OBJ_440 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
@@ -402,108 +460,215 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1127A376206D6FC200FE9200 /* Requests */ = {
+		OBJ_101 /* UserRegistrations */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_65 /* Request.swift */,
-				OBJ_66 /* StitchAuthRequest.swift */,
-				OBJ_68 /* StitchRequest.swift */,
+				OBJ_102 /* UserRegistrationsResources.swift */,
 			);
-			path = Requests;
+			path = UserRegistrations;
 			sourceTree = "<group>";
 		};
-		1127A378206D85A100FE9200 /* Common */ = {
+		OBJ_103 /* Users */ = {
 			isa = PBXGroup;
 			children = (
-				1127A379206D85B300FE9200 /* Builder.swift */,
+				OBJ_104 /* UsersResources.swift */,
 			);
-			path = Common;
-			sourceTree = SOURCE_ROOT;
-		};
-		OBJ_104 /* Dependencies */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_105 /* JWT 2.2.0 */,
-				OBJ_116 /* Swifter 1.4.0 */,
-				OBJ_139 /* ExtendedJSON */,
-			);
-			name = Dependencies;
+			path = Users;
 			sourceTree = "<group>";
 		};
-		OBJ_105 /* JWT 2.2.0 */ = {
+		OBJ_105 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_106 /* Package.swift */,
-				OBJ_107 /* Base64.swift */,
-				OBJ_108 /* ClaimSet.swift */,
-				OBJ_109 /* Claims.swift */,
-				OBJ_110 /* Decode.swift */,
-				OBJ_111 /* Encode.swift */,
-				OBJ_112 /* HMAC.swift */,
-				OBJ_113 /* HMACCommonCrypto.swift */,
-				OBJ_114 /* JOSEHeader.swift */,
-				OBJ_115 /* JWT.swift */,
+				OBJ_106 /* stitch-ios-sdk-protoTests */,
 			);
-			name = "JWT 2.2.0";
-			path = ".build/checkouts/JSONWebToken.swift.git-7307767730484492200/Sources";
+			name = Tests;
 			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_106 /* stitch-ios-sdk-protoTests */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_107 /* Auth */,
+				OBJ_117 /* Internal */,
+				OBJ_123 /* Services */,
+				OBJ_126 /* StitchAppClientConfigurationTests.swift */,
+				OBJ_127 /* StitchAppClientInfoTests.swift */,
+				OBJ_128 /* StitchClientConfigurationTests.swift */,
+				OBJ_129 /* stitch_ios_sdk_protoTests.swift */,
+			);
+			name = "stitch-ios-sdk-protoTests";
+			path = "Tests/stitch-ios-sdk-protoTests";
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_107 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_108 /* Internal */,
+				OBJ_113 /* Providers */,
+				OBJ_116 /* StitchUserProfileTests.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		OBJ_108 /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_109 /* AccessTokenRefresherTests.swift */,
+				OBJ_110 /* CoreStitchAuthTests.swift */,
+				OBJ_111 /* Models */,
+			);
+			path = Internal;
+			sourceTree = "<group>";
 		};
 		OBJ_11 /* Internal */ = {
 			isa = PBXGroup;
 			children = (
 				OBJ_12 /* AccessTokenRefresher.swift */,
 				OBJ_13 /* AuthInfo.swift */,
-				111E748B206C115800DFC43C /* AuthStateHolder.swift */,
-				OBJ_14 /* CoreStitchAuth.swift */,
-				111E748D206C127D00DFC43C /* CoreStitchAuth+StitchAuthRequestClient.swift */,
-				OBJ_15 /* CoreStitchUser.swift */,
-				OBJ_16 /* DeviceField.swift */,
-				OBJ_17 /* Models */,
-				OBJ_25 /* StitchAuthRequestClient.swift */,
-				OBJ_26 /* StitchUserFactory.swift */,
-				111CCA06207D0FFD002FEB4A /* JWT.swift */,
+				OBJ_14 /* AuthStateHolder.swift */,
+				OBJ_15 /* CoreStitchAuth+StitchAuthRequestClient.swift */,
+				OBJ_16 /* CoreStitchAuth.swift */,
+				OBJ_17 /* CoreStitchUser.swift */,
+				OBJ_18 /* DeviceField.swift */,
+				OBJ_19 /* JWT.swift */,
+				OBJ_20 /* Models */,
+				OBJ_28 /* StitchAuthRequestClient.swift */,
+				OBJ_29 /* StitchUserFactory.swift */,
 			);
 			path = Internal;
 			sourceTree = "<group>";
 		};
-		OBJ_116 /* Swifter 1.4.0 */ = {
+		OBJ_111 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_117 /* Swifter */,
-				OBJ_137 /* Example */,
-				OBJ_138 /* Package.swift */,
+				OBJ_112 /* StoreAuthInfoTests.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		OBJ_113 /* Providers */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_114 /* UserPass */,
+			);
+			path = Providers;
+			sourceTree = "<group>";
+		};
+		OBJ_114 /* UserPass */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_115 /* CoreUserPasswordAuthProviderClientTests.swift */,
+			);
+			path = UserPass;
+			sourceTree = "<group>";
+		};
+		OBJ_117 /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_118 /* Common */,
+				OBJ_120 /* Net */,
+			);
+			path = Internal;
+			sourceTree = "<group>";
+		};
+		OBJ_118 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_119 /* SynchronizedTests.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		OBJ_120 /* Net */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_121 /* FoundationHTTPTransportTests.swift */,
+				OBJ_122 /* StitchRequestClientTests.swift */,
+			);
+			path = Net;
+			sourceTree = "<group>";
+		};
+		OBJ_123 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_124 /* Internal */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		OBJ_124 /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_125 /* CoreStitchServiceTests.swift */,
+			);
+			path = Internal;
+			sourceTree = "<group>";
+		};
+		OBJ_133 /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_134 /* JWT 2.2.0 */,
+				OBJ_145 /* Swifter 1.4.0 */,
+				OBJ_168 /* ExtendedJSON */,
+			);
+			name = Dependencies;
+			sourceTree = "<group>";
+		};
+		OBJ_134 /* JWT 2.2.0 */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_135 /* Package.swift */,
+				OBJ_136 /* Base64.swift */,
+				OBJ_137 /* ClaimSet.swift */,
+				OBJ_138 /* Claims.swift */,
+				OBJ_139 /* Decode.swift */,
+				OBJ_140 /* Encode.swift */,
+				OBJ_141 /* HMAC.swift */,
+				OBJ_142 /* HMACCommonCrypto.swift */,
+				OBJ_143 /* JOSEHeader.swift */,
+				OBJ_144 /* JWT.swift */,
+			);
+			name = "JWT 2.2.0";
+			path = ".build/checkouts/JSONWebToken.swift.git-7307767730484492200/Sources";
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_145 /* Swifter 1.4.0 */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_146 /* Swifter */,
+				OBJ_166 /* Example */,
+				OBJ_167 /* Package.swift */,
 			);
 			name = "Swifter 1.4.0";
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_117 /* Swifter */ = {
+		OBJ_146 /* Swifter */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_118 /* DemoServer.swift */,
-				OBJ_119 /* Errno.swift */,
-				OBJ_120 /* Files.swift */,
-				OBJ_121 /* HttpParser.swift */,
-				OBJ_122 /* HttpRequest.swift */,
-				OBJ_123 /* HttpResponse.swift */,
-				OBJ_124 /* HttpRouter.swift */,
-				OBJ_125 /* HttpServer.swift */,
-				OBJ_126 /* HttpServerIO.swift */,
-				OBJ_127 /* Process.swift */,
-				OBJ_128 /* Scopes.swift */,
-				OBJ_129 /* Socket+File.swift */,
-				OBJ_130 /* Socket+Server.swift */,
-				OBJ_131 /* Socket.swift */,
-				OBJ_132 /* String+BASE64.swift */,
-				OBJ_133 /* String+File.swift */,
-				OBJ_134 /* String+Misc.swift */,
-				OBJ_135 /* String+SHA1.swift */,
-				OBJ_136 /* WebSockets.swift */,
+				OBJ_147 /* DemoServer.swift */,
+				OBJ_148 /* Errno.swift */,
+				OBJ_149 /* Files.swift */,
+				OBJ_150 /* HttpParser.swift */,
+				OBJ_151 /* HttpRequest.swift */,
+				OBJ_152 /* HttpResponse.swift */,
+				OBJ_153 /* HttpRouter.swift */,
+				OBJ_154 /* HttpServer.swift */,
+				OBJ_155 /* HttpServerIO.swift */,
+				OBJ_156 /* Process.swift */,
+				OBJ_157 /* Scopes.swift */,
+				OBJ_158 /* Socket+File.swift */,
+				OBJ_159 /* Socket+Server.swift */,
+				OBJ_160 /* Socket.swift */,
+				OBJ_161 /* String+BASE64.swift */,
+				OBJ_162 /* String+File.swift */,
+				OBJ_163 /* String+Misc.swift */,
+				OBJ_164 /* String+SHA1.swift */,
+				OBJ_165 /* WebSockets.swift */,
 			);
 			name = Swifter;
 			path = ".build/checkouts/swifter.git--8814129713726061435/Sources";
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_137 /* Example */ = {
+		OBJ_166 /* Example */ = {
 			isa = PBXGroup;
 			children = (
 			);
@@ -511,101 +676,102 @@
 			path = ".build/checkouts/swifter.git--8814129713726061435/Example";
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_139 /* ExtendedJSON */ = {
+		OBJ_168 /* ExtendedJSON */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_140 /* ExtendedJSON */,
-				OBJ_181 /* Package.swift */,
+				OBJ_169 /* ExtendedJSON */,
+				OBJ_210 /* Package.swift */,
 			);
 			name = ExtendedJSON;
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_140 /* ExtendedJSON */ = {
+		OBJ_169 /* ExtendedJSON */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_141 /* Bson */,
-				OBJ_157 /* ExtendedJSON */,
-				OBJ_178 /* Helpers */,
+				OBJ_170 /* Bson */,
+				OBJ_186 /* ExtendedJSON */,
+				OBJ_207 /* Helpers */,
 			);
 			name = ExtendedJSON;
 			path = ".build/checkouts/ExtendedJSON-4567327050272746131/Sources/ExtendedJSON";
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_141 /* Bson */ = {
+		OBJ_170 /* Bson */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_142 /* BSONArray.swift */,
-				OBJ_143 /* Binary.swift */,
-				OBJ_144 /* Code.swift */,
-				OBJ_145 /* Coders.swift */,
-				OBJ_146 /* DBPointer.swift */,
-				OBJ_147 /* DBRef.swift */,
-				OBJ_148 /* Document.swift */,
-				OBJ_149 /* MaxKey.swift */,
-				OBJ_150 /* MinKey.swift */,
-				OBJ_151 /* Null.swift */,
-				OBJ_152 /* ObjectId.swift */,
-				OBJ_153 /* RegularExpression.swift */,
-				OBJ_154 /* Symbol.swift */,
-				OBJ_155 /* Timestamp.swift */,
-				OBJ_156 /* Undefined.swift */,
+				OBJ_171 /* BSONArray.swift */,
+				OBJ_172 /* Binary.swift */,
+				OBJ_173 /* Code.swift */,
+				OBJ_174 /* Coders.swift */,
+				OBJ_175 /* DBPointer.swift */,
+				OBJ_176 /* DBRef.swift */,
+				OBJ_177 /* Document.swift */,
+				OBJ_178 /* MaxKey.swift */,
+				OBJ_179 /* MinKey.swift */,
+				OBJ_180 /* Null.swift */,
+				OBJ_181 /* ObjectId.swift */,
+				OBJ_182 /* RegularExpression.swift */,
+				OBJ_183 /* Symbol.swift */,
+				OBJ_184 /* Timestamp.swift */,
+				OBJ_185 /* Undefined.swift */,
 			);
 			path = Bson;
 			sourceTree = "<group>";
 		};
-		OBJ_157 /* ExtendedJSON */ = {
+		OBJ_186 /* ExtendedJSON */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_158 /* Bool+ExtendedJson.swift */,
-				OBJ_159 /* BsonArray+ExtendedJson.swift */,
-				OBJ_160 /* BsonBinary+ExtendedJson.swift */,
-				OBJ_161 /* BsonCode+ExtendedJson.swift */,
-				OBJ_162 /* BsonDBPointer+ExtendedJson.swift */,
-				OBJ_163 /* BsonDBRef+ExtendedJson.swift */,
-				OBJ_164 /* BsonDocument+ExtendedJson.swift */,
-				OBJ_165 /* BsonSymbol+ExtendedJson.swift */,
-				OBJ_166 /* BsonTimestamp+ExtendedJson.swift */,
-				OBJ_167 /* BsonUndefined+ExtendedJson.swift */,
-				OBJ_168 /* Date+ExtenedJson.swift */,
-				OBJ_169 /* Decimal+ExtendedJson.swift */,
-				OBJ_170 /* Double+ExtendedJson.swift */,
-				OBJ_171 /* ExtendedJsonRepresentable.swift */,
-				OBJ_172 /* Int+ExtendedJson.swift */,
-				OBJ_173 /* MaxKey+ExtendedJson.swift */,
-				OBJ_174 /* MinKey+ExtendedJson.swift */,
-				OBJ_175 /* ObjectId+ExtendedJson.swift */,
-				OBJ_176 /* String+ExtendedJson.swift */,
-				OBJ_177 /* UUID+ExtendedJson.swift */,
+				OBJ_187 /* Bool+ExtendedJson.swift */,
+				OBJ_188 /* BsonArray+ExtendedJson.swift */,
+				OBJ_189 /* BsonBinary+ExtendedJson.swift */,
+				OBJ_190 /* BsonCode+ExtendedJson.swift */,
+				OBJ_191 /* BsonDBPointer+ExtendedJson.swift */,
+				OBJ_192 /* BsonDBRef+ExtendedJson.swift */,
+				OBJ_193 /* BsonDocument+ExtendedJson.swift */,
+				OBJ_194 /* BsonSymbol+ExtendedJson.swift */,
+				OBJ_195 /* BsonTimestamp+ExtendedJson.swift */,
+				OBJ_196 /* BsonUndefined+ExtendedJson.swift */,
+				OBJ_197 /* Date+ExtenedJson.swift */,
+				OBJ_198 /* Decimal+ExtendedJson.swift */,
+				OBJ_199 /* Double+ExtendedJson.swift */,
+				OBJ_200 /* ExtendedJsonRepresentable.swift */,
+				OBJ_201 /* Int+ExtendedJson.swift */,
+				OBJ_202 /* MaxKey+ExtendedJson.swift */,
+				OBJ_203 /* MinKey+ExtendedJson.swift */,
+				OBJ_204 /* ObjectId+ExtendedJson.swift */,
+				OBJ_205 /* String+ExtendedJson.swift */,
+				OBJ_206 /* UUID+ExtendedJson.swift */,
 			);
 			path = ExtendedJSON;
 			sourceTree = "<group>";
 		};
-		OBJ_17 /* Models */ = {
+		OBJ_20 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_18 /* APIAccessToken.swift */,
-				OBJ_19 /* APIAuthInfoImpl.swift */,
-				OBJ_20 /* APICoreUserProfile.swift */,
-				OBJ_21 /* APIStitchUserIdentity.swift */,
-				OBJ_22 /* StoreAuthInfo.swift */,
-				OBJ_23 /* StoreCoreUserProfile.swift */,
-				OBJ_24 /* StoreStitchUserIdentity.swift */,
+				OBJ_21 /* APIAccessToken.swift */,
+				OBJ_22 /* APIAuthInfoImpl.swift */,
+				OBJ_23 /* APICoreUserProfile.swift */,
+				OBJ_24 /* APIStitchUserIdentity.swift */,
+				OBJ_25 /* StoreAuthInfo.swift */,
+				OBJ_26 /* StoreCoreUserProfile.swift */,
+				OBJ_27 /* StoreStitchUserIdentity.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
 		};
-		OBJ_178 /* Helpers */ = {
+		OBJ_207 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_179 /* BsonError.swift */,
-				OBJ_180 /* Validators.swift */,
+				OBJ_208 /* BsonError.swift */,
+				OBJ_209 /* Validators.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		OBJ_182 /* Products */ = {
+		OBJ_211 /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				"StitchCore::StitchCore-AdminClient::Product" /* StitchCore_AdminClient.framework */,
 				"StitchCore::stitch-ios-sdk-protoTests::Product" /* stitch_ios_sdk_protoTests.xctest */,
 				"JWT::JWT::Product" /* JWT.framework */,
 				"Swifter::Swifter::Product" /* Swifter.framework */,
@@ -615,235 +781,227 @@
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		OBJ_28 /* Providers */ = {
+		OBJ_31 /* Providers */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_29 /* Anonymous */,
-				OBJ_32 /* Custom */,
-				OBJ_35 /* Facebook */,
-				OBJ_38 /* Google */,
-				OBJ_41 /* ServerAPIKey */,
-				OBJ_44 /* UserAPIKey */,
-				OBJ_47 /* UserPass */,
-				110DDB3320729F350044B6F3 /* StitchProviderType.swift */,
+				OBJ_32 /* Anonymous */,
+				OBJ_35 /* Custom */,
+				OBJ_38 /* Facebook */,
+				OBJ_41 /* Google */,
+				OBJ_44 /* ServerAPIKey */,
+				OBJ_47 /* StitchProviderType.swift */,
+				OBJ_48 /* UserAPIKey */,
+				OBJ_51 /* UserPass */,
 			);
 			path = Providers;
 			sourceTree = "<group>";
 		};
-		OBJ_29 /* Anonymous */ = {
+		OBJ_32 /* Anonymous */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_30 /* AnonymousCredential.swift */,
-				OBJ_31 /* CoreAnonymousAuthProviderClient.swift */,
+				OBJ_33 /* AnonymousCredential.swift */,
+				OBJ_34 /* CoreAnonymousAuthProviderClient.swift */,
 			);
 			path = Anonymous;
 			sourceTree = "<group>";
 		};
-		OBJ_32 /* Custom */ = {
+		OBJ_35 /* Custom */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_33 /* CoreCustomAuthProviderClient.swift */,
-				OBJ_34 /* CustomCredential.swift */,
+				OBJ_36 /* CoreCustomAuthProviderClient.swift */,
+				OBJ_37 /* CustomCredential.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
 		};
-		OBJ_35 /* Facebook */ = {
+		OBJ_38 /* Facebook */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_36 /* CoreFacebookAuthProviderClient.swift */,
-				OBJ_37 /* FacebookCredential.swift */,
+				OBJ_39 /* CoreFacebookAuthProviderClient.swift */,
+				OBJ_40 /* FacebookCredential.swift */,
 			);
 			path = Facebook;
 			sourceTree = "<group>";
 		};
-		OBJ_38 /* Google */ = {
+		OBJ_41 /* Google */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_39 /* CoreGoogleAuthProviderClient.swift */,
-				OBJ_40 /* GoogleCredential.swift */,
+				OBJ_42 /* CoreGoogleAuthProviderClient.swift */,
+				OBJ_43 /* GoogleCredential.swift */,
 			);
 			path = Google;
 			sourceTree = "<group>";
 		};
-		OBJ_41 /* ServerAPIKey */ = {
+		OBJ_44 /* ServerAPIKey */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_42 /* CoreServerAPIKeyAuthProviderClient.swift */,
-				OBJ_43 /* ServerAPIKeyCredential.swift */,
+				OBJ_45 /* CoreServerAPIKeyAuthProviderClient.swift */,
+				OBJ_46 /* ServerAPIKeyCredential.swift */,
 			);
 			path = ServerAPIKey;
 			sourceTree = "<group>";
 		};
-		OBJ_44 /* UserAPIKey */ = {
+		OBJ_48 /* UserAPIKey */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_45 /* CoreUserAPIKeyAuthProviderClient.swift */,
-				OBJ_46 /* UserAPIKeyCredential.swift */,
+				OBJ_49 /* CoreUserAPIKeyAuthProviderClient.swift */,
+				OBJ_50 /* UserAPIKeyCredential.swift */,
 			);
 			path = UserAPIKey;
 			sourceTree = "<group>";
 		};
-		OBJ_47 /* UserPass */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_48 /* CoreUserPasswordAuthProviderClient.swift */,
-				OBJ_49 /* UserPasswordCredential.swift */,
-			);
-			path = UserPass;
-			sourceTree = "<group>";
-		};
-		OBJ_5 = {
+		OBJ_5 /*  */ = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
 				OBJ_7 /* Sources */,
-				OBJ_78 /* Tests */,
-				OBJ_103 /* DocsSources */,
-				OBJ_104 /* Dependencies */,
-				OBJ_182 /* Products */,
+				OBJ_105 /* Tests */,
+				OBJ_130 /* docs */,
+				OBJ_131 /* build */,
+				OBJ_132 /* DocsSources */,
+				OBJ_133 /* Dependencies */,
+				OBJ_211 /* Products */,
 			);
+			name = "";
 			sourceTree = "<group>";
 		};
-		OBJ_53 /* Internal */ = {
+		OBJ_51 /* UserPass */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_54 /* Common */,
-				OBJ_59 /* CoreStitchAppClient.swift */,
-				OBJ_60 /* Net */,
+				OBJ_52 /* CoreUserPasswordAuthProviderClient.swift */,
+				OBJ_53 /* UserPasswordCredential.swift */,
+			);
+			path = UserPass;
+			sourceTree = "<group>";
+		};
+		OBJ_57 /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_58 /* Common */,
+				OBJ_62 /* CoreStitchAppClient.swift */,
+				OBJ_63 /* Net */,
 			);
 			path = Internal;
 			sourceTree = "<group>";
 		};
-		OBJ_54 /* Common */ = {
+		OBJ_58 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_55 /* ImplFailureFatalErrors.swift */,
-				OBJ_57 /* Storage.swift */,
+				OBJ_59 /* Builder.swift */,
+				OBJ_60 /* ImplFailureFatalErrors.swift */,
+				OBJ_61 /* Storage.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
 		};
-		OBJ_60 /* Net */ = {
+		OBJ_63 /* Net */ = {
 			isa = PBXGroup;
 			children = (
-				1127A376206D6FC200FE9200 /* Requests */,
-				OBJ_61 /* ContentType.swift */,
-				OBJ_62 /* FoundationHTTPTransport.swift */,
-				OBJ_63 /* Headers.swift */,
-				OBJ_64 /* Method.swift */,
-				OBJ_67 /* StitchAppRoutes.swift */,
-				OBJ_69 /* StitchRequestClient.swift */,
-				OBJ_70 /* Transport.swift */,
+				OBJ_64 /* ContentType.swift */,
+				OBJ_65 /* FoundationHTTPTransport.swift */,
+				OBJ_66 /* Headers.swift */,
+				OBJ_67 /* Method.swift */,
+				OBJ_68 /* Requests */,
+				OBJ_72 /* StitchAppRoutes.swift */,
+				OBJ_73 /* StitchRequestClient.swift */,
+				OBJ_74 /* Transport.swift */,
 			);
 			path = Net;
+			sourceTree = "<group>";
+		};
+		OBJ_68 /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_69 /* Request.swift */,
+				OBJ_70 /* StitchAuthRequest.swift */,
+				OBJ_71 /* StitchRequest.swift */,
+			);
+			path = Requests;
 			sourceTree = "<group>";
 		};
 		OBJ_7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				OBJ_8 /* StitchCore */,
+				OBJ_82 /* StitchCore-AdminClient */,
 			);
 			name = Sources;
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_71 /* Services */ = {
+		OBJ_75 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_72 /* Internal */,
+				OBJ_76 /* Internal */,
 			);
 			path = Services;
 			sourceTree = "<group>";
 		};
-		OBJ_72 /* Internal */ = {
+		OBJ_76 /* Internal */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_73 /* CoreStitchService.swift */,
+				OBJ_77 /* CoreStitchService.swift */,
 			);
 			path = Internal;
 			sourceTree = "<group>";
-		};
-		OBJ_78 /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_79 /* stitch-ios-sdk-protoTests */,
-			);
-			name = Tests;
-			sourceTree = SOURCE_ROOT;
-		};
-		OBJ_79 /* stitch-ios-sdk-protoTests */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_80 /* Auth */,
-				OBJ_90 /* Internal */,
-				OBJ_96 /* Services */,
-				OBJ_99 /* StitchAppClientConfigurationTests.swift */,
-				OBJ_100 /* StitchAppClientInfoTests.swift */,
-				OBJ_101 /* StitchClientConfigurationTests.swift */,
-				OBJ_102 /* stitch_ios_sdk_protoTests.swift */,
-			);
-			name = "stitch-ios-sdk-protoTests";
-			path = "Tests/stitch-ios-sdk-protoTests";
-			sourceTree = SOURCE_ROOT;
 		};
 		OBJ_8 /* StitchCore */ = {
 			isa = PBXGroup;
 			children = (
 				OBJ_9 /* Auth */,
-				1127A378206D85A100FE9200 /* Common */,
-				OBJ_53 /* Internal */,
-				OBJ_71 /* Services */,
-				OBJ_74 /* StitchAppClientConfiguration.swift */,
-				OBJ_75 /* StitchAppClientInfo.swift */,
-				OBJ_76 /* StitchClientConfiguration.swift */,
-				OBJ_77 /* StitchError.swift */,
+				OBJ_57 /* Internal */,
+				OBJ_75 /* Services */,
+				OBJ_78 /* StitchAppClientConfiguration.swift */,
+				OBJ_79 /* StitchAppClientInfo.swift */,
+				OBJ_80 /* StitchClientConfiguration.swift */,
+				OBJ_81 /* StitchError.swift */,
 			);
 			name = StitchCore;
 			path = Sources/StitchCore;
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_80 /* Auth */ = {
+		OBJ_82 /* StitchCore-AdminClient */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_81 /* Internal */,
-				OBJ_86 /* Providers */,
-				OBJ_89 /* StitchUserProfileTests.swift */,
+				OBJ_83 /* Apps */,
+				OBJ_85 /* AuthProviders */,
+				OBJ_88 /* Functions */,
+				OBJ_90 /* Resources.swift */,
+				OBJ_91 /* Services */,
+				OBJ_96 /* StitchAdminAuth.swift */,
+				OBJ_97 /* StitchAdminAuthRoutes.swift */,
+				OBJ_98 /* StitchAdminClient.swift */,
+				OBJ_99 /* StitchAdminUser.swift */,
+				OBJ_100 /* StitchAdminUserProfile.swift */,
+				OBJ_101 /* UserRegistrations */,
+				OBJ_103 /* Users */,
 			);
-			path = Auth;
+			name = "StitchCore-AdminClient";
+			path = "Sources/StitchCore-AdminClient";
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_83 /* Apps */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_84 /* AppsResources.swift */,
+			);
+			path = Apps;
 			sourceTree = "<group>";
 		};
-		OBJ_81 /* Internal */ = {
+		OBJ_85 /* AuthProviders */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_82 /* AccessTokenRefresherTests.swift */,
-				OBJ_83 /* CoreStitchAuthTests.swift */,
-				OBJ_84 /* Models */,
+				OBJ_86 /* AuthProvidersResources.swift */,
+				OBJ_87 /* ProviderConfig.swift */,
 			);
-			path = Internal;
+			path = AuthProviders;
 			sourceTree = "<group>";
 		};
-		OBJ_84 /* Models */ = {
+		OBJ_88 /* Functions */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_85 /* StoreAuthInfoTests.swift */,
+				OBJ_89 /* FunctionsResources.swift */,
 			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		OBJ_86 /* Providers */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_87 /* UserPass */,
-			);
-			path = Providers;
-			sourceTree = "<group>";
-		};
-		OBJ_87 /* UserPass */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_88 /* CoreUserPasswordAuthProviderClientTests.swift */,
-			);
-			path = UserPass;
+			path = Functions;
 			sourceTree = "<group>";
 		};
 		OBJ_9 /* Auth */ = {
@@ -851,55 +1009,31 @@
 			children = (
 				OBJ_10 /* CoreAuthProviderClient.swift */,
 				OBJ_11 /* Internal */,
-				OBJ_27 /* ProviderCapabilities.swift */,
-				OBJ_28 /* Providers */,
-				OBJ_50 /* StitchCredential.swift */,
-				OBJ_51 /* StitchUserIdentity.swift */,
-				OBJ_52 /* StitchUserProfile.swift */,
+				OBJ_30 /* ProviderCapabilities.swift */,
+				OBJ_31 /* Providers */,
+				OBJ_54 /* StitchCredential.swift */,
+				OBJ_55 /* StitchUserIdentity.swift */,
+				OBJ_56 /* StitchUserProfile.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
 		};
-		OBJ_90 /* Internal */ = {
+		OBJ_91 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_91 /* Common */,
-				OBJ_93 /* Net */,
-			);
-			path = Internal;
-			sourceTree = "<group>";
-		};
-		OBJ_91 /* Common */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_92 /* SynchronizedTests.swift */,
-			);
-			path = Common;
-			sourceTree = "<group>";
-		};
-		OBJ_93 /* Net */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_94 /* FoundationHTTPTransportTests.swift */,
-				OBJ_95 /* StitchRequestClientTests.swift */,
-			);
-			path = Net;
-			sourceTree = "<group>";
-		};
-		OBJ_96 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_97 /* Internal */,
+				OBJ_92 /* Rules */,
+				OBJ_94 /* ServiceConfigs.swift */,
+				OBJ_95 /* ServicesResources.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
 		};
-		OBJ_97 /* Internal */ = {
+		OBJ_92 /* Rules */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_98 /* CoreStitchServiceTests.swift */,
+				OBJ_93 /* RulesResources.swift */,
 			);
-			path = Internal;
+			path = Rules;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -907,10 +1041,10 @@
 /* Begin PBXNativeTarget section */
 		"ExtendedJSON::ExtendedJSON" /* ExtendedJSON */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_341 /* Build configuration list for PBXNativeTarget "ExtendedJSON" */;
+			buildConfigurationList = OBJ_399 /* Build configuration list for PBXNativeTarget "ExtendedJSON" */;
 			buildPhases = (
-				OBJ_344 /* Sources */,
-				OBJ_382 /* Frameworks */,
+				OBJ_402 /* Sources */,
+				OBJ_440 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -923,9 +1057,9 @@
 		};
 		"ExtendedJSON::SwiftPMPackageDescription" /* ExtendedJSONPackageDescription */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_207 /* Build configuration list for PBXNativeTarget "ExtendedJSONPackageDescription" */;
+			buildConfigurationList = OBJ_237 /* Build configuration list for PBXNativeTarget "ExtendedJSONPackageDescription" */;
 			buildPhases = (
-				OBJ_210 /* Sources */,
+				OBJ_240 /* Sources */,
 			);
 			buildRules = (
 			);
@@ -937,10 +1071,10 @@
 		};
 		"JWT::JWT" /* JWT */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_243 /* Build configuration list for PBXNativeTarget "JWT" */;
+			buildConfigurationList = OBJ_298 /* Build configuration list for PBXNativeTarget "JWT" */;
 			buildPhases = (
-				OBJ_246 /* Sources */,
-				OBJ_256 /* Frameworks */,
+				OBJ_301 /* Sources */,
+				OBJ_311 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -953,9 +1087,9 @@
 		};
 		"JWT::SwiftPMPackageDescription" /* JWTPackageDescription */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_195 /* Build configuration list for PBXNativeTarget "JWTPackageDescription" */;
+			buildConfigurationList = OBJ_225 /* Build configuration list for PBXNativeTarget "JWTPackageDescription" */;
 			buildPhases = (
-				OBJ_198 /* Sources */,
+				OBJ_228 /* Sources */,
 			);
 			buildRules = (
 			);
@@ -967,27 +1101,44 @@
 		};
 		"StitchCore::StitchCore" /* StitchCore */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_281 /* Build configuration list for PBXNativeTarget "StitchCore" */;
+			buildConfigurationList = OBJ_336 /* Build configuration list for PBXNativeTarget "StitchCore" */;
 			buildPhases = (
-				OBJ_284 /* Sources */,
-				OBJ_338 /* Frameworks */,
-				111E7489206BF6C700DFC43C /* ShellScript */,
+				OBJ_339 /* Sources */,
+				OBJ_396 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				OBJ_340 /* PBXTargetDependency */,
+				OBJ_398 /* PBXTargetDependency */,
 			);
 			name = StitchCore;
 			productName = StitchCore;
 			productReference = "StitchCore::StitchCore::Product" /* StitchCore.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		"StitchCore::StitchCore-AdminClient" /* StitchCore-AdminClient */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_243 /* Build configuration list for PBXNativeTarget "StitchCore-AdminClient" */;
+			buildPhases = (
+				OBJ_246 /* Sources */,
+				OBJ_262 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				OBJ_265 /* PBXTargetDependency */,
+				OBJ_267 /* PBXTargetDependency */,
+			);
+			name = "StitchCore-AdminClient";
+			productName = StitchCore_AdminClient;
+			productReference = "StitchCore::StitchCore-AdminClient::Product" /* StitchCore_AdminClient.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		"StitchCore::SwiftPMPackageDescription" /* StitchCorePackageDescription */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_189 /* Build configuration list for PBXNativeTarget "StitchCorePackageDescription" */;
+			buildConfigurationList = OBJ_219 /* Build configuration list for PBXNativeTarget "StitchCorePackageDescription" */;
 			buildPhases = (
-				OBJ_192 /* Sources */,
+				OBJ_222 /* Sources */,
 			);
 			buildRules = (
 			);
@@ -999,18 +1150,18 @@
 		};
 		"StitchCore::stitch-ios-sdk-protoTests" /* stitch-ios-sdk-protoTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_213 /* Build configuration list for PBXNativeTarget "stitch-ios-sdk-protoTests" */;
+			buildConfigurationList = OBJ_270 /* Build configuration list for PBXNativeTarget "stitch-ios-sdk-protoTests" */;
 			buildPhases = (
-				OBJ_216 /* Sources */,
-				OBJ_230 /* Frameworks */,
+				OBJ_273 /* Sources */,
+				OBJ_287 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				OBJ_235 /* PBXTargetDependency */,
-				OBJ_237 /* PBXTargetDependency */,
-				OBJ_239 /* PBXTargetDependency */,
-				OBJ_241 /* PBXTargetDependency */,
+				OBJ_292 /* PBXTargetDependency */,
+				OBJ_294 /* PBXTargetDependency */,
+				OBJ_296 /* PBXTargetDependency */,
+				OBJ_297 /* PBXTargetDependency */,
 			);
 			name = "stitch-ios-sdk-protoTests";
 			productName = stitch_ios_sdk_protoTests;
@@ -1019,9 +1170,9 @@
 		};
 		"Swifter::SwiftPMPackageDescription" /* SwifterPackageDescription */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_201 /* Build configuration list for PBXNativeTarget "SwifterPackageDescription" */;
+			buildConfigurationList = OBJ_231 /* Build configuration list for PBXNativeTarget "SwifterPackageDescription" */;
 			buildPhases = (
-				OBJ_204 /* Sources */,
+				OBJ_234 /* Sources */,
 			);
 			buildRules = (
 			);
@@ -1033,10 +1184,10 @@
 		};
 		"Swifter::Swifter" /* Swifter */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_257 /* Build configuration list for PBXNativeTarget "Swifter" */;
+			buildConfigurationList = OBJ_312 /* Build configuration list for PBXNativeTarget "Swifter" */;
 			buildPhases = (
-				OBJ_260 /* Sources */,
-				OBJ_280 /* Frameworks */,
+				OBJ_315 /* Sources */,
+				OBJ_335 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1062,8 +1213,8 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5;
-			productRefGroup = OBJ_182 /* Products */;
+			mainGroup = OBJ_5 /*  */;
+			productRefGroup = OBJ_211 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -1071,6 +1222,7 @@
 				"JWT::SwiftPMPackageDescription" /* JWTPackageDescription */,
 				"Swifter::SwiftPMPackageDescription" /* SwifterPackageDescription */,
 				"ExtendedJSON::SwiftPMPackageDescription" /* ExtendedJSONPackageDescription */,
+				"StitchCore::StitchCore-AdminClient" /* StitchCore-AdminClient */,
 				"StitchCore::stitch-ios-sdk-protoTests" /* stitch-ios-sdk-protoTests */,
 				"JWT::JWT" /* JWT */,
 				"Swifter::Swifter" /* Swifter */,
@@ -1081,72 +1233,36 @@
 		};
 /* End PBXProject section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		111E7489206BF6C700DFC43C /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
-		OBJ_192 /* Sources */ = {
+		OBJ_222 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_193 /* Package.swift in Sources */,
+				OBJ_223 /* Package.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_198 /* Sources */ = {
+		OBJ_228 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_199 /* Package.swift in Sources */,
+				OBJ_229 /* Package.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_204 /* Sources */ = {
+		OBJ_234 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_205 /* Package.swift in Sources */,
+				OBJ_235 /* Package.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_210 /* Sources */ = {
+		OBJ_240 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_211 /* Package.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		OBJ_216 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 0;
-			files = (
-				OBJ_217 /* AccessTokenRefresherTests.swift in Sources */,
-				OBJ_218 /* CoreStitchAuthTests.swift in Sources */,
-				OBJ_219 /* StoreAuthInfoTests.swift in Sources */,
-				OBJ_220 /* CoreUserPasswordAuthProviderClientTests.swift in Sources */,
-				OBJ_221 /* StitchUserProfileTests.swift in Sources */,
-				OBJ_222 /* SynchronizedTests.swift in Sources */,
-				OBJ_223 /* FoundationHTTPTransportTests.swift in Sources */,
-				OBJ_224 /* StitchRequestClientTests.swift in Sources */,
-				OBJ_225 /* CoreStitchServiceTests.swift in Sources */,
-				OBJ_226 /* StitchAppClientConfigurationTests.swift in Sources */,
-				OBJ_227 /* StitchAppClientInfoTests.swift in Sources */,
-				OBJ_228 /* StitchClientConfigurationTests.swift in Sources */,
-				OBJ_229 /* stitch_ios_sdk_protoTests.swift in Sources */,
+				OBJ_241 /* Package.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1154,188 +1270,240 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_247 /* Base64.swift in Sources */,
-				OBJ_248 /* ClaimSet.swift in Sources */,
-				OBJ_249 /* Claims.swift in Sources */,
-				OBJ_250 /* Decode.swift in Sources */,
-				OBJ_251 /* Encode.swift in Sources */,
-				OBJ_252 /* HMAC.swift in Sources */,
-				OBJ_253 /* HMACCommonCrypto.swift in Sources */,
-				OBJ_254 /* JOSEHeader.swift in Sources */,
-				OBJ_255 /* JWT.swift in Sources */,
+				OBJ_247 /* AppsResources.swift in Sources */,
+				OBJ_248 /* AuthProvidersResources.swift in Sources */,
+				OBJ_249 /* ProviderConfig.swift in Sources */,
+				OBJ_250 /* FunctionsResources.swift in Sources */,
+				OBJ_251 /* Resources.swift in Sources */,
+				OBJ_252 /* RulesResources.swift in Sources */,
+				OBJ_253 /* ServiceConfigs.swift in Sources */,
+				OBJ_254 /* ServicesResources.swift in Sources */,
+				OBJ_255 /* StitchAdminAuth.swift in Sources */,
+				OBJ_256 /* StitchAdminAuthRoutes.swift in Sources */,
+				OBJ_257 /* StitchAdminClient.swift in Sources */,
+				OBJ_258 /* StitchAdminUser.swift in Sources */,
+				OBJ_259 /* StitchAdminUserProfile.swift in Sources */,
+				OBJ_260 /* UserRegistrationsResources.swift in Sources */,
+				OBJ_261 /* UsersResources.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_260 /* Sources */ = {
+		OBJ_273 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_261 /* DemoServer.swift in Sources */,
-				OBJ_262 /* Errno.swift in Sources */,
-				OBJ_263 /* Files.swift in Sources */,
-				OBJ_264 /* HttpParser.swift in Sources */,
-				OBJ_265 /* HttpRequest.swift in Sources */,
-				OBJ_266 /* HttpResponse.swift in Sources */,
-				OBJ_267 /* HttpRouter.swift in Sources */,
-				OBJ_268 /* HttpServer.swift in Sources */,
-				OBJ_269 /* HttpServerIO.swift in Sources */,
-				OBJ_270 /* Process.swift in Sources */,
-				OBJ_271 /* Scopes.swift in Sources */,
-				OBJ_272 /* Socket+File.swift in Sources */,
-				OBJ_273 /* Socket+Server.swift in Sources */,
-				OBJ_274 /* Socket.swift in Sources */,
-				OBJ_275 /* String+BASE64.swift in Sources */,
-				OBJ_276 /* String+File.swift in Sources */,
-				OBJ_277 /* String+Misc.swift in Sources */,
-				OBJ_278 /* String+SHA1.swift in Sources */,
-				OBJ_279 /* WebSockets.swift in Sources */,
+				OBJ_274 /* AccessTokenRefresherTests.swift in Sources */,
+				OBJ_275 /* CoreStitchAuthTests.swift in Sources */,
+				OBJ_276 /* StoreAuthInfoTests.swift in Sources */,
+				OBJ_277 /* CoreUserPasswordAuthProviderClientTests.swift in Sources */,
+				OBJ_278 /* StitchUserProfileTests.swift in Sources */,
+				OBJ_279 /* SynchronizedTests.swift in Sources */,
+				OBJ_280 /* FoundationHTTPTransportTests.swift in Sources */,
+				OBJ_281 /* StitchRequestClientTests.swift in Sources */,
+				OBJ_282 /* CoreStitchServiceTests.swift in Sources */,
+				OBJ_283 /* StitchAppClientConfigurationTests.swift in Sources */,
+				OBJ_284 /* StitchAppClientInfoTests.swift in Sources */,
+				OBJ_285 /* StitchClientConfigurationTests.swift in Sources */,
+				OBJ_286 /* stitch_ios_sdk_protoTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_284 /* Sources */ = {
+		OBJ_301 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_285 /* CoreAuthProviderClient.swift in Sources */,
-				OBJ_286 /* AccessTokenRefresher.swift in Sources */,
-				OBJ_287 /* AuthInfo.swift in Sources */,
-				OBJ_288 /* CoreStitchAuth.swift in Sources */,
-				OBJ_289 /* CoreStitchUser.swift in Sources */,
-				OBJ_290 /* DeviceField.swift in Sources */,
-				OBJ_291 /* APIAccessToken.swift in Sources */,
-				OBJ_292 /* APIAuthInfoImpl.swift in Sources */,
-				111E748E206C127D00DFC43C /* CoreStitchAuth+StitchAuthRequestClient.swift in Sources */,
-				OBJ_293 /* APICoreUserProfile.swift in Sources */,
-				OBJ_294 /* APIStitchUserIdentity.swift in Sources */,
-				OBJ_295 /* StoreAuthInfo.swift in Sources */,
-				OBJ_296 /* StoreCoreUserProfile.swift in Sources */,
-				OBJ_297 /* StoreStitchUserIdentity.swift in Sources */,
-				111E748C206C115800DFC43C /* AuthStateHolder.swift in Sources */,
-				OBJ_298 /* StitchAuthRequestClient.swift in Sources */,
-				OBJ_299 /* StitchUserFactory.swift in Sources */,
-				OBJ_300 /* ProviderCapabilities.swift in Sources */,
-				OBJ_301 /* AnonymousCredential.swift in Sources */,
-				OBJ_302 /* CoreAnonymousAuthProviderClient.swift in Sources */,
-				OBJ_303 /* CoreCustomAuthProviderClient.swift in Sources */,
-				OBJ_304 /* CustomCredential.swift in Sources */,
-				OBJ_305 /* CoreFacebookAuthProviderClient.swift in Sources */,
-				1127A37B206D85B900FE9200 /* Builder.swift in Sources */,
-				OBJ_306 /* FacebookCredential.swift in Sources */,
-				OBJ_307 /* CoreGoogleAuthProviderClient.swift in Sources */,
-				OBJ_308 /* GoogleCredential.swift in Sources */,
-				OBJ_309 /* CoreServerAPIKeyAuthProviderClient.swift in Sources */,
-				OBJ_310 /* ServerAPIKeyCredential.swift in Sources */,
-				OBJ_311 /* CoreUserAPIKeyAuthProviderClient.swift in Sources */,
-				OBJ_312 /* UserAPIKeyCredential.swift in Sources */,
-				OBJ_313 /* CoreUserPasswordAuthProviderClient.swift in Sources */,
-				OBJ_314 /* UserPasswordCredential.swift in Sources */,
-				OBJ_315 /* StitchCredential.swift in Sources */,
-				OBJ_316 /* StitchUserIdentity.swift in Sources */,
-				111CCA07207D0FFD002FEB4A /* JWT.swift in Sources */,
-				OBJ_317 /* StitchUserProfile.swift in Sources */,
-				OBJ_318 /* ImplFailureFatalErrors.swift in Sources */,
-				OBJ_320 /* Storage.swift in Sources */,
-				OBJ_322 /* CoreStitchAppClient.swift in Sources */,
-				OBJ_323 /* ContentType.swift in Sources */,
-				OBJ_324 /* FoundationHTTPTransport.swift in Sources */,
-				OBJ_325 /* Headers.swift in Sources */,
-				OBJ_326 /* Method.swift in Sources */,
-				OBJ_327 /* Request.swift in Sources */,
-				OBJ_328 /* StitchAuthRequest.swift in Sources */,
-				OBJ_329 /* StitchAppRoutes.swift in Sources */,
-				OBJ_330 /* StitchRequest.swift in Sources */,
-				OBJ_331 /* StitchRequestClient.swift in Sources */,
-				OBJ_332 /* Transport.swift in Sources */,
-				OBJ_333 /* CoreStitchService.swift in Sources */,
-				OBJ_334 /* StitchAppClientConfiguration.swift in Sources */,
-				110DDB3420729F350044B6F3 /* StitchProviderType.swift in Sources */,
-				OBJ_335 /* StitchAppClientInfo.swift in Sources */,
-				OBJ_336 /* StitchClientConfiguration.swift in Sources */,
-				OBJ_337 /* StitchError.swift in Sources */,
+				OBJ_302 /* Base64.swift in Sources */,
+				OBJ_303 /* ClaimSet.swift in Sources */,
+				OBJ_304 /* Claims.swift in Sources */,
+				OBJ_305 /* Decode.swift in Sources */,
+				OBJ_306 /* Encode.swift in Sources */,
+				OBJ_307 /* HMAC.swift in Sources */,
+				OBJ_308 /* HMACCommonCrypto.swift in Sources */,
+				OBJ_309 /* JOSEHeader.swift in Sources */,
+				OBJ_310 /* JWT.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_344 /* Sources */ = {
+		OBJ_315 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_345 /* BSONArray.swift in Sources */,
-				OBJ_346 /* Binary.swift in Sources */,
-				OBJ_347 /* Code.swift in Sources */,
-				OBJ_348 /* Coders.swift in Sources */,
-				OBJ_349 /* DBPointer.swift in Sources */,
-				OBJ_350 /* DBRef.swift in Sources */,
-				OBJ_351 /* Document.swift in Sources */,
-				OBJ_352 /* MaxKey.swift in Sources */,
-				OBJ_353 /* MinKey.swift in Sources */,
-				OBJ_354 /* Null.swift in Sources */,
-				OBJ_355 /* ObjectId.swift in Sources */,
-				OBJ_356 /* RegularExpression.swift in Sources */,
-				OBJ_357 /* Symbol.swift in Sources */,
-				OBJ_358 /* Timestamp.swift in Sources */,
-				OBJ_359 /* Undefined.swift in Sources */,
-				OBJ_360 /* Bool+ExtendedJson.swift in Sources */,
-				OBJ_361 /* BsonArray+ExtendedJson.swift in Sources */,
-				OBJ_362 /* BsonBinary+ExtendedJson.swift in Sources */,
-				OBJ_363 /* BsonCode+ExtendedJson.swift in Sources */,
-				OBJ_364 /* BsonDBPointer+ExtendedJson.swift in Sources */,
-				OBJ_365 /* BsonDBRef+ExtendedJson.swift in Sources */,
-				OBJ_366 /* BsonDocument+ExtendedJson.swift in Sources */,
-				OBJ_367 /* BsonSymbol+ExtendedJson.swift in Sources */,
-				OBJ_368 /* BsonTimestamp+ExtendedJson.swift in Sources */,
-				OBJ_369 /* BsonUndefined+ExtendedJson.swift in Sources */,
-				OBJ_370 /* Date+ExtenedJson.swift in Sources */,
-				OBJ_371 /* Decimal+ExtendedJson.swift in Sources */,
-				OBJ_372 /* Double+ExtendedJson.swift in Sources */,
-				OBJ_373 /* ExtendedJsonRepresentable.swift in Sources */,
-				OBJ_374 /* Int+ExtendedJson.swift in Sources */,
-				OBJ_375 /* MaxKey+ExtendedJson.swift in Sources */,
-				OBJ_376 /* MinKey+ExtendedJson.swift in Sources */,
-				OBJ_377 /* ObjectId+ExtendedJson.swift in Sources */,
-				OBJ_378 /* String+ExtendedJson.swift in Sources */,
-				OBJ_379 /* UUID+ExtendedJson.swift in Sources */,
-				OBJ_380 /* BsonError.swift in Sources */,
-				OBJ_381 /* Validators.swift in Sources */,
+				OBJ_316 /* DemoServer.swift in Sources */,
+				OBJ_317 /* Errno.swift in Sources */,
+				OBJ_318 /* Files.swift in Sources */,
+				OBJ_319 /* HttpParser.swift in Sources */,
+				OBJ_320 /* HttpRequest.swift in Sources */,
+				OBJ_321 /* HttpResponse.swift in Sources */,
+				OBJ_322 /* HttpRouter.swift in Sources */,
+				OBJ_323 /* HttpServer.swift in Sources */,
+				OBJ_324 /* HttpServerIO.swift in Sources */,
+				OBJ_325 /* Process.swift in Sources */,
+				OBJ_326 /* Scopes.swift in Sources */,
+				OBJ_327 /* Socket+File.swift in Sources */,
+				OBJ_328 /* Socket+Server.swift in Sources */,
+				OBJ_329 /* Socket.swift in Sources */,
+				OBJ_330 /* String+BASE64.swift in Sources */,
+				OBJ_331 /* String+File.swift in Sources */,
+				OBJ_332 /* String+Misc.swift in Sources */,
+				OBJ_333 /* String+SHA1.swift in Sources */,
+				OBJ_334 /* WebSockets.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_339 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_340 /* CoreAuthProviderClient.swift in Sources */,
+				OBJ_341 /* AccessTokenRefresher.swift in Sources */,
+				OBJ_342 /* AuthInfo.swift in Sources */,
+				OBJ_343 /* AuthStateHolder.swift in Sources */,
+				OBJ_344 /* CoreStitchAuth+StitchAuthRequestClient.swift in Sources */,
+				OBJ_345 /* CoreStitchAuth.swift in Sources */,
+				OBJ_346 /* CoreStitchUser.swift in Sources */,
+				OBJ_347 /* DeviceField.swift in Sources */,
+				OBJ_348 /* JWT.swift in Sources */,
+				OBJ_349 /* APIAccessToken.swift in Sources */,
+				OBJ_350 /* APIAuthInfoImpl.swift in Sources */,
+				OBJ_351 /* APICoreUserProfile.swift in Sources */,
+				OBJ_352 /* APIStitchUserIdentity.swift in Sources */,
+				OBJ_353 /* StoreAuthInfo.swift in Sources */,
+				OBJ_354 /* StoreCoreUserProfile.swift in Sources */,
+				OBJ_355 /* StoreStitchUserIdentity.swift in Sources */,
+				OBJ_356 /* StitchAuthRequestClient.swift in Sources */,
+				OBJ_357 /* StitchUserFactory.swift in Sources */,
+				OBJ_358 /* ProviderCapabilities.swift in Sources */,
+				OBJ_359 /* AnonymousCredential.swift in Sources */,
+				OBJ_360 /* CoreAnonymousAuthProviderClient.swift in Sources */,
+				OBJ_361 /* CoreCustomAuthProviderClient.swift in Sources */,
+				OBJ_362 /* CustomCredential.swift in Sources */,
+				OBJ_363 /* CoreFacebookAuthProviderClient.swift in Sources */,
+				OBJ_364 /* FacebookCredential.swift in Sources */,
+				OBJ_365 /* CoreGoogleAuthProviderClient.swift in Sources */,
+				OBJ_366 /* GoogleCredential.swift in Sources */,
+				OBJ_367 /* CoreServerAPIKeyAuthProviderClient.swift in Sources */,
+				OBJ_368 /* ServerAPIKeyCredential.swift in Sources */,
+				OBJ_369 /* StitchProviderType.swift in Sources */,
+				OBJ_370 /* CoreUserAPIKeyAuthProviderClient.swift in Sources */,
+				OBJ_371 /* UserAPIKeyCredential.swift in Sources */,
+				OBJ_372 /* CoreUserPasswordAuthProviderClient.swift in Sources */,
+				OBJ_373 /* UserPasswordCredential.swift in Sources */,
+				OBJ_374 /* StitchCredential.swift in Sources */,
+				OBJ_375 /* StitchUserIdentity.swift in Sources */,
+				OBJ_376 /* StitchUserProfile.swift in Sources */,
+				OBJ_377 /* Builder.swift in Sources */,
+				OBJ_378 /* ImplFailureFatalErrors.swift in Sources */,
+				OBJ_379 /* Storage.swift in Sources */,
+				OBJ_380 /* CoreStitchAppClient.swift in Sources */,
+				OBJ_381 /* ContentType.swift in Sources */,
+				OBJ_382 /* FoundationHTTPTransport.swift in Sources */,
+				OBJ_383 /* Headers.swift in Sources */,
+				OBJ_384 /* Method.swift in Sources */,
+				OBJ_385 /* Request.swift in Sources */,
+				OBJ_386 /* StitchAuthRequest.swift in Sources */,
+				OBJ_387 /* StitchRequest.swift in Sources */,
+				OBJ_388 /* StitchAppRoutes.swift in Sources */,
+				OBJ_389 /* StitchRequestClient.swift in Sources */,
+				OBJ_390 /* Transport.swift in Sources */,
+				OBJ_391 /* CoreStitchService.swift in Sources */,
+				OBJ_392 /* StitchAppClientConfiguration.swift in Sources */,
+				OBJ_393 /* StitchAppClientInfo.swift in Sources */,
+				OBJ_394 /* StitchClientConfiguration.swift in Sources */,
+				OBJ_395 /* StitchError.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_402 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_403 /* BSONArray.swift in Sources */,
+				OBJ_404 /* Binary.swift in Sources */,
+				OBJ_405 /* Code.swift in Sources */,
+				OBJ_406 /* Coders.swift in Sources */,
+				OBJ_407 /* DBPointer.swift in Sources */,
+				OBJ_408 /* DBRef.swift in Sources */,
+				OBJ_409 /* Document.swift in Sources */,
+				OBJ_410 /* MaxKey.swift in Sources */,
+				OBJ_411 /* MinKey.swift in Sources */,
+				OBJ_412 /* Null.swift in Sources */,
+				OBJ_413 /* ObjectId.swift in Sources */,
+				OBJ_414 /* RegularExpression.swift in Sources */,
+				OBJ_415 /* Symbol.swift in Sources */,
+				OBJ_416 /* Timestamp.swift in Sources */,
+				OBJ_417 /* Undefined.swift in Sources */,
+				OBJ_418 /* Bool+ExtendedJson.swift in Sources */,
+				OBJ_419 /* BsonArray+ExtendedJson.swift in Sources */,
+				OBJ_420 /* BsonBinary+ExtendedJson.swift in Sources */,
+				OBJ_421 /* BsonCode+ExtendedJson.swift in Sources */,
+				OBJ_422 /* BsonDBPointer+ExtendedJson.swift in Sources */,
+				OBJ_423 /* BsonDBRef+ExtendedJson.swift in Sources */,
+				OBJ_424 /* BsonDocument+ExtendedJson.swift in Sources */,
+				OBJ_425 /* BsonSymbol+ExtendedJson.swift in Sources */,
+				OBJ_426 /* BsonTimestamp+ExtendedJson.swift in Sources */,
+				OBJ_427 /* BsonUndefined+ExtendedJson.swift in Sources */,
+				OBJ_428 /* Date+ExtenedJson.swift in Sources */,
+				OBJ_429 /* Decimal+ExtendedJson.swift in Sources */,
+				OBJ_430 /* Double+ExtendedJson.swift in Sources */,
+				OBJ_431 /* ExtendedJsonRepresentable.swift in Sources */,
+				OBJ_432 /* Int+ExtendedJson.swift in Sources */,
+				OBJ_433 /* MaxKey+ExtendedJson.swift in Sources */,
+				OBJ_434 /* MinKey+ExtendedJson.swift in Sources */,
+				OBJ_435 /* ObjectId+ExtendedJson.swift in Sources */,
+				OBJ_436 /* String+ExtendedJson.swift in Sources */,
+				OBJ_437 /* UUID+ExtendedJson.swift in Sources */,
+				OBJ_438 /* BsonError.swift in Sources */,
+				OBJ_439 /* Validators.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		OBJ_235 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = "JWT::JWT" /* JWT */;
-			targetProxy = 111E7483206BF5A600DFC43C /* PBXContainerItemProxy */;
-		};
-		OBJ_237 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = "Swifter::Swifter" /* Swifter */;
-			targetProxy = 111E7484206BF5A600DFC43C /* PBXContainerItemProxy */;
-		};
-		OBJ_239 /* PBXTargetDependency */ = {
+		OBJ_265 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "StitchCore::StitchCore" /* StitchCore */;
-			targetProxy = 111E7485206BF5A600DFC43C /* PBXContainerItemProxy */;
+			targetProxy = 11CEA4AF2091018600D63C23 /* PBXContainerItemProxy */;
 		};
-		OBJ_241 /* PBXTargetDependency */ = {
+		OBJ_267 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "ExtendedJSON::ExtendedJSON" /* ExtendedJSON */;
-			targetProxy = 111E7486206BF5A600DFC43C /* PBXContainerItemProxy */;
+			targetProxy = 11CEA4B12091018600D63C23 /* PBXContainerItemProxy */;
 		};
-		OBJ_340 /* PBXTargetDependency */ = {
+		OBJ_292 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "JWT::JWT" /* JWT */;
+			targetProxy = 11CEA4B22091018600D63C23 /* PBXContainerItemProxy */;
+		};
+		OBJ_294 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "Swifter::Swifter" /* Swifter */;
+			targetProxy = 11CEA4B32091018600D63C23 /* PBXContainerItemProxy */;
+		};
+		OBJ_296 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "StitchCore::StitchCore" /* StitchCore */;
+			targetProxy = 11CEA4B42091018600D63C23 /* PBXContainerItemProxy */;
+		};
+		OBJ_297 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "ExtendedJSON::ExtendedJSON" /* ExtendedJSON */;
-			targetProxy = 111E7482206BF5A600DFC43C /* PBXContainerItemProxy */;
+			targetProxy = 11CEA4B52091018600D63C23 /* PBXContainerItemProxy */;
 		};
-		OBJ_387 /* PBXTargetDependency */ = {
+		OBJ_398 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "ExtendedJSON::ExtendedJSON" /* ExtendedJSON */;
+			targetProxy = 11CEA4B02091018600D63C23 /* PBXContainerItemProxy */;
+		};
+		OBJ_445 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "StitchCore::stitch-ios-sdk-protoTests" /* stitch-ios-sdk-protoTests */;
-			targetProxy = 111E7487206BF5A600DFC43C /* PBXContainerItemProxy */;
+			targetProxy = 11CEA4B62091018700D63C23 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		OBJ_190 /* Debug */ = {
+		OBJ_220 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				LD = /usr/bin/true;
@@ -1344,7 +1512,7 @@
 			};
 			name = Debug;
 		};
-		OBJ_191 /* Release */ = {
+		OBJ_221 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				LD = /usr/bin/true;
@@ -1353,7 +1521,7 @@
 			};
 			name = Release;
 		};
-		OBJ_196 /* Debug */ = {
+		OBJ_226 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				LD = /usr/bin/true;
@@ -1362,7 +1530,7 @@
 			};
 			name = Debug;
 		};
-		OBJ_197 /* Release */ = {
+		OBJ_227 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				LD = /usr/bin/true;
@@ -1371,7 +1539,7 @@
 			};
 			name = Release;
 		};
-		OBJ_202 /* Debug */ = {
+		OBJ_232 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				LD = /usr/bin/true;
@@ -1380,7 +1548,7 @@
 			};
 			name = Debug;
 		};
-		OBJ_203 /* Release */ = {
+		OBJ_233 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				LD = /usr/bin/true;
@@ -1389,7 +1557,7 @@
 			};
 			name = Release;
 		};
-		OBJ_208 /* Debug */ = {
+		OBJ_238 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				LD = /usr/bin/true;
@@ -1398,54 +1566,12 @@
 			};
 			name = Debug;
 		};
-		OBJ_209 /* Release */ = {
+		OBJ_239 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				LD = /usr/bin/true;
 				OTHER_SWIFT_FLAGS = "-swift-version 4 -I /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/pm/4 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
 				SWIFT_VERSION = 4.0;
-			};
-			name = Release;
-		};
-		OBJ_214 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/.build/checkouts/CommonCrypto.git-5718070938381968625",
-				);
-				INFOPLIST_FILE = StitchCore.xcodeproj/stitch_ios_sdk_protoTests_Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/Frameworks";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				SWIFT_VERSION = 4.0;
-				TARGET_NAME = "stitch-ios-sdk-protoTests";
-			};
-			name = Debug;
-		};
-		OBJ_215 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/.build/checkouts/CommonCrypto.git-5718070938381968625",
-				);
-				INFOPLIST_FILE = StitchCore.xcodeproj/stitch_ios_sdk_protoTests_Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/Frameworks";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				SWIFT_VERSION = 4.0;
-				TARGET_NAME = "stitch-ios-sdk-protoTests";
 			};
 			name = Release;
 		};
@@ -1457,20 +1583,17 @@
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/.build/checkouts/CommonCrypto.git-5718070938381968625",
-				);
-				INFOPLIST_FILE = StitchCore.xcodeproj/JWT_Info.plist;
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = StitchCore.xcodeproj/StitchCore_AdminClient_Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = JWT;
+				PRODUCT_BUNDLE_IDENTIFIER = "StitchCore-AdminClient";
 				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
-				TARGET_NAME = JWT;
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = "StitchCore-AdminClient";
 			};
 			name = Debug;
 		};
@@ -1482,6 +1605,70 @@
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = StitchCore.xcodeproj/StitchCore_AdminClient_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = "StitchCore-AdminClient";
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = "StitchCore-AdminClient";
+			};
+			name = Release;
+		};
+		OBJ_271 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/.build/checkouts/CommonCrypto.git-5718070938381968625",
+				);
+				INFOPLIST_FILE = StitchCore.xcodeproj/stitch_ios_sdk_protoTests_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/Frameworks";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = "stitch-ios-sdk-protoTests";
+			};
+			name = Debug;
+		};
+		OBJ_272 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/.build/checkouts/CommonCrypto.git-5718070938381968625",
+				);
+				INFOPLIST_FILE = StitchCore.xcodeproj/stitch_ios_sdk_protoTests_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/Frameworks";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = "stitch-ios-sdk-protoTests";
+			};
+			name = Release;
+		};
+		OBJ_299 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/.build/checkouts/CommonCrypto.git-5718070938381968625",
@@ -1497,95 +1684,7 @@
 				SWIFT_VERSION = 3.0;
 				TARGET_NAME = JWT;
 			};
-			name = Release;
-		};
-		OBJ_258 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = StitchCore.xcodeproj/Swifter_Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = Swifter;
-				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
-				TARGET_NAME = Swifter;
-			};
 			name = Debug;
-		};
-		OBJ_259 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = StitchCore.xcodeproj/Swifter_Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = Swifter;
-				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
-				TARGET_NAME = Swifter;
-			};
-			name = Release;
-		};
-		OBJ_282 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = StitchCore.xcodeproj/StitchCore_Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = StitchCore;
-				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
-				TARGET_NAME = StitchCore;
-			};
-			name = Debug;
-		};
-		OBJ_283 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = StitchCore.xcodeproj/StitchCore_Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = StitchCore;
-				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
-				TARGET_NAME = StitchCore;
-			};
-			name = Release;
 		};
 		OBJ_3 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1609,7 +1708,7 @@
 			};
 			name = Debug;
 		};
-		OBJ_342 /* Debug */ = {
+		OBJ_300 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ENABLE_TESTABILITY = YES;
@@ -1617,51 +1716,108 @@
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = StitchCore.xcodeproj/ExtendedJSON_Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = ExtendedJSON;
-				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
-				TARGET_NAME = ExtendedJSON;
-			};
-			name = Debug;
-		};
-		OBJ_343 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
+				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+					"$(SRCROOT)/.build/checkouts/CommonCrypto.git-5718070938381968625",
 				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = StitchCore.xcodeproj/ExtendedJSON_Info.plist;
+				INFOPLIST_FILE = StitchCore.xcodeproj/JWT_Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = ExtendedJSON;
+				PRODUCT_BUNDLE_IDENTIFIER = JWT;
 				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
-				TARGET_NAME = ExtendedJSON;
+				SWIFT_VERSION = 3.0;
+				TARGET_NAME = JWT;
 			};
 			name = Release;
 		};
-		OBJ_385 /* Debug */ = {
+		OBJ_313 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = StitchCore.xcodeproj/Swifter_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = Swifter;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = Swifter;
 			};
 			name = Debug;
 		};
-		OBJ_386 /* Release */ = {
+		OBJ_314 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = StitchCore.xcodeproj/Swifter_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = Swifter;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = Swifter;
+			};
+			name = Release;
+		};
+		OBJ_337 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = StitchCore.xcodeproj/StitchCore_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = StitchCore;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = StitchCore;
+			};
+			name = Debug;
+		};
+		OBJ_338 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = StitchCore.xcodeproj/StitchCore_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = StitchCore;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = StitchCore;
 			};
 			name = Release;
 		};
@@ -1685,27 +1841,65 @@
 			};
 			name = Release;
 		};
+		OBJ_400 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = StitchCore.xcodeproj/ExtendedJSON_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = ExtendedJSON;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = ExtendedJSON;
+			};
+			name = Debug;
+		};
+		OBJ_401 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = StitchCore.xcodeproj/ExtendedJSON_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = ExtendedJSON;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = ExtendedJSON;
+			};
+			name = Release;
+		};
+		OBJ_443 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		OBJ_444 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		OBJ_189 /* Build configuration list for PBXNativeTarget "StitchCorePackageDescription" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_190 /* Debug */,
-				OBJ_191 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		OBJ_195 /* Build configuration list for PBXNativeTarget "JWTPackageDescription" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_196 /* Debug */,
-				OBJ_197 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
 		OBJ_2 /* Build configuration list for PBXProject "StitchCore" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1715,34 +1909,43 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		OBJ_201 /* Build configuration list for PBXNativeTarget "SwifterPackageDescription" */ = {
+		OBJ_219 /* Build configuration list for PBXNativeTarget "StitchCorePackageDescription" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_202 /* Debug */,
-				OBJ_203 /* Release */,
+				OBJ_220 /* Debug */,
+				OBJ_221 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		OBJ_207 /* Build configuration list for PBXNativeTarget "ExtendedJSONPackageDescription" */ = {
+		OBJ_225 /* Build configuration list for PBXNativeTarget "JWTPackageDescription" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_208 /* Debug */,
-				OBJ_209 /* Release */,
+				OBJ_226 /* Debug */,
+				OBJ_227 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		OBJ_213 /* Build configuration list for PBXNativeTarget "stitch-ios-sdk-protoTests" */ = {
+		OBJ_231 /* Build configuration list for PBXNativeTarget "SwifterPackageDescription" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_214 /* Debug */,
-				OBJ_215 /* Release */,
+				OBJ_232 /* Debug */,
+				OBJ_233 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		OBJ_243 /* Build configuration list for PBXNativeTarget "JWT" */ = {
+		OBJ_237 /* Build configuration list for PBXNativeTarget "ExtendedJSONPackageDescription" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_238 /* Debug */,
+				OBJ_239 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		OBJ_243 /* Build configuration list for PBXNativeTarget "StitchCore-AdminClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				OBJ_244 /* Debug */,
@@ -1751,38 +1954,56 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		OBJ_257 /* Build configuration list for PBXNativeTarget "Swifter" */ = {
+		OBJ_270 /* Build configuration list for PBXNativeTarget "stitch-ios-sdk-protoTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_258 /* Debug */,
-				OBJ_259 /* Release */,
+				OBJ_271 /* Debug */,
+				OBJ_272 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		OBJ_281 /* Build configuration list for PBXNativeTarget "StitchCore" */ = {
+		OBJ_298 /* Build configuration list for PBXNativeTarget "JWT" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_282 /* Debug */,
-				OBJ_283 /* Release */,
+				OBJ_299 /* Debug */,
+				OBJ_300 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		OBJ_341 /* Build configuration list for PBXNativeTarget "ExtendedJSON" */ = {
+		OBJ_312 /* Build configuration list for PBXNativeTarget "Swifter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_342 /* Debug */,
-				OBJ_343 /* Release */,
+				OBJ_313 /* Debug */,
+				OBJ_314 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		OBJ_384 /* Build configuration list for PBXAggregateTarget "StitchCorePackageTests" */ = {
+		OBJ_336 /* Build configuration list for PBXNativeTarget "StitchCore" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_385 /* Debug */,
-				OBJ_386 /* Release */,
+				OBJ_337 /* Debug */,
+				OBJ_338 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		OBJ_399 /* Build configuration list for PBXNativeTarget "ExtendedJSON" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_400 /* Debug */,
+				OBJ_401 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		OBJ_442 /* Build configuration list for PBXAggregateTarget "StitchCorePackageTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_443 /* Debug */,
+				OBJ_444 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

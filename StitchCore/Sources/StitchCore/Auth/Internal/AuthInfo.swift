@@ -10,9 +10,9 @@ public protocol APIAuthInfo: Decodable {
     var userId: String { get }
 
     /**
-     * The device id.
+     * The device id. `nil` in a link request
      */
-    var deviceId: String { get }
+    var deviceId: String? { get }
 
     /**
      * The temporary access token for the user.
@@ -20,9 +20,9 @@ public protocol APIAuthInfo: Decodable {
     var accessToken: String { get }
 
     /**
-     * The permanent (though potentially invalidated) refresh token for the user.
+     * The permanent (though potentially invalidated) refresh token for the user. `nil` in a link request
      */
-    var refreshToken: String { get }
+    var refreshToken: String? { get }
 }
 
 /**
@@ -108,7 +108,7 @@ extension AuthInfo {
      */
     func merge(withPartialInfo partialInfo: APIAuthInfo, fromOldInfo oldInfo: AuthInfo) -> AuthInfo {
         return StoreAuthInfo.init(withAPIAuthInfo: partialInfo,
-                                  withExtendedAuthInfo: oldInfo)
+                                  withOldInfo: oldInfo)
     }
 
     /**

@@ -9,7 +9,10 @@ let package = Package(
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
         .library(
             name: "StitchCore",
-            targets: ["StitchCore"])
+            targets: ["StitchCore"]),
+        .library(
+            name: "StitchCore-AdminClient",
+            targets: ["StitchCore-AdminClient"])
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -25,6 +28,9 @@ let package = Package(
         .target(
             name: "StitchCore",
             dependencies: ["ExtendedJSON"]),
+        .target(
+            name: "StitchCore-AdminClient",
+            dependencies: ["StitchCore", "ExtendedJSON"]),
         .testTarget(
             name: "stitch-ios-sdk-protoTests",
             dependencies: ["StitchCore", "ExtendedJSON", "Swifter", "JWT"])

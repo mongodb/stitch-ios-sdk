@@ -18,7 +18,7 @@ internal struct StoreAuthInfo: Codable, AuthInfo {
     /**
      * The device id.
      */
-    let deviceId: String
+    let deviceId: String?
 
     /**
      * The temporary access token for the user.
@@ -28,7 +28,7 @@ internal struct StoreAuthInfo: Codable, AuthInfo {
     /**
      * The permanent (though potentially invalidated) refresh token for the user.
      */
-    let refreshToken: String
+    let refreshToken: String?
 
     /**
      * A string indicating the type of authentication provider used to log into the current session.
@@ -48,12 +48,26 @@ internal struct StoreAuthInfo: Codable, AuthInfo {
     /**
      * Initializes the `StoreAuthInfo` with an `APIAuthInfo` and `ExtendedAuthInfo`.
      */
-    init(withAPIAuthInfo apiAuthInfo: APIAuthInfo,
+    init(withAPIAuthInfo newAuthInfo: APIAuthInfo,
+         withOldInfo oldAuthInfo: AuthInfo) {
+        self.userId = newAuthInfo.userId
+        self.deviceId = newAuthInfo.deviceId ?? oldAuthInfo.deviceId
+        self.accessToken = newAuthInfo.accessToken
+        self.refreshToken = newAuthInfo.refreshToken ?? oldAuthInfo.refreshToken
+        self.loggedInProviderType = oldAuthInfo.loggedInProviderType
+        self.loggedInProviderName = oldAuthInfo.loggedInProviderName
+        self.userProfile = oldAuthInfo.userProfile
+    }
+
+    /**
+     * Initializes the `StoreAuthInfo` with an `APIAuthInfo` and `ExtendedAuthInfo`.
+     */
+    init(withAPIAuthInfo newAuthInfo: APIAuthInfo,
          withExtendedAuthInfo extendedAuthInfo: ExtendedAuthInfo) {
-        self.userId = apiAuthInfo.userId
-        self.deviceId = apiAuthInfo.deviceId
-        self.accessToken = apiAuthInfo.accessToken
-        self.refreshToken = apiAuthInfo.refreshToken
+        self.userId = newAuthInfo.userId
+        self.deviceId = newAuthInfo.deviceId
+        self.accessToken = newAuthInfo.accessToken
+        self.refreshToken = newAuthInfo.refreshToken
         self.loggedInProviderType = extendedAuthInfo.loggedInProviderType
         self.loggedInProviderName = extendedAuthInfo.loggedInProviderName
         self.userProfile = extendedAuthInfo.userProfile

@@ -14,6 +14,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "StitchCore::StitchCore-AdminClient"
+               BuildableName = "StitchCore_AdminClient.framework"
+               BlueprintName = "StitchCore-AdminClient"
+               ReferencedContainer = "container:StitchCore.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "JWT::JWT"
                BuildableName = "JWT.framework"
                BlueprintName = "JWT"
@@ -99,9 +113,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "JWT::JWT"
-            BuildableName = "JWT.framework"
-            BlueprintName = "JWT"
+            BlueprintIdentifier = "StitchCore::StitchCore-AdminClient"
+            BuildableName = "StitchCore_AdminClient.framework"
+            BlueprintName = "StitchCore-AdminClient"
             ReferencedContainer = "container:StitchCore.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
