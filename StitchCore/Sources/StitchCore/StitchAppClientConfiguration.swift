@@ -49,6 +49,15 @@ public struct StitchAppClientConfigurationImpl: StitchAppClientConfiguration, Bu
      * The `Transport` that the client will use to make round trips to the Stitch server.
      */
     public let transport: Transport
+    
+    /**
+     * The number of seconds that a `Transport` should spend on an HTTP round trip before failing with an error.
+     *
+     * - important: If the underlying transport internally handles timeouts, it is possible that the transport will
+     *              throw a timeout error before this specified interval. If you experience premature timeouts,
+     *              configure your underlying transport to have a longer timeout interval.
+     */
+    public let transportTimeout: TimeInterval
 
     /**
      * The client app id of the Stitch application that this client is going to communicate with.
@@ -105,11 +114,16 @@ public struct StitchAppClientConfigurationImpl: StitchAppClientConfiguration, Bu
         guard let transport = builder.transport else {
             throw StitchClientConfigurationError.missingTransport
         }
+        
+        guard let transportTimeout = builder.transportTimeout else {
+            throw StitchClientConfigurationError.missingTransportTimeout
+        }
 
         self.baseURL = baseURL
         self.dataDirectory = dataDirectory
         self.storage = storage
         self.transport = transport
+        self.transportTimeout = transportTimeout
     }
 }
 
@@ -149,6 +163,15 @@ public struct StitchAppClientConfigurationBuilder: StitchClientConfigurationBuil
      * The `Transport` that the client will use to make round trips to the Stitch server.
      */
     public var transport: Transport?
+    
+    /**
+     * The number of seconds that a `Transport` should spend on an HTTP round trip before failing with an error.
+     *
+     * - important: If the underlying transport internally handles timeouts, it is possible that the transport will
+     *              throw a timeout error before this specified interval. If you experience premature timeouts,
+     *              configure your underlying transport to have a longer timeout interval.
+     */
+    public var transportTimeout: TimeInterval?
 
     /**
      * The client app id of the Stitch application that this client is going to communicate with.

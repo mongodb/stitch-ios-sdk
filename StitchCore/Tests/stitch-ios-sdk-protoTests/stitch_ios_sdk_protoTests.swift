@@ -62,6 +62,8 @@ public final class AtomicPort {
 
 let atomicPort = AtomicPort()
 
+let defaultTestTransportTimeout: TimeInterval = 15.0
+
 private func start(server: HttpServer) -> UInt16 {
     repeat {
         do {

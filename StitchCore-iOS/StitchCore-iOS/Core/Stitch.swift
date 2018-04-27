@@ -16,6 +16,7 @@ public class Stitch {
 
     private static let defaultBaseUrl: String = "https://stitch.mongodb.com"
     private static let userDefaultsName: String = "com.mongodb.stitch.sdk.UserDefaults"
+    private static let defaultTransportTimeout: TimeInterval = 15.0
 
     private static var appClients: [String: StitchAppClientImpl] = [:]
 
@@ -94,6 +95,53 @@ public class Stitch {
     }
 
     /**
+     * Private helper function to generate a `StitchAppClientConfiguration` from a
+     * `StitchAppClientConfigurationBuilder`. Fields not included in the provided builder will be populated with
+     * sensible defaults.
+     */
+    private static func generateConfig(fromBuilder configBuilder: StitchAppClientConfigurationBuilder,
+                                       forClientAppId clientAppId: String) throws -> StitchAppClientConfiguration {
+        var finalConfigBuilder = configBuilder
+
+        if configBuilder.storage == nil {
+            let suiteName = "\(userDefaultsName).\(clientAppId)"
+            guard let userDefaults = UserDefaults.init(suiteName: suiteName) else {
+                throw StitchInitializationError.userDefaultsFailure
+            }
+            finalConfigBuilder.storage = userDefaults
+        }
+
+        if configBuilder.dataDirectory == nil {
+            finalConfigBuilder.dataDirectory = try? FileManager.default.url(for: .applicationSupportDirectory,
+                                                                            in: .userDomainMask,
+                                                                            appropriateFor: nil,
+                                                                            create: true)
+        }
+
+        if configBuilder.transport == nil {
+            finalConfigBuilder.transport = FoundationHTTPTransport.init()
+        }
+
+        if configBuilder.transportTimeout == nil {
+            finalConfigBuilder.transportTimeout = defaultTransportTimeout
+        }
+
+        if configBuilder.baseURL == nil {
+            finalConfigBuilder.baseURL = defaultBaseUrl
+        }
+
+        if configBuilder.localAppName == nil {
+            finalConfigBuilder.localAppName = localAppName
+        }
+
+        if configBuilder.localAppVersion == nil {
+            finalConfigBuilder.localAppVersion = localAppVersion
+        }
+
+        return try finalConfigBuilder.build()
+    }
+
+    /**
      * Initializes a new, non-default StitchAppClient associated with the application.
      *
      * - parameters:
@@ -120,40 +168,9 @@ public class Stitch {
             throw StitchInitializationError.clientAlreadyInitialized(clientAppId: clientAppId)
         }
 
-        var finalConfigBuilder = configBuilder
+        let finalConfig = try generateConfig(fromBuilder: configBuilder, forClientAppId: clientAppId)
 
-        if configBuilder.storage == nil {
-            let suiteName = "\(userDefaultsName).\(clientAppId)"
-            guard let userDefaults = UserDefaults.init(suiteName: suiteName) else {
-                throw StitchInitializationError.userDefaultsFailure
-            }
-            finalConfigBuilder.storage = userDefaults
-        }
-
-        if configBuilder.dataDirectory == nil {
-            finalConfigBuilder.dataDirectory = try? FileManager.default.url(for: .applicationSupportDirectory,
-                                                                            in: .userDomainMask,
-                                                                            appropriateFor: nil,
-                                                                            create: true)
-        }
-
-        if configBuilder.transport == nil {
-            finalConfigBuilder.transport = FoundationHTTPTransport.init()
-        }
-
-        if configBuilder.baseURL == nil {
-            finalConfigBuilder.baseURL = defaultBaseUrl
-        }
-
-        if configBuilder.localAppName == nil {
-            finalConfigBuilder.localAppName = localAppName
-        }
-
-        if configBuilder.localAppVersion == nil {
-            finalConfigBuilder.localAppVersion = localAppVersion
-        }
-
-        let client = try StitchAppClientImpl.init(withConfig: finalConfigBuilder.build())
+        let client = try StitchAppClientImpl.init(withConfig: finalConfig)
         appClients[clientAppId] = client
         return client
     }

@@ -6,6 +6,7 @@ class StitchClientConfigurationTests: XCTestCase {
     private let dataDirectory = URL.init(string: "foo/bar")!
     private let storage = MemoryStorage.init()
     private let transport = FoundationHTTPTransport.init()
+    private let transportTimeout: TimeInterval = defaultTestTransportTimeout
 
     func testStitchClientConfigurationBuilderImplInit() throws {
         var builder = StitchClientConfigurationBuilderImpl { _ in }
@@ -37,11 +38,19 @@ class StitchClientConfigurationTests: XCTestCase {
         }
 
         builder.transport = self.transport
+        
+        XCTAssertThrowsError(try builder.build()) { error in
+            XCTAssertEqual(error as? StitchClientConfigurationError,
+                           StitchClientConfigurationError.missingTransportTimeout)
+        }
+        
+        builder.transportTimeout = self.transportTimeout
 
         let config = try builder.build()
 
         XCTAssertEqual(config.baseURL, self.baseURL)
         XCTAssert(config.storage is MemoryStorage)
         XCTAssert(config.transport is FoundationHTTPTransport)
+        XCTAssertEqual(config.transportTimeout, self.transportTimeout)
     }
 }

@@ -20,7 +20,7 @@ public protocol StitchRequestClient {
     /**
      * Initializes the request client with the provided base URL and `Transport`.
      */
-    init(baseURL: String, transport: Transport)
+    init(baseURL: String, transport: Transport, transportTimeout: TimeInterval)
 
     /**
      * Performs a request against the Stitch server with the given `StitchRequest` object.
@@ -50,13 +50,20 @@ public final class StitchRequestClientImpl: StitchRequestClient {
      * The `Transport` which this client will use to make round trips to the Stitch server.
      */
     private let transport: Transport
+    
+    /**
+     * The number of seconds that the underlying `Transport` should spend on an HTTP round trip before failing with an
+     * error. Does not override any timeout settings configured by the underlying transport.
+     */
+    private let transportTimeout: TimeInterval
 
     /**
      * Initializes the request client with the provided base URL and `Transport`.
      */
-    public init(baseURL: String, transport: Transport) {
+    public init(baseURL: String, transport: Transport, transportTimeout: TimeInterval) {
         self.baseURL = baseURL
         self.transport = transport
+        self.transportTimeout = transportTimeout
     }
 
     /**
@@ -65,15 +72,35 @@ public final class StitchRequestClientImpl: StitchRequestClient {
      * - returns: the response to the request as a `Response` object.
      */
     public func doRequest<R>(_ stitchReq: R) throws -> Response where R: StitchRequest {
+        let transportTask = DispatchGroup.init()
         var response: Response!
-        do {
-            response = try transport.roundTrip(request: buildRequest(stitchReq))
-        } catch {
-            // Wrap the error from the transport in a `StitchError.requestError`
-            throw StitchError.requestError(withError: error, withRequestErrorCode: .transportError)
+        var errorToThrow: Error?
+        
+        transportTask.enter()
+        DispatchQueue.global().async {
+            do {
+                response = try self.transport.roundTrip(request: self.buildRequest(stitchReq))
+            } catch let error {
+                // Wrap the error from the transport in a `StitchError.requestError`
+                errorToThrow = StitchError.requestError(withError: error, withRequestErrorCode: .transportError)
+            }
+            
+            transportTask.leave()
         }
-
-        return try inspectResponse(response: response)
+        
+        let taskResult = transportTask.wait(timeout: DispatchTime.now() + self.transportTimeout)
+        
+        switch taskResult {
+        case .success:
+            if let error = errorToThrow {
+                throw error
+            }
+            
+            return try inspectResponse(response: response)
+            
+        case .timedOut:
+            throw StitchError.requestError(withError: nil, withRequestErrorCode: .transportTimeoutError)
+        }
     }
 
     /**

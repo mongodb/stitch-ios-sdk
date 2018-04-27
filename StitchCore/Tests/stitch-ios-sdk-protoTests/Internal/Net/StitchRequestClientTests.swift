@@ -13,6 +13,7 @@ class StitchRequestClientTests: StitchXCTestCase {
     let getEndpoint = "/get"
     let notGetEndpoint = "/notget"
     let badRequestEndpoint = "/badreq"
+    let timeoutEndpoint = "/timeout"
 
     override func setUp() {
         self.server[self.getEndpoint] = { request in
@@ -25,13 +26,18 @@ class StitchRequestClientTests: StitchXCTestCase {
         self.server[self.badRequestEndpoint] = { request in
             return .badRequest(.text("bad request"))
         }
+        self.server[self.timeoutEndpoint] = { request in
+            Thread.sleep(forTimeInterval: 20.0) // sleep for 20 seconds
+            return .ok(.text("This response will not be seen since the client will timeout"))
+        }
 
         super.setUp()
     }
 
     func testDoRequest() throws {
         let stitchRequestClient = StitchRequestClientImpl.init(baseURL: self.baseURL,
-                                                           transport: FoundationHTTPTransport())
+                                                               transport: FoundationHTTPTransport(),
+                                                               transportTimeout: defaultTestTransportTimeout)
 
         var builder = StitchRequestImpl.TBuilder {
             $0.path = self.badRequestEndpoint
@@ -56,10 +62,35 @@ class StitchRequestClientTests: StitchXCTestCase {
         XCTAssertEqual(response.statusCode, 200)
         XCTAssertEqual(response.body, self.responseBody.data(using: .utf8))
     }
+    
+    func testDoRequestWithTimeout() throws {
+        let stitchRequestClient = StitchRequestClientImpl.init(baseURL: self.baseURL,
+                                                               transport: FoundationHTTPTransport(),
+                                                               transportTimeout: 3.0)
+        
+        let builder = StitchRequestImpl.TBuilder {
+            $0.path = self.timeoutEndpoint
+            $0.method = .get
+        }
+        
+        XCTAssertThrowsError(try stitchRequestClient.doRequest(builder.build())) { error in
+            let stitchError = error as? StitchError
+            XCTAssertNotNil(error as? StitchError)
+            if let err = stitchError {
+                guard case .requestError(_, let errorCode) = err else {
+                    XCTFail("doRequest returned an incorrect error type")
+                    return
+                }
+                
+                XCTAssertEqual(errorCode, .transportTimeoutError)
+            }
+        }
+    }
 
     func testDoJSONRequestRaw() throws {
         let stitchRequestClient = StitchRequestClientImpl.init(baseURL: self.baseURL,
-                                                           transport: FoundationHTTPTransport())
+                                                               transport: FoundationHTTPTransport(),
+                                                               transportTimeout: defaultTestTransportTimeout)
 
         var builder = StitchDocRequestBuilderImpl {
             $0.path = self.badRequestEndpoint

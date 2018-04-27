@@ -58,12 +58,14 @@ internal final class StitchAppClientImpl: StitchAppClient {
         )
 
         let internalAuth =
-            try StitchAuthImpl.init(requestClient: StitchRequestClientImpl.init(baseURL: config.baseURL,
-                                                                                transport: config.transport),
-                                     authRoutes: self.routes.authRoutes,
-                                     storage: config.storage,
-                                     dispatcher: self.dispatcher,
-                                     appInfo: self.info)
+            try StitchAuthImpl.init(
+                requestClient: StitchRequestClientImpl.init(baseURL: config.baseURL,
+                                                            transport: config.transport,
+                                                            transportTimeout: config.transportTimeout),
+                authRoutes: self.routes.authRoutes,
+                storage: config.storage,
+                dispatcher: self.dispatcher,
+                appInfo: self.info)
 
         self._auth = internalAuth
         self.coreClient = CoreStitchAppClient.init(authRequestClient: internalAuth, routes: routes)
