@@ -82,7 +82,7 @@ internal final class StitchAppClientImpl: StitchAppClient {
      *            `AnyNamedServiceClientProvider` passed in the `forProvider` parameter.
      */
     public func serviceClient<T>(forService serviceClientProvider: AnyNamedServiceClientProvider<T>,
-                                 withName serviceName: String) -> T {
+                                 withName serviceName: String) throws -> T {
         return serviceClientProvider.client(
             forService: StitchServiceImpl.init(requestClient: self._auth,
                                                routes: self.routes.serviceRoutes,
@@ -100,12 +100,12 @@ internal final class StitchAppClientImpl: StitchAppClient {
      * - returns: a service client whose type is determined by the `T` type parameter of the `AnyServiceClientProvider`
      *            passed in the `forProvider` parameter.
      */
-    public func serviceClient<T>(forService serviceClientProvider: AnyServiceClientProvider<T>) -> T {
-        return serviceClientProvider.client(
+    public func serviceClient<T>(forService serviceClientProvider: AnyServiceClientProvider<T>) throws -> T {
+        return try serviceClientProvider.client(
             forService: StitchServiceImpl.init(requestClient: self._auth,
                                                routes: self.routes.serviceRoutes,
                                                name: "", dispatcher: self.dispatcher),
-            withClient: self.info
+            withClientInfo: self.info
         )
     }
 
