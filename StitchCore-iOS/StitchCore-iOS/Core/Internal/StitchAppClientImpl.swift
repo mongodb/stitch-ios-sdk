@@ -136,7 +136,7 @@ internal final class StitchAppClientImpl: StitchAppClient {
 
     /**
      * Calls the MongoDB Stitch function with the provided name and arguments, as well as with a specified timeout. Use
-     * this for functions that may run longer than the default 15 second timeout.
+     * this for functions that may run longer than the client-wide default timeout (15 seconds by default).
      *
      * - parameters:
      *     - withName: The name of the Stitch function to be called.
