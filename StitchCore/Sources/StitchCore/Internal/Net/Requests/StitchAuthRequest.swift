@@ -40,6 +40,13 @@ public struct StitchAuthRequestBuilderImpl: StitchAuthRequestBuilder {
      * The HTTP method of the request to be built.
      */
     public var method: Method?
+    
+    /**
+     * The number of seconds that the underlying transport should spend on an HTTP round trip before failing with an
+     * error. If not configured, a default should override it before the request is transformed into a plain HTTP
+     * request.
+     */
+    public var timeout: TimeInterval?
 
     /**
      * The HTTP headers of the request to be built.
@@ -106,6 +113,13 @@ public struct StitchAuthRequestImpl: StitchAuthRequest {
      * The HTTP method of this request.
      */
     public var method: Method
+    
+    /**
+     * The number of seconds that the underlying transport should spend on an HTTP round trip before failing with an
+     * error. If not configured, a default should override it before the request is transformed into a plain HTTP
+     * request.
+     */
+    public var timeout: TimeInterval?
 
     /**
      * The HTTP headers of this request.
@@ -150,6 +164,7 @@ public struct StitchAuthRequestImpl: StitchAuthRequest {
         self.useRefreshToken = builder.useRefreshToken ?? false
         self.path = path
         self.method = method
+        self.timeout = builder.timeout
         self.headers = builder.headers ?? [:]
         self.body = builder.body
         self.startedAt = Date().timeIntervalSince1970
@@ -195,6 +210,13 @@ public struct StitchAuthDocRequestBuilderImpl: StitchAuthDocRequestBuilder {
      * The HTTP method of the request to be built.
      */
     public var method: Method?
+    
+    /**
+     * The number of seconds that the underlying transport should spend on an HTTP round trip before failing with an
+     * error. If not configured, a default should override it before the request is transformed into a plain HTTP
+     * request.
+     */
+    public var timeout: TimeInterval?
 
     /**
      * The HTTP headers of the request to be built.
@@ -246,6 +268,13 @@ public struct StitchAuthDocRequest: StitchAuthRequest {
      * The HTTP method of this request.
      */
     public var method: Method
+    
+    /**
+     * The number of seconds that the underlying transport should spend on an HTTP round trip before failing with an
+     * error. If not configured, a default should override it before the request is transformed into a plain HTTP
+     * request.
+     */
+    public var timeout: TimeInterval?
 
     /**
      * The HTTP headers of this request.
@@ -294,6 +323,7 @@ public struct StitchAuthDocRequest: StitchAuthRequest {
         self.useRefreshToken = builder.useRefreshToken ?? false
         self.path = path
         self.method = method
+        self.timeout = builder.timeout
         self.headers = builder.headers ?? [:]
         self.body = builder.body
         self.startedAt = Date().timeIntervalSince1970

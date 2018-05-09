@@ -20,7 +20,7 @@ public protocol StitchRequestClient {
     /**
      * Initializes the request client with the provided base URL and `Transport`.
      */
-    init(baseURL: String, transport: Transport, transportTimeout: TimeInterval)
+    init(baseURL: String, transport: Transport, defaultRequestTimeout: TimeInterval)
 
     /**
      * Performs a request against the Stitch server with the given `StitchRequest` object.
@@ -52,18 +52,21 @@ public final class StitchRequestClientImpl: StitchRequestClient {
     private let transport: Transport
     
     /**
-     * The number of seconds that the underlying `Transport` should spend on an HTTP round trip before failing with an
-     * error. Does not override any timeout settings configured by the underlying transport.
+     * The number of seconds that a `Transport` should spend by default on an HTTP round trip before failing with an
+     * error.
+     *
+     * - important: If a request timeout was specified for a specific operation, for example in a function call, that
+     *              timeout should override this one.
      */
-    private let transportTimeout: TimeInterval
+    private let defaultRequestTimeout: TimeInterval
 
     /**
      * Initializes the request client with the provided base URL and `Transport`.
      */
-    public init(baseURL: String, transport: Transport, transportTimeout: TimeInterval) {
+    public init(baseURL: String, transport: Transport, defaultRequestTimeout: TimeInterval) {
         self.baseURL = baseURL
         self.transport = transport
-        self.transportTimeout = transportTimeout
+        self.defaultRequestTimeout = defaultRequestTimeout
     }
 
     /**
@@ -72,35 +75,14 @@ public final class StitchRequestClientImpl: StitchRequestClient {
      * - returns: the response to the request as a `Response` object.
      */
     public func doRequest<R>(_ stitchReq: R) throws -> Response where R: StitchRequest {
-        let transportTask = DispatchGroup.init()
         var response: Response!
-        var errorToThrow: Error?
-        
-        transportTask.enter()
-        DispatchQueue.global().async {
-            do {
-                response = try self.transport.roundTrip(request: self.buildRequest(stitchReq))
-            } catch let error {
-                // Wrap the error from the transport in a `StitchError.requestError`
-                errorToThrow = StitchError.requestError(withError: error, withRequestErrorCode: .transportError)
-            }
-            
-            transportTask.leave()
+        do {
+            response = try self.transport.roundTrip(request: self.buildRequest(stitchReq))
+        } catch {
+            // Wrap the error from the transport in a `StitchError.requestError`
+            throw StitchError.requestError(withError: error, withRequestErrorCode: .transportError)
         }
-        
-        let taskResult = transportTask.wait(timeout: DispatchTime.now() + self.transportTimeout)
-        
-        switch taskResult {
-        case .success:
-            if let error = errorToThrow {
-                throw error
-            }
-            
-            return try inspectResponse(response: response)
-            
-        case .timedOut:
-            throw StitchError.requestError(withError: nil, withRequestErrorCode: .transportTimeoutError)
-        }
+        return try inspectResponse(response: response)
     }
 
     /**
@@ -117,6 +99,7 @@ public final class StitchRequestClientImpl: StitchRequestClient {
             ]
             builder.path = stitchReq.path
             builder.method = stitchReq.method
+            builder.timeout = stitchReq.timeout
         }.build())
     }
 
@@ -127,6 +110,7 @@ public final class StitchRequestClientImpl: StitchRequestClient {
         return try RequestBuilder { builder in
             builder.method = stitchReq.method
             builder.url = "\(self.baseURL)\(stitchReq.path)"
+            builder.timeout = stitchReq.timeout ?? self.defaultRequestTimeout
             builder.headers = stitchReq.headers
             builder.body = stitchReq.body
         }.build()

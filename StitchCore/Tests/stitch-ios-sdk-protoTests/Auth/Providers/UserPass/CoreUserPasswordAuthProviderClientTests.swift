@@ -56,7 +56,7 @@ class CoreUserPasswordAuthProviderClientTests: StitchXCTestCase {
             withProviderName: self.providerName,
             withRequestClient: StitchRequestClientImpl.init(baseURL: self.baseURL,
                                                             transport: FoundationHTTPTransport(),
-                                                            transportTimeout: defaultTestTransportTimeout),
+                                                            defaultRequestTimeout: testDefaultRequestTimeout),
             withRoutes: routes.authRoutes
         )
     }

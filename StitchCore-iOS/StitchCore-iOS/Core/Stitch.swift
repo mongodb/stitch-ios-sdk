@@ -16,7 +16,7 @@ public class Stitch {
 
     private static let defaultBaseUrl: String = "https://stitch.mongodb.com"
     private static let userDefaultsName: String = "com.mongodb.stitch.sdk.UserDefaults"
-    private static let defaultTransportTimeout: TimeInterval = 15.0
+    private static let defaultDefaultRequestTimeout: TimeInterval = 15.0
 
     private static var appClients: [String: StitchAppClientImpl] = [:]
 
@@ -122,8 +122,8 @@ public class Stitch {
             finalConfigBuilder.transport = FoundationHTTPTransport.init()
         }
 
-        if configBuilder.transportTimeout == nil {
-            finalConfigBuilder.transportTimeout = defaultTransportTimeout
+        if configBuilder.defaultRequestTimeout == nil {
+            finalConfigBuilder.defaultRequestTimeout = defaultDefaultRequestTimeout
         }
 
         if configBuilder.baseURL == nil {

@@ -26,13 +26,13 @@ public protocol StitchClientConfiguration {
     var transport: Transport { get }
     
     /**
-     * The number of seconds that a `Transport` should spend on an HTTP round trip before failing with an error.
+     * The number of seconds that a `Transport` should spend by default on an HTTP round trip before failing with an
+     * error.
      *
-     * - important: If the underlying transport internally handles timeouts, it is possible that the transport will
-     *              throw a timeout error before this specified interval. If you experience premature timeouts,
-     *              configure your underlying transport to have a longer timeout interval.
+     * - important: If a request timeout was specified for a specific operation, for example in a function call, that
+     *              timeout will override this one.
      */
-    var transportTimeout: TimeInterval { get }
+    var defaultRequestTimeout: TimeInterval { get }
 }
 
 /**
@@ -66,13 +66,13 @@ public struct StitchClientConfigurationImpl: StitchClientConfiguration, Buildee 
     public let transport: Transport
     
     /**
-     * The number of seconds that a `Transport` should spend on an HTTP round trip before failing with an error.
+     * The number of seconds that a `Transport` should spend by default on an HTTP round trip before failing with an
+     * error.
      *
-     * - important: If the underlying transport internally handles timeouts, it is possible that the transport will
-     *              throw a timeout error before this specified interval. If you experience premature timeouts,
-     *              configure your underlying transport to have a longer timeout interval.
+     * - important: If a request timeout was specified for a specific operation, for example in a function call, that
+     *              timeout will override this one.
      */
-    public let transportTimeout: TimeInterval
+    public let defaultRequestTimeout: TimeInterval
 
     /**
      * Initializes this configuration by accepting a `StitchClientConfigurationBuilderImpl`.
@@ -96,15 +96,15 @@ public struct StitchClientConfigurationImpl: StitchClientConfiguration, Buildee 
             throw StitchClientConfigurationError.missingTransport
         }
         
-        guard let transportTimeout = builder.transportTimeout else {
-            throw StitchClientConfigurationError.missingTransportTimeout
+        guard let defaultRequestTimeout = builder.defaultRequestTimeout else {
+            throw StitchClientConfigurationError.missingDefaultRequestTimeout
         }
 
         self.baseURL = baseURL
         self.dataDirectory = dataDirectory
         self.storage = storage
         self.transport = transport
-        self.transportTimeout = transportTimeout
+        self.defaultRequestTimeout = defaultRequestTimeout
     }
 }
 
@@ -117,7 +117,7 @@ public enum StitchClientConfigurationError: Error {
     case missingDataDirectory
     case missingStorage
     case missingTransport
-    case missingTransportTimeout
+    case missingDefaultRequestTimeout
 }
 
 /**
@@ -146,13 +146,13 @@ public protocol StitchClientConfigurationBuilder {
     var transport: Transport? { get }
     
     /**
-     * The number of seconds that a `Transport` should spend on an HTTP round trip before failing with an error.
+     * The number of seconds that a `Transport` should spend by default on an HTTP round trip before failing with an
+     * error.
      *
-     * - important: If the underlying transport internally handles timeouts, it is possible that the transport will
-     *              throw a timeout error before this specified interval. If you experience premature timeouts,
-     *              configure your underlying transport to have a longer timeout interval.
+     * - important: If a request timeout was specified for a specific operation, for example in a function call, that
+     *              timeout will override this one.
      */
-    var transportTimeout: TimeInterval? { get }
+    var defaultRequestTimeout: TimeInterval? { get }
 }
 
 /**
@@ -181,13 +181,13 @@ public struct StitchClientConfigurationBuilderImpl: StitchClientConfigurationBui
     public var transport: Transport?
     
     /**
-     * The number of seconds that a `Transport` should spend on an HTTP round trip before failing with an error.
+     * The number of seconds that a `Transport` should spend by default on an HTTP round trip before failing with an
+     * error.
      *
-     * - important: If the underlying transport internally handles timeouts, it is possible that the transport will
-     *              throw a timeout error before this specified interval. If you experience premature timeouts,
-     *              configure your underlying transport to have a longer timeout interval.
+     * - important: If a request timeout was specified for a specific operation, for example in a function call, that
+     *              timeout will override this one.
      */
-    public var transportTimeout: TimeInterval?
+    public var defaultRequestTimeout: TimeInterval?
 
     /**
      * The type that this builder builds.

@@ -1,4 +1,5 @@
 import ExtendedJSON
+import Foundation
 
 /**
  * A class providing the core functionality necessary for a Stitch app client to make authenticated function call
@@ -37,9 +38,10 @@ public final class CoreStitchAppClient {
      * - returns: An `Any` representing the decoded JSON of the result of the function call.
      */
     public func callFunctionInternal(withName name: String,
-                                     withArgs args: BSONArray) throws -> Any {
+                                     withArgs args: BSONArray,
+                                     withRequestTimeout requestTimeout: TimeInterval? = nil) throws -> Any {
         return try self.authRequestClient.doAuthenticatedJSONRequest(
-            callFunctionRequest(withName: name, withArgs: args)
+            callFunctionRequest(withName: name, withArgs: args, withRequestTimeout: requestTimeout)
         )
     }
 
@@ -48,11 +50,13 @@ public final class CoreStitchAppClient {
      * and arguments as parameters.
      */
     private func callFunctionRequest(withName name: String,
-                                     withArgs args: BSONArray) throws -> StitchAuthDocRequest {
+                                     withArgs args: BSONArray,
+                                     withRequestTimeout requestTimeout: TimeInterval?) throws -> StitchAuthDocRequest {
         let route = self.routes.serviceRoutes.functionCallRoute
         return try StitchAuthDocRequestBuilderImpl {
             $0.method = .post
             $0.path = route
+            $0.timeout = requestTimeout
             $0.document = [
                 "name": name,
                 "arguments": args

@@ -80,7 +80,7 @@ final class MockStitchRequestClient: StitchRequestClient {
     }
 
     init() { }
-    init(baseURL: String, transport: Transport, transportTimeout: TimeInterval) { }
+    init(baseURL: String, transport: Transport, defaultRequestTimeout: TimeInterval) { }
 
     private func checkAuth(headers: [String: String]) throws {
         guard let authHeader = headers["Authorization"] else {

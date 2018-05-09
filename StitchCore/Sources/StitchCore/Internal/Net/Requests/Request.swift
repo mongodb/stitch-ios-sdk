@@ -6,6 +6,7 @@ import Foundation
 public enum RequestBuilderError: Error {
     case missingMethod
     case missingUrl
+    case missingTimeout
 }
 
 /**
@@ -26,6 +27,12 @@ public struct RequestBuilder: Builder {
      * The URL of the request to be built.
      */
     public var url: String?
+    
+    /**
+     * The number of seconds that the underlying transport should spend on an HTTP round trip before failing with an
+     * error.
+     */
+    public var timeout: TimeInterval?
 
     /**
      * The HTTP headers of the request to be built.
@@ -56,7 +63,6 @@ public struct RequestBuilder: Builder {
  * An HTTP request that can be made to an arbitrary server.
  */
 public struct Request: Buildee {
-
     /**
      * The type that builds this request object.
      */
@@ -73,6 +79,12 @@ public struct Request: Buildee {
      * The URL to which this request will be made.
      */
     public var url: String
+    
+    /**
+     * The number of seconds that the underlying transport should spend on an HTTP round trip before failing with an
+     * error.
+     */
+    public var timeout: TimeInterval
 
     /**
      * The HTTP headers of this request.
@@ -89,7 +101,7 @@ public struct Request: Buildee {
     /**
      * Initializes this request by accepting a `RequestBuilder`.
      *
-     * - throws: `RequestBuilderError` if the builder is missing an HTTP method or a URL.
+     * - throws: `RequestBuilderError` if the builder is missing an HTTP method, a URL, or a timeout.
      */
     public init(_ builder: RequestBuilder) throws {
         guard let method = builder.method else {
@@ -98,9 +110,13 @@ public struct Request: Buildee {
         guard let url = builder.url else {
             throw RequestBuilderError.missingUrl
         }
+        guard let timeout = builder.timeout else {
+            throw RequestBuilderError.missingTimeout
+        }
 
         self.method = method
         self.url = url
+        self.timeout = timeout
 
         self.headers = builder.headers ?? [:]
         self.body = builder.body

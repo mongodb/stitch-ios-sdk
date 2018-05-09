@@ -37,7 +37,7 @@ class StitchRequestClientTests: StitchXCTestCase {
     func testDoRequest() throws {
         let stitchRequestClient = StitchRequestClientImpl.init(baseURL: self.baseURL,
                                                                transport: FoundationHTTPTransport(),
-                                                               transportTimeout: defaultTestTransportTimeout)
+                                                               defaultRequestTimeout: testDefaultRequestTimeout)
 
         var builder = StitchRequestImpl.TBuilder {
             $0.path = self.badRequestEndpoint
@@ -66,11 +66,12 @@ class StitchRequestClientTests: StitchXCTestCase {
     func testDoRequestWithTimeout() throws {
         let stitchRequestClient = StitchRequestClientImpl.init(baseURL: self.baseURL,
                                                                transport: FoundationHTTPTransport(),
-                                                               transportTimeout: 3.0)
+                                                               defaultRequestTimeout: testDefaultRequestTimeout)
         
         let builder = StitchRequestImpl.TBuilder {
             $0.path = self.timeoutEndpoint
             $0.method = .get
+            $0.timeout = 3.0
         }
         
         XCTAssertThrowsError(try stitchRequestClient.doRequest(builder.build())) { error in
@@ -82,7 +83,7 @@ class StitchRequestClientTests: StitchXCTestCase {
                     return
                 }
                 
-                XCTAssertEqual(errorCode, .transportTimeoutError)
+                XCTAssertEqual(errorCode, .transportError)
             }
         }
     }
@@ -90,7 +91,7 @@ class StitchRequestClientTests: StitchXCTestCase {
     func testDoJSONRequestRaw() throws {
         let stitchRequestClient = StitchRequestClientImpl.init(baseURL: self.baseURL,
                                                                transport: FoundationHTTPTransport(),
-                                                               transportTimeout: defaultTestTransportTimeout)
+                                                               defaultRequestTimeout: testDefaultRequestTimeout)
 
         var builder = StitchDocRequestBuilderImpl {
             $0.path = self.badRequestEndpoint
