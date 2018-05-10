@@ -190,7 +190,7 @@ buildvariants:
 - name: macos-1012
   display_name: MacOS 1012
   run_on:
-    - stitch-ios-sdk
+    - macos-1012
   expansions:
     mongodb_url: http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.4.4.tgz
     transpiler_target: node8-linux
