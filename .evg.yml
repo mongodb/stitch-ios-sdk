@@ -16,6 +16,7 @@ functions:
       params:
         shell: "bash"
         script: |
+          cd stitch-ios-sdk
           gem fetch xcov
           ruby xcov_installer.rb
           gem install --local xcov -igems -l

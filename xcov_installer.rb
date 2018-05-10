@@ -23,22 +23,5 @@ class GemRequirements
   end
 end
 
-def post_order(node)
-  return [] if node.nil?
-  results = []
-  results.concat post_order(node.left)
-  results.concat post_order(node.right)
-  results << node.val
-  results
-end
-
-def tail(nodes)
-  return nil if nodes.length == 0
-  puts nodes
-  for node in nodes
-    tail(nodes)
-  end
-end
-r = GemRequirements.new 'xcov'
+r = GemRequirements.new "xcov"
 r.dependency_tree
-
