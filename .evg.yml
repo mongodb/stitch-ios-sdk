@@ -187,12 +187,12 @@ buildvariants:
   tasks:
     - name: lint
     - name: run_core_tests
-- name: linux-64-android
-  display_name: Linux-64-Android
+- name: macos-1012
+  display_name: MacOS 1012
   run_on:
-    - baas-java-sdk
+    - stitch-ios-sdk
   expansions:
     mongodb_url: http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.4.4.tgz
     transpiler_target: node8-linux
   tasks:
-    - name: run_android_tests
+    - name: run_ios_tests
