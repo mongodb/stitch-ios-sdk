@@ -3,6 +3,14 @@ functions:
     - command: git.get_project
       params:
         directory: "stitch-ios-sdk"
+  "setup_swiftlint":
+    - command: shell.exec
+      params:
+        shell: "bash"
+        script: |
+          git clone https://github.com/realm/SwiftLint
+          cd SwiftLint
+          git submodule update --init --recursive; make install
   "setup_xcov":
     - command: shell.exec
       params:
@@ -128,6 +136,7 @@ tasks:
   - name: run_core_tests
     commands:
       - func: "fetch_source"
+      - func: "setup_swiftlint"
       - func: "setup_xcov"
       - func: "setup_mongod"
       - func: "setup_stitch"
@@ -147,6 +156,7 @@ tasks:
   - name: run_ios_tests
     commands:
       - func: "fetch_source"
+      - func: "setup_swiftlint"
       - func: "setup_xcov"
       - func: "setup_mongod"
       - func: "setup_stitch"
@@ -167,26 +177,8 @@ post:
       files:
         - "./stitch-ios-sdk/StitchCore/xcov_report/**/*"
         - "./stitch-ios-sdk/StitchCore-iOS/xcov_report/**/*"
-  - command: s3.put
-    params:
-      aws_key: ${test_artifacts_aws_key}
-      aws_secret: ${test_artifacts_aws_secret}
-      remote_file: ${build_id}/report
-      bucket: stitch-test-artifacts
-      content_type: text/html
-      permissions: public-read
 
 buildvariants:
-- name: linux-64
-  display_name: Linux-64
-  run_on:
-    - baas-linux
-  expansions:
-    mongodb_url: http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.4.4.tgz
-    transpiler_target: node8-linux
-  tasks:
-    - name: lint
-    - name: run_core_tests
 - name: macos-1012
   display_name: MacOS 1012
   run_on:
@@ -195,4 +187,5 @@ buildvariants:
     mongodb_url: http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.4.4.tgz
     transpiler_target: node8-linux
   tasks:
+    - name: run_core_tests
     - name: run_ios_tests
