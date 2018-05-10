@@ -23,5 +23,5 @@ class GemRequirements
   end
 end
 
-r = GemRequirements.new "xcov"
+r = GemRequirements.new("xcov", "1.4.2")
 r.dependency_tree
