@@ -20,7 +20,7 @@ public protocol StitchRequestClient {
     /**
      * Initializes the request client with the provided base URL and `Transport`.
      */
-    init(baseURL: String, transport: Transport)
+    init(baseURL: String, transport: Transport, defaultRequestTimeout: TimeInterval)
 
     /**
      * Performs a request against the Stitch server with the given `StitchRequest` object.
@@ -50,13 +50,23 @@ public final class StitchRequestClientImpl: StitchRequestClient {
      * The `Transport` which this client will use to make round trips to the Stitch server.
      */
     private let transport: Transport
+    
+    /**
+     * The number of seconds that a `Transport` should spend by default on an HTTP round trip before failing with an
+     * error.
+     *
+     * - important: If a request timeout was specified for a specific operation, for example in a function call, that
+     *              timeout should override this one.
+     */
+    private let defaultRequestTimeout: TimeInterval
 
     /**
      * Initializes the request client with the provided base URL and `Transport`.
      */
-    public init(baseURL: String, transport: Transport) {
+    public init(baseURL: String, transport: Transport, defaultRequestTimeout: TimeInterval) {
         self.baseURL = baseURL
         self.transport = transport
+        self.defaultRequestTimeout = defaultRequestTimeout
     }
 
     /**
@@ -67,12 +77,11 @@ public final class StitchRequestClientImpl: StitchRequestClient {
     public func doRequest<R>(_ stitchReq: R) throws -> Response where R: StitchRequest {
         var response: Response!
         do {
-            response = try transport.roundTrip(request: buildRequest(stitchReq))
+            response = try self.transport.roundTrip(request: self.buildRequest(stitchReq))
         } catch {
             // Wrap the error from the transport in a `StitchError.requestError`
             throw StitchError.requestError(withError: error, withRequestErrorCode: .transportError)
         }
-
         return try inspectResponse(response: response)
     }
 
@@ -90,6 +99,7 @@ public final class StitchRequestClientImpl: StitchRequestClient {
             ]
             builder.path = stitchReq.path
             builder.method = stitchReq.method
+            builder.timeout = stitchReq.timeout
         }.build())
     }
 
@@ -100,6 +110,7 @@ public final class StitchRequestClientImpl: StitchRequestClient {
         return try RequestBuilder { builder in
             builder.method = stitchReq.method
             builder.url = "\(self.baseURL)\(stitchReq.path)"
+            builder.timeout = stitchReq.timeout ?? self.defaultRequestTimeout
             builder.headers = stitchReq.headers
             builder.body = stitchReq.body
         }.build()

@@ -21,9 +21,18 @@ public protocol StitchClientConfiguration {
     var storage: Storage { get }
 
     /**
-     * The `Transport` that the client will use to make round trips to the Stitch server.
+     * The `Transport` that the client will use to make HTTP round trips to the Stitch server.
      */
     var transport: Transport { get }
+    
+    /**
+     * The number of seconds that a `Transport` should spend by default on an HTTP round trip before failing with an
+     * error.
+     *
+     * - important: If a request timeout was specified for a specific operation, for example in a function call, that
+     *              timeout will override this one.
+     */
+    var defaultRequestTimeout: TimeInterval { get }
 }
 
 /**
@@ -52,9 +61,18 @@ public struct StitchClientConfigurationImpl: StitchClientConfiguration, Buildee 
     public let storage: Storage
 
     /**
-     * The `Transport` that the client will use to make round trips to the Stitch server.
+     * The `Transport` that the client will use to make HTTP round trips to the Stitch server.
      */
     public let transport: Transport
+    
+    /**
+     * The number of seconds that a `Transport` should spend by default on an HTTP round trip before failing with an
+     * error.
+     *
+     * - important: If a request timeout was specified for a specific operation, for example in a function call, that
+     *              timeout will override this one.
+     */
+    public let defaultRequestTimeout: TimeInterval
 
     /**
      * Initializes this configuration by accepting a `StitchClientConfigurationBuilderImpl`.
@@ -77,11 +95,16 @@ public struct StitchClientConfigurationImpl: StitchClientConfiguration, Buildee 
         guard let transport = builder.transport else {
             throw StitchClientConfigurationError.missingTransport
         }
+        
+        guard let defaultRequestTimeout = builder.defaultRequestTimeout else {
+            throw StitchClientConfigurationError.missingDefaultRequestTimeout
+        }
 
         self.baseURL = baseURL
         self.dataDirectory = dataDirectory
         self.storage = storage
         self.transport = transport
+        self.defaultRequestTimeout = defaultRequestTimeout
     }
 }
 
@@ -94,6 +117,7 @@ public enum StitchClientConfigurationError: Error {
     case missingDataDirectory
     case missingStorage
     case missingTransport
+    case missingDefaultRequestTimeout
 }
 
 /**
@@ -117,9 +141,18 @@ public protocol StitchClientConfigurationBuilder {
     var storage: Storage? { get }
 
     /**
-     * The `Transport` that the client will use to make round trips to the Stitch server.
+     * The `Transport` that the client will use to make HTTP round trips to the Stitch server.
      */
     var transport: Transport? { get }
+    
+    /**
+     * The number of seconds that a `Transport` should spend by default on an HTTP round trip before failing with an
+     * error.
+     *
+     * - important: If a request timeout was specified for a specific operation, for example in a function call, that
+     *              timeout will override this one.
+     */
+    var defaultRequestTimeout: TimeInterval? { get }
 }
 
 /**
@@ -143,9 +176,18 @@ public struct StitchClientConfigurationBuilderImpl: StitchClientConfigurationBui
     public var storage: Storage?
 
     /**
-     * The `Transport` that the client will use to make round trips to the Stitch server.
+     * The `Transport` that the client will use to make HTTP round trips to the Stitch server.
      */
     public var transport: Transport?
+    
+    /**
+     * The number of seconds that a `Transport` should spend by default on an HTTP round trip before failing with an
+     * error.
+     *
+     * - important: If a request timeout was specified for a specific operation, for example in a function call, that
+     *              timeout will override this one.
+     */
+    public var defaultRequestTimeout: TimeInterval?
 
     /**
      * The type that this builder builds.

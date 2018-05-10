@@ -8,10 +8,14 @@ public class StitchAdminClient {
 
     public static let apiPath = "/api/admin/v3.0"
     public static let defaultServerUrl = "http://localhost:9090"
+    public static let defaultRequestTimeout: TimeInterval = 15.0
 
     public init?(baseUrl: String = defaultServerUrl,
-                 transport: Transport = FoundationHTTPTransport.init()) {
-        let requestClient = StitchRequestClientImpl.init(baseURL: baseUrl, transport: transport)
+                 transport: Transport = FoundationHTTPTransport.init(),
+                 requestTimeout: TimeInterval = defaultRequestTimeout) {
+        let requestClient = StitchRequestClientImpl.init(baseURL: baseUrl,
+                                                         transport: transport,
+                                                         defaultRequestTimeout: requestTimeout)
 
         self.authRoutes = StitchAdminAuthRoutes.init()
 

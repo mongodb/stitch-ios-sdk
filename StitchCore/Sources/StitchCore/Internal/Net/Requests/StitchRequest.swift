@@ -14,6 +14,13 @@ public protocol StitchRequestBuilder: Builder {
      * The HTTP headers of the request to be built.
      */
     var headers: [String: String]? { get set }
+    
+    /**
+     * The number of seconds that the underlying transport should spend on an HTTP round trip before failing with an
+     * error. If not configured, a default should override it before the request is transformed into a plain HTTP
+     * request.
+     */
+    var timeout: TimeInterval? { get set }
 
     /**
      * The body of the rqeuest to be built.
@@ -49,6 +56,13 @@ public struct StitchRequestBuilderImpl: StitchRequestBuilder {
      * The HTTP headers of the request to be built.
      */
     public var headers: [String: String]?
+    
+    /**
+     * The number of seconds that the underlying transport should spend on an HTTP round trip before failing with an
+     * error. If not configured, a default should override it before the request is transformed into a plain HTTP
+     * request.
+     */
+    public var timeout: TimeInterval?
 
     /**
      * The URL of the request to be built.
@@ -88,6 +102,13 @@ public protocol StitchRequest: Buildee {
      * The HTTP headers of this request.
      */
     var headers: [String: String] { get }
+    
+    /**
+     * The number of seconds that the underlying transport should spend on an HTTP round trip before failing with an
+     * error. If not configured, a default should override it before the request is transformed into a plain HTTP
+     * request.
+     */
+    var timeout: TimeInterval? { get }
 
     /**
      * The body of the request.
@@ -126,6 +147,13 @@ public struct StitchRequestImpl: StitchRequest {
     public let headers: [String: String]
 
     /**
+     * The number of seconds that the underlying transport should spend on an HTTP round trip before failing with an
+     * error.  If not configured, a default should override it before the request is transformed into a plain HTTP
+     * request.
+     */
+    public let timeout: TimeInterval?
+    
+    /**
      * The body of the request.
      */
     public let body: Data?
@@ -152,6 +180,7 @@ public struct StitchRequestImpl: StitchRequest {
         self.path = path
         self.method = method
         self.headers = builder.headers ?? [:]
+        self.timeout = builder.timeout
         self.body = builder.body
         self.startedAt = Date().timeIntervalSince1970
     }
@@ -197,6 +226,13 @@ public struct StitchDocRequestBuilderImpl: StitchDocRequestBuilder {
      * The HTTP method of the request to be built.
      */
     public var method: Method?
+    
+    /**
+     * The number of seconds that the underlying transport should spend on an HTTP round trip before failing with an
+     * error.  If not configured, a default should override it before the request is transformed into a plain HTTP
+     * request.
+     */
+    public var timeout: TimeInterval?
 
     /**
      * The HTTP headers of the request to be built.
@@ -237,6 +273,13 @@ public struct StitchDocRequest: StitchRequest {
      * The HTTP method of this request.
      */
     public var method: Method
+    
+    /**
+     * The number of seconds that the underlying transport should spend on an HTTP round trip before failing with an
+     * error. If not configured, a default should override it before the request is transformed into a plain HTTP
+     * request.
+     */
+    public var timeout: TimeInterval?
 
     /**
      * The HTTP headers of this request.
@@ -276,8 +319,11 @@ public struct StitchDocRequest: StitchRequest {
             throw RequestBuilderError.missingMethod
         }
 
+
         self.path = path
         self.method = method
+        
+        self.timeout = builder.timeout
         self.headers = builder.headers ?? [:]
         self.body = builder.body
         self.document = document

@@ -49,6 +49,15 @@ public struct StitchAppClientConfigurationImpl: StitchAppClientConfiguration, Bu
      * The `Transport` that the client will use to make round trips to the Stitch server.
      */
     public let transport: Transport
+    
+    /**
+     * The number of seconds that a `Transport` should spend by default on an HTTP round trip before failing with an
+     * error.
+     *
+     * - important: If a request timeout was specified for a specific operation, for example in a function call, that
+     *              timeout will override this one.
+     */
+    public let defaultRequestTimeout: TimeInterval
 
     /**
      * The client app id of the Stitch application that this client is going to communicate with.
@@ -105,11 +114,16 @@ public struct StitchAppClientConfigurationImpl: StitchAppClientConfiguration, Bu
         guard let transport = builder.transport else {
             throw StitchClientConfigurationError.missingTransport
         }
+        
+        guard let defaultRequestTimeout = builder.defaultRequestTimeout else {
+            throw StitchClientConfigurationError.missingDefaultRequestTimeout
+        }
 
         self.baseURL = baseURL
         self.dataDirectory = dataDirectory
         self.storage = storage
         self.transport = transport
+        self.defaultRequestTimeout = defaultRequestTimeout
     }
 }
 
@@ -149,6 +163,15 @@ public struct StitchAppClientConfigurationBuilder: StitchClientConfigurationBuil
      * The `Transport` that the client will use to make round trips to the Stitch server.
      */
     public var transport: Transport?
+    
+    /**
+     * The number of seconds that a `Transport` should spend by default on an HTTP round trip before failing with an
+     * error.
+     *
+     * - important: If a request timeout was specified for a specific operation, for example in a function call, that
+     *              timeout will override this one.
+     */
+    public var defaultRequestTimeout: TimeInterval?
 
     /**
      * The client app id of the Stitch application that this client is going to communicate with.

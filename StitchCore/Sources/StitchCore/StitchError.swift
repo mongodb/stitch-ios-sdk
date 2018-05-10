@@ -22,7 +22,7 @@ public enum StitchError: Error {
      * transport errors, these errors are thrown by the underlying `Transport` of the Stitch client, and thus contain
      * the error that the transport threw. Errors in decoding the result from the server include the specific error
      * thrown when attempting to decode the response. An error code is included, which indicates whether the error
-     * was a transport error or decoding error..
+     * was a transport error or decoding error.
      */
     case requestError(withError: Error, withRequestErrorCode: StitchRequestErrorCode)
 
