@@ -27,7 +27,7 @@ public struct AnyNamedServiceClientProvider<T> {
     /**
      * Initializes this `AnyNamedServiceClientProvider` with an arbitrary `NamedServiceClientProvider`.
      */
-    fileprivate init<U: NamedServiceClientProvider>(provider: U) where U.ClientType == T {
+    public init<U: NamedServiceClientProvider>(provider: U) where U.ClientType == T {
         self.clientBlock = provider.client
     }
 

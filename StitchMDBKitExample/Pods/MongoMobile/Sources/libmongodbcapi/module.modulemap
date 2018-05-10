@@ -1,0 +1,6 @@
+module libmongodbcapi [system] {
+    header "libmongodbcapi.h"
+    link "mongo_embedded_capi"
+    link "mongo_embedded_transport"
+    export *
+}

@@ -1,0 +1,6 @@
+framework module Pods_StitchMDBKitExample {
+  umbrella header "Pods-StitchMDBKitExample-umbrella.h"
+
+  export *
+  module * { export * }
+}

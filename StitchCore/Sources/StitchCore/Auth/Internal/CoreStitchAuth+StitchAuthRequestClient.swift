@@ -1,4 +1,5 @@
 import Foundation
+import ExtendedJSON
 
 /**
  * Extension functions for `CoreStitchAuth` to add conformance to `StitchAuthRequestClient`, and to support proactive
@@ -37,8 +38,12 @@ extension CoreStitchAuth: StitchAuthRequestClient {
             }
 
             do {
-                return try JSONSerialization.jsonObject(with: responseBody,
-                                                        options: JSONSerialization.ReadingOptions.allowFragments)
+                return try Document.decodeXJson(
+                    value: JSONSerialization.jsonObject(
+                        with: responseBody,
+                        options: JSONSerialization.ReadingOptions.allowFragments
+                    )
+                )
             } catch let err {
                 throw StitchError.requestError(withError: err, withRequestErrorCode: .decodingError)
             }
