@@ -159,7 +159,7 @@ tasks:
 
             echo "running iOS tests"
             xcodebuild test -workspace ../Stitch.xcworkspace/ -scheme StitchCore-iOS -configuration Debug -enableCodeCoverage YES -destination "platform=iOS Simulator,name=iPhone 8,OS=11.2"
-            xcov --legacy_support xccoverage --source_directory Sources/ --exclude_targets ExtendedJSON.framework,JWT.framework,StitchCore_AdminClient.framework,Swifter.framework
+            xcov --legacy_support xccoverage --exclude_targets ExtendedJSON.framework,JWT.framework,StitchCore_AdminClient.framework,Swifter.framework
       - func: "publish_codecov"
 post:
   - command: attach.xunit_results
