@@ -137,7 +137,6 @@ tasks:
   - name: run_core_tests
     commands:
       - func: "fetch_source"
-      - func: "setup_swiftlint"
       - func: "setup_xcov"
       - func: "setup_mongod"
       - func: "setup_stitch"
@@ -157,7 +156,6 @@ tasks:
   - name: run_ios_tests
     commands:
       - func: "fetch_source"
-      - func: "setup_swiftlint"
       - func: "setup_xcov"
       - func: "setup_mongod"
       - func: "setup_stitch"
