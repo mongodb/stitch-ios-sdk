@@ -16,7 +16,7 @@ functions:
       params:
         shell: "bash"
         script: |
-          gem install xcov
+          gem install --local xcov
   "setup_mongod":
     - command: shell.exec
       params:
