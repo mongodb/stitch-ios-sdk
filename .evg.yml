@@ -126,6 +126,7 @@ tasks:
   - name: lint
     commands:
       - func: "fetch_source"
+      - func: "setup_swiftlint"
       - command: shell.exec
         params: 
           shell: "bash"
