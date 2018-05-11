@@ -32,7 +32,7 @@ public protocol StitchAppClient {
      *            `AnyNamedServiceClientProvider` passed in the `forProvider` parameter.
      */
     func serviceClient<T>(forService provider: AnyNamedServiceClientProvider<T>,
-                          withName serviceName: String) throws -> T
+                          withName serviceName: String) -> T
 
     /**
      * Retrieves the service client associated with the service type specified in the argument.
@@ -43,7 +43,18 @@ public protocol StitchAppClient {
      * - returns: a service client whose type is determined by the `T` type parameter of the `AnyServiceClientProvider`
      *            passed in the `forProvider` parameter.
      */
-    func serviceClient<T>(forService provider: AnyServiceClientProvider<T>) throws -> T
+    func serviceClient<T>(forService provider: AnyServiceClientProvider<T>) -> T
+
+    /**
+     * Retrieves the service client associated with the service type specified in the argument.
+     *
+     * - parameters:
+     *     - forProvider: An `AnyServiceClientProvider` object which contains a `ServiceClientProvider`
+     *                    class which will provide the client for this service.
+     * - returns: a service client whose type is determined by the `T` type parameter of the `AnyServiceClientProvider`
+     *            passed in the `forProvider` parameter.
+     */
+    func serviceClient<T>(forService provider: AnyThrowingServiceClientProvider<T>) throws -> T
 
     // MARK: Functions
 
