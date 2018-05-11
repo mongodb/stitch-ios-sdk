@@ -85,7 +85,9 @@ private final class MongoDBServiceClientProvider: ThrowingServiceClientProvider 
         }
 
         // else, create a new client
-        let settings = MongoClientSettings(dbPath: clientInfo.dataDirectory.path)
+        let settings = MongoClientSettings(
+            dbPath: "\(clientInfo.dataDirectory.path)/local_mongodb/0/"
+        )
         let client = try MongoMobile.create(settings)
 
         localInstances[clientInfo.clientAppId] = client
