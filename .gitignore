@@ -54,6 +54,9 @@ StitchCore/.build/
 #
 # Pods/
 Extensions/PromiseKit/Stitch-PromiseKit/Pods/
+LocalMongoDBService/Pods/
+LocalMongoDBServiceExample/Pods/
+StitchCore-iOS/Extensions/PromiseKit/Stitch-PromiseKit/Pods/
 
 # Carthage
 #
@@ -72,4 +75,4 @@ Carthage/Build
 fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots
-fastlane/test_output
+fastlane/test_outputOB

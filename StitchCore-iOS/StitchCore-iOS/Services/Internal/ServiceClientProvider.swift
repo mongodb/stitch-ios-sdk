@@ -12,7 +12,8 @@ public protocol ServiceClientProvider {
     /**
      * Returns a client of type `ClientType`, with the provided `StitchService` and `StitchAppClientInfo` objects.
      */
-    func client(forService service: StitchService, withClient client: StitchAppClientInfo) -> ClientType
+    func client(forService service: StitchService,
+                withClientInfo clientInfo: StitchAppClientInfo) -> ClientType
 }
 
 /**
@@ -27,7 +28,7 @@ public struct AnyServiceClientProvider<T> {
     /**
      * Initializes this `AnyServiceClientProvider` with an arbitrary `ServiceClientProvider`.
      */
-    fileprivate init<U: ServiceClientProvider>(provider: U) where U.ClientType == T {
+    public init<U: ServiceClientProvider>(provider: U) where U.ClientType == T {
         self.clientBlock = provider.client
     }
 
@@ -35,7 +36,7 @@ public struct AnyServiceClientProvider<T> {
      * Produces a service client with the stored `clientBlock`.
      */
     func client(forService service: StitchService,
-                withClient client: StitchAppClientInfo) -> T {
-        return self.clientBlock(service, client)
+                withClientInfo clientInfo: StitchAppClientInfo) -> T {
+        return self.clientBlock(service, clientInfo)
     }
 }

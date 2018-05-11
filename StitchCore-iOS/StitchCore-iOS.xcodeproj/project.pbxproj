@@ -42,6 +42,9 @@
 		4902C6CF2051753000E53674 /* ServiceClientProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C6CE2051753000E53674 /* ServiceClientProvider.swift */; };
 		49368D6D2052F350006153D3 /* StitchAppClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49368D6C2052F350006153D3 /* StitchAppClientImpl.swift */; };
 		49368D702052F35B006153D3 /* StitchAuthImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49368D6F2052F35B006153D3 /* StitchAuthImpl.swift */; };
+		496CAA8920A5E3A6001F0D3C /* ThrowingServiceClientProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496CAA8820A5E3A6001F0D3C /* ThrowingServiceClientProvider.swift */; };
+		496CAAEF20A60632001F0D3C /* ThrowingServiceClientProviderUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496CAAEE20A60632001F0D3C /* ThrowingServiceClientProviderUnitTests.swift */; };
+		496CAAF020A60764001F0D3C /* JWT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 496CAAF120A60764001F0D3C /* JWT.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +99,9 @@
 		4902C6CE2051753000E53674 /* ServiceClientProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceClientProvider.swift; sourceTree = "<group>"; };
 		49368D6C2052F350006153D3 /* StitchAppClientImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchAppClientImpl.swift; sourceTree = "<group>"; };
 		49368D6F2052F35B006153D3 /* StitchAuthImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchAuthImpl.swift; sourceTree = "<group>"; };
+		496CAA8820A5E3A6001F0D3C /* ThrowingServiceClientProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThrowingServiceClientProvider.swift; sourceTree = "<group>"; };
+		496CAAEE20A60632001F0D3C /* ThrowingServiceClientProviderUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThrowingServiceClientProviderUnitTests.swift; sourceTree = "<group>"; };
+		496CAAF120A60764001F0D3C /* JWT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = JWT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +109,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				496CAAF020A60764001F0D3C /* JWT.framework in Frameworks */,
 				112F050C2091440A00DDB147 /* StitchCore_AdminClient.framework in Frameworks */,
 				11981A1E2062C4AA0074BB11 /* StitchCore_iOS.framework in Frameworks */,
 			);
@@ -215,6 +222,7 @@
 			children = (
 				11981A252062C8160074BB11 /* Core */,
 				11981A1D2062C4AA0074BB11 /* Info.plist */,
+				496CAAED20A60621001F0D3C /* Services */,
 			);
 			path = StitchCore_iOSTests;
 			sourceTree = "<group>";
@@ -289,6 +297,7 @@
 		4902C6872050076B00E53674 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				496CAAF120A60764001F0D3C /* JWT.framework */,
 				112F050D2091440A00DDB147 /* StitchCore_AdminClient.framework */,
 				4902C6B22050103300E53674 /* StitchCore.framework */,
 				4902C68A2050076B00E53674 /* ExtendedJSON.framework */,
@@ -335,6 +344,7 @@
 				4902C6AE20500FAD00E53674 /* StitchService.swift */,
 				4902C6B92050112300E53674 /* StitchServiceImpl.swift */,
 				4902C6C8205174A100E53674 /* NamedServiceClientProvider.swift */,
+				496CAA8820A5E3A6001F0D3C /* ThrowingServiceClientProvider.swift */,
 				4902C6CE2051753000E53674 /* ServiceClientProvider.swift */,
 			);
 			path = Internal;
@@ -357,6 +367,14 @@
 				11C587EE2058445200B34DD1 /* StitchUserFactoryImpl.swift */,
 			);
 			path = Internal;
+			sourceTree = "<group>";
+		};
+		496CAAED20A60621001F0D3C /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				496CAAEE20A60632001F0D3C /* ThrowingServiceClientProviderUnitTests.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -489,6 +507,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				116168B9208A6B3200967A7E /* TestHarness.swift in Sources */,
+				496CAAEF20A60632001F0D3C /* ThrowingServiceClientProviderUnitTests.swift in Sources */,
 				112F050F209149B500DDB147 /* StitchIntegrationTestCase.swift in Sources */,
 				11B1840520A37ECA00B62ABB /* StitchAppClientIntegrationAuthTests.swift in Sources */,
 				111CCA05207C08A3002FEB4A /* StitchTests.swift in Sources */,
@@ -503,6 +522,7 @@
 			files = (
 				4902C6902050083C00E53674 /* StitchAuth.swift in Sources */,
 				11297B20205301D5001D0711 /* NamedAuthProviderClientSupplier.swift in Sources */,
+				496CAA8920A5E3A6001F0D3C /* ThrowingServiceClientProvider.swift in Sources */,
 				4902C6CF2051753000E53674 /* ServiceClientProvider.swift in Sources */,
 				49368D702052F35B006153D3 /* StitchAuthImpl.swift in Sources */,
 				11C587EF2058445200B34DD1 /* StitchUserFactoryImpl.swift in Sources */,
