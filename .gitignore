@@ -54,8 +54,8 @@ StitchCore/.build/
 #
 # Pods/
 Extensions/PromiseKit/Stitch-PromiseKit/Pods/
-StitchMDBKit/Pods/
-StitchMDBKitExample/Pods/
+LocalMongoDBService/Pods/
+LocalMongoDBServiceExample/Pods/
 StitchCore-iOS/Extensions/PromiseKit/Stitch-PromiseKit/Pods/
 
 # Carthage
