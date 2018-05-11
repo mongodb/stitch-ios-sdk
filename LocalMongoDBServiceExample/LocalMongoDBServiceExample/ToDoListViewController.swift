@@ -1,6 +1,6 @@
 import MongoMobile
 import StitchCore_iOS
-import StitchMDBKit
+import LocalMongoDBService
 import Toast_Swift
 import UIKit
 
@@ -37,7 +37,7 @@ class ToDoListViewController: UITableViewController {
             tableView.delegate = self
             tableView.dataSource = self
         } catch let err {
-            makeToast(self.view.superview!,
+            makeToast(self.view,
                       message: "Error initializing MongoMobile: \(err)")
         }
     }
