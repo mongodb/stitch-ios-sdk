@@ -1,3 +1,4 @@
+import ExtendedJSON
 import Foundation
 import XCTest
 import StitchCore
@@ -96,8 +97,8 @@ class UserAPIKeyAuthProviderTests: StitchIntegrationTestCase {
         }
 
         let exp2 = expectation(description: "created two user API keys")
-        var expectedId1: String!
-        var expectedId2: String!
+        var expectedId1: ObjectId!
+        var expectedId2: ObjectId!
         userApiKeyClient.createApiKey(withName: "key_test") { createdKey, _ in
             XCTAssertNotNil(createdKey)
             XCTAssertNotNil(createdKey?.key)
@@ -177,6 +178,72 @@ class UserAPIKeyAuthProviderTests: StitchIntegrationTestCase {
             }
         }
         wait(for: [exp5], timeout: defaultTimeoutSeconds)
+    }
+
+    func testCreateKeyWithInvalidName() {
+        let exp1 = expectation(description: "logged in as email/password user")
+        self.registerAndLogin(email: "test1@10gen.com", password: "hunter1") { _ in
+            exp1.fulfill()
+        }
+        wait(for: [exp1], timeout: defaultTimeoutSeconds)
+
+        let auth = self.harness.stitchAppClient.auth
+        guard let userApiKeyClient = try? auth.providerClient(
+            forProvider: UserAPIKeyAuthProvider.authenticatedClientSupplier) else {
+                XCTFail("could not get user API key client")
+                return
+        }
+
+        let exp2 = expectation(description: "created user API key, and logged out")
+        userApiKeyClient.createApiKey(withName: "$$%%$$$") { _, error in
+            XCTAssertNotNil(error)
+            guard let stitchErr = error as? StitchError else {
+                XCTFail("wrong error thrown")
+                return
+            }
+
+            guard case .serviceError(_, let code) = stitchErr else {
+                XCTFail("wrong Stitch error type")
+                return
+            }
+
+            XCTAssertEqual(code, StitchServiceErrorCode.invalidParameter)
+            exp2.fulfill()
+        }
+        wait(for: [exp2], timeout: defaultTimeoutSeconds)
+    }
+
+    func testFetchNonexistentKey() {
+        let exp1 = expectation(description: "logged in as email/password user")
+        self.registerAndLogin(email: "test1@10gen.com", password: "hunter1") { _ in
+            exp1.fulfill()
+        }
+        wait(for: [exp1], timeout: defaultTimeoutSeconds)
+
+        let auth = self.harness.stitchAppClient.auth
+        guard let userApiKeyClient = try? auth.providerClient(
+            forProvider: UserAPIKeyAuthProvider.authenticatedClientSupplier) else {
+                XCTFail("could not get user API key client")
+                return
+        }
+
+        let exp2 = expectation(description: "created user API key, and logged out")
+        userApiKeyClient.fetchApiKey(withId: ObjectId.init()) { _, error in
+            XCTAssertNotNil(error)
+            guard let stitchErr = error as? StitchError else {
+                XCTFail("wrong error thrown")
+                return
+            }
+
+            guard case .serviceError(_, let code) = stitchErr else {
+                XCTFail("wrong Stitch error type")
+                return
+            }
+
+            XCTAssertEqual(code, StitchServiceErrorCode.apiKeyNotFound)
+            exp2.fulfill()
+        }
+        wait(for: [exp2], timeout: defaultTimeoutSeconds)
     }
 
     func testLoggedOut() {

@@ -1,5 +1,6 @@
 import Foundation
 import StitchCore
+import ExtendedJSON
 
 /**
  * A utility class which contains a property that can be used with `StitchAuth` to retrieve a
@@ -87,7 +88,7 @@ public protocol AuthenticatedUserAPIKeyAuthProviderClient {
      *     - withId: The id of the API key to fetch.
      *     - completionHandler: The handler to be executed when the request is complete.
      */
-    func fetchApiKey(withId id: String, _ completionHandler: @escaping (UserAPIKey?, Error?) -> Void)
+    func fetchApiKey(withId id: ObjectId, _ completionHandler: @escaping (UserAPIKey?, Error?) -> Void)
 
     /**
      * Fetches the user API keys associated with the current user.
@@ -104,7 +105,7 @@ public protocol AuthenticatedUserAPIKeyAuthProviderClient {
      *     - withId: The id of the API key to delete.
      *     - completionHandler: The handler to be executed when the request is complete.
      */
-    func deleteApiKey(withId id: String, _ completionHandler: @escaping (Error?) -> Void)
+    func deleteApiKey(withId id: ObjectId, _ completionHandler: @escaping (Error?) -> Void)
 
     /**
      * Enables a user API key associated with the current user.
@@ -113,7 +114,7 @@ public protocol AuthenticatedUserAPIKeyAuthProviderClient {
      *     - withId: The id of the API key to enable.
      *     - completionHandler: The handler to be executed when the request is complete.
      */
-    func enableApiKey(withId id: String, _ completionHandler: @escaping (Error?) -> Void)
+    func enableApiKey(withId id: ObjectId, _ completionHandler: @escaping (Error?) -> Void)
 
     /**
      * Disables a user API key associated with the current user.
@@ -122,7 +123,7 @@ public protocol AuthenticatedUserAPIKeyAuthProviderClient {
      *     - withId: The id of the API key to disable.
      *     - completionHandler: The handler to be executed when the request is complete.
      */
-    func disableApiKey(withId id: String, _ completionHandler: @escaping (Error?) -> Void)
+    func disableApiKey(withId id: ObjectId, _ completionHandler: @escaping (Error?) -> Void)
 }
 
 private class AuthenticatedUserAPIKeyClientImpl:
@@ -143,7 +144,7 @@ CoreAuthenticatedUserAPIKeyAuthProviderClient, AuthenticatedUserAPIKeyAuthProvid
         }
     }
 
-    func fetchApiKey(withId id: String, _ completionHandler: @escaping (UserAPIKey?, Error?) -> Void) {
+    func fetchApiKey(withId id: ObjectId, _ completionHandler: @escaping (UserAPIKey?, Error?) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
             return  try super.fetchApiKey(withId: id)
         }
@@ -155,19 +156,19 @@ CoreAuthenticatedUserAPIKeyAuthProviderClient, AuthenticatedUserAPIKeyAuthProvid
         }
     }
 
-    func deleteApiKey(withId id: String, _ completionHandler: @escaping (Error?) -> Void) {
+    func deleteApiKey(withId id: ObjectId, _ completionHandler: @escaping (Error?) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
             try super.deleteApiKey(withId: id)
         }
     }
 
-    func enableApiKey(withId id: String, _ completionHandler: @escaping (Error?) -> Void) {
+    func enableApiKey(withId id: ObjectId, _ completionHandler: @escaping (Error?) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
             try super.enableApiKey(withId: id)
         }
     }
 
-    func disableApiKey(withId id: String, _ completionHandler: @escaping (Error?) -> Void) {
+    func disableApiKey(withId id: ObjectId, _ completionHandler: @escaping (Error?) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
             try super.disableApiKey(withId: id)
         }
