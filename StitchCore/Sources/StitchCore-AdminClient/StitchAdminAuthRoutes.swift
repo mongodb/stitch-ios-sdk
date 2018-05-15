@@ -8,7 +8,7 @@ class StitchAdminAuthRoutes: StitchAuthRoutes {
     var baseAuthRoute: String {
         return "\(StitchAdminClient.apiPath)/auth"
     }
-    
+
     /**
      * The route on the server for getting a new access token.
      */

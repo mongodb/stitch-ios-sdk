@@ -50,7 +50,7 @@ public final class StitchRequestClientImpl: StitchRequestClient {
      * The `Transport` which this client will use to make round trips to the Stitch server.
      */
     private let transport: Transport
-    
+
     /**
      * The number of seconds that a `Transport` should spend by default on an HTTP round trip before failing with an
      * error.

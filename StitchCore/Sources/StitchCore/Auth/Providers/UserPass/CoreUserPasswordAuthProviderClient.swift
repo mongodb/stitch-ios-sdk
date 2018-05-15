@@ -16,7 +16,6 @@ private final class Routes {
         self.baseRoute = baseRoute
     }
 
-    
     /**
      * Private helper which returns the provided path, appended to the base route for the authentication provider.
      */
@@ -74,7 +73,7 @@ open class CoreUserPasswordAuthProviderClient: CoreAuthProviderClient<StitchRequ
                 withRequestClient requestClient: StitchRequestClient,
                 withAuthRoutes authRoutes: StitchAuthRoutes) {
         let baseRoute = authRoutes.authProviderRoute(withProviderName: providerName)
-        
+
         self.routes = Routes.init(withBaseRoute: baseRoute,
                                   withProviderName: providerName)
         super.init(withProviderName: providerName,

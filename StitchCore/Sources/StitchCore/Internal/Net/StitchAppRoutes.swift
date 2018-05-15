@@ -33,7 +33,7 @@ public protocol StitchAuthRoutes {
      * The base route on the server for authentication-related actions.
      */
     var baseAuthRoute: String { get }
-    
+
     /**
      * Returns the route on the server for getting information about a particular authentication provider.
      */
@@ -92,7 +92,7 @@ public struct StitchAppAuthRoutes: StitchAuthRoutes {
      * The route on the server for fetching the currently authenticated user's profile.
      */
     public var profileRoute: String = RouteParts.profileRoute
-    
+
     /**
      * The route on the server for creating and modifying user API keys.
      */

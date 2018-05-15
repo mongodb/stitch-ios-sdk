@@ -127,7 +127,7 @@ public protocol AuthenticatedUserAPIKeyAuthProviderClient {
 }
 
 private class AuthenticatedUserAPIKeyClientImpl:
-CoreAuthenticatedUserAPIKeyAuthProviderClient, AuthenticatedUserAPIKeyAuthProviderClient {
+CoreAuthenticatedUserAPIKeyClient, AuthenticatedUserAPIKeyAuthProviderClient {
     private let dispatcher: OperationDispatcher
 
     init(withAuthRequestClient authRequestClient: StitchAuthRequestClient,

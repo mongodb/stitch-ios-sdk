@@ -49,7 +49,7 @@ public struct StitchAppClientConfigurationImpl: StitchAppClientConfiguration, Bu
      * The `Transport` that the client will use to make round trips to the Stitch server.
      */
     public let transport: Transport
-    
+
     /**
      * The number of seconds that a `Transport` should spend by default on an HTTP round trip before failing with an
      * error.
@@ -114,7 +114,7 @@ public struct StitchAppClientConfigurationImpl: StitchAppClientConfiguration, Bu
         guard let transport = builder.transport else {
             throw StitchClientConfigurationError.missingTransport
         }
-        
+
         guard let defaultRequestTimeout = builder.defaultRequestTimeout else {
             throw StitchClientConfigurationError.missingDefaultRequestTimeout
         }
@@ -163,7 +163,7 @@ public struct StitchAppClientConfigurationBuilder: StitchClientConfigurationBuil
      * The `Transport` that the client will use to make round trips to the Stitch server.
      */
     public var transport: Transport?
-    
+
     /**
      * The number of seconds that a `Transport` should spend by default on an HTTP round trip before failing with an
      * error.

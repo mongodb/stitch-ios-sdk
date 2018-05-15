@@ -62,18 +62,18 @@ class StitchRequestClientTests: StitchXCTestCase {
         XCTAssertEqual(response.statusCode, 200)
         XCTAssertEqual(response.body, self.responseBody.data(using: .utf8))
     }
-    
+
     func testDoRequestWithTimeout() throws {
         let stitchRequestClient = StitchRequestClientImpl.init(baseURL: self.baseURL,
                                                                transport: FoundationHTTPTransport(),
                                                                defaultRequestTimeout: testDefaultRequestTimeout)
-        
+
         let builder = StitchRequestImpl.TBuilder {
             $0.path = self.timeoutEndpoint
             $0.method = .get
             $0.timeout = 3.0
         }
-        
+
         XCTAssertThrowsError(try stitchRequestClient.doRequest(builder.build())) { error in
             let stitchError = error as? StitchError
             XCTAssertNotNil(error as? StitchError)
@@ -82,7 +82,7 @@ class StitchRequestClientTests: StitchXCTestCase {
                     XCTFail("doRequest returned an incorrect error type")
                     return
                 }
-                
+
                 XCTAssertEqual(errorCode, .transportError)
             }
         }

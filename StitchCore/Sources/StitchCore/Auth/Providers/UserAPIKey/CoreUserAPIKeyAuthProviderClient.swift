@@ -10,7 +10,7 @@ private final class Routes {
      * The authentication API routes that form the base of these provider routes.
      */
     private let baseRoute: String
-    
+
     /**
      * Initializes the routes with a `StitchAuthRoutes` and the name of the provider.
      */
@@ -21,11 +21,11 @@ private final class Routes {
     fileprivate func apiKeyRoute(forKeyId id: String) -> String {
         return "\(baseRoute)/\(id)"
     }
-    
+
     fileprivate func apiKeyEnableRoute(forKeyId id: String) -> String {
         return "\(self.apiKeyRoute(forKeyId: id))/enable"
     }
-    
+
     fileprivate func apiKeyDisableRoute(forKeyId id: String) -> String {
         return "\(self.apiKeyRoute(forKeyId: id))/disable"
     }
@@ -63,29 +63,29 @@ private let nameKey = "name"
  * A client for the user API key authentication provider which can be used to create and modify user API keys. This
  * client should only be used by an authenticatd user.
  */
-open class CoreAuthenticatedUserAPIKeyAuthProviderClient: CoreAuthProviderClient<StitchAuthRequestClient> {
+open class CoreAuthenticatedUserAPIKeyClient: CoreAuthProviderClient<StitchAuthRequestClient> {
     // MARK: Properties
 
     /**
      * The routes for the user API key CRUD operations.
      */
     private let routes: Routes
-    
+
     // MARK: Initializer
-    
+
     /**
      * A basic initializer, which sets the provider client's properties to the values provided in the parameters.
      */
     public init(withAuthRequestClient authRequestClient: StitchAuthRequestClient,
                 withAuthRoutes authRoutes: StitchAuthRoutes) {
         let baseRoute = "\(authRoutes.baseAuthRoute)/api_keys"
-        
+
         self.routes = Routes.init(withBaseRoute: baseRoute)
         super.init(withProviderName: StitchProviderType.userAPIKey.name,
                    withRequestClient: authRequestClient,
                    withBaseRoute: baseRoute)
     }
-    
+
     /**
      * Creates a user API key that can be used to authenticate as the current user.
      *
@@ -102,7 +102,7 @@ open class CoreAuthenticatedUserAPIKeyAuthProviderClient: CoreAuthProviderClient
             $0.useRefreshToken = true
         }.build()))
     }
-    
+
     /**
      * Fetches a user API key associated with the current user.
      *
@@ -118,7 +118,7 @@ open class CoreAuthenticatedUserAPIKeyAuthProviderClient: CoreAuthProviderClient
             $0.useRefreshToken = true
         }.build()))
     }
-    
+
     /**
      * Fetches the user API keys associated with the current user.
      */
@@ -131,7 +131,7 @@ open class CoreAuthenticatedUserAPIKeyAuthProviderClient: CoreAuthProviderClient
             $0.useRefreshToken = true
         }.build()))
     }
-    
+
     /**
      * Deletes a user API key associated with the current user.
      *
@@ -146,7 +146,7 @@ open class CoreAuthenticatedUserAPIKeyAuthProviderClient: CoreAuthProviderClient
             $0.useRefreshToken = true
         }.build())
     }
-    
+
     /**
      * Enables a user API key associated with the current user.
      *
@@ -161,7 +161,7 @@ open class CoreAuthenticatedUserAPIKeyAuthProviderClient: CoreAuthProviderClient
             $0.useRefreshToken = true
         }.build())
     }
-    
+
     /**
      * Disables a user API key associated with the current user.
      *
