@@ -5,6 +5,10 @@ import StitchCore
  * The set of authentication routes on the Stitch server to authenticate as an admin user. 
  */
 class StitchAdminAuthRoutes: StitchAuthRoutes {
+    var apiKeysRoute: String {
+        fatalError("user API keys not implemented in admin API")
+    }
+    
     /**
      * The route on the server for getting a new access token.
      */

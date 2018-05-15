@@ -6,7 +6,6 @@ import Foundation
  * The implementation of `StitchAuth`, which holds and manages the authentication state of a Stitch client.
  */
 internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth {
-
     // MARK: Private Properties
 
     /**
@@ -54,6 +53,28 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
     }
 
     // MARK: Authentication Provider Clients
+
+    /**
+     * Retrieves the authenticated authentication provider client associated with the authentication provider type
+     * specified in the argument.
+     *
+     * - parameters:
+     *     - forProvider: The authentication provider conforming to `AuthenticatedAuthProviderClientSupplier` which
+     *                    will provide the client for this authentication provider. Use the `clientSupplier` field of
+     *                    the desired authentication provider class.
+     * - returns: an authentication provider client whose type is determined by the `Client` typealias in the type
+     *            specified in the `forProvider` parameter.
+     * - throws: A Stitch client error if the client is not currently authenticated.
+     */
+    func authenticatedProviderClient<Provider>(forProvider provider: Provider) throws
+        -> Provider.Client where Provider: AuthenticatedAuthProviderClientSupplier {
+            guard isLoggedIn else {
+                throw StitchError.clientError(withClientErrorCode: .mustAuthenticateFirst)
+            }
+        return provider.client(withAuthRequestClient: self,
+                               withRoutes: self.authRoutes,
+                               withDispatcher: self.dispatcher)
+    }
 
     /**
      * Retrieves the authentication provider client associated with the authentication provider type specified in the

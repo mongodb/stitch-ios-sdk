@@ -21,6 +21,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		11B1840820A63E4900B62ABB /* CoreAuthenticatedAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B1840620A63D2500B62ABB /* CoreAuthenticatedAuthProviderClient.swift */; };
+		11B1841020AA1D2200B62ABB /* UserAPIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B1840F20AA1D2200B62ABB /* UserAPIKey.swift */; };
 		OBJ_223 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_229 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_135 /* Package.swift */; };
 		OBJ_235 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_167 /* Package.swift */; };
@@ -243,6 +245,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		11B1840620A63D2500B62ABB /* CoreAuthenticatedAuthProviderClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAuthenticatedAuthProviderClient.swift; sourceTree = "<group>"; };
+		11B1840F20AA1D2200B62ABB /* UserAPIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPIKey.swift; sourceTree = "<group>"; };
 		"ExtendedJSON::ExtendedJSON::Product" /* ExtendedJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ExtendedJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"JWT::JWT::Product" /* JWT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = JWT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_10 /* CoreAuthProviderClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAuthProviderClient.swift; sourceTree = "<group>"; };
@@ -460,6 +464,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		11B1841320AA1E4F00B62ABB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				11B1840F20AA1D2200B62ABB /* UserAPIKey.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		OBJ_101 /* UserRegistrations */ = {
 			isa = PBXGroup;
 			children = (
@@ -844,13 +856,14 @@
 		OBJ_48 /* UserAPIKey */ = {
 			isa = PBXGroup;
 			children = (
+				11B1841320AA1E4F00B62ABB /* Models */,
 				OBJ_49 /* CoreUserAPIKeyAuthProviderClient.swift */,
 				OBJ_50 /* UserAPIKeyCredential.swift */,
 			);
 			path = UserAPIKey;
 			sourceTree = "<group>";
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -862,7 +875,6 @@
 				OBJ_133 /* Dependencies */,
 				OBJ_211 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_51 /* UserPass */ = {
@@ -1008,6 +1020,7 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_10 /* CoreAuthProviderClient.swift */,
+				11B1840620A63D2500B62ABB /* CoreAuthenticatedAuthProviderClient.swift */,
 				OBJ_11 /* Internal */,
 				OBJ_30 /* ProviderCapabilities.swift */,
 				OBJ_31 /* Providers */,
@@ -1213,7 +1226,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_211 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1358,6 +1371,7 @@
 				OBJ_341 /* AccessTokenRefresher.swift in Sources */,
 				OBJ_342 /* AuthInfo.swift in Sources */,
 				OBJ_343 /* AuthStateHolder.swift in Sources */,
+				11B1841020AA1D2200B62ABB /* UserAPIKey.swift in Sources */,
 				OBJ_344 /* CoreStitchAuth+StitchAuthRequestClient.swift in Sources */,
 				OBJ_345 /* CoreStitchAuth.swift in Sources */,
 				OBJ_346 /* CoreStitchUser.swift in Sources */,
@@ -1378,6 +1392,7 @@
 				OBJ_361 /* CoreCustomAuthProviderClient.swift in Sources */,
 				OBJ_362 /* CustomCredential.swift in Sources */,
 				OBJ_363 /* CoreFacebookAuthProviderClient.swift in Sources */,
+				11B1840820A63E4900B62ABB /* CoreAuthenticatedAuthProviderClient.swift in Sources */,
 				OBJ_364 /* FacebookCredential.swift in Sources */,
 				OBJ_365 /* CoreGoogleAuthProviderClient.swift in Sources */,
 				OBJ_366 /* GoogleCredential.swift in Sources */,

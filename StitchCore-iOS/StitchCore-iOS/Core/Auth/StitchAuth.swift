@@ -21,6 +21,22 @@ public protocol StitchAuth {
 
     // MARK: Authentication Provider Clients
 
+    // swiftlint:disable line_length
+
+    /**
+     * Retrieves the authentication provider client associated with the authentication provider type specified in the
+     * argument.
+     *
+     * - parameters:
+     *     - forProvider: The authentication provider conforming to `AuthProviderClientSupplier` which will provide the
+     *                    client for this authentication provider. Use the `clientSupplier` field of the desired
+     *                    authentication provider class.
+     * - returns: an authentication provider client whose type is determined by the `Client` typealias in the type
+     *            specified in the `forProvider` parameter.
+     * - throws: A Stitch client error if the client is not currently authenticated.
+     */
+    func authenticatedProviderClient<Provider: AuthenticatedAuthProviderClientSupplier>(forProvider provider: Provider) throws -> Provider.Client
+
     /**
      * Retrieves the authentication provider client associated with the authentication provider type specified in the
      * argument.
@@ -33,8 +49,6 @@ public protocol StitchAuth {
      *            specified in the `forProvider` parameter.
      */
     func providerClient<Provider: AuthProviderClientSupplier>(forProvider provider: Provider) -> Provider.Client
-
-    // swiftlint:disable line_length
 
     /**
      * Retrieves the authentication provider client associated with the authentication provider with the specified name

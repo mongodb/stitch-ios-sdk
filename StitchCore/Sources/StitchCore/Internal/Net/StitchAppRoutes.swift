@@ -8,6 +8,7 @@ private final class RouteParts {
 
     static let sessionRoute = baseRoute + "/auth/session"
     static let profileRoute = baseRoute + "/auth/profile"
+    static let apiKeysRoute = baseRoute + "/auth/api_keys"
     static let authProviderRoute = appRoute + "/auth/providers/%@"
     static let authProviderLoginRoute = authProviderRoute + "/login"
     static let authProviderLinkRoute = authProviderLoginRoute + "?link=true"
@@ -26,6 +27,11 @@ public protocol StitchAuthRoutes {
      * The route on the server for fetching the currently authenticated user's profile.
      */
     var profileRoute: String { get }
+    
+    /**
+     * The route on the server for creating and modifying user API keys.
+     */
+    var apiKeysRoute: String { get }
 
     /**
      * Returns the route on the server for getting information about a particular authentication provider.
@@ -85,6 +91,11 @@ public struct StitchAppAuthRoutes: StitchAuthRoutes {
      * The route on the server for fetching the currently authenticated user's profile.
      */
     public var profileRoute: String = RouteParts.profileRoute
+    
+    /**
+     * The route on the server for creating and modifying user API keys.
+     */
+    public var apiKeysRoute: String = RouteParts.apiKeysRoute
 
     /**
      * Initializes these routes with the provided client app id.
