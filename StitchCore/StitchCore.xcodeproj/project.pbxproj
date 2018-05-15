@@ -21,8 +21,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		11B1840820A63E4900B62ABB /* CoreAuthenticatedAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B1840620A63D2500B62ABB /* CoreAuthenticatedAuthProviderClient.swift */; };
 		11B1841020AA1D2200B62ABB /* UserAPIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B1840F20AA1D2200B62ABB /* UserAPIKey.swift */; };
+		11B1842220AB76A000B62ABB /* CoreAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B1842020AB746A00B62ABB /* CoreAuthProviderClient.swift */; };
 		OBJ_223 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_229 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_135 /* Package.swift */; };
 		OBJ_235 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_167 /* Package.swift */; };
@@ -89,7 +89,6 @@
 		OBJ_332 /* String+Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_163 /* String+Misc.swift */; };
 		OBJ_333 /* String+SHA1.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_164 /* String+SHA1.swift */; };
 		OBJ_334 /* WebSockets.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_165 /* WebSockets.swift */; };
-		OBJ_340 /* CoreAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* CoreAuthProviderClient.swift */; };
 		OBJ_341 /* AccessTokenRefresher.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* AccessTokenRefresher.swift */; };
 		OBJ_342 /* AuthInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* AuthInfo.swift */; };
 		OBJ_343 /* AuthStateHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* AuthStateHolder.swift */; };
@@ -245,11 +244,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		11B1840620A63D2500B62ABB /* CoreAuthenticatedAuthProviderClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAuthenticatedAuthProviderClient.swift; sourceTree = "<group>"; };
 		11B1840F20AA1D2200B62ABB /* UserAPIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPIKey.swift; sourceTree = "<group>"; };
+		11B1842020AB746A00B62ABB /* CoreAuthProviderClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAuthProviderClient.swift; sourceTree = "<group>"; };
 		"ExtendedJSON::ExtendedJSON::Product" /* ExtendedJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ExtendedJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"JWT::JWT::Product" /* JWT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = JWT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		OBJ_10 /* CoreAuthProviderClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAuthProviderClient.swift; sourceTree = "<group>"; };
 		OBJ_100 /* StitchAdminUserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAdminUserProfile.swift; sourceTree = "<group>"; };
 		OBJ_102 /* UserRegistrationsResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRegistrationsResources.swift; sourceTree = "<group>"; };
 		OBJ_104 /* UsersResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersResources.swift; sourceTree = "<group>"; };
@@ -1019,8 +1017,7 @@
 		OBJ_9 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_10 /* CoreAuthProviderClient.swift */,
-				11B1840620A63D2500B62ABB /* CoreAuthenticatedAuthProviderClient.swift */,
+				11B1842020AB746A00B62ABB /* CoreAuthProviderClient.swift */,
 				OBJ_11 /* Internal */,
 				OBJ_30 /* ProviderCapabilities.swift */,
 				OBJ_31 /* Providers */,
@@ -1367,7 +1364,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_340 /* CoreAuthProviderClient.swift in Sources */,
 				OBJ_341 /* AccessTokenRefresher.swift in Sources */,
 				OBJ_342 /* AuthInfo.swift in Sources */,
 				OBJ_343 /* AuthStateHolder.swift in Sources */,
@@ -1383,6 +1379,7 @@
 				OBJ_352 /* APIStitchUserIdentity.swift in Sources */,
 				OBJ_353 /* StoreAuthInfo.swift in Sources */,
 				OBJ_354 /* StoreCoreUserProfile.swift in Sources */,
+				11B1842220AB76A000B62ABB /* CoreAuthProviderClient.swift in Sources */,
 				OBJ_355 /* StoreStitchUserIdentity.swift in Sources */,
 				OBJ_356 /* StitchAuthRequestClient.swift in Sources */,
 				OBJ_357 /* StitchUserFactory.swift in Sources */,
@@ -1392,7 +1389,6 @@
 				OBJ_361 /* CoreCustomAuthProviderClient.swift in Sources */,
 				OBJ_362 /* CustomCredential.swift in Sources */,
 				OBJ_363 /* CoreFacebookAuthProviderClient.swift in Sources */,
-				11B1840820A63E4900B62ABB /* CoreAuthenticatedAuthProviderClient.swift in Sources */,
 				OBJ_364 /* FacebookCredential.swift in Sources */,
 				OBJ_365 /* CoreGoogleAuthProviderClient.swift in Sources */,
 				OBJ_366 /* GoogleCredential.swift in Sources */,

@@ -35,7 +35,7 @@ public protocol StitchAuth {
      *            specified in the `forProvider` parameter.
      * - throws: A Stitch client error if the client is not currently authenticated.
      */
-    func authenticatedProviderClient<Provider: AuthenticatedAuthProviderClientSupplier>(forProvider provider: Provider) throws -> Provider.Client
+    func providerClient<Provider: AuthProviderClientSupplier>(forProvider provider: Provider) throws -> Provider.ClientT where Provider.RequestClientT == StitchAuthRequestClient
 
     /**
      * Retrieves the authentication provider client associated with the authentication provider type specified in the
@@ -48,7 +48,7 @@ public protocol StitchAuth {
      * - returns: an authentication provider client whose type is determined by the `Client` typealias in the type
      *            specified in the `forProvider` parameter.
      */
-    func providerClient<Provider: AuthProviderClientSupplier>(forProvider provider: Provider) -> Provider.Client
+    func providerClient<Provider: AuthProviderClientSupplier>(forProvider provider: Provider) -> Provider.ClientT where Provider.RequestClientT == StitchRequestClient
 
     /**
      * Retrieves the authentication provider client associated with the authentication provider with the specified name

@@ -1,36 +1,46 @@
-/**
- * :nodoc:
- * The class from which all Core auth provider clients inherit. Only auth provider clients that make requests
- * to the Stitch server need to inherit this class.
- */
-open class CoreAuthProviderClient {
-    // MARK: Properties
+import Foundation
 
+open class CoreAuthProviderClient<RequestClientType> {
+    // MARK: Properties
+    
     /**
      * The name of the authentication provider.
      */
     public let providerName: String
-
+    
     /**
-     * The `StitchRequestClient` used by the client to make requests.
+     * The request client used by the client to make requests. Is generic since some auth provider clients use an
+     * authenticated request client while others use an unauthenticated request client.
      */
-    public let requestClient: StitchRequestClient
-
+    public let requestClient: RequestClientType
+    
     /**
-     * The `StitchAuthRoutes` object representing the authentication API routes on the Stitch server.
+     * The base route for this authentication provider client.
      */
-    public let authRoutes: StitchAuthRoutes
-
+    public let baseRoute: String
+    
+    /**
+     * Performs a basic decoding of the provided HTTP response with a `JSONDecoder`.
+     */
+    public func decode<T: Decodable>(fromResponse response: Response) throws -> T {
+        do {
+            return try JSONDecoder().decode(T.self,
+                                            from: response.body!)
+        } catch let err {
+            throw StitchError.requestError(withError: err, withRequestErrorCode: .decodingError)
+        }
+    }
+    
     // MARK: Initializer
-
+    
     /**
      * A basic initializer, which sets the provider client's properties to the values provided in the parameters.
      */
     init(withProviderName providerName: String,
-         withRequestClient requestClient: StitchRequestClient,
-         withAuthRoutes authRoutes: StitchAuthRoutes) {
+         withRequestClient requestClient: RequestClientType,
+         withBaseRoute baseRoute: String) {
         self.providerName = providerName
         self.requestClient = requestClient
-        self.authRoutes = authRoutes
+        self.baseRoute = baseRoute
     }
 }

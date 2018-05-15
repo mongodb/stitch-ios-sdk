@@ -20,7 +20,7 @@ class UserAPIKeyAuthProviderTests: StitchIntegrationTestCase {
         wait(for: [exp1], timeout: defaultTimeoutSeconds)
 
         let auth = self.harness.stitchAppClient.auth
-        guard let userApiKeyClient = try? auth.authenticatedProviderClient(
+        guard let userApiKeyClient = try? auth.providerClient(
             forProvider: UserAPIKeyAuthProvider.authenticatedClientSupplier) else {
             XCTFail("could not get user API key client")
             return
@@ -58,7 +58,7 @@ class UserAPIKeyAuthProviderTests: StitchIntegrationTestCase {
         wait(for: [exp1], timeout: defaultTimeoutSeconds)
 
         let auth = self.harness.stitchAppClient.auth
-        guard let userApiKeyClient = try? auth.authenticatedProviderClient(
+        guard let userApiKeyClient = try? auth.providerClient(
             forProvider: UserAPIKeyAuthProvider.authenticatedClientSupplier) else {
                 XCTFail("could not get user API key client")
                 return
@@ -89,7 +89,7 @@ class UserAPIKeyAuthProviderTests: StitchIntegrationTestCase {
         wait(for: [exp1], timeout: defaultTimeoutSeconds)
 
         let auth = self.harness.stitchAppClient.auth
-        guard let userApiKeyClient = try? auth.authenticatedProviderClient(
+        guard let userApiKeyClient = try? auth.providerClient(
             forProvider: UserAPIKeyAuthProvider.authenticatedClientSupplier) else {
                 XCTFail("could not get user API key client")
                 return
@@ -132,7 +132,7 @@ class UserAPIKeyAuthProviderTests: StitchIntegrationTestCase {
         wait(for: [exp1], timeout: defaultTimeoutSeconds)
 
         let auth = self.harness.stitchAppClient.auth
-        guard let userApiKeyClient = try? auth.authenticatedProviderClient(
+        guard let userApiKeyClient = try? auth.providerClient(
             forProvider: UserAPIKeyAuthProvider.authenticatedClientSupplier) else {
                 XCTFail("could not get user API key client")
                 return
@@ -182,7 +182,7 @@ class UserAPIKeyAuthProviderTests: StitchIntegrationTestCase {
     func testLoggedOut() {
         let auth = self.harness.stitchAppClient.auth
 
-        XCTAssertThrowsError(try auth.authenticatedProviderClient(
+        XCTAssertThrowsError(try auth.providerClient(
             forProvider: UserAPIKeyAuthProvider.authenticatedClientSupplier), "") { error in
                 XCTAssertTrue(error is StitchError)
                 guard let stitchErr = error as? StitchError else {

@@ -66,12 +66,12 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
      *            specified in the `forProvider` parameter.
      * - throws: A Stitch client error if the client is not currently authenticated.
      */
-    func authenticatedProviderClient<Provider>(forProvider provider: Provider) throws
-        -> Provider.Client where Provider: AuthenticatedAuthProviderClientSupplier {
-            guard isLoggedIn else {
-                throw StitchError.clientError(withClientErrorCode: .mustAuthenticateFirst)
-            }
-        return provider.client(withAuthRequestClient: self,
+    func providerClient<Provider: AuthProviderClientSupplier>(forProvider provider: Provider)
+        throws -> Provider.ClientT where Provider.RequestClientT == StitchAuthRequestClient {
+        guard isLoggedIn else {
+            throw StitchError.clientError(withClientErrorCode: .mustAuthenticateFirst)
+        }
+        return provider.client(withRequestClient: self,
                                withRoutes: self.authRoutes,
                                withDispatcher: self.dispatcher)
     }
@@ -87,8 +87,8 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
      * - returns: an authentication provider client whose type is determined by the `Client` typealias in the type
      *            specified in the `forProvider` parameter.
      */
-    public func providerClient<Provider>(forProvider provider: Provider)
-        -> Provider.Client where Provider: AuthProviderClientSupplier {
+    func providerClient<Provider: AuthProviderClientSupplier>(forProvider provider: Provider)
+        -> Provider.ClientT where Provider.RequestClientT == StitchRequestClient {
         return provider.client(withRequestClient: self.requestClient,
                                withRoutes: self.authRoutes,
                                withDispatcher: self.dispatcher)

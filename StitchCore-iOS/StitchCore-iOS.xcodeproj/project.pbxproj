@@ -19,7 +19,6 @@
 		11981A1E2062C4AA0074BB11 /* StitchCore_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4902C678205006C800E53674 /* StitchCore_iOS.framework */; };
 		11981A242062C4B60074BB11 /* OperationDispatcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11981A132062C12D0074BB11 /* OperationDispatcherTests.swift */; };
 		11B1840520A37ECA00B62ABB /* StitchAppClientIntegrationAuthTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B1840420A37ECA00B62ABB /* StitchAppClientIntegrationAuthTests.swift */; };
-		11B1841520AA230100B62ABB /* AuthenticatedAuthProviderClientSupplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B1841420AA230100B62ABB /* AuthenticatedAuthProviderClientSupplier.swift */; };
 		11B1841F20AA34EF00B62ABB /* UserAPIKeyAuthProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B1841E20AA34EF00B62ABB /* UserAPIKeyAuthProviderTests.swift */; };
 		11C587D82056D06000B34DD1 /* CustomAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C587D72056D06000B34DD1 /* CustomAuthProvider.swift */; };
 		11C587DA2056D28F00B34DD1 /* FacebookAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C587D92056D28F00B34DD1 /* FacebookAuthProvider.swift */; };
@@ -73,7 +72,6 @@
 		11981A192062C4AA0074BB11 /* StitchCore_iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StitchCore_iOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		11981A1D2062C4AA0074BB11 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		11B1840420A37ECA00B62ABB /* StitchAppClientIntegrationAuthTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAppClientIntegrationAuthTests.swift; sourceTree = "<group>"; };
-		11B1841420AA230100B62ABB /* AuthenticatedAuthProviderClientSupplier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatedAuthProviderClientSupplier.swift; sourceTree = "<group>"; };
 		11B1841E20AA34EF00B62ABB /* UserAPIKeyAuthProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPIKeyAuthProviderTests.swift; sourceTree = "<group>"; };
 		11C587D72056D06000B34DD1 /* CustomAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAuthProvider.swift; sourceTree = "<group>"; };
 		11C587D92056D28F00B34DD1 /* FacebookAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookAuthProvider.swift; sourceTree = "<group>"; };
@@ -142,7 +140,6 @@
 				11297B262053022B001D0711 /* UserAPIKey */,
 				11297B2720530234001D0711 /* UserPassword */,
 				11297B1D205301C9001D0711 /* AuthProviderClientSupplier.swift */,
-				11B1841420AA230100B62ABB /* AuthenticatedAuthProviderClientSupplier.swift */,
 				11297B1F205301D5001D0711 /* NamedAuthProviderClientSupplier.swift */,
 			);
 			path = Providers;
@@ -560,7 +557,6 @@
 				49368D6D2052F350006153D3 /* StitchAppClientImpl.swift in Sources */,
 				11C587DE2056D54300B34DD1 /* ServerAPIKeyAuthProvider.swift in Sources */,
 				11C587DA2056D28F00B34DD1 /* FacebookAuthProvider.swift in Sources */,
-				11B1841520AA230100B62ABB /* AuthenticatedAuthProviderClientSupplier.swift in Sources */,
 				4902C6C9205174A100E53674 /* NamedServiceClientProvider.swift in Sources */,
 				4902C694205009C400E53674 /* StitchUser.swift in Sources */,
 				11C587D82056D06000B34DD1 /* CustomAuthProvider.swift in Sources */,

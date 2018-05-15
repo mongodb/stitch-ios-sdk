@@ -24,8 +24,6 @@ public final class UserAPIKeyAuthProvider {
      * An implementation of `AuthProviderClientSupplier` that produces a `UserAPIKeyAuthProviderClient`.
      */
     public final class ClientSupplierImpl: AuthProviderClientSupplier {
-        public typealias Client = UserAPIKeyAuthProviderClient
-
         public func client(withRequestClient _: StitchRequestClient,
                            withRoutes _: StitchAuthRoutes,
                            withDispatcher _: OperationDispatcher) -> UserAPIKeyAuthProviderClient {
@@ -38,15 +36,16 @@ public final class UserAPIKeyAuthProvider {
      * An implementation of `AuthenticatedAuthProviderClientSupplier` that produces an
      * `AuthenticatedUserAPIKeyAuthProviderClient`.
      */
-    public final class AuthenticatedClientSupplierImpl: AuthenticatedAuthProviderClientSupplier {
-        public typealias Client = AuthenticatedUserAPIKeyAuthProviderClient
+    public final class AuthenticatedClientSupplierImpl: AuthProviderClientSupplier {
+        public typealias ClientT = AuthenticatedUserAPIKeyAuthProviderClient
+        public typealias RequestClientT = StitchAuthRequestClient
 
-        public func client(withAuthRequestClient authRequestClient: StitchAuthRequestClient,
+        public func client(withRequestClient authRequestClient: StitchAuthRequestClient,
                            withRoutes routes: StitchAuthRoutes,
-                           withDispatcher dispatcher: OperationDispatcher) -> Client {
+                           withDispatcher dispatcher: OperationDispatcher) -> ClientT {
             return AuthenticatedUserAPIKeyClientImpl.init(
                 withAuthRequestClient: authRequestClient,
-                withRoutes: routes,
+                withAuthRoutes: routes,
                 withDispatcher: dispatcher
             )
         }
@@ -131,10 +130,11 @@ CoreAuthenticatedUserAPIKeyAuthProviderClient, AuthenticatedUserAPIKeyAuthProvid
     private let dispatcher: OperationDispatcher
 
     init(withAuthRequestClient authRequestClient: StitchAuthRequestClient,
-         withRoutes routes: StitchAuthRoutes,
+         withAuthRoutes authRoutes: StitchAuthRoutes,
          withDispatcher dispatcher: OperationDispatcher) {
         self.dispatcher = dispatcher
-        super.init(withAuthRequestClient: authRequestClient, withAuthRoutes: routes)
+        super.init(withAuthRequestClient: authRequestClient,
+                   withAuthRoutes: authRoutes)
     }
 
     func createApiKey(withName name: String, _ completionHandler: @escaping (UserAPIKey?, Error?) -> Void) {

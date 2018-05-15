@@ -1,4 +1,5 @@
 import Foundation
+import ExtendedJSON
 
 /**
  * A struct representing a user API key as returned by the Stitch server.
@@ -11,7 +12,7 @@ public struct UserAPIKey: Decodable {
     /**
      * The id of the key.
      */
-    public let id: String
+    public let id: String // TODO: ObjectID
     
     /**
      * The actual key. Will only be included in the response when an API key is first created.
