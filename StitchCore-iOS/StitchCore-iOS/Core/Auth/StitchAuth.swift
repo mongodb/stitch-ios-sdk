@@ -24,8 +24,8 @@ public protocol StitchAuth {
     // swiftlint:disable line_length
 
     /**
-     * Retrieves the authentication provider client associated with the authentication provider type specified in the
-     * argument.
+     * Retrieves the authenticated authentication provider client associated with the authentication provider type
+     * specified in the argument.
      *
      * - parameters:
      *     - forProvider: The authentication provider conforming to `AuthProviderClientSupplier` which will provide the

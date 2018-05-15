@@ -35,7 +35,6 @@ public enum ProviderConfigs: Encodable {
     }
     
     case anon()
-    case apikey()
     /// - parameter emailConfirmationUrl: url to redirect user to for email confirmation
     /// - parameter resetPasswordUrl: url to redirect user to for password reset
     /// - parameter confirmEmailSubject: subject of the email to confirm a new user
@@ -51,7 +50,6 @@ public enum ProviderConfigs: Encodable {
     private var type: StitchProviderType {
         switch self {
         case .anon: return .anonymous
-        case .apikey: return .userAPIKey
         case .userpass: return .userPassword
         case .custom: return .custom
         }
@@ -62,7 +60,6 @@ public enum ProviderConfigs: Encodable {
         try container.encode(self.type.name, forKey: .type)
         switch self {
         case .anon: break
-        case .apikey: break
         case .userpass(let emailConfirmationUrl,
                        let resetPasswordUrl,
                        let confirmEmailSubject,
