@@ -27,7 +27,7 @@ public struct RequestBuilder: Builder {
      * The URL of the request to be built.
      */
     public var url: String?
-    
+
     /**
      * The number of seconds that the underlying transport should spend on an HTTP round trip before failing with an
      * error.
@@ -79,7 +79,7 @@ public struct Request: Buildee {
      * The URL to which this request will be made.
      */
     public var url: String
-    
+
     /**
      * The number of seconds that the underlying transport should spend on an HTTP round trip before failing with an
      * error.

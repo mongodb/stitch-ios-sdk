@@ -38,12 +38,12 @@ class StitchClientConfigurationTests: XCTestCase {
         }
 
         builder.transport = self.transport
-        
+
         XCTAssertThrowsError(try builder.build()) { error in
             XCTAssertEqual(error as? StitchClientConfigurationError,
                            StitchClientConfigurationError.missingDefaultRequestTimeout)
         }
-        
+
         builder.defaultRequestTimeout = self.defaultRequestTimeout
 
         let config = try builder.build()

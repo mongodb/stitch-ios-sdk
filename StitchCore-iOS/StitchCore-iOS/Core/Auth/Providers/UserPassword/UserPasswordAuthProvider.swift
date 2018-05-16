@@ -23,7 +23,7 @@ public final class UserPasswordAuthProvider {
                            withRoutes routes: StitchAuthRoutes,
                            withDispatcher dispatcher: OperationDispatcher) -> UserPasswordAuthProviderClient {
             return UserPasswordAuthProviderClientImpl.init(withRequestClient: requestClient,
-                                                           withRoutes: routes,
+                                                           withAuthRoutes: routes,
                                                            withDispatcher: dispatcher)
         }
     }
@@ -107,10 +107,10 @@ private class UserPasswordAuthProviderClientImpl: CoreUserPasswordAuthProviderCl
     private let dispatcher: OperationDispatcher
 
     init(withRequestClient requestClient: StitchRequestClient,
-         withRoutes routes: StitchAuthRoutes,
+         withAuthRoutes authRoutes: StitchAuthRoutes,
          withDispatcher dispatcher: OperationDispatcher) {
         self.dispatcher = dispatcher
-        super.init(withRequestClient: requestClient, withRoutes: routes)
+        super.init(withRequestClient: requestClient, withAuthRoutes: authRoutes)
     }
 
     func register(withEmail email: String,

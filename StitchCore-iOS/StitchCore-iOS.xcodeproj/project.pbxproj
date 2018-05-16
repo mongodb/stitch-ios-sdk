@@ -19,6 +19,7 @@
 		11981A1E2062C4AA0074BB11 /* StitchCore_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4902C678205006C800E53674 /* StitchCore_iOS.framework */; };
 		11981A242062C4B60074BB11 /* OperationDispatcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11981A132062C12D0074BB11 /* OperationDispatcherTests.swift */; };
 		11B1840520A37ECA00B62ABB /* StitchAppClientIntegrationAuthTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B1840420A37ECA00B62ABB /* StitchAppClientIntegrationAuthTests.swift */; };
+		11B1841F20AA34EF00B62ABB /* UserAPIKeyAuthProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B1841E20AA34EF00B62ABB /* UserAPIKeyAuthProviderTests.swift */; };
 		11C587D82056D06000B34DD1 /* CustomAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C587D72056D06000B34DD1 /* CustomAuthProvider.swift */; };
 		11C587DA2056D28F00B34DD1 /* FacebookAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C587D92056D28F00B34DD1 /* FacebookAuthProvider.swift */; };
 		11C587DC2056D40B00B34DD1 /* GoogleAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C587DB2056D40B00B34DD1 /* GoogleAuthProvider.swift */; };
@@ -71,6 +72,7 @@
 		11981A192062C4AA0074BB11 /* StitchCore_iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StitchCore_iOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		11981A1D2062C4AA0074BB11 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		11B1840420A37ECA00B62ABB /* StitchAppClientIntegrationAuthTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAppClientIntegrationAuthTests.swift; sourceTree = "<group>"; };
+		11B1841E20AA34EF00B62ABB /* UserAPIKeyAuthProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPIKeyAuthProviderTests.swift; sourceTree = "<group>"; };
 		11C587D72056D06000B34DD1 /* CustomAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAuthProvider.swift; sourceTree = "<group>"; };
 		11C587D92056D28F00B34DD1 /* FacebookAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookAuthProvider.swift; sourceTree = "<group>"; };
 		11C587DB2056D40B00B34DD1 /* GoogleAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAuthProvider.swift; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 		11981A252062C8160074BB11 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				11B1841B20AA34CB00B62ABB /* Auth */,
 				116168B7208A6B2600967A7E /* TestUtil */,
 				11981A262062C8190074BB11 /* Internal */,
 				111CCA04207C08A3002FEB4A /* StitchTests.swift */,
@@ -253,6 +256,30 @@
 				11981A132062C12D0074BB11 /* OperationDispatcherTests.swift */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		11B1841B20AA34CB00B62ABB /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				11B1841C20AA34D000B62ABB /* Providers */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		11B1841C20AA34D000B62ABB /* Providers */ = {
+			isa = PBXGroup;
+			children = (
+				11B1841D20AA34D600B62ABB /* UserAPIKey */,
+			);
+			path = Providers;
+			sourceTree = "<group>";
+		};
+		11B1841D20AA34D600B62ABB /* UserAPIKey */ = {
+			isa = PBXGroup;
+			children = (
+				11B1841E20AA34EF00B62ABB /* UserAPIKeyAuthProviderTests.swift */,
+			);
+			path = UserAPIKey;
 			sourceTree = "<group>";
 		};
 		11F5D37620912F70005FED94 /* CommonCrypto */ = {
@@ -508,6 +535,7 @@
 			files = (
 				116168B9208A6B3200967A7E /* TestHarness.swift in Sources */,
 				496CAAEF20A60632001F0D3C /* ThrowingServiceClientProviderUnitTests.swift in Sources */,
+				11B1841F20AA34EF00B62ABB /* UserAPIKeyAuthProviderTests.swift in Sources */,
 				112F050F209149B500DDB147 /* StitchIntegrationTestCase.swift in Sources */,
 				11B1840520A37ECA00B62ABB /* StitchAppClientIntegrationAuthTests.swift in Sources */,
 				111CCA05207C08A3002FEB4A /* StitchTests.swift in Sources */,

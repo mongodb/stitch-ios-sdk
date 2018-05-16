@@ -29,11 +29,11 @@ public enum ProviderConfigs: Encodable {
             self.required = required
             self.name = name
         }
-        
+
         public let required: Bool
         public let name: String
     }
-    
+
     case anon()
     /// - parameter emailConfirmationUrl: url to redirect user to for email confirmation
     /// - parameter resetPasswordUrl: url to redirect user to for password reset

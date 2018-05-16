@@ -40,7 +40,7 @@ public struct StitchAuthRequestBuilderImpl: StitchAuthRequestBuilder {
      * The HTTP method of the request to be built.
      */
     public var method: Method?
-    
+
     /**
      * The number of seconds that the underlying transport should spend on an HTTP round trip before failing with an
      * error. If not configured, a default should override it before the request is transformed into a plain HTTP
@@ -113,7 +113,7 @@ public struct StitchAuthRequestImpl: StitchAuthRequest {
      * The HTTP method of this request.
      */
     public var method: Method
-    
+
     /**
      * The number of seconds that the underlying transport should spend on an HTTP round trip before failing with an
      * error. If not configured, a default should override it before the request is transformed into a plain HTTP
@@ -210,7 +210,7 @@ public struct StitchAuthDocRequestBuilderImpl: StitchAuthDocRequestBuilder {
      * The HTTP method of the request to be built.
      */
     public var method: Method?
-    
+
     /**
      * The number of seconds that the underlying transport should spend on an HTTP round trip before failing with an
      * error. If not configured, a default should override it before the request is transformed into a plain HTTP
@@ -268,7 +268,7 @@ public struct StitchAuthDocRequest: StitchAuthRequest {
      * The HTTP method of this request.
      */
     public var method: Method
-    
+
     /**
      * The number of seconds that the underlying transport should spend on an HTTP round trip before failing with an
      * error. If not configured, a default should override it before the request is transformed into a plain HTTP

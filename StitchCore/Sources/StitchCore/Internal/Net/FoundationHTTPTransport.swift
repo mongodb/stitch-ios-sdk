@@ -17,7 +17,7 @@ public final class FoundationHTTPTransport: Transport {
         guard let url = URL(string: request.url) else {
             throw StitchError.clientError(withClientErrorCode: .missingURL)
         }
-        
+
         let sessionConfig = URLSessionConfiguration.default
         sessionConfig.timeoutIntervalForResource = request.timeout
 

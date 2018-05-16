@@ -41,7 +41,7 @@ extension Storage {
 /// be found.
 public struct MemoryStorage: Storage {
     public init() { }
-    
+
     /// Internal storage unit
     private var storage: [String: Any] = [:]
 

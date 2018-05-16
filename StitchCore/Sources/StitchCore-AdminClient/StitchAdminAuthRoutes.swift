@@ -5,25 +5,29 @@ import StitchCore
  * The set of authentication routes on the Stitch server to authenticate as an admin user. 
  */
 class StitchAdminAuthRoutes: StitchAuthRoutes {
+    var baseAuthRoute: String {
+        return "\(StitchAdminClient.apiPath)/auth"
+    }
+
     /**
      * The route on the server for getting a new access token.
      */
     var sessionRoute: String {
-        return "\(StitchAdminClient.apiPath)/auth/session"
+        return "\(baseAuthRoute)/session"
     }
 
     /**
      * The route on the server for fetching the currently authenticated user's profile.
      */
     var profileRoute: String {
-        return "\(StitchAdminClient.apiPath)/auth/profile"
+        return "\(baseAuthRoute)/profile"
     }
 
     /**
      * Returns the route on the server for a particular authentication provider.
      */
     func authProviderRoute(withProviderName providerName: String) -> String {
-        return "\(StitchAdminClient.apiPath)/auth/providers/\(providerName)"
+        return "\(baseAuthRoute)/providers/\(providerName)"
     }
 
     /**
