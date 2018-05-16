@@ -71,6 +71,7 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
         guard isLoggedIn else {
             throw StitchError.clientError(withClientErrorCode: .mustAuthenticateFirst)
         }
+
         return provider.client(withRequestClient: self,
                                withRoutes: self.authRoutes,
                                withDispatcher: self.dispatcher)
