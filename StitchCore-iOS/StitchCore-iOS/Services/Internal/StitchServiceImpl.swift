@@ -1,12 +1,12 @@
 import StitchCore
 import Foundation
-import ExtendedJSON
+import BSON
 
 /**
  * The implementation of `StitchService`, which is capable of making requests to execute functions for a particular
  * service.
  */
-internal final class StitchServiceImpl: CoreStitchService, StitchService {
+internal final class StitchServiceImpl: CoreStitchServiceImpl, StitchService {
     /**
      * The operation dispatcher used to dispatch asynchronous operations made by this service.
      */
@@ -37,9 +37,9 @@ internal final class StitchServiceImpl: CoreStitchService, StitchService {
      *              successful.
      *
      */
-    public func callFunction(withName name: String,
-                             withArgs args: BSONArray,
-                             _ completionHandler: @escaping (Any?, Error?) -> Void) {
+    public func callFunction<T: Codable>(withName name: String,
+                             withArgs args: [BsonValue],
+                             _ completionHandler: @escaping (T?, Error?) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
             return try self.callFunctionInternal(withName: name, withArgs: args)
         }

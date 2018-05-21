@@ -1,5 +1,5 @@
 import Foundation
-import ExtendedJSON
+import BSON
 
 /**
  * Returns the provided response if its status code is in the 200 range, throws a `StitchError` otherwise.
@@ -83,8 +83,8 @@ public final class StitchRequestClientImpl: StitchRequestClient {
      */
     public func doJSONRequestRaw(_ stitchReq: StitchDocRequest) throws -> Response {
         return try doRequest(StitchRequestBuilderImpl { builder in
-            builder.body = try? BSONEncoder().encode(stitchReq.document,
-                                                      shouldIncludeSourceMap: false)
+            // TODO:
+            builder.body = try? JSONEncoder().encode(stitchReq.document)
             builder.headers = [
                 Headers.contentType.rawValue: ContentTypes.applicationJson.rawValue
             ]

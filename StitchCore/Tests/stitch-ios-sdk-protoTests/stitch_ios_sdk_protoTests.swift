@@ -1,5 +1,5 @@
 import XCTest
-import ExtendedJSON
+import BSON
 import Swifter
 @testable import StitchCore
 

@@ -1,6 +1,6 @@
 import XCTest
 import Swifter
-import ExtendedJSON
+import BSON
 @testable import StitchCore
 
 class StitchRequestClientTests: StitchXCTestCase {

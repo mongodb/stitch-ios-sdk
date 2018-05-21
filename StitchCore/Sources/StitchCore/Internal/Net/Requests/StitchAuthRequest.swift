@@ -1,4 +1,4 @@
-import ExtendedJSON
+import BSON
 import Foundation
 
 /**

@@ -1,6 +1,6 @@
 // swiftlint:disable force_try
 import XCTest
-import ExtendedJSON
+import BSON
 import Swifter
 @testable import StitchCore
 
@@ -8,10 +8,10 @@ import func JWT.encode
 import enum JWT.Algorithm
 
 private let appRoutes = StitchAppRoutes.init(clientAppId: "")
-private let userId = ObjectId.NewObjectId().hexString
+private let userId = ObjectId().description
 private let mockApiAuthInfo = [
     "user_id": userId,
-    "device_id": ObjectId.NewObjectId().hexString,
+    "device_id": ObjectId().description,
     "access_token": encode(Algorithm.hs256("foobar".data(using: .utf8)!)) {
         var date = Date()
         date.addTimeInterval(1000)

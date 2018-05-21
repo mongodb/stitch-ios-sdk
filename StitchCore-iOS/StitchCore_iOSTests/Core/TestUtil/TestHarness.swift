@@ -2,7 +2,7 @@ import Foundation
 import StitchCore
 import StitchCore_AdminClient
 import StitchCore_iOS
-import ExtendedJSON
+import BSON
 import XCTest
 
 internal let defaultServerUrl = "http://localhost:9090"

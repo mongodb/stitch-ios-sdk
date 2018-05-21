@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "libbson",
+        "repositoryURL": "https://github.com/mongodb/swift-bson",
+        "state": {
+          "branch": "master",
+          "revision": "077a71336aead18a26223b6c3c07f94478c7921a",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}

@@ -1,6 +1,6 @@
 import UIKit
 import StitchCore_iOS
-import ExtendedJSON
+import BSON
 
 class ViewController: UIViewController {
 

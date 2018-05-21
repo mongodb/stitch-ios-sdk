@@ -1,11 +1,11 @@
 import XCTest
-import ExtendedJSON
+import BSON
 @testable import StitchCore
 
 private let appRoutes = StitchAppRoutes.init(clientAppId: "")
 private let mockServiceName = "mockService"
 private let mockFunctionName = "mockFunction"
-private let mockArgs = BSONArray(arrayLiteral: 0, 1, 2)
+private let mockArgs = [0, 1, 2]
 private let expectedDoc: Document = [
     "name": mockFunctionName,
     "service": mockServiceName,

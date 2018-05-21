@@ -1,4 +1,4 @@
-import ExtendedJSON
+import BSON
 
 /**
  * The fundamental set of methods for communicating with a MongoDB Stitch application.
@@ -31,7 +31,7 @@ public protocol StitchAppClient {
      * - returns: a service client whose type is determined by the `T` type parameter of the
      *            `AnyNamedServiceClientProvider` passed in the `forProvider` parameter.
      */
-    func serviceClient<T>(forService provider: AnyNamedServiceClientProvider<T>, withName serviceName: String) -> T
+    func serviceClient<T>(forService provider: AnyNamedServiceClientFactory<T>, withName serviceName: String) -> T
 
     /**
      * Retrieves the service client associated with the service type specified in the argument.
@@ -42,7 +42,7 @@ public protocol StitchAppClient {
      * - returns: a service client whose type is determined by the `T` type parameter of the `AnyServiceClientProvider`
      *            passed in the `forProvider` parameter.
      */
-    func serviceClient<T>(forService provider: AnyServiceClientProvider<T>) -> T
+    func serviceClient<T>(forService provider: AnyServiceClientFactory<T>) -> T
 
     // MARK: Functions
 
@@ -60,7 +60,7 @@ public protocol StitchAppClient {
      *              successful.
      *
      */
-    func callFunction(withName name: String, withArgs args: BSONArray, _ completionHandler: @escaping (_ result: Any?, _ error: Error?) -> Void)
+    func callFunction<T: Codable>(withName name: String, withArgs args: [BsonValue], _ completionHandler: @escaping (_ result: T?, _ error: Error?) -> Void)
 
     // swiftlint:enable line_length
 }

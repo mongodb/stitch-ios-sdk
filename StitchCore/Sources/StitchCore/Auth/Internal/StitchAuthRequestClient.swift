@@ -16,12 +16,5 @@ public protocol StitchAuthRequestClient {
      *
      * - returns: An `Any` representing the response body as decoded JSON.
      */
-    func doAuthenticatedJSONRequest(_ stitchReq: StitchAuthDocRequest) throws -> Any
-
-    /**
-     * Performs the underlying logic of performing the authenticated JSON request to the Stitch server.
-     *
-     * - returns: The response to the request as a `Response`.
-     */
-    func doAuthenticatedJSONRequestRaw(_ stitchReq: StitchAuthDocRequest) throws -> Response
+    func doAuthenticatedJSONRequest<T: Decodable>(_ stitchReq: StitchAuthDocRequest) throws -> T
 }

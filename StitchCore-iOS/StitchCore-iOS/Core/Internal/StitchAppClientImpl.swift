@@ -1,5 +1,5 @@
 import StitchCore
-import ExtendedJSON
+import BSON
 
 /**
  * The implementation of the `StitchAppClient` protocol.
@@ -81,7 +81,7 @@ internal final class StitchAppClientImpl: StitchAppClient {
      * - returns: a service client whose type is determined by the `T` type parameter of the
      *            `AnyNamedServiceClientProvider` passed in the `forProvider` parameter.
      */
-    public func serviceClient<T>(forService serviceClientProvider: AnyNamedServiceClientProvider<T>,
+    public func serviceClient<T>(forService serviceClientProvider: AnyNamedServiceClientFactory<T>,
                                  withName serviceName: String) -> T {
         return serviceClientProvider.client(
             forService: StitchServiceImpl.init(requestClient: self._auth,
@@ -100,7 +100,7 @@ internal final class StitchAppClientImpl: StitchAppClient {
      * - returns: a service client whose type is determined by the `T` type parameter of the `AnyServiceClientProvider`
      *            passed in the `forProvider` parameter.
      */
-    public func serviceClient<T>(forService serviceClientProvider: AnyServiceClientProvider<T>) -> T {
+    public func serviceClient<T>(forService serviceClientProvider: AnyServiceClientFactory<T>) -> T {
         return serviceClientProvider.client(
             forService: StitchServiceImpl.init(requestClient: self._auth,
                                                routes: self.routes.serviceRoutes,
@@ -124,10 +124,10 @@ internal final class StitchAppClientImpl: StitchAppClient {
      *              successful.
      *
      */
-    public func callFunction(withName name: String,
-                             withArgs args: BSONArray,
-                             _ completionHandler: @escaping (Any?, Error?) -> Void) {
-        dispatcher.run(withCompletionHandler: completionHandler) {
+    public func callFunction<T: Decodable>(withName name: String,
+                                           withArgs args: [BsonValue],
+                                           _ completionHandler: @escaping (T?, Error?) -> Void) {
+        self.dispatcher.run(withCompletionHandler: completionHandler) { () -> T in
             return try self.coreClient.callFunctionInternal(withName: name, withArgs: args)
         }
     }

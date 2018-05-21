@@ -1,6 +1,6 @@
 import XCTest
 @testable import StitchCore
-import ExtendedJSON
+import BSON
 
 private let firstName = "firstName"
 private let lastName = "lastName"
@@ -23,7 +23,7 @@ class StitchUserProfileTests: XCTestCase {
         "max_age": maxAge
     ]
     private let anonIdentityDoc: Document = [
-        "id": ObjectId.NewObjectId().hexString,
+        "id": ObjectId().description,
         "provider_type": "anon-user"
     ]
 

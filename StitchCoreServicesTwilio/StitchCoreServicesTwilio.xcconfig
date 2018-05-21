@@ -1,0 +1,11 @@
+//
+// BSON.xcconfig
+//
+
+PRODUCT_NAME = StitchCoreServicesTwilio
+PRODUCT_NAME_ORIGINAL = $(PRODUCT_NAME) 
+
+HEADER_SEARCH_PATHS = $(SRCROOT)/../Dependencies/includes
+LIBRARY_SEARCH_PATHS = $(inherited) "$(SRCROOT)/../Dependencies/lib" 
+OTHER_LDFLAGS = $(inherited) -L"$(SRCROOT)/../Dependencies/lib" -lbson-1.0
+ENABLE_BITCODE = NO

@@ -1,0 +1,70 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "BSON",
+        "repositoryURL": "https://github.com/jsflax/BSON",
+        "state": {
+          "branch": "master",
+          "revision": "d2a05809558dda7b2501b7120d03bfa8cc4d3379",
+          "version": null
+        }
+      },
+      {
+        "package": "CommonCrypto",
+        "repositoryURL": "https://github.com/kylef-archive/CommonCrypto.git",
+        "state": {
+          "branch": null,
+          "revision": "8080a04cab22f73276c81c92a6af2c39e15be094",
+          "version": "1.0.0"
+        }
+      },
+      {
+        "package": "JWT",
+        "repositoryURL": "https://github.com/kylef/JSONWebToken.swift.git",
+        "state": {
+          "branch": null,
+          "revision": "e5745f95a3e60d9ccee4900764ec79b4239c4ef9",
+          "version": "2.2.0"
+        }
+      },
+      {
+        "package": "StitchCore",
+        "repositoryURL": "/Users/jsflax/Development/stitch-ios-sdk/StitchCore",
+        "state": {
+          "branch": "master",
+          "revision": "d4077d8d9b1f89eea2c642e5a16806ad1a884269",
+          "version": null
+        }
+      },
+      {
+        "package": "StitchCoreAdminClient",
+        "repositoryURL": "/Users/jsflax/Development/stitch-ios-sdk/StitchCoreAdminClient",
+        "state": {
+          "branch": "master",
+          "revision": "c1802b07b8acbb79f5000addfc149bc49c919880",
+          "version": null
+        }
+      },
+      {
+        "package": "libbson",
+        "repositoryURL": "https://github.com/mongodb/swift-bson",
+        "state": {
+          "branch": "master",
+          "revision": "077a71336aead18a26223b6c3c07f94478c7921a",
+          "version": null
+        }
+      },
+      {
+        "package": "Swifter",
+        "repositoryURL": "https://github.com/httpswift/swifter.git",
+        "state": {
+          "branch": null,
+          "revision": "eafa10b5ce4389c497ab7fde0a747661d99e0a4b",
+          "version": "1.4.1"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

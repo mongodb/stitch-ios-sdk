@@ -1,5 +1,5 @@
 import Foundation
-import ExtendedJSON
+import BSON
 
 /**
  * A protocol defining the configuration properties necessary to build a `StitchRequest`.

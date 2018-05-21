@@ -2,7 +2,7 @@ import Foundation
 import XCTest
 import JWT
 import StitchCore
-import ExtendedJSON
+import BSON
 @testable import StitchCore_iOS
 
 class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
@@ -266,15 +266,8 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
 
         let exp2 = expectation(description: "called function successfully")
         let randomInt = Int(arc4random())
-        stitchAppClient.callFunction(withName: "testFunction", withArgs: [randomInt, "hello"]) { document, _ in
+        stitchAppClient.callFunction(withName: "testFunction", withArgs: [randomInt, "hello"]) { (docMap: Document, _) in
             XCTAssertNotNil(document)
-
-            // STITCH-1345: when doAuthenticatedJSONRequest and `callFunction` returns a T: BSONCodable or
-            // T: ExtendedJSONRepresentable, this test should be updated so the result need not be manually decoded
-            guard let docMap = document as? [String: Any] else {
-                XCTFail("Could not read document as map of string to Any")
-                return
-            }
 
             XCTAssertEqual(docMap["stringValue"] as? String, "hello")
 

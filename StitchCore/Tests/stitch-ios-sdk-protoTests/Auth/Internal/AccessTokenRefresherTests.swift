@@ -1,7 +1,7 @@
 // swiftlint:disable force_try
 import XCTest
 @testable import StitchCore
-import ExtendedJSON
+import BSON
 
 import func JWT.encode
 import enum JWT.Algorithm

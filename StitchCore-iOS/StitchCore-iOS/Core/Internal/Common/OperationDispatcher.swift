@@ -13,7 +13,7 @@ public class OperationDispatcher {
      * Initializes the dispatcher with the provided `DispatchQueue`, or the default
      * `DispatchQueue` by default.
      */
-    internal init(withDispatchQueue queue: DispatchQueue = DispatchQueue.global()) {
+    public init(withDispatchQueue queue: DispatchQueue = DispatchQueue.global()) {
         self.queue = queue
     }
 
@@ -22,7 +22,7 @@ public class OperationDispatcher {
      * after the block is run. The completion handler accepts the optional result of the function and
      * an optional `Error` object which will be non-nil if the code block threw an error.
      */
-    internal func run<ResultType>(withCompletionHandler completionHandler: @escaping (ResultType?, Error?) -> Void,
+    public func run<ResultType>(withCompletionHandler completionHandler: @escaping (ResultType?, Error?) -> Void,
                                   _ function: @escaping () throws -> ResultType) {
         queue.async {
             do {
@@ -39,8 +39,8 @@ public class OperationDispatcher {
      * after the block is run. The completion handler accepts an optional `Error` object which
      * will be non-nil if the code block threw an error.
      */
-    internal func run(withCompletionHandler completionHandler: @escaping (Error?) -> Void,
-                      _ function: @escaping () throws -> Void) {
+    public func run(withCompletionHandler completionHandler: @escaping (Error?) -> Void,
+                    _ function: @escaping () throws -> Void) {
         queue.async {
             do {
                 try function()

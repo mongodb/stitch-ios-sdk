@@ -1,11 +1,12 @@
-import ExtendedJSON
+import BSON
+import StitchCore
 
 /**
  * A protocol representing a MongoDB Stitch service, with methods for executing functions on that service.
  * A class implementing this protocol for a service with known functions and return values may implement
  * concrete methods that use these methods internally.
  */
-public protocol StitchService {
+public protocol StitchService: CoreStitchService {
 
     // swiftlint:disable line_length
 
@@ -22,7 +23,8 @@ public protocol StitchService {
      *              successful.
      *
      */
-    func callFunction(withName name: String, withArgs args: BSONArray, _ completionHandler: @escaping (_ result: Any?, _ error: Error?) -> Void)
-
+    func callFunction<T: Codable>(withName name: String,
+                                  withArgs args: [BsonValue],
+                                  _ completionHandler: @escaping (_ result: T?, _ error: Error?) -> Void)
     // swiftlint:enable line_length
 }

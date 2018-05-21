@@ -1,5 +1,5 @@
 import Foundation
-import ExtendedJSON
+import BSON
 
 /**
  * The core class that holds and manages Stitch user authentication state. This class is meant to be inherited.
