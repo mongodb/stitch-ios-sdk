@@ -138,6 +138,7 @@ tasks:
           script: |
             set -e
             echo "running swift core tests"
+            cd stitch-ios-sdk
             make test
   - name: run_ios_tests
     commands:

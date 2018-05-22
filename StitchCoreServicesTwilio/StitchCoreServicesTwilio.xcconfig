@@ -2,9 +2,6 @@
 // StitchCoreServicesTwilio.xcconfig
 //
 
-PRODUCT_NAME = StitchCoreServicesTwilio
-PRODUCT_NAME_ORIGINAL = $(PRODUCT_NAME) 
-
 OTHER_LDFLAGS[sdk=iphoneos*] = -rpath $(SRCROOT)/../MobileSDKs/iphoneos/lib
 OTHER_LDFLAGS[sdk=iphonesimulator*] = -rpath $(SRCROOT)/../MobileSDKs/iphoneos/lib
 OTHER_LDFLAGS[sdk=appletvos*] = -rpath $(SRCROOT)/../MobileSDKs/appletvos/lib
