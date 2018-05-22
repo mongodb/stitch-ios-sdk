@@ -1,0 +1,19 @@
+//
+// StitchCoreAdminClient.xcconfig
+//
+
+PRODUCT_NAME = StitchCoreAdminClient
+PRODUCT_NAME_ORIGINAL = $(PRODUCT_NAME) 
+
+OTHER_LDFLAGS[sdk=iphoneos*] = -rpath $(SRCROOT)/../MobileSDKs/iphoneos/lib
+OTHER_LDFLAGS[sdk=iphonesimulator*] = -rpath $(SRCROOT)/../MobileSDKs/iphoneos/lib
+OTHER_LDFLAGS[sdk=appletvos*] = -rpath $(SRCROOT)/../MobileSDKs/appletvos/lib
+OTHER_LDFLAGS[sdk=appletvsimulator*] = -rpath $(SRCROOT)/../MobileSDKs/appletvos/lib
+LIBRARY_SEARCH_PATHS[sdk=iphoneos*]        = $(SRCROOT)/../MobileSDKs/iphoneos/lib
+LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*] = $(SRCROOT)/../MobileSDKs/iphoneos/lib
+LIBRARY_SEARCH_PATHS[sdk=appletvos*]       = $(SRCROOT)/../MobileSDKs/appletvos/lib
+LIBRARY_SEARCH_PATHS[sdk=appletvsimulator*] = $(SRCROOT)/../MobileSDKs/appletvos/lib
+
+SWIFT_INCLUDE_PATHS = $(SRCROOT)/../MobileSDKs/include $(SRCROOT)/../MobileSDKs/include/libbson-1.0
+
+ENABLE_BITCODE = NO

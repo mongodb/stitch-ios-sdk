@@ -6,7 +6,7 @@ import BSON
 @testable import StitchCore_iOS
 
 class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
-    private func registerAndLogin(email: String = email,
+    public override func registerAndLogin(email: String = email,
                                   password: String = pass,
                                   _ completionHandler: @escaping (StitchUser) -> Void) {
         let emailPassClient = self.stitchAppClient.auth.providerClient(
@@ -250,7 +250,6 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
         let exp1 = expectation(description: "logged in anonymously")
         stitchAppClient.auth.login(withCredential: AnonymousCredential()) { user, _ in
             XCTAssertNotNil(user)
-            self.verifyBasicAuthStorageInfo(loggedIn: true, expectedProviderType: StitchProviderType.anonymous)
             exp1.fulfill()
         }
         wait(for: [exp1], timeout: defaultTimeoutSeconds)
@@ -258,7 +257,7 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
         let exp2 = expectation(description: "called function successfully")
         let randomInt = Int(arc4random_uniform(10000)) // temporary until BSON bug is fixed
         stitchAppClient.callFunction(withName: "testFunction",
-                                     withArgs: [randomInt, "hello"]) { (docMap: Document?, error: Error?) in
+                                     withArgs: [randomInt, "hello"], withRequestTimeout: 5.0) { (docMap: Document?, error: Error?) in
             XCTAssertNotNil(docMap)
 
             XCTAssertEqual(docMap?["stringValue"] as? String, "hello")
@@ -273,5 +272,23 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
             exp2.fulfill()
         }
         wait(for: [exp2], timeout: defaultTimeoutSeconds)
+
+        let exp3 = expectation(description: "successfully errored out with a timeout when one was specified")
+        stitchAppClient.callFunction(withName: "testFunction",
+                                     withArgs: [randomInt, "hello"],
+                                     withRequestTimeout: 0.00001) { error in
+            let stitchError = error as? StitchError
+            XCTAssertNotNil(error as? StitchError)
+            if let err = stitchError {
+                guard case .requestError(_, let errorCode) = err else {
+                    XCTFail("callFunction returned an incorrect error type")
+                    return
+                }
+
+                XCTAssertEqual(errorCode, .transportError)
+            }
+            exp3.fulfill()
+        }
+        wait(for: [exp3], timeout: defaultTimeoutSeconds)
     }
 }

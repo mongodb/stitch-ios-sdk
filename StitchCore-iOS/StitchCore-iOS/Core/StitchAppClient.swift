@@ -1,4 +1,5 @@
 import BSON
+import StitchCore
 
 /**
  * The fundamental set of methods for communicating with a MongoDB Stitch application.
@@ -42,7 +43,18 @@ public protocol StitchAppClient {
      * - returns: a service client whose type is determined by the `T` type parameter of the `AnyServiceClientProvider`
      *            passed in the `forProvider` parameter.
      */
-    func serviceClient<T>(forService provider: AnyServiceClientFactory<T>) -> T
+    func serviceClient<T>(forService provider: AnyNamedServiceClientFactory<T>) -> T
+
+    /**
+     * Retrieves the service client associated with the service type specified in the argument.
+     *
+     * - parameters:
+     *     - forProvider: An `AnyServiceClientProvider` object which contains a `ServiceClientProvider`
+     *                    class which will provide the client for this service.
+     * - returns: a service client whose type is determined by the `T` type parameter of the `AnyServiceClientProvider`
+     *            passed in the `forProvider` parameter.
+     */
+    func serviceClient<T>(forService provider: AnyThrowingServiceClientProvider<T>) throws -> T
 
     // MARK: Functions
 
@@ -60,7 +72,23 @@ public protocol StitchAppClient {
      *              successful.
      *
      */
-    func callFunction<D: Decodable>(withName name: String, withArgs args: [BsonValue], _ completionHandler: @escaping (_ result: D?, _ error: Error?) -> Void)
+    func callFunction<D: Decodable>(withName name: String, withArgs args: [BsonValue], withRequestTimeout requestTimeout: TimeInterval, _ completionHandler: @escaping (_ result: D?, _ error: Error?) -> Void)
 
+    /**
+     * Calls the MongoDB Stitch function with the provided name and arguments, as well as with a specified timeout. Use
+     * this for functions that may run longer than the client-wide default timeout (15 seconds by default).
+     *
+     * - parameters:
+     *     - withName: The name of the Stitch function to be called.
+     *     - withArgs: The `BSONArray` of arguments to be provided to the function.
+     *     - withRequestTimeout: The number of seconds the client should wait for a response from the server before
+     *                           failing with an error.
+     *     - completionHandler: The completion handler to call when the function call is complete.
+     *                          This handler is executed on a non-main global `DispatchQueue`.
+     *     - error: An error object that indicates why the function call failed, or `nil` if the function call was
+     *              successful.
+     *
+     */
+    func callFunction(withName name: String, withArgs args: [BsonValue], withRequestTimeout requestTimeout: TimeInterval, _ completionHandler: @escaping (_ error: Error?) -> Void)
     // swiftlint:enable line_length
 }

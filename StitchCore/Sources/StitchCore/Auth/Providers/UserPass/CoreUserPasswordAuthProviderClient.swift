@@ -4,29 +4,23 @@
  */
 private final class Routes {
     /**
-     * The authentication API routes that form the base of these provider routes.
+     * The authentication API route that forms the base of these provider routes.
      */
-    private let authRoutes: StitchAuthRoutes
-
-    /**
-     * The name of the provider for these routes.
-     */
-    private let providerName: String
+    private let baseRoute: String
 
     /**
      * Initializes the routes with a `StitchAuthRoutes` and the name of the provider.
      */
-    fileprivate init(withAuthRoutes authRoutes: StitchAuthRoutes,
+    fileprivate init(withBaseRoute baseRoute: String,
                      withProviderName providerName: String) {
-        self.authRoutes = authRoutes
-        self.providerName = providerName
+        self.baseRoute = baseRoute
     }
 
     /**
      * Private helper which returns the provided path, appended to the base route for the authentication provider.
      */
     private func extensionRoute(forPath path: String) -> String {
-        return "\(authRoutes.authProviderRoute(withProviderName: providerName))/\(path)"
+        return "\(baseRoute)/\(path)"
     }
 
     /**
@@ -65,7 +59,7 @@ private let tokenIdKey = "tokenId"
  * A client for the username/password authentication provider which can be used to obtain a credential for logging in,
  * and to perform requests specifically related to the username/password provider.
  */
-open class CoreUserPasswordAuthProviderClient: CoreAuthProviderClient {
+open class CoreUserPasswordAuthProviderClient: CoreAuthProviderClient<StitchRequestClient> {
     /**
      * The routes on the Stitch server to perform the actions made available by this provider client.
      */
@@ -77,12 +71,14 @@ open class CoreUserPasswordAuthProviderClient: CoreAuthProviderClient {
      */
     public init(withProviderName providerName: String = "local-userpass",
                 withRequestClient requestClient: StitchRequestClient,
-                withRoutes routes: StitchAuthRoutes) {
-        self.routes = Routes.init(withAuthRoutes: routes,
+                withAuthRoutes authRoutes: StitchAuthRoutes) {
+        let baseRoute = authRoutes.authProviderRoute(withProviderName: providerName)
+
+        self.routes = Routes.init(withBaseRoute: baseRoute,
                                   withProviderName: providerName)
         super.init(withProviderName: providerName,
                    withRequestClient: requestClient,
-                   withAuthRoutes: routes)
+                   withBaseRoute: baseRoute)
 
     }
 

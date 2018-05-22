@@ -6,7 +6,7 @@ private final class TwilioNamedServiceClientFactory: NamedServiceClientFactory {
     typealias ClientType = TwilioServiceClient
     
     func client(forService service: StitchService,
-                withClient client: StitchAppClientInfo) -> TwilioServiceClient {
+                withClientInfo client: StitchAppClientInfo) -> TwilioServiceClient {
         return TwilioServiceClientImpl(withService: service,
                                        withDispatcher: OperationDispatcher(withDispatchQueue: DispatchQueue.global()))
     }

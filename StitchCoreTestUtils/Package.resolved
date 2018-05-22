@@ -33,7 +33,7 @@
         "repositoryURL": "/Users/jsflax/Development/stitch-ios-sdk/StitchCore",
         "state": {
           "branch": "master",
-          "revision": "3edc4549d7508128f9356a34ec71138cc45d0eeb",
+          "revision": "5260ba9e3c17117b7ff5b9f7b2517969794765fc",
           "version": null
         }
       },
@@ -42,7 +42,7 @@
         "repositoryURL": "/Users/jsflax/Development/stitch-ios-sdk/StitchCoreAdminClient",
         "state": {
           "branch": "master",
-          "revision": "c1802b07b8acbb79f5000addfc149bc49c919880",
+          "revision": "c625ceab52523ae0e7efbcd149031b1240e35cf4",
           "version": null
         }
       },

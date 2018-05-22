@@ -25,6 +25,6 @@ open class CoreTwilioServiceClient {
         }
         
         let _ =
-            try self.service.callFunctionInternal(withName: "send", withArgs: [args])
+        try self.service.callFunctionInternal(withName: "send", withArgs: [args], withRequestTimeout: nil)
     }
 }

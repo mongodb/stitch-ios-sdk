@@ -128,6 +128,15 @@ final class TestHarness {
         return self.addProvider(withConfig: .anon())
     }
 
+    func enableDefaultApiKeyProvider() -> AuthProviderResponse {
+        let resps = try! self.app.authProviders.list()
+        let resp = resps.first { resp -> Bool in
+            return resp.name == StitchProviderType.userAPIKey.name
+        }
+        try! self.app.authProviders.authProvider(providerId: resp!.id).enable()
+        return resp!
+    }
+
     func addDefaultCustomTokenProvider() -> AuthProviderResponse {
         return self.addProvider(withConfig: .custom(
             signingKey: "abcdefghijklmnopqrstuvwxyz1234567890",

@@ -12,7 +12,7 @@ public protocol NamedServiceClientFactory {
     /**
      * Returns a client of type `ClientType`, with the provided `StitchService` and `StitchAppClientInfo` objects.
      */
-    func client(forService service: StitchService, withClient client: StitchAppClientInfo) -> ClientType
+    func client(forService service: StitchService, withClientInfo clientInfo: StitchAppClientInfo) -> ClientType
 }
 
 /**
@@ -35,7 +35,7 @@ public struct AnyNamedServiceClientFactory<T> {
      * Produces a service client with the stored `clientBlock`.
      */
     func client(forService service: StitchService,
-                withClient client: StitchAppClientInfo) -> T {
-        return self.clientBlock(service, client)
+                withClientInfo clientInfo: StitchAppClientInfo) -> T {
+        return self.clientBlock(service, clientInfo)
     }
 }

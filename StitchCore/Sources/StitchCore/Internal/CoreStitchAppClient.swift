@@ -1,4 +1,5 @@
 import BSON
+import Foundation
 
 /**
  * A class providing the core functionality necessary for a Stitch app client to make authenticated function call
@@ -29,7 +30,20 @@ public final class CoreStitchAppClient {
     }
 
     // MARK: Methods
-
+    /**
+     * Performs a request against the Stitch server to call a function in the Stitch application. Takes the function
+     * name and arguments as parameters.
+     *
+     * - returns: An `Any` representing the decoded JSON of the result of the function call.
+     */
+    public func callFunctionInternal(withName name: String,
+                                     withArgs args: [BsonValue],
+                                     withRequestTimeout requestTimeout: TimeInterval? = nil) throws {
+        let _ = try self.authRequestClient.doAuthenticatedRequest(
+            callFunctionRequest(withName: name, withArgs: args, withRequestTimeout: requestTimeout)
+        )
+    }
+    
     /**
      * Performs a request against the Stitch server to call a function in the Stitch application. Takes the function
      * name and arguments as parameters.
@@ -37,9 +51,10 @@ public final class CoreStitchAppClient {
      * - returns: An `Any` representing the decoded JSON of the result of the function call.
      */
     public func callFunctionInternal<D: Decodable>(withName name: String,
-                                                   withArgs args: [BsonValue]) throws -> D {
+                                                   withArgs args: [BsonValue],
+                                                   withRequestTimeout requestTimeout: TimeInterval? = nil) throws -> D {
         return try self.authRequestClient.doAuthenticatedJSONRequest(
-            self.callFunctionRequest(withName: name, withArgs: args)
+            callFunctionRequest(withName: name, withArgs: args, withRequestTimeout: requestTimeout)
         )
     }
 
@@ -48,11 +63,13 @@ public final class CoreStitchAppClient {
      * and arguments as parameters.
      */
     private func callFunctionRequest(withName name: String,
-                                     withArgs args: [BsonValue]) throws -> StitchAuthDocRequest {
+                                     withArgs args: [BsonValue],
+                                     withRequestTimeout requestTimeout: TimeInterval?) throws -> StitchAuthDocRequest {
         let route = self.routes.serviceRoutes.functionCallRoute
         return try StitchAuthDocRequestBuilderImpl {
             $0.method = .post
             $0.path = route
+            $0.timeout = requestTimeout
             $0.document = [
                 "name": name,
                 "arguments": args

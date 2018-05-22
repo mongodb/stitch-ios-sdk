@@ -58,12 +58,14 @@ internal final class StitchAppClientImpl: StitchAppClient {
         )
 
         let internalAuth =
-            try StitchAuthImpl.init(requestClient: StitchRequestClientImpl.init(baseURL: config.baseURL,
-                                                                                transport: config.transport),
-                                     authRoutes: self.routes.authRoutes,
-                                     storage: config.storage,
-                                     dispatcher: self.dispatcher,
-                                     appInfo: self.info)
+            try StitchAuthImpl.init(
+                requestClient: StitchRequestClientImpl.init(baseURL: config.baseURL,
+                                                            transport: config.transport,
+                                                            defaultRequestTimeout: config.defaultRequestTimeout),
+                authRoutes: self.routes.authRoutes,
+                storage: config.storage,
+                dispatcher: self.dispatcher,
+                appInfo: self.info)
 
         self._auth = internalAuth
         self.coreClient = CoreStitchAppClient.init(authRequestClient: internalAuth, routes: routes)
@@ -87,7 +89,7 @@ internal final class StitchAppClientImpl: StitchAppClient {
             forService: StitchServiceImpl.init(requestClient: self._auth,
                                                routes: self.routes.serviceRoutes,
                                                name: serviceName, dispatcher: self.dispatcher),
-            withClient: self.info
+            withClientInfo: self.info
         )
     }
 
@@ -100,12 +102,30 @@ internal final class StitchAppClientImpl: StitchAppClient {
      * - returns: a service client whose type is determined by the `T` type parameter of the `AnyServiceClientProvider`
      *            passed in the `forProvider` parameter.
      */
-    public func serviceClient<T>(forService serviceClientProvider: AnyServiceClientFactory<T>) -> T {
+    public func serviceClient<T>(forService serviceClientProvider: AnyNamedServiceClientFactory<T>) -> T {
         return serviceClientProvider.client(
             forService: StitchServiceImpl.init(requestClient: self._auth,
                                                routes: self.routes.serviceRoutes,
                                                name: "", dispatcher: self.dispatcher),
-            withClient: self.info
+            withClientInfo: self.info
+        )
+    }
+
+    /**
+     * Retrieves the service client associated with the service type specified in the argument.
+     *
+     * - parameters:
+     *     - forProvider: An `AnyServiceClientProvider` object which contains a `ServiceClientProvider`
+     *                    class which will provide the client for this service.
+     * - returns: a service client whose type is determined by the `T` type parameter of the `AnyServiceClientProvider`
+     *            passed in the `forProvider` parameter.
+     */
+    public func serviceClient<T>(forService serviceClientProvider: AnyThrowingServiceClientProvider<T>) throws -> T {
+        return try serviceClientProvider.client(
+            forService: StitchServiceImpl.init(requestClient: self._auth,
+                                               routes: self.routes.serviceRoutes,
+                                               name: "", dispatcher: self.dispatcher),
+            withClientInfo: self.info
         )
     }
 
@@ -124,11 +144,39 @@ internal final class StitchAppClientImpl: StitchAppClient {
      *              successful.
      *
      */
-    public func callFunction<D: Decodable>(withName name: String,
+    public func callFunction(withName name: String,
+                             withArgs args: [BsonValue],
+                             withRequestTimeout requestTimeout: TimeInterval,
+                             _ completionHandler: @escaping (Error?) -> Void) {
+        self.dispatcher.run(withCompletionHandler: completionHandler) {
+            return try self.coreClient.callFunctionInternal(withName: name, withArgs: args, withRequestTimeout: requestTimeout)
+        }
+    }
+
+    /**
+     * Calls the MongoDB Stitch function with the provided name and arguments, as well as with a specified timeout. Use
+     * this for functions that may run longer than the client-wide default timeout (15 seconds by default).
+     *
+     * - parameters:
+     *     - withName: The name of the Stitch function to be called.
+     *     - withArgs: The `BSONArray` of arguments to be provided to the function.
+     *     - withRequestTimeout: The number of seconds the client should wait for a response from the server before
+     *                           failing with an error.
+     *     - completionHandler: The completion handler to call when the function call is complete.
+     *                          This handler is executed on a non-main global `DispatchQueue`.
+     *     - result: The result of the function call as an `Any`, or `nil` if the function call failed.
+     *     - error: An error object that indicates why the function call failed, or `nil` if the function call was
+     *              successful.
+     *
+     */
+    public func callFunction<T: Decodable>(withName name: String,
                                            withArgs args: [BsonValue],
-                                           _ completionHandler: @escaping (D?, Error?) -> Void) {
-        self.dispatcher.run(withCompletionHandler: completionHandler) { () -> D in
-            return try self.coreClient.callFunctionInternal(withName: name, withArgs: args)
+                                           withRequestTimeout requestTimeout: TimeInterval,
+                                           _ completionHandler: @escaping (T?, Error?) -> Void) {
+        dispatcher.run(withCompletionHandler: completionHandler) {
+            return try self.coreClient.callFunctionInternal(withName: name,
+                                                            withArgs: args,
+                                                            withRequestTimeout: requestTimeout)
         }
     }
 }

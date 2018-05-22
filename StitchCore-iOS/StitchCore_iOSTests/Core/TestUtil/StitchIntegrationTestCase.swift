@@ -32,4 +32,28 @@ internal class StitchIntegrationTestCase: XCTestCase {
         wait(for: [exp], timeout: defaultTimeoutSeconds)
     }
 
+    public func registerAndLogin(email: String = email,
+                                 password: String = pass,
+                                 _ completionHandler: @escaping (StitchUser) -> Void) {
+        let emailPassClient = self.stitchAppClient.auth.providerClient(
+            forProvider: UserPasswordAuthProvider.clientSupplier
+        )
+        emailPassClient.register(withEmail: email, withPassword: password) { _ in
+            let conf = try? self.harness.app.userRegistrations.sendConfirmation(toEmail: email)
+            guard let safeConf = conf else { XCTFail("could not retrieve email confirmation token"); return }
+            emailPassClient.confirmUser(withToken: safeConf.token,
+                                        withTokenId: safeConf.tokenId
+            ) { _ in
+                self.stitchAppClient.auth.login(
+                    withCredential: emailPassClient.credential(forUsername: email, forPassword: password)
+                ) { user, _ in
+                    guard let user = user else {
+                        XCTFail("Failed to log in with username/password provider")
+                        return
+                    }
+                    completionHandler(user)
+                }
+            }
+        }
+    }
 }

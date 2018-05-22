@@ -1,3 +1,5 @@
+import Foundation
+
 /**
  * A protocol defining the methods necessary to make authenticated requests to the Stitch server.
  */

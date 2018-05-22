@@ -62,8 +62,8 @@ extension CoreStitchAuth: StitchAuthRequestClient {
         builder.path = stitchReq.path
         builder.useRefreshToken = stitchReq.useRefreshToken
         builder.method = stitchReq.method
-        print(stitchReq.document.canonicalExtendedJSON)
         builder.body = stitchReq.document.canonicalExtendedJSON.data(using: .utf8)
+        builder.timeout = stitchReq.timeout
         builder.document = stitchReq.document
         builder.headers = stitchReq.headers.merging(
             [Headers.contentType.rawValue:
@@ -98,6 +98,7 @@ extension CoreStitchAuth: StitchAuthRequestClient {
             $0.path = stitchReq.path
             $0.method = stitchReq.method
             $0.body = stitchReq.body
+            $0.timeout = stitchReq.timeout
         }.build()
     }
 

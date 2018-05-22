@@ -44,7 +44,7 @@ StitchCore/Packages/
 StitchCore/Package.pins
 StitchCore/Package.resolved
 StitchCore/.build/
-
+StitchCore/StitchCore.xcodeproj/
 
 # CocoaPods
 #
@@ -54,6 +54,9 @@ StitchCore/.build/
 #
 # Pods/
 Extensions/PromiseKit/Stitch-PromiseKit/Pods/
+LocalMongoDBService/Pods/
+LocalMongoDBServiceExample/Pods/
+StitchCore-iOS/Extensions/PromiseKit/Stitch-PromiseKit/Pods/
 
 # Carthage
 #
@@ -76,3 +79,6 @@ fastlane/test_output
 
 MobileSDKs
 Sources
+
+
+

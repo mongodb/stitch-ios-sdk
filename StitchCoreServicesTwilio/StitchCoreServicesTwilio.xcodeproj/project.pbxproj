@@ -9,18 +9,18 @@
 /* Begin PBXAggregateTarget section */
 		"StitchCoreServicesTwilio::StitchCoreServicesTwilioPackageTests::ProductTarget" /* StitchCoreServicesTwilioPackageTests */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = OBJ_220 /* Build configuration list for PBXAggregateTarget "StitchCoreServicesTwilioPackageTests" */;
+			buildConfigurationList = OBJ_223 /* Build configuration list for PBXAggregateTarget "StitchCoreServicesTwilioPackageTests" */;
 			buildPhases = (
 			);
 			dependencies = (
-				OBJ_223 /* PBXTargetDependency */,
+				OBJ_226 /* PBXTargetDependency */,
 			);
 			name = StitchCoreServicesTwilioPackageTests;
 			productName = StitchCoreServicesTwilioPackageTests;
 		};
 		"libbson::libbson::ProductTarget" /* libbson */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = OBJ_238 /* Build configuration list for PBXAggregateTarget "libbson" */;
+			buildConfigurationList = OBJ_241 /* Build configuration list for PBXAggregateTarget "libbson" */;
 			buildPhases = (
 			);
 			dependencies = (
@@ -31,129 +31,130 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		OBJ_115 /* BsonDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_97 /* BsonDecoder.swift */; };
-		OBJ_116 /* BsonEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_98 /* BsonEncoder.swift */; };
-		OBJ_117 /* BsonEncoderNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_99 /* BsonEncoderNew.swift */; };
-		OBJ_118 /* BsonValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_100 /* BsonValue.swift */; };
-		OBJ_119 /* CodableNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_101 /* CodableNumber.swift */; };
-		OBJ_120 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_102 /* Document.swift */; };
-		OBJ_121 /* MongoError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_103 /* MongoError.swift */; };
-		OBJ_128 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_104 /* Package.swift */; };
-		OBJ_134 /* CoreAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_19 /* CoreAuthProviderClient.swift */; };
-		OBJ_135 /* AccessTokenRefresher.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_21 /* AccessTokenRefresher.swift */; };
-		OBJ_136 /* AuthInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_22 /* AuthInfo.swift */; };
-		OBJ_137 /* AuthStateHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_23 /* AuthStateHolder.swift */; };
-		OBJ_138 /* CoreStitchAuth+StitchAuthRequestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_24 /* CoreStitchAuth+StitchAuthRequestClient.swift */; };
-		OBJ_139 /* CoreStitchAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* CoreStitchAuth.swift */; };
-		OBJ_140 /* CoreStitchUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_26 /* CoreStitchUser.swift */; };
-		OBJ_141 /* DeviceField.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_27 /* DeviceField.swift */; };
-		OBJ_142 /* JWT.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_28 /* JWT.swift */; };
-		OBJ_143 /* APIAccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_30 /* APIAccessToken.swift */; };
-		OBJ_144 /* APIAuthInfoImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_31 /* APIAuthInfoImpl.swift */; };
-		OBJ_145 /* APICoreUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_32 /* APICoreUserProfile.swift */; };
-		OBJ_146 /* APIStitchUserIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_33 /* APIStitchUserIdentity.swift */; };
-		OBJ_147 /* StoreAuthInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_34 /* StoreAuthInfo.swift */; };
-		OBJ_148 /* StoreCoreUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_35 /* StoreCoreUserProfile.swift */; };
-		OBJ_149 /* StoreStitchUserIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_36 /* StoreStitchUserIdentity.swift */; };
-		OBJ_150 /* StitchAuthRequestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_37 /* StitchAuthRequestClient.swift */; };
-		OBJ_151 /* StitchUserFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_38 /* StitchUserFactory.swift */; };
-		OBJ_152 /* ProviderCapabilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_39 /* ProviderCapabilities.swift */; };
-		OBJ_153 /* AnonymousAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_42 /* AnonymousAuthProvider.swift */; };
-		OBJ_154 /* AnonymousCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_43 /* AnonymousCredential.swift */; };
-		OBJ_155 /* CustomAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_45 /* CustomAuthProvider.swift */; };
-		OBJ_156 /* CustomCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_46 /* CustomCredential.swift */; };
-		OBJ_157 /* FacebookAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_48 /* FacebookAuthProvider.swift */; };
-		OBJ_158 /* FacebookCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_49 /* FacebookCredential.swift */; };
-		OBJ_159 /* GoogleAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_51 /* GoogleAuthProvider.swift */; };
-		OBJ_160 /* GoogleCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_52 /* GoogleCredential.swift */; };
-		OBJ_161 /* ServerAPIKeyCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_54 /* ServerAPIKeyCredential.swift */; };
-		OBJ_162 /* ServerApiKeyAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_55 /* ServerApiKeyAuthProvider.swift */; };
-		OBJ_163 /* CoreUserAPIKeyAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_57 /* CoreUserAPIKeyAuthProviderClient.swift */; };
-		OBJ_164 /* UserAPIKeyAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_58 /* UserAPIKeyAuthProvider.swift */; };
-		OBJ_165 /* UserAPIKeyCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_59 /* UserAPIKeyCredential.swift */; };
-		OBJ_166 /* CoreUserPasswordAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_61 /* CoreUserPasswordAuthProviderClient.swift */; };
-		OBJ_167 /* UserPasswordAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_62 /* UserPasswordAuthProvider.swift */; };
-		OBJ_168 /* UserPasswordCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_63 /* UserPasswordCredential.swift */; };
-		OBJ_169 /* StitchCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_64 /* StitchCredential.swift */; };
-		OBJ_170 /* StitchProviderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_65 /* StitchProviderType.swift */; };
-		OBJ_171 /* StitchUserIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_66 /* StitchUserIdentity.swift */; };
-		OBJ_172 /* StitchUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_67 /* StitchUserProfile.swift */; };
-		OBJ_173 /* Builder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_70 /* Builder.swift */; };
-		OBJ_174 /* ImplFailureFatalErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_71 /* ImplFailureFatalErrors.swift */; };
-		OBJ_175 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_72 /* Storage.swift */; };
-		OBJ_176 /* CoreStitchAppClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_73 /* CoreStitchAppClient.swift */; };
-		OBJ_177 /* ContentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_75 /* ContentType.swift */; };
-		OBJ_178 /* FoundationHTTPTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_76 /* FoundationHTTPTransport.swift */; };
-		OBJ_179 /* Headers.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_77 /* Headers.swift */; };
-		OBJ_180 /* Method.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_78 /* Method.swift */; };
-		OBJ_181 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_80 /* Request.swift */; };
-		OBJ_182 /* StitchAuthRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_81 /* StitchAuthRequest.swift */; };
-		OBJ_183 /* StitchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_82 /* StitchRequest.swift */; };
-		OBJ_184 /* StitchAppRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_83 /* StitchAppRoutes.swift */; };
-		OBJ_185 /* StitchRequestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_84 /* StitchRequestClient.swift */; };
-		OBJ_186 /* Transport.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_85 /* Transport.swift */; };
-		OBJ_187 /* CoreStitchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_88 /* CoreStitchService.swift */; };
-		OBJ_188 /* CoreStitchServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_89 /* CoreStitchServiceImpl.swift */; };
-		OBJ_189 /* StitchAppClientConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_90 /* StitchAppClientConfiguration.swift */; };
-		OBJ_190 /* StitchAppClientInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_91 /* StitchAppClientInfo.swift */; };
-		OBJ_191 /* StitchClientConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_92 /* StitchClientConfiguration.swift */; };
-		OBJ_192 /* StitchError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_93 /* StitchError.swift */; };
-		OBJ_194 /* BSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "BSON::BSON::Product" /* BSON.framework */; };
-		OBJ_201 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_94 /* Package.swift */; };
-		OBJ_207 /* CoreTwilioServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* CoreTwilioServiceClient.swift */; };
-		OBJ_209 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "StitchCore::StitchCore::Product" /* StitchCore.framework */; };
-		OBJ_210 /* BSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "BSON::BSON::Product" /* BSON.framework */; };
-		OBJ_218 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
-		OBJ_229 /* StitchCoreServicesTwilioTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* StitchCoreServicesTwilioTests.swift */; };
-		OBJ_231 /* StitchCoreServicesTwilio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "StitchCoreServicesTwilio::StitchCoreServicesTwilio::Product" /* StitchCoreServicesTwilio.framework */; };
-		OBJ_232 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "StitchCore::StitchCore::Product" /* StitchCore.framework */; };
-		OBJ_233 /* BSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "BSON::BSON::Product" /* BSON.framework */; };
+		OBJ_117 /* BsonDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_99 /* BsonDecoder.swift */; };
+		OBJ_118 /* BsonEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_100 /* BsonEncoder.swift */; };
+		OBJ_119 /* BsonEncoderNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_101 /* BsonEncoderNew.swift */; };
+		OBJ_120 /* BsonValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_102 /* BsonValue.swift */; };
+		OBJ_121 /* CodableNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_103 /* CodableNumber.swift */; };
+		OBJ_122 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_104 /* Document.swift */; };
+		OBJ_123 /* MongoError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_105 /* MongoError.swift */; };
+		OBJ_130 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_106 /* Package.swift */; };
+		OBJ_136 /* CoreAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_19 /* CoreAuthProviderClient.swift */; };
+		OBJ_137 /* AccessTokenRefresher.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_21 /* AccessTokenRefresher.swift */; };
+		OBJ_138 /* AuthInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_22 /* AuthInfo.swift */; };
+		OBJ_139 /* AuthStateHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_23 /* AuthStateHolder.swift */; };
+		OBJ_140 /* CoreStitchAuth+StitchAuthRequestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_24 /* CoreStitchAuth+StitchAuthRequestClient.swift */; };
+		OBJ_141 /* CoreStitchAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* CoreStitchAuth.swift */; };
+		OBJ_142 /* CoreStitchUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_26 /* CoreStitchUser.swift */; };
+		OBJ_143 /* DeviceField.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_27 /* DeviceField.swift */; };
+		OBJ_144 /* JWT.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_28 /* JWT.swift */; };
+		OBJ_145 /* APIAccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_30 /* APIAccessToken.swift */; };
+		OBJ_146 /* APIAuthInfoImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_31 /* APIAuthInfoImpl.swift */; };
+		OBJ_147 /* APICoreUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_32 /* APICoreUserProfile.swift */; };
+		OBJ_148 /* APIStitchUserIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_33 /* APIStitchUserIdentity.swift */; };
+		OBJ_149 /* StoreAuthInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_34 /* StoreAuthInfo.swift */; };
+		OBJ_150 /* StoreCoreUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_35 /* StoreCoreUserProfile.swift */; };
+		OBJ_151 /* StoreStitchUserIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_36 /* StoreStitchUserIdentity.swift */; };
+		OBJ_152 /* StitchAuthRequestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_37 /* StitchAuthRequestClient.swift */; };
+		OBJ_153 /* StitchUserFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_38 /* StitchUserFactory.swift */; };
+		OBJ_154 /* ProviderCapabilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_39 /* ProviderCapabilities.swift */; };
+		OBJ_155 /* AnonymousAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_42 /* AnonymousAuthProvider.swift */; };
+		OBJ_156 /* AnonymousCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_43 /* AnonymousCredential.swift */; };
+		OBJ_157 /* CustomAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_45 /* CustomAuthProvider.swift */; };
+		OBJ_158 /* CustomCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_46 /* CustomCredential.swift */; };
+		OBJ_159 /* FacebookAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_48 /* FacebookAuthProvider.swift */; };
+		OBJ_160 /* FacebookCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_49 /* FacebookCredential.swift */; };
+		OBJ_161 /* GoogleAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_51 /* GoogleAuthProvider.swift */; };
+		OBJ_162 /* GoogleCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_52 /* GoogleCredential.swift */; };
+		OBJ_163 /* ServerAPIKeyCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_54 /* ServerAPIKeyCredential.swift */; };
+		OBJ_164 /* ServerApiKeyAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_55 /* ServerApiKeyAuthProvider.swift */; };
+		OBJ_165 /* CoreUserAPIKeyAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_57 /* CoreUserAPIKeyAuthProviderClient.swift */; };
+		OBJ_166 /* UserAPIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_59 /* UserAPIKey.swift */; };
+		OBJ_167 /* UserAPIKeyAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_60 /* UserAPIKeyAuthProvider.swift */; };
+		OBJ_168 /* UserAPIKeyCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_61 /* UserAPIKeyCredential.swift */; };
+		OBJ_169 /* CoreUserPasswordAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_63 /* CoreUserPasswordAuthProviderClient.swift */; };
+		OBJ_170 /* UserPasswordAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_64 /* UserPasswordAuthProvider.swift */; };
+		OBJ_171 /* UserPasswordCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_65 /* UserPasswordCredential.swift */; };
+		OBJ_172 /* StitchCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_66 /* StitchCredential.swift */; };
+		OBJ_173 /* StitchProviderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_67 /* StitchProviderType.swift */; };
+		OBJ_174 /* StitchUserIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_68 /* StitchUserIdentity.swift */; };
+		OBJ_175 /* StitchUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_69 /* StitchUserProfile.swift */; };
+		OBJ_176 /* Builder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_72 /* Builder.swift */; };
+		OBJ_177 /* ImplFailureFatalErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_73 /* ImplFailureFatalErrors.swift */; };
+		OBJ_178 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_74 /* Storage.swift */; };
+		OBJ_179 /* CoreStitchAppClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_75 /* CoreStitchAppClient.swift */; };
+		OBJ_180 /* ContentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_77 /* ContentType.swift */; };
+		OBJ_181 /* FoundationHTTPTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_78 /* FoundationHTTPTransport.swift */; };
+		OBJ_182 /* Headers.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_79 /* Headers.swift */; };
+		OBJ_183 /* Method.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_80 /* Method.swift */; };
+		OBJ_184 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_82 /* Request.swift */; };
+		OBJ_185 /* StitchAuthRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_83 /* StitchAuthRequest.swift */; };
+		OBJ_186 /* StitchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_84 /* StitchRequest.swift */; };
+		OBJ_187 /* StitchAppRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_85 /* StitchAppRoutes.swift */; };
+		OBJ_188 /* StitchRequestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_86 /* StitchRequestClient.swift */; };
+		OBJ_189 /* Transport.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_87 /* Transport.swift */; };
+		OBJ_190 /* CoreStitchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_90 /* CoreStitchService.swift */; };
+		OBJ_191 /* CoreStitchServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_91 /* CoreStitchServiceImpl.swift */; };
+		OBJ_192 /* StitchAppClientConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_92 /* StitchAppClientConfiguration.swift */; };
+		OBJ_193 /* StitchAppClientInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_93 /* StitchAppClientInfo.swift */; };
+		OBJ_194 /* StitchClientConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_94 /* StitchClientConfiguration.swift */; };
+		OBJ_195 /* StitchError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_95 /* StitchError.swift */; };
+		OBJ_197 /* BSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "BSON::BSON::Product" /* BSON.framework */; };
+		OBJ_204 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_96 /* Package.swift */; };
+		OBJ_210 /* CoreTwilioServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* CoreTwilioServiceClient.swift */; };
+		OBJ_212 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "StitchCore::StitchCore::Product" /* StitchCore.framework */; };
+		OBJ_213 /* BSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "BSON::BSON::Product" /* BSON.framework */; };
+		OBJ_221 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
+		OBJ_232 /* StitchCoreServicesTwilioTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* StitchCoreServicesTwilioTests.swift */; };
+		OBJ_234 /* StitchCoreServicesTwilio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "StitchCoreServicesTwilio::StitchCoreServicesTwilio::Product" /* StitchCoreServicesTwilio.framework */; };
+		OBJ_235 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "StitchCore::StitchCore::Product" /* StitchCore.framework */; };
+		OBJ_236 /* BSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "BSON::BSON::Product" /* BSON.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		F4821FA220B3850200B71BC2 /* PBXContainerItemProxy */ = {
+		F482201B20B3BBAE00B71BC2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "StitchCore::StitchCore";
 			remoteInfo = StitchCore;
 		};
-		F4821FA320B3850200B71BC2 /* PBXContainerItemProxy */ = {
+		F482201C20B3BBAE00B71BC2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "BSON::BSON";
 			remoteInfo = BSON;
 		};
-		F4821FA420B3850200B71BC2 /* PBXContainerItemProxy */ = {
+		F482201D20B3BBAE00B71BC2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "BSON::BSON";
 			remoteInfo = BSON;
 		};
-		F4821FA520B3850200B71BC2 /* PBXContainerItemProxy */ = {
+		F482201E20B3BBAE00B71BC2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "StitchCoreServicesTwilio::StitchCoreServicesTwilio";
 			remoteInfo = StitchCoreServicesTwilio;
 		};
-		F4821FA620B3850200B71BC2 /* PBXContainerItemProxy */ = {
+		F482201F20B3BBAE00B71BC2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "StitchCore::StitchCore";
 			remoteInfo = StitchCore;
 		};
-		F4821FA720B3850200B71BC2 /* PBXContainerItemProxy */ = {
+		F482202020B3BBAE00B71BC2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "BSON::BSON";
 			remoteInfo = BSON;
 		};
-		F4821FA820B3850200B71BC2 /* PBXContainerItemProxy */ = {
+		F482202120B3BBAE00B71BC2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
@@ -164,11 +165,13 @@
 
 /* Begin PBXFileReference section */
 		"BSON::BSON::Product" /* BSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		OBJ_100 /* BsonValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BsonValue.swift; sourceTree = "<group>"; };
-		OBJ_101 /* CodableNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableNumber.swift; sourceTree = "<group>"; };
-		OBJ_102 /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
-		OBJ_103 /* MongoError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MongoError.swift; sourceTree = "<group>"; };
-		OBJ_104 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/jsflax/Development/stitch-ios-sdk/StitchCoreServicesTwilio/.build/checkouts/BSON--2499417053140181808/Package.swift"; sourceTree = "<group>"; };
+		OBJ_100 /* BsonEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BsonEncoder.swift; sourceTree = "<group>"; };
+		OBJ_101 /* BsonEncoderNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BsonEncoderNew.swift; sourceTree = "<group>"; };
+		OBJ_102 /* BsonValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BsonValue.swift; sourceTree = "<group>"; };
+		OBJ_103 /* CodableNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableNumber.swift; sourceTree = "<group>"; };
+		OBJ_104 /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
+		OBJ_105 /* MongoError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MongoError.swift; sourceTree = "<group>"; };
+		OBJ_106 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/jsflax/Development/stitch-ios-sdk/StitchCoreServicesTwilio/.build/checkouts/BSON--2499417053140181808/Package.swift"; sourceTree = "<group>"; };
 		OBJ_11 /* CoreTwilioServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreTwilioServiceClient.swift; sourceTree = "<group>"; };
 		OBJ_14 /* StitchCoreServicesTwilioTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchCoreServicesTwilioTests.swift; sourceTree = "<group>"; };
 		OBJ_19 /* CoreAuthProviderClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAuthProviderClient.swift; sourceTree = "<group>"; };
@@ -201,78 +204,77 @@
 		OBJ_54 /* ServerAPIKeyCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerAPIKeyCredential.swift; sourceTree = "<group>"; };
 		OBJ_55 /* ServerApiKeyAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerApiKeyAuthProvider.swift; sourceTree = "<group>"; };
 		OBJ_57 /* CoreUserAPIKeyAuthProviderClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreUserAPIKeyAuthProviderClient.swift; sourceTree = "<group>"; };
-		OBJ_58 /* UserAPIKeyAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPIKeyAuthProvider.swift; sourceTree = "<group>"; };
-		OBJ_59 /* UserAPIKeyCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPIKeyCredential.swift; sourceTree = "<group>"; };
+		OBJ_59 /* UserAPIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPIKey.swift; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
-		OBJ_61 /* CoreUserPasswordAuthProviderClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreUserPasswordAuthProviderClient.swift; sourceTree = "<group>"; };
-		OBJ_62 /* UserPasswordAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPasswordAuthProvider.swift; sourceTree = "<group>"; };
-		OBJ_63 /* UserPasswordCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPasswordCredential.swift; sourceTree = "<group>"; };
-		OBJ_64 /* StitchCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchCredential.swift; sourceTree = "<group>"; };
-		OBJ_65 /* StitchProviderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchProviderType.swift; sourceTree = "<group>"; };
-		OBJ_66 /* StitchUserIdentity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchUserIdentity.swift; sourceTree = "<group>"; };
-		OBJ_67 /* StitchUserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchUserProfile.swift; sourceTree = "<group>"; };
-		OBJ_70 /* Builder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Builder.swift; sourceTree = "<group>"; };
-		OBJ_71 /* ImplFailureFatalErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImplFailureFatalErrors.swift; sourceTree = "<group>"; };
-		OBJ_72 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
-		OBJ_73 /* CoreStitchAppClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchAppClient.swift; sourceTree = "<group>"; };
-		OBJ_75 /* ContentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentType.swift; sourceTree = "<group>"; };
-		OBJ_76 /* FoundationHTTPTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationHTTPTransport.swift; sourceTree = "<group>"; };
-		OBJ_77 /* Headers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Headers.swift; sourceTree = "<group>"; };
-		OBJ_78 /* Method.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Method.swift; sourceTree = "<group>"; };
+		OBJ_60 /* UserAPIKeyAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPIKeyAuthProvider.swift; sourceTree = "<group>"; };
+		OBJ_61 /* UserAPIKeyCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPIKeyCredential.swift; sourceTree = "<group>"; };
+		OBJ_63 /* CoreUserPasswordAuthProviderClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreUserPasswordAuthProviderClient.swift; sourceTree = "<group>"; };
+		OBJ_64 /* UserPasswordAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPasswordAuthProvider.swift; sourceTree = "<group>"; };
+		OBJ_65 /* UserPasswordCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPasswordCredential.swift; sourceTree = "<group>"; };
+		OBJ_66 /* StitchCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchCredential.swift; sourceTree = "<group>"; };
+		OBJ_67 /* StitchProviderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchProviderType.swift; sourceTree = "<group>"; };
+		OBJ_68 /* StitchUserIdentity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchUserIdentity.swift; sourceTree = "<group>"; };
+		OBJ_69 /* StitchUserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchUserProfile.swift; sourceTree = "<group>"; };
+		OBJ_72 /* Builder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Builder.swift; sourceTree = "<group>"; };
+		OBJ_73 /* ImplFailureFatalErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImplFailureFatalErrors.swift; sourceTree = "<group>"; };
+		OBJ_74 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		OBJ_75 /* CoreStitchAppClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchAppClient.swift; sourceTree = "<group>"; };
+		OBJ_77 /* ContentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentType.swift; sourceTree = "<group>"; };
+		OBJ_78 /* FoundationHTTPTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationHTTPTransport.swift; sourceTree = "<group>"; };
+		OBJ_79 /* Headers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Headers.swift; sourceTree = "<group>"; };
 		OBJ_8 /* StitchCoreServicesTwilio.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = StitchCoreServicesTwilio.xcconfig; sourceTree = "<group>"; };
-		OBJ_80 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
-		OBJ_81 /* StitchAuthRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAuthRequest.swift; sourceTree = "<group>"; };
-		OBJ_82 /* StitchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchRequest.swift; sourceTree = "<group>"; };
-		OBJ_83 /* StitchAppRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAppRoutes.swift; sourceTree = "<group>"; };
-		OBJ_84 /* StitchRequestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchRequestClient.swift; sourceTree = "<group>"; };
-		OBJ_85 /* Transport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transport.swift; sourceTree = "<group>"; };
-		OBJ_88 /* CoreStitchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchService.swift; sourceTree = "<group>"; };
-		OBJ_89 /* CoreStitchServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchServiceImpl.swift; sourceTree = "<group>"; };
-		OBJ_90 /* StitchAppClientConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAppClientConfiguration.swift; sourceTree = "<group>"; };
-		OBJ_91 /* StitchAppClientInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAppClientInfo.swift; sourceTree = "<group>"; };
-		OBJ_92 /* StitchClientConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchClientConfiguration.swift; sourceTree = "<group>"; };
-		OBJ_93 /* StitchError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchError.swift; sourceTree = "<group>"; };
-		OBJ_94 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/jsflax/Development/stitch-ios-sdk/StitchCoreServicesTwilio/.build/checkouts/StitchCore-5001262629100339336/Package.swift"; sourceTree = "<group>"; };
-		OBJ_97 /* BsonDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BsonDecoder.swift; sourceTree = "<group>"; };
-		OBJ_98 /* BsonEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BsonEncoder.swift; sourceTree = "<group>"; };
-		OBJ_99 /* BsonEncoderNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BsonEncoderNew.swift; sourceTree = "<group>"; };
+		OBJ_80 /* Method.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Method.swift; sourceTree = "<group>"; };
+		OBJ_82 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		OBJ_83 /* StitchAuthRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAuthRequest.swift; sourceTree = "<group>"; };
+		OBJ_84 /* StitchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchRequest.swift; sourceTree = "<group>"; };
+		OBJ_85 /* StitchAppRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAppRoutes.swift; sourceTree = "<group>"; };
+		OBJ_86 /* StitchRequestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchRequestClient.swift; sourceTree = "<group>"; };
+		OBJ_87 /* Transport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transport.swift; sourceTree = "<group>"; };
+		OBJ_90 /* CoreStitchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchService.swift; sourceTree = "<group>"; };
+		OBJ_91 /* CoreStitchServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchServiceImpl.swift; sourceTree = "<group>"; };
+		OBJ_92 /* StitchAppClientConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAppClientConfiguration.swift; sourceTree = "<group>"; };
+		OBJ_93 /* StitchAppClientInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAppClientInfo.swift; sourceTree = "<group>"; };
+		OBJ_94 /* StitchClientConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchClientConfiguration.swift; sourceTree = "<group>"; };
+		OBJ_95 /* StitchError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchError.swift; sourceTree = "<group>"; };
+		OBJ_96 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/jsflax/Development/stitch-ios-sdk/StitchCoreServicesTwilio/.build/checkouts/StitchCore-5001262629100339336/Package.swift"; sourceTree = "<group>"; };
+		OBJ_99 /* BsonDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BsonDecoder.swift; sourceTree = "<group>"; };
 		"StitchCore::StitchCore::Product" /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"StitchCoreServicesTwilio::StitchCoreServicesTwilio::Product" /* StitchCoreServicesTwilio.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreServicesTwilio.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"StitchCoreServicesTwilio::StitchCoreServicesTwilioTests::Product" /* StitchCoreServicesTwilioTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; name = StitchCoreServicesTwilioTests.xctest; path = StitchCoreServicesTwilio.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		OBJ_122 /* Frameworks */ = {
+		OBJ_124 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_193 /* Frameworks */ = {
+		OBJ_196 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_194 /* BSON.framework in Frameworks */,
+				OBJ_197 /* BSON.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_208 /* Frameworks */ = {
+		OBJ_211 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_209 /* StitchCore.framework in Frameworks */,
-				OBJ_210 /* BSON.framework in Frameworks */,
+				OBJ_212 /* StitchCore.framework in Frameworks */,
+				OBJ_213 /* BSON.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_230 /* Frameworks */ = {
+		OBJ_233 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_231 /* StitchCoreServicesTwilio.framework in Frameworks */,
-				OBJ_232 /* StitchCore.framework in Frameworks */,
-				OBJ_233 /* BSON.framework in Frameworks */,
+				OBJ_234 /* StitchCoreServicesTwilio.framework in Frameworks */,
+				OBJ_235 /* StitchCore.framework in Frameworks */,
+				OBJ_236 /* BSON.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,12 +290,12 @@
 			path = Sources/StitchCoreServicesTwilio;
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_105 /* Products */ = {
+		OBJ_107 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				"StitchCoreServicesTwilio::StitchCoreServicesTwilio::Product" /* StitchCoreServicesTwilio.framework */,
-				"StitchCore::StitchCore::Product" /* StitchCore.framework */,
 				"StitchCoreServicesTwilio::StitchCoreServicesTwilioTests::Product" /* StitchCoreServicesTwilioTests.xctest */,
+				"StitchCore::StitchCore::Product" /* StitchCore.framework */,
 				"BSON::BSON::Product" /* BSON.framework */,
 			);
 			name = Products;
@@ -320,7 +322,7 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_16 /* StitchCore */,
-				OBJ_95 /* BSON */,
+				OBJ_97 /* BSON */,
 			);
 			name = Dependencies;
 			sourceTree = "<group>";
@@ -329,7 +331,7 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_17 /* StitchCore */,
-				OBJ_94 /* Package.swift */,
+				OBJ_96 /* Package.swift */,
 			);
 			name = StitchCore;
 			sourceTree = SOURCE_ROOT;
@@ -338,12 +340,12 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_18 /* Auth */,
-				OBJ_68 /* Internal */,
-				OBJ_86 /* Services */,
-				OBJ_90 /* StitchAppClientConfiguration.swift */,
-				OBJ_91 /* StitchAppClientInfo.swift */,
-				OBJ_92 /* StitchClientConfiguration.swift */,
-				OBJ_93 /* StitchError.swift */,
+				OBJ_70 /* Internal */,
+				OBJ_88 /* Services */,
+				OBJ_92 /* StitchAppClientConfiguration.swift */,
+				OBJ_93 /* StitchAppClientInfo.swift */,
+				OBJ_94 /* StitchClientConfiguration.swift */,
+				OBJ_95 /* StitchError.swift */,
 			);
 			name = StitchCore;
 			path = ".build/checkouts/StitchCore-5001262629100339336/Sources/StitchCore";
@@ -356,10 +358,10 @@
 				OBJ_20 /* Internal */,
 				OBJ_39 /* ProviderCapabilities.swift */,
 				OBJ_40 /* Providers */,
-				OBJ_64 /* StitchCredential.swift */,
-				OBJ_65 /* StitchProviderType.swift */,
-				OBJ_66 /* StitchUserIdentity.swift */,
-				OBJ_67 /* StitchUserProfile.swift */,
+				OBJ_66 /* StitchCredential.swift */,
+				OBJ_67 /* StitchProviderType.swift */,
+				OBJ_68 /* StitchUserIdentity.swift */,
+				OBJ_69 /* StitchUserProfile.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -405,7 +407,7 @@
 				OBJ_50 /* Google */,
 				OBJ_53 /* ServerAPIKey */,
 				OBJ_56 /* UserAPIKey */,
-				OBJ_60 /* UserPass */,
+				OBJ_62 /* UserPass */,
 			);
 			path = Providers;
 			sourceTree = "<group>";
@@ -445,7 +447,7 @@
 				OBJ_9 /* Sources */,
 				OBJ_12 /* Tests */,
 				OBJ_15 /* Dependencies */,
-				OBJ_105 /* Products */,
+				OBJ_107 /* Products */,
 			);
 			name = "";
 			sourceTree = "<group>";
@@ -472,40 +474,29 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_57 /* CoreUserAPIKeyAuthProviderClient.swift */,
-				OBJ_58 /* UserAPIKeyAuthProvider.swift */,
-				OBJ_59 /* UserAPIKeyCredential.swift */,
+				OBJ_58 /* Models */,
+				OBJ_60 /* UserAPIKeyAuthProvider.swift */,
+				OBJ_61 /* UserAPIKeyCredential.swift */,
 			);
 			path = UserAPIKey;
 			sourceTree = "<group>";
 		};
-		OBJ_60 /* UserPass */ = {
+		OBJ_58 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_61 /* CoreUserPasswordAuthProviderClient.swift */,
-				OBJ_62 /* UserPasswordAuthProvider.swift */,
-				OBJ_63 /* UserPasswordCredential.swift */,
+				OBJ_59 /* UserAPIKey.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		OBJ_62 /* UserPass */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_63 /* CoreUserPasswordAuthProviderClient.swift */,
+				OBJ_64 /* UserPasswordAuthProvider.swift */,
+				OBJ_65 /* UserPasswordCredential.swift */,
 			);
 			path = UserPass;
-			sourceTree = "<group>";
-		};
-		OBJ_68 /* Internal */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_69 /* Common */,
-				OBJ_73 /* CoreStitchAppClient.swift */,
-				OBJ_74 /* Net */,
-			);
-			path = Internal;
-			sourceTree = "<group>";
-		};
-		OBJ_69 /* Common */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_70 /* Builder.swift */,
-				OBJ_71 /* ImplFailureFatalErrors.swift */,
-				OBJ_72 /* Storage.swift */,
-			);
-			path = Common;
 			sourceTree = "<group>";
 		};
 		OBJ_7 /* Configs */ = {
@@ -516,44 +507,64 @@
 			name = Configs;
 			sourceTree = "<group>";
 		};
-		OBJ_74 /* Net */ = {
+		OBJ_70 /* Internal */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_75 /* ContentType.swift */,
-				OBJ_76 /* FoundationHTTPTransport.swift */,
-				OBJ_77 /* Headers.swift */,
-				OBJ_78 /* Method.swift */,
-				OBJ_79 /* Requests */,
-				OBJ_83 /* StitchAppRoutes.swift */,
-				OBJ_84 /* StitchRequestClient.swift */,
-				OBJ_85 /* Transport.swift */,
+				OBJ_71 /* Common */,
+				OBJ_75 /* CoreStitchAppClient.swift */,
+				OBJ_76 /* Net */,
+			);
+			path = Internal;
+			sourceTree = "<group>";
+		};
+		OBJ_71 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_72 /* Builder.swift */,
+				OBJ_73 /* ImplFailureFatalErrors.swift */,
+				OBJ_74 /* Storage.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		OBJ_76 /* Net */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_77 /* ContentType.swift */,
+				OBJ_78 /* FoundationHTTPTransport.swift */,
+				OBJ_79 /* Headers.swift */,
+				OBJ_80 /* Method.swift */,
+				OBJ_81 /* Requests */,
+				OBJ_85 /* StitchAppRoutes.swift */,
+				OBJ_86 /* StitchRequestClient.swift */,
+				OBJ_87 /* Transport.swift */,
 			);
 			path = Net;
 			sourceTree = "<group>";
 		};
-		OBJ_79 /* Requests */ = {
+		OBJ_81 /* Requests */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_80 /* Request.swift */,
-				OBJ_81 /* StitchAuthRequest.swift */,
-				OBJ_82 /* StitchRequest.swift */,
+				OBJ_82 /* Request.swift */,
+				OBJ_83 /* StitchAuthRequest.swift */,
+				OBJ_84 /* StitchRequest.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
 		};
-		OBJ_86 /* Services */ = {
+		OBJ_88 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_87 /* Internal */,
+				OBJ_89 /* Internal */,
 			);
 			path = Services;
 			sourceTree = "<group>";
 		};
-		OBJ_87 /* Internal */ = {
+		OBJ_89 /* Internal */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_88 /* CoreStitchService.swift */,
-				OBJ_89 /* CoreStitchServiceImpl.swift */,
+				OBJ_90 /* CoreStitchService.swift */,
+				OBJ_91 /* CoreStitchServiceImpl.swift */,
 			);
 			path = Internal;
 			sourceTree = "<group>";
@@ -566,25 +577,25 @@
 			name = Sources;
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_95 /* BSON */ = {
+		OBJ_97 /* BSON */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_96 /* BSON */,
-				OBJ_104 /* Package.swift */,
+				OBJ_98 /* BSON */,
+				OBJ_106 /* Package.swift */,
 			);
 			name = BSON;
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_96 /* BSON */ = {
+		OBJ_98 /* BSON */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_97 /* BsonDecoder.swift */,
-				OBJ_98 /* BsonEncoder.swift */,
-				OBJ_99 /* BsonEncoderNew.swift */,
-				OBJ_100 /* BsonValue.swift */,
-				OBJ_101 /* CodableNumber.swift */,
-				OBJ_102 /* Document.swift */,
-				OBJ_103 /* MongoError.swift */,
+				OBJ_99 /* BsonDecoder.swift */,
+				OBJ_100 /* BsonEncoder.swift */,
+				OBJ_101 /* BsonEncoderNew.swift */,
+				OBJ_102 /* BsonValue.swift */,
+				OBJ_103 /* CodableNumber.swift */,
+				OBJ_104 /* Document.swift */,
+				OBJ_105 /* MongoError.swift */,
 			);
 			name = BSON;
 			path = ".build/checkouts/BSON--2499417053140181808/Sources/BSON";
@@ -595,10 +606,10 @@
 /* Begin PBXNativeTarget section */
 		"BSON::BSON" /* BSON */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_111 /* Build configuration list for PBXNativeTarget "BSON" */;
+			buildConfigurationList = OBJ_113 /* Build configuration list for PBXNativeTarget "BSON" */;
 			buildPhases = (
-				OBJ_114 /* Sources */,
-				OBJ_122 /* Frameworks */,
+				OBJ_116 /* Sources */,
+				OBJ_124 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -611,9 +622,9 @@
 		};
 		"BSON::SwiftPMPackageDescription" /* BSONPackageDescription */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_124 /* Build configuration list for PBXNativeTarget "BSONPackageDescription" */;
+			buildConfigurationList = OBJ_126 /* Build configuration list for PBXNativeTarget "BSONPackageDescription" */;
 			buildPhases = (
-				OBJ_127 /* Sources */,
+				OBJ_129 /* Sources */,
 			);
 			buildRules = (
 			);
@@ -625,15 +636,15 @@
 		};
 		"StitchCore::StitchCore" /* StitchCore */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_130 /* Build configuration list for PBXNativeTarget "StitchCore" */;
+			buildConfigurationList = OBJ_132 /* Build configuration list for PBXNativeTarget "StitchCore" */;
 			buildPhases = (
-				OBJ_133 /* Sources */,
-				OBJ_193 /* Frameworks */,
+				OBJ_135 /* Sources */,
+				OBJ_196 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				OBJ_195 /* PBXTargetDependency */,
+				OBJ_198 /* PBXTargetDependency */,
 			);
 			name = StitchCore;
 			productName = StitchCore;
@@ -642,9 +653,9 @@
 		};
 		"StitchCore::SwiftPMPackageDescription" /* StitchCorePackageDescription */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_197 /* Build configuration list for PBXNativeTarget "StitchCorePackageDescription" */;
+			buildConfigurationList = OBJ_200 /* Build configuration list for PBXNativeTarget "StitchCorePackageDescription" */;
 			buildPhases = (
-				OBJ_200 /* Sources */,
+				OBJ_203 /* Sources */,
 			);
 			buildRules = (
 			);
@@ -656,16 +667,16 @@
 		};
 		"StitchCoreServicesTwilio::StitchCoreServicesTwilio" /* StitchCoreServicesTwilio */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_203 /* Build configuration list for PBXNativeTarget "StitchCoreServicesTwilio" */;
+			buildConfigurationList = OBJ_206 /* Build configuration list for PBXNativeTarget "StitchCoreServicesTwilio" */;
 			buildPhases = (
-				OBJ_206 /* Sources */,
-				OBJ_208 /* Frameworks */,
+				OBJ_209 /* Sources */,
+				OBJ_211 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				OBJ_211 /* PBXTargetDependency */,
-				OBJ_212 /* PBXTargetDependency */,
+				OBJ_214 /* PBXTargetDependency */,
+				OBJ_215 /* PBXTargetDependency */,
 			);
 			name = StitchCoreServicesTwilio;
 			productName = StitchCoreServicesTwilio;
@@ -674,17 +685,17 @@
 		};
 		"StitchCoreServicesTwilio::StitchCoreServicesTwilioTests" /* StitchCoreServicesTwilioTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_225 /* Build configuration list for PBXNativeTarget "StitchCoreServicesTwilioTests" */;
+			buildConfigurationList = OBJ_228 /* Build configuration list for PBXNativeTarget "StitchCoreServicesTwilioTests" */;
 			buildPhases = (
-				OBJ_228 /* Sources */,
-				OBJ_230 /* Frameworks */,
+				OBJ_231 /* Sources */,
+				OBJ_233 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				OBJ_234 /* PBXTargetDependency */,
-				OBJ_235 /* PBXTargetDependency */,
-				OBJ_236 /* PBXTargetDependency */,
+				OBJ_237 /* PBXTargetDependency */,
+				OBJ_238 /* PBXTargetDependency */,
+				OBJ_239 /* PBXTargetDependency */,
 			);
 			name = StitchCoreServicesTwilioTests;
 			productName = StitchCoreServicesTwilioTests;
@@ -693,9 +704,9 @@
 		};
 		"StitchCoreServicesTwilio::SwiftPMPackageDescription" /* StitchCoreServicesTwilioPackageDescription */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_214 /* Build configuration list for PBXNativeTarget "StitchCoreServicesTwilioPackageDescription" */;
+			buildConfigurationList = OBJ_217 /* Build configuration list for PBXNativeTarget "StitchCoreServicesTwilioPackageDescription" */;
 			buildPhases = (
-				OBJ_217 /* Sources */,
+				OBJ_220 /* Sources */,
 			);
 			buildRules = (
 			);
@@ -721,7 +732,7 @@
 				en,
 			);
 			mainGroup = OBJ_5 /*  */;
-			productRefGroup = OBJ_105 /* Products */;
+			productRefGroup = OBJ_107 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -739,168 +750,169 @@
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		OBJ_114 /* Sources */ = {
+		OBJ_116 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_115 /* BsonDecoder.swift in Sources */,
-				OBJ_116 /* BsonEncoder.swift in Sources */,
-				OBJ_117 /* BsonEncoderNew.swift in Sources */,
-				OBJ_118 /* BsonValue.swift in Sources */,
-				OBJ_119 /* CodableNumber.swift in Sources */,
-				OBJ_120 /* Document.swift in Sources */,
-				OBJ_121 /* MongoError.swift in Sources */,
+				OBJ_117 /* BsonDecoder.swift in Sources */,
+				OBJ_118 /* BsonEncoder.swift in Sources */,
+				OBJ_119 /* BsonEncoderNew.swift in Sources */,
+				OBJ_120 /* BsonValue.swift in Sources */,
+				OBJ_121 /* CodableNumber.swift in Sources */,
+				OBJ_122 /* Document.swift in Sources */,
+				OBJ_123 /* MongoError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_127 /* Sources */ = {
+		OBJ_129 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_128 /* Package.swift in Sources */,
+				OBJ_130 /* Package.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_133 /* Sources */ = {
+		OBJ_135 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_134 /* CoreAuthProviderClient.swift in Sources */,
-				OBJ_135 /* AccessTokenRefresher.swift in Sources */,
-				OBJ_136 /* AuthInfo.swift in Sources */,
-				OBJ_137 /* AuthStateHolder.swift in Sources */,
-				OBJ_138 /* CoreStitchAuth+StitchAuthRequestClient.swift in Sources */,
-				OBJ_139 /* CoreStitchAuth.swift in Sources */,
-				OBJ_140 /* CoreStitchUser.swift in Sources */,
-				OBJ_141 /* DeviceField.swift in Sources */,
-				OBJ_142 /* JWT.swift in Sources */,
-				OBJ_143 /* APIAccessToken.swift in Sources */,
-				OBJ_144 /* APIAuthInfoImpl.swift in Sources */,
-				OBJ_145 /* APICoreUserProfile.swift in Sources */,
-				OBJ_146 /* APIStitchUserIdentity.swift in Sources */,
-				OBJ_147 /* StoreAuthInfo.swift in Sources */,
-				OBJ_148 /* StoreCoreUserProfile.swift in Sources */,
-				OBJ_149 /* StoreStitchUserIdentity.swift in Sources */,
-				OBJ_150 /* StitchAuthRequestClient.swift in Sources */,
-				OBJ_151 /* StitchUserFactory.swift in Sources */,
-				OBJ_152 /* ProviderCapabilities.swift in Sources */,
-				OBJ_153 /* AnonymousAuthProvider.swift in Sources */,
-				OBJ_154 /* AnonymousCredential.swift in Sources */,
-				OBJ_155 /* CustomAuthProvider.swift in Sources */,
-				OBJ_156 /* CustomCredential.swift in Sources */,
-				OBJ_157 /* FacebookAuthProvider.swift in Sources */,
-				OBJ_158 /* FacebookCredential.swift in Sources */,
-				OBJ_159 /* GoogleAuthProvider.swift in Sources */,
-				OBJ_160 /* GoogleCredential.swift in Sources */,
-				OBJ_161 /* ServerAPIKeyCredential.swift in Sources */,
-				OBJ_162 /* ServerApiKeyAuthProvider.swift in Sources */,
-				OBJ_163 /* CoreUserAPIKeyAuthProviderClient.swift in Sources */,
-				OBJ_164 /* UserAPIKeyAuthProvider.swift in Sources */,
-				OBJ_165 /* UserAPIKeyCredential.swift in Sources */,
-				OBJ_166 /* CoreUserPasswordAuthProviderClient.swift in Sources */,
-				OBJ_167 /* UserPasswordAuthProvider.swift in Sources */,
-				OBJ_168 /* UserPasswordCredential.swift in Sources */,
-				OBJ_169 /* StitchCredential.swift in Sources */,
-				OBJ_170 /* StitchProviderType.swift in Sources */,
-				OBJ_171 /* StitchUserIdentity.swift in Sources */,
-				OBJ_172 /* StitchUserProfile.swift in Sources */,
-				OBJ_173 /* Builder.swift in Sources */,
-				OBJ_174 /* ImplFailureFatalErrors.swift in Sources */,
-				OBJ_175 /* Storage.swift in Sources */,
-				OBJ_176 /* CoreStitchAppClient.swift in Sources */,
-				OBJ_177 /* ContentType.swift in Sources */,
-				OBJ_178 /* FoundationHTTPTransport.swift in Sources */,
-				OBJ_179 /* Headers.swift in Sources */,
-				OBJ_180 /* Method.swift in Sources */,
-				OBJ_181 /* Request.swift in Sources */,
-				OBJ_182 /* StitchAuthRequest.swift in Sources */,
-				OBJ_183 /* StitchRequest.swift in Sources */,
-				OBJ_184 /* StitchAppRoutes.swift in Sources */,
-				OBJ_185 /* StitchRequestClient.swift in Sources */,
-				OBJ_186 /* Transport.swift in Sources */,
-				OBJ_187 /* CoreStitchService.swift in Sources */,
-				OBJ_188 /* CoreStitchServiceImpl.swift in Sources */,
-				OBJ_189 /* StitchAppClientConfiguration.swift in Sources */,
-				OBJ_190 /* StitchAppClientInfo.swift in Sources */,
-				OBJ_191 /* StitchClientConfiguration.swift in Sources */,
-				OBJ_192 /* StitchError.swift in Sources */,
+				OBJ_136 /* CoreAuthProviderClient.swift in Sources */,
+				OBJ_137 /* AccessTokenRefresher.swift in Sources */,
+				OBJ_138 /* AuthInfo.swift in Sources */,
+				OBJ_139 /* AuthStateHolder.swift in Sources */,
+				OBJ_140 /* CoreStitchAuth+StitchAuthRequestClient.swift in Sources */,
+				OBJ_141 /* CoreStitchAuth.swift in Sources */,
+				OBJ_142 /* CoreStitchUser.swift in Sources */,
+				OBJ_143 /* DeviceField.swift in Sources */,
+				OBJ_144 /* JWT.swift in Sources */,
+				OBJ_145 /* APIAccessToken.swift in Sources */,
+				OBJ_146 /* APIAuthInfoImpl.swift in Sources */,
+				OBJ_147 /* APICoreUserProfile.swift in Sources */,
+				OBJ_148 /* APIStitchUserIdentity.swift in Sources */,
+				OBJ_149 /* StoreAuthInfo.swift in Sources */,
+				OBJ_150 /* StoreCoreUserProfile.swift in Sources */,
+				OBJ_151 /* StoreStitchUserIdentity.swift in Sources */,
+				OBJ_152 /* StitchAuthRequestClient.swift in Sources */,
+				OBJ_153 /* StitchUserFactory.swift in Sources */,
+				OBJ_154 /* ProviderCapabilities.swift in Sources */,
+				OBJ_155 /* AnonymousAuthProvider.swift in Sources */,
+				OBJ_156 /* AnonymousCredential.swift in Sources */,
+				OBJ_157 /* CustomAuthProvider.swift in Sources */,
+				OBJ_158 /* CustomCredential.swift in Sources */,
+				OBJ_159 /* FacebookAuthProvider.swift in Sources */,
+				OBJ_160 /* FacebookCredential.swift in Sources */,
+				OBJ_161 /* GoogleAuthProvider.swift in Sources */,
+				OBJ_162 /* GoogleCredential.swift in Sources */,
+				OBJ_163 /* ServerAPIKeyCredential.swift in Sources */,
+				OBJ_164 /* ServerApiKeyAuthProvider.swift in Sources */,
+				OBJ_165 /* CoreUserAPIKeyAuthProviderClient.swift in Sources */,
+				OBJ_166 /* UserAPIKey.swift in Sources */,
+				OBJ_167 /* UserAPIKeyAuthProvider.swift in Sources */,
+				OBJ_168 /* UserAPIKeyCredential.swift in Sources */,
+				OBJ_169 /* CoreUserPasswordAuthProviderClient.swift in Sources */,
+				OBJ_170 /* UserPasswordAuthProvider.swift in Sources */,
+				OBJ_171 /* UserPasswordCredential.swift in Sources */,
+				OBJ_172 /* StitchCredential.swift in Sources */,
+				OBJ_173 /* StitchProviderType.swift in Sources */,
+				OBJ_174 /* StitchUserIdentity.swift in Sources */,
+				OBJ_175 /* StitchUserProfile.swift in Sources */,
+				OBJ_176 /* Builder.swift in Sources */,
+				OBJ_177 /* ImplFailureFatalErrors.swift in Sources */,
+				OBJ_178 /* Storage.swift in Sources */,
+				OBJ_179 /* CoreStitchAppClient.swift in Sources */,
+				OBJ_180 /* ContentType.swift in Sources */,
+				OBJ_181 /* FoundationHTTPTransport.swift in Sources */,
+				OBJ_182 /* Headers.swift in Sources */,
+				OBJ_183 /* Method.swift in Sources */,
+				OBJ_184 /* Request.swift in Sources */,
+				OBJ_185 /* StitchAuthRequest.swift in Sources */,
+				OBJ_186 /* StitchRequest.swift in Sources */,
+				OBJ_187 /* StitchAppRoutes.swift in Sources */,
+				OBJ_188 /* StitchRequestClient.swift in Sources */,
+				OBJ_189 /* Transport.swift in Sources */,
+				OBJ_190 /* CoreStitchService.swift in Sources */,
+				OBJ_191 /* CoreStitchServiceImpl.swift in Sources */,
+				OBJ_192 /* StitchAppClientConfiguration.swift in Sources */,
+				OBJ_193 /* StitchAppClientInfo.swift in Sources */,
+				OBJ_194 /* StitchClientConfiguration.swift in Sources */,
+				OBJ_195 /* StitchError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_200 /* Sources */ = {
+		OBJ_203 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_201 /* Package.swift in Sources */,
+				OBJ_204 /* Package.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_206 /* Sources */ = {
+		OBJ_209 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_207 /* CoreTwilioServiceClient.swift in Sources */,
+				OBJ_210 /* CoreTwilioServiceClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_217 /* Sources */ = {
+		OBJ_220 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_218 /* Package.swift in Sources */,
+				OBJ_221 /* Package.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_228 /* Sources */ = {
+		OBJ_231 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_229 /* StitchCoreServicesTwilioTests.swift in Sources */,
+				OBJ_232 /* StitchCoreServicesTwilioTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		OBJ_195 /* PBXTargetDependency */ = {
+		OBJ_198 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "BSON::BSON" /* BSON */;
-			targetProxy = F4821FA420B3850200B71BC2 /* PBXContainerItemProxy */;
+			targetProxy = F482201D20B3BBAE00B71BC2 /* PBXContainerItemProxy */;
 		};
-		OBJ_211 /* PBXTargetDependency */ = {
+		OBJ_214 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "StitchCore::StitchCore" /* StitchCore */;
-			targetProxy = F4821FA220B3850200B71BC2 /* PBXContainerItemProxy */;
+			targetProxy = F482201B20B3BBAE00B71BC2 /* PBXContainerItemProxy */;
 		};
-		OBJ_212 /* PBXTargetDependency */ = {
+		OBJ_215 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "BSON::BSON" /* BSON */;
-			targetProxy = F4821FA320B3850200B71BC2 /* PBXContainerItemProxy */;
+			targetProxy = F482201C20B3BBAE00B71BC2 /* PBXContainerItemProxy */;
 		};
-		OBJ_223 /* PBXTargetDependency */ = {
+		OBJ_226 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "StitchCoreServicesTwilio::StitchCoreServicesTwilioTests" /* StitchCoreServicesTwilioTests */;
-			targetProxy = F4821FA820B3850200B71BC2 /* PBXContainerItemProxy */;
+			targetProxy = F482202120B3BBAE00B71BC2 /* PBXContainerItemProxy */;
 		};
-		OBJ_234 /* PBXTargetDependency */ = {
+		OBJ_237 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "StitchCoreServicesTwilio::StitchCoreServicesTwilio" /* StitchCoreServicesTwilio */;
-			targetProxy = F4821FA520B3850200B71BC2 /* PBXContainerItemProxy */;
+			targetProxy = F482201E20B3BBAE00B71BC2 /* PBXContainerItemProxy */;
 		};
-		OBJ_235 /* PBXTargetDependency */ = {
+		OBJ_238 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "StitchCore::StitchCore" /* StitchCore */;
-			targetProxy = F4821FA620B3850200B71BC2 /* PBXContainerItemProxy */;
+			targetProxy = F482201F20B3BBAE00B71BC2 /* PBXContainerItemProxy */;
 		};
-		OBJ_236 /* PBXTargetDependency */ = {
+		OBJ_239 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "BSON::BSON" /* BSON */;
-			targetProxy = F4821FA720B3850200B71BC2 /* PBXContainerItemProxy */;
+			targetProxy = F482202020B3BBAE00B71BC2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		OBJ_112 /* Debug */ = {
+		OBJ_114 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = OBJ_8 /* StitchCoreServicesTwilio.xcconfig */;
 			buildSettings = {
@@ -934,7 +946,7 @@
 			};
 			name = Debug;
 		};
-		OBJ_113 /* Release */ = {
+		OBJ_115 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = OBJ_8 /* StitchCoreServicesTwilio.xcconfig */;
 			buildSettings = {
@@ -968,7 +980,7 @@
 			};
 			name = Release;
 		};
-		OBJ_125 /* Debug */ = {
+		OBJ_127 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				LD = /usr/bin/true;
@@ -977,7 +989,7 @@
 			};
 			name = Debug;
 		};
-		OBJ_126 /* Release */ = {
+		OBJ_128 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				LD = /usr/bin/true;
@@ -986,7 +998,7 @@
 			};
 			name = Release;
 		};
-		OBJ_131 /* Debug */ = {
+		OBJ_133 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = OBJ_8 /* StitchCoreServicesTwilio.xcconfig */;
 			buildSettings = {
@@ -1020,7 +1032,7 @@
 			};
 			name = Debug;
 		};
-		OBJ_132 /* Release */ = {
+		OBJ_134 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = OBJ_8 /* StitchCoreServicesTwilio.xcconfig */;
 			buildSettings = {
@@ -1054,7 +1066,7 @@
 			};
 			name = Release;
 		};
-		OBJ_198 /* Debug */ = {
+		OBJ_201 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				LD = /usr/bin/true;
@@ -1063,7 +1075,7 @@
 			};
 			name = Debug;
 		};
-		OBJ_199 /* Release */ = {
+		OBJ_202 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				LD = /usr/bin/true;
@@ -1072,7 +1084,7 @@
 			};
 			name = Release;
 		};
-		OBJ_204 /* Debug */ = {
+		OBJ_207 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = OBJ_8 /* StitchCoreServicesTwilio.xcconfig */;
 			buildSettings = {
@@ -1106,7 +1118,7 @@
 			};
 			name = Debug;
 		};
-		OBJ_205 /* Release */ = {
+		OBJ_208 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = OBJ_8 /* StitchCoreServicesTwilio.xcconfig */;
 			buildSettings = {
@@ -1140,7 +1152,7 @@
 			};
 			name = Release;
 		};
-		OBJ_215 /* Debug */ = {
+		OBJ_218 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				LD = /usr/bin/true;
@@ -1149,7 +1161,7 @@
 			};
 			name = Debug;
 		};
-		OBJ_216 /* Release */ = {
+		OBJ_219 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				LD = /usr/bin/true;
@@ -1158,19 +1170,19 @@
 			};
 			name = Release;
 		};
-		OBJ_221 /* Debug */ = {
+		OBJ_224 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 			};
 			name = Debug;
 		};
-		OBJ_222 /* Release */ = {
+		OBJ_225 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 			};
 			name = Release;
 		};
-		OBJ_226 /* Debug */ = {
+		OBJ_229 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = OBJ_8 /* StitchCoreServicesTwilio.xcconfig */;
 			buildSettings = {
@@ -1200,7 +1212,7 @@
 			};
 			name = Debug;
 		};
-		OBJ_227 /* Release */ = {
+		OBJ_230 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = OBJ_8 /* StitchCoreServicesTwilio.xcconfig */;
 			buildSettings = {
@@ -1230,13 +1242,13 @@
 			};
 			name = Release;
 		};
-		OBJ_239 /* Debug */ = {
+		OBJ_242 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 			};
 			name = Debug;
 		};
-		OBJ_240 /* Release */ = {
+		OBJ_243 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 			};
@@ -1287,38 +1299,29 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		OBJ_111 /* Build configuration list for PBXNativeTarget "BSON" */ = {
+		OBJ_113 /* Build configuration list for PBXNativeTarget "BSON" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_112 /* Debug */,
-				OBJ_113 /* Release */,
+				OBJ_114 /* Debug */,
+				OBJ_115 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		OBJ_124 /* Build configuration list for PBXNativeTarget "BSONPackageDescription" */ = {
+		OBJ_126 /* Build configuration list for PBXNativeTarget "BSONPackageDescription" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_125 /* Debug */,
-				OBJ_126 /* Release */,
+				OBJ_127 /* Debug */,
+				OBJ_128 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		OBJ_130 /* Build configuration list for PBXNativeTarget "StitchCore" */ = {
+		OBJ_132 /* Build configuration list for PBXNativeTarget "StitchCore" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_131 /* Debug */,
-				OBJ_132 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		OBJ_197 /* Build configuration list for PBXNativeTarget "StitchCorePackageDescription" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_198 /* Debug */,
-				OBJ_199 /* Release */,
+				OBJ_133 /* Debug */,
+				OBJ_134 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1332,47 +1335,56 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		OBJ_203 /* Build configuration list for PBXNativeTarget "StitchCoreServicesTwilio" */ = {
+		OBJ_200 /* Build configuration list for PBXNativeTarget "StitchCorePackageDescription" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_204 /* Debug */,
-				OBJ_205 /* Release */,
+				OBJ_201 /* Debug */,
+				OBJ_202 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		OBJ_214 /* Build configuration list for PBXNativeTarget "StitchCoreServicesTwilioPackageDescription" */ = {
+		OBJ_206 /* Build configuration list for PBXNativeTarget "StitchCoreServicesTwilio" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_215 /* Debug */,
-				OBJ_216 /* Release */,
+				OBJ_207 /* Debug */,
+				OBJ_208 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		OBJ_220 /* Build configuration list for PBXAggregateTarget "StitchCoreServicesTwilioPackageTests" */ = {
+		OBJ_217 /* Build configuration list for PBXNativeTarget "StitchCoreServicesTwilioPackageDescription" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_221 /* Debug */,
-				OBJ_222 /* Release */,
+				OBJ_218 /* Debug */,
+				OBJ_219 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		OBJ_225 /* Build configuration list for PBXNativeTarget "StitchCoreServicesTwilioTests" */ = {
+		OBJ_223 /* Build configuration list for PBXAggregateTarget "StitchCoreServicesTwilioPackageTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_226 /* Debug */,
-				OBJ_227 /* Release */,
+				OBJ_224 /* Debug */,
+				OBJ_225 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		OBJ_238 /* Build configuration list for PBXAggregateTarget "libbson" */ = {
+		OBJ_228 /* Build configuration list for PBXNativeTarget "StitchCoreServicesTwilioTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_239 /* Debug */,
-				OBJ_240 /* Release */,
+				OBJ_229 /* Debug */,
+				OBJ_230 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_241 /* Build configuration list for PBXAggregateTarget "libbson" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_242 /* Debug */,
+				OBJ_243 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

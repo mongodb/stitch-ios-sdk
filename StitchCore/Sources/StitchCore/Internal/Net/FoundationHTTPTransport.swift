@@ -18,7 +18,10 @@ public final class FoundationHTTPTransport: Transport {
             throw StitchError.clientError(withClientErrorCode: .missingURL)
         }
 
-        let defaultSession = URLSession(configuration: URLSessionConfiguration.default)
+        let sessionConfig = URLSessionConfiguration.default
+        sessionConfig.timeoutIntervalForResource = request.timeout
+
+        let session = URLSession(configuration: sessionConfig)
 
         var contentHeaders = request.headers
         contentHeaders[Headers.contentType.rawValue] =
@@ -38,7 +41,7 @@ public final class FoundationHTTPTransport: Transport {
         var finalResponse: Response?
         var error: Error?
 
-        defaultSession.dataTask(with: urlRequest) { data, response, err in
+        session.dataTask(with: urlRequest) { data, response, err in
             defer { sema.signal() }
             guard let urlResponse = response as? HTTPURLResponse,
                 let headers = urlResponse.allHeaderFields as? [String: String]

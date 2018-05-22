@@ -30,6 +30,28 @@ internal final class StitchServiceImpl: CoreStitchServiceImpl, StitchService {
      * - parameters:
      *     - withName: The name of the function to be called.
      *     - withArgs: The `BSONArray` of arguments to be provided to the function.
+     *     - withRequestTimeout: The number of seconds the client should wait for a response from the server before
+     *                           failing with an error.
+     *     - completionHandler: The completion handler to call when the function call is complete.
+     *                          This handler is executed on a non-main global `DispatchQueue`.
+     *     - error: An error object that indicates why the function call failed, or `nil` if the function call was
+     *              successful.
+     *
+     */
+    func callFunction(withName name: String, withArgs args: [BsonValue], withRequestTimeout requestTimeout: TimeInterval, _ completionHandler: @escaping (Error?) -> Void) {
+        dispatcher.run(withCompletionHandler: completionHandler) {
+            try self.callFunctionInternal(withName: name, withArgs: args, withRequestTimeout: requestTimeout)
+        }
+    }
+    
+    /**
+     * Calls the function for this service with the provided name and arguments.
+     *
+     * - parameters:
+     *     - withName: The name of the function to be called.
+     *     - withArgs: The `BSONArray` of arguments to be provided to the function.
+     *     - withRequestTimeout: The number of seconds the client should wait for a response from the server before
+     *                           failing with an error.
      *     - completionHandler: The completion handler to call when the function call is complete.
      *                          This handler is executed on a non-main global `DispatchQueue`.
      *     - result: The result of the function call as an `Any`, or `nil` if the function call failed.
@@ -37,11 +59,12 @@ internal final class StitchServiceImpl: CoreStitchServiceImpl, StitchService {
      *              successful.
      *
      */
-    public func callFunction<T: Codable>(withName name: String,
-                             withArgs args: [BsonValue],
-                             _ completionHandler: @escaping (T?, Error?) -> Void) {
+    public func callFunction<T: Decodable>(withName name: String,
+                                           withArgs args: [BsonValue],
+                                           withRequestTimeout requestTimeout: TimeInterval,
+                                           _ completionHandler: @escaping (T?, Error?) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
-            return try self.callFunctionInternal(withName: name, withArgs: args)
+            return try self.callFunctionInternal(withName: name, withArgs: args, withRequestTimeout: requestTimeout)
         }
     }
 }

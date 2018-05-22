@@ -9,7 +9,12 @@ public protocol AuthProviderClientSupplier {
     /**
      * The type of client that this supplier will supply.
      */
-    associatedtype Client
+    associatedtype ClientT
+
+    /**
+     * The type of request client that this auth provider client will use under the hood.
+     */
+    associatedtype RequestClientT
 
     /**
      * :nodoc:
@@ -17,7 +22,7 @@ public protocol AuthProviderClientSupplier {
      * it will use the provided `StitchRequestClient`, `StitchAuthRoutes`, and `OperationDispatcher` to perform those
      * requests.
      */
-    func client(withRequestClient requestClient: StitchRequestClient,
+    func client(withRequestClient requestClient: RequestClientT,
                 withRoutes routes: StitchAuthRoutes,
-                withDispatcher dispatcher: OperationDispatcher) -> Client
+                withDispatcher dispatcher: OperationDispatcher) -> ClientT
 }

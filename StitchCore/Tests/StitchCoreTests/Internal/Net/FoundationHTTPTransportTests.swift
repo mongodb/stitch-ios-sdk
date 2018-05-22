@@ -38,6 +38,7 @@ class FoundationHTTPTransportTests: StitchXCTestCase {
         var builder = Request.TBuilder {
             $0.method = .get
             $0.url = "badURL"
+            $0.timeout = testDefaultRequestTimeout
             $0.headers = self.headers
         }
 
