@@ -240,7 +240,7 @@
 		OBJ_99 /* BsonDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BsonDecoder.swift; sourceTree = "<group>"; };
 		"StitchCore::StitchCore::Product" /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"StitchCoreServicesTwilio::StitchCoreServicesTwilio::Product" /* StitchCoreServicesTwilio.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreServicesTwilio.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"StitchCoreServicesTwilio::StitchCoreServicesTwilioTests::Product" /* StitchCoreServicesTwilioTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; name = StitchCoreServicesTwilioTests.xctest; path = StitchCoreServicesTwilio.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StitchCoreServicesTwilio::StitchCoreServicesTwilioTests::Product" /* StitchCoreServicesTwilio.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = StitchCoreServicesTwilio.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -294,7 +294,7 @@
 			isa = PBXGroup;
 			children = (
 				"StitchCoreServicesTwilio::StitchCoreServicesTwilio::Product" /* StitchCoreServicesTwilio.framework */,
-				"StitchCoreServicesTwilio::StitchCoreServicesTwilioTests::Product" /* StitchCoreServicesTwilioTests.xctest */,
+				"StitchCoreServicesTwilio::StitchCoreServicesTwilioTests::Product" /* StitchCoreServicesTwilio.xctest */,
 				"StitchCore::StitchCore::Product" /* StitchCore.framework */,
 				"BSON::BSON::Product" /* BSON.framework */,
 			);
@@ -439,7 +439,7 @@
 			path = Facebook;
 			sourceTree = "<group>";
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -449,7 +449,6 @@
 				OBJ_15 /* Dependencies */,
 				OBJ_107 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_50 /* Google */ = {
@@ -699,7 +698,7 @@
 			);
 			name = StitchCoreServicesTwilioTests;
 			productName = StitchCoreServicesTwilioTests;
-			productReference = "StitchCoreServicesTwilio::StitchCoreServicesTwilioTests::Product" /* StitchCoreServicesTwilioTests.xctest */;
+			productReference = "StitchCoreServicesTwilio::StitchCoreServicesTwilioTests::Product" /* StitchCoreServicesTwilio.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		"StitchCoreServicesTwilio::SwiftPMPackageDescription" /* StitchCoreServicesTwilioPackageDescription */ = {
@@ -731,7 +730,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_107 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";

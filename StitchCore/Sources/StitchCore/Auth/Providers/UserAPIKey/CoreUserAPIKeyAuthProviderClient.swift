@@ -1,5 +1,5 @@
 import Foundation
-import BSON
+import MongoSwift
 
 /**
  * A class representing the routes on the Stitch server to perform various actions related to the user API key

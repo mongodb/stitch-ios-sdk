@@ -1,5 +1,5 @@
 import Foundation
-import BSON
+import MongoSwift
 
 /**
  * A struct containing the fields returned by the Stitch client API in the `data` field of a user profile request.

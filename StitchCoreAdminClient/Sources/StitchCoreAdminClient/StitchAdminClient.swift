@@ -1,5 +1,5 @@
 import Foundation
-import BSON
+import MongoSwift
 import StitchCore
 
 public class StitchAdminClient {

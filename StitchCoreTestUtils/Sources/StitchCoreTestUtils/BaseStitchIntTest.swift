@@ -2,7 +2,7 @@ import XCTest
 import Foundation
 import StitchCore
 import StitchCoreAdminClient
-import BSON
+import MongoSwift
 
 open class BaseStitchIntTest: XCTestCase {
     lazy var adminClient: StitchAdminClient! = StitchAdminClient.init(baseUrl: self.stitchBaseURL,

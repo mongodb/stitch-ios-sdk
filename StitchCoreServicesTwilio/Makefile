@@ -1,10 +1,14 @@
-all:
+all: git clean update build project
+git:
+	-git init; git add -A; git commit -m "init";
+clean:
 	swift package clean
-	swift package update
-	swift build
+build:
+	swift build -Xcc -I../MobileSDKs/include/libbson-1.0/ -Xcc -I../MobileSDKs/include/libmongoc-1.0
 update:
 	swift package update
 test:
-	swift test
+	# temporary until a fix is in for .brew dependency for libmongoc
+	xcodebuild test -workspace ../Stitch.xcworkspace/ -scheme StitchCoreServicesTwilio-Package -configuration Debug -destination "platform=iOS Simulator,name=iPhone 8,OS=11.2"
 project:
 	swift package generate-xcodeproj --xcconfig-overrides StitchCoreServicesTwilio.xcconfig

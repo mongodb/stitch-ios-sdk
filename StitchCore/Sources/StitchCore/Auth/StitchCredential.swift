@@ -1,4 +1,4 @@
-import BSON
+import MongoSwift
 
 /**
  * A credential which can be used to log in as a Stitch user. There is an implementation for each authentication

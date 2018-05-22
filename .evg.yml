@@ -3,100 +3,164 @@ functions:
     - command: git.get_project
       params:
         directory: "stitch-ios-sdk"
-
-  "set_github_build_status":
+  "setup_swiftlint":
     - command: shell.exec
       params:
+        shell: "bash"
+        script: |
+          git clone https://github.com/realm/SwiftLint
+          cd SwiftLint
+          git submodule update --init --recursive; make install
+  "setup_mongod":
+    - command: shell.exec
+      params:
+        shell: "bash"
+        script: |
+          set -e
+          curl --silent ${mongodb_url} | tar xz
+    - command: shell.exec
+      params:
+        shell: "bash"
+        background: true
+        script: |
+          set -e
+          cd mongodb-*
+          echo "starting mongod..."
+          mkdir db_files
+          ./bin/mongod --dbpath ./db_files --port 26000
+    - command: shell.exec
+      params:
+        shell: "bash"
+        script: |
+          set -e
+          cd mongodb-*
+          echo "waiting for mongod to start up"
+          ./bin/mongo --nodb --eval 'assert.soon(function(x){try{var d = new Mongo("localhost:26000"); return true}catch(e){return false}}, "timed out connecting")'
+          echo "mongod is up."
+  "setup_stitch":
+    - command: shell.exec
+      params:
+        shell: "bash"
         silent: true
         script: |
-          status_url=`curl -X POST -d "{}" -H "Content-Type: application/json" "${stitch_evg_hook_url}?secret=${stitch_evg_secret}&versionId=${version_id}"`
-          if [ "$status_url" = "null" ]; then
-            exit 0
-          fi
-          status_url=`sed -e 's/^"//' -e 's/"$//' <<<"$status_url"`
-          state=`cat commit_state`
-          curl -X POST -H "Content-Type: application/json" $status_url -d "{\"state\": \"$state\", \"target_url\": \"https://evergreen.mongodb.com/build/${build_id}\", \"context\": \"continuous-integration/evergreen-ci/${build_variant}\"}"
-
+          set -e
+          echo export AWS_ACCESS_KEY_ID=${test_aws_key} >> creds
+          echo export AWS_SECRET_ACCESS_KEY=${test_aws_secret} >> creds
+    - command: shell.exec
+      params:
+        shell: "bash"
+        script: |
+          set -e
+          echo "cloning stitch"
+          mkdir -p src/github.com/10gen
+          git clone git@github.com:10gen/stitch src/github.com/10gen/stitch
+          echo "downloading update_doc"
+          curl --silent -O "https://s3.amazonaws.com/stitch-artifacts/stitch-mongo-libs/stitch_mongo_libs_osx_patch_cbcbfd8ebefcca439ff2e4d99b022aedb0d61041_59e2b7a5c9ec4432c400181c_17_10_15_01_19_33/update_doc"
+          echo "downloading assisted_agg"
+          curl --silent -O "https://s3.amazonaws.com/stitch-artifacts/stitch-mongo-libs/stitch_mongo_libs_osx_patch_cbcbfd8ebefcca439ff2e4d99b022aedb0d61041_59e2b7ab2a60ed5647001827_17_10_15_01_19_39/assisted_agg"
+          chmod +x update_doc
+          chmod +x assisted_agg
+          echo "building transpiler"
+          cd src/github.com/10gen/stitch/etc/transpiler
+          curl -O "https://nodejs.org/dist/v8.11.2/node-v8.11.2-darwin-x64.tar.gz"
+          tar zxf node-v8.11.2-darwin-x64.tar.gz
+          export PATH=`pwd`/node-v8.11.2-darwin-x64/bin/:$PATH
+          rm -rf $HOME/.yarn
+          curl -o- -L https://yarnpkg.com/install.sh | bash
+          export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+          yarn install && yarn run build -t ${transpiler_target}
+    - command: shell.exec
+      params:
+        shell: "bash"
+        background: true
+        script: |
+          set -e
+          curl --silent https://dl.google.com/go/go1.10.2.darwin-amd64.tar.gz | tar xz
+          export GOROOT=`pwd`/go
+          export PATH=$GOROOT/bin:$PATH
+          export GOPATH=`pwd`
+          export STITCH_PATH=$GOPATH/src/github.com/10gen/stitch
+          export PATH="$PATH:$STITCH_PATH/etc/transpiler/bin"
+          echo "running stitch"
+          # TODO: Probably better to get an API key added to mimic cloud
+          go run $STITCH_PATH/cmd/auth/user.go addUser -domainID 000000000000000000000000 -mongoURI mongodb://localhost:26000 -salt 'DQOWene1723baqD!_@#' -id "unique_user@domain.com" -password "password"
+          go run $STITCH_PATH/cmd/server/main.go --configFile $STITCH_PATH/etc/configs/test_config.json
+    - command: shell.exec
+      params:
+        shell: "bash"
+        script: |
+          counter=0
+          until $(curl --output /dev/null --silent --head --fail http://localhost:9090); do
+            echo "checking for API server to be up..."
+            sleep 1
+            let counter++
+            if [ $counter -gt 100 ]; then
+              exit 1
+            fi
+          done
+  "setup_stitch_swift":
+    - command: shell.exec
+      params:
+        shell: "bash"
+        silent: true
+        script: |
+          set -e
+          cd stitch-ios-sdk
+          ./build.sh
+          export DEVELOPER_DIR=/Applications/Xcode9.2.app
+          swift --version
+          export PATH=`pwd`/MobileSDKs/iphoneos/lib:$PATH
+          export PATH=`pwd`/MobileSDKs/include/libbson-1.0/:$PATH
+          export LD_LIBRARY_PATH=`pwd`/MobileSDKs/iphoneos/lib:$LD_LIBRARY_PATH
+          export DYLD_LIBRARY_PATH=`pwd`/MobileSDKs/iphoneos/lib:$DYLD_LIBRARY_PATH
+          make
 tasks:
-  - name: github_pull_request_start
-    priority: 100
-    commands:
-      - command: shell.exec
-        params:
-          script: |
-            if ! [ "${is_patch}" = "true" ]; then
-              exit 0
-            fi
-            echo pending > commit_state
-      - func: "set_github_build_status"
-
-  - name: github_pull_request_end
-    depends_on:
-      - name: github_pull_request_start
-      - name: run_tests
-        status: "*"
-        variant: linux-64
-    commands:
-      - command: shell.exec
-        params:
-          silent: true
-          script: |
-            if ! [ "${is_patch}" = "true" ]; then
-              exit 0
-            fi
-            BUILDS=( `curl -H "Auth-Username: ${evg_rest_user}" -H "Api-Key: ${evg_rest_api_key}"  https://evergreen.mongodb.org/rest/v1/versions/${version_id} | python -c "import sys, json; builds = json.load(sys.stdin)['builds']; print ' '.join(builds)"` )
-            for build in "${BUILDS[@]}"
-            do
-              curl -H "Auth-Username: ${evg_rest_user}" -H "Api-Key: ${evg_rest_api_key}"  https://evergreen.mongodb.org/rest/v1/builds/$build | python -c "import sys, json; tasks = json.load(sys.stdin)['tasks']; sys.exit(0) if all(tasks[task]['status'] == 'success' or task == 'github_pull_request_end'  for task in tasks) else sys.exit(1)"              
-              if [ $? -ne 0 ]; then
-                echo "failure" > commit_state
-                exit 0
-              fi
-            done
-
-            echo "success" > commit_state
-      - func: "set_github_build_status"
-
-  - name: run_tests
+  - name: lint
     commands:
       - func: "fetch_source"
+      - func: "setup_swiftlint"
       - command: shell.exec
-        silent: true
-        params:
+        params: 
+          shell: "bash"
           script: |
             set -e
-            cd stitch-ios-sdk
-            git submodule update --init --recursive
-
-            echo "packaging source files"
-            tar -czf ../source.tgz .
-
-            urlencodepipe() {
-              local LANG=C; local c; while IFS= read -r c; do
-                case $c in [a-zA-Z0-9.~_-]) printf "$c"; continue ;; esac
-                printf "$c" | od -An -tx1 | tr ' ' % | tr -d '\n'
-              done <<EOF
-            $(fold -w1)
-            EOF
-              echo
-            }
-
-            urlencode() { printf "$*" | urlencodepipe ;}
-
-            echo "running tests remotely"
-            TEST_DESTINATION=`urlencode "platform=iOS Simulator,name=iPhone 7 Plus"`
-            TEST_SCHEMES=`urlencode "StitchCore,ExtendedJson,MongoDBService"`
-            URL="${device_farm_url}?test_type=ios&test_destination=$TEST_DESTINATION&test_schemes=$TEST_SCHEMES"
-            RESULT=`cat ../source.tgz | curl $URL -H "Authorization: ${device_farm_secret}" --data-binary @-`
-            echo $RESULT
-            echo $RESULT | grep '!!ALL TESTS PASSED!!'
-
+            cd stitch-ios-sdk/StitchCore
+            swiftlint
+  - name: run_core_tests
+    commands:
+      - func: "fetch_source"
+      - func: "setup_mongod"
+      - func: "setup_stitch_swift"
+      - func: "setup_stitch"
+      - command: shell.exec
+        params: 
+          shell: "bash"
+          script: |
+            set -e
+            echo "running swift core tests"
+            make test
+  - name: run_ios_tests
+    commands:
+      - func: "fetch_source"
+      - func: "setup_mongod"
+      - func: "setup_stitch"
+      - func: "setup_stitch_swift"
+      - command: shell.exec
+        params:
+          shell: "bash"
+          script: |
+            set -e
+            cd stitch-ios-sdk/StitchCore-iOS
+            echo "running iOS tests"
+            xcodebuild test -workspace ../Stitch.xcworkspace/ -scheme StitchCore-iOS -configuration Debug -enableCodeCoverage YES -destination "platform=iOS Simulator,name=iPhone 8,OS=11.2"
 buildvariants:
-- name: linux-64
-  display_name: Linux-64
+- name: macos-1013
+  display_name: MacOS 1013
   run_on:
-    - baas-linux
+    - macos-1013
+  expansions:
+    mongodb_url: http://fastdl.mongodb.org/osx/mongodb-osx-ssl-x86_64-3.4.4.tgz
+    transpiler_target: node8-macos
   tasks:
-    - name: github_pull_request_start
-    - name: run_tests
-    - name: github_pull_request_end
+    - name: run_core_tests
+    #- name: run_ios_tests

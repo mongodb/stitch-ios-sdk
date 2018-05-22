@@ -1,4 +1,4 @@
-import BSON
+import MongoSwift
 
 /**
  * A struct representing a user API key as returned by the Stitch server.

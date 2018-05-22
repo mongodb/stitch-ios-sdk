@@ -1,5 +1,5 @@
 import XCTest
-import BSON
+import MongoSwift
 import JWT
 @testable import StitchCore
 

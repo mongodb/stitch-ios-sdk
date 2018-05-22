@@ -1,5 +1,5 @@
 import Foundation
-import BSON
+import MongoSwift
 
 /**
  * Returns the provided response if its status code is in the 200 range, throws a `StitchError` otherwise.

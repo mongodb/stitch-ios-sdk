@@ -1,5 +1,5 @@
 import Foundation
-import BSON
+import MongoSwift
 
 /**
  * A protocol defining the configuration properties necessary to build a `StitchRequest`.

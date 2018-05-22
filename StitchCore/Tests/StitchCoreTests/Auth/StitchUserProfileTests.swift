@@ -1,6 +1,6 @@
 import XCTest
 @testable import StitchCore
-import BSON
+import MongoSwift
 
 private let firstName = "firstName"
 private let lastName = "lastName"

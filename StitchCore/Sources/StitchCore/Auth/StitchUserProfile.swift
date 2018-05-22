@@ -1,4 +1,4 @@
-import BSON
+import MongoSwift
 
 /**
  * A protocol containing the fields returned by the Stitch client API in a user profile request.

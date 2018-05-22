@@ -1,5 +1,5 @@
 import Foundation
-import BSON
+import MongoSwift
 
 /**
  * A struct describing the structure of how user profile information is stored in persisted `Storage`.

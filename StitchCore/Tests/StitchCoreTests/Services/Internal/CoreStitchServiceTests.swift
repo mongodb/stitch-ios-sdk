@@ -1,5 +1,5 @@
 import XCTest
-import BSON
+import MongoSwift
 @testable import StitchCore
 
 private let appRoutes = StitchAppRoutes.init(clientAppId: "")

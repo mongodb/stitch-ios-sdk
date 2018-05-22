@@ -1,5 +1,5 @@
 import Foundation
-import BSON
+import MongoSwift
 
 public protocol RuleActions: Encodable {}
 extension RuleActions {

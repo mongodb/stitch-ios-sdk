@@ -1,6 +1,6 @@
 import XCTest
 import Swifter
-import BSON
+import MongoSwift
 @testable import StitchCore
 
 class StitchRequestClientTests: StitchXCTestCase {

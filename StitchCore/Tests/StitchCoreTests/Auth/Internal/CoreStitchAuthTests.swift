@@ -1,6 +1,6 @@
 // swiftlint:disable force_try
 import XCTest
-import BSON
+import MongoSwift
 import Swifter
 @testable import StitchCore
 
