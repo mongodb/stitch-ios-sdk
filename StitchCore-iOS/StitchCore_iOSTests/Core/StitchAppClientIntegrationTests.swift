@@ -59,8 +59,7 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
     func testAnonymousLogin() throws {
         let exp = expectation(description: "logged in anonymously")
 
-        let anonAuthClient = stitchAppClient.auth.providerClient(forProvider: AnonymousAuthProvider.clientSupplier)
-        stitchAppClient.auth.login(withCredential: anonAuthClient.credential) { user, _ in
+        stitchAppClient.auth.login(withCredential: AnonymousCredential()) { user, _ in
             XCTAssertNotNil(user)
             self.verifyBasicAuthStorageInfo(loggedIn: true, expectedProviderType: StitchProviderType.anonymous)
             exp.fulfill()
@@ -72,8 +71,7 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
     func testUserProfile() throws {
         let exp = expectation(description: "verified profile information")
 
-        let anonAuthClient = stitchAppClient.auth.providerClient(forProvider: AnonymousAuthProvider.clientSupplier)
-        stitchAppClient.auth.login(withCredential: anonAuthClient.credential) { user, _ in
+        stitchAppClient.auth.login(withCredential: AnonymousCredential()) { user, _ in
             XCTAssertNotNil(user)
             XCTAssertEqual(user!.profile.userType, "normal")
             XCTAssertEqual(user!.profile.identities[0].providerType, "anon-user")
@@ -100,14 +98,11 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
         }
 
         _ = self.harness.addDefaultCustomTokenProvider()
-        let customAuthClient = self.stitchAppClient.auth.providerClient(forProvider:
-            CustomAuthProvider.clientSupplier
-        )
-
+        
         let exp1 = expectation(description: "first custom login")
         var userId: String!
         self.stitchAppClient.auth.login(withCredential:
-            customAuthClient.credential(withToken: jwt)
+            CustomCredential.init(withToken: jwt)
         ) { user, _ in
             XCTAssertNotNil(user)
 
@@ -126,7 +121,7 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
         let exp2 = expectation(description: "second custom login")
         stitchAppClient.auth.logout { _ in
             self.stitchAppClient.auth.login(withCredential:
-                customAuthClient.credential(withToken: jwt)
+                CustomCredential(withToken: jwt)
             ) { user, _ in
                 XCTAssertNotNil(user)
 
@@ -147,8 +142,7 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
         let exp1 = expectation(description: "log in anonymously")
         var anonUserId: String!
         self.stitchAppClient.auth.login(
-            withCredential: self.stitchAppClient.auth.providerClient(forProvider:
-                AnonymousAuthProvider.clientSupplier).credential
+            withCredential: AnonymousCredential()
         ) { (user: StitchUser?, _) in
             XCTAssertNotNil(user)
             anonUserId = user!.id
@@ -162,8 +156,7 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
         let exp2 = expectation(description: "log in anonymously again")
 
         self.stitchAppClient.auth.login(
-            withCredential: self.stitchAppClient.auth.providerClient(forProvider:
-                AnonymousAuthProvider.clientSupplier).credential
+            withCredential: AnonymousCredential()
         ) { (user: StitchUser?, _) in
             XCTAssertNotNil(user)
 
@@ -204,8 +197,7 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
         let exp1 = expectation(description: "logged in with anonymous provider")
         var anonUser: StitchUser!
         self.stitchAppClient.auth.login(
-            withCredential: self.stitchAppClient.auth.providerClient(
-                forProvider: AnonymousAuthProvider.clientSupplier).credential
+            withCredential: AnonymousCredential()
         ) { (user, _) in
             self.verifyBasicAuthStorageInfo(loggedIn: true, expectedProviderType: StitchProviderType.anonymous)
             anonUser = user
@@ -256,8 +248,7 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
         _ = self.harness.addTestFunction()
 
         let exp1 = expectation(description: "logged in anonymously")
-        let anonAuthClient = stitchAppClient.auth.providerClient(forProvider: AnonymousAuthProvider.clientSupplier)
-        stitchAppClient.auth.login(withCredential: anonAuthClient.credential) { user, _ in
+        stitchAppClient.auth.login(withCredential: AnonymousCredential()) { user, _ in
             XCTAssertNotNil(user)
             self.verifyBasicAuthStorageInfo(loggedIn: true, expectedProviderType: StitchProviderType.anonymous)
             exp1.fulfill()
@@ -265,18 +256,19 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
         wait(for: [exp1], timeout: defaultTimeoutSeconds)
 
         let exp2 = expectation(description: "called function successfully")
-        let randomInt = Int(arc4random())
-        stitchAppClient.callFunction(withName: "testFunction", withArgs: [randomInt, "hello"]) { (docMap: Document, _) in
-            XCTAssertNotNil(document)
+        let randomInt = Int(arc4random_uniform(10000)) // temporary until BSON bug is fixed
+        stitchAppClient.callFunction(withName: "testFunction",
+                                     withArgs: [randomInt, "hello"]) { (docMap: Document?, error: Error?) in
+            XCTAssertNotNil(docMap)
 
-            XCTAssertEqual(docMap["stringValue"] as? String, "hello")
+            XCTAssertEqual(docMap?["stringValue"] as? String, "hello")
 
-            guard let intValue = docMap["intValue"] as? [String: Any] else {
+            guard let intValue = docMap?["intValue"] as? Int else {
                 XCTFail("Int result missing in function return value")
                 return
             }
 
-            XCTAssertEqual(intValue["$numberLong"] as? String, String(randomInt))
+            XCTAssertEqual(intValue, randomInt)
 
             exp2.fulfill()
         }

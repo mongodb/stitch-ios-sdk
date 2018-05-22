@@ -6,7 +6,7 @@
         "repositoryURL": "https://github.com/jsflax/BSON",
         "state": {
           "branch": "master",
-          "revision": "d2a05809558dda7b2501b7120d03bfa8cc4d3379",
+          "revision": "98d612e2c5cdbd9fa262068bcf0beae02aa1398a",
           "version": null
         }
       },
@@ -33,7 +33,7 @@
         "repositoryURL": "/Users/jsflax/Development/stitch-ios-sdk/StitchCore",
         "state": {
           "branch": "master",
-          "revision": "d4077d8d9b1f89eea2c642e5a16806ad1a884269",
+          "revision": "3edc4549d7508128f9356a34ec71138cc45d0eeb",
           "version": null
         }
       },

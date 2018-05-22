@@ -10,7 +10,7 @@ class Stitch_iOSServiceTwilioTests: BaseStitchIntTestCocoaTouch {
     private let twilioSidProp = "test.stitch.twilioSid"
     private let twilioAuthTokenProp = "test.stitch.twilioAuthToken"
     
-    private func fetchPList() -> [String: Any]? {
+    private lazy var pList: [String: Any]? = {
         let testBundle = Bundle(for: Stitch_iOSServiceTwilioTests.self)
         guard let url = testBundle.url(forResource: "Info", withExtension: "plist"),
             let myDict = NSDictionary(contentsOf: url) as? [String:Any] else {
@@ -18,17 +18,19 @@ class Stitch_iOSServiceTwilioTests: BaseStitchIntTestCocoaTouch {
         }
         
         return myDict
-    }
+    }()
     
-    private lazy var twilioSID: String? = fetchPList()?[twilioSidProp] as? String
+    private lazy var twilioSID: String? = pList?[twilioSidProp] as? String
     
-    private lazy var twilioAuthToken: String? = fetchPList()?[twilioAuthTokenProp] as? String
+    private lazy var twilioAuthToken: String? = pList?[twilioAuthTokenProp] as? String
     
     override func setUp() {
         super.setUp()
         
-        XCTAssertTrue(twilioSID != nil, "no Twilio Sid in properties; skipping test")
-        XCTAssertTrue(twilioAuthToken != nil, "no Twilio Auth Token in properties; skipping test")
+        guard twilioSID != nil && twilioSID != "<your-sid>",
+            twilioAuthToken != nil && twilioAuthToken != "<your-auth-token>" else {
+            fatalError("No Twilio Sid or Auth Token in properties; failing test. See README for more details.")
+        }
     }
     
     func testSendMessage() throws {
@@ -63,7 +65,7 @@ class Stitch_iOSServiceTwilioTests: BaseStitchIntTestCocoaTouch {
         let exp1 = expectation(description: "should not send message")
         twilio.sendMessage(to: to, from: from, body: body, mediaURL: nil) { error in
             switch error as? StitchError {
-            case .serviceError(let withMessage, let withServiceErrorCode)?:
+            case .serviceError(_, let withServiceErrorCode)?:
                 XCTAssertEqual(StitchServiceErrorCode.twilioError, withServiceErrorCode)
             default:
                 XCTFail()
@@ -75,7 +77,7 @@ class Stitch_iOSServiceTwilioTests: BaseStitchIntTestCocoaTouch {
         let exp2 = expectation(description: "should not send message")
         twilio.sendMessage(to: to, from: from, body: body, mediaURL: mediaUrl) { error in
             switch error as? StitchError {
-            case .serviceError(let withMessage, let withServiceErrorCode)?:
+            case .serviceError(_, let withServiceErrorCode)?:
                 XCTAssertEqual(StitchServiceErrorCode.twilioError, withServiceErrorCode)
             default:
                 XCTFail()
@@ -101,7 +103,7 @@ class Stitch_iOSServiceTwilioTests: BaseStitchIntTestCocoaTouch {
         // Excluding any required parameters should fail
         twilio.sendMessage(to: to, from: "", body: body, mediaURL: mediaUrl) { error in
             switch error as? StitchError {
-            case .serviceError(let withMessage, let withServiceErrorCode)?:
+            case .serviceError(_, let withServiceErrorCode)?:
                 XCTAssertEqual(StitchServiceErrorCode.invalidParameter, withServiceErrorCode)
             default:
                 XCTFail()

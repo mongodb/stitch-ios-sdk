@@ -124,10 +124,10 @@ internal final class StitchAppClientImpl: StitchAppClient {
      *              successful.
      *
      */
-    public func callFunction<T: Decodable>(withName name: String,
+    public func callFunction<D: Decodable>(withName name: String,
                                            withArgs args: [BsonValue],
-                                           _ completionHandler: @escaping (T?, Error?) -> Void) {
-        self.dispatcher.run(withCompletionHandler: completionHandler) { () -> T in
+                                           _ completionHandler: @escaping (D?, Error?) -> Void) {
+        self.dispatcher.run(withCompletionHandler: completionHandler) { () -> D in
             return try self.coreClient.callFunctionInternal(withName: name, withArgs: args)
         }
     }

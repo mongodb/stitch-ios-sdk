@@ -21,8 +21,8 @@ private let appRoutes = StitchAppRoutes.init(clientAppId: "")
 let mockExpiredAuthInfo: Document = [
     "access_token": expiredJWT,
     "refresh_token": expiredJWT,
-    "user_id": ObjectId.NewObjectId().hexString,
-    "device_id": ObjectId.NewObjectId().hexString
+    "user_id": ObjectId().description,
+    "device_id": ObjectId().description
 ]
 
 class AccessTokenRefresherTests: XCTestCase {

@@ -36,8 +36,8 @@ public final class CoreStitchAppClient {
      *
      * - returns: An `Any` representing the decoded JSON of the result of the function call.
      */
-    public func callFunctionInternal<T: Decodable>(withName name: String,
-                                                   withArgs args: [BsonValue]) throws -> T {
+    public func callFunctionInternal<D: Decodable>(withName name: String,
+                                                   withArgs args: [BsonValue]) throws -> D {
         return try self.authRequestClient.doAuthenticatedJSONRequest(
             self.callFunctionRequest(withName: name, withArgs: args)
         )

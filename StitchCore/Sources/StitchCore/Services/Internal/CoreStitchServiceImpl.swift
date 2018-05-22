@@ -25,6 +25,7 @@ open class CoreStitchServiceImpl: CoreStitchService {
             $0.method = .post
             $0.path = self.serviceRoutes.functionCallRoute
             $0.document = body
+            $0.body = body.canonicalExtendedJSON.data(using: .utf8)
         }
         
         return try reqBuilder.build()

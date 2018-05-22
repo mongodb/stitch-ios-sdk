@@ -5,4 +5,4 @@ all:
 update:
 	swift package update
 project:
-	swift package generate-xcodeproj --xcconfig-overrides StitchCoreTestUtils.xcconfig
+	swift package generate-xcodeproj --xcconfig-overrides StitchCoreServicesTwilio.xcconfig

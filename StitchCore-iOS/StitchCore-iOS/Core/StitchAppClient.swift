@@ -60,7 +60,7 @@ public protocol StitchAppClient {
      *              successful.
      *
      */
-    func callFunction<T: Codable>(withName name: String, withArgs args: [BsonValue], _ completionHandler: @escaping (_ result: T?, _ error: Error?) -> Void)
+    func callFunction<D: Decodable>(withName name: String, withArgs args: [BsonValue], _ completionHandler: @escaping (_ result: D?, _ error: Error?) -> Void)
 
     // swiftlint:enable line_length
 }

@@ -1,6 +1,6 @@
 import Foundation
 import StitchCore
-import StitchCore_AdminClient
+import StitchCoreAdminClient
 import StitchCore_iOS
 import BSON
 import XCTest
@@ -87,7 +87,7 @@ final class TestHarness {
         self.groupId = adminProfile.roles[0].groupId
     }
 
-    func createApp(testAppName: String = "test-\(ObjectId.init().hexString)") -> AppResponse {
+    func createApp(testAppName: String = "test-\(ObjectId().description)") -> AppResponse {
         self.testApp = try! self.apps.create(name: testAppName)
         return self.testApp!
     }

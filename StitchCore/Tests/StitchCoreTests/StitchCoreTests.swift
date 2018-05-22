@@ -15,7 +15,7 @@ struct MockStitchUser: CoreStitchUser {
     var profile: StitchUserProfile =
         StitchUserProfileImpl.init(
             userType: "anon-user",
-            identities: [APIStitchUserIdentity.init(id: ObjectId.NewObjectId().hexString,
+            identities: [APIStitchUserIdentity.init(id: ObjectId().description,
                                                     providerType: "anon-user")],
             data: APIExtendedUserProfileImpl.init()
         )

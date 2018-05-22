@@ -1,6 +1,0 @@
-all:
-	swift package clean
-	swift package update
-	swift package build
-project:
-	swift package generate-xcodeproj --xcconfig-overrides StitchCore.xcconfig

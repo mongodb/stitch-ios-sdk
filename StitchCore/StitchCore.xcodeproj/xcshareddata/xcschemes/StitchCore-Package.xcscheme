@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "StitchCore::StitchCore"
-               BuildableName = "StitchCore.framework"
-               BlueprintName = "StitchCore"
+               BlueprintIdentifier = "Swifter::Swifter"
+               BuildableName = "Swifter.framework"
+               BlueprintName = "Swifter"
                ReferencedContainer = "container:StitchCore.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -42,9 +42,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Swifter::Swifter"
-               BuildableName = "Swifter.framework"
-               BlueprintName = "Swifter"
+               BlueprintIdentifier = "StitchCore::StitchCore"
+               BuildableName = "StitchCore.framework"
+               BlueprintName = "StitchCore"
                ReferencedContainer = "container:StitchCore.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -74,9 +74,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "StitchCore::stitch-ios-sdk-protoTests"
-               BuildableName = "StitchCore.xctest"
-               BlueprintName = "stitch-ios-sdk-protoTests"
+               BlueprintIdentifier = "StitchCore::StitchCoreTests"
+               BuildableName = "StitchCoreTests.xctest"
+               BlueprintName = "StitchCoreTests"
                ReferencedContainer = "container:StitchCore.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -97,9 +97,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "StitchCore::StitchCore"
-            BuildableName = "StitchCore.framework"
-            BlueprintName = "StitchCore"
+            BlueprintIdentifier = "Swifter::Swifter"
+            BuildableName = "Swifter.framework"
+            BlueprintName = "Swifter"
             ReferencedContainer = "container:StitchCore.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

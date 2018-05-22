@@ -59,7 +59,7 @@ class StitchRequestClientTests: StitchXCTestCase {
 
     func testDoJSONRequestRaw() throws {
         let stitchRequestClient = StitchRequestClientImpl.init(baseURL: self.baseURL,
-                                                           transport: FoundationHTTPTransport())
+                                                               transport: FoundationHTTPTransport())
 
         var builder = StitchDocRequestBuilderImpl {
             $0.path = self.badRequestEndpoint
@@ -74,7 +74,7 @@ class StitchRequestClientTests: StitchXCTestCase {
 
         XCTAssertEqual(response.statusCode, 200)
 
-        XCTAssertEqual(try BSONDecoder().decode(Document.self, from: response.body!, hasSourceMap: false),
+        XCTAssertEqual(try BsonDecoder().decode(Document.self, from: String.init(data: response.body!, encoding: .utf8)!),
                        self.testDoc)
     }
 }

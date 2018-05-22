@@ -88,7 +88,7 @@ final class MockStitchRequestClient: StitchRequestClient {
                                            withServiceErrorCode: .invalidSession)
         }
 
-        let headerComponents = authHeader.split(" ")
+        let headerComponents = authHeader.split(separator: " ")
         guard headerComponents[0] == "Bearer",
               headerComponents.count == 2 else {
                 throw StitchError.serviceError(withMessage: "Invalid session authorization header",

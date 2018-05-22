@@ -83,8 +83,8 @@ public final class StitchRequestClientImpl: StitchRequestClient {
      */
     public func doJSONRequestRaw(_ stitchReq: StitchDocRequest) throws -> Response {
         return try doRequest(StitchRequestBuilderImpl { builder in
-            // TODO:
-            builder.body = try? JSONEncoder().encode(stitchReq.document)
+            print(stitchReq.document.canonicalExtendedJSON)
+            builder.body = stitchReq.document.canonicalExtendedJSON.data(using: .utf8)
             builder.headers = [
                 Headers.contentType.rawValue: ContentTypes.applicationJson.rawValue
             ]

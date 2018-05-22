@@ -29,7 +29,8 @@ extension CoreStitchAuth: StitchAuthRequestClient {
     public func doAuthenticatedJSONRequest<T: Decodable>(_ stitchReq: StitchAuthDocRequest) throws -> T {
         func handleResponse(_ response: Response) throws -> T {
             do {
-                guard let responseBody = response.body else {
+                guard let responseBody = response.body,
+                    let responseString = String.init(data: responseBody, encoding: .utf8) else {
                     throw StitchError.serviceError(
                         withMessage: StitchErrorCodable.genericErrorMessage(withStatusCode: response.statusCode),
                         withServiceErrorCode: .unknown
@@ -37,7 +38,8 @@ extension CoreStitchAuth: StitchAuthRequestClient {
                 }
 
                 do {
-                    return try JSONDecoder().decode(T.self, from: responseBody)
+                    // TODO: until Swift Driver decides on what to do
+                    return try BsonDecoder().decode(T.self, from: responseString)
                 } catch let err {
                     throw StitchError.requestError(withError: err, withRequestErrorCode: .decodingError)
                 }
@@ -60,7 +62,8 @@ extension CoreStitchAuth: StitchAuthRequestClient {
         builder.path = stitchReq.path
         builder.useRefreshToken = stitchReq.useRefreshToken
         builder.method = stitchReq.method
-        builder.body = try JSONEncoder().encode(stitchReq.document)
+        print(stitchReq.document.canonicalExtendedJSON)
+        builder.body = stitchReq.document.canonicalExtendedJSON.data(using: .utf8)
         builder.document = stitchReq.document
         builder.headers = stitchReq.headers.merging(
             [Headers.contentType.rawValue:

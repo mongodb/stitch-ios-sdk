@@ -386,7 +386,7 @@
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../BSON/.build/checkouts/swift-bson-2873930670968179217";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../Sources/libbson";
 				INFOPLIST_FILE = "StitchCoreTestUtils-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -419,7 +419,7 @@
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../BSON/.build/checkouts/swift-bson-2873930670968179217";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../Sources/libbson";
 				INFOPLIST_FILE = "StitchCoreTestUtils-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
