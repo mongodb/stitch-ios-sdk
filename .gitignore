@@ -95,5 +95,5 @@ fastlane/Preview.html
 fastlane/screenshots
 fastlane/test_output
 
-MobileSDKs
-Sources
+/MobileSDKs
+/Sources
