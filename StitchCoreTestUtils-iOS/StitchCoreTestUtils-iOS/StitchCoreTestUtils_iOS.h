@@ -1,11 +1,3 @@
-//
-//  StitchCoreTestUtils_iOS.h
-//  StitchCoreTestUtils-iOS
-//
-//  Created by Jay Flax on 5/17/18.
-//  Copyright © 2018 MongoDB. All rights reserved.
-//
-
 #import <UIKit/UIKit.h>
 
 //! Project version number for StitchCoreTestUtils_iOS.

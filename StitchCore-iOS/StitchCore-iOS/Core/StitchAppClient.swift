@@ -26,11 +26,11 @@ public protocol StitchAppClient {
      * Retrieves the service client associated with the Stitch service with the specified name and type.
      *
      * - parameters:
-     *     - forProvider: An `AnyNamedServiceClientProvider` object which contains a `NamedServiceClientProvider`
+     *     - forProvider: An `AnyNamedServiceClientFactory` object which contains a `NamedServiceClientProvider`
      *                    class which will provide the client for this service.
      *     - withName: The name of the service as defined in the MongoDB Stitch application.
      * - returns: a service client whose type is determined by the `T` type parameter of the
-     *            `AnyNamedServiceClientProvider` passed in the `forProvider` parameter.
+     *            `AnyNamedServiceClientFactory` passed in the `forProvider` parameter.
      */
     func serviceClient<T>(forService provider: AnyNamedServiceClientFactory<T>, withName serviceName: String) -> T
 

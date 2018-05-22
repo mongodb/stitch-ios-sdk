@@ -8,6 +8,11 @@ update:
 	$(MAKE) -C StitchCoreAdminClient update
 	$(MAKE) -C StitchCoreTestUtils update
 	$(MAKE) -C StitchCoreServicesTwilio update
+test:
+	$(MAKE) -C StitchCore test
+	$(MAKE) -C StitchCoreAdminClient test
+	$(MAKE) -C StitchCoreTestUtils test
+	$(MAKE) -C StitchCoreServicesTwilio test
 project:
 	$(MAKE) -C StitchCore project
 	$(MAKE) -C StitchCoreAdminClient project

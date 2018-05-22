@@ -5,8 +5,20 @@ import StitchCore_iOS
 import StitchCoreAdminClient
 import XCTest
 
+let stitchBaseURLProp = "stitch.baseURL"
+
 open class BaseStitchIntTestCocoaTouch: BaseStitchIntTest {
     var clients = [StitchAppClient]()
+    
+    private lazy var pList: [String: Any]? = {
+        let testBundle = Bundle(for: BaseStitchIntTestCocoaTouch.self)
+        guard let url = testBundle.url(forResource: "Info", withExtension: "plist"),
+            let myDict = NSDictionary(contentsOf: url) as? [String:Any] else {
+                return nil
+        }
+        
+        return myDict
+    }()
     
     override open func setUp() {
         super.setUp()
@@ -21,7 +33,7 @@ open class BaseStitchIntTestCocoaTouch: BaseStitchIntTest {
     }
     
     override open var stitchBaseURL: String {
-        return "http://localhost:9090"
+        return (pList?[stitchBaseURLProp] as? String) ?? "http://localhost:9090"
     }
     
     public func appClient(forApp app: AppResponse) throws -> StitchAppClient {

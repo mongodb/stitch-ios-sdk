@@ -4,5 +4,7 @@ all:
 	swift build
 update:
 	swift package update
-project:
+test:
+	swift test
+projct:
 	swift package generate-xcodeproj --xcconfig-overrides StitchCore.xcconfig

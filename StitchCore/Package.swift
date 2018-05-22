@@ -27,6 +27,6 @@ let package = Package(
             dependencies: ["BSON"]),
         .testTarget(
             name: "StitchCoreTests",
-            dependencies: ["BSON", "Swifter", "JWT"])
+            dependencies: ["BSON", "Swifter", "JWT", "StitchCore"])
     ]
 )

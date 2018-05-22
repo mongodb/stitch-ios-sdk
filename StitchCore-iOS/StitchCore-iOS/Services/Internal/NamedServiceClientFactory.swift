@@ -25,7 +25,7 @@ public struct AnyNamedServiceClientFactory<T> {
     private let clientBlock: (StitchService, StitchAppClientInfo) -> T
 
     /**
-     * Initializes this `AnyNamedServiceClientProvider` with an arbitrary `NamedServiceClientProvider`.
+     * Initializes this `AnyNamedServiceClientFactory` with an arbitrary `NamedServiceClientProvider`.
      */
     public init<U: NamedServiceClientFactory>(provider: U) where U.ClientType == T {
         self.clientBlock = provider.client
