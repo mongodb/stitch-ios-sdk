@@ -62,7 +62,7 @@ StitchCoreServicesTwilio/Packages/
 StitchCoreServicesTwilio/Package.pins
 StitchCoreServicesTwilio/Package.resolved
 StitchCoreServicesTwilio/.build/
-StitchCoreServicesTwilio/*.xcodeproj/
+StitchCoreServicesTwilio/StitchCoreServicesTwilio.xcodeproj/
 
 # CocoaPods
 #

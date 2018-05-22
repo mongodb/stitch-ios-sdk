@@ -1,6 +1,10 @@
 all: git clean update build project
 git:
-	-git init; git add -A; git commit -m "init";
+	-git init
+	git config user.email "evg@mongodb.com"
+	git config user.name "evg"
+	git add -A
+	git commit -m "init"
 clean:
 	swift package clean
 build:
