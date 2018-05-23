@@ -7,14 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F4D04C9E20ADDA6F004CCCD7 /* StitchCoreTestUtils_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D04C9420ADDA6F004CCCD7 /* StitchCoreTestUtils_iOS.framework */; };
+		F466EE2D20B5203000D6E4E8 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F466EE2C20B5203000D6E4E8 /* StitchCore.framework */; };
+		F466EE2F20B5203400D6E4E8 /* StitchCore_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F466EE2E20B5203400D6E4E8 /* StitchCore_iOS.framework */; };
+		F466EE3120B5203800D6E4E8 /* StitchCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F466EE3020B5203800D6E4E8 /* StitchCoreTestUtils.framework */; };
+		F466EE3320B5203E00D6E4E8 /* StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F466EE3220B5203E00D6E4E8 /* StitchCoreAdminClient.framework */; };
+		F466EE3520B520E100D6E4E8 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F466EE3420B520E100D6E4E8 /* StitchCore.framework */; };
+		F466EE3720B520EB00D6E4E8 /* StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F466EE3620B520EB00D6E4E8 /* StitchCoreAdminClient.framework */; };
+		F466EE3920B520EF00D6E4E8 /* StitchCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F466EE3820B520EF00D6E4E8 /* StitchCoreTestUtils.framework */; };
 		F4D04CA320ADDA6F004CCCD7 /* StitchCoreTestUtils_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D04CA220ADDA6F004CCCD7 /* StitchCoreTestUtils_iOSTests.swift */; };
 		F4D04CA520ADDA6F004CCCD7 /* StitchCoreTestUtils_iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = F4D04C9720ADDA6F004CCCD7 /* StitchCoreTestUtils_iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F4D04CB020ADDA89004CCCD7 /* StitchCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D04CAF20ADDA89004CCCD7 /* StitchCoreTestUtils.framework */; };
-		F4D748CD20B245FE00393E45 /* BSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D748CC20B245FE00393E45 /* BSON.framework */; };
-		F4D748CF20B2460100393E45 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D748CE20B2460100393E45 /* StitchCore.framework */; };
-		F4D748D120B2460C00393E45 /* StitchCore_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D748D020B2460C00393E45 /* StitchCore_iOS.framework */; };
-		F4D748D320B246DA00393E45 /* StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D748D220B246DA00393E45 /* StitchCoreAdminClient.framework */; };
 		F4D7494320B258B000393E45 /* BaseStitchIntTestCocoaTouch.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D04CB120ADDAAB004CCCD7 /* BaseStitchIntTestCocoaTouch.swift */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +30,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F466EE2C20B5203000D6E4E8 /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F466EE2E20B5203400D6E4E8 /* StitchCore_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F466EE3020B5203800D6E4E8 /* StitchCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F466EE3220B5203E00D6E4E8 /* StitchCoreAdminClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAdminClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F466EE3420B520E100D6E4E8 /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F466EE3620B520EB00D6E4E8 /* StitchCoreAdminClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAdminClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F466EE3820B520EF00D6E4E8 /* StitchCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4D04C9420ADDA6F004CCCD7 /* StitchCoreTestUtils_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StitchCoreTestUtils_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4D04C9720ADDA6F004CCCD7 /* StitchCoreTestUtils_iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StitchCoreTestUtils_iOS.h; sourceTree = "<group>"; };
 		F4D04C9820ADDA6F004CCCD7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -49,11 +57,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4D748D320B246DA00393E45 /* StitchCoreAdminClient.framework in Frameworks */,
-				F4D04CB020ADDA89004CCCD7 /* StitchCoreTestUtils.framework in Frameworks */,
-				F4D748D120B2460C00393E45 /* StitchCore_iOS.framework in Frameworks */,
-				F4D748CF20B2460100393E45 /* StitchCore.framework in Frameworks */,
-				F4D748CD20B245FE00393E45 /* BSON.framework in Frameworks */,
+				F466EE3320B5203E00D6E4E8 /* StitchCoreAdminClient.framework in Frameworks */,
+				F466EE3120B5203800D6E4E8 /* StitchCoreTestUtils.framework in Frameworks */,
+				F466EE2F20B5203400D6E4E8 /* StitchCore_iOS.framework in Frameworks */,
+				F466EE2D20B5203000D6E4E8 /* StitchCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,7 +68,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4D04C9E20ADDA6F004CCCD7 /* StitchCoreTestUtils_iOS.framework in Frameworks */,
+				F466EE3920B520EF00D6E4E8 /* StitchCoreTestUtils.framework in Frameworks */,
+				F466EE3720B520EB00D6E4E8 /* StitchCoreAdminClient.framework in Frameworks */,
+				F466EE3520B520E100D6E4E8 /* StitchCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,6 +118,13 @@
 		F4D04CAE20ADDA89004CCCD7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F466EE3820B520EF00D6E4E8 /* StitchCoreTestUtils.framework */,
+				F466EE3620B520EB00D6E4E8 /* StitchCoreAdminClient.framework */,
+				F466EE3420B520E100D6E4E8 /* StitchCore.framework */,
+				F466EE3220B5203E00D6E4E8 /* StitchCoreAdminClient.framework */,
+				F466EE3020B5203800D6E4E8 /* StitchCoreTestUtils.framework */,
+				F466EE2E20B5203400D6E4E8 /* StitchCore_iOS.framework */,
+				F466EE2C20B5203000D6E4E8 /* StitchCore.framework */,
 				F4D7493D20B2573000393E45 /* XCTest.framework */,
 				F4D748D220B246DA00393E45 /* StitchCoreAdminClient.framework */,
 				F4D748D020B2460C00393E45 /* StitchCore_iOS.framework */,
@@ -386,9 +402,13 @@
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../Sources/libbson";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../Sources/libbson",
+					"$(SRCROOT)/../Sources/libmongoc",
+				);
 				INFOPLIST_FILE = "StitchCoreTestUtils-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -419,9 +439,13 @@
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../Sources/libbson";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../Sources/libbson",
+					"$(SRCROOT)/../Sources/libmongoc",
+				);
 				INFOPLIST_FILE = "StitchCoreTestUtils-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -441,6 +465,10 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../Sources/libmongoc",
+					"$(SRCROOT)/../Sources/libbson",
+				);
 				INFOPLIST_FILE = "StitchCoreTestUtils-iOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -459,6 +487,10 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../Sources/libmongoc",
+					"$(SRCROOT)/../Sources/libbson",
+				);
 				INFOPLIST_FILE = "StitchCoreTestUtils-iOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

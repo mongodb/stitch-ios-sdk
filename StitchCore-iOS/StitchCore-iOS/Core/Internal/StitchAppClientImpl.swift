@@ -1,5 +1,5 @@
 import StitchCore
-import BSON
+import MongoSwift
 
 /**
  * The implementation of the `StitchAppClient` protocol.

@@ -2,7 +2,7 @@ import Foundation
 import XCTest
 import JWT
 import StitchCore
-import BSON
+import MongoSwift
 @testable import StitchCore_iOS
 
 class StitchAppClientIntegrationTests: StitchIntegrationTestCase {

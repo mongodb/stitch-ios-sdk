@@ -14,3 +14,8 @@ LIBRARY_SEARCH_PATHS[sdk=appletvsimulator*] = $(SRCROOT)/../MobileSDKs/appletvos
 SWIFT_INCLUDE_PATHS = $(SRCROOT)/../MobileSDKs/include $(SRCROOT)/../MobileSDKs/include/libbson-1.0 $(SRCROOT)/../MobileSDKs/include/libmongoc-1.0
 
 ENABLE_BITCODE = NO
+
+IPHONEOS_DEPLOYMENT_TARGET[sdk=iphoneos*]=8.0
+IPHONEOS_DEPLOYMENT_TARGET[sdk=iphonesimulator*]=8.0
+IPHONEOS_DEPLOYMENT_TARGET[sdk=appletvos*]=8.0
+IPHONEOS_DEPLOYMENT_TARGET[sdk=appletvsimulator*]=8.0

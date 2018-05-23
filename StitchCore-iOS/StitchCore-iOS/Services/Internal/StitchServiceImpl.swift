@@ -1,6 +1,6 @@
 import StitchCore
 import Foundation
-import BSON
+import MongoSwift
 
 /**
  * The implementation of `StitchService`, which is capable of making requests to execute functions for a particular

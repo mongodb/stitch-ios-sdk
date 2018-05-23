@@ -114,6 +114,18 @@ functions:
           export LD_LIBRARY_PATH=`pwd`/MobileSDKs/iphoneos/lib:$LD_LIBRARY_PATH
           export DYLD_LIBRARY_PATH=`pwd`/MobileSDKs/iphoneos/lib:$DYLD_LIBRARY_PATH
           make
+  "setup_test_creds":
+    - command: shell.exec
+      params:
+        shell: "bash"
+        silent: true
+        script: |
+          set -e
+          cd stitch-ios-sdk
+          echo "test.stitch.twilioSid=${test_twilio_sid}" >> local.properties
+          echo "test.stitch.twilioAuthToken=${test_twilio_authtoken}" >> local.properties
+          echo "test.stitch.awsAccessKeyId=${test_aws_key}" >> local.properties
+          echo "test.stitch.awsSecretAccessKey=${test_aws_secret}" >> local.properties
 tasks:
   - name: lint
     commands:
@@ -129,15 +141,14 @@ tasks:
   - name: run_core_tests
     commands:
       - func: "fetch_source"
-      - func: "setup_mongod"
       - func: "setup_stitch_swift"
-      - func: "setup_stitch"
       - command: shell.exec
         params: 
           shell: "bash"
           script: |
             set -e
             echo "running swift core tests"
+            export DEVELOPER_DIR=/Applications/Xcode9.2.app
             cd stitch-ios-sdk
             make test
   - name: run_ios_tests
@@ -151,9 +162,9 @@ tasks:
           shell: "bash"
           script: |
             set -e
-            cd stitch-ios-sdk/StitchCore-iOS
+            export DEVELOPER_DIR=/Applications/Xcode9.2.app
             echo "running iOS tests"
-            xcodebuild test -workspace ../Stitch.xcworkspace/ -scheme StitchCore-iOS -configuration Debug -enableCodeCoverage YES -destination "platform=iOS Simulator,name=iPhone 8,OS=11.2"
+            xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCore-iOS -configuration Debug -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
 buildvariants:
 - name: macos-1013
   display_name: MacOS 1013
@@ -163,5 +174,5 @@ buildvariants:
     mongodb_url: http://fastdl.mongodb.org/osx/mongodb-osx-ssl-x86_64-3.4.4.tgz
     transpiler_target: node8-macos
   tasks:
-    - name: run_core_tests
-    #- name: run_ios_tests
+    #- name: run_core_tests
+    - name: run_ios_tests

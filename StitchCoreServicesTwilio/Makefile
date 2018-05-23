@@ -1,4 +1,4 @@
-all: git clean update build project
+all: git clean update project build
 git:
 	-git init
 	git config user.email "evg@mongodb.com"
@@ -13,6 +13,6 @@ update:
 	swift package update
 test:
 	# temporary until a fix is in for .brew dependency for libmongoc
-	xcodebuild test -workspace ../Stitch.xcworkspace/ -scheme StitchCoreServicesTwilio-Package -configuration Debug -destination "platform=iOS Simulator,name=iPhone 8,OS=11.2"
+	xcodebuild test -workspace ../Stitch.xcworkspace/ -scheme StitchCoreServicesTwilio-Package -configuration Debug -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
 project:
 	swift package generate-xcodeproj --xcconfig-overrides StitchCoreServicesTwilio.xcconfig

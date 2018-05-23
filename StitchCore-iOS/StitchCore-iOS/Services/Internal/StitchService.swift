@@ -1,4 +1,4 @@
-import BSON
+import MongoSwift
 import StitchCore
 import Foundation
 

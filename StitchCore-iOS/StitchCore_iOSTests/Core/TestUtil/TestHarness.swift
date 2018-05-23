@@ -2,7 +2,7 @@ import Foundation
 import StitchCore
 import StitchCoreAdminClient
 import StitchCore_iOS
-import BSON
+import MongoSwift
 import XCTest
 
 internal let defaultServerUrl = "http://localhost:9090"
