@@ -121,8 +121,8 @@ functions:
         script: |
           set -e
           cd stitch-ios-sdk
-          sed -i -e 's/&lt;your-auth-token&gt;/${test_twilio_authtoken}/g' StitchCoreServicesTwilio-iOS/StitchCoreServicesTwilio-iOSTests/Info.plist 
-          sed -i -e 's/&lt;your-sid&gt;/${test_twilio_sid}/g' StitchCoreServicesTwilio-iOS/StitchCoreServicesTwilio-iOSTests/Info.plist 
+          sed -i -e 's/&lt;your-auth-token&gt;/${test_twilio_authtoken}/g' StitchCoreServicesTwilio-iOS/StitchCoreServicesTwilio-iOSTests/Info.plist
+          sed -i -e 's/&lt;your-sid&gt;/${test_twilio_sid}/g' StitchCoreServicesTwilio-iOS/StitchCoreServicesTwilio-iOSTests/Info.plist
 tasks:
   - name: lint
     commands:
@@ -151,9 +151,9 @@ tasks:
   - name: run_ios_tests
     commands:
       - func: "fetch_source"
-      - func: "setup_mongod"
-      - func: "setup_stitch"
-      - func: "setup_stitch_swift"
+      #- func: "setup_mongod"
+      #- func: "setup_stitch"
+      #- func: "setup_stitch_swift"
       - func: "setup_test_creds"
       - command: shell.exec
         params:
@@ -166,8 +166,9 @@ tasks:
             xattr -rc ~/Library/Developer/Xcode/DerivedData
             echo "cleaning stitch ios"
             xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCore-iOS clean
+            xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesTwilio-iOS clean
             echo "testing stitch ios"
-            xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCore-iOS -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
+            #xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCore-iOS -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
             xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesTwilio-iOS -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
 buildvariants:
 - name: macos-1013
@@ -178,5 +179,5 @@ buildvariants:
     mongodb_url: http://fastdl.mongodb.org/osx/mongodb-osx-ssl-x86_64-3.4.4.tgz
     transpiler_target: node8-macos
   tasks:
-    - name: run_core_tests
+    #- name: run_core_tests
     - name: run_ios_tests
