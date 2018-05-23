@@ -112,8 +112,7 @@ functions:
           export PATH=`pwd`/MobileSDKs/include/libbson-1.0/:$PATH
           export LD_LIBRARY_PATH=`pwd`/MobileSDKs/iphoneos/lib:$LD_LIBRARY_PATH
           export DYLD_LIBRARY_PATH=`pwd`/MobileSDKs/iphoneos/lib:$DYLD_LIBRARY_PATH
-          make git
-          make project
+          make
   "setup_test_creds":
     - command: shell.exec
       params:
