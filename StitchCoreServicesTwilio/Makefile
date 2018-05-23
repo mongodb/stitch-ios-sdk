@@ -1,8 +1,8 @@
 all: git clean update project build
 git:
-	-git init
-	git add -A
-	git commit -m "init"
+	git init
+	git add .
+	git commit --allow-empty -m "init"
 lint:
 	swiftlint
 clean:
