@@ -108,12 +108,12 @@ functions:
           cd stitch-ios-sdk
           ./build.sh
           export DEVELOPER_DIR=/Applications/Xcode9.2.app
-          swift --version
           export PATH=`pwd`/MobileSDKs/iphoneos/lib:$PATH
           export PATH=`pwd`/MobileSDKs/include/libbson-1.0/:$PATH
           export LD_LIBRARY_PATH=`pwd`/MobileSDKs/iphoneos/lib:$LD_LIBRARY_PATH
           export DYLD_LIBRARY_PATH=`pwd`/MobileSDKs/iphoneos/lib:$DYLD_LIBRARY_PATH
-          make
+          make git
+          make project
   "setup_test_creds":
     - command: shell.exec
       params:
@@ -122,10 +122,8 @@ functions:
         script: |
           set -e
           cd stitch-ios-sdk
-          echo "test.stitch.twilioSid=${test_twilio_sid}" >> local.properties
-          echo "test.stitch.twilioAuthToken=${test_twilio_authtoken}" >> local.properties
-          echo "test.stitch.awsAccessKeyId=${test_aws_key}" >> local.properties
-          echo "test.stitch.awsSecretAccessKey=${test_aws_secret}" >> local.properties
+          sed -i -e 's/&lt;your-auth-token&gt;/${test_twilio_authtoken}/g' StitchCoreServicesTwilio-iOS/StitchCoreServicesTwilioTests-iOS/Info.plist 
+          sed -i -e 's/&lt;your-sid&gt;/${test_twilio_sid}/g' StitchCoreServicesTwilio-iOS/StitchCoreServicesTwilioTests-iOS/Info.plist 
 tasks:
   - name: lint
     commands:
@@ -154,8 +152,8 @@ tasks:
   - name: run_ios_tests
     commands:
       - func: "fetch_source"
-      - func: "setup_mongod"
-      - func: "setup_stitch"
+      #- func: "setup_mongod"
+      #- func: "setup_stitch"
       - func: "setup_stitch_swift"
       - command: shell.exec
         params:
@@ -164,7 +162,15 @@ tasks:
             set -e
             export DEVELOPER_DIR=/Applications/Xcode9.2.app
             echo "running iOS tests"
-            xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCore-iOS -configuration Debug -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
+            cd stitch-ios-sdk
+            rm -rf $HOME/Library/Developer/Xcode/DerivedData/
+            echo "cleaning stitch ios"
+            xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCore-iOS clean
+            echo "building stitch core for xcode"
+            #xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCore-Package OTHER_LD_FLAGS="-rpath `pwd`/MobileSDKs/iphoneos/lib" LIBRARY_SEARCH_PATHS="`pwd`/MobileSDKs/iphoneos/lib" SWIFT_INCLUDE_PATHS="`pwd`/MobileSDKs/include `pwd`/MobileSDKs/include/libbson-1.0 `pwd`/MobileSDKs/include/libmongoc-1.0"
+            echo "building stitch ios"
+            echo "testing stitch ios"
+            xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCore-iOS -configuration Debug OTHER_LD_FLAGS="-rpath `pwd`/MobileSDKs/iphoneos/lib" LIBRARY_SEARCH_PATHS="`pwd`/MobileSDKs/iphoneos/lib" SWIFT_INCLUDE_PATHS="`pwd`/MobileSDKs/include `pwd`/MobileSDKs/include/libbson-1.0 `pwd`/MobileSDKs/include/libmongoc-1.0"  -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
 buildvariants:
 - name: macos-1013
   display_name: MacOS 1013

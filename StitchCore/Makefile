@@ -9,7 +9,6 @@ clean:
 	swift package clean
 build:
 	swift build -Xcc -I../MobileSDKs/include/libbson-1.0/ -Xcc -I../MobileSDKs/include/libmongoc-1.0
-xcbuild:
 update:
 	swift package update
 test:

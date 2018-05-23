@@ -39,8 +39,6 @@
 		F466EDFC20B516B800D6E4E8 /* StitchCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F466EDFB20B516B800D6E4E8 /* StitchCoreTestUtils.framework */; };
 		F466EDFE20B516DB00D6E4E8 /* StitchCoreTestUtils_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F466EDFD20B516DB00D6E4E8 /* StitchCoreTestUtils_iOS.framework */; };
 		F466EE2B20B51C6D00D6E4E8 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F466EE2A20B51C6D00D6E4E8 /* StitchCore.framework */; };
-		F466EE3B20B522F600D6E4E8 /* JWT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F466EE3A20B522F600D6E4E8 /* JWT.framework */; };
-		F466EE3D20B5230000D6E4E8 /* MongoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F466EE3C20B5230000D6E4E8 /* MongoSwift.framework */; };
 		F466EE3F20B5230E00D6E4E8 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F466EE3E20B5230E00D6E4E8 /* StitchCore.framework */; };
 /* End PBXBuildFile section */
 
@@ -94,7 +92,6 @@
 		F466EDFB20B516B800D6E4E8 /* StitchCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F466EDFD20B516DB00D6E4E8 /* StitchCoreTestUtils_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTestUtils_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F466EE2A20B51C6D00D6E4E8 /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F466EE3A20B522F600D6E4E8 /* JWT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = JWT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F466EE3C20B5230000D6E4E8 /* MongoSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MongoSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F466EE3E20B5230E00D6E4E8 /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -105,8 +102,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F466EE3F20B5230E00D6E4E8 /* StitchCore.framework in Frameworks */,
-				F466EE3D20B5230000D6E4E8 /* MongoSwift.framework in Frameworks */,
-				F466EE3B20B522F600D6E4E8 /* JWT.framework in Frameworks */,
 				F466EDFE20B516DB00D6E4E8 /* StitchCoreTestUtils_iOS.framework in Frameworks */,
 				F466EDFC20B516B800D6E4E8 /* StitchCoreTestUtils.framework in Frameworks */,
 				F466EDFA20B5169000D6E4E8 /* StitchCoreAdminClient.framework in Frameworks */,
@@ -276,7 +271,6 @@
 			children = (
 				F466EE3E20B5230E00D6E4E8 /* StitchCore.framework */,
 				F466EE3C20B5230000D6E4E8 /* MongoSwift.framework */,
-				F466EE3A20B522F600D6E4E8 /* JWT.framework */,
 				F466EE2A20B51C6D00D6E4E8 /* StitchCore.framework */,
 				F466EDFD20B516DB00D6E4E8 /* StitchCoreTestUtils_iOS.framework */,
 				F466EDFB20B516B800D6E4E8 /* StitchCoreTestUtils.framework */,
@@ -543,6 +537,7 @@
 					"$(SRCROOT)/../Sources/libmongoc",
 				);
 				INFOPLIST_FILE = StitchCore_iOSTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/Frameworks @executable_path/Frameworks @rpath$(SRCROOT)/../Dependencies/lib $(SRCROOT)/../Dependencies/lib";
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mongodb.StitchCore-iOSTests";
@@ -553,6 +548,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64 armv7s armv7";
 			};
 			name = Debug;
 		};
@@ -566,6 +562,7 @@
 					"$(SRCROOT)/../Sources/libmongoc",
 				);
 				INFOPLIST_FILE = StitchCore_iOSTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/Frameworks @executable_path/Frameworks @rpath$(SRCROOT)/../Dependencies/lib $(SRCROOT)/../Dependencies/lib";
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mongodb.StitchCore-iOSTests";
@@ -575,6 +572,7 @@
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64 armv7s armv7";
 			};
 			name = Release;
 		};
@@ -726,6 +724,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64 armv7s armv7";
 			};
 			name = Debug;
 		};
@@ -763,6 +762,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64 armv7s armv7";
 			};
 			name = Release;
 		};
