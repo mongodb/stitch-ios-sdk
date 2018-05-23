@@ -14,7 +14,7 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
-        .package(url: "https://github.com/mongodb/mongo-swift-driver.git", .branch("SWIFT-77")),
+        .package(url: "https://github.com/mongodb/mongo-swift-driver.git", .branch("master")),
         .package(url: "https://github.com/httpswift/swifter.git", .upToNextMajor(from: "1.4.0")),
         .package(url: "https://github.com/kylef/JSONWebToken.swift.git", .upToNextMajor(from: "2.2.0"))
     ],

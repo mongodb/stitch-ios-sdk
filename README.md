@@ -64,7 +64,7 @@ If you prefer not to use any of the aforementioned dependency managers, you can 
   $ git submodule add https://github.com/10gen/stitch-ios-sdk.git
   ```
 
-- `cd` into stitch-ios-sdk, and run `.build.sh`. This will download the required dependencies for Stitch.
+- `cd` into stitch-ios-sdk, and run `build.sh`. This will download the required dependencies for Stitch.
 
 - Run `make`.
 

@@ -1,8 +1,6 @@
 all: git clean update project build
 git:
 	-git init
-	git config user.email "evg@mongodb.com"
-	git config user.name "evg"
 	git add -A
 	git commit -m "init"
 lint:

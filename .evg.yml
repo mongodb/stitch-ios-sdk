@@ -112,6 +112,8 @@ functions:
           export PATH=`pwd`/MobileSDKs/include/libbson-1.0/:$PATH
           export LD_LIBRARY_PATH=`pwd`/MobileSDKs/iphoneos/lib:$LD_LIBRARY_PATH
           export DYLD_LIBRARY_PATH=`pwd`/MobileSDKs/iphoneos/lib:$DYLD_LIBRARY_PATH
+	        git config --global user.email "evg@mongodb.com"
+	        git config --global user.name "evg"
           make
   "setup_test_creds":
     - command: shell.exec
@@ -188,4 +190,3 @@ buildvariants:
   tasks:
     - name: run_core_tests
     - name: run_ios_tests
-    
