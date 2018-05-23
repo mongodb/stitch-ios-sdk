@@ -29,7 +29,8 @@ class Stitch_iOSServiceTwilioTests: BaseStitchIntTestCocoaTouch {
         
         guard twilioSID != nil && twilioSID != "<your-sid>",
             twilioAuthToken != nil && twilioAuthToken != "<your-auth-token>" else {
-            fatalError("No Twilio Sid or Auth Token in properties; failing test. See README for more details.")
+            XCTFail("No Twilio Sid or Auth Token in properties; failing test. See README for more details.")
+            return
         }
     }
     

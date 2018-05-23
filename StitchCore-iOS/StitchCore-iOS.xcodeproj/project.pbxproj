@@ -40,6 +40,7 @@
 		F466EDFE20B516DB00D6E4E8 /* StitchCoreTestUtils_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F466EDFD20B516DB00D6E4E8 /* StitchCoreTestUtils_iOS.framework */; };
 		F466EE2B20B51C6D00D6E4E8 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F466EE2A20B51C6D00D6E4E8 /* StitchCore.framework */; };
 		F466EE3F20B5230E00D6E4E8 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F466EE3E20B5230E00D6E4E8 /* StitchCore.framework */; };
+		F4D3E4DD20B5C28D00C7479A /* JWT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D3E4DC20B5C28D00C7479A /* JWT.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,6 +95,7 @@
 		F466EE2A20B51C6D00D6E4E8 /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F466EE3C20B5230000D6E4E8 /* MongoSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MongoSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F466EE3E20B5230E00D6E4E8 /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4D3E4DC20B5C28D00C7479A /* JWT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = JWT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4D3E4DD20B5C28D00C7479A /* JWT.framework in Frameworks */,
 				F466EE3F20B5230E00D6E4E8 /* StitchCore.framework in Frameworks */,
 				F466EDFE20B516DB00D6E4E8 /* StitchCoreTestUtils_iOS.framework in Frameworks */,
 				F466EDFC20B516B800D6E4E8 /* StitchCoreTestUtils.framework in Frameworks */,
@@ -269,6 +272,7 @@
 		4902C6872050076B00E53674 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F4D3E4DC20B5C28D00C7479A /* JWT.framework */,
 				F466EE3E20B5230E00D6E4E8 /* StitchCore.framework */,
 				F466EE3C20B5230000D6E4E8 /* MongoSwift.framework */,
 				F466EE2A20B51C6D00D6E4E8 /* StitchCore.framework */,
@@ -532,6 +536,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2Z8M9MTEVV;
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../Sources/libbson",
 					"$(SRCROOT)/../Sources/libmongoc",
@@ -539,6 +544,7 @@
 				INFOPLIST_FILE = StitchCore_iOSTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/Frameworks @executable_path/Frameworks @rpath$(SRCROOT)/../Dependencies/lib $(SRCROOT)/../Dependencies/lib";
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../MobileSDKs/iphoneos/lib";
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mongodb.StitchCore-iOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -557,6 +563,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2Z8M9MTEVV;
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../Sources/libbson",
 					"$(SRCROOT)/../Sources/libmongoc",
@@ -564,6 +571,7 @@
 				INFOPLIST_FILE = StitchCore_iOSTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/Frameworks @executable_path/Frameworks @rpath$(SRCROOT)/../Dependencies/lib $(SRCROOT)/../Dependencies/lib";
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../MobileSDKs/iphoneos/lib";
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mongodb.StitchCore-iOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
