@@ -151,9 +151,9 @@ tasks:
   - name: run_ios_tests
     commands:
       - func: "fetch_source"
-      #- func: "setup_mongod"
-      #- func: "setup_stitch"
-      #- func: "setup_stitch_swift"
+      - func: "setup_mongod"
+      - func: "setup_stitch"
+      - func: "setup_stitch_swift"
       - func: "setup_test_creds"
       - command: shell.exec
         params:
@@ -164,11 +164,18 @@ tasks:
             echo "running iOS tests"
             cd stitch-ios-sdk
             xattr -rc ~/Library/Developer/Xcode/DerivedData
-            echo "cleaning stitch ios"
-            xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCore-iOS clean
-            xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesTwilio-iOS clean
-            echo "testing stitch ios"
-            #xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCore-iOS -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
+            
+            echo "!building StitchCore!"
+            xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCore-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
+            echo "!building StitchCoreAdminClient!"
+            xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreAdminClient-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
+            echo "!building StitchCoreTestUtils!"
+            xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreTestUtils-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
+            echo "!building StitchCoreServicesTwilio!"
+            xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesTwilio-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
+            echo "!testing StitchCore-iOS!"
+            xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCore-iOS -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
+            echo "!testing StitchCoreServicesTwilio-iOS!"
             xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesTwilio-iOS -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
 buildvariants:
 - name: macos-1013
@@ -179,5 +186,5 @@ buildvariants:
     mongodb_url: http://fastdl.mongodb.org/osx/mongodb-osx-ssl-x86_64-3.4.4.tgz
     transpiler_target: node8-macos
   tasks:
-    #- name: run_core_tests
+    - name: run_core_tests
     - name: run_ios_tests

@@ -391,7 +391,7 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/StitchCoreServicesTwilio-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.stitch.StitchCoreServicesTwilio-iOS";
@@ -420,7 +420,7 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/StitchCoreServicesTwilio-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.stitch.StitchCoreServicesTwilio-iOS";

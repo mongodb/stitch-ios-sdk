@@ -3,6 +3,11 @@ all:
 	$(MAKE) -C StitchCoreAdminClient all
 	$(MAKE) -C StitchCoreTestUtils all
 	$(MAKE) -C StitchCoreServicesTwilio all
+lint:
+	$(MAKE) -C StitchCore lint
+	$(MAKE) -C StitchCoreAdminClient lint
+	$(MAKE) -C StitchCoreTestUtils lint
+	$(MAKE) -C StitchCoreServicesTwilio lint
 git:
 	$(MAKE) -C StitchCore git
 	$(MAKE) -C StitchCoreAdminClient git

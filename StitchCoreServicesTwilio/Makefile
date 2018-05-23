@@ -5,6 +5,8 @@ git:
 	git config user.name "evg"
 	git add -A
 	git commit -m "init"
+lint:
+	swiftlint
 clean:
 	swift package clean
 build:

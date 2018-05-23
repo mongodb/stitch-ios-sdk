@@ -34,11 +34,9 @@ platform :ios, '11.0'
 use_frameworks!
 
 target '<Your Target Name>' do
-    pod 'StitchCore', '~> 3.0.2'
-    # optional: for accessing a mongodb client
-    pod 'MongoDBService', '~> 3.0.2'
-    # optional: for using mongodb's ExtendedJson
-    pod 'ExtendedJson', '~> 2.0.4'
+    pod 'Stitch', '~> 4.0.0'
+    # optional: for using the twilio service
+    pod 'Stitch/Twilio', '~> 4.0.0'
 end
 ```
 
@@ -66,11 +64,15 @@ If you prefer not to use any of the aforementioned dependency managers, you can 
   $ git submodule add https://github.com/10gen/stitch-ios-sdk.git
   ```
 
+- `cd` into stitch-ios-sdk, and run `.build.sh`. This will download the required dependencies for Stitch.
+
+- Run `make`.
+
 - Open the new `stitch-ios-sdk` folder, and drag the `StitchCore.xcodeproj` into the Project Navigator of your application's Xcode project.
 
     > It should appear nested underneath your application's blue project icon. Whether it is above or below all the other Xcode groups does not matter.
 
-- Select the `StitchCore.xcodeproj` in the Project Navigator and verify the deployment target matches that of your application target.
+- Select the `StitchCore-iOS.xcodeproj` in the Project Navigator and verify the deployment target matches that of your application target.
 - Next, select your application project in the Project Navigator (blue project icon) to navigate to the target configuration window and select the application target under the "Targets" heading in the sidebar.
 - In the tab bar at the top of that window, open the "General" panel.
 - Click on the `+` button under the "Embedded Binaries" section.
@@ -78,9 +80,13 @@ If you prefer not to use any of the aforementioned dependency managers, you can 
 
     > It does not matter which `Products` folder you choose from, but it does matter whether you choose the top or bottom `StitchCore.framework`.
 
-- Select the top `StitchCore.framework` for iOS and the bottom one for OS X.
+- Select the `StitchCore-iOS.framework` for iOS.
 
-- For adding the other modules, `MongoDBService`, `ExtendedJson`, or `StitchGCM`, follow the same process above but with the respective `.xcodeproj` files.
+- Click on your .xcodeproj within XCode. Under the `Build Settings` tab, scroll down to `Header Search Paths` and add `$(SRCROOT)/stitch-ios-sdk/Sources/libbson` and `$(SRCROOT)/stitch-ios-sdk/Sources/libmongoc`.
+
+- Scroll down to `Library Search Paths` and add `$(SRCROOT)/stitch-ios-sdk/MobileSDKs/iphoneos/lib`.
+
+- For adding the other modules, `StitchCoreServicesTwilio-iOS`, follow the same process above but with the respective `.xcodeproj` files.
 
 - And that's it!
 
