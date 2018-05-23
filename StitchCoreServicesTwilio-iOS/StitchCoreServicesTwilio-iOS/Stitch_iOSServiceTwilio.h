@@ -1,11 +1,3 @@
-//
-//  Stitch_iOSServiceTwilio.h
-//  Stitch-iOSServiceTwilio
-//
-//  Created by Jay Flax on 5/14/18.
-//  Copyright © 2018 MongoDB. All rights reserved.
-//
-
 #import <UIKit/UIKit.h>
 
 //! Project version number for Stitch_iOSServiceTwilio.
