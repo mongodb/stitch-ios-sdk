@@ -182,7 +182,7 @@ tasks:
             xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesTwilio-iOS -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
 buildvariants:
 - name: macos-1013
-  display_name: MacOS 1013
+  display_name: MacOS 10.13
   run_on:
     - macos-1013
   expansions:
