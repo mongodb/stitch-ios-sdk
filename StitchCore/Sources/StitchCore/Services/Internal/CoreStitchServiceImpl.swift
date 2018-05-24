@@ -35,9 +35,9 @@ open class CoreStitchServiceImpl: CoreStitchService {
     }
     
     public func callFunctionInternal(withName name: String, withArgs args: [BsonValue], withRequestTimeout timeout: TimeInterval? = nil) throws {
-        let _ = try requestClient.doAuthenticatedRequest(getCallServiceFunctionRequest(withName: name,
-                                                                                       withArgs: args,
-                                                                                       withTimeout: timeout))
+        try requestClient.doAuthenticatedRequest(getCallServiceFunctionRequest(withName: name,
+                                                                               withArgs: args,
+                                                                               withTimeout: timeout))
     }
     
     public func callFunctionInternal<T: Decodable>(withName name: String, withArgs args: [BsonValue], withRequestTimeout timeout: TimeInterval? = nil) throws -> T {
