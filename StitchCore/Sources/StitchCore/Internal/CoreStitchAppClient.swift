@@ -62,7 +62,7 @@ public final class CoreStitchAppClient {
      */
     private func callFunctionRequest(withName name: String,
                                      withArgs args: [BsonValue],
-                                     withRequestTimeout requestTimeout: TimeInterval?) throws -> StitchAuthDocRequest {
+                                     withRequestTimeout requestTimeout: TimeInterval? = nil) throws -> StitchAuthDocRequest {
         let route = self.routes.serviceRoutes.functionCallRoute
         return try StitchAuthDocRequestBuilderImpl {
             $0.method = .post
