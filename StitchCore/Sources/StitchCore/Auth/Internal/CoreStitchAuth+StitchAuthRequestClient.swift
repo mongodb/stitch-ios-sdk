@@ -1,4 +1,5 @@
 import Foundation
+import MongoSwift
 
 /**
  * Extension functions for `CoreStitchAuth` to add conformance to `StitchAuthRequestClient`, and to support proactive
@@ -23,28 +24,32 @@ extension CoreStitchAuth: StitchAuthRequestClient {
      * Performs an authenticated request to the Stitch server with a JSON body. Uses the current authentication state,
      * and will throw when the `CoreStitchAuth` is not currently authenticated.
      *
-     * - returns: An `Any` representing the response body as decoded JSON.
+     * - returns: A `T` representing the response body as decoded JSON.
      */
-    public func doAuthenticatedJSONRequest(_ stitchReq: StitchAuthDocRequest) throws -> Any {
-        do {
-            let response = try doAuthenticatedJSONRequestRaw(stitchReq)
-
-            guard let responseBody = response.body else {
-                throw StitchError.serviceError(
-                    withMessage: StitchErrorCodable.genericErrorMessage(withStatusCode: response.statusCode),
-                    withServiceErrorCode: .unknown
-                )
-            }
-
+    public func doAuthenticatedJSONRequest<T: Decodable>(_ stitchReq: StitchAuthDocRequest) throws -> T {
+        func handleResponse(_ response: Response) throws -> T {
             do {
-                return try JSONSerialization.jsonObject(with: responseBody,
-                                                        options: JSONSerialization.ReadingOptions.allowFragments)
+                guard let responseBody = response.body,
+                    let responseString = String.init(data: responseBody, encoding: .utf8) else {
+                    throw StitchError.serviceError(
+                        withMessage: StitchErrorCodable.genericErrorMessage(withStatusCode: response.statusCode),
+                        withServiceErrorCode: .unknown
+                    )
+                }
+
+                do {
+                    // TODO: until Swift Driver decides on what to do
+                    return try BsonDecoder().decode(T.self, from: responseString)
+                } catch let err {
+                    throw StitchError.requestError(withError: err, withRequestErrorCode: .decodingError)
+                }
             } catch let err {
-                throw StitchError.requestError(withError: err, withRequestErrorCode: .decodingError)
+                return try handleResponse(handleAuthFailure(forError: err,
+                                                            withRequest: stitchReq))
             }
-        } catch let err {
-            return try handleAuthFailure(forError: err, withRequest: stitchReq) as Any
         }
+        
+        return try handleResponse(doAuthenticatedJSONRequestRaw(stitchReq))
     }
 
     /**
@@ -52,13 +57,13 @@ extension CoreStitchAuth: StitchAuthRequestClient {
      *
      * - returns: The response to the request as a `Response`.
      */
-    public func doAuthenticatedJSONRequestRaw(_ stitchReq: StitchAuthDocRequest) throws -> Response {
+    internal func doAuthenticatedJSONRequestRaw(_ stitchReq: StitchAuthDocRequest) throws -> Response {
         var builder = StitchAuthDocRequestBuilderImpl { _ in }
         builder.path = stitchReq.path
         builder.useRefreshToken = stitchReq.useRefreshToken
         builder.method = stitchReq.method
+        builder.body = stitchReq.document.canonicalExtendedJSON.data(using: .utf8)
         builder.timeout = stitchReq.timeout
-        builder.body = try JSONSerialization.data(withJSONObject: stitchReq.document.toExtendedJSON)
         builder.document = stitchReq.document
         builder.headers = stitchReq.headers.merging(
             [Headers.contentType.rawValue:

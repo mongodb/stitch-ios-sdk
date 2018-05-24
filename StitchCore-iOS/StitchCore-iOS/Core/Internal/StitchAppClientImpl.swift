@@ -1,5 +1,5 @@
 import StitchCore
-import ExtendedJSON
+import MongoSwift
 
 /**
  * The implementation of the `StitchAppClient` protocol.
@@ -77,13 +77,13 @@ internal final class StitchAppClientImpl: StitchAppClient {
      * Retrieves the service client associated with the Stitch service with the specified name and type.
      *
      * - parameters:
-     *     - forProvider: An `AnyNamedServiceClientProvider` object which contains a `NamedServiceClientProvider`
+     *     - forProvider: An `AnyNamedServiceClientFactory` object which contains a `NamedServiceClientProvider`
      *                    class which will provide the client for this service.
      *     - withName: The name of the service as defined in the MongoDB Stitch application.
      * - returns: a service client whose type is determined by the `T` type parameter of the
-     *            `AnyNamedServiceClientProvider` passed in the `forProvider` parameter.
+     *            `AnyNamedServiceClientFactory` passed in the `forProvider` parameter.
      */
-    public func serviceClient<T>(forService serviceClientProvider: AnyNamedServiceClientProvider<T>,
+    public func serviceClient<T>(forService serviceClientProvider: AnyNamedServiceClientFactory<T>,
                                  withName serviceName: String) -> T {
         return serviceClientProvider.client(
             forService: StitchServiceImpl.init(requestClient: self._auth,
@@ -102,7 +102,7 @@ internal final class StitchAppClientImpl: StitchAppClient {
      * - returns: a service client whose type is determined by the `T` type parameter of the `AnyServiceClientProvider`
      *            passed in the `forProvider` parameter.
      */
-    public func serviceClient<T>(forService serviceClientProvider: AnyServiceClientProvider<T>) -> T {
+    public func serviceClient<T>(forService serviceClientProvider: AnyNamedServiceClientFactory<T>) -> T {
         return serviceClientProvider.client(
             forService: StitchServiceImpl.init(requestClient: self._auth,
                                                routes: self.routes.serviceRoutes,
@@ -130,7 +130,47 @@ internal final class StitchAppClientImpl: StitchAppClient {
     }
 
     // MARK: Functions
-
+    /**
+     * Calls the MongoDB Stitch function with the provided name and arguments.
+     *
+     * - parameters:
+     *     - withName: The name of the Stitch function to be called.
+     *     - withArgs: The `BSONArray` of arguments to be provided to the function.
+     *     - error: An error object that indicates why the function call failed, or `nil` if the function call was
+     *              successful.
+     *
+     */
+    public func callFunction(withName name: String,
+                             withArgs args: [BsonValue],
+                             _ completionHandler: @escaping (Error?) -> Void) {
+        self.dispatcher.run(withCompletionHandler: completionHandler) {
+            return try self.coreClient.callFunctionInternal(withName: name, withArgs: args)
+        }
+    }
+    
+    /**
+     * Calls the MongoDB Stitch function with the provided name and arguments, as well as with a specified timeout. Use
+     * this for functions that may run longer than the client-wide default timeout (15 seconds by default).
+     *
+     * - parameters:
+     *     - withName: The name of the Stitch function to be called.
+     *     - withArgs: The `BSONArray` of arguments to be provided to the function.
+     *     - completionHandler: The completion handler to call when the function call is complete.
+     *                          This handler is executed on a non-main global `DispatchQueue`.
+     *     - result: The result of the function call as `T`, or `nil` if the function call failed.
+     *     - error: An error object that indicates why the function call failed, or `nil` if the function call was
+     *              successful.
+     *
+     */
+    public func callFunction<T: Decodable>(withName name: String,
+                                           withArgs args: [BsonValue],
+                                           _ completionHandler: @escaping (T?, Error?) -> Void) {
+        dispatcher.run(withCompletionHandler: completionHandler) {
+            return try self.coreClient.callFunctionInternal(withName: name,
+                                                            withArgs: args)
+        }
+    }
+    
     /**
      * Calls the MongoDB Stitch function with the provided name and arguments.
      *
@@ -139,16 +179,16 @@ internal final class StitchAppClientImpl: StitchAppClient {
      *     - withArgs: The `BSONArray` of arguments to be provided to the function.
      *     - completionHandler: The completion handler to call when the function call is complete.
      *                          This handler is executed on a non-main global `DispatchQueue`.
-     *     - result: The result of the function call as an `Any`, or `nil` if the function call failed.
      *     - error: An error object that indicates why the function call failed, or `nil` if the function call was
      *              successful.
      *
      */
     public func callFunction(withName name: String,
-                             withArgs args: BSONArray,
-                             _ completionHandler: @escaping (Any?, Error?) -> Void) {
-        dispatcher.run(withCompletionHandler: completionHandler) {
-            return try self.coreClient.callFunctionInternal(withName: name, withArgs: args)
+                             withArgs args: [BsonValue],
+                             withRequestTimeout requestTimeout: TimeInterval,
+                             _ completionHandler: @escaping (Error?) -> Void) {
+        self.dispatcher.run(withCompletionHandler: completionHandler) {
+            return try self.coreClient.callFunctionInternal(withName: name, withArgs: args, withRequestTimeout: requestTimeout)
         }
     }
 
@@ -163,15 +203,15 @@ internal final class StitchAppClientImpl: StitchAppClient {
      *                           failing with an error.
      *     - completionHandler: The completion handler to call when the function call is complete.
      *                          This handler is executed on a non-main global `DispatchQueue`.
-     *     - result: The result of the function call as an `Any`, or `nil` if the function call failed.
+     *     - result: The result of the function call as `T`, or `nil` if the function call failed.
      *     - error: An error object that indicates why the function call failed, or `nil` if the function call was
      *              successful.
      *
      */
-    public func callFunction(withName name: String,
-                             withArgs args: BSONArray,
-                             withRequestTimeout requestTimeout: TimeInterval,
-                             _ completionHandler: @escaping (Any?, Error?) -> Void) {
+    public func callFunction<T: Decodable>(withName name: String,
+                                           withArgs args: [BsonValue],
+                                           withRequestTimeout requestTimeout: TimeInterval,
+                                           _ completionHandler: @escaping (T?, Error?) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
             return try self.coreClient.callFunctionInternal(withName: name,
                                                             withArgs: args,

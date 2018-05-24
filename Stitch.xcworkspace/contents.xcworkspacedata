@@ -5,9 +5,24 @@
       location = "group:StitchSDKExample/StitchSDKExample.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:StitchCore-iOS/StitchCore-iOS.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:StitchCoreServicesTwilio/StitchCoreServicesTwilio.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:StitchCoreServicesTwilio-iOS/StitchCoreServicesTwilio-iOS.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:StitchCore/StitchCore.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:StitchCore-iOS/StitchCore-iOS.xcodeproj">
+      location = "group:StitchCoreAdminClient/StitchCoreAdminClient.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:StitchCoreTestUtils/StitchCoreTestUtils.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:StitchCoreTestUtils-iOS/StitchCoreTestUtils-iOS.xcodeproj">
    </FileRef>
 </Workspace>

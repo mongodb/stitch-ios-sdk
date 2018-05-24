@@ -1,4 +1,4 @@
-import ExtendedJSON
+import MongoSwift
 import Foundation
 import XCTest
 import StitchCore

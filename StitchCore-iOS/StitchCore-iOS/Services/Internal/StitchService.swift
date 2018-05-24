@@ -1,4 +1,5 @@
-import ExtendedJSON
+import MongoSwift
+import StitchCore
 import Foundation
 
 /**
@@ -6,7 +7,7 @@ import Foundation
  * A class implementing this protocol for a service with known functions and return values may implement
  * concrete methods that use these methods internally.
  */
-public protocol StitchService {
+public protocol StitchService: CoreStitchService {
 
     // swiftlint:disable line_length
 
@@ -18,12 +19,11 @@ public protocol StitchService {
      *     - withArgs: The `BSONArray` of arguments to be provided to the function.
      *     - completionHandler: The completion handler to call when the function call is complete.
      *                          This handler is executed on a non-main global `DispatchQueue`.
-     *     - result: The result of the function call as an `Any`, or `nil` if the function call failed.
      *     - error: An error object that indicates why the function call failed, or `nil` if the function call was
      *              successful.
      *
      */
-    func callFunction(withName name: String, withArgs args: BSONArray, _ completionHandler: @escaping (_ result: Any?, _ error: Error?) -> Void)
+    func callFunction(withName name: String, withArgs args: [BsonValue], withRequestTimeout requestTimeout: TimeInterval, _ completionHandler: @escaping (_ error: Error?) -> Void)
 
     /**
      * Calls the function for this service with the provided name and arguments, as well as with a specified timeout.
@@ -36,12 +36,11 @@ public protocol StitchService {
      *                           failing with an error.
      *     - completionHandler: The completion handler to call when the function call is complete.
      *                          This handler is executed on a non-main global `DispatchQueue`.
-     *     - result: The result of the function call as an `Any`, or `nil` if the function call failed.
+     *     - result: The result of the function call as `T`, or `nil` if the function call failed.
      *     - error: An error object that indicates why the function call failed, or `nil` if the function call was
      *              successful.
      *
      */
-    func callFunction(withName name: String, withArgs args: BSONArray, withRequestTimeout requestTimeout: TimeInterval, _ completionHandler: @escaping (_ result: Any?, _ error: Error?) -> Void)
-
+    func callFunction<T: Decodable>(withName name: String, withArgs args: [BsonValue], withRequestTimeout requestTimeout: TimeInterval, _ completionHandler: @escaping (_ result: T?, _ error: Error?) -> Void)
     // swiftlint:enable line_length
 }

@@ -44,7 +44,25 @@ StitchCore/Packages/
 StitchCore/Package.pins
 StitchCore/Package.resolved
 StitchCore/.build/
+StitchCore/*.xcodeproj/
 
+StitchCoreAdminClient/Packages/
+StitchCoreAdminClient/Package.pins
+StitchCoreAdminClient/Package.resolved
+StitchCoreAdminClient/.build/
+StitchCoreAdminClient/*.xcodeproj/
+
+StitchCoreTestUtils/Packages/
+StitchCoreTestUtils/Package.pins
+StitchCoreTestUtils/Package.resolved
+StitchCoreTestUtils/.build/
+StitchCoreTestUtils/*.xcodeproj/
+
+StitchCoreServicesTwilio/Packages/
+StitchCoreServicesTwilio/Package.pins
+StitchCoreServicesTwilio/Package.resolved
+StitchCoreServicesTwilio/.build/
+StitchCoreServicesTwilio/StitchCoreServicesTwilio.xcodeproj/
 
 # CocoaPods
 #
@@ -75,4 +93,7 @@ Carthage/Build
 fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots
-fastlane/test_outputOB
+fastlane/test_output
+
+/MobileSDKs
+/Sources

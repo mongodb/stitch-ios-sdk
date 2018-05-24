@@ -1,6 +1,7 @@
 import StitchCore_iOS
 import StitchCore
 import XCTest
+import StitchCoreTestUtils_iOS
 
 private final class TestThrowingServiceClientProvider: ThrowingServiceClientProvider {
     typealias ClientType = String
@@ -14,24 +15,30 @@ private final class TestThrowingServiceClientProvider: ThrowingServiceClientProv
     }
 }
 
-class ThrowingServiceClientProviderUnitTests: XCTestCase {
+class ThrowingServiceClientProviderUnitTests: BaseStitchIntTestCocoaTouch {
+    var appClient: StitchAppClient!
+    
     override func setUp() {
-        do {
-            try Stitch.initialize()
-            _ = try Stitch.initializeDefaultAppClient(
-                withConfigBuilder: StitchAppClientConfigurationBuilder.init({
-                    $0.clientAppId = "placeholder-app-id"
-                }))
-        } catch {
-            XCTFail("Failed to initialize MongoDB Stitch iOS SDK: \(error.localizedDescription)")
+        guard let client = try? Stitch.getDefaultAppClient() else {
+            do {
+                try Stitch.initialize()
+                appClient = try? Stitch.initializeDefaultAppClient(
+                    withConfigBuilder: StitchAppClientConfigurationBuilder.init({
+                        $0.clientAppId = "placeholder-app-id"
+                    }))
+            } catch {
+                XCTFail("Failed to initialize MongoDB Stitch iOS SDK: \(error.localizedDescription)")
+            }
+            
+            return
         }
+        
+        self.appClient = client
     }
 
     func testThrowingServiceClient() throws {
-        let client = try Stitch.getDefaultAppClient()
-
         XCTAssertThrowsError(
-            try client.serviceClient(
+            try appClient.serviceClient(
                 forService: AnyThrowingServiceClientProvider<String>.init(
                     provider: TestThrowingServiceClientProvider()
                 )

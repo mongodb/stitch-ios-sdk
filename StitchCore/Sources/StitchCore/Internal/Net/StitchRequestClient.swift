@@ -1,5 +1,5 @@
 import Foundation
-import ExtendedJSON
+import MongoSwift
 
 /**
  * Returns the provided response if its status code is in the 200 range, throws a `StitchError` otherwise.
@@ -92,8 +92,7 @@ public final class StitchRequestClientImpl: StitchRequestClient {
      */
     public func doJSONRequestRaw(_ stitchReq: StitchDocRequest) throws -> Response {
         return try doRequest(StitchRequestBuilderImpl { builder in
-            builder.body = try? BSONEncoder().encode(stitchReq.document,
-                                                      shouldIncludeSourceMap: false)
+            builder.body = stitchReq.document.canonicalExtendedJSON.data(using: .utf8)
             builder.headers = [
                 Headers.contentType.rawValue: ContentTypes.applicationJson.rawValue
             ]

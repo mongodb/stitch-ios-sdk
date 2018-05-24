@@ -1,4 +1,4 @@
-import ExtendedJSON
+import MongoSwift
 
 /**
  * A credential which can be used to log in as a Stitch user

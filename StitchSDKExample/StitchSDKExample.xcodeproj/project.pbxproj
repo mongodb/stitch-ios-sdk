@@ -13,7 +13,6 @@
 		11C588072059904000B34DD1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11C588062059904000B34DD1 /* Assets.xcassets */; };
 		11C5880A2059904000B34DD1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 11C588082059904000B34DD1 /* LaunchScreen.storyboard */; };
 		11CAF8CB2059911B003AF24D /* StitchCore_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11CAF8CC2059911B003AF24D /* StitchCore_iOS.framework */; };
-		11EE67AC2065A8CC00A8B752 /* ExtendedJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11EE67AD2065A8CC00A8B752 /* ExtendedJSON.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +32,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				11EE67AC2065A8CC00A8B752 /* ExtendedJSON.framework in Frameworks */,
 				11CAF8CB2059911B003AF24D /* StitchCore_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -308,8 +306,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../Sources/libbson",
+					"$(SRCROOT)/../Sources/libmongoc",
+				);
 				INFOPLIST_FILE = StitchSDKExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../MobileSDKs/iphoneos/lib/";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchSDKExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -322,8 +325,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../Sources/libbson",
+					"$(SRCROOT)/../Sources/libmongoc",
+				);
 				INFOPLIST_FILE = StitchSDKExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../MobileSDKs/iphoneos/lib/";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchSDKExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;

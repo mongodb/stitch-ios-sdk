@@ -1,4 +1,4 @@
-import ExtendedJSON
+import MongoSwift
 import Foundation
 
 /**
@@ -30,16 +30,27 @@ public final class CoreStitchAppClient {
     }
 
     // MARK: Methods
-
+    /**
+     * Performs a request against the Stitch server to call a function in the Stitch application. Takes the function
+     * name and arguments as parameters.
+     */
+    public func callFunctionInternal(withName name: String,
+                                     withArgs args: [BsonValue],
+                                     withRequestTimeout requestTimeout: TimeInterval? = nil) throws {
+        try self.authRequestClient.doAuthenticatedRequest(
+            callFunctionRequest(withName: name, withArgs: args, withRequestTimeout: requestTimeout)
+        )
+    }
+    
     /**
      * Performs a request against the Stitch server to call a function in the Stitch application. Takes the function
      * name and arguments as parameters.
      *
-     * - returns: An `Any` representing the decoded JSON of the result of the function call.
+     * - returns: A `T` representing the decoded JSON of the result of the function call.
      */
-    public func callFunctionInternal(withName name: String,
-                                     withArgs args: BSONArray,
-                                     withRequestTimeout requestTimeout: TimeInterval? = nil) throws -> Any {
+    public func callFunctionInternal<T: Decodable>(withName name: String,
+                                                   withArgs args: [BsonValue],
+                                                   withRequestTimeout requestTimeout: TimeInterval? = nil) throws -> T {
         return try self.authRequestClient.doAuthenticatedJSONRequest(
             callFunctionRequest(withName: name, withArgs: args, withRequestTimeout: requestTimeout)
         )
@@ -50,8 +61,8 @@ public final class CoreStitchAppClient {
      * and arguments as parameters.
      */
     private func callFunctionRequest(withName name: String,
-                                     withArgs args: BSONArray,
-                                     withRequestTimeout requestTimeout: TimeInterval?) throws -> StitchAuthDocRequest {
+                                     withArgs args: [BsonValue],
+                                     withRequestTimeout requestTimeout: TimeInterval? = nil) throws -> StitchAuthDocRequest {
         let route = self.routes.serviceRoutes.functionCallRoute
         return try StitchAuthDocRequestBuilderImpl {
             $0.method = .post
@@ -61,6 +72,6 @@ public final class CoreStitchAppClient {
                 "name": name,
                 "arguments": args
             ]
-            }.build()
+        }.build()
     }
 }

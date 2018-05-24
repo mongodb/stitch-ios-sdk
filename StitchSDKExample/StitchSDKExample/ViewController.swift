@@ -1,6 +1,7 @@
 import UIKit
 import StitchCore_iOS
-import ExtendedJSON
+import MongoSwift
+import StitchCore
 
 class ViewController: UIViewController {
 
@@ -30,30 +31,28 @@ class ViewController: UIViewController {
     private lazy var stitchClient: StitchAppClient! = try? Stitch.getDefaultAppClient()
 
     @IBAction func functionOnePressed(_ sender: Any) {
-        self.stitchClient.callFunction(withName: "getBool", withArgs: []) { (value, error) in
+        let abcr = ["1", 1] as [BsonValue]
+        self.stitchClient.callFunction(withName: "getBool", withArgs: abcr, withRequestTimeout: 5.0) { (value: Bool?, error: Error?) in
             print("Bool: \(String(describing: value as? Bool)), Error: \(String(describing: error))")
         }
     }
 
     @IBAction func functionTwoPressed(_ sender: Any) {
-        self.stitchClient.callFunction(withName: "getObject", withArgs: []) { (value, error) in
+        self.stitchClient.callFunction(withName: "getObject", withArgs: [], withRequestTimeout: 5.0) { (value: Document?, error: Error?) in
             print("Object: \(String(describing: value)), Error: \(String(describing: error))")
         }
     }
 
     @IBAction func functionThreePressed(_ sender: Any) {
-        stitchClient.callFunction(withName: "echoArg", withArgs: ["Hello world!"]) { (value, error) in
+        stitchClient.callFunction(withName: "echoArg", withArgs: ["Hello world!"], withRequestTimeout: 5.0) { (value, error) in
             print("Message: \(value ?? "None")\nError: \(String(describing: error))")
         }
     }
 
     @IBAction func loginButtonPressed(_ sender: Any) {
-        let anonAuthClient =
-            stitchClient.auth.providerClient(forProvider: AnonymousAuthProvider.clientSupplier)
-
         print(UIDevice.current.systemName)
 
-        stitchClient.auth.login(withCredential: anonAuthClient.credential) { user, error in
+        stitchClient.auth.login(withCredential: AnonymousCredential()) { user, error in
             if let error = error {
                 print("Failed to log in: \(error)")
             } else if let user = user {

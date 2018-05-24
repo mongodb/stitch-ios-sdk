@@ -1,6 +1,6 @@
 import Foundation
 import StitchCore
-import ExtendedJSON
+import MongoSwift
 
 /**
  * A utility class which contains a property that can be used with `StitchAuth` to retrieve a
