@@ -24,7 +24,6 @@ open class CoreTwilioServiceClient {
             args["mediaUrl"] = mediaURL
         }
         
-        let _ =
         try self.service.callFunctionInternal(withName: "send", withArgs: [args], withRequestTimeout: nil)
     }
 }

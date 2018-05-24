@@ -16,7 +16,7 @@ public protocol StitchAuthRequestClient {
      * Performs an authenticated request to the Stitch server with a JSON request body, using the current
      * authentication state, and should throw when not currently authenticated.
      *
-     * - returns: An `Any` representing the response body as decoded JSON.
+     * - returns: An `T` representing the response body as decoded JSON.
      */
     func doAuthenticatedJSONRequest<T: Decodable>(_ stitchReq: StitchAuthDocRequest) throws -> T
 }

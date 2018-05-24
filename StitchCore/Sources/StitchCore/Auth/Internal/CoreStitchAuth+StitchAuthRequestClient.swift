@@ -24,7 +24,7 @@ extension CoreStitchAuth: StitchAuthRequestClient {
      * Performs an authenticated request to the Stitch server with a JSON body. Uses the current authentication state,
      * and will throw when the `CoreStitchAuth` is not currently authenticated.
      *
-     * - returns: An `Any` representing the response body as decoded JSON.
+     * - returns: A `T` representing the response body as decoded JSON.
      */
     public func doAuthenticatedJSONRequest<T: Decodable>(_ stitchReq: StitchAuthDocRequest) throws -> T {
         func handleResponse(_ response: Response) throws -> T {

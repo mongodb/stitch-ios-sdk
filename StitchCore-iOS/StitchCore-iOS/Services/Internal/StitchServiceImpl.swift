@@ -54,7 +54,7 @@ internal final class StitchServiceImpl: CoreStitchServiceImpl, StitchService {
      *                           failing with an error.
      *     - completionHandler: The completion handler to call when the function call is complete.
      *                          This handler is executed on a non-main global `DispatchQueue`.
-     *     - result: The result of the function call as an `Any`, or `nil` if the function call failed.
+     *     - result: The result of the function call as `T`, or `nil` if the function call failed.
      *     - error: An error object that indicates why the function call failed, or `nil` if the function call was
      *              successful.
      *

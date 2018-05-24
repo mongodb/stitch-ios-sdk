@@ -33,13 +33,11 @@ public final class CoreStitchAppClient {
     /**
      * Performs a request against the Stitch server to call a function in the Stitch application. Takes the function
      * name and arguments as parameters.
-     *
-     * - returns: An `Any` representing the decoded JSON of the result of the function call.
      */
     public func callFunctionInternal(withName name: String,
                                      withArgs args: [BsonValue],
                                      withRequestTimeout requestTimeout: TimeInterval? = nil) throws {
-        let _ = try self.authRequestClient.doAuthenticatedRequest(
+        try self.authRequestClient.doAuthenticatedRequest(
             callFunctionRequest(withName: name, withArgs: args, withRequestTimeout: requestTimeout)
         )
     }
@@ -48,11 +46,11 @@ public final class CoreStitchAppClient {
      * Performs a request against the Stitch server to call a function in the Stitch application. Takes the function
      * name and arguments as parameters.
      *
-     * - returns: An `Any` representing the decoded JSON of the result of the function call.
+     * - returns: A `T` representing the decoded JSON of the result of the function call.
      */
-    public func callFunctionInternal<D: Decodable>(withName name: String,
+    public func callFunctionInternal<T: Decodable>(withName name: String,
                                                    withArgs args: [BsonValue],
-                                                   withRequestTimeout requestTimeout: TimeInterval? = nil) throws -> D {
+                                                   withRequestTimeout requestTimeout: TimeInterval? = nil) throws -> T {
         return try self.authRequestClient.doAuthenticatedJSONRequest(
             callFunctionRequest(withName: name, withArgs: args, withRequestTimeout: requestTimeout)
         )

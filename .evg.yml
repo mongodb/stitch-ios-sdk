@@ -10,7 +10,8 @@ functions:
         script: |
           git clone https://github.com/realm/SwiftLint
           cd SwiftLint
-          git submodule update --init --recursive; make install
+          git submodule update --init --recursive
+          make install
   "setup_mongod":
     - command: shell.exec
       params:
