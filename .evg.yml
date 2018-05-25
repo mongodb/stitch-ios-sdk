@@ -103,7 +103,6 @@ functions:
     - command: shell.exec
       params:
         shell: "bash"
-        silent: true
         script: |
           set -e
           cd stitch-ios-sdk
