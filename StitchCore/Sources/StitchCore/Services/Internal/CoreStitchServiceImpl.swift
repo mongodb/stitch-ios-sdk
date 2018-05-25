@@ -35,15 +35,15 @@ open class CoreStitchServiceImpl: CoreStitchService {
     }
     
     public func callFunctionInternal(withName name: String, withArgs args: [BsonValue], withRequestTimeout timeout: TimeInterval? = nil) throws {
-        try requestClient.doAuthenticatedRequest(getCallServiceFunctionRequest(withName: name,
-                                                                               withArgs: args,
-                                                                               withTimeout: timeout))
+        let _: Response = try requestClient.doAuthenticatedRequest(getCallServiceFunctionRequest(withName: name,
+                                                                                   withArgs: args,
+                                                                                   withTimeout: timeout))
     }
     
     public func callFunctionInternal<T: Decodable>(withName name: String, withArgs args: [BsonValue], withRequestTimeout timeout: TimeInterval? = nil) throws -> T {
-        return try requestClient.doAuthenticatedJSONRequest(getCallServiceFunctionRequest(withName: name,
-                                                                                          withArgs: args,
-                                                                                          withTimeout: timeout))
+        return try requestClient.doAuthenticatedRequest(getCallServiceFunctionRequest(withName: name,
+                                                                                      withArgs: args,
+                                                                                      withTimeout: timeout))
     }
 }
 

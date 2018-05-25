@@ -279,7 +279,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
             return try self.requestClient.doRequest(reqBuilder.build())
         }
 
-        return try doAuthenticatedJSONRequestRaw(try StitchAuthDocRequestBuilderImpl {
+        return try doAuthenticatedRequest(try StitchAuthDocRequestBuilderImpl {
             $0.body = reqBuilder.body
             $0.path = reqBuilder.path
             $0.headers = reqBuilder.headers

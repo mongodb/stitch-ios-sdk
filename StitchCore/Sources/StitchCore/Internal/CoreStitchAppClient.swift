@@ -37,7 +37,7 @@ public final class CoreStitchAppClient {
     public func callFunctionInternal(withName name: String,
                                      withArgs args: [BsonValue],
                                      withRequestTimeout requestTimeout: TimeInterval? = nil) throws {
-        try self.authRequestClient.doAuthenticatedRequest(
+        let _: Response = try self.authRequestClient.doAuthenticatedRequest(
             callFunctionRequest(withName: name, withArgs: args, withRequestTimeout: requestTimeout)
         )
     }
@@ -51,7 +51,7 @@ public final class CoreStitchAppClient {
     public func callFunctionInternal<T: Decodable>(withName name: String,
                                                    withArgs args: [BsonValue],
                                                    withRequestTimeout requestTimeout: TimeInterval? = nil) throws -> T {
-        return try self.authRequestClient.doAuthenticatedJSONRequest(
+        return try self.authRequestClient.doAuthenticatedRequest(
             callFunctionRequest(withName: name, withArgs: args, withRequestTimeout: requestTimeout)
         )
     }

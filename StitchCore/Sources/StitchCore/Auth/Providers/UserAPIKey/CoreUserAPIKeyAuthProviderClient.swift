@@ -93,7 +93,7 @@ open class CoreAuthenticatedUserAPIKeyClient: CoreAuthProviderClient<StitchAuthR
      *     - withName: The name of the API key to be created.
      */
     public func createApiKey(withName name: String) throws -> UserAPIKey {
-        return try self.requestClient.doAuthenticatedJSONRequest(
+        return try self.requestClient.doAuthenticatedRequest(
             StitchAuthDocRequestBuilderImpl {
             $0.method = .post
             $0.document = [nameKey: name]
