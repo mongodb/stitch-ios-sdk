@@ -5,7 +5,7 @@ import MongoSwift
  * Extension functions for `CoreStitchAuth` to add conformance to `StitchAuthRequestClient`, and to support proactive
  * and non-proactive access token refresh.
  */
-extension CoreStitchAuth: StitchAuthRequestClient {
+extension CoreStitchAuth {
     /**
      * Performs an authenticated request to the Stitch server, using the current authentication state. Will throw when
      * when the `CoreStitchAuth` is not currently authenticated.
@@ -133,56 +133,5 @@ extension CoreStitchAuth: StitchAuthRequestClient {
         try self.tryRefreshAccessToken(reqStartedAt: req.startedAt)
 
         return try doAuthenticatedRequest(req)
-    }
-
-    /**
-     * Checks if the current access token is expired or going to expire soon, and refreshes the access token if
-     * necessary.
-     */
-    internal func tryRefreshAccessToken(reqStartedAt: TimeInterval) throws {
-        // use this critical section to create a queue of pending outbound requests
-        // that should wait on the result of doing a token refresh or logout. This will
-        // prevent too many refreshes happening one after the other.
-        objc_sync_enter(self)
-        defer { objc_sync_exit(self) }
-        guard isLoggedIn, let accessToken = self.authStateHolder.accessToken else {
-            throw StitchError.clientError(withClientErrorCode: .loggedOutDuringRequest)
-        }
-
-        let jwt = try JWT.init(fromEncodedJWT: accessToken)
-        guard let issuedAt = jwt.issuedAt,
-            issuedAt < reqStartedAt else {
-            return
-        }
-        try refreshAccessToken()
-    }
-
-    /**
-     * Attempts to refresh the current access token.
-     *
-     * - important: This method must be called within a lock.
-     */
-    internal func refreshAccessToken() throws {
-        let response = try self.doAuthenticatedRequest(StitchAuthRequestBuilderImpl {
-            $0.useRefreshToken = true
-            $0.path = self.authRoutes.sessionRoute
-            $0.method = .post
-            }.build())
-
-        var newAccessToken: APIAccessToken!
-        do {
-            newAccessToken = try JSONDecoder().decode(APIAccessToken.self,
-                                                      from: response.body!)
-        } catch let err {
-            throw StitchError.requestError(withError: err, withRequestErrorCode: .decodingError)
-        }
-
-        self.authInfo = self.authInfo?.refresh(withNewAccessToken: newAccessToken)
-
-        do {
-            try self.authInfo?.write(toStorage: &self.storage)
-        } catch {
-            throw StitchError.clientError(withClientErrorCode: .couldNotPersistAuthInfo)
-        }
     }
 }

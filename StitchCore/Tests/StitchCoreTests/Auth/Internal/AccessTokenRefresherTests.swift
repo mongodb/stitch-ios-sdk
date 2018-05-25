@@ -7,6 +7,12 @@ import func JWT.encode
 import enum JWT.Algorithm
 import class JWT.ClaimSetBuilder
 
+let freshJwt = encode(Algorithm.hs256("secret".data(using: .utf8)!), closure: { (csb: ClaimSetBuilder) in
+    var date = Date()
+    date.addTimeInterval(20*60)
+    csb.expiration = date
+})
+
 let expiredJWT = encode(Algorithm.hs256("secret".data(using: .utf8)!), closure: { (csb: ClaimSetBuilder) in
     var date = Date()
     date.addTimeInterval(-(Date.init().timeIntervalSince1970 - 10000.0))
@@ -61,5 +67,63 @@ class AccessTokenRefresherTests: XCTestCase {
         accessTokenRefresher.checkRefresh()
 
         XCTAssertEqual(mockCoreAuth.setterAccessed, 3)
+    }
+    
+    func testCheckRefreshProto() throws {
+        let auth = MockCoreStitchAuthProto<StubUser>()
+        let accessTokenRefresher = AccessTokenRefresher<StubUser>.init(authRef: auth)
+        
+        // Auth starts out logged in and with a fresh token
+        let freshAuthInfo: AuthInfo = StoreAuthInfo.init(
+            userId: "",
+            deviceId: nil,
+            accessToken: freshJwt,
+            refreshToken: freshJwt,
+            loggedInProviderType: .anonymous,
+            loggedInProviderName: "",
+            userProfile: StitchUserProfileImpl.init(userType: "",
+                                                    identities: [],
+                                                    data: APIExtendedUserProfileImpl.init()))
+        
+        auth.isLoggedInMock.doReturn(result: true)
+        auth.getAuthInfoMock.doReturn(result: freshAuthInfo)
+        XCTAssertTrue(auth.refreshAccessTokenMock.verify(numberOfInvocations: 0))
+        XCTAssertTrue(auth.getAuthInfoMock.verify(numberOfInvocations: 0))
+        
+        XCTAssertTrue(accessTokenRefresher.checkRefresh())
+        XCTAssertTrue(auth.refreshAccessTokenMock.verify(numberOfInvocations: 0))
+        XCTAssertTrue(auth.getAuthInfoMock.verify(numberOfInvocations: 1))
+        
+        // Auth info is now expired
+        let expiredAuthInfo: AuthInfo = StoreAuthInfo.init(
+            userId: "",
+            deviceId: nil,
+            accessToken: expiredJWT,
+            refreshToken: expiredJWT,
+            loggedInProviderType: .anonymous,
+            loggedInProviderName: "",
+            userProfile: StitchUserProfileImpl.init(userType: "",
+                                                    identities: [],
+                                                    data: APIExtendedUserProfileImpl.init()))
+        auth.getAuthInfoMock.doReturn(result: expiredAuthInfo)
+        
+        XCTAssertTrue(accessTokenRefresher.checkRefresh())
+        XCTAssertTrue(auth.refreshAccessTokenMock.verify(numberOfInvocations: 1))
+        XCTAssertTrue(auth.getAuthInfoMock.verify(numberOfInvocations: 2))
+        
+        // Auth info is gone after checking is logged in
+        auth.getAuthInfoMock.doReturn(result: nil)
+        XCTAssertTrue(accessTokenRefresher.checkRefresh())
+        XCTAssertTrue(auth.refreshAccessTokenMock.verify(numberOfInvocations: 1))
+        XCTAssertTrue(auth.getAuthInfoMock.verify(numberOfInvocations: 3))
+        
+        // CoreStitchAuth is ARCed
+        var accessTokenRefresher2: AccessTokenRefresher<StubUser>!
+        _ = {
+            let auth2 = MockCoreStitchAuthProto<StubUser>()
+            accessTokenRefresher2 = AccessTokenRefresher<StubUser>(authRef: auth2)
+        }()
+        
+        XCTAssertFalse(accessTokenRefresher2.checkRefresh())
     }
 }
