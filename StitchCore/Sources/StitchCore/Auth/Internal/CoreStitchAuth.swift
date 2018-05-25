@@ -276,7 +276,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
         }
 
         if !asLinkRequest {
-            return try self.requestClient.doJSONRequestRaw(reqBuilder.build())
+            return try self.requestClient.doRequest(reqBuilder.build())
         }
 
         return try doAuthenticatedJSONRequestRaw(try StitchAuthDocRequestBuilderImpl {

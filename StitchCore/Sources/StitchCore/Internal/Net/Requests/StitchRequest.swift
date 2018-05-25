@@ -324,7 +324,10 @@ public struct StitchDocRequest: StitchRequest {
 
         self.timeout = builder.timeout
         self.headers = builder.headers ?? [:]
-        self.body = builder.body
+        
+        self.headers[Headers.contentType.rawValue] = ContentTypes.applicationJson.rawValue
+        self.body = document.canonicalExtendedJSON.data(using: .utf8)
+        
         self.document = document
         self.startedAt = Date().timeIntervalSince1970
     }

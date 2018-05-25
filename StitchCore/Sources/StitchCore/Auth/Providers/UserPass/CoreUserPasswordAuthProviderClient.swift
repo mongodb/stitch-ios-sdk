@@ -100,7 +100,7 @@ open class CoreUserPasswordAuthProviderClient: CoreAuthProviderClient<StitchRequ
      */
     public func register(withEmail email: String,
                          withPassword password: String) throws -> Response {
-        return try self.requestClient.doJSONRequestRaw(StitchDocRequestBuilderImpl {
+        return try self.requestClient.doRequest(StitchDocRequestBuilderImpl {
             $0.method = .post
             $0.document = [emailKey: email,
                            passwordKey: password]
@@ -118,7 +118,7 @@ open class CoreUserPasswordAuthProviderClient: CoreAuthProviderClient<StitchRequ
      */
     public func confirmUser(withToken token: String,
                             withTokenId tokenId: String) throws -> Response {
-        return try self.requestClient.doJSONRequestRaw(StitchDocRequestBuilderImpl {
+        return try self.requestClient.doRequest(StitchDocRequestBuilderImpl {
             $0.method = .post
             $0.document = [tokenKey: token,
                            tokenIdKey: tokenId]
@@ -134,7 +134,7 @@ open class CoreUserPasswordAuthProviderClient: CoreAuthProviderClient<StitchRequ
      *     - toEmail: The email address of the user to re-send a confirmation for.
      */
     public func resendConfirmation(toEmail email: String) throws -> Response {
-        return try self.requestClient.doJSONRequestRaw(StitchDocRequestBuilderImpl {
+        return try self.requestClient.doRequest(StitchDocRequestBuilderImpl {
             $0.method = .post
             $0.document = [emailKey: email]
             $0.path = self.routes.resendConfirmationEmailRoute
@@ -149,7 +149,7 @@ open class CoreUserPasswordAuthProviderClient: CoreAuthProviderClient<StitchRequ
      *     - toEmail: The email address of the user to send a password reset email for.
      */
     public func sendResetPasswordEmail(toEmail email: String) throws -> Response {
-        return try self.requestClient.doJSONRequestRaw(StitchDocRequestBuilderImpl {
+        return try self.requestClient.doRequest(StitchDocRequestBuilderImpl {
             $0.method = .post
             $0.document = [emailKey: email]
             $0.path = self.routes.sendResetPasswordEmailRoute
@@ -168,7 +168,7 @@ open class CoreUserPasswordAuthProviderClient: CoreAuthProviderClient<StitchRequ
     public func reset(password: String,
                       withToken token: String,
                       withTokenId tokenId: String) throws -> Response {
-        return try self.requestClient.doJSONRequestRaw(StitchDocRequestBuilderImpl {
+        return try self.requestClient.doRequest(StitchDocRequestBuilderImpl {
             $0.method = .post
             $0.document = [tokenKey: token,
                            tokenIdKey: tokenId,

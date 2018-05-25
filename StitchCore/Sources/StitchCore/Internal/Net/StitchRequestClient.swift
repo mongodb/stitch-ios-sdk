@@ -27,14 +27,7 @@ public protocol StitchRequestClient {
      *
      * - returns: the response to the request as a `Response` object.
      */
-    func doRequest<R>(_ stitchReq: R) throws -> Response where R: StitchRequest
-
-    /**
-     * Performs a request against the Stitch server with the given `StitchDocRequest` object.
-     *
-     * - returns: the response to the request as a `Response` object.
-     */
-    func doJSONRequestRaw(_ stitchReq: StitchDocRequest) throws -> Response
+    func doRequest<RequestT>(_ stitchReq: RequestT) throws -> Response where RequestT: StitchRequest
 }
 
 /**
@@ -74,7 +67,7 @@ public final class StitchRequestClientImpl: StitchRequestClient {
      *
      * - returns: the response to the request as a `Response` object.
      */
-    public func doRequest<R>(_ stitchReq: R) throws -> Response where R: StitchRequest {
+    public func doRequest<RequestT>(_ stitchReq: RequestT) throws -> Response where RequestT: StitchRequest {
         var response: Response!
         do {
             response = try self.transport.roundTrip(request: self.buildRequest(stitchReq))
@@ -83,23 +76,6 @@ public final class StitchRequestClientImpl: StitchRequestClient {
             throw StitchError.requestError(withError: error, withRequestErrorCode: .transportError)
         }
         return try inspectResponse(response: response)
-    }
-
-    /**
-     * Performs a request against the Stitch server with the given `StitchDocRequest` object.
-     *
-     * - returns: the response to the request as a `Response` object.
-     */
-    public func doJSONRequestRaw(_ stitchReq: StitchDocRequest) throws -> Response {
-        return try doRequest(StitchRequestBuilderImpl { builder in
-            builder.body = stitchReq.document.canonicalExtendedJSON.data(using: .utf8)
-            builder.headers = [
-                Headers.contentType.rawValue: ContentTypes.applicationJson.rawValue
-            ]
-            builder.path = stitchReq.path
-            builder.method = stitchReq.method
-            builder.timeout = stitchReq.timeout
-        }.build())
     }
 
     /**
