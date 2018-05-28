@@ -326,8 +326,19 @@ public struct StitchDocRequest: StitchRequest {
         self.headers = builder.headers ?? [:]
         
         self.headers[Headers.contentType.rawValue] = ContentTypes.applicationJson.rawValue
-        self.body = document.canonicalExtendedJSON.data(using: .utf8)
         
+        let docString = document.canonicalExtendedJSON
+        
+        // computed properties can't throw errors, so `document.canonicalExtendedJSON`
+        // returns an empty string if it could not encode the document
+        if docString == "" {
+            throw StitchError.requestError(
+                withError: MongoError.bsonEncodeError(message: "could not encode document as extended JSON string"),
+                withRequestErrorCode: .encodingError
+            )
+        }
+        
+        self.body = docString.data(using: .utf8)
         self.document = document
         self.startedAt = Date().timeIntervalSince1970
     }

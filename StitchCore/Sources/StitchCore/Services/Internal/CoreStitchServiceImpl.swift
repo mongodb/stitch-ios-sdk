@@ -4,24 +4,27 @@ import Foundation
 open class CoreStitchServiceImpl: CoreStitchService {
     private let requestClient: StitchAuthRequestClient
     private let serviceRoutes: StitchServiceRoutes
-    private let serviceName: String
+    private let serviceName: String?
     
     public init(requestClient: StitchAuthRequestClient,
                 routes:  StitchServiceRoutes,
-                name: String) {
+                serviceName: String?) {
         self.requestClient = requestClient
         self.serviceRoutes = routes
-        self.serviceName = name
+        self.serviceName = serviceName
     }
     
     private func getCallServiceFunctionRequest(withName name: String,
                                                withArgs args: [BsonValue],
                                                withTimeout timeout: TimeInterval?) throws -> StitchAuthDocRequest {
-        let body: Document = [
+        var body: Document = [
             "name": name,
-            "service": serviceName,
             "arguments": args
         ]
+        
+        if let serviceName = serviceName {
+            body["service"] = serviceName
+        }
         
         let reqBuilder = StitchAuthDocRequestBuilderImpl {
             $0.method = .post
@@ -34,16 +37,23 @@ open class CoreStitchServiceImpl: CoreStitchService {
         return try reqBuilder.build()
     }
     
-    public func callFunctionInternal(withName name: String, withArgs args: [BsonValue], withRequestTimeout timeout: TimeInterval? = nil) throws {
-        let _: Response = try requestClient.doAuthenticatedRequest(getCallServiceFunctionRequest(withName: name,
-                                                                                   withArgs: args,
-                                                                                   withTimeout: timeout))
+    public func callFunctionInternal(withName name: String,
+                                     withArgs args: [BsonValue],
+                                     withRequestTimeout timeout: TimeInterval? = nil) throws {
+        // Coerce the `Response` return type so response decoding is not attempted.
+        let _: Response = try requestClient.doAuthenticatedRequest(
+            getCallServiceFunctionRequest(withName: name,
+                                          withArgs: args,
+                                          withTimeout: timeout))
     }
     
-    public func callFunctionInternal<T: Decodable>(withName name: String, withArgs args: [BsonValue], withRequestTimeout timeout: TimeInterval? = nil) throws -> T {
-        return try requestClient.doAuthenticatedRequest(getCallServiceFunctionRequest(withName: name,
-                                                                                      withArgs: args,
-                                                                                      withTimeout: timeout))
+    public func callFunctionInternal<T: Decodable>(withName name: String,
+                                                   withArgs args: [BsonValue],
+                                                   withRequestTimeout timeout: TimeInterval? = nil) throws -> T {
+        return try requestClient.doAuthenticatedRequest(
+            getCallServiceFunctionRequest(withName: name,
+                                          withArgs: args,
+                                          withTimeout: timeout))
     }
 }
 

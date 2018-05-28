@@ -21,7 +21,7 @@ internal final class StitchServiceImpl: CoreStitchServiceImpl, StitchService {
                 name: String,
                 dispatcher: OperationDispatcher) {
         self.dispatcher = dispatcher
-        super.init(requestClient: requestClient, routes: routes, name: name)
+        super.init(requestClient: requestClient, routes: routes, serviceName: name)
     }
 
     /**
@@ -38,7 +38,10 @@ internal final class StitchServiceImpl: CoreStitchServiceImpl, StitchService {
      *              successful.
      *
      */
-    func callFunction(withName name: String, withArgs args: [BsonValue], withRequestTimeout requestTimeout: TimeInterval, _ completionHandler: @escaping (Error?) -> Void) {
+    func callFunction(withName name: String,
+                      withArgs args: [BsonValue],
+                      withRequestTimeout requestTimeout: TimeInterval,
+                      _ completionHandler: @escaping (Error?) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
             try self.callFunctionInternal(withName: name, withArgs: args, withRequestTimeout: requestTimeout)
         }

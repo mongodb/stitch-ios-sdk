@@ -94,6 +94,7 @@ public enum StitchServiceErrorCode: String, Codable {
 public enum StitchRequestErrorCode {
     case transportError
     case decodingError
+    case encodingError
 }
 
 /**
