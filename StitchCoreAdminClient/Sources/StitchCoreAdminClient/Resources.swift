@@ -34,10 +34,10 @@ internal func checkEmpty(_ response: Response) throws {
 public protocol Listable: Resource { associatedtype Model: Decodable }
 extension Listable {
     public func list() throws -> [Model] {
-        let req = try StitchAuthRequestBuilderImpl {
-            $0.method = .get
-            $0.path = self.url
-        }.build()
+        let req = try StitchAuthRequestBuilder()
+            .with(method: .get)
+            .with(path: self.url)
+            .build()
 
         let response = try adminAuth.doAuthenticatedRequest(req)
         try checkEmpty(response)
@@ -50,10 +50,10 @@ extension Listable {
 public protocol Gettable: Resource { associatedtype Model: Decodable }
 extension Gettable {
     public func get() throws -> Model {
-        let req = try StitchAuthRequestBuilderImpl {
-            $0.method = .get
-            $0.path = self.url
-        }.build()
+        let req = try StitchAuthRequestBuilder()
+            .with(method: .get)
+            .with(path: self.url)
+            .build()
 
         let response = try adminAuth.doAuthenticatedRequest(req)
         try checkEmpty(response)
@@ -65,10 +65,10 @@ extension Gettable {
 public protocol Removable: Resource {}
 extension Removable {
     public func remove() throws {
-        let req = try StitchAuthRequestBuilderImpl {
-            $0.method = .delete
-            $0.path = self.url
-        }.build()
+        let req = try StitchAuthRequestBuilder()
+            .with(method: .delete)
+            .with(path: self.url)
+            .build()
 
         _ = try adminAuth.doAuthenticatedRequest(req)
     }
@@ -82,11 +82,12 @@ public protocol Creatable: Resource {
 extension Creatable {
     public func create(data: CreatorModel) throws -> Model {
         let encodedCreation = try JSONEncoder().encode(data)
-        let req = try StitchAuthRequestBuilderImpl {
-            $0.method = Method.post
-            $0.path = self.url
-            $0.body = encodedCreation
-        }.build()
+        let req =
+            try StitchAuthRequestBuilder()
+                .with(method: .post)
+                .with(path: self.url)
+                .with(body: encodedCreation)
+                .build()
 
         let response = try adminAuth.doAuthenticatedRequest(req)
         try checkEmpty(response)
@@ -102,11 +103,12 @@ public protocol Updatable: Resource {
 extension Updatable {
     public func update(data: UpdaterModel) throws -> Model {
         let encodedUpdate = try JSONEncoder().encode(data)
-        let req = try StitchAuthRequestBuilderImpl {
-            $0.method = Method.put
-            $0.path = self.url
-            $0.body = encodedUpdate
-            }.build()
+        let req =
+            try StitchAuthRequestBuilder()
+                .with(method: .put)
+                .with(path: self.url)
+                .with(body: encodedUpdate)
+                .build()
 
         let response = try adminAuth.doAuthenticatedRequest(req)
         try checkEmpty(response)
@@ -118,10 +120,10 @@ extension Updatable {
 public protocol Enablable: Resource {}
 extension Enablable {
     public func enable() throws {
-        let req = try StitchAuthRequestBuilderImpl {
-            $0.method = Method.put
-            $0.path = "\(self.url)/enable"
-            }.build()
+        let req = try StitchAuthRequestBuilder()
+            .with(method: .put)
+            .with(path: "\(self.url)/enable")
+            .build()
 
         _ = try adminAuth.doAuthenticatedRequest(req)
     }
@@ -131,10 +133,10 @@ extension Enablable {
 public protocol Disablable: Resource {}
 extension Disablable {
     public func disable() throws {
-        let req = try StitchAuthRequestBuilderImpl {
-            $0.method = Method.put
-            $0.path = "\(self.url)/disable"
-            }.build()
+        let req = try StitchAuthRequestBuilder()
+            .with(method: .put)
+            .with(path: "\(self.url)/disable")
+            .build()
 
        _ = try adminAuth.doAuthenticatedRequest(req)
     }

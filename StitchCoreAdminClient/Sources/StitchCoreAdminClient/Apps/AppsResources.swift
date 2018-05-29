@@ -21,11 +21,11 @@ extension Apps {
     /// - parameter defaults: whether or not to enable default values
     public func create(name: String, defaults: Bool = false) throws -> AppResponse {
         let encodedApp = try JSONEncoder().encode(["name": name])
-        let req = try StitchAuthRequestBuilderImpl {
-            $0.method = Method.post
-            $0.path = "\(self.url)?defaults=\(defaults)"
-            $0.body = encodedApp
-        }.build()
+        let req = try StitchAuthRequestBuilder()
+            .with(method: .post)
+            .with(path: "\(self.url)?defaults=\(defaults)")
+            .with(body: encodedApp)
+            .build()
 
         let response = try adminAuth.doAuthenticatedRequest(req)
         try checkEmpty(response)
