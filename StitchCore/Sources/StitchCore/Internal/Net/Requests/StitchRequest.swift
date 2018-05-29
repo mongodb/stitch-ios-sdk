@@ -1,345 +1,159 @@
 import Foundation
-import MongoSwift
-
-/**
- * A protocol defining the configuration properties necessary to build a `StitchRequest`.
- */
-public protocol StitchRequestBuilder: Builder {
-    /**
-     * The HTTP method of the request to be built.
-     */
-    var method: Method? { get set }
-
-    /**
-     * The HTTP headers of the request to be built.
-     */
-    var headers: [String: String]? { get set }
-
-    /**
-     * The number of seconds that the underlying transport should spend on an HTTP round trip before failing with an
-     * error. If not configured, a default should override it before the request is transformed into a plain HTTP
-     * request.
-     */
-    var timeout: TimeInterval? { get set }
-
-    /**
-     * The body of the rqeuest to be built.
-     */
-    var body: Data? { get set }
-
-    /**
-     * The URL of the request to be built.
-     */
-    var path: String? { get set }
-}
 
 /**
  * A builder that can build a `StitchRequest` object.
  */
-public struct StitchRequestBuilderImpl: StitchRequestBuilder {
+public class StitchRequestBuilder {
     /**
      * The type that this builder builds.
      */
-    public typealias TBuildee = StitchRequestImpl
+    public typealias TBuildee = StitchRequest
 
+    internal var method: Method?
+    internal var body: Data?
+    internal var headers: [String: String]?
+    internal var timeout: TimeInterval?
+    internal var path: String?
+    
     /**
-     * The HTTP method of the request to be built.
+     * Sets the HTTP method of the request to be built.
      */
-    public var method: Method?
-
+    @discardableResult
+    public func with(method: Method) -> StitchRequestBuilder {
+        self.method = method
+        return self
+    }
+    
     /**
-     * The body of the request to be built.
+     * Sets the body of the request to be built.
      */
-    public var body: Data?
-
+    @discardableResult
+    public func with(body: Data) -> StitchRequestBuilder {
+        self.body = body
+        return self
+    }
+    
     /**
-     * The HTTP headers of the request to be built.
+     * Sets the HTTP headers of the request to be built.
      */
-    public var headers: [String: String]?
-
+    @discardableResult
+    public func with(headers: [String: String]) -> StitchRequestBuilder {
+        self.headers = headers
+        return self
+    }
+    
     /**
-     * The number of seconds that the underlying transport should spend on an HTTP round trip before failing with an
-     * error. If not configured, a default should override it before the request is transformed into a plain HTTP
+     * Sets the number of seconds that the underlying transport should spend on an HTTP round trip before failing with
+     * an error. If not configured, a default should override it before the request is transformed into a plain HTTP
      * request.
      */
-    public var timeout: TimeInterval?
-
+    @discardableResult
+    public func with(timeout: TimeInterval) -> StitchRequestBuilder {
+        self.timeout = timeout
+        return self
+    }
+    
     /**
-     * The URL of the request to be built.
+     * Sets the URL of the request to be built.
      */
-    public var path: String?
-
-    /**
-     * Initializes the builder with a closure that sets the builder's desired properties.
-     */
-    public init(_ builder: (inout StitchRequestBuilderImpl) -> Void) {
-        builder(&self)
+    @discardableResult
+    public func with(path: String) -> StitchRequestBuilder {
+        self.path = path
+        return self
+    }
+    
+    public init() { }
+    
+    init(request: StitchRequest) {
+        self.method = request.method
+        self.body = request.body
+        self.headers = request.headers
+        self.timeout = request.timeout
+        self.path = request.path
     }
 
     /**
      * Builds the `StitchRequest` as a `StitchRequestImpl`.
      */
-    public func build() throws -> StitchRequestImpl {
-        return try StitchRequestImpl.init(self)
+    public func build() throws -> StitchRequest {
+        guard let path = self.path else {
+            throw RequestBuilderError.missingUrl
+        }
+        
+        guard let method = self.method else {
+            throw RequestBuilderError.missingMethod
+        }
+        
+        return StitchRequest.init(
+            path: path,
+            method: method,
+            headers: self.headers ?? [:],
+            timeout: self.timeout,
+            body: self.body
+        )
     }
 }
 
 /**
- * A protocol representing an HTTP request that can be made to a Stitch server.
+ * A class representing an HTTP request that can be made to a Stitch server.
  */
-public protocol StitchRequest: Buildee {
-    /**
-     * The URL to which this request will be made.
-     */
-    var path: String { get }
-
-    /**
-     * The HTTP method of this request.
-     */
-    var method: Method { get }
-
-    /**
-     * The HTTP headers of this request.
-     */
-    var headers: [String: String] { get }
-
-    /**
-     * The number of seconds that the underlying transport should spend on an HTTP round trip before failing with an
-     * error. If not configured, a default should override it before the request is transformed into a plain HTTP
-     * request.
-     */
-    var timeout: TimeInterval? { get }
-
-    /**
-     * The body of the request.
-     */
-    var body: Data? { get }
-
-    /**
-     * A `TimeInterval` indicating the time that the request was made (since the Unix epoch).
-     */
-    var startedAt: TimeInterval { get }
-}
-
-/**
- * The implementation of `StitchRequest`.
- */
-public struct StitchRequestImpl: StitchRequest {
-
+public class StitchRequest {
     /**
      * The type that builds this request object.
      */
-    public typealias TBuilder = StitchRequestBuilderImpl
-
+    public typealias TBuilder = StitchRequestBuilder
+    
     /**
      * The URL to which this request will be made.
      */
     public let path: String
-
+    
     /**
      * The HTTP method of this request.
      */
     public let method: Method
-
+    
     /**
      * The HTTP headers of this request.
      */
     public let headers: [String: String]
-
+    
     /**
      * The number of seconds that the underlying transport should spend on an HTTP round trip before failing with an
      * error.  If not configured, a default should override it before the request is transformed into a plain HTTP
      * request.
      */
     public let timeout: TimeInterval?
-
+    
     /**
      * The body of the request.
      */
     public let body: Data?
-
+    
     /**
      * A `TimeInterval` indicating the time that the request was made (since the Unix epoch).
      */
     public let startedAt: TimeInterval
-
-    /**
-     * Initializes this request by accepting a `StitchRequestBuilderImpl`.
-     *
-     * - throws: `RequestBuilderError` if the builder is missing an HTTP method or a URL.
-     */
-    public init(_ builder: TBuilder) throws {
-        guard let path = builder.path else {
-            throw RequestBuilderError.missingUrl
-        }
-
-        guard let method = builder.method else {
-            throw RequestBuilderError.missingMethod
-        }
-
+    
+    internal init(request: StitchRequest) {
+        self.path = request.path
+        self.method = request.method
+        self.headers = request.headers
+        self.timeout = request.timeout
+        self.body = request.body
+        self.startedAt = request.startedAt
+    }
+    
+    internal init(path: String,
+                     method: Method,
+                     headers: [String: String],
+                     timeout: TimeInterval?,
+                     body: Data?) {
         self.path = path
         self.method = method
-        self.headers = builder.headers ?? [:]
-        self.timeout = builder.timeout
-        self.body = builder.body
-        self.startedAt = Date().timeIntervalSince1970
-    }
-}
-
-/**
- * An error that a `StitchDocRequestBuilder` can throw if it is missing certain configuration properties.
- */
-public enum StitchDocRequestBuilderError: Error {
-    case missingDocument
-}
-
-/**
- * A protocol defining the configuration properties necessary to build a `StitchDocRequest`.
- */
-public protocol StitchDocRequestBuilder: StitchRequestBuilder {
-    /**
-     * The BSON document that will become the body of the request to be built.
-     */
-    var document: Document? { get set }
-}
-
-/**
- * A builder that can build a `StitchDocRequest` object.
- */
-public struct StitchDocRequestBuilderImpl: StitchDocRequestBuilder {
-    /**
-     * The type that this builder builds.
-     */
-    public typealias TBuildee = StitchDocRequest
-
-    /**
-     * The BSON document that will become the body of the request to be built.
-     */
-    public var document: Document?
-
-    /**
-     * The URL of the request to be built.
-     */
-    public var path: String?
-
-    /**
-     * The HTTP method of the request to be built.
-     */
-    public var method: Method?
-
-    /**
-     * The number of seconds that the underlying transport should spend on an HTTP round trip before failing with an
-     * error.  If not configured, a default should override it before the request is transformed into a plain HTTP
-     * request.
-     */
-    public var timeout: TimeInterval?
-
-    /**
-     * The HTTP headers of the request to be built.
-     */
-    public var headers: [String: String]?
-
-    /**
-     * The body of the request to be built. This body will be overwritten with the contents of the BSON document
-     * when the request is performed.
-     */
-    public var body: Data?
-
-    /**
-     * Initializes the builder with a closure that sets the builder's desired properties.
-     */
-    public init(_ builder: (inout StitchDocRequestBuilderImpl) -> Void) {
-        builder(&self)
-    }
-
-    /**
-     * Builds the `StitchDocRequest`.
-     */
-    public func build() throws -> StitchDocRequest {
-        return try StitchDocRequest.init(self)
-    }
-}
-
-/**
- * An HTTP request that can be made to a Stitch server, which contains a BSON document as its body.
- */
-public struct StitchDocRequest: StitchRequest {
-    /**
-     * The URL to which this request will be made.
-     */
-    public var path: String
-
-    /**
-     * The HTTP method of this request.
-     */
-    public var method: Method
-
-    /**
-     * The number of seconds that the underlying transport should spend on an HTTP round trip before failing with an
-     * error. If not configured, a default should override it before the request is transformed into a plain HTTP
-     * request.
-     */
-    public var timeout: TimeInterval?
-
-    /**
-     * The HTTP headers of this request.
-     */
-    public var headers: [String: String]
-
-    /**
-     * The body of the request.
-     */
-    public var body: Data?
-
-    /**
-     * A `TimeInterval` indicating the time that the request was made (since the Unix epoch).
-     */
-    public var startedAt: TimeInterval
-
-    /**
-     * The BSON document that will become the body of the request when it is performed.
-     */
-    public let document: Document
-
-    /**
-     * Initializes this request by accepting a `StitchDocRequestBuilderImpl`.
-     *
-     * - throws: `StitchDocRequestBuilderError` if the builder is missing a document, or a `RequestBuilderError` if
-     *           the builder is missing an HTTP method or a URL.
-     */
-    public init(_ builder: StitchDocRequestBuilderImpl) throws {
-        guard let document = builder.document else {
-            throw StitchDocRequestBuilderError.missingDocument
-        }
-        guard let path = builder.path else {
-            throw RequestBuilderError.missingUrl
-        }
-
-        guard let method = builder.method else {
-            throw RequestBuilderError.missingMethod
-        }
-
-        self.path = path
-        self.method = method
-
-        self.timeout = builder.timeout
-        self.headers = builder.headers ?? [:]
-        
-        self.headers[Headers.contentType.rawValue] = ContentTypes.applicationJson.rawValue
-        
-        let docString = document.canonicalExtendedJSON
-        
-        // computed properties can't throw errors, so `document.canonicalExtendedJSON`
-        // returns an empty string if it could not encode the document
-        if docString == "" {
-            throw StitchError.requestError(
-                withError: MongoError.bsonEncodeError(message: "could not encode document as extended JSON string"),
-                withRequestErrorCode: .encodingError
-            )
-        }
-        
-        self.body = docString.data(using: .utf8)
-        self.document = document
+        self.headers = headers
+        self.timeout = timeout
+        self.body = body
         self.startedAt = Date().timeIntervalSince1970
     }
 }

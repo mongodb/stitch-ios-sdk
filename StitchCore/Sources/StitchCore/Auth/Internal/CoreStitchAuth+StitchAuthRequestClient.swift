@@ -45,7 +45,7 @@ extension CoreStitchAuth {
      * Prepares an authenticated Stitch request by attaching the `CoreStitchAuth`'s current access or refresh token
      * (depending on the type of request) to the request's `"Authorization"` header.
      */
-    private func prepareAuthRequest<R>(_ stitchReq: R) throws -> StitchRequestImpl where R: StitchAuthRequest {
+    private func prepareAuthRequest(_ stitchReq: StitchAuthRequest) throws -> StitchRequest {
         objc_sync_enter(self)
         defer { objc_sync_exit(self) }
         guard self.isLoggedIn,
@@ -53,22 +53,32 @@ extension CoreStitchAuth {
             let accessToken = self.authStateHolder.accessToken else {
                 throw StitchError.clientError(withClientErrorCode: .mustAuthenticateFirst)
         }
-
-        return try StitchRequestBuilderImpl {
-            var newHeaders = stitchReq.headers
-            if stitchReq.useRefreshToken {
-                newHeaders[Headers.authorization.rawValue] =
-                    Headers.authorizationBearer(forValue: refreshToken)
-            } else {
-                newHeaders[Headers.authorization.rawValue] =
-                    Headers.authorizationBearer(forValue: accessToken)
-            }
-            $0.headers = newHeaders
-            $0.path = stitchReq.path
-            $0.method = stitchReq.method
-            $0.body = stitchReq.body
-            $0.timeout = stitchReq.timeout
-        }.build()
+        
+        let reqBuilder = StitchRequestBuilder()
+        
+        var newHeaders = stitchReq.headers
+        if stitchReq.useRefreshToken {
+            newHeaders[Headers.authorization.rawValue] =
+                Headers.authorizationBearer(forValue: refreshToken)
+        } else {
+            newHeaders[Headers.authorization.rawValue] =
+                Headers.authorizationBearer(forValue: accessToken)
+        }
+        
+        reqBuilder
+            .with(headers: newHeaders)
+            .with(path: stitchReq.path)
+            .with(method: stitchReq.method)
+            
+        if let body = stitchReq.body {
+            reqBuilder.with(body: body)
+        }
+        
+        if let timeout = stitchReq.timeout {
+            reqBuilder.with(timeout: timeout)
+        }
+        
+        return try reqBuilder.build()
     }
 
     /**

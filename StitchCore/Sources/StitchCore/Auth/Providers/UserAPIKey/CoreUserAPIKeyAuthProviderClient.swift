@@ -94,13 +94,13 @@ open class CoreAuthenticatedUserAPIKeyClient: CoreAuthProviderClient<StitchAuthR
      */
     public func createApiKey(withName name: String) throws -> UserAPIKey {
         return try self.requestClient.doAuthenticatedRequest(
-            StitchAuthDocRequestBuilderImpl {
-            $0.method = .post
-            $0.document = [nameKey: name]
-            $0.path = self.baseRoute
-            $0.shouldRefreshOnFailure = true
-            $0.useRefreshToken = true
-        }.build())
+            StitchAuthDocRequestBuilder()
+                .with(method: .post)
+                .with(document: [nameKey: name])
+                .with(path: self.baseRoute)
+                .withRefreshToken()
+                .build()
+        )
     }
 
     /**
@@ -111,12 +111,12 @@ open class CoreAuthenticatedUserAPIKeyClient: CoreAuthProviderClient<StitchAuthR
      */
     public func fetchApiKey(withId id: ObjectId) throws -> UserAPIKey {
         return try decode(fromResponse: self.requestClient.doAuthenticatedRequest(
-            StitchAuthRequestBuilderImpl {
-            $0.method = .get
-            $0.path = self.routes.apiKeyRoute(forKeyId: id.description)
-            $0.shouldRefreshOnFailure = true
-            $0.useRefreshToken = true
-        }.build()))
+            StitchAuthRequestBuilder()
+                .with(method: .get)
+                .with(path: self.routes.apiKeyRoute(forKeyId: id.description))
+                .withRefreshToken()
+                .build()
+        ))
     }
 
     /**
@@ -124,12 +124,12 @@ open class CoreAuthenticatedUserAPIKeyClient: CoreAuthProviderClient<StitchAuthR
      */
     public func fetchApiKeys() throws -> [UserAPIKey] {
         return try decode(fromResponse: self.requestClient.doAuthenticatedRequest(
-            StitchAuthRequestBuilderImpl {
-            $0.method = .get
-            $0.path = self.baseRoute
-            $0.shouldRefreshOnFailure = true
-            $0.useRefreshToken = true
-        }.build()))
+            StitchAuthRequestBuilder()
+                .with(method: .get)
+                .with(path: self.baseRoute)
+                .withRefreshToken()
+                .build()
+        ))
     }
 
     /**
@@ -139,12 +139,13 @@ open class CoreAuthenticatedUserAPIKeyClient: CoreAuthProviderClient<StitchAuthR
      *     - withId: The id of the API key to delete.
      */
     public func deleteApiKey(withId id: ObjectId) throws {
-        _ = try self.requestClient.doAuthenticatedRequest(StitchAuthRequestBuilderImpl {
-            $0.method = .delete
-            $0.path = self.routes.apiKeyRoute(forKeyId: id.description)
-            $0.shouldRefreshOnFailure = true
-            $0.useRefreshToken = true
-        }.build())
+        _ = try self.requestClient.doAuthenticatedRequest(
+            StitchAuthRequestBuilder()
+                .with(method: .delete)
+                .with(path: self.routes.apiKeyRoute(forKeyId: id.description))
+                .withRefreshToken()
+                .build()
+        )
     }
 
     /**
@@ -154,12 +155,13 @@ open class CoreAuthenticatedUserAPIKeyClient: CoreAuthProviderClient<StitchAuthR
      *     - withId: The id of the API key to enable.
      */
     public func enableApiKey(withId id: ObjectId) throws {
-        _ = try self.requestClient.doAuthenticatedRequest(StitchAuthRequestBuilderImpl {
-            $0.method = .put
-            $0.path = self.routes.apiKeyEnableRoute(forKeyId: id.description)
-            $0.shouldRefreshOnFailure = true
-            $0.useRefreshToken = true
-        }.build())
+        _ = try self.requestClient.doAuthenticatedRequest(
+            StitchAuthRequestBuilder()
+                .with(method: .put)
+                .with(path: self.routes.apiKeyEnableRoute(forKeyId: id.description))
+                .withRefreshToken()
+                .build()
+        )
     }
 
     /**
@@ -169,11 +171,12 @@ open class CoreAuthenticatedUserAPIKeyClient: CoreAuthProviderClient<StitchAuthR
      *     - withId: The id of the API key to disable.
      */
     public func disableApiKey(withId id: ObjectId) throws {
-        _ = try self.requestClient.doAuthenticatedRequest(StitchAuthRequestBuilderImpl {
-            $0.method = .put
-            $0.path = self.routes.apiKeyDisableRoute(forKeyId: id.description)
-            $0.shouldRefreshOnFailure = true
-            $0.useRefreshToken = true
-        }.build())
+        _ = try self.requestClient.doAuthenticatedRequest(
+            StitchAuthRequestBuilder()
+                .with(method: .put)
+                .with(path: self.routes.apiKeyDisableRoute(forKeyId: id.description))
+                .withRefreshToken()
+                .build()
+        )
     }
 }

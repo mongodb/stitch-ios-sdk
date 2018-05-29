@@ -26,12 +26,14 @@ open class CoreStitchServiceImpl: CoreStitchService {
             body["service"] = serviceName
         }
         
-        let reqBuilder = StitchAuthDocRequestBuilderImpl {
-            $0.method = .post
-            $0.path = self.serviceRoutes.functionCallRoute
-            $0.document = body
-            $0.body = body.canonicalExtendedJSON.data(using: .utf8)
-            $0.timeout = timeout
+        let reqBuilder =
+            StitchAuthDocRequestBuilder()
+                .with(method: .post)
+                .with(path: self.serviceRoutes.functionCallRoute)
+                .with(document: body)
+                
+        if let timeout = timeout {
+            reqBuilder.with(timeout: timeout)
         }
         
         return try reqBuilder.build()

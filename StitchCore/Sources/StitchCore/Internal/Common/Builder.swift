@@ -7,10 +7,10 @@ public protocol Builder {
      */
     associatedtype TBuildee: Buildee
 
-    /**
-     * Initializes the builder with a closure that sets the builder's desired properties.
-     */
-    init(_ builder: (inout Self) -> Void)
+//    /**
+//     * Initializes the builder with a closure that sets the builder's desired properties.
+//     */
+//    init(_ builder: (inout Self) -> Void)
 
     /**
      * Builds the `TBuildee` object.
@@ -27,8 +27,8 @@ public protocol Buildee {
      */
     associatedtype TBuilder: Builder
 
-    /**
-     * Initializes this object by accepting a TBuilder and building the object.
-     */
-    init(_ builder: TBuilder) throws
+//    /**
+//     * Initializes this object by accepting a TBuilder and building the object.
+//     */
+//    init(_ builder: TBuilder) throws
 }

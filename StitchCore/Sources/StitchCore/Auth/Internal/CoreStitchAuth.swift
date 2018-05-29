@@ -262,30 +262,27 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
      */
     private func doLoginRequest(withCredential credential: StitchCredential,
                                 asLinkRequest: Bool) throws -> Response {
-        let reqBuilder = StitchDocRequestBuilderImpl {
-            $0.method = .post
-            if asLinkRequest {
-                $0.path = authRoutes.authProviderLinkRoute(withProviderName: credential.providerName)
-            } else {
-                $0.path = authRoutes.authProviderLoginRoute(withProviderName: credential.providerName)
-            }
-
-            var body = credential.material
-            self.attachAuthOptions(authBody: &body)
-            $0.document = body
+        let reqBuilder = StitchDocRequestBuilder()
+        
+        reqBuilder.with(method: .post)
+        
+        if asLinkRequest {
+            reqBuilder.with(path: authRoutes.authProviderLinkRoute(withProviderName: credential.providerName))
+        } else {
+            reqBuilder.with(path: authRoutes.authProviderLoginRoute(withProviderName: credential.providerName))
         }
+        
+        var body = credential.material
+        self.attachAuthOptions(authBody: &body)
+        reqBuilder.with(document: body)
 
         if !asLinkRequest {
             return try self.requestClient.doRequest(reqBuilder.build())
         }
-
-        return try doAuthenticatedRequest(try StitchAuthDocRequestBuilderImpl {
-            $0.body = reqBuilder.body
-            $0.path = reqBuilder.path
-            $0.headers = reqBuilder.headers
-            $0.method = reqBuilder.method
-            $0.document = reqBuilder.document
-        }.build())
+        
+        return try doAuthenticatedRequest(
+            StitchAuthDocRequest.init(stitchRequest: reqBuilder.build(), document: body)
+        )
     }
 
     /**
@@ -352,10 +349,12 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
      * Performs a request against the Stitch server to get the currently authenticated user's profile.
      */
     private func doGetUserProfile() throws -> StitchUserProfile {
-        let response = try doAuthenticatedRequest(StitchAuthRequestBuilderImpl {
-            $0.method = .get
-            $0.path = self.authRoutes.profileRoute
-        }.build())
+        let response = try doAuthenticatedRequest(
+            StitchAuthRequestBuilder()
+                .with(method: .get)
+                .with(path: self.authRoutes.profileRoute)
+                .build()
+        )
 
         var decodedProfile: APICoreUserProfileImpl!
         do {
@@ -374,11 +373,13 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
      */
     @discardableResult
     private func doLogout() throws -> Response {
-        return try self.doAuthenticatedRequest(StitchAuthRequestBuilderImpl {
-            $0.useRefreshToken = true
-            $0.path = authRoutes.sessionRoute
-            $0.method = .delete
-        }.build())
+        return try self.doAuthenticatedRequest(
+            StitchAuthRequestBuilder()
+                .withRefreshToken()
+                .with(path: authRoutes.sessionRoute)
+                .with(method: .delete)
+                .build()
+        )
     }
 
     /**
@@ -423,11 +424,13 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
      * - important: This method must be called within a lock.
      */
     internal func refreshAccessToken() throws {
-        let response = try self.doAuthenticatedRequest(StitchAuthRequestBuilderImpl {
-            $0.useRefreshToken = true
-            $0.path = self.authRoutes.sessionRoute
-            $0.method = .post
-            }.build())
+        let response = try self.doAuthenticatedRequest(
+            StitchAuthRequestBuilder()
+                .withRefreshToken()
+                .with(path: self.authRoutes.sessionRoute)
+                .with(method: .post)
+                .build()
+        )
         
         var newAccessToken: APIAccessToken!
         do {
