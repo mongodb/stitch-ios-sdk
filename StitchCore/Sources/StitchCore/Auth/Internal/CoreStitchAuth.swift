@@ -132,7 +132,11 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
      * A method that should return a BSON Document containing information about the current device.
      */
     open var deviceInfo: Document {
-        fatalError("deviceInfo must be implemented")
+        var info = Document()
+        if hasDeviceId {
+            info[DeviceField.deviceId.rawValue] = self.deviceId
+        }
+        return info
     }
 
     // MARK: Computed Properties
@@ -178,7 +182,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
      * Authenticates the `CoreStitchAuth` using the provided `StitchCredential. Blocks the current thread until the
      * request is completed.
      */
-    public func loginWithCredentialBlocking(withCredential credential: StitchCredential) throws -> TStitchUser {
+    public func loginWithCredentialInternal(withCredential credential: StitchCredential) throws -> TStitchUser {
         objc_sync_enter(self)
         defer { objc_sync_exit(self) }
         if !isLoggedIn {
@@ -191,7 +195,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
             }
         }
 
-        logoutBlocking()
+        logoutInternal()
         return try doLogin(withCredential: credential, asLinkRequest: false)
     }
 
@@ -199,7 +203,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
      * Links the currently logged in user with a new identity represented by the provided `StitchCredential. Blocks the
      * current thread until the request is completed.
      */
-    public func linkUserWithCredentialBlocking(withUser user: TStitchUser,
+    public func linkUserWithCredentialInternal(withUser user: TStitchUser,
                                                withCredential credential: StitchCredential) throws -> TStitchUser {
         objc_sync_enter(self)
         defer { objc_sync_exit(self) }
@@ -216,7 +220,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
      * storage. Blocks the current thread until the request is completed. If the logout request fails, this method will
      * still clear local authentication state.
      */
-    public func logoutBlocking() {
+    public func logoutInternal() {
         guard isLoggedIn else { return }
 
         _ = try? self.doLogout()
@@ -318,7 +322,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
         do {
             profile = try doGetUserProfile()
         } catch let err {
-            self.logoutBlocking()
+            self.logoutInternal()
             throw err
         }
 

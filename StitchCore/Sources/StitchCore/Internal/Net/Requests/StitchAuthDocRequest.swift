@@ -4,7 +4,7 @@ import MongoSwift
 /**
  * A builder that can build a `StitchAuthDocRequest` object.
  */
-public class StitchAuthDocRequestBuilder: StitchAuthRequestBuilder {
+public final class StitchAuthDocRequestBuilder: StitchAuthRequestBuilder {
     /**
      * The BSON document that will become the body of the request to be built.
      */
@@ -21,58 +21,11 @@ public class StitchAuthDocRequestBuilder: StitchAuthRequestBuilder {
      * Sets the BSON document that will become the body of the request to be built.
      */
     @discardableResult
-    public func with(document: Document) -> StitchAuthDocRequestBuilder{
+    public func with(document: Document) -> Self {
         self.document = document
         return self
     }
-    
-    /**
-     * Sets the HTTP method of the request to be built.
-     */
-    @discardableResult
-    public override func with(method: Method) -> StitchAuthDocRequestBuilder {
-        self.method = method
-        return self
-    }
-    
-    /**
-     * Sets the body of the request to be built. Will be overriden by the document specified.
-     */
-    @discardableResult
-    public override func with(body: Data) -> StitchAuthDocRequestBuilder {
-        self.body = body
-        return self
-    }
-    
-    /**
-     * Sets the HTTP headers of the request to be built.
-     */
-    @discardableResult
-    public override func with(headers: [String: String]) -> StitchAuthDocRequestBuilder {
-        self.headers = headers
-        return self
-    }
-    
-    /**
-     * Sets the number of seconds that the underlying transport should spend on an HTTP round trip before failing with
-     * an error. If not configured, a default should override it before the request is transformed into a plain HTTP
-     * request.
-     */
-    @discardableResult
-    public override func with(timeout: TimeInterval) -> StitchAuthDocRequestBuilder {
-        self.timeout = timeout
-        return self
-    }
-    
-    /**
-     * Sets the URL of the request to be built.
-     */
-    @discardableResult
-    public override func with(path: String) -> StitchAuthDocRequestBuilder {
-        self.path = path
-        return self
-    }
-    
+  
     /**
      * Builds the `StitchAuthDocRequest`.
      */
@@ -124,5 +77,9 @@ public final class StitchAuthDocRequest: StitchAuthRequest {
     internal init(stitchRequest: StitchRequest, document: Document) {
         self.document = document
         super.init(stitchRequest: stitchRequest, useRefreshToken: false)
+    }
+    
+    public static func == (lhs: StitchAuthDocRequest, rhs: StitchAuthDocRequest) -> Bool {
+        return lhs as StitchAuthRequest == rhs as StitchAuthRequest && lhs.document == rhs.document
     }
 }

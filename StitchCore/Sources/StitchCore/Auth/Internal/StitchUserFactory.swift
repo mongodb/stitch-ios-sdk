@@ -33,6 +33,13 @@ public class AnyStitchUserFactory<T: CoreStitchUser> {
     public init<U: StitchUserFactory>(stitchUserFactory: U) where U.UserType == T {
         self.makeUserBlock = stitchUserFactory.makeUser
     }
+    
+    /**
+     * Initializes this `AnyStitchUserFactory` with an arbitrary closure.
+     */
+    public init(makeUserBlock: @escaping (String, StitchProviderType, String, StitchUserProfile) -> T) {
+        self.makeUserBlock = makeUserBlock
+    }
 
     /**
      * Produces a new Stitch user with the stored `makeUserBlock`.

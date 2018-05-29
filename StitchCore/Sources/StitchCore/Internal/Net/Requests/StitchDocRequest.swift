@@ -11,7 +11,7 @@ public enum StitchDocRequestBuilderError: Error {
 /**
  * A builder that can build a `StitchDocRequest` object.
  */
-public class StitchDocRequestBuilder: StitchRequestBuilder {
+public final class StitchDocRequestBuilder: StitchRequestBuilder {
     internal var document: Document?
     
     public override init() { super.init() }
@@ -25,55 +25,8 @@ public class StitchDocRequestBuilder: StitchRequestBuilder {
      * Sets the BSON document that will become the body of the request to be built.
      */
     @discardableResult
-    public func with(document: Document) -> StitchDocRequestBuilder{
+    public func with(document: Document) -> Self {
         self.document = document
-        return self
-    }
-    
-    /**
-     * Sets the HTTP method of the request to be built.
-     */
-    @discardableResult
-    public override func with(method: Method) -> StitchDocRequestBuilder {
-        self.method = method
-        return self
-    }
-    
-    /**
-     * Sets the body of the request to be built. Will be overriden by the document specified.
-     */
-    @discardableResult
-    public override func with(body: Data) -> StitchDocRequestBuilder {
-        self.body = body
-        return self
-    }
-    
-    /**
-     * Sets the HTTP headers of the request to be built.
-     */
-    @discardableResult
-    public override func with(headers: [String: String]) -> StitchDocRequestBuilder {
-        self.headers = headers
-        return self
-    }
-    
-    /**
-     * Sets the number of seconds that the underlying transport should spend on an HTTP round trip before failing with
-     * an error. If not configured, a default should override it before the request is transformed into a plain HTTP
-     * request.
-     */
-    @discardableResult
-    public override func with(timeout: TimeInterval) -> StitchDocRequestBuilder {
-        self.timeout = timeout
-        return self
-    }
-    
-    /**
-     * Sets the URL of the request to be built.
-     */
-    @discardableResult
-    public override func with(path: String) -> StitchDocRequestBuilder {
-        self.path = path
         return self
     }
     
@@ -117,5 +70,9 @@ public final class StitchDocRequest: StitchRequest {
     internal init(stitchRequest: StitchRequest, document: Document) {
         self.document = document
         super.init(request: stitchRequest)
+    }
+    
+    public static func == (lhs: StitchDocRequest, rhs: StitchDocRequest) -> Bool {
+        return lhs as StitchRequest == rhs as StitchRequest && lhs.document == rhs.document
     }
 }

@@ -19,7 +19,7 @@ public class StitchAuthRequestBuilder: StitchRequestBuilder {
      * Specifies that the request should use the temporary access token.
      */
     @discardableResult
-    public func withAccessToken() -> StitchAuthRequestBuilder {
+    public func withAccessToken() -> Self {
         self.useRefreshToken = false
         return self
     }
@@ -28,7 +28,7 @@ public class StitchAuthRequestBuilder: StitchRequestBuilder {
      * Specifies that the request should use the permanent refresh token.
      */
     @discardableResult
-    public func withRefreshToken() -> StitchAuthRequestBuilder {
+    public func withRefreshToken() -> Self {
         self.useRefreshToken = true
         return self
     }
@@ -38,58 +38,11 @@ public class StitchAuthRequestBuilder: StitchRequestBuilder {
      * token and retry the operation if there was an invalid sesion error.
      */
     @discardableResult
-    public func with(shouldRefreshOnFailure: Bool) -> StitchAuthRequestBuilder {
+    public func with(shouldRefreshOnFailure: Bool) -> Self {
         self.shouldRefreshOnFailure = shouldRefreshOnFailure
         return self
     }
     
-    /**
-     * Sets the HTTP method of the request to be built.
-     */
-    @discardableResult
-    public override func with(method: Method) -> StitchAuthRequestBuilder {
-        self.method = method
-        return self
-    }
-    
-    /**
-     * Sets the body of the request to be built.
-     */
-    @discardableResult
-    public override func with(body: Data) -> StitchAuthRequestBuilder {
-        self.body = body
-        return self
-    }
-    
-    /**
-     * Sets the HTTP headers of the request to be built.
-     */
-    @discardableResult
-    public override func with(headers: [String: String]) -> StitchAuthRequestBuilder {
-        self.headers = headers
-        return self
-    }
-    
-    /**
-     * Sets the number of seconds that the underlying transport should spend on an HTTP round trip before failing with
-     * an error. If not configured, a default should override it before the request is transformed into a plain HTTP
-     * request.
-     */
-    @discardableResult
-    public override func with(timeout: TimeInterval) -> StitchAuthRequestBuilder {
-        self.timeout = timeout
-        return self
-    }
-    
-    /**
-     * Sets the URL of the request to be built.
-     */
-    @discardableResult
-    public override func with(path: String) -> StitchAuthRequestBuilder {
-        self.path = path
-        return self
-    }
-
     /**
      * Builds the `StitchAuthRequest` as a `StitchAuthRequestImpl`.
      */
@@ -144,5 +97,11 @@ public class StitchAuthRequest: StitchRequest {
         self.useRefreshToken = useRefreshToken
         self.shouldRefreshOnFailure = shouldRefreshOnFailure
         super.init(request: stitchRequest)
+    }
+    
+    public static func == (lhs: StitchAuthRequest, rhs: StitchAuthRequest) -> Bool {
+        return lhs as StitchRequest == rhs as StitchRequest
+            && lhs.useRefreshToken == rhs.useRefreshToken
+            && lhs.shouldRefreshOnFailure == rhs.shouldRefreshOnFailure
     }
 }

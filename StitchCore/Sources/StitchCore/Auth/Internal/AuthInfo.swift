@@ -3,7 +3,7 @@ import Foundation
 /**
  * A protocol representing the fields returned by the Stitch client API in an authentication request.
  */
-public protocol APIAuthInfo: Decodable {
+public protocol APIAuthInfo: Codable {
     /**
      * The id of the Stitch user.
      */

@@ -10,25 +10,48 @@ enum Matcher<Type> {
 class FunctionMockUnit<ReturnType> { // takes no args
     var mockedResult: ReturnType?
     var mockedResultSequence: [ReturnType]?
+    var thrownError: Error?
     
     var invocations: Int = 0
     
     public func doReturn(result: ReturnType) {
-        self.mockedResultSequence = nil
         self.mockedResult = result
+        self.mockedResultSequence = nil
+        self.thrownError = nil
     }
     
     public func doReturn(resultSequence: [ReturnType]) {
         self.mockedResult = nil
         self.mockedResultSequence = resultSequence.reversed()
+        self.thrownError = nil
+    }
+    
+    public func doThrow(error: Error) {
+        self.mockedResult = nil
+        self.mockedResultSequence = nil
+        self.thrownError = error
     }
     
     public func verify(numberOfInvocations: Int) -> Bool {
         return self.invocations == numberOfInvocations
     }
     
+    public func throwingRun() throws -> ReturnType {
+        if let thrownError = self.thrownError {
+            self.invocations += 1
+            throw thrownError
+        }
+        
+        return run()
+    }
+    
     public func run() -> ReturnType {
         self.invocations += 1
+        
+        // Don't search for a result matcher if return type is void
+        if ReturnType.self == Void.self {
+            return () as! ReturnType
+        }
         
         if let mockedResult = self.mockedResult {
             return mockedResult
@@ -42,6 +65,7 @@ class FunctionMockUnit<ReturnType> { // takes no args
     public func clearStubs() {
         self.mockedResult = nil
         self.mockedResultSequence = nil
+        self.thrownError = nil
     }
     
     public func clearInvocations() {
@@ -51,11 +75,16 @@ class FunctionMockUnit<ReturnType> { // takes no args
 
 class FunctionMockUnitOneArg<ReturnType, Arg1T> { // takes one arg
     var mockedResultMatchers: [(Matcher<Arg1T>, ReturnType)] = []
+    var throwingMatchers: [(Matcher<Arg1T>, Error)] = []
     
     var capturedInvocations: [Arg1T] = []
     
     func doReturn(result: ReturnType, forArg matcher: Matcher<Arg1T>) {
         self.mockedResultMatchers.append((matcher, result))
+    }
+    
+    func doThrow(error: Error, forArg matcher: Matcher<Arg1T>) {
+        self.throwingMatchers.append((matcher, error))
     }
     
     //TODO: return resultSequence for matcher
@@ -72,8 +101,33 @@ class FunctionMockUnitOneArg<ReturnType, Arg1T> { // takes one arg
         }
     }
     
+    public func throwingRun(arg1: Arg1T) throws -> ReturnType {
+        for throwingMatcher in self.throwingMatchers {
+            let matcher = throwingMatcher.0
+            let thrownError = throwingMatcher.1
+            
+            switch matcher {
+            case .any:
+                capturedInvocations.append(arg1)
+                throw thrownError
+            case .with(let condition):
+                if condition(arg1) {
+                    capturedInvocations.append(arg1)
+                    throw thrownError
+                }
+            }
+        }
+        
+        return self.run(arg1: arg1)
+    }
+    
     public func run(arg1: Arg1T) -> ReturnType {
         capturedInvocations.append(arg1)
+        
+        // Don't search for a result matcher if return type is void
+        if ReturnType.self == Void.self {
+            return () as! ReturnType
+        }
         
         for resultMatcher in self.mockedResultMatchers {
             let matcher = resultMatcher.0
@@ -94,6 +148,7 @@ class FunctionMockUnitOneArg<ReturnType, Arg1T> { // takes one arg
     
     public func clearStubs() {
         self.mockedResultMatchers = []
+        self.throwingMatchers = []
     }
     
     public func clearInvocations() {
@@ -103,11 +158,16 @@ class FunctionMockUnitOneArg<ReturnType, Arg1T> { // takes one arg
 
 class FunctionMockUnitTwoArgs<ReturnType, Arg1T, Arg2T> { // takes two args
     var mockedResultMatchers: [(Matcher<Arg1T>, Matcher<Arg2T>, ReturnType)] = []
+    var throwingMatchers: [(Matcher<Arg1T>, Matcher<Arg2T>, Error)] = []
     
     var capturedInvocations: [(Arg1T, Arg2T)] = []
     
     func doReturn(result: ReturnType, forArg1 matcher1: Matcher<Arg1T>, forArg2 matcher2: Matcher<Arg2T>) {
         self.mockedResultMatchers.append((matcher1, matcher2, result))
+    }
+    
+    func doThrow(error: Error, forArg1 matcher1: Matcher<Arg1T>, forArg2 matcher2: Matcher<Arg2T>) {
+        self.throwingMatchers.append((matcher1, matcher2, error))
     }
     
     //TODO: return resultSequence for matcher
@@ -139,8 +199,42 @@ class FunctionMockUnitTwoArgs<ReturnType, Arg1T, Arg2T> { // takes two args
         return count == numberOfInvocations
     }
     
+    public func throwingRun(arg1: Arg1T, arg2: Arg2T) throws -> ReturnType {
+        for throwingMatcher in self.throwingMatchers {
+            let matcher1 = throwingMatcher.0
+            let matcher2 = throwingMatcher.1
+            let thrownError = throwingMatcher.2
+            
+            var matched1, matched2: Bool
+            switch matcher1 {
+            case .any:
+                matched1 = true
+            case .with(let condition):
+                matched1 = condition(arg1)
+            }
+            switch matcher2 {
+            case .any:
+                matched2 = true
+            case .with(let condition):
+                matched2 = condition(arg2)
+            }
+            
+            if matched1 && matched2 {
+                capturedInvocations.append((arg1, arg2))
+                throw thrownError
+            }
+        }
+        
+        return run(arg1: arg1, arg2: arg2)
+    }
+    
     public func run(arg1: Arg1T, arg2: Arg2T) -> ReturnType {
         capturedInvocations.append((arg1, arg2))
+        
+        // Don't search for a result matcher if return type is void
+        if ReturnType.self == Void.self {
+            return () as! ReturnType
+        }
         
         for resultMatcher in self.mockedResultMatchers {
             let matcher1 = resultMatcher.0
@@ -171,6 +265,7 @@ class FunctionMockUnitTwoArgs<ReturnType, Arg1T, Arg2T> { // takes two args
     
     public func clearStubs() {
         self.mockedResultMatchers = []
+        self.throwingMatchers = []
     }
     
     public func clearInvocations() {
@@ -180,6 +275,7 @@ class FunctionMockUnitTwoArgs<ReturnType, Arg1T, Arg2T> { // takes two args
 
 class FunctionMockUnitThreeArgs<ReturnType, Arg1T, Arg2T, Arg3T> { // takes three args
     var mockedResultMatchers: [(Matcher<Arg1T>, Matcher<Arg2T>, Matcher<Arg3T>, ReturnType)] = []
+    var throwingMatchers: [(Matcher<Arg1T>, Matcher<Arg2T>, Matcher<Arg3T>, Error)] = []
     
     var capturedInvocations: [(Arg1T, Arg2T, Arg3T)] = []
     
@@ -188,6 +284,13 @@ class FunctionMockUnitThreeArgs<ReturnType, Arg1T, Arg2T, Arg3T> { // takes thre
                   forArg2 matcher2: Matcher<Arg2T>,
                   forArg3 matcher3: Matcher<Arg3T>) {
         self.mockedResultMatchers.append((matcher1, matcher2, matcher3, result))
+    }
+    
+    func doThrow(error: Error,
+                 forArg1 matcher1: Matcher<Arg1T>,
+                 forArg2 matcher2: Matcher<Arg2T>,
+                 forArg3 matcher3: Matcher<Arg3T>) {
+        self.throwingMatchers.append((matcher1, matcher2, matcher3, error))
     }
     
     //TODO: return resultSequence for matcher
@@ -228,8 +331,49 @@ class FunctionMockUnitThreeArgs<ReturnType, Arg1T, Arg2T, Arg3T> { // takes thre
         return count == numberOfInvocations
     }
     
+    public func throwingRun(arg1: Arg1T, arg2: Arg2T, arg3: Arg3T) throws -> ReturnType {
+        for throwingMatcher in self.throwingMatchers {
+            let matcher1 = throwingMatcher.0
+            let matcher2 = throwingMatcher.1
+            let matcher3 = throwingMatcher.2
+            let thrownError = throwingMatcher.3
+            
+            var matched1, matched2, matched3: Bool
+            switch matcher1 {
+            case .any:
+                matched1 = true
+            case .with(let condition):
+                matched1 = condition(arg1)
+            }
+            switch matcher2 {
+            case .any:
+                matched2 = true
+            case .with(let condition):
+                matched2 = condition(arg2)
+            }
+            switch matcher3 {
+            case .any:
+                matched3 = true
+            case .with(let condition):
+                matched3 = condition(arg3)
+            }
+            
+            if matched1 && matched2 && matched3 {
+                capturedInvocations.append((arg1, arg2, arg3))
+                throw thrownError
+            }
+        }
+        
+        return run(arg1: arg1, arg2: arg2, arg3: arg3)
+    }
+    
     public func run(arg1: Arg1T, arg2: Arg2T, arg3: Arg3T) -> ReturnType {
         capturedInvocations.append((arg1, arg2, arg3))
+        
+        // Don't search for a result matcher if return type is void
+        if ReturnType.self == Void.self {
+            return () as! ReturnType
+        }
         
         for resultMatcher in self.mockedResultMatchers {
             let matcher1 = resultMatcher.0
@@ -267,6 +411,7 @@ class FunctionMockUnitThreeArgs<ReturnType, Arg1T, Arg2T, Arg3T> { // takes thre
     
     public func clearStubs() {
         self.mockedResultMatchers = []
+        self.throwingMatchers = []
     }
     
     public func clearInvocations() {
@@ -342,11 +487,6 @@ final class MockCoreStitchAuthProto<TStitchUser>: CoreStitchAuth<TStitchUser> wh
                         startRefresherThread: false)
         self.getAuthInfoMock.clearStubs()
         self.getAuthInfoMock.clearInvocations()
-        
-        // We can't check if `ReturnType is Void` within the FunctionMockUnit at runtime
-        // so we have to explicitly define the return value of void functions until we have
-        // void-specific mock units
-        self.refreshAccessTokenMock.doReturn(result: ())
     }
     
     public var isLoggedInMock = FunctionMockUnit<Bool>()
@@ -369,7 +509,7 @@ final class MockCoreStitchAuthProto<TStitchUser>: CoreStitchAuth<TStitchUser> wh
 final class MockTransport: Transport {
     public var mockRoundTrip = FunctionMockUnitOneArg<Response, Request>()
     internal func roundTrip(request: Request) throws -> Response {
-        return mockRoundTrip.run(arg1: request)
+        return try mockRoundTrip.throwingRun(arg1: request)
     }
 }
 
@@ -384,21 +524,19 @@ final class MockStitchRequestClientProto: StitchRequestClient {
     
     public var doRequestMock = FunctionMockUnitOneArg<Response, StitchRequest>()
     func doRequest(_ stitchReq: StitchRequest) throws -> Response {
-        return doRequestMock.run(arg1: stitchReq)
+        return try doRequestMock.throwingRun(arg1: stitchReq)
     }
 }
-
-
 
 final class MockStitchAuthRequestClient: StitchAuthRequestClient {
     public var doAuthenticatedRequestMock = FunctionMockUnitOneArg<Response, StitchAuthRequest>()
     func doAuthenticatedRequest(_ stitchReq: StitchAuthRequest) throws -> Response {
-        return doAuthenticatedRequestMock.run(arg1: stitchReq)
+        return try doAuthenticatedRequestMock.throwingRun(arg1: stitchReq)
     }
     
     public var doAuthenticatedRequestWithDecodingMock = FunctionMockUnitOneArg<Any, StitchAuthRequest>()
     func doAuthenticatedRequest<DecodedT>(_ stitchReq: StitchAuthRequest) throws -> DecodedT where DecodedT : Decodable {
-        if let result = doAuthenticatedRequestWithDecodingMock.run(arg1: stitchReq) as? DecodedT {
+        if let result = try doAuthenticatedRequestWithDecodingMock.throwingRun(arg1: stitchReq) as? DecodedT {
             return result
         } else {
             fatalError("Returning incorrect type from mocked result")
@@ -407,18 +545,11 @@ final class MockStitchAuthRequestClient: StitchAuthRequestClient {
 }
 
 final class MockCoreStitchService: CoreStitchService {
-    public init() {
-        // We can't check if `ReturnType is Void` within the FunctionMockUnit at runtime
-        // so we have to explicitly define the return value of void functions until we have
-        // void-specific mock units
-        self.callFunctionInternalMock.doReturn(result: (), forArg1: .any, forArg2: .any, forArg3: .any)
-    }
-    
     public var callFunctionInternalMock = FunctionMockUnitThreeArgs<Void, String, [BsonValue], TimeInterval?>()
     func callFunctionInternal(withName name: String,
                               withArgs args: [BsonValue],
                               withRequestTimeout requestTimeout: TimeInterval?) throws {
-        return callFunctionInternalMock.run(arg1: name, arg2: args, arg3: requestTimeout)
+        return try callFunctionInternalMock.throwingRun(arg1: name, arg2: args, arg3: requestTimeout)
     }
     
     public var callFunctionInternalWithDecodingMock =
@@ -426,7 +557,7 @@ final class MockCoreStitchService: CoreStitchService {
     func callFunctionInternal<T>(withName name: String,
                                  withArgs args: [BsonValue],
                                  withRequestTimeout requestTimeout: TimeInterval?) throws -> T where T : Decodable {
-        if let result = callFunctionInternalWithDecodingMock.run(arg1: name, arg2: args, arg3: requestTimeout) as? T {
+        if let result = try callFunctionInternalWithDecodingMock.throwingRun(arg1: name, arg2: args, arg3: requestTimeout) as? T {
             return result
         } else {
             fatalError("Returning incorrect type from mocked result")

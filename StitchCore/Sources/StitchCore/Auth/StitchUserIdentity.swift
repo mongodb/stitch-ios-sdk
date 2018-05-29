@@ -1,7 +1,7 @@
 /**
  * A protocol representing an identity that a Stitch user is linked to and can use to sign into their account.
  */
-public protocol StitchUserIdentity: Decodable {
+public protocol StitchUserIdentity: Codable {
     /**
      * The id of this identity in MongoDB Stitch
      *

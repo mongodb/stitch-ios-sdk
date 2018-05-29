@@ -14,7 +14,7 @@ public class StitchRequestBuilder {
      * Sets the HTTP method of the request to be built.
      */
     @discardableResult
-    public func with(method: Method) -> StitchRequestBuilder {
+    public func with(method: Method) -> Self {
         self.method = method
         return self
     }
@@ -23,7 +23,7 @@ public class StitchRequestBuilder {
      * Sets the body of the request to be built.
      */
     @discardableResult
-    public func with(body: Data) -> StitchRequestBuilder {
+    public func with(body: Data) -> Self {
         self.body = body
         return self
     }
@@ -32,7 +32,7 @@ public class StitchRequestBuilder {
      * Sets the HTTP headers of the request to be built.
      */
     @discardableResult
-    public func with(headers: [String: String]) -> StitchRequestBuilder {
+    public func with(headers: [String: String]) -> Self {
         self.headers = headers
         return self
     }
@@ -43,7 +43,7 @@ public class StitchRequestBuilder {
      * request.
      */
     @discardableResult
-    public func with(timeout: TimeInterval) -> StitchRequestBuilder {
+    public func with(timeout: TimeInterval) -> Self {
         self.timeout = timeout
         return self
     }
@@ -52,7 +52,7 @@ public class StitchRequestBuilder {
      * Sets the URL of the request to be built.
      */
     @discardableResult
-    public func with(path: String) -> StitchRequestBuilder {
+    public func with(path: String) -> Self {
         self.path = path
         return self
     }
@@ -92,7 +92,7 @@ public class StitchRequestBuilder {
 /**
  * A class representing an HTTP request that can be made to a Stitch server.
  */
-public class StitchRequest {
+public class StitchRequest: Equatable {
     /**
      * The URL to which this request will be made.
      */
@@ -145,5 +145,10 @@ public class StitchRequest {
         self.timeout = timeout
         self.body = body
         self.startedAt = Date().timeIntervalSince1970
+    }
+    
+    public static func == (lhs: StitchRequest, rhs: StitchRequest) -> Bool {
+        let bodiesEqual = (lhs.body == nil && rhs.body == nil) || lhs.body!.elementsEqual(rhs.body!)
+        return lhs.method == rhs.method && lhs.headers == rhs.headers && bodiesEqual && lhs.path == rhs.path
     }
 }
