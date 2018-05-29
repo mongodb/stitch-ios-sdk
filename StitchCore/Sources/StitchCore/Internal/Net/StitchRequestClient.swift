@@ -27,7 +27,7 @@ public protocol StitchRequestClient {
      *
      * - returns: the response to the request as a `Response` object.
      */
-    func doRequest<RequestT>(_ stitchReq: RequestT) throws -> Response where RequestT: StitchRequest
+    func doRequest(_ stitchReq: StitchRequest) throws -> Response
 }
 
 /**
@@ -67,7 +67,7 @@ public final class StitchRequestClientImpl: StitchRequestClient {
      *
      * - returns: the response to the request as a `Response` object.
      */
-    public func doRequest<RequestT>(_ stitchReq: RequestT) throws -> Response where RequestT: StitchRequest {
+    public func doRequest(_ stitchReq: StitchRequest) throws -> Response {
         var response: Response!
         do {
             response = try self.transport.roundTrip(request: self.buildRequest(stitchReq))
@@ -81,7 +81,7 @@ public final class StitchRequestClientImpl: StitchRequestClient {
     /**
      * Builds a plain HTTP request out of the provided `StitchRequest` object.
      */
-    private func buildRequest<R>(_ stitchReq: R) throws -> Request where R: StitchRequest {
+    private func buildRequest(_ stitchReq: StitchRequest) throws -> Request {
         return try RequestBuilder { builder in
             builder.method = stitchReq.method
             builder.url = "\(self.baseURL)\(stitchReq.path)"

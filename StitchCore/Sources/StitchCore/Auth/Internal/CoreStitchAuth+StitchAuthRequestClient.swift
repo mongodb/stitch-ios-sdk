@@ -12,7 +12,7 @@ extension CoreStitchAuth {
      *
      * - returns: The response to the request as a `Response`.
      */
-    public func doAuthenticatedRequest<R>(_ stitchReq: R) throws -> Response where R: StitchAuthRequest {
+    public func doAuthenticatedRequest(_ stitchReq: StitchAuthRequest) throws -> Response {
         do {
             return try requestClient.doRequest(prepareAuthRequest(stitchReq))
         } catch let err {
@@ -20,8 +20,7 @@ extension CoreStitchAuth {
         }
     }
     
-    public func doAuthenticatedRequest<RequestT, DecodedT>(_ stitchReq: RequestT) throws -> DecodedT
-        where RequestT : StitchAuthRequest, DecodedT : Decodable {
+    public func doAuthenticatedRequest<DecodedT: Decodable>(_ stitchReq: StitchAuthRequest) throws -> DecodedT {
         let response = try self.doAuthenticatedRequest(stitchReq)
         do {
             guard let responseBody = response.body,
@@ -87,8 +86,8 @@ extension CoreStitchAuth {
      * already. If the error is not a Stitch error, or the error is a Stitch error not related to an invalid session,
      * it will be re-thrown.
      */
-    private func handleAuthFailure<R>(forError error: Error,
-                                      withRequest req: R) throws -> Response where R: StitchAuthRequest {
+    private func handleAuthFailure(forError error: Error,
+                                   withRequest req: StitchAuthRequest) throws -> Response {
         guard let sError = error as? StitchError else {
             throw error
         }

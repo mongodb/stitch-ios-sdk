@@ -1,5 +1,5 @@
 /**
- * A class representing an identity that a Stitch user is linked to and can use to sign into their account.
+ * A protocol representing an identity that a Stitch user is linked to and can use to sign into their account.
  */
 public protocol StitchUserIdentity: Decodable {
     /**

@@ -315,7 +315,8 @@ final class StubUser: CoreStitchUser {
     
     var userType: String = ""
     
-    var profile: StitchUserProfile = StitchUserProfileImpl.init(userType: "", identities: [], data: APIExtendedUserProfileImpl.init())
+    var profile: StitchUserProfile =
+        StitchUserProfileImpl.init(userType: "", identities: [], data: APIExtendedUserProfileImpl.init())
     
     var identities: [StitchUserIdentity] = []
 }
@@ -325,11 +326,7 @@ final class StubStitchRequestClient: StitchRequestClient {
     
     init(baseURL: String, transport: Transport, defaultRequestTimeout: TimeInterval) { }
     
-    func doRequest<R>(_ stitchReq: R) throws -> Response where R : StitchRequest {
-        return Response.init(statusCode: 500, headers: [:], body: nil)
-    }
-    
-    func doJSONRequestRaw(_ stitchReq: StitchDocRequest) throws -> Response {
+    func doRequest(_ stitchReq: StitchRequest) throws -> Response {
         return Response.init(statusCode: 500, headers: [:], body: nil)
     }
 }
@@ -376,16 +373,6 @@ final class MockTransport: Transport {
     }
 }
 
-//protocol GenericProtocolWrapper {
-//    associatedtype T
-//    var value: T { get }
-//}
-//
-
-struct AnyStitchRequest { //: GenericProtocolWrapper {
-    public let value: StitchRequest
-}
-
 final class MockStitchRequestClientProto: StitchRequestClient {
     init() {
         // do nothing
@@ -395,10 +382,8 @@ final class MockStitchRequestClientProto: StitchRequestClient {
         // do nothing
     }
     
-    // This `Any` for the generic arg is basically compile-time type erasure.
-    // I'm not sure if it would be posible to use anything else.
-    public var doRequestMock = FunctionMockUnitOneArg<Response, Any>()
-    func doRequest<R>(_ stitchReq: R) throws -> Response where R : StitchRequest {
+    public var doRequestMock = FunctionMockUnitOneArg<Response, StitchRequest>()
+    func doRequest(_ stitchReq: StitchRequest) throws -> Response {
         return doRequestMock.run(arg1: stitchReq)
     }
 }
@@ -406,13 +391,13 @@ final class MockStitchRequestClientProto: StitchRequestClient {
 
 
 final class MockStitchAuthRequestClient: StitchAuthRequestClient {
-    public var doAuthenticatedRequestMock = FunctionMockUnitOneArg<Response, Any>()
-    func doAuthenticatedRequest<RequestT>(_ stitchReq: RequestT) throws -> Response where RequestT : StitchAuthRequest {
+    public var doAuthenticatedRequestMock = FunctionMockUnitOneArg<Response, StitchAuthRequest>()
+    func doAuthenticatedRequest(_ stitchReq: StitchAuthRequest) throws -> Response {
         return doAuthenticatedRequestMock.run(arg1: stitchReq)
     }
     
-    public var doAuthenticatedRequestWithDecodingMock = FunctionMockUnitOneArg<Any, Any>()
-    func doAuthenticatedRequest<RequestT, DecodedT>(_ stitchReq: RequestT) throws -> DecodedT where RequestT : StitchAuthRequest, DecodedT : Decodable {
+    public var doAuthenticatedRequestWithDecodingMock = FunctionMockUnitOneArg<Any, StitchAuthRequest>()
+    func doAuthenticatedRequest<DecodedT>(_ stitchReq: StitchAuthRequest) throws -> DecodedT where DecodedT : Decodable {
         if let result = doAuthenticatedRequestWithDecodingMock.run(arg1: stitchReq) as? DecodedT {
             return result
         } else {
@@ -421,23 +406,30 @@ final class MockStitchAuthRequestClient: StitchAuthRequestClient {
     }
 }
 
-//final class MockCoreStitchService: CoreStitchService {
-//    public var callFunctionInternalMock = FunctionMockUnitThreeArgs<Void, String, [BsonValue], TimeInterval?>()
-//    func callFunctionInternal(withName name: String,
-//                              withArgs args: [BsonValue],
-//                              withRequestTimeout requestTimeout: TimeInterval?) throws {
-//        return callFunctionInternalMock.run(arg1: name, arg2: args, arg3: requestTimeout)
-//    }
-//
-//    // Another case of compile-time type erasure here
-//    public var callFunctionInternalTMock = FunctionMockUnitThreeArgs<Any, String, [BsonValue], TimeInterval?>()
-//    func callFunctionInternal<T>(withName name: String, withArgs args: [BsonValue], withRequestTimeout requestTimeout: TimeInterval?) throws -> T where T : Decodable, T : Encodable {
-//        if let result = callFunctionInternalTMock.run(arg1: name, arg2: args, arg3: requestTimeout) as? T {
-//            return result
-//        } else {
-//            fatalError("Returning incorrect type from mocked result")
-//        }
-//    }
-//
-//
-//}
+final class MockCoreStitchService: CoreStitchService {
+    public init() {
+        // We can't check if `ReturnType is Void` within the FunctionMockUnit at runtime
+        // so we have to explicitly define the return value of void functions until we have
+        // void-specific mock units
+        self.callFunctionInternalMock.doReturn(result: (), forArg1: .any, forArg2: .any, forArg3: .any)
+    }
+    
+    public var callFunctionInternalMock = FunctionMockUnitThreeArgs<Void, String, [BsonValue], TimeInterval?>()
+    func callFunctionInternal(withName name: String,
+                              withArgs args: [BsonValue],
+                              withRequestTimeout requestTimeout: TimeInterval?) throws {
+        return callFunctionInternalMock.run(arg1: name, arg2: args, arg3: requestTimeout)
+    }
+    
+    public var callFunctionInternalWithDecodingMock =
+        FunctionMockUnitThreeArgs<Decodable, String, [BsonValue], TimeInterval?>()
+    func callFunctionInternal<T>(withName name: String,
+                                 withArgs args: [BsonValue],
+                                 withRequestTimeout requestTimeout: TimeInterval?) throws -> T where T : Decodable {
+        if let result = callFunctionInternalWithDecodingMock.run(arg1: name, arg2: args, arg3: requestTimeout) as? T {
+            return result
+        } else {
+            fatalError("Returning incorrect type from mocked result")
+        }
+    }
+}

@@ -12,11 +12,6 @@ public enum StitchDocRequestBuilderError: Error {
  * A builder that can build a `StitchDocRequest` object.
  */
 public class StitchDocRequestBuilder: StitchRequestBuilder {
-    /**
-     * The type that this builder builds.
-     */
-    public typealias TBuildee = StitchDocRequest
-    
     internal var document: Document?
     
     public override init() { super.init() }

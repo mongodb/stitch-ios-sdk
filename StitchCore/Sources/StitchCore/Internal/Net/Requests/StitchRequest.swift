@@ -4,11 +4,6 @@ import Foundation
  * A builder that can build a `StitchRequest` object.
  */
 public class StitchRequestBuilder {
-    /**
-     * The type that this builder builds.
-     */
-    public typealias TBuildee = StitchRequest
-
     internal var method: Method?
     internal var body: Data?
     internal var headers: [String: String]?
@@ -98,11 +93,6 @@ public class StitchRequestBuilder {
  * A class representing an HTTP request that can be made to a Stitch server.
  */
 public class StitchRequest {
-    /**
-     * The type that builds this request object.
-     */
-    public typealias TBuilder = StitchRequestBuilder
-    
     /**
      * The URL to which this request will be made.
      */

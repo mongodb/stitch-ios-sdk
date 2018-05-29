@@ -10,7 +10,7 @@ public protocol StitchAuthRequestClient {
      *
      * - returns: The response to the request as a `Response`.
      */
-    func doAuthenticatedRequest<RequestT>(_ stitchReq: RequestT) throws -> Response where RequestT: StitchAuthRequest
+    func doAuthenticatedRequest(_ stitchReq: StitchAuthRequest) throws -> Response
     
     /**
      * Performs an authenticated request to the Stitch server, using the current authentication state, and should
@@ -19,5 +19,5 @@ public protocol StitchAuthRequestClient {
      *
      * - returns: The decoded body of the response.
      */
-    func doAuthenticatedRequest<RequestT, DecodedT: Decodable>(_ stitchReq: RequestT) throws -> DecodedT where RequestT: StitchAuthRequest
+    func doAuthenticatedRequest<DecodedT: Decodable>(_ stitchReq: StitchAuthRequest) throws -> DecodedT
 }

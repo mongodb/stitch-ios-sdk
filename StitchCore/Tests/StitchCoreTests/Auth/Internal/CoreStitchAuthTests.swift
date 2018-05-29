@@ -169,18 +169,78 @@ import enum JWT.Algorithm
 //}
 //
 
+/**
+ * Gets a login response for testing that is always the same.
+ */
+fileprivate let testLoginResponse = APIAuthInfoImpl.init(
+    userId: "some-unique-user-id",
+    deviceId: "0123456012345601234560123456",
+    accessToken: "1234", // TODO: getTestAccessToken
+    refreshToken: "1234" // TODO: getTestRefreshToken
+)
+
+/**
+ * A user profile for testing that is always the same.
+ */
+fileprivate let userProfileResponse = APICoreUserProfileImpl.init(
+    userType: "normal",
+    identities: [APIStitchUserIdentity.init(id: "bar", providerType: "baz")],
+    data: APIExtendedUserProfileImpl.init()
+)
+
+/**
+ * A link response for testing that is always the same.
+ */
+fileprivate let testLinkResponse = APIAuthInfoImpl.init(
+    userId: "some-unique-user-id",
+    deviceId: "0123456012345601234560123456",
+    accessToken: "1234", // TODO: getTestAccessToken
+    refreshToken: nil
+)
+//    return new ApiAuthInfo(
+//        "some-unique-user-id",
+//        "0123456012345601234560123456",
+//        getTestAccessToken(),
+//        getTestRefreshToken());
+//}
+
+///**
+// * Gets a link response for testing that is always the same.
+// */
+//public static ApiAuthInfo getTestLinkResponse() {
+//    return new ApiAuthInfo(
+//        "some-unique-user-id",
+//        "0123456012345601234560123456",
+//        getTestAccessToken(),
+//        null);
+//}
+
 func getMockedRequestClient() -> MockStitchRequestClientProto {
     let requestClient = MockStitchRequestClientProto.init()
 
+    // Any /login works
     requestClient.doRequestMock.doReturn(
         result: <#T##Response#>,
-        forArg: Matcher<Any>.with(condition: { (typeErasedReq) -> Bool in
-            let req = AnyStitchRequest.init(request: typeErasedReq)
-            guard let req = typeErasedReq as? StitchRequest else {
-                fatalError("passed incorrect type as argument to mocked class")
-            }
-            req.path.endswit
-        }))
+        forArg: Matcher<StitchRequest>.with(condition: { req -> Bool in
+            return req.path.hasSuffix("/login")
+        })
+    )
+    
+    // Profile works if the access token is the same as the above
+    requestClient.doRequestMock.doReturn(
+        result: <#T##Response#>,
+        forArg: Matcher<StitchRequest>.with(condition: { req -> Bool in
+            return req.path.hasSuffix("/profile")
+        })
+    )
+    
+    // Link works if the access token is the same as the above
+    requestClient.doRequestMock.doReturn(
+        result: <#T##Response#>,
+        forArg: Matcher<StitchRequest>.with(condition: { req -> Bool in
+            return req.path.hasSuffix("/login?link=true")
+        })
+    )
     
 //    // Any /login works
 //    Mockito.doAnswer((ignored) -> new Response(getTestLoginResponse().toString()))

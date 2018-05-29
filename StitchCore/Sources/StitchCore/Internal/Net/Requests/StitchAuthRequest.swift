@@ -16,11 +16,6 @@ public class StitchAuthRequestBuilder: StitchRequestBuilder {
     }
     
     /**
-     * The type that this builder builds.
-     */
-    public typealias TBuildee = StitchAuthRequest
-    
-    /**
      * Specifies that the request should use the temporary access token.
      */
     @discardableResult

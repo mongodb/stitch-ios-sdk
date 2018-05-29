@@ -6,11 +6,6 @@ import MongoSwift
  */
 public class StitchAuthDocRequestBuilder: StitchAuthRequestBuilder {
     /**
-     * The type that this builder builds.
-     */
-    public typealias TBuildee = StitchAuthDocRequest
-    
-    /**
      * The BSON document that will become the body of the request to be built.
      */
     internal var document: Document?
