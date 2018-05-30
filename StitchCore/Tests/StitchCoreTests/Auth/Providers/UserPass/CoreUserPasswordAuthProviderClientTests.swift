@@ -1,95 +1,116 @@
 import XCTest
-import Swifter
 @testable import StitchCore
 
-private final class MockRoutes {
-    private let authRoutes: StitchAuthRoutes
-    private let providerName: String
-
-    fileprivate init(withAuthRoutes authRoutes: StitchAuthRoutes,
-                     withProviderName providerName: String) {
-        self.authRoutes = authRoutes
-        self.providerName = providerName
-    }
-
-    private func extensionRoute(forPath path: String) -> String {
-        return "\(authRoutes.authProviderRoute(withProviderName: providerName))/\(path)"
-    }
-
-    fileprivate lazy var registerWithEmailRoute = self.extensionRoute(forPath: "register")
-
-    fileprivate lazy var confirmUserRoute = self.extensionRoute(forPath: "confirm")
-
-    fileprivate lazy var resendConfirmationEmailRoute = self.extensionRoute(forPath: "confirm/send")
-
-    fileprivate lazy var resetPasswordRoute = self.extensionRoute(forPath: "reset")
-
-    fileprivate lazy var sendResetPasswordEmailRoute = self.extensionRoute(forPath: "reset/send")
-}
-
 class CoreUserPasswordAuthProviderClientTests: StitchXCTestCase {
-    let routes = StitchAppRoutes.init(clientAppId: "")
-
-    let providerName = "local-userpass"
-
-    var core: CoreUserPasswordAuthProviderClient!
-
-    private lazy var mockRoutes = MockRoutes.init(withAuthRoutes: routes.authRoutes,
-                                                  withProviderName: providerName)
-
-    let username = "username@10gen.com", password = "password"
-
-    override func setUp() {
-        server[mockRoutes.registerWithEmailRoute] = { _ in
-            return .ok(.text(""))
-        }
-        server[mockRoutes.confirmUserRoute] = { _ in
-            return .ok(.text(""))
-        }
-        server[mockRoutes.resendConfirmationEmailRoute] = { _ in
-            return .ok(.text(""))
-        }
-
-        super.setUp()
-
-        core = CoreUserPasswordAuthProviderClient.init(
-            withProviderName: self.providerName,
-            withRequestClient: StitchRequestClientImpl.init(baseURL: self.baseURL,
-                                                            transport: FoundationHTTPTransport(),
-                                                            defaultRequestTimeout: testDefaultRequestTimeout),
-            withAuthRoutes: routes.authRoutes
+    
+    private func testClientCall(function: @escaping (CoreUserPasswordAuthProviderClient) throws -> Void,
+                                expectedRequest: StitchRequest) throws {
+        let clientAppId = "my_app-12345"
+        let providerName = "userPassProvider"
+        
+        let requestClient = MockStitchRequestClientProto()
+        let routes = StitchAppRoutes.init(clientAppId: clientAppId).authRoutes
+        let client = CoreUserPasswordAuthProviderClient.init(
+            withProviderName: providerName,
+            withRequestClient: requestClient,
+            withAuthRoutes: routes
         )
+        
+        requestClient.doRequestMock.doReturn(
+            result: Response.init(statusCode: 200, headers: [:], body: nil),
+            forArg: .any
+        )
+        
+        try function(client)
+        XCTAssertTrue(requestClient.doRequestMock.verify(numberOfInvocations: 1, forArg: .any))
+        
+        XCTAssertEqual(expectedRequest, requestClient.doRequestMock.capturedInvocations[0])
+        
+        // should pass along errors
+        requestClient.doRequestMock.doThrow(
+            error: StitchError.clientError(withClientErrorCode: .userNoLongerValid),
+            forArg: .any
+        )
+        do {
+            try function(client)
+            XCTFail("function did not fail where expected")
+        } catch {
+            // do nothing
+        }
     }
-
-    func testCredential() throws {
-        let credential = core.credential(forUsername: self.username,
-                                         forPassword: self.password)
-        XCTAssertEqual(credential.providerName, self.providerName)
-        print(credential.material)
-        XCTAssertEqual(credential.material["username"] as? String,
-                       self.username)
-        XCTAssertEqual(credential.material["password"] as? String,
-                       self.password)
-        XCTAssertEqual(credential.providerCapabilities.reusesExistingSession, false)
-    }
-
+    
     func testRegister() throws {
-        let response = try core.register(withEmail: username,
-                                         withPassword: password)
-
-        XCTAssertEqual(response.statusCode, 200)
+        let routes = StitchAppRoutes.init(clientAppId: "my_app-12345").authRoutes
+        let username = "username@10gen.com"
+        let password = "password"
+        
+        let expectedRequestBuilder = StitchDocRequestBuilder()
+            .with(method: .post)
+            .with(path: "\(routes.authProviderRoute(withProviderName: "userPassProvider"))/register")
+            .with(document: ["email": username, "password": password])
+        
+        try testClientCall(function: { client in
+            _ = try client.register(withEmail: username, withPassword: password)
+        }, expectedRequest: expectedRequestBuilder.build())
     }
-
+    
     func testConfirmUser() throws {
-        let response = try core.confirmUser(withToken: "token",
-                                            withTokenId: "tokenId")
-
-        XCTAssertEqual(response.statusCode, 200)
+        let routes = StitchAppRoutes.init(clientAppId: "my_app-12345").authRoutes
+        let token = "some"
+        let tokenId = "thing"
+        
+        let expectedRequestBuilder = StitchDocRequestBuilder()
+            .with(method: .post)
+            .with(path: "\(routes.authProviderRoute(withProviderName: "userPassProvider"))/confirm")
+            .with(document: ["token": token, "tokenId": tokenId])
+        
+        try testClientCall(function: { client in
+            _ = try client.confirmUser(withToken: token, withTokenId: tokenId)
+        }, expectedRequest: expectedRequestBuilder.build())
     }
-
+    
     func testResendConfirmation() throws {
-        let response = try core.resendConfirmation(toEmail: username)
-
-        XCTAssertEqual(response.statusCode, 200)
+        let routes = StitchAppRoutes.init(clientAppId: "my_app-12345").authRoutes
+        let email = "username@10gen.com"
+        
+        let expectedRequestBuilder = StitchDocRequestBuilder()
+            .with(method: .post)
+            .with(path: "\(routes.authProviderRoute(withProviderName: "userPassProvider"))/confirm/send")
+            .with(document: ["email": email])
+        
+        try testClientCall(function: { client in
+            _ = try client.resendConfirmation(toEmail: email)
+        }, expectedRequest: expectedRequestBuilder.build())
+    }
+    
+    func testSendResetPasswordEmail() throws {
+        let routes = StitchAppRoutes.init(clientAppId: "my_app-12345").authRoutes
+        let email = "username@10gen.com"
+        
+        let expectedRequestBuilder = StitchDocRequestBuilder()
+            .with(method: .post)
+            .with(path: "\(routes.authProviderRoute(withProviderName: "userPassProvider"))/reset/send")
+            .with(document: ["email": email])
+        
+        try testClientCall(function: { client in
+            _ = try client.sendResetPasswordEmail(toEmail: email)
+        }, expectedRequest: expectedRequestBuilder.build())
+    }
+    
+    func testResetPassword() throws {
+        let routes = StitchAppRoutes.init(clientAppId: "my_app-12345").authRoutes
+        
+        let token = "some"
+        let tokenId = "thing"
+        let newPassword = "correcthorsebatterystaple"
+        
+        let expectedRequestBuilder = StitchDocRequestBuilder()
+            .with(method: .post)
+            .with(path: "\(routes.authProviderRoute(withProviderName: "userPassProvider"))/reset")
+            .with(document: ["token": token, "tokenId": tokenId, "password": newPassword])
+        
+        try testClientCall(function: { client in
+            _ = try client.reset(password: newPassword, withToken: token, withTokenId: tokenId)
+        }, expectedRequest: expectedRequestBuilder.build())
     }
 }

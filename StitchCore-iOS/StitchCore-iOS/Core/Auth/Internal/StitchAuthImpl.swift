@@ -134,7 +134,7 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
     public func login(withCredential credential: StitchCredential,
                       _ completionHandler: @escaping ((StitchUser?, Error?) -> Void)) {
         dispatcher.run(withCompletionHandler: completionHandler) {
-            return try self.loginWithCredentialBlocking(withCredential: credential)
+            return try self.loginWithCredentialInternal(withCredential: credential)
         }
     }
 
@@ -157,7 +157,7 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
                        withUser user: StitchUserImpl,
                        _ completionHandler: @escaping ((StitchUser?, Error?) -> Void)) {
         dispatcher.run(withCompletionHandler: completionHandler) {
-            return try self.linkUserWithCredentialBlocking(withUser: user, withCredential: credential)
+            return try self.linkUserWithCredentialInternal(withUser: user, withCredential: credential)
         }
     }
 
@@ -172,7 +172,7 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
      */
     public func logout(_ completionHandler: @escaping ((Error?) -> Void)) {
         dispatcher.run(withCompletionHandler: completionHandler) {
-            self.logoutBlocking()
+            self.logoutInternal()
         }
     }
 

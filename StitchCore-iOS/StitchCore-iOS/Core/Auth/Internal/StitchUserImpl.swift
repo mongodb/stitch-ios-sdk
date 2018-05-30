@@ -4,7 +4,7 @@ import StitchCore
 /**
  * An implementation of `StitchUser`.
  */
-internal final class StitchUserImpl: StitchUser {
+internal final class StitchUserImpl: CoreStitchUserImpl, StitchUser {
 
     // MARK: Private Properties
 
@@ -24,10 +24,10 @@ internal final class StitchUserImpl: StitchUser {
          withUserProfile userProfile: StitchUserProfile,
          withAuth auth: StitchAuthImpl) {
         self.auth = auth
-        self.id = id
-        self.loggedInProviderType = providerType
-        self.loggedInProviderName = providerName
-        self.profile = userProfile
+        super.init(id: id,
+                   loggedInProviderType: providerType,
+                   loggedInProviderName: providerName,
+                   profile: userProfile)
     }
 
     // MARK: Methods
@@ -50,42 +50,5 @@ internal final class StitchUserImpl: StitchUser {
     public func link(withCredential credential: StitchCredential,
                      _ completionHandler: @escaping (StitchUser?, Error?) -> Void) {
         self.auth.link(withCredential: credential, withUser: self, completionHandler)
-    }
-
-    // MARK: Public Properties
-
-    /**
-     * The String representation of the id of this Stitch user.
-     */
-    public private(set) var id: String
-
-    /**
-     * A string describing the type of authentication provider used to log in as this user.
-     */
-    public private(set) var loggedInProviderType: StitchProviderType
-
-    /**
-     * The name of the authentication provider used to log in as this user.
-     */
-    public private(set) var loggedInProviderName: String
-
-    /**
-     * A string describing the type of this user. (Either `server` or `normal`)
-     */
-    public var userType: String {
-        return self.profile.userType
-    }
-
-    /**
-     * A `StitchCore.StitchUserProfile` object describing this user.
-     */
-    public private(set) var profile: StitchUserProfile
-
-    /**
-     * An array of `StitchCore.StitchUserIdentity` objects representing the identities linked
-     * to this user which can be used to log in as this user.
-     */
-    public var identities: [StitchUserIdentity] {
-        return self.profile.identities
     }
 }

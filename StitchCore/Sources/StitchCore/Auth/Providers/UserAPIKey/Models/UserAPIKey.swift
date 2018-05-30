@@ -16,6 +16,16 @@ public struct UserAPIKey: Decodable {
         self.name = try container.decode(String.self, forKey: .name)
         self.disabled = try container.decode(Bool.self, forKey: .disabled)
     }
+    
+    public init(id: ObjectId,
+                key: String?,
+                name: String,
+                disabled: Bool) {
+        self.id = id
+        self.key = key
+        self.name = name
+        self.disabled = disabled
+    }
 
     /**
      * The id of the key.

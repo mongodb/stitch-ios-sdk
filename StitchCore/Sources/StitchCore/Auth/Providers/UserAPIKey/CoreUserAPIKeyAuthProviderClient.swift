@@ -31,30 +31,30 @@ private final class Routes {
     }
 }
 
-/**
- * :nodoc:
- * A client for the user API key authentication provider which can be used to obtain a credential for logging in.
- */
-open class CoreUserAPIKeyAuthProviderClient {
-    /**
-     * The name of the provider.
-     */
-    private let providerName: String
-
-    /**
-     * Initializes this provider client with the name of the provider.
-     */
-    public init(withProviderName providerName: String = StitchProviderType.userAPIKey.name) {
-        self.providerName = providerName
-    }
-
-    /**
-     * Returns a credential for the provider, with the provided user API key.
-     */
-    public func credential(forKey key: String) -> UserAPIKeyCredential {
-        return UserAPIKeyCredential(withProviderName: self.providerName, withKey: key)
-    }
-}
+///**
+// * :nodoc:
+// * A client for the user API key authentication provider which can be used to obtain a credential for logging in.
+// */
+//open class CoreUserAPIKeyAuthProviderClient {
+//    /**
+//     * The name of the provider.
+//     */
+//    private let providerName: String
+//
+//    /**
+//     * Initializes this provider client with the name of the provider.
+//     */
+//    public init(withProviderName providerName: String = StitchProviderType.userAPIKey.name) {
+//        self.providerName = providerName
+//    }
+//
+//    /**
+//     * Returns a credential for the provider, with the provided user API key.
+//     */
+//    public func credential(forKey key: String) -> UserAPIKeyCredential {
+//        return UserAPIKeyCredential(withProviderName: self.providerName, withKey: key)
+//    }
+//}
 
 private let nameKey = "name"
 
@@ -110,26 +110,28 @@ open class CoreAuthenticatedUserAPIKeyClient: CoreAuthProviderClient<StitchAuthR
      *     - withId: The id of the API key to fetch.
      */
     public func fetchApiKey(withId id: ObjectId) throws -> UserAPIKey {
-        return try decode(fromResponse: self.requestClient.doAuthenticatedRequest(
+        // TODO: check if int test still works
+        return try /*decode(fromResponse: */self.requestClient.doAuthenticatedRequest(
             StitchAuthRequestBuilder()
                 .with(method: .get)
                 .with(path: self.routes.apiKeyRoute(forKeyId: id.description))
                 .withRefreshToken()
                 .build()
-        ))
+        )/*)*/
     }
 
     /**
      * Fetches the user API keys associated with the current user.
      */
     public func fetchApiKeys() throws -> [UserAPIKey] {
-        return try decode(fromResponse: self.requestClient.doAuthenticatedRequest(
+        // TODO: check if int test still works
+        return try /*decode(fromResponse: */self.requestClient.doAuthenticatedRequest(
             StitchAuthRequestBuilder()
                 .with(method: .get)
                 .with(path: self.baseRoute)
                 .withRefreshToken()
                 .build()
-        ))
+        )/*)*/
     }
 
     /**

@@ -1,6 +1,6 @@
 import Foundation
 
-public class CoreStitchUserImpl: CoreStitchUser {
+open class CoreStitchUserImpl: CoreStitchUser {
     public let id: String
     
     public let loggedInProviderType: StitchProviderType
@@ -17,7 +17,7 @@ public class CoreStitchUserImpl: CoreStitchUser {
         return self.profile.identities
     }
     
-    init(id: String,
+    public init(id: String,
          loggedInProviderType: StitchProviderType,
          loggedInProviderName: String,
          profile: StitchUserProfile
