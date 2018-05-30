@@ -40,8 +40,7 @@ class UserAPIKeyAuthProviderTests: StitchIntegrationTestCase {
         wait(for: [exp2], timeout: defaultTimeoutSeconds)
 
         let exp3 = expectation(description: "logged in using user API key")
-        auth.login(withCredential: auth.providerClient(
-            forProvider: UserAPIKeyAuthProvider.clientSupplier).credential(forKey: apiKey.key!)) { user, _ in
+        auth.login(withCredential: UserAPIKeyCredential(withKey: apiKey.key!)) { user, _ in
             XCTAssertNotNil(user)
             XCTAssertEqual(user?.id, emailUserId)
             exp3.fulfill()

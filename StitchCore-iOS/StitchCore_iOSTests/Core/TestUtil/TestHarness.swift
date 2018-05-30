@@ -158,6 +158,37 @@ final class TestHarness {
         )
     }
 
+    func addTestFunctionsRawValues() -> [FunctionResponse] {
+        let rawIntFunction = try! self.app.functions.create(data: FunctionCreator.init(
+            name: "testFunctionRawInt",
+            source: "exports = function() { " +
+                "return 42" +
+            "}",
+            canEvaluate: nil,
+            isPrivate: false)
+        )
+
+        let rawStringFunction = try! self.app.functions.create(data: FunctionCreator.init(
+            name: "testFunctionRawString",
+            source: "exports = function() { " +
+                "return \"hello world!\"" +
+            "}",
+            canEvaluate: nil,
+            isPrivate: false)
+        )
+
+        let rawArrayFunction = try! self.app.functions.create(data: FunctionCreator.init(
+            name: "testFunctionRawArray",
+            source: "exports = function() { " +
+                "return [1, 2, 3]" +
+            "}",
+            canEvaluate: nil,
+            isPrivate: false)
+        )
+
+        return [rawIntFunction, rawStringFunction, rawArrayFunction]
+    }
+
     func setupStitchClient(_ completionHandler: @escaping () -> Void) {
         guard let userCredentials = self.userCredentials else {
             fatalError("must have user before setting up stitch client")

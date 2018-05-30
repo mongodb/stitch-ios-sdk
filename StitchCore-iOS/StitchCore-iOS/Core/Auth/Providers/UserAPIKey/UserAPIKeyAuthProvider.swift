@@ -11,7 +11,7 @@ public final class UserAPIKeyAuthProvider {
      * An `AuthProviderClientSupplier` which can be used with `StitchAuth` to retrieve an
      * `UserAPIKeyAuthProviderClient`.
      */
-    public static let clientSupplier: ClientSupplierImpl = ClientSupplierImpl.init()
+//    public static let clientSupplier: ClientSupplierImpl = ClientSupplierImpl.init()
 
     /**
      * An `AuthProviderClientSupplier` which can be used with `StitchAuth` to retrieve an
@@ -24,13 +24,13 @@ public final class UserAPIKeyAuthProvider {
      * :nodoc:
      * An implementation of `AuthProviderClientSupplier` that produces a `UserAPIKeyAuthProviderClient`.
      */
-    public final class ClientSupplierImpl: AuthProviderClientSupplier {
-        public func client(withRequestClient _: StitchRequestClient,
-                           withRoutes _: StitchAuthRoutes,
-                           withDispatcher _: OperationDispatcher) -> UserAPIKeyAuthProviderClient {
-            return CoreUserAPIKeyAuthProviderClient.init()
-        }
-    }
+//    public final class ClientSupplierImpl: AuthProviderClientSupplier {
+//        public func client(withRequestClient _: StitchRequestClient,
+//                           withRoutes _: StitchAuthRoutes,
+//                           withDispatcher _: OperationDispatcher) -> UserAPIKeyAuthProviderClient {
+//            return CoreUserAPIKeyAuthProviderClient.init()
+//        }
+//    }
 
     /**
      * :nodoc:
@@ -52,9 +52,6 @@ public final class UserAPIKeyAuthProvider {
         }
     }
 }
-
-// Add conformance to UserAPIKeyAuthProviderClient protocol
-extension CoreUserAPIKeyAuthProviderClient: UserAPIKeyAuthProviderClient { }
 
 /**
  * A protocol that provides a method for getting a `StitchCredential` property

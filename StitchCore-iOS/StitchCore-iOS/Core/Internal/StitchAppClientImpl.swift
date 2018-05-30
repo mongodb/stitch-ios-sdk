@@ -170,7 +170,7 @@ internal final class StitchAppClientImpl: StitchAppClient {
                                                             withArgs: args)
         }
     }
-    
+
     /**
      * Calls the MongoDB Stitch function with the provided name and arguments.
      *
