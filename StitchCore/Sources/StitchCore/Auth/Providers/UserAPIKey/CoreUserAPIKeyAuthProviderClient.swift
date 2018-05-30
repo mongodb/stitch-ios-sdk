@@ -110,28 +110,26 @@ open class CoreAuthenticatedUserAPIKeyClient: CoreAuthProviderClient<StitchAuthR
      *     - withId: The id of the API key to fetch.
      */
     public func fetchApiKey(withId id: ObjectId) throws -> UserAPIKey {
-        // TODO: check if int test still works
-        return try /*decode(fromResponse: */self.requestClient.doAuthenticatedRequest(
+        return try self.requestClient.doAuthenticatedRequest(
             StitchAuthRequestBuilder()
                 .with(method: .get)
                 .with(path: self.routes.apiKeyRoute(forKeyId: id.description))
                 .withRefreshToken()
                 .build()
-        )/*)*/
+        )
     }
 
     /**
      * Fetches the user API keys associated with the current user.
      */
     public func fetchApiKeys() throws -> [UserAPIKey] {
-        // TODO: check if int test still works
-        return try /*decode(fromResponse: */self.requestClient.doAuthenticatedRequest(
+        return try self.requestClient.doAuthenticatedRequest(
             StitchAuthRequestBuilder()
                 .with(method: .get)
                 .with(path: self.baseRoute)
                 .withRefreshToken()
                 .build()
-        )/*)*/
+        )
     }
 
     /**

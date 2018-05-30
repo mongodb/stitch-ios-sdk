@@ -17,7 +17,7 @@ class CoreUserPasswordAuthProviderClientTests: StitchXCTestCase {
         )
         
         requestClient.doRequestMock.doReturn(
-            result: Response.init(statusCode: 200, headers: [:], body: nil),
+            result: Response.init(statusCode: 204, headers: [:], body: nil),
             forArg: .any
         )
         
@@ -28,7 +28,7 @@ class CoreUserPasswordAuthProviderClientTests: StitchXCTestCase {
         
         // should pass along errors
         requestClient.doRequestMock.doThrow(
-            error: StitchError.clientError(withClientErrorCode: .userNoLongerValid),
+            error: StitchError.serviceError(withMessage: "", withServiceErrorCode: .unknown),
             forArg: .any
         )
         do {

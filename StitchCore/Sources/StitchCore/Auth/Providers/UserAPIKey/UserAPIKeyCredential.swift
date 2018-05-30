@@ -19,7 +19,7 @@ public struct UserAPIKeyCredential: StitchCredential {
      * The contents of this credential as they will be passed to the Stitch server.
      */
     public var material: Document {
-        return ["key": key]
+        return ["key": self.key]
     }
 
     /**
@@ -36,8 +36,8 @@ public struct UserAPIKeyCredential: StitchCredential {
     /**
      * Initializes this credential with the name of the provider, and a user API key.
      */
-    internal init(withProviderName providerName: String = providerType.name,
-                  withKey key: String) {
+    public init(withProviderName providerName: String = providerType.name,
+                withKey key: String) {
         self.providerName = providerName
         self.key = key
     }
