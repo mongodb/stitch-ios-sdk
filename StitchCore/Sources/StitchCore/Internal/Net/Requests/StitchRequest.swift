@@ -93,6 +93,14 @@ public class StitchRequestBuilder {
  * A class representing an HTTP request that can be made to a Stitch server.
  */
 public class StitchRequest: Equatable {
+    
+    /**
+     * Constructs a builder preset with this request's properties.
+     */
+    public var builder: StitchRequestBuilder {
+        return StitchRequestBuilder.init(request: self)
+    }
+    
     /**
      * The URL to which this request will be made.
      */

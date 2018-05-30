@@ -63,6 +63,13 @@ public class StitchAuthRequestBuilder: StitchRequestBuilder {
  */
 public class StitchAuthRequest: StitchRequest {
     /**
+     * Constructs a builder preset with this request's properties.
+     */
+    public override var builder: StitchAuthRequestBuilder {
+        return StitchAuthRequestBuilder.init(request: self)
+    }
+    
+    /**
      * Whether or not the request should use the refresh token instead of the temporary access token.
      */
     public let useRefreshToken: Bool

@@ -64,7 +64,6 @@ class CoreUserAPIKeyAuthProviderClientTests: StitchXCTestCase {
                 numberOfInvocations: 1,
                 forArg: .any
             ))
-            print(expectedRequest.path)
 
             XCTAssertEqual(expectedRequest,
                            requestClient.doAuthenticatedRequestWithDecodingMock.capturedInvocations[0])

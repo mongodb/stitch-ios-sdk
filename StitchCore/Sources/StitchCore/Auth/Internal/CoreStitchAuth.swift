@@ -53,6 +53,8 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
         }
         set {
             authStateHolder.authInfo = newValue
+            authStateHolder.apiAuthInfo = newValue
+            authStateHolder.extendedAuthInfo = newValue
         }
     }
 
@@ -309,30 +311,41 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
             throw StitchError.requestError(withError: error, withRequestErrorCode: .decodingError)
         }
 
-        // Provisionally set so we can make a profile request
-        if self.authInfo == nil {
+        let oldAuthInfo = self.authInfo
+
+        // Provisionally set auth info so we can make a profile request
+        var newAPIAuthInfo: APIAuthInfo!
+        if let oldAuthInfo = oldAuthInfo { // If there was existing auth info (as in a link request)
+            let newAuthInfo = oldAuthInfo.merge(
+                withPartialInfo: decodedInfo,
+                fromOldInfo: oldAuthInfo
+            )
+            newAPIAuthInfo = newAuthInfo
+
+            self.authInfo = newAuthInfo
+        } else { // If there was no existing auth info
+            newAPIAuthInfo = decodedInfo
             self.authStateHolder.apiAuthInfo = decodedInfo
-        } else {
-            self.authInfo =
-                self.authInfo?.merge(withPartialInfo: decodedInfo,
-                                     fromOldInfo: self.authInfo!)
         }
 
         var profile: StitchUserProfile!
         do {
             profile = try doGetUserProfile()
         } catch let err {
-            self.logoutInternal()
+            // Back out of setting authInfo and unset any created user
+            self.authInfo = oldAuthInfo
+            currentUser = nil
             throw err
         }
-
+        
         // Finally set the info and user
         self.authInfo = StoreAuthInfo.init(
-            withAPIAuthInfo: decodedInfo,
+            withAPIAuthInfo: newAPIAuthInfo,
             withExtendedAuthInfo: ExtendedAuthInfoImpl.init(loggedInProviderType: type(of: credential).providerType,
                                                             loggedInProviderName: credential.providerName,
                                                             userProfile: profile))
 
+        // Persist auth info to storage
         do {
             try self.authInfo?.write(toStorage: &storage)
         } catch {

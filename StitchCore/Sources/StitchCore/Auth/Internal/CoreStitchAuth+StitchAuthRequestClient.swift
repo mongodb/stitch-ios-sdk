@@ -110,6 +110,6 @@ extension CoreStitchAuth {
 
         try self.tryRefreshAccessToken(reqStartedAt: req.startedAt)
 
-        return try doAuthenticatedRequest(req)
+        return try doAuthenticatedRequest(req.builder.with(shouldRefreshOnFailure: false).build())
     }
 }

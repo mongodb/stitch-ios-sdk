@@ -59,6 +59,13 @@ public final class StitchAuthDocRequestBuilder: StitchAuthRequestBuilder {
  */
 public final class StitchAuthDocRequest: StitchAuthRequest {
     /**
+     * Constructs a builder preset with this request's properties.
+     */
+    public override var builder: StitchAuthDocRequestBuilder {
+        return StitchAuthDocRequestBuilder.init(request: self)
+    }
+    
+    /**
      * The BSON document that will become the body of the request when it is performed.
      */
     public let document: Document

@@ -14,13 +14,11 @@ private let baseJSONHeaders = [
 fileprivate let testAccessToken = encode(Algorithm.hs256("foobar".data(using: .utf8)!)) {
     var date = Date()
     $0.issuedAt = date.addingTimeInterval(-1000)
-    $0.expiration = date.addingTimeInterval(1000)
-    
+    $0.expiration = date.addingTimeInterval(1000)    
 }
 
 fileprivate let testRefreshToken = encode(Algorithm.hs256("foobar".data(using: .utf8)!)) {
     var date = Date()
-    date.addTimeInterval(1000)
     $0.issuedAt = date.addingTimeInterval(-1000)
 }
 
@@ -269,11 +267,18 @@ class CoreStitchAuthTests: StitchXCTestCase {
         
         let user = try auth.loginWithCredentialInternal(withCredential: AnonymousCredential())
         
+        let refreshedToken = encode(Algorithm.hs256("refreshedJwt".data(using: .utf8)!)) {
+            let date = Date()
+            $0.issuedAt = date.addingTimeInterval(-1000)
+            $0.expiration = date.addingTimeInterval(1000)
+            
+        }
+        
         requestClient.doRequestMock.doReturn(
             result: Response.init(statusCode: 200,
                                   headers: baseJSONHeaders,
                                   body: Document.init(
-                                    ["access_token": testAccessToken]
+                                    ["access_token": refreshedToken]
                                   ).canonicalExtendedJSON.data(using: .utf8)),
             forArg: Matcher<StitchRequest>.with(condition: { req -> Bool in
                 return req.path.hasSuffix("/session") && req.method == .post
@@ -326,7 +331,7 @@ class CoreStitchAuthTests: StitchXCTestCase {
                 " \"options\" : { \"device\" : { \"deviceId\" : \"\(testLoginResponse.deviceId!)\" } } }")
                 .data(using: .utf8)!)
             .with(headers: [Headers.contentType.rawValue: ContentTypes.applicationJson.rawValue,
-                            Headers.authorization.rawValue: Headers.authorizationBearer(forValue: testAccessToken)])
+                            Headers.authorization.rawValue: Headers.authorizationBearer(forValue: refreshedToken)])
         
         XCTAssertEqual(try expectedRequest2.build(), requestClient.doRequestMock.capturedInvocations[4])
         
