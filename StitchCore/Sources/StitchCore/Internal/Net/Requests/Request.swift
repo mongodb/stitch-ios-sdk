@@ -103,7 +103,8 @@ public class RequestBuilder {
 /**
  * An HTTP request that can be made to an arbitrary server.
  */
-public class Request {
+public class Request: Equatable {
+
     // MARK: Properties
     
     public var builder: RequestBuilder {
@@ -157,6 +158,12 @@ public class Request {
         self.headers = headers
         self.body = body
     }
+
+    public static func == (lhs: Request, rhs: Request) -> Bool {
+        let bodiesEqual =
+            (lhs.body == nil && rhs.body == nil) || (lhs.body ?? Data()).elementsEqual(rhs.body ?? Data())
+        return lhs.method == rhs.method && lhs.headers == rhs.headers && bodiesEqual && lhs.url == rhs.url
+    }
 }
 
 /**
@@ -177,4 +184,20 @@ public struct Response {
      * The body of the HTTP response.
      */
     public let body: Data?
+    
+    /**
+     * Initializes the response and preprocesses the headers to support non-canonical headers.
+     */
+    public init(statusCode: Int,
+                headers: [String: String],
+                body: Data?) {
+        self.statusCode = statusCode
+        self.body = body
+        
+        var processedHeaders: [String: String] = [:]
+        headers.forEach { (key, val) in
+            processedHeaders[key.lowercased(with: Locale.init(identifier: "en_US"))] = val
+        }
+        self.headers = processedHeaders
+    }
 }

@@ -156,7 +156,8 @@ public class StitchRequest: Equatable {
     }
     
     public static func == (lhs: StitchRequest, rhs: StitchRequest) -> Bool {
-        let bodiesEqual = (lhs.body == nil && rhs.body == nil) || lhs.body!.elementsEqual(rhs.body!)
+        let bodiesEqual =
+            (lhs.body == nil && rhs.body == nil) || (lhs.body ?? Data()).elementsEqual(rhs.body ?? Data())
         return lhs.method == rhs.method && lhs.headers == rhs.headers && bodiesEqual && lhs.path == rhs.path
     }
 }
