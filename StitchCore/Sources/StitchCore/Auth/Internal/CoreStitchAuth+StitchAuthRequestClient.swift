@@ -20,7 +20,7 @@ extension CoreStitchAuth {
         }
     }
     
-    public func doAuthenticatedRequest<DecodedT: Decodable>(_ stitchReq: StitchAuthRequest) throws -> DecodedT {
+    public func doAuthenticatedRequest<T: Decodable>(_ stitchReq: StitchAuthRequest) throws -> T {
         let response = try self.doAuthenticatedRequest(stitchReq)
         do {
             guard let responseBody = response.body,
@@ -33,7 +33,7 @@ extension CoreStitchAuth {
             
             do {
                 // TODO: until Swift Driver decides on what to do
-                return try BsonDecoder().decode(DecodedT.self, from: responseString)
+                return try BsonDecoder().decode(T.self, from: responseString)
             } catch let err {
                 throw StitchError.requestError(withError: err, withRequestErrorCode: .decodingError)
             }

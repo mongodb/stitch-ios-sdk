@@ -79,7 +79,7 @@ public final class StitchDocRequest: StitchRequest {
         super.init(request: stitchRequest)
     }
     
-    public static func == (lhs: StitchDocRequest, rhs: StitchDocRequest) -> Bool {
+    public static func ==(lhs: StitchDocRequest, rhs: StitchDocRequest) -> Bool {
         return lhs as StitchRequest == rhs as StitchRequest && lhs.document == rhs.document
     }
 }

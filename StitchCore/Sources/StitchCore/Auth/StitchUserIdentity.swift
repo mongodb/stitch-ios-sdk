@@ -19,6 +19,6 @@ public protocol StitchUserIdentity: Codable {
  * :nodoc:
  * An overload of `==` that checks if two `StitchUserIdentity` objects are equal based on their id and provider type.
  */
-public func == (_ lhs: StitchUserIdentity, _ rhs: StitchUserIdentity) -> Bool {
+public func ==(_ lhs: StitchUserIdentity, _ rhs: StitchUserIdentity) -> Bool {
     return lhs.id == rhs.id && lhs.providerType == rhs.providerType
 }

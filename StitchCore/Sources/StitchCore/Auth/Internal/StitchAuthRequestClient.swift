@@ -19,5 +19,5 @@ public protocol StitchAuthRequestClient {
      *
      * - returns: The decoded body of the response.
      */
-    func doAuthenticatedRequest<DecodedT: Decodable>(_ stitchReq: StitchAuthRequest) throws -> DecodedT
+    func doAuthenticatedRequest<T: Decodable>(_ stitchReq: StitchAuthRequest) throws -> T
 }

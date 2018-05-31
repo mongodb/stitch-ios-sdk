@@ -159,7 +159,7 @@ public class Request: Equatable {
         self.body = body
     }
 
-    public static func == (lhs: Request, rhs: Request) -> Bool {
+    public static func ==(lhs: Request, rhs: Request) -> Bool {
         let bodiesEqual =
             (lhs.body == nil && rhs.body == nil) || (lhs.body ?? Data()).elementsEqual(rhs.body ?? Data())
         return lhs.method == rhs.method && lhs.headers == rhs.headers && bodiesEqual && lhs.url == rhs.url

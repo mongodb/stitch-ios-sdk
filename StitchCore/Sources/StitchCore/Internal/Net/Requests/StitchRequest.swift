@@ -155,7 +155,7 @@ public class StitchRequest: Equatable {
         self.startedAt = Date().timeIntervalSince1970
     }
     
-    public static func == (lhs: StitchRequest, rhs: StitchRequest) -> Bool {
+    public static func ==(lhs: StitchRequest, rhs: StitchRequest) -> Bool {
         let bodiesEqual =
             (lhs.body == nil && rhs.body == nil) || (lhs.body ?? Data()).elementsEqual(rhs.body ?? Data())
         return lhs.method == rhs.method && lhs.headers == rhs.headers && bodiesEqual && lhs.path == rhs.path

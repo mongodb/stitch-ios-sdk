@@ -86,7 +86,7 @@ public final class StitchAuthDocRequest: StitchAuthRequest {
         super.init(stitchRequest: stitchRequest, useRefreshToken: false)
     }
     
-    public static func == (lhs: StitchAuthDocRequest, rhs: StitchAuthDocRequest) -> Bool {
+    public static func ==(lhs: StitchAuthDocRequest, rhs: StitchAuthDocRequest) -> Bool {
         return lhs as StitchAuthRequest == rhs as StitchAuthRequest && lhs.document == rhs.document
     }
 }

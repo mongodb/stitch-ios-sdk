@@ -22,7 +22,7 @@ struct MockStitchUser: CoreStitchUser {
 
     var identities: [StitchUserIdentity] = []
 
-    static func == (lhs: MockStitchUser,
+    static func ==(lhs: MockStitchUser,
                     rhs: MockStitchUser) -> Bool {
         return lhs.id == rhs.id
     }

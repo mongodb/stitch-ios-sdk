@@ -106,7 +106,7 @@ public class StitchAuthRequest: StitchRequest {
         super.init(request: stitchRequest)
     }
     
-    public static func == (lhs: StitchAuthRequest, rhs: StitchAuthRequest) -> Bool {
+    public static func ==(lhs: StitchAuthRequest, rhs: StitchAuthRequest) -> Bool {
         return lhs as StitchRequest == rhs as StitchRequest
             && lhs.useRefreshToken == rhs.useRefreshToken
             && lhs.shouldRefreshOnFailure == rhs.shouldRefreshOnFailure
