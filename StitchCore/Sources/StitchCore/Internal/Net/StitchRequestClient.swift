@@ -82,12 +82,13 @@ public final class StitchRequestClientImpl: StitchRequestClient {
      * Builds a plain HTTP request out of the provided `StitchRequest` object.
      */
     private func buildRequest(_ stitchReq: StitchRequest) throws -> Request {
-        return try RequestBuilder { builder in
-            builder.method = stitchReq.method
-            builder.url = "\(self.baseURL)\(stitchReq.path)"
-            builder.timeout = stitchReq.timeout ?? self.defaultRequestTimeout
-            builder.headers = stitchReq.headers
-            builder.body = stitchReq.body
-        }.build()
+        let reqBuilder = RequestBuilder()
+            .with(method: stitchReq.method)
+            .with(url: "\(self.baseURL)\(stitchReq.path)")
+            .with(timeout: stitchReq.timeout ?? self.defaultRequestTimeout)
+            .with(headers: stitchReq.headers)
+            .with(body: stitchReq.body)
+
+        return try reqBuilder.build()
     }
 }

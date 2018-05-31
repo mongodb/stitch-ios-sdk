@@ -68,7 +68,7 @@ public class StitchRequestBuilder {
     }
 
     /**
-     * Builds the `StitchRequest` as a `StitchRequestImpl`.
+     * Builds the `StitchRequest`.
      */
     public func build() throws -> StitchRequest {
         guard let path = self.path else {
@@ -143,10 +143,10 @@ public class StitchRequest: Equatable {
     }
     
     internal init(path: String,
-                     method: Method,
-                     headers: [String: String],
-                     timeout: TimeInterval?,
-                     body: Data?) {
+                  method: Method,
+                  headers: [String: String],
+                  timeout: TimeInterval?,
+                  body: Data?) {
         self.path = path
         self.method = method
         self.headers = headers

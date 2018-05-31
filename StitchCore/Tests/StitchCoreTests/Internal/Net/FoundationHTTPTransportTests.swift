@@ -35,41 +35,42 @@ class FoundationHTTPTransportTests: StitchXCTestCase {
 
     func testRoundTrip() throws {
         let transport = FoundationHTTPTransport()
-        var builder = Request.TBuilder {
-            $0.method = .get
-            $0.url = "badURL"
-            $0.timeout = testDefaultRequestTimeout
-            $0.headers = self.headers
-        }
+        
+        let builder = RequestBuilder()
+            .with(method: .get)
+            .with(url: "badURL")
+            .with(timeout: testDefaultRequestTimeout)
+            .with(headers: self.headers)
 
         XCTAssertThrowsError(
             try transport.roundTrip(request: builder.build())
         ) { error in
             XCTAssertEqual(error.localizedDescription, "unsupported URL")
         }
-
-        builder.url = "\(self.baseURL)\(self.getEndpoint)"
+        
+        builder.with(url: "\(self.baseURL)\(self.getEndpoint)")
 
         var response = try transport.roundTrip(request: builder.build())
 
         XCTAssertEqual(response.statusCode, 200)
         XCTAssertEqual(response.body, self.responseBody.data(using: .utf8))
 
-        builder.url = "\(self.baseURL)\(self.notGetEndpoint)"
-        builder.method = .post
-        builder.body = self.responseBody.data(using: .utf8)
+        builder.with(url: "\(self.baseURL)\(self.notGetEndpoint)")
+        builder.with(method: .post)
+        builder.with(body: self.responseBody.data(using: .utf8))
 
         response = try transport.roundTrip(request: builder.build())
 
         XCTAssertEqual(response.statusCode, 200)
         XCTAssertEqual(response.body, self.responseBody.data(using: .utf8))
 
-        builder.url = "\(self.baseURL)\(self.badRequestEndpoint)"
+        builder.with(url: "\(self.baseURL)\(self.badRequestEndpoint)")
 
         response = try transport.roundTrip(request: builder.build())
         XCTAssertEqual(response.statusCode, 400)
 
-        builder.url = "http://localhost:9000/notreal"
+        builder.with(url: "http://localhost:9000/notreal")
+        
         XCTAssertThrowsError(
             try transport.roundTrip(request: builder.build())
         ) { error in

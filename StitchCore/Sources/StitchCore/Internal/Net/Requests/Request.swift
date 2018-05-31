@@ -12,63 +12,103 @@ public enum RequestBuilderError: Error {
 /**
  * A builder that can build a `Request` object.
  */
-public struct RequestBuilder: Builder {
-    /**
-     * The type that this builder builds.
-     */
-    public typealias TBuildee = Request
+public class RequestBuilder {
+    internal var method: Method?
+    internal var url: String?
+    internal var timeout: TimeInterval?
+    internal var headers: [String: String]?
+    internal var body: Data?
 
     /**
-     * The HTTP method of the request to be built.
+     * Sets the HTTP method of the request to be built.
      */
-    public var method: Method?
-
+    @discardableResult
+    public func with(method: Method) -> Self {
+        self.method = method
+        return self
+    }
+    
     /**
-     * The URL of the request to be built.
+     * Sets the URL of the request to be built.
      */
-    public var url: String?
+    @discardableResult
+    public func with(url: String) -> Self {
+        self.url = url
+        return self
+    }
 
     /**
      * The number of seconds that the underlying transport should spend on an HTTP round trip before failing with an
      * error.
      */
-    public var timeout: TimeInterval?
+    @discardableResult
+    public func with(timeout: TimeInterval) -> Self {
+        self.timeout = timeout
+        return self
+    }
 
     /**
-     * The HTTP headers of the request to be built.
+     * Sets the HTTP headers of the request to be built.
      */
-    public var headers: [String: String]?
+    @discardableResult
+    public func with(headers: [String: String]) -> Self {
+        self.headers = headers
+        return self
+    }
 
     /**
-     * The body of the rqeuest to be built.
+     * Sets the body of the request to be built.
      */
-    public var body: Data?
-
-    /**
-     * Initializes the builder with a closure that sets the builder's desired properties.
-     */
-    public init(_ builder: (inout RequestBuilder) -> Void) {
-        builder(&self)
+    @discardableResult
+    public func with(body: Data?) -> Self {
+        self.body = body
+        return self
+    }
+    
+    public init() { }
+    
+    init(request: Request) {
+        self.method = request.method
+        self.url = request.url
+        self.timeout = request.timeout
+        self.headers = request.headers
+        self.body = request.body
     }
 
     /**
      * Builds the `Request`.
+     * - throws: `RequestBuilderError` if the builder is missing an HTTP method, a URL, or a timeout.
      */
     public func build() throws -> Request {
-        return try Request.init(self)
+        guard let method = self.method else {
+            throw RequestBuilderError.missingMethod
+        }
+        guard let url = self.url else {
+            throw RequestBuilderError.missingUrl
+        }
+        guard let timeout = self.timeout else {
+            throw RequestBuilderError.missingTimeout
+        }
+        
+        return Request.init(
+            method: method,
+            url: url,
+            timeout: timeout,
+            headers: self.headers ?? [:],
+            body: self.body
+        )
     }
 }
 
 /**
  * An HTTP request that can be made to an arbitrary server.
  */
-public struct Request: Buildee {
-    /**
-     * The type that builds this request object.
-     */
-    public typealias TBuilder = RequestBuilder
-
+public class Request {
     // MARK: Properties
+    
+    public var builder: RequestBuilder {
+        return RequestBuilder.init(request: self)
+    }
 
     /**
      * The HTTP method of this request.
@@ -96,30 +136,26 @@ public struct Request: Buildee {
      */
     public var body: Data?
 
-    // MARK: Initializer
-
-    /**
-     * Initializes this request by accepting a `RequestBuilder`.
-     *
-     * - throws: `RequestBuilderError` if the builder is missing an HTTP method, a URL, or a timeout.
-     */
-    public init(_ builder: RequestBuilder) throws {
-        guard let method = builder.method else {
-            throw RequestBuilderError.missingMethod
-        }
-        guard let url = builder.url else {
-            throw RequestBuilderError.missingUrl
-        }
-        guard let timeout = builder.timeout else {
-            throw RequestBuilderError.missingTimeout
-        }
-
+    // MARK: Initializers
+    
+    internal init(request: Request) {
+        self.method = request.method
+        self.url = request.url
+        self.timeout = request.timeout
+        self.headers = request.headers
+        self.body = request.body
+    }
+    
+    internal init(method: Method,
+                  url: String,
+                  timeout: TimeInterval,
+                  headers: [String: String],
+                  body: Data?) {
         self.method = method
         self.url = url
         self.timeout = timeout
-
-        self.headers = builder.headers ?? [:]
-        self.body = builder.body
+        self.headers = headers
+        self.body = body
     }
 }
 
