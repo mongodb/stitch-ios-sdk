@@ -48,9 +48,9 @@ public enum StitchAppClientConfigurationError: Error {
  * A builder that can build a `StitchAppClientConfiguration` object.
  */
 public class StitchAppClientConfigurationBuilder: StitchClientConfigurationBuilder {
-    internal var clientAppId: String?
-    internal var localAppName: String?
-    internal var localAppVersion: String?
+    public internal(set) var clientAppId: String?
+    public internal(set) var localAppName: String?
+    public internal(set) var localAppVersion: String?
     
     // The `with` functions from the inherited builder are explicitly included and overriden here
     // for the sake of API documentation completeness.

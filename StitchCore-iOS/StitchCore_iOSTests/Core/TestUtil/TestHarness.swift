@@ -205,10 +205,9 @@ final class TestHarness {
 
         try! Stitch.initialize()
 
-        let configBuilder = StitchAppClientConfigurationBuilder.init {
-            $0.clientAppId = self.testApp?.clientAppId
-            $0.baseURL = self.serverUrl
-        }
+        let configBuilder = StitchAppClientConfigurationBuilder()
+            .with(clientAppId: self.testApp!.clientAppId)
+            .with(baseURL: self.serverUrl)
 
         self.stitchAppClient = try! Stitch.initializeAppClient(withConfigBuilder: configBuilder)
 

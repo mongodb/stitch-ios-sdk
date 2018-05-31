@@ -108,34 +108,37 @@ public class Stitch {
             guard let userDefaults = UserDefaults.init(suiteName: suiteName) else {
                 throw StitchInitializationError.userDefaultsFailure
             }
-            finalConfigBuilder.storage = userDefaults
+            finalConfigBuilder.with(storage: userDefaults)
         }
 
         if configBuilder.dataDirectory == nil {
-            finalConfigBuilder.dataDirectory = try? FileManager.default.url(for: .applicationSupportDirectory,
-                                                                            in: .userDomainMask,
-                                                                            appropriateFor: nil,
-                                                                            create: true)
+            let dataDirectory = try? FileManager.default.url(for: .applicationSupportDirectory,
+                                                             in: .userDomainMask,
+                                                             appropriateFor: nil,
+                                                             create: true)
+            if let dataDirectory = dataDirectory {
+                finalConfigBuilder.with(dataDirectory: dataDirectory)
+            }
         }
 
         if configBuilder.transport == nil {
-            finalConfigBuilder.transport = FoundationHTTPTransport.init()
+            finalConfigBuilder.with(transport: FoundationHTTPTransport.init())
         }
 
         if configBuilder.defaultRequestTimeout == nil {
-            finalConfigBuilder.defaultRequestTimeout = defaultDefaultRequestTimeout
+            finalConfigBuilder.with(defaultRequestTimeout: defaultDefaultRequestTimeout)
         }
 
         if configBuilder.baseURL == nil {
-            finalConfigBuilder.baseURL = defaultBaseUrl
+            finalConfigBuilder.with(baseURL: defaultBaseUrl)
         }
 
-        if configBuilder.localAppName == nil {
-            finalConfigBuilder.localAppName = localAppName
+        if configBuilder.localAppName == nil, let localAppName = localAppName {
+            finalConfigBuilder.with(localAppName: localAppName)
         }
 
-        if configBuilder.localAppVersion == nil {
-            finalConfigBuilder.localAppVersion = localAppVersion
+        if configBuilder.localAppVersion == nil, let localAppVersion = localAppVersion {
+            finalConfigBuilder.with(localAppVersion: localAppVersion)
         }
 
         return try finalConfigBuilder.build()

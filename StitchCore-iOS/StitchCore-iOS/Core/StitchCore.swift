@@ -1,7 +1,8 @@
 import Foundation
 
 // Re-exported classes, structs, protocols, and enums from StitchCore
-@_exported import struct StitchCore.StitchAppClientConfigurationBuilder
+@_exported import class StitchCore.StitchAppClientConfigurationBuilder
+
 @_exported import struct StitchCore.UserAPIKey
 
 @_exported import protocol StitchCore.CoreStitchUser

@@ -71,11 +71,11 @@ public enum StitchClientConfigurationError: Error {
  * A builder that can build a `StitchClientConfiguration`.
  */
 public class StitchClientConfigurationBuilder {
-    internal var baseURL: String?
-    internal var dataDirectory: URL?
-    internal var storage: Storage?
-    internal var transport: Transport?
-    internal var defaultRequestTimeout: TimeInterval?
+    public internal(set) var baseURL: String?
+    public internal(set) var dataDirectory: URL?
+    public internal(set) var storage: Storage?
+    public internal(set) var transport: Transport?
+    public internal(set) var defaultRequestTimeout: TimeInterval?
     
     /**
      * Sets the base URL of the Stitch server that the client will communicate with.

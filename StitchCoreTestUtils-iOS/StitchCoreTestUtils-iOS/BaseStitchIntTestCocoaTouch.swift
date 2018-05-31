@@ -41,10 +41,11 @@ open class BaseStitchIntTestCocoaTouch: BaseStitchIntTest {
             return appClient
         }
 
-        let client = try Stitch.initializeAppClient(withConfigBuilder: StitchAppClientConfigurationBuilder {
-            $0.clientAppId = app.clientAppId
-            $0.baseURL = stitchBaseURL
-        })
+        let client = try Stitch.initializeAppClient(
+            withConfigBuilder: StitchAppClientConfigurationBuilder()
+                .with(clientAppId: app.clientAppId)
+                .with(baseURL: stitchBaseURL)
+        )
             
         clients.append(client)
         return client
