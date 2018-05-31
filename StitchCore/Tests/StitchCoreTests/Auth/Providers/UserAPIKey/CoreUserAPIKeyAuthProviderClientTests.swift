@@ -6,7 +6,7 @@ import XCTest
 class CoreUserAPIKeyAuthProviderClientTests: StitchXCTestCase {
     
     private func testClientCall(
-        function: @escaping (CoreAuthenticatedUserAPIKeyClient) throws -> Void,
+        function: @escaping (CoreUserAPIKeyAuthProviderClient) throws -> Void,
         ignoresResponse: Bool,
         expectedRequest: StitchRequest
         ) throws {
@@ -15,7 +15,7 @@ class CoreUserAPIKeyAuthProviderClientTests: StitchXCTestCase {
         let requestClient = MockStitchAuthRequestClient()
         let routes = StitchAppRoutes.init(clientAppId: clientAppId).authRoutes
 
-        let client = CoreAuthenticatedUserAPIKeyClient.init(
+        let client = CoreUserAPIKeyAuthProviderClient.init(
             withAuthRequestClient: requestClient,
             withAuthRoutes: routes
         )

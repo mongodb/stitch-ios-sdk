@@ -31,31 +31,6 @@ private final class Routes {
     }
 }
 
-///**
-// * :nodoc:
-// * A client for the user API key authentication provider which can be used to obtain a credential for logging in.
-// */
-//open class CoreUserAPIKeyAuthProviderClient {
-//    /**
-//     * The name of the provider.
-//     */
-//    private let providerName: String
-//
-//    /**
-//     * Initializes this provider client with the name of the provider.
-//     */
-//    public init(withProviderName providerName: String = StitchProviderType.userAPIKey.name) {
-//        self.providerName = providerName
-//    }
-//
-//    /**
-//     * Returns a credential for the provider, with the provided user API key.
-//     */
-//    public func credential(forKey key: String) -> UserAPIKeyCredential {
-//        return UserAPIKeyCredential(withProviderName: self.providerName, withKey: key)
-//    }
-//}
-
 private let nameKey = "name"
 
 /**
@@ -63,7 +38,7 @@ private let nameKey = "name"
  * A client for the user API key authentication provider which can be used to create and modify user API keys. This
  * client should only be used by an authenticatd user.
  */
-open class CoreAuthenticatedUserAPIKeyClient: CoreAuthProviderClient<StitchAuthRequestClient> {
+open class CoreUserAPIKeyAuthProviderClient: CoreAuthProviderClient<StitchAuthRequestClient> {
     // MARK: Properties
 
     /**
