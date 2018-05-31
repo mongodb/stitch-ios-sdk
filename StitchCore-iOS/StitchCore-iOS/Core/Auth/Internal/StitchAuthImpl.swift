@@ -68,10 +68,6 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
      */
     func providerClient<Provider: AuthProviderClientSupplier>(forProvider provider: Provider)
         throws -> Provider.ClientT where Provider.RequestClientT == StitchAuthRequestClient {
-        guard isLoggedIn else {
-            throw StitchError.clientError(withClientErrorCode: .mustAuthenticateFirst)
-        }
-
         return provider.client(withRequestClient: self,
                                withRoutes: self.authRoutes,
                                withDispatcher: self.dispatcher)
