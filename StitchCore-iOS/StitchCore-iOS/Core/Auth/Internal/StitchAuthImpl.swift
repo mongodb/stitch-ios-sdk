@@ -59,14 +59,14 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
      * specified in the argument.
      *
      * - parameters:
-     *     - forProvider: The authentication provider conforming to `AuthenticatedAuthProviderClientSupplier` which
-     *                    will provide the client for this authentication provider. Use the `clientSupplier` field of
+     *     - forProvider: The authentication provider conforming to `AuthProviderClientFactory` which
+     *                    will provide the client for this authentication provider. Use the `clientFactory` field of
      *                    the desired authentication provider class.
      * - returns: an authentication provider client whose type is determined by the `Client` typealias in the type
      *            specified in the `forProvider` parameter.
      * - throws: A Stitch client error if the client is not currently authenticated.
      */
-    func providerClient<Provider: AuthProviderClientSupplier>(forProvider provider: Provider)
+    func providerClient<Provider: AuthProviderClientFactory>(forProvider provider: Provider)
         throws -> Provider.ClientT where Provider.RequestClientT == StitchAuthRequestClient {
         return provider.client(withRequestClient: self,
                                withRoutes: self.authRoutes,
@@ -78,13 +78,13 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
      * argument.
      *
      * - parameters:
-     *     - forProvider: The authentication provider conforming to `AuthProviderClientSupplier` which will provide the
-     *                    client for this authentication provider. Use the `clientSupplier` field of the desired
+     *     - forProvider: The authentication provider conforming to `AuthProviderClientFactory` which will provide the
+     *                    client for this authentication provider. Use the `clientFactory` field of the desired
      *                    authentication provider class.
      * - returns: an authentication provider client whose type is determined by the `Client` typealias in the type
      *            specified in the `forProvider` parameter.
      */
-    func providerClient<Provider: AuthProviderClientSupplier>(forProvider provider: Provider)
+    func providerClient<Provider: AuthProviderClientFactory>(forProvider provider: Provider)
         -> Provider.ClientT where Provider.RequestClientT == StitchRequestClient {
         return provider.client(withRequestClient: self.requestClient,
                                withRoutes: self.authRoutes,
@@ -96,15 +96,15 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
      * and type.
      *
      * - parameters:
-     *     - forProvider: The authentication provider conforming to `NamedAuthProviderClientSupplier` which will
-     *                    provide the client for this authentication provider. Use the `namedClientSupplier` field of
+     *     - forProvider: The authentication provider conforming to `NamedAuthProviderClientFactory` which will
+     *                    provide the client for this authentication provider. Use the `namedClientFactory` field of
      *                    the desired authentication provider class.
      *     - withName: The name of the authentication provider as defined in the MongoDB Stitch application.
      * - returns: an authentication provider client whose type is determined by the `Client` typealias in the type
      *            specified in the `forProvider` parameter.
      */
     public func providerClient<Provider>(forProvider provider: Provider, withName name: String)
-        -> Provider.Client where Provider: NamedAuthProviderClientSupplier {
+        -> Provider.Client where Provider: NamedAuthProviderClientFactory {
         return provider.client(forProviderName: name,
                                withRequestClient: self.requestClient,
                                withRoutes: self.authRoutes,

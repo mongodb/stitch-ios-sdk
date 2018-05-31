@@ -7,16 +7,16 @@ import StitchCore
  */
 public final class UserPasswordAuthProvider {
     /**
-     * An `AuthProviderClientSupplier` which can be used with `StitchAuth` to retrieve a
+     * An `AuthProviderClientFactory` which can be used with `StitchAuth` to retrieve a
      * `UserPasswordAuthProviderClient`.
      */
-    public static let clientSupplier: ClientSupplierImpl = ClientSupplierImpl.init()
+    public static let clientFactory: ClientFactoryImpl = ClientFactoryImpl.init()
 
     /**
      * :nodoc:
-     * An implementation of `AuthProviderClientSupplier` that produces a `UserPasswordAuthProviderClient`.
+     * An implementation of `AuthProviderClientFactory` that produces a `UserPasswordAuthProviderClient`.
      */
-    public final class ClientSupplierImpl: AuthProviderClientSupplier {
+    public final class ClientFactoryImpl: AuthProviderClientFactory {
         public typealias Client = UserPasswordAuthProviderClient
 
         public func client(withRequestClient requestClient: StitchRequestClient,

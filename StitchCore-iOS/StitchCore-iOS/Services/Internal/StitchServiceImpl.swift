@@ -46,7 +46,7 @@ internal final class StitchServiceImpl: CoreStitchServiceImpl, StitchService {
             try self.callFunctionInternal(withName: name, withArgs: args, withRequestTimeout: requestTimeout)
         }
     }
-    
+
     /**
      * Calls the function for this service with the provided name and arguments.
      *

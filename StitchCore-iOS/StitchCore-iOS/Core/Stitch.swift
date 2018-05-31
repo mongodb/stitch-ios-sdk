@@ -101,7 +101,7 @@ public class Stitch {
      */
     private static func generateConfig(fromBuilder configBuilder: StitchAppClientConfigurationBuilder,
                                        forClientAppId clientAppId: String) throws -> StitchAppClientConfiguration {
-        var finalConfigBuilder = configBuilder
+        let finalConfigBuilder = configBuilder
 
         if configBuilder.storage == nil {
             let suiteName = "\(userDefaultsName).\(clientAppId)"

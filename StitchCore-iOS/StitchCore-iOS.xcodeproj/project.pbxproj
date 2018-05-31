@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		111CCA05207C08A3002FEB4A /* StitchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111CCA04207C08A3002FEB4A /* StitchTests.swift */; };
-		11297B1E205301C9001D0711 /* AuthProviderClientSupplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11297B1D205301C9001D0711 /* AuthProviderClientSupplier.swift */; };
-		11297B20205301D5001D0711 /* NamedAuthProviderClientSupplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11297B1F205301D5001D0711 /* NamedAuthProviderClientSupplier.swift */; };
+		11297B1E205301C9001D0711 /* AuthProviderClientFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11297B1D205301C9001D0711 /* AuthProviderClientFactory.swift */; };
+		11297B20205301D5001D0711 /* NamedAuthProviderClientFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11297B1F205301D5001D0711 /* NamedAuthProviderClientFactory.swift */; };
 		112F050F209149B500DDB147 /* StitchIntegrationTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112F050E209149B500DDB147 /* StitchIntegrationTestCase.swift */; };
 		116168B6208A6B1000967A7E /* StitchAppClientIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116168B5208A6B1000967A7E /* StitchAppClientIntegrationTests.swift */; };
 		116168B9208A6B3200967A7E /* TestHarness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116168B8208A6B3200967A7E /* TestHarness.swift */; };
@@ -55,8 +55,8 @@
 
 /* Begin PBXFileReference section */
 		111CCA04207C08A3002FEB4A /* StitchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchTests.swift; sourceTree = "<group>"; };
-		11297B1D205301C9001D0711 /* AuthProviderClientSupplier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthProviderClientSupplier.swift; sourceTree = "<group>"; };
-		11297B1F205301D5001D0711 /* NamedAuthProviderClientSupplier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamedAuthProviderClientSupplier.swift; sourceTree = "<group>"; };
+		11297B1D205301C9001D0711 /* AuthProviderClientFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthProviderClientFactory.swift; sourceTree = "<group>"; };
+		11297B1F205301D5001D0711 /* NamedAuthProviderClientFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamedAuthProviderClientFactory.swift; sourceTree = "<group>"; };
 		112F050E209149B500DDB147 /* StitchIntegrationTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchIntegrationTestCase.swift; sourceTree = "<group>"; };
 		116168B5208A6B1000967A7E /* StitchAppClientIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAppClientIntegrationTests.swift; sourceTree = "<group>"; };
 		116168B8208A6B3200967A7E /* TestHarness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHarness.swift; sourceTree = "<group>"; };
@@ -127,8 +127,8 @@
 			children = (
 				11297B262053022B001D0711 /* UserAPIKey */,
 				11297B2720530234001D0711 /* UserPassword */,
-				11297B1D205301C9001D0711 /* AuthProviderClientSupplier.swift */,
-				11297B1F205301D5001D0711 /* NamedAuthProviderClientSupplier.swift */,
+				11297B1D205301C9001D0711 /* AuthProviderClientFactory.swift */,
+				11297B1F205301D5001D0711 /* NamedAuthProviderClientFactory.swift */,
 			);
 			path = Providers;
 			sourceTree = "<group>";
@@ -499,7 +499,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4902C6902050083C00E53674 /* StitchAuth.swift in Sources */,
-				11297B20205301D5001D0711 /* NamedAuthProviderClientSupplier.swift in Sources */,
+				11297B20205301D5001D0711 /* NamedAuthProviderClientFactory.swift in Sources */,
 				496CAA8920A5E3A6001F0D3C /* ThrowingServiceClientProvider.swift in Sources */,
 				49368D702052F35B006153D3 /* StitchAuthImpl.swift in Sources */,
 				11C587EF2058445200B34DD1 /* StitchUserFactoryImpl.swift in Sources */,
@@ -514,7 +514,7 @@
 				4902C68D2050078F00E53674 /* StitchAppClient.swift in Sources */,
 				11C587E22056D82700B34DD1 /* UserPasswordAuthProvider.swift in Sources */,
 				11981A112061B9D50074BB11 /* OperationDispatcher.swift in Sources */,
-				11297B1E205301C9001D0711 /* AuthProviderClientSupplier.swift in Sources */,
+				11297B1E205301C9001D0711 /* AuthProviderClientFactory.swift in Sources */,
 				11C587E42057094B00B34DD1 /* StitchUserImpl.swift in Sources */,
 				11CAF8CE205995C0003AF24D /* StitchCore.swift in Sources */,
 			);
