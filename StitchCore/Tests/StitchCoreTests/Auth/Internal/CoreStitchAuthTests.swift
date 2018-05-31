@@ -444,19 +444,17 @@ class CoreStitchAuthTests: StitchXCTestCase {
         XCTAssertEqual(42, customObjResult.intValue)
         
         // Check that BSON arrays can be decoded
-        // TODO: This will not be possible until SWIFT-95 is completed
+        let arrFromServer = ["hello", "world"]
+        let arrFromServerRaw = "[\"hello\", \"world\"]"
 
-//        let arrFromServer: [BsonValue] = [21, "the meaning of life, the universe, and everything", 84, 168]
-//        let arrFromServerRaw = arrFromServer.canonicalExtendedJSON // or something similar
-//
-//        requestClient.doRequestMock.clearStubs()
-//        requestClient.doRequestMock.doReturn(
-//            result: Response(statusCode: 200, headers: baseJSONHeaders, body: arrFromServerRaw.data(using: .utf8)),
-//            forArg: .any
-//        )
-//
-//        let listResult: [BsonValue] = try auth.doAuthenticatedRequest(reqBuilder.build())
-//
-//        XCTAssertEqual(arrFromServer, listResult)
+        requestClient.doRequestMock.clearStubs()
+        requestClient.doRequestMock.doReturn(
+            result: Response(statusCode: 200, headers: baseJSONHeaders, body: arrFromServerRaw.data(using: .utf8)),
+            forArg: .any
+        )
+
+        let listResult: [String] = try auth.doAuthenticatedRequest(reqBuilder.build())
+
+        XCTAssertEqual(arrFromServer, listResult)
     }
 }

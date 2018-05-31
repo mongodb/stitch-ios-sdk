@@ -73,7 +73,7 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
         }
 
         _ = self.harness.addDefaultCustomTokenProvider()
-        
+
         let exp1 = expectation(description: "first custom login")
         var userId: String!
         self.stitchAppClient.auth.login(withCredential:

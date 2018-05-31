@@ -186,7 +186,16 @@ final class TestHarness {
             isPrivate: false)
         )
 
-        return [rawIntFunction, rawStringFunction, rawArrayFunction]
+        let rawHeterogenousArrayFunction = try! self.app.functions.create(data: FunctionCreator.init(
+            name: "testFunctionRawHeterogenousArray",
+            source: "exports = function() { " +
+                "return [1, \"two\", 3]" +
+            "}",
+            canEvaluate: nil,
+            isPrivate: false)
+        )
+
+        return [rawIntFunction, rawStringFunction, rawArrayFunction, rawHeterogenousArrayFunction]
     }
 
     func setupStitchClient(_ completionHandler: @escaping () -> Void) {
