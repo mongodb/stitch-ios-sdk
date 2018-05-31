@@ -18,9 +18,24 @@ let expiredJWT = encode(Algorithm.hs256("secret".data(using: .utf8)!), closure: 
     csb.expiration = date
 })
 
+final class StubUser: CoreStitchUser {
+    var id: String = ""
+    
+    var loggedInProviderType: StitchProviderType = .anonymous
+    
+    var loggedInProviderName: String = ""
+    
+    var userType: String = ""
+    
+    var profile: StitchUserProfile =
+        StitchUserProfileImpl.init(userType: "", identities: [], data: APIExtendedUserProfileImpl.init())
+    
+    var identities: [StitchUserIdentity] = []
+}
+
 class AccessTokenRefresherTests: XCTestCase {
     func testCheckRefresh() throws {
-        let auth = MockCoreStitchAuthProto<StubUser>()
+        let auth = MockCoreStitchAuth<StubUser>()
         let accessTokenRefresher = AccessTokenRefresher<StubUser>.init(authRef: auth)
         
         // Auth starts out logged in and with a fresh token
@@ -70,7 +85,7 @@ class AccessTokenRefresherTests: XCTestCase {
         // CoreStitchAuth is ARCed
         var accessTokenRefresher2: AccessTokenRefresher<StubUser>!
         _ = {
-            let auth2 = MockCoreStitchAuthProto<StubUser>()
+            let auth2 = MockCoreStitchAuth<StubUser>()
             accessTokenRefresher2 = AccessTokenRefresher<StubUser>(authRef: auth2)
         }()
         
