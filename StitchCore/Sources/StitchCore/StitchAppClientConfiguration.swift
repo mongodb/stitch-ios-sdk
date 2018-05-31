@@ -3,62 +3,7 @@ import Foundation
 /**
  * Properties representing the configuration of a client that communicate with a particular MongoDB Stitch application.
  */
-public protocol StitchAppClientConfiguration: StitchClientConfiguration {
-    /**
-     * The client app id of the Stitch application that this client is going to communicate with.
-     */
-    var clientAppId: String { get }
-
-    /**
-     * The name of the local application.
-     */
-    var localAppName: String { get }
-
-    /**
-     * The current version of the local application.
-     */
-    var localAppVersion: String { get }
-}
-
-/**
- * :nodoc:
- * The implementation of `StitchAppClientConfiguration`.
- */
-public struct StitchAppClientConfigurationImpl: StitchAppClientConfiguration, Buildee {
-    /**
-     * The builder type that can build this configuration.
-     */
-    public typealias TBuilder = StitchAppClientConfigurationBuilder
-
-    /**
-     * The base URL of the Stitch server that the client will communicate with.
-     */
-    public let baseURL: String
-
-    /**
-     * The local directory in which Stitch can store any data (e.g. embedded MongoDB data directory).
-     */
-    public let dataDirectory: URL
-
-    /**
-     * The underlying storage for authentication info.
-     */
-    public let storage: Storage
-
-    /**
-     * The `Transport` that the client will use to make round trips to the Stitch server.
-     */
-    public let transport: Transport
-
-    /**
-     * The number of seconds that a `Transport` should spend by default on an HTTP round trip before failing with an
-     * error.
-     *
-     * - important: If a request timeout was specified for a specific operation, for example in a function call, that
-     *              timeout will override this one.
-     */
-    public let defaultRequestTimeout: TimeInterval
-
+public class StitchAppClientConfiguration: StitchClientConfiguration {
     /**
      * The client app id of the Stitch application that this client is going to communicate with.
      */
@@ -73,57 +18,22 @@ public struct StitchAppClientConfigurationImpl: StitchAppClientConfiguration, Bu
      * The current version of the local application.
      */
     public let localAppVersion: String
-
-    /**
-     * Initializes this configuration by accepting a `StitchAppClientConfigurationBuilder`.
-     *
-     * - throws: `StitchClientConfigurationError` or `StitchAppClientConfigurationError` if the builder is missing any
-     *           properties.
-     */
-    public init(_ builder: TBuilder) throws {
-        guard let clientAppId = builder.clientAppId else {
-            throw StitchAppClientConfigurationError.missingClientAppId
-        }
-
+    
+    internal init(appClientConfiguration: StitchAppClientConfiguration) {
+        self.clientAppId = appClientConfiguration.clientAppId
+        self.localAppName = appClientConfiguration.localAppName
+        self.localAppVersion = appClientConfiguration.localAppVersion
+        super.init(clientConfiguration: appClientConfiguration)
+    }
+    
+    internal init(clientConfiguration: StitchClientConfiguration,
+                  clientAppId: String,
+                  localAppName: String,
+                  localAppVersion: String) {
         self.clientAppId = clientAppId
-
-        if let appName = builder.localAppName {
-            self.localAppName = appName
-        } else {
-            self.localAppName = "unkown app name"
-        }
-
-        if let appVersion = builder.localAppVersion {
-            self.localAppVersion = appVersion
-        } else {
-            self.localAppVersion = "unknown app version"
-        }
-
-        guard let baseURL = builder.baseURL else {
-            throw StitchClientConfigurationError.missingBaseURL
-        }
-
-        guard let dataDirectory = builder.dataDirectory else {
-            throw StitchClientConfigurationError.missingDataDirectory
-        }
-
-        guard let storage = builder.storage else {
-            throw StitchClientConfigurationError.missingStorage
-        }
-
-        guard let transport = builder.transport else {
-            throw StitchClientConfigurationError.missingTransport
-        }
-
-        guard let defaultRequestTimeout = builder.defaultRequestTimeout else {
-            throw StitchClientConfigurationError.missingDefaultRequestTimeout
-        }
-
-        self.baseURL = baseURL
-        self.dataDirectory = dataDirectory
-        self.storage = storage
-        self.transport = transport
-        self.defaultRequestTimeout = defaultRequestTimeout
+        self.localAppName = localAppName
+        self.localAppVersion = localAppVersion
+        super.init(clientConfiguration: clientConfiguration)
     }
 }
 
@@ -137,68 +47,112 @@ public enum StitchAppClientConfigurationError: Error {
 /**
  * A builder that can build a `StitchAppClientConfiguration` object.
  */
-public struct StitchAppClientConfigurationBuilder: StitchClientConfigurationBuilder, Builder {
+public class StitchAppClientConfigurationBuilder: StitchClientConfigurationBuilder {
+    internal var clientAppId: String?
+    internal var localAppName: String?
+    internal var localAppVersion: String?
+    
+    // The `with` functions from the inherited builder are explicitly included and overriden here
+    // for the sake of API documentation completeness.
+    
     /**
-     * :nodoc:
-     * configuration type that this builder builds.
+     * Sets the base URL of the Stitch server that the client will communicate with.
      */
-    public typealias TBuildee = StitchAppClientConfigurationImpl
-
+    @discardableResult
+    public override func with(baseURL: String) -> Self {
+        self.baseURL = baseURL
+        return self
+    }
+    
     /**
-     * The base URL of the Stitch server that the client will communicate with.
+     * Sets the local directory in which Stitch can store any data (e.g. embedded MongoDB data directory).
      */
-    public var baseURL: String?
-
+    @discardableResult
+    public override func with(dataDirectory: URL) -> Self {
+        self.dataDirectory = dataDirectory
+        return self
+    }
+    
     /**
-     * The local directory in which Stitch can store any data (e.g. embedded MongoDB data directory).
+     * Sets the underlying storage for authentication info.
      */
-    public var dataDirectory: URL?
-
+    @discardableResult
+    public override func with(storage: Storage) -> Self {
+        self.storage = storage
+        return self
+    }
+    
     /**
-     * The underlying storage for authentication info.
+     * Sets the `Transport` that the client will use to make HTTP round trips to the Stitch server.
      */
-    public var storage: Storage?
-
+    @discardableResult
+    public override func with(transport: Transport) -> Self {
+        self.transport = transport
+        return self
+    }
+    
     /**
-     * The `Transport` that the client will use to make round trips to the Stitch server.
-     */
-    public var transport: Transport?
-
-    /**
-     * The number of seconds that a `Transport` should spend by default on an HTTP round trip before failing with an
+     * Sets the number of seconds that a `Transport` should spend by default on an HTTP round trip before failing with an
      * error.
      *
      * - important: If a request timeout was specified for a specific operation, for example in a function call, that
      *              timeout will override this one.
      */
-    public var defaultRequestTimeout: TimeInterval?
-
-    /**
-     * The client app id of the Stitch application that this client is going to communicate with.
-     */
-    public var clientAppId: String?
-
-    /**
-     * The name of the local application.
-     */
-    public var localAppName: String?
-
-    /**
-     * The current version of the local application.
-     */
-    public var localAppVersion: String?
-
-    /**
-     * Initializes the builder with a closure that sets the builder's desired properties.
-     */
-    public init(_ builder: (inout StitchAppClientConfigurationBuilder) -> Void) {
-        builder(&self)
+    @discardableResult
+    public override func with(defaultRequestTimeout: TimeInterval) -> Self {
+        self.defaultRequestTimeout = defaultRequestTimeout
+        return self
     }
 
     /**
-     * Builds the `StitchAppClientConfiguration`.
+     * Sets the client app id of the Stitch application that this client is going to communicate with.
      */
-    public func build() throws -> StitchAppClientConfigurationImpl {
-        return try StitchAppClientConfigurationImpl.init(self)
+    @discardableResult
+    public func with(clientAppId: String) -> Self {
+        self.clientAppId = clientAppId
+        return self
+    }
+
+    /**
+     * Sets the name of the local application.
+     */
+    @discardableResult
+    public func with(localAppName: String) -> Self {
+        self.localAppName = localAppName
+        return self
+    }
+
+    /**
+     * Sets he current version of the local application.
+     */
+    @discardableResult
+    public func with(localAppVersion: String) -> Self {
+        self.localAppVersion = localAppVersion
+        return self
+    }
+    
+    public override func build() throws -> StitchAppClientConfiguration {
+        guard let clientAppId = self.clientAppId else {
+            throw StitchAppClientConfigurationError.missingClientAppId
+        }
+
+        if let appName = self.localAppName {
+            self.localAppName = appName
+        } else {
+            self.localAppName = "unkown app name"
+        }
+
+        if let appVersion = self.localAppVersion {
+            self.localAppVersion = appVersion
+        } else {
+            self.localAppVersion = "unknown app version"
+        }
+        
+        return try StitchAppClientConfiguration.init(
+            clientConfiguration: super.build(),
+            clientAppId: clientAppId,
+            localAppName: self.localAppName!,
+            localAppVersion: self.localAppVersion!
+        )
     }
 }
