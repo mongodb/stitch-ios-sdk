@@ -2,6 +2,7 @@
 import XCTest
 import MongoSwift
 import Swifter
+import MockUtils
 @testable import StitchCore
 
 import func JWT.encode

@@ -1,4 +1,5 @@
 import Foundation
+import MockUtils
 @testable import StitchCore
 
 final class MockStitchAuthRequestClient: StitchAuthRequestClient {

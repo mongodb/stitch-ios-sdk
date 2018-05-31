@@ -1,16 +1,18 @@
 import Foundation
 
-enum Matcher<Type> {
+public enum Matcher<Type> {
     case any
     case with(condition: (Type) -> Bool)
 }
 
-class FunctionMockUnit<ReturnType> { // takes no args
+public class FunctionMockUnit<ReturnType> { // takes no args
     var mockedResult: ReturnType?
     var mockedResultSequence: [ReturnType]?
     var thrownError: Error?
     
-    var invocations: Int = 0
+    public init() { }
+    
+    public private(set) var invocations: Int = 0
     
     public func doReturn(result: ReturnType) {
         self.mockedResult = result
@@ -71,17 +73,19 @@ class FunctionMockUnit<ReturnType> { // takes no args
     }
 }
 
-class FunctionMockUnitOneArg<ReturnType, Arg1T> { // takes one arg
+public class FunctionMockUnitOneArg<ReturnType, Arg1T> { // takes one arg
     var mockedResultMatchers: [(Matcher<Arg1T>, ReturnType)] = []
     var throwingMatchers: [(Matcher<Arg1T>, Error)] = []
     
-    var capturedInvocations: [Arg1T] = []
+    public init() { }
     
-    func doReturn(result: ReturnType, forArg matcher: Matcher<Arg1T>) {
+    public private(set) var capturedInvocations: [Arg1T] = []
+    
+    public func doReturn(result: ReturnType, forArg matcher: Matcher<Arg1T>) {
         self.mockedResultMatchers.append((matcher, result))
     }
     
-    func doThrow(error: Error, forArg matcher: Matcher<Arg1T>) {
+    public func doThrow(error: Error, forArg matcher: Matcher<Arg1T>) {
         self.throwingMatchers.append((matcher, error))
     }
     
@@ -152,17 +156,19 @@ class FunctionMockUnitOneArg<ReturnType, Arg1T> { // takes one arg
     }
 }
 
-class FunctionMockUnitTwoArgs<ReturnType, Arg1T, Arg2T> { // takes two args
+public class FunctionMockUnitTwoArgs<ReturnType, Arg1T, Arg2T> { // takes two args
     var mockedResultMatchers: [(Matcher<Arg1T>, Matcher<Arg2T>, ReturnType)] = []
     var throwingMatchers: [(Matcher<Arg1T>, Matcher<Arg2T>, Error)] = []
     
-    var capturedInvocations: [(Arg1T, Arg2T)] = []
+    public init() { }
     
-    func doReturn(result: ReturnType, forArg1 matcher1: Matcher<Arg1T>, forArg2 matcher2: Matcher<Arg2T>) {
+    public private(set) var capturedInvocations: [(Arg1T, Arg2T)] = []
+    
+    public func doReturn(result: ReturnType, forArg1 matcher1: Matcher<Arg1T>, forArg2 matcher2: Matcher<Arg2T>) {
         self.mockedResultMatchers.append((matcher1, matcher2, result))
     }
     
-    func doThrow(error: Error, forArg1 matcher1: Matcher<Arg1T>, forArg2 matcher2: Matcher<Arg2T>) {
+    public func doThrow(error: Error, forArg1 matcher1: Matcher<Arg1T>, forArg2 matcher2: Matcher<Arg2T>) {
         self.throwingMatchers.append((matcher1, matcher2, error))
     }
     
@@ -267,20 +273,22 @@ class FunctionMockUnitTwoArgs<ReturnType, Arg1T, Arg2T> { // takes two args
     }
 }
 
-class FunctionMockUnitThreeArgs<ReturnType, Arg1T, Arg2T, Arg3T> { // takes three args
+public class FunctionMockUnitThreeArgs<ReturnType, Arg1T, Arg2T, Arg3T> { // takes three args
     var mockedResultMatchers: [(Matcher<Arg1T>, Matcher<Arg2T>, Matcher<Arg3T>, ReturnType)] = []
     var throwingMatchers: [(Matcher<Arg1T>, Matcher<Arg2T>, Matcher<Arg3T>, Error)] = []
     
-    var capturedInvocations: [(Arg1T, Arg2T, Arg3T)] = []
+    public init() { }
     
-    func doReturn(result: ReturnType,
+    public private(set) var capturedInvocations: [(Arg1T, Arg2T, Arg3T)] = []
+    
+    public func doReturn(result: ReturnType,
                   forArg1 matcher1: Matcher<Arg1T>,
                   forArg2 matcher2: Matcher<Arg2T>,
                   forArg3 matcher3: Matcher<Arg3T>) {
         self.mockedResultMatchers.append((matcher1, matcher2, matcher3, result))
     }
     
-    func doThrow(error: Error,
+    public func doThrow(error: Error,
                  forArg1 matcher1: Matcher<Arg1T>,
                  forArg2 matcher2: Matcher<Arg2T>,
                  forArg3 matcher3: Matcher<Arg3T>) {
@@ -411,7 +419,7 @@ class FunctionMockUnitThreeArgs<ReturnType, Arg1T, Arg2T, Arg3T> { // takes thre
     }
 }
 
-extension Collection {
+public extension Collection {
     func count(where predicate: (Element) -> Bool) -> Int {
         var count: Int = 0
         self.forEach { element in

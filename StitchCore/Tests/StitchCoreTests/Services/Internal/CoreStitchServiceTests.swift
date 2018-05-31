@@ -29,12 +29,8 @@ class CoreStitchServiceTests: XCTestCase {
         
         let funcName = "myFunc"
         let args = [1, 2, 3]
-        var expectedRequestDoc = Document()
+        var expectedRequestDoc: Document = ["name": funcName, "arguments": args, "service": serviceName]
 
-        expectedRequestDoc["name"] = funcName
-        expectedRequestDoc["arguments"] = args
-        expectedRequestDoc["service"] = serviceName
-        
         XCTAssertEqual(42, try coreStitchService.callFunctionInternal(withName: funcName, withArgs: args))
         
         let functionCallRequest =

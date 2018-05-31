@@ -1,5 +1,6 @@
 import Foundation
 import MongoSwift
+import MockUtils
 @testable import StitchCore
 
 final class MockCoreStitchService: CoreStitchService {

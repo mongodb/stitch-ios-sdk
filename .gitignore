@@ -40,6 +40,12 @@ playground.xcworkspace
 # Swift Package Manager
 #
 # Add this line if you want to avoid checking in source code from Swift Package Manager dependencies.
+MockUtils/Packages/
+MockUtils/Package.pins
+MockUtils/Package.resolved
+MockUtils/.build/
+MockUtils/*.xcodeproj/
+
 StitchCore/Packages/
 StitchCore/Package.pins
 StitchCore/Package.resolved
