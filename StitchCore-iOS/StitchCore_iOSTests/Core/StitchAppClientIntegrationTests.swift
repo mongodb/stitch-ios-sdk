@@ -330,7 +330,7 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
                                      withArgs: [], withRequestTimeout: 5.0) { (arrayResponse: [Int]?, _: Error?) in
                                         XCTAssertNotNil(arrayResponse)
 
-                                        XCTAssertEqual(arrayResponse, [1, 2, 3])
+                                        XCTAssertEqual(arrayResponse!, [1, 2, 3])
 
                                         exp4.fulfill()
         }
