@@ -84,7 +84,7 @@ public struct APIExtendedUserProfileImpl: Codable, ExtendedStitchUserProfile {
 /**
  * A struct containing the fields returned by the Stitch client API in a user profile request.
  */
-public struct APICoreUserProfileImpl: Decodable, APIStitchUserProfile {
+public struct APICoreUserProfileImpl: Codable, APIStitchUserProfile {
     /**
      * A string describing the type of this user. (Either `server` or `normal`)
      */
@@ -94,7 +94,7 @@ public struct APICoreUserProfileImpl: Decodable, APIStitchUserProfile {
      * An array of `StitchUserIdentity` objects representing the identities linked
      * to this user which can be used to log in as this user.
      */
-    public let identities: [StitchUserIdentity]
+    public let identities: [APIStitchUserIdentity]
 
     /**
      * An object containing extra metadata about the user as supplied by the authentication provider.
@@ -108,21 +108,10 @@ public struct APICoreUserProfileImpl: Decodable, APIStitchUserProfile {
     }
 
     /**
-     * Initializes the user profile from a `Decoder`.
-     */
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-
-        self.userType = try container.decode(String.self, forKey: .userType)
-        self.identities = try container.decode([APIStitchUserIdentity].self, forKey: .identities)
-        self.data = try container.decode(APIExtendedUserProfileImpl.self, forKey: .data)
-    }
-
-    /**
      * Initializes the API user profile with its properties as arguments.
      */
     internal init(userType: String,
-                  identities: [StitchUserIdentity],
+                  identities: [APIStitchUserIdentity],
                   data: APIExtendedUserProfileImpl) {
         self.userType = userType
         self.identities = identities

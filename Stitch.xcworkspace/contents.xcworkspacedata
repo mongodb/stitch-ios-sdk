@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:MockUtils/MockUtils.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:StitchSDKExample/StitchSDKExample.xcodeproj">
    </FileRef>
    <FileRef

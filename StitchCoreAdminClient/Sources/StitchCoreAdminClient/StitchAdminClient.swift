@@ -31,10 +31,10 @@ public class StitchAdminClient {
     }
 
     public func adminProfile() throws -> StitchAdminUserProfile {
-        let req = try StitchAuthRequestBuilderImpl {
-            $0.method = Method.get
-            $0.path = authRoutes.profileRoute
-        }.build()
+        let req = try StitchAuthRequestBuilder()
+            .with(method: .get)
+            .with(path: authRoutes.profileRoute)
+            .build()
 
         let response = try adminAuth.doAuthenticatedRequest(req)
 
@@ -50,10 +50,10 @@ public class StitchAdminClient {
     }
 
     public func loginWithCredential(credential: StitchCredential) throws -> StitchAdminUser {
-        return try adminAuth.loginWithCredentialBlocking(withCredential: credential)
+        return try adminAuth.loginWithCredentialInternal(withCredential: credential)
     }
 
     public func logout() {
-        return adminAuth.logoutBlocking()
+        return adminAuth.logoutInternal()
     }
 }

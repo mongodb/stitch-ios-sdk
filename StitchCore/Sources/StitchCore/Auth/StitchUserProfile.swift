@@ -13,7 +13,7 @@ public protocol APIStitchUserProfile {
      * An array of `StitchUserIdentity` objects representing the identities linked
      * to this user which can be used to log in as this user.
      */
-    var identities: [StitchUserIdentity] { get }
+    var identities: [APIStitchUserIdentity] { get }
 
     /**
      * An object containing extra metadata about the user as supplied by the authentication provider.
@@ -76,7 +76,22 @@ public protocol ExtendedStitchUserProfile {
  * the documentation of the inherited protocols for details about
  * these properties.
  */
-public protocol StitchUserProfile: APIStitchUserProfile, ExtendedStitchUserProfile {
+public protocol StitchUserProfile: ExtendedStitchUserProfile {
+    /**
+     * A string describing the type of this user. (Either `server` or `normal`)
+     */
+    var userType: String { get }
+    
+    /**
+     * An array of `StitchUserIdentity` objects representing the identities linked
+     * to this user which can be used to log in as this user.
+     */
+    var identities: [StitchUserIdentity] { get }
+    
+    /**
+     * An object containing extra metadata about the user as supplied by the authentication provider.
+     */
+    var data: APIExtendedUserProfileImpl { get }
 }
 
 /**

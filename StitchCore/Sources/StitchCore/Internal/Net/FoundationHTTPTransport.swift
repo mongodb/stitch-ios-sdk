@@ -23,13 +23,9 @@ public final class FoundationHTTPTransport: Transport {
 
         let session = URLSession(configuration: sessionConfig)
 
-        var contentHeaders = request.headers
-        contentHeaders[Headers.contentType.rawValue] =
-            ContentTypes.applicationJson.rawValue
-
         var urlRequest = URLRequest(url: url)
 
-        urlRequest.allHTTPHeaderFields = contentHeaders
+        urlRequest.allHTTPHeaderFields = request.headers
         urlRequest.httpMethod = request.method.rawValue
 
         if request.method != .get, let data = request.body {

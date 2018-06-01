@@ -1,7 +1,7 @@
 /**
- * A class representing an identity that a Stitch user is linked to and can use to sign into their account.
+ * A protocol representing an identity that a Stitch user is linked to and can use to sign into their account.
  */
-public protocol StitchUserIdentity: Decodable {
+public protocol StitchUserIdentity: Codable {
     /**
      * The id of this identity in MongoDB Stitch
      *
@@ -19,6 +19,6 @@ public protocol StitchUserIdentity: Decodable {
  * :nodoc:
  * An overload of `==` that checks if two `StitchUserIdentity` objects are equal based on their id and provider type.
  */
-public func == (_ lhs: StitchUserIdentity, _ rhs: StitchUserIdentity) -> Bool {
+public func ==(_ lhs: StitchUserIdentity, _ rhs: StitchUserIdentity) -> Bool {
     return lhs.id == rhs.id && lhs.providerType == rhs.providerType
 }

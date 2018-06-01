@@ -94,6 +94,7 @@ public enum StitchServiceErrorCode: String, Codable {
 public enum StitchRequestErrorCode {
     case transportError
     case decodingError
+    case encodingError
 }
 
 /**
@@ -138,8 +139,8 @@ internal struct StitchErrorCodable: Codable {
         // If this is not a JSON error, throw a `StitchError.serviceError` error with a `.unknown` error code and the
         // body of the response as a UTF8 string as the message. If there is no body or it cannot be decoded as UTF8,
         // throw an unknown error with no message.
-        guard let contentType = response.headers[Headers.contentType.rawValue],
-            contentType == ContentTypes.applicationJson.rawValue else {
+        guard let contentType = response.headers[Headers.contentType.nonCanonical()],
+                  contentType == ContentTypes.applicationJson.rawValue else {
                 guard let content = String.init(data: body, encoding: .utf8) else {
                     throw StitchError.serviceError(
                         withMessage: StitchErrorCodable.genericErrorMessage(withStatusCode: response.statusCode),

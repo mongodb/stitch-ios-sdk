@@ -7,10 +7,10 @@ import MongoSwift
 
 class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
     public override func registerAndLogin(email: String = email,
-                                  password: String = pass,
-                                  _ completionHandler: @escaping (StitchUser) -> Void) {
+                                          password: String = pass,
+                                          _ completionHandler: @escaping (StitchUser) -> Void) {
         let emailPassClient = self.stitchAppClient.auth.providerClient(
-            forProvider: UserPasswordAuthProvider.clientSupplier
+            forProvider: UserPasswordAuthProvider.clientFactory
         )
         emailPassClient.register(withEmail: email, withPassword: password) { _ in
             let conf = try? self.harness.app.userRegistrations.sendConfirmation(toEmail: email)
@@ -98,7 +98,7 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
         }
 
         _ = self.harness.addDefaultCustomTokenProvider()
-        
+
         let exp1 = expectation(description: "first custom login")
         var userId: String!
         self.stitchAppClient.auth.login(withCredential:
@@ -206,7 +206,7 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
         wait(for: [exp1], timeout: defaultTimeoutSeconds)
 
         let userPassClient = self.stitchAppClient.auth.providerClient(
-            forProvider: UserPasswordAuthProvider.clientSupplier
+            forProvider: UserPasswordAuthProvider.clientFactory
         )
 
         let exp2 = expectation(description: "new email/password identity is created and confirmed")
@@ -257,19 +257,20 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
         let exp2 = expectation(description: "called function successfully")
         let randomInt = Int(arc4random_uniform(10000)) // temporary until BSON bug is fixed
         stitchAppClient.callFunction(withName: "testFunction",
-                                     withArgs: [randomInt, "hello"], withRequestTimeout: 5.0) { (docMap: Document?, error: Error?) in
-            XCTAssertNotNil(docMap)
+                                     withArgs: [randomInt, "hello"],
+                                     withRequestTimeout: 5.0) { (docMap: Document?, _: Error?) in
+                                        XCTAssertNotNil(docMap)
 
-            XCTAssertEqual(docMap?["stringValue"] as? String, "hello")
+                                        XCTAssertEqual(docMap?["stringValue"] as? String, "hello")
 
-            guard let intValue = docMap?["intValue"] as? Int else {
-                XCTFail("Int result missing in function return value")
-                return
-            }
+                                        guard let intValue = docMap?["intValue"] as? Int else {
+                                            XCTFail("Int result missing in function return value")
+                                            return
+                                        }
 
-            XCTAssertEqual(intValue, randomInt)
+                                        XCTAssertEqual(intValue, randomInt)
 
-            exp2.fulfill()
+                                        exp2.fulfill()
         }
         wait(for: [exp2], timeout: defaultTimeoutSeconds)
 
@@ -277,18 +278,75 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
         stitchAppClient.callFunction(withName: "testFunction",
                                      withArgs: [randomInt, "hello"],
                                      withRequestTimeout: 0.00001) { error in
-            let stitchError = error as? StitchError
-            XCTAssertNotNil(error as? StitchError)
-            if let err = stitchError {
-                guard case .requestError(_, let errorCode) = err else {
-                    XCTFail("callFunction returned an incorrect error type")
-                    return
-                }
+                                        let stitchError = error as? StitchError
+                                        XCTAssertNotNil(error as? StitchError)
+                                        if let err = stitchError {
+                                            guard case .requestError(_, let errorCode) = err else {
+                                                XCTFail("callFunction returned an incorrect error type")
+                                                return
+                                            }
 
-                XCTAssertEqual(errorCode, .transportError)
-            }
-            exp3.fulfill()
+                                            XCTAssertEqual(errorCode, .transportError)
+                                        }
+                                        exp3.fulfill()
         }
         wait(for: [exp3], timeout: defaultTimeoutSeconds)
+    }
+
+    func testCallFunctionRawValues() {
+        _ = self.harness.addTestFunctionsRawValues()
+
+        let exp1 = expectation(description: "logged in anonymously")
+        stitchAppClient.auth.login(withCredential: AnonymousCredential()) { user, _ in
+            XCTAssertNotNil(user)
+            exp1.fulfill()
+        }
+        wait(for: [exp1], timeout: defaultTimeoutSeconds)
+
+        let exp2 = expectation(description: "called raw int function successfully")
+        stitchAppClient.callFunction(withName: "testFunctionRawInt",
+                                     withArgs: [], withRequestTimeout: 5.0) { (intResponse: Int?, _: Error?) in
+                                        XCTAssertNotNil(intResponse)
+
+                                        XCTAssertEqual(intResponse, 42)
+
+                                        exp2.fulfill()
+        }
+        wait(for: [exp2], timeout: defaultTimeoutSeconds)
+
+        let exp3 = expectation(description: "called raw int function successfully")
+        stitchAppClient.callFunction(withName: "testFunctionRawString",
+                                     withArgs: [], withRequestTimeout: 5.0) { (stringResponse: String?, _: Error?) in
+                                        XCTAssertNotNil(stringResponse)
+
+                                        XCTAssertEqual(stringResponse, "hello world!")
+
+                                        exp3.fulfill()
+        }
+        wait(for: [exp3], timeout: defaultTimeoutSeconds)
+
+        let exp4 = expectation(description: "called raw array function successfully")
+        stitchAppClient.callFunction(withName: "testFunctionRawArray",
+                                     withArgs: [], withRequestTimeout: 5.0) { (arrayResponse: [Int]?, _: Error?) in
+                                        XCTAssertNotNil(arrayResponse)
+
+                                        XCTAssertEqual(arrayResponse!, [1, 2, 3])
+
+                                        exp4.fulfill()
+        }
+        wait(for: [exp4], timeout: defaultTimeoutSeconds)
+
+        // Will not compile until BsonValue conforms to Decodable (SWIFT-104)
+//        let exp5 = expectation(description: "called raw heterogenous array function successfully")
+//        stitchAppClient.callFunction(
+//            withName: "testFunctionRawHeterogenousArray",
+//            withArgs: [], withRequestTimeout: 5.0) { (arrayResponse: [BsonValue]?, _: Error?) in
+//                XCTAssertNotNil(arrayResponse)
+//
+//                XCTAssertEqual(arrayResponse, [1, "hello", 3])
+//
+//                exp5.fulfill()
+//        }
+//        wait(for: [exp5], timeout: defaultTimeoutSeconds)
     }
 }

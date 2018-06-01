@@ -1,111 +1,444 @@
 import XCTest
-import Swifter
+import MockUtils
 import MongoSwift
 @testable import StitchCore
 
 class StitchRequestClientTests: StitchXCTestCase {
-    let responseBody = "foo"
-    let headerKey = "bar"
-    let headerValue = "baz"
-    lazy var headers = [self.headerKey: self.headerValue]
-
-    let testDoc: Document = ["qux": "quux"]
-    let getEndpoint = "/get"
-    let notGetEndpoint = "/notget"
-    let badRequestEndpoint = "/badreq"
-    let timeoutEndpoint = "/timeout"
-
-    override func setUp() {
-        self.server[self.getEndpoint] = { request in
-            return .ok(.text(self.responseBody))
-        }
-        self.server[self.notGetEndpoint] = { request in
-            let data = Data(request.body)
-            return .ok(.text(String.init(data: data, encoding: .utf8)!))
-        }
-        self.server[self.badRequestEndpoint] = { request in
-            return .badRequest(.text("bad request"))
-        }
-        self.server[self.timeoutEndpoint] = { request in
-            Thread.sleep(forTimeInterval: 20.0) // sleep for 20 seconds
-            return .ok(.text("This response will not be seen since the client will timeout"))
-        }
-
-        super.setUp()
-    }
+    
+    private struct UnrelatedError: Error { }
+    private struct MockTimeoutError: Error { }
 
     func testDoRequest() throws {
-        let stitchRequestClient = StitchRequestClientImpl.init(baseURL: self.baseURL,
-                                                               transport: FoundationHTTPTransport(),
-                                                               defaultRequestTimeout: testDefaultRequestTimeout)
+        let domain = "http://domain.com"
+        let transport = MockTransport()
+        let stitchRequestClient = StitchRequestClientImpl.init(
+            baseURL: domain,
+            transport: transport,
+            defaultRequestTimeout: 1.5
+        )
 
-        var builder = StitchRequestImpl.TBuilder {
-            $0.path = self.badRequestEndpoint
-            $0.method = .get
-        }
-
-        XCTAssertThrowsError(try stitchRequestClient.doRequest(builder.build())) { error in
-            let stitchError = error as? StitchError
-            XCTAssertNotNil(error as? StitchError)
-            if let err = stitchError {
-                guard case .serviceError = err else {
-                    XCTFail("doRequest returned an incorrect error type")
-                    return
-                }
+        // A bad response should throw an exception
+        transport.mockRoundTrip.doReturn(
+            result: Response.init(statusCode: 500, headers: [:], body: nil),
+            forArg: .any
+        )
+        
+        let path = "/path"
+        let builder = StitchRequestBuilder().with(path: path).with(method: .get)
+        
+        XCTAssertThrowsError(
+            try stitchRequestClient.doRequest(builder.build()),
+            "should throw a Stitch service exeption"
+        ) { error in
+            let stitchErr = error as? StitchError
+            XCTAssertNotNil(stitchErr)
+            
+            guard case .serviceError(_, let errorCode) = stitchErr! else {
+                XCTFail("wrong StitchError error type was thrown")
+                return
             }
+            
+            XCTAssertEqual(errorCode, StitchServiceErrorCode.unknown)
         }
+        
+        let actualRequest = transport.mockRoundTrip.capturedInvocations.first!
+        
+        let expectedRequest = try RequestBuilder()
+            .with(method: .get)
+            .with(url: "\(domain)\(path)")
+            .with(timeout: 1.5)
+            .build()
+        
+        XCTAssertEqual(expectedRequest, actualRequest)
 
-        builder.path = self.getEndpoint
+        transport.mockRoundTrip.clearInvocations()
+        transport.mockRoundTrip.clearStubs()
 
+        // A normal response should be able to be decoded
+        transport.mockRoundTrip.doReturn(
+            result: Response.init(statusCode: 200,
+                                  headers: [ : ],
+                                  body: "{\"hello\": \"world\", \"a\": 42}".data(using: .utf8)),
+            forArg: .any
+        )
         let response = try stitchRequestClient.doRequest(builder.build())
-
+        
         XCTAssertEqual(response.statusCode, 200)
-        XCTAssertEqual(response.body, self.responseBody.data(using: .utf8))
-    }
-
-    func testDoRequestWithTimeout() throws {
-        let stitchRequestClient = StitchRequestClientImpl.init(baseURL: self.baseURL,
-                                                               transport: FoundationHTTPTransport(),
-                                                               defaultRequestTimeout: testDefaultRequestTimeout)
-
-        let builder = StitchRequestImpl.TBuilder {
-            $0.path = self.timeoutEndpoint
-            $0.method = .get
-            $0.timeout = 3.0
-        }
-
-        XCTAssertThrowsError(try stitchRequestClient.doRequest(builder.build())) { error in
-            let stitchError = error as? StitchError
-            XCTAssertNotNil(error as? StitchError)
-            if let err = stitchError {
-                guard case .requestError(_, let errorCode) = err else {
-                    XCTFail("doRequest returned an incorrect error type")
-                    return
-                }
-
-                XCTAssertEqual(errorCode, .transportError)
+        
+        // TODO: uncomment when SWIFT-104 is completed
+        // let expected = ["hello": "world", "a": 42] as [String : BsonValue]
+        // XCTAssertEqual(expected, BsonDecoder().decode([String: BsonValue].self, from: response.body!))
+        
+        transport.mockRoundTrip.clearStubs()
+        
+        // Error responses should be handled
+        transport.mockRoundTrip.doReturn(
+            result: Response.init(statusCode: 500, headers: [:], body: nil),
+            forArg: .any
+        )
+        
+        XCTAssertThrowsError(
+            try stitchRequestClient.doRequest(builder.build()),
+            "StitchRequestClient should throw StitchError.serviceError when a bad response is received"
+        ) { error in
+            let stitchErr = error as? StitchError
+            XCTAssertNotNil(stitchErr)
+            
+            guard case .serviceError(let message, let errorCode) = stitchErr! else {
+                XCTFail("wrong StitchError error type was thrown")
+                return
             }
+            
+            XCTAssertEqual(errorCode, StitchServiceErrorCode.unknown)
+            XCTAssertEqual(message, "received unexpected status code 500")
+        }
+        
+        transport.mockRoundTrip.clearStubs()
+        
+        let headers = [Headers.contentType.rawValue: ContentTypes.applicationJson.rawValue]
+        
+        transport.mockRoundTrip.doReturn(
+            result: Response.init(statusCode: 500, headers: headers, body: "whoops".data(using: .utf8)),
+            forArg: .any
+        )
+        
+        XCTAssertThrowsError(
+            try stitchRequestClient.doRequest(builder.build()),
+            "StitchRequestClient should throw StitchError.serviceError when a bad response is received"
+        ) { error in
+            let stitchErr = error as? StitchError
+            XCTAssertNotNil(stitchErr)
+            
+            guard case .serviceError(let message, let errorCode) = stitchErr! else {
+                XCTFail("wrong StitchError error type was thrown")
+                return
+            }
+            
+            XCTAssertEqual(errorCode, StitchServiceErrorCode.unknown)
+            XCTAssertEqual(message, "whoops")
+        }
+    
+        transport.mockRoundTrip.clearStubs()
+        
+        transport.mockRoundTrip.doReturn(
+            result: Response.init(
+                statusCode: 500,
+                headers: headers,
+                body: "{\"error\": \"bad\", \"error_code\": \"InvalidSession\"}".data(using: .utf8)),
+            forArg: .any
+        )
+        
+        XCTAssertThrowsError(
+            try stitchRequestClient.doRequest(builder.build()),
+            "StitchRequestClient should throw StitchError.serviceError when a bad response is received"
+        ) { error in
+            let stitchErr = error as? StitchError
+            XCTAssertNotNil(stitchErr)
+            
+            guard case .serviceError(let message, let errorCode) = stitchErr! else {
+                XCTFail("wrong StitchError error type was thrown")
+                return
+            }
+            
+            XCTAssertEqual(errorCode, StitchServiceErrorCode.invalidSession)
+            XCTAssertEqual(message, "bad")
+        }
+        
+        // Handles round trup failing
+        transport.mockRoundTrip.doThrow(error: UnrelatedError.init(), forArg: .any)
+        
+        XCTAssertThrowsError(
+            try stitchRequestClient.doRequest(builder.build()),
+            "Stitch request client should wrap underlying errors in a StitchError.requestError")
+        { error in
+            let stitchErr = error as? StitchError
+            XCTAssertNotNil(stitchErr)
+            
+            guard case .requestError(let error, let errorCode) = stitchErr! else {
+                XCTFail("wrong StitchError error type was thrown")
+                return
+            }
+            
+            XCTAssertEqual(errorCode, StitchRequestErrorCode.transportError)
+            XCTAssertTrue(error is UnrelatedError)
         }
     }
-
-    func testDoJSONRequestRaw() throws {
-        let stitchRequestClient = StitchRequestClientImpl.init(baseURL: self.baseURL,
-                                                               transport: FoundationHTTPTransport(),
-                                                               defaultRequestTimeout: testDefaultRequestTimeout)
-        var builder = StitchDocRequestBuilderImpl {
-            $0.path = self.badRequestEndpoint
-            $0.method = .post
+    
+    func testDoJsonRequestWithDoc() throws {
+        let domain = "http://domain.com"
+        let transport = MockTransport()
+        let stitchRequestClient = StitchRequestClientImpl.init(
+            baseURL: domain,
+            transport: transport,
+            defaultRequestTimeout: 1.5
+        )
+        
+        let path = "/path"
+        let document = Document.init(["my": 24])
+        let builder = StitchDocRequestBuilder()
+            .with(path: path)
+            .with(method: .get)
+            .with(document: document)
+            .with(method: .patch)
+        
+        // A bad response should throw an exception
+        transport.mockRoundTrip.doReturn(
+            result: Response.init(statusCode: 500, headers: [:], body: nil),
+            forArg: .any
+        )
+        
+        XCTAssertThrowsError(
+            try stitchRequestClient.doRequest(builder.build()),
+            "should throw a Stitch service exeption"
+        ) { error in
+            let stitchErr = error as? StitchError
+            XCTAssertNotNil(stitchErr)
+            
+            guard case .serviceError(_, let errorCode) = stitchErr! else {
+                XCTFail("wrong StitchError error type was thrown")
+                return
+            }
+            
+            XCTAssertEqual(errorCode, StitchServiceErrorCode.unknown)
         }
+        
+        let actualRequest = transport.mockRoundTrip.capturedInvocations.first!
+        
+        let expectedRequest = try RequestBuilder()
+            .with(method: .patch)
+            .with(url: "\(domain)\(path)")
+            .with(body: "{ \"my\" : { \"$numberInt\" : \"24\" } }".data(using: .utf8))
+            .with(headers: [Headers.contentType.rawValue: ContentTypes.applicationJson.rawValue])
+            .with(timeout: 1.5)
+            .build()
 
-        XCTAssertThrowsError(try stitchRequestClient.doJSONRequestRaw(builder.build()))
-
-        builder.path = self.notGetEndpoint
-        builder.document = testDoc
-        let response = try stitchRequestClient.doJSONRequestRaw(builder.build())
-
+        XCTAssertEqual(expectedRequest, actualRequest)
+        
+        transport.mockRoundTrip.clearStubs()
+        
+        // A normal response should be able to be decoded
+        transport.mockRoundTrip.doReturn(
+            result: Response.init(statusCode: 200,
+                                  headers: [ : ],
+                                  body: "{\"hello\": \"world\", \"a\": 42}".data(using: .utf8)),
+            forArg: .any
+        )
+        let response = try stitchRequestClient.doRequest(builder.build())
+        
         XCTAssertEqual(response.statusCode, 200)
-
-        XCTAssertEqual(try BsonDecoder().decode(Document.self, from: String.init(data: response.body!, encoding: .utf8)!),
-                       self.testDoc)
+        
+        // TODO: uncomment when SWIFT-104 is completed
+        // let expected = ["hello": "world", "a": 42] as [String : BsonValue]
+        // XCTAssertEqual(expected, BsonDecoder().decode([String: BsonValue].self, from: response.body!))
+        
+        transport.mockRoundTrip.clearStubs()
+        
+        // Error responses should be handled
+        transport.mockRoundTrip.doReturn(
+            result: Response.init(statusCode: 500, headers: [:], body: nil),
+            forArg: .any
+        )
+        
+        XCTAssertThrowsError(
+            try stitchRequestClient.doRequest(builder.build()),
+            "StitchRequestClient should throw StitchError.serviceError when a bad response is received"
+        ) { error in
+            let stitchErr = error as? StitchError
+            XCTAssertNotNil(stitchErr)
+            
+            guard case .serviceError(let message, let errorCode) = stitchErr! else {
+                XCTFail("wrong StitchError error type was thrown")
+                return
+            }
+            
+            XCTAssertEqual(errorCode, StitchServiceErrorCode.unknown)
+            XCTAssertEqual(message, "received unexpected status code 500")
+        }
+        
+        transport.mockRoundTrip.clearInvocations()
+        transport.mockRoundTrip.clearStubs()
+        
+        let headers = [Headers.contentType.rawValue: ContentTypes.applicationJson.rawValue]
+        
+        transport.mockRoundTrip.doReturn(
+            result: Response.init(statusCode: 500, headers: headers, body: "whoops".data(using: .utf8)),
+            forArg: .any
+        )
+        
+        XCTAssertThrowsError(
+            try stitchRequestClient.doRequest(builder.build()),
+            "StitchRequestClient should throw StitchError.serviceError when a bad response is received"
+        ) { error in
+            let stitchErr = error as? StitchError
+            XCTAssertNotNil(stitchErr)
+            
+            guard case .serviceError(let message, let errorCode) = stitchErr! else {
+                XCTFail("wrong StitchError error type was thrown")
+                return
+            }
+            
+            XCTAssertEqual(errorCode, StitchServiceErrorCode.unknown)
+            XCTAssertEqual(message, "whoops")
+        }
+        
+        transport.mockRoundTrip.clearInvocations()
+        transport.mockRoundTrip.clearStubs()
+        
+        transport.mockRoundTrip.doReturn(
+            result: Response.init(
+                statusCode: 500,
+                headers: headers,
+                body: "{\"error\": \"bad\", \"error_code\": \"InvalidSession\"}".data(using: .utf8)),
+            forArg: .any
+        )
+        
+        XCTAssertThrowsError(
+            try stitchRequestClient.doRequest(builder.build()),
+            "StitchRequestClient should throw StitchError.serviceError when a bad response is received"
+        ) { error in
+            let stitchErr = error as? StitchError
+            XCTAssertNotNil(stitchErr)
+            
+            guard case .serviceError(let message, let errorCode) = stitchErr! else {
+                XCTFail("wrong StitchError error type was thrown")
+                return
+            }
+            
+            XCTAssertEqual(errorCode, StitchServiceErrorCode.invalidSession)
+            XCTAssertEqual(message, "bad")
+        }
+        
+        // Handles round trup failing
+        transport.mockRoundTrip.doThrow(error: UnrelatedError.init(), forArg: .any)
+        
+        XCTAssertThrowsError(
+            try stitchRequestClient.doRequest(builder.build()),
+            "Stitch request client should wrap underlying errors in a StitchError.requestError")
+        { error in
+            let stitchErr = error as? StitchError
+            XCTAssertNotNil(stitchErr)
+            
+            guard case .requestError(let error, let errorCode) = stitchErr! else {
+                XCTFail("wrong StitchError error type was thrown")
+                return
+            }
+            
+            XCTAssertEqual(errorCode, StitchRequestErrorCode.transportError)
+            XCTAssertTrue(error is UnrelatedError)
+        }
+    }
+    
+    func testHandleNonCanonicalHeaders() throws {
+        let domain = "http://domain.com"
+        let transport = MockTransport()
+        let stitchRequestClient = StitchRequestClientImpl.init(
+            baseURL: domain,
+            transport: transport,
+            defaultRequestTimeout: 1.5
+        )
+        
+        let path = "/path"
+        let builder = StitchRequestBuilder()
+            .with(path: path)
+            .with(method: .get)
+        
+        let nonCanonicalHeaders = [Headers.contentType.nonCanonical(): ContentTypes.applicationJson.rawValue]
+        
+        // A bad response should throw an exception
+        transport.mockRoundTrip.doReturn(
+            result: Response.init(
+                statusCode: 500,
+                headers: nonCanonicalHeaders,
+                body: "{\"error\": \"bad\", \"error_code\": \"InvalidSession\"}".data(using: .utf8)),
+            forArg: .any
+        )
+        
+        XCTAssertThrowsError(
+            try stitchRequestClient.doRequest(builder.build()),
+            "StitchRequestClient should throw StitchError.serviceError when a bad response is received"
+        ) { error in
+            let stitchErr = error as? StitchError
+            XCTAssertNotNil(stitchErr)
+            
+            guard case .serviceError(let message, let errorCode) = stitchErr! else {
+                XCTFail("wrong StitchError error type was thrown")
+                return
+            }
+            
+            XCTAssertEqual(errorCode, StitchServiceErrorCode.invalidSession)
+            XCTAssertEqual(message, "bad")
+        }
+        
+        transport.mockRoundTrip.clearStubs()
+        
+        let canonicalHeaders = [Headers.contentType.rawValue: ContentTypes.applicationJson.rawValue]
+        transport.mockRoundTrip.doReturn(
+            result: Response.init(
+                statusCode: 500,
+                headers: canonicalHeaders,
+                body: "{\"error\": \"bad\", \"error_code\": \"InvalidSession\"}".data(using: .utf8)),
+            forArg: .any
+        )
+        
+        XCTAssertThrowsError(
+            try stitchRequestClient.doRequest(builder.build()),
+            "StitchRequestClient should throw StitchError.serviceError when a bad response is received"
+        ) { error in
+            let stitchErr = error as? StitchError
+            XCTAssertNotNil(stitchErr)
+            
+            guard case .serviceError(let message, let errorCode) = stitchErr! else {
+                XCTFail("wrong StitchError error type was thrown")
+                return
+            }
+            
+            XCTAssertEqual(errorCode, StitchServiceErrorCode.invalidSession)
+            XCTAssertEqual(message, "bad")
+        }
+    }
+    
+    func testDoRequestWithTimeout() throws {
+        let domain = "http://domain.com"
+        let transport = MockTransport()
+        let stitchRequestClient = StitchRequestClientImpl.init(
+            baseURL: domain,
+            transport: transport,
+            defaultRequestTimeout: 1.5
+        )
+        
+        transport.mockRoundTrip.doThrow(
+            error: MockTimeoutError.init(),
+            forArg: Matcher<Request>.with(condition: { req -> Bool in
+                return req.timeout == 3
+            })
+        )
+        
+        transport.mockRoundTrip.doReturn(
+            result: Response.init(statusCode: 503, headers: [:], body: nil),
+            forArg: Matcher<Request>.with(condition: { req -> Bool in
+                return req.timeout != 3
+            })
+        )
+        
+        let builder = StitchRequestBuilder()
+            .with(path: "/path")
+            .with(method: .get)
+            .with(timeout: 3)
+        
+        XCTAssertThrowsError(
+            try stitchRequestClient.doRequest(builder.build()),
+            "StitchRequestClient should throw StitchError.requestError when a timeout occurs"
+        ) { error in
+            let stitchErr = error as? StitchError
+            XCTAssertNotNil(stitchErr)
+            
+            guard case .requestError(let underlyingError, let errorCode) = stitchErr! else {
+                XCTFail("wrong StitchError error type was thrown")
+                return
+            }
+            
+            XCTAssertEqual(errorCode, StitchRequestErrorCode.transportError)
+            XCTAssertTrue(underlyingError is MockTimeoutError)
+        }
     }
 }

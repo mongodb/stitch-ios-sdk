@@ -43,7 +43,7 @@ open class BaseStitchIntTest: XCTestCase {
                       "Expected Stitch server to be available at '\(stitchBaseURL)'")
         
         do {
-            try adminClient.loginWithCredential(credential:
+            _ = try adminClient.loginWithCredential(credential:
                 UserPasswordCredential.init(
                     withUsername: "unique_user@domain.com",
                     withPassword: "password"

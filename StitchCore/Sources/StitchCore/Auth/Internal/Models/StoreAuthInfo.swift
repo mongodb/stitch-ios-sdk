@@ -99,6 +99,25 @@ internal struct StoreAuthInfo: Codable, AuthInfo {
         self.loggedInProviderName = authInfo.loggedInProviderName
         self.userProfile = authInfo.userProfile
     }
+    
+    /**
+     * Memberwise initializer for `StoreAuthInfo`.
+     */
+    init(userId: String,
+         deviceId: String?,
+         accessToken: String,
+         refreshToken: String?,
+         loggedInProviderType: StitchProviderType,
+         loggedInProviderName: String,
+         userProfile: StitchUserProfileImpl) {
+        self.userId = userId
+        self.deviceId = deviceId
+        self.accessToken = accessToken
+        self.refreshToken = refreshToken
+        self.loggedInProviderType = loggedInProviderType
+        self.loggedInProviderName = loggedInProviderName
+        self.userProfile = userProfile
+    }
 
     /**
      * Initializes the `StoreAuthInfo` from a decoder.

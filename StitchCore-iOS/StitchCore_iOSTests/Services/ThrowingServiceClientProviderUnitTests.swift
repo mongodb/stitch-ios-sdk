@@ -17,22 +17,22 @@ private final class TestThrowingServiceClientProvider: ThrowingServiceClientProv
 
 class ThrowingServiceClientProviderUnitTests: BaseStitchIntTestCocoaTouch {
     var appClient: StitchAppClient!
-    
+
     override func setUp() {
         guard let client = try? Stitch.getDefaultAppClient() else {
             do {
                 try Stitch.initialize()
                 appClient = try? Stitch.initializeDefaultAppClient(
-                    withConfigBuilder: StitchAppClientConfigurationBuilder.init({
-                        $0.clientAppId = "placeholder-app-id"
-                    }))
+                    withConfigBuilder: StitchAppClientConfigurationBuilder()
+                        .with(clientAppId: "placeholder-app-id")
+                )
             } catch {
                 XCTFail("Failed to initialize MongoDB Stitch iOS SDK: \(error.localizedDescription)")
             }
-            
+
             return
         }
-        
+
         self.appClient = client
     }
 

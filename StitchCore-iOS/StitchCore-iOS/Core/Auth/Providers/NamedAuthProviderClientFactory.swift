@@ -5,15 +5,15 @@ import StitchCore
  * A protocol defining methods necessary to provide an authentication provider client for a named authentication
  * provider. This protocol is not to be inherited except internally within the StitchCore-iOS module.
  */
-public protocol NamedAuthProviderClientSupplier {
+public protocol NamedAuthProviderClientFactory {
     /**
-     * The type of client that this supplier will supply.
+     * The type of client that this factory will supply.
      */
     associatedtype Client
 
     /**
      * :nodoc:
-     * Returns the client that this `AuthProviderClientSupplier` supplies. If the client will be making requests,
+     * Returns the client that this `NamedAuthProviderClientFactory` supplies. If the client will be making requests,
      * it will use the provided `StitchRequestClient`, `StitchAuthRoutes`, and `OperationDispatcher` to perform those
      * requests, and it will make those requests for the authentication provider with the provided name.
      */

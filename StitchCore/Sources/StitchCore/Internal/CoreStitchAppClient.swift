@@ -10,23 +10,19 @@ public final class CoreStitchAppClient {
     // MARK: Properties
 
     /**
-     * The `StitchAuthRequestClient` that this app client will use to make authenticated requests to the Stitch server.
+     * the `CoreStitchService` that will be used to make function call requests to Stitch.
      */
-    private let authRequestClient: StitchAuthRequestClient
-
-    /**
-     * The `StitchAppRoutes` object representing the API routes of the Stitch server for the current app.
-     */
-    private let routes: StitchAppRoutes
-
+    private let functionService: CoreStitchService
+    
     // MARK: Initializer
-
+    
     /**
      * Initializes the app client with the provided `StitchAuthRequestClient` and `StitchAppRoutes`.
      */
     public init(authRequestClient: StitchAuthRequestClient, routes: StitchAppRoutes) {
-        self.authRequestClient = authRequestClient
-        self.routes = routes
+        self.functionService = CoreStitchServiceImpl.init(requestClient: authRequestClient,
+                                                          routes: routes.serviceRoutes,
+                                                          serviceName: nil)
     }
 
     // MARK: Methods
@@ -37,9 +33,9 @@ public final class CoreStitchAppClient {
     public func callFunctionInternal(withName name: String,
                                      withArgs args: [BsonValue],
                                      withRequestTimeout requestTimeout: TimeInterval? = nil) throws {
-        try self.authRequestClient.doAuthenticatedRequest(
-            callFunctionRequest(withName: name, withArgs: args, withRequestTimeout: requestTimeout)
-        )
+        try self.functionService.callFunctionInternal(withName: name,
+                                                      withArgs: args,
+                                                      withRequestTimeout: requestTimeout)
     }
     
     /**
@@ -51,27 +47,8 @@ public final class CoreStitchAppClient {
     public func callFunctionInternal<T: Decodable>(withName name: String,
                                                    withArgs args: [BsonValue],
                                                    withRequestTimeout requestTimeout: TimeInterval? = nil) throws -> T {
-        return try self.authRequestClient.doAuthenticatedJSONRequest(
-            callFunctionRequest(withName: name, withArgs: args, withRequestTimeout: requestTimeout)
-        )
-    }
-
-    /**
-     * Builds the request object necessary to make a function call against the Stitch server. Takes the function name
-     * and arguments as parameters.
-     */
-    private func callFunctionRequest(withName name: String,
-                                     withArgs args: [BsonValue],
-                                     withRequestTimeout requestTimeout: TimeInterval? = nil) throws -> StitchAuthDocRequest {
-        let route = self.routes.serviceRoutes.functionCallRoute
-        return try StitchAuthDocRequestBuilderImpl {
-            $0.method = .post
-            $0.path = route
-            $0.timeout = requestTimeout
-            $0.document = [
-                "name": name,
-                "arguments": args
-            ]
-        }.build()
+        return try self.functionService.callFunctionInternal(withName: name,
+                                                             withArgs: args,
+                                                             withRequestTimeout: requestTimeout)
     }
 }

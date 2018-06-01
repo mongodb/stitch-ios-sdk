@@ -41,10 +41,11 @@ open class BaseStitchIntTestCocoaTouch: BaseStitchIntTest {
             return appClient
         }
 
-        let client = try Stitch.initializeAppClient(withConfigBuilder: StitchAppClientConfigurationBuilder {
-            $0.clientAppId = app.clientAppId
-            $0.baseURL = stitchBaseURL
-        })
+        let client = try Stitch.initializeAppClient(
+            withConfigBuilder: StitchAppClientConfigurationBuilder()
+                .with(clientAppId: app.clientAppId)
+                .with(baseURL: stitchBaseURL)
+        )
             
         clients.append(client)
         return client
@@ -58,7 +59,7 @@ open class BaseStitchIntTestCocoaTouch: BaseStitchIntTest {
         pass: String
     ) throws -> String {
         let emailPassClient = client.auth.providerClient(forProvider:
-            StitchCore_iOS.UserPasswordAuthProvider.clientSupplier
+            StitchCore_iOS.UserPasswordAuthProvider.clientFactory
         )
         
         let exp0 = expectation(description: "should register")

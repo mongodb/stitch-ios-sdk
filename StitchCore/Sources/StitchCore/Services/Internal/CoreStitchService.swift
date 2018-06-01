@@ -8,5 +8,5 @@ import Foundation
 public protocol CoreStitchService {
     func callFunctionInternal(withName name: String, withArgs args: [BsonValue], withRequestTimeout requestTimeout: TimeInterval?) throws
     
-    func callFunctionInternal<T: Codable>(withName name: String, withArgs args: [BsonValue], withRequestTimeout requestTimeout: TimeInterval?) throws -> T
+    func callFunctionInternal<T: Decodable>(withName name: String, withArgs args: [BsonValue], withRequestTimeout requestTimeout: TimeInterval?) throws -> T
 }

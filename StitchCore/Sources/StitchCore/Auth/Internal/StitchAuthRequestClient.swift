@@ -10,13 +10,14 @@ public protocol StitchAuthRequestClient {
      *
      * - returns: The response to the request as a `Response`.
      */
-    func doAuthenticatedRequest<R>(_ stitchReq: R) throws -> Response where R: StitchAuthRequest
-
+    func doAuthenticatedRequest(_ stitchReq: StitchAuthRequest) throws -> Response
+    
     /**
-     * Performs an authenticated request to the Stitch server with a JSON request body, using the current
-     * authentication state, and should throw when not currently authenticated.
+     * Performs an authenticated request to the Stitch server, using the current authentication state, and should
+     * throw when not currently authenticated. Decodes the response body into a `Decodable` type based on the
+     * `DecodedT`  type parameter.
      *
-     * - returns: An `T` representing the response body as decoded JSON.
+     * - returns: The decoded body of the response.
      */
-    func doAuthenticatedJSONRequest<T: Decodable>(_ stitchReq: StitchAuthDocRequest) throws -> T
+    func doAuthenticatedRequest<T: Decodable>(_ stitchReq: StitchAuthRequest) throws -> T
 }

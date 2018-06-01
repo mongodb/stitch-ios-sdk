@@ -8,43 +8,25 @@ import MongoSwift
  */
 public final class UserAPIKeyAuthProvider {
     /**
-     * An `AuthProviderClientSupplier` which can be used with `StitchAuth` to retrieve an
+     * An `AuthProviderClientFactory` which can be used with `StitchAuth` to retrieve an
      * `UserAPIKeyAuthProviderClient`.
      */
-    public static let clientSupplier: ClientSupplierImpl = ClientSupplierImpl.init()
-
-    /**
-     * An `AuthProviderClientSupplier` which can be used with `StitchAuth` to retrieve an
-     * `UserAPIKeyAuthProviderClient`.
-     */
-    public static let authenticatedClientSupplier: AuthenticatedClientSupplierImpl
-        = AuthenticatedClientSupplierImpl.init()
+    public static let clientFactory: ClientFactoryImpl
+        = ClientFactoryImpl.init()
 
     /**
      * :nodoc:
-     * An implementation of `AuthProviderClientSupplier` that produces a `UserAPIKeyAuthProviderClient`.
+     * An implementation of `AuthProviderClientFactory` that produces an
+     * `UserAPIKeyAuthProviderClient`.
      */
-    public final class ClientSupplierImpl: AuthProviderClientSupplier {
-        public func client(withRequestClient _: StitchRequestClient,
-                           withRoutes _: StitchAuthRoutes,
-                           withDispatcher _: OperationDispatcher) -> UserAPIKeyAuthProviderClient {
-            return CoreUserAPIKeyAuthProviderClient.init()
-        }
-    }
-
-    /**
-     * :nodoc:
-     * An implementation of `AuthenticatedAuthProviderClientSupplier` that produces an
-     * `AuthenticatedUserAPIKeyAuthProviderClient`.
-     */
-    public final class AuthenticatedClientSupplierImpl: AuthProviderClientSupplier {
-        public typealias ClientT = AuthenticatedUserAPIKeyAuthProviderClient
+    public final class ClientFactoryImpl: AuthProviderClientFactory {
+        public typealias ClientT = UserAPIKeyAuthProviderClient
         public typealias RequestClientT = StitchAuthRequestClient
 
         public func client(withRequestClient authRequestClient: StitchAuthRequestClient,
                            withRoutes routes: StitchAuthRoutes,
                            withDispatcher dispatcher: OperationDispatcher) -> ClientT {
-            return AuthenticatedUserAPIKeyClientImpl.init(
+            return UserAPIKeyAuthProviderClientImpl.init(
                 withAuthRequestClient: authRequestClient,
                 withAuthRoutes: routes,
                 withDispatcher: dispatcher
@@ -53,25 +35,7 @@ public final class UserAPIKeyAuthProvider {
     }
 }
 
-// Add conformance to UserAPIKeyAuthProviderClient protocol
-extension CoreUserAPIKeyAuthProviderClient: UserAPIKeyAuthProviderClient { }
-
-/**
- * A protocol that provides a method for getting a `StitchCredential` property
- * that can be used to log in with the User API Key authentication provider.
- */
 public protocol UserAPIKeyAuthProviderClient {
-    /**
-     * Gets a credential that can be used to log in with the User API Key authentication provider.
-     *
-     * - parameters:
-     *     - forKey: The API key (as created by a Stitch user) to authenticate with.
-     * - returns: a credential conforming to `StitchCredential`
-     */
-    func credential(forKey key: String) -> UserAPIKeyCredential
-}
-
-public protocol AuthenticatedUserAPIKeyAuthProviderClient {
     /**
      * Creates a user API key that can be used to authenticate as the current user.
      *
@@ -126,8 +90,8 @@ public protocol AuthenticatedUserAPIKeyAuthProviderClient {
     func disableApiKey(withId id: ObjectId, _ completionHandler: @escaping (Error?) -> Void)
 }
 
-private class AuthenticatedUserAPIKeyClientImpl:
-CoreAuthenticatedUserAPIKeyClient, AuthenticatedUserAPIKeyAuthProviderClient {
+private class UserAPIKeyAuthProviderClientImpl:
+CoreUserAPIKeyAuthProviderClient, UserAPIKeyAuthProviderClient {
     private let dispatcher: OperationDispatcher
 
     init(withAuthRequestClient authRequestClient: StitchAuthRequestClient,

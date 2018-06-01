@@ -9,42 +9,42 @@ class StitchClientConfigurationTests: XCTestCase {
     private let defaultRequestTimeout: TimeInterval = testDefaultRequestTimeout
 
     func testStitchClientConfigurationBuilderImplInit() throws {
-        var builder = StitchClientConfigurationBuilderImpl { _ in }
+        let builder = StitchClientConfigurationBuilder()
 
         XCTAssertThrowsError(try builder.build()) { error in
             XCTAssertEqual(error as? StitchClientConfigurationError,
                            StitchClientConfigurationError.missingBaseURL)
         }
 
-        builder.baseURL = self.baseURL
+        builder.with(baseURL: self.baseURL)
 
         XCTAssertThrowsError(try builder.build()) { error in
             XCTAssertEqual(error as? StitchClientConfigurationError,
                            StitchClientConfigurationError.missingDataDirectory)
         }
 
-        builder.dataDirectory = self.dataDirectory
+        builder.with(dataDirectory: self.dataDirectory)
 
         XCTAssertThrowsError(try builder.build()) { error in
             XCTAssertEqual(error as? StitchClientConfigurationError,
                            StitchClientConfigurationError.missingStorage)
         }
 
-        builder.storage = self.storage
+        builder.with(storage: self.storage)
 
         XCTAssertThrowsError(try builder.build()) { error in
             XCTAssertEqual(error as? StitchClientConfigurationError,
                            StitchClientConfigurationError.missingTransport)
         }
 
-        builder.transport = self.transport
+        builder.with(transport: self.transport)
 
         XCTAssertThrowsError(try builder.build()) { error in
             XCTAssertEqual(error as? StitchClientConfigurationError,
                            StitchClientConfigurationError.missingDefaultRequestTimeout)
         }
 
-        builder.defaultRequestTimeout = self.defaultRequestTimeout
+        builder.with(defaultRequestTimeout: self.defaultRequestTimeout)
 
         let config = try builder.build()
 

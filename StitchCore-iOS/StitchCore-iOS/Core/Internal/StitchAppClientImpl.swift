@@ -147,7 +147,7 @@ internal final class StitchAppClientImpl: StitchAppClient {
             return try self.coreClient.callFunctionInternal(withName: name, withArgs: args)
         }
     }
-    
+
     /**
      * Calls the MongoDB Stitch function with the provided name and arguments, as well as with a specified timeout. Use
      * this for functions that may run longer than the client-wide default timeout (15 seconds by default).
@@ -170,7 +170,7 @@ internal final class StitchAppClientImpl: StitchAppClient {
                                                             withArgs: args)
         }
     }
-    
+
     /**
      * Calls the MongoDB Stitch function with the provided name and arguments.
      *
@@ -188,7 +188,10 @@ internal final class StitchAppClientImpl: StitchAppClient {
                              withRequestTimeout requestTimeout: TimeInterval,
                              _ completionHandler: @escaping (Error?) -> Void) {
         self.dispatcher.run(withCompletionHandler: completionHandler) {
-            return try self.coreClient.callFunctionInternal(withName: name, withArgs: args, withRequestTimeout: requestTimeout)
+            return try self.coreClient.callFunctionInternal(withName: name,
+                                                            withArgs: args,
+                                                            withRequestTimeout: requestTimeout
+            )
         }
     }
 

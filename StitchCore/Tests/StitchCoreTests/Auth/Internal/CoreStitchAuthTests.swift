@@ -2,255 +2,460 @@
 import XCTest
 import MongoSwift
 import Swifter
+import MockUtils
 @testable import StitchCore
 
 import func JWT.encode
 import enum JWT.Algorithm
 
-private let appRoutes = StitchAppRoutes.init(clientAppId: "")
-private let userId = ObjectId().description
-private let mockApiAuthInfo = [
-    "user_id": userId,
-    "device_id": ObjectId().description,
-    "access_token": encode(Algorithm.hs256("foobar".data(using: .utf8)!)) {
-        var date = Date()
-        date.addTimeInterval(1000)
-        $0.expiration = date
-    },
-    "refresh_token": encode(Algorithm.hs256("foobar".data(using: .utf8)!)) {
-        var date = Date()
-        date.addTimeInterval(1000)
-        $0.expiration = date
-    }
-]
-
-private let mockApiAuthInfoForLinkRequest = [
-    "user_id": userId,
-    "access_token": encode(Algorithm.hs256("foobar".data(using: .utf8)!)) {
-        var date = Date()
-        date.addTimeInterval(1000)
-        $0.expiration = date
-    }
-]
-
-private let mockApiAccessToken = [
-    "access_token": encode(Algorithm.hs256("foobar".data(using: .utf8)!)) {
-        var date = Date()
-        date.addTimeInterval(1000)
-        $0.expiration = date
-    }
-]
-
 private let baseJSONHeaders = [
     Headers.contentType.rawValue: ContentTypes.applicationJson.rawValue
 ]
 
-private let mockAPIProfile: [String: Any] = [
-    "type": "foo",
-    "identities": [
-        ["id": "bar",
-         "provider_type": "baz"]
-    ],
-    "data": [String: String]()
-]
-
-final class MockStitchRequestClient: StitchRequestClient {
-    var handleAuthProviderLoginRoute: () throws -> Response = {
-        Response.init(statusCode: 200,
-                      headers: baseJSONHeaders,
-                      body: try! JSONEncoder().encode(mockApiAuthInfo))
-    }
-
-    var handleAuthProviderLinkRoute: () throws -> Response = {
-        Response.init(statusCode: 200,
-                      headers: baseJSONHeaders,
-                      body: try! JSONEncoder().encode(mockApiAuthInfoForLinkRequest))
-    }
-
-    var handleProfileRoute: () throws -> Response = {
-        Response.init(statusCode: 200,
-                      headers: baseJSONHeaders,
-                      body: try! JSONSerialization.data(withJSONObject: mockAPIProfile))
-    }
-
-    var handleSessionRoute: () throws -> Response = {
-        Response.init(statusCode: 200,
-                      headers: baseJSONHeaders,
-                      body: try! JSONEncoder().encode(mockApiAccessToken))
-    }
-
-    init() { }
-    init(baseURL: String, transport: Transport, defaultRequestTimeout: TimeInterval) { }
-
-    private func checkAuth(headers: [String: String]) throws {
-        guard let authHeader = headers["Authorization"] else {
-            throw StitchError.serviceError(withMessage: "Invalid session authorization header",
-                                           withServiceErrorCode: .invalidSession)
-        }
-
-        let headerComponents = authHeader.split(separator: " ")
-        guard headerComponents[0] == "Bearer",
-              headerComponents.count == 2 else {
-                throw StitchError.serviceError(withMessage: "Invalid session authorization header",
-                                               withServiceErrorCode: .invalidSession)
-        }
-    }
-
-    private func mockResponse<R>(forRequest stitchReq: R) throws -> Response where R: StitchRequest {
-        switch stitchReq.path {
-        case appRoutes.authRoutes.authProviderLoginRoute(withProviderName: "anon-user"):
-            return try self.handleAuthProviderLoginRoute()
-        case appRoutes.authRoutes.authProviderLinkRoute(withProviderName: "local-userpass"):
-            try checkAuth(headers: stitchReq.headers)
-            return try self.handleAuthProviderLinkRoute()
-        case appRoutes.authRoutes.profileRoute:
-            try checkAuth(headers: stitchReq.headers)
-            return try self.handleProfileRoute()
-        case appRoutes.authRoutes.sessionRoute:
-            try checkAuth(headers: stitchReq.headers)
-            return try self.handleSessionRoute()
-        default:
-            throw StitchError.serviceError(withMessage: "404 page not found", withServiceErrorCode: .unknown)
-        }
-    }
-
-    func doRequest<R>(_ stitchReq: R) throws -> Response where R: StitchRequest {
-        return try mockResponse(forRequest: stitchReq)
-    }
-
-    func doJSONRequestRaw(_ stitchReq: StitchDocRequest) throws -> Response {
-        return try mockResponse(forRequest: stitchReq)
-    }
+fileprivate let testAccessToken = encode(Algorithm.hs256("foobar".data(using: .utf8)!)) {
+    var date = Date()
+    $0.issuedAt = date.addingTimeInterval(-1000)
+    $0.expiration = date.addingTimeInterval(1000)    
 }
 
-final class MockStitchUserFactory: StitchUserFactory {
-    typealias UserType = MockStitchUser
-
-    func makeUser(withId id: String,
-                  withLoggedInProviderType loggedInProviderType: StitchProviderType,
-                  withLoggedInProviderName loggedInProviderName: String,
-                  withUserProfile userProfile: StitchUserProfile) -> MockStitchUser {
-        return MockStitchUser.init(id: id,
-                                   loggedInProviderType: loggedInProviderType,
-                                   loggedInProviderName: loggedInProviderName,
-                                   profile: userProfile)
-    }
+fileprivate let testRefreshToken = encode(Algorithm.hs256("foobar".data(using: .utf8)!)) {
+    var date = Date()
+    $0.issuedAt = date.addingTimeInterval(-1000)
 }
 
-final class MockCoreStitchAuth: CoreStitchAuth<MockStitchUser> {
-    var setterAccessed = 0
-    override var authInfo: AuthInfo? {
-        didSet {
-            objc_sync_enter(self)
-            defer { objc_sync_exit(self) }
-            setterAccessed += 1
-        }
-    }
+/**
+ * Gets a login response for testing that is always the same.
+ */
+fileprivate let testLoginResponse = APIAuthInfoImpl.init(
+    userId: "some-unique-user-id",
+    deviceId: "0123456012345601234560123456",
+    accessToken: testAccessToken, // TODO: getTestAccessToken
+    refreshToken: testRefreshToken // TODO: getTestRefreshToken
+)
 
-    private var authDelegates = [() -> Void]()
+/**
+ * A user profile for testing that is always the same.
+ */
+fileprivate let testUserProfile = APICoreUserProfileImpl.init(
+    userType: "normal",
+    identities: [APIStitchUserIdentity.init(id: "bar", providerType: "baz")],
+    data: APIExtendedUserProfileImpl.init()
+)
 
-    override var userFactory: AnyStitchUserFactory<MockStitchUser> {
-        return AnyStitchUserFactory(stitchUserFactory: MockStitchUserFactory.init())
-    }
+/**
+ * A link response for testing that is always the same.
+ */
+fileprivate let testLinkResponse = APIAuthInfoImpl.init(
+    userId: "some-unique-user-id",
+    deviceId: "0123456012345601234560123456",
+    accessToken: testAccessToken, // TODO: getTestAccessToken
+    refreshToken: nil
+)
 
-    func addAuthDelegate(_ delegate: @escaping () -> Void) {
-        self.authDelegates.append(delegate)
-    }
+fileprivate func getTestResponse(forResponseData responseData: Data?) -> Response {
+    return Response.init(statusCode: 200,
+                         headers: baseJSONHeaders,
+                         body: responseData)
+    
+}
 
-    override func onAuthEvent() {
-        authDelegates.forEach { $0() }
-    }
+func getMockedRequestClient() -> MockStitchRequestClientProto {
+    let requestClient = MockStitchRequestClientProto.init()
 
-    override var deviceInfo: Document {
-        return ["deviceInfoKey": "deviceInfoValue"]
-    }
+    // Any /login works
+    requestClient.doRequestMock.doReturn(
+        result: getTestResponse(forResponseData: try! JSONEncoder().encode(testLoginResponse)),
+        forArg: Matcher<StitchRequest>.with(condition: { req -> Bool in
+            return req.path.hasSuffix("/login")
+        })
+    )
+    
+    // Profile works if the access token is the same as the above
+    requestClient.doRequestMock.doReturn(
+        result: getTestResponse(forResponseData: try! JSONEncoder().encode(testUserProfile)),
+        forArg: Matcher<StitchRequest>.with(condition: { req -> Bool in
+            return req.path.hasSuffix("/profile")
+        })
+    )
+    
+    // Link works if the access token is the same as the above
+    requestClient.doRequestMock.doReturn(
+        result: getTestResponse(forResponseData: try! JSONEncoder().encode(testLinkResponse)),
+        forArg: Matcher<StitchRequest>.with(condition: { req -> Bool in
+            return req.path.hasSuffix("/login?link=true")
+        })
+    )
+    
+    return requestClient
 }
 
 class CoreStitchAuthTests: StitchXCTestCase {
-    func testLoginWithCredentialBlocking() throws {
-        let coreStitchAuth = try! MockCoreStitchAuth.init(requestClient: MockStitchRequestClient.init(),
-                                                          authRoutes: appRoutes.authRoutes,
-                                                          storage: MemoryStorage())
-
-        let user = try coreStitchAuth.loginWithCredentialBlocking(withCredential: AnonymousCredential.init())
-
-        XCTAssertEqual(user.id, userId)
-        XCTAssertEqual(user.loggedInProviderName, "anon-user")
-        XCTAssertEqual(user.loggedInProviderType.name, "anon-user")
-        XCTAssertEqual(user.profile.userType, "foo")
-        XCTAssert(user.profile.identities.first!.id == "bar")
+    private final class StitchAuth: CoreStitchAuth<CoreStitchUserImpl> {
+        init(requestClient: StitchRequestClient,
+             authRoutes: StitchAuthRoutes,
+             storage: Storage) throws {
+            try super.init(requestClient: requestClient,
+                       authRoutes: authRoutes,
+                       storage: storage,
+                       startRefresherThread: false
+            )
+        }
+        
+        public final override var userFactory: AnyStitchUserFactory<CoreStitchUserImpl> {
+            return AnyStitchUserFactory.init { (id, providerType, providerName, profile) -> CoreStitchUserImpl in
+                return CoreStitchUserImpl.init(
+                    id: id,
+                    loggedInProviderType: providerType,
+                    loggedInProviderName: providerName,
+                    profile: profile
+                )
+            }
+        }
+        
+        public final override func onAuthEvent() { }
     }
-
-    func testLinkUserWithCredentialBlocking() throws {
-        let coreStitchAuth = try! MockCoreStitchAuth.init(requestClient: MockStitchRequestClient.init(),
-                                                          authRoutes: appRoutes.authRoutes,
-                                                          storage: MemoryStorage())
-
-        let user = try coreStitchAuth.loginWithCredentialBlocking(withCredential: AnonymousCredential.init())
-        let linkedUser = try coreStitchAuth.linkUserWithCredentialBlocking(
+    
+    func testLoginWithCredentialInternal() throws {
+        let requestClient = getMockedRequestClient()
+        let routes = StitchAppRoutes.init(clientAppId: "my_app-12345").authRoutes
+        let auth = try StitchAuth.init(
+            requestClient: requestClient,
+            authRoutes: routes,
+            storage: MemoryStorage.init()
+        )
+        
+        let user = try auth.loginWithCredentialInternal(withCredential: AnonymousCredential())
+        let profile = testUserProfile
+        
+        XCTAssertEqual(testLoginResponse.userId, user.id)
+        XCTAssertEqual(AnonymousAuthProvider.defaultName, user.loggedInProviderName)
+        XCTAssertEqual(StitchProviderType.anonymous, user.loggedInProviderType)
+        XCTAssertEqual(profile.userType, user.userType)
+        XCTAssertEqual(profile.identities[0].id, user.identities[0].id)
+        XCTAssertEqual(auth.user?.id, user.id)
+        
+        XCTAssertTrue(requestClient.doRequestMock.verify(numberOfInvocations: 2, forArg: .any))
+        
+        let expectedRequest: StitchDocRequestBuilder = StitchDocRequestBuilder()
+            .with(method: .post)
+            .with(path: routes.authProviderLoginRoute(withProviderName: AnonymousAuthProvider.defaultName))
+            .with(document: ["options": Document.init(["device": Document.init()])])
+        
+        XCTAssertEqual(try expectedRequest.build() as StitchRequest,
+                       requestClient.doRequestMock.capturedInvocations[0])
+        
+        let expectedRequest2: StitchRequestBuilder = StitchRequestBuilder()
+            .with(method: .get)
+            .with(path: routes.profileRoute)
+            .with(headers: [Headers.authorization.rawValue: Headers.authorizationBearer(forValue: testAccessToken)])
+        
+        XCTAssertEqual(try expectedRequest2.build(),
+                       requestClient.doRequestMock.capturedInvocations[1])
+        
+    }
+    
+    func testLinkUserWithCredentialInternal() throws {
+        let requestClient = getMockedRequestClient()
+        let routes = StitchAppRoutes.init(clientAppId: "my_app-12345").authRoutes
+        let auth = try StitchAuth.init(
+            requestClient: requestClient,
+            authRoutes: routes,
+            storage: MemoryStorage.init()
+        )
+        
+        let user = try auth.loginWithCredentialInternal(withCredential: AnonymousCredential())
+        XCTAssertTrue(requestClient.doRequestMock.verify(numberOfInvocations: 2, forArg: .any))
+        
+        let linkedUser = try auth.linkUserWithCredentialInternal(
             withUser: user,
-            withCredential: UserPasswordCredential.init(withUsername: "foo@foo.com",
-                                                        withPassword: "bar")
+            withCredential: UserPasswordCredential(withUsername: "foo@bar.com", withPassword: "foobar")
+        )
+        
+        XCTAssertEqual(user.id, linkedUser.id)
+        
+        XCTAssertTrue(requestClient.doRequestMock.verify(numberOfInvocations: 4, forArg: .any))
+        
+        let expectedRequest = StitchRequestBuilder()
+            .with(method: .post)
+            .with(path: routes.authProviderLinkRoute(withProviderName: UserPasswordAuthProvider.defaultName))
+            .with(body: ("{ \"username\" : \"foo@bar.com\", \"password\" : \"foobar\"," +
+                         " \"options\" : { \"device\" : { \"deviceId\" : \"\(testLoginResponse.deviceId!)\" } } }")
+                        .data(using: .utf8)!)
+            .with(headers: [Headers.contentType.rawValue: ContentTypes.applicationJson.rawValue,
+                            Headers.authorization.rawValue: Headers.authorizationBearer(forValue: testAccessToken)])
+
+        XCTAssertEqual(try expectedRequest.build(), requestClient.doRequestMock.capturedInvocations[2])
+        
+        let expectedRequest2 = StitchRequestBuilder()
+            .with(method: .get)
+            .with(path: routes.profileRoute)
+            .with(headers: [Headers.authorization.rawValue: Headers.authorizationBearer(forValue: testAccessToken)])
+        
+        XCTAssertEqual(try expectedRequest2.build(), requestClient.doRequestMock.capturedInvocations[3])
+    }
+    
+    func testIsLoggedIn() throws {
+        let requestClient = getMockedRequestClient()
+        let routes = StitchAppRoutes.init(clientAppId: "my_app-12345").authRoutes
+        let auth = try StitchAuth.init(
+            requestClient: requestClient,
+            authRoutes: routes,
+            storage: MemoryStorage.init()
+        )
+        
+        XCTAssertFalse(auth.isLoggedIn)
+        _ = try auth.loginWithCredentialInternal(withCredential: AnonymousCredential())
+        XCTAssertTrue(auth.isLoggedIn)
+    }
+    
+    func testLogoutInternal() throws {
+        let requestClient = getMockedRequestClient()
+        let routes = StitchAppRoutes.init(clientAppId: "my_app-12345").authRoutes
+        let auth = try StitchAuth.init(
+            requestClient: requestClient,
+            authRoutes: routes,
+            storage: MemoryStorage.init()
+        )
+        
+        // return a 204 on session delete requests
+        requestClient.doRequestMock.doReturn(
+            result: Response.init(statusCode: 204, headers: [:], body: nil),
+            forArg: Matcher<StitchRequest>.with(condition: { req -> Bool in
+                return req.path.hasSuffix("/session") && req.method == .delete
+            })
+        )
+        
+        XCTAssertFalse(auth.isLoggedIn)
+        _ = try auth.loginWithCredentialInternal(withCredential: AnonymousCredential())
+        XCTAssertTrue(auth.isLoggedIn)
+        
+        auth.logoutInternal()
+        
+        XCTAssertTrue(requestClient.doRequestMock.verify(numberOfInvocations: 3, forArg: .any))
+        
+        let expectedRequest = StitchRequestBuilder()
+            .with(method: .delete)
+            .with(path: routes.sessionRoute)
+            .with(headers: [Headers.authorization.rawValue: Headers.authorizationBearer(forValue: testRefreshToken)])
+        
+        XCTAssertEqual(try expectedRequest.build(), requestClient.doRequestMock.capturedInvocations[2])
+        
+        XCTAssertFalse(auth.isLoggedIn)
+    }
+    
+    func testHasDeviceId() throws {
+        let requestClient = getMockedRequestClient()
+        let routes = StitchAppRoutes.init(clientAppId: "my_app-12345").authRoutes
+        let auth = try StitchAuth.init(
+            requestClient: requestClient,
+            authRoutes: routes,
+            storage: MemoryStorage.init()
+        )
+        
+        XCTAssertFalse(auth.hasDeviceId)
+        _ = try auth.loginWithCredentialInternal(withCredential: AnonymousCredential())
+        XCTAssertTrue(auth.hasDeviceId)
+    }
+    
+    func testHandleAuthFailure() throws {
+        let requestClient = getMockedRequestClient()
+        let routes = StitchAppRoutes.init(clientAppId: "my_app-12345").authRoutes
+        let auth = try StitchAuth.init(
+            requestClient: requestClient,
+            authRoutes: routes,
+            storage: MemoryStorage.init()
+        )
+        
+        let user = try auth.loginWithCredentialInternal(withCredential: AnonymousCredential())
+        
+        let refreshedToken = encode(Algorithm.hs256("refreshedJwt".data(using: .utf8)!)) {
+            let date = Date()
+            $0.issuedAt = date.addingTimeInterval(-1000)
+            $0.expiration = date.addingTimeInterval(1000)
+            
+        }
+        
+        requestClient.doRequestMock.doReturn(
+            result: Response.init(statusCode: 200,
+                                  headers: baseJSONHeaders,
+                                  body: Document.init(
+                                    ["access_token": refreshedToken]
+                                  ).canonicalExtendedJSON.data(using: .utf8)),
+            forArg: Matcher<StitchRequest>.with(condition: { req -> Bool in
+                return req.path.hasSuffix("/session") && req.method == .post
+            })
+        )
+        
+        // Sequences of events for the matcher for multi-arg functions are not yet implemented
+        // so using this workaround. yay for closure capture!
+        var didThrowOnce: Bool = false
+        requestClient.doRequestMock.doThrow(
+            error: StitchError.serviceError(withMessage: "", withServiceErrorCode: .invalidSession),
+            forArg: Matcher<StitchRequest>.with(condition: { req -> Bool in
+                if !didThrowOnce {
+                    if req.path.hasSuffix("/login?link=true") {
+                        didThrowOnce = true
+                        return true
+                    }
+                }
+                return false
+            })
+        )
+        
+        requestClient.doRequestMock.doReturn(
+            result: getTestResponse(forResponseData: try! JSONEncoder().encode(testLinkResponse)),
+            forArg: Matcher<StitchRequest>.with(condition: { req -> Bool in
+                return req.path.hasSuffix("/login?link=true")
+            })
+        )
+        
+        let linkedUser = try auth.linkUserWithCredentialInternal(
+            withUser: user,
+            withCredential: UserPasswordCredential(withUsername: "foo@bar.com", withPassword: "foobar")
+        )
+        
+        XCTAssertTrue(requestClient.doRequestMock.verify(numberOfInvocations: 6, forArg: .any))
+        
+        // check for the session POST to get a new access token
+        let expectedRequest = StitchRequestBuilder()
+            .with(method: .post)
+            .with(path: routes.sessionRoute)
+            .with(headers: [Headers.authorization.rawValue: Headers.authorizationBearer(forValue: testRefreshToken)])
+        
+        XCTAssertEqual(try expectedRequest.build(), requestClient.doRequestMock.capturedInvocations[3])
+        
+        // check for the retried link request
+        let expectedRequest2 = StitchRequestBuilder()
+            .with(method: .post)
+            .with(path: routes.authProviderLinkRoute(withProviderName: UserPasswordAuthProvider.defaultName))
+            .with(body: ("{ \"username\" : \"foo@bar.com\", \"password\" : \"foobar\"," +
+                " \"options\" : { \"device\" : { \"deviceId\" : \"\(testLoginResponse.deviceId!)\" } } }")
+                .data(using: .utf8)!)
+            .with(headers: [Headers.contentType.rawValue: ContentTypes.applicationJson.rawValue,
+                            Headers.authorization.rawValue: Headers.authorizationBearer(forValue: refreshedToken)])
+        
+        XCTAssertEqual(try expectedRequest2.build(), requestClient.doRequestMock.capturedInvocations[4])
+        
+        XCTAssertTrue(auth.isLoggedIn)
+        
+        // This should log the user out
+        didThrowOnce = false
+        requestClient.doRequestMock.doThrow(
+            error: StitchError.serviceError(withMessage: "", withServiceErrorCode: .invalidSession),
+            forArg: Matcher<StitchRequest>.with(condition: { req -> Bool in
+                return req.method == .post && req.path.hasSuffix("/session")
+            })
+        )
+        
+        do {
+            _ = try auth.linkUserWithCredentialInternal(
+                withUser: linkedUser,
+                withCredential: UserPasswordCredential(withUsername: "foo2@bar.com", withPassword: "foo2bar")
+            )
+            XCTFail("Error was not thrown where it was expected")
+        } catch let error {
+            let stitchError = error as? StitchError
+            XCTAssertNotNil(error as? StitchError)
+            if let err = stitchError {
+                guard case .serviceError(_, let errorCode) = err else {
+                    XCTFail("linkUserWithCredentialInternal returned an incorrect error type")
+                    return
+                }
+                XCTAssertEqual(errorCode, .invalidSession)
+            }
+        }
+        
+        XCTAssertFalse(auth.isLoggedIn)
+    }
+    
+    private struct CustomType: Decodable {
+        enum CodingKeys: String, CodingKey {
+            case id = "_id", intValue
+        }
+        
+        let id: ObjectId
+        let intValue: Int
+    }
+    
+    func testDoAuthenticatedRequest() throws {
+        let requestClient = getMockedRequestClient()
+        let routes = StitchAppRoutes.init(clientAppId: "my_app-12345").authRoutes
+        let auth = try StitchAuth.init(
+            requestClient: requestClient,
+            authRoutes: routes,
+            storage: MemoryStorage.init()
+        )
+        
+        _ = try auth.loginWithCredentialInternal(withCredential: AnonymousCredential())
+        
+        let reqBuilder = StitchAuthDocRequestBuilder()
+            .with(path: "giveMeData")
+            .with(document: Document())
+            .with(method: .post)
+        
+        let rawInt = "{ \"$numberInt\" : \"42\"}"
+        
+        // Check that primitive types can be decoded.
+        requestClient.doRequestMock.doReturn(
+            result: Response.init(statusCode: 200, headers: baseJSONHeaders, body: rawInt.data(using: .utf8)),
+            forArg: .any
+        )
+        
+        let intResult: Int = try auth.doAuthenticatedRequest(reqBuilder.build())
+        XCTAssertEqual(42, intResult)
+        
+        // Check that the proper exceptions are thrown when decoding into the incorrect type.
+        do {
+            let _: String = try auth.doAuthenticatedRequest(reqBuilder.build())
+            XCTFail("Should not have been able to decode extended JSON int into string.")
+        } catch let error {
+            let stitchError = error as? StitchError
+            XCTAssertNotNil(error as? StitchError)
+            if let err = stitchError {
+                guard case .requestError(_, let errorCode) = err else {
+                    XCTFail("doAuthenticatedRequest returned an incorrect error type")
+                    return
+                }
+                XCTAssertEqual(errorCode, .decodingError)
+            }
+        }
+        
+        // Check that BSON documents returned as extended JSON can be decoded
+        let expectedObjectId = ObjectId()
+        let docRaw = """
+                     {
+                         "_id": { "$oid": "\(expectedObjectId.description)"},
+                         "intValue": { "$numberInt": "42" }
+                     }
+                     """
+        
+        requestClient.doRequestMock.clearStubs()
+        requestClient.doRequestMock.doReturn(
+            result: Response(statusCode: 200, headers: baseJSONHeaders, body: docRaw.data(using: .utf8)),
+            forArg: .any
+        )
+        
+        let documentResult: Document = try auth.doAuthenticatedRequest(reqBuilder.build())
+        XCTAssertEqual(expectedObjectId, try documentResult.get("_id"))
+        XCTAssertEqual(42, try documentResult.get("intValue"))
+        
+        // Check that BSON documents returned as extended JSON can be decoded as a custom Decodable type
+        let customObjResult: CustomType = try auth.doAuthenticatedRequest(reqBuilder.build())
+        XCTAssertEqual(expectedObjectId, customObjResult.id)
+        XCTAssertEqual(42, customObjResult.intValue)
+        
+        // Check that BSON arrays can be decoded
+        let arrFromServer = ["hello", "world"]
+        let arrFromServerRaw = "[\"hello\", \"world\"]"
+
+        requestClient.doRequestMock.clearStubs()
+        requestClient.doRequestMock.doReturn(
+            result: Response(statusCode: 200, headers: baseJSONHeaders, body: arrFromServerRaw.data(using: .utf8)),
+            forArg: .any
         )
 
-        XCTAssertEqual(linkedUser.id, user.id)
-    }
+        let listResult: [String] = try auth.doAuthenticatedRequest(reqBuilder.build())
 
-    func testIsLoggedIn() throws {
-        let coreStitchAuth = try MockCoreStitchAuth.init(requestClient: MockStitchRequestClient(),
-                                                         authRoutes: appRoutes.authRoutes,
-                                                         storage: MemoryStorage())
-
-        _ = try coreStitchAuth.loginWithCredentialBlocking(withCredential: AnonymousCredential.init())
-
-        XCTAssert(coreStitchAuth.isLoggedIn)
-    }
-
-    func testLogoutBlocking() throws {
-        let coreStitchAuth = try MockCoreStitchAuth.init(requestClient: MockStitchRequestClient(),
-                                                         authRoutes: appRoutes.authRoutes,
-                                                         storage: MemoryStorage())
-
-        XCTAssert(!coreStitchAuth.isLoggedIn)
-        _ = try coreStitchAuth.loginWithCredentialBlocking(withCredential: AnonymousCredential.init())
-        XCTAssert(coreStitchAuth.isLoggedIn)
-
-        coreStitchAuth.logoutBlocking()
-        XCTAssert(!coreStitchAuth.isLoggedIn)
-    }
-
-    func testHasDeviceId() throws {
-        let coreStitchAuth = try MockCoreStitchAuth.init(requestClient: MockStitchRequestClient(),
-                                                     authRoutes: appRoutes.authRoutes,
-                                                     storage: MemoryStorage())
-
-        XCTAssert(!coreStitchAuth.hasDeviceId)
-        _ = try coreStitchAuth.loginWithCredentialBlocking(withCredential: AnonymousCredential.init())
-        XCTAssert(coreStitchAuth.hasDeviceId)
-    }
-
-    func testHandleAuthFailure() throws {
-        let mockRequestClient = MockStitchRequestClient()
-        let coreStitchAuth = try MockCoreStitchAuth.init(requestClient: mockRequestClient,
-                                                         authRoutes: appRoutes.authRoutes,
-                                                         storage: MemoryStorage())
-
-        var oldLinkFunc = mockRequestClient.handleAuthProviderLinkRoute
-        mockRequestClient.handleAuthProviderLinkRoute = {
-            defer {
-                mockRequestClient.handleAuthProviderLinkRoute =
-                    oldLinkFunc
-            }
-            throw StitchError.serviceError(withMessage: "invalidSession",
-                                           withServiceErrorCode: .invalidSession)
-        }
-
-        let user = try coreStitchAuth.loginWithCredentialBlocking(withCredential: AnonymousCredential.init())
-        _ = try coreStitchAuth.linkUserWithCredentialBlocking(
-            withUser: user,
-            withCredential: UserPasswordCredential.init(withUsername: "foo@foo.com",
-                                                        withPassword: "bar"))
-
-        XCTAssertEqual(coreStitchAuth.setterAccessed, 3)
+        XCTAssertEqual(arrFromServer, listResult)
     }
 }

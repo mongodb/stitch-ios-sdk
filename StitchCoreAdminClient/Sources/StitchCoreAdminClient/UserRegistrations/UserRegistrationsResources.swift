@@ -19,10 +19,10 @@ extension Apps.App.UserRegistrations {
     /// GET confirmation email token and tokenId
     /// - parameter email: email that the confirmation email was sent to
     public func sendConfirmation(toEmail email: String) throws -> ConfirmationEmail {
-        let req = try StitchAuthRequestBuilderImpl {
-            $0.method = Method.post
-            $0.path = "\(self.url)/by_email/\(email)/send_confirm"
-        }.build()
+        let req = try StitchAuthRequestBuilder()
+            .with(method: .post)
+            .with(path: "\(self.url)/by_email/\(email)/send_confirm")
+            .build()
 
         let response = try adminAuth.doAuthenticatedRequest(req)
         try checkEmpty(response)

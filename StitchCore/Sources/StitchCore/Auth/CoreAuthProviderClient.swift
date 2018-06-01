@@ -19,18 +19,6 @@ open class CoreAuthProviderClient<RequestClientType> {
      */
     public let baseRoute: String
 
-    /**
-     * Performs a basic decoding of the provided HTTP response with a `JSONDecoder`.
-     */
-    public func decode<T: Decodable>(fromResponse response: Response) throws -> T {
-        do {
-            return try JSONDecoder().decode(T.self,
-                                            from: response.body!)
-        } catch let err {
-            throw StitchError.requestError(withError: err, withRequestErrorCode: .decodingError)
-        }
-    }
-
     // MARK: Initializer
 
     /**

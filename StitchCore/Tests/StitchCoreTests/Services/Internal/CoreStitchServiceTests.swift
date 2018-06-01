@@ -13,29 +13,31 @@ private let expectedDoc: Document = [
 ]
 
 class CoreStitchServiceTests: XCTestCase {
-    private class MockAuthRequestClient: StitchAuthRequestClient {
-        func doAuthenticatedRequest<R>(_ stitchReq: R) throws -> Response where R: StitchAuthRequest {
-            return Response.init(statusCode: 200, headers: [:], body: nil)
-        }
-
-        func doAuthenticatedJSONRequest<T: Decodable>(_ stitchReq: StitchAuthDocRequest) throws -> T {
-            XCTAssertEqual(stitchReq.method, .post)
-            XCTAssertEqual(stitchReq.path, appRoutes.serviceRoutes.functionCallRoute)
-            XCTAssertEqual(stitchReq.document, expectedDoc)
-            return try JSONDecoder().decode(T.self, from: Data())
-        }
-
-        func doAuthenticatedJSONRequestRaw(_ stitchReq: StitchAuthDocRequest) throws -> Response {
-            return Response.init(statusCode: 200, headers: [:], body: nil)
-        }
-    }
-
+    
     func testCallFunctionInternal() throws {
-        let coreStitchService = CoreStitchServiceImpl.init(requestClient: MockAuthRequestClient(),
-                                                           routes: appRoutes.serviceRoutes,
-                                                           name: mockServiceName)
+        let serviceName = "svc1"
+        let routes = StitchAppRoutes.init(clientAppId: "foo").serviceRoutes
+        let requestClient = MockStitchAuthRequestClient()
+        
+        let coreStitchService = CoreStitchServiceImpl.init(
+            requestClient: requestClient,
+            routes: routes,
+            serviceName: serviceName
+        )
+        
+        requestClient.doAuthenticatedRequestWithDecodingMock.doReturn(result: 42, forArg: .any)
+        
+        let funcName = "myFunc"
+        let args = [1, 2, 3]
+        var expectedRequestDoc: Document = ["name": funcName, "arguments": args, "service": serviceName]
 
-        _ = try coreStitchService.callFunctionInternal(withName: mockFunctionName,
-                                                           withArgs: mockArgs)
+        XCTAssertEqual(42, try coreStitchService.callFunctionInternal(withName: funcName, withArgs: args))
+        
+        let functionCallRequest =
+            requestClient.doAuthenticatedRequestWithDecodingMock.capturedInvocations[0] as? StitchAuthDocRequest
+        
+        XCTAssertEqual(functionCallRequest?.method, Method.post)
+        XCTAssertEqual(functionCallRequest?.path, routes.functionCallRoute)
+        XCTAssertEqual(functionCallRequest?.document, expectedRequestDoc)
     }
 }

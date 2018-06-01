@@ -23,7 +23,7 @@ public class OperationDispatcher {
      * an optional `Error` object which will be non-nil if the code block threw an error.
      */
     public func run<ResultType>(withCompletionHandler completionHandler: @escaping (ResultType?, Error?) -> Void,
-                                  _ function: @escaping () throws -> ResultType) {
+                                _ function: @escaping () throws -> ResultType) {
         queue.async {
             do {
                 let result = try function()
