@@ -4,7 +4,7 @@ import MongoSwift
 import StitchCore
 @testable import StitchCoreServicesTwilio
 
-final class MockCoreStitchService: CoreStitchService {
+final class MockCoreStitchService: CoreStitchServiceClient {
     public var callFunctionInternalMock = FunctionMockUnitThreeArgs<Void, String, [BsonValue], TimeInterval?>()
     func callFunctionInternal(withName name: String,
                               withArgs args: [BsonValue],

@@ -43,7 +43,7 @@ class Stitch_iOSServiceTwilioTests: BaseStitchIntTestCocoaTouch {
             withName: "twilio1",
             withConfig: ServiceConfigs.twilio(name: "twilio1", accountSid: twilioSID!, authToken: twilioAuthToken!)
         )
-        try self.addRule(toService: svc.1,
+        _ = try self.addRule(toService: svc.1,
                          withConfig: RuleCreator.init(name: "rule",
                          actions: RuleActionsCreator.twilio(send: true)))
         
@@ -55,7 +55,7 @@ class Stitch_iOSServiceTwilioTests: BaseStitchIntTestCocoaTouch {
         }
         wait(for: [exp0], timeout: 5.0)
         
-        let twilio = client.serviceClient(forService: TwilioService.sharedFactory, withName: "twilio1")
+        let twilio = client.serviceClient(forFactory: TwilioService.sharedFactory, withName: "twilio1")
         
         // Sending a random message to an invalid number should fail
         let to = "+15005550010"

@@ -4,16 +4,16 @@ import StitchCore
 
 open class CoreTwilioServiceClient {
     
-    private let service: CoreStitchService
+    private let service: CoreStitchServiceClient
     
-    public init(withService service: CoreStitchService) {
+    public init(withService service: CoreStitchServiceClient) {
         self.service = service
     }
     
-    public func sendMessageInternal(to: String,
-                                    from: String,
-                                    body: String,
-                                    mediaURL: String? = nil) throws {
+    public func sendMessage(to: String,
+                            from: String,
+                            body: String,
+                            mediaURL: String? = nil) throws {
         var args: Document = [
             "to": to,
             "from": from,

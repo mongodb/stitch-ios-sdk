@@ -3,13 +3,14 @@ import StitchCore
 import StitchCore_iOS
 import StitchCoreServicesTwilio
 
-public final class TwilioServiceClientImpl: CoreTwilioServiceClient, TwilioServiceClient {
+public final class TwilioServiceClientImpl: TwilioServiceClient {
+    private let proxy: CoreTwilioServiceClient
     private let dispatcher: OperationDispatcher
     
-    internal init(withService service: StitchService,
+    internal init(withClient client: CoreTwilioServiceClient,
                   withDispatcher dispatcher: OperationDispatcher) {
+        self.proxy = client
         self.dispatcher = dispatcher
-        super.init(withService: service)
     }
     
     /**
@@ -27,10 +28,10 @@ public final class TwilioServiceClientImpl: CoreTwilioServiceClient, TwilioServi
                             mediaURL: String? = nil,
                             completionHandler: @escaping (Error?) -> Void) {
         self.dispatcher.run(withCompletionHandler: completionHandler) {
-            try self.sendMessageInternal(to: to,
-                                         from: from,
-                                         body: body,
-                                         mediaURL: mediaURL)
+            try self.proxy.sendMessage(to: to,
+                                       from: from,
+                                       body: body,
+                                       mediaURL: mediaURL)
         }
     }
 }

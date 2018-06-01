@@ -26,35 +26,35 @@ public protocol StitchAppClient {
      * Retrieves the service client associated with the Stitch service with the specified name and type.
      *
      * - parameters:
-     *     - forProvider: An `AnyNamedServiceClientFactory` object which contains a `NamedServiceClientProvider`
-     *                    class which will provide the client for this service.
+     *     - forFactory: An `AnyNamedServiceClientFactory` object which contains a `NamedServiceClientFactory`
+     *                   class which will provide the client for this service.
      *     - withName: The name of the service as defined in the MongoDB Stitch application.
      * - returns: a service client whose type is determined by the `T` type parameter of the
-     *            `AnyNamedServiceClientFactory` passed in the `forProvider` parameter.
+     *            `AnyNamedServiceClientFactory` passed in the `forFactory` parameter.
      */
-    func serviceClient<T>(forService provider: AnyNamedServiceClientFactory<T>, withName serviceName: String) -> T
+    func serviceClient<T>(forFactory factory: AnyNamedServiceClientFactory<T>, withName serviceName: String) -> T
 
     /**
      * Retrieves the service client associated with the service type specified in the argument.
      *
      * - parameters:
-     *     - forProvider: An `AnyServiceClientProvider` object which contains a `ServiceClientProvider`
-     *                    class which will provide the client for this service.
-     * - returns: a service client whose type is determined by the `T` type parameter of the `AnyServiceClientProvider`
-     *            passed in the `forProvider` parameter.
+     *     - forFactory: An `AnyNamedServiceClientFactory` object which contains a `NamedServiceClientFactory`
+     *                   class which will provide the client for this service.
+     * - returns: a service client whose type is determined by the `T` type parameter of the
+     *            `AnyNamedServiceClientFactory` passed in the `forFactory` parameter.
      */
-    func serviceClient<T>(forService provider: AnyNamedServiceClientFactory<T>) -> T
+    func serviceClient<T>(forFactory factory: AnyNamedServiceClientFactory<T>) -> T
 
     /**
      * Retrieves the service client associated with the service type specified in the argument.
      *
      * - parameters:
-     *     - forProvider: An `AnyServiceClientProvider` object which contains a `ServiceClientProvider`
+     *     - forFactory: An `AnyThrowingServiceClientFactory` object which contains a `ThrowingServiceClientFactory`
      *                    class which will provide the client for this service.
-     * - returns: a service client whose type is determined by the `T` type parameter of the `AnyServiceClientProvider`
-     *            passed in the `forProvider` parameter.
+     * - returns: a service client whose type is determined by the `T` type parameter of the
+     *            `AnyThrowingServiceClientFactory` passed in the `forFactory` parameter.
      */
-    func serviceClient<T>(forService provider: AnyThrowingServiceClientProvider<T>) throws -> T
+    func serviceClient<T>(forFactory factory: AnyThrowingServiceClientFactory<T>) throws -> T
 
     // MARK: Functions
 

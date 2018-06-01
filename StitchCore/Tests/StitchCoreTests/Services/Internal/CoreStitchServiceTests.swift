@@ -19,7 +19,7 @@ class CoreStitchServiceTests: XCTestCase {
         let routes = StitchAppRoutes.init(clientAppId: "foo").serviceRoutes
         let requestClient = MockStitchAuthRequestClient()
         
-        let coreStitchService = CoreStitchServiceImpl.init(
+        let coreStitchService = CoreStitchServiceClientImpl.init(
             requestClient: requestClient,
             routes: routes,
             serviceName: serviceName

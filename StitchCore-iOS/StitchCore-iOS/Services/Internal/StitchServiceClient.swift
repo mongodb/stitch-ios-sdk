@@ -7,7 +7,7 @@ import Foundation
  * A class implementing this protocol for a service with known functions and return values may implement
  * concrete methods that use these methods internally.
  */
-public protocol StitchService: CoreStitchService {
+public protocol StitchServiceClient: CoreStitchServiceClient {
 
     // swiftlint:disable line_length
 

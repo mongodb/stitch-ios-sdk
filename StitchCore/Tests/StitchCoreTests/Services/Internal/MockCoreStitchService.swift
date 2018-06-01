@@ -3,7 +3,7 @@ import MongoSwift
 import MockUtils
 @testable import StitchCore
 
-final class MockCoreStitchService: CoreStitchService {
+final class MockCoreStitchService: CoreStitchServiceClient {
     public var callFunctionInternalMock = FunctionMockUnitThreeArgs<Void, String, [BsonValue], TimeInterval?>()
     func callFunctionInternal(withName name: String,
                               withArgs args: [BsonValue],

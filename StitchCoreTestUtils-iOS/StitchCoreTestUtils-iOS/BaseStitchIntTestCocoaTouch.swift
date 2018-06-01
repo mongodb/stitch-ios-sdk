@@ -58,7 +58,7 @@ open class BaseStitchIntTestCocoaTouch: BaseStitchIntTest {
         email: String,
         pass: String
     ) throws -> String {
-        let emailPassClient = client.auth.providerClient(forProvider:
+        let emailPassClient = client.auth.providerClient(forFactory:
             StitchCore_iOS.UserPasswordAuthProvider.clientFactory
         )
         

@@ -1,14 +1,17 @@
 import Foundation
 import StitchCore
+import StitchCoreServicesTwilio
 import StitchCore_iOS
 
 private final class TwilioNamedServiceClientFactory: NamedServiceClientFactory {
     typealias ClientType = TwilioServiceClient
     
-    func client(forService service: StitchService,
+    func client(withServiceClient service: StitchServiceClient,
                 withClientInfo client: StitchAppClientInfo) -> TwilioServiceClient {
-        return TwilioServiceClientImpl(withService: service,
-                                       withDispatcher: OperationDispatcher(withDispatchQueue: DispatchQueue.global()))
+        return TwilioServiceClientImpl(
+            withClient: CoreTwilioServiceClient.init(withService: service),
+            withDispatcher: OperationDispatcher(withDispatchQueue: DispatchQueue.global())
+        )
     }
 }
 
@@ -31,5 +34,5 @@ public protocol TwilioServiceClient {
 
 public final class TwilioService {
     public static let sharedFactory =
-        AnyNamedServiceClientFactory<TwilioServiceClient>(provider: TwilioNamedServiceClientFactory())
+        AnyNamedServiceClientFactory<TwilioServiceClient>(factory: TwilioNamedServiceClientFactory())
 }
