@@ -8,7 +8,7 @@
       location = "group:StitchSDKExample/StitchSDKExample.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:StitchCore-iOS/StitchCore-iOS.xcodeproj">
+      location = "group:StitchCoreServicesAwsSes/StitchCoreServicesAwsSes.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:StitchCoreServicesTwilio/StitchCoreServicesTwilio.xcodeproj">
@@ -18,6 +18,9 @@
    </FileRef>
    <FileRef
       location = "group:StitchCore/StitchCore.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:StitchCore-iOS/StitchCore-iOS.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:StitchCoreAdminClient/StitchCoreAdminClient.xcodeproj">

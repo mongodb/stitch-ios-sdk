@@ -26,6 +26,6 @@ let package = Package(
             dependencies: ["StitchCore", "MockUtils"]),
         .testTarget(
             name: "StitchCoreTests",
-            dependencies: ["MongoSwift", "Swifter", "JWT", "StitchCore", "MockUtils"])
+            dependencies: ["MongoSwift", "Swifter", "JWT", "StitchCore", "StitchCoreMocks"])
     ]
 )

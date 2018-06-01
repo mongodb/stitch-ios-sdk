@@ -1,6 +1,7 @@
 import XCTest
 import MongoSwift
 @testable import StitchCore
+import StitchCoreMocks
 
 private let appRoutes = StitchAppRoutes.init(clientAppId: "")
 private let mockServiceName = "mockService"
@@ -29,7 +30,7 @@ class CoreStitchServiceTests: XCTestCase {
         
         let funcName = "myFunc"
         let args = [1, 2, 3]
-        var expectedRequestDoc: Document = ["name": funcName, "arguments": args, "service": serviceName]
+        let expectedRequestDoc: Document = ["name": funcName, "arguments": args, "service": serviceName]
 
         XCTAssertEqual(42, try coreStitchService.callFunctionInternal(withName: funcName, withArgs: args))
         

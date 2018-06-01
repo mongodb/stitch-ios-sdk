@@ -9,8 +9,7 @@ let package = Package(
             targets: ["StitchCoreServicesTwilio"]),
     ],
     dependencies: [
-      .package(url: "../MockUtils", .branch("master")),
-      .package(url: "../StitchCore", .branch("master"))
+        .package(url: "../StitchCore", .branch("master"))
     ],
     targets: [
         .target(
@@ -18,6 +17,6 @@ let package = Package(
             dependencies: ["StitchCore"]),
         .testTarget(
             name: "StitchCoreServicesTwilioTests",
-            dependencies: ["StitchCoreServicesTwilio", "MockUtils"]),
+            dependencies: ["StitchCoreServicesTwilio", "StitchCoreMocks"]),
     ]
 )
