@@ -92,10 +92,12 @@ class Stitch_iOSServiceTwilioTests: BaseStitchIntTestCocoaTouch {
         
         let exp3 = expectation(description: "should send message")
         let exp4 = expectation(description: "should send message")
-        twilio.sendMessage(to: to, from: fromGood, body: body, mediaURL: nil) { _ in
+        twilio.sendMessage(to: to, from: fromGood, body: body, mediaURL: nil) { error in
+            XCTAssertNil(error)
             exp3.fulfill()
         }
-        twilio.sendMessage(to: to, from: fromGood, body: mediaUrl, mediaURL: nil) { _ in
+        twilio.sendMessage(to: to, from: fromGood, body: mediaUrl, mediaURL: nil) { error in
+            XCTAssertNil(error)
             exp4.fulfill()
         }
         wait(for: [exp3, exp4], timeout: 5.0)

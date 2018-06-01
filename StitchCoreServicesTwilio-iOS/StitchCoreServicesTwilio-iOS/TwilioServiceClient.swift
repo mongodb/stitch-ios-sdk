@@ -16,20 +16,21 @@ private final class TwilioNamedServiceClientFactory: NamedServiceClientFactory {
 }
 
 public protocol TwilioServiceClient {
-    
     /**
      * Sends an SMS/MMS message.
      *
-     * @param to The number to send the message to.
-     * @param from The number that the message is from.
-     * @param body The body text of the message.
-     * @return A task that completes when the send is done.
+     * - parameters:
+     *     - to: The number to send the message to.
+     *     - from: The number that the message is from.
+     *     - body: The body text of the message.
+     *     - completionHandler: The completion handler to call when the message is sent or the operation fails.
+     *                          This handler is executed on a non-main global `DispatchQueue`.
      */
     func sendMessage(to: String,
                      from: String,
                      body: String,
                      mediaURL: String?,
-                     completionHandler: @escaping (Error?) -> Void)
+                     _ completionHandler: @escaping (Error?) -> Void)
 }
 
 public final class TwilioService {

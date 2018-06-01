@@ -11,6 +11,9 @@
       location = "group:StitchCoreServicesAwsSes/StitchCoreServicesAwsSes.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:StitchCoreServicesAwsSes-iOS/StitchCoreServicesAwsSes-iOS.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:StitchCoreServicesTwilio/StitchCoreServicesTwilio.xcodeproj">
    </FileRef>
    <FileRef
