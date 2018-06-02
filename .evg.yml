@@ -125,8 +125,8 @@ functions:
           cd stitch-ios-sdk
           sed -i -e 's/&lt;your-auth-token&gt;/${test_twilio_authtoken}/g' StitchCoreServicesTwilio-iOS/StitchCoreServicesTwilio-iOSTests/Info.plist
           sed -i -e 's/&lt;your-sid&gt;/${test_twilio_sid}/g' StitchCoreServicesTwilio-iOS/StitchCoreServicesTwilio-iOSTests/Info.plist
-          sed -i -e 's/&lt;your-access-key-id&gt;/${test_aws_key}/g' StitchCoreServicesAwsSes-iOS/StitchCoreServicesAwsSes-iOSTests/Info.plist
-          sed -i -e 's/&lt;your-secret-access-key&gt;/${test_aws_secret}/g' StitchCoreServicesAwsSes-iOS/StitchCoreServicesAwsSes-iOSTests/Info.plist
+          sed -i -e 's/&lt;your-access-key-id&gt;/${test_aws_key@Q}/g' StitchCoreServicesAwsSes-iOS/StitchCoreServicesAwsSes-iOSTests/Info.plist
+          sed -i -e 's/&lt;your-secret-access-key&gt;/${test_aws_secret@Q}/g' StitchCoreServicesAwsSes-iOS/StitchCoreServicesAwsSes-iOSTests/Info.plist
 tasks:
   - name: lint
     commands:
