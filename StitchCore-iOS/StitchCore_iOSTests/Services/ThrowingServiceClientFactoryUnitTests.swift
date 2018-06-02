@@ -6,7 +6,7 @@ import StitchCoreTestUtils_iOS
 private final class TestThrowingServiceClientFactory: ThrowingServiceClientFactory {
     typealias ClientType = String
 
-    func client(forService service: StitchServiceClient,
+    func client(withServiceClient service: StitchServiceClient,
                 withClientInfo clientInfo: StitchAppClientInfo) throws -> TestThrowingServiceClientFactory.ClientType {
         throw StitchError.serviceError(
             withMessage: "test-message",
