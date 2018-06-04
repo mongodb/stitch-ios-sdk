@@ -10,6 +10,16 @@ let stitchBaseURLProp = "stitch.baseURL"
 open class BaseStitchIntTestCocoaTouch: BaseStitchIntTest {
     var clients = [StitchAppClient]()
     
+    public func fetchPlist<T: BaseStitchIntTestCocoaTouch>(_ this: T.Type) -> [String: Any]? {
+        let testBundle = Bundle(for: this)
+        guard let url = testBundle.url(forResource: "Info", withExtension: "plist"),
+            let myDict = NSDictionary(contentsOf: url) as? [String:Any] else {
+                return nil
+        }
+        
+        return myDict
+    }
+    
     private lazy var pList: [String: Any]? = {
         let testBundle = Bundle(for: BaseStitchIntTestCocoaTouch.self)
         guard let url = testBundle.url(forResource: "Info", withExtension: "plist"),

@@ -10,18 +10,9 @@ class Stitch_iOSServiceTwilioTests: BaseStitchIntTestCocoaTouch {
     private let twilioSidProp = "test.stitch.twilioSid"
     private let twilioAuthTokenProp = "test.stitch.twilioAuthToken"
     
-    private lazy var pList: [String: Any]? = {
-        let testBundle = Bundle(for: Stitch_iOSServiceTwilioTests.self)
-        guard let url = testBundle.url(forResource: "Info", withExtension: "plist"),
-            let myDict = NSDictionary(contentsOf: url) as? [String:Any] else {
-                return nil
-        }
-        
-        return myDict
-    }()
+    private lazy var pList: [String: Any]? = fetchPlist(type(of: self))
     
     private lazy var twilioSID: String? = pList?[twilioSidProp] as? String
-    
     private lazy var twilioAuthToken: String? = pList?[twilioAuthTokenProp] as? String
     
     override func setUp() {

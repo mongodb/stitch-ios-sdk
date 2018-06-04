@@ -10,15 +10,7 @@ class StitchCoreServicesAwsSes_iOSTests: BaseStitchIntTestCocoaTouch {
     private let awsAccessKeyIdProp = "test.stitch.accessKeyId"
     private let awsSecretAccessKeyProp = "test.stitch.secretAccessKey"
     
-    private lazy var pList: [String: Any]? = {
-        let testBundle = Bundle(for: StitchCoreServicesAwsSes_iOSTests.self)
-        guard let url = testBundle.url(forResource: "Info", withExtension: "plist"),
-            let myDict = NSDictionary(contentsOf: url) as? [String:Any] else {
-                return nil
-        }
-        
-        return myDict
-    }()
+    private lazy var pList: [String: Any]? = fetchPlist(type(of: self))
     
     private lazy var awsAccessKeyId: String? = pList?[awsAccessKeyIdProp] as? String
     private lazy var awsSecretAccessKey: String? = pList?[awsSecretAccessKeyProp] as? String
