@@ -31,6 +31,24 @@ private struct HttpServiceConfig: ServiceConfig {
     }
 }
 
+/// Configuration for an AWS S3 service
+private struct AwsS3ServiceConfig: ServiceConfig {
+    /// aws region
+    private let region: String
+    /// your access key identifier
+    private let accessKeyId: String
+    /// your secret access key
+    private let secretAccessKey: String
+    
+    fileprivate init(region: String,
+                     accessKeyId: String,
+                     secretAccessKey: String) {
+        self.region = region
+        self.accessKeyId = accessKeyId
+        self.secretAccessKey = secretAccessKey
+    }
+}
+
 /// Configuration for an AWS SES service
 private struct AwsSesServiceConfig: ServiceConfig {
     /// aws region
@@ -73,6 +91,13 @@ public enum ServiceConfigs: Encodable {
     /// configure an http service
     /// - parameter name: name of this service
     case http(name: String)
+    
+    /// configure an AWS S3 service
+    /// - parameter name: name of this service
+    /// - parameter region: aws region
+    /// - parameter accessKeyId: your access key identifier
+    /// - parameter secretAccessKey: your secret access key
+    case awsS3(name: String, region: String, accessKeyId: String, secretAccessKey: String)
 
     /// configure an AWS SES service
     /// - parameter name: name of this service
@@ -97,6 +122,14 @@ public enum ServiceConfigs: Encodable {
                 type: "http",
                 config: HttpServiceConfig.init()
             ).encode(to: encoder)
+        case .awsS3(let name, let region, let accessKeyId, let secretAccessKey):
+            try ServiceConfigWrapper.init(
+                name: name,
+                type: "aws-s3",
+                config: AwsSesServiceConfig.init(region: region,
+                                                 accessKeyId: accessKeyId,
+                                                 secretAccessKey: secretAccessKey)
+                ).encode(to: encoder)
         case .awsSes(let name, let region, let accessKeyId, let secretAccessKey):
             try ServiceConfigWrapper.init(
                 name: name,

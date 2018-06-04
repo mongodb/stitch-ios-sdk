@@ -7,7 +7,7 @@ public struct AwsS3SignPolicyResult: Decodable {
     /**
      * The description of the policy that has been signed.
      */
-    public let description: String
+    public let policy: String
     
     /**
      * The computed signature of the policy.

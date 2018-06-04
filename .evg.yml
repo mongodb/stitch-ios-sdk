@@ -127,6 +127,8 @@ functions:
           sed -i -e 's/&lt;your-sid&gt;/${test_twilio_sid}/g' StitchCoreServicesTwilio-iOS/StitchCoreServicesTwilio-iOSTests/Info.plist
           sed -i -e 's/&lt;your-access-key-id&gt;/${test_aws_key}/g' StitchCoreServicesAwsSes-iOS/StitchCoreServicesAwsSes-iOSTests/Info.plist
           sed -i -e 's~&lt;your-secret-access-key&gt;~${test_aws_secret}~g' StitchCoreServicesAwsSes-iOS/StitchCoreServicesAwsSes-iOSTests/Info.plist
+          sed -i -e 's/&lt;your-access-key-id&gt;/${test_aws_key}/g' StitchCoreServicesAwsS3-iOS/StitchCoreServicesAwsS3-iOSTests/Info.plist
+          sed -i -e 's~&lt;your-secret-access-key&gt;~${test_aws_secret}~g' StitchCoreServicesAwsS3-iOS/StitchCoreServicesAwsS3-iOSTests/Info.plist
 tasks:
   - name: lint
     commands:
@@ -183,6 +185,8 @@ tasks:
             xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesTwilio-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
             echo "!testing StitchCore-iOS!"
             xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCore-iOS -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
+            echo "!testing StitchCoreServicesAwsS3-iOS!"
+            xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesAwsS3-iOS -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
             echo "!testing StitchCoreServicesAwsSes-iOS!"
             xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesAwsSes-iOS -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
             echo "!testing StitchCoreServicesTwilio-iOS!"

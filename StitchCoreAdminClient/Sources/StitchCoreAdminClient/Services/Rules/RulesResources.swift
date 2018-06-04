@@ -31,6 +31,11 @@ public struct RuleCreator: Encodable {
     }
 }
 
+/// Allowed actions for an AWS S3 service rule
+private struct AwsS3RuleActions: RuleActions {
+    let put, signPolicy: Bool
+}
+
 /// Allowed actions for an AWS SES service rule
 private struct AwsSesRuleActions: RuleActions {
     let send: Bool
@@ -56,6 +61,8 @@ public enum RuleActionsCreator: Encodable {
     case http(get: Bool, post: Bool, put: Bool, delete: Bool, patch: Bool, head: Bool)
     /// - parameter send: allow message sending
     case twilio(send: Bool)
+    /// - parameter putObject: allow object putting, signPolicy: allow policy signing
+    case awsS3(put: Bool, signPolicy: Bool)
     /// - parameter send: allow message sending
     case awsSes(send: Bool)
 
@@ -71,6 +78,8 @@ public enum RuleActionsCreator: Encodable {
                                      head: head).encode(to: encoder)
         case .twilio(let send):
             try TwilioRuleActions.init(send: send).encode(to: encoder)
+        case .awsS3(let put, let signPolicy):
+            try AwsS3RuleActions.init(put: put, signPolicy: signPolicy).encode(to: encoder)
         case .awsSes(let send):
             try AwsSesRuleActions.init(send: send).encode(to: encoder)
         }

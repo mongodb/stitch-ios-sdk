@@ -220,7 +220,7 @@ final class CoreAwsS3ServiceClientTests: XCTestCase {
         let expectedCredential = "someCredential"
         
         service.callFunctionInternalWithDecodingMock.doReturn(
-            result: AwsS3SignPolicyResult.init(description: expectedPolicy,
+            result: AwsS3SignPolicyResult.init(policy: expectedPolicy,
                                                signature: expectedSignature,
                                                algorithm: expectedAlgorithm,
                                                date: expectedDate,
@@ -230,7 +230,7 @@ final class CoreAwsS3ServiceClientTests: XCTestCase {
         
         let result = try client.signPolicy(bucket: bucket, key: key, acl: acl, contentType: contentType)
         
-        XCTAssertEqual(expectedPolicy, result.description)
+        XCTAssertEqual(expectedPolicy, result.policy)
         XCTAssertEqual(expectedSignature, result.signature)
         XCTAssertEqual(expectedAlgorithm, result.algorithm)
         XCTAssertEqual(expectedDate, result.date)
