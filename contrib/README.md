@@ -71,6 +71,7 @@ If creating an iOS-specific module to complement the module:
     echo "!testing <module-name>-iOS!"
     xcodebuild test -workspace Stitch.xcworkspace/ -scheme <module-name>-iOS -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
     ```
+8. In "Product" -> "Scheme" -> "Manage Schemes", scroll to the newly created module `<module_name>-iOS`, and select the "Shared" checkbox.
 
 
 ### Publishing a New SDK version
