@@ -8,6 +8,9 @@
       location = "group:StitchSDKExample/StitchSDKExample.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:StitchCoreServicesAwsS3/StitchCoreServicesAwsS3.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:StitchCoreServicesAwsSes/StitchCoreServicesAwsSes.xcodeproj">
    </FileRef>
    <FileRef

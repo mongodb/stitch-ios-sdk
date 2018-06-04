@@ -2,7 +2,7 @@ import Foundation
 import MongoSwift
 import StitchCore
 
-open class CoreTwilioServiceClient {
+public final class CoreTwilioServiceClient {
     
     private let service: CoreStitchServiceClient
     

@@ -2,8 +2,7 @@ import Foundation
 import MongoSwift
 import StitchCore
 
-open class CoreAwsSesServiceClient {
-    
+public final class CoreAwsSesServiceClient {
     private let service: CoreStitchServiceClient
     
     public init(withService service: CoreStitchServiceClient) {

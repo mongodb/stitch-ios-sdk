@@ -64,6 +64,12 @@ StitchCoreTestUtils/Package.resolved
 StitchCoreTestUtils/.build/
 StitchCoreTestUtils/*.xcodeproj/
 
+StitchCoreServicesAwsS3/Packages/
+StitchCoreServicesAwsS3/Package.pins
+StitchCoreServicesAwsS3/Package.resolved
+StitchCoreServicesAwsS3/.build/
+StitchCoreServicesAwsS3/StitchCoreServicesAwsS3.xcodeproj/
+
 StitchCoreServicesAwsSes/Packages/
 StitchCoreServicesAwsSes/Package.pins
 StitchCoreServicesAwsSes/Package.resolved
