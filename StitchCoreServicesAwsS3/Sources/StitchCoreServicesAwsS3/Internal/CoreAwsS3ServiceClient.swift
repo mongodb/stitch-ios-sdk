@@ -14,7 +14,7 @@ public final class CoreAwsS3ServiceClient {
     private enum PutObjectBody {
         case string(String)
         case bsonBinary(Binary)
-        case foundationData(Data)
+        case data(Data)
     }
     
     private func putObjectInternal(bucket: String,
@@ -37,7 +37,7 @@ public final class CoreAwsS3ServiceClient {
             args[bodyKey] = stringVal
         case .bsonBinary(let binaryVal):
             args[bodyKey] = binaryVal
-        case .foundationData(let dataVal):
+        case .data(let dataVal):
             args[bodyKey] = Binary.init(data: dataVal, subtype: .binary)
         }
         
@@ -91,7 +91,7 @@ public final class CoreAwsS3ServiceClient {
             key: key,
             acl: acl,
             contentType: contentType,
-            body: .foundationData(body),
+            body: .data(body),
             timeout: timeout
         )
     }
