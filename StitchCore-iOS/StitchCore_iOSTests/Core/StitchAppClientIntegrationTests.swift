@@ -10,7 +10,7 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
                                           password: String = pass,
                                           _ completionHandler: @escaping (StitchUser) -> Void) {
         let emailPassClient = self.stitchAppClient.auth.providerClient(
-            forProvider: UserPasswordAuthProvider.clientFactory
+            forFactory: UserPasswordAuthProvider.clientFactory
         )
         emailPassClient.register(withEmail: email, withPassword: password) { _ in
             let conf = try? self.harness.app.userRegistrations.sendConfirmation(toEmail: email)
@@ -206,7 +206,7 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
         wait(for: [exp1], timeout: defaultTimeoutSeconds)
 
         let userPassClient = self.stitchAppClient.auth.providerClient(
-            forProvider: UserPasswordAuthProvider.clientFactory
+            forFactory: UserPasswordAuthProvider.clientFactory
         )
 
         let exp2 = expectation(description: "new email/password identity is created and confirmed")

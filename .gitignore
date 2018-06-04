@@ -64,6 +64,12 @@ StitchCoreTestUtils/Package.resolved
 StitchCoreTestUtils/.build/
 StitchCoreTestUtils/*.xcodeproj/
 
+StitchCoreServicesAwsSes/Packages/
+StitchCoreServicesAwsSes/Package.pins
+StitchCoreServicesAwsSes/Package.resolved
+StitchCoreServicesAwsSes/.build/
+StitchCoreServicesAwsSes/StitchCoreServicesAwsSes.xcodeproj/
+
 StitchCoreServicesTwilio/Packages/
 StitchCoreServicesTwilio/Package.pins
 StitchCoreServicesTwilio/Package.resolved

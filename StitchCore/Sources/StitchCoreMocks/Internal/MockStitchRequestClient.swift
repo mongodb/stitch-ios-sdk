@@ -2,17 +2,17 @@ import Foundation
 import MockUtils
 @testable import StitchCore
 
-final class MockStitchRequestClientProto: StitchRequestClient {
-    init() {
+public final class MockStitchRequestClient: StitchRequestClient {
+    public init() {
         // do nothing
     }
     
-    init(baseURL: String, transport: Transport, defaultRequestTimeout: TimeInterval) {
+    public init(baseURL: String, transport: Transport, defaultRequestTimeout: TimeInterval) {
         // do nothing
     }
     
     public var doRequestMock = FunctionMockUnitOneArg<Response, StitchRequest>()
-    func doRequest(_ stitchReq: StitchRequest) throws -> Response {
+    public func doRequest(_ stitchReq: StitchRequest) throws -> Response {
         return try doRequestMock.throwingRun(arg1: stitchReq)
     }
 }

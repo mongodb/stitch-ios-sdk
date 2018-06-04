@@ -3,10 +3,10 @@ import Foundation
 import MongoSwift
 
 /**
- * The implementation of `StitchService`, which is capable of making requests to execute functions for a particular
+ * The implementation of `StitchServiceClient`, which is capable of making requests to execute functions for a particular
  * service.
  */
-internal final class StitchServiceImpl: CoreStitchServiceImpl, StitchService {
+internal final class StitchServiceClientImpl: CoreStitchServiceClientImpl, StitchServiceClient {
     /**
      * The operation dispatcher used to dispatch asynchronous operations made by this service.
      */

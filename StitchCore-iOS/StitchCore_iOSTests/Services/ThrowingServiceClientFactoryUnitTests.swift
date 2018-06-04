@@ -3,11 +3,11 @@ import StitchCore
 import XCTest
 import StitchCoreTestUtils_iOS
 
-private final class TestThrowingServiceClientProvider: ThrowingServiceClientProvider {
+private final class TestThrowingServiceClientFactory: ThrowingServiceClientFactory {
     typealias ClientType = String
 
-    func client(forService service: StitchService,
-                withClientInfo clientInfo: StitchAppClientInfo) throws -> TestThrowingServiceClientProvider.ClientType {
+    func client(withServiceClient service: StitchServiceClient,
+                withClientInfo clientInfo: StitchAppClientInfo) throws -> TestThrowingServiceClientFactory.ClientType {
         throw StitchError.serviceError(
             withMessage: "test-message",
             withServiceErrorCode: StitchServiceErrorCode.unknown
@@ -15,7 +15,7 @@ private final class TestThrowingServiceClientProvider: ThrowingServiceClientProv
     }
 }
 
-class ThrowingServiceClientProviderUnitTests: BaseStitchIntTestCocoaTouch {
+class ThrowingServiceClientFactoryUnitTests: BaseStitchIntTestCocoaTouch {
     var appClient: StitchAppClient!
 
     override func setUp() {
@@ -39,8 +39,8 @@ class ThrowingServiceClientProviderUnitTests: BaseStitchIntTestCocoaTouch {
     func testThrowingServiceClient() throws {
         XCTAssertThrowsError(
             try appClient.serviceClient(
-                forService: AnyThrowingServiceClientProvider<String>.init(
-                    provider: TestThrowingServiceClientProvider()
+                forFactory: AnyThrowingServiceClientFactory<String>.init(
+                    factory: TestThrowingServiceClientFactory()
                 )
             )
         )

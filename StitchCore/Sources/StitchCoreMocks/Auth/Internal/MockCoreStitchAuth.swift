@@ -3,37 +3,37 @@ import MongoSwift
 import MockUtils
 @testable import StitchCore
 
-struct StubAuthRoutes: StitchAuthRoutes {
-    var sessionRoute: String = ""
+public struct StubAuthRoutes: StitchAuthRoutes {
+    public var sessionRoute: String = ""
     
-    var profileRoute: String = ""
+    public var profileRoute: String = ""
     
-    var baseAuthRoute: String = ""
+    public var baseAuthRoute: String = ""
     
-    func authProviderRoute(withProviderName providerName: String) -> String {
+    public func authProviderRoute(withProviderName providerName: String) -> String {
         return ""
     }
     
-    func authProviderLoginRoute(withProviderName providerName: String) -> String {
+    public func authProviderLoginRoute(withProviderName providerName: String) -> String {
         return ""
     }
     
-    func authProviderLinkRoute(withProviderName providerName: String) -> String {
+    public func authProviderLinkRoute(withProviderName providerName: String) -> String {
         return ""
     }
 }
 
-final class StubStitchRequestClient: StitchRequestClient {
-    init() { }
+public final class StubStitchRequestClient: StitchRequestClient {
+    public init() { }
     
-    init(baseURL: String, transport: Transport, defaultRequestTimeout: TimeInterval) { }
+    public init(baseURL: String, transport: Transport, defaultRequestTimeout: TimeInterval) { }
     
-    func doRequest(_ stitchReq: StitchRequest) throws -> Response {
+    public func doRequest(_ stitchReq: StitchRequest) throws -> Response {
         return Response.init(statusCode: 500, headers: [:], body: nil)
     }
 }
 
-final class MockCoreStitchAuth<TStitchUser>: CoreStitchAuth<TStitchUser> where TStitchUser: CoreStitchUser {
+public final class MockCoreStitchAuth<TStitchUser>: CoreStitchAuth<TStitchUser> where TStitchUser: CoreStitchUser {
     // concrete classes in Swift are a little tricky to mock. we can't do a true mock, since super.init must always be
     // called in Swift. This init makes sure that the super init runs without an error.
     public init() {
@@ -47,18 +47,18 @@ final class MockCoreStitchAuth<TStitchUser>: CoreStitchAuth<TStitchUser> where T
     }
     
     public var isLoggedInMock = FunctionMockUnit<Bool>()
-    override var isLoggedIn: Bool {
+    public override var isLoggedIn: Bool {
         return isLoggedInMock.run()
     }
     
     public var getAuthInfoMock = FunctionMockUnit<AuthInfo?>()
-    override internal(set) var authInfo: AuthInfo? {
+    public override var authInfo: AuthInfo? {
         get { return getAuthInfoMock.run() }
         set { }
     }
     
     public var refreshAccessTokenMock = FunctionMockUnit<Void>()
-    override internal func refreshAccessToken() {
+    public override func refreshAccessToken() {
         return refreshAccessTokenMock.run()
     }
 }

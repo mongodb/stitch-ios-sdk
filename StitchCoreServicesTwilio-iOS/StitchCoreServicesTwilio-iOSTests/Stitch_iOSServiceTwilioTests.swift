@@ -10,18 +10,9 @@ class Stitch_iOSServiceTwilioTests: BaseStitchIntTestCocoaTouch {
     private let twilioSidProp = "test.stitch.twilioSid"
     private let twilioAuthTokenProp = "test.stitch.twilioAuthToken"
     
-    private lazy var pList: [String: Any]? = {
-        let testBundle = Bundle(for: Stitch_iOSServiceTwilioTests.self)
-        guard let url = testBundle.url(forResource: "Info", withExtension: "plist"),
-            let myDict = NSDictionary(contentsOf: url) as? [String:Any] else {
-                return nil
-        }
-        
-        return myDict
-    }()
+    private lazy var pList: [String: Any]? = fetchPlist(type(of: self))
     
     private lazy var twilioSID: String? = pList?[twilioSidProp] as? String
-    
     private lazy var twilioAuthToken: String? = pList?[twilioAuthTokenProp] as? String
     
     override func setUp() {
@@ -43,7 +34,7 @@ class Stitch_iOSServiceTwilioTests: BaseStitchIntTestCocoaTouch {
             withName: "twilio1",
             withConfig: ServiceConfigs.twilio(name: "twilio1", accountSid: twilioSID!, authToken: twilioAuthToken!)
         )
-        try self.addRule(toService: svc.1,
+        _ = try self.addRule(toService: svc.1,
                          withConfig: RuleCreator.init(name: "rule",
                          actions: RuleActionsCreator.twilio(send: true)))
         
@@ -55,7 +46,7 @@ class Stitch_iOSServiceTwilioTests: BaseStitchIntTestCocoaTouch {
         }
         wait(for: [exp0], timeout: 5.0)
         
-        let twilio = client.serviceClient(forService: TwilioService.sharedFactory, withName: "twilio1")
+        let twilio = client.serviceClient(forFactory: TwilioService.sharedFactory, withName: "twilio1")
         
         // Sending a random message to an invalid number should fail
         let to = "+15005550010"
@@ -92,10 +83,12 @@ class Stitch_iOSServiceTwilioTests: BaseStitchIntTestCocoaTouch {
         
         let exp3 = expectation(description: "should send message")
         let exp4 = expectation(description: "should send message")
-        twilio.sendMessage(to: to, from: fromGood, body: body, mediaURL: nil) { _ in
+        twilio.sendMessage(to: to, from: fromGood, body: body, mediaURL: nil) { error in
+            XCTAssertNil(error)
             exp3.fulfill()
         }
-        twilio.sendMessage(to: to, from: fromGood, body: mediaUrl, mediaURL: nil) { _ in
+        twilio.sendMessage(to: to, from: fromGood, body: mediaUrl, mediaURL: nil) { error in
+            XCTAssertNil(error)
             exp4.fulfill()
         }
         wait(for: [exp3, exp4], timeout: 5.0)

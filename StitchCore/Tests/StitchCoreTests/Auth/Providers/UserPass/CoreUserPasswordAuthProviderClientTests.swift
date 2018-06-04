@@ -1,5 +1,6 @@
 import XCTest
 @testable import StitchCore
+import StitchCoreMocks
 
 class CoreUserPasswordAuthProviderClientTests: StitchXCTestCase {
     
@@ -8,7 +9,7 @@ class CoreUserPasswordAuthProviderClientTests: StitchXCTestCase {
         let clientAppId = "my_app-12345"
         let providerName = "userPassProvider"
         
-        let requestClient = MockStitchRequestClientProto()
+        let requestClient = MockStitchRequestClient()
         let routes = StitchAppRoutes.init(clientAppId: clientAppId).authRoutes
         let client = CoreUserPasswordAuthProviderClient.init(
             withProviderName: providerName,

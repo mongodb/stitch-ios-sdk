@@ -1,4 +1,5 @@
 import XCTest
+import StitchCoreMocks
 @testable import StitchCore
 import MongoSwift
 

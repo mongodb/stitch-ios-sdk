@@ -1,31 +1,10 @@
 import XCTest
-import MockUtils
 import MongoSwift
 import StitchCore
+import StitchCoreMocks
 @testable import StitchCoreServicesTwilio
 
-final class MockCoreStitchService: CoreStitchService {
-    public var callFunctionInternalMock = FunctionMockUnitThreeArgs<Void, String, [BsonValue], TimeInterval?>()
-    func callFunctionInternal(withName name: String,
-                              withArgs args: [BsonValue],
-                              withRequestTimeout requestTimeout: TimeInterval?) throws {
-        return try callFunctionInternalMock.throwingRun(arg1: name, arg2: args, arg3: requestTimeout)
-    }
-    
-    public var callFunctionInternalWithDecodingMock =
-        FunctionMockUnitThreeArgs<Decodable, String, [BsonValue], TimeInterval?>()
-    func callFunctionInternal<T>(withName name: String,
-                                 withArgs args: [BsonValue],
-                                 withRequestTimeout requestTimeout: TimeInterval?) throws -> T where T : Decodable {
-        if let result = try callFunctionInternalWithDecodingMock.throwingRun(arg1: name, arg2: args, arg3: requestTimeout) as? T {
-            return result
-        } else {
-            fatalError("Returning incorrect type from mocked result")
-        }
-    }
-}
-
-class StitchCoreServicesTwilioTests: XCTestCase {
+class CoreTwilioServiceClientTests: XCTestCase {
     func testSendMessage() throws {
         let service = MockCoreStitchService()
         let client = CoreTwilioServiceClient(withService: service)
@@ -34,7 +13,7 @@ class StitchCoreServicesTwilioTests: XCTestCase {
         let from = "+15558675309"
         let body = "I've got your number"
         
-        try client.sendMessageInternal(to: to, from: from, body: body)
+        try client.sendMessage(to: to, from: from, body: body)
         
         let (funcNameArg, funcArgsArg, _) = service.callFunctionInternalMock.capturedInvocations.first!
         
@@ -54,7 +33,7 @@ class StitchCoreServicesTwilioTests: XCTestCase {
         )
         
         do {
-            try client.sendMessageInternal(to: to, from: from, body: body)
+            try client.sendMessage(to: to, from: from, body: body)
             XCTFail("function did not fail where expected")
         } catch {
             // do nothing
@@ -70,7 +49,7 @@ class StitchCoreServicesTwilioTests: XCTestCase {
         let body = "I've got your number"
         let mediaUrl = "https://jpegs.com/myjpeg.gif.png"
         
-        try client.sendMessageInternal(to: to, from: from, body: body, mediaURL: mediaUrl)
+        try client.sendMessage(to: to, from: from, body: body, mediaURL: mediaUrl)
         
         let (funcNameArg, funcArgsArg, _) = service.callFunctionInternalMock.capturedInvocations.first!
         
@@ -90,7 +69,7 @@ class StitchCoreServicesTwilioTests: XCTestCase {
         )
         
         do {
-            try client.sendMessageInternal(to: to, from: from, body: body, mediaURL: mediaUrl)
+            try client.sendMessage(to: to, from: from, body: body, mediaURL: mediaUrl)
             XCTFail("function did not fail where expected")
         } catch {
             // do nothing

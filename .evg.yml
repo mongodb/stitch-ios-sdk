@@ -125,6 +125,8 @@ functions:
           cd stitch-ios-sdk
           sed -i -e 's/&lt;your-auth-token&gt;/${test_twilio_authtoken}/g' StitchCoreServicesTwilio-iOS/StitchCoreServicesTwilio-iOSTests/Info.plist
           sed -i -e 's/&lt;your-sid&gt;/${test_twilio_sid}/g' StitchCoreServicesTwilio-iOS/StitchCoreServicesTwilio-iOSTests/Info.plist
+          sed -i -e 's/&lt;your-access-key-id&gt;/${test_aws_key}/g' StitchCoreServicesAwsSes-iOS/StitchCoreServicesAwsSes-iOSTests/Info.plist
+          sed -i -e 's~&lt;your-secret-access-key&gt;~${test_aws_secret}~g' StitchCoreServicesAwsSes-iOS/StitchCoreServicesAwsSes-iOSTests/Info.plist
 tasks:
   - name: lint
     commands:
@@ -167,16 +169,22 @@ tasks:
             cd stitch-ios-sdk
             xattr -rc ~/Library/Developer/Xcode/DerivedData
             
+            echo "!building MockUtils!"
+            xcodebuild -workspace Stitch.xcworkspace/ -scheme MockUtils-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
             echo "!building StitchCore!"
             xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCore-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
             echo "!building StitchCoreAdminClient!"
             xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreAdminClient-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
             echo "!building StitchCoreTestUtils!"
             xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreTestUtils-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
+            echo "!building StitchCoreServicesAwsSes!"
+            xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesAwsSes-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
             echo "!building StitchCoreServicesTwilio!"
             xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesTwilio-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
             echo "!testing StitchCore-iOS!"
             xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCore-iOS -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
+            echo "!testing StitchCoreServicesAwsSes-iOS!"
+            xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesAwsSes-iOS -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
             echo "!testing StitchCoreServicesTwilio-iOS!"
             xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesTwilio-iOS -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
 buildvariants:

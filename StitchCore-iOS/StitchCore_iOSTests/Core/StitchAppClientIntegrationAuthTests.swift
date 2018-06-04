@@ -181,7 +181,7 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
         wait(for: [exp1], timeout: defaultTimeoutSeconds)
 
         let userPassClient = self.stitchAppClient.auth.providerClient(
-            forProvider: UserPasswordAuthProvider.clientFactory
+            forFactory: UserPasswordAuthProvider.clientFactory
         )
 
         let exp2 = expectation(description: "new email/password identity is created and confirmed")

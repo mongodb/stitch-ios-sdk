@@ -6,7 +6,10 @@ let package = Package(
     products: [
         .library(
             name: "StitchCore",
-            targets: ["StitchCore"])
+            targets: ["StitchCore"]),
+        .library(
+            name: "StitchCoreMocks",
+            targets: ["StitchCoreMocks"])
     ],
     dependencies: [
         .package(url: "../MockUtils", .branch("master")),
@@ -18,8 +21,11 @@ let package = Package(
         .target(
             name: "StitchCore",
             dependencies: ["MongoSwift"]),
+        .target(
+            name: "StitchCoreMocks",
+            dependencies: ["StitchCore", "MockUtils"]),
         .testTarget(
             name: "StitchCoreTests",
-            dependencies: ["MongoSwift", "Swifter", "JWT", "StitchCore", "MockUtils"])
+            dependencies: ["MongoSwift", "Swifter", "JWT", "StitchCore", "StitchCoreMocks"])
     ]
 )

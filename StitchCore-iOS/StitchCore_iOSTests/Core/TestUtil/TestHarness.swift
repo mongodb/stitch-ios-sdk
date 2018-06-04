@@ -212,7 +212,7 @@ final class TestHarness {
         self.stitchAppClient = try! Stitch.initializeAppClient(withConfigBuilder: configBuilder)
 
         let userPassClient = self.stitchAppClient.auth.providerClient(
-            forProvider: UserPasswordAuthProvider.clientFactory
+            forFactory: UserPasswordAuthProvider.clientFactory
         )
 
         self.stitchAppClient.auth.login(withCredential: userPassClient.credential(

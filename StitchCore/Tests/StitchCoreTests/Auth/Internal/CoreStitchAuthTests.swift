@@ -1,9 +1,10 @@
 // swiftlint:disable force_try
 import XCTest
-import MongoSwift
-import Swifter
 import MockUtils
+import MongoSwift
 @testable import StitchCore
+import StitchCoreMocks
+import Swifter
 
 import func JWT.encode
 import enum JWT.Algorithm
@@ -59,8 +60,8 @@ fileprivate func getTestResponse(forResponseData responseData: Data?) -> Respons
     
 }
 
-func getMockedRequestClient() -> MockStitchRequestClientProto {
-    let requestClient = MockStitchRequestClientProto.init()
+func getMockedRequestClient() -> MockStitchRequestClient {
+    let requestClient = MockStitchRequestClient.init()
 
     // Any /login works
     requestClient.doRequestMock.doReturn(

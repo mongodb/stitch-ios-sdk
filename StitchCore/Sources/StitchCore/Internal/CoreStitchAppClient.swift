@@ -10,9 +10,9 @@ public final class CoreStitchAppClient {
     // MARK: Properties
 
     /**
-     * the `CoreStitchService` that will be used to make function call requests to Stitch.
+     * the `CoreStitchServiceClient` that will be used to make function call requests to Stitch.
      */
-    private let functionService: CoreStitchService
+    private let functionService: CoreStitchServiceClient
     
     // MARK: Initializer
     
@@ -20,7 +20,7 @@ public final class CoreStitchAppClient {
      * Initializes the app client with the provided `StitchAuthRequestClient` and `StitchAppRoutes`.
      */
     public init(authRequestClient: StitchAuthRequestClient, routes: StitchAppRoutes) {
-        self.functionService = CoreStitchServiceImpl.init(requestClient: authRequestClient,
+        self.functionService = CoreStitchServiceClientImpl.init(requestClient: authRequestClient,
                                                           routes: routes.serviceRoutes,
                                                           serviceName: nil)
     }
