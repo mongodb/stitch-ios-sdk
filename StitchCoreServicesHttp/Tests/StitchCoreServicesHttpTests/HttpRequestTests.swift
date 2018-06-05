@@ -54,13 +54,14 @@ final class HttpRequestTests: XCTestCase {
         
         XCTAssertEqual(expectedUrl, fullRequest.url)
         XCTAssertEqual(expectedMethod, fullRequest.method)
-        XCTAssertEqual(expectedAuthUrl, fullRequest.authUrl)
-        XCTAssertEqual(expectedBody, fullRequest.body)
-        XCTAssertEqual(expectedCookies, fullRequest.cookies)
-        XCTAssertEqual(false, fullRequest.encodeBodyAsJson)
-        XCTAssertEqual(true, fullRequest.followRedirects)
-        XCTAssertEqual(expectedForm, fullRequest.form)
-        XCTAssertEqual(expectedHeaders, fullRequest.headers)
+        
+        XCTAssertEqual(expectedAuthUrl, fullRequest.authUrl!)
+        XCTAssertEqual(expectedBody, fullRequest.body!)
+        XCTAssertEqual(expectedCookies, fullRequest.cookies!)
+        XCTAssertEqual(false, fullRequest.encodeBodyAsJson!)
+        XCTAssertEqual(true, fullRequest.followRedirects!)
+        XCTAssertEqual(expectedForm, fullRequest.form!)
+        XCTAssertEqual(expectedHeaders, fullRequest.headers!)
     }
     
 }
