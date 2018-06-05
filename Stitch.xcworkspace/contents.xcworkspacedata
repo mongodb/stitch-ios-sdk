@@ -23,6 +23,9 @@
       location = "group:StitchCoreServicesHttp/StitchCoreServicesHttp.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:StitchCoreServicesHttp-iOS/StitchCoreServicesHttp-iOS.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:StitchCoreServicesTwilio/StitchCoreServicesTwilio.xcodeproj">
    </FileRef>
    <FileRef

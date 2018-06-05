@@ -26,12 +26,12 @@ public final class CoreHttpServiceClient {
                 args["cookies"] = try BsonEncoder().encode(cookies)
             }
             
-            if let encodeBodyAsJson = request.encodeBodyAsJson {
-                args["encodeBodyAsJSON"] = encodeBodyAsJson
-            }
-            
             if let body = request.body {
                 args["body"] = Binary.init(data: body, subtype: .binary)
+            }
+            
+            if let encodeBodyAsJson = request.encodeBodyAsJson {
+                args["encodeBodyAsJSON"] = encodeBodyAsJson
             }
             
             if let form = request.form {

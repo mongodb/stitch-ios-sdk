@@ -69,6 +69,8 @@ public class HttpRequestBuilder {
     internal var form: [String: String]?
     internal var followRedirects: Bool?
     
+    public init() { }
+    
     /**
      * Sets the URL that the request will be performed against.
      */

@@ -25,11 +25,7 @@ private struct ServiceConfigWrapper<SC: ServiceConfig>: Encodable {
     }
 }
 
-private struct HttpServiceConfig: ServiceConfig {
-    init() {
-        fatalError("HttpServiceConfig not implemented")
-    }
-}
+private struct HttpServiceConfig: ServiceConfig { }
 
 /// Configuration for an AWS S3 service
 private struct AwsS3ServiceConfig: ServiceConfig {

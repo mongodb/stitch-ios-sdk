@@ -43,7 +43,7 @@ If creating an iOS-specific module to complement the module:
 6. In the "Build Phases" for the test target, add `StitchCoreTestUtils_iOS.framework` and `StitchCoreTestUtils.framework` as dependencies in "Link Binary with Libraries".
 7. In the "Build Settings" for both the main target and test target, add the following setting for "Header Search Paths,
    ```
-   //:configuration = Debug
+    //:configuration = Debug
     HEADER_SEARCH_PATHS = $(SRCROOT)/../Sources/libbson $(SRCROOT)/../Sources/libmongoc
 
     //:configuration = Release
@@ -71,7 +71,7 @@ If creating an iOS-specific module to complement the module:
 9. In the Evergreen task for `run_ios_tests`, add the following commands:
     ```
     echo "!testing <module-name>-iOS!"
-    xcodebuild test -workspace Stitch.xcworkspace/ -scheme <module-name>-iOS -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
+    xcodebuild test -workspace Stitch.xcworkspace/ -scheme <module-name>-iOS -configuration Debug -derivedDataPath build -destination "id=$SIM_UUID"
     ```
 10. In "Product" -> "Scheme" -> "Manage Schemes", scroll to the newly created module `<module_name>-iOS`, and select the "Shared" checkbox.
 
