@@ -65,7 +65,7 @@ final class HttpRequestTests: XCTestCase {
         // Workaround since `XCTAssertEqual(expectedHeaders, fullRequest.headers!)` does not compile on Evergreen
         expectedHeaders.forEach { (key, value) in
             XCTAssertTrue(fullRequest.headers!.keys.contains(key))
-            XCTAssertEqual(value, fullRequest.headers![key])
+            XCTAssertEqual(value, fullRequest.headers![key]!)
         }
     }
 }
