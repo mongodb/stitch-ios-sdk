@@ -61,8 +61,11 @@ final class HttpRequestTests: XCTestCase {
         XCTAssertEqual(false, fullRequest.encodeBodyAsJson!)
         XCTAssertEqual(true, fullRequest.followRedirects!)
         XCTAssertEqual(expectedForm, fullRequest.form!)
-        XCTAssertEqual(expectedHeaders, fullRequest.headers!)
+        
+        // Workaround since `XCTAssertEqual(expectedHeaders, fullRequest.headers!)` does not compile on Evergreen
+        expectedHeaders.forEach { (key, value) in
+            XCTAssertTrue(fullRequest.headers!.keys.contains(key))
+            XCTAssertEqual(value, fullRequest.headers![key])
+        }
     }
-    
 }
-
