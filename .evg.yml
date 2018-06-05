@@ -165,7 +165,9 @@ tasks:
         params:
           shell: "bash"
           script: |
+
             set -e
+            pkill -9 CoreSimulator
             export DEVELOPER_DIR=/Applications/Xcode9.2.app
             echo "running iOS tests"
             cd stitch-ios-sdk
@@ -183,6 +185,12 @@ tasks:
             xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesAwsSes-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
             echo "!building StitchCoreServicesTwilio!"
             xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesTwilio-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
+
+            export SIM_UUID=$(xcrun simctl create stitch-iphone7 com.apple.CoreSimulator.SimDeviceType.iPhone-7 com.apple.CoreSimulator.SimRuntime.iOS-10-2)
+            xcrun simctl boot $SIM_UUID
+            echo `"booting SIMCTL $SIM_UUID"`
+            echo $SIM_UUID
+
             echo "!testing StitchCore-iOS!"
             xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCore-iOS -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
             echo "!testing StitchCoreServicesAwsS3-iOS!"
@@ -191,6 +199,9 @@ tasks:
             xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesAwsSes-iOS -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
             echo "!testing StitchCoreServicesTwilio-iOS!"
             xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesTwilio-iOS -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
+
+            xcrun simctl shutdown $SIM_UUID
+            xcrun simctl erase $SIM_UUID
 buildvariants:
 - name: macos-1013
   display_name: MacOS 10.13
