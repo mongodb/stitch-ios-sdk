@@ -11,8 +11,8 @@ To add a new module the Stitch workspace, use this procedure.
 1. `mkdir <module name>`
 2. cd `<module_name>`
 3. `swift package init`
-4. `rm Tests/LinuxMain.swift Tests/StitchCoreServicesAwsS3Tests/XCTestManifests.swift`
-5. Add the dependency `.package(url: "../StitchCore", branch: "master"),`
+4. `rm Tests/LinuxMain.swift Tests/<module_name>Tests/XCTestManifests.swift`
+5. Add the dependency `.package(url: "../StitchCore", .branch("master"))`
 6. Add any other necessary dependencies
 7. Copy the `.xccconfig` file from `StitchCore` and rename it to `<module_name>.xcconfig` This will ensure that the necessary include paths and linker flags to compile with `libbson` and `libmongoc` are added when running `make`.
 8. Copy the `Makefile` from `StitchCore`, and change all instances of `StitchCore` to the name of the new module.

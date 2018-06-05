@@ -76,6 +76,12 @@ StitchCoreServicesAwsSes/Package.resolved
 StitchCoreServicesAwsSes/.build/
 StitchCoreServicesAwsSes/StitchCoreServicesAwsSes.xcodeproj/
 
+StitchCoreServicesHttp/Packages/
+StitchCoreServicesHttp/Package.pins
+StitchCoreServicesHttp/Package.resolved
+StitchCoreServicesHttp/.build/
+StitchCoreServicesHttp/StitchCoreServicesHttp.xcodeproj/
+
 StitchCoreServicesTwilio/Packages/
 StitchCoreServicesTwilio/Package.pins
 StitchCoreServicesTwilio/Package.resolved
