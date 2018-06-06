@@ -186,8 +186,12 @@ tasks:
             xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreAdminClient-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
             echo "!building StitchCoreTestUtils!"
             xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreTestUtils-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
+            echo "!building StitchCoreServicesAwsS3!"
+            xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesAwsS3-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
             echo "!building StitchCoreServicesAwsSes!"
             xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesAwsSes-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
+            echo "!building StitchCoreServicesHttp!"
+            xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesHttp-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
             echo "!building StitchCoreServicesTwilio!"
             xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesTwilio-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
 
