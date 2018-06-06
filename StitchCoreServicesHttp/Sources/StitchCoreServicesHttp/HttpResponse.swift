@@ -78,37 +78,12 @@ public struct HttpResponse: Decodable {
                     throw MongoError.typeError(message: "expected string value for cookie value in HTTP service response")
                 }
                 
-                let keys = document.keys
-                
-                var path: String?
-                if keys.contains(HttpCookie.CodingKeys.path.rawValue) {
-                    path = try? document.get(HttpCookie.CodingKeys.path.rawValue)
-                }
-                
-                var domain: String?
-                if keys.contains(HttpCookie.CodingKeys.domain.rawValue) {
-                    domain = try? document.get(HttpCookie.CodingKeys.domain.rawValue)
-                }
-                
-                var expires: String?
-                if keys.contains(HttpCookie.CodingKeys.expires.rawValue) {
-                    expires = try? document.get(HttpCookie.CodingKeys.expires.rawValue)
-                }
-                
-                var maxAge: String?
-                if keys.contains(HttpCookie.CodingKeys.maxAge.rawValue) {
-                    maxAge = try? document.get(HttpCookie.CodingKeys.maxAge.rawValue)
-                }
-                
-                var secure: Bool?
-                if keys.contains(HttpCookie.CodingKeys.secure.rawValue) {
-                    secure = try? document.get(HttpCookie.CodingKeys.secure.rawValue)
-                }
-                
-                var httpOnly: Bool?
-                if keys.contains(HttpCookie.CodingKeys.httpOnly.rawValue) {
-                    httpOnly = try? document.get(HttpCookie.CodingKeys.httpOnly.rawValue)
-                }
+                let path = document[HttpCookie.CodingKeys.path.rawValue] as? String
+                let domain = document[HttpCookie.CodingKeys.domain.rawValue] as? String
+                let expires = document[HttpCookie.CodingKeys.expires.rawValue] as? String
+                let maxAge = document[HttpCookie.CodingKeys.maxAge.rawValue] as? String
+                let secure = document[HttpCookie.CodingKeys.secure.rawValue] as? Bool
+                let httpOnly = document[HttpCookie.CodingKeys.httpOnly.rawValue] as? Bool
                 
                 cookies[key] = HttpCookie.init(
                     name: key,
