@@ -192,6 +192,8 @@ tasks:
             xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesAwsSes-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
             echo "!building StitchCoreServicesHttp!"
             xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesHttp-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
+            echo "!building StitchCoreServicesMongoDbRemote!"
+            xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesMongoDbRemote-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
             echo "!building StitchCoreServicesTwilio!"
             xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesTwilio-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
 

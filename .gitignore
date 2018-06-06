@@ -82,6 +82,12 @@ StitchCoreServicesHttp/Package.resolved
 StitchCoreServicesHttp/.build/
 StitchCoreServicesHttp/StitchCoreServicesHttp.xcodeproj/
 
+StitchCoreServicesMongoDbRemote/Packages/
+StitchCoreServicesMongoDbRemote/Package.pins
+StitchCoreServicesMongoDbRemote/Package.resolved
+StitchCoreServicesMongoDbRemote/.build/
+StitchCoreServicesMongoDbRemote/StitchCoreServicesHttp.xcodeproj/
+
 StitchCoreServicesTwilio/Packages/
 StitchCoreServicesTwilio/Package.pins
 StitchCoreServicesTwilio/Package.resolved
