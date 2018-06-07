@@ -11,10 +11,9 @@ public class CoreRemoteMongoClient {
     /**
      * Gets a `CoreRemoteMongoDatabase` instance for the given database name.
      *
-     * - para databaseName the name of the database to retrieve
-     * @return a {@code CoreRemoteMongoDatabaseImpl} representing the specified database
+     * - parameter name: the name of the database to retrieve
      */
-    func db(_ name: String) -> CoreRemoteMongoDatabase {
+    public func db(_ name: String) -> CoreRemoteMongoDatabase {
         return CoreRemoteMongoDatabase.init(withName: name, withService: service)
     }
 }

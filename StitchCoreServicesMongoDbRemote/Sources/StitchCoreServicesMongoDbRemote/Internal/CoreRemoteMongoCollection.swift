@@ -2,145 +2,7 @@ import Foundation
 import MongoSwift
 import StitchCore
 
-/// Options to use when executing a `find` command on a `RemoteMongoCollection`.
-public struct RemoteFindOptions {
-    /// The maximum number of documents to return.
-    public let limit: Int64?
-    
-    /// Limits the fields to return for all matching documents.
-    public let projection: Document?
-    
-    /// The order in which to return matching documents.
-    public let sort: Document?
-    
-    /// Convenience initializer allowing any/all parameters to be optional
-    public init(limit: Int64? = nil, projection: Document? = nil, sort: Document? = nil) {
-        self.limit = limit
-        self.projection = projection
-        self.sort = sort
-    }
-    
-    // Encode everything
-    fileprivate enum CodingKeys: String, CodingKey {
-        case limit, projection, sort
-    }
-}
-
-/// Options to use when executing a `count` command on a `RemoteMongoCollection`.
-public struct RemoteCountOptions {
-    /// The maximum number of documents to count.
-    public let limit: Int64?
-    
-    /// Convenience initializer allowing any/all parameters to be optional
-    public init(limit: Int64? = nil) {
-        self.limit = limit
-    }
-    
-    // Encode everything
-    fileprivate enum CodingKeys: String, CodingKey {
-        case limit
-    }
-}
-
-/// The result of an `insertOne` command on a `RemoteMongoCollection`.
-public struct RemoteInsertOneResult: Decodable {
-    /// The identifier that was inserted. If the document doesn't have an identifier, this value
-    /// will be generated and added to the document before insertion.
-    public let insertedId: BsonValue
-    
-    public enum CodingKeys: String, CodingKey {
-        case insertedId
-    }
-    
-    // Workaround until SWIFT-104 is merged, which will make BsonValue `Decodable`
-    public init(from decoder: Decoder) throws {
-        let doc = try decoder.singleValueContainer().decode(Document.self)
-        guard let insertedId = doc[CodingKeys.insertedId.rawValue] else {
-            throw MongoError.invalidResponse()
-        }
-        self.insertedId = insertedId
-    }
-}
-
-/// The result of an `insertMany` command on a `RemoteMongoCollection`.
-public struct RemoteInsertManyResult: Decodable {
-    /// Map of the index of the inserted document to the id of the inserted document.
-    public let insertedIds: [Int64: BsonValue]
-    
-    public enum CodingKeys: String, CodingKey {
-        case insertedIds
-    }
-    
-    /// Given an ordered array of insertedIds, creates a corresponding InsertManyResult.
-    internal init(fromArray arr: [BsonValue]) {
-        var inserted = [Int64: BsonValue]()
-        for (i, id) in arr.enumerated() {
-            let index = Int64(i)
-            inserted[index] = id
-        }
-        self.insertedIds = inserted
-    }
-    
-    public init(from decoder: Decoder) throws {
-        let doc = try decoder.singleValueContainer().decode(Document.self)
-        guard let insertedIdsArray = doc[CodingKeys.insertedIds.rawValue] as? [BsonValue] else {
-            throw MongoError.invalidResponse()
-        }
-        
-        self.init(fromArray: insertedIdsArray)
-    }
-}
-
-/// Options to use when executing an `updateOne` or `updateMany` command on a `RemoteMongoCollection`.
-public struct RemoteUpdateOptions {
-    /// When true, creates a new document if no document matches the query.
-    public let upsert: Bool?
-    
-    /// Convenience initializer allowing any/all parameters to be optional
-    public init(upsert: Bool? = nil) {
-        self.upsert = upsert
-    }
-    
-    // Encode everything except readConcern
-    fileprivate enum CodingKeys: String, CodingKey {
-        case upsert
-    }
-}
-
-/// The result of an `updateOne` or `updateMany` operation a `RemoteMongoCollection`.
-public struct RemoteUpdateResult: Decodable {
-    /// The number of documents that matched the filter.
-    public let matchedCount: Int
-    
-    /// The identifier of the inserted document if an upsert took place.
-    public let upsertedId: BsonValue?
-    
-    /// Given a server response to an update command, creates a corresponding
-    /// `UpdateResult`. If the `from` Document does not have `matchedCount`
-    /// the initialization will fail. The document may
-    /// optionally have an `upsertedId` field.
-    internal init(from document: Document) throws {
-        guard let matched = document["matchedCount"] as? Int else {
-            throw MongoError.invalidResponse()
-        }
-        self.matchedCount = matched
-        self.upsertedId = document["upsertedId"]
-    }
-    
-    public init(from decoder: Decoder) throws {
-        let doc = try decoder.singleValueContainer().decode(Document.self)
-        try self.init(from: doc)
-    }
-}
-
-/// The result of a `delete` command on a `MongoCollection`.
-public struct RemoteDeleteResult: Decodable {
-    /// The number of documents that were deleted.
-    public let deletedCount: Int
-}
-
 public class CoreRemoteMongoCollection<T: Codable> {
-    
     /**
      * A `Codable` type associated with this `MongoCollection` instance.
      * This allows `CollectionType` values to be directly inserted into and
@@ -158,15 +20,12 @@ public class CoreRemoteMongoCollection<T: Codable> {
      */
     public let name: String
     
-    private let databaseName: String
+    /**
+     * The name of the database containing this collection.
+     */
+    public let databaseName: String
     
     private var baseOperationArgs: Document {
-//        let args: Document [
-//            "database": self.databaseName,
-//            "collection": self.name,
-//            "query": filter
-//        ]
-//        return args
         return [
             "database": self.databaseName,
             "collection": self.name
@@ -183,12 +42,29 @@ public class CoreRemoteMongoCollection<T: Codable> {
         self.service = service
     }
     
-    // count
+    /**
+     * Creates a collection using the same datatabase name and collection name, but with a new `Codable` type with
+     * which to encode and decode documents retrieved from and inserted into the collection.
+     */
+    public func withCollectionType<U: Codable>(_ type: U.Type) -> CoreRemoteMongoCollection<U> {
+        return CoreRemoteMongoCollection<U>.init(
+            withName: self.name,
+            withDatabaseName: self.databaseName,
+            withService: self.service
+        )
+    }
     
-    // find
+    /**
+     * Finds the documents in this collection which match the provided filter.
+     *
+     * - Parameters:
+     *   - filter: A `Document` that should match the query.
+     *   - options: Optional `RemoteFindOptions` to use when executing the command.
+     *
+     * - Returns: A `RemoteMongoCursor` over the resulting `Document`s
+     */
     public func find(_ filter: Document = [:],
-                     options: RemoteFindOptions? = nil,
-                     timeout: TimeInterval? = nil) throws -> CoreRemoteMongoCursor<CollectionType> {
+                     options: RemoteFindOptions? = nil) throws -> CoreRemoteMongoCursor<CollectionType> {
         var args = baseOperationArgs
         
         args["query"] = filter
@@ -209,14 +85,21 @@ public class CoreRemoteMongoCollection<T: Codable> {
             try service.callFunctionInternal(
                 withName: "find",
                 withArgs: [args],
-                withRequestTimeout: timeout
+                withRequestTimeout: nil
         )
         
         return CoreRemoteMongoCursor<CollectionType>.init(documents: resultCollection.makeIterator())
     }
     
-    // aggregate
-    public func aggregate(_ pipeline: [Document], timeout: TimeInterval?) throws -> CoreRemoteMongoCursor<CollectionType> {
+    /**
+     * Runs an aggregation framework pipeline against this collection.
+     *
+     * - Parameters:
+     *   - pipeline: An `[Document]` containing the pipeline of aggregation operations to perform.
+     *
+     * - Returns: A `RemoteMongoCursor` over the resulting `Document`s.
+     */
+    public func aggregate(_ pipeline: [Document]) throws -> CoreRemoteMongoCursor<CollectionType> {
         var args = baseOperationArgs
         
         args["pipeline"] = pipeline
@@ -225,16 +108,23 @@ public class CoreRemoteMongoCollection<T: Codable> {
             try service.callFunctionInternal(
                 withName: "aggregate",
                 withArgs: [args],
-                withRequestTimeout: timeout
+                withRequestTimeout: nil
         )
         
         return CoreRemoteMongoCursor<CollectionType>.init(documents: resultCollection.makeIterator())
     }
     
-    // count
+    /**
+     * Counts the number of documents in this collection matching the provided filter.
+     *
+     * - Parameters:
+     *   - filter: a `Document`, the filter that documents must match in order to be counted.
+     *   - options: Optional `RemoteCountOptions` to use when executing the command.
+     *
+     * - Returns: The count of the documents that matched the filter.
+     */
     public func count(_ filter: Document = [:],
-                      options: RemoteCountOptions? = nil,
-                      timeout: TimeInterval? = nil) throws -> Int {
+                      options: RemoteCountOptions? = nil) throws -> Int {
         var args = baseOperationArgs
         args["query"] = filter
         
@@ -245,11 +135,19 @@ public class CoreRemoteMongoCollection<T: Codable> {
         return try service.callFunctionInternal(
             withName: "count",
             withArgs: [args],
-            withRequestTimeout: timeout
+            withRequestTimeout: nil
         )
     }
     
-    // insertOne
+    /**
+     * Encodes the provided value to BSON and inserts it. If the value is missing an identifier, one will be
+     * generated for it by the MongoDB Stitch server.
+     *
+     * - Parameters:
+     *   - value: A `CollectionType` value to encode and insert.
+     *
+     * - Returns: The result of attempting to perform the insert.
+     */
     public func insertOne(_ value: CollectionType,
                           timeout: TimeInterval? = nil) throws -> RemoteInsertOneResult {
         var args = baseOperationArgs
@@ -259,13 +157,20 @@ public class CoreRemoteMongoCollection<T: Codable> {
         return try service.callFunctionInternal(
             withName: "insertOne",
             withArgs: [args],
-            withRequestTimeout: timeout
+            withRequestTimeout: nil
         )
     }
     
-    // insertMany
-    public func insertMany(_ values: [CollectionType],
-                           timeout: TimeInterval? = nil) throws -> RemoteInsertOneResult {
+    /**
+     * Encodes the provided values to BSON and inserts them. If any values are missing identifiers,
+     * the MongoDB Stitch server will generate them.
+     *
+     * - Parameters:
+     *   - documents: The `CollectionType` values to insert.
+     *
+     * - Returns: The result of attempting to perform the insert.
+     */
+    public func insertMany(_ values: [CollectionType]) throws -> RemoteInsertManyResult {
         var args = baseOperationArgs
         
         let encoder = BsonEncoder()
@@ -274,25 +179,36 @@ public class CoreRemoteMongoCollection<T: Codable> {
         return try service.callFunctionInternal(
             withName: "insertMany",
             withArgs: [args],
-            withRequestTimeout: timeout
+            withRequestTimeout: nil
         )
     }
 
-    // deleteOne
-    public func deleteOne(_ filter: Document,
-                          timeout: TimeInterval? = nil) throws -> RemoteDeleteResult {
-        return try executeDelete(filter, timeout: timeout, multi: false)
+    /**
+     * Deletes a single matching document from the collection.
+     *
+     * - Parameters:
+     *   - filter: A `Document` representing the match criteria.
+     *
+     * - Returns: The result of performing the deletion.
+     */
+    public func deleteOne(_ filter: Document) throws -> RemoteDeleteResult {
+        return try executeDelete(filter, multi: false)
     }
     
     
-    // deleteMany
-    public func deleteMany(_ filter: Document,
-                          timeout: TimeInterval? = nil) throws -> RemoteDeleteResult {
-        return try executeDelete(filter, timeout: timeout, multi: true)
+    /**
+     * Deletes multiple documents
+     *
+     * - Parameters:
+     *   - filter: Document representing the match criteria
+     *
+     * - Returns: The result of performing the deletion.
+     */
+    public func deleteMany(_ filter: Document) throws -> RemoteDeleteResult {
+        return try executeDelete(filter, multi: true)
     }
     
     private func executeDelete(_ filter: Document,
-                              timeout: TimeInterval? = nil,
                               multi: Bool) throws -> RemoteDeleteResult {
         var args = baseOperationArgs
         args["query"] = filter
@@ -300,38 +216,55 @@ public class CoreRemoteMongoCollection<T: Codable> {
         return try service.callFunctionInternal(
             withName: multi ? "deleteMany" : "deleteOne",
             withArgs: [args],
-            withRequestTimeout: timeout
+            withRequestTimeout: nil
         )
     }
     
-    // updateOne
+    /**
+     * Updates a single document matching the provided filter in this collection.
+     *
+     * - Parameters:
+     *   - filter: A `Document` representing the match criteria.
+     *   - update: A `Document` representing the update to be applied to a matching document.
+     *   - options: Optional `RemoteUpdateOptions` to use when executing the command.
+     *
+     * - Returns: The result of attempting to update a document.
+     */
     public func updateOne(filter: Document,
                           update: Document,
-                          options: RemoteUpdateOptions? = nil,
-                          timeout: TimeInterval? = nil) throws -> RemoteUpdateResult {
+                          options: RemoteUpdateOptions? = nil) throws -> RemoteUpdateResult {
         return try executeUpdate(filter: filter,
                                  update: update,
                                  options: options,
-                                 timeout: timeout,
                                  multi: false)
     }
     
-    // updateMany
+    /**
+     * Updates multiple documents matching the provided filter in this collection.
+     *
+     * - Parameters:
+     *   - filter: A `Document` representing the match criteria.
+     *   - update: A `Document` representing the update to be applied to matching documents.
+     *   - options: Optional `RemoteUpdateOptions` to use when executing the command.
+     *   - timeout: Optional `TimeInterval` to specify the number of seconds to wait for a response before failing
+     *              with an error. A timeout does not necessarily indicate that the update failed. Application code
+     *              should handle timeout errors with the assumption that documents may or may not have been
+     *              updated.
+     *
+     * - Returns: The result of attempting to update multiple documents.
+     */
     public func updateMany(filter: Document,
                           update: Document,
-                          options: RemoteUpdateOptions? = nil,
-                          timeout: TimeInterval? = nil) throws -> RemoteUpdateResult {
+                          options: RemoteUpdateOptions? = nil) throws -> RemoteUpdateResult {
         return try executeUpdate(filter: filter,
                                  update: update,
                                  options: options,
-                                 timeout: timeout,
                                  multi: true)
     }
     
     private func executeUpdate(filter: Document,
                                update: Document,
                                options: RemoteUpdateOptions?,
-                               timeout: TimeInterval?,
                                multi: Bool) throws -> RemoteUpdateResult {
         var args = baseOperationArgs
         
@@ -345,7 +278,7 @@ public class CoreRemoteMongoCollection<T: Codable> {
         return try service.callFunctionInternal(
             withName: multi ? "updateMany" : "updateOne",
             withArgs: [args],
-            withRequestTimeout: timeout
+            withRequestTimeout: nil
         )
     }
 }

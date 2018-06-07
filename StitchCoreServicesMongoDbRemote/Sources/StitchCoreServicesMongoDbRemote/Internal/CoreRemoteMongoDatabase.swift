@@ -22,8 +22,8 @@ public class CoreRemoteMongoDatabase {
      * - parameter name: the name of the collection to return
      * - returns: the collection
      */
-    func collection(_ collectionName: String) -> CoreRemoteMongoCollection<Document> {
-        return self.collection(collectionName)
+    public func collection(_ collectionName: String) -> CoreRemoteMongoCollection<Document> {
+        return self.collection(collectionName, withDocumentType: Document.self)
     }
     
     /**
@@ -33,7 +33,7 @@ public class CoreRemoteMongoDatabase {
      * - parameter withDocumentType: the default class to cast any documents returned from the database into.
      * - returns: the collection
      */
-    func collection<T: Codable>(_ collectionName: String, withDocumentType type: T.Type) -> CoreRemoteMongoCollection<T> {
+    public func collection<T: Codable>(_ collectionName: String, withDocumentType type: T.Type) -> CoreRemoteMongoCollection<T> {
         return CoreRemoteMongoCollection<T>.init(
             withName: collectionName,
             withDatabaseName: self.name,
