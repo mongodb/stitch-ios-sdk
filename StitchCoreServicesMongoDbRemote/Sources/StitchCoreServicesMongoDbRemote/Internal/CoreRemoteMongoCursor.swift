@@ -1,6 +1,6 @@
 import Foundation
 
-public class CoreRemoteMongoCursor<T: Codable> : Sequence, IteratorProtocol {
+public class CoreRemoteMongoCursor<T: Codable>: Sequence, IteratorProtocol {
     private var documents: IndexingIterator<[T]>
     
     internal init(documents: IndexingIterator<[T]>) {

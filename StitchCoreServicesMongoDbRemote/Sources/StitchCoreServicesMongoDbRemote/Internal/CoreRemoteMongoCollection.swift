@@ -57,14 +57,18 @@ public class CoreRemoteMongoCollection<T: Codable> {
     /**
      * Finds the documents in this collection which match the provided filter.
      *
-     * - Parameters:
+     * - parameters:
      *   - filter: A `Document` that should match the query.
      *   - options: Optional `RemoteFindOptions` to use when executing the command.
      *
-     * - Returns: A `RemoteMongoCursor` over the resulting `Document`s
+     * - important: Invoking this method by itself does not perform any network requests. You must call one of the
+     *              methods on the resulting `CoreRemoteMongoReadOperation` instance to trigger the operation against
+     *              the database.
+     *
+     * - returns: A `CoreRemoteMongoReadOperation` that allows retrieval of the resulting documents.
      */
     public func find(_ filter: Document = [:],
-                     options: RemoteFindOptions? = nil) throws -> CoreRemoteMongoCursor<CollectionType> {
+                     options: RemoteFindOptions? = nil) -> CoreRemoteMongoReadOperation<CollectionType> {
         var args = baseOperationArgs
         
         args["query"] = filter
@@ -81,14 +85,7 @@ public class CoreRemoteMongoCollection<T: Codable> {
             }
         }
         
-        let resultCollection: [CollectionType] =
-            try service.callFunctionInternal(
-                withName: "find",
-                withArgs: [args],
-                withRequestTimeout: nil
-        )
-        
-        return CoreRemoteMongoCursor<CollectionType>.init(documents: resultCollection.makeIterator())
+        return CoreRemoteMongoReadOperation<CollectionType>.init(command: "find", args: args, service: self.service)
     }
     
     /**
@@ -97,21 +94,18 @@ public class CoreRemoteMongoCollection<T: Codable> {
      * - Parameters:
      *   - pipeline: An `[Document]` containing the pipeline of aggregation operations to perform.
      *
-     * - Returns: A `RemoteMongoCursor` over the resulting `Document`s.
+     * - important: Invoking this method by itself does not perform any network requests. You must call one of the
+     *              methods on the resulting `CoreRemoteMongoReadOperation` instance to trigger the operation against the
+     *              database.
+     *
+     * - returns: A `CoreRemoteMongoReadOperation` that allows retrieval of the resulting documents.
      */
-    public func aggregate(_ pipeline: [Document]) throws -> CoreRemoteMongoCursor<CollectionType> {
+    public func aggregate(_ pipeline: [Document]) -> CoreRemoteMongoReadOperation<CollectionType> {
         var args = baseOperationArgs
         
         args["pipeline"] = pipeline
         
-        let resultCollection: [CollectionType] =
-            try service.callFunctionInternal(
-                withName: "aggregate",
-                withArgs: [args],
-                withRequestTimeout: nil
-        )
-        
-        return CoreRemoteMongoCursor<CollectionType>.init(documents: resultCollection.makeIterator())
+        return CoreRemoteMongoReadOperation<CollectionType>.init(command: "aggregate", args: args, service: self.service)
     }
     
     /**
@@ -148,8 +142,7 @@ public class CoreRemoteMongoCollection<T: Codable> {
      *
      * - Returns: The result of attempting to perform the insert.
      */
-    public func insertOne(_ value: CollectionType,
-                          timeout: TimeInterval? = nil) throws -> RemoteInsertOneResult {
+    public func insertOne(_ value: CollectionType) throws -> RemoteInsertOneResult {
         var args = baseOperationArgs
         
         args["document"] = try BsonEncoder().encode(value)
@@ -170,11 +163,11 @@ public class CoreRemoteMongoCollection<T: Codable> {
      *
      * - Returns: The result of attempting to perform the insert.
      */
-    public func insertMany(_ values: [CollectionType]) throws -> RemoteInsertManyResult {
+    public func insertMany(_ documents: [CollectionType]) throws -> RemoteInsertManyResult {
         var args = baseOperationArgs
         
         let encoder = BsonEncoder()
-        args["documents"] = try values.map { try encoder.encode($0) }
+        args["documents"] = try documents.map { try encoder.encode($0) }
         
         return try service.callFunctionInternal(
             withName: "insertMany",
@@ -246,10 +239,6 @@ public class CoreRemoteMongoCollection<T: Codable> {
      *   - filter: A `Document` representing the match criteria.
      *   - update: A `Document` representing the update to be applied to matching documents.
      *   - options: Optional `RemoteUpdateOptions` to use when executing the command.
-     *   - timeout: Optional `TimeInterval` to specify the number of seconds to wait for a response before failing
-     *              with an error. A timeout does not necessarily indicate that the update failed. Application code
-     *              should handle timeout errors with the assumption that documents may or may not have been
-     *              updated.
      *
      * - Returns: The result of attempting to update multiple documents.
      */

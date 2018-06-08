@@ -206,6 +206,8 @@ tasks:
             xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesAwsSes-iOS -configuration Debug -derivedDataPath build -destination "id=$SIM_UUID"
             echo "!testing StitchCoreServicesHttp-iOS!"
             xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesHttp-iOS -configuration Debug -derivedDataPath build -destination "id=$SIM_UUID"
+            echo "!testing StitchCoreServicesMongoDbRemote-iOS!"
+            xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesMongoDbRemote-iOS -configuration Debug -derivedDataPath build -destination "id=$SIM_UUID"
             echo "!testing StitchCoreServicesTwilio-iOS!"
             xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesTwilio-iOS -configuration Debug -derivedDataPath build -destination "id=$SIM_UUID"
 

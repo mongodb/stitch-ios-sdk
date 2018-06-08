@@ -2,7 +2,7 @@ import XCTest
 import Foundation
 @testable import StitchCoreServicesMongoDbRemote
 
-final class CoreRemoteMongoClientUnitTests: XCTest {
+final class CoreRemoteMongoClientUnitTests: XCTestCase {
     func testGetDatabase() throws {
         let client = TestUtils.getClient()
         

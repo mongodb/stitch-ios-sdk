@@ -20,7 +20,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         let coll1 = TestUtils.getCollection()
         XCTAssertTrue(Document.self == type(of: coll1).CollectionType.self)
         
-        let coll2 = TestUtils.getDatabase().collection("collName2", withDocumentType: Int.self)
+        let coll2 = TestUtils.getDatabase().collection("collName2", withCollectionType: Int.self)
         XCTAssertTrue(Int.self == type(of: coll2).CollectionType.self)
     }
     
@@ -108,9 +108,9 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         )
         
         // without filter or options
-        var cursor = try coll.find()
+        var resultDocs = try coll.find().asArray()
         
-        XCTAssertEqual(docs, [Document](cursor))
+        XCTAssertEqual(docs, resultDocs)
         
         var (funcNameArg, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
         
@@ -130,12 +130,12 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         let expectedProject: Document = ["two": "four"]
         let expectedSort: Document = ["_id": Int64(-1)]
         
-        cursor = try coll.find(expectedFilter, options: RemoteFindOptions.init(
+        resultDocs = try coll.find(expectedFilter, options: RemoteFindOptions.init(
             projection: expectedProject,
             sort: expectedSort
-        ))
+        )).asArray()
         
-        XCTAssertEqual(docs, [Document](cursor))
+        XCTAssertEqual(docs, resultDocs)
         
         XCTAssertTrue(service.callFunctionInternalWithDecodingMock
             .verify(numberOfInvocations: 2, forArg1: .any, forArg2: .any, forArg3: .any)
@@ -165,7 +165,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         )
         
         do {
-            _ = try coll.find()
+            _ = try coll.find().asArray()
             XCTFail("function did not fail where expected")
         } catch {
             // do nothing
@@ -187,9 +187,9 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         )
         
         // with empty pipeline
-        var cursor = try coll.aggregate([])
+        var resultDocs = try coll.aggregate([]).asArray()
         
-        XCTAssertEqual(docs, [Document](cursor))
+        XCTAssertEqual(docs, resultDocs)
         
         var (funcNameArg, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
         
@@ -205,14 +205,14 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
         
         // with pipeline
-        cursor = try coll.aggregate([Document(["$match": 1]), Document(["sort": 2])])
+        resultDocs = try coll.aggregate([Document(["$match": 1]), Document(["sort": 2])]).asArray()
         
         let expectedPipeline = [
             Document(["$match": Int32(1)]),
             Document(["sort": Int32(2)])
         ]
         
-        XCTAssertEqual(docs, [Document](cursor))
+        XCTAssertEqual(docs, resultDocs)
         
         XCTAssertTrue(service.callFunctionInternalWithDecodingMock
             .verify(numberOfInvocations: 2, forArg1: .any, forArg2: .any, forArg3: .any)
@@ -240,7 +240,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         )
         
         do {
-            _ = try coll.aggregate([])
+            _ = try coll.aggregate([]).asArray()
             XCTFail("function did not fail where expected")
         } catch {
             // do nothing

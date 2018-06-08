@@ -23,7 +23,7 @@ final class CoreRemoteMongoDatabaseUnitTests: XCTestCase {
         XCTAssertEqual("dbName1", coll2.databaseName)
         XCTAssertTrue(type(of: coll2).CollectionType.self == Document.self)
         
-        let coll3 = db1.collection("collName3", withDocumentType: Int.self)
+        let coll3 = db1.collection("collName3", withCollectionType: Int.self)
         XCTAssertTrue(type(of: coll3).CollectionType.self == Int.self)
     }
 }
