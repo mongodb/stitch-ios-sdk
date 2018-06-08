@@ -1,7 +1,8 @@
 import XCTest
+import StitchCoreTestUtils_iOS
 @testable import StitchCoreServicesMongoDbRemote_iOS
 
-class RemoteMongoClientIntTests: XCTestCase {
+class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
     
     override func setUp() {
         super.setUp()
