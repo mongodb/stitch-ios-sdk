@@ -17,11 +17,28 @@ extension RuleActions {
     }
 }
 
-public struct RuleCreator: Encodable {
+public enum RuleCreator: Encodable {
+    case actions(name: String, actions: RuleActionsCreator)
+    case actionsWithWhen(name: String, actions: RuleActionsCreator, when: Document)
+    case mongoDb(namespace: String, rule: Document)
+    
+    public func encode(to encoder: Encoder) throws {
+        switch self {
+        case .actions(let name, let actions):
+            try RuleCreatorActions.init(name: name, actions: actions).encode(to: encoder)
+        case .actionsWithWhen(let name, let actions, let when):
+            try RuleCreatorActions.init(name: name, actions: actions, when: when).encode(to: encoder)
+        case .mongoDb(let namespace, let rule):
+            try RuleCreatorMongoDb.init(namespace: namespace, rule: rule).encode(to: encoder)
+        }
+    }
+}
+
+public struct RuleCreatorActions: Encodable {
     public let name: String
     public let actions: RuleActionsCreator
     public let when: Document
-    
+
     public init(name: String,
                 actions: RuleActionsCreator,
                 when: Document = [:]) {
@@ -30,6 +47,23 @@ public struct RuleCreator: Encodable {
         self.when = when
     }
 }
+
+public class RuleCreatorMongoDb: Encodable {
+    let namespace: String
+    let rule: Document
+    
+    public init(namespace: String, rule: Document) {
+        self.namespace = namespace
+        self.rule = rule
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var creator = rule
+        creator["namespace"] = namespace
+        try creator.encode(to: encoder)
+    }
+}
+
 
 /// Allowed actions for an AWS S3 service rule
 private struct AwsS3RuleActions: RuleActions {
@@ -85,6 +119,8 @@ public enum RuleActionsCreator: Encodable {
         }
     }
 }
+
+
 
 public struct RuleResponse: Codable {
     init() {

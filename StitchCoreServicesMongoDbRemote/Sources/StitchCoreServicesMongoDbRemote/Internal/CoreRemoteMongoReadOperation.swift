@@ -28,18 +28,18 @@ public class CoreRemoteMongoReadOperation<T: Codable> {
     }
     
     public func iterator() throws -> CoreRemoteMongoCursor<T> { // -> CoreRemoteMongoIterator {
-        return try CoreRemoteMongoCursor<CollectionType>.init(documents: executeFind().makeIterator())
+        return try CoreRemoteMongoCursor<CollectionType>.init(documents: executeRead().makeIterator())
     }
     
     public func first() throws -> T? {
-        return try executeFind().first
+        return try executeRead().first
     }
     
     public func asArray() throws -> [T] {
-        return try executeFind()
+        return try executeRead()
     }
     
-    private func executeFind() throws -> [T] {
+    private func executeRead() throws -> [T] {
         return try service.callFunctionInternal(
             withName: self.command,
             withArgs: [self.args],

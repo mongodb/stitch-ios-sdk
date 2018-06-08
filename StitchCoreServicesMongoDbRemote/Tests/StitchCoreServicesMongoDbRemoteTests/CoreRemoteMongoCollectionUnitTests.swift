@@ -252,8 +252,8 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         let client = CoreRemoteMongoClient.init(withService: service)
         let coll = TestUtils.getCollection(withClient: client)
         
-        let doc1: Document = ["one": 2]
         let id = ObjectId()
+        let doc1: Document = ["_id": id, "one": 2]
         
         service.callFunctionInternalWithDecodingMock.doReturn(
             result: RemoteInsertOneResult.init(insertedId: id),
@@ -263,9 +263,9 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         let result = try coll.insertOne(doc1)
         
         XCTAssertEqual(id, result.insertedId as? ObjectId)
-        XCTAssertNotEqual(id, doc1["_id"] as? ObjectId)
+        XCTAssertEqual(id, doc1["_id"] as? ObjectId)
         
-        let (funcNameArg, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
+        var (funcNameArg, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
         
         XCTAssertEqual("insertOne", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
@@ -277,6 +277,12 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         ]
         
         XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
+        
+        // object id should be generated if no _id was provided
+        _ = try coll.insertOne(["hello": "world"])
+        (_, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
+        XCTAssertNotNil(((funcArgsArg[0] as? Document)!["document"] as? Document)!["_id"] as? ObjectId)
+        
         
         // should pass along errors
         service.callFunctionInternalWithDecodingMock.doThrow(
@@ -299,11 +305,11 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         let client = CoreRemoteMongoClient.init(withService: service)
         let coll = TestUtils.getCollection(withClient: client)
         
-        let doc1: Document = ["one": 2]
-        let doc2: Document = ["three": 4]
-        
         let id1 = ObjectId()
         let id2 = ObjectId()
+        
+        let doc1: Document = ["_id": id1, "one": 2]
+        let doc2: Document = ["_id": id2, "three": 4]
         
         let ids: [Int64: BsonValue] = [Int64(0): id1, Int64(1): id2]
         
@@ -317,10 +323,10 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         XCTAssertEqual(ids[Int64(0)] as? ObjectId, result.insertedIds[Int64(0)] as? ObjectId)
         XCTAssertEqual(ids[Int64(1)] as? ObjectId, result.insertedIds[Int64(1)] as? ObjectId)
         
-        XCTAssertNotEqual(result.insertedIds[Int64(0)] as? ObjectId, doc1["_id"] as? ObjectId)
-        XCTAssertNotEqual(result.insertedIds[Int64(1)] as? ObjectId, doc2["_id"] as? ObjectId)
+        XCTAssertEqual(result.insertedIds[Int64(0)] as? ObjectId, doc1["_id"] as? ObjectId)
+        XCTAssertEqual(result.insertedIds[Int64(1)] as? ObjectId, doc2["_id"] as? ObjectId)
         
-        let (funcNameArg, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
+        var (funcNameArg, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
         
         XCTAssertEqual("insertMany", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
@@ -332,6 +338,12 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         ]
         
         XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
+        
+        // object ids should be generated if no _id was provided
+        _ = try coll.insertMany([["hello": "world"], ["goodbye": "world"]])
+        (_, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
+        XCTAssertNotNil(((funcArgsArg[0] as? Document)!["documents"] as? [Document])![0]["_id"] as? ObjectId)
+        XCTAssertNotNil(((funcArgsArg[0] as? Document)!["documents"] as? [Document])![1]["_id"] as? ObjectId)
         
         // should pass along errors
         service.callFunctionInternalWithDecodingMock.doThrow(

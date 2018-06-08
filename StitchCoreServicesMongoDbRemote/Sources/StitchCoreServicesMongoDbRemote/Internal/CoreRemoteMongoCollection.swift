@@ -133,9 +133,19 @@ public class CoreRemoteMongoCollection<T: Codable> {
         )
     }
     
+    /// Returns a version of the provided document with an ObjectId
+    private func generateObjectIdIfMissing(_ document: Document) -> Document {
+        if document["_id"] == nil {
+            var newDoc = document
+            newDoc["_id"] = ObjectId()
+            return newDoc
+        }
+        return document
+    }
+    
     /**
      * Encodes the provided value to BSON and inserts it. If the value is missing an identifier, one will be
-     * generated for it by the MongoDB Stitch server.
+     * generated for it.
      *
      * - Parameters:
      *   - value: A `CollectionType` value to encode and insert.
@@ -145,7 +155,7 @@ public class CoreRemoteMongoCollection<T: Codable> {
     public func insertOne(_ value: CollectionType) throws -> RemoteInsertOneResult {
         var args = baseOperationArgs
         
-        args["document"] = try BsonEncoder().encode(value)
+        args["document"] = generateObjectIdIfMissing(try BsonEncoder().encode(value))
         
         return try service.callFunctionInternal(
             withName: "insertOne",
@@ -156,7 +166,7 @@ public class CoreRemoteMongoCollection<T: Codable> {
     
     /**
      * Encodes the provided values to BSON and inserts them. If any values are missing identifiers,
-     * the MongoDB Stitch server will generate them.
+     * they will be generated.
      *
      * - Parameters:
      *   - documents: The `CollectionType` values to insert.
@@ -167,7 +177,7 @@ public class CoreRemoteMongoCollection<T: Codable> {
         var args = baseOperationArgs
         
         let encoder = BsonEncoder()
-        args["documents"] = try documents.map { try encoder.encode($0) }
+        args["documents"] = try documents.map { generateObjectIdIfMissing(try encoder.encode($0)) }
         
         return try service.callFunctionInternal(
             withName: "insertMany",

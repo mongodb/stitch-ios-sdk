@@ -113,7 +113,7 @@ public class RemoteMongoCollection<T: Codable> {
     
     /**
      * Encodes the provided value to BSON and inserts it. If the value is missing an identifier, one will be
-     * generated for it by the MongoDB Stitch server.
+     * generated for it.
      *
      * - parameters:
      *   - value: A `CollectionType` value to encode and insert.
@@ -135,7 +135,7 @@ public class RemoteMongoCollection<T: Codable> {
     
     /**
      * Encodes the provided values to BSON and inserts them. If any values are missing identifiers,
-     * the MongoDB Stitch server will generate them.
+     * they will be generated.
      *
      * - parameters:
      *   - documents: The `CollectionType` values to insert.
