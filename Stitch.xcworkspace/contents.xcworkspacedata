@@ -20,7 +20,7 @@
             location = "group:StitchCoreServicesHttp/StitchCoreServicesHttp.xcodeproj">
          </FileRef>
          <FileRef
-            location = "group:StitchCoreServicesMongoDbRemote-iOS/StitchCoreServicesMongoDbRemote-iOS.xcodeproj">
+            location = "group:StitchCoreServicesMongoDbRemote/StitchCoreServicesMongoDbRemote.xcodeproj">
          </FileRef>
          <FileRef
             location = "group:StitchCoreServicesTwilio/StitchCoreServicesTwilio.xcodeproj">
@@ -57,6 +57,9 @@
          </FileRef>
          <FileRef
             location = "group:StitchCoreServicesHttp-iOS/StitchCoreServicesHttp-iOS.xcodeproj">
+         </FileRef>
+         <FileRef
+            location = "group:StitchCoreServicesMongoDbRemote-iOS/StitchCoreServicesMongoDbRemote-iOS.xcodeproj">
          </FileRef>
          <FileRef
             location = "group:StitchCoreServicesTwilio-iOS/StitchCoreServicesTwilio-iOS.xcodeproj">
