@@ -38,8 +38,8 @@ class StitchCoreServicesAwsSes_iOSTests: BaseStitchIntTestCocoaTouch {
             )
         )
         _ = try self.addRule(toService: svc.1,
-                             withConfig: RuleCreator.init(name: "rule",
-                                                          actions: RuleActionsCreator.awsSes(send: true)))
+                             withConfig: RuleCreator.actions(name: "rule",
+                                                             actions: RuleActionsCreator.awsSes(send: true)))
 
         let client = try self.appClient(forApp: app.0)
 

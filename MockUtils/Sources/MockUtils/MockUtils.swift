@@ -1,10 +1,5 @@
 import Foundation
 
-public enum Matcher<Type> {
-    case any
-    case with(condition: (Type) -> Bool)
-}
-
 public class FunctionMockUnit<ReturnType> { // takes no args
     var mockedResult: ReturnType?
     var mockedResultSequence: [ReturnType]?
@@ -416,17 +411,5 @@ public class FunctionMockUnitThreeArgs<ReturnType, Arg1T, Arg2T, Arg3T> { // tak
     
     public func clearInvocations() {
         self.capturedInvocations = []
-    }
-}
-
-public extension Collection {
-    func count(where predicate: (Element) -> Bool) -> Int {
-        var count: Int = 0
-        self.forEach { element in
-            if(predicate(element) == true) {
-                count += 1
-            }
-        }
-        return count
     }
 }

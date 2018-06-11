@@ -38,9 +38,9 @@ class StitchCoreServicesAwsS3_iOSTests: BaseStitchIntTestCocoaTouch {
             )
         )
         _ = try self.addRule(toService: svc.1,
-                             withConfig: RuleCreator.init(
-                                name: "rule",
-                                actions: RuleActionsCreator.awsS3(put: true, signPolicy: true)))
+                             withConfig: RuleCreator.actions(name: "rule",
+                                                             actions: RuleActionsCreator.awsS3(put: true,
+                                                                                               signPolicy: true)))
         
         let client = try self.appClient(forApp: app.0)
         
@@ -163,9 +163,10 @@ class StitchCoreServicesAwsS3_iOSTests: BaseStitchIntTestCocoaTouch {
             )
         )
         _ = try self.addRule(toService: svc.1,
-                             withConfig: RuleCreator.init(
-                                name: "rule",
-                                actions: RuleActionsCreator.awsS3(put: true, signPolicy: true)))
+                             withConfig: RuleCreator.actions(name: "rule",
+                                                             actions: RuleActionsCreator.awsS3(put: true,
+                                                                                               signPolicy: true)))
+        
         
         let client = try self.appClient(forApp: app.0)
         

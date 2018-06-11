@@ -80,6 +80,20 @@ private struct TwilioServiceConfig: ServiceConfig {
     }
 }
 
+/// Configuration for a Twilio service
+private struct MongoDbServiceConfig: ServiceConfig {
+    private enum CodingKeys: String, CodingKey {
+        case uri
+    }
+    
+    /// the URI of the cluster of this service
+    private let uri: String
+    
+    fileprivate init(uri: String) {
+        self.uri = uri
+    }
+}
+
 /// Convenience enum for creating a new service. Given that there
 /// are only a finite number of services, this conforms users
 /// to only pick one of the available services
@@ -107,6 +121,10 @@ public enum ServiceConfigs: Encodable {
     /// - parameter accountSid: your account identifier
     /// - parameter authToken: your authorization token
     case twilio(name: String, accountSid: String, authToken: String)
+    
+    /// configure a MongoDB service
+    /// - parameter uri: The URI to the MongoDB cluster for this service
+    case mongodb(name: String, uri: String)
 
     public func encode(to encoder: Encoder) throws {
         // wrap the config and then
@@ -141,6 +159,13 @@ public enum ServiceConfigs: Encodable {
                 config: TwilioServiceConfig.init(accountSid: accountSid,
                                                  authToken: authToken)
             ).encode(to: encoder)
+        case .mongodb(let name, let uri):
+            try ServiceConfigWrapper.init(
+                name: name,
+                type: "mongodb",
+                config: MongoDbServiceConfig.init(uri: uri)
+            ).encode(to: encoder)
         }
+    
     }
 }

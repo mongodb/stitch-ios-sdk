@@ -18,10 +18,9 @@ class StitchCoreServicesHttp_iOSTests: BaseStitchIntTestCocoaTouch {
             withConfig: ServiceConfigs.http(name: "http1")
         )
         _ = try self.addRule(toService: svc.1,
-                             withConfig: RuleCreator.init(name: "rule",
-                                                          actions: RuleActionsCreator.http(
-                                                            get: true, post: false, put: false,
-                                                            delete: true, patch: false, head: false)))
+                             withConfig: RuleCreator.actions(name: "rules", actions: RuleActionsCreator.http(
+                                get: true, post: false, put: false,
+                                delete: true, patch: false, head: false)))
         
         let client = try self.appClient(forApp: app.0)
         

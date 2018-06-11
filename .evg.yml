@@ -186,8 +186,14 @@ tasks:
             xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreAdminClient-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
             echo "!building StitchCoreTestUtils!"
             xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreTestUtils-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
+            echo "!building StitchCoreServicesAwsS3!"
+            xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesAwsS3-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
             echo "!building StitchCoreServicesAwsSes!"
             xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesAwsSes-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
+            echo "!building StitchCoreServicesHttp!"
+            xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesHttp-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
+            echo "!building StitchCoreServicesMongoDbRemote!"
+            xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesMongoDbRemote-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
             echo "!building StitchCoreServicesTwilio!"
             xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesTwilio-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
 
@@ -200,6 +206,8 @@ tasks:
             xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesAwsSes-iOS -configuration Debug -derivedDataPath build -destination "id=$SIM_UUID"
             echo "!testing StitchCoreServicesHttp-iOS!"
             xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesHttp-iOS -configuration Debug -derivedDataPath build -destination "id=$SIM_UUID"
+            echo "!testing StitchCoreServicesMongoDbRemote-iOS!"
+            xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesMongoDbRemote-iOS -configuration Debug -derivedDataPath build -destination "id=$SIM_UUID"
             echo "!testing StitchCoreServicesTwilio-iOS!"
             xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCoreServicesTwilio-iOS -configuration Debug -derivedDataPath build -destination "id=$SIM_UUID"
 

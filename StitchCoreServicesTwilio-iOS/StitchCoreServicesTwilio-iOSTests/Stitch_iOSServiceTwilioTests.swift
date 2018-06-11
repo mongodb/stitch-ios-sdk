@@ -35,8 +35,8 @@ class Stitch_iOSServiceTwilioTests: BaseStitchIntTestCocoaTouch {
             withConfig: ServiceConfigs.twilio(name: "twilio1", accountSid: twilioSID!, authToken: twilioAuthToken!)
         )
         _ = try self.addRule(toService: svc.1,
-                         withConfig: RuleCreator.init(name: "rule",
-                         actions: RuleActionsCreator.twilio(send: true)))
+                         withConfig: RuleCreator.actions(name: "rule",
+                                                         actions: RuleActionsCreator.twilio(send: true)))
         
         let client = try self.appClient(forApp: app.0)
         

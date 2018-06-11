@@ -15,4 +15,4 @@ test:
 	# temporary until a fix is in for .brew dependency for libmongoc
 	xcodebuild test -workspace ../Stitch.xcworkspace/ -scheme MockUtils-Package -configuration Debug -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
 project:
-	swift package generate-xcodeproj
+	swift package generate-xcodeproj --xcconfig-overrides MockUtils.xcconfig

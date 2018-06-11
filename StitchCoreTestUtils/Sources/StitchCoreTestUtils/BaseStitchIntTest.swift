@@ -91,8 +91,9 @@ open class BaseStitchIntTest: XCTestCase {
         return (svcInfo, svc)
     }
     
-    public func addRule(toService svc: Apps.App.Services.Service,
-                 withConfig config: RuleCreator) throws -> RuleResponse {
+    public func addRule(
+        toService svc: Apps.App.Services.Service,
+        withConfig config: RuleCreator) throws -> RuleResponse {
         return try svc.rules.create(data: config)
     }
 }
