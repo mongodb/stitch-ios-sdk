@@ -9,9 +9,4 @@ public struct RemoteCountOptions {
     public init(limit: Int64? = nil) {
         self.limit = limit
     }
-    
-    // Encode everything
-    internal enum CodingKeys: String, CodingKey {
-        case limit
-    }
 }

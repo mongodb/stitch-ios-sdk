@@ -18,9 +18,4 @@ public struct RemoteFindOptions {
         self.projection = projection
         self.sort = sort
     }
-    
-    // Encode everything
-    internal enum CodingKeys: String, CodingKey {
-        case limit, projection = "project", sort
-    }
 }

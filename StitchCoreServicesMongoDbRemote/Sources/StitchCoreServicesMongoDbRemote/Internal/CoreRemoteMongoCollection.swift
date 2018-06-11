@@ -25,12 +25,10 @@ public class CoreRemoteMongoCollection<T: Codable> {
      */
     public let databaseName: String
     
-    private var baseOperationArgs: Document {
-        return [
-            "database": self.databaseName,
-            "collection": self.name
-        ]
-    }
+    private lazy var baseOperationArgs: Document = [
+        "database": self.databaseName,
+        "collection": self.name
+    ]
     
     private let service: CoreStitchServiceClient
     
@@ -54,6 +52,10 @@ public class CoreRemoteMongoCollection<T: Codable> {
         )
     }
     
+    private enum RemoteFindOptionsKeys: String {
+        case limit, projection = "project", sort
+    }
+    
     /**
      * Finds the documents in this collection which match the provided filter.
      *
@@ -75,13 +77,13 @@ public class CoreRemoteMongoCollection<T: Codable> {
         
         if let options = options {
             if let limit = options.limit {
-                args[RemoteFindOptions.CodingKeys.limit.rawValue] = limit
+                args[RemoteFindOptionsKeys.limit.rawValue] = limit
             }
             if let projection = options.projection {
-                args[RemoteFindOptions.CodingKeys.projection.rawValue] = projection
+                args[RemoteFindOptionsKeys.projection.rawValue] = projection
             }
             if let sort = options.sort {
-                args[RemoteFindOptions.CodingKeys.sort.rawValue] = sort
+                args[RemoteFindOptionsKeys.sort.rawValue] = sort
             }
         }
         
@@ -108,6 +110,10 @@ public class CoreRemoteMongoCollection<T: Codable> {
         return CoreRemoteMongoReadOperation<CollectionType>.init(command: "aggregate", args: args, service: self.service)
     }
     
+    private enum RemoteCountOptionsKeys: String {
+        case limit
+    }
+    
     /**
      * Counts the number of documents in this collection matching the provided filter.
      *
@@ -123,7 +129,7 @@ public class CoreRemoteMongoCollection<T: Codable> {
         args["query"] = filter
         
         if let options = options, let limit = options.limit {
-            args[RemoteCountOptions.CodingKeys.limit.rawValue] = limit
+            args[RemoteCountOptionsKeys.limit.rawValue] = limit
         }
         
         return try service.callFunctionInternal(
@@ -261,6 +267,10 @@ public class CoreRemoteMongoCollection<T: Codable> {
                                  multi: true)
     }
     
+    private enum RemoteUpdateOptionsKeys: String {
+        case upsert
+    }
+    
     private func executeUpdate(filter: Document,
                                update: Document,
                                options: RemoteUpdateOptions?,
@@ -271,7 +281,7 @@ public class CoreRemoteMongoCollection<T: Codable> {
         args["update"] = update
         
         if let options = options, let upsert = options.upsert {
-            args["upsert"] = upsert
+            args[RemoteUpdateOptionsKeys.upsert.rawValue] = upsert
         }
         
         return try service.callFunctionInternal(

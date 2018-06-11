@@ -9,9 +9,4 @@ public struct RemoteUpdateOptions {
     public init(upsert: Bool? = nil) {
         self.upsert = upsert
     }
-    
-    // Encode everything
-    internal enum CodingKeys: String, CodingKey {
-        case upsert
-    }
 }

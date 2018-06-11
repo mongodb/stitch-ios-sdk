@@ -9,9 +9,8 @@ public struct RemoteInsertManyResult: Decodable {
     /// Given an ordered array of insertedIds, creates a corresponding `RemoteInsertManyResult`.
     internal init(fromArray arr: [BsonValue]) {
         var inserted = [Int64: BsonValue]()
-        for (i, id) in arr.enumerated() {
-            let index = Int64(i)
-            inserted[index] = id
+        zip(arr.indices, arr).forEach { (index, value) in
+            inserted[Int64(index)] = value
         }
         self.insertedIds = inserted
     }
