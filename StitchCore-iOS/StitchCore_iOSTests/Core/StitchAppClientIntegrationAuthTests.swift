@@ -60,7 +60,7 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
         let jwt = JWT.encode(Algorithm.hs256(
             "abcdefghijklmnopqrstuvwxyz1234567890".data(using: .utf8)!)
         ) { (builder: ClaimSetBuilder) in
-            builder.audience = harness.testApp?.clientAppId
+            builder.audience = harness.testApp?.clientAppID
             builder.notBefore = Date()
             builder.issuedAt = Date()
             builder.expiration = Date().addingTimeInterval(TimeInterval(60 * 5))
@@ -75,13 +75,13 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
         _ = self.harness.addDefaultCustomTokenProvider()
 
         let exp1 = expectation(description: "first custom login")
-        var userId: String!
+        var userID: String!
         self.stitchAppClient.auth.login(withCredential:
             CustomCredential.init(withToken: jwt)
         ) { user, _ in
             XCTAssertNotNil(user)
 
-            userId = user!.id
+            userID = user!.id
 
             // Verify profile information in metadata
             let profile = user!.profile
@@ -101,7 +101,7 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
                 XCTAssertNotNil(user)
 
                 // Ensure that the same user logs in if the token has the same unique user ID.
-                XCTAssertEqual(userId, user!.id)
+                XCTAssertEqual(userID, user!.id)
 
                 exp2.fulfill()
             }
@@ -115,12 +115,12 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
 
         // login anonymously
         let exp1 = expectation(description: "log in anonymously")
-        var anonUserId: String!
+        var anonUserID: String!
         self.stitchAppClient.auth.login(
             withCredential: AnonymousCredential()
         ) { (user: StitchUser?, _) in
             XCTAssertNotNil(user)
-            anonUserId = user!.id
+            anonUserID = user!.id
 
             self.verifyBasicAuthStorageInfo(loggedIn: true, expectedProviderType: StitchProviderType.anonymous)
             exp1.fulfill()
@@ -136,7 +136,7 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
             XCTAssertNotNil(user)
 
             // make sure user ID is the name
-            XCTAssertEqual(anonUserId, user!.id)
+            XCTAssertEqual(anonUserID, user!.id)
 
             self.verifyBasicAuthStorageInfo(loggedIn: true, expectedProviderType: StitchProviderType.anonymous)
             exp2.fulfill()
@@ -144,11 +144,11 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
         wait(for: [exp2], timeout: defaultTimeoutSeconds)
 
         let exp3 = expectation(description: "logged in as email/password user")
-        var emailUserId: String!
+        var emailUserID: String!
         self.registerAndLogin(email: "test1@10gen.com", password: "hunter1") { user in
-            let nextUserId = user.id
-            XCTAssertNotEqual(anonUserId, nextUserId)
-            emailUserId = nextUserId
+            let nextUserID = user.id
+            XCTAssertNotEqual(anonUserID, nextUserID)
+            emailUserID = nextUserID
 
             self.verifyBasicAuthStorageInfo(loggedIn: true, expectedProviderType: StitchProviderType.userPassword)
             exp3.fulfill()
@@ -157,8 +157,8 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
 
         let exp4 = expectation(description: "logged in as second email/password user")
         self.registerAndLogin(email: "test2@10gen.com", password: "hunter2") { user in
-            let nextUserId = user.id
-            XCTAssertNotEqual(emailUserId, nextUserId)
+            let nextUserID = user.id
+            XCTAssertNotEqual(emailUserID, nextUserID)
 
             self.verifyBasicAuthStorageInfo(loggedIn: true, expectedProviderType: StitchProviderType.userPassword)
             exp4.fulfill()
@@ -198,7 +198,7 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
             return
         }
 
-        userPassClient.confirmUser(withToken: safeConf.token, withTokenId: safeConf.tokenId) { error in
+        userPassClient.confirmUser(withToken: safeConf.token, withTokenID: safeConf.tokenID) { error in
             XCTAssertNil(error)
             exp3.fulfill()
         }

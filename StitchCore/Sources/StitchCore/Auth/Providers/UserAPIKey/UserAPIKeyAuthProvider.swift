@@ -1,4 +1,8 @@
-public final class UserApiKeyAuthProvider {
+/**
+ * :nodoc:
+ * The user API key authentication provider.
+ */
+public final class UserAPIKeyAuthProvider {
     private init() {}
     
     public static let type = "api-key"

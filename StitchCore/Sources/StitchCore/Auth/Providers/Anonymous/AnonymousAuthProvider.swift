@@ -1,6 +1,6 @@
 /**
  * :nodoc:
- * The anonymous authentication provider which provides basic information for log in.
+ * The anonymous authentication provider.
  */
 public final class AnonymousAuthProvider {
     private init() {}

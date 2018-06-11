@@ -52,7 +52,7 @@ private final class Routes {
 private let emailKey = "email"
 private let passwordKey = "password"
 private let tokenKey = "token"
-private let tokenIdKey = "tokenId"
+private let tokenIDKey = "tokenId"
 
 /**
  * :nodoc:
@@ -116,15 +116,15 @@ open class CoreUserPasswordAuthProviderClient: CoreAuthProviderClient<StitchRequ
      *
      * - parameters:
      *     - withToken: The confirmation token that was emailed to the user.
-     *     - withTokenId: The confirmation token id that was emailed to the user.
+     *     - withTokenID: The confirmation token id that was emailed to the user.
      */
     public func confirmUser(withToken token: String,
-                            withTokenId tokenId: String) throws -> Response {
+                            withTokenID tokenID: String) throws -> Response {
         return try self.requestClient.doRequest(
             StitchDocRequestBuilder()
                 .with(method: .post)
                 .with(document: [tokenKey: token,
-                                 tokenIdKey: tokenId])
+                                 tokenIDKey: tokenID])
                 .with(path: self.routes.confirmUserRoute)
                 .build()
         )
@@ -172,16 +172,16 @@ open class CoreUserPasswordAuthProviderClient: CoreAuthProviderClient<StitchRequ
      * - parameters:
      *     - password: The desired new password.
      *     - withToken: The password reset token that was emailed to the user.
-     *     - withTokenId: The password reset token id that was emailed to the user.
+     *     - withTokenID: The password reset token id that was emailed to the user.
      */
     public func reset(password: String,
                       withToken token: String,
-                      withTokenId tokenId: String) throws -> Response {
+                      withTokenID tokenID: String) throws -> Response {
         return try self.requestClient.doRequest(
             StitchDocRequestBuilder()
                 .with(method: .post)
                 .with(document: [tokenKey: token,
-                                 tokenIdKey: tokenId,
+                                 tokenIDKey: tokenID,
                                  passwordKey: password])
                 .with(path: self.routes.resetPasswordRoute)
                 .build()

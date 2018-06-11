@@ -17,7 +17,7 @@ public struct ServiceResponse: Codable {
 extension Apps.App.Services {
     /// GET a service
     /// - parameter id: id of the requested service
-    public func service(withId id: String) -> Service {
+    public func service(withID id: String) -> Service {
         return Service.init(adminAuth: self.adminAuth,
                             url: "\(self.url)/\(id)")
     }

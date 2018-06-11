@@ -6,11 +6,11 @@ class CoreUserPasswordAuthProviderClientUnitTests: StitchXCTestCase {
     
     private func testClientCall(function: @escaping (CoreUserPasswordAuthProviderClient) throws -> Void,
                                 expectedRequest: StitchRequest) throws {
-        let clientAppId = "my_app-12345"
+        let clientAppID = "my_app-12345"
         let providerName = "userPassProvider"
         
         let requestClient = MockStitchRequestClient()
-        let routes = StitchAppRoutes.init(clientAppId: clientAppId).authRoutes
+        let routes = StitchAppRoutes.init(clientAppID: clientAppID).authRoutes
         let client = CoreUserPasswordAuthProviderClient.init(
             withProviderName: providerName,
             withRequestClient: requestClient,
@@ -41,7 +41,7 @@ class CoreUserPasswordAuthProviderClientUnitTests: StitchXCTestCase {
     }
     
     func testRegister() throws {
-        let routes = StitchAppRoutes.init(clientAppId: "my_app-12345").authRoutes
+        let routes = StitchAppRoutes.init(clientAppID: "my_app-12345").authRoutes
         let username = "username@10gen.com"
         let password = "password"
         
@@ -56,22 +56,22 @@ class CoreUserPasswordAuthProviderClientUnitTests: StitchXCTestCase {
     }
     
     func testConfirmUser() throws {
-        let routes = StitchAppRoutes.init(clientAppId: "my_app-12345").authRoutes
+        let routes = StitchAppRoutes.init(clientAppID: "my_app-12345").authRoutes
         let token = "some"
-        let tokenId = "thing"
+        let tokenID = "thing"
         
         let expectedRequestBuilder = StitchDocRequestBuilder()
             .with(method: .post)
             .with(path: "\(routes.authProviderRoute(withProviderName: "userPassProvider"))/confirm")
-            .with(document: ["token": token, "tokenId": tokenId])
+            .with(document: ["token": token, "tokenId": tokenID])
         
         try testClientCall(function: { client in
-            _ = try client.confirmUser(withToken: token, withTokenId: tokenId)
+            _ = try client.confirmUser(withToken: token, withTokenID: tokenID)
         }, expectedRequest: expectedRequestBuilder.build())
     }
     
     func testResendConfirmation() throws {
-        let routes = StitchAppRoutes.init(clientAppId: "my_app-12345").authRoutes
+        let routes = StitchAppRoutes.init(clientAppID: "my_app-12345").authRoutes
         let email = "username@10gen.com"
         
         let expectedRequestBuilder = StitchDocRequestBuilder()
@@ -85,7 +85,7 @@ class CoreUserPasswordAuthProviderClientUnitTests: StitchXCTestCase {
     }
     
     func testSendResetPasswordEmail() throws {
-        let routes = StitchAppRoutes.init(clientAppId: "my_app-12345").authRoutes
+        let routes = StitchAppRoutes.init(clientAppID: "my_app-12345").authRoutes
         let email = "username@10gen.com"
         
         let expectedRequestBuilder = StitchDocRequestBuilder()
@@ -99,19 +99,19 @@ class CoreUserPasswordAuthProviderClientUnitTests: StitchXCTestCase {
     }
     
     func testResetPassword() throws {
-        let routes = StitchAppRoutes.init(clientAppId: "my_app-12345").authRoutes
+        let routes = StitchAppRoutes.init(clientAppID: "my_app-12345").authRoutes
         
         let token = "some"
-        let tokenId = "thing"
+        let tokenID = "thing"
         let newPassword = "correcthorsebatterystaple"
         
         let expectedRequestBuilder = StitchDocRequestBuilder()
             .with(method: .post)
             .with(path: "\(routes.authProviderRoute(withProviderName: "userPassProvider"))/reset")
-            .with(document: ["token": token, "tokenId": tokenId, "password": newPassword])
+            .with(document: ["token": token, "tokenId": tokenID, "password": newPassword])
         
         try testClientCall(function: { client in
-            _ = try client.reset(password: newPassword, withToken: token, withTokenId: tokenId)
+            _ = try client.reset(password: newPassword, withToken: token, withTokenID: tokenID)
         }, expectedRequest: expectedRequestBuilder.build())
     }
 }

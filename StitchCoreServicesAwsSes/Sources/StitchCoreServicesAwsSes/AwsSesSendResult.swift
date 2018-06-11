@@ -7,5 +7,9 @@ public struct AwsSesSendResult: Decodable {
     /**
      * The id of the sent message.
      */
-    public let messageId: String
+    public let messageID: String
+    
+    public enum CodingKeys: String, CodingKey {
+        case messageID = "messageId"
+    }
 }

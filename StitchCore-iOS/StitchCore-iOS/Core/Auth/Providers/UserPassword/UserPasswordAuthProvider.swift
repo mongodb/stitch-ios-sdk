@@ -62,10 +62,10 @@ public protocol UserPasswordAuthProviderClient {
      *
      * - parameters:
      *     - withToken: The confirmation token that was emailed to the user.
-     *     - withTokenId: The confirmation token id that was emailed to the user.
+     *     - withTokenID: The confirmation token id that was emailed to the user.
      *     - completionHandler: The handler to be executed when the request is complete.
      */
-    func confirmUser(withToken token: String, withTokenId tokenId: String, completionHandler: @escaping (Error?) -> Void)
+    func confirmUser(withToken token: String, withTokenID tokenID: String, completionHandler: @escaping (Error?) -> Void)
 
     // swiftlint:enable line_length
 
@@ -95,10 +95,10 @@ public protocol UserPasswordAuthProviderClient {
      * - parameters:
      *     - password: The desired new password.
      *     - withToken: The password reset token that was emailed to the user.
-     *     - withTokenId: The password reset token id that was emailed to the user.
+     *     - withTokenID: The password reset token id that was emailed to the user.
      *     - completionHandler: The handler to be executed when the request is complete.
      */
-    func reset(password: String, withToken token: String, withTokenId tokenId: String, completionHandler: @escaping (Error?) -> Void)
+    func reset(password: String, withToken token: String, withTokenID tokenID: String, completionHandler: @escaping (Error?) -> Void)
 
     // swiftlint:enable line_length
 }
@@ -122,10 +122,10 @@ private class UserPasswordAuthProviderClientImpl: CoreUserPasswordAuthProviderCl
     }
 
     func confirmUser(withToken token: String,
-                     withTokenId tokenId: String,
+                     withTokenID tokenID: String,
                      completionHandler: @escaping (Error?) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
-            _ = try super.confirmUser(withToken: token, withTokenId: tokenId)
+            _ = try super.confirmUser(withToken: token, withTokenID: tokenID)
         }
     }
 
@@ -137,10 +137,10 @@ private class UserPasswordAuthProviderClientImpl: CoreUserPasswordAuthProviderCl
 
     func reset(password: String,
                withToken token: String,
-               withTokenId tokenId: String,
+               withTokenID tokenID: String,
                completionHandler: @escaping (Error?) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
-            _ = try super.reset(password: password, withToken: token, withTokenId: tokenId)
+            _ = try super.reset(password: password, withToken: token, withTokenID: tokenID)
         }
     }
 

@@ -14,14 +14,14 @@ public class Stitch {
      */
     public static let sdkVersion: String = "4.0.0-alpha0"
 
-    private static let defaultBaseUrl: String = "https://stitch.mongodb.com"
+    private static let defaultBaseURL: String = "https://stitch.mongodb.com"
     private static let userDefaultsName: String = "com.mongodb.stitch.sdk.UserDefaults"
     private static let defaultDefaultRequestTimeout: TimeInterval = 15.0
 
     private static var appClients: [String: StitchAppClientImpl] = [:]
 
     private static var initialized: Bool = false
-    private static var defaultClientAppId: String?
+    private static var defaultClientAppID: String?
 
     internal static var localAppVersion: String?
     internal static var localAppName: String?
@@ -81,16 +81,16 @@ public class Stitch {
             throw StitchInitializationError.stitchNotInitialized
         }
 
-        guard let clientAppId = configBuilder.clientAppId, clientAppId != "" else {
-            throw StitchInitializationError.clientAppIdNotSpecified
+        guard let clientAppID = configBuilder.clientAppID, clientAppID != "" else {
+            throw StitchInitializationError.clientAppIDNotSpecified
         }
 
-        guard defaultClientAppId == nil else {
-            throw StitchInitializationError.defaultClientAlreadyInitialized(clientAppId: defaultClientAppId!)
+        guard defaultClientAppID == nil else {
+            throw StitchInitializationError.defaultClientAlreadyInitialized(clientAppID: defaultClientAppID!)
         }
 
         let client = try initializeAppClient(withConfigBuilder: configBuilder)
-        defaultClientAppId = clientAppId
+        defaultClientAppID = clientAppID
         return client
     }
 
@@ -100,11 +100,11 @@ public class Stitch {
      * sensible defaults.
      */
     private static func generateConfig(fromBuilder configBuilder: StitchAppClientConfigurationBuilder,
-                                       forClientAppId clientAppId: String) throws -> StitchAppClientConfiguration {
+                                       forClientAppID clientAppID: String) throws -> StitchAppClientConfiguration {
         let finalConfigBuilder = configBuilder
 
         if configBuilder.storage == nil {
-            let suiteName = "\(userDefaultsName).\(clientAppId)"
+            let suiteName = "\(userDefaultsName).\(clientAppID)"
             guard let userDefaults = UserDefaults.init(suiteName: suiteName) else {
                 throw StitchInitializationError.userDefaultsFailure
             }
@@ -130,7 +130,7 @@ public class Stitch {
         }
 
         if configBuilder.baseURL == nil {
-            finalConfigBuilder.with(baseURL: defaultBaseUrl)
+            finalConfigBuilder.with(baseURL: defaultBaseURL)
         }
 
         if configBuilder.localAppName == nil, let localAppName = localAppName {
@@ -163,18 +163,18 @@ public class Stitch {
             throw StitchInitializationError.stitchNotInitialized
         }
 
-        guard let clientAppId = configBuilder.clientAppId, clientAppId != "" else {
-            throw StitchInitializationError.clientAppIdNotSpecified
+        guard let clientAppID = configBuilder.clientAppID, clientAppID != "" else {
+            throw StitchInitializationError.clientAppIDNotSpecified
         }
 
-        guard appClients[clientAppId] == nil else {
-            throw StitchInitializationError.clientAlreadyInitialized(clientAppId: clientAppId)
+        guard appClients[clientAppID] == nil else {
+            throw StitchInitializationError.clientAlreadyInitialized(clientAppID: clientAppID)
         }
 
-        let finalConfig = try generateConfig(fromBuilder: configBuilder, forClientAppId: clientAppId)
+        let finalConfig = try generateConfig(fromBuilder: configBuilder, forClientAppID: clientAppID)
 
         let client = try StitchAppClientImpl.init(withConfig: finalConfig)
-        appClients[clientAppId] = client
+        appClients[clientAppID] = client
         return client
     }
 
@@ -196,8 +196,8 @@ public class Stitch {
             throw StitchInitializationError.stitchNotInitialized
         }
 
-        guard let clientAppId = defaultClientAppId,
-              let client = appClients[clientAppId] else {
+        guard let clientAppID = defaultClientAppID,
+              let client = appClients[clientAppID] else {
             throw StitchInitializationError.defaultClientNotInitialized
         }
         return client
@@ -213,9 +213,9 @@ public class Stitch {
      *           if `initializeAppClient(:withConfigBuilder)` was never called with a
      *           configuration that created a client for the provided client app id.
      * - parameters:
-     *     - forAppId: The client app id of the app client to be retrieved.
+     *     - forAppID: The client app id of the app client to be retrieved.
      */
-    public static func getAppClient(forAppId appId: String) throws -> StitchAppClient {
+    public static func getAppClient(forAppID appID: String) throws -> StitchAppClient {
         objc_sync_enter(self)
         defer { objc_sync_exit(self) }
 
@@ -223,8 +223,8 @@ public class Stitch {
             throw StitchInitializationError.stitchNotInitialized
         }
 
-        guard let client = appClients[appId] else {
-            throw StitchInitializationError.clientNotInitialized(clientAppId: appId)
+        guard let client = appClients[appID] else {
+            throw StitchInitializationError.clientNotInitialized(clientAppID: appID)
         }
         return client
     }
@@ -247,26 +247,26 @@ public enum StitchInitializationError: Error {
 
     /**
      * An error indicating that a default app client has already been initialized.
-     * Contains a clientAppId string indicating the clientAppId of the already-initialized default client.
+     * Contains a clientAppID string indicating the clientAppID of the already-initialized default client.
      */
-    case defaultClientAlreadyInitialized(clientAppId: String)
+    case defaultClientAlreadyInitialized(clientAppID: String)
 
     /**
-     * An error indicating that retrieval of a client failed because a client with the provided clientAppId
+     * An error indicating that retrieval of a client failed because a client with the provided clientAppID
      * was never initialized.
      */
-    case clientNotInitialized(clientAppId: String)
+    case clientNotInitialized(clientAppID: String)
 
     /**
-     * An error indicating that a client with the provided clientAppId has already been initialized.
+     * An error indicating that a client with the provided clientAppID has already been initialized.
      */
-    case clientAlreadyInitialized(clientAppId: String)
+    case clientAlreadyInitialized(clientAppID: String)
 
     /**
-     * An error indicating that client initialization failed because a clientAppId was not specified in its
+     * An error indicating that client initialization failed because a clientAppID was not specified in its
      * configuration.
      */
-    case clientAppIdNotSpecified
+    case clientAppIDNotSpecified
 
     /**
      * An error indicating the client initialization failed because `UserDefaults` could not be initialized.
@@ -283,14 +283,14 @@ public enum StitchInitializationError: Error {
             return "The Stitch SDK has not yet been initialized. Must call Stitch.initialize()"
         case .defaultClientNotInitialized:
             return "Default client has not yet been initialized."
-        case .defaultClientAlreadyInitialized(let clientAppId):
-            return "Default client can only be initialized once; currently to \(clientAppId)"
-        case .clientNotInitialized(let clientAppId):
-            return "Client for app \(clientAppId) has not yet been initialized."
-        case .clientAlreadyInitialized(let clientAppId):
-            return "Client for app \(clientAppId) has already been initialized"
-        case .clientAppIdNotSpecified:
-            return "clientAppId must be set to a non-empty string"
+        case .defaultClientAlreadyInitialized(let clientAppID):
+            return "Default client can only be initialized once; currently to \(clientAppID)"
+        case .clientNotInitialized(let clientAppID):
+            return "Client for app \(clientAppID) has not yet been initialized."
+        case .clientAlreadyInitialized(let clientAppID):
+            return "Client for app \(clientAppID) has already been initialized"
+        case .clientAppIDNotSpecified:
+            return "clientAppID must be set to a non-empty string"
         case .userDefaultsFailure:
             return "Could not initialize UserDefaults to store authentication information for MongoDB Stitch"
         }

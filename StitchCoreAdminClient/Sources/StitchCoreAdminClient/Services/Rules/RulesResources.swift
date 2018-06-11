@@ -80,8 +80,8 @@ private struct TwilioRuleActions: RuleActions {
     let send: Bool
 }
 
-/// Allowed actions for an Http service rule
-private struct HttpRuleActions: RuleActions {
+/// Allowed actions for an HTTP service rule
+private struct HTTPRuleActions: RuleActions {
     let get, post, put, delete, patch, head: Bool
 }
 
@@ -104,7 +104,7 @@ public enum RuleActionsCreator: Encodable {
         /// encode a rule to its associated wrapper
         switch self {
         case .http(let get, let post, let put, let delete, let patch, let head):
-            try HttpRuleActions.init(get: get,
+            try HTTPRuleActions.init(get: get,
                                      post: post,
                                      put: put,
                                      delete: delete,

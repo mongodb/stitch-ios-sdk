@@ -13,8 +13,8 @@ private enum CustomTokenCodingKeys: String, CodingKey {
 
 /// Keys for the `local-userpass` provider configuration
 private enum UserpassCodingKeys: String, CodingKey {
-    case emailConfirmationUrl
-    case resetPasswordUrl
+    case emailConfirmationURL = "emailConfirmationUrl"
+    case resetPasswordURL = "resetPasswordUrl"
     case confirmEmailSubject
     case resetPasswordSubject
 }
@@ -35,12 +35,12 @@ public enum ProviderConfigs: Encodable {
     }
     
     case anon()
-    /// - parameter emailConfirmationUrl: url to redirect user to for email confirmation
-    /// - parameter resetPasswordUrl: url to redirect user to for password reset
+    /// - parameter emailConfirmationURL: url to redirect user to for email confirmation
+    /// - parameter resetPasswordURL: url to redirect user to for password reset
     /// - parameter confirmEmailSubject: subject of the email to confirm a new user
     /// - parameter resetPasswordSubject: subject of the email to reset a password
-    case userpass(emailConfirmationUrl: String,
-                  resetPasswordUrl: String,
+    case userpass(emailConfirmationURL: String,
+                  resetPasswordURL: String,
                   confirmEmailSubject: String,
                   resetPasswordSubject: String)
     /// - parameter signingKey: key used to sign a JWT for `custom-token`
@@ -60,14 +60,14 @@ public enum ProviderConfigs: Encodable {
         try container.encode(self.type.name, forKey: .type)
         switch self {
         case .anon: break
-        case .userpass(let emailConfirmationUrl,
-                       let resetPasswordUrl,
+        case .userpass(let emailConfirmationURL,
+                       let resetPasswordURL,
                        let confirmEmailSubject,
                        let resetPasswordSubject):
             var configContainer = container.nestedContainer(keyedBy: UserpassCodingKeys.self,
                                                             forKey: .config)
-            try configContainer.encode(emailConfirmationUrl, forKey: .emailConfirmationUrl)
-            try configContainer.encode(resetPasswordUrl, forKey: .resetPasswordUrl)
+            try configContainer.encode(emailConfirmationURL, forKey: .emailConfirmationURL)
+            try configContainer.encode(resetPasswordURL, forKey: .resetPasswordURL)
             try configContainer.encode(confirmEmailSubject, forKey: .confirmEmailSubject)
             try configContainer.encode(resetPasswordSubject, forKey: .resetPasswordSubject)
         case .custom(let signingKey,

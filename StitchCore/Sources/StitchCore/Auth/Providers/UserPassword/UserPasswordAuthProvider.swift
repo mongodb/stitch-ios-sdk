@@ -1,3 +1,7 @@
+/**
+ * :nodoc:
+ * The user/password authentication provider.
+ */
 public final class UserPasswordAuthProvider {
     private init() {}
     

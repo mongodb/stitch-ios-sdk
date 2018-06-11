@@ -6,7 +6,7 @@ import StitchCoreMocks
 
 class CoreTwilioServiceClientUnitTests: XCTestCase {
     func testSendMessage() throws {
-        let service = MockCoreStitchService()
+        let service = MockCoreStitchServiceClient()
         let client = CoreTwilioServiceClient(withService: service)
         
         let to = "+15558509552"
@@ -41,22 +41,22 @@ class CoreTwilioServiceClientUnitTests: XCTestCase {
     }
     
     func testSendMessageWithMedia() throws {
-        let service = MockCoreStitchService()
+        let service = MockCoreStitchServiceClient()
         let client = CoreTwilioServiceClient(withService: service)
         
         let to = "+15558509552"
         let from = "+15558675309"
         let body = "I've got your number"
-        let mediaUrl = "https://jpegs.com/myjpeg.gif.png"
+        let mediaURL = "https://jpegs.com/myjpeg.gif.png"
         
-        try client.sendMessage(to: to, from: from, body: body, mediaURL: mediaUrl)
+        try client.sendMessage(to: to, from: from, body: body, mediaURL: mediaURL)
         
         let (funcNameArg, funcArgsArg, _) = service.callFunctionInternalMock.capturedInvocations.first!
         
         XCTAssertEqual("send", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
         
-        let expectedArgs: Document = ["to": to, "from": from, "body": body, "mediaUrl": mediaUrl]
+        let expectedArgs: Document = ["to": to, "from": from, "body": body, "mediaUrl": mediaURL]
         
         XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
         
@@ -69,7 +69,7 @@ class CoreTwilioServiceClientUnitTests: XCTestCase {
         )
         
         do {
-            try client.sendMessage(to: to, from: from, body: body, mediaURL: mediaUrl)
+            try client.sendMessage(to: to, from: from, body: body, mediaURL: mediaURL)
             XCTFail("function did not fail where expected")
         } catch {
             // do nothing

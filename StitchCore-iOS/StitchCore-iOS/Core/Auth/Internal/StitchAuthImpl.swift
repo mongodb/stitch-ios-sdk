@@ -197,11 +197,11 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
     public final override var deviceInfo: Document {
         var info = Document.init()
 
-        if self.hasDeviceId, let deviceId = self.deviceId {
-            info[DeviceField.deviceId.rawValue] = deviceId
+        if self.hasDeviceID, let deviceID = self.deviceID {
+            info[DeviceField.deviceID.rawValue] = deviceID
         }
 
-        info[DeviceField.appId.rawValue] = self.appInfo.localAppName
+        info[DeviceField.appID.rawValue] = self.appInfo.localAppName
         info[DeviceField.appVersion.rawValue] = self.appInfo.localAppVersion
         info[DeviceField.platform.rawValue] = UIDevice.current.systemName
         info[DeviceField.platformVersion.rawValue] = UIDevice.current.systemVersion

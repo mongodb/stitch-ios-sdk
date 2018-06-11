@@ -7,21 +7,21 @@ import StitchCore_iOS
 class UserAPIKeyAuthProviderIntTests: StitchIntegrationTestCase {
     override func setUp() {
         super.setUp()
-        _ = harness.enableDefaultApiKeyProvider()
+        _ = harness.enableDefaultAPIKeyProvider()
 
     }
     // Test creating and logging in with an API key
-    func testCreateApiKey() {
+    func testCreateAPIKey() {
         let exp1 = expectation(description: "logged in as email/password user")
-        var emailUserId: String!
+        var emailUserID: String!
         self.registerAndLogin(email: "test1@10gen.com", password: "hunter1") { user in
-            emailUserId = user.id
+            emailUserID = user.id
             exp1.fulfill()
         }
         wait(for: [exp1], timeout: defaultTimeoutSeconds)
 
         let auth = self.harness.stitchAppClient.auth
-        guard let userApiKeyClient = try? auth.providerClient(
+        guard let userAPIKeyClient = try? auth.providerClient(
             forFactory: UserAPIKeyAuthProvider.clientFactory) else {
             XCTFail("could not get user API key client")
             return
@@ -29,7 +29,7 @@ class UserAPIKeyAuthProviderIntTests: StitchIntegrationTestCase {
 
         let exp2 = expectation(description: "created user API key, and logged out")
         var apiKey: UserAPIKey!
-        userApiKeyClient.createApiKey(withName: "key_test") { key, _ in
+        userAPIKeyClient.createAPIKey(withName: "key_test") { key, _ in
             XCTAssertNotNil(key)
             XCTAssertNotNil(key?.key)
             apiKey = key
@@ -42,14 +42,14 @@ class UserAPIKeyAuthProviderIntTests: StitchIntegrationTestCase {
         let exp3 = expectation(description: "logged in using user API key")
         auth.login(withCredential: UserAPIKeyCredential(withKey: apiKey.key!)) { user, _ in
             XCTAssertNotNil(user)
-            XCTAssertEqual(user?.id, emailUserId)
+            XCTAssertEqual(user?.id, emailUserID)
             exp3.fulfill()
         }
 
         wait(for: [exp3], timeout: defaultTimeoutSeconds)
     }
 
-    func testFetchApiKey() {
+    func testFetchAPIKey() {
         let exp1 = expectation(description: "logged in as email/password user")
         self.registerAndLogin(email: "test1@10gen.com", password: "hunter1") { user in
             XCTAssertNotNil(user)
@@ -58,18 +58,18 @@ class UserAPIKeyAuthProviderIntTests: StitchIntegrationTestCase {
         wait(for: [exp1], timeout: defaultTimeoutSeconds)
 
         let auth = self.harness.stitchAppClient.auth
-        guard let userApiKeyClient = try? auth.providerClient(
+        guard let userAPIKeyClient = try? auth.providerClient(
             forFactory: UserAPIKeyAuthProvider.clientFactory) else {
                 XCTFail("could not get user API key client")
                 return
         }
 
         let exp2 = expectation(description: "created user API key, and fetched it")
-        userApiKeyClient.createApiKey(withName: "key_test") { createdKey, _ in
+        userAPIKeyClient.createAPIKey(withName: "key_test") { createdKey, _ in
             XCTAssertNotNil(createdKey)
             XCTAssertNotNil(createdKey?.key)
 
-            userApiKeyClient.fetchApiKey(withId: createdKey!.id) { fetchedKey, _ in
+            userAPIKeyClient.fetchAPIKey(withID: createdKey!.id) { fetchedKey, _ in
                 XCTAssertNotNil(fetchedKey)
                 XCTAssertEqual(createdKey?.id, fetchedKey?.id)
                 XCTAssertEqual(createdKey?.name, fetchedKey?.name)
@@ -80,7 +80,7 @@ class UserAPIKeyAuthProviderIntTests: StitchIntegrationTestCase {
         wait(for: [exp2], timeout: defaultTimeoutSeconds)
     }
 
-    func testFetchApiKeys() {
+    func testFetchAPIKeys() {
         let exp1 = expectation(description: "logged in as email/password user")
         self.registerAndLogin(email: "test1@10gen.com", password: "hunter1") { user in
             XCTAssertNotNil(user)
@@ -89,41 +89,41 @@ class UserAPIKeyAuthProviderIntTests: StitchIntegrationTestCase {
         wait(for: [exp1], timeout: defaultTimeoutSeconds)
 
         let auth = self.harness.stitchAppClient.auth
-        guard let userApiKeyClient = try? auth.providerClient(
+        guard let userAPIKeyClient = try? auth.providerClient(
             forFactory: UserAPIKeyAuthProvider.clientFactory) else {
                 XCTFail("could not get user API key client")
                 return
         }
 
         let exp2 = expectation(description: "created two user API keys")
-        var expectedId1: ObjectId!
-        var expectedId2: ObjectId!
-        userApiKeyClient.createApiKey(withName: "key_test") { createdKey, _ in
+        var expectedID1: ObjectId!
+        var expectedID2: ObjectId!
+        userAPIKeyClient.createAPIKey(withName: "key_test") { createdKey, _ in
             XCTAssertNotNil(createdKey)
             XCTAssertNotNil(createdKey?.key)
-            expectedId1 = createdKey!.id
+            expectedID1 = createdKey!.id
 
-            userApiKeyClient.createApiKey(withName: "key_test2") { createdKey2, _ in
+            userAPIKeyClient.createAPIKey(withName: "key_test2") { createdKey2, _ in
                 XCTAssertNotNil(createdKey2)
                 XCTAssertNotNil(createdKey2?.key)
-                expectedId2 = createdKey2!.id
+                expectedID2 = createdKey2!.id
                 exp2.fulfill()
             }
         }
         wait(for: [exp2], timeout: defaultTimeoutSeconds)
 
         let exp3 = expectation(description: "fetched the two created user API keys")
-        userApiKeyClient.fetchApiKeys { fetchedKeys, _ in
+        userAPIKeyClient.fetchAPIKeys { fetchedKeys, _ in
             XCTAssertEqual(fetchedKeys?.count, 2)
             fetchedKeys?.forEach({ key in
-                XCTAssertTrue(key.id == expectedId1 || key.id == expectedId2)
+                XCTAssertTrue(key.id == expectedID1 || key.id == expectedID2)
             })
             exp3.fulfill()
         }
         wait(for: [exp3], timeout: defaultTimeoutSeconds)
     }
 
-    func testEnableDisableDeleteApiKey() {
+    func testEnableDisableDeleteAPIKey() {
         let exp1 = expectation(description: "logged in as email/password user")
         self.registerAndLogin(email: "test1@10gen.com", password: "hunter1") { user in
             XCTAssertNotNil(user)
@@ -132,7 +132,7 @@ class UserAPIKeyAuthProviderIntTests: StitchIntegrationTestCase {
         wait(for: [exp1], timeout: defaultTimeoutSeconds)
 
         let auth = self.harness.stitchAppClient.auth
-        guard let userApiKeyClient = try? auth.providerClient(
+        guard let userAPIKeyClient = try? auth.providerClient(
             forFactory: UserAPIKeyAuthProvider.clientFactory) else {
                 XCTFail("could not get user API key client")
                 return
@@ -140,7 +140,7 @@ class UserAPIKeyAuthProviderIntTests: StitchIntegrationTestCase {
 
         let exp2 = expectation(description: "created user API key")
         var apiKey: UserAPIKey!
-        userApiKeyClient.createApiKey(withName: "key_test") { key, _ in
+        userAPIKeyClient.createAPIKey(withName: "key_test") { key, _ in
             XCTAssertNotNil(key)
             XCTAssertNotNil(key?.key)
             apiKey = key
@@ -149,8 +149,8 @@ class UserAPIKeyAuthProviderIntTests: StitchIntegrationTestCase {
         wait(for: [exp2], timeout: defaultTimeoutSeconds)
 
         let exp3 = expectation(description: "disabled user API key")
-        userApiKeyClient.disableApiKey(withId: apiKey.id) { _ in
-            userApiKeyClient.fetchApiKey(withId: apiKey.id, { key, _ in
+        userAPIKeyClient.disableAPIKey(withID: apiKey.id) { _ in
+            userAPIKeyClient.fetchAPIKey(withID: apiKey.id, { key, _ in
                 XCTAssertNotNil(key)
                 XCTAssertTrue(key!.disabled)
                 exp3.fulfill()
@@ -159,8 +159,8 @@ class UserAPIKeyAuthProviderIntTests: StitchIntegrationTestCase {
         wait(for: [exp3], timeout: defaultTimeoutSeconds)
 
         let exp4 = expectation(description: "enabled user API key")
-        userApiKeyClient.enableApiKey(withId: apiKey.id) { _ in
-            userApiKeyClient.fetchApiKey(withId: apiKey.id, { key, _ in
+        userAPIKeyClient.enableAPIKey(withID: apiKey.id) { _ in
+            userAPIKeyClient.fetchAPIKey(withID: apiKey.id, { key, _ in
                 XCTAssertNotNil(key)
                 XCTAssertFalse(key!.disabled)
                 exp4.fulfill()
@@ -169,8 +169,8 @@ class UserAPIKeyAuthProviderIntTests: StitchIntegrationTestCase {
         wait(for: [exp4], timeout: defaultTimeoutSeconds)
 
         let exp5 = expectation(description: "deleted user API key")
-        userApiKeyClient.deleteApiKey(withId: apiKey.id) { _ in
-            userApiKeyClient.fetchApiKeys { keys, _ in
+        userAPIKeyClient.deleteAPIKey(withID: apiKey.id) { _ in
+            userAPIKeyClient.fetchAPIKeys { keys, _ in
                 XCTAssertNotNil(keys)
                 XCTAssertEqual(keys?.count, 0)
                 exp5.fulfill()
@@ -187,14 +187,14 @@ class UserAPIKeyAuthProviderIntTests: StitchIntegrationTestCase {
         wait(for: [exp1], timeout: defaultTimeoutSeconds)
 
         let auth = self.harness.stitchAppClient.auth
-        guard let userApiKeyClient = try? auth.providerClient(
+        guard let userAPIKeyClient = try? auth.providerClient(
             forFactory: UserAPIKeyAuthProvider.clientFactory) else {
                 XCTFail("could not get user API key client")
                 return
         }
 
         let exp2 = expectation(description: "created user API key, and logged out")
-        userApiKeyClient.createApiKey(withName: "$$%%$$$") { _, error in
+        userAPIKeyClient.createAPIKey(withName: "$$%%$$$") { _, error in
             XCTAssertNotNil(error)
             guard let stitchErr = error as? StitchError else {
                 XCTFail("wrong error thrown")
@@ -220,14 +220,14 @@ class UserAPIKeyAuthProviderIntTests: StitchIntegrationTestCase {
         wait(for: [exp1], timeout: defaultTimeoutSeconds)
 
         let auth = self.harness.stitchAppClient.auth
-        guard let userApiKeyClient = try? auth.providerClient(
+        guard let userAPIKeyClient = try? auth.providerClient(
             forFactory: UserAPIKeyAuthProvider.clientFactory) else {
                 XCTFail("could not get user API key client")
                 return
         }
 
         let exp2 = expectation(description: "created user API key, and logged out")
-        userApiKeyClient.fetchApiKey(withId: ObjectId.init()) { _, error in
+        userAPIKeyClient.fetchAPIKey(withID: ObjectId.init()) { _, error in
             XCTAssertNotNil(error)
             guard let stitchErr = error as? StitchError else {
                 XCTFail("wrong error thrown")

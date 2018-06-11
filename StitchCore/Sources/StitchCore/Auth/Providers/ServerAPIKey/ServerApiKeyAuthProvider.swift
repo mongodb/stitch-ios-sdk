@@ -1,8 +1,8 @@
 /**
  * :nodoc:
- * A client for the server API key authentication provider which can be used to obtain a credential for logging in.
+ * The server API key authentication provider.
  */
-public final class ServerApiKeyAuthProvider {
+public final class ServerAPIKeyAuthProvider {
     private init() {}
     
     public static let type = "api-key"

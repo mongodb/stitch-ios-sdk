@@ -7,18 +7,18 @@ import StitchCoreServicesAwsSes
 @testable import StitchCoreServicesAwsSes_iOS
 
 class AwsSesServiceClientIntTests: BaseStitchIntTestCocoaTouch {
-    private let awsAccessKeyIdProp = "test.stitch.accessKeyId"
+    private let awsAccessKeyIDProp = "test.stitch.accessKeyID"
     private let awsSecretAccessKeyProp = "test.stitch.secretAccessKey"
     
     private lazy var pList: [String: Any]? = fetchPlist(type(of: self))
     
-    private lazy var awsAccessKeyId: String? = pList?[awsAccessKeyIdProp] as? String
+    private lazy var awsAccessKeyID: String? = pList?[awsAccessKeyIDProp] as? String
     private lazy var awsSecretAccessKey: String? = pList?[awsSecretAccessKeyProp] as? String
     
     override func setUp() {
         super.setUp()
         
-        guard awsAccessKeyId != nil && awsAccessKeyId != "<your-access-key-id>",
+        guard awsAccessKeyID != nil && awsAccessKeyID != "<your-access-key-id>",
               awsSecretAccessKey != nil && awsSecretAccessKey != "<your-secret-access-key>" else {
                 XCTFail("No AWS Access Key ID, or Secret Access Key in properties; failing test. See README for more details.")
                 return
@@ -34,7 +34,7 @@ class AwsSesServiceClientIntTests: BaseStitchIntTestCocoaTouch {
             withName: "aws-ses1",
             withConfig: ServiceConfigs.awsSes(
                 name: "aws-ses1",
-                region: "us-east-1", accessKeyId: awsAccessKeyId!, secretAccessKey: awsSecretAccessKey!
+                region: "us-east-1", accessKeyID: awsAccessKeyID!, secretAccessKey: awsSecretAccessKey!
             )
         )
         _ = try self.addRule(toService: svc.1,

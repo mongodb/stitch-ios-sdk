@@ -140,7 +140,7 @@ internal struct StitchErrorCodable: Codable {
         // body of the response as a UTF8 string as the message. If there is no body or it cannot be decoded as UTF8,
         // throw an unknown error with no message.
         guard let contentType = response.headers[Headers.contentType.nonCanonical()],
-                  contentType == ContentTypes.applicationJson.rawValue else {
+                  contentType == ContentTypes.applicationJSON.rawValue else {
                 guard let content = String.init(data: body, encoding: .utf8) else {
                     throw StitchError.serviceError(
                         withMessage: StitchErrorCodable.genericErrorMessage(withStatusCode: response.statusCode),

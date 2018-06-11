@@ -58,20 +58,20 @@ public final class StitchServiceRoutes {
     /**
      * The client app id of the app that these routes are for.
      */
-    private let clientAppId: String
+    private let clientAppID: String
 
     /**
      * Initializes these routes with the provided client app id.
      */
-    fileprivate init(clientAppId: String) {
-        self.clientAppId = clientAppId
+    fileprivate init(clientAppID: String) {
+        self.clientAppID = clientAppID
     }
 
     /**
      * Returns the route on the server for executing a function.
      */
     public lazy var functionCallRoute = String.init(format: RouteParts.functionCallRoute,
-                                                    self.clientAppId)
+                                                    self.clientAppID)
 }
 
 /**
@@ -81,7 +81,7 @@ public struct StitchAppAuthRoutes: StitchAuthRoutes {
     /**
      * The client app id of the app that these routes are for.
      */
-    private let clientAppId: String
+    private let clientAppID: String
 
     /**
      * The route on the server for getting a new access token.
@@ -101,8 +101,8 @@ public struct StitchAppAuthRoutes: StitchAuthRoutes {
     /**
      * Initializes these routes with the provided client app id.
      */
-    fileprivate init(clientAppId: String) {
-        self.clientAppId = clientAppId
+    fileprivate init(clientAppID: String) {
+        self.clientAppID = clientAppID
     }
 
     /**
@@ -110,7 +110,7 @@ public struct StitchAppAuthRoutes: StitchAuthRoutes {
      */
     public func authProviderRoute(withProviderName providerName: String) -> String {
         return String.init(format: RouteParts.authProviderRoute,
-                           self.clientAppId,
+                           self.clientAppID,
                            providerName)
     }
 
@@ -119,7 +119,7 @@ public struct StitchAppAuthRoutes: StitchAuthRoutes {
      */
     public func authProviderLoginRoute(withProviderName providerName: String) -> String {
         return String.init(format: RouteParts.authProviderLoginRoute,
-                           self.clientAppId,
+                           self.clientAppID,
                            providerName)
     }
 
@@ -129,7 +129,7 @@ public struct StitchAppAuthRoutes: StitchAuthRoutes {
      */
     public func authProviderLinkRoute(withProviderName providerName: String) -> String {
         return String.init(format: RouteParts.authProviderLinkRoute,
-                           self.clientAppId,
+                           self.clientAppID,
                            providerName)
     }
 }
@@ -141,7 +141,7 @@ public final class StitchAppRoutes {
     /**
      * The client app id of the app that these routes are for.
      */
-    private let clientAppId: String
+    private let clientAppID: String
 
     /**
      * Returns the authentication routes for the current app.
@@ -156,9 +156,9 @@ public final class StitchAppRoutes {
     /**
      * Initializes the app routes with the provided client app id.
      */
-    public init(clientAppId: String) {
-        self.clientAppId = clientAppId
-        self.authRoutes = StitchAppAuthRoutes.init(clientAppId: clientAppId)
-        self.serviceRoutes = StitchServiceRoutes.init(clientAppId: clientAppId)
+    public init(clientAppID: String) {
+        self.clientAppID = clientAppID
+        self.authRoutes = StitchAppAuthRoutes.init(clientAppID: clientAppID)
+        self.serviceRoutes = StitchServiceRoutes.init(clientAppID: clientAppID)
     }
 }

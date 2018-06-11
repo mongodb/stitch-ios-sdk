@@ -47,13 +47,13 @@ open class BaseStitchIntTestCocoaTouch: BaseStitchIntTest {
     }
     
     public func appClient(forApp app: AppResponse) throws -> StitchAppClient {
-        if let appClient = try? Stitch.getAppClient(forAppId: app.clientAppId) {
+        if let appClient = try? Stitch.getAppClient(forAppID: app.clientAppID) {
             return appClient
         }
 
         let client = try Stitch.initializeAppClient(
             withConfigBuilder: StitchAppClientConfigurationBuilder()
-                .with(clientAppId: app.clientAppId)
+                .with(clientAppID: app.clientAppID)
                 .with(baseURL: stitchBaseURL)
         )
             
@@ -82,7 +82,7 @@ open class BaseStitchIntTestCocoaTouch: BaseStitchIntTest {
         let conf = try app.userRegistrations.sendConfirmation(toEmail: email)
         
         let exp1 = expectation(description: "should confirm user")
-        emailPassClient.confirmUser(withToken: conf.token, withTokenId: conf.tokenId) { _ in
+        emailPassClient.confirmUser(withToken: conf.token, withTokenID: conf.tokenID) { _ in
             exp1.fulfill()
         }
         wait(for: [exp1], timeout: 5.0)

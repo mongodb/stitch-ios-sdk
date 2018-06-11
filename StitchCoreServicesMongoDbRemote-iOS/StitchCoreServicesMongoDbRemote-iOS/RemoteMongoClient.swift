@@ -3,7 +3,7 @@ import StitchCore
 import StitchCore_iOS
 import StitchCoreServicesMongoDbRemote
 
-private final class RemoteMongoDbServiceClientFactory: NamedServiceClientFactory {
+private final class RemoteMongoDBServiceClientFactory: NamedServiceClientFactory {
     typealias ClientType = RemoteMongoClient
     
     func client(withServiceClient serviceClient: StitchServiceClient,
@@ -39,7 +39,7 @@ public class RemoteMongoClient {
     }
 }
 
-public final class RemoteMongoDbService {
+public final class RemoteMongoDBService {
     public static let sharedFactory =
-        AnyNamedServiceClientFactory<RemoteMongoClient>(factory: RemoteMongoDbServiceClientFactory())
+        AnyNamedServiceClientFactory<RemoteMongoClient>(factory: RemoteMongoDBServiceClientFactory())
 }

@@ -12,10 +12,10 @@ class CoreUserAPIKeyAuthProviderClientUnitTests: StitchXCTestCase {
         ignoresResponse: Bool,
         expectedRequest: StitchRequest
         ) throws {
-        let clientAppId = "my_app-12345"
+        let clientAppID = "my_app-12345"
         
         let requestClient = MockStitchAuthRequestClient()
-        let routes = StitchAppRoutes.init(clientAppId: clientAppId).authRoutes
+        let routes = StitchAppRoutes.init(clientAppID: clientAppID).authRoutes
 
         let client = CoreUserAPIKeyAuthProviderClient.init(
             withAuthRequestClient: requestClient,
@@ -85,8 +85,8 @@ class CoreUserAPIKeyAuthProviderClientUnitTests: StitchXCTestCase {
         }
     }
     
-    func testCreateApiKey() throws {
-        let routes = StitchAppRoutes.init(clientAppId: "my_app-12345").authRoutes
+    func testCreateAPIKey() throws {
+        let routes = StitchAppRoutes.init(clientAppID: "my_app-12345").authRoutes
         let apiKeyName = "api_key_name"
         
         let expectedRequestBuilder = StitchAuthDocRequestBuilder()
@@ -97,12 +97,12 @@ class CoreUserAPIKeyAuthProviderClientUnitTests: StitchXCTestCase {
             .with(shouldRefreshOnFailure: false)
         
         try testClientCall(function: { client in
-            _ = try client.createApiKey(withName: apiKeyName)
+            _ = try client.createAPIKey(withName: apiKeyName)
         }, ignoresResponse: false, expectedRequest: expectedRequestBuilder.build())
     }
     
-    func testFetchApiKey() throws {
-        let routes = StitchAppRoutes.init(clientAppId: "my_app-12345").authRoutes
+    func testFetchAPIKey() throws {
+        let routes = StitchAppRoutes.init(clientAppID: "my_app-12345").authRoutes
         let keyToFetch = ObjectId()
         
         let expectedRequestBuilder = StitchAuthRequestBuilder()
@@ -112,12 +112,12 @@ class CoreUserAPIKeyAuthProviderClientUnitTests: StitchXCTestCase {
             .with(shouldRefreshOnFailure: false)
         
         try testClientCall(function: { client in
-            _ = try client.fetchApiKey(withId: keyToFetch)
+            _ = try client.fetchAPIKey(withID: keyToFetch)
         }, ignoresResponse: false, expectedRequest: expectedRequestBuilder.build())
     }
     
-    func testFetchApiKeys() throws {
-        let routes = StitchAppRoutes.init(clientAppId: "my_app-12345").authRoutes
+    func testFetchAPIKeys() throws {
+        let routes = StitchAppRoutes.init(clientAppID: "my_app-12345").authRoutes
         
         let expectedRequestBuilder = StitchAuthRequestBuilder()
             .with(method: .get)
@@ -126,12 +126,12 @@ class CoreUserAPIKeyAuthProviderClientUnitTests: StitchXCTestCase {
             .with(shouldRefreshOnFailure: false)
         
         try testClientCall(function: { client in
-            _ = try client.fetchApiKeys()
+            _ = try client.fetchAPIKeys()
         }, ignoresResponse: false, expectedRequest: expectedRequestBuilder.build())
     }
     
-    func testEnableApiKey() throws {
-        let routes = StitchAppRoutes.init(clientAppId: "my_app-12345").authRoutes
+    func testEnableAPIKey() throws {
+        let routes = StitchAppRoutes.init(clientAppID: "my_app-12345").authRoutes
         let keyToEnable = ObjectId()
         
         let expectedRequestBuilder = StitchAuthRequestBuilder()
@@ -141,12 +141,12 @@ class CoreUserAPIKeyAuthProviderClientUnitTests: StitchXCTestCase {
             .with(shouldRefreshOnFailure: false)
         
         try testClientCall(function: { client in
-            try client.enableApiKey(withId: keyToEnable)
+            try client.enableAPIKey(withID: keyToEnable)
         }, ignoresResponse: true, expectedRequest: expectedRequestBuilder.build())
     }
     
-    func testDisableApiKey() throws {
-        let routes = StitchAppRoutes.init(clientAppId: "my_app-12345").authRoutes
+    func testDisableAPIKey() throws {
+        let routes = StitchAppRoutes.init(clientAppID: "my_app-12345").authRoutes
         let keyToDisable = ObjectId()
         
         let expectedRequestBuilder = StitchAuthRequestBuilder()
@@ -156,12 +156,12 @@ class CoreUserAPIKeyAuthProviderClientUnitTests: StitchXCTestCase {
             .with(shouldRefreshOnFailure: false)
         
         try testClientCall(function: { client in
-            try client.disableApiKey(withId: keyToDisable)
+            try client.disableAPIKey(withID: keyToDisable)
         }, ignoresResponse: true, expectedRequest: expectedRequestBuilder.build())
     }
     
-    func testDeleteApiKey() throws {
-        let routes = StitchAppRoutes.init(clientAppId: "my_app-12345").authRoutes
+    func testDeleteAPIKey() throws {
+        let routes = StitchAppRoutes.init(clientAppID: "my_app-12345").authRoutes
         let keyToDelete = ObjectId()
         
         let expectedRequestBuilder = StitchAuthRequestBuilder()
@@ -171,7 +171,7 @@ class CoreUserAPIKeyAuthProviderClientUnitTests: StitchXCTestCase {
             .with(shouldRefreshOnFailure: false)
         
         try testClientCall(function: { client in
-            try client.deleteApiKey(withId: keyToDelete)
+            try client.deleteAPIKey(withID: keyToDelete)
         }, ignoresResponse: true, expectedRequest: expectedRequestBuilder.build())
     }
 }

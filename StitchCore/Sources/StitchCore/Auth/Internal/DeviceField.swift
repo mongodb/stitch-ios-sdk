@@ -7,12 +7,12 @@ public enum DeviceField: String {
     /**
      * The current user's device id.
      */
-    case deviceId
+    case deviceID = "deviceId"
 
     /**
      * The name of the local application.
      */
-    case appId
+    case appID = "appId"
 
     /**
      * The current version of the local application.

@@ -1,64 +1,64 @@
 import XCTest
 @testable import StitchCoreServicesHttp
 
-final class HttpRequestUnitTests: XCTestCase {
+final class HTTPRequestUnitTests: XCTestCase {
     
     func testBuilder() throws {
-        XCTAssertThrowsError(try HttpRequestBuilder().build()) { error in
-            XCTAssertTrue(error is HttpRequestBuilderError)
+        XCTAssertThrowsError(try HTTPRequestBuilder().build()) { error in
+            XCTAssertTrue(error is HTTPRequestBuilderError)
         }
         
-        XCTAssertThrowsError(try HttpRequestBuilder().with(url: "http://aol.com").build()) { error in
-            XCTAssertTrue(error is HttpRequestBuilderError)
+        XCTAssertThrowsError(try HTTPRequestBuilder().with(url: "http://aol.com").build()) { error in
+            XCTAssertTrue(error is HTTPRequestBuilderError)
         }
         
-        XCTAssertThrowsError(try HttpRequestBuilder().with(method: .delete).build()) { error in
-            XCTAssertTrue(error is HttpRequestBuilderError)
+        XCTAssertThrowsError(try HTTPRequestBuilder().with(method: .delete).build()) { error in
+            XCTAssertTrue(error is HTTPRequestBuilderError)
         }
         
         // Minimum satisfied
-        let expectedUrl = "http://aol.com"
-        let expectedMethod = HttpMethod.delete
+        let expectedURL = "http://aol.com"
+        let expectedMethod = HTTPMethod.delete
         
-        let request = try HttpRequestBuilder().with(url: expectedUrl).with(method: expectedMethod).build()
+        let request = try HTTPRequestBuilder().with(url: expectedURL).with(method: expectedMethod).build()
         
-        XCTAssertEqual(expectedUrl, request.url)
+        XCTAssertEqual(expectedURL, request.url)
         XCTAssertEqual(expectedMethod, request.method)
         
-        XCTAssertNil(request.authUrl)
+        XCTAssertNil(request.authURL)
         XCTAssertNil(request.body)
         XCTAssertNil(request.cookies)
-        XCTAssertNil(request.encodeBodyAsJson)
+        XCTAssertNil(request.encodeBodyAsJSON)
         XCTAssertNil(request.followRedirects)
         XCTAssertNil(request.form)
         XCTAssertNil(request.headers)
         
         // Full params
-        let expectedAuthUrl = "https://username@password:woo.com";
+        let expectedAuthURL = "https://username@password:woo.com";
         let expectedBody = "hello world!".data(using: .utf8)!
         let expectedCookies: [String: String] = ["some":"cookie"]
         let expectedForm: [String: String] = ["some": "form"]
         let expectedHeaders: [String: [String]] = ["some": ["head", "ers"]]
         
-        let fullRequest = try HttpRequestBuilder()
-            .with(url: expectedUrl)
-            .with(authUrl: expectedAuthUrl)
+        let fullRequest = try HTTPRequestBuilder()
+            .with(url: expectedURL)
+            .with(authURL: expectedAuthURL)
             .with(method: expectedMethod)
             .with(body: expectedBody)
             .with(cookies: expectedCookies)
-            .with(encodeBodyAsJson: false)
+            .with(encodeBodyAsJSON: false)
             .with(followRedirects: true)
             .with(form: expectedForm)
             .with(headers: expectedHeaders)
             .build()
         
-        XCTAssertEqual(expectedUrl, fullRequest.url)
+        XCTAssertEqual(expectedURL, fullRequest.url)
         XCTAssertEqual(expectedMethod, fullRequest.method)
         
-        XCTAssertEqual(expectedAuthUrl, fullRequest.authUrl!)
+        XCTAssertEqual(expectedAuthURL, fullRequest.authURL!)
         XCTAssertEqual(expectedBody, fullRequest.body!)
         XCTAssertEqual(expectedCookies, fullRequest.cookies!)
-        XCTAssertEqual(false, fullRequest.encodeBodyAsJson!)
+        XCTAssertEqual(false, fullRequest.encodeBodyAsJSON!)
         XCTAssertEqual(true, fullRequest.followRedirects!)
         XCTAssertEqual(expectedForm, fullRequest.form!)
         

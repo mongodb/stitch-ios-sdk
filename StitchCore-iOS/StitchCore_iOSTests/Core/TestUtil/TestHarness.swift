@@ -5,16 +5,16 @@ import StitchCore_iOS
 import MongoSwift
 import XCTest
 
-internal let defaultServerUrl = "http://localhost:9090"
+internal let defaultServerURL = "http://localhost:9090"
 internal let defaultTimeoutSeconds = 5.0
 
 func buildAdminTestHarness(seedTestApp: Bool,
                            username: String = "unique_user@domain.com",
                            password: String = "password",
-                           serverUrl: String = defaultServerUrl) -> TestHarness {
+                           serverURL: String = defaultServerURL) -> TestHarness {
     let harness = TestHarness.init(username: username,
                                    password: password,
-                                   serverUrl: serverUrl)
+                                   serverURL: serverURL)
     harness.authenticate()
     if seedTestApp {
         _ = harness.createApp()
@@ -25,12 +25,12 @@ func buildAdminTestHarness(seedTestApp: Bool,
 
 func buildClientTestHarness(username: String = "unique_user@domain.com",
                             password: String = "password",
-                            serverUrl: String = defaultServerUrl,
+                            serverURL: String = defaultServerURL,
                             _ completionHandler: @escaping (TestHarness) -> Void) {
     let harness = buildAdminTestHarness(seedTestApp: true,
                                         username: username,
                                         password: password,
-                                        serverUrl: serverUrl)
+                                        serverURL: serverURL)
 
     _ = harness.addDefaultUserpassProvider()
     _ = harness.createUser()
@@ -42,32 +42,32 @@ func buildClientTestHarness(username: String = "unique_user@domain.com",
 //swiftlint:disable force_try
 final class TestHarness {
     let adminClient: StitchAdminClient
-    let serverUrl: String
+    let serverURL: String
     let username: String
     let password: String
     var testApp: AppResponse?
     var stitchAppClient: StitchAppClient!
     var userCredentials: (username: String, password: String)?
-    var groupId: String?
+    var groupID: String?
     var user: UserResponse?
 
-    lazy var apps: Apps = self.adminClient.apps(withGroupId: self.groupId!)
+    lazy var apps: Apps = self.adminClient.apps(withGroupID: self.groupID!)
 
     var app: Apps.App {
         guard let testApp = self.testApp else {
             fatalError("App must be created first")
         }
-        return self.apps.app(withAppId: testApp.id)
+        return self.apps.app(withAppID: testApp.id)
     }
 
     fileprivate init(username: String = "unique_user@domain.com",
                      password: String = "password",
-                     serverUrl: String = defaultServerUrl) {
+                     serverURL: String = defaultServerURL) {
         self.username = username
         self.password = password
-        self.serverUrl = serverUrl
+        self.serverURL = serverURL
         self.adminClient = StitchAdminClient.init(
-            baseUrl: serverUrl,
+            baseURL: serverURL,
             transport: FoundationHTTPTransport.init()
         )!
     }
@@ -84,7 +84,7 @@ final class TestHarness {
         )
 
         let adminProfile = try! self.adminClient.adminProfile()
-        self.groupId = adminProfile.roles[0].groupId
+        self.groupID = adminProfile.roles[0].groupID
     }
 
     func createApp(testAppName: String = "test-\(ObjectId().description)") -> AppResponse {
@@ -106,20 +106,20 @@ final class TestHarness {
 
         let serviceView = try! self.app.services.create(data: serviceConfig)
         _ = rules.map { creator in
-            try! self.app.services.service(withId: serviceView.id).rules.create(data: creator)
+            try! self.app.services.service(withID: serviceView.id).rules.create(data: creator)
         }
         return serviceView
     }
 
     func addProvider(withConfig config: ProviderConfigs) -> AuthProviderResponse {
         let resp = try! self.app.authProviders.create(data: config)
-        try! self.app.authProviders.authProvider(providerId: resp.id).enable()
+        try! self.app.authProviders.authProvider(providerID: resp.id).enable()
         return resp
     }
 
     func addDefaultUserpassProvider() -> AuthProviderResponse {
-        return self.addProvider(withConfig: .userpass(emailConfirmationUrl: "http://emailConfirmURL.com",
-                                                      resetPasswordUrl: "http://resetPasswordURL.com",
+        return self.addProvider(withConfig: .userpass(emailConfirmationURL: "http://emailConfirmUrl.com",
+                                                      resetPasswordURL: "http://resetPasswordUrl.com",
                                                       confirmEmailSubject: "email subject",
                                                       resetPasswordSubject: "password subject"))
     }
@@ -128,12 +128,12 @@ final class TestHarness {
         return self.addProvider(withConfig: .anon())
     }
 
-    func enableDefaultApiKeyProvider() -> AuthProviderResponse {
+    func enableDefaultAPIKeyProvider() -> AuthProviderResponse {
         let resps = try! self.app.authProviders.list()
         let resp = resps.first { resp -> Bool in
             return resp.name == StitchProviderType.userAPIKey.name
         }
-        try! self.app.authProviders.authProvider(providerId: resp!.id).enable()
+        try! self.app.authProviders.authProvider(providerID: resp!.id).enable()
         return resp!
     }
 
@@ -206,8 +206,8 @@ final class TestHarness {
         try! Stitch.initialize()
 
         let configBuilder = StitchAppClientConfigurationBuilder()
-            .with(clientAppId: self.testApp!.clientAppId)
-            .with(baseURL: self.serverUrl)
+            .with(clientAppID: self.testApp!.clientAppID)
+            .with(baseURL: self.serverURL)
 
         self.stitchAppClient = try! Stitch.initializeAppClient(withConfigBuilder: configBuilder)
 

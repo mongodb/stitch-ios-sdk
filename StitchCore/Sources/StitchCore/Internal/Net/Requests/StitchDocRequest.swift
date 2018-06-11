@@ -52,7 +52,7 @@ public final class StitchDocRequestBuilder: StitchRequestBuilder {
         self.body = docString.data(using: .utf8)
         
         self.headers = self.headers ?? [:]
-        self.headers![Headers.contentType.rawValue] = ContentTypes.applicationJson.rawValue
+        self.headers![Headers.contentType.rawValue] = ContentTypes.applicationJSON.rawValue
         
         return try StitchDocRequest.init(stitchRequest: super.build(), document: document)
     }

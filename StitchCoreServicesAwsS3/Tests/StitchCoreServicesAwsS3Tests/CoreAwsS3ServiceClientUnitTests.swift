@@ -7,7 +7,7 @@ import StitchCoreMocks
 
 final class CoreAwsS3ServiceClientUnitTests: XCTestCase {
     func testPutObjectString() throws {
-        let service = MockCoreStitchService()
+        let service = MockCoreStitchServiceClient()
         let client = CoreAwsS3ServiceClient(withService: service)
         
         let bucket = "stuff"
@@ -73,7 +73,7 @@ final class CoreAwsS3ServiceClientUnitTests: XCTestCase {
     }
     
     func testPutObjectBinary() throws {
-        let service = MockCoreStitchService()
+        let service = MockCoreStitchServiceClient()
         let client = CoreAwsS3ServiceClient(withService: service)
         
         let bucket = "stuff"
@@ -139,7 +139,7 @@ final class CoreAwsS3ServiceClientUnitTests: XCTestCase {
     }
     
     func testPutObjectData() throws {
-        let service = MockCoreStitchService()
+        let service = MockCoreStitchServiceClient()
         let client = CoreAwsS3ServiceClient(withService: service)
         
         let bucket = "stuff"
@@ -205,7 +205,7 @@ final class CoreAwsS3ServiceClientUnitTests: XCTestCase {
     }
     
     func testSignPolicy() throws {
-        let service = MockCoreStitchService()
+        let service = MockCoreStitchServiceClient()
         let client = CoreAwsS3ServiceClient(withService: service)
         
         let bucket = "stuff"

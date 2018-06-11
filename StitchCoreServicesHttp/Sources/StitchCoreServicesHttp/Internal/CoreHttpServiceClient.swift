@@ -2,20 +2,20 @@ import Foundation
 import MongoSwift
 import StitchCore
 
-public final class CoreHttpServiceClient {
+public final class CoreHTTPServiceClient {
     private let service: CoreStitchServiceClient
     
     public init(withService service: CoreStitchServiceClient) {
         self.service = service
     }
     
-    public func execute(request: HttpRequest,
-                        timeout: TimeInterval? = nil) throws -> HttpResponse {
+    public func execute(request: HTTPRequest,
+                        timeout: TimeInterval? = nil) throws -> HTTPResponse {
         var args: Document = [ "url": request.url ]
         
         do {
-            if let authUrl = request.authUrl {
-                args["authUrl"] = authUrl
+            if let authURL = request.authURL {
+                args["authUrl"] = authURL
             }
             
             if let headers = request.headers {
@@ -30,8 +30,8 @@ public final class CoreHttpServiceClient {
                 args["body"] = Binary.init(data: body, subtype: .binary)
             }
             
-            if let encodeBodyAsJson = request.encodeBodyAsJson {
-                args["encodeBodyAsJSON"] = encodeBodyAsJson
+            if let encodeBodyAsJSON = request.encodeBodyAsJSON {
+                args["encodeBodyAsJSON"] = encodeBodyAsJSON
             }
             
             if let form = request.form {

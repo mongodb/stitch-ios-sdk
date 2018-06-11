@@ -1,17 +1,17 @@
 import Foundation
 
 /**
- * An error that the HttpRequest builder can throw if it is missing certain configuration properties.
+ * An error that the HTTPRequest builder can throw if it is missing certain configuration properties.
  */
-public enum HttpRequestBuilderError: Error {
+public enum HTTPRequestBuilderError: Error {
     case missingMethod
-    case missingUrl
+    case missingURL
 }
 
 /**
- * An HttpRequest encapsulates the details of an HTTP request over the HTTP service.
+ * An HTTPRequest encapsulates the details of an HTTP request over the HTTP service.
  */
-public struct HttpRequest {
+public struct HTTPRequest {
     /**
      * The URL that the request will be performed against.
      */
@@ -20,12 +20,12 @@ public struct HttpRequest {
     /**
      * The HTTP method of the request.
      */
-    public let method: HttpMethod
+    public let method: HTTPMethod
     
     /**
      * The URL that will be used to capture cookies for authentication before the actual request is executed.
      */
-    public let authUrl: String?
+    public let authURL: String?
     
     /**
      * The headers that will be included in the request.
@@ -45,7 +45,7 @@ public struct HttpRequest {
     /**
      * Whether or not the included body should be encoded as extended JSON when sent to the url in this request.
      */
-    public let encodeBodyAsJson: Bool?
+    public let encodeBodyAsJSON: Bool?
     
     /**
      * The form that will be included in the request.
@@ -58,14 +58,14 @@ public struct HttpRequest {
     public let followRedirects: Bool?
 }
 
-public class HttpRequestBuilder {
+public class HTTPRequestBuilder {
     internal var url: String?
-    internal var method: HttpMethod?
-    internal var authUrl: String?
+    internal var method: HTTPMethod?
+    internal var authURL: String?
     internal var headers: [String: [String]]?
     internal var cookies: [String: String]?
     internal var body: Data?
-    internal var encodeBodyAsJson: Bool?
+    internal var encodeBodyAsJSON: Bool?
     internal var form: [String: String]?
     internal var followRedirects: Bool?
     
@@ -84,7 +84,7 @@ public class HttpRequestBuilder {
      * Sets the HTTP method of the request.
      */
     @discardableResult
-    public func with(method: HttpMethod) -> Self {
+    public func with(method: HTTPMethod) -> Self {
         self.method = method
         return self
     }
@@ -93,8 +93,8 @@ public class HttpRequestBuilder {
      * Sets the URL that will be used to capture cookies for authentication before the actual request is executed.
      */
     @discardableResult
-    public func with(authUrl: String) -> Self {
-        self.authUrl = authUrl
+    public func with(authURL: String) -> Self {
+        self.authURL = authURL
         return self
     }
     
@@ -130,8 +130,8 @@ public class HttpRequestBuilder {
      * Defaults to false if not set.
      */
     @discardableResult
-    public func with(encodeBodyAsJson: Bool) -> Self {
-        self.encodeBodyAsJson = encodeBodyAsJson
+    public func with(encodeBodyAsJSON: Bool) -> Self {
+        self.encodeBodyAsJSON = encodeBodyAsJSON
         return self
     }
     
@@ -154,25 +154,25 @@ public class HttpRequestBuilder {
     }
     
     /**
-     * Builds, validates, and returns the `HttpRequest`.
+     * Builds, validates, and returns the `HTTPRequest`.
      */
-    public func build() throws -> HttpRequest {
+    public func build() throws -> HTTPRequest {
         guard let url = url, url != "" else {
-            throw HttpRequestBuilderError.missingUrl
+            throw HTTPRequestBuilderError.missingURL
         }
         
         guard let method = method else {
-            throw HttpRequestBuilderError.missingMethod
+            throw HTTPRequestBuilderError.missingMethod
         }
         
-        return HttpRequest.init(
+        return HTTPRequest.init(
             url: url,
             method: method,
-            authUrl: authUrl,
+            authURL: authURL,
             headers: headers,
             cookies: cookies,
             body: body,
-            encodeBodyAsJson: encodeBodyAsJson,
+            encodeBodyAsJSON: encodeBodyAsJSON,
             form: form,
             followRedirects: followRedirects
         )

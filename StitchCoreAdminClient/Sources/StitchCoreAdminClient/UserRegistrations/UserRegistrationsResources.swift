@@ -2,21 +2,21 @@ import Foundation
 import StitchCore
 
 /// Struct that allows the retrieval of the token
-/// and tokenId of a confirmation email, for the sake
+/// and tokenID of a confirmation email, for the sake
 /// of skirting email registration
 public struct ConfirmationEmail: Codable {
     private enum CodingKeys: String, CodingKey {
-        case token, tokenId = "token_id"
+        case token, tokenID = "token_id"
     }
 
     /// registration token
     public let token: String
     /// registration token id
-    public let tokenId: String
+    public let tokenID: String
 }
 
 extension Apps.App.UserRegistrations {
-    /// GET confirmation email token and tokenId
+    /// GET confirmation email token and tokenID
     /// - parameter email: email that the confirmation email was sent to
     public func sendConfirmation(toEmail email: String) throws -> ConfirmationEmail {
         let req = try StitchAuthRequestBuilder()

@@ -13,11 +13,11 @@ public final class StitchAdminAuth: CoreStitchAuth<StitchAdminUser> {
     public final override var deviceInfo: Document {
         var info = Document.init()
 
-        if self.hasDeviceId, let deviceId = self.deviceId {
-            info[DeviceField.deviceId.rawValue] = deviceId
+        if self.hasDeviceID, let deviceID = self.deviceID {
+            info[DeviceField.deviceID.rawValue] = deviceID
         }
 
-        info[DeviceField.appId.rawValue] = "MongoDB Stitch Swift Admin Client"
+        info[DeviceField.appID.rawValue] = "MongoDB Stitch Swift Admin Client"
 
         return info
     }

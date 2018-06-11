@@ -52,13 +52,13 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         
         let client = try self.appClient(forApp: app.0)
         
-        var exp = expectation(description: "should login")
+        let exp = expectation(description: "should login")
         client.auth.login(withCredential: AnonymousCredential()) { _,_  in
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
         
-        self.mongoClient = client.serviceClient(forFactory: RemoteMongoDbService.sharedFactory, withName: "mongodb1")
+        self.mongoClient = client.serviceClient(forFactory: RemoteMongoDBService.sharedFactory, withName: "mongodb1")
     }
     
     private func getTestColl() -> RemoteMongoCollection<Document> {

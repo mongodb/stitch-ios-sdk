@@ -1,6 +1,6 @@
 /**
  * :nodoc:
- * A client for the Google authentication provider which can be used to obtain a credential for logging in.
+ * The Google authentication provider.
  */
 public final class GoogleAuthProvider {
     private init() {}

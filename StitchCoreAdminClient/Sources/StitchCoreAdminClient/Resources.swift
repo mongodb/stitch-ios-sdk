@@ -142,7 +142,7 @@ extension Disablable {
     }
 }
 
-/// Resource that lists the current groupId's applications
+/// Resource that lists the current groupID's applications
 //swiftlint:disable nesting
 public final class Apps: BasicResource, Listable {
     public typealias Model = AppResponse

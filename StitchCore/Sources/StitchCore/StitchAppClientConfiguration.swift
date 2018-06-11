@@ -7,7 +7,7 @@ public class StitchAppClientConfiguration: StitchClientConfiguration {
     /**
      * The client app id of the Stitch application that this client is going to communicate with.
      */
-    public let clientAppId: String
+    public let clientAppID: String
 
     /**
      * The name of the local application.
@@ -20,17 +20,17 @@ public class StitchAppClientConfiguration: StitchClientConfiguration {
     public let localAppVersion: String
     
     internal init(appClientConfiguration: StitchAppClientConfiguration) {
-        self.clientAppId = appClientConfiguration.clientAppId
+        self.clientAppID = appClientConfiguration.clientAppID
         self.localAppName = appClientConfiguration.localAppName
         self.localAppVersion = appClientConfiguration.localAppVersion
         super.init(clientConfiguration: appClientConfiguration)
     }
     
     internal init(clientConfiguration: StitchClientConfiguration,
-                  clientAppId: String,
+                  clientAppID: String,
                   localAppName: String,
                   localAppVersion: String) {
-        self.clientAppId = clientAppId
+        self.clientAppID = clientAppID
         self.localAppName = localAppName
         self.localAppVersion = localAppVersion
         super.init(clientConfiguration: clientConfiguration)
@@ -41,14 +41,14 @@ public class StitchAppClientConfiguration: StitchClientConfiguration {
  * An error that a Stitch app client configuration can throw if it is missing certain properties.
  */
 public enum StitchAppClientConfigurationError: Error {
-    case missingClientAppId
+    case missingClientAppID
 }
 
 /**
  * A builder that can build a `StitchAppClientConfiguration` object.
  */
 public class StitchAppClientConfigurationBuilder: StitchClientConfigurationBuilder {
-    public internal(set) var clientAppId: String?
+    public internal(set) var clientAppID: String?
     public internal(set) var localAppName: String?
     public internal(set) var localAppVersion: String?
     
@@ -108,8 +108,8 @@ public class StitchAppClientConfigurationBuilder: StitchClientConfigurationBuild
      * Sets the client app id of the Stitch application that this client is going to communicate with.
      */
     @discardableResult
-    public func with(clientAppId: String) -> Self {
-        self.clientAppId = clientAppId
+    public func with(clientAppID: String) -> Self {
+        self.clientAppID = clientAppID
         return self
     }
 
@@ -132,8 +132,8 @@ public class StitchAppClientConfigurationBuilder: StitchClientConfigurationBuild
     }
     
     public override func build() throws -> StitchAppClientConfiguration {
-        guard let clientAppId = self.clientAppId else {
-            throw StitchAppClientConfigurationError.missingClientAppId
+        guard let clientAppID = self.clientAppID else {
+            throw StitchAppClientConfigurationError.missingClientAppID
         }
 
         if let appName = self.localAppName {
@@ -150,7 +150,7 @@ public class StitchAppClientConfigurationBuilder: StitchClientConfigurationBuild
         
         return try StitchAppClientConfiguration.init(
             clientConfiguration: super.build(),
-            clientAppId: clientAppId,
+            clientAppID: clientAppID,
             localAppName: self.localAppName!,
             localAppVersion: self.localAppVersion!
         )

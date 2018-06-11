@@ -5,7 +5,7 @@ import Foundation
  */
 public enum RequestBuilderError: Error {
     case missingMethod
-    case missingUrl
+    case missingURL
     case missingTimeout
 }
 
@@ -84,7 +84,7 @@ public class RequestBuilder {
             throw RequestBuilderError.missingMethod
         }
         guard let url = self.url else {
-            throw RequestBuilderError.missingUrl
+            throw RequestBuilderError.missingURL
         }
         guard let timeout = self.timeout else {
             throw RequestBuilderError.missingTimeout

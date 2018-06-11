@@ -6,7 +6,7 @@ import StitchCoreMocks
 
 final class CoreAwsSesServiceClientUnitTests: XCTestCase {
     func testSendEmail() throws {
-        let service = MockCoreStitchService()
+        let service = MockCoreStitchServiceClient()
         let client = CoreAwsSesServiceClient(withService: service)
         
         let to = "eliot@10gen.com"
@@ -14,10 +14,10 @@ final class CoreAwsSesServiceClientUnitTests: XCTestCase {
         let subject = "Hello"
         let body = "again friend"
         
-        let expectedMessageId = "yourMessageId"
+        let expectedMessageID = "yourMessageID"
         
         service.callFunctionInternalWithDecodingMock.doReturn(
-            result: AwsSesSendResult.init(messageId: expectedMessageId),
+            result: AwsSesSendResult.init(messageID: expectedMessageID),
             forArg1: .any,
             forArg2: .any,
             forArg3: .any
@@ -25,7 +25,7 @@ final class CoreAwsSesServiceClientUnitTests: XCTestCase {
         
         let result = try client.sendEmail(toAddress: to, fromAddress: from, subject: subject, body: body)
         
-        XCTAssertEqual(expectedMessageId, result.messageId)
+        XCTAssertEqual(expectedMessageID, result.messageID)
         
         let (funcNameArg, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
         

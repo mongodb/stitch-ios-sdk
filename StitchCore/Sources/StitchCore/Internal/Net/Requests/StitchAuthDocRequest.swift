@@ -48,7 +48,7 @@ public final class StitchAuthDocRequestBuilder: StitchAuthRequestBuilder {
         self.body = docString.data(using: .utf8)
         
         self.headers = self.headers ?? [:]
-        self.headers![Headers.contentType.rawValue] = ContentTypes.applicationJson.rawValue
+        self.headers![Headers.contentType.rawValue] = ContentTypes.applicationJSON.rawValue
         
         return try StitchAuthDocRequest.init(stitchAuthRequest: super.build(), document: document)
     }

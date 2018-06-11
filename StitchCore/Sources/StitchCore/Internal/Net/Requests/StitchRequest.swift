@@ -72,7 +72,7 @@ public class StitchRequestBuilder {
      */
     public func build() throws -> StitchRequest {
         guard let path = self.path else {
-            throw RequestBuilderError.missingUrl
+            throw RequestBuilderError.missingURL
         }
         
         guard let method = self.method else {

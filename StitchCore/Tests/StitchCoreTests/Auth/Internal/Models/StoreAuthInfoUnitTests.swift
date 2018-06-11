@@ -4,8 +4,8 @@ import JWT
 @testable import StitchCore
 
 let apiAuthInfo = APIAuthInfoImpl.init(
-    userId: "foo",
-    deviceId: "bar",
+    userID: "foo",
+    deviceID: "bar",
     accessToken: "baz",
     refreshToken: "qux"
 )
@@ -32,8 +32,8 @@ private let extendedAuthInfo = ExtendedAuthInfoImpl.init(loggedInProviderType: .
 class StoreAuthInfoUnitTests: XCTestCase {
     private func assert(storeAuthInfo: StoreAuthInfo,
                         isEqualTo apiAuthInfo: APIAuthInfo) {
-        XCTAssertEqual(storeAuthInfo.userId, apiAuthInfo.userId)
-        XCTAssertEqual(storeAuthInfo.deviceId, apiAuthInfo.deviceId)
+        XCTAssertEqual(storeAuthInfo.userID, apiAuthInfo.userID)
+        XCTAssertEqual(storeAuthInfo.deviceID, apiAuthInfo.deviceID)
         XCTAssertEqual(storeAuthInfo.accessToken, apiAuthInfo.accessToken)
         XCTAssertEqual(storeAuthInfo.refreshToken, apiAuthInfo.refreshToken)
     }

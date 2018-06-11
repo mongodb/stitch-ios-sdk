@@ -7,7 +7,7 @@ import StitchCoreTestUtils_iOS
 import StitchCoreServicesHttp
 @testable import StitchCoreServicesHttp_iOS
 
-class HttpServiceClientIntTests: BaseStitchIntTestCocoaTouch {
+class HTTPServiceClientIntTests: BaseStitchIntTestCocoaTouch {
     func testExecute() throws {
         let app = try self.createApp()
         let _ = try self.addProvider(toApp: app.1, withConfig: ProviderConfigs.anon())
@@ -30,18 +30,18 @@ class HttpServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         }
         wait(for: [exp0], timeout: 5.0)
         
-        let httpClient = client.serviceClient(forFactory: HttpService.sharedFactory, withName: "http1")
+        let httpClient = client.serviceClient(forFactory: HTTPService.sharedFactory, withName: "http1")
         
         // Specifying a request with a form AND body should fail.
-        var badUrl = "http://aol.com"
-        let method = HttpMethod.delete
+        var badURL = "http://aol.com"
+        let method = HTTPMethod.delete
         let body = "hello world".data(using: .utf8)!
         let cookies = ["bob": "barker"]
         let form: [String: String] = [:]
         let headers = ["myHeader": ["value1", "value2"]]
         
-        var badRequest = try HttpRequestBuilder()
-            .with(url: badUrl)
+        var badRequest = try HTTPRequestBuilder()
+            .with(url: badURL)
             .with(method: method)
             .with(body: body)
             .with(cookies: cookies)
@@ -62,10 +62,10 @@ class HttpServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         wait(for: [exp1], timeout: 5.0)
         
         // Executing a request against a bad domain should fail
-        badUrl = "http://127.0.0.1:234"
+        badURL = "http://127.0.0.1:234"
         
-        badRequest = try HttpRequestBuilder()
-            .with(url: badUrl)
+        badRequest = try HTTPRequestBuilder()
+            .with(url: badURL)
             .with(method: method)
             .with(body: body)
             .with(cookies: cookies)
@@ -85,7 +85,7 @@ class HttpServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         wait(for: [exp2], timeout: 5.0)
         
         // A correctly specific request should succeed
-        let goodRequest = try HttpRequestBuilder()
+        let goodRequest = try HTTPRequestBuilder()
             .with(url: "https://httpbin.org/delete")
             .with(method: method)
             .with(body: body)
@@ -94,7 +94,7 @@ class HttpServiceClientIntTests: BaseStitchIntTestCocoaTouch {
             .build()
         
         let exp3 = expectation(description: "request should be successfully completed")
-        var response: HttpResponse!
+        var response: HTTPResponse!
         httpClient.execute(request: goodRequest) { (resp, _) in
             XCTAssertNotNil(resp)
             response = resp!

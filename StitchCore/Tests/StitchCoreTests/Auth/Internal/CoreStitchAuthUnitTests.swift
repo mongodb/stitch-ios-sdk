@@ -10,7 +10,7 @@ import func JWT.encode
 import enum JWT.Algorithm
 
 private let baseJSONHeaders = [
-    Headers.contentType.rawValue: ContentTypes.applicationJson.rawValue
+    Headers.contentType.rawValue: ContentTypes.applicationJSON.rawValue
 ]
 
 fileprivate let testAccessToken = encode(Algorithm.hs256("foobar".data(using: .utf8)!)) {
@@ -28,8 +28,8 @@ fileprivate let testRefreshToken = encode(Algorithm.hs256("foobar".data(using: .
  * Gets a login response for testing that is always the same.
  */
 fileprivate let testLoginResponse = APIAuthInfoImpl.init(
-    userId: "some-unique-user-id",
-    deviceId: "0123456012345601234560123456",
+    userID: "some-unique-user-id",
+    deviceID: "0123456012345601234560123456",
     accessToken: testAccessToken, // TODO: getTestAccessToken
     refreshToken: testRefreshToken // TODO: getTestRefreshToken
 )
@@ -47,8 +47,8 @@ fileprivate let testUserProfile = APICoreUserProfileImpl.init(
  * A link response for testing that is always the same.
  */
 fileprivate let testLinkResponse = APIAuthInfoImpl.init(
-    userId: "some-unique-user-id",
-    deviceId: "0123456012345601234560123456",
+    userID: "some-unique-user-id",
+    deviceID: "0123456012345601234560123456",
     accessToken: testAccessToken, // TODO: getTestAccessToken
     refreshToken: nil
 )
@@ -118,7 +118,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
     
     func testLoginWithCredentialInternal() throws {
         let requestClient = getMockedRequestClient()
-        let routes = StitchAppRoutes.init(clientAppId: "my_app-12345").authRoutes
+        let routes = StitchAppRoutes.init(clientAppID: "my_app-12345").authRoutes
         let auth = try StitchAuth.init(
             requestClient: requestClient,
             authRoutes: routes,
@@ -128,7 +128,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         let user = try auth.loginWithCredentialInternal(withCredential: AnonymousCredential())
         let profile = testUserProfile
         
-        XCTAssertEqual(testLoginResponse.userId, user.id)
+        XCTAssertEqual(testLoginResponse.userID, user.id)
         XCTAssertEqual(AnonymousAuthProvider.defaultName, user.loggedInProviderName)
         XCTAssertEqual(StitchProviderType.anonymous, user.loggedInProviderType)
         XCTAssertEqual(profile.userType, user.userType)
@@ -157,7 +157,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
     
     func testLinkUserWithCredentialInternal() throws {
         let requestClient = getMockedRequestClient()
-        let routes = StitchAppRoutes.init(clientAppId: "my_app-12345").authRoutes
+        let routes = StitchAppRoutes.init(clientAppID: "my_app-12345").authRoutes
         let auth = try StitchAuth.init(
             requestClient: requestClient,
             authRoutes: routes,
@@ -180,9 +180,9 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
             .with(method: .post)
             .with(path: routes.authProviderLinkRoute(withProviderName: UserPasswordAuthProvider.defaultName))
             .with(body: ("{ \"username\" : \"foo@bar.com\", \"password\" : \"foobar\"," +
-                         " \"options\" : { \"device\" : { \"deviceId\" : \"\(testLoginResponse.deviceId!)\" } } }")
+                         " \"options\" : { \"device\" : { \"deviceId\" : \"\(testLoginResponse.deviceID!)\" } } }")
                         .data(using: .utf8)!)
-            .with(headers: [Headers.contentType.rawValue: ContentTypes.applicationJson.rawValue,
+            .with(headers: [Headers.contentType.rawValue: ContentTypes.applicationJSON.rawValue,
                             Headers.authorization.rawValue: Headers.authorizationBearer(forValue: testAccessToken)])
 
         XCTAssertEqual(try expectedRequest.build(), requestClient.doRequestMock.capturedInvocations[2])
@@ -197,7 +197,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
     
     func testIsLoggedIn() throws {
         let requestClient = getMockedRequestClient()
-        let routes = StitchAppRoutes.init(clientAppId: "my_app-12345").authRoutes
+        let routes = StitchAppRoutes.init(clientAppID: "my_app-12345").authRoutes
         let auth = try StitchAuth.init(
             requestClient: requestClient,
             authRoutes: routes,
@@ -211,7 +211,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
     
     func testLogoutInternal() throws {
         let requestClient = getMockedRequestClient()
-        let routes = StitchAppRoutes.init(clientAppId: "my_app-12345").authRoutes
+        let routes = StitchAppRoutes.init(clientAppID: "my_app-12345").authRoutes
         let auth = try StitchAuth.init(
             requestClient: requestClient,
             authRoutes: routes,
@@ -244,23 +244,23 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         XCTAssertFalse(auth.isLoggedIn)
     }
     
-    func testHasDeviceId() throws {
+    func testHasDeviceID() throws {
         let requestClient = getMockedRequestClient()
-        let routes = StitchAppRoutes.init(clientAppId: "my_app-12345").authRoutes
+        let routes = StitchAppRoutes.init(clientAppID: "my_app-12345").authRoutes
         let auth = try StitchAuth.init(
             requestClient: requestClient,
             authRoutes: routes,
             storage: MemoryStorage.init()
         )
         
-        XCTAssertFalse(auth.hasDeviceId)
+        XCTAssertFalse(auth.hasDeviceID)
         _ = try auth.loginWithCredentialInternal(withCredential: AnonymousCredential())
-        XCTAssertTrue(auth.hasDeviceId)
+        XCTAssertTrue(auth.hasDeviceID)
     }
     
     func testHandleAuthFailure() throws {
         let requestClient = getMockedRequestClient()
-        let routes = StitchAppRoutes.init(clientAppId: "my_app-12345").authRoutes
+        let routes = StitchAppRoutes.init(clientAppID: "my_app-12345").authRoutes
         let auth = try StitchAuth.init(
             requestClient: requestClient,
             authRoutes: routes,
@@ -269,7 +269,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         
         let user = try auth.loginWithCredentialInternal(withCredential: AnonymousCredential())
         
-        let refreshedToken = encode(Algorithm.hs256("refreshedJwt".data(using: .utf8)!)) {
+        let refreshedToken = encode(Algorithm.hs256("refreshedJWT".data(using: .utf8)!)) {
             let date = Date()
             $0.issuedAt = date.addingTimeInterval(-1000)
             $0.expiration = date.addingTimeInterval(1000)
@@ -330,9 +330,9 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
             .with(method: .post)
             .with(path: routes.authProviderLinkRoute(withProviderName: UserPasswordAuthProvider.defaultName))
             .with(body: ("{ \"username\" : \"foo@bar.com\", \"password\" : \"foobar\"," +
-                " \"options\" : { \"device\" : { \"deviceId\" : \"\(testLoginResponse.deviceId!)\" } } }")
+                " \"options\" : { \"device\" : { \"deviceId\" : \"\(testLoginResponse.deviceID!)\" } } }")
                 .data(using: .utf8)!)
-            .with(headers: [Headers.contentType.rawValue: ContentTypes.applicationJson.rawValue,
+            .with(headers: [Headers.contentType.rawValue: ContentTypes.applicationJSON.rawValue,
                             Headers.authorization.rawValue: Headers.authorizationBearer(forValue: refreshedToken)])
         
         XCTAssertEqual(try expectedRequest2.build(), requestClient.doRequestMock.capturedInvocations[4])
@@ -380,7 +380,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
     
     func testDoAuthenticatedRequest() throws {
         let requestClient = getMockedRequestClient()
-        let routes = StitchAppRoutes.init(clientAppId: "my_app-12345").authRoutes
+        let routes = StitchAppRoutes.init(clientAppID: "my_app-12345").authRoutes
         let auth = try StitchAuth.init(
             requestClient: requestClient,
             authRoutes: routes,

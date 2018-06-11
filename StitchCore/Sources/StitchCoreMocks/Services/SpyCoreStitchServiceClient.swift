@@ -3,7 +3,7 @@ import MongoSwift
 import MockUtils
 @testable import StitchCore
 
-public final class SpyCoreStitchService: CoreStitchServiceClientImpl {
+public final class SpyCoreStitchServiceClient: CoreStitchServiceClientImpl {
     public override init(requestClient: StitchAuthRequestClient,
                 routes: StitchServiceRoutes,
                 serviceName: String?) {

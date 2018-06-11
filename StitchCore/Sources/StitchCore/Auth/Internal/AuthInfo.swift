@@ -7,12 +7,12 @@ public protocol APIAuthInfo: Codable {
     /**
      * The id of the Stitch user.
      */
-    var userId: String { get }
+    var userID: String { get }
 
     /**
      * The device id. `nil` in a link request
      */
-    var deviceId: String? { get }
+    var deviceID: String? { get }
 
     /**
      * The temporary access token for the user.

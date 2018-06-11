@@ -24,7 +24,7 @@ class ThrowingServiceClientFactoryUnitTests: BaseStitchIntTestCocoaTouch {
                 try Stitch.initialize()
                 appClient = try? Stitch.initializeDefaultAppClient(
                     withConfigBuilder: StitchAppClientConfigurationBuilder()
-                        .with(clientAppId: "placeholder-app-id")
+                        .with(clientAppID: "placeholder-app-id")
                 )
             } catch {
                 XCTFail("Failed to initialize MongoDB Stitch iOS SDK: \(error.localizedDescription)")

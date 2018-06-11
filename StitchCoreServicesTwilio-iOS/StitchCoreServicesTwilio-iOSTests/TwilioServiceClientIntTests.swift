@@ -52,7 +52,7 @@ class TwilioServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         let to = "+15005550010"
         let from = "+15005550001"
         let body = "I've got it!"
-        let mediaUrl = "https://jpegs.com/myjpeg.gif.png"
+        let mediaURL = "https://jpegs.com/myjpeg.gif.png"
         
         let exp1 = expectation(description: "should not send message")
         twilio.sendMessage(to: to, from: from, body: body, mediaURL: nil) { error in
@@ -67,7 +67,7 @@ class TwilioServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         wait(for: [exp1], timeout: 5.0)
         
         let exp2 = expectation(description: "should not send message")
-        twilio.sendMessage(to: to, from: from, body: body, mediaURL: mediaUrl) { error in
+        twilio.sendMessage(to: to, from: from, body: body, mediaURL: mediaURL) { error in
             switch error as? StitchError {
             case .serviceError(_, let withServiceErrorCode)?:
                 XCTAssertEqual(StitchServiceErrorCode.twilioError, withServiceErrorCode)
@@ -87,7 +87,7 @@ class TwilioServiceClientIntTests: BaseStitchIntTestCocoaTouch {
             XCTAssertNil(error)
             exp3.fulfill()
         }
-        twilio.sendMessage(to: to, from: fromGood, body: mediaUrl, mediaURL: nil) { error in
+        twilio.sendMessage(to: to, from: fromGood, body: mediaURL, mediaURL: nil) { error in
             XCTAssertNil(error)
             exp4.fulfill()
         }
@@ -95,7 +95,7 @@ class TwilioServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         
         let exp5 = expectation(description: "should have invalid params")
         // Excluding any required parameters should fail
-        twilio.sendMessage(to: to, from: "", body: body, mediaURL: mediaUrl) { error in
+        twilio.sendMessage(to: to, from: "", body: body, mediaURL: mediaURL) { error in
             switch error as? StitchError {
             case .serviceError(_, let withServiceErrorCode)?:
                 XCTAssertEqual(StitchServiceErrorCode.invalidParameter, withServiceErrorCode)

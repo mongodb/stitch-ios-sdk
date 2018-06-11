@@ -3,6 +3,6 @@ import Foundation
 /**
  * The series of methods accepted by the HTTP service.
  */
-public enum HttpMethod: String {
+public enum HTTPMethod: String {
     case get, post, put, delete, head, patch
 }

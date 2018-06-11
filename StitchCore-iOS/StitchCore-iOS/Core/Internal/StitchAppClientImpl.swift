@@ -50,8 +50,8 @@ internal final class StitchAppClientImpl: StitchAppClient {
     public init(withConfig config: StitchAppClientConfiguration,
                 withDispatchQueue queue: DispatchQueue = DispatchQueue.global()) throws {
         self.dispatcher = OperationDispatcher.init(withDispatchQueue: queue)
-        self.routes = StitchAppRoutes.init(clientAppId: config.clientAppId)
-        self.info = StitchAppClientInfo(clientAppId: config.clientAppId,
+        self.routes = StitchAppRoutes.init(clientAppID: config.clientAppID)
+        self.info = StitchAppClientInfo(clientAppID: config.clientAppID,
                                         dataDirectory: config.dataDirectory,
                                         localAppName: config.localAppName,
                                         localAppVersion: config.localAppVersion

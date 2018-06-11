@@ -1,6 +1,6 @@
 /**
  * :nodoc:
- * A client for the Facebook authentication provider which can be used to obtain a credential for logging in.
+ * The Facebook authentication provider.
  */
 public final class FacebookAuthProvider {
     private init() {}

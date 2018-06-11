@@ -96,7 +96,7 @@ class StitchRequestClientUnitTests: StitchXCTestCase {
         
         transport.mockRoundTrip.clearStubs()
         
-        let headers = [Headers.contentType.rawValue: ContentTypes.applicationJson.rawValue]
+        let headers = [Headers.contentType.rawValue: ContentTypes.applicationJSON.rawValue]
         
         transport.mockRoundTrip.doReturn(
             result: Response.init(statusCode: 500, headers: headers, body: "whoops".data(using: .utf8)),
@@ -165,7 +165,7 @@ class StitchRequestClientUnitTests: StitchXCTestCase {
         }
     }
     
-    func testDoJsonRequestWithDoc() throws {
+    func testDoJSONRequestWithDoc() throws {
         let domain = "http://domain.com"
         let transport = MockTransport()
         let stitchRequestClient = StitchRequestClientImpl.init(
@@ -209,7 +209,7 @@ class StitchRequestClientUnitTests: StitchXCTestCase {
             .with(method: .patch)
             .with(url: "\(domain)\(path)")
             .with(body: "{ \"my\" : { \"$numberInt\" : \"24\" } }".data(using: .utf8))
-            .with(headers: [Headers.contentType.rawValue: ContentTypes.applicationJson.rawValue])
+            .with(headers: [Headers.contentType.rawValue: ContentTypes.applicationJSON.rawValue])
             .with(timeout: 1.5)
             .build()
 
@@ -259,7 +259,7 @@ class StitchRequestClientUnitTests: StitchXCTestCase {
         transport.mockRoundTrip.clearInvocations()
         transport.mockRoundTrip.clearStubs()
         
-        let headers = [Headers.contentType.rawValue: ContentTypes.applicationJson.rawValue]
+        let headers = [Headers.contentType.rawValue: ContentTypes.applicationJSON.rawValue]
         
         transport.mockRoundTrip.doReturn(
             result: Response.init(statusCode: 500, headers: headers, body: "whoops".data(using: .utf8)),
@@ -343,7 +343,7 @@ class StitchRequestClientUnitTests: StitchXCTestCase {
             .with(path: path)
             .with(method: .get)
         
-        let nonCanonicalHeaders = [Headers.contentType.nonCanonical(): ContentTypes.applicationJson.rawValue]
+        let nonCanonicalHeaders = [Headers.contentType.nonCanonical(): ContentTypes.applicationJSON.rawValue]
         
         // A bad response should throw an exception
         transport.mockRoundTrip.doReturn(
@@ -372,7 +372,7 @@ class StitchRequestClientUnitTests: StitchXCTestCase {
         
         transport.mockRoundTrip.clearStubs()
         
-        let canonicalHeaders = [Headers.contentType.rawValue: ContentTypes.applicationJson.rawValue]
+        let canonicalHeaders = [Headers.contentType.rawValue: ContentTypes.applicationJSON.rawValue]
         transport.mockRoundTrip.doReturn(
             result: Response.init(
                 statusCode: 500,

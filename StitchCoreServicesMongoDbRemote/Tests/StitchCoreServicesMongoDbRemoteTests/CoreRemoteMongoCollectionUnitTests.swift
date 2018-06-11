@@ -31,7 +31,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
     }
     
     func testCount() throws {
-        let service = MockCoreStitchService()
+        let service = MockCoreStitchServiceClient()
         let client = CoreRemoteMongoClient.init(withService: service)
         let coll = TestUtils.getCollection(withClient: client)
         
@@ -94,7 +94,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
     }
     
     func testFind() throws {
-        let service = MockCoreStitchService()
+        let service = MockCoreStitchServiceClient()
         let client = CoreRemoteMongoClient.init(withService: service)
         let coll = TestUtils.getCollection(withClient: client)
         
@@ -173,7 +173,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
     }
     
     func testAggregate() throws {
-        let service = MockCoreStitchService()
+        let service = MockCoreStitchServiceClient()
         let client = CoreRemoteMongoClient.init(withService: service)
         let coll = TestUtils.getCollection(withClient: client)
         
@@ -248,7 +248,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
     }
     
     func testInsertOne() throws {
-        let service = MockCoreStitchService()
+        let service = MockCoreStitchServiceClient()
         let client = CoreRemoteMongoClient.init(withService: service)
         let coll = TestUtils.getCollection(withClient: client)
         
@@ -301,7 +301,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
     }
     
     func testInsertMany() throws {
-        let service = MockCoreStitchService()
+        let service = MockCoreStitchServiceClient()
         let client = CoreRemoteMongoClient.init(withService: service)
         let coll = TestUtils.getCollection(withClient: client)
         
@@ -362,7 +362,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
     }
     
     func testDeleteOne() throws {
-        let service = MockCoreStitchService()
+        let service = MockCoreStitchServiceClient()
         let client = CoreRemoteMongoClient.init(withService: service)
         let coll = TestUtils.getCollection(withClient: client)
         
@@ -406,7 +406,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
     }
     
     func testDeleteMany() throws {
-        let service = MockCoreStitchService()
+        let service = MockCoreStitchServiceClient()
         let client = CoreRemoteMongoClient.init(withService: service)
         let coll = TestUtils.getCollection(withClient: client)
         
@@ -450,7 +450,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
     }
     
     func testUpdateOne() throws {
-        let service = MockCoreStitchService()
+        let service = MockCoreStitchServiceClient()
         let client = CoreRemoteMongoClient.init(withService: service)
         let coll = TestUtils.getCollection(withClient: client)
         
@@ -530,7 +530,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
     }
     
     func testUpdateMany() throws {
-        let service = MockCoreStitchService()
+        let service = MockCoreStitchServiceClient()
         let client = CoreRemoteMongoClient.init(withService: service)
         let coll = TestUtils.getCollection(withClient: client)
         

@@ -5,7 +5,7 @@ import StitchCore_iOS
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    public static let StitchClientAppId: String = "stitch-tests-ios-sdk-jjmum"
+    public static let StitchClientAppID: String = "stitch-tests-ios-sdk-jjmum"
 
     var window: UIWindow?
 
@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             try Stitch.initialize()
             _ = try Stitch.initializeDefaultAppClient(
                 withConfigBuilder: StitchAppClientConfigurationBuilder()
-                    .with(clientAppId: "stitch-tests-ios-sdk-jjmum")
+                    .with(clientAppID: "stitch-tests-ios-sdk-jjmum")
             )
             return true
         } catch {

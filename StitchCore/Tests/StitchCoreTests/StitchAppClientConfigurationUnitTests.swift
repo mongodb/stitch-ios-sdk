@@ -2,7 +2,7 @@ import XCTest
 @testable import StitchCore
 
 class StitchAppClientConfigurationUnitTests: XCTestCase {
-    private let clientAppId = "foo"
+    private let clientAppID = "foo"
     private let localAppVersion = "bar"
     private let localAppName = "baz"
     private let baseURL = "qux"
@@ -16,10 +16,10 @@ class StitchAppClientConfigurationUnitTests: XCTestCase {
 
         XCTAssertThrowsError(try builder.build()) { error in
             XCTAssertEqual(error as? StitchAppClientConfigurationError,
-                           StitchAppClientConfigurationError.missingClientAppId)
+                           StitchAppClientConfigurationError.missingClientAppID)
         }
 
-        builder.with(clientAppId: self.clientAppId)
+        builder.with(clientAppID: self.clientAppID)
         builder.with(localAppVersion: self.localAppVersion)
         builder.with(localAppName: self.localAppName)
 
@@ -60,7 +60,7 @@ class StitchAppClientConfigurationUnitTests: XCTestCase {
 
         let config = try builder.build()
 
-        XCTAssertEqual(config.clientAppId, self.clientAppId)
+        XCTAssertEqual(config.clientAppID, self.clientAppID)
         XCTAssertEqual(config.localAppVersion, self.localAppVersion)
         XCTAssertEqual(config.localAppName, self.localAppName)
         XCTAssertEqual(config.baseURL, self.baseURL)

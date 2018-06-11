@@ -5,8 +5,8 @@ import Foundation
  */
 public struct APIAuthInfoImpl: APIAuthInfo {
     enum CodingKeys: String, CodingKey {
-        case userId = "user_id"
-        case deviceId = "device_id"
+        case userID = "user_id"
+        case deviceID = "device_id"
         case accessToken = "access_token"
         case refreshToken = "refresh_token"
     }
@@ -14,12 +14,12 @@ public struct APIAuthInfoImpl: APIAuthInfo {
     /**
      * The id of the newly authenticated user.
      */
-    public let userId: String
+    public let userID: String
 
     /**
      * The device id of the newly authenticated user. This will be `nil` in a link request.
      */
-    public let deviceId: String?
+    public let deviceID: String?
 
     /**
      * The temporary access token for the newly authenticated user.

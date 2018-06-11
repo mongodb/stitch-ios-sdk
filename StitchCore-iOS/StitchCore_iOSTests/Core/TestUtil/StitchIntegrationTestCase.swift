@@ -42,7 +42,7 @@ internal class StitchIntegrationTestCase: XCTestCase {
             let conf = try? self.harness.app.userRegistrations.sendConfirmation(toEmail: email)
             guard let safeConf = conf else { XCTFail("could not retrieve email confirmation token"); return }
             emailPassClient.confirmUser(withToken: safeConf.token,
-                                        withTokenId: safeConf.tokenId
+                                        withTokenID: safeConf.tokenID
             ) { _ in
                 self.stitchAppClient.auth.login(
                     withCredential: emailPassClient.credential(forUsername: email, forPassword: password)

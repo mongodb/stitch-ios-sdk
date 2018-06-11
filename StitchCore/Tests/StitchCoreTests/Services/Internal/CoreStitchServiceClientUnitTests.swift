@@ -3,7 +3,7 @@ import MongoSwift
 @testable import StitchCore
 import StitchCoreMocks
 
-private let appRoutes = StitchAppRoutes.init(clientAppId: "")
+private let appRoutes = StitchAppRoutes.init(clientAppID: "")
 private let mockServiceName = "mockService"
 private let mockFunctionName = "mockFunction"
 private let mockArgs = [0, 1, 2]
@@ -17,7 +17,7 @@ class CoreStitchServiceClientUnitTests: XCTestCase {
     
     func testCallFunctionInternal() throws {
         let serviceName = "svc1"
-        let routes = StitchAppRoutes.init(clientAppId: "foo").serviceRoutes
+        let routes = StitchAppRoutes.init(clientAppID: "foo").serviceRoutes
         let requestClient = MockStitchAuthRequestClient()
         
         let coreStitchService = CoreStitchServiceClientImpl.init(

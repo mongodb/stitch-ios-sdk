@@ -7,12 +7,12 @@ import StitchCoreMocks
 final class TestUtils {
     
     static func getClient() -> CoreRemoteMongoClient {
-        let service = MockCoreStitchService()
+        let service = MockCoreStitchServiceClient()
         return CoreRemoteMongoClient.init(withService: service)
     }
     
     static func getDatabase(withName name: String) -> CoreRemoteMongoDatabase {
-        let service = MockCoreStitchService()
+        let service = MockCoreStitchServiceClient()
         return CoreRemoteMongoDatabase.init(withName: name, withService: service)
     }
     
@@ -21,9 +21,9 @@ final class TestUtils {
     }
     
     static func getCollection(withName name: String) -> CoreRemoteMongoCollection<Document> {
-        let routes = StitchAppRoutes.init(clientAppId: "foo").serviceRoutes
+        let routes = StitchAppRoutes.init(clientAppID: "foo").serviceRoutes
         let requestClient = MockStitchAuthRequestClient()
-        let service = SpyCoreStitchService.init(requestClient: requestClient, routes: routes, serviceName: nil)
+        let service = SpyCoreStitchServiceClient.init(requestClient: requestClient, routes: routes, serviceName: nil)
         
         let client = CoreRemoteMongoClient.init(withService: service)
         let db = client.db("dbName1")

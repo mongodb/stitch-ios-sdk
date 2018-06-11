@@ -3,7 +3,7 @@ import Foundation
 /**
  * Represents a RFC 6265 cookie.
  */
-public struct HttpCookie {
+public struct HTTPCookie {
     public enum CodingKeys: String, CodingKey {
         case value, path, domain, expires, maxAge, secure, httpOnly
     }

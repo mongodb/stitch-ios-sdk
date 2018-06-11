@@ -43,8 +43,8 @@ internal struct AuthStateHolder {
     /**
      * The id of the current user.
      */
-    var userId: String? {
-        return apiAuthInfo?.userId ?? authInfo?.userId
+    var userID: String? {
+        return apiAuthInfo?.userID ?? authInfo?.userID
     }
 
     /**

@@ -83,7 +83,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
             // this implies other properties we are interested should be set
             self.currentUser =
                 self.userFactory
-                    .makeUser(withId: authInfo.userId,
+                    .makeUser(withID: authInfo.userID,
                               withLoggedInProviderType: authInfo.loggedInProviderType,
                               withLoggedInProviderName: authInfo.loggedInProviderName,
                               withUserProfile: authInfo.userProfile)
@@ -135,8 +135,8 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
      */
     open var deviceInfo: Document {
         var info = Document()
-        if hasDeviceId {
-            info[DeviceField.deviceId.rawValue] = self.deviceId
+        if hasDeviceID {
+            info[DeviceField.deviceID.rawValue] = self.deviceID
         }
         return info
     }
@@ -164,18 +164,18 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
     /**
      * Returns whether or not the current authentication state has a meaningful device id.
      */
-    public var hasDeviceId: Bool {
-        return authInfo?.deviceId != nil
-            && authInfo?.deviceId != ""
-            && authInfo?.deviceId != "000000000000000000000000"
+    public var hasDeviceID: Bool {
+        return authInfo?.deviceID != nil
+            && authInfo?.deviceID != ""
+            && authInfo?.deviceID != "000000000000000000000000"
     }
 
     /**
      * Returns the currently authenticated user's device id, or `nil` is no user is currently authenticated, or if the
      * device id does not exist.
      */
-    public var deviceId: String? {
-        return authInfo?.deviceId
+    public var deviceID: String? {
+        return authInfo?.deviceID
     }
 
     // MARK: Authentication Actions
@@ -355,7 +355,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
         self.currentUser =
             userFactory
                 .makeUser(
-                    withId: authInfo!.userId,
+                    withID: authInfo!.userID,
                     withLoggedInProviderType: type(of: credential).providerType,
                     withLoggedInProviderName: credential.providerName,
                     withUserProfile: profile)

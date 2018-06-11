@@ -7,7 +7,7 @@ import func JWT.encode
 import enum JWT.Algorithm
 import class JWT.ClaimSetBuilder
 
-let freshJwt = encode(Algorithm.hs256("secret".data(using: .utf8)!), closure: { (csb: ClaimSetBuilder) in
+let freshJWT = encode(Algorithm.hs256("secret".data(using: .utf8)!), closure: { (csb: ClaimSetBuilder) in
     var date = Date()
     date.addTimeInterval(20*60)
     csb.expiration = date
@@ -41,10 +41,10 @@ class AccessTokenRefresherUnitTests: XCTestCase {
         
         // Auth starts out logged in and with a fresh token
         let freshAuthInfo: AuthInfo = StoreAuthInfo.init(
-            userId: "",
-            deviceId: nil,
-            accessToken: freshJwt,
-            refreshToken: freshJwt,
+            userID: "",
+            deviceID: nil,
+            accessToken: freshJWT,
+            refreshToken: freshJWT,
             loggedInProviderType: .anonymous,
             loggedInProviderName: "",
             userProfile: StitchUserProfileImpl.init(userType: "",
@@ -62,8 +62,8 @@ class AccessTokenRefresherUnitTests: XCTestCase {
         
         // Auth info is now expired
         let expiredAuthInfo: AuthInfo = StoreAuthInfo.init(
-            userId: "",
-            deviceId: nil,
+            userID: "",
+            deviceID: nil,
             accessToken: expiredJWT,
             refreshToken: expiredJWT,
             loggedInProviderType: .anonymous,
