@@ -5,7 +5,7 @@ import XCTest
 import StitchCoreMocks
 @testable import StitchCore
 
-class CoreUserAPIKeyAuthProviderClientTests: StitchXCTestCase {
+class CoreUserAPIKeyAuthProviderClientUnitTests: StitchXCTestCase {
     
     private func testClientCall(
         function: @escaping (CoreUserAPIKeyAuthProviderClient) throws -> Void,

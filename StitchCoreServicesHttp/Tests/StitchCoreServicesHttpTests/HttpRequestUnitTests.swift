@@ -1,7 +1,7 @@
 import XCTest
 @testable import StitchCoreServicesHttp
 
-final class HttpRequestTests: XCTestCase {
+final class HttpRequestUnitTests: XCTestCase {
     
     func testBuilder() throws {
         XCTAssertThrowsError(try HttpRequestBuilder().build()) { error in

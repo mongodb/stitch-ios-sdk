@@ -6,7 +6,7 @@ import StitchCoreTestUtils_iOS
 import StitchCoreServicesTwilio_iOS
 import StitchCoreServicesTwilio
 
-class Stitch_iOSServiceTwilioTests: BaseStitchIntTestCocoaTouch {
+class TwilioServiceClientIntTests: BaseStitchIntTestCocoaTouch {
     private let twilioSidProp = "test.stitch.twilioSid"
     private let twilioAuthTokenProp = "test.stitch.twilioAuthToken"
     

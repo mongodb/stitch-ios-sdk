@@ -11,7 +11,7 @@ private let pictureURL = "pictureURL"
 private let minAge = 42
 private let maxAge = 84
 
-class StitchUserProfileTests: XCTestCase {
+class StitchUserProfileUnitTests: XCTestCase {
     private let anonUserData: Document = [
         "first_name": firstName,
         "last_name": lastName,

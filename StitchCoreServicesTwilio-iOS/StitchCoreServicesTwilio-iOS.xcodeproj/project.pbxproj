@@ -11,7 +11,7 @@
 		F4D687BC20ACDD2A00C6C2BF /* StitchCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D687BB20ACDD2A00C6C2BF /* StitchCoreTestUtils.framework */; };
 		F4D748BD20B1AAC300393E45 /* StitchCoreTestUtils_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D748BC20B1AAC300393E45 /* StitchCoreTestUtils_iOS.framework */; };
 		F4D7CCE420AA0DC1003AA921 /* StitchCoreServicesTwilio_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D7CCDA20AA0DC1003AA921 /* StitchCoreServicesTwilio_iOS.framework */; };
-		F4D7CCE920AA0DC1003AA921 /* Stitch_iOSServiceTwilioTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D7CCE820AA0DC1003AA921 /* Stitch_iOSServiceTwilioTests.swift */; };
+		F4D7CCE920AA0DC1003AA921 /* TwilioServiceClientIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D7CCE820AA0DC1003AA921 /* TwilioServiceClientIntTests.swift */; };
 		F4D7CCEB20AA0DC1003AA921 /* Stitch_iOSServiceTwilio.h in Headers */ = {isa = PBXBuildFile; fileRef = F4D7CCDD20AA0DC1003AA921 /* Stitch_iOSServiceTwilio.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F4D7CCF520AA0DCC003AA921 /* TwilioServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D7CCF420AA0DCC003AA921 /* TwilioServiceClient.swift */; };
 		F4D7CCF820AA0E1E003AA921 /* TwilioServiceClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D7CCF720AA0E1E003AA921 /* TwilioServiceClientImpl.swift */; };
@@ -37,7 +37,7 @@
 		F4D7CCDD20AA0DC1003AA921 /* Stitch_iOSServiceTwilio.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Stitch_iOSServiceTwilio.h; sourceTree = "<group>"; };
 		F4D7CCDE20AA0DC1003AA921 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F4D7CCE320AA0DC1003AA921 /* StitchCoreServicesTwilio-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "StitchCoreServicesTwilio-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F4D7CCE820AA0DC1003AA921 /* Stitch_iOSServiceTwilioTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stitch_iOSServiceTwilioTests.swift; sourceTree = "<group>"; };
+		F4D7CCE820AA0DC1003AA921 /* TwilioServiceClientIntTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioServiceClientIntTests.swift; sourceTree = "<group>"; };
 		F4D7CCEA20AA0DC1003AA921 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F4D7CCF420AA0DCC003AA921 /* TwilioServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioServiceClient.swift; sourceTree = "<group>"; };
 		F4D7CCF720AA0E1E003AA921 /* TwilioServiceClientImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioServiceClientImpl.swift; sourceTree = "<group>"; };
@@ -100,7 +100,7 @@
 		F4D7CCE720AA0DC1003AA921 /* StitchCoreServicesTwilio-iOSTests */ = {
 			isa = PBXGroup;
 			children = (
-				F4D7CCE820AA0DC1003AA921 /* Stitch_iOSServiceTwilioTests.swift */,
+				F4D7CCE820AA0DC1003AA921 /* TwilioServiceClientIntTests.swift */,
 				F4D7CCEA20AA0DC1003AA921 /* Info.plist */,
 			);
 			path = "StitchCoreServicesTwilio-iOSTests";
@@ -246,7 +246,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4D7CCE920AA0DC1003AA921 /* Stitch_iOSServiceTwilioTests.swift in Sources */,
+				F4D7CCE920AA0DC1003AA921 /* TwilioServiceClientIntTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

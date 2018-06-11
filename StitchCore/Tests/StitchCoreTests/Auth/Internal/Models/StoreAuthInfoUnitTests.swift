@@ -29,7 +29,7 @@ private let extendedAuthInfo = ExtendedAuthInfoImpl.init(loggedInProviderType: .
                                                          loggedInProviderName: "corge",
                                                          userProfile: stitchUserProfile)
 
-class StoreAuthInfoTests: XCTestCase {
+class StoreAuthInfoUnitTests: XCTestCase {
     private func assert(storeAuthInfo: StoreAuthInfo,
                         isEqualTo apiAuthInfo: APIAuthInfo) {
         XCTAssertEqual(storeAuthInfo.userId, apiAuthInfo.userId)

@@ -2,7 +2,7 @@ import XCTest
 @testable import StitchCore
 import StitchCoreMocks
 
-class CoreUserPasswordAuthProviderClientTests: StitchXCTestCase {
+class CoreUserPasswordAuthProviderClientUnitTests: StitchXCTestCase {
     
     private func testClientCall(function: @escaping (CoreUserPasswordAuthProviderClient) throws -> Void,
                                 expectedRequest: StitchRequest) throws {

@@ -90,7 +90,7 @@ func getMockedRequestClient() -> MockStitchRequestClient {
     return requestClient
 }
 
-class CoreStitchAuthTests: StitchXCTestCase {
+class CoreStitchAuthUnitTests: StitchXCTestCase {
     private final class StitchAuth: CoreStitchAuth<CoreStitchUserImpl> {
         init(requestClient: StitchRequestClient,
              authRoutes: StitchAuthRoutes,

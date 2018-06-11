@@ -7,7 +7,7 @@ import StitchCoreTestUtils_iOS
 import StitchCoreServicesHttp
 @testable import StitchCoreServicesHttp_iOS
 
-class StitchCoreServicesHttp_iOSTests: BaseStitchIntTestCocoaTouch {
+class HttpServiceClientIntTests: BaseStitchIntTestCocoaTouch {
     func testExecute() throws {
         let app = try self.createApp()
         let _ = try self.addProvider(toApp: app.1, withConfig: ProviderConfigs.anon())

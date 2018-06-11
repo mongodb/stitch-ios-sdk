@@ -2,7 +2,7 @@ import Foundation
 import XCTest
 @testable import StitchCore
 
-class StitchAppClientInfoTests: XCTestCase {
+class StitchAppClientInfoUnitTests: XCTestCase {
     private let clientAppId = "foo"
     private let dataDirectory = URL.init(string: "bar")!
     private let localAppName = "baz"

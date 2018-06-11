@@ -2,7 +2,7 @@ import XCTest
 import Swifter
 @testable import StitchCore
 
-class FoundationHTTPTransportTests: StitchXCTestCase {
+class FoundationHTTPTransportUnitTests: StitchXCTestCase {
     let responseBody = "foo"
     let headerKey = "bar"
     let headerValue = "baz"

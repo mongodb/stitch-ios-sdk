@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		118C33AE20C72B7B00D1DE80 /* StitchCoreServicesHttp_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 118C33A420C72B7B00D1DE80 /* StitchCoreServicesHttp_iOS.framework */; };
-		118C33B320C72B7B00D1DE80 /* StitchCoreServicesHttp_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118C33B220C72B7B00D1DE80 /* StitchCoreServicesHttp_iOSTests.swift */; };
+		118C33B320C72B7B00D1DE80 /* HttpServiceClientIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118C33B220C72B7B00D1DE80 /* HttpServiceClientIntTests.swift */; };
 		118C33B520C72B7B00D1DE80 /* StitchCoreServicesHttp_iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 118C33A720C72B7B00D1DE80 /* StitchCoreServicesHttp_iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		118C33C020C72B9500D1DE80 /* StitchCore_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 118C33BF20C72B9500D1DE80 /* StitchCore_iOS.framework */; };
 		118C33C220C72B9500D1DE80 /* StitchCoreServicesHttp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 118C33C120C72B9500D1DE80 /* StitchCoreServicesHttp.framework */; };
@@ -33,7 +33,7 @@
 		118C33A720C72B7B00D1DE80 /* StitchCoreServicesHttp_iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StitchCoreServicesHttp_iOS.h; sourceTree = "<group>"; };
 		118C33A820C72B7B00D1DE80 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		118C33AD20C72B7B00D1DE80 /* StitchCoreServicesHttp-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "StitchCoreServicesHttp-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		118C33B220C72B7B00D1DE80 /* StitchCoreServicesHttp_iOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchCoreServicesHttp_iOSTests.swift; sourceTree = "<group>"; };
+		118C33B220C72B7B00D1DE80 /* HttpServiceClientIntTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpServiceClientIntTests.swift; sourceTree = "<group>"; };
 		118C33B420C72B7B00D1DE80 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		118C33BF20C72B9500D1DE80 /* StitchCore_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		118C33C120C72B9500D1DE80 /* StitchCoreServicesHttp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreServicesHttp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -99,7 +99,7 @@
 		118C33B120C72B7B00D1DE80 /* StitchCoreServicesHttp-iOSTests */ = {
 			isa = PBXGroup;
 			children = (
-				118C33B220C72B7B00D1DE80 /* StitchCoreServicesHttp_iOSTests.swift */,
+				118C33B220C72B7B00D1DE80 /* HttpServiceClientIntTests.swift */,
 				118C33B420C72B7B00D1DE80 /* Info.plist */,
 			);
 			path = "StitchCoreServicesHttp-iOSTests";
@@ -242,7 +242,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				118C33B320C72B7B00D1DE80 /* StitchCoreServicesHttp_iOSTests.swift in Sources */,
+				118C33B320C72B7B00D1DE80 /* HttpServiceClientIntTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

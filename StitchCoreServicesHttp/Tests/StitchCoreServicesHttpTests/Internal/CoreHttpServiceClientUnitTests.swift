@@ -4,7 +4,7 @@ import StitchCore
 import StitchCoreMocks
 @testable import StitchCoreServicesHttp
 
-final class CoreHttpServiceClientTests: XCTestCase {
+final class CoreHttpServiceClientUnitTests: XCTestCase {
     func testExecute() throws {
         let service = MockCoreStitchService()
         let client = CoreHttpServiceClient.init(withService: service)

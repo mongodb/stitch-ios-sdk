@@ -34,7 +34,7 @@ final class StubUser: CoreStitchUser {
     var identities: [StitchUserIdentity] = []
 }
 
-class AccessTokenRefresherTests: XCTestCase {
+class AccessTokenRefresherUnitTests: XCTestCase {
     func testCheckRefresh() throws {
         let auth = MockCoreStitchAuth<StubUser>()
         let accessTokenRefresher = AccessTokenRefresher<StubUser>.init(authRef: auth)

@@ -4,7 +4,7 @@ import StitchCore
 import StitchCoreMocks
 @testable import StitchCoreServicesTwilio
 
-class CoreTwilioServiceClientTests: XCTestCase {
+class CoreTwilioServiceClientUnitTests: XCTestCase {
     func testSendMessage() throws {
         let service = MockCoreStitchService()
         let client = CoreTwilioServiceClient(withService: service)

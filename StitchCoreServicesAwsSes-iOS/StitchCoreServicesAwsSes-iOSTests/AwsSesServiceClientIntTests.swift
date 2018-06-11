@@ -6,7 +6,7 @@ import StitchCoreTestUtils_iOS
 import StitchCoreServicesAwsSes
 @testable import StitchCoreServicesAwsSes_iOS
 
-class StitchCoreServicesAwsSes_iOSTests: BaseStitchIntTestCocoaTouch {
+class AwsSesServiceClientIntTests: BaseStitchIntTestCocoaTouch {
     private let awsAccessKeyIdProp = "test.stitch.accessKeyId"
     private let awsSecretAccessKeyProp = "test.stitch.secretAccessKey"
     

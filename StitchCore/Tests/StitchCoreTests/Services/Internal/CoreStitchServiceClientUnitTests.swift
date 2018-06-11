@@ -13,7 +13,7 @@ private let expectedDoc: Document = [
     "arguments": mockArgs
 ]
 
-class CoreStitchServiceTests: XCTestCase {
+class CoreStitchServiceClientUnitTests: XCTestCase {
     
     func testCallFunctionInternal() throws {
         let serviceName = "svc1"

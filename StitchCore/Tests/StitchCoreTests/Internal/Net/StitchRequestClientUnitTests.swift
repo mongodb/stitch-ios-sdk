@@ -4,7 +4,7 @@ import MongoSwift
 @testable import StitchCore
 import StitchCoreMocks
 
-class StitchRequestClientTests: StitchXCTestCase {
+class StitchRequestClientUnitTests: StitchXCTestCase {
     
     private struct UnrelatedError: Error { }
     private struct MockTimeoutError: Error { }
@@ -145,7 +145,7 @@ class StitchRequestClientTests: StitchXCTestCase {
             XCTAssertEqual(message, "bad")
         }
         
-        // Handles round trup failing
+        // Handles round trip failing
         transport.mockRoundTrip.doThrow(error: UnrelatedError.init(), forArg: .any)
         
         XCTAssertThrowsError(

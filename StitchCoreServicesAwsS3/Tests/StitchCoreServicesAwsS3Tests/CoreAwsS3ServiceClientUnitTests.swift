@@ -5,7 +5,7 @@ import StitchCore
 import StitchCoreMocks
 @testable import StitchCoreServicesAwsS3
 
-final class CoreAwsS3ServiceClientTests: XCTestCase {
+final class CoreAwsS3ServiceClientUnitTests: XCTestCase {
     func testPutObjectString() throws {
         let service = MockCoreStitchService()
         let client = CoreAwsS3ServiceClient(withService: service)

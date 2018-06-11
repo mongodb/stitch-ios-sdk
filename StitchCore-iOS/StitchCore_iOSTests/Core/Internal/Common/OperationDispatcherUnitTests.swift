@@ -1,7 +1,7 @@
 import XCTest
 @testable import StitchCore_iOS
 
-class OperationDispatcherTests: XCTestCase {
+class OperationDispatcherUnitTests: XCTestCase {
 
     var dispatcher: OperationDispatcher!
 

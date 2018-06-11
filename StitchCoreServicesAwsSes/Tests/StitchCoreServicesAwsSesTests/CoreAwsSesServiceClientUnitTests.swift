@@ -4,7 +4,7 @@ import StitchCore
 import StitchCoreMocks
 @testable import StitchCoreServicesAwsSes
 
-final class CoreAwsSesServiceClientTests: XCTestCase {
+final class CoreAwsSesServiceClientUnitTests: XCTestCase {
     func testSendEmail() throws {
         let service = MockCoreStitchService()
         let client = CoreAwsSesServiceClient(withService: service)

@@ -1,27 +1,15 @@
 import XCTest
 @testable import StitchCore
 
-class StitchAppClientConfigurationBuilderTests: XCTestCase {
-    private let clientAppId = "foo"
-    private let localAppVersion = "bar"
-    private let localAppName = "baz"
+class StitchClientConfigurationUnitTests: XCTestCase {
     private let baseURL = "qux"
-    private let dataDirectory = URL.init(string: "foo/bar/baz/qux")!
+    private let dataDirectory = URL.init(string: "foo/bar")!
     private let storage = MemoryStorage.init()
     private let transport = FoundationHTTPTransport.init()
     private let defaultRequestTimeout: TimeInterval = testDefaultRequestTimeout
 
-    func testStitchAppClientConfigurationBuilderInit() throws {
-        let builder = StitchAppClientConfigurationBuilder()
-
-        XCTAssertThrowsError(try builder.build()) { error in
-            XCTAssertEqual(error as? StitchAppClientConfigurationError,
-                           StitchAppClientConfigurationError.missingClientAppId)
-        }
-
-        builder.with(clientAppId: self.clientAppId)
-        builder.with(localAppVersion: self.localAppVersion)
-        builder.with(localAppName: self.localAppName)
+    func testStitchClientConfigurationBuilderImplInit() throws {
+        let builder = StitchClientConfigurationBuilder()
 
         XCTAssertThrowsError(try builder.build()) { error in
             XCTAssertEqual(error as? StitchClientConfigurationError,
@@ -60,9 +48,6 @@ class StitchAppClientConfigurationBuilderTests: XCTestCase {
 
         let config = try builder.build()
 
-        XCTAssertEqual(config.clientAppId, self.clientAppId)
-        XCTAssertEqual(config.localAppVersion, self.localAppVersion)
-        XCTAssertEqual(config.localAppName, self.localAppName)
         XCTAssertEqual(config.baseURL, self.baseURL)
         XCTAssert(config.storage is MemoryStorage)
         XCTAssert(config.transport is FoundationHTTPTransport)

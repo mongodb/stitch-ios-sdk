@@ -4,7 +4,7 @@ import XCTest
 import StitchCore
 import StitchCore_iOS
 
-class UserAPIKeyAuthProviderTests: StitchIntegrationTestCase {
+class UserAPIKeyAuthProviderIntTests: StitchIntegrationTestCase {
     override func setUp() {
         super.setUp()
         _ = harness.enableDefaultApiKeyProvider()
