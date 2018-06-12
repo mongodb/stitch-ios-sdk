@@ -5,10 +5,10 @@ import StitchCoreSDK
 import StitchCoreSDKMocks
 @testable import StitchCoreAWSS3Service
 
-final class CoreAwsS3ServiceClientUnitTests: XCTestCase {
+final class CoreAWSS3ServiceClientUnitTests: XCTestCase {
     func testPutObjectString() throws {
         let service = MockCoreStitchServiceClient()
-        let client = CoreAwsS3ServiceClient(withService: service)
+        let client = CoreAWSS3ServiceClient(withService: service)
         
         let bucket = "stuff"
         let key = "myFile"
@@ -19,7 +19,7 @@ final class CoreAwsS3ServiceClientUnitTests: XCTestCase {
         let expectedLocation = "awsLocation"
         
         service.callFunctionInternalWithDecodingMock.doReturn(
-            result: AwsS3PutObjectResult.init(location: expectedLocation),
+            result: AWSS3PutObjectResult.init(location: expectedLocation),
             forArg1: .any,
             forArg2: .any,
             forArg3: .any
@@ -74,7 +74,7 @@ final class CoreAwsS3ServiceClientUnitTests: XCTestCase {
     
     func testPutObjectBinary() throws {
         let service = MockCoreStitchServiceClient()
-        let client = CoreAwsS3ServiceClient(withService: service)
+        let client = CoreAWSS3ServiceClient(withService: service)
         
         let bucket = "stuff"
         let key = "myFile"
@@ -85,7 +85,7 @@ final class CoreAwsS3ServiceClientUnitTests: XCTestCase {
         let expectedLocation = "awsLocation"
         
         service.callFunctionInternalWithDecodingMock.doReturn(
-            result: AwsS3PutObjectResult.init(location: expectedLocation),
+            result: AWSS3PutObjectResult.init(location: expectedLocation),
             forArg1: .any,
             forArg2: .any,
             forArg3: .any
@@ -140,7 +140,7 @@ final class CoreAwsS3ServiceClientUnitTests: XCTestCase {
     
     func testPutObjectData() throws {
         let service = MockCoreStitchServiceClient()
-        let client = CoreAwsS3ServiceClient(withService: service)
+        let client = CoreAWSS3ServiceClient(withService: service)
         
         let bucket = "stuff"
         let key = "myFile"
@@ -151,7 +151,7 @@ final class CoreAwsS3ServiceClientUnitTests: XCTestCase {
         let expectedLocation = "awsLocation"
         
         service.callFunctionInternalWithDecodingMock.doReturn(
-            result: AwsS3PutObjectResult.init(location: expectedLocation),
+            result: AWSS3PutObjectResult.init(location: expectedLocation),
             forArg1: .any,
             forArg2: .any,
             forArg3: .any
@@ -206,7 +206,7 @@ final class CoreAwsS3ServiceClientUnitTests: XCTestCase {
     
     func testSignPolicy() throws {
         let service = MockCoreStitchServiceClient()
-        let client = CoreAwsS3ServiceClient(withService: service)
+        let client = CoreAWSS3ServiceClient(withService: service)
         
         let bucket = "stuff"
         let key = "myFile"
@@ -220,7 +220,7 @@ final class CoreAwsS3ServiceClientUnitTests: XCTestCase {
         let expectedCredential = "someCredential"
         
         service.callFunctionInternalWithDecodingMock.doReturn(
-            result: AwsS3SignPolicyResult.init(policy: expectedPolicy,
+            result: AWSS3SignPolicyResult.init(policy: expectedPolicy,
                                                signature: expectedSignature,
                                                algorithm: expectedAlgorithm,
                                                date: expectedDate,

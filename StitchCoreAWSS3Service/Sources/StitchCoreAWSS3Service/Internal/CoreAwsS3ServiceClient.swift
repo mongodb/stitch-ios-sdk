@@ -3,7 +3,7 @@ import MongoSwift
 import StitchCoreSDK
 
 
-public final class CoreAwsS3ServiceClient {
+public final class CoreAWSS3ServiceClient {
     private let service: CoreStitchServiceClient
     
     public init(withService service: CoreStitchServiceClient) {
@@ -22,7 +22,7 @@ public final class CoreAwsS3ServiceClient {
                                    acl: String,
                                    contentType: String,
                                    body: PutObjectBody,
-                                   timeout: TimeInterval? = nil) throws -> AwsS3PutObjectResult {
+                                   timeout: TimeInterval? = nil) throws -> AWSS3PutObjectResult {
         var args: Document = [
             "bucket": bucket,
             "key": key,
@@ -53,7 +53,7 @@ public final class CoreAwsS3ServiceClient {
                           acl: String,
                           contentType: String,
                           body: String,
-                          timeout: TimeInterval? = nil) throws -> AwsS3PutObjectResult {
+                          timeout: TimeInterval? = nil) throws -> AWSS3PutObjectResult {
         return try putObjectInternal(
             bucket: bucket,
             key: key,
@@ -69,7 +69,7 @@ public final class CoreAwsS3ServiceClient {
                           acl: String,
                           contentType: String,
                           body: Binary,
-                          timeout: TimeInterval? = nil) throws -> AwsS3PutObjectResult {
+                          timeout: TimeInterval? = nil) throws -> AWSS3PutObjectResult {
         return try putObjectInternal(
             bucket: bucket,
             key: key,
@@ -85,7 +85,7 @@ public final class CoreAwsS3ServiceClient {
                           acl: String,
                           contentType: String,
                           body: Data,
-                          timeout: TimeInterval? = nil) throws -> AwsS3PutObjectResult {
+                          timeout: TimeInterval? = nil) throws -> AWSS3PutObjectResult {
         return try putObjectInternal(
             bucket: bucket,
             key: key,
@@ -99,7 +99,7 @@ public final class CoreAwsS3ServiceClient {
     public func signPolicy(bucket: String,
                            key: String,
                            acl: String,
-                           contentType: String) throws -> AwsS3SignPolicyResult {
+                           contentType: String) throws -> AWSS3SignPolicyResult {
         let args: Document = [
             "bucket": bucket,
             "key": key,

@@ -8,10 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		110188B320C1E2B700C4C119 /* StitchAWSSESService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 110188A920C1E2B700C4C119 /* StitchAWSSESService.framework */; };
-		110188B820C1E2B700C4C119 /* AwsSesServiceClientIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110188B720C1E2B700C4C119 /* AwsSesServiceClientIntTests.swift */; };
+		110188B820C1E2B700C4C119 /* AWSSESServiceClientIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110188B720C1E2B700C4C119 /* AWSSESServiceClientIntTests.swift */; };
 		110188BA20C1E2B700C4C119 /* StitchCoreServicesAwsSes_iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 110188AC20C1E2B700C4C119 /* StitchCoreServicesAwsSes_iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		110188CA20C1E47100C4C119 /* AwsSesServiceClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110188C920C1E47100C4C119 /* AwsSesServiceClientImpl.swift */; };
-		110188CC20C1E47C00C4C119 /* AwsSesServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110188CB20C1E47C00C4C119 /* AwsSesServiceClient.swift */; };
+		110188CA20C1E47100C4C119 /* AWSSESServiceClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110188C920C1E47100C4C119 /* AWSSESServiceClientImpl.swift */; };
+		110188CC20C1E47C00C4C119 /* AWSSESServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110188CB20C1E47C00C4C119 /* AWSSESServiceClient.swift */; };
 		11CF5D8F20CF72DD006D57BA /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11CF5D8E20CF72DD006D57BA /* StitchCore.framework */; };
 		11CF5D9120CF72DD006D57BA /* StitchCoreAWSSESService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11CF5D9020CF72DD006D57BA /* StitchCoreAWSSESService.framework */; };
 		11CF5D9320CF7338006D57BA /* StitchCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11CF5D9220CF7338006D57BA /* StitchCoreTestUtils.framework */; };
@@ -33,12 +33,12 @@
 		110188AC20C1E2B700C4C119 /* StitchCoreServicesAwsSes_iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StitchCoreServicesAwsSes_iOS.h; sourceTree = "<group>"; };
 		110188AD20C1E2B700C4C119 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		110188B220C1E2B700C4C119 /* StitchAWSSESServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StitchAWSSESServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		110188B720C1E2B700C4C119 /* AwsSesServiceClientIntTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwsSesServiceClientIntTests.swift; sourceTree = "<group>"; };
+		110188B720C1E2B700C4C119 /* AWSSESServiceClientIntTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSSESServiceClientIntTests.swift; sourceTree = "<group>"; };
 		110188B920C1E2B700C4C119 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		110188C420C1E32300C4C119 /* StitchCore_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		110188C620C1E32700C4C119 /* StitchCoreServicesAwsSes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreServicesAwsSes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		110188C920C1E47100C4C119 /* AwsSesServiceClientImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwsSesServiceClientImpl.swift; sourceTree = "<group>"; };
-		110188CB20C1E47C00C4C119 /* AwsSesServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwsSesServiceClient.swift; sourceTree = "<group>"; };
+		110188C920C1E47100C4C119 /* AWSSESServiceClientImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSSESServiceClientImpl.swift; sourceTree = "<group>"; };
+		110188CB20C1E47C00C4C119 /* AWSSESServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSSESServiceClient.swift; sourceTree = "<group>"; };
 		110188CD20C1EC5400C4C119 /* StitchCoreTestUtils_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTestUtils_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		110188CF20C1EC5400C4C119 /* StitchCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		11CF5D8E20CF72DD006D57BA /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -93,7 +93,7 @@
 			isa = PBXGroup;
 			children = (
 				110188C820C1E46300C4C119 /* Internal */,
-				110188CB20C1E47C00C4C119 /* AwsSesServiceClient.swift */,
+				110188CB20C1E47C00C4C119 /* AWSSESServiceClient.swift */,
 				110188AC20C1E2B700C4C119 /* StitchCoreServicesAwsSes_iOS.h */,
 				110188AD20C1E2B700C4C119 /* Info.plist */,
 			);
@@ -103,7 +103,7 @@
 		110188B620C1E2B700C4C119 /* StitchAWSSESServiceTests */ = {
 			isa = PBXGroup;
 			children = (
-				110188B720C1E2B700C4C119 /* AwsSesServiceClientIntTests.swift */,
+				110188B720C1E2B700C4C119 /* AWSSESServiceClientIntTests.swift */,
 				110188B920C1E2B700C4C119 /* Info.plist */,
 			);
 			path = StitchAWSSESServiceTests;
@@ -127,7 +127,7 @@
 		110188C820C1E46300C4C119 /* Internal */ = {
 			isa = PBXGroup;
 			children = (
-				110188C920C1E47100C4C119 /* AwsSesServiceClientImpl.swift */,
+				110188C920C1E47100C4C119 /* AWSSESServiceClientImpl.swift */,
 			);
 			path = Internal;
 			sourceTree = "<group>";
@@ -241,8 +241,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				110188CC20C1E47C00C4C119 /* AwsSesServiceClient.swift in Sources */,
-				110188CA20C1E47100C4C119 /* AwsSesServiceClientImpl.swift in Sources */,
+				110188CC20C1E47C00C4C119 /* AWSSESServiceClient.swift in Sources */,
+				110188CA20C1E47100C4C119 /* AWSSESServiceClientImpl.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,7 +250,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				110188B820C1E2B700C4C119 /* AwsSesServiceClientIntTests.swift in Sources */,
+				110188B820C1E2B700C4C119 /* AWSSESServiceClientIntTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -6,7 +6,7 @@ import StitchIOSCoreTestUtils
 import StitchCoreAWSS3Service
 @testable import StitchAWSS3Service
 
-class AwsS3ServiceClientIntTests: BaseStitchIntTestCocoaTouch {
+class AWSS3ServiceClientIntTests: BaseStitchIntTestCocoaTouch {
     private let awsAccessKeyIDProp = "test.stitch.accessKeyID"
     private let awsSecretAccessKeyProp = "test.stitch.secretAccessKey"
     
@@ -50,7 +50,7 @@ class AwsS3ServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         }
         wait(for: [exp0], timeout: 5.0)
         
-        let awsS3 = client.serviceClient(forFactory: AwsS3Service.sharedFactory, withName: "aws-s31")
+        let awsS3 = client.serviceClient(forFactory: AWSS3Service.sharedFactory, withName: "aws-s31")
         
         // Putting to an bad bucket should fail
         let bucket = "notmystuff"
@@ -176,7 +176,7 @@ class AwsS3ServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         }
         wait(for: [exp0], timeout: 5.0)
         
-        let awsS3 = client.serviceClient(forFactory: AwsS3Service.sharedFactory, withName: "aws-s31")
+        let awsS3 = client.serviceClient(forFactory: AWSS3Service.sharedFactory, withName: "aws-s31")
         
         // Including all parameters should succeed
         let bucket = "notmystuff"

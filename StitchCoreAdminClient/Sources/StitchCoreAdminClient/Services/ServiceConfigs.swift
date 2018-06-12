@@ -28,7 +28,7 @@ private struct ServiceConfigWrapper<SC: ServiceConfig>: Encodable {
 private struct HTTPServiceConfig: ServiceConfig { }
 
 /// Configuration for an AWS S3 service
-private struct AwsS3ServiceConfig: ServiceConfig {
+private struct AWSS3ServiceConfig: ServiceConfig {
     /// aws region
     private let region: String
     /// your access key identifier
@@ -50,7 +50,7 @@ private struct AwsS3ServiceConfig: ServiceConfig {
 }
 
 /// Configuration for an AWS SES service
-private struct AwsSesServiceConfig: ServiceConfig {
+private struct AWSSESServiceConfig: ServiceConfig {
     /// aws region
     private let region: String
     /// your access key identifier
@@ -148,7 +148,7 @@ public enum ServiceConfigs: Encodable {
             try ServiceConfigWrapper.init(
                 name: name,
                 type: "aws-s3",
-                config: AwsSesServiceConfig.init(region: region,
+                config: AWSSESServiceConfig.init(region: region,
                                                  accessKeyID: accessKeyID,
                                                  secretAccessKey: secretAccessKey)
                 ).encode(to: encoder)
@@ -156,7 +156,7 @@ public enum ServiceConfigs: Encodable {
             try ServiceConfigWrapper.init(
                 name: name,
                 type: "aws-ses",
-                config: AwsSesServiceConfig.init(region: region,
+                config: AWSSESServiceConfig.init(region: region,
                                                  accessKeyID: accessKeyID,
                                                  secretAccessKey: secretAccessKey)
             ).encode(to: encoder)

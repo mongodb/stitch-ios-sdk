@@ -1,12 +1,12 @@
 import XCTest
 
-import StitchCore
+import StitchCoreSDK
 import StitchCoreAdminClient
 import StitchIOSCoreTestUtils
 import StitchCoreAWSSESService
 @testable import StitchAWSSESService
 
-class AwsSesServiceClientIntTests: BaseStitchIntTestCocoaTouch {
+class AWSSESServiceClientIntTests: BaseStitchIntTestCocoaTouch {
     private let awsAccessKeyIDProp = "test.stitch.accessKeyID"
     private let awsSecretAccessKeyProp = "test.stitch.secretAccessKey"
     
@@ -49,7 +49,7 @@ class AwsSesServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         }
         wait(for: [exp0], timeout: 5.0)
 
-        let awsSes = client.serviceClient(forFactory: AwsSesService.sharedFactory, withName: "aws-ses1")
+        let awsSES = client.serviceClient(forFactory: AWSSESService.sharedFactory, withName: "aws-ses1")
 
         // Sending a random email to an invalid email should fail
         let to = "eliot@stitch-dev.10gen.cc"
@@ -58,7 +58,7 @@ class AwsSesServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         let body = "again friend"
 
         let exp1 = expectation(description: "should not send email")
-        awsSes.sendEmail(to: to, from: from, subject: subject, body: body) { (_, error) in
+        awsSES.sendEmail(to: to, from: from, subject: subject, body: body) { (_, error) in
             switch error as? StitchError {
             case .serviceError(_, let withServiceErrorCode)?:
                 XCTAssertEqual(StitchServiceErrorCode.awsError, withServiceErrorCode)
@@ -73,7 +73,7 @@ class AwsSesServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         let fromGood = "dwight@baas-dev.10gen.cc"
 
         let exp2 = expectation(description: "should send email")
-        awsSes.sendEmail(to: to, from: fromGood, subject: subject, body: body) { (result, _) in
+        awsSES.sendEmail(to: to, from: fromGood, subject: subject, body: body) { (result, _) in
             XCTAssertNotNil(result)
             exp2.fulfill()
         }
@@ -81,7 +81,7 @@ class AwsSesServiceClientIntTests: BaseStitchIntTestCocoaTouch {
 
         // Excluding any required parameters should fail
         let exp3 = expectation(description: "should have invalid params")
-        awsSes.sendEmail(to: to, from: "", subject: subject, body: body) { (_, error) in
+        awsSES.sendEmail(to: to, from: "", subject: subject, body: body) { (_, error) in
             switch error as? StitchError {
             case .serviceError(_, let withServiceErrorCode)?:
                 XCTAssertEqual(StitchServiceErrorCode.invalidParameter, withServiceErrorCode)

@@ -4,10 +4,10 @@ import StitchCoreSDK
 import StitchCoreSDKMocks
 @testable import StitchCoreAWSSESService
 
-final class CoreAwsSesServiceClientUnitTests: XCTestCase {
+final class CoreAWSSESServiceClientUnitTests: XCTestCase {
     func testSendEmail() throws {
         let service = MockCoreStitchServiceClient()
-        let client = CoreAwsSesServiceClient(withService: service)
+        let client = CoreAWSSESServiceClient(withService: service)
         
         let to = "eliot@10gen.com"
         let from = "dwight@10gen.com"
@@ -17,7 +17,7 @@ final class CoreAwsSesServiceClientUnitTests: XCTestCase {
         let expectedMessageID = "yourMessageID"
         
         service.callFunctionInternalWithDecodingMock.doReturn(
-            result: AwsSesSendResult.init(messageID: expectedMessageID),
+            result: AWSSESSendResult.init(messageID: expectedMessageID),
             forArg1: .any,
             forArg2: .any,
             forArg3: .any

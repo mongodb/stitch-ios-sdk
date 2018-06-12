@@ -4,19 +4,19 @@ import StitchCore
 import StitchCoreSDK
 import StitchCoreAWSS3Service
 
-private final class AwsS3NamedServiceClientFactory: NamedServiceClientFactory {
-    typealias ClientType = AwsS3ServiceClient
+private final class AWSS3NamedServiceClientFactory: NamedServiceClientFactory {
+    typealias ClientType = AWSS3ServiceClient
     
     func client(withServiceClient serviceClient: StitchServiceClient,
-                withClientInfo clientInfo: StitchAppClientInfo) -> AwsS3ServiceClient {
-        return AwsS3ServiceClientImpl(
-            withClient: CoreAwsS3ServiceClient.init(withService: serviceClient),
+                withClientInfo clientInfo: StitchAppClientInfo) -> AWSS3ServiceClient {
+        return AWSS3ServiceClientImpl(
+            withClient: CoreAWSS3ServiceClient.init(withService: serviceClient),
             withDispatcher: OperationDispatcher(withDispatchQueue: DispatchQueue.global())
         )
     }
 }
 
-public protocol AwsS3ServiceClient {
+public protocol AWSS3ServiceClient {
     /**
      * Puts an object into an AWS S3 bucket as a string.
      *
@@ -35,7 +35,7 @@ public protocol AwsS3ServiceClient {
         acl: String,
         contentType: String,
         body: String,
-        _ completionHandler: @escaping (AwsS3PutObjectResult?, Error?) -> Void)
+        _ completionHandler: @escaping (AWSS3PutObjectResult?, Error?) -> Void)
     
     /**
      * Puts an object into an AWS S3 bucket as a string. A timeout can be specified if the operation is expected to
@@ -58,7 +58,7 @@ public protocol AwsS3ServiceClient {
         contentType: String,
         body: String,
         timeout: TimeInterval,
-        _ completionHandler: @escaping (AwsS3PutObjectResult?, Error?) -> Void)
+        _ completionHandler: @escaping (AWSS3PutObjectResult?, Error?) -> Void)
     
     /**
      * Puts a binary object into an AWS S3 bucket as a Foundation `Data` object.
@@ -78,7 +78,7 @@ public protocol AwsS3ServiceClient {
         acl: String,
         contentType: String,
         body: Data,
-        _ completionHandler: @escaping (AwsS3PutObjectResult?, Error?) -> Void)
+        _ completionHandler: @escaping (AWSS3PutObjectResult?, Error?) -> Void)
     
     /**
      * Puts an object into an AWS S3 bucket as a Foundation `Data` object.. A timeout can be specified if the operation
@@ -101,7 +101,7 @@ public protocol AwsS3ServiceClient {
         contentType: String,
         body: Data,
         timeout: TimeInterval,
-        _ completionHandler: @escaping (AwsS3PutObjectResult?, Error?) -> Void)
+        _ completionHandler: @escaping (AWSS3PutObjectResult?, Error?) -> Void)
     
     /**
      * Puts a binary object into an AWS S3 bucket as a BSON `Binary` object.
@@ -121,7 +121,7 @@ public protocol AwsS3ServiceClient {
         acl: String,
         contentType: String,
         body: Binary,
-        _ completionHandler: @escaping (AwsS3PutObjectResult?, Error?) -> Void)
+        _ completionHandler: @escaping (AWSS3PutObjectResult?, Error?) -> Void)
     
     /**
      * Puts an object into an AWS S3 bucket as a BSON `Binary` object. A timeout can be specified if the operation
@@ -144,7 +144,7 @@ public protocol AwsS3ServiceClient {
         contentType: String,
         body: Binary,
         timeout: TimeInterval,
-        _ completionHandler: @escaping (AwsS3PutObjectResult?, Error?) -> Void)
+        _ completionHandler: @escaping (AWSS3PutObjectResult?, Error?) -> Void)
     
     /**
      * Signs an AWS S3 security policy for a future put object request. This future request would
@@ -165,11 +165,11 @@ public protocol AwsS3ServiceClient {
                     key: String,
                     acl: String,
                     contentType: String,
-                    _ completionHandler: @escaping (AwsS3SignPolicyResult?, Error?) -> Void)
+                    _ completionHandler: @escaping (AWSS3SignPolicyResult?, Error?) -> Void)
 }
 
-public final class AwsS3Service {
-    public static let sharedFactory = AnyNamedServiceClientFactory<AwsS3ServiceClient>(
-        factory: AwsS3NamedServiceClientFactory()
+public final class AWSS3Service {
+    public static let sharedFactory = AnyNamedServiceClientFactory<AWSS3ServiceClient>(
+        factory: AWSS3NamedServiceClientFactory()
     )
 }

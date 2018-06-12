@@ -1,21 +1,21 @@
 import Foundation
-import StitchAWSSESService
 import StitchCore
+import StitchCoreAWSSESService
 import StitchCoreSDK
 
-private final class AwsSesNamedServiceClientFactory: NamedServiceClientFactory {
-    typealias ClientType = AwsSesServiceClient
+private final class AWSSESNamedServiceClientFactory: NamedServiceClientFactory {
+    typealias ClientType = AWSSESServiceClient
     
     func client(withServiceClient service: StitchServiceClient,
-                withClientInfo client: StitchAppClientInfo) -> AwsSesServiceClient {
-        return AwsSesServiceClientImpl(
-            withClient: CoreAwsSesServiceClient.init(withService: service),
+                withClientInfo client: StitchAppClientInfo) -> AWSSESServiceClient {
+        return AWSSESServiceClientImpl(
+            withClient: CoreAWSSESServiceClient.init(withService: service),
             withDispatcher: OperationDispatcher(withDispatchQueue: DispatchQueue.global())
         )
     }
 }
 
-public protocol AwsSesServiceClient {
+public protocol AWSSESServiceClient {
     /**
      * Sends an email.
      *
@@ -31,10 +31,10 @@ public protocol AwsSesServiceClient {
                    from: String,
                    subject: String,
                    body: String,
-                   _ completionHandler: @escaping (AwsSesSendResult?, Error?) -> Void)
+                   _ completionHandler: @escaping (AWSSESSendResult?, Error?) -> Void)
 }
 
-public final class AwsSesService {
+public final class AWSSESService {
     public static let sharedFactory =
-        AnyNamedServiceClientFactory<AwsSesServiceClient>(factory: AwsSesNamedServiceClientFactory())
+        AnyNamedServiceClientFactory<AWSSESServiceClient>(factory: AWSSESNamedServiceClientFactory())
 }

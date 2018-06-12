@@ -3,7 +3,7 @@ import Foundation
 /**
  * The result of an AWS SES send request.
  */
-public struct AwsSesSendResult: Decodable {
+public struct AWSSESSendResult: Decodable {
     /**
      * The id of the sent message.
      */

@@ -1,13 +1,13 @@
 import Foundation
 import StitchCore
 import StitchCoreSDK
-import StitchAWSSESService
+import StitchCoreAWSSESService
 
-public final class AwsSesServiceClientImpl: AwsSesServiceClient {
-    private let proxy: CoreAwsSesServiceClient
+public final class AWSSESServiceClientImpl: AWSSESServiceClient {
+    private let proxy: CoreAWSSESServiceClient
     private let dispatcher: OperationDispatcher
     
-    internal init(withClient client: CoreAwsSesServiceClient,
+    internal init(withClient client: CoreAWSSESServiceClient,
                   withDispatcher dispatcher: OperationDispatcher) {
         self.proxy = client
         self.dispatcher = dispatcher
@@ -17,7 +17,7 @@ public final class AwsSesServiceClientImpl: AwsSesServiceClient {
                           from: String,
                           subject: String,
                           body: String,
-                          _ completionHandler: @escaping (AwsSesSendResult?, Error?) -> Void) {
+                          _ completionHandler: @escaping (AWSSESSendResult?, Error?) -> Void) {
         self.dispatcher.run(withCompletionHandler: completionHandler) {
             return try self.proxy.sendEmail(toAddress: to, fromAddress: from, subject: subject, body: body)
         }

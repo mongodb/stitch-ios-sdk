@@ -2,7 +2,7 @@ import Foundation
 import MongoSwift
 import StitchCoreSDK
 
-public final class CoreAwsSesServiceClient {
+public final class CoreAWSSESServiceClient {
     private let service: CoreStitchServiceClient
     
     public init(withService service: CoreStitchServiceClient) {
@@ -12,7 +12,7 @@ public final class CoreAwsSesServiceClient {
     public func sendEmail(toAddress: String,
                           fromAddress: String,
                           subject: String,
-                          body: String) throws -> AwsSesSendResult {
+                          body: String) throws -> AWSSESSendResult {
         let args: Document = [
             "toAddress": toAddress,
             "fromAddress": fromAddress,
