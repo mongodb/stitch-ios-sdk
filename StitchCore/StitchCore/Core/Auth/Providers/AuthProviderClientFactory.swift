@@ -3,7 +3,7 @@ import StitchCoreSDK
 
 /**
  * A protocol defining methods necessary to provide an authentication provider client.
- * This protocol is not to be inherited except internally within the StitchCore-iOS module.
+ * This protocol is not to be inherited except internally within the StitchCore module.
  */
 public protocol AuthProviderClientFactory {
     /**

@@ -1,0 +1,9 @@
+// Re-exported classes, structs, protocols, and enums from StitchCoreRemoteMongoDBService
+
+@_exported import struct StitchCoreRemoteMongoDBService.RemoteCountOptions
+@_exported import struct StitchCoreRemoteMongoDBService.RemoteDeleteResult
+@_exported import struct StitchCoreRemoteMongoDBService.RemoteFindOptions
+@_exported import struct StitchCoreRemoteMongoDBService.RemoteInsertManyResult
+@_exported import struct StitchCoreRemoteMongoDBService.RemoteInsertOneResult
+@_exported import struct StitchCoreRemoteMongoDBService.RemoteUpdateOptions
+@_exported import struct StitchCoreRemoteMongoDBService.RemoteUpdateResult

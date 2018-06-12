@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1159637620D028FF00B0179B /* Exports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1159637520D028FF00B0179B /* Exports.swift */; };
 		118C33AE20C72B7B00D1DE80 /* StitchHTTPService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 118C33A420C72B7B00D1DE80 /* StitchHTTPService.framework */; };
 		118C33B320C72B7B00D1DE80 /* HTTPServiceClientIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118C33B220C72B7B00D1DE80 /* HTTPServiceClientIntTests.swift */; };
 		118C33B520C72B7B00D1DE80 /* StitchCoreServicesHttp_iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 118C33A720C72B7B00D1DE80 /* StitchCoreServicesHttp_iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -29,6 +30,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1159637520D028FF00B0179B /* Exports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exports.swift; sourceTree = "<group>"; };
 		118C33A420C72B7B00D1DE80 /* StitchHTTPService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StitchHTTPService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		118C33A720C72B7B00D1DE80 /* StitchCoreServicesHttp_iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StitchCoreServicesHttp_iOS.h; sourceTree = "<group>"; };
 		118C33A820C72B7B00D1DE80 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -93,9 +95,10 @@
 			isa = PBXGroup;
 			children = (
 				118C33C720C72DD000D1DE80 /* Internal */,
+				118C33CA20C72DF400D1DE80 /* HTTPServiceClient.swift */,
+				1159637520D028FF00B0179B /* Exports.swift */,
 				118C33A720C72B7B00D1DE80 /* StitchCoreServicesHttp_iOS.h */,
 				118C33A820C72B7B00D1DE80 /* Info.plist */,
-				118C33CA20C72DF400D1DE80 /* HTTPServiceClient.swift */,
 			);
 			path = StitchHTTPService;
 			sourceTree = "<group>";
@@ -243,6 +246,7 @@
 			files = (
 				118C33CB20C72DF400D1DE80 /* HTTPServiceClient.swift in Sources */,
 				118C33C920C72DE300D1DE80 /* HTTPServiceClientImpl.swift in Sources */,
+				1159637620D028FF00B0179B /* Exports.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,6 +399,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../Sources/libbson",
 					"$(SRCROOT)/../Sources/libmongoc",
@@ -428,6 +433,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../Sources/libbson",
 					"$(SRCROOT)/../Sources/libmongoc",

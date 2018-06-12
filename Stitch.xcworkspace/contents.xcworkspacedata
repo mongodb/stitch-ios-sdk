@@ -66,6 +66,9 @@
          </FileRef>
       </Group>
       <FileRef
+         location = "group:StitchSDK/StitchSDK.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:/Users/adamchel/stitch/sdks/v4/stitch-ios-sdk/StitchCore/StitchCore.xcodeproj">
       </FileRef>
       <FileRef
