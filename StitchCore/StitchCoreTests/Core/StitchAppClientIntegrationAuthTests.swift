@@ -34,10 +34,14 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
     func testAnonymousLogin() throws {
         let exp = expectation(description: "logged in anonymously")
 
-        stitchAppClient.auth.login(withCredential: AnonymousCredential()) { user, _ in
-            XCTAssertNotNil(user)
-            self.verifyBasicAuthStorageInfo(loggedIn: true, expectedProviderType: StitchProviderType.anonymous)
-            exp.fulfill()
+        stitchAppClient.auth.login(withCredential: AnonymousCredential()) { result in
+            switch result {
+            case .success:
+                self.verifyBasicAuthStorageInfo(loggedIn: true, expectedProviderType: StitchProviderType.anonymous)
+                exp.fulfill()
+            case .failure:
+                XCTFail("unexpected error")
+            }
         }
 
         wait(for: [exp], timeout: defaultTimeoutSeconds)
@@ -46,11 +50,15 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
     func testUserProfile() throws {
         let exp = expectation(description: "verified profile information")
 
-        stitchAppClient.auth.login(withCredential: AnonymousCredential()) { user, _ in
-            XCTAssertNotNil(user)
-            XCTAssertEqual(user!.profile.userType, "normal")
-            XCTAssertEqual(user!.profile.identities[0].providerType, "anon-user")
-            exp.fulfill()
+        stitchAppClient.auth.login(withCredential: AnonymousCredential()) { result in
+            switch result {
+            case .success(let user):
+                XCTAssertEqual(user.profile.userType, "normal")
+                XCTAssertEqual(user.profile.identities[0].providerType, "anon-user")
+                exp.fulfill()
+            case .failure:
+                XCTFail("unexpected error")
+            }
         }
 
         wait(for: [exp], timeout: defaultTimeoutSeconds)
@@ -78,18 +86,21 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
         var userID: String!
         self.stitchAppClient.auth.login(withCredential:
             CustomCredential.init(withToken: jwt)
-        ) { user, _ in
-            XCTAssertNotNil(user)
+        ) { result in
+            switch result {
+            case .success(let user):
+                userID = user.id
 
-            userID = user!.id
+                // Verify profile information in metadata
+                let profile = user.profile
+                XCTAssertEqual(profile.email, "name@example.com")
+                XCTAssertEqual(profile.name, "Joe Bloggs")
+                XCTAssertEqual(profile.pictureURL, "https://goo.gl/xqR6Jd")
 
-            // Verify profile information in metadata
-            let profile = user!.profile
-            XCTAssertEqual(profile.email, "name@example.com")
-            XCTAssertEqual(profile.name, "Joe Bloggs")
-            XCTAssertEqual(profile.pictureURL, "https://goo.gl/xqR6Jd")
-
-            exp1.fulfill()
+                exp1.fulfill()
+            case .failure:
+                XCTFail("unexpected error")
+            }
         }
         wait(for: [exp1], timeout: defaultTimeoutSeconds)
 
@@ -97,13 +108,15 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
         stitchAppClient.auth.logout { _ in
             self.stitchAppClient.auth.login(withCredential:
                 CustomCredential(withToken: jwt)
-            ) { user, _ in
-                XCTAssertNotNil(user)
-
-                // Ensure that the same user logs in if the token has the same unique user ID.
-                XCTAssertEqual(userID, user!.id)
-
-                exp2.fulfill()
+            ) { result in
+                switch result {
+                case .success(let user):
+                    // Ensure that the same user logs in if the token has the same unique user ID.
+                    XCTAssertEqual(userID, user.id)
+                    exp2.fulfill()
+                case .failure:
+                    XCTFail("unexpected error")
+                }
             }
         }
         wait(for: [exp2], timeout: defaultTimeoutSeconds)
@@ -118,12 +131,15 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
         var anonUserID: String!
         self.stitchAppClient.auth.login(
             withCredential: AnonymousCredential()
-        ) { (user: StitchUser?, _) in
-            XCTAssertNotNil(user)
-            anonUserID = user!.id
-
-            self.verifyBasicAuthStorageInfo(loggedIn: true, expectedProviderType: StitchProviderType.anonymous)
-            exp1.fulfill()
+        ) { result in
+            switch result {
+            case .success(let user):
+                anonUserID = user.id
+                self.verifyBasicAuthStorageInfo(loggedIn: true, expectedProviderType: StitchProviderType.anonymous)
+                exp1.fulfill()
+            case .failure:
+                XCTFail("unexpected error")
+            }
         }
         wait(for: [exp1], timeout: defaultTimeoutSeconds)
 
@@ -132,14 +148,18 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
 
         self.stitchAppClient.auth.login(
             withCredential: AnonymousCredential()
-        ) { (user: StitchUser?, _) in
-            XCTAssertNotNil(user)
+        ) { result in
+            switch result {
+            case .success(let user):
+                // make sure user ID is the name
+                XCTAssertEqual(anonUserID, user.id)
 
-            // make sure user ID is the name
-            XCTAssertEqual(anonUserID, user!.id)
+                self.verifyBasicAuthStorageInfo(loggedIn: true, expectedProviderType: StitchProviderType.anonymous)
+                exp2.fulfill()
 
-            self.verifyBasicAuthStorageInfo(loggedIn: true, expectedProviderType: StitchProviderType.anonymous)
-            exp2.fulfill()
+            case .failure:
+                XCTFail("unexpected error")
+            }
         }
         wait(for: [exp2], timeout: defaultTimeoutSeconds)
 
@@ -173,10 +193,15 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
         var anonUser: StitchUser!
         self.stitchAppClient.auth.login(
             withCredential: AnonymousCredential()
-        ) { (user, _) in
-            self.verifyBasicAuthStorageInfo(loggedIn: true, expectedProviderType: StitchProviderType.anonymous)
-            anonUser = user
-            exp1.fulfill()
+        ) { result in
+            switch result {
+            case .success(let user):
+                self.verifyBasicAuthStorageInfo(loggedIn: true, expectedProviderType: StitchProviderType.anonymous)
+                anonUser = user
+                exp1.fulfill()
+            case .failure:
+                XCTFail("unexpected error")
+            }
         }
         wait(for: [exp1], timeout: defaultTimeoutSeconds)
 
@@ -185,8 +210,14 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
         )
 
         let exp2 = expectation(description: "new email/password identity is created and confirmed")
-        userPassClient.register(withEmail: "stitch@10gen.com", withPassword: "password") { error in
-            XCTAssertNil(error)
+        userPassClient.register(withEmail: "stitch@10gen.com", withPassword: "password") { result in
+            switch result {
+            case .success:
+                break
+            case .failure:
+                XCTFail("unexpected error")
+            }
+
             exp2.fulfill()
         }
         wait(for: [exp2], timeout: defaultTimeoutSeconds)
@@ -198,21 +229,31 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
             return
         }
 
-        userPassClient.confirmUser(withToken: safeConf.token, withTokenID: safeConf.tokenID) { error in
-            XCTAssertNil(error)
+        userPassClient.confirmUser(withToken: safeConf.token, withTokenID: safeConf.tokenID) { result in
+            switch result {
+            case .success:
+                break
+            case .failure:
+                XCTFail("unexpected error")
+            }
+
             exp3.fulfill()
         }
         wait(for: [exp3], timeout: defaultTimeoutSeconds)
 
         let exp4 = expectation(description: "original account linked with new email/password identity")
         anonUser.link(
-            withCredential: userPassClient.credential(forUsername: "stitch@10gen.com", forPassword: "password")
-        ) { linkedUser, _ in
-            XCTAssertNotNil(linkedUser)
-            XCTAssertEqual(anonUser.id, linkedUser!.id)
-            self.verifyBasicAuthStorageInfo(loggedIn: true, expectedProviderType: StitchProviderType.userPassword)
-            XCTAssertEqual(linkedUser?.profile.identities.count, 2)
-            exp4.fulfill()
+            withCredential: UserPasswordCredential(withUsername: "stitch@10gen.com", withPassword: "password")
+        ) { result in
+            switch result {
+            case .success(let linkedUser):
+                XCTAssertEqual(anonUser.id, linkedUser.id)
+                self.verifyBasicAuthStorageInfo(loggedIn: true, expectedProviderType: StitchProviderType.userPassword)
+                XCTAssertEqual(linkedUser.profile.identities.count, 2)
+                exp4.fulfill()
+            case .failure:
+                XCTFail("unexpected error")
+            }
         }
         wait(for: [exp4], timeout: defaultTimeoutSeconds)
 

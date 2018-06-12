@@ -83,14 +83,6 @@ open class CoreUserPasswordAuthProviderClient: CoreAuthProviderClient<StitchRequ
     }
 
     /**
-     * Returns a credential for the provider, with the provided username and password.
-     */
-    public func credential(forUsername username: String,
-                           forPassword password: String) -> UserPasswordCredential {
-        return UserPasswordCredential.init(withUsername: username, withPassword: password)
-    }
-
-    /**
      * Registers a new email identity with the username/password provider, and sends a confirmation email to the
      * provided address. Blocks the current thread until the request is completed.
      *

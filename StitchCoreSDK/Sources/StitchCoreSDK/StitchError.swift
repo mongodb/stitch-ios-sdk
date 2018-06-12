@@ -95,6 +95,7 @@ public enum StitchRequestErrorCode {
     case transportError
     case decodingError
     case encodingError
+    case unknownError
 }
 
 /**

@@ -38,9 +38,14 @@ class OperationDispatcherUnitTests: XCTestCase {
     func testSuccessfulDispatch() {
         let expectation = XCTestExpectation.init()
 
-        dispatcher.run(withCompletionHandler: { (result: Int?, error: Error?) in
-            XCTAssert(result == 3)
-            XCTAssertNil(error)
+        dispatcher.run(withCompletionHandler: { (result: StitchResult<Int>) in
+            switch result {
+            case .success(let result):
+                XCTAssertTrue(result == 3)
+            case .failure:
+                XCTFail("unexpected error")
+            }
+
             expectation.fulfill()
         }, {
             return try self.sampleDivision(numerator: 6, denominator: 2)
@@ -52,9 +57,19 @@ class OperationDispatcherUnitTests: XCTestCase {
     func testThrowingDispatch() {
         let expectation = XCTestExpectation.init()
 
-        dispatcher.run(withCompletionHandler: { (result: Int?, error: Error?) in
-            XCTAssertNil(result)
-            XCTAssert(error is DivideByZeroError)
+        dispatcher.run(withCompletionHandler: { (result: StitchResult<Int>) in
+            switch result {
+            case .success:
+                XCTFail("expected an error and none was thrown")
+            case .failure(let error):
+                guard case .requestError(let underlyingError, let errorCode) = error else {
+                    XCTFail("wrong error type")
+                    return
+                }
+                XCTAssertEqual(StitchRequestErrorCode.unknownError, errorCode)
+                XCTAssertTrue(underlyingError is DivideByZeroError)
+            }
+
             expectation.fulfill()
         }, {
             return try self.sampleDivision(numerator: 6, denominator: 0)
@@ -66,8 +81,14 @@ class OperationDispatcherUnitTests: XCTestCase {
     func testSuccessfulVoidDispatch() {
         let expectation = XCTestExpectation.init()
 
-        dispatcher.run(withCompletionHandler: { (error: Error?) in
-            XCTAssertNil(error)
+        dispatcher.run(withCompletionHandler: { (result: StitchResult<Void>) in
+            switch result {
+            case .success:
+                break
+            case .failure:
+                XCTFail("unexpected error")
+            }
+
             expectation.fulfill()
         }, {
             return try self.sampleNoop(shouldThrow: false)
@@ -79,8 +100,19 @@ class OperationDispatcherUnitTests: XCTestCase {
     func testThrowingVoidDispatch() {
         let expectation = XCTestExpectation.init()
 
-        dispatcher.run(withCompletionHandler: { (error: Error?) in
-            XCTAssert(error is ArbitraryError)
+        dispatcher.run(withCompletionHandler: { (result: StitchResult<Void>) in
+            switch result {
+            case .success:
+                XCTFail("expected an error and none was thrown")
+            case .failure(let error):
+                guard case .requestError(let underlyingError, let errorCode) = error else {
+                    XCTFail("wrong error type")
+                    return
+                }
+                XCTAssertEqual(StitchRequestErrorCode.unknownError, errorCode)
+                XCTAssertTrue(underlyingError is ArbitraryError)
+            }
+
             expectation.fulfill()
         }, {
             return try self.sampleNoop(shouldThrow: true)

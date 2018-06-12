@@ -137,35 +137,33 @@ internal final class StitchAppClientImpl: StitchAppClient {
      * - parameters:
      *     - withName: The name of the Stitch function to be called.
      *     - withArgs: The `BSONArray` of arguments to be provided to the function.
-     *     - error: An error object that indicates why the function call failed, or `nil` if the function call was
-     *              successful.
-     *
+     *     - completionHandler: The completion handler to call when the function call is complete.
+     *                          This handler is executed on a non-main global `DispatchQueue`.
      */
     public func callFunction(withName name: String,
                              withArgs args: [BsonValue],
-                             _ completionHandler: @escaping (Error?) -> Void) {
+                             _ completionHandler: @escaping (StitchResult<Void>) -> Void) {
         self.dispatcher.run(withCompletionHandler: completionHandler) {
             return try self.coreClient.callFunctionInternal(withName: name, withArgs: args)
         }
     }
 
     /**
-     * Calls the MongoDB Stitch function with the provided name and arguments, as well as with a specified timeout. Use
-     * this for functions that may run longer than the client-wide default timeout (15 seconds by default).
+     * Calls the MongoDB Stitch function with the provided name and arguments, and decodes the result of the function
+     * into a `Decodable` type as specified by the `T` type parameter.
      *
      * - parameters:
      *     - withName: The name of the Stitch function to be called.
      *     - withArgs: The `BSONArray` of arguments to be provided to the function.
      *     - completionHandler: The completion handler to call when the function call is complete.
-     *                          This handler is executed on a non-main global `DispatchQueue`.
-     *     - result: The result of the function call as `T`, or `nil` if the function call failed.
-     *     - error: An error object that indicates why the function call failed, or `nil` if the function call was
-     *              successful.
+     *                          This handler is executed on a non-main global `DispatchQueue`. If the operation is
+     *                          successful, the result will contain a `T` representing the decoded result of the
+     *                          function call.
      *
      */
     public func callFunction<T: Decodable>(withName name: String,
                                            withArgs args: [BsonValue],
-                                           _ completionHandler: @escaping (T?, Error?) -> Void) {
+                                           _ completionHandler: @escaping (StitchResult<T>) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
             return try self.coreClient.callFunctionInternal(withName: name,
                                                             withArgs: args)
@@ -173,21 +171,22 @@ internal final class StitchAppClientImpl: StitchAppClient {
     }
 
     /**
-     * Calls the MongoDB Stitch function with the provided name and arguments.
+     * Calls the MongoDB Stitch function with the provided name and arguments. Also accepts a timeout. Use this for
+     * function that may run longer than the client-wide default timeout (15 seconds by default).
      *
      * - parameters:
      *     - withName: The name of the Stitch function to be called.
      *     - withArgs: The `BSONArray` of arguments to be provided to the function.
+     *     - withRequestTimeout: The number of seconds the client should wait for a response from the server before
+     *                           failing with an error.
      *     - completionHandler: The completion handler to call when the function call is complete.
      *                          This handler is executed on a non-main global `DispatchQueue`.
-     *     - error: An error object that indicates why the function call failed, or `nil` if the function call was
-     *              successful.
      *
      */
     public func callFunction(withName name: String,
                              withArgs args: [BsonValue],
                              withRequestTimeout requestTimeout: TimeInterval,
-                             _ completionHandler: @escaping (Error?) -> Void) {
+                             _ completionHandler: @escaping (StitchResult<Void>) -> Void) {
         self.dispatcher.run(withCompletionHandler: completionHandler) {
             return try self.coreClient.callFunctionInternal(withName: name,
                                                             withArgs: args,
@@ -197,8 +196,9 @@ internal final class StitchAppClientImpl: StitchAppClient {
     }
 
     /**
-     * Calls the MongoDB Stitch function with the provided name and arguments, as well as with a specified timeout. Use
-     * this for functions that may run longer than the client-wide default timeout (15 seconds by default).
+     * Calls the MongoDB Stitch function with the provided name and arguments, and decodes the result of the function
+     * into a `Decodable` type as specified by the `T` type parameter. Also accepts a timeout. Use this for functions
+     * that may run longer than the client-wide default timeout (15 seconds by default).
      *
      * - parameters:
      *     - withName: The name of the Stitch function to be called.
@@ -206,16 +206,14 @@ internal final class StitchAppClientImpl: StitchAppClient {
      *     - withRequestTimeout: The number of seconds the client should wait for a response from the server before
      *                           failing with an error.
      *     - completionHandler: The completion handler to call when the function call is complete.
-     *                          This handler is executed on a non-main global `DispatchQueue`.
-     *     - result: The result of the function call as `T`, or `nil` if the function call failed.
-     *     - error: An error object that indicates why the function call failed, or `nil` if the function call was
-     *              successful.
-     *
+     *                          This handler is executed on a non-main global `DispatchQueue`. If the operation is
+     *                          successful, the result will contain a `T` representing the decoded result of the
+     *                          function call.
      */
     public func callFunction<T: Decodable>(withName name: String,
                                            withArgs args: [BsonValue],
                                            withRequestTimeout requestTimeout: TimeInterval,
-                                           _ completionHandler: @escaping (T?, Error?) -> Void) {
+                                           _ completionHandler: @escaping (StitchResult<T>) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
             return try self.coreClient.callFunctionInternal(withName: name,
                                                             withArgs: args,

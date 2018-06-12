@@ -43,12 +43,12 @@ internal final class StitchUserImpl: CoreStitchUserImpl, StitchUser {
      *                       authentication provider client, which is retrieved
      *                       using the `getProviderClient` method on `StitchAuth`.
      *     - completionHandler: The completion handler to call when the linking is complete.
-     *                          This handler is executed on a non-main global `DispatchQueue`.
-     *     - user: The current user, or `nil` if the link failed.
-     *     - error: An error object that indicates why the link failed, or `nil` if the link was successful.
+     *                          This handler is executed on a non-main global `DispatchQueue`. If the operation is
+     *                          successful, the result will contain a `StitchUser` object representing the currently
+     *                          logged in user.
      */
     public func link(withCredential credential: StitchCredential,
-                     _ completionHandler: @escaping (StitchUser?, Error?) -> Void) {
+                     _ completionHandler: @escaping (StitchResult<StitchUser>) -> Void) {
         self.auth.link(withCredential: credential, withUser: self, completionHandler)
     }
 }

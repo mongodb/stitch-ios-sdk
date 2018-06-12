@@ -53,11 +53,11 @@ public protocol StitchUser: CoreStitchUser {
      *                       authentication provider client, which is retrieved
      *                       using the `getProviderClient` method on `StitchAuth`.
      *     - completionHandler: The completion handler to call when the linking is complete.
-     *                          This handler is executed on a non-main global `DispatchQueue`.
-     *     - user: The current user, or `nil` if the link failed.
-     *     - error: An error object that indicates why the link failed, or `nil` if the link was successful.
+     *                          This handler is executed on a non-main global `DispatchQueue`. If the operation is
+     *                          successful, the result will contain a `StitchUser` object representing the currently
+     *                          logged in user.
      */
-    func link(withCredential credential: StitchCredential, _ completionHandler: @escaping (_ user: StitchUser?, _ error: Error?) -> Void)
+    func link(withCredential credential: StitchCredential, _ completionHandler: @escaping (StitchResult<StitchUser>) -> Void)
 
     // swiftlint:enable line_length
 }

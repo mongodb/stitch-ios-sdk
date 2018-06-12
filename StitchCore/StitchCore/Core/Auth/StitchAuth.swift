@@ -70,31 +70,27 @@ public protocol StitchAuth {
      * Authenticates the client as a MongoDB Stitch user using the provided `StitchCredential`.
      *
      * - parameters:
-     *     - withCredential: The `StitchCore.StitchCredential` used to authenticate the
+     *     - withCredential: The `StitchCredential` used to authenticate the
      *                       client. Credentials can be retrieved from an
      *                       authentication provider client, which is retrieved
      *                       using the `providerClient` method.
      *     - completionHandler: The completion handler to call when the login is complete.
-     *                          This handler is executed on a non-main global `DispatchQueue`.
-     *     - user: A `StitchUser` object representing the user that the client is now authenticated as, or `nil` if the
-     *             login failed.
-     *     - error: An error object that indicates why the login failed, or `nil` if the login was successful.
+     *                          This handler is executed on a non-main global `DispatchQueue`. If the operation is
+     *                          successful, the result will contain a `StitchUser` object representing the user that
+     *                          the client is now authenticated as.
      */
-    func login(withCredential credential: StitchCredential, _ completionHandler: @escaping (_ user: StitchUser?, _ error: Error?) -> Void)
+    func login(withCredential credential: StitchCredential, _ completionHandler: @escaping (StitchResult<StitchUser>) -> Void)
 
     // swiftlint:enable line_length
 
     /**
-     * Logs out the currently authenticated user, and clears any persisted
-     * authentication information.
+     * Logs out the currently authenticated user, and clears any persisted authentication information.
      *
      * - parameters:
      *     - completionHandler: The completion handler to call when the logout is complete.
      *                          This handler is executed on a non-main global `DispatchQueue`.
-     *     - error: Will always be nil, since the underlying implementation squashes errors and always clears local
-     *              authentication information.
      */
-    func logout(_ completionHandler: @escaping (_ error: Error?) -> Void)
+    func logout(_ completionHandler: @escaping (StitchResult<Void>) -> Void)
 
     // MARK: Delegate Registration
 

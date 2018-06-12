@@ -1,4 +1,5 @@
 import Foundation
+import StitchCoreSDK
 
 /**
  * A class holding a `DispatchQueue` that can run arbitrary code blocks with arbitrary completion handlers.
@@ -22,32 +23,42 @@ public class OperationDispatcher {
      * after the block is run. The completion handler accepts the optional result of the function and
      * an optional `Error` object which will be non-nil if the code block threw an error.
      */
-    public func run<ResultType>(withCompletionHandler completionHandler: @escaping (ResultType?, Error?) -> Void,
+    public func run<ResultType>(withCompletionHandler completionHandler: @escaping (StitchResult<ResultType>) -> Void,
                                 _ function: @escaping () throws -> ResultType) {
         queue.async {
             do {
                 let result = try function()
-                completionHandler(result, nil)
+                completionHandler(StitchResult<ResultType>.success(result: result))
             } catch {
-                completionHandler(nil, error)
+                if let stitchError = error as? StitchError {
+                    completionHandler(StitchResult<ResultType>.failure(error: stitchError))
+                } else {
+                    // this should not happen since StitchCoreSDK wraps all errors in a `StitchError`, but if there is
+                    // a bug and an error is not wrapped, we will wrap it here with an unknown error code.
+                    completionHandler(StitchResult<ResultType>.failure(
+                        error: StitchError.requestError(
+                            withError: error, withRequestErrorCode: .unknownError)
+                        )
+                    )
+                }
             }
         }
     }
 
-    /**
-     * Runs an arbitrary block of void-returning code, and runs the provided completion handler
-     * after the block is run. The completion handler accepts an optional `Error` object which
-     * will be non-nil if the code block threw an error.
-     */
-    public func run(withCompletionHandler completionHandler: @escaping (Error?) -> Void,
-                    _ function: @escaping () throws -> Void) {
-        queue.async {
-            do {
-                try function()
-                completionHandler(nil)
-            } catch {
-                completionHandler(error)
-            }
-        }
-    }
+//    /**
+//     * Runs an arbitrary block of void-returning code, and runs the provided completion handler
+//     * after the block is run. The completion handler accepts an optional `Error` object which
+//     * will be non-nil if the code block threw an error.
+//     */
+//    public func run(withCompletionHandler completionHandler: @escaping (Error?) -> Void,
+//                    _ function: @escaping () throws -> Void) {
+//        queue.async {
+//            do {
+//                try function()
+//                completionHandler(nil)
+//            } catch {
+//                completionHandler(error)
+//            }
+//        }
+//    }
 }

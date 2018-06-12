@@ -89,8 +89,13 @@ open class BaseStitchIntTestCocoaTouch: BaseStitchIntTest {
         
         let exp2 = expectation(description: "should login")
         var user: StitchUser!
-        client.auth.login(withCredential: UserPasswordCredential(withUsername: email, withPassword: pass)) { (stitchUser, _) in
-            user = stitchUser
+        client.auth.login(withCredential: UserPasswordCredential(withUsername: email, withPassword: pass)) { result in
+            switch result {
+            case .success(let stitchUser):
+                user = stitchUser
+            case .failure:
+                XCTFail()
+            }
             exp2.fulfill()
         }
         wait(for: [exp2], timeout: 5.0)

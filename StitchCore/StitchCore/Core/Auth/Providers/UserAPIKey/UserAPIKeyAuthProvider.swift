@@ -41,26 +41,31 @@ public protocol UserAPIKeyAuthProviderClient {
      *
      * - parameters:
      *     - withName: The name of the API key to be created.
-     *     - completionHandler: The handler to be executed when the request is complete.
+     *     - completionHandler: The handler to be executed when the request is complete. If the operation is
+     *                          sucessful, the result will contain the created user API key as a `UserAPIKey`.
      */
-    func createAPIKey(withName name: String, _ completionHandler: @escaping (UserAPIKey?, Error?) -> Void)
+    func createAPIKey(withName name: String, _ completionHandler: @escaping (StitchResult<UserAPIKey>) -> Void)
 
     /**
      * Fetches a user API key associated with the current user.
      *
      * - parameters:
      *     - withID: The id of the API key to fetch.
-     *     - completionHandler: The handler to be executed when the request is complete.
+     *     - completionHandler: The handler to be executed when the request is complete. If the operation is
+     *                          sucessful, the result will contain the created user API key as a `UserAPIKey`. The
+     *                          fetched API key will not contain the actual key string.
      */
-    func fetchAPIKey(withID id: ObjectId, _ completionHandler: @escaping (UserAPIKey?, Error?) -> Void)
+    func fetchAPIKey(withID id: ObjectId, _ completionHandler: @escaping (StitchResult<UserAPIKey>) -> Void)
 
     /**
      * Fetches the user API keys associated with the current user.
      *
      * - parameters:
-     *     - completionHandler: The handler to be executed when the request is complete.
+     *     - completionHandler: The handler to be executed when the request is complete. If the operation is
+     *                          sucessful, the result will contain the fetched API keys as an `[UserAPIKey]`.
+     *                          The fetched API keys will not contain the actual key string.
      */
-    func fetchAPIKeys(_ completionHandler: @escaping ([UserAPIKey]?, Error?) -> Void)
+    func fetchAPIKeys(_ completionHandler: @escaping (StitchResult<[UserAPIKey]>) -> Void)
 
     /**
      * Deletes a user API key associated with the current user.
@@ -69,7 +74,7 @@ public protocol UserAPIKeyAuthProviderClient {
      *     - withID: The id of the API key to delete.
      *     - completionHandler: The handler to be executed when the request is complete.
      */
-    func deleteAPIKey(withID id: ObjectId, _ completionHandler: @escaping (Error?) -> Void)
+    func deleteAPIKey(withID id: ObjectId, _ completionHandler: @escaping (StitchResult<Void>) -> Void)
 
     /**
      * Enables a user API key associated with the current user.
@@ -78,7 +83,7 @@ public protocol UserAPIKeyAuthProviderClient {
      *     - withID: The id of the API key to enable.
      *     - completionHandler: The handler to be executed when the request is complete.
      */
-    func enableAPIKey(withID id: ObjectId, _ completionHandler: @escaping (Error?) -> Void)
+    func enableAPIKey(withID id: ObjectId, _ completionHandler: @escaping (StitchResult<Void>) -> Void)
 
     /**
      * Disables a user API key associated with the current user.
@@ -87,7 +92,7 @@ public protocol UserAPIKeyAuthProviderClient {
      *     - withID: The id of the API key to disable.
      *     - completionHandler: The handler to be executed when the request is complete.
      */
-    func disableAPIKey(withID id: ObjectId, _ completionHandler: @escaping (Error?) -> Void)
+    func disableAPIKey(withID id: ObjectId, _ completionHandler: @escaping (StitchResult<Void>) -> Void)
 }
 
 private class UserAPIKeyAuthProviderClientImpl:
@@ -102,37 +107,37 @@ CoreUserAPIKeyAuthProviderClient, UserAPIKeyAuthProviderClient {
                    withAuthRoutes: authRoutes)
     }
 
-    func createAPIKey(withName name: String, _ completionHandler: @escaping (UserAPIKey?, Error?) -> Void) {
+    func createAPIKey(withName name: String, _ completionHandler: @escaping (StitchResult<UserAPIKey>) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
             return try super.createAPIKey(withName: name)
         }
     }
 
-    func fetchAPIKey(withID id: ObjectId, _ completionHandler: @escaping (UserAPIKey?, Error?) -> Void) {
+    func fetchAPIKey(withID id: ObjectId, _ completionHandler: @escaping (StitchResult<UserAPIKey>) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
             return try super.fetchAPIKey(withID: id)
         }
     }
 
-    func fetchAPIKeys(_ completionHandler: @escaping ([UserAPIKey]?, Error?) -> Void) {
+    func fetchAPIKeys(_ completionHandler: @escaping (StitchResult<[UserAPIKey]>) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
             return try super.fetchAPIKeys()
         }
     }
 
-    func deleteAPIKey(withID id: ObjectId, _ completionHandler: @escaping (Error?) -> Void) {
+    func deleteAPIKey(withID id: ObjectId, _ completionHandler: @escaping (StitchResult<Void>) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
             try super.deleteAPIKey(withID: id)
         }
     }
 
-    func enableAPIKey(withID id: ObjectId, _ completionHandler: @escaping (Error?) -> Void) {
+    func enableAPIKey(withID id: ObjectId, _ completionHandler: @escaping (StitchResult<Void>) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
             try super.enableAPIKey(withID: id)
         }
     }
 
-    func disableAPIKey(withID id: ObjectId, _ completionHandler: @escaping (Error?) -> Void) {
+    func disableAPIKey(withID id: ObjectId, _ completionHandler: @escaping (StitchResult<Void>) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
             try super.disableAPIKey(withID: id)
         }

@@ -34,16 +34,8 @@ public final class UserPasswordAuthProvider {
  * that can be used to log in with the Username/Password authentication provider.
  */
 public protocol UserPasswordAuthProviderClient {
-    /**
-     * Gets a credential that can be used to log in with the Username/Password authentication provider.
-     *
-     * - parameters:
-     *     - forUserName: The username to authenticate as. This is usually the email address of the user.
-     *     - forPassword: The password of the user.
-     * - returns: a credential conforming to `StitchCredential`
-     */
-    func credential(forUsername username: String, forPassword password: String) -> UserPasswordCredential
-
+    // swiftlint:disable line_length
+    
     /**
      * Registers a new email identity with the username/password provider, and sends a confirmation email to the
      * provided address.
@@ -53,9 +45,7 @@ public protocol UserPasswordAuthProviderClient {
      *     - withPassword: The password that the user created for the new username/password identity.
      *     - completionHandler: The handler to be executed when the request is complete.
      */
-    func register(withEmail email: String, withPassword password: String, completionHandler: @escaping (Error?) -> Void)
-
-    // swiftlint:disable line_length
+    func register(withEmail email: String, withPassword password: String, completionHandler: @escaping (StitchResult<Void>) -> Void)
 
     /**
      * Confirms an email identity with the username/password provider.
@@ -65,7 +55,7 @@ public protocol UserPasswordAuthProviderClient {
      *     - withTokenID: The confirmation token id that was emailed to the user.
      *     - completionHandler: The handler to be executed when the request is complete.
      */
-    func confirmUser(withToken token: String, withTokenID tokenID: String, completionHandler: @escaping (Error?) -> Void)
+    func confirmUser(withToken token: String, withTokenID tokenID: String, completionHandler: @escaping (StitchResult<Void>) -> Void)
 
     // swiftlint:enable line_length
 
@@ -76,7 +66,7 @@ public protocol UserPasswordAuthProviderClient {
      *     - toEmail: The email address of the user to re-send a confirmation for.
      *     - completionHandler: The handler to be executed when the request is complete.
      */
-    func resendConfirmation(toEmail email: String, completionHandler: @escaping (Error?) -> Void)
+    func resendConfirmation(toEmail email: String, completionHandler: @escaping (StitchResult<Void>) -> Void)
 
     /**
      * Sends a password reset email to the given email address.
@@ -85,7 +75,7 @@ public protocol UserPasswordAuthProviderClient {
      *     - toEmail: The email address of the user to send a password reset email for.
      *     - completionHandler: The handler to be executed when the request is complete.
      */
-    func sendResetPasswordEmail(toEmail email: String, completionHandler: @escaping (Error?) -> Void)
+    func sendResetPasswordEmail(toEmail email: String, completionHandler: @escaping (StitchResult<Void>) -> Void)
 
     // swiftlint:disable line_length
 
@@ -98,7 +88,7 @@ public protocol UserPasswordAuthProviderClient {
      *     - withTokenID: The password reset token id that was emailed to the user.
      *     - completionHandler: The handler to be executed when the request is complete.
      */
-    func reset(password: String, withToken token: String, withTokenID tokenID: String, completionHandler: @escaping (Error?) -> Void)
+    func reset(password: String, withToken token: String, withTokenID tokenID: String, completionHandler: @escaping (StitchResult<Void>) -> Void)
 
     // swiftlint:enable line_length
 }
@@ -115,7 +105,7 @@ private class UserPasswordAuthProviderClientImpl: CoreUserPasswordAuthProviderCl
 
     func register(withEmail email: String,
                   withPassword password: String,
-                  completionHandler: @escaping (Error?) -> Void) {
+                  completionHandler: @escaping (StitchResult<Void>) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
             _ = try super.register(withEmail: email, withPassword: password)
         }
@@ -123,13 +113,13 @@ private class UserPasswordAuthProviderClientImpl: CoreUserPasswordAuthProviderCl
 
     func confirmUser(withToken token: String,
                      withTokenID tokenID: String,
-                     completionHandler: @escaping (Error?) -> Void) {
+                     completionHandler: @escaping (StitchResult<Void>) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
             _ = try super.confirmUser(withToken: token, withTokenID: tokenID)
         }
     }
 
-    func resendConfirmation(toEmail email: String, completionHandler: @escaping (Error?) -> Void) {
+    func resendConfirmation(toEmail email: String, completionHandler: @escaping (StitchResult<Void>) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
             _ = try super.resendConfirmation(toEmail: email)
         }
@@ -138,13 +128,13 @@ private class UserPasswordAuthProviderClientImpl: CoreUserPasswordAuthProviderCl
     func reset(password: String,
                withToken token: String,
                withTokenID tokenID: String,
-               completionHandler: @escaping (Error?) -> Void) {
+               completionHandler: @escaping (StitchResult<Void>) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
             _ = try super.reset(password: password, withToken: token, withTokenID: tokenID)
         }
     }
 
-    func sendResetPasswordEmail(toEmail email: String, completionHandler: @escaping (Error?) -> Void) {
+    func sendResetPasswordEmail(toEmail email: String, completionHandler: @escaping (StitchResult<Void>) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
             _ = try super.sendResetPasswordEmail(toEmail: email)
         }

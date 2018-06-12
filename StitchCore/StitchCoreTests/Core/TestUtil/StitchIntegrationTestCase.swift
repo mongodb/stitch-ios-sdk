@@ -45,13 +45,14 @@ internal class StitchIntegrationTestCase: XCTestCase {
                                         withTokenID: safeConf.tokenID
             ) { _ in
                 self.stitchAppClient.auth.login(
-                    withCredential: emailPassClient.credential(forUsername: email, forPassword: password)
-                ) { user, _ in
-                    guard let user = user else {
+                    withCredential: UserPasswordCredential(withUsername: email, withPassword: password)
+                ) { result in
+                    switch result {
+                    case .success(let user):
+                        completionHandler(user)
+                    case .failure:
                         XCTFail("Failed to log in with username/password provider")
-                        return
                     }
-                    completionHandler(user)
                 }
             }
         }

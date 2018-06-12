@@ -211,14 +211,10 @@ final class TestHarness {
 
         self.stitchAppClient = try! Stitch.initializeAppClient(withConfigBuilder: configBuilder)
 
-        let userPassClient = self.stitchAppClient.auth.providerClient(
-            forFactory: UserPasswordAuthProvider.clientFactory
-        )
-
-        self.stitchAppClient.auth.login(withCredential: userPassClient.credential(
-            forUsername: userCredentials.username,
-            forPassword: userCredentials.password
-            ), { _, _ in
+        self.stitchAppClient.auth.login(withCredential: UserPasswordCredential(
+            withUsername: userCredentials.username,
+            withPassword: userCredentials.password
+            ), { _ in
                 _ = self.addDefaultAnonProvider()
                 completionHandler()
         })
