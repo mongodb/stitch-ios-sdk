@@ -1,4 +1,4 @@
-import StitchCore
+import StitchCoreSDK
 
 public final class StitchAdminUser: CoreStitchUser {
 

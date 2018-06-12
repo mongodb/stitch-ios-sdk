@@ -1,5 +1,5 @@
 import Foundation
-import StitchCore
+import StitchCoreSDK
 
 /// Any endpoint that can be described with basic
 /// CRUD operations

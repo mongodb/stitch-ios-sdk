@@ -1,6 +1,6 @@
 import Foundation
 import MongoSwift
-import StitchCore
+import StitchCoreSDK
 
 public class StitchAdminClient {
     private let adminAuth: StitchAdminAuth

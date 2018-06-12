@@ -1,5 +1,5 @@
 import Foundation
-import StitchCore
+import StitchCoreSDK
 
 /// Base keys for a provider configuration
 private enum ConfigKeys: String, CodingKey {

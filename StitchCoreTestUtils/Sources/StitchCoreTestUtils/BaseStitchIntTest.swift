@@ -1,6 +1,6 @@
 import XCTest
 import Foundation
-import StitchCore
+import StitchCoreSDK
 import StitchCoreAdminClient
 import MongoSwift
 

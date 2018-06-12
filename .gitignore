@@ -46,11 +46,11 @@ MockUtils/Package.resolved
 MockUtils/.build/
 MockUtils/*.xcodeproj/
 
-StitchCore/Packages/
-StitchCore/Package.pins
-StitchCore/Package.resolved
-StitchCore/.build/
-StitchCore/*.xcodeproj/
+StitchCoreSDK/Packages/
+StitchCoreSDK/Package.pins
+StitchCoreSDK/Package.resolved
+StitchCoreSDK/.build/
+StitchCoreSDK/*.xcodeproj/
 
 StitchCoreAdminClient/Packages/
 StitchCoreAdminClient/Package.pins
@@ -64,35 +64,35 @@ StitchCoreTestUtils/Package.resolved
 StitchCoreTestUtils/.build/
 StitchCoreTestUtils/*.xcodeproj/
 
-StitchCoreServicesAwsS3/Packages/
-StitchCoreServicesAwsS3/Package.pins
-StitchCoreServicesAwsS3/Package.resolved
-StitchCoreServicesAwsS3/.build/
-StitchCoreServicesAwsS3/StitchCoreServicesAwsS3.xcodeproj/
+StitchCoreAWSS3Service/Packages/
+StitchCoreAWSS3Service/Package.pins
+StitchCoreAWSS3Service/Package.resolved
+StitchCoreAWSS3Service/.build/
+StitchCoreAWSS3Service/StitchCoreAWSS3Service.xcodeproj/
 
-StitchCoreServicesAwsSes/Packages/
-StitchCoreServicesAwsSes/Package.pins
-StitchCoreServicesAwsSes/Package.resolved
-StitchCoreServicesAwsSes/.build/
-StitchCoreServicesAwsSes/StitchCoreServicesAwsSes.xcodeproj/
+StitchCoreAWSSESService/Packages/
+StitchCoreAWSSESService/Package.pins
+StitchCoreAWSSESService/Package.resolved
+StitchCoreAWSSESService/.build/
+StitchCoreAWSSESService/StitchCoreAWSSESService.xcodeproj/
 
-StitchCoreServicesHttp/Packages/
-StitchCoreServicesHttp/Package.pins
-StitchCoreServicesHttp/Package.resolved
-StitchCoreServicesHttp/.build/
-StitchCoreServicesHttp/StitchCoreServicesHttp.xcodeproj/
+StitchCoreHTTPService/Packages/
+StitchCoreHTTPService/Package.pins
+StitchCoreHTTPService/Package.resolved
+StitchCoreHTTPService/.build/
+StitchCoreHTTPService/StitchCoreHTTPService.xcodeproj/
 
-StitchCoreServicesMongoDbRemote/Packages/
-StitchCoreServicesMongoDbRemote/Package.pins
-StitchCoreServicesMongoDbRemote/Package.resolved
-StitchCoreServicesMongoDbRemote/.build/
-StitchCoreServicesMongoDbRemote/StitchCoreServicesHttp.xcodeproj/
+StitchCoreRemoteMongoDBService/Packages/
+StitchCoreRemoteMongoDBService/Package.pins
+StitchCoreRemoteMongoDBService/Package.resolved
+StitchCoreRemoteMongoDBService/.build/
+StitchCoreRemoteMongoDBService/StitchCoreRemoteMongoDBService.xcodeproj/
 
-StitchCoreServicesTwilio/Packages/
-StitchCoreServicesTwilio/Package.pins
-StitchCoreServicesTwilio/Package.resolved
-StitchCoreServicesTwilio/.build/
-StitchCoreServicesTwilio/StitchCoreServicesTwilio.xcodeproj/
+StitchCoreTwilioService/Packages/
+StitchCoreTwilioService/Package.pins
+StitchCoreTwilioService/Package.resolved
+StitchCoreTwilioService/.build/
+StitchCoreTwilioService/StitchCoreTwilioService.xcodeproj/
 
 # CocoaPods
 #

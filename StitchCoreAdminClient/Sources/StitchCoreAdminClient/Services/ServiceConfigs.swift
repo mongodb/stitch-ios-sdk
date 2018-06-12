@@ -43,6 +43,10 @@ private struct AwsS3ServiceConfig: ServiceConfig {
         self.accessKeyID = accessKeyID
         self.secretAccessKey = secretAccessKey
     }
+    
+    internal enum CodingKeys: String, CodingKey {
+        case region, accessKeyID = "accessKeyId", secretAccessKey
+    }
 }
 
 /// Configuration for an AWS SES service
@@ -60,6 +64,10 @@ private struct AwsSesServiceConfig: ServiceConfig {
         self.region = region
         self.accessKeyID = accessKeyID
         self.secretAccessKey = secretAccessKey
+    }
+    
+    internal enum CodingKeys: String, CodingKey {
+        case region, accessKeyID = "accessKeyId", secretAccessKey
     }
 }
 

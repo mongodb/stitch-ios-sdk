@@ -1,5 +1,5 @@
 import Foundation
-import StitchCore
+import StitchCoreSDK
 
 /**
  * A struct containing the fields returned by the Stitch client API in a user profile request.

@@ -1,6 +1,6 @@
 import MongoSwift
 import Foundation
-import StitchCore
+import StitchCoreSDK
 
 /**
  * A special implementation of CoreStitchAuth that communicates with the MongoDB Stitch Admin API.

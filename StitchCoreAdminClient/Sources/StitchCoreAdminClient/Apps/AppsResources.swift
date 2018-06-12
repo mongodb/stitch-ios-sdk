@@ -1,5 +1,5 @@
 import Foundation
-import StitchCore
+import StitchCoreSDK
 
 /// View into a specific application
 public struct AppResponse: Codable {
