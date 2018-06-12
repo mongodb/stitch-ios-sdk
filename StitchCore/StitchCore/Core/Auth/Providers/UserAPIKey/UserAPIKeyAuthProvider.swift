@@ -42,7 +42,7 @@ public protocol UserAPIKeyAuthProviderClient {
      * - parameters:
      *     - withName: The name of the API key to be created.
      *     - completionHandler: The handler to be executed when the request is complete. If the operation is
-     *                          sucessful, the result will contain the created user API key as a `UserAPIKey`.
+     *                          successful, the result will contain the created user API key as a `UserAPIKey`.
      */
     func createAPIKey(withName name: String, _ completionHandler: @escaping (StitchResult<UserAPIKey>) -> Void)
 
@@ -52,7 +52,7 @@ public protocol UserAPIKeyAuthProviderClient {
      * - parameters:
      *     - withID: The id of the API key to fetch.
      *     - completionHandler: The handler to be executed when the request is complete. If the operation is
-     *                          sucessful, the result will contain the created user API key as a `UserAPIKey`. The
+     *                          successful, the result will contain the created user API key as a `UserAPIKey`. The
      *                          fetched API key will not contain the actual key string.
      */
     func fetchAPIKey(withID id: ObjectId, _ completionHandler: @escaping (StitchResult<UserAPIKey>) -> Void)
@@ -62,7 +62,7 @@ public protocol UserAPIKeyAuthProviderClient {
      *
      * - parameters:
      *     - completionHandler: The handler to be executed when the request is complete. If the operation is
-     *                          sucessful, the result will contain the fetched API keys as an `[UserAPIKey]`.
+     *                          successful, the result will contain the fetched API keys as an `[UserAPIKey]`.
      *                          The fetched API keys will not contain the actual key string.
      */
     func fetchAPIKeys(_ completionHandler: @escaping (StitchResult<[UserAPIKey]>) -> Void)

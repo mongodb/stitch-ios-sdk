@@ -17,7 +17,7 @@ public final class TwilioServiceClientImpl: TwilioServiceClient {
                             from: String,
                             body: String,
                             mediaURL: String? = nil,
-                            _ completionHandler: @escaping (Error?) -> Void) {
+                            _ completionHandler: @escaping (StitchResult<Void>) -> Void) {
         self.dispatcher.run(withCompletionHandler: completionHandler) {
             try self.proxy.sendMessage(to: to,
                                        from: from,

@@ -19,43 +19,7 @@ public final class AWSS3ServiceClientImpl: AWSS3ServiceClient {
                           acl: String,
                           contentType: String,
                           body: String,
-                          _ completionHandler: @escaping (AWSS3PutObjectResult?, Error?) -> Void) {
-        self.dispatcher.run(withCompletionHandler: completionHandler) {
-            return try self.proxy.putObject(
-                bucket: bucket,
-                key: key,
-                acl: acl,
-                contentType: contentType,
-                body: body
-            )
-        }
-    }
-    
-    public func putObject(bucket: String,
-                          key: String,
-                          acl: String,
-                          contentType: String,
-                          body: String,
-                          timeout: TimeInterval,
-                          _ completionHandler: @escaping (AWSS3PutObjectResult?, Error?) -> Void) {
-        self.dispatcher.run(withCompletionHandler: completionHandler) {
-            return try self.proxy.putObject(
-                bucket: bucket,
-                key: key,
-                acl: acl,
-                contentType: contentType,
-                body: body,
-                timeout: timeout
-            )
-        }
-    }
-    
-    public func putObject(bucket: String,
-                          key: String,
-                          acl: String,
-                          contentType: String,
-                          body: Data,
-                          _ completionHandler: @escaping (AWSS3PutObjectResult?, Error?) -> Void) {
+                          _ completionHandler: @escaping (StitchResult<AWSS3PutObjectResult>) -> Void) {
         self.dispatcher.run(withCompletionHandler: completionHandler) {
             return try self.proxy.putObject(
                 bucket: bucket,
@@ -72,26 +36,7 @@ public final class AWSS3ServiceClientImpl: AWSS3ServiceClient {
                           acl: String,
                           contentType: String,
                           body: Data,
-                          timeout: TimeInterval,
-                          _ completionHandler: @escaping (AWSS3PutObjectResult?, Error?) -> Void) {
-        self.dispatcher.run(withCompletionHandler: completionHandler) {
-            return try self.proxy.putObject(
-                bucket: bucket,
-                key: key,
-                acl: acl,
-                contentType: contentType,
-                body: body,
-                timeout: timeout
-            )
-        }
-    }
-    
-    public func putObject(bucket: String,
-                          key: String,
-                          acl: String,
-                          contentType: String,
-                          body: Binary,
-                          _ completionHandler: @escaping (AWSS3PutObjectResult?, Error?) -> Void) {
+                          _ completionHandler: @escaping (StitchResult<AWSS3PutObjectResult>) -> Void) {
         self.dispatcher.run(withCompletionHandler: completionHandler) {
             return try self.proxy.putObject(
                 bucket: bucket,
@@ -108,16 +53,14 @@ public final class AWSS3ServiceClientImpl: AWSS3ServiceClient {
                           acl: String,
                           contentType: String,
                           body: Binary,
-                          timeout: TimeInterval,
-                          _ completionHandler: @escaping (AWSS3PutObjectResult?, Error?) -> Void) {
+                          _ completionHandler: @escaping (StitchResult<AWSS3PutObjectResult>) -> Void) {
         self.dispatcher.run(withCompletionHandler: completionHandler) {
             return try self.proxy.putObject(
                 bucket: bucket,
                 key: key,
                 acl: acl,
                 contentType: contentType,
-                body: body,
-                timeout: timeout
+                body: body
             )
         }
     }
@@ -126,7 +69,7 @@ public final class AWSS3ServiceClientImpl: AWSS3ServiceClient {
                            key: String,
                            acl: String,
                            contentType: String,
-                           _ completionHandler: @escaping (AWSS3SignPolicyResult?, Error?) -> Void) {
+                           _ completionHandler: @escaping (StitchResult<AWSS3SignPolicyResult>) -> Void) {
         self.dispatcher.run(withCompletionHandler: completionHandler) {
             return try self.proxy.signPolicy(
                 bucket: bucket,

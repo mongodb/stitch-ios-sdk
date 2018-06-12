@@ -17,7 +17,7 @@ public final class AWSSESServiceClientImpl: AWSSESServiceClient {
                           from: String,
                           subject: String,
                           body: String,
-                          _ completionHandler: @escaping (AWSSESSendResult?, Error?) -> Void) {
+                          _ completionHandler: @escaping (StitchResult<AWSSESSendResult>) -> Void) {
         self.dispatcher.run(withCompletionHandler: completionHandler) {
             return try self.proxy.sendEmail(toAddress: to, fromAddress: from, subject: subject, body: body)
         }

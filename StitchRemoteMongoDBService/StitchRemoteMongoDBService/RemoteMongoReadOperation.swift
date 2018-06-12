@@ -22,12 +22,11 @@ public class RemoteMongoReadOperation<T: Codable> {
      *
      * - parameters:
      *   - completionHandler: The completion handler to call when the operation is completed or if the operation fails.
-     *                        This handler is executed on a non-main global `DispatchQueue`.
-     *   - result: An optional `T` indicating the first document in the result. Will be singly `nil` if the result was
-     *             empty, or doubly `nil` if the operation failed.
-     *   - error: An error object that indicates why the operation failed, or `nil` if the operation was successful.
+     *                        This handler is executed on a non-main global `DispatchQueue`. If the operation is
+     *                        successful, the result will contain an optional `T` indicating the first document in the
+     *                        result. the document will be `nil` if the result was empty.
      */
-    public func first(_ completionHandler: @escaping (_ result: T??, _ error: Error?) -> Void) {
+    public func first(_ completionHandler: @escaping (StitchResult<T?>) -> Void) {
         self.dispatcher.run(withCompletionHandler: completionHandler) {
             return try self.proxy.first()
         }
@@ -38,11 +37,10 @@ public class RemoteMongoReadOperation<T: Codable> {
      *
      * - parameters:
      *   - completionHandler: The completion handler to call when the operation is completed or if the operation fails.
-     *                        This handler is executed on a non-main global `DispatchQueue`.
-     *   - result: The documents in the result as an array. Will be `nil` if the operation failed.
-     *   - error: An error object that indicates why the operation failed, or `nil` if the operation was successful.
+     *                        This handler is executed on a non-main global `DispatchQueue`. If the operation is
+     *                        successful, the result will contain the documents in the result as an array.
      */
-    public func asArray(_ completionHandler: @escaping (_ result: [T]?, _ error: Error?) -> Void) {
+    public func asArray(_ completionHandler: @escaping (StitchResult<[T]>) -> Void) {
         self.dispatcher.run(withCompletionHandler: completionHandler) {
             return try self.proxy.asArray()
         }
@@ -53,11 +51,11 @@ public class RemoteMongoReadOperation<T: Codable> {
      *
      * - parameters:
      *   - completionHandler: The completion handler to call when the operation is completed or if the operation fails.
-     *                        This handler is executed on a non-main global `DispatchQueue`.
-     *   - result: An iterating cursor to the documents in the result. Will be `nil` if the operation failed.
-     *   - error: An error object that indicates why the operation failed, or `nil` if the operation was successful.
+     *                        This handler is executed on a non-main global `DispatchQueue`. If the operation is
+     *                        successful, the result will contain an asynchronously iterating cursor to the documents
+     *                        in the result.
      */
-    public func iterator(_ completionHandler: @escaping (RemoteMongoCursor<T>?, Error?) -> Void) {
+    public func iterator(_ completionHandler: @escaping (StitchResult<RemoteMongoCursor<T>>) -> Void) {
         self.dispatcher.run(withCompletionHandler: completionHandler) {
             return try RemoteMongoCursor.init(withCursor: self.proxy.iterator(), withDispatcher: self.dispatcher)
         }

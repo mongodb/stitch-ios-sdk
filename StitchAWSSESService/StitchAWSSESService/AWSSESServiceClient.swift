@@ -25,13 +25,15 @@ public protocol AWSSESServiceClient {
      *     - subject: the subject of the email.
      *     - body: the body text of the email.
      *     - completionHandler: The completion handler to call when the email is sent or the operation fails.
-     *                          This handler is executed on a non-main global `DispatchQueue`.
+     *                          This handler is executed on a non-main global `DispatchQueue`. If the operation is
+     *                          successful, the result will contain the result of the send request as an
+     *                          `AWSSESSendResult`.
      */
     func sendEmail(to: String,
                    from: String,
                    subject: String,
                    body: String,
-                   _ completionHandler: @escaping (AWSSESSendResult?, Error?) -> Void)
+                   _ completionHandler: @escaping (StitchResult<AWSSESSendResult>) -> Void)
 }
 
 public final class AWSSESService {

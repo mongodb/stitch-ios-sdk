@@ -99,13 +99,12 @@ public class RemoteMongoCollection<T: Codable> {
      *   - filter: a `Document`, the filter that documents must match in order to be counted.
      *   - options: Optional `RemoteCountOptions` to use when executing the command.
      *   - completionHandler: The completion handler to call when the count is completed or if the operation fails.
-     *                        This handler is executed on a non-main global `DispatchQueue`.
-     *   - count: The count of the documents that matched the filter, or `nil` if the count failed.
-     *   - error: An error object that indicates why the count failed, or `nil` if the count was successful.
+     *                        This handler is executed on a non-main global `DispatchQueue`. If the operation is
+     *                        successful, the result will contain the count of the documents that matched the filter.
      */
     public func count(_ filter: Document = [:],
                       options: RemoteCountOptions? = nil,
-                      _ completionHandler: @escaping (_ count: Int?, _ error: Error?) -> Void) {
+                      _ completionHandler: @escaping (StitchResult<Int>) -> Void) {
         self.dispatcher.run(withCompletionHandler: completionHandler) {
             return try self.proxy.count(filter, options: options)
         }
@@ -118,16 +117,16 @@ public class RemoteMongoCollection<T: Codable> {
      * - parameters:
      *   - value: A `CollectionType` value to encode and insert.
      *   - completionHandler: The completion handler to call when the insert is completed or if the operation fails.
-     *                        This handler is executed on a non-main global `DispatchQueue`.
-     *   - result: The result of attempting to perform the insert, or `nil` if the insert failed.
-     *   - error: An error object that indicates why the insert failed, or `nil` if the insert was successful.
+     *                        This handler is executed on a non-main global `DispatchQueue`. If the operation is
+     *                        successful, the result will contain the result of attempting to perform the insert, as
+     *                        a `RemoteInsertOneResult`.
      *
      * - important: If the insert failed due to a request timeout, it does not necessarily indicate that the insert
      *              failed on the database. Application code should handle timeout errors with the assumption that the
      *              document may or may not have been inserted.
      */
     public func insertOne(_ value: CollectionType,
-                          _ completionHandler: @escaping (_ result: RemoteInsertOneResult?, _ error: Error?) -> Void) {
+                          _ completionHandler: @escaping (StitchResult<RemoteInsertOneResult>) -> Void) {
         self.dispatcher.run(withCompletionHandler: completionHandler) {
             return try self.proxy.insertOne(value)
         }
@@ -141,15 +140,16 @@ public class RemoteMongoCollection<T: Codable> {
      *   - documents: The `CollectionType` values to insert.
      *   - completionHandler: The completion handler to call when the insert is completed or if the operation fails.
      *                        This handler is executed on a non-main global `DispatchQueue`.
-     *   - result: The result of attempting to perform the insert, or `nil` if the insert failed.
-     *   - error: An error object that indicates why the insert failed, or `nil` if the insert was successful.
+     *   - result: The result of attempting to perform the insert, or `nil` if the insert failed. If the operation is
+     *                        successful, the result will contain the result of attempting to perform the insert, as
+     *                        a `RemoteInsertManyResult`.
      *
      * - important: If the insert failed due to a request timeout, it does not necessarily indicate that the insert
      *              failed on the database. Application code should handle timeout errors with the assumption that
      *              documents may or may not have been inserted.
      */
     public func insertMany(_ documents: [CollectionType],
-                           _ completionHandler: @escaping (_ result: RemoteInsertManyResult?, _ error: Error?) -> Void) {
+                           _ completionHandler: @escaping (StitchResult<RemoteInsertManyResult>) -> Void) {
         self.dispatcher.run(withCompletionHandler: completionHandler) {
             return try self.proxy.insertMany(documents)
         }
@@ -161,16 +161,16 @@ public class RemoteMongoCollection<T: Codable> {
      * - parameters:
      *   - filter: A `Document` representing the match criteria.
      *   - completionHandler: The completion handler to call when the delete is completed or if the operation fails.
-     *                        This handler is executed on a non-main global `DispatchQueue`.
-     *   - result: The result of performing the deletion, or `nil` if the delete failed.
-     *   - error: An error object that indicates why the delete failed, or `nil` if the delete was successful.
+     *                        This handler is executed on a non-main global `DispatchQueue`. If the operation is
+     *                        successful, the result will contain the result of performing the deletion, as
+     *                        a `RemoteDeleteResult`.
      *
      * - important: If the delete failed due to a request timeout, it does not necessarily indicate that the delete
      *              failed on the database. Application code should handle timeout errors with the assumption that
      *              a document may or may not have been deleted.
      */
     public func deleteOne(_ filter: Document,
-                          _ completionHandler: @escaping (_ result: RemoteDeleteResult?, _ error: Error?) -> Void) {
+                          _ completionHandler: @escaping (StitchResult<RemoteDeleteResult>) -> Void) {
         self.dispatcher.run(withCompletionHandler: completionHandler) {
             return try self.proxy.deleteOne(filter)
         }
@@ -182,16 +182,16 @@ public class RemoteMongoCollection<T: Codable> {
      * - parameters:
      *   - filter: A `Document` representing the match criteria.
      *   - completionHandler: The completion handler to call when the delete is completed or if the operation fails.
-     *                        This handler is executed on a non-main global `DispatchQueue`.
-     *   - result: The result of performing the deletion, or `nil` if the delete failed.
-     *   - error: An error object that indicates why the delete failed, or `nil` if the delete was successful.
+     *                        This handler is executed on a non-main global `DispatchQueue`. If the operation is
+     *                        successful, the result will contain the result of performing the deletion, as
+     *                        a `RemoteDeleteResult`.
      *
      * - important: If the delete failed due to a request timeout, it does not necessarily indicate that the delete
      *              failed on the database. Application code should handle timeout errors with the assumption that
      *              documents may or may not have been deleted.
      */
     public func deleteMany(_ filter: Document,
-                           _ completionHandler: @escaping (_ result: RemoteDeleteResult?, _ error: Error?) -> Void) {
+                           _ completionHandler: @escaping (StitchResult<RemoteDeleteResult>) -> Void) {
         self.dispatcher.run(withCompletionHandler: completionHandler) {
             return try self.proxy.deleteMany(filter)
         }
@@ -205,9 +205,9 @@ public class RemoteMongoCollection<T: Codable> {
      *   - update: A `Document` representing the update to be applied to a matching document.
      *   - options: Optional `RemoteUpdateOptions` to use when executing the command.
      *   - completionHandler: The completion handler to call when the update is completed or if the operation fails.
-     *                        This handler is executed on a non-main global `DispatchQueue`.
-     *   - result: The result of attempting to update a document, or `nil` if the update failed.
-     *   - error: An error object that indicates why the update failed, or `nil` if the update was successful.
+     *                        This handler is executed on a non-main global `DispatchQueue`. If the operation is
+     *                        successful, the result will contain the result of attempting to update a document, as
+     *                        a `RemoteUpdateResult`.
      *
      * - important: If the update failed due to a request timeout, it does not necessarily indicate that the update
      *              failed on the database. Application code should handle timeout errors with the assumption that
@@ -216,7 +216,7 @@ public class RemoteMongoCollection<T: Codable> {
     public func updateOne(filter: Document,
                           update: Document,
                           options: RemoteUpdateOptions? = nil,
-                          _ completionHandler: @escaping (_ result: RemoteUpdateResult?, _ error: Error?) -> Void) {
+                          _ completionHandler: @escaping (StitchResult<RemoteUpdateResult>) -> Void) {
         self.dispatcher.run(withCompletionHandler: completionHandler) {
             return try self.proxy.updateOne(filter: filter, update: update, options: options)
         }
@@ -230,9 +230,9 @@ public class RemoteMongoCollection<T: Codable> {
      *   - update: A `Document` representing the update to be applied to a matching document.
      *   - options: Optional `RemoteUpdateOptions` to use when executing the command.
      *   - completionHandler: The completion handler to call when the update is completed or if the operation fails.
-     *                        This handler is executed on a non-main global `DispatchQueue`.
-     *   - result: The result of attempting to update multiple documents, or `nil` if the update failed.
-     *   - error: An error object that indicates why the update failed, or `nil` if the update was successful.
+     *                        This handler is executed on a non-main global `DispatchQueue`. If the operation is
+     *                        successful, the result will contain the result of attempting to update multiple
+     *                        documents, as a `RemoteUpdateResult`.
      *
      * - important: If the update failed due to a request timeout, it does not necessarily indicate that the update
      *              failed on the database. Application code should handle timeout errors with the assumption that
@@ -241,7 +241,7 @@ public class RemoteMongoCollection<T: Codable> {
     public func updateMany(filter: Document,
                            update: Document,
                            options: RemoteUpdateOptions? = nil,
-                           _ completionHandler: @escaping (_ result: RemoteUpdateResult?, _ error: Error?) -> Void) {
+                           _ completionHandler: @escaping (StitchResult<RemoteUpdateResult>) -> Void) {
         self.dispatcher.run(withCompletionHandler: completionHandler) {
             return try self.proxy.updateMany(filter: filter, update: update, options: options)
         }

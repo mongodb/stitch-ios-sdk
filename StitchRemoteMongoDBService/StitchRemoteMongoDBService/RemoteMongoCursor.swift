@@ -21,12 +21,11 @@ public class RemoteMongoCursor<T: Codable> {
      *
      * - parameters:
      *   - completionHandler: The completion handler to call when the document is retrieved or if the operation fails.
-     *                        This handler is executed on a non-main global `DispatchQueue`.
-     *   - result: An optional `T` indicating the next document in the cursor. Will be singly `nil` if there are no
-     *             more documents in the cursor, or doubly `nil` if the operation failed.
-     *   - error: An error object that indicates why the operation failed, or `nil` if the operation was successful.
+     *                        This handler is executed on a non-main global `DispatchQueue`. If the operation is
+     *                        successful, the result will contain an optional `T` indicating the next document in the
+     *                        cursor. The document will be `nil` if there are no more documents in the cursor.
      */
-    public func next(_ completionHandler: @escaping (T??, Error?) -> Void) {
+    public func next(_ completionHandler: @escaping (StitchResult<T?>) -> Void) {
         self.dispatcher.run(withCompletionHandler: completionHandler) {
            return self.proxy.next()
         }

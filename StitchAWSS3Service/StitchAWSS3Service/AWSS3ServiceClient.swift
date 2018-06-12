@@ -27,7 +27,9 @@ public protocol AWSS3ServiceClient {
      *     - contentType: the content type of the object (e.g. "application/json")
      *     - body: the body of the object as a string
      *     - completionHandler: The completion handler to call when the object is put or the operation fails.
-     *                          This handler is executed on a non-main global `DispatchQueue`.
+     *                          This handler is executed on a non-main global `DispatchQueue`. If the operation is
+     *                          successful, the result will contain the result of the put request as an
+     *                          `AWSS3PutObjectResult.`
      */
     func putObject(
         bucket: String,
@@ -35,30 +37,7 @@ public protocol AWSS3ServiceClient {
         acl: String,
         contentType: String,
         body: String,
-        _ completionHandler: @escaping (AWSS3PutObjectResult?, Error?) -> Void)
-    
-    /**
-     * Puts an object into an AWS S3 bucket as a string. A timeout can be specified if the operation is expected to
-     * take longer than the default timeout configured for the Stitch app client.
-     *
-     * - parameters:
-     *     - bucket: the bucket to put the object in
-     *     - key: the key (or name) of the object
-     *     - acl: the ACL to apply to the object (e.g. private)
-     *     - contentType: the content type of the object (e.g. "application/json")
-     *     - body: the body of the object as a string
-     *     - timeout: the number of seconds to wait for the put request to complete before timing out
-     *     - completionHandler: The completion handler to call when the object is put or the operation fails.
-     *                          This handler is executed on a non-main global `DispatchQueue`.
-     */
-    func putObject(
-        bucket: String,
-        key: String,
-        acl: String,
-        contentType: String,
-        body: String,
-        timeout: TimeInterval,
-        _ completionHandler: @escaping (AWSS3PutObjectResult?, Error?) -> Void)
+        _ completionHandler: @escaping (StitchResult<AWSS3PutObjectResult>) -> Void)
     
     /**
      * Puts a binary object into an AWS S3 bucket as a Foundation `Data` object.
@@ -70,7 +49,9 @@ public protocol AWSS3ServiceClient {
      *     - contentType: the content type of the object (e.g. "application/json")
      *     - body: the body of the object as a `Data`
      *     - completionHandler: The completion handler to call when the object is put or the operation fails.
-     *                          This handler is executed on a non-main global `DispatchQueue`.
+     *                          This handler is executed on a non-main global `DispatchQueue`. If the operation is
+     *                          successful, the result will contain the result of the put request as an
+     *                          `AWSS3PutObjectResult.`
      */
     func putObject(
         bucket: String,
@@ -78,30 +59,7 @@ public protocol AWSS3ServiceClient {
         acl: String,
         contentType: String,
         body: Data,
-        _ completionHandler: @escaping (AWSS3PutObjectResult?, Error?) -> Void)
-    
-    /**
-     * Puts an object into an AWS S3 bucket as a Foundation `Data` object.. A timeout can be specified if the operation
-     * is expected to take longer than the default timeout configured for the Stitch app client.
-     *
-     * - parameters:
-     *     - bucket: the bucket to put the object in
-     *     - key: the key (or name) of the object
-     *     - acl: the ACL to apply to the object (e.g. private)
-     *     - contentType: the content type of the object (e.g. "application/json")
-     *     - body: the body of the object as a `Data`
-     *     - timeout: the number of seconds to wait for the put request to complete before timing out
-     *     - completionHandler: The completion handler to call when the object is put or the operation fails.
-     *                          This handler is executed on a non-main global `DispatchQueue`.
-     */
-    func putObject(
-        bucket: String,
-        key: String,
-        acl: String,
-        contentType: String,
-        body: Data,
-        timeout: TimeInterval,
-        _ completionHandler: @escaping (AWSS3PutObjectResult?, Error?) -> Void)
+        _ completionHandler: @escaping (StitchResult<AWSS3PutObjectResult>) -> Void)
     
     /**
      * Puts a binary object into an AWS S3 bucket as a BSON `Binary` object.
@@ -113,7 +71,9 @@ public protocol AWSS3ServiceClient {
      *     - contentType: the content type of the object (e.g. "application/json")
      *     - body: the body of the object as a BSON `Binary`
      *     - completionHandler: The completion handler to call when the object is put or the operation fails.
-     *                          This handler is executed on a non-main global `DispatchQueue`.
+     *                          This handler is executed on a non-main global `DispatchQueue`. If the operation is
+     *                          successful, the result will contain the result of the put request as an
+     *                          `AWSS3PutObjectResult.`
      */
     func putObject(
         bucket: String,
@@ -121,30 +81,7 @@ public protocol AWSS3ServiceClient {
         acl: String,
         contentType: String,
         body: Binary,
-        _ completionHandler: @escaping (AWSS3PutObjectResult?, Error?) -> Void)
-    
-    /**
-     * Puts an object into an AWS S3 bucket as a BSON `Binary` object. A timeout can be specified if the operation
-     * is expected to take longer than the default timeout configured for the Stitch app client.
-     *
-     * - parameters:
-     *     - bucket: the bucket to put the object in
-     *     - key: the key (or name) of the object
-     *     - acl: the ACL to apply to the object (e.g. private)
-     *     - contentType: the content type of the object (e.g. "application/json")
-     *     - body: the body of the object as a BSON `Binary`
-     *     - timeout: the number of seconds to wait for the put request to complete before timing out
-     *     - completionHandler: The completion handler to call when the object is put or the operation fails.
-     *                          This handler is executed on a non-main global `DispatchQueue`.
-     */
-    func putObject(
-        bucket: String,
-        key: String,
-        acl: String,
-        contentType: String,
-        body: Binary,
-        timeout: TimeInterval,
-        _ completionHandler: @escaping (AWSS3PutObjectResult?, Error?) -> Void)
+        _ completionHandler: @escaping (StitchResult<AWSS3PutObjectResult>) -> Void)
     
     /**
      * Signs an AWS S3 security policy for a future put object request. This future request would
@@ -160,12 +97,16 @@ public protocol AWSS3ServiceClient {
      *     - key: the key (or name) of the object
      *     - acl: the ACL to apply to the object (e.g. private)
      *     - contentType: the content type of the object (e.g. "application/json")
+     *     - completionHandler: The completion handler to call when the policy is signed or the operation fails.
+     *                          This handler is executed on a non-main global `DispatchQueue`. If the operation is
+     *                          successful, the result will contain the result of the sign policy request as an
+     *                          `AWSS3SignPolicyResult.`
      */
     func signPolicy(bucket: String,
                     key: String,
                     acl: String,
                     contentType: String,
-                    _ completionHandler: @escaping (AWSS3SignPolicyResult?, Error?) -> Void)
+                    _ completionHandler: @escaping (StitchResult<AWSS3SignPolicyResult>) -> Void)
 }
 
 public final class AWSS3Service {

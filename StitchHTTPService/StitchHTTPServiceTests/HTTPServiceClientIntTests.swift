@@ -25,7 +25,7 @@ class HTTPServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         let client = try self.appClient(forApp: app.0)
         
         let exp0 = expectation(description: "should login")
-        client.auth.login(withCredential: AnonymousCredential()) { _,_  in
+        client.auth.login(withCredential: AnonymousCredential()) { _ in
             exp0.fulfill()
         }
         wait(for: [exp0], timeout: 5.0)
@@ -50,12 +50,17 @@ class HTTPServiceClientIntTests: BaseStitchIntTestCocoaTouch {
             .build()
         
         let exp1 = expectation(description: "should not make request")
-        httpClient.execute(request: badRequest) { (_, error) in
-            switch error as? StitchError {
-            case .serviceError(_, let withServiceErrorCode)?:
-                XCTAssertEqual(StitchServiceErrorCode.invalidParameter, withServiceErrorCode)
-            default:
-                XCTFail()
+        httpClient.execute(request: badRequest) { result in
+            switch result {
+            case .success:
+                XCTFail("expected an error")
+            case .failure(let error):
+                switch error {
+                case .serviceError(_, let withServiceErrorCode):
+                    XCTAssertEqual(StitchServiceErrorCode.invalidParameter, withServiceErrorCode)
+                default:
+                    XCTFail("unexpected error code")
+                }
             }
             exp1.fulfill()
         }
@@ -73,13 +78,19 @@ class HTTPServiceClientIntTests: BaseStitchIntTestCocoaTouch {
             .build()
         
         let exp2 = expectation(description: "should not make request")
-        httpClient.execute(request: badRequest) { (_, error) in
-            switch error as? StitchError {
-            case .serviceError(_, let withServiceErrorCode)?:
-                XCTAssertEqual(StitchServiceErrorCode.httpError, withServiceErrorCode)
-            default:
-                XCTFail()
+        httpClient.execute(request: badRequest) { result in
+            switch result {
+            case .success:
+                XCTFail("expected an error")
+            case .failure(let error):
+                switch error {
+                case .serviceError(_, let withServiceErrorCode):
+                    XCTAssertEqual(StitchServiceErrorCode.httpError, withServiceErrorCode)
+                default:
+                    XCTFail("unexpected error code")
+                }
             }
+
             exp2.fulfill()
         }
         wait(for: [exp2], timeout: 5.0)
@@ -95,9 +106,14 @@ class HTTPServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         
         let exp3 = expectation(description: "request should be successfully completed")
         var response: HTTPResponse!
-        httpClient.execute(request: goodRequest) { (resp, _) in
-            XCTAssertNotNil(resp)
-            response = resp!
+        httpClient.execute(request: goodRequest) { result in
+            switch result {
+            case .success(let resp):
+                response = resp
+            case .failure:
+                XCTFail("unexpected error")
+            }
+
             exp3.fulfill()
         }
         wait(for: [exp3], timeout: 5.0)

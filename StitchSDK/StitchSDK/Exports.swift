@@ -40,6 +40,7 @@
 // StitchCore/Core
 @_exported import class StitchCore.Stitch
 @_exported import protocol StitchCore.StitchAppClient
+@_exported import enum StitchCore.StitchResult
 
 // StitchCore/Core/Auth
 @_exported import protocol StitchCore.StitchAuth

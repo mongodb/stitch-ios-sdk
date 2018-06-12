@@ -41,7 +41,7 @@ class TwilioServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         let client = try self.appClient(forApp: app.0)
         
         let exp0 = expectation(description: "should login")
-        client.auth.login(withCredential: AnonymousCredential()) { _,_  in
+        client.auth.login(withCredential: AnonymousCredential()) { _ in
             exp0.fulfill()
         }
         wait(for: [exp0], timeout: 5.0)
@@ -55,24 +55,34 @@ class TwilioServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         let mediaURL = "https://jpegs.com/myjpeg.gif.png"
         
         let exp1 = expectation(description: "should not send message")
-        twilio.sendMessage(to: to, from: from, body: body, mediaURL: nil) { error in
-            switch error as? StitchError {
-            case .serviceError(_, let withServiceErrorCode)?:
-                XCTAssertEqual(StitchServiceErrorCode.twilioError, withServiceErrorCode)
-            default:
-                XCTFail()
+        twilio.sendMessage(to: to, from: from, body: body, mediaURL: nil) { result in
+            switch result {
+            case .success:
+                XCTFail("expected an error")
+            case .failure(let error):
+                switch error {
+                case .serviceError(_, let withServiceErrorCode):
+                    XCTAssertEqual(StitchServiceErrorCode.twilioError, withServiceErrorCode)
+                default:
+                    XCTFail("unexpected error code")
+                }
             }
             exp1.fulfill()
         }
         wait(for: [exp1], timeout: 5.0)
         
         let exp2 = expectation(description: "should not send message")
-        twilio.sendMessage(to: to, from: from, body: body, mediaURL: mediaURL) { error in
-            switch error as? StitchError {
-            case .serviceError(_, let withServiceErrorCode)?:
-                XCTAssertEqual(StitchServiceErrorCode.twilioError, withServiceErrorCode)
-            default:
-                XCTFail()
+        twilio.sendMessage(to: to, from: from, body: body, mediaURL: mediaURL) { result in
+            switch result {
+            case .success:
+                XCTFail("expected an error")
+            case .failure(let error):
+                switch error {
+                case .serviceError(_, let withServiceErrorCode):
+                    XCTAssertEqual(StitchServiceErrorCode.twilioError, withServiceErrorCode)
+                default:
+                    XCTFail("unexpected error code")
+                }
             }
             exp2.fulfill()
         }
@@ -83,24 +93,40 @@ class TwilioServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         
         let exp3 = expectation(description: "should send message")
         let exp4 = expectation(description: "should send message")
-        twilio.sendMessage(to: to, from: fromGood, body: body, mediaURL: nil) { error in
-            XCTAssertNil(error)
+        twilio.sendMessage(to: to, from: fromGood, body: body, mediaURL: nil) { result in
+            switch result {
+            case .success:
+                break
+            case .failure:
+                XCTFail("unexpected error")
+            }
             exp3.fulfill()
         }
-        twilio.sendMessage(to: to, from: fromGood, body: mediaURL, mediaURL: nil) { error in
-            XCTAssertNil(error)
+        twilio.sendMessage(to: to, from: fromGood, body: mediaURL, mediaURL: nil) { result in
+            switch result {
+            case .success:
+                break
+            case .failure:
+                XCTFail("unexpected error")
+            }
             exp4.fulfill()
         }
         wait(for: [exp3, exp4], timeout: 5.0)
         
-        let exp5 = expectation(description: "should have invalid params")
         // Excluding any required parameters should fail
-        twilio.sendMessage(to: to, from: "", body: body, mediaURL: mediaURL) { error in
-            switch error as? StitchError {
-            case .serviceError(_, let withServiceErrorCode)?:
-                XCTAssertEqual(StitchServiceErrorCode.invalidParameter, withServiceErrorCode)
-            default:
-                XCTFail()
+        let exp5 = expectation(description: "should have invalid params")
+        
+        twilio.sendMessage(to: to, from: "", body: body, mediaURL: mediaURL) { result in
+            switch result {
+            case .success:
+                XCTFail("expected an error")
+            case .failure(let error):
+                switch error {
+                case .serviceError(_, let withServiceErrorCode):
+                    XCTAssertEqual(StitchServiceErrorCode.invalidParameter, withServiceErrorCode)
+                default:
+                    XCTFail("unexpected error code")
+                }
             }
             exp5.fulfill()
         }

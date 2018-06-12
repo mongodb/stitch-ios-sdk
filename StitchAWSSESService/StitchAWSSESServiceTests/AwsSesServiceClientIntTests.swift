@@ -44,7 +44,7 @@ class AWSSESServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         let client = try self.appClient(forApp: app.0)
 
         let exp0 = expectation(description: "should login")
-        client.auth.login(withCredential: AnonymousCredential()) { _,_  in
+        client.auth.login(withCredential: AnonymousCredential()) { _  in
             exp0.fulfill()
         }
         wait(for: [exp0], timeout: 5.0)
@@ -58,13 +58,19 @@ class AWSSESServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         let body = "again friend"
 
         let exp1 = expectation(description: "should not send email")
-        awsSES.sendEmail(to: to, from: from, subject: subject, body: body) { (_, error) in
-            switch error as? StitchError {
-            case .serviceError(_, let withServiceErrorCode)?:
-                XCTAssertEqual(StitchServiceErrorCode.awsError, withServiceErrorCode)
-            default:
-                XCTFail()
+        awsSES.sendEmail(to: to, from: from, subject: subject, body: body) { result in
+            switch result {
+            case .success:
+                XCTFail("expected an error")
+            case .failure(let error):
+                switch error {
+                case .serviceError(_, let withServiceErrorCode):
+                    XCTAssertEqual(StitchServiceErrorCode.awsError, withServiceErrorCode)
+                default:
+                    XCTFail()
+                }
             }
+            
             exp1.fulfill()
         }
         wait(for: [exp1], timeout: 5.0)
@@ -73,20 +79,30 @@ class AWSSESServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         let fromGood = "dwight@baas-dev.10gen.cc"
 
         let exp2 = expectation(description: "should send email")
-        awsSES.sendEmail(to: to, from: fromGood, subject: subject, body: body) { (result, _) in
-            XCTAssertNotNil(result)
+        awsSES.sendEmail(to: to, from: fromGood, subject: subject, body: body) { result in
+            switch result {
+            case .success:
+                break
+            case .failure:
+                XCTFail("unexpected error")
+            }
             exp2.fulfill()
         }
         wait(for: [exp2], timeout: 5.0)
 
         // Excluding any required parameters should fail
         let exp3 = expectation(description: "should have invalid params")
-        awsSES.sendEmail(to: to, from: "", subject: subject, body: body) { (_, error) in
-            switch error as? StitchError {
-            case .serviceError(_, let withServiceErrorCode)?:
-                XCTAssertEqual(StitchServiceErrorCode.invalidParameter, withServiceErrorCode)
-            default:
-                XCTFail()
+        awsSES.sendEmail(to: to, from: "", subject: subject, body: body) { result in
+            switch result {
+            case .success:
+                XCTFail("expected an error")
+            case .failure(let error):
+                switch error {
+                case .serviceError(_, let withServiceErrorCode):
+                    XCTAssertEqual(StitchServiceErrorCode.invalidParameter, withServiceErrorCode)
+                default:
+                    XCTFail()
+                }
             }
             exp3.fulfill()
         }

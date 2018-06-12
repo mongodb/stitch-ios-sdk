@@ -30,7 +30,7 @@ public protocol TwilioServiceClient {
                      from: String,
                      body: String,
                      mediaURL: String?,
-                     _ completionHandler: @escaping (Error?) -> Void)
+                     _ completionHandler: @escaping (StitchResult<Void>) -> Void)
 }
 
 public final class TwilioService {

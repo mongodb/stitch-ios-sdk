@@ -45,7 +45,7 @@ class AWSS3ServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         let client = try self.appClient(forApp: app.0)
         
         let exp0 = expectation(description: "should login")
-        client.auth.login(withCredential: AnonymousCredential()) { _,_  in
+        client.auth.login(withCredential: AnonymousCredential()) { _ in
             exp0.fulfill()
         }
         wait(for: [exp0], timeout: 5.0)
@@ -60,13 +60,19 @@ class AWSS3ServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         let body = "hello again friend; did you miss me"
         
         let exp1 = expectation(description: "should not put object")
-        awsS3.putObject(bucket: bucket, key: key, acl: acl, contentType: contentType, body: body) { (_, error) in
-            switch error as? StitchError {
-            case .serviceError(_, let withServiceErrorCode)?:
-                XCTAssertEqual(StitchServiceErrorCode.awsError, withServiceErrorCode)
-            default:
-                XCTFail()
+        awsS3.putObject(bucket: bucket, key: key, acl: acl, contentType: contentType, body: body) { result in
+            switch result {
+            case .success:
+                XCTFail("expected a failure")
+            case .failure(let error):
+                switch error {
+                case .serviceError(_, let withServiceErrorCode):
+                    XCTAssertEqual(StitchServiceErrorCode.awsError, withServiceErrorCode)
+                default:
+                    XCTFail("unexpected error")
+                }
             }
+
             exp1.fulfill()
         }
         wait(for: [exp1], timeout: 5.0)
@@ -77,10 +83,14 @@ class AWSS3ServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         let transport = FoundationHTTPTransport()
         
         let exp2 = expectation(description: "should put BSON binary")
-        awsS3.putObject(bucket: bucketGood, key: key, acl: acl, contentType: contentType, body: body) { (result, _) in
-            XCTAssertNotNil(result)
-            
-            XCTAssertEqual(expectedLocation, result?.location)
+        awsS3.putObject(bucket: bucketGood, key: key, acl: acl, contentType: contentType, body: body) { result in
+            switch result {
+            case .success(let awsS3Result):
+                XCTAssertEqual(expectedLocation, awsS3Result.location)
+            case .failure:
+                XCTFail("unexpected error")
+            }
+  
             exp2.fulfill()
         }
         wait(for: [exp2], timeout: 5.0)
@@ -98,10 +108,14 @@ class AWSS3ServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         let bodyBin = Binary(data: body.data(using: .utf8)!, subtype: .binary)
         
         let exp3 = expectation(description: "should put string")
-        awsS3.putObject(bucket: bucketGood, key: key, acl: acl, contentType: contentType, body: bodyBin) { (result, _) in
-            XCTAssertNotNil(result)
-            
-            XCTAssertEqual(expectedLocation, result?.location)
+        awsS3.putObject(bucket: bucketGood, key: key, acl: acl, contentType: contentType, body: bodyBin) { result in
+            switch result {
+            case .success(let awsS3Result):
+                XCTAssertEqual(expectedLocation, awsS3Result.location)
+            case .failure:
+                XCTFail("unexpected error")
+            }
+
             exp3.fulfill()
         }
         wait(for: [exp3], timeout: 5.0)
@@ -119,10 +133,14 @@ class AWSS3ServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         let bodyData = body.data(using: .utf8)!
         
         let exp4 = expectation(description: "should put Foundation Data")
-        awsS3.putObject(bucket: bucketGood, key: key, acl: acl, contentType: contentType, body: bodyData) { (result, _) in
-            XCTAssertNotNil(result)
+        awsS3.putObject(bucket: bucketGood, key: key, acl: acl, contentType: contentType, body: bodyData) { result in
+            switch result {
+            case .success(let awsS3Result):
+                XCTAssertEqual(expectedLocation, awsS3Result.location)
+            case .failure:
+                XCTFail("unexpected error")
+            }
             
-            XCTAssertEqual(expectedLocation, result?.location)
             exp4.fulfill()
         }
         wait(for: [exp4], timeout: 5.0)
@@ -138,13 +156,19 @@ class AWSS3ServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         
         // Excluding any required parameters should fail
         let exp5 = expectation(description: "should not put object")
-        awsS3.putObject(bucket: "", key: key, acl: acl, contentType: contentType, body: body) { (_, error) in
-            switch error as? StitchError {
-            case .serviceError(_, let withServiceErrorCode)?:
-                XCTAssertEqual(StitchServiceErrorCode.invalidParameter, withServiceErrorCode)
-            default:
-                XCTFail()
+        awsS3.putObject(bucket: "", key: key, acl: acl, contentType: contentType, body: body) { result in
+            switch result {
+            case .success:
+                XCTFail("expected a failure")
+            case .failure(let error):
+                switch error {
+                case .serviceError(_, let withServiceErrorCode):
+                    XCTAssertEqual(StitchServiceErrorCode.invalidParameter, withServiceErrorCode)
+                default:
+                    XCTFail("unexpected error")
+                }
             }
+
             exp5.fulfill()
         }
         wait(for: [exp5], timeout: 5.0)
@@ -171,7 +195,7 @@ class AWSS3ServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         let client = try self.appClient(forApp: app.0)
         
         let exp0 = expectation(description: "should login")
-        client.auth.login(withCredential: AnonymousCredential()) { _,_  in
+        client.auth.login(withCredential: AnonymousCredential()) { _  in
             exp0.fulfill()
         }
         wait(for: [exp0], timeout: 5.0)
@@ -185,26 +209,35 @@ class AWSS3ServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         let contentType = "plain/text"
         
         let exp1 = expectation(description: "should sign policy")
-        awsS3.signPolicy(bucket: bucket, key: key, acl: acl, contentType: contentType) { (result, _) in
-            XCTAssertNotNil(result)
+        awsS3.signPolicy(bucket: bucket, key: key, acl: acl, contentType: contentType) { result in
+            switch result {
+            case .success(let signPolicyResult):
+                XCTAssertFalse(signPolicyResult.algorithm.isEmpty)
+                XCTAssertFalse(signPolicyResult.credential.isEmpty)
+                XCTAssertFalse(signPolicyResult.date.isEmpty)
+                XCTAssertFalse(signPolicyResult.policy.isEmpty)
+                XCTAssertFalse(signPolicyResult.signature.isEmpty)
+            case .failure:
+                XCTFail("unexpected error")
+            }
             
-            XCTAssertFalse(result!.algorithm.isEmpty)
-            XCTAssertFalse(result!.credential.isEmpty)
-            XCTAssertFalse(result!.date.isEmpty)
-            XCTAssertFalse(result!.policy.isEmpty)
-            XCTAssertFalse(result!.signature.isEmpty)
             exp1.fulfill()
         }
         wait(for: [exp1], timeout: 5.0)
         
         // Excluding any required parameters should fail
         let exp2 = expectation(description: "should not sign policy")
-        awsS3.signPolicy(bucket: "", key: key, acl: acl, contentType: contentType) { (_, error) in
-            switch error as? StitchError {
-            case .serviceError(_, let withServiceErrorCode)?:
-                XCTAssertEqual(StitchServiceErrorCode.invalidParameter, withServiceErrorCode)
-            default:
-                XCTFail()
+        awsS3.signPolicy(bucket: "", key: key, acl: acl, contentType: contentType) { result in
+            switch result {
+            case .success:
+                XCTFail("expected a failure")
+            case .failure(let error):
+                switch error {
+                case .serviceError(_, let withServiceErrorCode):
+                    XCTAssertEqual(StitchServiceErrorCode.invalidParameter, withServiceErrorCode)
+                default:
+                    XCTFail("unexpected error")
+                }
             }
             exp2.fulfill()
         }
