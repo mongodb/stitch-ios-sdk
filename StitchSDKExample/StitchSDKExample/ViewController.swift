@@ -1,7 +1,7 @@
 import UIKit
-import StitchCore_iOS
-import MongoSwift
 import StitchCore
+import MongoSwift
+import StitchCoreSDK
 
 class ViewController: UIViewController {
 

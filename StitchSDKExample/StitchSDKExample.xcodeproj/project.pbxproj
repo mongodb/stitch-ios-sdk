@@ -7,15 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1159636F20CF980D00B0179B /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1159636E20CF980D00B0179B /* StitchCore.framework */; };
 		11C588002059904000B34DD1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C587FF2059904000B34DD1 /* AppDelegate.swift */; };
 		11C588022059904000B34DD1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C588012059904000B34DD1 /* ViewController.swift */; };
 		11C588052059904000B34DD1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 11C588032059904000B34DD1 /* Main.storyboard */; };
 		11C588072059904000B34DD1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11C588062059904000B34DD1 /* Assets.xcassets */; };
 		11C5880A2059904000B34DD1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 11C588082059904000B34DD1 /* LaunchScreen.storyboard */; };
-		11CAF8CB2059911B003AF24D /* StitchCore_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11CAF8CC2059911B003AF24D /* StitchCore_iOS.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1159636E20CF980D00B0179B /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		11C587FC2059904000B34DD1 /* StitchSDKExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StitchSDKExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11C587FF2059904000B34DD1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		11C588012059904000B34DD1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -23,7 +24,6 @@
 		11C588062059904000B34DD1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		11C588092059904000B34DD1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		11C5880B2059904000B34DD1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		11CAF8CC2059911B003AF24D /* StitchCore_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		11EE67AD2065A8CC00A8B752 /* ExtendedJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ExtendedJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -32,7 +32,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				11CAF8CB2059911B003AF24D /* StitchCore_iOS.framework in Frameworks */,
+				1159636F20CF980D00B0179B /* StitchCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,8 +72,8 @@
 		11CAF8CA2059911B003AF24D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1159636E20CF980D00B0179B /* StitchCore.framework */,
 				11EE67AD2065A8CC00A8B752 /* ExtendedJSON.framework */,
-				11CAF8CC2059911B003AF24D /* StitchCore_iOS.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -311,7 +311,7 @@
 					"$(SRCROOT)/../Sources/libmongoc",
 				);
 				INFOPLIST_FILE = StitchSDKExample/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks $(SRCROOT)/../MobileSDKs/iphoneos/lib/";
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../MobileSDKs/iphoneos/lib/";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchSDKExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -330,7 +330,7 @@
 					"$(SRCROOT)/../Sources/libmongoc",
 				);
 				INFOPLIST_FILE = StitchSDKExample/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks $(SRCROOT)/../MobileSDKs/iphoneos/lib/";
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../MobileSDKs/iphoneos/lib/";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchSDKExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";

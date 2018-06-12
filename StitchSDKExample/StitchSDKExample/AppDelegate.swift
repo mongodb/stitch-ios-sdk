@@ -1,5 +1,5 @@
 import UIKit
-import StitchCore_iOS
+import StitchCore
 //import StitchCore
 
 @UIApplicationMain
