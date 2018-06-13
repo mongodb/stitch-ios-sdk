@@ -1,7 +1,6 @@
 import UIKit
-import StitchCore
+import StitchSDK
 import MongoSwift
-import StitchCoreSDK
 
 class ViewController: UIViewController {
 
@@ -32,35 +31,56 @@ class ViewController: UIViewController {
 
     @IBAction func functionOnePressed(_ sender: Any) {
         let abcr = ["1", 1] as [BsonValue]
-        self.stitchClient.callFunction(withName: "getBool", withArgs: abcr, withRequestTimeout: 5.0) { (value: Bool?, error: Error?) in
-            print("Bool: \(String(describing: value as? Bool)), Error: \(String(describing: error))")
+        self.stitchClient.callFunction(
+            withName: "getBool", withArgs: abcr, withRequestTimeout: 5.0
+        ) { (result: StitchResult<Bool>) in
+            switch result {
+            case .success(let boolResult):
+                print("Bool result: \(boolResult)")
+            case .failure(let error):
+                print("Error retrieving Bool: \(String(describing: error))")
+            }
         }
     }
 
     @IBAction func functionTwoPressed(_ sender: Any) {
-        self.stitchClient.callFunction(withName: "getObject", withArgs: [], withRequestTimeout: 5.0) { (value: Document?, error: Error?) in
-            print("Object: \(String(describing: value)), Error: \(String(describing: error))")
+        self.stitchClient.callFunction(
+            withName: "getObject", withArgs: [], withRequestTimeout: 5.0
+        ) { (result: StitchResult<Document>) in
+            switch result {
+            case .success(let docResult):
+                print("Document result: \(docResult)")
+            case .failure(let error):
+                print("Error retrieving Document: \(String(describing: error))")
+            }
         }
     }
 
     @IBAction func functionThreePressed(_ sender: Any) {
-        stitchClient.callFunction(withName: "echoArg", withArgs: ["Hello world!"], withRequestTimeout: 5.0) { (value, error) in
-            print("Message: \(value ?? "None")\nError: \(String(describing: error))")
+        stitchClient.callFunction(
+            withName: "echoArg", withArgs: ["Hello world!"], withRequestTimeout: 5.0
+        ) { (result: StitchResult<String>) in
+            switch result {
+            case .success(let stringResult):
+                print("String result: \(stringResult)")
+            case .failure(let error):
+                print("Error retrieving String: \(String(describing: error))")
+            }
         }
     }
 
     @IBAction func loginButtonPressed(_ sender: Any) {
         print(UIDevice.current.systemName)
 
-        stitchClient.auth.login(withCredential: AnonymousCredential()) { user, error in
-            if let error = error {
-                print("Failed to log in: \(error)")
-            } else if let user = user {
-
+        stitchClient.auth.login(withCredential: AnonymousCredential()) { result in //user, error in
+            switch result {
+            case .success(let user):
                 print("Logged in as user \(user.id)")
                 DispatchQueue.main.async {
                     self.updateLoginStatusUILabel()
                 }
+            case .failure(let error):
+                print("Failed to log in: \(error)")
             }
         }
     }
