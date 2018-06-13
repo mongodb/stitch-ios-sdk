@@ -20,6 +20,9 @@
          location = "container:"
          name = "Services">
          <FileRef
+            location = "group:Core/Services/StitchCoreLocalMongoDBService/StitchCoreLocalMongoDBService.xcodeproj">
+         </FileRef>
+         <FileRef
             location = "group:Core/Services/StitchCoreTwilioService/StitchCoreTwilioService.xcodeproj">
          </FileRef>
          <FileRef
@@ -52,12 +55,18 @@
          location = "container:"
          name = "Examples">
          <FileRef
+            location = "group:/Users/jsflax/Development/stitch-ios-sdk/iOS/Examples/LocalMongoDBServiceExample/StitchLocalMongoDBServiceExample.xcodeproj">
+         </FileRef>
+         <FileRef
             location = "group:iOS/Examples/StitchSDKExample/StitchSDKExample.xcodeproj">
          </FileRef>
       </Group>
       <Group
          location = "container:"
          name = "Services">
+         <FileRef
+            location = "group:iOS/Services/StitchLocalMongoDBService/StitchLocalMongoDBService.xcodeproj">
+         </FileRef>
          <FileRef
             location = "group:iOS/Services/StitchTwilioService/StitchTwilioService.xcodeproj">
          </FileRef>
