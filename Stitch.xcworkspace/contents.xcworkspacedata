@@ -7,72 +7,72 @@
    <Group
       location = "container:"
       name = "Core">
+      <FileRef
+         location = "group:Core/StitchCoreTestUtils/StitchCoreTestUtils.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Core/StitchCoreSDK/StitchCoreSDK.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Core/StitchCoreAdminClient/StitchCoreAdminClient.xcodeproj">
+      </FileRef>
       <Group
          location = "container:"
          name = "Services">
          <FileRef
-            location = "group:StitchCoreAWSS3Service/StitchCoreAWSS3Service.xcodeproj">
+            location = "group:Core/Services/StitchCoreTwilioService/StitchCoreTwilioService.xcodeproj">
          </FileRef>
          <FileRef
-            location = "group:StitchCoreAWSSESService/StitchCoreAWSSESService.xcodeproj">
+            location = "group:Core/Services/StitchCoreRemoteMongoDBService/StitchCoreRemoteMongoDBService.xcodeproj">
          </FileRef>
          <FileRef
-            location = "group:StitchCoreHTTPService/StitchCoreHTTPService.xcodeproj">
+            location = "group:Core/Services/StitchCoreHTTPService/StitchCoreHTTPService.xcodeproj">
          </FileRef>
          <FileRef
-            location = "group:StitchCoreRemoteMongoDBService/StitchCoreRemoteMongoDBService.xcodeproj">
+            location = "group:Core/Services/StitchCoreAWSSESService/StitchCoreAWSSESService.xcodeproj">
          </FileRef>
          <FileRef
-            location = "group:StitchCoreTwilioService/StitchCoreTwilioService.xcodeproj">
+            location = "group:Core/Services/StitchCoreAWSS3Service/StitchCoreAWSS3Service.xcodeproj">
          </FileRef>
       </Group>
-      <FileRef
-         location = "group:StitchCoreSDK/StitchCoreSDK.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:StitchCoreAdminClient/StitchCoreAdminClient.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:StitchCoreTestUtils/StitchCoreTestUtils.xcodeproj">
-      </FileRef>
    </Group>
    <Group
       location = "container:"
       name = "iOS">
+      <FileRef
+         location = "group:iOS/StitchCore/StitchCore.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:iOS/StitchIOSCoreTestUtils/StitchIOSCoreTestUtils.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:iOS/StitchSDK/StitchSDK.xcodeproj">
+      </FileRef>
       <Group
          location = "container:"
          name = "Examples">
          <FileRef
-            location = "group:StitchSDKExample/StitchSDKExample.xcodeproj">
+            location = "group:iOS/Examples/StitchSDKExample/StitchSDKExample.xcodeproj">
          </FileRef>
       </Group>
       <Group
          location = "container:"
          name = "Services">
          <FileRef
-            location = "group:/Users/adamchel/stitch/sdks/v4/stitch-ios-sdk/StitchAWSS3Service/StitchAWSS3Service.xcodeproj">
+            location = "group:iOS/Services/StitchTwilioService/StitchTwilioService.xcodeproj">
          </FileRef>
          <FileRef
-            location = "group:/Users/adamchel/stitch/sdks/v4/stitch-ios-sdk/StitchAWSSESService/StitchAWSSESService.xcodeproj">
+            location = "group:iOS/Services/StitchRemoteMongoDBService/StitchRemoteMongoDBService.xcodeproj">
          </FileRef>
          <FileRef
-            location = "group:/Users/adamchel/stitch/sdks/v4/stitch-ios-sdk/StitchHTTPService/StitchHTTPService.xcodeproj">
+            location = "group:iOS/Services/StitchHTTPService/StitchHTTPService.xcodeproj">
          </FileRef>
          <FileRef
-            location = "group:/Users/adamchel/stitch/sdks/v4/stitch-ios-sdk/StitchRemoteMongoDBService/StitchRemoteMongoDBService.xcodeproj">
+            location = "group:iOS/Services/StitchAWSSESService/StitchAWSSESService.xcodeproj">
          </FileRef>
          <FileRef
-            location = "group:/Users/adamchel/stitch/sdks/v4/stitch-ios-sdk/StitchTwilioService/StitchTwilioService.xcodeproj">
+            location = "group:iOS/Services/StitchAWSS3Service/StitchAWSS3Service.xcodeproj">
          </FileRef>
       </Group>
-      <FileRef
-         location = "group:StitchSDK/StitchSDK.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:/Users/adamchel/stitch/sdks/v4/stitch-ios-sdk/StitchCore/StitchCore.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:/Users/adamchel/stitch/sdks/v4/stitch-ios-sdk/StitchIOSCoreTestUtils/StitchIOSCoreTestUtils.xcodeproj">
-      </FileRef>
    </Group>
 </Workspace>
