@@ -44,21 +44,4 @@ public class OperationDispatcher {
             }
         }
     }
-
-//    /**
-//     * Runs an arbitrary block of void-returning code, and runs the provided completion handler
-//     * after the block is run. The completion handler accepts an optional `Error` object which
-//     * will be non-nil if the code block threw an error.
-//     */
-//    public func run(withCompletionHandler completionHandler: @escaping (Error?) -> Void,
-//                    _ function: @escaping () throws -> Void) {
-//        queue.async {
-//            do {
-//                try function()
-//                completionHandler(nil)
-//            } catch {
-//                completionHandler(error)
-//            }
-//        }
-//    }
 }
