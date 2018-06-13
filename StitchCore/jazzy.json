@@ -1,8 +1,8 @@
 {
-    "xcodebuild_arguments": ["-project", "StitchCore.xcodeproj", "-target", "StitchCore"],
+    "xcodebuild_arguments": ["-workspace", "../Stitch.xcworkspace", "-scheme", "StitchCore-iOS"],
     "author": "MongoDB",
     "author_url": "https://github.com/mongodb/stitch-ios-sdk",
-    "module": "StitchCore",
+    "module": "StitchCore_iOS",
     "theme": "fullwidth",
 
     "documentation":"DocsSources/Pages/*.md",
@@ -11,39 +11,46 @@
     "exclude": "/*/Internal*",
 
     "custom_categories": [{
-        "name": "Overview",
+        "name": "Getting Started",
         "children": [
-            "Warning"
+            "Note on StitchCore Module",
+            "Notes on Multithreading"
         ]
     }, {
-        "name": "Client Configuration",
+        "name": "Interacting with Stitch",
         "children": [
-            "StitchAppClientConfigurationBuilder",
-            "StitchAppClientConfiguration",
-            "StitchAppClientInfo"
-        ]
-
-    }, {
-        "name": "Users",
-        "children": [
-            "StitchUserProfile",
-            "APIStitchUserProfile",
-            "ExtendedStitchUserProfile",
-            "StitchUserIdentity"
+            "Stitch",
+            "StitchAppClient",
+            "StitchAuth",
+            "StitchUser"
         ]
     }, {
-        "name": "Authentication",
+        "name": "Delegates",
         "children": [
-            "StitchCredential",
-            "ProviderCapabilities"
+            "StitchAuthDelegate"
         ]
     }, {
         "name": "Errors",
         "children": [
-            "StitchError",
-            "StitchErrorCode",
-            "StitchClientError",
-            "StitchAppClientConfigurationError"
+            "StitchInitializationError"
+        ]
+    }, {
+        "name": "Authentication Providers",
+        "children": [
+            "AnonymousAuthProvider",
+            "AnonymousAuthProviderClient",
+            "CustomAuthProvider",
+            "CustomAuthProviderClient",
+            "FacebookAuthProvider",
+            "FacebookAuthProviderClient",
+            "GoogleAuthProvider",
+            "GoogleAuthProviderClient",
+            "ServerAPIKeyAuthProvider",
+            "ServerAPIKeyAuthProviderClient",
+            "UserAPIKeyAuthProvider",
+            "UserAPIKeyAuthProviderClient",
+            "UserPasswordAuthProvider",
+            "UserPasswordAuthProviderClient"
         ]
     }]
 }

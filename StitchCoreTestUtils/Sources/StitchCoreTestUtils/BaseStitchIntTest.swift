@@ -1,13 +1,13 @@
 import XCTest
 import Foundation
-import StitchCore
+import StitchCoreSDK
 import StitchCoreAdminClient
 import MongoSwift
 
 open class BaseStitchIntTest: XCTestCase {
-    lazy var adminClient: StitchAdminClient! = StitchAdminClient.init(baseUrl: self.stitchBaseURL,
+    lazy var adminClient: StitchAdminClient! = StitchAdminClient.init(baseURL: self.stitchBaseURL,
                                                                       transport: FoundationHTTPTransport())
-    private var groupId: String!
+    private var groupID: String!
     private var apps = [Apps.App]()
     private var initialized = false
     
@@ -50,8 +50,8 @@ open class BaseStitchIntTest: XCTestCase {
                 )
             )
             
-            groupId = try adminClient.adminProfile().roles.first?.groupId
-            XCTAssertNotNil(groupId)
+            groupID = try adminClient.adminProfile().roles.first?.groupID
+            XCTAssertNotNil(groupID)
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -69,8 +69,8 @@ open class BaseStitchIntTest: XCTestCase {
     
     
     public func createApp(withAppName appName: String = "test-\(ObjectId().description)") throws -> (AppResponse, Apps.App) {
-        let appInfo = try adminClient.apps(withGroupId: groupId).create(name: appName)
-        let app = adminClient.apps(withGroupId: groupId).app(withAppId: appInfo.id)
+        let appInfo = try adminClient.apps(withGroupID: groupID).create(name: appName)
+        let app = adminClient.apps(withGroupID: groupID).app(withAppID: appInfo.id)
         apps.append(app)
         return (appInfo, app)
     }
@@ -78,7 +78,7 @@ open class BaseStitchIntTest: XCTestCase {
     public func addProvider(toApp app: Apps.App,
                             withConfig config: ProviderConfigs) throws -> AuthProviderResponse {
         let resp = try app.authProviders.create(data: config)
-        try app.authProviders.authProvider(providerId: resp.id).enable()
+        try app.authProviders.authProvider(providerID: resp.id).enable()
         return resp
     }
     
@@ -87,7 +87,7 @@ open class BaseStitchIntTest: XCTestCase {
                     withName name: String,
                     withConfig config: ServiceConfigs) throws -> (ServiceResponse, Apps.App.Services.Service) {
         let svcInfo = try app.services.create(data: config)
-        let svc = app.services.service(withId: svcInfo.id)
+        let svc = app.services.service(withID: svcInfo.id)
         return (svcInfo, svc)
     }
     

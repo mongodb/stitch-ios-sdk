@@ -25,41 +25,49 @@ private struct ServiceConfigWrapper<SC: ServiceConfig>: Encodable {
     }
 }
 
-private struct HttpServiceConfig: ServiceConfig { }
+private struct HTTPServiceConfig: ServiceConfig { }
 
 /// Configuration for an AWS S3 service
-private struct AwsS3ServiceConfig: ServiceConfig {
+private struct AWSS3ServiceConfig: ServiceConfig {
     /// aws region
     private let region: String
     /// your access key identifier
-    private let accessKeyId: String
+    private let accessKeyID: String
     /// your secret access key
     private let secretAccessKey: String
     
     fileprivate init(region: String,
-                     accessKeyId: String,
+                     accessKeyID: String,
                      secretAccessKey: String) {
         self.region = region
-        self.accessKeyId = accessKeyId
+        self.accessKeyID = accessKeyID
         self.secretAccessKey = secretAccessKey
+    }
+    
+    internal enum CodingKeys: String, CodingKey {
+        case region, accessKeyID = "accessKeyId", secretAccessKey
     }
 }
 
 /// Configuration for an AWS SES service
-private struct AwsSesServiceConfig: ServiceConfig {
+private struct AWSSESServiceConfig: ServiceConfig {
     /// aws region
     private let region: String
     /// your access key identifier
-    private let accessKeyId: String
+    private let accessKeyID: String
     /// your secret access key
     private let secretAccessKey: String
 
     fileprivate init(region: String,
-                     accessKeyId: String,
+                     accessKeyID: String,
                      secretAccessKey: String) {
         self.region = region
-        self.accessKeyId = accessKeyId
+        self.accessKeyID = accessKeyID
         self.secretAccessKey = secretAccessKey
+    }
+    
+    internal enum CodingKeys: String, CodingKey {
+        case region, accessKeyID = "accessKeyId", secretAccessKey
     }
 }
 
@@ -105,16 +113,16 @@ public enum ServiceConfigs: Encodable {
     /// configure an AWS S3 service
     /// - parameter name: name of this service
     /// - parameter region: aws region
-    /// - parameter accessKeyId: your access key identifier
+    /// - parameter accessKeyID: your access key identifier
     /// - parameter secretAccessKey: your secret access key
-    case awsS3(name: String, region: String, accessKeyId: String, secretAccessKey: String)
+    case awsS3(name: String, region: String, accessKeyID: String, secretAccessKey: String)
 
     /// configure an AWS SES service
     /// - parameter name: name of this service
     /// - parameter region: aws region
-    /// - parameter accessKeyId: your access key identifier
+    /// - parameter accessKeyID: your access key identifier
     /// - parameter secretAccessKey: your secret access key
-    case awsSes(name: String, region: String, accessKeyId: String, secretAccessKey: String)
+    case awsSes(name: String, region: String, accessKeyID: String, secretAccessKey: String)
 
     /// configure a Twilio service
     /// - parameter name: name of this service
@@ -134,22 +142,22 @@ public enum ServiceConfigs: Encodable {
             try ServiceConfigWrapper.init(
                 name: name,
                 type: "http",
-                config: HttpServiceConfig.init()
+                config: HTTPServiceConfig.init()
             ).encode(to: encoder)
-        case .awsS3(let name, let region, let accessKeyId, let secretAccessKey):
+        case .awsS3(let name, let region, let accessKeyID, let secretAccessKey):
             try ServiceConfigWrapper.init(
                 name: name,
                 type: "aws-s3",
-                config: AwsSesServiceConfig.init(region: region,
-                                                 accessKeyId: accessKeyId,
+                config: AWSSESServiceConfig.init(region: region,
+                                                 accessKeyID: accessKeyID,
                                                  secretAccessKey: secretAccessKey)
                 ).encode(to: encoder)
-        case .awsSes(let name, let region, let accessKeyId, let secretAccessKey):
+        case .awsSes(let name, let region, let accessKeyID, let secretAccessKey):
             try ServiceConfigWrapper.init(
                 name: name,
                 type: "aws-ses",
-                config: AwsSesServiceConfig.init(region: region,
-                                                 accessKeyId: accessKeyId,
+                config: AWSSESServiceConfig.init(region: region,
+                                                 accessKeyID: accessKeyID,
                                                  secretAccessKey: secretAccessKey)
             ).encode(to: encoder)
         case .twilio(let name, let accountSid, let authToken):

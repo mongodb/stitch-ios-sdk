@@ -1,11 +1,11 @@
-import StitchCore
+import StitchCoreSDK
 
 public final class StitchAdminUser: CoreStitchUser {
 
     /**
      * Initializes this user with its basic properties.
      */
-    init(withId id: String,
+    init(withID id: String,
          withProviderType providerType: StitchProviderType,
          withProviderName providerName: String,
          withUserProfile userProfile: StitchUserProfile) {
@@ -56,12 +56,12 @@ public final class StitchAdminUserFactory: StitchUserFactory {
      * The factory function which can produce a `StitchAdminUser` with the provided id, logged in provider type/name,
      * and a user profile.
      */
-    public func makeUser(withId id: String,
+    public func makeUser(withID id: String,
                          withLoggedInProviderType loggedInProviderType: StitchProviderType,
                          withLoggedInProviderName loggedInProviderName: String,
                          withUserProfile userProfile: StitchUserProfile
         ) -> StitchAdminUser {
-        return StitchAdminUser.init(withId: id,
+        return StitchAdminUser.init(withID: id,
                                     withProviderType: loggedInProviderType,
                                     withProviderName: loggedInProviderName,
                                     withUserProfile: userProfile)

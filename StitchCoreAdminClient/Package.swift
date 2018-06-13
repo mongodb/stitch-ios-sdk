@@ -9,12 +9,12 @@ let package = Package(
             targets: ["StitchCoreAdminClient"]),
     ],
     dependencies: [
-      .package(url: "../StitchCore", .branch("master"))
+      .package(url: "../StitchCoreSDK", .branch("master"))
     ],
     targets: [
         .target(
             name: "StitchCoreAdminClient",
-            dependencies: ["StitchCore"]),
+            dependencies: ["StitchCoreSDK"]),
         .testTarget(
             name: "StitchCoreAdminClientTests",
             dependencies: ["StitchCoreAdminClient"]),

@@ -66,12 +66,12 @@ public class RuleCreatorMongoDb: Encodable {
 
 
 /// Allowed actions for an AWS S3 service rule
-private struct AwsS3RuleActions: RuleActions {
+private struct AWSS3RuleActions: RuleActions {
     let put, signPolicy: Bool
 }
 
 /// Allowed actions for an AWS SES service rule
-private struct AwsSesRuleActions: RuleActions {
+private struct AWSSESRuleActions: RuleActions {
     let send: Bool
 }
 
@@ -80,8 +80,8 @@ private struct TwilioRuleActions: RuleActions {
     let send: Bool
 }
 
-/// Allowed actions for an Http service rule
-private struct HttpRuleActions: RuleActions {
+/// Allowed actions for an HTTP service rule
+private struct HTTPRuleActions: RuleActions {
     let get, post, put, delete, patch, head: Bool
 }
 
@@ -104,7 +104,7 @@ public enum RuleActionsCreator: Encodable {
         /// encode a rule to its associated wrapper
         switch self {
         case .http(let get, let post, let put, let delete, let patch, let head):
-            try HttpRuleActions.init(get: get,
+            try HTTPRuleActions.init(get: get,
                                      post: post,
                                      put: put,
                                      delete: delete,
@@ -113,9 +113,9 @@ public enum RuleActionsCreator: Encodable {
         case .twilio(let send):
             try TwilioRuleActions.init(send: send).encode(to: encoder)
         case .awsS3(let put, let signPolicy):
-            try AwsS3RuleActions.init(put: put, signPolicy: signPolicy).encode(to: encoder)
+            try AWSS3RuleActions.init(put: put, signPolicy: signPolicy).encode(to: encoder)
         case .awsSes(let send):
-            try AwsSesRuleActions.init(send: send).encode(to: encoder)
+            try AWSSESRuleActions.init(send: send).encode(to: encoder)
         }
     }
 }

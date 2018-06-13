@@ -1,19 +1,19 @@
 import Foundation
 import MongoSwift
-import StitchCore
+import StitchCoreSDK
 
 public class StitchAdminClient {
     private let adminAuth: StitchAdminAuth
     private let authRoutes: StitchAdminAuthRoutes
 
     public static let apiPath = "/api/admin/v3.0"
-    public static let defaultServerUrl = "http://localhost:9090"
+    public static let defaultServerURL = "http://localhost:9090"
     public static let defaultRequestTimeout: TimeInterval = 15.0
 
-    public init?(baseUrl: String = defaultServerUrl,
+    public init?(baseURL: String = defaultServerURL,
                  transport: Transport = FoundationHTTPTransport.init(),
                  requestTimeout: TimeInterval = defaultRequestTimeout) {
-        let requestClient = StitchRequestClientImpl.init(baseURL: baseUrl,
+        let requestClient = StitchRequestClientImpl.init(baseURL: baseURL,
                                                          transport: transport,
                                                          defaultRequestTimeout: requestTimeout)
 
@@ -45,8 +45,8 @@ public class StitchAdminClient {
         return try JSONDecoder().decode(StitchAdminUserProfile.self, from: responseBody)
     }
 
-    public func apps(withGroupId groupId: String) -> Apps {
-        return Apps.init(adminAuth: adminAuth, url: "\(StitchAdminClient.apiPath)/groups/\(groupId)/apps")
+    public func apps(withGroupID groupID: String) -> Apps {
+        return Apps.init(adminAuth: adminAuth, url: "\(StitchAdminClient.apiPath)/groups/\(groupID)/apps")
     }
 
     public func loginWithCredential(credential: StitchCredential) throws -> StitchAdminUser {

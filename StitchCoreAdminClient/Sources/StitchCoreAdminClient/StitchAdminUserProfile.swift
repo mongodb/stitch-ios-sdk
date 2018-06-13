@@ -1,5 +1,5 @@
 import Foundation
-import StitchCore
+import StitchCoreSDK
 
 /**
  * A struct containing the fields returned by the Stitch client API in a user profile request.
@@ -36,10 +36,10 @@ public struct StitchAdminUserProfile: Decodable {
 
 public struct StitchAdminRole: Decodable {
     public var name: String
-    public var groupId: String
+    public var groupID: String
 
     private enum CodingKeys: String, CodingKey {
         case name = "role_name"
-        case groupId = "group_id"
+        case groupID = "group_id"
     }
 }

@@ -4,52 +4,75 @@
    <FileRef
       location = "group:MockUtils/MockUtils.xcodeproj">
    </FileRef>
-   <FileRef
-      location = "group:StitchSDKExample/StitchSDKExample.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:StitchCoreServicesAwsS3/StitchCoreServicesAwsS3.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:StitchCoreServicesAwsS3-iOS/StitchCoreServicesAwsS3-iOS.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:StitchCoreServicesAwsSes/StitchCoreServicesAwsSes.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:StitchCoreServicesAwsSes-iOS/StitchCoreServicesAwsSes-iOS.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:StitchCoreServicesHttp/StitchCoreServicesHttp.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:StitchCoreServicesHttp-iOS/StitchCoreServicesHttp-iOS.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:StitchCoreServicesMongoDbRemote/StitchCoreServicesMongoDbRemote.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:StitchCoreServicesMongoDbRemote-iOS/StitchCoreServicesMongoDbRemote-iOS.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:StitchCoreServicesTwilio/StitchCoreServicesTwilio.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:StitchCoreServicesTwilio-iOS/StitchCoreServicesTwilio-iOS.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:StitchCore/StitchCore.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:StitchCore-iOS/StitchCore-iOS.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:StitchCoreAdminClient/StitchCoreAdminClient.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:StitchCoreTestUtils/StitchCoreTestUtils.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:StitchCoreTestUtils-iOS/StitchCoreTestUtils-iOS.xcodeproj">
-   </FileRef>
+   <Group
+      location = "container:"
+      name = "Core">
+      <Group
+         location = "container:"
+         name = "Services">
+         <FileRef
+            location = "group:StitchCoreAWSS3Service/StitchCoreAWSS3Service.xcodeproj">
+         </FileRef>
+         <FileRef
+            location = "group:StitchCoreAWSSESService/StitchCoreAWSSESService.xcodeproj">
+         </FileRef>
+         <FileRef
+            location = "group:StitchCoreHTTPService/StitchCoreHTTPService.xcodeproj">
+         </FileRef>
+         <FileRef
+            location = "group:StitchCoreRemoteMongoDBService/StitchCoreRemoteMongoDBService.xcodeproj">
+         </FileRef>
+         <FileRef
+            location = "group:StitchCoreTwilioService/StitchCoreTwilioService.xcodeproj">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:StitchCoreSDK/StitchCoreSDK.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:StitchCoreAdminClient/StitchCoreAdminClient.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:StitchCoreTestUtils/StitchCoreTestUtils.xcodeproj">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
+      name = "iOS">
+      <Group
+         location = "container:"
+         name = "Examples">
+         <FileRef
+            location = "group:StitchSDKExample/StitchSDKExample.xcodeproj">
+         </FileRef>
+      </Group>
+      <Group
+         location = "container:"
+         name = "Services">
+         <FileRef
+            location = "group:/Users/adamchel/stitch/sdks/v4/stitch-ios-sdk/StitchAWSS3Service/StitchAWSS3Service.xcodeproj">
+         </FileRef>
+         <FileRef
+            location = "group:/Users/adamchel/stitch/sdks/v4/stitch-ios-sdk/StitchAWSSESService/StitchAWSSESService.xcodeproj">
+         </FileRef>
+         <FileRef
+            location = "group:/Users/adamchel/stitch/sdks/v4/stitch-ios-sdk/StitchHTTPService/StitchHTTPService.xcodeproj">
+         </FileRef>
+         <FileRef
+            location = "group:/Users/adamchel/stitch/sdks/v4/stitch-ios-sdk/StitchRemoteMongoDBService/StitchRemoteMongoDBService.xcodeproj">
+         </FileRef>
+         <FileRef
+            location = "group:/Users/adamchel/stitch/sdks/v4/stitch-ios-sdk/StitchTwilioService/StitchTwilioService.xcodeproj">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:StitchSDK/StitchSDK.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:/Users/adamchel/stitch/sdks/v4/stitch-ios-sdk/StitchCore/StitchCore.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:/Users/adamchel/stitch/sdks/v4/stitch-ios-sdk/StitchIOSCoreTestUtils/StitchIOSCoreTestUtils.xcodeproj">
+      </FileRef>
+   </Group>
 </Workspace>

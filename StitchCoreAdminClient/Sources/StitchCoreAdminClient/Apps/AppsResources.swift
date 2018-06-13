@@ -1,10 +1,10 @@
 import Foundation
-import StitchCore
+import StitchCoreSDK
 
 /// View into a specific application
 public struct AppResponse: Codable {
     enum CodingKeys: String, CodingKey {
-        case name, id = "_id", clientAppId = "client_app_id"
+        case name, id = "_id", clientAppID = "client_app_id"
     }
 
     /// unique, internal id of this application
@@ -12,7 +12,7 @@ public struct AppResponse: Codable {
     /// name of this application
     public let name: String
     /// public, client app id (for `StitchClient`) of this application
-    public let clientAppId: String
+    public let clientAppID: String
 }
 
 extension Apps {
@@ -34,7 +34,7 @@ extension Apps {
 
     /// GET an application
     /// - parameter id: id for the application
-    public func app(withAppId appId: String) -> App {
-        return App.init(adminAuth: self.adminAuth, url: "\(url)/\(appId)")
+    public func app(withAppID appID: String) -> App {
+        return App.init(adminAuth: self.adminAuth, url: "\(url)/\(appID)")
     }
 }
