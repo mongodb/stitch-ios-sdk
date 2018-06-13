@@ -1,7 +1,7 @@
 import MongoSwift
 import Foundation
 
-open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
+public class CoreStitchServiceClientImpl: CoreStitchServiceClient {
     private let requestClient: StitchAuthRequestClient
     private let serviceRoutes: StitchServiceRoutes
     private let serviceName: String?

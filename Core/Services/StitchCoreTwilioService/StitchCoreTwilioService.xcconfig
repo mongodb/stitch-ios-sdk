@@ -11,7 +11,7 @@ LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*] = $(SRCROOT)/../../../MobileSDKs/ipho
 LIBRARY_SEARCH_PATHS[sdk=appletvos*]       = $(SRCROOT)/../../../MobileSDKs/appletvos/lib
 LIBRARY_SEARCH_PATHS[sdk=appletvsimulator*] = $(SRCROOT)/../../../MobileSDKs/appletvos/lib
 
-SWIFT_INCLUDE_PATHS = $(SRCROOT)/../MobileSDKs/include $(SRCROOT)/../../../MobileSDKs/include/libbson-1.0 $(SRCROOT)/../../MobileSDKs/include/libmongoc-1.0
+SWIFT_INCLUDE_PATHS = $(SRCROOT)/../../../MobileSDKs/include $(SRCROOT)/../../../MobileSDKs/include/libbson-1.0 $(SRCROOT)/../../../MobileSDKs/include/libmongoc-1.0
 
 ENABLE_BITCODE = NO
 
