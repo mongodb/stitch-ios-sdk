@@ -1,0 +1,49 @@
+{
+    "xcodebuild_arguments": ["-project", "StitchCore.xcodeproj", "-target", "StitchCore"],
+    "author": "MongoDB",
+    "author_url": "https://github.com/mongodb/stitch-ios-sdk",
+    "module": "StitchCore",
+    "theme": "fullwidth",
+
+    "documentation":"DocsSources/Pages/*.md",
+    "abstract":"DocsSources/Abstracts/*.md",
+
+    "exclude": "/*/Internal*",
+
+    "custom_categories": [{
+        "name": "Overview",
+        "children": [
+            "Warning"
+        ]
+    }, {
+        "name": "Client Configuration",
+        "children": [
+            "StitchAppClientConfigurationBuilder",
+            "StitchAppClientConfiguration",
+            "StitchAppClientInfo"
+        ]
+
+    }, {
+        "name": "Users",
+        "children": [
+            "StitchUserProfile",
+            "APIStitchUserProfile",
+            "ExtendedStitchUserProfile",
+            "StitchUserIdentity"
+        ]
+    }, {
+        "name": "Authentication",
+        "children": [
+            "StitchCredential",
+            "ProviderCapabilities"
+        ]
+    }, {
+        "name": "Errors",
+        "children": [
+            "StitchError",
+            "StitchErrorCode",
+            "StitchClientError",
+            "StitchAppClientConfigurationError"
+        ]
+    }]
+}
