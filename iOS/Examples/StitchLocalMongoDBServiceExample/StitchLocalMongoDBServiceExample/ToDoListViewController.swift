@@ -12,7 +12,7 @@ private let cellReuseIdentifier = "ToDoItemTableViewCell"
 
 /// View Controller for the ToDo List
 class ToDoListViewController: UITableViewController {
-    private var toDoListCollection: MongoCollection<TodoItem>!
+    private var toDoListCollection: MongoCollection<TodoItem>?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +24,7 @@ class ToDoListViewController: UITableViewController {
                     withConfigBuilder: StitchAppClientConfigurationBuilder()
                         .with(clientAppID: "test-app"))
             // try to get the default mongo client
-            let mongoClient = try client.serviceClient(forFactory: mongoDBService)
+            let mongoClient = try client.serviceClient(forFactory: localMongoDBServiceClientFactory)
 
             // fetch the toDo list collection
             self.toDoListCollection =
@@ -52,8 +52,10 @@ class ToDoListViewController: UITableViewController {
 
         // set the toDo item from the data model
         do {
-            try cell.setToDoItem(withIndex: indexPath.row,
-                                 fromCollection: self.toDoListCollection)
+            if let toDoListCollection = self.toDoListCollection {
+                try cell.setToDoItem(withIndex: indexPath.row,
+                                     fromCollection: toDoListCollection)
+            }
         } catch let err {
             print(
                 "Error setting new ToDo item: \(err)"
@@ -65,7 +67,8 @@ class ToDoListViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView,
                             numberOfRowsInSection section: Int) -> Int {
-        guard let count = try? self.toDoListCollection.count() else {
+        guard let toDoListCollection = self.toDoListCollection,
+            let count = try? toDoListCollection.count() else {
             return 0
         }
 
@@ -83,7 +86,7 @@ class ToDoListViewController: UITableViewController {
 
             do {
                 var todoItem = TodoItem.init(task: taskTextField.text!)
-                try todoItem.save(toCollection: self.toDoListCollection)
+                try todoItem.save(toCollection: self.toDoListCollection!)
                 self.tableView.reloadData()
             } catch let err {
                 print(
@@ -115,7 +118,7 @@ class ToDoListViewController: UITableViewController {
     }
 
     @IBAction func deleteCompleted(_ sender: Any) {
-        let _ = try! self.toDoListCollection.deleteMany(
+        let _ = try! self.toDoListCollection!.deleteMany(
             [TodoItem.CodingKeys.isCompleted.rawValue: true]
         )
         self.tableView.reloadData()

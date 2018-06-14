@@ -1,5 +1,5 @@
 //
-// StitchCoreAWSS3Service.xcconfig
+// StitchCoreLocalMongoDBService.xcconfig
 //
 
 OTHER_LDFLAGS[sdk=iphoneos*] = -rpath $(SRCROOT)/../../../MobileSDKs/iphoneos/lib

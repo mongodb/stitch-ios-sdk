@@ -5,12 +5,7 @@ import StitchCoreSDK
 private var _localInstances = [String: MongoClient]()
 private var initialized = false;
 
-open class CoreLocalMongoDbService {
-    deinit {
-        initialized = false
-        try? MongoMobile.close()
-    }
-    
+open class CoreLocalMongoDBService {
     public static func client(withAppInfo appInfo: StitchAppClientInfo) throws -> MongoClient {
         objc_sync_enter(self)
         defer { objc_sync_exit(self) }
@@ -45,4 +40,9 @@ open class CoreLocalMongoDbService {
     }
     
     public init() {}
+    
+    public func close() {
+        initialized = false
+        try? MongoMobile.close()
+    }
 }

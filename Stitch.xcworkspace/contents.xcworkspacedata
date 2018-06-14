@@ -55,7 +55,7 @@
          location = "container:"
          name = "Examples">
          <FileRef
-            location = "group:/Users/jsflax/Development/stitch-ios-sdk/iOS/Examples/LocalMongoDBServiceExample/StitchLocalMongoDBServiceExample.xcodeproj">
+            location = "group:iOS/Examples/StitchLocalMongoDBServiceExample/StitchLocalMongoDBServiceExample.xcodeproj">
          </FileRef>
          <FileRef
             location = "group:iOS/Examples/StitchSDKExample/StitchSDKExample.xcodeproj">
