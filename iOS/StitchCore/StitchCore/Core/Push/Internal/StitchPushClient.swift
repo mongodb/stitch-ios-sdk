@@ -1,10 +1,11 @@
 import Foundation
 import MongoSwift
+import StitchCoreSDK
 
 /**
  * StitchPushClient is used to register for push notifications.
  */
-public protocol StitchPushClient {
+public protocol StitchPushClient: CoreStitchPushClient {
     func register(withRegistrationInfo registrationInfo: Document,
                   _ completionHandler: @escaping (StitchResult<Void>) -> Void)
 

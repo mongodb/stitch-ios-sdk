@@ -75,6 +75,11 @@ private struct AWSSESRuleActions: RuleActions {
     let send: Bool
 }
 
+/// Allowed actions for an FCM service rule
+private struct FCMRuleActions: RuleActions {
+    let send: Bool
+}
+
 /// Allowed actions for a Twilio service rule
 private struct TwilioRuleActions: RuleActions {
     let send: Bool
@@ -99,6 +104,8 @@ public enum RuleActionsCreator: Encodable {
     case awsS3(put: Bool, signPolicy: Bool)
     /// - parameter send: allow message sending
     case awsSes(send: Bool)
+    /// - parameter send: allow message sending
+    case fcm(send: Bool)
 
     public func encode(to encoder: Encoder) throws {
         /// encode a rule to its associated wrapper
@@ -116,6 +123,8 @@ public enum RuleActionsCreator: Encodable {
             try AWSS3RuleActions.init(put: put, signPolicy: signPolicy).encode(to: encoder)
         case .awsSes(let send):
             try AWSSESRuleActions.init(send: send).encode(to: encoder)
+        case .fcm(let send):
+            try FCMRuleActions.init(send: send).encode(to: encoder)
         }
     }
 }

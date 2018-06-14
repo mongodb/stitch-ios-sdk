@@ -1,0 +1,9 @@
+// Re-exported classes, structs, protocols, and enums from StitchCoreFCMService
+
+@_exported import struct StitchCoreFCMService.FCMSendMessageNotification
+@_exported import class StitchCoreFCMService.FCMSendMessageNotificationBuilder
+@_exported import enum StitchCoreFCMService.FCMSendMessagePriority
+@_exported import struct StitchCoreFCMService.FCMSendMessageRequest
+@_exported import class StitchCoreFCMService.FCMSendMessageRequestBuilder
+@_exported import struct StitchCoreFCMService.FCMSendMessageResult
+@_exported import struct StitchCoreFCMService.FCMSendMessageResultFailureDetail

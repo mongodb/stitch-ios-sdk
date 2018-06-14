@@ -71,6 +71,24 @@ private struct AWSSESServiceConfig: ServiceConfig {
     }
 }
 
+/// Configuration for an FCM service
+private struct FCMServiceConfig: ServiceConfig {
+    /// your sender id
+    private let senderID: String
+    /// your API key
+    private let apiKey: String
+    
+    fileprivate init(senderID: String,
+                     apiKey: String) {
+        self.senderID = senderID
+        self.apiKey = apiKey
+    }
+    
+    internal enum CodingKeys: String, CodingKey {
+        case senderID = "senderId", apiKey
+    }
+}
+
 /// Configuration for a Twilio service
 private struct TwilioServiceConfig: ServiceConfig {
     private enum CodingKeys: String, CodingKey {
@@ -123,6 +141,12 @@ public enum ServiceConfigs: Encodable {
     /// - parameter accessKeyID: your access key identifier
     /// - parameter secretAccessKey: your secret access key
     case awsSes(name: String, region: String, accessKeyID: String, secretAccessKey: String)
+    
+    /// configure an FCM service
+    /// - parameter name: name of this service
+    /// - parameter senderID: your sender ID
+    /// - parameter apiKey: your API key
+    case fcm(name: String, senderID: String, apiKey: String)
 
     /// configure a Twilio service
     /// - parameter name: name of this service
@@ -159,6 +183,13 @@ public enum ServiceConfigs: Encodable {
                 config: AWSSESServiceConfig.init(region: region,
                                                  accessKeyID: accessKeyID,
                                                  secretAccessKey: secretAccessKey)
+            ).encode(to: encoder)
+        case .fcm(let name, let senderID, let apiKey):
+            try ServiceConfigWrapper.init(
+                name: name,
+                type: "gcm",
+                config: FCMServiceConfig.init(senderID: senderID,
+                                              apiKey: apiKey)
             ).encode(to: encoder)
         case .twilio(let name, let accountSid, let authToken):
             try ServiceConfigWrapper.init(

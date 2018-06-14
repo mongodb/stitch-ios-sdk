@@ -71,6 +71,9 @@
             location = "group:iOS/Services/StitchHTTPService/StitchHTTPService.xcodeproj">
          </FileRef>
          <FileRef
+            location = "group:iOS/Services/StitchFCMService/StitchFCMService.xcodeproj">
+         </FileRef>
+         <FileRef
             location = "group:iOS/Services/StitchAWSSESService/StitchAWSSESService.xcodeproj">
          </FileRef>
          <FileRef

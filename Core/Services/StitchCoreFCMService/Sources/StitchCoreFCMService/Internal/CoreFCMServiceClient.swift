@@ -18,12 +18,12 @@ public class CoreFCMServiceClient {
         )
     }
     
-    public func sendMessage(toUserIds userIds: [String],
+    public func sendMessage(toUserIDs userIDs: [String],
                             withRequest request: FCMSendMessageRequest) throws -> FCMSendMessageResult {
         return try sendMessageInternal(
             request: request,
-            targetTypeKey: SendFields.userIdsField.rawValue,
-            targetTypeValue: userIds
+            targetTypeKey: SendFields.userIDsField.rawValue,
+            targetTypeValue: userIDs
         )
     }
     
@@ -52,7 +52,7 @@ public class CoreFCMServiceClient {
     
     private enum SendFields: String {
         // Target types
-        case userIdsField = "userIds"
+        case userIDsField = "userIds"
         case toField = "to"
         case registrationTokensField = "registrationTokens"
     }
