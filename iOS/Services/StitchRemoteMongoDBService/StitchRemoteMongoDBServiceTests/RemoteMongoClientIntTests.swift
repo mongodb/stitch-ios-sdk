@@ -1023,7 +1023,7 @@ public struct CustomType: Codable {
 }
 
 extension CustomType: Equatable {
-    static func == (lhs: CustomType, rhs: CustomType) -> Bool {
+    public static func == (lhs: CustomType, rhs: CustomType) -> Bool {
         return lhs.id == rhs.id && lhs.intValue == rhs.intValue
     }
 }
