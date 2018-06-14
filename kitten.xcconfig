@@ -1,0 +1,5 @@
+OTHER_LDFLAGS = -rpath $(SRCROOT)/../../MobileSDKs/iphoneos/lib
+LIBRARY_SEARCH_PATHS = $(SRCROOT)/../../MobileSDKs/iphoneos/lib
+SWIFT_INCLUDE_PATHS = $(SRCROOT)/../../MobileSDKs/include $(SRCROOT)/../../MobileSDKs/include/libbson-1.0 $(SRCROOT)/../../MobileSDKs/include/libmongoc-1.0
+ENABLE_BITCODE = NO
+IPHONEOS_DEPLOYMENT_TARGET=8.0
