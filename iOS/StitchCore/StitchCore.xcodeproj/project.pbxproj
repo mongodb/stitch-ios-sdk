@@ -118,9 +118,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				1136564D20CF5CA100FB68BE /* StitchCore.framework in Frameworks */,
-				1136564C20CF5B5800FB68BE /* StitchIOSCoreTestUtils.framework in Frameworks */,
 				F466EDFC20B516B800D6E4E8 /* StitchCoreTestUtils.framework in Frameworks */,
 				F466EDFA20B5169000D6E4E8 /* StitchCoreAdminClient.framework in Frameworks */,
+				1136564C20CF5B5800FB68BE /* StitchIOSCoreTestUtils.framework in Frameworks */,
 				F4D3E4DD20B5C28D00C7479A /* JWT.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
