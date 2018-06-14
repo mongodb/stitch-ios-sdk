@@ -129,8 +129,8 @@ functions:
           sed -i -e 's~&lt;your-secret-access-key&gt;~${test_aws_secret}~g' iOS/Services/StitchAWSSESService/StitchAWSSESServiceTests/Info.plist
           sed -i -e 's/&lt;your-access-key-id&gt;/${test_aws_key}/g' iOS/Services/StitchAWSS3Service/StitchAWSS3ServiceTests/Info.plist
           sed -i -e 's~&lt;your-secret-access-key&gt;~${test_aws_secret}~g' iOS/Services/StitchAWSS3Service/StitchAWSS3ServiceTests/Info.plist
-          sed -i -e 's/&lt;your-api-key&gt;/${test_fcm_api_key}/g' iOS/Services/StitchTwilioService/StitchTwilioServiceTests/Info.plist
-          sed -i -e 's/&lt;your-sender-id&gt;/${test_fcm_sender_id}/g' iOS/Services/StitchTwilioService/StitchTwilioServiceTests/Info.plist
+          sed -i -e 's/&lt;your-api-key&gt;/${test_fcm_api_key}/g' iOS/Services/StitchFCMService/StitchFCMServiceTests/Info.plist
+          sed -i -e 's/&lt;your-sender-id&gt;/${test_fcm_sender_id}/g' iOS/Services/StitchFCMService/StitchFCMServiceTests/Info.plist
 tasks:
   - name: lint
     commands:
