@@ -14,6 +14,6 @@ public struct StitchPushRoutes {
     }
     
     public func registrationRoute(forServiceName serviceName: String) -> String {
-        return String.init(format: StitchPushRouteParts.pushProvidersRoute, self.clientAppID, serviceName)
+        return String.init(format: StitchPushRouteParts.registrationRoute, self.clientAppID, serviceName)
     }
 }

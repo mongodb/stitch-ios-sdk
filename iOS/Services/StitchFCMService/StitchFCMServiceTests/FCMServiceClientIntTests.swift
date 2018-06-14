@@ -1,6 +1,7 @@
 import Foundation
 import XCTest
 import MongoSwift
+import StitchCore
 import StitchCoreAdminClient
 import StitchIOSCoreTestUtils
 import StitchFCMService
@@ -38,6 +39,14 @@ class FCMServiceClientIntTests: BaseStitchIntTestCocoaTouch {
                                                              actions: RuleActionsCreator.fcm(send: true)))
         
         let client = try self.appClient(forApp: app.0)
+        
+        var exp = expectation(description: "should login")
+        client.auth.login(withCredential: AnonymousCredential()) { _  in
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 5.0)
+        
+        let fcm = client.serviceClient(forFactory: FCMService.sharedFactory, withName: "gcm")
         
         let collapseKey = "one"
         let contentAvailable = true
@@ -84,48 +93,81 @@ class FCMServiceClientIntTests: BaseStitchIntTestCocoaTouch {
             .with(priority: priority)
             .with(timeToLive: timeToLive)
             .build()
+
+        let to = "who"
         
-//        // Sending to a invalid registration should fail
-//        val to = "who"
-//        var result = Tasks.await(fcm.sendMessageTo(to, fullRequest))
-//        assertEquals(0, result.successes)
-//        assertEquals(1, result.failures)
-//        assertEquals(1, result.failureDetails.size)
-//        assertEquals(0, result.failureDetails[0].index)
-//        assertEquals("InvalidRegistration", result.failureDetails[0].error)
-//        Assert.assertNull(result.failureDetails[0].userId)
-//        
-//        // Sending to a topic should work
-//        val topic = "/topics/what"
-//        result = Tasks.await(fcm.sendMessageTo(topic, fullRequest))
-//        assertEquals(1, result.successes)
-//        assertEquals(0, result.failures)
-//        assertEquals(0, result.failureDetails.size)
-//
-//        result = Tasks.await(fcm.sendMessageToRegistrationTokens(listOf("one", "two"), fullRequest))
-//        assertEquals(0, result.successes)
-//        assertEquals(2, result.failures)
-//        assertEquals(2, result.failureDetails.size)
-//        assertEquals(0, result.failureDetails[0].index)
-//        assertEquals("InvalidRegistration", result.failureDetails[0].error)
-//        Assert.assertNull(result.failureDetails[0].userId)
-//        assertEquals(1, result.failureDetails[1].index)
-//        assertEquals("InvalidRegistration", result.failureDetails[1].error)
-//        Assert.assertNull(result.failureDetails[1].userId)
-//
-//        // Any invalid parameters should fail
-//        val badRequest = FcmSendMessageRequest.Builder()
-//            .withTimeToLive(100000000000000L)
-//            .build()
-//        try {
-//        Tasks.await(fcm.sendMessageTo(to, badRequest))
-//        fail()
-//        } catch (ex: ExecutionException) {
-//        Assert.assertTrue(ex.cause is StitchServiceException)
-//        val svcEx = ex.cause as StitchServiceException
-//        assertEquals(StitchServiceErrorCode.INVALID_PARAMETER, svcEx.errorCode)
-//        }
+        exp = expectation(description: "sending to an invalid registration should fail")
+        fcm.sendMessage(to: to, withRequest: fullRequest) { result in
+            switch result {
+            case .success(let fcmResult):
+                XCTAssertEqual(0, fcmResult.successes)
+                XCTAssertEqual(1, fcmResult.failures)
+                XCTAssertEqual(1, fcmResult.failureDetails?.count)
+                XCTAssertEqual(0, fcmResult.failureDetails![0].index)
+                XCTAssertEqual("InvalidRegistration", fcmResult.failureDetails![0].error)
+                XCTAssertNil(fcmResult.failureDetails![0].userID)
+            case .failure:
+                XCTFail("unexpected error")
+            }
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 5.0)
         
+        exp = expectation(description: "sending to a topic should work")
+        let topic = "/topics/what"
+        fcm.sendMessage(to: topic, withRequest: fullRequest) { result in
+            switch result {
+            case .success(let fcmResult):
+                XCTAssertEqual(1, fcmResult.successes)
+                XCTAssertEqual(0, fcmResult.failures)
+                XCTAssertNil(fcmResult.failureDetails)
+            case .failure:
+                XCTFail("unexpected error")
+            }
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 5.0)
         
+        exp = expectation(description: "sending to invalid registration tokens should fail")
+        fcm.sendMessage(toRegistrationTokens: ["one", "two"], withRequest: fullRequest) { result in
+            switch result {
+            case .success(let fcmResult):
+                XCTAssertEqual(0, fcmResult.successes)
+                XCTAssertEqual(2, fcmResult.failures)
+                XCTAssertEqual(2, fcmResult.failureDetails?.count)
+                XCTAssertEqual(0, fcmResult.failureDetails![0].index)
+                XCTAssertEqual("InvalidRegistration", fcmResult.failureDetails![0].error)
+                XCTAssertNil(fcmResult.failureDetails![0].userID)
+                XCTAssertEqual(1, fcmResult.failureDetails![1].index)
+                XCTAssertEqual("InvalidRegistration", fcmResult.failureDetails![1].error)
+                XCTAssertNil(fcmResult.failureDetails![1].userID)
+            case .failure:
+                XCTFail("unexpected error")
+            }
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 5.0)
+        
+        exp = expectation(description: "any invalid parameters should fail")
+        let badRequest = FCMSendMessageRequestBuilder()
+            .with(timeToLive: 100000000000000)
+            .build()
+        
+        fcm.sendMessage(to: "to", withRequest: badRequest) { result in
+            switch result {
+            case .success:
+                XCTFail("expected an error")
+            case .failure(let error):
+                switch error {
+                case .serviceError(_, let errorCode):
+                    XCTAssertEqual(StitchServiceErrorCode.invalidParameter, errorCode)
+                default:
+                    print(error)
+                    XCTFail("unexpected error type")
+                }
+            }
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 5.0)
     }
 }

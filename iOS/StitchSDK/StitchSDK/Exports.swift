@@ -81,6 +81,26 @@
 @_exported import protocol StitchAWSSESService.AWSSESServiceClient
 @_exported import class StitchAWSSESService.AWSSESService
 
+//////////////////////
+// StitchFCMService //
+//////////////////////
+
+// from core
+@_exported import struct StitchCoreFCMService.FCMSendMessageNotification
+@_exported import class StitchCoreFCMService.FCMSendMessageNotificationBuilder
+@_exported import enum StitchCoreFCMService.FCMSendMessagePriority
+@_exported import struct StitchCoreFCMService.FCMSendMessageRequest
+@_exported import class StitchCoreFCMService.FCMSendMessageRequestBuilder
+@_exported import struct StitchCoreFCMService.FCMSendMessageResult
+@_exported import struct StitchCoreFCMService.FCMSendMessageResultFailureDetail
+
+// from iOS-specific module
+@_exported import protocol StitchFCMService.FCMServicePushClient
+@_exported import class StitchFCMService.FCMPushService
+@_exported import protocol StitchFCMService.FCMServiceClient
+@_exported import class StitchFCMService.FCMService
+
+
 ///////////////////////
 // StitchHTTPService //
 ///////////////////////
