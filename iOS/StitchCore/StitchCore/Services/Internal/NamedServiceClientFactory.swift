@@ -5,7 +5,7 @@ import StitchCoreSDK
  */
 public protocol NamedServiceClientFactory {
     /**
-     * The type that this `NamedServiceClientFactory` can provide.
+     * The type that this `NamedServiceClientFactory` can produce.
      */
     associatedtype ClientType
 
@@ -21,7 +21,7 @@ public protocol NamedServiceClientFactory {
  */
 public struct AnyNamedServiceClientFactory<T> {
     /**
-     * A property containing the function that provides the service client object.
+     * A property containing the function that produces the service client object.
      */
     private let clientBlock: (StitchServiceClient, StitchAppClientInfo) -> T
 

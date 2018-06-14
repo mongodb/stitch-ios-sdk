@@ -38,8 +38,8 @@ public class RequestBuilder {
     }
 
     /**
-     * The number of seconds that the underlying transport should spend on an HTTP round trip before failing with an
-     * error.
+     * Sets the number of seconds that the underlying transport should spend on an HTTP round trip before failing with
+     * an error.
      */
     @discardableResult
     public func with(timeout: TimeInterval) -> Self {

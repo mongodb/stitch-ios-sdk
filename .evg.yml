@@ -190,6 +190,8 @@ tasks:
             xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreAWSS3Service-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
             echo "!building StitchCoreAWSSESService!"
             xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreAWSSESService-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
+            echo "!building StitchCoreFCMService!"
+            xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreFCMService-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
             echo "!building StitchCoreHTTPService!"
             xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreHTTPService-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
             echo "!building StitchCoreRemoteMongoDBService!"

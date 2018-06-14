@@ -29,6 +29,9 @@
             location = "group:Core/Services/StitchCoreHTTPService/StitchCoreHTTPService.xcodeproj">
          </FileRef>
          <FileRef
+            location = "group:Core/Services/StitchCoreFCMService/StitchCoreFCMService.xcodeproj">
+         </FileRef>
+         <FileRef
             location = "group:Core/Services/StitchCoreAWSSESService/StitchCoreAWSSESService.xcodeproj">
          </FileRef>
          <FileRef

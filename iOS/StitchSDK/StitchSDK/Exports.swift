@@ -55,6 +55,9 @@
 @_exported import protocol StitchCore.AuthProviderClientFactory
 @_exported import protocol StitchCore.NamedAuthProviderClientFactory
 
+// StitchCore/Core/Push
+@_exported import protocol StitchCore.StitchPush
+
 ////////////////////////
 // StitchAWSS3Service //
 ////////////////////////
