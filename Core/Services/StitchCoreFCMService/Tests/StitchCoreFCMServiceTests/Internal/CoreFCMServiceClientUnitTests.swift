@@ -14,9 +14,21 @@ extension FCMSendMessageResultFailureDetail: Equatable {
 extension FCMSendMessageResult: Equatable {
     public static func == (lhs: FCMSendMessageResult,
                     rhs: FCMSendMessageResult) -> Bool {
-        return lhs.successes == rhs.successes
+        var failureDetailsEqual: Bool
+        
+        if lhs.failureDetails == nil && rhs.failureDetails == nil {
+            failureDetailsEqual = true
+        } else if
+            let lhsFailureDetails = lhs.failureDetails,
+            let rhsFailureDetails = rhs.failureDetails {
+            failureDetailsEqual = lhsFailureDetails == rhsFailureDetails
+        } else {
+            return false
+        }
+
+        return failureDetailsEqual
+            && lhs.successes == rhs.successes
             && lhs.failures == rhs.failures
-            && lhs.failureDetails? == rhs.failureDetails?
     }
 }
 
