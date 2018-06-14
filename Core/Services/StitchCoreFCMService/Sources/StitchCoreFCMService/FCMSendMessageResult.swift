@@ -3,7 +3,7 @@ import Foundation
 /**
  * The result of an FCM send message request.
  */
-public struct FCMSendMessageResult: Decodable, Equatable {
+public struct FCMSendMessageResult: Decodable {
     /**
      * The number of messages successfully sent.
      */

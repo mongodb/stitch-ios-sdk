@@ -3,7 +3,7 @@ import Foundation
 /**
  * The details of an individual message failure inside an FCM send message request.
  */
-public struct FCMSendMessageResultFailureDetail: Decodable, Equatable {
+public struct FCMSendMessageResultFailureDetail: Decodable {
     /**
      * The index corresponding to the target.
      */

@@ -5,6 +5,21 @@ import StitchCoreSDK
 import StitchCoreSDKMocks
 @testable import StitchCoreFCMService
 
+extension FCMSendMessageResultFailureDetail: Equatable {
+    public static func == (lhs: FCMSendMessageResultFailureDetail,
+                    rhs: FCMSendMessageResultFailureDetail) -> Bool {
+        return lhs.index == rhs.index && lhs.error == rhs.error && lhs.userID == rhs.userID
+    }
+}
+extension FCMSendMessageResult: Equatable {
+    public static func == (lhs: FCMSendMessageResult,
+                    rhs: FCMSendMessageResult) -> Bool {
+        return lhs.successes == rhs.successes
+            && lhs.failures == rhs.failures
+            && lhs.failureDetails == rhs.failureDetails
+    }
+}
+
 final class CoreFCMServiceClientUnitTests: XCTestCase {
     func testSendMessage() throws {
         let service = MockCoreStitchServiceClient()
