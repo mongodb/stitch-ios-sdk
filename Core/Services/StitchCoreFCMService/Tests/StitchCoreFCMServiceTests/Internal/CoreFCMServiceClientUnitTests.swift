@@ -16,7 +16,7 @@ extension FCMSendMessageResult: Equatable {
                     rhs: FCMSendMessageResult) -> Bool {
         return lhs.successes == rhs.successes
             && lhs.failures == rhs.failures
-            && lhs.failureDetails == rhs.failureDetails
+            && lhs.failureDetails? == rhs.failureDetails?
     }
 }
 
