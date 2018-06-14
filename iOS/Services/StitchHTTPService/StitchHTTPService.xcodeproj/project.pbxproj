@@ -63,8 +63,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				11CF5D9D20CF760B006D57BA /* StitchIOSCoreTestUtils.framework in Frameworks */,
 				11CF5D9B20CF760B006D57BA /* StitchCoreTestUtils.framework in Frameworks */,
+				11CF5D9D20CF760B006D57BA /* StitchIOSCoreTestUtils.framework in Frameworks */,
 				118C33AE20C72B7B00D1DE80 /* StitchHTTPService.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

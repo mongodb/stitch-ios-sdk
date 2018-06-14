@@ -21,6 +21,13 @@ public protocol StitchAppClient {
      */
     var auth: StitchAuth { get }
 
+    // MARK: Push Notifications
+
+    /**
+     * The push notifications component of the app. This is used for registering for push notifications.
+     */
+    var push: StitchPush { get }
+
     // MARK: Services
 
     /**

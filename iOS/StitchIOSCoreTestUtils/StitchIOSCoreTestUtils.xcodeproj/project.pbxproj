@@ -66,9 +66,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F466EE3920B520EF00D6E4E8 /* StitchCoreTestUtils.framework in Frameworks */,
-				F466EE3720B520EB00D6E4E8 /* StitchCoreAdminClient.framework in Frameworks */,
 				F466EE3520B520E100D6E4E8 /* StitchCore.framework in Frameworks */,
+				F466EE3720B520EB00D6E4E8 /* StitchCoreAdminClient.framework in Frameworks */,
+				F466EE3920B520EF00D6E4E8 /* StitchCoreTestUtils.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
