@@ -1013,11 +1013,17 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
     }
 }
 
-public struct CustomType: Codable, Equatable {
+public struct CustomType: Codable {
     public let id: String
     public let intValue: Int
     
     public enum CodingKeys: String, CodingKey {
         case id = "_id", intValue
+    }
+}
+
+extension CustomType: Equatable {
+    static func == (lhs: CustomType, rhs: CustomType) -> Bool {
+        return lhs.id == rhs.id && lhs.intValue == rhs.intValue
     }
 }
