@@ -9,12 +9,12 @@ public class CoreFCMServiceClient {
         self.service = serviceClient
     }
     
-    public func sendMessage(to recipient: String,
+    public func sendMessage(to target: String,
                             withRequest request: FCMSendMessageRequest) throws -> FCMSendMessageResult {
         return try sendMessageInternal(
             request: request,
-            targetTypeKey: SendFields.toField.rawValue,
-            targetTypeValue: recipient
+            targetTypeKey: SendField.to,
+            targetTypeValue: target
         )
     }
     
@@ -22,7 +22,7 @@ public class CoreFCMServiceClient {
                             withRequest request: FCMSendMessageRequest) throws -> FCMSendMessageResult {
         return try sendMessageInternal(
             request: request,
-            targetTypeKey: SendFields.userIDsField.rawValue,
+            targetTypeKey: SendField.userIDs,
             targetTypeValue: userIDs
         )
     }
@@ -31,16 +31,16 @@ public class CoreFCMServiceClient {
                             withRequest request: FCMSendMessageRequest) throws -> FCMSendMessageResult {
         return try sendMessageInternal(
             request: request,
-            targetTypeKey: SendFields.registrationTokensField.rawValue,
+            targetTypeKey: SendField.registrationTokens,
             targetTypeValue: registrationTokens
         )
     }
     
     private func sendMessageInternal<T: BsonValue>(request: FCMSendMessageRequest,
-                                     targetTypeKey: String,
+                                     targetTypeKey: SendField,
                                      targetTypeValue: T) throws -> FCMSendMessageResult {
         var args = try BsonEncoder().encode(request)
-        args[targetTypeKey] = targetTypeValue
+        args[targetTypeKey.rawValue] = targetTypeValue
         return try self.service.callFunctionInternal(
             withName: CoreFCMServiceClient.sendAction,
             withArgs: [args],
@@ -50,10 +50,10 @@ public class CoreFCMServiceClient {
     
     private static let sendAction = "send"
     
-    private enum SendFields: String {
+    private enum SendField: String {
         // Target types
-        case userIDsField = "userIds"
-        case toField = "to"
-        case registrationTokensField = "registrationTokens"
+        case userIDs = "userIds"
+        case to
+        case registrationTokens
     }
 }

@@ -96,9 +96,9 @@
 
 // from iOS-specific module
 @_exported import protocol StitchFCMService.FCMServicePushClient
-@_exported import class StitchFCMService.FCMPushService
+@_exported import let StitchFCMService.fcmServicePushClientFactory
 @_exported import protocol StitchFCMService.FCMServiceClient
-@_exported import class StitchFCMService.FCMService
+@_exported import let StitchFCMService.fcmServiceClientFactory
 
 
 ///////////////////////

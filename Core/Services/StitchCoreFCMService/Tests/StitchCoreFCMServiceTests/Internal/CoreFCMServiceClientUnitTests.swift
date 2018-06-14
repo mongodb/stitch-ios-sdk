@@ -95,7 +95,7 @@ final class CoreFCMServiceClientUnitTests: XCTestCase {
             forArg1: .any, forArg2: .any, forArg3: .any
         )
         
-        // to single recipient
+        // to single target
         
         let to = "who"
         XCTAssertEqual(result, try client.sendMessage(to: to, withRequest: fullRequest))

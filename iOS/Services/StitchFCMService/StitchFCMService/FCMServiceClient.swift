@@ -30,7 +30,7 @@ public protocol FCMServiceClient {
      *                          successful, the result will contain the result of the send message request as an
      *                          `FCMSendMessageRequest`.
      */
-    func sendMessage(to recipient: String, withRequest request: FCMSendMessageRequest, _ completionHandler: @escaping (StitchResult<FCMSendMessageResult>) -> Void)
+    func sendMessage(to target: String, withRequest request: FCMSendMessageRequest, _ completionHandler: @escaping (StitchResult<FCMSendMessageResult>) -> Void)
     
     /**
      * Sends an FCM message to the given set of Stitch users with the given request payload.
@@ -59,7 +59,6 @@ public protocol FCMServiceClient {
     func sendMessage(toRegistrationTokens registrationTokens: [String], withRequest request: FCMSendMessageRequest, _ completionHandler: @escaping (StitchResult<FCMSendMessageResult>) -> Void)
 }
 
-public final class FCMService {
-    public static let sharedFactory =
-        AnyNamedServiceClientFactory<FCMServiceClient>(factory: FCMNamedServiceClientFactory())
-}
+/// FCM service client factory singleton
+public let fcmServiceClientFactory =
+    AnyNamedServiceClientFactory<FCMServiceClient>(factory: FCMNamedServiceClientFactory())

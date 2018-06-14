@@ -39,7 +39,6 @@ public protocol FCMServicePushClient {
     func deregister(_ completionHandler: @escaping (StitchResult<Void>) -> Void)
 }
 
-public final class FCMPushService {
-    public static let sharedFactory =
-        AnyNamedPushClientFactory<FCMServicePushClient>(factory: FCMNamedPushClientFactory())
-}
+/// FCM service push client factory
+public let fcmServicePushClientFactory =
+    AnyNamedPushClientFactory<FCMServicePushClient>(factory: FCMNamedPushClientFactory())

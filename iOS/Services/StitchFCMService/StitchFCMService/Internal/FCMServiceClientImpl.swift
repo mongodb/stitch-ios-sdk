@@ -12,11 +12,11 @@ internal final class FCMServiceClientImpl: FCMServiceClient {
         self.dispatcher = dispatcher
     }
     
-    func sendMessage(to recipient: String,
+    func sendMessage(to target: String,
                      withRequest request: FCMSendMessageRequest,
                      _ completionHandler: @escaping (StitchResult<FCMSendMessageResult>) -> Void) {
         self.dispatcher.run(withCompletionHandler: completionHandler) {
-            return try self.proxy.sendMessage(to: recipient, withRequest: request)
+            return try self.proxy.sendMessage(to: target, withRequest: request)
         }
     }
     
