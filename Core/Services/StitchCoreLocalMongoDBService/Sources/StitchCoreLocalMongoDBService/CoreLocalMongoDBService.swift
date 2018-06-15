@@ -41,6 +41,10 @@ open class CoreLocalMongoDBService {
     
     public init() {}
     
+    deinit {
+        self.close()
+    }
+    
     public func close() {
         initialized = false
         try? MongoMobile.close()

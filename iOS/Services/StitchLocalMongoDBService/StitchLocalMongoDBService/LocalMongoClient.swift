@@ -62,14 +62,7 @@ private final class MobileMongoDBClientFactory: CoreLocalMongoDBService, Throwin
             name: .UIApplicationDidReceiveMemoryWarning,
             object: nil
         )
-        // observe when memory warnings are received
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(applicationDidEnterBackground(_:)),
-            name: .UIApplicationDidEnterBackground,
-            object: nil
-        )
-        // observe when memory warnings are received
+        // observe when application will terminate
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(applicationWillTerminate(_:)),
@@ -90,22 +83,6 @@ private final class MobileMongoDBClientFactory: CoreLocalMongoDBService, Throwin
         } else {
             // Fallback on earlier versions
             print(String.init(format: msg.description, args))
-        }
-    }
-    
-    @objc private func applicationDidEnterBackground(_ notification: Notification) {
-        // This background task will keep the app alive in the event of termination
-        // This is required to ensure a clean shutdown
-        self.backgroundTask = UIApplication.shared.beginBackgroundTask { () -> Void in
-            guard let backgroundTask = self.backgroundTask else { return }
-            UIApplication.shared.endBackgroundTask(backgroundTask)
-            self.backgroundTask = UIBackgroundTaskInvalid
-        }
-        
-        DispatchQueue.global(qos: .default).async {
-            self.backgroundTask = UIBackgroundTaskInvalid
-            guard let backgroundTask = self.backgroundTask else { return }
-            UIApplication.shared.endBackgroundTask(backgroundTask)
         }
     }
     
