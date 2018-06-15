@@ -83,7 +83,7 @@ build_variant() {
     local scheme=$2
 
     xcodebuild \
-        -project "$project" \
+        -project "$(pwd)/$project" \
         -sdk "iphonesimulator" \
         -derivedDataPath "frameworks/data" \
         -scheme $scheme \
