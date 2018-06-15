@@ -161,8 +161,6 @@ fi
 #     # rm -rf MongoSwift/
 # fi
 
-make project
-
 # vendor in MongoMobile
 if [ ! -d MobileSDKs/include/mongo/embedded-v1/mongo_embedded ]; then
     echo "vendoring in mongo mobile..."
@@ -174,6 +172,8 @@ if [ ! -d MobileSDKs/include/mongo/embedded-v1/mongo_embedded ]; then
 
     rm -rf mongo-mobile mongo-mobile.tgz
 fi
+
+make project
 
 if [ ! -d frameworks ]; then
     echo "building frameworks"
