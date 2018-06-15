@@ -78,9 +78,13 @@ download_and_combine() {
     fi
 }
 
-build_variant() {
+build_variant() (
     local project=$1
     local scheme=$2
+
+    printf '\033[1;35m'
+    echo "==================== BUILD SCHEME $scheme ===================="
+    printf '\033[0m'
 
     xcodebuild \
         -project "$(pwd)/$project" \
@@ -94,7 +98,11 @@ build_variant() {
         FRAMEWORK_INCLUDE_PATHS="$(pwd)/frameworks" \
         ENABLE_BITCODE=NO \
         IPHONEOS_DEPLOYMENT_TARGET="8.0"
-}
+
+    printf '\033[1;35m'
+    echo "==================== BUILD SUCCESSFUL for $scheme ===================="
+    printf '\033[0m'
+)
 
 # download module definitions for libmongoc/libbson
 [[ -d Sources/libbson ]] || git clone --depth 1 https://github.com/mongodb/swift-bson Sources/libbson
@@ -173,27 +181,39 @@ if [ ! -d MobileSDKs/include/mongo/embedded-v1/mongo_embedded ]; then
     rm -rf mongo-mobile mongo-mobile.tgz
 fi
 
-make
+if [ ! -d Core/StitchCoreSDK/StitchCoreSDK.xcodeproj ]; then
+    make
+fi
 
 if [ ! -d frameworks ]; then
     echo "building frameworks"
     mkdir frameworks
 
-    build_variant "Core/StitchCoreSDK/StitchCoreSDK.xcodeproj" "StitchCoreSDK-Package";
-    build_variant "Core/Services/StitchCoreAWSS3Service/StitchCoreAWSS3Service.xcodeproj" "StitchCoreAWSS3Service-Package";
-    build_variant "Core/Services/StitchCoreAWSSESService/StitchCoreAWSSESService.xcodeproj" "StitchCoreAWSSESService-Package";
-    build_variant "Core/Services/StitchCoreHTTPService/StitchCoreHTTPService.xcodeproj" "StitchCoreHTTPService-Package";
-    build_variant "Core/Services/StitchCoreLocalMongoDBService/StitchCoreLocalMongoDBService.xcodeproj" "StitchCoreLocalMongoDBService-Package";
-    build_variant "Core/Services/StitchCoreRemoteMongoDBService/StitchCoreRemoteMongoDBService.xcodeproj" "StitchCoreRemoteMongoDBService-Package";
-    build_variant "Core/Services/StitchCoreTwilioService/StitchCoreTwilioService.xcodeproj" "StitchCoreTwilioService-Package";
-    build_variant "Core/Services/StitchCoreFCMService/StitchCoreFCMService.xcodeproj" "StitchCoreFCMService-Package";
+    build_variant "Core/StitchCoreSDK/StitchCoreSDK.xcodeproj" "StitchCoreSDK-Package"
+    wait;
+
+    build_variant "Core/Services/StitchCoreAWSS3Service/StitchCoreAWSS3Service.xcodeproj" "StitchCoreAWSS3Service-Package"
+    build_variant "Core/Services/StitchCoreAWSSESService/StitchCoreAWSSESService.xcodeproj" "StitchCoreAWSSESService-Package"
+    build_variant "Core/Services/StitchCoreHTTPService/StitchCoreHTTPService.xcodeproj" "StitchCoreHTTPService-Package"
+    build_variant "Core/Services/StitchCoreLocalMongoDBService/StitchCoreLocalMongoDBService.xcodeproj" "StitchCoreLocalMongoDBService-Package"
+    build_variant "Core/Services/StitchCoreRemoteMongoDBService/StitchCoreRemoteMongoDBService.xcodeproj" "StitchCoreRemoteMongoDBService-Package"
+    build_variant "Core/Services/StitchCoreTwilioService/StitchCoreTwilioService.xcodeproj" "StitchCoreTwilioService-Package"
+    build_variant "Core/Services/StitchCoreFCMService/StitchCoreFCMService.xcodeproj" "StitchCoreFCMService-Package"
+
+    wait;
 
     build_variant "iOS/StitchCore/StitchCore.xcodeproj" "StitchCore";
-    build_variant "iOS/Services/StitchAWSS3Service/StitchAWSS3Service.xcodeproj" "StitchAWSS3Service";
-    build_variant "iOS/Services/StitchAWSSESService/StitchAWSSESService.xcodeproj" "StitchAWSSESService";
-    build_variant "iOS/Services/StitchHTTPService/StitchHTTPService.xcodeproj" "StitchHTTPService";
-    build_variant "iOS/Services/StitchLocalMongoDBService/StitchLocalMongoDBService.xcodeproj" "StitchLocalMongoDBService";
-    build_variant "iOS/Services/StitchRemoteMongoDBService/StitchRemoteMongoDBService.xcodeproj" "StitchRemoteMongoDBService";
-    build_variant "iOS/Services/StitchTwilioService/StitchTwilioService.xcodeproj" "StitchTwilioService";
-    build_variant "iOS/Services/StitchFCMService/StitchFCMService.xcodeproj" "StitchFCMService";
+    wait;
+
+    build_variant "iOS/Services/StitchAWSS3Service/StitchAWSS3Service.xcodeproj" "StitchAWSS3Service"
+    build_variant "iOS/Services/StitchAWSSESService/StitchAWSSESService.xcodeproj" "StitchAWSSESService"
+    build_variant "iOS/Services/StitchHTTPService/StitchHTTPService.xcodeproj" "StitchHTTPService"
+    build_variant "iOS/Services/StitchLocalMongoDBService/StitchLocalMongoDBService.xcodeproj" "StitchLocalMongoDBService"
+    build_variant "iOS/Services/StitchRemoteMongoDBService/StitchRemoteMongoDBService.xcodeproj" "StitchRemoteMongoDBService"
+    build_variant "iOS/Services/StitchTwilioService/StitchTwilioService.xcodeproj" "StitchTwilioService"
+    build_variant "iOS/Services/StitchFCMService/StitchFCMService.xcodeproj" "StitchFCMService"
+
+    wait;
 fi
+
+echo "done!";
