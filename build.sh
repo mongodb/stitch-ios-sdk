@@ -173,7 +173,7 @@ if [ ! -d MobileSDKs/include/mongo/embedded-v1/mongo_embedded ]; then
     rm -rf mongo-mobile mongo-mobile.tgz
 fi
 
-make project
+make
 
 if [ ! -d frameworks ]; then
     echo "building frameworks"
