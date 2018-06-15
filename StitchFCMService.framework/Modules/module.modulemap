@@ -1,0 +1,11 @@
+framework module StitchFCMService {
+  umbrella header "StitchFCMService.h"
+
+  export *
+  module * { export * }
+}
+
+module StitchFCMService.Swift {
+    header "StitchFCMService-Swift.h"
+    requires objc
+}

@@ -1,0 +1,4 @@
+framework module JWT {
+    header "JWT-Swift.h"
+    requires objc
+}
