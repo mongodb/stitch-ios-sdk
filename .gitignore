@@ -76,6 +76,12 @@ Core/Services/StitchCoreAWSSESService/Package.resolved
 Core/Services/StitchCoreAWSSESService/.build/
 Core/Services/StitchCoreAWSSESService/StitchCoreAWSSESService.xcodeproj/
 
+Core/Services/StitchCoreFCMService/Packages/
+Core/Services/StitchCoreFCMService/Package.pins
+Core/Services/StitchCoreFCMService/Package.resolved
+Core/Services/StitchCoreFCMService/.build/
+Core/Services/StitchCoreFCMService/StitchCoreFCMService.xcodeproj/
+
 Core/Services/StitchCoreHTTPService/Packages/
 Core/Services/StitchCoreHTTPService/Package.pins
 Core/Services/StitchCoreHTTPService/Package.resolved

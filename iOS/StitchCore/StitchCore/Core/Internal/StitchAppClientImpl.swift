@@ -17,6 +17,11 @@ internal final class StitchAppClientImpl: StitchAppClient {
     }
 
     /**
+     * The client's underlying push notification component.
+     */
+    public var push: StitchPush
+
+    /**
      * The client's underlying authentication state.
      */
     private var _auth: StitchAuthImpl
@@ -69,6 +74,11 @@ internal final class StitchAppClientImpl: StitchAppClient {
                 appInfo: self.info)
 
         self._auth = internalAuth
+        self.push = StitchPushImpl.init(
+            requestClient: self._auth,
+            pushRoutes: self.routes.pushRoutes,
+            dispatcher: self.dispatcher
+        )
         self.coreClient = CoreStitchAppClient.init(authRequestClient: internalAuth, routes: routes)
     }
 

@@ -61,8 +61,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				11CF5DA920CF877B006D57BA /* StitchIOSCoreTestUtils.framework in Frameworks */,
 				F4D687BC20ACDD2A00C6C2BF /* StitchCoreTestUtils.framework in Frameworks */,
+				11CF5DA920CF877B006D57BA /* StitchIOSCoreTestUtils.framework in Frameworks */,
 				F4D7CCE420AA0DC1003AA921 /* StitchTwilioService.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

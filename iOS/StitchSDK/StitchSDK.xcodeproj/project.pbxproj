@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		111AF0BD20D2DCC40080B570 /* StitchFCMService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 111AF0BC20D2DCC40080B570 /* StitchFCMService.framework */; };
 		1159638820D02B0800B0179B /* StitchSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 1159638620D02B0800B0179B /* StitchSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1159638F20D02B7600B0179B /* Exports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1159638E20D02B7600B0179B /* Exports.swift */; };
 		1159639220D02B8F00B0179B /* StitchAWSS3Service.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1159639120D02B8F00B0179B /* StitchAWSS3Service.framework */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		111AF0BC20D2DCC40080B570 /* StitchFCMService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchFCMService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1159638320D02B0800B0179B /* StitchSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StitchSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1159638620D02B0800B0179B /* StitchSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StitchSDK.h; sourceTree = "<group>"; };
 		1159638720D02B0800B0179B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -35,9 +37,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1159639620D02B8F00B0179B /* StitchCore.framework in Frameworks */,
 				1159639220D02B8F00B0179B /* StitchAWSS3Service.framework in Frameworks */,
 				1159639420D02B8F00B0179B /* StitchAWSSESService.framework in Frameworks */,
-				1159639620D02B8F00B0179B /* StitchCore.framework in Frameworks */,
+				111AF0BD20D2DCC40080B570 /* StitchFCMService.framework in Frameworks */,
 				1159639820D02B8F00B0179B /* StitchHTTPService.framework in Frameworks */,
 				1159639A20D02B8F00B0179B /* StitchRemoteMongoDBService.framework in Frameworks */,
 				1159639C20D02B8F00B0179B /* StitchTwilioService.framework in Frameworks */,
@@ -77,6 +80,7 @@
 		1159639020D02B8E00B0179B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				111AF0BC20D2DCC40080B570 /* StitchFCMService.framework */,
 				1159639120D02B8F00B0179B /* StitchAWSS3Service.framework */,
 				1159639320D02B8F00B0179B /* StitchAWSSESService.framework */,
 				1159639520D02B8F00B0179B /* StitchCore.framework */,
@@ -305,8 +309,8 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../Sources/libbson",
-					"$(SRCROOT)/../Sources/libmongoc",
+					"$(SRCROOT)/../../Sources/libbson",
+					"$(SRCROOT)/../../Sources/libmongoc",
 				);
 				INFOPLIST_FILE = StitchSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -338,8 +342,8 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../Sources/libbson",
-					"$(SRCROOT)/../Sources/libmongoc",
+					"$(SRCROOT)/../../Sources/libbson",
+					"$(SRCROOT)/../../Sources/libmongoc",
 				);
 				INFOPLIST_FILE = StitchSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";

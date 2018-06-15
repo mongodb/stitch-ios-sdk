@@ -5,6 +5,7 @@ all:
 	$(MAKE) -C Core/StitchCoreTestUtils all
 	$(MAKE) -C Core/Services/StitchCoreAWSS3Service all
 	$(MAKE) -C Core/Services/StitchCoreAWSSESService all
+	$(MAKE) -C Core/Services/StitchCoreFCMService all
 	$(MAKE) -C Core/Services/StitchCoreHTTPService all
 	$(MAKE) -C Core/Services/StitchCoreLocalMongoDBService all
 	$(MAKE) -C Core/Services/StitchCoreRemoteMongoDBService all
@@ -16,6 +17,7 @@ lint:
 	$(MAKE) -C Core/StitchCoreTestUtils lint
 	$(MAKE) -C Core/Services/StitchCoreAWSS3Service lint
 	$(MAKE) -C Core/Services/StitchCoreAWSSESService lint
+	$(MAKE) -C Core/Services/StitchCoreFCMService lint
 	$(MAKE) -C Core/Services/StitchCoreHTTPService lint
 	$(MAKE) -C Core/Services/StitchCoreLocalMongoDBService lint
 	$(MAKE) -C Core/Services/StitchCoreRemoteMongoDBService lint
@@ -27,6 +29,7 @@ git:
 	$(MAKE) -C Core/StitchCoreTestUtils git
 	$(MAKE) -C Core/Services/StitchCoreAWSS3Service git
 	$(MAKE) -C Core/Services/StitchCoreAWSSESService git
+	$(MAKE) -C Core/Services/StitchCoreFCMService git
 	$(MAKE) -C Core/Services/StitchCoreHTTPService git
 	$(MAKE) -C Core/Services/StitchCoreLocalMongoDBService git
 	$(MAKE) -C Core/Services/StitchCoreRemoteMongoDBService git
@@ -38,6 +41,7 @@ update:
 	$(MAKE) -C Core/StitchCoreTestUtils update
 	$(MAKE) -C Core/Services/StitchCoreAWSS3Service update
 	$(MAKE) -C Core/Services/StitchCoreAWSSESService update
+	$(MAKE) -C Core/Services/StitchCoreFCMService update
 	$(MAKE) -C Core/Services/StitchCoreHTTPService update
 	$(MAKE) -C Core/Services/StitchCoreLocalMongoDBService update
 	$(MAKE) -C Core/Services/StitchCoreRemoteMongoDBService update
@@ -49,6 +53,7 @@ test:
 	$(MAKE) -C Core/StitchCoreTestUtils test
 	$(MAKE) -C Core/Services/StitchCoreAWSS3Service test
 	$(MAKE) -C Core/Services/StitchCoreAWSSESService test
+	$(MAKE) -C Core/Services/StitchCoreFCMService test
 	$(MAKE) -C Core/Services/StitchCoreHTTPService test
 	$(MAKE) -C Core/Services/StitchCoreLocalMongoDBService test
 	$(MAKE) -C Core/Services/StitchCoreRemoteMongoDBService test
@@ -60,6 +65,7 @@ project:
 	$(MAKE)	-C Core/StitchCoreTestUtils project
 	$(MAKE) -C Core/Services/StitchCoreAWSS3Service project
 	$(MAKE) -C Core/Services/StitchCoreAWSSESService project
+	$(MAKE) -C Core/Services/StitchCoreFCMService project
 	$(MAKE) -C Core/Services/StitchCoreHTTPService project
 	$(MAKE) -C Core/Services/StitchCoreLocalMongoDBService project
 	$(MAKE) -C Core/Services/StitchCoreRemoteMongoDBService project

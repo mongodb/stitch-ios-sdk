@@ -55,6 +55,9 @@
 @_exported import protocol StitchCore.AuthProviderClientFactory
 @_exported import protocol StitchCore.NamedAuthProviderClientFactory
 
+// StitchCore/Core/Push
+@_exported import protocol StitchCore.StitchPush
+
 ////////////////////////
 // StitchAWSS3Service //
 ////////////////////////
@@ -77,6 +80,26 @@
 // from iOS-specific module
 @_exported import protocol StitchAWSSESService.AWSSESServiceClient
 @_exported import class StitchAWSSESService.AWSSESService
+
+//////////////////////
+// StitchFCMService //
+//////////////////////
+
+// from core
+@_exported import struct StitchCoreFCMService.FCMSendMessageNotification
+@_exported import class StitchCoreFCMService.FCMSendMessageNotificationBuilder
+@_exported import enum StitchCoreFCMService.FCMSendMessagePriority
+@_exported import struct StitchCoreFCMService.FCMSendMessageRequest
+@_exported import class StitchCoreFCMService.FCMSendMessageRequestBuilder
+@_exported import struct StitchCoreFCMService.FCMSendMessageResult
+@_exported import struct StitchCoreFCMService.FCMSendMessageResultFailureDetail
+
+// from iOS-specific module
+@_exported import protocol StitchFCMService.FCMServicePushClient
+@_exported import let StitchFCMService.fcmServicePushClientFactory
+@_exported import protocol StitchFCMService.FCMServiceClient
+@_exported import let StitchFCMService.fcmServiceClientFactory
+
 
 ///////////////////////
 // StitchHTTPService //
