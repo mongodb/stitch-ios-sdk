@@ -1,0 +1,2871 @@
+// !$*UTF8*$!
+{
+   archiveVersion = "1";
+   objectVersion = "46";
+   objects = {
+      "MockUtils::MockUtils" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_161";
+         buildPhases = (
+            "OBJ_164",
+            "OBJ_169",
+         );
+         dependencies = (
+         );
+         name = "MockUtils";
+         productName = "MockUtils";
+         productReference = "MockUtils::MockUtils::Product";
+         productType = "com.apple.product-type.framework";
+      };
+      "MockUtils::MockUtils::Product" = {
+         isa = "PBXFileReference";
+         path = "MockUtils.framework";
+         sourceTree = "BUILT_PRODUCTS_DIR";
+      };
+      "MockUtils::SwiftPMPackageDescription" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_171";
+         buildPhases = (
+            "OBJ_174",
+         );
+         dependencies = (
+         );
+         name = "MockUtilsPackageDescription";
+         productName = "MockUtilsPackageDescription";
+         productType = "com.apple.product-type.framework";
+      };
+      "MongoSwift::MongoSwift" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_177";
+         buildPhases = (
+            "OBJ_180",
+            "OBJ_197",
+         );
+         dependencies = (
+         );
+         name = "MongoSwift";
+         productName = "MongoSwift";
+         productReference = "MongoSwift::MongoSwift::Product";
+         productType = "com.apple.product-type.framework";
+      };
+      "MongoSwift::MongoSwift::Product" = {
+         isa = "PBXFileReference";
+         path = "MongoSwift.framework";
+         sourceTree = "BUILT_PRODUCTS_DIR";
+      };
+      "MongoSwift::SwiftPMPackageDescription" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_199";
+         buildPhases = (
+            "OBJ_202",
+         );
+         dependencies = (
+         );
+         name = "MongoSwiftPackageDescription";
+         productName = "MongoSwiftPackageDescription";
+         productType = "com.apple.product-type.framework";
+      };
+      "OBJ_1" = {
+         isa = "PBXProject";
+         attributes = {
+            LastUpgradeCheck = "9999";
+         };
+         buildConfigurationList = "OBJ_2";
+         compatibilityVersion = "Xcode 3.2";
+         developmentRegion = "English";
+         hasScannedForEncodings = "0";
+         knownRegions = (
+            "en",
+         );
+         mainGroup = "OBJ_5";
+         productRefGroup = "OBJ_153";
+         projectDirPath = ".";
+         targets = (
+            "MockUtils::MockUtils",
+            "MockUtils::SwiftPMPackageDescription",
+            "MongoSwift::MongoSwift",
+            "MongoSwift::SwiftPMPackageDescription",
+            "StitchCoreHTTPService::StitchCoreHTTPService",
+            "StitchCoreHTTPService::SwiftPMPackageDescription",
+            "StitchCoreHTTPService::StitchCoreHTTPServicePackageTests::ProductTarget",
+            "StitchCoreHTTPService::StitchCoreHTTPServiceTests",
+            "StitchCoreSDK::StitchCoreSDK",
+            "StitchCoreSDK::StitchCoreSDKMocks",
+            "StitchCoreSDK::SwiftPMPackageDescription",
+            "libmongoc::libmongoc::ProductTarget",
+         );
+      };
+      "OBJ_10" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_11",
+            "OBJ_12",
+            "OBJ_13",
+            "OBJ_14",
+            "OBJ_15",
+         );
+         name = "StitchCoreHTTPService";
+         path = "Sources/StitchCoreHTTPService";
+         sourceTree = "SOURCE_ROOT";
+      };
+      "OBJ_100" = {
+         isa = "PBXFileReference";
+         path = "FoundationHTTPTransport.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_101" = {
+         isa = "PBXFileReference";
+         path = "Headers.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_102" = {
+         isa = "PBXFileReference";
+         path = "Method.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_103" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_104",
+            "OBJ_105",
+            "OBJ_106",
+            "OBJ_107",
+            "OBJ_108",
+         );
+         name = "Requests";
+         path = "Requests";
+         sourceTree = "<group>";
+      };
+      "OBJ_104" = {
+         isa = "PBXFileReference";
+         path = "Request.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_105" = {
+         isa = "PBXFileReference";
+         path = "StitchAuthDocRequest.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_106" = {
+         isa = "PBXFileReference";
+         path = "StitchAuthRequest.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_107" = {
+         isa = "PBXFileReference";
+         path = "StitchDocRequest.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_108" = {
+         isa = "PBXFileReference";
+         path = "StitchRequest.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_109" = {
+         isa = "PBXFileReference";
+         path = "StitchAppRoutes.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_11" = {
+         isa = "PBXFileReference";
+         path = "HTTPCookie.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_110" = {
+         isa = "PBXFileReference";
+         path = "StitchRequestClient.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_111" = {
+         isa = "PBXFileReference";
+         path = "Transport.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_112" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_113",
+         );
+         name = "Push";
+         path = "Push";
+         sourceTree = "<group>";
+      };
+      "OBJ_113" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_114",
+            "OBJ_115",
+            "OBJ_116",
+         );
+         name = "Internal";
+         path = "Internal";
+         sourceTree = "<group>";
+      };
+      "OBJ_114" = {
+         isa = "PBXFileReference";
+         path = "CoreStitchPushClient.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_115" = {
+         isa = "PBXFileReference";
+         path = "CoreStitchPushClientImpl.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_116" = {
+         isa = "PBXFileReference";
+         path = "StitchPushRoutes.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_117" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_118",
+         );
+         name = "Services";
+         path = "Services";
+         sourceTree = "<group>";
+      };
+      "OBJ_118" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_119",
+            "OBJ_120",
+         );
+         name = "Internal";
+         path = "Internal";
+         sourceTree = "<group>";
+      };
+      "OBJ_119" = {
+         isa = "PBXFileReference";
+         path = "CoreStitchServiceClient.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_12" = {
+         isa = "PBXFileReference";
+         path = "HTTPMethod.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_120" = {
+         isa = "PBXFileReference";
+         path = "CoreStitchServiceClientImpl.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_121" = {
+         isa = "PBXFileReference";
+         path = "StitchAppClientConfiguration.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_122" = {
+         isa = "PBXFileReference";
+         path = "StitchAppClientInfo.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_123" = {
+         isa = "PBXFileReference";
+         path = "StitchClientConfiguration.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_124" = {
+         isa = "PBXFileReference";
+         path = "StitchError.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_125" = {
+         isa = "PBXFileReference";
+         explicitFileType = "sourcecode.swift";
+         name = "Package.swift";
+         path = "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreHTTPService/.build/checkouts/StitchCoreSDK--6611188111968536726/Package.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_126" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_127",
+            "OBJ_145",
+         );
+         name = "MongoSwift";
+         path = "";
+         sourceTree = "SOURCE_ROOT";
+      };
+      "OBJ_127" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_128",
+            "OBJ_129",
+            "OBJ_136",
+            "OBJ_137",
+            "OBJ_138",
+            "OBJ_139",
+            "OBJ_140",
+            "OBJ_141",
+            "OBJ_142",
+            "OBJ_143",
+            "OBJ_144",
+         );
+         name = "MongoSwift";
+         path = ".build/checkouts/mongo-swift-driver.git--3116645871691136268/Sources/MongoSwift";
+         sourceTree = "SOURCE_ROOT";
+      };
+      "OBJ_128" = {
+         isa = "PBXFileReference";
+         path = "APM.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_129" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_130",
+            "OBJ_131",
+            "OBJ_132",
+            "OBJ_133",
+            "OBJ_134",
+            "OBJ_135",
+         );
+         name = "BSON";
+         path = "BSON";
+         sourceTree = "<group>";
+      };
+      "OBJ_13" = {
+         isa = "PBXFileReference";
+         path = "HTTPRequest.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_130" = {
+         isa = "PBXFileReference";
+         path = "BsonDecoder.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_131" = {
+         isa = "PBXFileReference";
+         path = "BsonEncoder.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_132" = {
+         isa = "PBXFileReference";
+         path = "BsonValue.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_133" = {
+         isa = "PBXFileReference";
+         path = "CodableNumber.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_134" = {
+         isa = "PBXFileReference";
+         path = "Document+Codable.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_135" = {
+         isa = "PBXFileReference";
+         path = "Document.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_136" = {
+         isa = "PBXFileReference";
+         path = "Client.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_137" = {
+         isa = "PBXFileReference";
+         path = "ClientSession.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_138" = {
+         isa = "PBXFileReference";
+         path = "Collection.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_139" = {
+         isa = "PBXFileReference";
+         path = "Cursor.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_14" = {
+         isa = "PBXFileReference";
+         path = "HTTPResponse.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_140" = {
+         isa = "PBXFileReference";
+         path = "Database.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_141" = {
+         isa = "PBXFileReference";
+         path = "MongoError.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_142" = {
+         isa = "PBXFileReference";
+         path = "MongoSwift.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_143" = {
+         isa = "PBXFileReference";
+         path = "ReadWriteConcern.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_144" = {
+         isa = "PBXFileReference";
+         path = "SDAM.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_145" = {
+         isa = "PBXFileReference";
+         explicitFileType = "sourcecode.swift";
+         name = "Package.swift";
+         path = "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreHTTPService/.build/checkouts/mongo-swift-driver.git--3116645871691136268/Package.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_146" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_147",
+            "OBJ_152",
+         );
+         name = "MockUtils";
+         path = "";
+         sourceTree = "SOURCE_ROOT";
+      };
+      "OBJ_147" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_148",
+            "OBJ_149",
+            "OBJ_150",
+            "OBJ_151",
+         );
+         name = "MockUtils";
+         path = ".build/checkouts/MockUtils--3493337496829072534/Sources/MockUtils";
+         sourceTree = "SOURCE_ROOT";
+      };
+      "OBJ_148" = {
+         isa = "PBXFileReference";
+         path = "Collection+count.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_149" = {
+         isa = "PBXFileReference";
+         path = "Matcher.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_15" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_16",
+         );
+         name = "Internal";
+         path = "Internal";
+         sourceTree = "<group>";
+      };
+      "OBJ_150" = {
+         isa = "PBXFileReference";
+         path = "MockUtils.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_151" = {
+         isa = "PBXFileReference";
+         path = "SpyUtils.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_152" = {
+         isa = "PBXFileReference";
+         explicitFileType = "sourcecode.swift";
+         name = "Package.swift";
+         path = "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreHTTPService/.build/checkouts/MockUtils--3493337496829072534/Package.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_153" = {
+         isa = "PBXGroup";
+         children = (
+            "MongoSwift::MongoSwift::Product",
+            "StitchCoreHTTPService::StitchCoreHTTPService::Product",
+            "MockUtils::MockUtils::Product",
+            "StitchCoreSDK::StitchCoreSDK::Product",
+            "StitchCoreHTTPService::StitchCoreHTTPServiceTests::Product",
+            "StitchCoreSDK::StitchCoreSDKMocks::Product",
+         );
+         name = "Products";
+         path = "";
+         sourceTree = "BUILT_PRODUCTS_DIR";
+      };
+      "OBJ_16" = {
+         isa = "PBXFileReference";
+         path = "CoreHTTPServiceClient.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_161" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_162",
+            "OBJ_163",
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_162" = {
+         isa = "XCBuildConfiguration";
+         baseConfigurationReference = "OBJ_8";
+         buildSettings = {
+            ENABLE_TESTABILITY = "YES";
+            FRAMEWORK_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(PLATFORM_DIR)/Developer/Library/Frameworks",
+            );
+            HEADER_SEARCH_PATHS = (
+               "$(inherited)",
+            );
+            INFOPLIST_FILE = "StitchCoreHTTPService.xcodeproj/MockUtils_Info.plist";
+            LD_RUNPATH_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
+            );
+            OTHER_CFLAGS = (
+               "$(inherited)",
+            );
+            OTHER_LDFLAGS = (
+               "$(inherited)",
+            );
+            OTHER_SWIFT_FLAGS = (
+               "$(inherited)",
+            );
+            PRODUCT_BUNDLE_IDENTIFIER = "MockUtils";
+            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_VERSION = "4.0";
+            TARGET_NAME = "MockUtils";
+         };
+         name = "Debug";
+      };
+      "OBJ_163" = {
+         isa = "XCBuildConfiguration";
+         baseConfigurationReference = "OBJ_8";
+         buildSettings = {
+            ENABLE_TESTABILITY = "YES";
+            FRAMEWORK_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(PLATFORM_DIR)/Developer/Library/Frameworks",
+            );
+            HEADER_SEARCH_PATHS = (
+               "$(inherited)",
+            );
+            INFOPLIST_FILE = "StitchCoreHTTPService.xcodeproj/MockUtils_Info.plist";
+            LD_RUNPATH_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
+            );
+            OTHER_CFLAGS = (
+               "$(inherited)",
+            );
+            OTHER_LDFLAGS = (
+               "$(inherited)",
+            );
+            OTHER_SWIFT_FLAGS = (
+               "$(inherited)",
+            );
+            PRODUCT_BUNDLE_IDENTIFIER = "MockUtils";
+            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_VERSION = "4.0";
+            TARGET_NAME = "MockUtils";
+         };
+         name = "Release";
+      };
+      "OBJ_164" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_165",
+            "OBJ_166",
+            "OBJ_167",
+            "OBJ_168",
+         );
+      };
+      "OBJ_165" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_148";
+      };
+      "OBJ_166" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_149";
+      };
+      "OBJ_167" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_150";
+      };
+      "OBJ_168" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_151";
+      };
+      "OBJ_169" = {
+         isa = "PBXFrameworksBuildPhase";
+         files = (
+         );
+      };
+      "OBJ_17" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_18",
+         );
+         name = "Tests";
+         path = "";
+         sourceTree = "SOURCE_ROOT";
+      };
+      "OBJ_171" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_172",
+            "OBJ_173",
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_172" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            LD = "/usr/bin/true";
+            OTHER_SWIFT_FLAGS = (
+               "-swift-version",
+               "4",
+               "-I",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4",
+               "-target",
+               "x86_64-apple-macosx10.10",
+               "-sdk",
+               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk",
+            );
+            SWIFT_VERSION = "4.0";
+         };
+         name = "Debug";
+      };
+      "OBJ_173" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            LD = "/usr/bin/true";
+            OTHER_SWIFT_FLAGS = (
+               "-swift-version",
+               "4",
+               "-I",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4",
+               "-target",
+               "x86_64-apple-macosx10.10",
+               "-sdk",
+               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk",
+            );
+            SWIFT_VERSION = "4.0";
+         };
+         name = "Release";
+      };
+      "OBJ_174" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_175",
+         );
+      };
+      "OBJ_175" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_152";
+      };
+      "OBJ_177" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_178",
+            "OBJ_179",
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_178" = {
+         isa = "XCBuildConfiguration";
+         baseConfigurationReference = "OBJ_8";
+         buildSettings = {
+            ENABLE_TESTABILITY = "YES";
+            FRAMEWORK_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(PLATFORM_DIR)/Developer/Library/Frameworks",
+            );
+            HEADER_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(SRCROOT)/.build/checkouts/swift-mongoc-4572998624666171810",
+               "$(SRCROOT)/.build/checkouts/swift-bson-2873930670968179217",
+            );
+            INFOPLIST_FILE = "StitchCoreHTTPService.xcodeproj/MongoSwift_Info.plist";
+            LD_RUNPATH_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
+            );
+            OTHER_CFLAGS = (
+               "$(inherited)",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+            );
+            OTHER_LDFLAGS = (
+               "$(inherited)",
+               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+               "-lmongoc-1.0",
+               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+               "-lbson-1.0",
+               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+               "-lbson-1.0",
+            );
+            OTHER_SWIFT_FLAGS = (
+               "$(inherited)",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+            );
+            PRODUCT_BUNDLE_IDENTIFIER = "MongoSwift";
+            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_VERSION = "4.0";
+            TARGET_NAME = "MongoSwift";
+         };
+         name = "Debug";
+      };
+      "OBJ_179" = {
+         isa = "XCBuildConfiguration";
+         baseConfigurationReference = "OBJ_8";
+         buildSettings = {
+            ENABLE_TESTABILITY = "YES";
+            FRAMEWORK_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(PLATFORM_DIR)/Developer/Library/Frameworks",
+            );
+            HEADER_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(SRCROOT)/.build/checkouts/swift-mongoc-4572998624666171810",
+               "$(SRCROOT)/.build/checkouts/swift-bson-2873930670968179217",
+            );
+            INFOPLIST_FILE = "StitchCoreHTTPService.xcodeproj/MongoSwift_Info.plist";
+            LD_RUNPATH_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
+            );
+            OTHER_CFLAGS = (
+               "$(inherited)",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+            );
+            OTHER_LDFLAGS = (
+               "$(inherited)",
+               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+               "-lmongoc-1.0",
+               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+               "-lbson-1.0",
+               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+               "-lbson-1.0",
+            );
+            OTHER_SWIFT_FLAGS = (
+               "$(inherited)",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+            );
+            PRODUCT_BUNDLE_IDENTIFIER = "MongoSwift";
+            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_VERSION = "4.0";
+            TARGET_NAME = "MongoSwift";
+         };
+         name = "Release";
+      };
+      "OBJ_18" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_19",
+            "OBJ_20",
+         );
+         name = "StitchCoreHTTPServiceTests";
+         path = "Tests/StitchCoreHTTPServiceTests";
+         sourceTree = "SOURCE_ROOT";
+      };
+      "OBJ_180" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_181",
+            "OBJ_182",
+            "OBJ_183",
+            "OBJ_184",
+            "OBJ_185",
+            "OBJ_186",
+            "OBJ_187",
+            "OBJ_188",
+            "OBJ_189",
+            "OBJ_190",
+            "OBJ_191",
+            "OBJ_192",
+            "OBJ_193",
+            "OBJ_194",
+            "OBJ_195",
+            "OBJ_196",
+         );
+      };
+      "OBJ_181" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_128";
+      };
+      "OBJ_182" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_130";
+      };
+      "OBJ_183" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_131";
+      };
+      "OBJ_184" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_132";
+      };
+      "OBJ_185" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_133";
+      };
+      "OBJ_186" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_134";
+      };
+      "OBJ_187" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_135";
+      };
+      "OBJ_188" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_136";
+      };
+      "OBJ_189" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_137";
+      };
+      "OBJ_19" = {
+         isa = "PBXFileReference";
+         path = "HTTPRequestUnitTests.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_190" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_138";
+      };
+      "OBJ_191" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_139";
+      };
+      "OBJ_192" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_140";
+      };
+      "OBJ_193" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_141";
+      };
+      "OBJ_194" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_142";
+      };
+      "OBJ_195" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_143";
+      };
+      "OBJ_196" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_144";
+      };
+      "OBJ_197" = {
+         isa = "PBXFrameworksBuildPhase";
+         files = (
+         );
+      };
+      "OBJ_199" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_200",
+            "OBJ_201",
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_2" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_3",
+            "OBJ_4",
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_20" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_21",
+         );
+         name = "Internal";
+         path = "Internal";
+         sourceTree = "<group>";
+      };
+      "OBJ_200" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            LD = "/usr/bin/true";
+            OTHER_SWIFT_FLAGS = (
+               "-swift-version",
+               "4",
+               "-I",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4",
+               "-target",
+               "x86_64-apple-macosx10.10",
+               "-sdk",
+               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk",
+            );
+            SWIFT_VERSION = "4.0";
+         };
+         name = "Debug";
+      };
+      "OBJ_201" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            LD = "/usr/bin/true";
+            OTHER_SWIFT_FLAGS = (
+               "-swift-version",
+               "4",
+               "-I",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4",
+               "-target",
+               "x86_64-apple-macosx10.10",
+               "-sdk",
+               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk",
+            );
+            SWIFT_VERSION = "4.0";
+         };
+         name = "Release";
+      };
+      "OBJ_202" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_203",
+         );
+      };
+      "OBJ_203" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_145";
+      };
+      "OBJ_205" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_206",
+            "OBJ_207",
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_206" = {
+         isa = "XCBuildConfiguration";
+         baseConfigurationReference = "OBJ_8";
+         buildSettings = {
+            ENABLE_TESTABILITY = "YES";
+            FRAMEWORK_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(PLATFORM_DIR)/Developer/Library/Frameworks",
+            );
+            HEADER_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(SRCROOT)/.build/checkouts/swift-mongoc-4572998624666171810",
+               "$(SRCROOT)/.build/checkouts/swift-bson-2873930670968179217",
+            );
+            INFOPLIST_FILE = "StitchCoreHTTPService.xcodeproj/StitchCoreHTTPService_Info.plist";
+            LD_RUNPATH_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
+            );
+            OTHER_CFLAGS = (
+               "$(inherited)",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+            );
+            OTHER_LDFLAGS = (
+               "$(inherited)",
+               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+               "-lmongoc-1.0",
+               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+               "-lbson-1.0",
+               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+               "-lbson-1.0",
+            );
+            OTHER_SWIFT_FLAGS = (
+               "$(inherited)",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+            );
+            PRODUCT_BUNDLE_IDENTIFIER = "StitchCoreHTTPService";
+            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_VERSION = "4.0";
+            TARGET_NAME = "StitchCoreHTTPService";
+         };
+         name = "Debug";
+      };
+      "OBJ_207" = {
+         isa = "XCBuildConfiguration";
+         baseConfigurationReference = "OBJ_8";
+         buildSettings = {
+            ENABLE_TESTABILITY = "YES";
+            FRAMEWORK_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(PLATFORM_DIR)/Developer/Library/Frameworks",
+            );
+            HEADER_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(SRCROOT)/.build/checkouts/swift-mongoc-4572998624666171810",
+               "$(SRCROOT)/.build/checkouts/swift-bson-2873930670968179217",
+            );
+            INFOPLIST_FILE = "StitchCoreHTTPService.xcodeproj/StitchCoreHTTPService_Info.plist";
+            LD_RUNPATH_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
+            );
+            OTHER_CFLAGS = (
+               "$(inherited)",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+            );
+            OTHER_LDFLAGS = (
+               "$(inherited)",
+               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+               "-lmongoc-1.0",
+               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+               "-lbson-1.0",
+               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+               "-lbson-1.0",
+            );
+            OTHER_SWIFT_FLAGS = (
+               "$(inherited)",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+            );
+            PRODUCT_BUNDLE_IDENTIFIER = "StitchCoreHTTPService";
+            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_VERSION = "4.0";
+            TARGET_NAME = "StitchCoreHTTPService";
+         };
+         name = "Release";
+      };
+      "OBJ_208" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_209",
+            "OBJ_210",
+            "OBJ_211",
+            "OBJ_212",
+            "OBJ_213",
+         );
+      };
+      "OBJ_209" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_11";
+      };
+      "OBJ_21" = {
+         isa = "PBXFileReference";
+         path = "CoreHTTPServiceClientUnitTests.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_210" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_12";
+      };
+      "OBJ_211" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_13";
+      };
+      "OBJ_212" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_14";
+      };
+      "OBJ_213" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_16";
+      };
+      "OBJ_214" = {
+         isa = "PBXFrameworksBuildPhase";
+         files = (
+            "OBJ_215",
+            "OBJ_216",
+         );
+      };
+      "OBJ_215" = {
+         isa = "PBXBuildFile";
+         fileRef = "StitchCoreSDK::StitchCoreSDK::Product";
+      };
+      "OBJ_216" = {
+         isa = "PBXBuildFile";
+         fileRef = "MongoSwift::MongoSwift::Product";
+      };
+      "OBJ_217" = {
+         isa = "PBXTargetDependency";
+         target = "StitchCoreSDK::StitchCoreSDK";
+      };
+      "OBJ_219" = {
+         isa = "PBXTargetDependency";
+         target = "MongoSwift::MongoSwift";
+      };
+      "OBJ_22" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_23",
+            "OBJ_126",
+            "OBJ_146",
+         );
+         name = "Dependencies";
+         path = "";
+         sourceTree = "<group>";
+      };
+      "OBJ_221" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_222",
+            "OBJ_223",
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_222" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            LD = "/usr/bin/true";
+            OTHER_SWIFT_FLAGS = (
+               "-swift-version",
+               "4",
+               "-I",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4",
+               "-target",
+               "x86_64-apple-macosx10.10",
+               "-sdk",
+               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk",
+            );
+            SWIFT_VERSION = "4.0";
+         };
+         name = "Debug";
+      };
+      "OBJ_223" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            LD = "/usr/bin/true";
+            OTHER_SWIFT_FLAGS = (
+               "-swift-version",
+               "4",
+               "-I",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4",
+               "-target",
+               "x86_64-apple-macosx10.10",
+               "-sdk",
+               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk",
+            );
+            SWIFT_VERSION = "4.0";
+         };
+         name = "Release";
+      };
+      "OBJ_224" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_225",
+         );
+      };
+      "OBJ_225" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_6";
+      };
+      "OBJ_227" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_228",
+            "OBJ_229",
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_228" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+         };
+         name = "Debug";
+      };
+      "OBJ_229" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+         };
+         name = "Release";
+      };
+      "OBJ_23" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_24",
+            "OBJ_38",
+            "OBJ_125",
+         );
+         name = "StitchCoreSDK";
+         path = "";
+         sourceTree = "SOURCE_ROOT";
+      };
+      "OBJ_230" = {
+         isa = "PBXTargetDependency";
+         target = "StitchCoreHTTPService::StitchCoreHTTPServiceTests";
+      };
+      "OBJ_232" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_233",
+            "OBJ_234",
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_233" = {
+         isa = "XCBuildConfiguration";
+         baseConfigurationReference = "OBJ_8";
+         buildSettings = {
+            EMBEDDED_CONTENT_CONTAINS_SWIFT = "YES";
+            FRAMEWORK_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(PLATFORM_DIR)/Developer/Library/Frameworks",
+            );
+            HEADER_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(SRCROOT)/.build/checkouts/swift-mongoc-4572998624666171810",
+               "$(SRCROOT)/.build/checkouts/swift-bson-2873930670968179217",
+            );
+            INFOPLIST_FILE = "StitchCoreHTTPService.xcodeproj/StitchCoreHTTPServiceTests_Info.plist";
+            LD_RUNPATH_SEARCH_PATHS = (
+               "$(inherited)",
+               "@loader_path/../Frameworks",
+               "@loader_path/Frameworks",
+            );
+            OTHER_CFLAGS = (
+               "$(inherited)",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+            );
+            OTHER_LDFLAGS = (
+               "$(inherited)",
+               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+               "-lmongoc-1.0",
+               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+               "-lbson-1.0",
+               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+               "-lbson-1.0",
+            );
+            OTHER_SWIFT_FLAGS = (
+               "$(inherited)",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+            );
+            SWIFT_VERSION = "4.0";
+            TARGET_NAME = "StitchCoreHTTPServiceTests";
+         };
+         name = "Debug";
+      };
+      "OBJ_234" = {
+         isa = "XCBuildConfiguration";
+         baseConfigurationReference = "OBJ_8";
+         buildSettings = {
+            EMBEDDED_CONTENT_CONTAINS_SWIFT = "YES";
+            FRAMEWORK_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(PLATFORM_DIR)/Developer/Library/Frameworks",
+            );
+            HEADER_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(SRCROOT)/.build/checkouts/swift-mongoc-4572998624666171810",
+               "$(SRCROOT)/.build/checkouts/swift-bson-2873930670968179217",
+            );
+            INFOPLIST_FILE = "StitchCoreHTTPService.xcodeproj/StitchCoreHTTPServiceTests_Info.plist";
+            LD_RUNPATH_SEARCH_PATHS = (
+               "$(inherited)",
+               "@loader_path/../Frameworks",
+               "@loader_path/Frameworks",
+            );
+            OTHER_CFLAGS = (
+               "$(inherited)",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+            );
+            OTHER_LDFLAGS = (
+               "$(inherited)",
+               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+               "-lmongoc-1.0",
+               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+               "-lbson-1.0",
+               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+               "-lbson-1.0",
+            );
+            OTHER_SWIFT_FLAGS = (
+               "$(inherited)",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+            );
+            SWIFT_VERSION = "4.0";
+            TARGET_NAME = "StitchCoreHTTPServiceTests";
+         };
+         name = "Release";
+      };
+      "OBJ_235" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_236",
+            "OBJ_237",
+         );
+      };
+      "OBJ_236" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_19";
+      };
+      "OBJ_237" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_21";
+      };
+      "OBJ_238" = {
+         isa = "PBXFrameworksBuildPhase";
+         files = (
+            "OBJ_239",
+            "OBJ_240",
+            "OBJ_241",
+            "OBJ_242",
+            "OBJ_243",
+         );
+      };
+      "OBJ_239" = {
+         isa = "PBXBuildFile";
+         fileRef = "StitchCoreSDK::StitchCoreSDKMocks::Product";
+      };
+      "OBJ_24" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_25",
+            "OBJ_29",
+            "OBJ_32",
+            "OBJ_35",
+         );
+         name = "StitchCoreSDKMocks";
+         path = ".build/checkouts/StitchCoreSDK--6611188111968536726/Sources/StitchCoreSDKMocks";
+         sourceTree = "SOURCE_ROOT";
+      };
+      "OBJ_240" = {
+         isa = "PBXBuildFile";
+         fileRef = "MockUtils::MockUtils::Product";
+      };
+      "OBJ_241" = {
+         isa = "PBXBuildFile";
+         fileRef = "StitchCoreHTTPService::StitchCoreHTTPService::Product";
+      };
+      "OBJ_242" = {
+         isa = "PBXBuildFile";
+         fileRef = "StitchCoreSDK::StitchCoreSDK::Product";
+      };
+      "OBJ_243" = {
+         isa = "PBXBuildFile";
+         fileRef = "MongoSwift::MongoSwift::Product";
+      };
+      "OBJ_244" = {
+         isa = "PBXTargetDependency";
+         target = "StitchCoreSDK::StitchCoreSDKMocks";
+      };
+      "OBJ_246" = {
+         isa = "PBXTargetDependency";
+         target = "MockUtils::MockUtils";
+      };
+      "OBJ_247" = {
+         isa = "PBXTargetDependency";
+         target = "StitchCoreHTTPService::StitchCoreHTTPService";
+      };
+      "OBJ_248" = {
+         isa = "PBXTargetDependency";
+         target = "StitchCoreSDK::StitchCoreSDK";
+      };
+      "OBJ_249" = {
+         isa = "PBXTargetDependency";
+         target = "MongoSwift::MongoSwift";
+      };
+      "OBJ_25" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_26",
+         );
+         name = "Auth";
+         path = "Auth";
+         sourceTree = "<group>";
+      };
+      "OBJ_250" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_251",
+            "OBJ_252",
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_251" = {
+         isa = "XCBuildConfiguration";
+         baseConfigurationReference = "OBJ_8";
+         buildSettings = {
+            ENABLE_TESTABILITY = "YES";
+            FRAMEWORK_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(PLATFORM_DIR)/Developer/Library/Frameworks",
+            );
+            HEADER_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(SRCROOT)/.build/checkouts/swift-mongoc-4572998624666171810",
+               "$(SRCROOT)/.build/checkouts/swift-bson-2873930670968179217",
+            );
+            INFOPLIST_FILE = "StitchCoreHTTPService.xcodeproj/StitchCoreSDK_Info.plist";
+            LD_RUNPATH_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
+            );
+            OTHER_CFLAGS = (
+               "$(inherited)",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+            );
+            OTHER_LDFLAGS = (
+               "$(inherited)",
+               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+               "-lmongoc-1.0",
+               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+               "-lbson-1.0",
+               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+               "-lbson-1.0",
+            );
+            OTHER_SWIFT_FLAGS = (
+               "$(inherited)",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+            );
+            PRODUCT_BUNDLE_IDENTIFIER = "StitchCoreSDK";
+            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_VERSION = "4.0";
+            TARGET_NAME = "StitchCoreSDK";
+         };
+         name = "Debug";
+      };
+      "OBJ_252" = {
+         isa = "XCBuildConfiguration";
+         baseConfigurationReference = "OBJ_8";
+         buildSettings = {
+            ENABLE_TESTABILITY = "YES";
+            FRAMEWORK_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(PLATFORM_DIR)/Developer/Library/Frameworks",
+            );
+            HEADER_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(SRCROOT)/.build/checkouts/swift-mongoc-4572998624666171810",
+               "$(SRCROOT)/.build/checkouts/swift-bson-2873930670968179217",
+            );
+            INFOPLIST_FILE = "StitchCoreHTTPService.xcodeproj/StitchCoreSDK_Info.plist";
+            LD_RUNPATH_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
+            );
+            OTHER_CFLAGS = (
+               "$(inherited)",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+            );
+            OTHER_LDFLAGS = (
+               "$(inherited)",
+               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+               "-lmongoc-1.0",
+               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+               "-lbson-1.0",
+               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+               "-lbson-1.0",
+            );
+            OTHER_SWIFT_FLAGS = (
+               "$(inherited)",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+            );
+            PRODUCT_BUNDLE_IDENTIFIER = "StitchCoreSDK";
+            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_VERSION = "4.0";
+            TARGET_NAME = "StitchCoreSDK";
+         };
+         name = "Release";
+      };
+      "OBJ_253" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_254",
+            "OBJ_255",
+            "OBJ_256",
+            "OBJ_257",
+            "OBJ_258",
+            "OBJ_259",
+            "OBJ_260",
+            "OBJ_261",
+            "OBJ_262",
+            "OBJ_263",
+            "OBJ_264",
+            "OBJ_265",
+            "OBJ_266",
+            "OBJ_267",
+            "OBJ_268",
+            "OBJ_269",
+            "OBJ_270",
+            "OBJ_271",
+            "OBJ_272",
+            "OBJ_273",
+            "OBJ_274",
+            "OBJ_275",
+            "OBJ_276",
+            "OBJ_277",
+            "OBJ_278",
+            "OBJ_279",
+            "OBJ_280",
+            "OBJ_281",
+            "OBJ_282",
+            "OBJ_283",
+            "OBJ_284",
+            "OBJ_285",
+            "OBJ_286",
+            "OBJ_287",
+            "OBJ_288",
+            "OBJ_289",
+            "OBJ_290",
+            "OBJ_291",
+            "OBJ_292",
+            "OBJ_293",
+            "OBJ_294",
+            "OBJ_295",
+            "OBJ_296",
+            "OBJ_297",
+            "OBJ_298",
+            "OBJ_299",
+            "OBJ_300",
+            "OBJ_301",
+            "OBJ_302",
+            "OBJ_303",
+            "OBJ_304",
+            "OBJ_305",
+            "OBJ_306",
+            "OBJ_307",
+            "OBJ_308",
+            "OBJ_309",
+            "OBJ_310",
+            "OBJ_311",
+            "OBJ_312",
+            "OBJ_313",
+            "OBJ_314",
+            "OBJ_315",
+            "OBJ_316",
+            "OBJ_317",
+            "OBJ_318",
+         );
+      };
+      "OBJ_254" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_41";
+      };
+      "OBJ_255" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_42";
+      };
+      "OBJ_256" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_43";
+      };
+      "OBJ_257" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_44";
+      };
+      "OBJ_258" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_45";
+      };
+      "OBJ_259" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_46";
+      };
+      "OBJ_26" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_27",
+            "OBJ_28",
+         );
+         name = "Internal";
+         path = "Internal";
+         sourceTree = "<group>";
+      };
+      "OBJ_260" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_47";
+      };
+      "OBJ_261" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_48";
+      };
+      "OBJ_262" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_49";
+      };
+      "OBJ_263" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_51";
+      };
+      "OBJ_264" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_52";
+      };
+      "OBJ_265" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_53";
+      };
+      "OBJ_266" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_54";
+      };
+      "OBJ_267" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_55";
+      };
+      "OBJ_268" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_56";
+      };
+      "OBJ_269" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_57";
+      };
+      "OBJ_27" = {
+         isa = "PBXFileReference";
+         path = "MockCoreStitchAuth.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_270" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_58";
+      };
+      "OBJ_271" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_59";
+      };
+      "OBJ_272" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_60";
+      };
+      "OBJ_273" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_63";
+      };
+      "OBJ_274" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_64";
+      };
+      "OBJ_275" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_66";
+      };
+      "OBJ_276" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_67";
+      };
+      "OBJ_277" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_69";
+      };
+      "OBJ_278" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_70";
+      };
+      "OBJ_279" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_72";
+      };
+      "OBJ_28" = {
+         isa = "PBXFileReference";
+         path = "MockStitchAuthRequestClient.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_280" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_73";
+      };
+      "OBJ_281" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_75";
+      };
+      "OBJ_282" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_77";
+      };
+      "OBJ_283" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_78";
+      };
+      "OBJ_284" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_80";
+      };
+      "OBJ_285" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_82";
+      };
+      "OBJ_286" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_83";
+      };
+      "OBJ_287" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_84";
+      };
+      "OBJ_288" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_86";
+      };
+      "OBJ_289" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_87";
+      };
+      "OBJ_29" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_30",
+            "OBJ_31",
+         );
+         name = "Internal";
+         path = "Internal";
+         sourceTree = "<group>";
+      };
+      "OBJ_290" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_88";
+      };
+      "OBJ_291" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_89";
+      };
+      "OBJ_292" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_90";
+      };
+      "OBJ_293" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_91";
+      };
+      "OBJ_294" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_92";
+      };
+      "OBJ_295" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_95";
+      };
+      "OBJ_296" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_96";
+      };
+      "OBJ_297" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_97";
+      };
+      "OBJ_298" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_99";
+      };
+      "OBJ_299" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_100";
+      };
+      "OBJ_3" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            CLANG_ENABLE_OBJC_ARC = "YES";
+            COMBINE_HIDPI_IMAGES = "YES";
+            COPY_PHASE_STRIP = "NO";
+            DEBUG_INFORMATION_FORMAT = "dwarf";
+            DYLIB_INSTALL_NAME_BASE = "@rpath";
+            ENABLE_NS_ASSERTIONS = "YES";
+            GCC_OPTIMIZATION_LEVEL = "0";
+            MACOSX_DEPLOYMENT_TARGET = "10.10";
+            ONLY_ACTIVE_ARCH = "YES";
+            OTHER_SWIFT_FLAGS = (
+               "-DXcode",
+            );
+            PRODUCT_NAME = "$(TARGET_NAME)";
+            SDKROOT = "macosx";
+            SUPPORTED_PLATFORMS = (
+               "macosx",
+               "iphoneos",
+               "iphonesimulator",
+               "appletvos",
+               "appletvsimulator",
+               "watchos",
+               "watchsimulator",
+            );
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS = "SWIFT_PACKAGE";
+            SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+            USE_HEADERMAP = "NO";
+         };
+         name = "Debug";
+      };
+      "OBJ_30" = {
+         isa = "PBXFileReference";
+         path = "MockStitchRequestClient.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_300" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_101";
+      };
+      "OBJ_301" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_102";
+      };
+      "OBJ_302" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_104";
+      };
+      "OBJ_303" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_105";
+      };
+      "OBJ_304" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_106";
+      };
+      "OBJ_305" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_107";
+      };
+      "OBJ_306" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_108";
+      };
+      "OBJ_307" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_109";
+      };
+      "OBJ_308" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_110";
+      };
+      "OBJ_309" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_111";
+      };
+      "OBJ_31" = {
+         isa = "PBXFileReference";
+         path = "MockTransport.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_310" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_114";
+      };
+      "OBJ_311" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_115";
+      };
+      "OBJ_312" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_116";
+      };
+      "OBJ_313" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_119";
+      };
+      "OBJ_314" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_120";
+      };
+      "OBJ_315" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_121";
+      };
+      "OBJ_316" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_122";
+      };
+      "OBJ_317" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_123";
+      };
+      "OBJ_318" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_124";
+      };
+      "OBJ_319" = {
+         isa = "PBXFrameworksBuildPhase";
+         files = (
+            "OBJ_320",
+         );
+      };
+      "OBJ_32" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_33",
+         );
+         name = "Push";
+         path = "Push";
+         sourceTree = "<group>";
+      };
+      "OBJ_320" = {
+         isa = "PBXBuildFile";
+         fileRef = "MongoSwift::MongoSwift::Product";
+      };
+      "OBJ_321" = {
+         isa = "PBXTargetDependency";
+         target = "MongoSwift::MongoSwift";
+      };
+      "OBJ_322" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_323",
+            "OBJ_324",
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_323" = {
+         isa = "XCBuildConfiguration";
+         baseConfigurationReference = "OBJ_8";
+         buildSettings = {
+            ENABLE_TESTABILITY = "YES";
+            FRAMEWORK_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(PLATFORM_DIR)/Developer/Library/Frameworks",
+            );
+            HEADER_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(SRCROOT)/.build/checkouts/swift-mongoc-4572998624666171810",
+               "$(SRCROOT)/.build/checkouts/swift-bson-2873930670968179217",
+            );
+            INFOPLIST_FILE = "StitchCoreHTTPService.xcodeproj/StitchCoreSDKMocks_Info.plist";
+            LD_RUNPATH_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
+            );
+            OTHER_CFLAGS = (
+               "$(inherited)",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+            );
+            OTHER_LDFLAGS = (
+               "$(inherited)",
+               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+               "-lmongoc-1.0",
+               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+               "-lbson-1.0",
+               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+               "-lbson-1.0",
+            );
+            OTHER_SWIFT_FLAGS = (
+               "$(inherited)",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+            );
+            PRODUCT_BUNDLE_IDENTIFIER = "StitchCoreSDKMocks";
+            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_VERSION = "4.0";
+            TARGET_NAME = "StitchCoreSDKMocks";
+         };
+         name = "Debug";
+      };
+      "OBJ_324" = {
+         isa = "XCBuildConfiguration";
+         baseConfigurationReference = "OBJ_8";
+         buildSettings = {
+            ENABLE_TESTABILITY = "YES";
+            FRAMEWORK_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(PLATFORM_DIR)/Developer/Library/Frameworks",
+            );
+            HEADER_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(SRCROOT)/.build/checkouts/swift-mongoc-4572998624666171810",
+               "$(SRCROOT)/.build/checkouts/swift-bson-2873930670968179217",
+            );
+            INFOPLIST_FILE = "StitchCoreHTTPService.xcodeproj/StitchCoreSDKMocks_Info.plist";
+            LD_RUNPATH_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
+            );
+            OTHER_CFLAGS = (
+               "$(inherited)",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+            );
+            OTHER_LDFLAGS = (
+               "$(inherited)",
+               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+               "-lmongoc-1.0",
+               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+               "-lbson-1.0",
+               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+               "-lbson-1.0",
+            );
+            OTHER_SWIFT_FLAGS = (
+               "$(inherited)",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+            );
+            PRODUCT_BUNDLE_IDENTIFIER = "StitchCoreSDKMocks";
+            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_VERSION = "4.0";
+            TARGET_NAME = "StitchCoreSDKMocks";
+         };
+         name = "Release";
+      };
+      "OBJ_325" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_326",
+            "OBJ_327",
+            "OBJ_328",
+            "OBJ_329",
+            "OBJ_330",
+            "OBJ_331",
+            "OBJ_332",
+         );
+      };
+      "OBJ_326" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_27";
+      };
+      "OBJ_327" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_28";
+      };
+      "OBJ_328" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_30";
+      };
+      "OBJ_329" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_31";
+      };
+      "OBJ_33" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_34",
+         );
+         name = "Internal";
+         path = "Internal";
+         sourceTree = "<group>";
+      };
+      "OBJ_330" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_34";
+      };
+      "OBJ_331" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_36";
+      };
+      "OBJ_332" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_37";
+      };
+      "OBJ_333" = {
+         isa = "PBXFrameworksBuildPhase";
+         files = (
+            "OBJ_334",
+            "OBJ_335",
+            "OBJ_336",
+         );
+      };
+      "OBJ_334" = {
+         isa = "PBXBuildFile";
+         fileRef = "MockUtils::MockUtils::Product";
+      };
+      "OBJ_335" = {
+         isa = "PBXBuildFile";
+         fileRef = "StitchCoreSDK::StitchCoreSDK::Product";
+      };
+      "OBJ_336" = {
+         isa = "PBXBuildFile";
+         fileRef = "MongoSwift::MongoSwift::Product";
+      };
+      "OBJ_337" = {
+         isa = "PBXTargetDependency";
+         target = "MockUtils::MockUtils";
+      };
+      "OBJ_338" = {
+         isa = "PBXTargetDependency";
+         target = "StitchCoreSDK::StitchCoreSDK";
+      };
+      "OBJ_339" = {
+         isa = "PBXTargetDependency";
+         target = "MongoSwift::MongoSwift";
+      };
+      "OBJ_34" = {
+         isa = "PBXFileReference";
+         path = "MockCoreStitchPushClient.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_341" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_342",
+            "OBJ_343",
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_342" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            LD = "/usr/bin/true";
+            OTHER_SWIFT_FLAGS = (
+               "-swift-version",
+               "4",
+               "-I",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4",
+               "-target",
+               "x86_64-apple-macosx10.10",
+               "-sdk",
+               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk",
+            );
+            SWIFT_VERSION = "4.0";
+         };
+         name = "Debug";
+      };
+      "OBJ_343" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            LD = "/usr/bin/true";
+            OTHER_SWIFT_FLAGS = (
+               "-swift-version",
+               "4",
+               "-I",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4",
+               "-target",
+               "x86_64-apple-macosx10.10",
+               "-sdk",
+               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk",
+            );
+            SWIFT_VERSION = "4.0";
+         };
+         name = "Release";
+      };
+      "OBJ_344" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_345",
+         );
+      };
+      "OBJ_345" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_125";
+      };
+      "OBJ_347" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_348",
+            "OBJ_349",
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_348" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+         };
+         name = "Debug";
+      };
+      "OBJ_349" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+         };
+         name = "Release";
+      };
+      "OBJ_35" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_36",
+            "OBJ_37",
+         );
+         name = "Services";
+         path = "Services";
+         sourceTree = "<group>";
+      };
+      "OBJ_36" = {
+         isa = "PBXFileReference";
+         path = "MockCoreStitchServiceClient.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_37" = {
+         isa = "PBXFileReference";
+         path = "SpyCoreStitchServiceClient.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_38" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_39",
+            "OBJ_93",
+            "OBJ_112",
+            "OBJ_117",
+            "OBJ_121",
+            "OBJ_122",
+            "OBJ_123",
+            "OBJ_124",
+         );
+         name = "StitchCoreSDK";
+         path = ".build/checkouts/StitchCoreSDK--6611188111968536726/Sources/StitchCoreSDK";
+         sourceTree = "SOURCE_ROOT";
+      };
+      "OBJ_39" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_40",
+            "OBJ_60",
+            "OBJ_61",
+            "OBJ_89",
+            "OBJ_90",
+            "OBJ_91",
+            "OBJ_92",
+         );
+         name = "Auth";
+         path = "Auth";
+         sourceTree = "<group>";
+      };
+      "OBJ_4" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            CLANG_ENABLE_OBJC_ARC = "YES";
+            COMBINE_HIDPI_IMAGES = "YES";
+            COPY_PHASE_STRIP = "YES";
+            DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+            DYLIB_INSTALL_NAME_BASE = "@rpath";
+            GCC_OPTIMIZATION_LEVEL = "s";
+            MACOSX_DEPLOYMENT_TARGET = "10.10";
+            OTHER_SWIFT_FLAGS = (
+               "-DXcode",
+            );
+            PRODUCT_NAME = "$(TARGET_NAME)";
+            SDKROOT = "macosx";
+            SUPPORTED_PLATFORMS = (
+               "macosx",
+               "iphoneos",
+               "iphonesimulator",
+               "appletvos",
+               "appletvsimulator",
+               "watchos",
+               "watchsimulator",
+            );
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS = "SWIFT_PACKAGE";
+            SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+            USE_HEADERMAP = "NO";
+         };
+         name = "Release";
+      };
+      "OBJ_40" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_41",
+            "OBJ_42",
+            "OBJ_43",
+            "OBJ_44",
+            "OBJ_45",
+            "OBJ_46",
+            "OBJ_47",
+            "OBJ_48",
+            "OBJ_49",
+            "OBJ_50",
+            "OBJ_58",
+            "OBJ_59",
+         );
+         name = "Internal";
+         path = "Internal";
+         sourceTree = "<group>";
+      };
+      "OBJ_41" = {
+         isa = "PBXFileReference";
+         path = "AccessTokenRefresher.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_42" = {
+         isa = "PBXFileReference";
+         path = "AuthInfo.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_43" = {
+         isa = "PBXFileReference";
+         path = "AuthStateHolder.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_44" = {
+         isa = "PBXFileReference";
+         path = "CoreStitchAuth+StitchAuthRequestClient.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_45" = {
+         isa = "PBXFileReference";
+         path = "CoreStitchAuth.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_46" = {
+         isa = "PBXFileReference";
+         path = "CoreStitchUser.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_47" = {
+         isa = "PBXFileReference";
+         path = "CoreStitchUserImpl.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_48" = {
+         isa = "PBXFileReference";
+         path = "DeviceField.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_49" = {
+         isa = "PBXFileReference";
+         path = "JWT.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_5" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_6",
+            "OBJ_7",
+            "OBJ_9",
+            "OBJ_17",
+            "OBJ_22",
+            "OBJ_153",
+         );
+         path = "";
+         sourceTree = "<group>";
+      };
+      "OBJ_50" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_51",
+            "OBJ_52",
+            "OBJ_53",
+            "OBJ_54",
+            "OBJ_55",
+            "OBJ_56",
+            "OBJ_57",
+         );
+         name = "Models";
+         path = "Models";
+         sourceTree = "<group>";
+      };
+      "OBJ_51" = {
+         isa = "PBXFileReference";
+         path = "APIAccessToken.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_52" = {
+         isa = "PBXFileReference";
+         path = "APIAuthInfoImpl.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_53" = {
+         isa = "PBXFileReference";
+         path = "APICoreUserProfile.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_54" = {
+         isa = "PBXFileReference";
+         path = "APIStitchUserIdentity.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_55" = {
+         isa = "PBXFileReference";
+         path = "StoreAuthInfo.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_56" = {
+         isa = "PBXFileReference";
+         path = "StoreCoreUserProfile.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_57" = {
+         isa = "PBXFileReference";
+         path = "StoreStitchUserIdentity.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_58" = {
+         isa = "PBXFileReference";
+         path = "StitchAuthRequestClient.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_59" = {
+         isa = "PBXFileReference";
+         path = "StitchUserFactory.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_6" = {
+         isa = "PBXFileReference";
+         explicitFileType = "sourcecode.swift";
+         path = "Package.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_60" = {
+         isa = "PBXFileReference";
+         path = "ProviderCapabilities.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_61" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_62",
+            "OBJ_65",
+            "OBJ_68",
+            "OBJ_71",
+            "OBJ_74",
+            "OBJ_76",
+            "OBJ_79",
+            "OBJ_85",
+         );
+         name = "Providers";
+         path = "Providers";
+         sourceTree = "<group>";
+      };
+      "OBJ_62" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_63",
+            "OBJ_64",
+         );
+         name = "Anonymous";
+         path = "Anonymous";
+         sourceTree = "<group>";
+      };
+      "OBJ_63" = {
+         isa = "PBXFileReference";
+         path = "AnonymousAuthProvider.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_64" = {
+         isa = "PBXFileReference";
+         path = "AnonymousCredential.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_65" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_66",
+            "OBJ_67",
+         );
+         name = "Custom";
+         path = "Custom";
+         sourceTree = "<group>";
+      };
+      "OBJ_66" = {
+         isa = "PBXFileReference";
+         path = "CustomAuthProvider.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_67" = {
+         isa = "PBXFileReference";
+         path = "CustomCredential.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_68" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_69",
+            "OBJ_70",
+         );
+         name = "Facebook";
+         path = "Facebook";
+         sourceTree = "<group>";
+      };
+      "OBJ_69" = {
+         isa = "PBXFileReference";
+         path = "FacebookAuthProvider.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_7" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_8",
+         );
+         name = "Configs";
+         path = "";
+         sourceTree = "<group>";
+      };
+      "OBJ_70" = {
+         isa = "PBXFileReference";
+         path = "FacebookCredential.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_71" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_72",
+            "OBJ_73",
+         );
+         name = "Google";
+         path = "Google";
+         sourceTree = "<group>";
+      };
+      "OBJ_72" = {
+         isa = "PBXFileReference";
+         path = "GoogleAuthProvider.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_73" = {
+         isa = "PBXFileReference";
+         path = "GoogleCredential.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_74" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_75",
+         );
+         name = "Internal";
+         path = "Internal";
+         sourceTree = "<group>";
+      };
+      "OBJ_75" = {
+         isa = "PBXFileReference";
+         path = "CoreAuthProviderClient.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_76" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_77",
+            "OBJ_78",
+         );
+         name = "ServerAPIKey";
+         path = "ServerAPIKey";
+         sourceTree = "<group>";
+      };
+      "OBJ_77" = {
+         isa = "PBXFileReference";
+         path = "ServerAPIKeyAuthProvider.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_78" = {
+         isa = "PBXFileReference";
+         path = "ServerAPIKeyCredential.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_79" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_80",
+            "OBJ_81",
+            "OBJ_83",
+            "OBJ_84",
+         );
+         name = "UserAPIKey";
+         path = "UserAPIKey";
+         sourceTree = "<group>";
+      };
+      "OBJ_8" = {
+         isa = "PBXFileReference";
+         path = "StitchCoreHTTPService.xcconfig";
+         sourceTree = "<group>";
+      };
+      "OBJ_80" = {
+         isa = "PBXFileReference";
+         path = "CoreUserAPIKeyAuthProviderClient.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_81" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_82",
+         );
+         name = "Models";
+         path = "Models";
+         sourceTree = "<group>";
+      };
+      "OBJ_82" = {
+         isa = "PBXFileReference";
+         path = "UserAPIKey.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_83" = {
+         isa = "PBXFileReference";
+         path = "UserAPIKeyAuthProvider.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_84" = {
+         isa = "PBXFileReference";
+         path = "UserAPIKeyCredential.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_85" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_86",
+            "OBJ_87",
+            "OBJ_88",
+         );
+         name = "UserPassword";
+         path = "UserPassword";
+         sourceTree = "<group>";
+      };
+      "OBJ_86" = {
+         isa = "PBXFileReference";
+         path = "CoreUserPasswordAuthProviderClient.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_87" = {
+         isa = "PBXFileReference";
+         path = "UserPasswordAuthProvider.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_88" = {
+         isa = "PBXFileReference";
+         path = "UserPasswordCredential.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_89" = {
+         isa = "PBXFileReference";
+         path = "StitchCredential.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_9" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_10",
+         );
+         name = "Sources";
+         path = "";
+         sourceTree = "SOURCE_ROOT";
+      };
+      "OBJ_90" = {
+         isa = "PBXFileReference";
+         path = "StitchProviderType.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_91" = {
+         isa = "PBXFileReference";
+         path = "StitchUserIdentity.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_92" = {
+         isa = "PBXFileReference";
+         path = "StitchUserProfile.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_93" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_94",
+            "OBJ_97",
+            "OBJ_98",
+         );
+         name = "Internal";
+         path = "Internal";
+         sourceTree = "<group>";
+      };
+      "OBJ_94" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_95",
+            "OBJ_96",
+         );
+         name = "Common";
+         path = "Common";
+         sourceTree = "<group>";
+      };
+      "OBJ_95" = {
+         isa = "PBXFileReference";
+         path = "ImplFailureFatalErrors.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_96" = {
+         isa = "PBXFileReference";
+         path = "Storage.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_97" = {
+         isa = "PBXFileReference";
+         path = "CoreStitchAppClient.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_98" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_99",
+            "OBJ_100",
+            "OBJ_101",
+            "OBJ_102",
+            "OBJ_103",
+            "OBJ_109",
+            "OBJ_110",
+            "OBJ_111",
+         );
+         name = "Net";
+         path = "Net";
+         sourceTree = "<group>";
+      };
+      "OBJ_99" = {
+         isa = "PBXFileReference";
+         path = "ContentType.swift";
+         sourceTree = "<group>";
+      };
+      "StitchCoreHTTPService::StitchCoreHTTPService" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_205";
+         buildPhases = (
+            "OBJ_208",
+            "OBJ_214",
+         );
+         dependencies = (
+            "OBJ_217",
+            "OBJ_219",
+         );
+         name = "StitchCoreHTTPService";
+         productName = "StitchCoreHTTPService";
+         productReference = "StitchCoreHTTPService::StitchCoreHTTPService::Product";
+         productType = "com.apple.product-type.framework";
+      };
+      "StitchCoreHTTPService::StitchCoreHTTPService::Product" = {
+         isa = "PBXFileReference";
+         path = "StitchCoreHTTPService.framework";
+         sourceTree = "BUILT_PRODUCTS_DIR";
+      };
+      "StitchCoreHTTPService::StitchCoreHTTPServicePackageTests::ProductTarget" = {
+         isa = "PBXAggregateTarget";
+         buildConfigurationList = "OBJ_227";
+         buildPhases = (
+         );
+         dependencies = (
+            "OBJ_230",
+         );
+         name = "StitchCoreHTTPServicePackageTests";
+         productName = "StitchCoreHTTPServicePackageTests";
+      };
+      "StitchCoreHTTPService::StitchCoreHTTPServiceTests" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_232";
+         buildPhases = (
+            "OBJ_235",
+            "OBJ_238",
+         );
+         dependencies = (
+            "OBJ_244",
+            "OBJ_246",
+            "OBJ_247",
+            "OBJ_248",
+            "OBJ_249",
+         );
+         name = "StitchCoreHTTPServiceTests";
+         productName = "StitchCoreHTTPServiceTests";
+         productReference = "StitchCoreHTTPService::StitchCoreHTTPServiceTests::Product";
+         productType = "com.apple.product-type.bundle.unit-test";
+      };
+      "StitchCoreHTTPService::StitchCoreHTTPServiceTests::Product" = {
+         isa = "PBXFileReference";
+         path = "StitchCoreHTTPServiceTests.xctest";
+         sourceTree = "BUILT_PRODUCTS_DIR";
+      };
+      "StitchCoreHTTPService::SwiftPMPackageDescription" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_221";
+         buildPhases = (
+            "OBJ_224",
+         );
+         dependencies = (
+         );
+         name = "StitchCoreHTTPServicePackageDescription";
+         productName = "StitchCoreHTTPServicePackageDescription";
+         productType = "com.apple.product-type.framework";
+      };
+      "StitchCoreSDK::StitchCoreSDK" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_250";
+         buildPhases = (
+            "OBJ_253",
+            "OBJ_319",
+         );
+         dependencies = (
+            "OBJ_321",
+         );
+         name = "StitchCoreSDK";
+         productName = "StitchCoreSDK";
+         productReference = "StitchCoreSDK::StitchCoreSDK::Product";
+         productType = "com.apple.product-type.framework";
+      };
+      "StitchCoreSDK::StitchCoreSDK::Product" = {
+         isa = "PBXFileReference";
+         path = "StitchCoreSDK.framework";
+         sourceTree = "BUILT_PRODUCTS_DIR";
+      };
+      "StitchCoreSDK::StitchCoreSDKMocks" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_322";
+         buildPhases = (
+            "OBJ_325",
+            "OBJ_333",
+         );
+         dependencies = (
+            "OBJ_337",
+            "OBJ_338",
+            "OBJ_339",
+         );
+         name = "StitchCoreSDKMocks";
+         productName = "StitchCoreSDKMocks";
+         productReference = "StitchCoreSDK::StitchCoreSDKMocks::Product";
+         productType = "com.apple.product-type.framework";
+      };
+      "StitchCoreSDK::StitchCoreSDKMocks::Product" = {
+         isa = "PBXFileReference";
+         path = "StitchCoreSDKMocks.framework";
+         sourceTree = "BUILT_PRODUCTS_DIR";
+      };
+      "StitchCoreSDK::SwiftPMPackageDescription" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_341";
+         buildPhases = (
+            "OBJ_344",
+         );
+         dependencies = (
+         );
+         name = "StitchCoreSDKPackageDescription";
+         productName = "StitchCoreSDKPackageDescription";
+         productType = "com.apple.product-type.framework";
+      };
+      "libmongoc::libmongoc::ProductTarget" = {
+         isa = "PBXAggregateTarget";
+         buildConfigurationList = "OBJ_347";
+         buildPhases = (
+         );
+         dependencies = (
+         );
+         name = "libmongoc";
+         productName = "libmongoc";
+      };
+   };
+   rootObject = "OBJ_1";
+}
