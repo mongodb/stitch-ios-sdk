@@ -4,10 +4,9 @@ import MongoSwift
 
 /**
  * :nodoc:
- * An implementation of `AuthProviderClientFactory` that produces an
- * `UserAPIKeyAuthProviderClient`.
+ * A factory for a `UserAPIKeyAuthProviderClient`
  */
-public final class UserAPIKeyClientFactoryImpl: AuthProviderClientFactory {
+public final class UserAPIKeyClientFactory: AuthProviderClientFactory {
     public typealias ClientT = UserAPIKeyAuthProviderClient
     public typealias RequestClientT = StitchAuthRequestClient
 
@@ -23,12 +22,13 @@ public final class UserAPIKeyClientFactoryImpl: AuthProviderClientFactory {
 }
 
 /**
- * An `AuthProviderClientFactory` which can be used with `StitchAuth` to retrieve an
- * `UserAPIKeyAuthProviderClient`.
+ * Global factory const which can be used to create a `UserAPIKeyAuthProviderClientFactory` with a `StitchAuth`.
  */
-public let userAPIKeyClientFactory: UserAPIKeyClientFactoryImpl
-    = UserAPIKeyClientFactoryImpl.init()
+public let userAPIKeyClientFactory = UserAPIKeyClientFactory()
 
+/**
+ * A protocol defining methods for creating, updating, and deleting the user API keys of a Stitch user.
+ */
 public protocol UserAPIKeyAuthProviderClient {
     /**
      * Creates a user API key that can be used to authenticate as the current user.

@@ -9,7 +9,7 @@ public struct AWSSESSendResult: Decodable {
      */
     public let messageID: String
     
-    public enum CodingKeys: String, CodingKey {
+    internal enum CodingKeys: String, CodingKey {
         case messageID = "messageId"
     }
 }

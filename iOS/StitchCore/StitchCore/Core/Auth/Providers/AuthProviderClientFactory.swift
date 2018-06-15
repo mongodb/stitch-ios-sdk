@@ -25,4 +25,4 @@ public protocol AuthProviderClientFactory {
     func client(withRequestClient requestClient: RequestClientT,
                 withRoutes routes: StitchAuthRoutes,
                 withDispatcher dispatcher: OperationDispatcher) -> ClientT
-}
+} 

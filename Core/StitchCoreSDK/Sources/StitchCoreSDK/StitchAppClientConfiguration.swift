@@ -52,6 +52,17 @@ public class StitchAppClientConfigurationBuilder: StitchClientConfigurationBuild
     public internal(set) var localAppName: String?
     public internal(set) var localAppVersion: String?
     
+    /**
+     * Returns a builder for a given client app ID.
+     *
+     * - parameter withClientAppID: the client app id of the app.
+     * - returns: a builder for the given client app id.
+     */
+    public static func forApp(withClientAppID clientAppID: String) -> StitchAppClientConfigurationBuilder {
+        return StitchAppClientConfigurationBuilder().with(clientAppID: clientAppID)
+
+    }
+    
     // The `with` functions from the inherited builder are explicitly included and overriden here
     // for the sake of API documentation completeness.
     

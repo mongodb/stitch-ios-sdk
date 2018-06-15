@@ -16,6 +16,12 @@ private final class RemoteMongoDBServiceClientFactory: NamedServiceClientFactory
 }
 
 /**
+ * Global factory const which can be used to create a `RemoteMongoClient` with a `StitchAppClient`.
+ */
+public let remoteMongoDBServiceClientFactory =
+    AnyNamedServiceClientFactory<RemoteMongoClient>(factory: RemoteMongoDBServiceClientFactory())
+
+/**
  * A class which can be used to get database and collection objects which can be used to interact with MongoDB data via
  * the Stitch MongoDB service.
  */
@@ -37,9 +43,4 @@ public class RemoteMongoClient {
     public func db(_ name: String) -> RemoteMongoDatabase {
         return RemoteMongoDatabase.init(withDatabase: proxy.db(name), withDispatcher: dispatcher)
     }
-}
-
-public final class RemoteMongoDBService {
-    public static let sharedFactory =
-        AnyNamedServiceClientFactory<RemoteMongoClient>(factory: RemoteMongoDBServiceClientFactory())
 }

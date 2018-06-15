@@ -15,6 +15,15 @@ private final class AWSSESNamedServiceClientFactory: NamedServiceClientFactory {
     }
 }
 
+/**
+ * Global factory const which can be used to create an `AWSSESServiceClient` with a `StitchAppClient`.
+ */
+public let awsSESServiceClientFactory =
+    AnyNamedServiceClientFactory<AWSSESServiceClient>(factory: AWSSESNamedServiceClientFactory())
+
+/**
+ * The AWS SES service client, which can be used to interact with AWS Simple Email Service (SES) via MongoDB Stitch.
+ */
 public protocol AWSSESServiceClient {
     /**
      * Sends an email.
@@ -29,14 +38,5 @@ public protocol AWSSESServiceClient {
      *                          successful, the result will contain the result of the send request as an
      *                          `AWSSESSendResult`.
      */
-    func sendEmail(to: String,
-                   from: String,
-                   subject: String,
-                   body: String,
-                   _ completionHandler: @escaping (StitchResult<AWSSESSendResult>) -> Void)
-}
-
-public final class AWSSESService {
-    public static let sharedFactory =
-        AnyNamedServiceClientFactory<AWSSESServiceClient>(factory: AWSSESNamedServiceClientFactory())
+    func sendEmail(to: String, from: String, subject: String, body: String, _ completionHandler: @escaping (StitchResult<AWSSESSendResult>) -> Void)
 }

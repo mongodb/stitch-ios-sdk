@@ -1,6 +1,7 @@
 import MongoSwift
 
 /**
+ * :nodoc:
  * A protocol containing the fields returned by the Stitch client API in a user profile request.
  */
 public protocol APIStitchUserProfile {

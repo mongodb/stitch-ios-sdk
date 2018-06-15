@@ -16,6 +16,15 @@ private final class AWSS3NamedServiceClientFactory: NamedServiceClientFactory {
     }
 }
 
+/**
+ * Global factory const which can be used to create an `AWSS3ServiceClient` with a `StitchAppClient`.
+ */
+public let awsS3ServiceClientFactory =
+    AnyNamedServiceClientFactory<AWSS3ServiceClient>(factory: AWSS3NamedServiceClientFactory())
+
+/**
+ * The AWS S3 service client, which can be used to interact with AWS Simple Storage Service (S3) via MongoDB Stitch.
+ */
 public protocol AWSS3ServiceClient {
     /**
      * Puts an object into an AWS S3 bucket as a string.
@@ -31,13 +40,7 @@ public protocol AWSS3ServiceClient {
      *                          successful, the result will contain the result of the put request as an
      *                          `AWSS3PutObjectResult.`
      */
-    func putObject(
-        bucket: String,
-        key: String,
-        acl: String,
-        contentType: String,
-        body: String,
-        _ completionHandler: @escaping (StitchResult<AWSS3PutObjectResult>) -> Void)
+    func putObject(bucket: String, key: String, acl: String, contentType: String, body: String, _ completionHandler: @escaping (StitchResult<AWSS3PutObjectResult>) -> Void)
     
     /**
      * Puts a binary object into an AWS S3 bucket as a Foundation `Data` object.
@@ -53,13 +56,7 @@ public protocol AWSS3ServiceClient {
      *                          successful, the result will contain the result of the put request as an
      *                          `AWSS3PutObjectResult.`
      */
-    func putObject(
-        bucket: String,
-        key: String,
-        acl: String,
-        contentType: String,
-        body: Data,
-        _ completionHandler: @escaping (StitchResult<AWSS3PutObjectResult>) -> Void)
+    func putObject(bucket: String, key: String, acl: String, contentType: String, body: Data, _ completionHandler: @escaping (StitchResult<AWSS3PutObjectResult>) -> Void)
     
     /**
      * Puts a binary object into an AWS S3 bucket as a BSON `Binary` object.
@@ -75,13 +72,7 @@ public protocol AWSS3ServiceClient {
      *                          successful, the result will contain the result of the put request as an
      *                          `AWSS3PutObjectResult.`
      */
-    func putObject(
-        bucket: String,
-        key: String,
-        acl: String,
-        contentType: String,
-        body: Binary,
-        _ completionHandler: @escaping (StitchResult<AWSS3PutObjectResult>) -> Void)
+    func putObject(bucket: String, key: String, acl: String, contentType: String, body: Binary, _ completionHandler: @escaping (StitchResult<AWSS3PutObjectResult>) -> Void)
     
     /**
      * Signs an AWS S3 security policy for a future put object request. This future request would
@@ -102,15 +93,5 @@ public protocol AWSS3ServiceClient {
      *                          successful, the result will contain the result of the sign policy request as an
      *                          `AWSS3SignPolicyResult.`
      */
-    func signPolicy(bucket: String,
-                    key: String,
-                    acl: String,
-                    contentType: String,
-                    _ completionHandler: @escaping (StitchResult<AWSS3SignPolicyResult>) -> Void)
-}
-
-public final class AWSS3Service {
-    public static let sharedFactory = AnyNamedServiceClientFactory<AWSS3ServiceClient>(
-        factory: AWSS3NamedServiceClientFactory()
-    )
+    func signPolicy(bucket: String, key: String, acl: String, contentType: String, _ completionHandler: @escaping (StitchResult<AWSS3SignPolicyResult>) -> Void)
 }
