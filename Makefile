@@ -82,3 +82,5 @@ project:
 	$(MAKE) -C Core/Services/StitchCoreLocalMongoDBService project
 	$(MAKE) -C Core/Services/StitchCoreRemoteMongoDBService project
 	$(MAKE) -C Core/Services/StitchCoreTwilioService project
+docs:
+	./generate_docs.sh

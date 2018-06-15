@@ -21,7 +21,28 @@
             "Stitch",
             "StitchAppClient",
             "StitchAuth",
-            "StitchUser"
+            "StitchPush",
+            "StitchUser",
+            "StitchUserProfile",
+            "StitchUserIdentity",
+            "StitchResult"
+        ]
+    }, {
+        "name": "Configuring Stitch",
+        "children": [
+            "StitchAppClientConfiguration",
+            "StitchAppClientConfigurationBuilder"
+            "StitchAppClientConfigurationError"
+            "StitchClientConfigurationError"
+        ]
+    }, {
+        "name": "Handling Errors",
+        "children": [
+            "StitchError",
+            "StitchServiceErrorCode",
+            "StitchRequestErrorCode",
+            "StitchClientErrorCode",
+            "StitchInitializationError"
         ]
     }, {
         "name": "Delegates",
@@ -29,27 +50,85 @@
             "StitchAuthDelegate"
         ]
     }, {
-        "name": "Errors",
-        "children": [
-            "StitchInitializationError"
-        ]
-    }, {
         "name": "Authentication Providers",
         "children": [
-            "AnonymousAuthProvider",
-            "AnonymousAuthProviderClient",
-            "CustomAuthProvider",
-            "CustomAuthProviderClient",
-            "FacebookAuthProvider",
-            "FacebookAuthProviderClient",
-            "GoogleAuthProvider",
-            "GoogleAuthProviderClient",
-            "ServerAPIKeyAuthProvider",
-            "ServerAPIKeyAuthProviderClient",
-            "UserAPIKeyAuthProvider",
+            "AnonymousCredential",
+            "CustomCredential",
+            "FacebookCredential",
+            "GoogleCredential",
+            "ServerAPIKeyCredential",
+            "UserAPIKey",
+            "UserAPIKeyCredential",
             "UserAPIKeyAuthProviderClient",
-            "UserPasswordAuthProvider",
+            "userAPIKeyClientFactory"
+            "UserPasswordCredential",
             "UserPasswordAuthProviderClient"
+            "userPasswordClientFactory"
+        ]
+    }, {
+        "name": "Remote MongoDB Service",
+        "children": [
+            "remoteMongoDBServiceClientFactory",
+            "RemoteMongoClient",
+            "RemoteMongoDatabase",
+            "RemoteMongoCollection",
+            "RemoteMongoCursor",
+            "RemoteMongoReadOperation",
+            "RemoteCountOptions",
+            "RemoteDeleteResult",
+            "RemoteFindOptions",
+            "RemoteInsertManyResult",
+            "RemoteInsertOneResult",
+            "RemoteUpdateOptions",
+            "RemoteUpdateResult"
+        ]
+    }, {
+        "name": "AWS S3 Service",
+        "children": [
+            "awsS3ServiceClientFactory",
+            "AWSS3ServiceClient",
+            "AWSS3PutObjectResult",
+            "AWSS3SignPolicyResult"
+        ]
+    }, {
+        "name": "AWS SES Service",
+        "children": [
+            "awsSESServiceClientFactory",
+            "AWSSESServiceClient",
+            "AWSSESSendResult"
+        ]
+    }, {
+        "name": "FCM Service",
+        "children": [
+            "fcmServiceClientFactory",
+            "FCMServiceClient",
+            "fcmServicePushClientFactory"
+            "FCMServicePushClient",
+            "FCMSendMessageNotification",
+            "FCMSendMessageNotificationBuilder",
+            "FCMSendMessagePriority",
+            "FCMSendMessageRequest",
+            "FCMSendMessageRequestBuilder",
+            "FCMSendMessageResult",
+            "FCMSendMessageResultFailureDetail"
+        ]
+    }, {
+        "name": "HTTP Service",
+        "children": [
+            "httpServiceClientFactory",
+            "HTTPServiceClient",
+            "HTTPCookie",
+            "HTTPMethod",
+            "HTTPRequest",
+            "HTTPRequestBuilder",
+            "HTTPRequestBuilderError",
+            "HTTPResponse"
+        ]
+    }, {
+        "name": "Twilio Service",
+        "children": [
+            "twilioServiceClientFactory",
+            "TwilioServiceClient"
         ]
     }]
 }
