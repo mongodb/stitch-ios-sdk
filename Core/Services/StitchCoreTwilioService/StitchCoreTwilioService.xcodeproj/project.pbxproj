@@ -1,2798 +1,1999 @@
 // !$*UTF8*$!
 {
-   archiveVersion = "1";
-   objectVersion = "46";
-   objects = {
-      "MockUtils::MockUtils" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_154";
-         buildPhases = (
-            "OBJ_157",
-            "OBJ_162",
-         );
-         dependencies = (
-         );
-         name = "MockUtils";
-         productName = "MockUtils";
-         productReference = "MockUtils::MockUtils::Product";
-         productType = "com.apple.product-type.framework";
-      };
-      "MockUtils::MockUtils::Product" = {
-         isa = "PBXFileReference";
-         path = "MockUtils.framework";
-         sourceTree = "BUILT_PRODUCTS_DIR";
-      };
-      "MockUtils::SwiftPMPackageDescription" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_164";
-         buildPhases = (
-            "OBJ_167",
-         );
-         dependencies = (
-         );
-         name = "MockUtilsPackageDescription";
-         productName = "MockUtilsPackageDescription";
-         productType = "com.apple.product-type.framework";
-      };
-      "MongoSwift::MongoSwift" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_170";
-         buildPhases = (
-            "OBJ_173",
-            "OBJ_190",
-         );
-         dependencies = (
-         );
-         name = "MongoSwift";
-         productName = "MongoSwift";
-         productReference = "MongoSwift::MongoSwift::Product";
-         productType = "com.apple.product-type.framework";
-      };
-      "MongoSwift::MongoSwift::Product" = {
-         isa = "PBXFileReference";
-         path = "MongoSwift.framework";
-         sourceTree = "BUILT_PRODUCTS_DIR";
-      };
-      "MongoSwift::SwiftPMPackageDescription" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_192";
-         buildPhases = (
-            "OBJ_195",
-         );
-         dependencies = (
-         );
-         name = "MongoSwiftPackageDescription";
-         productName = "MongoSwiftPackageDescription";
-         productType = "com.apple.product-type.framework";
-      };
-      "OBJ_1" = {
-         isa = "PBXProject";
-         attributes = {
-            LastUpgradeCheck = "9999";
-         };
-         buildConfigurationList = "OBJ_2";
-         compatibilityVersion = "Xcode 3.2";
-         developmentRegion = "English";
-         hasScannedForEncodings = "0";
-         knownRegions = (
-            "en",
-         );
-         mainGroup = "OBJ_5";
-         productRefGroup = "OBJ_146";
-         projectDirPath = ".";
-         targets = (
-            "MockUtils::MockUtils",
-            "MockUtils::SwiftPMPackageDescription",
-            "MongoSwift::MongoSwift",
-            "MongoSwift::SwiftPMPackageDescription",
-            "StitchCoreSDK::StitchCoreSDK",
-            "StitchCoreSDK::StitchCoreSDKMocks",
-            "StitchCoreSDK::SwiftPMPackageDescription",
-            "StitchCoreTwilioService::StitchCoreTwilioService",
-            "StitchCoreTwilioService::SwiftPMPackageDescription",
-            "StitchCoreTwilioService::StitchCoreTwilioServicePackageTests::ProductTarget",
-            "StitchCoreTwilioService::StitchCoreTwilioServiceTests",
-            "libmongoc::libmongoc::ProductTarget",
-         );
-      };
-      "OBJ_10" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_11",
-         );
-         name = "StitchCoreTwilioService";
-         path = "Sources/StitchCoreTwilioService";
-         sourceTree = "SOURCE_ROOT";
-      };
-      "OBJ_100" = {
-         isa = "PBXFileReference";
-         path = "StitchDocRequest.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_101" = {
-         isa = "PBXFileReference";
-         path = "StitchRequest.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_102" = {
-         isa = "PBXFileReference";
-         path = "StitchAppRoutes.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_103" = {
-         isa = "PBXFileReference";
-         path = "StitchRequestClient.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_104" = {
-         isa = "PBXFileReference";
-         path = "Transport.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_105" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_106",
-         );
-         name = "Push";
-         path = "Push";
-         sourceTree = "<group>";
-      };
-      "OBJ_106" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_107",
-            "OBJ_108",
-            "OBJ_109",
-         );
-         name = "Internal";
-         path = "Internal";
-         sourceTree = "<group>";
-      };
-      "OBJ_107" = {
-         isa = "PBXFileReference";
-         path = "CoreStitchPushClient.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_108" = {
-         isa = "PBXFileReference";
-         path = "CoreStitchPushClientImpl.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_109" = {
-         isa = "PBXFileReference";
-         path = "StitchPushRoutes.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_11" = {
-         isa = "PBXFileReference";
-         path = "CoreTwilioServiceClient.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_110" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_111",
-         );
-         name = "Services";
-         path = "Services";
-         sourceTree = "<group>";
-      };
-      "OBJ_111" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_112",
-            "OBJ_113",
-         );
-         name = "Internal";
-         path = "Internal";
-         sourceTree = "<group>";
-      };
-      "OBJ_112" = {
-         isa = "PBXFileReference";
-         path = "CoreStitchServiceClient.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_113" = {
-         isa = "PBXFileReference";
-         path = "CoreStitchServiceClientImpl.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_114" = {
-         isa = "PBXFileReference";
-         path = "StitchAppClientConfiguration.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_115" = {
-         isa = "PBXFileReference";
-         path = "StitchAppClientInfo.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_116" = {
-         isa = "PBXFileReference";
-         path = "StitchClientConfiguration.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_117" = {
-         isa = "PBXFileReference";
-         path = "StitchError.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_118" = {
-         isa = "PBXFileReference";
-         explicitFileType = "sourcecode.swift";
-         name = "Package.swift";
-         path = "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreTwilioService/.build/checkouts/StitchCoreSDK--6611188111968536726/Package.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_119" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_120",
-            "OBJ_138",
-         );
-         name = "MongoSwift";
-         path = "";
-         sourceTree = "SOURCE_ROOT";
-      };
-      "OBJ_12" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_13",
-         );
-         name = "Tests";
-         path = "";
-         sourceTree = "SOURCE_ROOT";
-      };
-      "OBJ_120" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_121",
-            "OBJ_122",
-            "OBJ_129",
-            "OBJ_130",
-            "OBJ_131",
-            "OBJ_132",
-            "OBJ_133",
-            "OBJ_134",
-            "OBJ_135",
-            "OBJ_136",
-            "OBJ_137",
-         );
-         name = "MongoSwift";
-         path = ".build/checkouts/mongo-swift-driver.git--3116645871691136268/Sources/MongoSwift";
-         sourceTree = "SOURCE_ROOT";
-      };
-      "OBJ_121" = {
-         isa = "PBXFileReference";
-         path = "APM.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_122" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_123",
-            "OBJ_124",
-            "OBJ_125",
-            "OBJ_126",
-            "OBJ_127",
-            "OBJ_128",
-         );
-         name = "BSON";
-         path = "BSON";
-         sourceTree = "<group>";
-      };
-      "OBJ_123" = {
-         isa = "PBXFileReference";
-         path = "BsonDecoder.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_124" = {
-         isa = "PBXFileReference";
-         path = "BsonEncoder.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_125" = {
-         isa = "PBXFileReference";
-         path = "BsonValue.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_126" = {
-         isa = "PBXFileReference";
-         path = "CodableNumber.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_127" = {
-         isa = "PBXFileReference";
-         path = "Document+Codable.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_128" = {
-         isa = "PBXFileReference";
-         path = "Document.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_129" = {
-         isa = "PBXFileReference";
-         path = "Client.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_13" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_14",
-         );
-         name = "StitchCoreTwilioServiceTests";
-         path = "Tests/StitchCoreTwilioServiceTests";
-         sourceTree = "SOURCE_ROOT";
-      };
-      "OBJ_130" = {
-         isa = "PBXFileReference";
-         path = "ClientSession.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_131" = {
-         isa = "PBXFileReference";
-         path = "Collection.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_132" = {
-         isa = "PBXFileReference";
-         path = "Cursor.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_133" = {
-         isa = "PBXFileReference";
-         path = "Database.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_134" = {
-         isa = "PBXFileReference";
-         path = "MongoError.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_135" = {
-         isa = "PBXFileReference";
-         path = "MongoSwift.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_136" = {
-         isa = "PBXFileReference";
-         path = "ReadWriteConcern.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_137" = {
-         isa = "PBXFileReference";
-         path = "SDAM.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_138" = {
-         isa = "PBXFileReference";
-         explicitFileType = "sourcecode.swift";
-         name = "Package.swift";
-         path = "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreTwilioService/.build/checkouts/mongo-swift-driver.git--3116645871691136268/Package.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_139" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_140",
-            "OBJ_145",
-         );
-         name = "MockUtils";
-         path = "";
-         sourceTree = "SOURCE_ROOT";
-      };
-      "OBJ_14" = {
-         isa = "PBXFileReference";
-         path = "CoreTwilioServiceClientUnitTests.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_140" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_141",
-            "OBJ_142",
-            "OBJ_143",
-            "OBJ_144",
-         );
-         name = "MockUtils";
-         path = ".build/checkouts/MockUtils--3493337496829072534/Sources/MockUtils";
-         sourceTree = "SOURCE_ROOT";
-      };
-      "OBJ_141" = {
-         isa = "PBXFileReference";
-         path = "Collection+count.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_142" = {
-         isa = "PBXFileReference";
-         path = "Matcher.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_143" = {
-         isa = "PBXFileReference";
-         path = "MockUtils.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_144" = {
-         isa = "PBXFileReference";
-         path = "SpyUtils.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_145" = {
-         isa = "PBXFileReference";
-         explicitFileType = "sourcecode.swift";
-         name = "Package.swift";
-         path = "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreTwilioService/.build/checkouts/MockUtils--3493337496829072534/Package.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_146" = {
-         isa = "PBXGroup";
-         children = (
-            "StitchCoreSDK::StitchCoreSDKMocks::Product",
-            "StitchCoreTwilioService::StitchCoreTwilioServiceTests::Product",
-            "MockUtils::MockUtils::Product",
-            "StitchCoreTwilioService::StitchCoreTwilioService::Product",
-            "StitchCoreSDK::StitchCoreSDK::Product",
-            "MongoSwift::MongoSwift::Product",
-         );
-         name = "Products";
-         path = "";
-         sourceTree = "BUILT_PRODUCTS_DIR";
-      };
-      "OBJ_15" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_16",
-            "OBJ_119",
-            "OBJ_139",
-         );
-         name = "Dependencies";
-         path = "";
-         sourceTree = "<group>";
-      };
-      "OBJ_154" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_155",
-            "OBJ_156",
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_155" = {
-         isa = "XCBuildConfiguration";
-         baseConfigurationReference = "OBJ_8";
-         buildSettings = {
-            ENABLE_TESTABILITY = "YES";
-            FRAMEWORK_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(PLATFORM_DIR)/Developer/Library/Frameworks",
-            );
-            HEADER_SEARCH_PATHS = (
-               "$(inherited)",
-            );
-            INFOPLIST_FILE = "StitchCoreTwilioService.xcodeproj/MockUtils_Info.plist";
-            LD_RUNPATH_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
-            );
-            OTHER_CFLAGS = (
-               "$(inherited)",
-            );
-            OTHER_LDFLAGS = (
-               "$(inherited)",
-            );
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)",
-            );
-            PRODUCT_BUNDLE_IDENTIFIER = "MockUtils";
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_VERSION = "4.0";
-            TARGET_NAME = "MockUtils";
-         };
-         name = "Debug";
-      };
-      "OBJ_156" = {
-         isa = "XCBuildConfiguration";
-         baseConfigurationReference = "OBJ_8";
-         buildSettings = {
-            ENABLE_TESTABILITY = "YES";
-            FRAMEWORK_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(PLATFORM_DIR)/Developer/Library/Frameworks",
-            );
-            HEADER_SEARCH_PATHS = (
-               "$(inherited)",
-            );
-            INFOPLIST_FILE = "StitchCoreTwilioService.xcodeproj/MockUtils_Info.plist";
-            LD_RUNPATH_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
-            );
-            OTHER_CFLAGS = (
-               "$(inherited)",
-            );
-            OTHER_LDFLAGS = (
-               "$(inherited)",
-            );
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)",
-            );
-            PRODUCT_BUNDLE_IDENTIFIER = "MockUtils";
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_VERSION = "4.0";
-            TARGET_NAME = "MockUtils";
-         };
-         name = "Release";
-      };
-      "OBJ_157" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_158",
-            "OBJ_159",
-            "OBJ_160",
-            "OBJ_161",
-         );
-      };
-      "OBJ_158" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_141";
-      };
-      "OBJ_159" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_142";
-      };
-      "OBJ_16" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_17",
-            "OBJ_31",
-            "OBJ_118",
-         );
-         name = "StitchCoreSDK";
-         path = "";
-         sourceTree = "SOURCE_ROOT";
-      };
-      "OBJ_160" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_143";
-      };
-      "OBJ_161" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_144";
-      };
-      "OBJ_162" = {
-         isa = "PBXFrameworksBuildPhase";
-         files = (
-         );
-      };
-      "OBJ_164" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_165",
-            "OBJ_166",
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_165" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            LD = "/usr/bin/true";
-            OTHER_SWIFT_FLAGS = (
-               "-swift-version",
-               "4",
-               "-I",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4",
-               "-target",
-               "x86_64-apple-macosx10.10",
-               "-sdk",
-               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk",
-            );
-            SWIFT_VERSION = "4.0";
-         };
-         name = "Debug";
-      };
-      "OBJ_166" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            LD = "/usr/bin/true";
-            OTHER_SWIFT_FLAGS = (
-               "-swift-version",
-               "4",
-               "-I",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4",
-               "-target",
-               "x86_64-apple-macosx10.10",
-               "-sdk",
-               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk",
-            );
-            SWIFT_VERSION = "4.0";
-         };
-         name = "Release";
-      };
-      "OBJ_167" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_168",
-         );
-      };
-      "OBJ_168" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_145";
-      };
-      "OBJ_17" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_18",
-            "OBJ_22",
-            "OBJ_25",
-            "OBJ_28",
-         );
-         name = "StitchCoreSDKMocks";
-         path = ".build/checkouts/StitchCoreSDK--6611188111968536726/Sources/StitchCoreSDKMocks";
-         sourceTree = "SOURCE_ROOT";
-      };
-      "OBJ_170" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_171",
-            "OBJ_172",
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_171" = {
-         isa = "XCBuildConfiguration";
-         baseConfigurationReference = "OBJ_8";
-         buildSettings = {
-            ENABLE_TESTABILITY = "YES";
-            FRAMEWORK_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(PLATFORM_DIR)/Developer/Library/Frameworks",
-            );
-            HEADER_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(SRCROOT)/.build/checkouts/swift-mongoc-4572998624666171810",
-               "$(SRCROOT)/.build/checkouts/swift-bson-2873930670968179217",
-            );
-            INFOPLIST_FILE = "StitchCoreTwilioService.xcodeproj/MongoSwift_Info.plist";
-            LD_RUNPATH_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
-            );
-            OTHER_CFLAGS = (
-               "$(inherited)",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-            );
-            OTHER_LDFLAGS = (
-               "$(inherited)",
-               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
-               "-lmongoc-1.0",
-               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
-               "-lbson-1.0",
-               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
-               "-lbson-1.0",
-            );
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-            );
-            PRODUCT_BUNDLE_IDENTIFIER = "MongoSwift";
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_VERSION = "4.0";
-            TARGET_NAME = "MongoSwift";
-         };
-         name = "Debug";
-      };
-      "OBJ_172" = {
-         isa = "XCBuildConfiguration";
-         baseConfigurationReference = "OBJ_8";
-         buildSettings = {
-            ENABLE_TESTABILITY = "YES";
-            FRAMEWORK_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(PLATFORM_DIR)/Developer/Library/Frameworks",
-            );
-            HEADER_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(SRCROOT)/.build/checkouts/swift-mongoc-4572998624666171810",
-               "$(SRCROOT)/.build/checkouts/swift-bson-2873930670968179217",
-            );
-            INFOPLIST_FILE = "StitchCoreTwilioService.xcodeproj/MongoSwift_Info.plist";
-            LD_RUNPATH_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
-            );
-            OTHER_CFLAGS = (
-               "$(inherited)",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-            );
-            OTHER_LDFLAGS = (
-               "$(inherited)",
-               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
-               "-lmongoc-1.0",
-               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
-               "-lbson-1.0",
-               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
-               "-lbson-1.0",
-            );
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-            );
-            PRODUCT_BUNDLE_IDENTIFIER = "MongoSwift";
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_VERSION = "4.0";
-            TARGET_NAME = "MongoSwift";
-         };
-         name = "Release";
-      };
-      "OBJ_173" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_174",
-            "OBJ_175",
-            "OBJ_176",
-            "OBJ_177",
-            "OBJ_178",
-            "OBJ_179",
-            "OBJ_180",
-            "OBJ_181",
-            "OBJ_182",
-            "OBJ_183",
-            "OBJ_184",
-            "OBJ_185",
-            "OBJ_186",
-            "OBJ_187",
-            "OBJ_188",
-            "OBJ_189",
-         );
-      };
-      "OBJ_174" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_121";
-      };
-      "OBJ_175" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_123";
-      };
-      "OBJ_176" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_124";
-      };
-      "OBJ_177" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_125";
-      };
-      "OBJ_178" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_126";
-      };
-      "OBJ_179" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_127";
-      };
-      "OBJ_18" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_19",
-         );
-         name = "Auth";
-         path = "Auth";
-         sourceTree = "<group>";
-      };
-      "OBJ_180" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_128";
-      };
-      "OBJ_181" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_129";
-      };
-      "OBJ_182" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_130";
-      };
-      "OBJ_183" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_131";
-      };
-      "OBJ_184" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_132";
-      };
-      "OBJ_185" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_133";
-      };
-      "OBJ_186" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_134";
-      };
-      "OBJ_187" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_135";
-      };
-      "OBJ_188" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_136";
-      };
-      "OBJ_189" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_137";
-      };
-      "OBJ_19" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_20",
-            "OBJ_21",
-         );
-         name = "Internal";
-         path = "Internal";
-         sourceTree = "<group>";
-      };
-      "OBJ_190" = {
-         isa = "PBXFrameworksBuildPhase";
-         files = (
-         );
-      };
-      "OBJ_192" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_193",
-            "OBJ_194",
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_193" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            LD = "/usr/bin/true";
-            OTHER_SWIFT_FLAGS = (
-               "-swift-version",
-               "4",
-               "-I",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4",
-               "-target",
-               "x86_64-apple-macosx10.10",
-               "-sdk",
-               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk",
-            );
-            SWIFT_VERSION = "4.0";
-         };
-         name = "Debug";
-      };
-      "OBJ_194" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            LD = "/usr/bin/true";
-            OTHER_SWIFT_FLAGS = (
-               "-swift-version",
-               "4",
-               "-I",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4",
-               "-target",
-               "x86_64-apple-macosx10.10",
-               "-sdk",
-               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk",
-            );
-            SWIFT_VERSION = "4.0";
-         };
-         name = "Release";
-      };
-      "OBJ_195" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_196",
-         );
-      };
-      "OBJ_196" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_138";
-      };
-      "OBJ_198" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_199",
-            "OBJ_200",
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_199" = {
-         isa = "XCBuildConfiguration";
-         baseConfigurationReference = "OBJ_8";
-         buildSettings = {
-            ENABLE_TESTABILITY = "YES";
-            FRAMEWORK_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(PLATFORM_DIR)/Developer/Library/Frameworks",
-            );
-            HEADER_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(SRCROOT)/.build/checkouts/swift-mongoc-4572998624666171810",
-               "$(SRCROOT)/.build/checkouts/swift-bson-2873930670968179217",
-            );
-            INFOPLIST_FILE = "StitchCoreTwilioService.xcodeproj/StitchCoreSDK_Info.plist";
-            LD_RUNPATH_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
-            );
-            OTHER_CFLAGS = (
-               "$(inherited)",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-            );
-            OTHER_LDFLAGS = (
-               "$(inherited)",
-               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
-               "-lmongoc-1.0",
-               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
-               "-lbson-1.0",
-               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
-               "-lbson-1.0",
-            );
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-            );
-            PRODUCT_BUNDLE_IDENTIFIER = "StitchCoreSDK";
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_VERSION = "4.0";
-            TARGET_NAME = "StitchCoreSDK";
-         };
-         name = "Debug";
-      };
-      "OBJ_2" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_3",
-            "OBJ_4",
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_20" = {
-         isa = "PBXFileReference";
-         path = "MockCoreStitchAuth.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_200" = {
-         isa = "XCBuildConfiguration";
-         baseConfigurationReference = "OBJ_8";
-         buildSettings = {
-            ENABLE_TESTABILITY = "YES";
-            FRAMEWORK_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(PLATFORM_DIR)/Developer/Library/Frameworks",
-            );
-            HEADER_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(SRCROOT)/.build/checkouts/swift-mongoc-4572998624666171810",
-               "$(SRCROOT)/.build/checkouts/swift-bson-2873930670968179217",
-            );
-            INFOPLIST_FILE = "StitchCoreTwilioService.xcodeproj/StitchCoreSDK_Info.plist";
-            LD_RUNPATH_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
-            );
-            OTHER_CFLAGS = (
-               "$(inherited)",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-            );
-            OTHER_LDFLAGS = (
-               "$(inherited)",
-               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
-               "-lmongoc-1.0",
-               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
-               "-lbson-1.0",
-               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
-               "-lbson-1.0",
-            );
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-            );
-            PRODUCT_BUNDLE_IDENTIFIER = "StitchCoreSDK";
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_VERSION = "4.0";
-            TARGET_NAME = "StitchCoreSDK";
-         };
-         name = "Release";
-      };
-      "OBJ_201" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_202",
-            "OBJ_203",
-            "OBJ_204",
-            "OBJ_205",
-            "OBJ_206",
-            "OBJ_207",
-            "OBJ_208",
-            "OBJ_209",
-            "OBJ_210",
-            "OBJ_211",
-            "OBJ_212",
-            "OBJ_213",
-            "OBJ_214",
-            "OBJ_215",
-            "OBJ_216",
-            "OBJ_217",
-            "OBJ_218",
-            "OBJ_219",
-            "OBJ_220",
-            "OBJ_221",
-            "OBJ_222",
-            "OBJ_223",
-            "OBJ_224",
-            "OBJ_225",
-            "OBJ_226",
-            "OBJ_227",
-            "OBJ_228",
-            "OBJ_229",
-            "OBJ_230",
-            "OBJ_231",
-            "OBJ_232",
-            "OBJ_233",
-            "OBJ_234",
-            "OBJ_235",
-            "OBJ_236",
-            "OBJ_237",
-            "OBJ_238",
-            "OBJ_239",
-            "OBJ_240",
-            "OBJ_241",
-            "OBJ_242",
-            "OBJ_243",
-            "OBJ_244",
-            "OBJ_245",
-            "OBJ_246",
-            "OBJ_247",
-            "OBJ_248",
-            "OBJ_249",
-            "OBJ_250",
-            "OBJ_251",
-            "OBJ_252",
-            "OBJ_253",
-            "OBJ_254",
-            "OBJ_255",
-            "OBJ_256",
-            "OBJ_257",
-            "OBJ_258",
-            "OBJ_259",
-            "OBJ_260",
-            "OBJ_261",
-            "OBJ_262",
-            "OBJ_263",
-            "OBJ_264",
-            "OBJ_265",
-            "OBJ_266",
-         );
-      };
-      "OBJ_202" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_34";
-      };
-      "OBJ_203" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_35";
-      };
-      "OBJ_204" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_36";
-      };
-      "OBJ_205" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_37";
-      };
-      "OBJ_206" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_38";
-      };
-      "OBJ_207" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_39";
-      };
-      "OBJ_208" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_40";
-      };
-      "OBJ_209" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_41";
-      };
-      "OBJ_21" = {
-         isa = "PBXFileReference";
-         path = "MockStitchAuthRequestClient.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_210" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_42";
-      };
-      "OBJ_211" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_44";
-      };
-      "OBJ_212" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_45";
-      };
-      "OBJ_213" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_46";
-      };
-      "OBJ_214" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_47";
-      };
-      "OBJ_215" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_48";
-      };
-      "OBJ_216" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_49";
-      };
-      "OBJ_217" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_50";
-      };
-      "OBJ_218" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_51";
-      };
-      "OBJ_219" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_52";
-      };
-      "OBJ_22" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_23",
-            "OBJ_24",
-         );
-         name = "Internal";
-         path = "Internal";
-         sourceTree = "<group>";
-      };
-      "OBJ_220" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_53";
-      };
-      "OBJ_221" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_56";
-      };
-      "OBJ_222" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_57";
-      };
-      "OBJ_223" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_59";
-      };
-      "OBJ_224" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_60";
-      };
-      "OBJ_225" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_62";
-      };
-      "OBJ_226" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_63";
-      };
-      "OBJ_227" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_65";
-      };
-      "OBJ_228" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_66";
-      };
-      "OBJ_229" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_68";
-      };
-      "OBJ_23" = {
-         isa = "PBXFileReference";
-         path = "MockStitchRequestClient.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_230" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_70";
-      };
-      "OBJ_231" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_71";
-      };
-      "OBJ_232" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_73";
-      };
-      "OBJ_233" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_75";
-      };
-      "OBJ_234" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_76";
-      };
-      "OBJ_235" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_77";
-      };
-      "OBJ_236" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_79";
-      };
-      "OBJ_237" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_80";
-      };
-      "OBJ_238" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_81";
-      };
-      "OBJ_239" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_82";
-      };
-      "OBJ_24" = {
-         isa = "PBXFileReference";
-         path = "MockTransport.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_240" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_83";
-      };
-      "OBJ_241" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_84";
-      };
-      "OBJ_242" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_85";
-      };
-      "OBJ_243" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_88";
-      };
-      "OBJ_244" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_89";
-      };
-      "OBJ_245" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_90";
-      };
-      "OBJ_246" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_92";
-      };
-      "OBJ_247" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_93";
-      };
-      "OBJ_248" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_94";
-      };
-      "OBJ_249" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_95";
-      };
-      "OBJ_25" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_26",
-         );
-         name = "Push";
-         path = "Push";
-         sourceTree = "<group>";
-      };
-      "OBJ_250" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_97";
-      };
-      "OBJ_251" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_98";
-      };
-      "OBJ_252" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_99";
-      };
-      "OBJ_253" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_100";
-      };
-      "OBJ_254" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_101";
-      };
-      "OBJ_255" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_102";
-      };
-      "OBJ_256" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_103";
-      };
-      "OBJ_257" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_104";
-      };
-      "OBJ_258" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_107";
-      };
-      "OBJ_259" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_108";
-      };
-      "OBJ_26" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_27",
-         );
-         name = "Internal";
-         path = "Internal";
-         sourceTree = "<group>";
-      };
-      "OBJ_260" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_109";
-      };
-      "OBJ_261" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_112";
-      };
-      "OBJ_262" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_113";
-      };
-      "OBJ_263" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_114";
-      };
-      "OBJ_264" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_115";
-      };
-      "OBJ_265" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_116";
-      };
-      "OBJ_266" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_117";
-      };
-      "OBJ_267" = {
-         isa = "PBXFrameworksBuildPhase";
-         files = (
-            "OBJ_268",
-         );
-      };
-      "OBJ_268" = {
-         isa = "PBXBuildFile";
-         fileRef = "MongoSwift::MongoSwift::Product";
-      };
-      "OBJ_269" = {
-         isa = "PBXTargetDependency";
-         target = "MongoSwift::MongoSwift";
-      };
-      "OBJ_27" = {
-         isa = "PBXFileReference";
-         path = "MockCoreStitchPushClient.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_271" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_272",
-            "OBJ_273",
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_272" = {
-         isa = "XCBuildConfiguration";
-         baseConfigurationReference = "OBJ_8";
-         buildSettings = {
-            ENABLE_TESTABILITY = "YES";
-            FRAMEWORK_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(PLATFORM_DIR)/Developer/Library/Frameworks",
-            );
-            HEADER_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(SRCROOT)/.build/checkouts/swift-mongoc-4572998624666171810",
-               "$(SRCROOT)/.build/checkouts/swift-bson-2873930670968179217",
-            );
-            INFOPLIST_FILE = "StitchCoreTwilioService.xcodeproj/StitchCoreSDKMocks_Info.plist";
-            LD_RUNPATH_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
-            );
-            OTHER_CFLAGS = (
-               "$(inherited)",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-            );
-            OTHER_LDFLAGS = (
-               "$(inherited)",
-               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
-               "-lmongoc-1.0",
-               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
-               "-lbson-1.0",
-               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
-               "-lbson-1.0",
-            );
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-            );
-            PRODUCT_BUNDLE_IDENTIFIER = "StitchCoreSDKMocks";
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_VERSION = "4.0";
-            TARGET_NAME = "StitchCoreSDKMocks";
-         };
-         name = "Debug";
-      };
-      "OBJ_273" = {
-         isa = "XCBuildConfiguration";
-         baseConfigurationReference = "OBJ_8";
-         buildSettings = {
-            ENABLE_TESTABILITY = "YES";
-            FRAMEWORK_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(PLATFORM_DIR)/Developer/Library/Frameworks",
-            );
-            HEADER_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(SRCROOT)/.build/checkouts/swift-mongoc-4572998624666171810",
-               "$(SRCROOT)/.build/checkouts/swift-bson-2873930670968179217",
-            );
-            INFOPLIST_FILE = "StitchCoreTwilioService.xcodeproj/StitchCoreSDKMocks_Info.plist";
-            LD_RUNPATH_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
-            );
-            OTHER_CFLAGS = (
-               "$(inherited)",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-            );
-            OTHER_LDFLAGS = (
-               "$(inherited)",
-               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
-               "-lmongoc-1.0",
-               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
-               "-lbson-1.0",
-               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
-               "-lbson-1.0",
-            );
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-            );
-            PRODUCT_BUNDLE_IDENTIFIER = "StitchCoreSDKMocks";
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_VERSION = "4.0";
-            TARGET_NAME = "StitchCoreSDKMocks";
-         };
-         name = "Release";
-      };
-      "OBJ_274" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_275",
-            "OBJ_276",
-            "OBJ_277",
-            "OBJ_278",
-            "OBJ_279",
-            "OBJ_280",
-            "OBJ_281",
-         );
-      };
-      "OBJ_275" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_20";
-      };
-      "OBJ_276" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_21";
-      };
-      "OBJ_277" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_23";
-      };
-      "OBJ_278" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_24";
-      };
-      "OBJ_279" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_27";
-      };
-      "OBJ_28" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_29",
-            "OBJ_30",
-         );
-         name = "Services";
-         path = "Services";
-         sourceTree = "<group>";
-      };
-      "OBJ_280" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_29";
-      };
-      "OBJ_281" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_30";
-      };
-      "OBJ_282" = {
-         isa = "PBXFrameworksBuildPhase";
-         files = (
-            "OBJ_283",
-            "OBJ_284",
-            "OBJ_285",
-         );
-      };
-      "OBJ_283" = {
-         isa = "PBXBuildFile";
-         fileRef = "MockUtils::MockUtils::Product";
-      };
-      "OBJ_284" = {
-         isa = "PBXBuildFile";
-         fileRef = "StitchCoreSDK::StitchCoreSDK::Product";
-      };
-      "OBJ_285" = {
-         isa = "PBXBuildFile";
-         fileRef = "MongoSwift::MongoSwift::Product";
-      };
-      "OBJ_286" = {
-         isa = "PBXTargetDependency";
-         target = "MockUtils::MockUtils";
-      };
-      "OBJ_287" = {
-         isa = "PBXTargetDependency";
-         target = "StitchCoreSDK::StitchCoreSDK";
-      };
-      "OBJ_288" = {
-         isa = "PBXTargetDependency";
-         target = "MongoSwift::MongoSwift";
-      };
-      "OBJ_29" = {
-         isa = "PBXFileReference";
-         path = "MockCoreStitchServiceClient.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_290" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_291",
-            "OBJ_292",
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_291" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            LD = "/usr/bin/true";
-            OTHER_SWIFT_FLAGS = (
-               "-swift-version",
-               "4",
-               "-I",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4",
-               "-target",
-               "x86_64-apple-macosx10.10",
-               "-sdk",
-               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk",
-            );
-            SWIFT_VERSION = "4.0";
-         };
-         name = "Debug";
-      };
-      "OBJ_292" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            LD = "/usr/bin/true";
-            OTHER_SWIFT_FLAGS = (
-               "-swift-version",
-               "4",
-               "-I",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4",
-               "-target",
-               "x86_64-apple-macosx10.10",
-               "-sdk",
-               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk",
-            );
-            SWIFT_VERSION = "4.0";
-         };
-         name = "Release";
-      };
-      "OBJ_293" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_294",
-         );
-      };
-      "OBJ_294" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_118";
-      };
-      "OBJ_296" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_297",
-            "OBJ_298",
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_297" = {
-         isa = "XCBuildConfiguration";
-         baseConfigurationReference = "OBJ_8";
-         buildSettings = {
-            ENABLE_TESTABILITY = "YES";
-            FRAMEWORK_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(PLATFORM_DIR)/Developer/Library/Frameworks",
-            );
-            HEADER_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(SRCROOT)/.build/checkouts/swift-mongoc-4572998624666171810",
-               "$(SRCROOT)/.build/checkouts/swift-bson-2873930670968179217",
-            );
-            INFOPLIST_FILE = "StitchCoreTwilioService.xcodeproj/StitchCoreTwilioService_Info.plist";
-            LD_RUNPATH_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
-            );
-            OTHER_CFLAGS = (
-               "$(inherited)",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-            );
-            OTHER_LDFLAGS = (
-               "$(inherited)",
-               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
-               "-lmongoc-1.0",
-               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
-               "-lbson-1.0",
-               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
-               "-lbson-1.0",
-            );
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-            );
-            PRODUCT_BUNDLE_IDENTIFIER = "StitchCoreTwilioService";
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_VERSION = "4.0";
-            TARGET_NAME = "StitchCoreTwilioService";
-         };
-         name = "Debug";
-      };
-      "OBJ_298" = {
-         isa = "XCBuildConfiguration";
-         baseConfigurationReference = "OBJ_8";
-         buildSettings = {
-            ENABLE_TESTABILITY = "YES";
-            FRAMEWORK_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(PLATFORM_DIR)/Developer/Library/Frameworks",
-            );
-            HEADER_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(SRCROOT)/.build/checkouts/swift-mongoc-4572998624666171810",
-               "$(SRCROOT)/.build/checkouts/swift-bson-2873930670968179217",
-            );
-            INFOPLIST_FILE = "StitchCoreTwilioService.xcodeproj/StitchCoreTwilioService_Info.plist";
-            LD_RUNPATH_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
-            );
-            OTHER_CFLAGS = (
-               "$(inherited)",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-            );
-            OTHER_LDFLAGS = (
-               "$(inherited)",
-               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
-               "-lmongoc-1.0",
-               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
-               "-lbson-1.0",
-               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
-               "-lbson-1.0",
-            );
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-            );
-            PRODUCT_BUNDLE_IDENTIFIER = "StitchCoreTwilioService";
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_VERSION = "4.0";
-            TARGET_NAME = "StitchCoreTwilioService";
-         };
-         name = "Release";
-      };
-      "OBJ_299" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_300",
-         );
-      };
-      "OBJ_3" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            CLANG_ENABLE_OBJC_ARC = "YES";
-            COMBINE_HIDPI_IMAGES = "YES";
-            COPY_PHASE_STRIP = "NO";
-            DEBUG_INFORMATION_FORMAT = "dwarf";
-            DYLIB_INSTALL_NAME_BASE = "@rpath";
-            ENABLE_NS_ASSERTIONS = "YES";
-            GCC_OPTIMIZATION_LEVEL = "0";
-            MACOSX_DEPLOYMENT_TARGET = "10.10";
-            ONLY_ACTIVE_ARCH = "YES";
-            OTHER_SWIFT_FLAGS = (
-               "-DXcode",
-            );
-            PRODUCT_NAME = "$(TARGET_NAME)";
-            SDKROOT = "macosx";
-            SUPPORTED_PLATFORMS = (
-               "macosx",
-               "iphoneos",
-               "iphonesimulator",
-               "appletvos",
-               "appletvsimulator",
-               "watchos",
-               "watchsimulator",
-            );
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = "SWIFT_PACKAGE";
-            SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-            USE_HEADERMAP = "NO";
-         };
-         name = "Debug";
-      };
-      "OBJ_30" = {
-         isa = "PBXFileReference";
-         path = "SpyCoreStitchServiceClient.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_300" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_11";
-      };
-      "OBJ_301" = {
-         isa = "PBXFrameworksBuildPhase";
-         files = (
-            "OBJ_302",
-            "OBJ_303",
-         );
-      };
-      "OBJ_302" = {
-         isa = "PBXBuildFile";
-         fileRef = "StitchCoreSDK::StitchCoreSDK::Product";
-      };
-      "OBJ_303" = {
-         isa = "PBXBuildFile";
-         fileRef = "MongoSwift::MongoSwift::Product";
-      };
-      "OBJ_304" = {
-         isa = "PBXTargetDependency";
-         target = "StitchCoreSDK::StitchCoreSDK";
-      };
-      "OBJ_305" = {
-         isa = "PBXTargetDependency";
-         target = "MongoSwift::MongoSwift";
-      };
-      "OBJ_307" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_308",
-            "OBJ_309",
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_308" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            LD = "/usr/bin/true";
-            OTHER_SWIFT_FLAGS = (
-               "-swift-version",
-               "4",
-               "-I",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4",
-               "-target",
-               "x86_64-apple-macosx10.10",
-               "-sdk",
-               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk",
-            );
-            SWIFT_VERSION = "4.0";
-         };
-         name = "Debug";
-      };
-      "OBJ_309" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            LD = "/usr/bin/true";
-            OTHER_SWIFT_FLAGS = (
-               "-swift-version",
-               "4",
-               "-I",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4",
-               "-target",
-               "x86_64-apple-macosx10.10",
-               "-sdk",
-               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk",
-            );
-            SWIFT_VERSION = "4.0";
-         };
-         name = "Release";
-      };
-      "OBJ_31" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_32",
-            "OBJ_86",
-            "OBJ_105",
-            "OBJ_110",
-            "OBJ_114",
-            "OBJ_115",
-            "OBJ_116",
-            "OBJ_117",
-         );
-         name = "StitchCoreSDK";
-         path = ".build/checkouts/StitchCoreSDK--6611188111968536726/Sources/StitchCoreSDK";
-         sourceTree = "SOURCE_ROOT";
-      };
-      "OBJ_310" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_311",
-         );
-      };
-      "OBJ_311" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_6";
-      };
-      "OBJ_313" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_314",
-            "OBJ_315",
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_314" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-         };
-         name = "Debug";
-      };
-      "OBJ_315" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-         };
-         name = "Release";
-      };
-      "OBJ_316" = {
-         isa = "PBXTargetDependency";
-         target = "StitchCoreTwilioService::StitchCoreTwilioServiceTests";
-      };
-      "OBJ_318" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_319",
-            "OBJ_320",
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_319" = {
-         isa = "XCBuildConfiguration";
-         baseConfigurationReference = "OBJ_8";
-         buildSettings = {
-            EMBEDDED_CONTENT_CONTAINS_SWIFT = "YES";
-            FRAMEWORK_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(PLATFORM_DIR)/Developer/Library/Frameworks",
-            );
-            HEADER_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(SRCROOT)/.build/checkouts/swift-mongoc-4572998624666171810",
-               "$(SRCROOT)/.build/checkouts/swift-bson-2873930670968179217",
-            );
-            INFOPLIST_FILE = "StitchCoreTwilioService.xcodeproj/StitchCoreTwilioServiceTests_Info.plist";
-            LD_RUNPATH_SEARCH_PATHS = (
-               "$(inherited)",
-               "@loader_path/../Frameworks",
-               "@loader_path/Frameworks",
-            );
-            OTHER_CFLAGS = (
-               "$(inherited)",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-            );
-            OTHER_LDFLAGS = (
-               "$(inherited)",
-               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
-               "-lmongoc-1.0",
-               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
-               "-lbson-1.0",
-               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
-               "-lbson-1.0",
-            );
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-            );
-            SWIFT_VERSION = "4.0";
-            TARGET_NAME = "StitchCoreTwilioServiceTests";
-         };
-         name = "Debug";
-      };
-      "OBJ_32" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_33",
-            "OBJ_53",
-            "OBJ_54",
-            "OBJ_82",
-            "OBJ_83",
-            "OBJ_84",
-            "OBJ_85",
-         );
-         name = "Auth";
-         path = "Auth";
-         sourceTree = "<group>";
-      };
-      "OBJ_320" = {
-         isa = "XCBuildConfiguration";
-         baseConfigurationReference = "OBJ_8";
-         buildSettings = {
-            EMBEDDED_CONTENT_CONTAINS_SWIFT = "YES";
-            FRAMEWORK_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(PLATFORM_DIR)/Developer/Library/Frameworks",
-            );
-            HEADER_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(SRCROOT)/.build/checkouts/swift-mongoc-4572998624666171810",
-               "$(SRCROOT)/.build/checkouts/swift-bson-2873930670968179217",
-            );
-            INFOPLIST_FILE = "StitchCoreTwilioService.xcodeproj/StitchCoreTwilioServiceTests_Info.plist";
-            LD_RUNPATH_SEARCH_PATHS = (
-               "$(inherited)",
-               "@loader_path/../Frameworks",
-               "@loader_path/Frameworks",
-            );
-            OTHER_CFLAGS = (
-               "$(inherited)",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-            );
-            OTHER_LDFLAGS = (
-               "$(inherited)",
-               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
-               "-lmongoc-1.0",
-               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
-               "-lbson-1.0",
-               "-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
-               "-lbson-1.0",
-            );
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-               "-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
-            );
-            SWIFT_VERSION = "4.0";
-            TARGET_NAME = "StitchCoreTwilioServiceTests";
-         };
-         name = "Release";
-      };
-      "OBJ_321" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_322",
-         );
-      };
-      "OBJ_322" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_14";
-      };
-      "OBJ_323" = {
-         isa = "PBXFrameworksBuildPhase";
-         files = (
-            "OBJ_324",
-            "OBJ_325",
-            "OBJ_326",
-            "OBJ_327",
-            "OBJ_328",
-         );
-      };
-      "OBJ_324" = {
-         isa = "PBXBuildFile";
-         fileRef = "StitchCoreSDK::StitchCoreSDKMocks::Product";
-      };
-      "OBJ_325" = {
-         isa = "PBXBuildFile";
-         fileRef = "MockUtils::MockUtils::Product";
-      };
-      "OBJ_326" = {
-         isa = "PBXBuildFile";
-         fileRef = "StitchCoreTwilioService::StitchCoreTwilioService::Product";
-      };
-      "OBJ_327" = {
-         isa = "PBXBuildFile";
-         fileRef = "StitchCoreSDK::StitchCoreSDK::Product";
-      };
-      "OBJ_328" = {
-         isa = "PBXBuildFile";
-         fileRef = "MongoSwift::MongoSwift::Product";
-      };
-      "OBJ_329" = {
-         isa = "PBXTargetDependency";
-         target = "StitchCoreSDK::StitchCoreSDKMocks";
-      };
-      "OBJ_33" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_34",
-            "OBJ_35",
-            "OBJ_36",
-            "OBJ_37",
-            "OBJ_38",
-            "OBJ_39",
-            "OBJ_40",
-            "OBJ_41",
-            "OBJ_42",
-            "OBJ_43",
-            "OBJ_51",
-            "OBJ_52",
-         );
-         name = "Internal";
-         path = "Internal";
-         sourceTree = "<group>";
-      };
-      "OBJ_330" = {
-         isa = "PBXTargetDependency";
-         target = "MockUtils::MockUtils";
-      };
-      "OBJ_331" = {
-         isa = "PBXTargetDependency";
-         target = "StitchCoreTwilioService::StitchCoreTwilioService";
-      };
-      "OBJ_332" = {
-         isa = "PBXTargetDependency";
-         target = "StitchCoreSDK::StitchCoreSDK";
-      };
-      "OBJ_333" = {
-         isa = "PBXTargetDependency";
-         target = "MongoSwift::MongoSwift";
-      };
-      "OBJ_335" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_336",
-            "OBJ_337",
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_336" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-         };
-         name = "Debug";
-      };
-      "OBJ_337" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-         };
-         name = "Release";
-      };
-      "OBJ_34" = {
-         isa = "PBXFileReference";
-         path = "AccessTokenRefresher.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_35" = {
-         isa = "PBXFileReference";
-         path = "AuthInfo.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_36" = {
-         isa = "PBXFileReference";
-         path = "AuthStateHolder.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_37" = {
-         isa = "PBXFileReference";
-         path = "CoreStitchAuth+StitchAuthRequestClient.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_38" = {
-         isa = "PBXFileReference";
-         path = "CoreStitchAuth.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_39" = {
-         isa = "PBXFileReference";
-         path = "CoreStitchUser.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_4" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            CLANG_ENABLE_OBJC_ARC = "YES";
-            COMBINE_HIDPI_IMAGES = "YES";
-            COPY_PHASE_STRIP = "YES";
-            DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-            DYLIB_INSTALL_NAME_BASE = "@rpath";
-            GCC_OPTIMIZATION_LEVEL = "s";
-            MACOSX_DEPLOYMENT_TARGET = "10.10";
-            OTHER_SWIFT_FLAGS = (
-               "-DXcode",
-            );
-            PRODUCT_NAME = "$(TARGET_NAME)";
-            SDKROOT = "macosx";
-            SUPPORTED_PLATFORMS = (
-               "macosx",
-               "iphoneos",
-               "iphonesimulator",
-               "appletvos",
-               "appletvsimulator",
-               "watchos",
-               "watchsimulator",
-            );
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = "SWIFT_PACKAGE";
-            SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-            USE_HEADERMAP = "NO";
-         };
-         name = "Release";
-      };
-      "OBJ_40" = {
-         isa = "PBXFileReference";
-         path = "CoreStitchUserImpl.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_41" = {
-         isa = "PBXFileReference";
-         path = "DeviceField.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_42" = {
-         isa = "PBXFileReference";
-         path = "JWT.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_43" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_44",
-            "OBJ_45",
-            "OBJ_46",
-            "OBJ_47",
-            "OBJ_48",
-            "OBJ_49",
-            "OBJ_50",
-         );
-         name = "Models";
-         path = "Models";
-         sourceTree = "<group>";
-      };
-      "OBJ_44" = {
-         isa = "PBXFileReference";
-         path = "APIAccessToken.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_45" = {
-         isa = "PBXFileReference";
-         path = "APIAuthInfoImpl.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_46" = {
-         isa = "PBXFileReference";
-         path = "APICoreUserProfile.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_47" = {
-         isa = "PBXFileReference";
-         path = "APIStitchUserIdentity.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_48" = {
-         isa = "PBXFileReference";
-         path = "StoreAuthInfo.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_49" = {
-         isa = "PBXFileReference";
-         path = "StoreCoreUserProfile.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_5" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_6",
-            "OBJ_7",
-            "OBJ_9",
-            "OBJ_12",
-            "OBJ_15",
-            "OBJ_146",
-         );
-         path = "";
-         sourceTree = "<group>";
-      };
-      "OBJ_50" = {
-         isa = "PBXFileReference";
-         path = "StoreStitchUserIdentity.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_51" = {
-         isa = "PBXFileReference";
-         path = "StitchAuthRequestClient.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_52" = {
-         isa = "PBXFileReference";
-         path = "StitchUserFactory.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_53" = {
-         isa = "PBXFileReference";
-         path = "ProviderCapabilities.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_54" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_55",
-            "OBJ_58",
-            "OBJ_61",
-            "OBJ_64",
-            "OBJ_67",
-            "OBJ_69",
-            "OBJ_72",
-            "OBJ_78",
-         );
-         name = "Providers";
-         path = "Providers";
-         sourceTree = "<group>";
-      };
-      "OBJ_55" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_56",
-            "OBJ_57",
-         );
-         name = "Anonymous";
-         path = "Anonymous";
-         sourceTree = "<group>";
-      };
-      "OBJ_56" = {
-         isa = "PBXFileReference";
-         path = "AnonymousAuthProvider.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_57" = {
-         isa = "PBXFileReference";
-         path = "AnonymousCredential.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_58" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_59",
-            "OBJ_60",
-         );
-         name = "Custom";
-         path = "Custom";
-         sourceTree = "<group>";
-      };
-      "OBJ_59" = {
-         isa = "PBXFileReference";
-         path = "CustomAuthProvider.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_6" = {
-         isa = "PBXFileReference";
-         explicitFileType = "sourcecode.swift";
-         path = "Package.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_60" = {
-         isa = "PBXFileReference";
-         path = "CustomCredential.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_61" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_62",
-            "OBJ_63",
-         );
-         name = "Facebook";
-         path = "Facebook";
-         sourceTree = "<group>";
-      };
-      "OBJ_62" = {
-         isa = "PBXFileReference";
-         path = "FacebookAuthProvider.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_63" = {
-         isa = "PBXFileReference";
-         path = "FacebookCredential.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_64" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_65",
-            "OBJ_66",
-         );
-         name = "Google";
-         path = "Google";
-         sourceTree = "<group>";
-      };
-      "OBJ_65" = {
-         isa = "PBXFileReference";
-         path = "GoogleAuthProvider.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_66" = {
-         isa = "PBXFileReference";
-         path = "GoogleCredential.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_67" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_68",
-         );
-         name = "Internal";
-         path = "Internal";
-         sourceTree = "<group>";
-      };
-      "OBJ_68" = {
-         isa = "PBXFileReference";
-         path = "CoreAuthProviderClient.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_69" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_70",
-            "OBJ_71",
-         );
-         name = "ServerAPIKey";
-         path = "ServerAPIKey";
-         sourceTree = "<group>";
-      };
-      "OBJ_7" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_8",
-         );
-         name = "Configs";
-         path = "";
-         sourceTree = "<group>";
-      };
-      "OBJ_70" = {
-         isa = "PBXFileReference";
-         path = "ServerAPIKeyAuthProvider.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_71" = {
-         isa = "PBXFileReference";
-         path = "ServerAPIKeyCredential.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_72" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_73",
-            "OBJ_74",
-            "OBJ_76",
-            "OBJ_77",
-         );
-         name = "UserAPIKey";
-         path = "UserAPIKey";
-         sourceTree = "<group>";
-      };
-      "OBJ_73" = {
-         isa = "PBXFileReference";
-         path = "CoreUserAPIKeyAuthProviderClient.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_74" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_75",
-         );
-         name = "Models";
-         path = "Models";
-         sourceTree = "<group>";
-      };
-      "OBJ_75" = {
-         isa = "PBXFileReference";
-         path = "UserAPIKey.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_76" = {
-         isa = "PBXFileReference";
-         path = "UserAPIKeyAuthProvider.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_77" = {
-         isa = "PBXFileReference";
-         path = "UserAPIKeyCredential.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_78" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_79",
-            "OBJ_80",
-            "OBJ_81",
-         );
-         name = "UserPassword";
-         path = "UserPassword";
-         sourceTree = "<group>";
-      };
-      "OBJ_79" = {
-         isa = "PBXFileReference";
-         path = "CoreUserPasswordAuthProviderClient.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_8" = {
-         isa = "PBXFileReference";
-         path = "StitchCoreTwilioService.xcconfig";
-         sourceTree = "<group>";
-      };
-      "OBJ_80" = {
-         isa = "PBXFileReference";
-         path = "UserPasswordAuthProvider.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_81" = {
-         isa = "PBXFileReference";
-         path = "UserPasswordCredential.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_82" = {
-         isa = "PBXFileReference";
-         path = "StitchCredential.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_83" = {
-         isa = "PBXFileReference";
-         path = "StitchProviderType.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_84" = {
-         isa = "PBXFileReference";
-         path = "StitchUserIdentity.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_85" = {
-         isa = "PBXFileReference";
-         path = "StitchUserProfile.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_86" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_87",
-            "OBJ_90",
-            "OBJ_91",
-         );
-         name = "Internal";
-         path = "Internal";
-         sourceTree = "<group>";
-      };
-      "OBJ_87" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_88",
-            "OBJ_89",
-         );
-         name = "Common";
-         path = "Common";
-         sourceTree = "<group>";
-      };
-      "OBJ_88" = {
-         isa = "PBXFileReference";
-         path = "ImplFailureFatalErrors.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_89" = {
-         isa = "PBXFileReference";
-         path = "Storage.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_9" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_10",
-         );
-         name = "Sources";
-         path = "";
-         sourceTree = "SOURCE_ROOT";
-      };
-      "OBJ_90" = {
-         isa = "PBXFileReference";
-         path = "CoreStitchAppClient.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_91" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_92",
-            "OBJ_93",
-            "OBJ_94",
-            "OBJ_95",
-            "OBJ_96",
-            "OBJ_102",
-            "OBJ_103",
-            "OBJ_104",
-         );
-         name = "Net";
-         path = "Net";
-         sourceTree = "<group>";
-      };
-      "OBJ_92" = {
-         isa = "PBXFileReference";
-         path = "ContentType.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_93" = {
-         isa = "PBXFileReference";
-         path = "FoundationHTTPTransport.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_94" = {
-         isa = "PBXFileReference";
-         path = "Headers.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_95" = {
-         isa = "PBXFileReference";
-         path = "Method.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_96" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_97",
-            "OBJ_98",
-            "OBJ_99",
-            "OBJ_100",
-            "OBJ_101",
-         );
-         name = "Requests";
-         path = "Requests";
-         sourceTree = "<group>";
-      };
-      "OBJ_97" = {
-         isa = "PBXFileReference";
-         path = "Request.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_98" = {
-         isa = "PBXFileReference";
-         path = "StitchAuthDocRequest.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_99" = {
-         isa = "PBXFileReference";
-         path = "StitchAuthRequest.swift";
-         sourceTree = "<group>";
-      };
-      "StitchCoreSDK::StitchCoreSDK" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_198";
-         buildPhases = (
-            "OBJ_201",
-            "OBJ_267",
-         );
-         dependencies = (
-            "OBJ_269",
-         );
-         name = "StitchCoreSDK";
-         productName = "StitchCoreSDK";
-         productReference = "StitchCoreSDK::StitchCoreSDK::Product";
-         productType = "com.apple.product-type.framework";
-      };
-      "StitchCoreSDK::StitchCoreSDK::Product" = {
-         isa = "PBXFileReference";
-         path = "StitchCoreSDK.framework";
-         sourceTree = "BUILT_PRODUCTS_DIR";
-      };
-      "StitchCoreSDK::StitchCoreSDKMocks" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_271";
-         buildPhases = (
-            "OBJ_274",
-            "OBJ_282",
-         );
-         dependencies = (
-            "OBJ_286",
-            "OBJ_287",
-            "OBJ_288",
-         );
-         name = "StitchCoreSDKMocks";
-         productName = "StitchCoreSDKMocks";
-         productReference = "StitchCoreSDK::StitchCoreSDKMocks::Product";
-         productType = "com.apple.product-type.framework";
-      };
-      "StitchCoreSDK::StitchCoreSDKMocks::Product" = {
-         isa = "PBXFileReference";
-         path = "StitchCoreSDKMocks.framework";
-         sourceTree = "BUILT_PRODUCTS_DIR";
-      };
-      "StitchCoreSDK::SwiftPMPackageDescription" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_290";
-         buildPhases = (
-            "OBJ_293",
-         );
-         dependencies = (
-         );
-         name = "StitchCoreSDKPackageDescription";
-         productName = "StitchCoreSDKPackageDescription";
-         productType = "com.apple.product-type.framework";
-      };
-      "StitchCoreTwilioService::StitchCoreTwilioService" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_296";
-         buildPhases = (
-            "OBJ_299",
-            "OBJ_301",
-         );
-         dependencies = (
-            "OBJ_304",
-            "OBJ_305",
-         );
-         name = "StitchCoreTwilioService";
-         productName = "StitchCoreTwilioService";
-         productReference = "StitchCoreTwilioService::StitchCoreTwilioService::Product";
-         productType = "com.apple.product-type.framework";
-      };
-      "StitchCoreTwilioService::StitchCoreTwilioService::Product" = {
-         isa = "PBXFileReference";
-         path = "StitchCoreTwilioService.framework";
-         sourceTree = "BUILT_PRODUCTS_DIR";
-      };
-      "StitchCoreTwilioService::StitchCoreTwilioServicePackageTests::ProductTarget" = {
-         isa = "PBXAggregateTarget";
-         buildConfigurationList = "OBJ_313";
-         buildPhases = (
-         );
-         dependencies = (
-            "OBJ_316",
-         );
-         name = "StitchCoreTwilioServicePackageTests";
-         productName = "StitchCoreTwilioServicePackageTests";
-      };
-      "StitchCoreTwilioService::StitchCoreTwilioServiceTests" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_318";
-         buildPhases = (
-            "OBJ_321",
-            "OBJ_323",
-         );
-         dependencies = (
-            "OBJ_329",
-            "OBJ_330",
-            "OBJ_331",
-            "OBJ_332",
-            "OBJ_333",
-         );
-         name = "StitchCoreTwilioServiceTests";
-         productName = "StitchCoreTwilioServiceTests";
-         productReference = "StitchCoreTwilioService::StitchCoreTwilioServiceTests::Product";
-         productType = "com.apple.product-type.bundle.unit-test";
-      };
-      "StitchCoreTwilioService::StitchCoreTwilioServiceTests::Product" = {
-         isa = "PBXFileReference";
-         path = "StitchCoreTwilioServiceTests.xctest";
-         sourceTree = "BUILT_PRODUCTS_DIR";
-      };
-      "StitchCoreTwilioService::SwiftPMPackageDescription" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_307";
-         buildPhases = (
-            "OBJ_310",
-         );
-         dependencies = (
-         );
-         name = "StitchCoreTwilioServicePackageDescription";
-         productName = "StitchCoreTwilioServicePackageDescription";
-         productType = "com.apple.product-type.framework";
-      };
-      "libmongoc::libmongoc::ProductTarget" = {
-         isa = "PBXAggregateTarget";
-         buildConfigurationList = "OBJ_335";
-         buildPhases = (
-         );
-         dependencies = (
-         );
-         name = "libmongoc";
-         productName = "libmongoc";
-      };
-   };
-   rootObject = "OBJ_1";
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		"StitchCoreTwilioService::StitchCoreTwilioServicePackageTests::ProductTarget" /* StitchCoreTwilioServicePackageTests */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = OBJ_313 /* Build configuration list for PBXAggregateTarget "StitchCoreTwilioServicePackageTests" */;
+			buildPhases = (
+			);
+			dependencies = (
+				OBJ_316 /* PBXTargetDependency */,
+			);
+			name = StitchCoreTwilioServicePackageTests;
+			productName = StitchCoreTwilioServicePackageTests;
+		};
+		"libmongoc::libmongoc::ProductTarget" /* libmongoc */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = OBJ_335 /* Build configuration list for PBXAggregateTarget "libmongoc" */;
+			buildPhases = (
+			);
+			dependencies = (
+			);
+			name = libmongoc;
+			productName = libmongoc;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		OBJ_158 /* Collection+count.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_141 /* Collection+count.swift */; };
+		OBJ_159 /* Matcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_142 /* Matcher.swift */; };
+		OBJ_160 /* MockUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_143 /* MockUtils.swift */; };
+		OBJ_161 /* SpyUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_144 /* SpyUtils.swift */; };
+		OBJ_168 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_145 /* Package.swift */; };
+		OBJ_174 /* APM.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_121 /* APM.swift */; };
+		OBJ_175 /* BsonDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_123 /* BsonDecoder.swift */; };
+		OBJ_176 /* BsonEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_124 /* BsonEncoder.swift */; };
+		OBJ_177 /* BsonValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_125 /* BsonValue.swift */; };
+		OBJ_178 /* CodableNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_126 /* CodableNumber.swift */; };
+		OBJ_179 /* Document+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_127 /* Document+Codable.swift */; };
+		OBJ_180 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_128 /* Document.swift */; };
+		OBJ_181 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_129 /* Client.swift */; };
+		OBJ_182 /* ClientSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_130 /* ClientSession.swift */; };
+		OBJ_183 /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_131 /* Collection.swift */; };
+		OBJ_184 /* Cursor.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_132 /* Cursor.swift */; };
+		OBJ_185 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_133 /* Database.swift */; };
+		OBJ_186 /* MongoError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_134 /* MongoError.swift */; };
+		OBJ_187 /* MongoSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_135 /* MongoSwift.swift */; };
+		OBJ_188 /* ReadWriteConcern.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_136 /* ReadWriteConcern.swift */; };
+		OBJ_189 /* SDAM.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_137 /* SDAM.swift */; };
+		OBJ_196 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_138 /* Package.swift */; };
+		OBJ_202 /* AccessTokenRefresher.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_34 /* AccessTokenRefresher.swift */; };
+		OBJ_203 /* AuthInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_35 /* AuthInfo.swift */; };
+		OBJ_204 /* AuthStateHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_36 /* AuthStateHolder.swift */; };
+		OBJ_205 /* CoreStitchAuth+StitchAuthRequestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_37 /* CoreStitchAuth+StitchAuthRequestClient.swift */; };
+		OBJ_206 /* CoreStitchAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_38 /* CoreStitchAuth.swift */; };
+		OBJ_207 /* CoreStitchUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_39 /* CoreStitchUser.swift */; };
+		OBJ_208 /* CoreStitchUserImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_40 /* CoreStitchUserImpl.swift */; };
+		OBJ_209 /* DeviceField.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_41 /* DeviceField.swift */; };
+		OBJ_210 /* JWT.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_42 /* JWT.swift */; };
+		OBJ_211 /* APIAccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_44 /* APIAccessToken.swift */; };
+		OBJ_212 /* APIAuthInfoImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_45 /* APIAuthInfoImpl.swift */; };
+		OBJ_213 /* APICoreUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_46 /* APICoreUserProfile.swift */; };
+		OBJ_214 /* APIStitchUserIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_47 /* APIStitchUserIdentity.swift */; };
+		OBJ_215 /* StoreAuthInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_48 /* StoreAuthInfo.swift */; };
+		OBJ_216 /* StoreCoreUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_49 /* StoreCoreUserProfile.swift */; };
+		OBJ_217 /* StoreStitchUserIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_50 /* StoreStitchUserIdentity.swift */; };
+		OBJ_218 /* StitchAuthRequestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_51 /* StitchAuthRequestClient.swift */; };
+		OBJ_219 /* StitchUserFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_52 /* StitchUserFactory.swift */; };
+		OBJ_220 /* ProviderCapabilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_53 /* ProviderCapabilities.swift */; };
+		OBJ_221 /* AnonymousAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_56 /* AnonymousAuthProvider.swift */; };
+		OBJ_222 /* AnonymousCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_57 /* AnonymousCredential.swift */; };
+		OBJ_223 /* CustomAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_59 /* CustomAuthProvider.swift */; };
+		OBJ_224 /* CustomCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_60 /* CustomCredential.swift */; };
+		OBJ_225 /* FacebookAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_62 /* FacebookAuthProvider.swift */; };
+		OBJ_226 /* FacebookCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_63 /* FacebookCredential.swift */; };
+		OBJ_227 /* GoogleAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_65 /* GoogleAuthProvider.swift */; };
+		OBJ_228 /* GoogleCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_66 /* GoogleCredential.swift */; };
+		OBJ_229 /* CoreAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_68 /* CoreAuthProviderClient.swift */; };
+		OBJ_230 /* ServerAPIKeyAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_70 /* ServerAPIKeyAuthProvider.swift */; };
+		OBJ_231 /* ServerAPIKeyCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_71 /* ServerAPIKeyCredential.swift */; };
+		OBJ_232 /* CoreUserAPIKeyAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_73 /* CoreUserAPIKeyAuthProviderClient.swift */; };
+		OBJ_233 /* UserAPIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_75 /* UserAPIKey.swift */; };
+		OBJ_234 /* UserAPIKeyAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_76 /* UserAPIKeyAuthProvider.swift */; };
+		OBJ_235 /* UserAPIKeyCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_77 /* UserAPIKeyCredential.swift */; };
+		OBJ_236 /* CoreUserPasswordAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_79 /* CoreUserPasswordAuthProviderClient.swift */; };
+		OBJ_237 /* UserPasswordAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_80 /* UserPasswordAuthProvider.swift */; };
+		OBJ_238 /* UserPasswordCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_81 /* UserPasswordCredential.swift */; };
+		OBJ_239 /* StitchCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_82 /* StitchCredential.swift */; };
+		OBJ_240 /* StitchProviderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_83 /* StitchProviderType.swift */; };
+		OBJ_241 /* StitchUserIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_84 /* StitchUserIdentity.swift */; };
+		OBJ_242 /* StitchUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_85 /* StitchUserProfile.swift */; };
+		OBJ_243 /* ImplFailureFatalErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_88 /* ImplFailureFatalErrors.swift */; };
+		OBJ_244 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_89 /* Storage.swift */; };
+		OBJ_245 /* CoreStitchAppClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_90 /* CoreStitchAppClient.swift */; };
+		OBJ_246 /* ContentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_92 /* ContentType.swift */; };
+		OBJ_247 /* FoundationHTTPTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_93 /* FoundationHTTPTransport.swift */; };
+		OBJ_248 /* Headers.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_94 /* Headers.swift */; };
+		OBJ_249 /* Method.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_95 /* Method.swift */; };
+		OBJ_250 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_97 /* Request.swift */; };
+		OBJ_251 /* StitchAuthDocRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_98 /* StitchAuthDocRequest.swift */; };
+		OBJ_252 /* StitchAuthRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_99 /* StitchAuthRequest.swift */; };
+		OBJ_253 /* StitchDocRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_100 /* StitchDocRequest.swift */; };
+		OBJ_254 /* StitchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_101 /* StitchRequest.swift */; };
+		OBJ_255 /* StitchAppRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_102 /* StitchAppRoutes.swift */; };
+		OBJ_256 /* StitchRequestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_103 /* StitchRequestClient.swift */; };
+		OBJ_257 /* Transport.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_104 /* Transport.swift */; };
+		OBJ_258 /* CoreStitchPushClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_107 /* CoreStitchPushClient.swift */; };
+		OBJ_259 /* CoreStitchPushClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_108 /* CoreStitchPushClientImpl.swift */; };
+		OBJ_260 /* StitchPushRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_109 /* StitchPushRoutes.swift */; };
+		OBJ_261 /* CoreStitchServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_112 /* CoreStitchServiceClient.swift */; };
+		OBJ_262 /* CoreStitchServiceClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_113 /* CoreStitchServiceClientImpl.swift */; };
+		OBJ_263 /* StitchAppClientConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_114 /* StitchAppClientConfiguration.swift */; };
+		OBJ_264 /* StitchAppClientInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_115 /* StitchAppClientInfo.swift */; };
+		OBJ_265 /* StitchClientConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_116 /* StitchClientConfiguration.swift */; };
+		OBJ_266 /* StitchError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_117 /* StitchError.swift */; };
+		OBJ_268 /* MongoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "MongoSwift::MongoSwift::Product" /* MongoSwift.framework */; };
+		OBJ_275 /* MockCoreStitchAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_20 /* MockCoreStitchAuth.swift */; };
+		OBJ_276 /* MockStitchAuthRequestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_21 /* MockStitchAuthRequestClient.swift */; };
+		OBJ_277 /* MockStitchRequestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_23 /* MockStitchRequestClient.swift */; };
+		OBJ_278 /* MockTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_24 /* MockTransport.swift */; };
+		OBJ_279 /* MockCoreStitchPushClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_27 /* MockCoreStitchPushClient.swift */; };
+		OBJ_280 /* MockCoreStitchServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_29 /* MockCoreStitchServiceClient.swift */; };
+		OBJ_281 /* SpyCoreStitchServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_30 /* SpyCoreStitchServiceClient.swift */; };
+		OBJ_283 /* MockUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "MockUtils::MockUtils::Product" /* MockUtils.framework */; };
+		OBJ_284 /* StitchCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "StitchCoreSDK::StitchCoreSDK::Product" /* StitchCoreSDK.framework */; };
+		OBJ_285 /* MongoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "MongoSwift::MongoSwift::Product" /* MongoSwift.framework */; };
+		OBJ_294 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_118 /* Package.swift */; };
+		OBJ_300 /* CoreTwilioServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* CoreTwilioServiceClient.swift */; };
+		OBJ_302 /* StitchCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "StitchCoreSDK::StitchCoreSDK::Product" /* StitchCoreSDK.framework */; };
+		OBJ_303 /* MongoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "MongoSwift::MongoSwift::Product" /* MongoSwift.framework */; };
+		OBJ_311 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
+		OBJ_322 /* CoreTwilioServiceClientUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* CoreTwilioServiceClientUnitTests.swift */; };
+		OBJ_324 /* StitchCoreSDKMocks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "StitchCoreSDK::StitchCoreSDKMocks::Product" /* StitchCoreSDKMocks.framework */; };
+		OBJ_325 /* MockUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "MockUtils::MockUtils::Product" /* MockUtils.framework */; };
+		OBJ_326 /* StitchCoreTwilioService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "StitchCoreTwilioService::StitchCoreTwilioService::Product" /* StitchCoreTwilioService.framework */; };
+		OBJ_327 /* StitchCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "StitchCoreSDK::StitchCoreSDK::Product" /* StitchCoreSDK.framework */; };
+		OBJ_328 /* MongoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "MongoSwift::MongoSwift::Product" /* MongoSwift.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F4E9E34020D47B1D00235DCB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "MockUtils::MockUtils";
+			remoteInfo = MockUtils;
+		};
+		F4E9E34120D47B1D00235DCB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "StitchCoreSDK::StitchCoreSDK";
+			remoteInfo = StitchCoreSDK;
+		};
+		F4E9E34220D47B1D00235DCB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "MongoSwift::MongoSwift";
+			remoteInfo = MongoSwift;
+		};
+		F4E9E34320D47B1D00235DCB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "MongoSwift::MongoSwift";
+			remoteInfo = MongoSwift;
+		};
+		F4E9E34420D47B1D00235DCB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "StitchCoreSDK::StitchCoreSDK";
+			remoteInfo = StitchCoreSDK;
+		};
+		F4E9E34520D47B1D00235DCB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "MongoSwift::MongoSwift";
+			remoteInfo = MongoSwift;
+		};
+		F4E9E34620D47B1D00235DCB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "StitchCoreSDK::StitchCoreSDKMocks";
+			remoteInfo = StitchCoreSDKMocks;
+		};
+		F4E9E34720D47B1D00235DCB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "MockUtils::MockUtils";
+			remoteInfo = MockUtils;
+		};
+		F4E9E34820D47B1D00235DCB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "StitchCoreTwilioService::StitchCoreTwilioService";
+			remoteInfo = StitchCoreTwilioService;
+		};
+		F4E9E34920D47B1D00235DCB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "StitchCoreSDK::StitchCoreSDK";
+			remoteInfo = StitchCoreSDK;
+		};
+		F4E9E34A20D47B1D00235DCB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "MongoSwift::MongoSwift";
+			remoteInfo = MongoSwift;
+		};
+		F4E9E35B20D47B1D00235DCB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "StitchCoreTwilioService::StitchCoreTwilioServiceTests";
+			remoteInfo = StitchCoreTwilioServiceTests;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		"MockUtils::MockUtils::Product" /* MockUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MockUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"MongoSwift::MongoSwift::Product" /* MongoSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MongoSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		OBJ_100 /* StitchDocRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchDocRequest.swift; sourceTree = "<group>"; };
+		OBJ_101 /* StitchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchRequest.swift; sourceTree = "<group>"; };
+		OBJ_102 /* StitchAppRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAppRoutes.swift; sourceTree = "<group>"; };
+		OBJ_103 /* StitchRequestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchRequestClient.swift; sourceTree = "<group>"; };
+		OBJ_104 /* Transport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transport.swift; sourceTree = "<group>"; };
+		OBJ_107 /* CoreStitchPushClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchPushClient.swift; sourceTree = "<group>"; };
+		OBJ_108 /* CoreStitchPushClientImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchPushClientImpl.swift; sourceTree = "<group>"; };
+		OBJ_109 /* StitchPushRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchPushRoutes.swift; sourceTree = "<group>"; };
+		OBJ_11 /* CoreTwilioServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreTwilioServiceClient.swift; sourceTree = "<group>"; };
+		OBJ_112 /* CoreStitchServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchServiceClient.swift; sourceTree = "<group>"; };
+		OBJ_113 /* CoreStitchServiceClientImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchServiceClientImpl.swift; sourceTree = "<group>"; };
+		OBJ_114 /* StitchAppClientConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAppClientConfiguration.swift; sourceTree = "<group>"; };
+		OBJ_115 /* StitchAppClientInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAppClientInfo.swift; sourceTree = "<group>"; };
+		OBJ_116 /* StitchClientConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchClientConfiguration.swift; sourceTree = "<group>"; };
+		OBJ_117 /* StitchError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchError.swift; sourceTree = "<group>"; };
+		OBJ_118 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreTwilioService/.build/checkouts/StitchCoreSDK--6611188111968536726/Package.swift"; sourceTree = "<group>"; };
+		OBJ_121 /* APM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APM.swift; sourceTree = "<group>"; };
+		OBJ_123 /* BsonDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BsonDecoder.swift; sourceTree = "<group>"; };
+		OBJ_124 /* BsonEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BsonEncoder.swift; sourceTree = "<group>"; };
+		OBJ_125 /* BsonValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BsonValue.swift; sourceTree = "<group>"; };
+		OBJ_126 /* CodableNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableNumber.swift; sourceTree = "<group>"; };
+		OBJ_127 /* Document+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Document+Codable.swift"; sourceTree = "<group>"; };
+		OBJ_128 /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
+		OBJ_129 /* Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
+		OBJ_130 /* ClientSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientSession.swift; sourceTree = "<group>"; };
+		OBJ_131 /* Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
+		OBJ_132 /* Cursor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cursor.swift; sourceTree = "<group>"; };
+		OBJ_133 /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
+		OBJ_134 /* MongoError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MongoError.swift; sourceTree = "<group>"; };
+		OBJ_135 /* MongoSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MongoSwift.swift; sourceTree = "<group>"; };
+		OBJ_136 /* ReadWriteConcern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadWriteConcern.swift; sourceTree = "<group>"; };
+		OBJ_137 /* SDAM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDAM.swift; sourceTree = "<group>"; };
+		OBJ_138 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreTwilioService/.build/checkouts/mongo-swift-driver.git--3116645871691136268/Package.swift"; sourceTree = "<group>"; };
+		OBJ_14 /* CoreTwilioServiceClientUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreTwilioServiceClientUnitTests.swift; sourceTree = "<group>"; };
+		OBJ_141 /* Collection+count.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+count.swift"; sourceTree = "<group>"; };
+		OBJ_142 /* Matcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matcher.swift; sourceTree = "<group>"; };
+		OBJ_143 /* MockUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUtils.swift; sourceTree = "<group>"; };
+		OBJ_144 /* SpyUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyUtils.swift; sourceTree = "<group>"; };
+		OBJ_145 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreTwilioService/.build/checkouts/MockUtils--3493337496829072534/Package.swift"; sourceTree = "<group>"; };
+		OBJ_20 /* MockCoreStitchAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCoreStitchAuth.swift; sourceTree = "<group>"; };
+		OBJ_21 /* MockStitchAuthRequestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockStitchAuthRequestClient.swift; sourceTree = "<group>"; };
+		OBJ_23 /* MockStitchRequestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockStitchRequestClient.swift; sourceTree = "<group>"; };
+		OBJ_24 /* MockTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTransport.swift; sourceTree = "<group>"; };
+		OBJ_27 /* MockCoreStitchPushClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCoreStitchPushClient.swift; sourceTree = "<group>"; };
+		OBJ_29 /* MockCoreStitchServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCoreStitchServiceClient.swift; sourceTree = "<group>"; };
+		OBJ_30 /* SpyCoreStitchServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyCoreStitchServiceClient.swift; sourceTree = "<group>"; };
+		OBJ_34 /* AccessTokenRefresher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenRefresher.swift; sourceTree = "<group>"; };
+		OBJ_35 /* AuthInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInfo.swift; sourceTree = "<group>"; };
+		OBJ_36 /* AuthStateHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthStateHolder.swift; sourceTree = "<group>"; };
+		OBJ_37 /* CoreStitchAuth+StitchAuthRequestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreStitchAuth+StitchAuthRequestClient.swift"; sourceTree = "<group>"; };
+		OBJ_38 /* CoreStitchAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchAuth.swift; sourceTree = "<group>"; };
+		OBJ_39 /* CoreStitchUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchUser.swift; sourceTree = "<group>"; };
+		OBJ_40 /* CoreStitchUserImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchUserImpl.swift; sourceTree = "<group>"; };
+		OBJ_41 /* DeviceField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceField.swift; sourceTree = "<group>"; };
+		OBJ_42 /* JWT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWT.swift; sourceTree = "<group>"; };
+		OBJ_44 /* APIAccessToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIAccessToken.swift; sourceTree = "<group>"; };
+		OBJ_45 /* APIAuthInfoImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIAuthInfoImpl.swift; sourceTree = "<group>"; };
+		OBJ_46 /* APICoreUserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICoreUserProfile.swift; sourceTree = "<group>"; };
+		OBJ_47 /* APIStitchUserIdentity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIStitchUserIdentity.swift; sourceTree = "<group>"; };
+		OBJ_48 /* StoreAuthInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreAuthInfo.swift; sourceTree = "<group>"; };
+		OBJ_49 /* StoreCoreUserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreCoreUserProfile.swift; sourceTree = "<group>"; };
+		OBJ_50 /* StoreStitchUserIdentity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreStitchUserIdentity.swift; sourceTree = "<group>"; };
+		OBJ_51 /* StitchAuthRequestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAuthRequestClient.swift; sourceTree = "<group>"; };
+		OBJ_52 /* StitchUserFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchUserFactory.swift; sourceTree = "<group>"; };
+		OBJ_53 /* ProviderCapabilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderCapabilities.swift; sourceTree = "<group>"; };
+		OBJ_56 /* AnonymousAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonymousAuthProvider.swift; sourceTree = "<group>"; };
+		OBJ_57 /* AnonymousCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonymousCredential.swift; sourceTree = "<group>"; };
+		OBJ_59 /* CustomAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAuthProvider.swift; sourceTree = "<group>"; };
+		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		OBJ_60 /* CustomCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCredential.swift; sourceTree = "<group>"; };
+		OBJ_62 /* FacebookAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookAuthProvider.swift; sourceTree = "<group>"; };
+		OBJ_63 /* FacebookCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookCredential.swift; sourceTree = "<group>"; };
+		OBJ_65 /* GoogleAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAuthProvider.swift; sourceTree = "<group>"; };
+		OBJ_66 /* GoogleCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleCredential.swift; sourceTree = "<group>"; };
+		OBJ_68 /* CoreAuthProviderClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAuthProviderClient.swift; sourceTree = "<group>"; };
+		OBJ_70 /* ServerAPIKeyAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerAPIKeyAuthProvider.swift; sourceTree = "<group>"; };
+		OBJ_71 /* ServerAPIKeyCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerAPIKeyCredential.swift; sourceTree = "<group>"; };
+		OBJ_73 /* CoreUserAPIKeyAuthProviderClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreUserAPIKeyAuthProviderClient.swift; sourceTree = "<group>"; };
+		OBJ_75 /* UserAPIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPIKey.swift; sourceTree = "<group>"; };
+		OBJ_76 /* UserAPIKeyAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPIKeyAuthProvider.swift; sourceTree = "<group>"; };
+		OBJ_77 /* UserAPIKeyCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPIKeyCredential.swift; sourceTree = "<group>"; };
+		OBJ_79 /* CoreUserPasswordAuthProviderClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreUserPasswordAuthProviderClient.swift; sourceTree = "<group>"; };
+		OBJ_8 /* StitchCoreTwilioService.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = StitchCoreTwilioService.xcconfig; sourceTree = "<group>"; };
+		OBJ_80 /* UserPasswordAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPasswordAuthProvider.swift; sourceTree = "<group>"; };
+		OBJ_81 /* UserPasswordCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPasswordCredential.swift; sourceTree = "<group>"; };
+		OBJ_82 /* StitchCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchCredential.swift; sourceTree = "<group>"; };
+		OBJ_83 /* StitchProviderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchProviderType.swift; sourceTree = "<group>"; };
+		OBJ_84 /* StitchUserIdentity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchUserIdentity.swift; sourceTree = "<group>"; };
+		OBJ_85 /* StitchUserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchUserProfile.swift; sourceTree = "<group>"; };
+		OBJ_88 /* ImplFailureFatalErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImplFailureFatalErrors.swift; sourceTree = "<group>"; };
+		OBJ_89 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		OBJ_90 /* CoreStitchAppClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchAppClient.swift; sourceTree = "<group>"; };
+		OBJ_92 /* ContentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentType.swift; sourceTree = "<group>"; };
+		OBJ_93 /* FoundationHTTPTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationHTTPTransport.swift; sourceTree = "<group>"; };
+		OBJ_94 /* Headers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Headers.swift; sourceTree = "<group>"; };
+		OBJ_95 /* Method.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Method.swift; sourceTree = "<group>"; };
+		OBJ_97 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		OBJ_98 /* StitchAuthDocRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAuthDocRequest.swift; sourceTree = "<group>"; };
+		OBJ_99 /* StitchAuthRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAuthRequest.swift; sourceTree = "<group>"; };
+		"StitchCoreSDK::StitchCoreSDK::Product" /* StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StitchCoreSDK::StitchCoreSDKMocks::Product" /* StitchCoreSDKMocks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDKMocks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StitchCoreTwilioService::StitchCoreTwilioService::Product" /* StitchCoreTwilioService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTwilioService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StitchCoreTwilioService::StitchCoreTwilioServiceTests::Product" /* StitchCoreTwilioServiceTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = StitchCoreTwilioServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		OBJ_162 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_190 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_267 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_268 /* MongoSwift.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_282 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_283 /* MockUtils.framework in Frameworks */,
+				OBJ_284 /* StitchCoreSDK.framework in Frameworks */,
+				OBJ_285 /* MongoSwift.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_301 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_302 /* StitchCoreSDK.framework in Frameworks */,
+				OBJ_303 /* MongoSwift.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_323 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_324 /* StitchCoreSDKMocks.framework in Frameworks */,
+				OBJ_325 /* MockUtils.framework in Frameworks */,
+				OBJ_326 /* StitchCoreTwilioService.framework in Frameworks */,
+				OBJ_327 /* StitchCoreSDK.framework in Frameworks */,
+				OBJ_328 /* MongoSwift.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		OBJ_10 /* StitchCoreTwilioService */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_11 /* CoreTwilioServiceClient.swift */,
+			);
+			name = StitchCoreTwilioService;
+			path = Sources/StitchCoreTwilioService;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_105 /* Push */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_106 /* Internal */,
+			);
+			path = Push;
+			sourceTree = "<group>";
+		};
+		OBJ_106 /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_107 /* CoreStitchPushClient.swift */,
+				OBJ_108 /* CoreStitchPushClientImpl.swift */,
+				OBJ_109 /* StitchPushRoutes.swift */,
+			);
+			path = Internal;
+			sourceTree = "<group>";
+		};
+		OBJ_110 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_111 /* Internal */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		OBJ_111 /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_112 /* CoreStitchServiceClient.swift */,
+				OBJ_113 /* CoreStitchServiceClientImpl.swift */,
+			);
+			path = Internal;
+			sourceTree = "<group>";
+		};
+		OBJ_119 /* MongoSwift */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_120 /* MongoSwift */,
+				OBJ_138 /* Package.swift */,
+			);
+			name = MongoSwift;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_12 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_13 /* StitchCoreTwilioServiceTests */,
+			);
+			name = Tests;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_120 /* MongoSwift */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_121 /* APM.swift */,
+				OBJ_122 /* BSON */,
+				OBJ_129 /* Client.swift */,
+				OBJ_130 /* ClientSession.swift */,
+				OBJ_131 /* Collection.swift */,
+				OBJ_132 /* Cursor.swift */,
+				OBJ_133 /* Database.swift */,
+				OBJ_134 /* MongoError.swift */,
+				OBJ_135 /* MongoSwift.swift */,
+				OBJ_136 /* ReadWriteConcern.swift */,
+				OBJ_137 /* SDAM.swift */,
+			);
+			name = MongoSwift;
+			path = ".build/checkouts/mongo-swift-driver.git--3116645871691136268/Sources/MongoSwift";
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_122 /* BSON */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_123 /* BsonDecoder.swift */,
+				OBJ_124 /* BsonEncoder.swift */,
+				OBJ_125 /* BsonValue.swift */,
+				OBJ_126 /* CodableNumber.swift */,
+				OBJ_127 /* Document+Codable.swift */,
+				OBJ_128 /* Document.swift */,
+			);
+			path = BSON;
+			sourceTree = "<group>";
+		};
+		OBJ_13 /* StitchCoreTwilioServiceTests */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_14 /* CoreTwilioServiceClientUnitTests.swift */,
+			);
+			name = StitchCoreTwilioServiceTests;
+			path = Tests/StitchCoreTwilioServiceTests;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_139 /* MockUtils */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_140 /* MockUtils */,
+				OBJ_145 /* Package.swift */,
+			);
+			name = MockUtils;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_140 /* MockUtils */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_141 /* Collection+count.swift */,
+				OBJ_142 /* Matcher.swift */,
+				OBJ_143 /* MockUtils.swift */,
+				OBJ_144 /* SpyUtils.swift */,
+			);
+			name = MockUtils;
+			path = ".build/checkouts/MockUtils--3493337496829072534/Sources/MockUtils";
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_146 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				"StitchCoreSDK::StitchCoreSDKMocks::Product" /* StitchCoreSDKMocks.framework */,
+				"StitchCoreTwilioService::StitchCoreTwilioServiceTests::Product" /* StitchCoreTwilioServiceTests.xctest */,
+				"MockUtils::MockUtils::Product" /* MockUtils.framework */,
+				"StitchCoreTwilioService::StitchCoreTwilioService::Product" /* StitchCoreTwilioService.framework */,
+				"StitchCoreSDK::StitchCoreSDK::Product" /* StitchCoreSDK.framework */,
+				"MongoSwift::MongoSwift::Product" /* MongoSwift.framework */,
+			);
+			name = Products;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		OBJ_15 /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_16 /* StitchCoreSDK */,
+				OBJ_119 /* MongoSwift */,
+				OBJ_139 /* MockUtils */,
+			);
+			name = Dependencies;
+			sourceTree = "<group>";
+		};
+		OBJ_16 /* StitchCoreSDK */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_17 /* StitchCoreSDKMocks */,
+				OBJ_31 /* StitchCoreSDK */,
+				OBJ_118 /* Package.swift */,
+			);
+			name = StitchCoreSDK;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_17 /* StitchCoreSDKMocks */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_18 /* Auth */,
+				OBJ_22 /* Internal */,
+				OBJ_25 /* Push */,
+				OBJ_28 /* Services */,
+			);
+			name = StitchCoreSDKMocks;
+			path = ".build/checkouts/StitchCoreSDK--6611188111968536726/Sources/StitchCoreSDKMocks";
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_18 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_19 /* Internal */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		OBJ_19 /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_20 /* MockCoreStitchAuth.swift */,
+				OBJ_21 /* MockStitchAuthRequestClient.swift */,
+			);
+			path = Internal;
+			sourceTree = "<group>";
+		};
+		OBJ_22 /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_23 /* MockStitchRequestClient.swift */,
+				OBJ_24 /* MockTransport.swift */,
+			);
+			path = Internal;
+			sourceTree = "<group>";
+		};
+		OBJ_25 /* Push */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_26 /* Internal */,
+			);
+			path = Push;
+			sourceTree = "<group>";
+		};
+		OBJ_26 /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_27 /* MockCoreStitchPushClient.swift */,
+			);
+			path = Internal;
+			sourceTree = "<group>";
+		};
+		OBJ_28 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_29 /* MockCoreStitchServiceClient.swift */,
+				OBJ_30 /* SpyCoreStitchServiceClient.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		OBJ_31 /* StitchCoreSDK */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_32 /* Auth */,
+				OBJ_86 /* Internal */,
+				OBJ_105 /* Push */,
+				OBJ_110 /* Services */,
+				OBJ_114 /* StitchAppClientConfiguration.swift */,
+				OBJ_115 /* StitchAppClientInfo.swift */,
+				OBJ_116 /* StitchClientConfiguration.swift */,
+				OBJ_117 /* StitchError.swift */,
+			);
+			name = StitchCoreSDK;
+			path = ".build/checkouts/StitchCoreSDK--6611188111968536726/Sources/StitchCoreSDK";
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_32 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_33 /* Internal */,
+				OBJ_53 /* ProviderCapabilities.swift */,
+				OBJ_54 /* Providers */,
+				OBJ_82 /* StitchCredential.swift */,
+				OBJ_83 /* StitchProviderType.swift */,
+				OBJ_84 /* StitchUserIdentity.swift */,
+				OBJ_85 /* StitchUserProfile.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		OBJ_33 /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_34 /* AccessTokenRefresher.swift */,
+				OBJ_35 /* AuthInfo.swift */,
+				OBJ_36 /* AuthStateHolder.swift */,
+				OBJ_37 /* CoreStitchAuth+StitchAuthRequestClient.swift */,
+				OBJ_38 /* CoreStitchAuth.swift */,
+				OBJ_39 /* CoreStitchUser.swift */,
+				OBJ_40 /* CoreStitchUserImpl.swift */,
+				OBJ_41 /* DeviceField.swift */,
+				OBJ_42 /* JWT.swift */,
+				OBJ_43 /* Models */,
+				OBJ_51 /* StitchAuthRequestClient.swift */,
+				OBJ_52 /* StitchUserFactory.swift */,
+			);
+			path = Internal;
+			sourceTree = "<group>";
+		};
+		OBJ_43 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_44 /* APIAccessToken.swift */,
+				OBJ_45 /* APIAuthInfoImpl.swift */,
+				OBJ_46 /* APICoreUserProfile.swift */,
+				OBJ_47 /* APIStitchUserIdentity.swift */,
+				OBJ_48 /* StoreAuthInfo.swift */,
+				OBJ_49 /* StoreCoreUserProfile.swift */,
+				OBJ_50 /* StoreStitchUserIdentity.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		OBJ_5 /*  */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_6 /* Package.swift */,
+				OBJ_7 /* Configs */,
+				OBJ_9 /* Sources */,
+				OBJ_12 /* Tests */,
+				OBJ_15 /* Dependencies */,
+				OBJ_146 /* Products */,
+			);
+			name = "";
+			sourceTree = "<group>";
+		};
+		OBJ_54 /* Providers */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_55 /* Anonymous */,
+				OBJ_58 /* Custom */,
+				OBJ_61 /* Facebook */,
+				OBJ_64 /* Google */,
+				OBJ_67 /* Internal */,
+				OBJ_69 /* ServerAPIKey */,
+				OBJ_72 /* UserAPIKey */,
+				OBJ_78 /* UserPassword */,
+			);
+			path = Providers;
+			sourceTree = "<group>";
+		};
+		OBJ_55 /* Anonymous */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_56 /* AnonymousAuthProvider.swift */,
+				OBJ_57 /* AnonymousCredential.swift */,
+			);
+			path = Anonymous;
+			sourceTree = "<group>";
+		};
+		OBJ_58 /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_59 /* CustomAuthProvider.swift */,
+				OBJ_60 /* CustomCredential.swift */,
+			);
+			path = Custom;
+			sourceTree = "<group>";
+		};
+		OBJ_61 /* Facebook */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_62 /* FacebookAuthProvider.swift */,
+				OBJ_63 /* FacebookCredential.swift */,
+			);
+			path = Facebook;
+			sourceTree = "<group>";
+		};
+		OBJ_64 /* Google */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_65 /* GoogleAuthProvider.swift */,
+				OBJ_66 /* GoogleCredential.swift */,
+			);
+			path = Google;
+			sourceTree = "<group>";
+		};
+		OBJ_67 /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_68 /* CoreAuthProviderClient.swift */,
+			);
+			path = Internal;
+			sourceTree = "<group>";
+		};
+		OBJ_69 /* ServerAPIKey */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_70 /* ServerAPIKeyAuthProvider.swift */,
+				OBJ_71 /* ServerAPIKeyCredential.swift */,
+			);
+			path = ServerAPIKey;
+			sourceTree = "<group>";
+		};
+		OBJ_7 /* Configs */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_8 /* StitchCoreTwilioService.xcconfig */,
+			);
+			name = Configs;
+			sourceTree = "<group>";
+		};
+		OBJ_72 /* UserAPIKey */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_73 /* CoreUserAPIKeyAuthProviderClient.swift */,
+				OBJ_74 /* Models */,
+				OBJ_76 /* UserAPIKeyAuthProvider.swift */,
+				OBJ_77 /* UserAPIKeyCredential.swift */,
+			);
+			path = UserAPIKey;
+			sourceTree = "<group>";
+		};
+		OBJ_74 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_75 /* UserAPIKey.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		OBJ_78 /* UserPassword */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_79 /* CoreUserPasswordAuthProviderClient.swift */,
+				OBJ_80 /* UserPasswordAuthProvider.swift */,
+				OBJ_81 /* UserPasswordCredential.swift */,
+			);
+			path = UserPassword;
+			sourceTree = "<group>";
+		};
+		OBJ_86 /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_87 /* Common */,
+				OBJ_90 /* CoreStitchAppClient.swift */,
+				OBJ_91 /* Net */,
+			);
+			path = Internal;
+			sourceTree = "<group>";
+		};
+		OBJ_87 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_88 /* ImplFailureFatalErrors.swift */,
+				OBJ_89 /* Storage.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		OBJ_9 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_10 /* StitchCoreTwilioService */,
+			);
+			name = Sources;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_91 /* Net */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_92 /* ContentType.swift */,
+				OBJ_93 /* FoundationHTTPTransport.swift */,
+				OBJ_94 /* Headers.swift */,
+				OBJ_95 /* Method.swift */,
+				OBJ_96 /* Requests */,
+				OBJ_102 /* StitchAppRoutes.swift */,
+				OBJ_103 /* StitchRequestClient.swift */,
+				OBJ_104 /* Transport.swift */,
+			);
+			path = Net;
+			sourceTree = "<group>";
+		};
+		OBJ_96 /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_97 /* Request.swift */,
+				OBJ_98 /* StitchAuthDocRequest.swift */,
+				OBJ_99 /* StitchAuthRequest.swift */,
+				OBJ_100 /* StitchDocRequest.swift */,
+				OBJ_101 /* StitchRequest.swift */,
+			);
+			path = Requests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		"MockUtils::MockUtils" /* MockUtils */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_154 /* Build configuration list for PBXNativeTarget "MockUtils" */;
+			buildPhases = (
+				OBJ_157 /* Sources */,
+				OBJ_162 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MockUtils;
+			productName = MockUtils;
+			productReference = "MockUtils::MockUtils::Product" /* MockUtils.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		"MockUtils::SwiftPMPackageDescription" /* MockUtilsPackageDescription */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_164 /* Build configuration list for PBXNativeTarget "MockUtilsPackageDescription" */;
+			buildPhases = (
+				OBJ_167 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MockUtilsPackageDescription;
+			productName = MockUtilsPackageDescription;
+			productType = "com.apple.product-type.framework";
+		};
+		"MongoSwift::MongoSwift" /* MongoSwift */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_170 /* Build configuration list for PBXNativeTarget "MongoSwift" */;
+			buildPhases = (
+				OBJ_173 /* Sources */,
+				OBJ_190 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MongoSwift;
+			productName = MongoSwift;
+			productReference = "MongoSwift::MongoSwift::Product" /* MongoSwift.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		"MongoSwift::SwiftPMPackageDescription" /* MongoSwiftPackageDescription */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_192 /* Build configuration list for PBXNativeTarget "MongoSwiftPackageDescription" */;
+			buildPhases = (
+				OBJ_195 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MongoSwiftPackageDescription;
+			productName = MongoSwiftPackageDescription;
+			productType = "com.apple.product-type.framework";
+		};
+		"StitchCoreSDK::StitchCoreSDK" /* StitchCoreSDK */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_198 /* Build configuration list for PBXNativeTarget "StitchCoreSDK" */;
+			buildPhases = (
+				OBJ_201 /* Sources */,
+				OBJ_267 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				OBJ_269 /* PBXTargetDependency */,
+			);
+			name = StitchCoreSDK;
+			productName = StitchCoreSDK;
+			productReference = "StitchCoreSDK::StitchCoreSDK::Product" /* StitchCoreSDK.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		"StitchCoreSDK::StitchCoreSDKMocks" /* StitchCoreSDKMocks */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_271 /* Build configuration list for PBXNativeTarget "StitchCoreSDKMocks" */;
+			buildPhases = (
+				OBJ_274 /* Sources */,
+				OBJ_282 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				OBJ_286 /* PBXTargetDependency */,
+				OBJ_287 /* PBXTargetDependency */,
+				OBJ_288 /* PBXTargetDependency */,
+			);
+			name = StitchCoreSDKMocks;
+			productName = StitchCoreSDKMocks;
+			productReference = "StitchCoreSDK::StitchCoreSDKMocks::Product" /* StitchCoreSDKMocks.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		"StitchCoreSDK::SwiftPMPackageDescription" /* StitchCoreSDKPackageDescription */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_290 /* Build configuration list for PBXNativeTarget "StitchCoreSDKPackageDescription" */;
+			buildPhases = (
+				OBJ_293 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StitchCoreSDKPackageDescription;
+			productName = StitchCoreSDKPackageDescription;
+			productType = "com.apple.product-type.framework";
+		};
+		"StitchCoreTwilioService::StitchCoreTwilioService" /* StitchCoreTwilioService */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_296 /* Build configuration list for PBXNativeTarget "StitchCoreTwilioService" */;
+			buildPhases = (
+				OBJ_299 /* Sources */,
+				OBJ_301 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				OBJ_304 /* PBXTargetDependency */,
+				OBJ_305 /* PBXTargetDependency */,
+			);
+			name = StitchCoreTwilioService;
+			productName = StitchCoreTwilioService;
+			productReference = "StitchCoreTwilioService::StitchCoreTwilioService::Product" /* StitchCoreTwilioService.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		"StitchCoreTwilioService::StitchCoreTwilioServiceTests" /* StitchCoreTwilioServiceTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_318 /* Build configuration list for PBXNativeTarget "StitchCoreTwilioServiceTests" */;
+			buildPhases = (
+				OBJ_321 /* Sources */,
+				OBJ_323 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				OBJ_329 /* PBXTargetDependency */,
+				OBJ_330 /* PBXTargetDependency */,
+				OBJ_331 /* PBXTargetDependency */,
+				OBJ_332 /* PBXTargetDependency */,
+				OBJ_333 /* PBXTargetDependency */,
+			);
+			name = StitchCoreTwilioServiceTests;
+			productName = StitchCoreTwilioServiceTests;
+			productReference = "StitchCoreTwilioService::StitchCoreTwilioServiceTests::Product" /* StitchCoreTwilioServiceTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		"StitchCoreTwilioService::SwiftPMPackageDescription" /* StitchCoreTwilioServicePackageDescription */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_307 /* Build configuration list for PBXNativeTarget "StitchCoreTwilioServicePackageDescription" */;
+			buildPhases = (
+				OBJ_310 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StitchCoreTwilioServicePackageDescription;
+			productName = StitchCoreTwilioServicePackageDescription;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		OBJ_1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 9999;
+			};
+			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "StitchCoreTwilioService" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = OBJ_5 /*  */;
+			productRefGroup = OBJ_146 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				"MockUtils::MockUtils" /* MockUtils */,
+				"MockUtils::SwiftPMPackageDescription" /* MockUtilsPackageDescription */,
+				"MongoSwift::MongoSwift" /* MongoSwift */,
+				"MongoSwift::SwiftPMPackageDescription" /* MongoSwiftPackageDescription */,
+				"StitchCoreSDK::StitchCoreSDK" /* StitchCoreSDK */,
+				"StitchCoreSDK::StitchCoreSDKMocks" /* StitchCoreSDKMocks */,
+				"StitchCoreSDK::SwiftPMPackageDescription" /* StitchCoreSDKPackageDescription */,
+				"StitchCoreTwilioService::StitchCoreTwilioService" /* StitchCoreTwilioService */,
+				"StitchCoreTwilioService::SwiftPMPackageDescription" /* StitchCoreTwilioServicePackageDescription */,
+				"StitchCoreTwilioService::StitchCoreTwilioServicePackageTests::ProductTarget" /* StitchCoreTwilioServicePackageTests */,
+				"StitchCoreTwilioService::StitchCoreTwilioServiceTests" /* StitchCoreTwilioServiceTests */,
+				"libmongoc::libmongoc::ProductTarget" /* libmongoc */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		OBJ_157 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_158 /* Collection+count.swift in Sources */,
+				OBJ_159 /* Matcher.swift in Sources */,
+				OBJ_160 /* MockUtils.swift in Sources */,
+				OBJ_161 /* SpyUtils.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_167 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_168 /* Package.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_173 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_174 /* APM.swift in Sources */,
+				OBJ_175 /* BsonDecoder.swift in Sources */,
+				OBJ_176 /* BsonEncoder.swift in Sources */,
+				OBJ_177 /* BsonValue.swift in Sources */,
+				OBJ_178 /* CodableNumber.swift in Sources */,
+				OBJ_179 /* Document+Codable.swift in Sources */,
+				OBJ_180 /* Document.swift in Sources */,
+				OBJ_181 /* Client.swift in Sources */,
+				OBJ_182 /* ClientSession.swift in Sources */,
+				OBJ_183 /* Collection.swift in Sources */,
+				OBJ_184 /* Cursor.swift in Sources */,
+				OBJ_185 /* Database.swift in Sources */,
+				OBJ_186 /* MongoError.swift in Sources */,
+				OBJ_187 /* MongoSwift.swift in Sources */,
+				OBJ_188 /* ReadWriteConcern.swift in Sources */,
+				OBJ_189 /* SDAM.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_195 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_196 /* Package.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_201 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_202 /* AccessTokenRefresher.swift in Sources */,
+				OBJ_203 /* AuthInfo.swift in Sources */,
+				OBJ_204 /* AuthStateHolder.swift in Sources */,
+				OBJ_205 /* CoreStitchAuth+StitchAuthRequestClient.swift in Sources */,
+				OBJ_206 /* CoreStitchAuth.swift in Sources */,
+				OBJ_207 /* CoreStitchUser.swift in Sources */,
+				OBJ_208 /* CoreStitchUserImpl.swift in Sources */,
+				OBJ_209 /* DeviceField.swift in Sources */,
+				OBJ_210 /* JWT.swift in Sources */,
+				OBJ_211 /* APIAccessToken.swift in Sources */,
+				OBJ_212 /* APIAuthInfoImpl.swift in Sources */,
+				OBJ_213 /* APICoreUserProfile.swift in Sources */,
+				OBJ_214 /* APIStitchUserIdentity.swift in Sources */,
+				OBJ_215 /* StoreAuthInfo.swift in Sources */,
+				OBJ_216 /* StoreCoreUserProfile.swift in Sources */,
+				OBJ_217 /* StoreStitchUserIdentity.swift in Sources */,
+				OBJ_218 /* StitchAuthRequestClient.swift in Sources */,
+				OBJ_219 /* StitchUserFactory.swift in Sources */,
+				OBJ_220 /* ProviderCapabilities.swift in Sources */,
+				OBJ_221 /* AnonymousAuthProvider.swift in Sources */,
+				OBJ_222 /* AnonymousCredential.swift in Sources */,
+				OBJ_223 /* CustomAuthProvider.swift in Sources */,
+				OBJ_224 /* CustomCredential.swift in Sources */,
+				OBJ_225 /* FacebookAuthProvider.swift in Sources */,
+				OBJ_226 /* FacebookCredential.swift in Sources */,
+				OBJ_227 /* GoogleAuthProvider.swift in Sources */,
+				OBJ_228 /* GoogleCredential.swift in Sources */,
+				OBJ_229 /* CoreAuthProviderClient.swift in Sources */,
+				OBJ_230 /* ServerAPIKeyAuthProvider.swift in Sources */,
+				OBJ_231 /* ServerAPIKeyCredential.swift in Sources */,
+				OBJ_232 /* CoreUserAPIKeyAuthProviderClient.swift in Sources */,
+				OBJ_233 /* UserAPIKey.swift in Sources */,
+				OBJ_234 /* UserAPIKeyAuthProvider.swift in Sources */,
+				OBJ_235 /* UserAPIKeyCredential.swift in Sources */,
+				OBJ_236 /* CoreUserPasswordAuthProviderClient.swift in Sources */,
+				OBJ_237 /* UserPasswordAuthProvider.swift in Sources */,
+				OBJ_238 /* UserPasswordCredential.swift in Sources */,
+				OBJ_239 /* StitchCredential.swift in Sources */,
+				OBJ_240 /* StitchProviderType.swift in Sources */,
+				OBJ_241 /* StitchUserIdentity.swift in Sources */,
+				OBJ_242 /* StitchUserProfile.swift in Sources */,
+				OBJ_243 /* ImplFailureFatalErrors.swift in Sources */,
+				OBJ_244 /* Storage.swift in Sources */,
+				OBJ_245 /* CoreStitchAppClient.swift in Sources */,
+				OBJ_246 /* ContentType.swift in Sources */,
+				OBJ_247 /* FoundationHTTPTransport.swift in Sources */,
+				OBJ_248 /* Headers.swift in Sources */,
+				OBJ_249 /* Method.swift in Sources */,
+				OBJ_250 /* Request.swift in Sources */,
+				OBJ_251 /* StitchAuthDocRequest.swift in Sources */,
+				OBJ_252 /* StitchAuthRequest.swift in Sources */,
+				OBJ_253 /* StitchDocRequest.swift in Sources */,
+				OBJ_254 /* StitchRequest.swift in Sources */,
+				OBJ_255 /* StitchAppRoutes.swift in Sources */,
+				OBJ_256 /* StitchRequestClient.swift in Sources */,
+				OBJ_257 /* Transport.swift in Sources */,
+				OBJ_258 /* CoreStitchPushClient.swift in Sources */,
+				OBJ_259 /* CoreStitchPushClientImpl.swift in Sources */,
+				OBJ_260 /* StitchPushRoutes.swift in Sources */,
+				OBJ_261 /* CoreStitchServiceClient.swift in Sources */,
+				OBJ_262 /* CoreStitchServiceClientImpl.swift in Sources */,
+				OBJ_263 /* StitchAppClientConfiguration.swift in Sources */,
+				OBJ_264 /* StitchAppClientInfo.swift in Sources */,
+				OBJ_265 /* StitchClientConfiguration.swift in Sources */,
+				OBJ_266 /* StitchError.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_274 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_275 /* MockCoreStitchAuth.swift in Sources */,
+				OBJ_276 /* MockStitchAuthRequestClient.swift in Sources */,
+				OBJ_277 /* MockStitchRequestClient.swift in Sources */,
+				OBJ_278 /* MockTransport.swift in Sources */,
+				OBJ_279 /* MockCoreStitchPushClient.swift in Sources */,
+				OBJ_280 /* MockCoreStitchServiceClient.swift in Sources */,
+				OBJ_281 /* SpyCoreStitchServiceClient.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_293 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_294 /* Package.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_299 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_300 /* CoreTwilioServiceClient.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_310 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_311 /* Package.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_321 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_322 /* CoreTwilioServiceClientUnitTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		OBJ_269 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "MongoSwift::MongoSwift" /* MongoSwift */;
+			targetProxy = F4E9E34220D47B1D00235DCB /* PBXContainerItemProxy */;
+		};
+		OBJ_286 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "MockUtils::MockUtils" /* MockUtils */;
+			targetProxy = F4E9E34020D47B1D00235DCB /* PBXContainerItemProxy */;
+		};
+		OBJ_287 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "StitchCoreSDK::StitchCoreSDK" /* StitchCoreSDK */;
+			targetProxy = F4E9E34120D47B1D00235DCB /* PBXContainerItemProxy */;
+		};
+		OBJ_288 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "MongoSwift::MongoSwift" /* MongoSwift */;
+			targetProxy = F4E9E34320D47B1D00235DCB /* PBXContainerItemProxy */;
+		};
+		OBJ_304 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "StitchCoreSDK::StitchCoreSDK" /* StitchCoreSDK */;
+			targetProxy = F4E9E34420D47B1D00235DCB /* PBXContainerItemProxy */;
+		};
+		OBJ_305 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "MongoSwift::MongoSwift" /* MongoSwift */;
+			targetProxy = F4E9E34520D47B1D00235DCB /* PBXContainerItemProxy */;
+		};
+		OBJ_316 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "StitchCoreTwilioService::StitchCoreTwilioServiceTests" /* StitchCoreTwilioServiceTests */;
+			targetProxy = F4E9E35B20D47B1D00235DCB /* PBXContainerItemProxy */;
+		};
+		OBJ_329 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "StitchCoreSDK::StitchCoreSDKMocks" /* StitchCoreSDKMocks */;
+			targetProxy = F4E9E34620D47B1D00235DCB /* PBXContainerItemProxy */;
+		};
+		OBJ_330 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "MockUtils::MockUtils" /* MockUtils */;
+			targetProxy = F4E9E34720D47B1D00235DCB /* PBXContainerItemProxy */;
+		};
+		OBJ_331 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "StitchCoreTwilioService::StitchCoreTwilioService" /* StitchCoreTwilioService */;
+			targetProxy = F4E9E34820D47B1D00235DCB /* PBXContainerItemProxy */;
+		};
+		OBJ_332 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "StitchCoreSDK::StitchCoreSDK" /* StitchCoreSDK */;
+			targetProxy = F4E9E34920D47B1D00235DCB /* PBXContainerItemProxy */;
+		};
+		OBJ_333 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "MongoSwift::MongoSwift" /* MongoSwift */;
+			targetProxy = F4E9E34A20D47B1D00235DCB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		OBJ_155 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* StitchCoreTwilioService.xcconfig */;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = StitchCoreTwilioService.xcodeproj/MockUtils_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = MockUtils;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = MockUtils;
+			};
+			name = Debug;
+		};
+		OBJ_156 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* StitchCoreTwilioService.xcconfig */;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = StitchCoreTwilioService.xcodeproj/MockUtils_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = MockUtils;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = MockUtils;
+			};
+			name = Release;
+		};
+		OBJ_165 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 4 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		OBJ_166 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 4 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+		OBJ_171 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* StitchCoreTwilioService.xcconfig */;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/.build/checkouts/swift-mongoc-4572998624666171810",
+					"$(SRCROOT)/.build/checkouts/swift-bson-2873930670968179217",
+				);
+				INFOPLIST_FILE = StitchCoreTwilioService.xcodeproj/MongoSwift_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
+					"-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+					"-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+					"-lmongoc-1.0",
+					"-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+					"-lbson-1.0",
+					"-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+					"-lbson-1.0",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0 -I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0 -I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0";
+				PRODUCT_BUNDLE_IDENTIFIER = MongoSwift;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = MongoSwift;
+			};
+			name = Debug;
+		};
+		OBJ_172 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* StitchCoreTwilioService.xcconfig */;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/.build/checkouts/swift-mongoc-4572998624666171810",
+					"$(SRCROOT)/.build/checkouts/swift-bson-2873930670968179217",
+				);
+				INFOPLIST_FILE = StitchCoreTwilioService.xcodeproj/MongoSwift_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
+					"-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+					"-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+					"-lmongoc-1.0",
+					"-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+					"-lbson-1.0",
+					"-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+					"-lbson-1.0",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0 -I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0 -I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0";
+				PRODUCT_BUNDLE_IDENTIFIER = MongoSwift;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = MongoSwift;
+			};
+			name = Release;
+		};
+		OBJ_193 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 4 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		OBJ_194 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 4 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+		OBJ_199 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* StitchCoreTwilioService.xcconfig */;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/.build/checkouts/swift-mongoc-4572998624666171810",
+					"$(SRCROOT)/.build/checkouts/swift-bson-2873930670968179217",
+				);
+				INFOPLIST_FILE = StitchCoreTwilioService.xcodeproj/StitchCoreSDK_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
+					"-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+					"-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+					"-lmongoc-1.0",
+					"-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+					"-lbson-1.0",
+					"-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+					"-lbson-1.0",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0 -I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0 -I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0";
+				PRODUCT_BUNDLE_IDENTIFIER = StitchCoreSDK;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = StitchCoreSDK;
+			};
+			name = Debug;
+		};
+		OBJ_200 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* StitchCoreTwilioService.xcconfig */;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/.build/checkouts/swift-mongoc-4572998624666171810",
+					"$(SRCROOT)/.build/checkouts/swift-bson-2873930670968179217",
+				);
+				INFOPLIST_FILE = StitchCoreTwilioService.xcodeproj/StitchCoreSDK_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
+					"-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+					"-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+					"-lmongoc-1.0",
+					"-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+					"-lbson-1.0",
+					"-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+					"-lbson-1.0",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0 -I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0 -I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0";
+				PRODUCT_BUNDLE_IDENTIFIER = StitchCoreSDK;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = StitchCoreSDK;
+			};
+			name = Release;
+		};
+		OBJ_272 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* StitchCoreTwilioService.xcconfig */;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/.build/checkouts/swift-mongoc-4572998624666171810",
+					"$(SRCROOT)/.build/checkouts/swift-bson-2873930670968179217",
+				);
+				INFOPLIST_FILE = StitchCoreTwilioService.xcodeproj/StitchCoreSDKMocks_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
+					"-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+					"-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+					"-lmongoc-1.0",
+					"-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+					"-lbson-1.0",
+					"-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+					"-lbson-1.0",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0 -I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0 -I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0";
+				PRODUCT_BUNDLE_IDENTIFIER = StitchCoreSDKMocks;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = StitchCoreSDKMocks;
+			};
+			name = Debug;
+		};
+		OBJ_273 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* StitchCoreTwilioService.xcconfig */;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/.build/checkouts/swift-mongoc-4572998624666171810",
+					"$(SRCROOT)/.build/checkouts/swift-bson-2873930670968179217",
+				);
+				INFOPLIST_FILE = StitchCoreTwilioService.xcodeproj/StitchCoreSDKMocks_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
+					"-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+					"-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+					"-lmongoc-1.0",
+					"-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+					"-lbson-1.0",
+					"-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+					"-lbson-1.0",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0 -I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0 -I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0";
+				PRODUCT_BUNDLE_IDENTIFIER = StitchCoreSDKMocks;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = StitchCoreSDKMocks;
+			};
+			name = Release;
+		};
+		OBJ_291 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 4 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		OBJ_292 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 4 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+		OBJ_297 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* StitchCoreTwilioService.xcconfig */;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/.build/checkouts/swift-mongoc-4572998624666171810",
+					"$(SRCROOT)/.build/checkouts/swift-bson-2873930670968179217",
+				);
+				INFOPLIST_FILE = StitchCoreTwilioService.xcodeproj/StitchCoreTwilioService_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
+					"-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+					"-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+					"-lmongoc-1.0",
+					"-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+					"-lbson-1.0",
+					"-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+					"-lbson-1.0",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0 -I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0 -I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0";
+				PRODUCT_BUNDLE_IDENTIFIER = StitchCoreTwilioService;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = StitchCoreTwilioService;
+			};
+			name = Debug;
+		};
+		OBJ_298 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* StitchCoreTwilioService.xcconfig */;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/.build/checkouts/swift-mongoc-4572998624666171810",
+					"$(SRCROOT)/.build/checkouts/swift-bson-2873930670968179217",
+				);
+				INFOPLIST_FILE = StitchCoreTwilioService.xcodeproj/StitchCoreTwilioService_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
+					"-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+					"-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+					"-lmongoc-1.0",
+					"-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+					"-lbson-1.0",
+					"-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+					"-lbson-1.0",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0 -I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0 -I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0";
+				PRODUCT_BUNDLE_IDENTIFIER = StitchCoreTwilioService;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = StitchCoreTwilioService;
+			};
+			name = Release;
+		};
+		OBJ_3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "-DXcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = SWIFT_PACKAGE;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				USE_HEADERMAP = NO;
+			};
+			name = Debug;
+		};
+		OBJ_308 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 4 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		OBJ_309 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 4 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+		OBJ_314 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		OBJ_315 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		OBJ_319 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* StitchCoreTwilioService.xcconfig */;
+			buildSettings = {
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/.build/checkouts/swift-mongoc-4572998624666171810",
+					"$(SRCROOT)/.build/checkouts/swift-bson-2873930670968179217",
+				);
+				INFOPLIST_FILE = StitchCoreTwilioService.xcodeproj/StitchCoreTwilioServiceTests_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
+					"-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+					"-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+					"-lmongoc-1.0",
+					"-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+					"-lbson-1.0",
+					"-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+					"-lbson-1.0",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0 -I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0 -I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0";
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = StitchCoreTwilioServiceTests;
+			};
+			name = Debug;
+		};
+		OBJ_320 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* StitchCoreTwilioService.xcconfig */;
+			buildSettings = {
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/.build/checkouts/swift-mongoc-4572998624666171810",
+					"$(SRCROOT)/.build/checkouts/swift-bson-2873930670968179217",
+				);
+				INFOPLIST_FILE = StitchCoreTwilioService.xcodeproj/StitchCoreTwilioServiceTests_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0",
+					"-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+					"-I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+					"-lmongoc-1.0",
+					"-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+					"-lbson-1.0",
+					"-L/usr/local/Cellar/mongo-c-driver/1.10.2/lib",
+					"-lbson-1.0",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libmongoc-1.0 -I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0 -I/usr/local/Cellar/mongo-c-driver/1.10.2/include/libbson-1.0";
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = StitchCoreTwilioServiceTests;
+			};
+			name = Release;
+		};
+		OBJ_336 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		OBJ_337 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		OBJ_4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_OPTIMIZATION_LEVEL = s;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_SWIFT_FLAGS = "-DXcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = SWIFT_PACKAGE;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				USE_HEADERMAP = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		OBJ_154 /* Build configuration list for PBXNativeTarget "MockUtils" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_155 /* Debug */,
+				OBJ_156 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_164 /* Build configuration list for PBXNativeTarget "MockUtilsPackageDescription" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_165 /* Debug */,
+				OBJ_166 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_170 /* Build configuration list for PBXNativeTarget "MongoSwift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_171 /* Debug */,
+				OBJ_172 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_192 /* Build configuration list for PBXNativeTarget "MongoSwiftPackageDescription" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_193 /* Debug */,
+				OBJ_194 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_198 /* Build configuration list for PBXNativeTarget "StitchCoreSDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_199 /* Debug */,
+				OBJ_200 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_2 /* Build configuration list for PBXProject "StitchCoreTwilioService" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_3 /* Debug */,
+				OBJ_4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_271 /* Build configuration list for PBXNativeTarget "StitchCoreSDKMocks" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_272 /* Debug */,
+				OBJ_273 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_290 /* Build configuration list for PBXNativeTarget "StitchCoreSDKPackageDescription" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_291 /* Debug */,
+				OBJ_292 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_296 /* Build configuration list for PBXNativeTarget "StitchCoreTwilioService" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_297 /* Debug */,
+				OBJ_298 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_307 /* Build configuration list for PBXNativeTarget "StitchCoreTwilioServicePackageDescription" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_308 /* Debug */,
+				OBJ_309 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_313 /* Build configuration list for PBXAggregateTarget "StitchCoreTwilioServicePackageTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_314 /* Debug */,
+				OBJ_315 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_318 /* Build configuration list for PBXNativeTarget "StitchCoreTwilioServiceTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_319 /* Debug */,
+				OBJ_320 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_335 /* Build configuration list for PBXAggregateTarget "libmongoc" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_336 /* Debug */,
+				OBJ_337 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = OBJ_1 /* Project object */;
 }

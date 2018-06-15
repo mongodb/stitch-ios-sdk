@@ -1,4 +1,4 @@
-explicit module libmongoc [system] {
+module libmongoc [system] {
     header "libmongoc.h"
     link "mongoc-1.0"
     export *

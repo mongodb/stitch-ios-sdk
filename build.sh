@@ -170,13 +170,12 @@ fi
 # fi
 
 # vendor in MongoMobile
-if [ ! -d MobileSDKs/include/mongo/embedded-v1/mongo_embedded ]; then
+if [ ! -d Core/Services/StitchCoreLocalMongoDBService/Sources/MongoMobile ]; then
     echo "vendoring in mongo mobile..."
     curl -L https://api.github.com/repos/mongodb/swift-mongo-mobile/tarball > mongo-mobile.tgz
     mkdir mongo-mobile
     tar -xzf mongo-mobile.tgz -C mongo-mobile --strip-components 1
-    cp -r mongo-mobile/Sources/MongoMobile Core/Services/StitchCoreLocalMongoDBService/Sources/StitchCoreLocalMongoDBService
-    cp -r mongo-mobile/Sources/mongo_embedded MobileSDKs/include/mongo/embedded-v1
+    cp -r mongo-mobile/Sources/ Core/Services/StitchCoreLocalMongoDBService/Sources/StitchCoreLocalMongoDBService
 
     rm -rf mongo-mobile mongo-mobile.tgz
 fi
