@@ -1,7 +1,7 @@
 import Foundation
-import MongoMobile
+import MongoSwift
 
-struct TodoItem {
+struct TodoItem: Codable {
     enum CodingKeys: String, CodingKey {
         case id = "_id"
         case taskDescription
@@ -33,25 +33,19 @@ struct TodoItem {
 
     @discardableResult
     mutating func set(completed: Bool,
-                      toCollection collection: MongoCollection) throws -> ObjectId {
+                      toCollection collection: MongoCollection<TodoItem>) throws -> ObjectId {
         self.isCompleted = completed
         self.doneDate = completed ? Date() : nil
         return try save(toCollection: collection)
     }
 
     @discardableResult
-    mutating func save(toCollection collection: MongoCollection) throws -> ObjectId {
-        let doc = Document([
-            CodingKeys.taskDescription.rawValue: taskDescription,
-            CodingKeys.isCompleted.rawValue: isCompleted,
-            CodingKeys.doneDate.rawValue: doneDate
-        ])
-
+    mutating func save(toCollection collection: MongoCollection<TodoItem>) throws -> ObjectId {
         if let id = self.id {
             let _ = try collection.replaceOne(filter: [ "_id": id ] as Document,
-                                              replacement: doc)
+                                              replacement: self)
         } else {
-            let result = try collection.insertOne(doc)
+            let result = try collection.insertOne(self)
             self.id = result?.insertedId as? ObjectId
         }
 

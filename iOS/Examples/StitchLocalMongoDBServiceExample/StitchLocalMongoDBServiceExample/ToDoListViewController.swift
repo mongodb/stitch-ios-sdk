@@ -1,7 +1,6 @@
-import MongoMobile
-import StitchCore_iOS
-import LocalMongoDBService
-import Toast_Swift
+import MongoSwift
+import StitchCore
+import StitchLocalMongoDBService
 import UIKit
 
 /// Name of ToDoList db
@@ -13,7 +12,7 @@ private let cellReuseIdentifier = "ToDoItemTableViewCell"
 
 /// View Controller for the ToDo List
 class ToDoListViewController: UITableViewController {
-    private var toDoListCollection: MongoCollection!
+    private var toDoListCollection: MongoCollection<TodoItem>?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,23 +21,22 @@ class ToDoListViewController: UITableViewController {
             // try to initialize the default stitch client
             let client =
                 try Stitch.initializeDefaultAppClient(
-                    withConfigBuilder: StitchAppClientConfigurationBuilder.init {
-                        $0.clientAppId = "test-app"
-                    })
+                    withConfigBuilder: StitchAppClientConfigurationBuilder()
+                        .with(clientAppID: "test-app"))
             // try to get the default mongo client
-            let mongoClient = try client.serviceClient(forService: MongoDBService)
+            let mongoClient = try client.serviceClient(forFactory: localMongoDBServiceClientFactory)
 
             // fetch the toDo list collection
             self.toDoListCollection =
-                try mongoClient.db(toDoListDatabaseName).collection(toDoListCollectionName)
+                try mongoClient.db(toDoListDatabaseName).collection(toDoListCollectionName,
+                                                                    withType: TodoItem.self)
 
             // this view controller itself will provide the delegate
             // methods and row data for the table view.
             tableView.delegate = self
             tableView.dataSource = self
         } catch let err {
-            makeToast(self.view,
-                      message: "Error initializing MongoMobile: \(err)")
+            fatalError("Error initializing MongoMobile: \(err)")
         }
     }
 
@@ -54,14 +52,13 @@ class ToDoListViewController: UITableViewController {
 
         // set the toDo item from the data model
         do {
-            try cell.setToDoItem(withIndex: indexPath.row,
-                                 fromCollection: self.toDoListCollection)
+            if let toDoListCollection = self.toDoListCollection {
+                try cell.setToDoItem(withIndex: indexPath.row,
+                                     fromCollection: toDoListCollection)
+            }
         } catch let err {
-            self.view.makeToast(
-                "Error setting new ToDo item: \(err)",
-                duration: 3.0,
-                position: .bottom,
-                style: ToastStyle()
+            print(
+                "Error setting new ToDo item: \(err)"
             )
         }
 
@@ -70,7 +67,8 @@ class ToDoListViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView,
                             numberOfRowsInSection section: Int) -> Int {
-        guard let count = try? self.toDoListCollection.count() else {
+        guard let toDoListCollection = self.toDoListCollection,
+            let count = try? toDoListCollection.count() else {
             return 0
         }
 
@@ -88,14 +86,11 @@ class ToDoListViewController: UITableViewController {
 
             do {
                 var todoItem = TodoItem.init(task: taskTextField.text!)
-                try todoItem.save(toCollection: self.toDoListCollection)
+                try todoItem.save(toCollection: self.toDoListCollection!)
                 self.tableView.reloadData()
             } catch let err {
-                self.view.superview?.makeToast(
-                    "Error adding new ToDo item: \(err)",
-                    duration: 3.0,
-                    position: .bottom,
-                    style: ToastStyle()
+                print(
+                    "Error adding new ToDo item: \(err)"
                 )
             }
         }
@@ -123,7 +118,7 @@ class ToDoListViewController: UITableViewController {
     }
 
     @IBAction func deleteCompleted(_ sender: Any) {
-        let _ = try! self.toDoListCollection.deleteMany(
+        let _ = try! self.toDoListCollection!.deleteMany(
             [TodoItem.CodingKeys.isCompleted.rawValue: true]
         )
         self.tableView.reloadData()

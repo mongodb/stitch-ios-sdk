@@ -1,5 +1,4 @@
-import MongoMobile
-import Toast_Swift
+import MongoSwift
 import UIKit
 
 class ToDoItemCell: UITableViewCell {
@@ -7,12 +6,11 @@ class ToDoItemCell: UITableViewCell {
     @IBOutlet private weak var completedSwitch: UISwitch!
 
     private var toDoItem: TodoItem!
-    private weak var collection: MongoCollection!
+    private weak var collection: MongoCollection<TodoItem>!
 
     func setToDoItem(withIndex index: Int,
-                     fromCollection collection: MongoCollection) throws {
-        let document = try collection.find().map { $0 }[index]
-        self.toDoItem = try TodoItem.init(from: document)
+                     fromCollection collection: MongoCollection<TodoItem>) throws {
+        self.toDoItem = try collection.find().map { $0 }[index]
         self.collection = collection
 
         self.updateLabel()
@@ -25,11 +23,8 @@ class ToDoItemCell: UITableViewCell {
                                    toCollection: self.collection)
             updateLabel()
         } catch let err {
-            self.contentView.makeToast(
-                "Error completing ToDo item: \(err)",
-                duration: 3.0,
-                position: .bottom,
-                style: ToastStyle()
+            print(
+                "Error completing ToDo item: \(err)"
             )
         }
     }

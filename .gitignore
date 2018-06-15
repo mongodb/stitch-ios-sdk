@@ -100,6 +100,14 @@ Core/Services/StitchCoreTwilioService/Package.resolved
 Core/Services/StitchCoreTwilioService/.build/
 Core/Services/StitchCoreTwilioService/StitchCoreTwilioService.xcodeproj/
 
+Core/Services/StitchCoreLocalMongoDBService/Packages/
+Core/Services/StitchCoreLocalMongoDBService/Package.pins
+Core/Services/StitchCoreLocalMongoDBService/Package.resolved
+Core/Services/StitchCoreLocalMongoDBService/.build/
+Core/Services/StitchCoreLocalMongoDBService/StitchCoreLocalMongoDBService.xcodeproj/
+# Special case for vendored MongoMobile
+Core/Services/StitchCoreLocalMongoDBService/Sources/StitchCoreLocalMongoDBService/MongoMobile
+
 .build/
 
 # CocoaPods

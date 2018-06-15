@@ -1,8 +1,7 @@
 import Foundation
-import MongoMobile
+import StitchCoreLocalMongoDBService
 import os
 import StitchCore
-import StitchCore_iOS
 
 /// Commands associated with reporting battery level
 /// to MongoMobile
@@ -14,7 +13,7 @@ private enum BatteryLevelCommand: String {
 
 /// Current state of the UIDevice battery
 private enum BatteryState {
-    case low, normal
+    case unknown, low, normal
 }
 
 /// Commands associated with reporting memory level
@@ -27,32 +26,28 @@ private enum TrimMemoryCommand: String {
 /// Name of admin database to communicate commands to
 private let adminDatabaseName = "admin"
 
-/// Cached mongoClients associated to app ids
-private var localInstances = [String: MongoClient]()
-
 /// Local MongoDB Service Provider
-private final class MongoDBServiceClientProvider: ThrowingServiceClientProvider {
-    public typealias ClientType = MongoClient
-
+private final class MobileMongoDBClientFactory: CoreLocalMongoDBService, ThrowingServiceClientFactory {
+    typealias ClientType = MongoClient
+    
     /// Current battery level of this device between 0-100
     private var batteryLevel: Float {
         return UIDevice.current.batteryLevel
     }
-
-    private var lastBatteryState: BatteryState
-
-    public init() {
-        // initialize mongo mobile
-        MongoMobile.initialize()
-
-        // enable battery monitoring
+    
+    private var lastBatteryState: BatteryState = .unknown
+    private var backgroundTask: UIBackgroundTaskIdentifier?
+    
+    fileprivate override init() {
+        super.init()
+        
         UIDevice.current.isBatteryMonitoringEnabled = true
         if UIDevice.current.batteryLevel < 30 {
             self.lastBatteryState = .low
         } else {
             self.lastBatteryState = .normal
         }
-
+        
         // observe when the battery level changes
         NotificationCenter.default.addObserver(
             self,
@@ -67,62 +62,68 @@ private final class MongoDBServiceClientProvider: ThrowingServiceClientProvider 
             name: .UIApplicationDidReceiveMemoryWarning,
             object: nil
         )
-    }
-
-    deinit {
-        // clean up mobile mongo
-        MongoMobile.close()
-    }
-
-    public func client(forService service: StitchService,
-                       withClientInfo clientInfo: StitchAppClientInfo) throws -> MongoClient {
-        objc_sync_enter(self)
-        defer { objc_sync_exit(self) }
-
-        // if client is cached, return it
-        if let client = localInstances[clientInfo.clientAppId] {
-            return client
-        }
-
-        // else, create a new client
-        let settings = MongoClientSettings(
-            dbPath: "\(clientInfo.dataDirectory.path)/local_mongodb/0/"
+        // observe when application will terminate
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(applicationWillTerminate(_:)),
+            name: .UIApplicationWillTerminate,
+            object: nil
         )
-        let client = try MongoMobile.create(settings)
-
-        localInstances[clientInfo.clientAppId] = client
-        return client
     }
-
+    
+    func client(withServiceClient serviceClient: StitchServiceClient,
+                withClientInfo clientInfo: StitchAppClientInfo) throws -> MongoClient {
+        return try CoreLocalMongoDBService.client(withAppInfo: clientInfo)
+    }
+    
+    /// Private log func due to API level
+    private func log(_ msg: StaticString, type: OSLogType = __OS_LOG_TYPE_DEFAULT, _ args: CVarArg...) {
+        if #available(iOS 10.0, *) {
+            os_log(msg, type: type, args)
+        } else {
+            // Fallback on earlier versions
+            print(String.init(format: msg.description, args))
+        }
+    }
+    
+    @objc private func applicationWillTerminate(_ notification: Notification) {
+        // close all mongo instances/clients/colls
+        self.close()
+    }
+    
     /// Observer for UIDeviceBatteryLevelDidChange notification
     @objc private func batteryLevelDidChange(_ notification: Notification) {
         objc_sync_enter(self)
         defer { objc_sync_exit(self) }
-
+        
         if self.lastBatteryState == .normal && self.batteryLevel < 30 {
             // Battery level is low. Start reducing activity to conserve energy.
-            os_log("Notifying embedded MongoDB of low host battery level")
+            if #available(iOS 10.0, *) {
+                os_log("Notifying embedded MongoDB of low host battery level")
+            } else {
+                // Fallback on earlier versions
+            }
             self.lastBatteryState = .low
-            localInstances.forEach { (key, client) in
+            CoreLocalMongoDBService.localInstances.forEach { (client) in
                 do {
                     let _ = try client.db(adminDatabaseName)
                         .runCommand([
                             BatteryLevelCommand.mongoCommand.rawValue:
                                 BatteryLevelCommand.batteryLevelLow.rawValue
-                        ])
+                            ])
                 } catch let err {
-                    os_log(
+                    log(
                         "Could not notify embedded MongoDB of low host battery level: %@",
-                        type: .error,
+                        type: __OS_LOG_TYPE_ERROR,
                         err.localizedDescription
                     )
                 }
             }
         } else if self.lastBatteryState == .low && self.batteryLevel >= 40 {
             // Battery level is normal.
-            os_log("Notifying embedded MongoDB of normal host battery level")
+            log("Notifying embedded MongoDB of normal host battery level")
             self.lastBatteryState = .normal
-            localInstances.forEach { (key, client) in
+            CoreLocalMongoDBService.localInstances.forEach { (client) in
                 do {
                     let _ = try client.db(adminDatabaseName)
                         .runCommand([
@@ -130,23 +131,23 @@ private final class MongoDBServiceClientProvider: ThrowingServiceClientProvider 
                                 BatteryLevelCommand.batteryLevelNormal.rawValue
                             ])
                 } catch let err {
-                    os_log(
+                    log(
                         "Could not notify embedded MongoDB of normal host battery level: %@",
-                        type: .error,
+                        type: __OS_LOG_TYPE_ERROR,
                         err.localizedDescription
                     )
                 }
             }
         }
     }
-
+    
     /// Observer for UIApplicationDidReceiveMemoryWarning notification
     @objc private func didReceiveMemoryWarning(_ notification: Notification) {
         objc_sync_enter(self)
         defer { objc_sync_exit(self) }
-
-        os_log("Notifying embedded MongoDB of low memory condition on host")
-        localInstances.forEach { (key, client) in
+        
+        log("Notifying embedded MongoDB of low memory condition on host")
+        CoreLocalMongoDBService.localInstances.forEach { (client) in
             do {
                 let _ = try client.db(adminDatabaseName)
                     .runCommand([
@@ -154,9 +155,9 @@ private final class MongoDBServiceClientProvider: ThrowingServiceClientProvider 
                             TrimMemoryCommand.aggressiveLevel.rawValue
                         ])
             } catch let err {
-                os_log(
+                log(
                     "Could not notify embedded MongoDB of normal host battery level: %@",
-                    type: .error,
+                    type: __OS_LOG_TYPE_ERROR,
                     err.localizedDescription
                 )
             }
@@ -165,6 +166,6 @@ private final class MongoDBServiceClientProvider: ThrowingServiceClientProvider 
 }
 
 /// MongoDBService singleton
-public let MongoDBService = AnyThrowingServiceClientProvider<MongoClient>.init(
-    provider: MongoDBServiceClientProvider()
+public let localMongoDBServiceClientFactory = AnyThrowingServiceClientFactory<MongoClient>.init(
+    factory: MobileMongoDBClientFactory()
 )
