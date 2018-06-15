@@ -163,7 +163,6 @@ fi
 
 make
 
-
 # vendor in MongoMobile
 if [ ! -d MobileSDKs/include/mongo/embedded-v1/mongo_embedded ]; then
     echo "vendoring in mongo mobile..."
