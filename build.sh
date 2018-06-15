@@ -173,7 +173,7 @@ if [ ! -d MobileSDKs/include/mongo/embedded-v1/mongo_embedded ]; then
     rm -rf mongo-mobile mongo-mobile.tgz
 fi
 
-if [ !-d frameworks ]; then
+if [ ! -d frameworks ]; then
     echo "building frameworks"
     mkdir frameworks
 

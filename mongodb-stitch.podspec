@@ -2,7 +2,7 @@ Pod::Spec.new do |spec|
   spec.name       = "mongodb-stitch"
   spec.version    = "4.0.0-beta0"
   spec.summary    = "Stitch"
-  spec.homepage   = "https://github.com/mongodb/stitch-ios-sdk"
+  spec.homepage   = "https://github.com/jsflax/stitch-ios-sdk"
   spec.license    = "Apache2"
   spec.authors    = {
     "Adam Chelminski" => "adam.chelminski@mongodb.com",
@@ -11,8 +11,8 @@ Pod::Spec.new do |spec|
   }
   spec.platform = :ios, "11.3"
   spec.source     = {
-    :git => "https://github.com/mongodb/stitch-ios-sdk.git",
-    :branch => "v4-alpha",
+    :git => "https://github.com/jsflax/stitch-ios-sdk.git",
+    :branch => "STITCH-1293",
     :submodules => true
   }
   spec.ios.deployment_target = "11.3"
