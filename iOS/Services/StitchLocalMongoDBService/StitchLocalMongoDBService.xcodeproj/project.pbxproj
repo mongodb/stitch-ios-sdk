@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F427686E20D42B5D00544A02 /* StitchLocalMongoDBServiceExports.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427686D20D42B5D00544A02 /* StitchLocalMongoDBServiceExports.swift */; };
 		F4DA279C20D1C64600852314 /* StitchLocalMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4DA279220D1C64600852314 /* StitchLocalMongoDBService.framework */; };
 		F4DA27A120D1C64600852314 /* StitchLocalMongoDBServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DA27A020D1C64600852314 /* StitchLocalMongoDBServiceTests.swift */; };
 		F4DA27A320D1C64600852314 /* StitchLocalMongoDBService.h in Headers */ = {isa = PBXBuildFile; fileRef = F4DA279520D1C64600852314 /* StitchLocalMongoDBService.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -26,6 +27,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F427686D20D42B5D00544A02 /* StitchLocalMongoDBServiceExports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchLocalMongoDBServiceExports.swift; sourceTree = "<group>"; };
 		F4DA279220D1C64600852314 /* StitchLocalMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StitchLocalMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4DA279520D1C64600852314 /* StitchLocalMongoDBService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StitchLocalMongoDBService.h; sourceTree = "<group>"; };
 		F4DA279620D1C64600852314 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 			children = (
 				F4DA279520D1C64600852314 /* StitchLocalMongoDBService.h */,
 				F4DA27AC20D1C65100852314 /* LocalMongoClient.swift */,
+				F427686D20D42B5D00544A02 /* StitchLocalMongoDBServiceExports.swift */,
 				F4DA279620D1C64600852314 /* Info.plist */,
 			);
 			path = StitchLocalMongoDBService;
@@ -217,6 +220,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4DA27AD20D1C65100852314 /* LocalMongoClient.swift in Sources */,
+				F427686E20D42B5D00544A02 /* StitchLocalMongoDBServiceExports.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

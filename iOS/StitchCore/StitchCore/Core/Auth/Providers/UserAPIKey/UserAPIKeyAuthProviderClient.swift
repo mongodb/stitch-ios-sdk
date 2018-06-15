@@ -3,37 +3,31 @@ import StitchCoreSDK
 import MongoSwift
 
 /**
- * A utility class which contains a property that can be used with `StitchAuth` to retrieve a
+ * :nodoc:
+ * An implementation of `AuthProviderClientFactory` that produces an
  * `UserAPIKeyAuthProviderClient`.
  */
-public final class UserAPIKeyAuthProvider {
-    /**
-     * An `AuthProviderClientFactory` which can be used with `StitchAuth` to retrieve an
-     * `UserAPIKeyAuthProviderClient`.
-     */
-    public static let clientFactory: ClientFactoryImpl
-        = ClientFactoryImpl.init()
+public final class UserAPIKeyClientFactoryImpl: AuthProviderClientFactory {
+    public typealias ClientT = UserAPIKeyAuthProviderClient
+    public typealias RequestClientT = StitchAuthRequestClient
 
-    /**
-     * :nodoc:
-     * An implementation of `AuthProviderClientFactory` that produces an
-     * `UserAPIKeyAuthProviderClient`.
-     */
-    public final class ClientFactoryImpl: AuthProviderClientFactory {
-        public typealias ClientT = UserAPIKeyAuthProviderClient
-        public typealias RequestClientT = StitchAuthRequestClient
-
-        public func client(withRequestClient authRequestClient: StitchAuthRequestClient,
-                           withRoutes routes: StitchAuthRoutes,
-                           withDispatcher dispatcher: OperationDispatcher) -> ClientT {
-            return UserAPIKeyAuthProviderClientImpl.init(
-                withAuthRequestClient: authRequestClient,
-                withAuthRoutes: routes,
-                withDispatcher: dispatcher
-            )
-        }
+    public func client(withRequestClient authRequestClient: StitchAuthRequestClient,
+                       withRoutes routes: StitchAuthRoutes,
+                       withDispatcher dispatcher: OperationDispatcher) -> ClientT {
+        return UserAPIKeyAuthProviderClientImpl.init(
+            withAuthRequestClient: authRequestClient,
+            withAuthRoutes: routes,
+            withDispatcher: dispatcher
+        )
     }
 }
+
+/**
+ * An `AuthProviderClientFactory` which can be used with `StitchAuth` to retrieve an
+ * `UserAPIKeyAuthProviderClient`.
+ */
+public let userAPIKeyClientFactory: UserAPIKeyClientFactoryImpl
+    = UserAPIKeyClientFactoryImpl.init()
 
 public protocol UserAPIKeyAuthProviderClient {
     /**

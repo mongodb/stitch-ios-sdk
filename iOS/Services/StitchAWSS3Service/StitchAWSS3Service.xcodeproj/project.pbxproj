@@ -12,7 +12,7 @@
 		11405A8520C5A01E0041105B /* StitchCoreServicesAwsS3_iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 11405A7720C5A01E0041105B /* StitchCoreServicesAwsS3_iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		11405A9820C5AF080041105B /* AWSS3ServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11405A9720C5AF080041105B /* AWSS3ServiceClient.swift */; };
 		11405A9B20C5AF230041105B /* AWSS3ServiceClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11405A9A20C5AF230041105B /* AWSS3ServiceClientImpl.swift */; };
-		1159637220D0266400B0179B /* Exports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1159637120D0266400B0179B /* Exports.swift */; };
+		1159637220D0266400B0179B /* StitchAWSS3ServiceExports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1159637120D0266400B0179B /* StitchAWSS3ServiceExports.swift */; };
 		11CF5D7B20CF6D34006D57BA /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11CF5D7A20CF6D34006D57BA /* StitchCore.framework */; };
 		11CF5D7D20CF6D34006D57BA /* StitchCoreAWSS3Service.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11CF5D7C20CF6D34006D57BA /* StitchCoreAWSS3Service.framework */; };
 		11CF5D7F20CF6D5D006D57BA /* StitchCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11CF5D7E20CF6D5D006D57BA /* StitchCoreTestUtils.framework */; };
@@ -42,7 +42,7 @@
 		11405A9520C5A0DF0041105B /* StitchCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		11405A9720C5AF080041105B /* AWSS3ServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSS3ServiceClient.swift; sourceTree = "<group>"; };
 		11405A9A20C5AF230041105B /* AWSS3ServiceClientImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSS3ServiceClientImpl.swift; sourceTree = "<group>"; };
-		1159637120D0266400B0179B /* Exports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exports.swift; sourceTree = "<group>"; };
+		1159637120D0266400B0179B /* StitchAWSS3ServiceExports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAWSS3ServiceExports.swift; sourceTree = "<group>"; };
 		11CF5D7A20CF6D34006D57BA /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		11CF5D7C20CF6D34006D57BA /* StitchCoreAWSS3Service.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAWSS3Service.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		11CF5D7E20CF6D5D006D57BA /* StitchCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,7 +96,7 @@
 			children = (
 				11405A9920C5AF140041105B /* Internal */,
 				11405A9720C5AF080041105B /* AWSS3ServiceClient.swift */,
-				1159637120D0266400B0179B /* Exports.swift */,
+				1159637120D0266400B0179B /* StitchAWSS3ServiceExports.swift */,
 				11405A7720C5A01E0041105B /* StitchCoreServicesAwsS3_iOS.h */,
 				11405A7820C5A01E0041105B /* Info.plist */,
 			);
@@ -246,7 +246,7 @@
 			files = (
 				11405A9B20C5AF230041105B /* AWSS3ServiceClientImpl.swift in Sources */,
 				11405A9820C5AF080041105B /* AWSS3ServiceClient.swift in Sources */,
-				1159637220D0266400B0179B /* Exports.swift in Sources */,
+				1159637220D0266400B0179B /* StitchAWSS3ServiceExports.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

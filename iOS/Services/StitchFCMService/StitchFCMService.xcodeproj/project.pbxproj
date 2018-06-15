@@ -19,7 +19,7 @@
 		119F126C20D21DE5009B1CF5 /* FCMServicePushClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119F126B20D21DE5009B1CF5 /* FCMServicePushClientImpl.swift */; };
 		119F126E20D21E00009B1CF5 /* FCMServiceClientIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119F126D20D21E00009B1CF5 /* FCMServiceClientIntTests.swift */; };
 		119F127020D21E18009B1CF5 /* FCMServicePushClientIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119F126F20D21E18009B1CF5 /* FCMServicePushClientIntTests.swift */; };
-		119F127220D22C01009B1CF5 /* Exports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119F127120D22C01009B1CF5 /* Exports.swift */; };
+		119F127220D22C01009B1CF5 /* StitchFCMServiceExports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119F127120D22C01009B1CF5 /* StitchFCMServiceExports.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,7 +48,7 @@
 		119F126B20D21DE5009B1CF5 /* FCMServicePushClientImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMServicePushClientImpl.swift; sourceTree = "<group>"; };
 		119F126D20D21E00009B1CF5 /* FCMServiceClientIntTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMServiceClientIntTests.swift; sourceTree = "<group>"; };
 		119F126F20D21E18009B1CF5 /* FCMServicePushClientIntTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMServicePushClientIntTests.swift; sourceTree = "<group>"; };
-		119F127120D22C01009B1CF5 /* Exports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exports.swift; sourceTree = "<group>"; };
+		119F127120D22C01009B1CF5 /* StitchFCMServiceExports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchFCMServiceExports.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,7 +99,7 @@
 				119F126820D21DBC009B1CF5 /* Internal */,
 				119F126420D21DA8009B1CF5 /* FCMServiceClient.swift */,
 				119F126620D21DB2009B1CF5 /* FCMServicePushClient.swift */,
-				119F127120D22C01009B1CF5 /* Exports.swift */,
+				119F127120D22C01009B1CF5 /* StitchFCMServiceExports.swift */,
 				119F124420D218D6009B1CF5 /* StitchFCMService.h */,
 				119F124520D218D6009B1CF5 /* Info.plist */,
 			);
@@ -249,7 +249,7 @@
 				119F126C20D21DE5009B1CF5 /* FCMServicePushClientImpl.swift in Sources */,
 				119F126720D21DB2009B1CF5 /* FCMServicePushClient.swift in Sources */,
 				119F126A20D21DDA009B1CF5 /* FCMServiceClientImpl.swift in Sources */,
-				119F127220D22C01009B1CF5 /* Exports.swift in Sources */,
+				119F127220D22C01009B1CF5 /* StitchFCMServiceExports.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
