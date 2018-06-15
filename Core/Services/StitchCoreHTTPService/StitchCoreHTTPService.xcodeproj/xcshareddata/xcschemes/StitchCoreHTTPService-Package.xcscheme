@@ -6,23 +6,7 @@
         <BuildableReference
           BuildableIdentifier = "primary"
           BuildableName = "'lib$(TARGET_NAME)'"
-          BlueprintName = "StitchCoreSDKMocks"
-          ReferencedContainer = "container:StitchCoreHTTPService.xcodeproj">
-        </BuildableReference>
-      </BuildActionEntry>
-      <BuildActionEntry buildForTesting = "YES" buildForRunning = "YES" buildForProfiling = "YES" buildForArchiving = "YES" buildForAnalyzing = "YES">
-        <BuildableReference
-          BuildableIdentifier = "primary"
-          BuildableName = "'lib$(TARGET_NAME)'"
           BlueprintName = "StitchCoreSDK"
-          ReferencedContainer = "container:StitchCoreHTTPService.xcodeproj">
-        </BuildableReference>
-      </BuildActionEntry>
-      <BuildActionEntry buildForTesting = "YES" buildForRunning = "YES" buildForProfiling = "YES" buildForArchiving = "YES" buildForAnalyzing = "YES">
-        <BuildableReference
-          BuildableIdentifier = "primary"
-          BuildableName = "'lib$(TARGET_NAME)'"
-          BlueprintName = "MockUtils"
           ReferencedContainer = "container:StitchCoreHTTPService.xcodeproj">
         </BuildableReference>
       </BuildActionEntry>
@@ -39,6 +23,22 @@
           BuildableIdentifier = "primary"
           BuildableName = "'lib$(TARGET_NAME)'"
           BlueprintName = "StitchCoreHTTPService"
+          ReferencedContainer = "container:StitchCoreHTTPService.xcodeproj">
+        </BuildableReference>
+      </BuildActionEntry>
+      <BuildActionEntry buildForTesting = "YES" buildForRunning = "YES" buildForProfiling = "YES" buildForArchiving = "YES" buildForAnalyzing = "YES">
+        <BuildableReference
+          BuildableIdentifier = "primary"
+          BuildableName = "'lib$(TARGET_NAME)'"
+          BlueprintName = "MockUtils"
+          ReferencedContainer = "container:StitchCoreHTTPService.xcodeproj">
+        </BuildableReference>
+      </BuildActionEntry>
+      <BuildActionEntry buildForTesting = "YES" buildForRunning = "YES" buildForProfiling = "YES" buildForArchiving = "YES" buildForAnalyzing = "YES">
+        <BuildableReference
+          BuildableIdentifier = "primary"
+          BuildableName = "'lib$(TARGET_NAME)'"
+          BlueprintName = "StitchCoreSDKMocks"
           ReferencedContainer = "container:StitchCoreHTTPService.xcodeproj">
         </BuildableReference>
       </BuildActionEntry>

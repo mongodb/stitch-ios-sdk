@@ -24,7 +24,7 @@
         "repositoryURL": "/Users/jsflax/Development/stitch-ios-sdk/MockUtils",
         "state": {
           "branch": "master",
-          "revision": "aa5b31416230972714054626f0fb3ea962979da8",
+          "revision": "f91aba1b7b3a5cce6bd1436dd5f78cbd379a5178",
           "version": null
         }
       },
@@ -51,7 +51,7 @@
         "repositoryURL": "/Users/jsflax/Development/stitch-ios-sdk/Core/StitchCoreSDK",
         "state": {
           "branch": "master",
-          "revision": "1fc81fa1f815d4eddced21cf2ef3695a086dcb19",
+          "revision": "f86989efdd3b2f55925868c90b896742cba75742",
           "version": null
         }
       },

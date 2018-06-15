@@ -265,10 +265,10 @@
       "OBJ_128" = {
          isa = "PBXGroup";
          children = (
-            "StitchCoreSDK::StitchCoreSDK::Product",
             "MongoSwift::MongoSwift::Product",
-            "StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBService::Product",
             "StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBServiceTests::Product",
+            "StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBService::Product",
+            "StitchCoreSDK::StitchCoreSDK::Product",
          );
          name = "Products";
          path = "";

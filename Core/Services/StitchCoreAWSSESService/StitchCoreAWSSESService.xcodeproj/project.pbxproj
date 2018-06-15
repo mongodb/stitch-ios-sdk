@@ -441,9 +441,9 @@
       "OBJ_148" = {
          isa = "PBXGroup";
          children = (
-            "MockUtils::MockUtils::Product",
-            "MongoSwift::MongoSwift::Product",
             "StitchCoreAWSSESService::StitchCoreAWSSESServiceTests::Product",
+            "MongoSwift::MongoSwift::Product",
+            "MockUtils::MockUtils::Product",
             "StitchCoreSDK::StitchCoreSDK::Product",
             "StitchCoreAWSSESService::StitchCoreAWSSESService::Product",
             "StitchCoreSDK::StitchCoreSDKMocks::Product",

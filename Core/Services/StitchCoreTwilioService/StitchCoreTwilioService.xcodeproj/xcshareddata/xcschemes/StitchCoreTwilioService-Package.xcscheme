@@ -14,7 +14,7 @@
         <BuildableReference
           BuildableIdentifier = "primary"
           BuildableName = "'lib$(TARGET_NAME)'"
-          BlueprintName = "StitchCoreTwilioService"
+          BlueprintName = "MockUtils"
           ReferencedContainer = "container:StitchCoreTwilioService.xcodeproj">
         </BuildableReference>
       </BuildActionEntry>
@@ -22,7 +22,7 @@
         <BuildableReference
           BuildableIdentifier = "primary"
           BuildableName = "'lib$(TARGET_NAME)'"
-          BlueprintName = "MockUtils"
+          BlueprintName = "StitchCoreTwilioService"
           ReferencedContainer = "container:StitchCoreTwilioService.xcodeproj">
         </BuildableReference>
       </BuildActionEntry>

@@ -6,15 +6,7 @@
         <BuildableReference
           BuildableIdentifier = "primary"
           BuildableName = "'lib$(TARGET_NAME)'"
-          BlueprintName = "StitchCoreAWSSESService"
-          ReferencedContainer = "container:StitchCoreAWSSESService.xcodeproj">
-        </BuildableReference>
-      </BuildActionEntry>
-      <BuildActionEntry buildForTesting = "YES" buildForRunning = "YES" buildForProfiling = "YES" buildForArchiving = "YES" buildForAnalyzing = "YES">
-        <BuildableReference
-          BuildableIdentifier = "primary"
-          BuildableName = "'lib$(TARGET_NAME)'"
-          BlueprintName = "StitchCoreSDKMocks"
+          BlueprintName = "MongoSwift"
           ReferencedContainer = "container:StitchCoreAWSSESService.xcodeproj">
         </BuildableReference>
       </BuildActionEntry>
@@ -30,7 +22,7 @@
         <BuildableReference
           BuildableIdentifier = "primary"
           BuildableName = "'lib$(TARGET_NAME)'"
-          BlueprintName = "MongoSwift"
+          BlueprintName = "StitchCoreSDK"
           ReferencedContainer = "container:StitchCoreAWSSESService.xcodeproj">
         </BuildableReference>
       </BuildActionEntry>
@@ -38,7 +30,15 @@
         <BuildableReference
           BuildableIdentifier = "primary"
           BuildableName = "'lib$(TARGET_NAME)'"
-          BlueprintName = "StitchCoreSDK"
+          BlueprintName = "StitchCoreSDKMocks"
+          ReferencedContainer = "container:StitchCoreAWSSESService.xcodeproj">
+        </BuildableReference>
+      </BuildActionEntry>
+      <BuildActionEntry buildForTesting = "YES" buildForRunning = "YES" buildForProfiling = "YES" buildForArchiving = "YES" buildForAnalyzing = "YES">
+        <BuildableReference
+          BuildableIdentifier = "primary"
+          BuildableName = "'lib$(TARGET_NAME)'"
+          BlueprintName = "StitchCoreAWSSESService"
           ReferencedContainer = "container:StitchCoreAWSSESService.xcodeproj">
         </BuildableReference>
       </BuildActionEntry>

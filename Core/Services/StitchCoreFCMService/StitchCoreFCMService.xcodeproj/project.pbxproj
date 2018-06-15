@@ -501,12 +501,12 @@
       "OBJ_156" = {
          isa = "PBXGroup";
          children = (
-            "StitchCoreFCMService::StitchCoreFCMService::Product",
             "StitchCoreFCMService::StitchCoreFCMServiceTests::Product",
-            "StitchCoreSDK::StitchCoreSDKMocks::Product",
-            "StitchCoreSDK::StitchCoreSDK::Product",
-            "MongoSwift::MongoSwift::Product",
             "MockUtils::MockUtils::Product",
+            "StitchCoreSDK::StitchCoreSDK::Product",
+            "StitchCoreSDK::StitchCoreSDKMocks::Product",
+            "MongoSwift::MongoSwift::Product",
+            "StitchCoreFCMService::StitchCoreFCMService::Product",
          );
          name = "Products";
          path = "";

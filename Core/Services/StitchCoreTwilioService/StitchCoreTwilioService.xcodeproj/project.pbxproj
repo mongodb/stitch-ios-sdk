@@ -433,8 +433,8 @@
             "StitchCoreSDK::StitchCoreSDKMocks::Product",
             "StitchCoreTwilioService::StitchCoreTwilioServiceTests::Product",
             "MockUtils::MockUtils::Product",
-            "StitchCoreSDK::StitchCoreSDK::Product",
             "StitchCoreTwilioService::StitchCoreTwilioService::Product",
+            "StitchCoreSDK::StitchCoreSDK::Product",
             "MongoSwift::MongoSwift::Product",
          );
          name = "Products";

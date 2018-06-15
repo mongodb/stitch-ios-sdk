@@ -6,7 +6,7 @@
         <BuildableReference
           BuildableIdentifier = "primary"
           BuildableName = "'lib$(TARGET_NAME)'"
-          BlueprintName = "MongoSwift"
+          BlueprintName = "StitchCoreRemoteMongoDBService"
           ReferencedContainer = "container:StitchCoreRemoteMongoDBService.xcodeproj">
         </BuildableReference>
       </BuildActionEntry>
@@ -22,23 +22,23 @@
         <BuildableReference
           BuildableIdentifier = "primary"
           BuildableName = "'lib$(TARGET_NAME)'"
-          BlueprintName = "StitchCoreSDKMocks"
-          ReferencedContainer = "container:StitchCoreRemoteMongoDBService.xcodeproj">
-        </BuildableReference>
-      </BuildActionEntry>
-      <BuildActionEntry buildForTesting = "YES" buildForRunning = "YES" buildForProfiling = "YES" buildForArchiving = "YES" buildForAnalyzing = "YES">
-        <BuildableReference
-          BuildableIdentifier = "primary"
-          BuildableName = "'lib$(TARGET_NAME)'"
-          BlueprintName = "StitchCoreRemoteMongoDBService"
-          ReferencedContainer = "container:StitchCoreRemoteMongoDBService.xcodeproj">
-        </BuildableReference>
-      </BuildActionEntry>
-      <BuildActionEntry buildForTesting = "YES" buildForRunning = "YES" buildForProfiling = "YES" buildForArchiving = "YES" buildForAnalyzing = "YES">
-        <BuildableReference
-          BuildableIdentifier = "primary"
-          BuildableName = "'lib$(TARGET_NAME)'"
           BlueprintName = "MockUtils"
+          ReferencedContainer = "container:StitchCoreRemoteMongoDBService.xcodeproj">
+        </BuildableReference>
+      </BuildActionEntry>
+      <BuildActionEntry buildForTesting = "YES" buildForRunning = "YES" buildForProfiling = "YES" buildForArchiving = "YES" buildForAnalyzing = "YES">
+        <BuildableReference
+          BuildableIdentifier = "primary"
+          BuildableName = "'lib$(TARGET_NAME)'"
+          BlueprintName = "MongoSwift"
+          ReferencedContainer = "container:StitchCoreRemoteMongoDBService.xcodeproj">
+        </BuildableReference>
+      </BuildActionEntry>
+      <BuildActionEntry buildForTesting = "YES" buildForRunning = "YES" buildForProfiling = "YES" buildForArchiving = "YES" buildForAnalyzing = "YES">
+        <BuildableReference
+          BuildableIdentifier = "primary"
+          BuildableName = "'lib$(TARGET_NAME)'"
+          BlueprintName = "StitchCoreSDKMocks"
           ReferencedContainer = "container:StitchCoreRemoteMongoDBService.xcodeproj">
         </BuildableReference>
       </BuildActionEntry>

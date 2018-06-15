@@ -6,7 +6,7 @@
         <BuildableReference
           BuildableIdentifier = "primary"
           BuildableName = "'lib$(TARGET_NAME)'"
-          BlueprintName = "StitchCoreSDKMocks"
+          BlueprintName = "StitchCoreSDK"
           ReferencedContainer = "container:StitchCoreAWSS3Service.xcodeproj">
         </BuildableReference>
       </BuildActionEntry>
@@ -14,7 +14,7 @@
         <BuildableReference
           BuildableIdentifier = "primary"
           BuildableName = "'lib$(TARGET_NAME)'"
-          BlueprintName = "MongoSwift"
+          BlueprintName = "StitchCoreSDKMocks"
           ReferencedContainer = "container:StitchCoreAWSS3Service.xcodeproj">
         </BuildableReference>
       </BuildActionEntry>
@@ -38,7 +38,7 @@
         <BuildableReference
           BuildableIdentifier = "primary"
           BuildableName = "'lib$(TARGET_NAME)'"
-          BlueprintName = "StitchCoreSDK"
+          BlueprintName = "MongoSwift"
           ReferencedContainer = "container:StitchCoreAWSS3Service.xcodeproj">
         </BuildableReference>
       </BuildActionEntry>
