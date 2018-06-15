@@ -2,6 +2,7 @@ set -e
 
 sourcekitten doc --module-name StitchCoreSDK -- -workspace ./Stitch.xcworkspace -scheme StitchCoreSDK-Package -xcconfig DocGen/Configs/kitten.xcconfig > .raw_docs.json
 
+sourcekitten doc --module-name StitchCoreAWSS3Service -- -workspace ./Stitch.xcworkspace -scheme StitchCoreAWSS3Service-Package -xcconfig DocGen/Configs/kitten.coreservice.xcconfig >> .raw_docs.json
 sourcekitten doc --module-name StitchCoreAWSSESService -- -workspace ./Stitch.xcworkspace -scheme StitchCoreAWSSESService-Package -xcconfig DocGen/Configs/kitten.coreservice.xcconfig >> .raw_docs.json
 sourcekitten doc --module-name StitchCoreFCMService -- -workspace ./Stitch.xcworkspace -scheme StitchCoreFCMService-Package -xcconfig DocGen/Configs/kitten.coreservice.xcconfig >> .raw_docs.json
 sourcekitten doc --module-name StitchCoreHTTPService -- -workspace ./Stitch.xcworkspace -scheme StitchCoreHTTPService-Package -xcconfig DocGen/Configs/kitten.coreservice.xcconfig >> .raw_docs.json
@@ -17,7 +18,7 @@ sourcekitten doc --module-name StitchHTTPService -- -workspace ./Stitch.xcworksp
 sourcekitten doc --module-name StitchRemoteMongoDBService -- -workspace ./Stitch.xcworkspace -scheme StitchRemoteMongoDBService -arch arm64 -xcconfig DocGen/Configs/kitten.ioscoreservice.xcconfig >> .raw_docs.json
 sourcekitten doc --module-name StitchTwilioService -- -workspace ./Stitch.xcworkspace -scheme StitchTwilioService -arch arm64 -xcconfig DocGen/Configs/kitten.ioscoreservice.xcconfig >> .raw_docs.json
 
-python DocGen/Scripts/merge_json.py .raw_docs.json .raw_docs.json
-jazzy -c --config jazzy.json --sourcekitten-sourcefile .raw_docs.json
+python DocGen/Scripts/merge_json.py .raw_docs.json .raw_docs_merged.json
+jazzy -c --config jazzy.json --sourcekitten-sourcefile .raw_docs_merged.json
 
-rm .raw_docs.json
+rm .raw_docs.json .raw_docs_merged.json
