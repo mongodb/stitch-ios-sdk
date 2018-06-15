@@ -478,12 +478,12 @@
       "OBJ_153" = {
          isa = "PBXGroup";
          children = (
+            "StitchCoreSDK::StitchCoreSDK::Product",
+            "MockUtils::MockUtils::Product",
             "MongoSwift::MongoSwift::Product",
             "StitchCoreHTTPService::StitchCoreHTTPService::Product",
-            "MockUtils::MockUtils::Product",
-            "StitchCoreSDK::StitchCoreSDK::Product",
-            "StitchCoreHTTPService::StitchCoreHTTPServiceTests::Product",
             "StitchCoreSDK::StitchCoreSDKMocks::Product",
+            "StitchCoreHTTPService::StitchCoreHTTPServiceTests::Product",
          );
          name = "Products";
          path = "";

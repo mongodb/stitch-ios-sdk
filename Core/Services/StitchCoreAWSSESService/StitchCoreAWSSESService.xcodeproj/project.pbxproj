@@ -442,10 +442,10 @@
          isa = "PBXGroup";
          children = (
             "MockUtils::MockUtils::Product",
-            "StitchCoreAWSSESService::StitchCoreAWSSESServiceTests::Product",
-            "StitchCoreAWSSESService::StitchCoreAWSSESService::Product",
             "MongoSwift::MongoSwift::Product",
+            "StitchCoreAWSSESService::StitchCoreAWSSESServiceTests::Product",
             "StitchCoreSDK::StitchCoreSDK::Product",
+            "StitchCoreAWSSESService::StitchCoreAWSSESService::Product",
             "StitchCoreSDK::StitchCoreSDKMocks::Product",
          );
          name = "Products";
