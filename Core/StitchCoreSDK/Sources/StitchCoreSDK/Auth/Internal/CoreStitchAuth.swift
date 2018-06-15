@@ -239,7 +239,9 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
      */
     private func doLogin(withCredential credential: StitchCredential, asLinkRequest: Bool) throws -> TStitchUser {
         let response = try self.doLoginRequest(withCredential: credential, asLinkRequest: asLinkRequest)
-        let user = try self.processLoginResponse(withCredential: credential, forResponse: response)
+        let user = try self.processLoginResponse(withCredential: credential,
+                                                 forResponse: response,
+                                                 asLinkRequest: asLinkRequest)
 
         onAuthEvent()
         return user
@@ -296,7 +298,8 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
      * requesting the user profile in a separate request.
      */
     private func processLoginResponse(withCredential credential: StitchCredential,
-                                      forResponse response: Response) throws -> TStitchUser {
+                                      forResponse response: Response,
+                                      asLinkRequest: Bool) throws -> TStitchUser {
         guard let body = response.body else {
             throw StitchError.serviceError(
                 withMessage: StitchErrorCodable.genericErrorMessage(withStatusCode: response.statusCode),
@@ -312,6 +315,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
         }
 
         let oldAuthInfo = self.authInfo
+        let oldUser = self.user
 
         // Provisionally set auth info so we can make a profile request
         var newAPIAuthInfo: APIAuthInfo!
@@ -332,9 +336,17 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
         do {
             profile = try doGetUserProfile()
         } catch let err {
-            // Back out of setting authInfo and unset any created user
-            self.authInfo = oldAuthInfo
-            currentUser = nil
+            // If this was a link request, back out of setting authInfo and reset any created user. This will keep
+            // the currently logged in user logged in if the profile request failed, and in this particular edge case
+            // the user is linked, but they are logged in with their older credentials.
+            if asLinkRequest {
+                self.authInfo = oldAuthInfo
+                currentUser = oldUser
+            } else { // otherwise if this was a normal login request, log the user out
+                self.authInfo = nil
+                currentUser = nil
+            }
+    
             throw err
         }
         

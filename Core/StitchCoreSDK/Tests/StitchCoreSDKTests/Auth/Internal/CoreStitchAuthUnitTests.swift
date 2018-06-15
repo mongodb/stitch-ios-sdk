@@ -459,4 +459,80 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
 
         XCTAssertEqual(arrFromServer, listResult)
     }
+    
+    func testProfileRequestFailureEdgeCases() throws {
+        let requestClient = getMockedRequestClient()
+        let routes = StitchAppRoutes.init(clientAppID: "my_app-12345").authRoutes
+        let auth = try StitchAuth.init(
+            requestClient: requestClient,
+            authRoutes: routes,
+            storage: MemoryStorage.init()
+        )
+        
+        var profileRequestShouldFail = true
+        
+        // Profile request does not work when `profileRequestShouldFail` is true
+        requestClient.doRequestMock.doThrow(
+            error: StitchError.requestError(
+                withError: MongoError.invalidResponse(), // placeholder error
+                withRequestErrorCode: StitchRequestErrorCode.unknownError),
+            forArg: .with(condition: { _ in
+                return profileRequestShouldFail
+            })
+        )
+        
+        // Scenario 1: User is logged out -> attempts login -> initial login succeeds -> profile request fails
+        //                                -> user is logged out
+        
+        do {
+            _ = try auth.loginWithCredentialInternal(withCredential: AnonymousCredential())
+            XCTFail("expected login to fail because of profile request")
+        } catch {
+            // do nothing
+        }
+        
+        XCTAssertFalse(auth.isLoggedIn)
+        XCTAssertNil(auth.authInfo)
+        XCTAssertNil(auth.user)
+        
+        // Scenario 2: User is logged in -> attempts login into other account -> initial login succeeds
+        //                               -> profile request fails -> original user is logged out
+        profileRequestShouldFail = false
+        XCTAssertNotNil(try auth.loginWithCredentialInternal(withCredential: AnonymousCredential()))
+    
+        profileRequestShouldFail = true
+        do {
+            _ = try auth.loginWithCredentialInternal(
+                withCredential: UserPasswordCredential.init(withUsername: "foo", withPassword: "bar")
+            )
+            XCTFail("expected subsequent login to fail because of profile request")
+        } catch {
+            // do nothing
+        }
+        
+        XCTAssertFalse(auth.isLoggedIn)
+        XCTAssertNil(auth.authInfo)
+        XCTAssertNil(auth.user)
+        
+        // Scenario 3: User is logged in -> attempt to link to other identity -> initial link request succeeds
+        //                               -> profile request fails -> error thrown -> original user is still logged in
+        
+        profileRequestShouldFail = false
+        let userToBeLinked = try auth.loginWithCredentialInternal(withCredential: AnonymousCredential())
+        
+        profileRequestShouldFail = true
+        do {
+            _ = try auth.linkUserWithCredentialInternal(
+                withUser: auth.user!,
+                withCredential: UserPasswordCredential.init(withUsername: "hello", withPassword: "friend")
+            )
+            XCTFail("expected link request to fail because of profile request")
+        } catch {
+            // do nothing
+        }
+        
+        XCTAssertTrue(auth.isLoggedIn)
+        XCTAssertNotNil(auth.authInfo)
+        XCTAssertEqual(userToBeLinked.id, auth.user!.id)
+    }
 }
