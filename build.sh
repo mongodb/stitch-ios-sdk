@@ -161,7 +161,7 @@ fi
 #     # rm -rf MongoSwift/
 # fi
 
-make
+make project
 
 # vendor in MongoMobile
 if [ ! -d MobileSDKs/include/mongo/embedded-v1/mongo_embedded ]; then
