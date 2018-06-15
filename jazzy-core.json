@@ -1,5 +1,4 @@
 {
-    "xcodebuild_arguments": ["-project", "StitchCore.xcodeproj", "-target", "StitchCore"],
     "author": "MongoDB",
     "author_url": "https://github.com/mongodb/stitch-ios-sdk",
     "module": "StitchCore",

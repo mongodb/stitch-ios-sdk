@@ -1,12 +1,11 @@
 {
-    "xcodebuild_arguments": ["-workspace", "../Stitch.xcworkspace", "-scheme", "StitchCore-iOS"],
     "author": "MongoDB",
     "author_url": "https://github.com/mongodb/stitch-ios-sdk",
-    "module": "StitchCore_iOS",
+    "module": "StitchSDK",
     "theme": "fullwidth",
 
-    "documentation":"DocsSources/Pages/*.md",
-    "abstract":"DocsSources/Abstracts/*.md",
+    "documentation":"DocGen/DocsSources/Pages/*.md",
+    "abstract":"DocGen/DocsSources/Abstracts/*.md",
 
     "exclude": "/*/Internal*",
 
