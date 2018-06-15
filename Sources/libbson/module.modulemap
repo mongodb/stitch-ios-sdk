@@ -1,4 +1,4 @@
-module libbson [system] {
+explicit module libbson [system] {
     header "libbson.h"
     link "bson-1.0"
     export *

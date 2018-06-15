@@ -22,9 +22,9 @@ Pod::Spec.new do |spec|
   
   spec.prepare_command = 'sh build.sh'
   spec.preserve_paths = [
-    "Sources/mongo_embedded/*.{h,modulemap}",
-    "Sources/libbson/*.{h,modulemap}",
-    "Sources/libmongoc/*.{h,modulemap}",
+    # "Sources/mongo_embedded/*.{h,modulemap}",
+    # "Sources/libbson/*.{h,modulemap}",
+    # "Sources/libmongoc/*.{h,modulemap}",
     "MobileSDKs/**/*",
     "MobileSDKs/iphoneos/lib",
     "MobileSDKs/iphoneos/lib/*",
@@ -32,37 +32,26 @@ Pod::Spec.new do |spec|
   ]
 
   spec.pod_target_xcconfig = {
-    'OTHER_LDFLAGS[sdk=iphoneos*]' => '-rpath $(PODS_TARGET_SRCROOT)/MobileSDKs/iphoneos/lib',
-    'OTHER_LDFLAGS[sdk=iphonesimulator*]' => '-rpath $(PODS_TARGET_SRCROOT)/MobileSDKs/iphoneos/lib',
-    'OTHER_LDFLAGS[sdk=appletvos*]' => '-rpath $(PODS_TARGET_SRCROOT)/MobileSDKs/appletvos/lib',
-    'OTHER_LDFLAGS[sdk=appletvsimulator*]' => '-rpath $(PODS_TARGET_SRCROOT)/MobileSDKs/appletvos/lib',
-    'LIBRARY_SEARCH_PATHS[sdk=iphoneos*]'        => '$(PODS_TARGET_SRCROOT)/MobileSDKs/iphoneos/lib',
-    'LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]' => '$(PODS_TARGET_SRCROOT)/MobileSDKs/iphoneos/lib',
-    'LIBRARY_SEARCH_PATHS[sdk=appletvos*]'       => '$(PODS_TARGET_SRCROOT)/MobileSDKs/appletvos/lib',
-    'LIBRARY_SEARCH_PATHS[sdk=appletvsimulator*]'=> '$(PODS_TARGET_SRCROOT)/MobileSDKs/appletvos/lib',
-
-    'SWIFT_INCLUDE_PATHS' => [
-      '"$(PODS_TARGET_SRCROOT)/MobileSDKs/include"',
-      '"$(PODS_TARGET_SRCROOT)/MobileSDKs/include/mongo/embedded-v1/"',
-      '"$(PODS_TARGET_SRCROOT)/MobileSDKs/include/libbson-1.0"',
-      '"$(PODS_TARGET_SRCROOT)/MobileSDKs/include/libmongoc-1.0"',
-      '"$(PODS_TARGET_SRCROOT)/Sources/mongo_embedded"',
-      '"$(PODS_TARGET_SRCROOT)/Sources/libmongoc"',
-      '"$(PODS_TARGET_SRCROOT)/Sources/libbson"',
-    ].join(' '),
-
     "FRAMEWORK_SEARCH_PATHS" => ["$(PODS_TARGET_SRCROOT)/frameworks"].join(" ")
   }
   
   #spec.ios.xcconfig = { 'FRAMEWORK_SEARCH_PATHS' => '"$(PODS_TARGET_SRCROOT)/fmks"' }
 
   #This is due to some linking leakage, should be resolved by converting to Frameworks
-  # spec.user_target_xcconfig = {
-  #   'LIBRARY_SEARCH_PATHS[sdk=iphoneos*]'        => '$(PODS_ROOT)/MobileSDKs/iphoneos/lib',
-  #   'LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]' => '$(PODS_ROOT)/MobileSDKs/iphoneos/lib',
-  #   'LIBRARY_SEARCH_PATHS[sdk=appletvos*]'       => '$(PODS_ROOT)/MobileSDKs/appletvos/lib',
-  #   'LIBRARY_SEARCH_PATHS[sdk=appletvsimulator*]'=> '$(PODS_ROOT)/MobileSDKs/appletvos/lib',
-  # }
+  spec.user_target_xcconfig = {
+    'LIBRARY_SEARCH_PATHS[sdk=iphoneos*]'        => '$(PODS_ROOT)/MobileSDKs/iphoneos/lib',
+    'LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]' => '$(PODS_ROOT)/MobileSDKs/iphoneos/lib',
+    'LIBRARY_SEARCH_PATHS[sdk=appletvos*]'       => '$(PODS_ROOT)/MobileSDKs/appletvos/lib',
+    'LIBRARY_SEARCH_PATHS[sdk=appletvsimulator*]'=> '$(PODS_ROOT)/MobileSDKs/appletvos/lib',
+    'OTHER_LDFLAGS[sdk=iphoneos*]' => '-rpath $(PODS_TARGET_SRCROOT)/MobileSDKs/iphoneos/lib',
+    'OTHER_LDFLAGS[sdk=iphonesimulator*]' => '-rpath $(PODS_TARGET_SRCROOT)/MobileSDKs/iphoneos/lib',
+    'OTHER_LDFLAGS[sdk=appletvos*]' => '-rpath $(PODS_TARGET_SRCROOT)/MobileSDKs/appletvos/lib',
+    'OTHER_LDFLAGS[sdk=appletvsimulator*]' => '-rpath $(PODS_TARGET_SRCROOT)/MobileSDKs/appletvos/lib',
+    # 'LIBRARY_SEARCH_PATHS[sdk=iphoneos*]'        => '$(PODS_TARGET_SRCROOT)/MobileSDKs/iphoneos/lib',
+    # 'LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]' => '$(PODS_TARGET_SRCROOT)/MobileSDKs/iphoneos/lib',
+    # 'LIBRARY_SEARCH_PATHS[sdk=appletvos*]'       => '$(PODS_TARGET_SRCROOT)/MobileSDKs/appletvos/lib',
+    # 'LIBRARY_SEARCH_PATHS[sdk=appletvsimulator*]'=> '$(PODS_TARGET_SRCROOT)/MobileSDKs/appletvos/lib',
+  }
 
   # spec.subspec "mongodb-stitch" do |s|
   #   s.resource_bundle = { 'fail' => 'pod_fail.sh' }
@@ -72,6 +61,17 @@ Pod::Spec.new do |spec|
   spec.subspec "core-sdk" do |c|  
     c.source_files = "Core/StitchCoreSDK/Sources/StitchCoreSDK/**/*.swift"
     c.vendored_frameworks = "MongoSwift.framework"
+    c.ios.xcconfig = {
+      'SWIFT_INCLUDE_PATHS' => [
+        '"$(PODS_TARGET_SRCROOT)/MobileSDKs/include"',
+        '"$(PODS_TARGET_SRCROOT)/MobileSDKs/include/mongo/embedded-v1/"',
+        '"$(PODS_TARGET_SRCROOT)/MobileSDKs/include/libbson-1.0"',
+        '"$(PODS_TARGET_SRCROOT)/MobileSDKs/include/libmongoc-1.0"',
+        '"$(PODS_TARGET_SRCROOT)/Sources/mongo_embedded"',
+        '"$(PODS_TARGET_SRCROOT)/Sources/libmongoc"',
+        '"$(PODS_TARGET_SRCROOT)/Sources/libbson"',
+      ].join(' '),
+    }
   end
 
   # # pod "mongodb-stitch/core-services-aws-s3", "~> 4.0"
