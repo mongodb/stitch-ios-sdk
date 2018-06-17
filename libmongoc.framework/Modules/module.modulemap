@@ -1,9 +1,0 @@
-framework module libmongoc [system] {
-    umbrella header "libmongoc.h"
-    header "mongoc.h"
-    link "mongoc-1.0"
-    
-    use Darwin.C
-    
-    export *
-}

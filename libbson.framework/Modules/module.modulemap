@@ -1,9 +1,0 @@
-framework module libbson [system] {
-    umbrella header "libbson.h"
-    header "bson.h"
-    link "bson-1.0"
-
-    use Darwin.C
-
-    export *
-}

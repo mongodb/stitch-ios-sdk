@@ -14,23 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "MockUtils::MockUtils"
-               BuildableName = "MockUtils.framework"
-               BlueprintName = "MockUtils"
-               ReferencedContainer = "container:StitchCoreSDK.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "StitchCoreSDK::StitchCoreSDKMocks"
-               BuildableName = "StitchCoreSDKMocks.framework"
-               BlueprintName = "StitchCoreSDKMocks"
+               BlueprintIdentifier = "JWT::JWT"
+               BuildableName = "JWT.framework"
+               BlueprintName = "JWT"
                ReferencedContainer = "container:StitchCoreSDK.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -56,9 +42,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Swifter::Swifter"
-               BuildableName = "Swifter.framework"
-               BlueprintName = "Swifter"
+               BlueprintIdentifier = "MockUtils::MockUtils"
+               BuildableName = "MockUtils.framework"
+               BlueprintName = "MockUtils"
                ReferencedContainer = "container:StitchCoreSDK.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -84,9 +70,23 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "JWT::JWT"
-               BuildableName = "JWT.framework"
-               BlueprintName = "JWT"
+               BlueprintIdentifier = "Swifter::Swifter"
+               BuildableName = "Swifter.framework"
+               BlueprintName = "Swifter"
+               ReferencedContainer = "container:StitchCoreSDK.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "StitchCoreSDK::StitchCoreSDKMocks"
+               BuildableName = "StitchCoreSDKMocks.framework"
+               BlueprintName = "StitchCoreSDKMocks"
                ReferencedContainer = "container:StitchCoreSDK.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -125,9 +125,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "MockUtils::MockUtils"
-            BuildableName = "MockUtils.framework"
-            BlueprintName = "MockUtils"
+            BlueprintIdentifier = "JWT::JWT"
+            BuildableName = "JWT.framework"
+            BlueprintName = "JWT"
             ReferencedContainer = "container:StitchCoreSDK.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
