@@ -29,7 +29,8 @@ Pod::Spec.new do |spec|
     "Sources/mongo_embedded/*.{h,modulemap}",
     "Sources/libbson/*.{h,modulemap}",
     "Sources/libmongoc/*.{h,modulemap}",
-    "MobileSDKs"
+    "MobileSDKs",
+    "MongoSwift.framework"
   ]
 
   spec.ios.vendored_library = "MobileSDKs/iphoneos/lib/*.dylib"
@@ -102,9 +103,15 @@ Pod::Spec.new do |spec|
   #   s.resource_bundle = { 'fail' => 'pod_fail.sh' }
   # end
 
+  spec.subspec "mongo-swift" do |m|
+    m.source_files = "mongo-swift-driver/Sources/MongoSwift/**/*.swift"
+  end
+
   # pod "mongodb-stitch/core", "~> 4.0"
   spec.subspec "core-sdk" do |c|
-    c.source_files = ["mongo-swift-driver/Sources/MongoSwift/**/*.swift", "Core/StitchCoreSDK/Sources/StitchCoreSDK/**/*.swift"]
+    c.source_files = "Core/StitchCoreSDK/Sources/StitchCoreSDK/**/*.swift"
+    c.dependency "mongodb-stitch/mongo-swift"
+    # c.framework = "MongoSwift"
     c.vendored_frameworks = "MongoSwift.framework"
   end
 
@@ -223,10 +230,11 @@ Pod::Spec.new do |spec|
     #   "libmongoc.framework/Frameworks"
     # ]
     ic.source_files = "iOS/StitchCore/StitchCore/**/*.swift"
+    ic.dependency 'mongodb-stitch/mongo-swift'
     ic.dependency 'mongodb-stitch/core-sdk'
     ic.vendored_frameworks = [
-      "MongoSwift.framework"
-      #"StitchCoreSDK.framework"
+      "MongoSwift.framework",
+      "StitchCoreSDK.framework"
     ]
   end
 
