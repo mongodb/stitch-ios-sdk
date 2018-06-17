@@ -21,27 +21,27 @@ Pod::Spec.new do |spec|
   #spec.default_subspec = 'mongodb-stitch'
   
   spec.prepare_command = 'sh build.sh'
-  spec.preserve_paths = [
-    "libmongoc/lib",
-    "libmongoc.framework/Frameworks"
-  ]
+  # spec.preserve_paths = [
+  #   "libmongoc/lib",
+  #   "libmongoc.framework/Frameworks"
+  # ]
 
-  spec.pod_target_xcconfig = {
-    'OTHER_LDFLAGS[sdk=iphoneos*]' => '-rpath $(PODS_TARGET_SRCROOT)/libmongoc/lib',
-    'OTHER_LDFLAGS[sdk=iphonesimulator*]' => '-rpath $(PODS_TARGET_SRCROOT)/libmongoc/lib',
-    'LIBRARY_SEARCH_PATHS[sdk=iphoneos*]'        => '$(PODS_TARGET_SRCROOT)/libmongoc/lib',
-    'LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]' => '$(PODS_TARGET_SRCROOT)/libmongoc/lib',
-    # 'SWIFT_INCLUDE_PATHS' => [
-    #   '"$(PODS_TARGET_SRCROOT)/MobileSDKs/include"',
-    #   '"$(PODS_TARGET_SRCROOT)/MobileSDKs/include/libbson-1.0"',
-    #   '"$(PODS_TARGET_SRCROOT)/MobileSDKs/include/libmongoc-1.0"',
-    #   '"$(PODS_TARGET_SRCROOT)/Sources/mongo_embedded"',
-    #   '"$(PODS_TARGET_SRCROOT)/Sources/libmongoc"',
-    #   '"$(PODS_TARGET_SRCROOT)/Sources/libbson"',
-    # ].join(' '),
+  # spec.pod_target_xcconfig = {
+  #   # 'OTHER_LDFLAGS[sdk=iphoneos*]' => '-rpath $(PODS_TARGET_SRCROOT)/libmongoc/lib',
+  #   # 'OTHER_LDFLAGS[sdk=iphonesimulator*]' => '-rpath $(PODS_TARGET_SRCROOT)/libmongoc/lib',
+  #   # 'LIBRARY_SEARCH_PATHS[sdk=iphoneos*]'        => '$(PODS_TARGET_SRCROOT)/libmongoc/lib',
+  #   # 'LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]' => '$(PODS_TARGET_SRCROOT)/libmongoc/lib',
+  #   # 'SWIFT_INCLUDE_PATHS' => [
+  #   #   '"$(PODS_TARGET_SRCROOT)/MobileSDKs/include"',
+  #   #   '"$(PODS_TARGET_SRCROOT)/MobileSDKs/include/libbson-1.0"',
+  #   #   '"$(PODS_TARGET_SRCROOT)/MobileSDKs/include/libmongoc-1.0"',
+  #   #   '"$(PODS_TARGET_SRCROOT)/Sources/mongo_embedded"',
+  #   #   '"$(PODS_TARGET_SRCROOT)/Sources/libmongoc"',
+  #   #   '"$(PODS_TARGET_SRCROOT)/Sources/libbson"',
+  #   # ].join(' '),
 
-    # "FRAMEWORK_SEARCH_PATHS" => ["$(PODS_TARGET_SRCROOT)/frameworks"].join(" ")
-  }
+  #   # "FRAMEWORK_SEARCH_PATHS" => ["$(PODS_TARGET_SRCROOT)/frameworks"].join(" ")
+  # }
   
   #spec.ios.xcconfig = { 'FRAMEWORK_SEARCH_PATHS' => '"$(PODS_TARGET_SRCROOT)/fmks"' }
 
@@ -72,20 +72,27 @@ Pod::Spec.new do |spec|
   #   s.resource_bundle = { 'fail' => 'pod_fail.sh' }
   # end
 
-  # # pod "mongodb-stitch/core", "~> 4.0"
-  # spec.subspec "core-sdk" do |c|  
-  #   c.preserve_paths = [
-  #     "Sources/mongo_embedded/*.{h,modulemap}",
-  #     "Sources/libbson/*.{h,modulemap}",
-  #     "Sources/libmongoc/*.{h,modulemap}",
-  #     "MobileSDKs/**/*",
-  #     "MobileSDKs/iphoneos/lib",
-  #     "MobileSDKs/iphoneos/lib/*",
-  #     "frameworks/**/*",
-  #   ]
-  #   c.source_files = "Core/StitchCoreSDK/Sources/StitchCoreSDK/**/*.swift"
-  #   c.vendored_frameworks = "MongoSwift.framework"
-  # end
+  # pod "mongodb-stitch/core", "~> 4.0"
+  spec.subspec "core-sdk" do |c|
+    c.pod_target_xcconfig = {
+      'OTHER_LDFLAGS[sdk=iphoneos*]' => '-rpath $(PODS_TARGET_SRCROOT)/core-sdk/Frameworks/libmongoc.framework/Frameworks',
+      'OTHER_LDFLAGS[sdk=iphonesimulator*]' => '-rpath $(PODS_TARGET_SRCROOT)/core-sdk/Frameworks/libmongoc.framework/Frameworks',
+      'LIBRARY_SEARCH_PATHS[sdk=iphoneos*]'        =>  '$(PODS_TARGET_SRCROOT)/core-sdk/Frameworks/libmongoc.framework/Frameworks',
+      'LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]' => '$(PODS_TARGET_SRCROOT)/core-sdk/Frameworks/libmongoc.framework/Frameworks',
+      # 'SWIFT_INCLUDE_PATHS' => [
+      #   '"$(PODS_TARGET_SRCROOT)/MobileSDKs/include"',
+      #   '"$(PODS_TARGET_SRCROOT)/MobileSDKs/include/libbson-1.0"',
+      #   '"$(PODS_TARGET_SRCROOT)/MobileSDKs/include/libmongoc-1.0"',
+      #   '"$(PODS_TARGET_SRCROOT)/Sources/mongo_embedded"',
+      #   '"$(PODS_TARGET_SRCROOT)/Sources/libmongoc"',
+      #   '"$(PODS_TARGET_SRCROOT)/Sources/libbson"',
+      # ].join(' '),
+  
+      # "FRAMEWORK_SEARCH_PATHS" => ["$(PODS_TARGET_SRCROOT)/frameworks"].join(" ")
+    }
+    c.source_files = "Core/StitchCoreSDK/Sources/StitchCoreSDK/**/*.swift"
+    c.vendored_frameworks = "MongoSwift.framework"
+  end
 
   # # pod "mongodb-stitch/core-services-aws-s3", "~> 4.0"
   # spec.subspec "core-services-aws-s3" do |csas|
@@ -197,16 +204,34 @@ Pod::Spec.new do |spec|
 
   # pod "mongodb-stitch/ios-core", "~> 4.0"
   spec.subspec "ios-core" do |ic|
-    spec.preserve_paths = [
-      "libmongoc/lib",
-      "libmongoc.framework/Frameworks"
-    ]
+    # ic.preserve_paths = [
+    #   "libmongoc/lib",
+    #   "libmongoc.framework/Frameworks"
+    # ]
     ic.source_files = "iOS/StitchCore/StitchCore/**/*.swift"
+    ic.dependency 'mongodb-stitch/core-sdk'
+    
+    ic.pod_target_xcconfig = {
+      'OTHER_LDFLAGS[sdk=iphoneos*]' => '-rpath $(PODS_TARGET_SRCROOT)/ios-core/Frameworks/libmongoc.framework/Frameworks',
+      'OTHER_LDFLAGS[sdk=iphonesimulator*]' => '-rpath $(PODS_TARGET_SRCROOT)/ios-core/Frameworks/libmongoc.framework/Frameworks',
+      'LIBRARY_SEARCH_PATHS[sdk=iphoneos*]'        =>  '$(PODS_TARGET_SRCROOT)/ios-core/Frameworks/libmongoc.framework/Frameworks',
+      'LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]' => '$(PODS_TARGET_SRCROOT)/ios-core/Frameworks/libmongoc.framework/Frameworks',
+      # 'SWIFT_INCLUDE_PATHS' => [
+      #   '"$(PODS_TARGET_SRCROOT)/MobileSDKs/include"',
+      #   '"$(PODS_TARGET_SRCROOT)/MobileSDKs/include/libbson-1.0"',
+      #   '"$(PODS_TARGET_SRCROOT)/MobileSDKs/include/libmongoc-1.0"',
+      #   '"$(PODS_TARGET_SRCROOT)/Sources/mongo_embedded"',
+      #   '"$(PODS_TARGET_SRCROOT)/Sources/libmongoc"',
+      #   '"$(PODS_TARGET_SRCROOT)/Sources/libbson"',
+      # ].join(' '),
+  
+      # "FRAMEWORK_SEARCH_PATHS" => ["$(PODS_TARGET_SRCROOT)/frameworks"].join(" ")
+    }
     ic.vendored_frameworks = [
       "libbson.framework",
       "libmongoc.framework",
-      "MongoSwift.framework", 
-      "StitchCoreSDK.framework"
+      "MongoSwift.framework"
+      #"StitchCoreSDK.framework"
     ]
   end
 
