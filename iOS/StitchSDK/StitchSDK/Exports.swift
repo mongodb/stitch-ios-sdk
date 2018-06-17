@@ -48,9 +48,9 @@
 @_exported import protocol StitchCore.StitchUser
 
 // StitchCore/Core/Auth/Providers
-@_exported import class StitchCore.UserAPIKeyAuthProvider
+@_exported import let StitchCore.userAPIKeyClientFactory
 @_exported import protocol StitchCore.UserAPIKeyAuthProviderClient
-@_exported import class StitchCore.UserPasswordAuthProvider
+@_exported import let StitchCore.userPasswordClientFactory
 @_exported import protocol StitchCore.UserPasswordAuthProviderClient
 @_exported import protocol StitchCore.AuthProviderClientFactory
 @_exported import protocol StitchCore.NamedAuthProviderClientFactory
