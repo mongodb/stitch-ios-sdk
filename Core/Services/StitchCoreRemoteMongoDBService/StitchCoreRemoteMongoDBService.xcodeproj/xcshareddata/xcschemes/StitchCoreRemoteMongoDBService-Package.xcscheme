@@ -28,9 +28,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "StitchCoreSDK::StitchCoreSDK"
-               BuildableName = "StitchCoreSDK.framework"
-               BlueprintName = "StitchCoreSDK"
+               BlueprintIdentifier = "MockUtils::MockUtils"
+               BuildableName = "MockUtils.framework"
+               BlueprintName = "MockUtils"
                ReferencedContainer = "container:StitchCoreRemoteMongoDBService.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -42,9 +42,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "MockUtils::MockUtils"
-               BuildableName = "MockUtils.framework"
-               BlueprintName = "MockUtils"
+               BlueprintIdentifier = "StitchCoreSDK::StitchCoreSDKMocks"
+               BuildableName = "StitchCoreSDKMocks.framework"
+               BlueprintName = "StitchCoreSDKMocks"
                ReferencedContainer = "container:StitchCoreRemoteMongoDBService.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -70,9 +70,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "StitchCoreSDK::StitchCoreSDKMocks"
-               BuildableName = "StitchCoreSDKMocks.framework"
-               BlueprintName = "StitchCoreSDKMocks"
+               BlueprintIdentifier = "StitchCoreSDK::StitchCoreSDK"
+               BuildableName = "StitchCoreSDK.framework"
+               BlueprintName = "StitchCoreSDK"
                ReferencedContainer = "container:StitchCoreRemoteMongoDBService.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

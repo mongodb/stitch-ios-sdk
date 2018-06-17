@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "StitchCoreSDK::StitchCoreSDKMocks"
-               BuildableName = "StitchCoreSDKMocks.framework"
-               BlueprintName = "StitchCoreSDKMocks"
+               BlueprintIdentifier = "StitchCoreSDK::StitchCoreSDK"
+               BuildableName = "StitchCoreSDK.framework"
+               BlueprintName = "StitchCoreSDK"
                ReferencedContainer = "container:StitchCoreTwilioService.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -56,9 +56,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "StitchCoreSDK::StitchCoreSDK"
-               BuildableName = "StitchCoreSDK.framework"
-               BlueprintName = "StitchCoreSDK"
+               BlueprintIdentifier = "StitchCoreSDK::StitchCoreSDKMocks"
+               BuildableName = "StitchCoreSDKMocks.framework"
+               BlueprintName = "StitchCoreSDKMocks"
                ReferencedContainer = "container:StitchCoreTwilioService.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -111,9 +111,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "StitchCoreSDK::StitchCoreSDKMocks"
-            BuildableName = "StitchCoreSDKMocks.framework"
-            BlueprintName = "StitchCoreSDKMocks"
+            BlueprintIdentifier = "StitchCoreSDK::StitchCoreSDK"
+            BuildableName = "StitchCoreSDK.framework"
+            BlueprintName = "StitchCoreSDK"
             ReferencedContainer = "container:StitchCoreTwilioService.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

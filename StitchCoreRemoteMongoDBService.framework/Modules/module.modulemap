@@ -1,4 +1,0 @@
-framework module StitchCoreRemoteMongoDBService {
-    header "StitchCoreRemoteMongoDBService-Swift.h"
-    requires objc
-}

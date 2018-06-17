@@ -18,7 +18,7 @@
 		</data>
 		<key>Modules/StitchCoreSDK.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		gGvUOnkxCEXDhJZAGlg1YVPu9Zg=
+		uHdTaMsh3VGwXjEXBjUzcafu7wU=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -53,11 +53,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			gGvUOnkxCEXDhJZAGlg1YVPu9Zg=
+			uHdTaMsh3VGwXjEXBjUzcafu7wU=
 			</data>
 			<key>hash2</key>
 			<data>
-			SOqWx0q1fSoKvJrHK8k2mmFbbRp2Bq8EE2aRfoE4qLA=
+			71DHLSKvMVX/J8l5a9P4K74mEGx8WKbeLbP5sYOXXuA=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

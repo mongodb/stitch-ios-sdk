@@ -1,6 +1,5 @@
 import UIKit
 import StitchCore
-import StitchCoreLocalMongoDBService
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

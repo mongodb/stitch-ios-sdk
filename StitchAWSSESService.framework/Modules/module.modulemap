@@ -1,4 +1,0 @@
-framework module StitchAWSSESService {
-    header "StitchAWSSESService-Swift.h"
-    requires objc
-}

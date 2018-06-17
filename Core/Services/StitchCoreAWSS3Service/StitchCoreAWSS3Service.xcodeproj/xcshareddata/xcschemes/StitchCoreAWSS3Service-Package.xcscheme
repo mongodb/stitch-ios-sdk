@@ -14,37 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "MongoSwift::MongoSwift"
-               BuildableName = "MongoSwift.framework"
-               BlueprintName = "MongoSwift"
-               ReferencedContainer = "container:StitchCoreAWSS3Service.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "StitchCoreAWSS3Service::StitchCoreAWSS3Service"
-               BuildableName = "StitchCoreAWSS3Service.framework"
-               BlueprintName = "StitchCoreAWSS3Service"
-               ReferencedContainer = "container:StitchCoreAWSS3Service.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "MockUtils::MockUtils"
-               BuildableName = "MockUtils.framework"
-               BlueprintName = "MockUtils"
+               BlueprintIdentifier = "StitchCoreSDK::StitchCoreSDKMocks"
+               BuildableName = "StitchCoreSDKMocks.framework"
+               BlueprintName = "StitchCoreSDKMocks"
                ReferencedContainer = "container:StitchCoreAWSS3Service.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -70,9 +42,37 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "StitchCoreSDK::StitchCoreSDKMocks"
-               BuildableName = "StitchCoreSDKMocks.framework"
-               BlueprintName = "StitchCoreSDKMocks"
+               BlueprintIdentifier = "MongoSwift::MongoSwift"
+               BuildableName = "MongoSwift.framework"
+               BlueprintName = "MongoSwift"
+               ReferencedContainer = "container:StitchCoreAWSS3Service.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "MockUtils::MockUtils"
+               BuildableName = "MockUtils.framework"
+               BlueprintName = "MockUtils"
+               ReferencedContainer = "container:StitchCoreAWSS3Service.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "StitchCoreAWSS3Service::StitchCoreAWSS3Service"
+               BuildableName = "StitchCoreAWSS3Service.framework"
+               BlueprintName = "StitchCoreAWSS3Service"
                ReferencedContainer = "container:StitchCoreAWSS3Service.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -111,9 +111,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "MongoSwift::MongoSwift"
-            BuildableName = "MongoSwift.framework"
-            BlueprintName = "MongoSwift"
+            BlueprintIdentifier = "StitchCoreSDK::StitchCoreSDKMocks"
+            BuildableName = "StitchCoreSDKMocks.framework"
+            BlueprintName = "StitchCoreSDKMocks"
             ReferencedContainer = "container:StitchCoreAWSS3Service.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

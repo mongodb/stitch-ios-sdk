@@ -14,20 +14,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "StitchCoreFCMService::StitchCoreFCMService"
-               BuildableName = "StitchCoreFCMService.framework"
-               BlueprintName = "StitchCoreFCMService"
-               ReferencedContainer = "container:StitchCoreFCMService.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "StitchCoreSDK::StitchCoreSDKMocks"
                BuildableName = "StitchCoreSDKMocks.framework"
                BlueprintName = "StitchCoreSDKMocks"
@@ -59,6 +45,20 @@
                BlueprintIdentifier = "StitchCoreSDK::StitchCoreSDK"
                BuildableName = "StitchCoreSDK.framework"
                BlueprintName = "StitchCoreSDK"
+               ReferencedContainer = "container:StitchCoreFCMService.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "StitchCoreFCMService::StitchCoreFCMService"
+               BuildableName = "StitchCoreFCMService.framework"
+               BlueprintName = "StitchCoreFCMService"
                ReferencedContainer = "container:StitchCoreFCMService.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -111,9 +111,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "StitchCoreFCMService::StitchCoreFCMService"
-            BuildableName = "StitchCoreFCMService.framework"
-            BlueprintName = "StitchCoreFCMService"
+            BlueprintIdentifier = "StitchCoreSDK::StitchCoreSDKMocks"
+            BuildableName = "StitchCoreSDKMocks.framework"
+            BlueprintName = "StitchCoreSDKMocks"
             ReferencedContainer = "container:StitchCoreFCMService.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

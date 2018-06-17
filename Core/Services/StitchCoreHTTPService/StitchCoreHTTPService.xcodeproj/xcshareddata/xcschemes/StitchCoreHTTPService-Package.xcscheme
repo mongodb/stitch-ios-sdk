@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "StitchCoreSDK::StitchCoreSDKMocks"
-               BuildableName = "StitchCoreSDKMocks.framework"
-               BlueprintName = "StitchCoreSDKMocks"
+               BlueprintIdentifier = "StitchCoreHTTPService::StitchCoreHTTPService"
+               BuildableName = "StitchCoreHTTPService.framework"
+               BlueprintName = "StitchCoreHTTPService"
                ReferencedContainer = "container:StitchCoreHTTPService.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -42,9 +42,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "MockUtils::MockUtils"
-               BuildableName = "MockUtils.framework"
-               BlueprintName = "MockUtils"
+               BlueprintIdentifier = "StitchCoreSDK::StitchCoreSDKMocks"
+               BuildableName = "StitchCoreSDKMocks.framework"
+               BlueprintName = "StitchCoreSDKMocks"
                ReferencedContainer = "container:StitchCoreHTTPService.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -56,9 +56,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "StitchCoreHTTPService::StitchCoreHTTPService"
-               BuildableName = "StitchCoreHTTPService.framework"
-               BlueprintName = "StitchCoreHTTPService"
+               BlueprintIdentifier = "MockUtils::MockUtils"
+               BuildableName = "MockUtils.framework"
+               BlueprintName = "MockUtils"
                ReferencedContainer = "container:StitchCoreHTTPService.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -111,9 +111,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "StitchCoreSDK::StitchCoreSDKMocks"
-            BuildableName = "StitchCoreSDKMocks.framework"
-            BlueprintName = "StitchCoreSDKMocks"
+            BlueprintIdentifier = "StitchCoreHTTPService::StitchCoreHTTPService"
+            BuildableName = "StitchCoreHTTPService.framework"
+            BlueprintName = "StitchCoreHTTPService"
             ReferencedContainer = "container:StitchCoreHTTPService.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

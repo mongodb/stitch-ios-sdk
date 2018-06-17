@@ -18,7 +18,7 @@
 		</data>
 		<key>Modules/MongoSwift.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		8TMrsEYe6Hd9ha+cN8KJw6S0rug=
+		1jybg6FY5mAvM+V5QhIRIQVSGxE=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -53,11 +53,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			8TMrsEYe6Hd9ha+cN8KJw6S0rug=
+			1jybg6FY5mAvM+V5QhIRIQVSGxE=
 			</data>
 			<key>hash2</key>
 			<data>
-			GBR7gxbUoEUxiZZNiZAPscHDeOIgZx3mPqiToOEBYy8=
+			i6yk31pAR0OLgSU2gxclFAuKk3bWIS0W5ZUIWbN6UMY=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

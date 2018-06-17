@@ -1,4 +1,0 @@
-framework module StitchCoreAWSS3Service {
-    header "StitchCoreAWSS3Service-Swift.h"
-    requires objc
-}

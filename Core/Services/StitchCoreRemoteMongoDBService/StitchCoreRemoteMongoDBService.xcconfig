@@ -2,12 +2,12 @@
 // StitchCoreRemoteMongoDBService.xcconfig
 //
 
-OTHER_LDFLAGS[sdk=iphoneos*] = -rpath $(SRCROOT)/../../../MobileSDKs/iphoneos/lib
-OTHER_LDFLAGS[sdk=iphonesimulator*] = -rpath $(SRCROOT)/../../../MobileSDKs/iphoneos/lib
+OTHER_LDFLAGS[sdk=iphoneos*] = -rpath $(SRCROOT)/../../../libmongoc/lib
+OTHER_LDFLAGS[sdk=iphonesimulator*] = -rpath $(SRCROOT)/../../../libmongoc/lib
 OTHER_LDFLAGS[sdk=appletvos*] = -rpath $(SRCROOT)/../../../MobileSDKs/appletvos/lib
 OTHER_LDFLAGS[sdk=appletvsimulator*] = -rpath $(SRCROOT)/../../../MobileSDKs/appletvos/lib
-LIBRARY_SEARCH_PATHS[sdk=iphoneos*]        = $(SRCROOT)/../../../MobileSDKs/iphoneos/lib
-LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*] = $(SRCROOT)/../../../MobileSDKs/iphoneos/lib
+LIBRARY_SEARCH_PATHS[sdk=iphoneos*]        = $(SRCROOT)/../../../libmongoc/lib
+LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*] = $(SRCROOT)/../../../libmongoc/lib
 LIBRARY_SEARCH_PATHS[sdk=appletvos*]       = $(SRCROOT)/../../../MobileSDKs/appletvos/lib
 LIBRARY_SEARCH_PATHS[sdk=appletvsimulator*] = $(SRCROOT)/../../../MobileSDKs/appletvos/lib
 

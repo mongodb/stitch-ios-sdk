@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:libmongoc/libmongoc/libmongoc.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:MockUtils/MockUtils.xcodeproj">
    </FileRef>
    <Group

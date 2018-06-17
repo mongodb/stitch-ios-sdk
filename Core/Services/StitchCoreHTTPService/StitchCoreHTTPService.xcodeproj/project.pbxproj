@@ -148,84 +148,84 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		F4E9E39420D47B5C00235DCB /* PBXContainerItemProxy */ = {
+		F4DAD54220D60C3F005B45B8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "StitchCoreSDK::StitchCoreSDK";
+			remoteInfo = StitchCoreSDK;
+		};
+		F4DAD54320D60C3F005B45B8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "MongoSwift::MongoSwift";
+			remoteInfo = MongoSwift;
+		};
+		F4DAD54420D60C3F005B45B8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "MongoSwift::MongoSwift";
+			remoteInfo = MongoSwift;
+		};
+		F4DAD54520D60C3F005B45B8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "MockUtils::MockUtils";
 			remoteInfo = MockUtils;
 		};
-		F4E9E39520D47B5C00235DCB /* PBXContainerItemProxy */ = {
+		F4DAD54620D60C3F005B45B8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "StitchCoreSDK::StitchCoreSDK";
 			remoteInfo = StitchCoreSDK;
 		};
-		F4E9E39620D47B5C00235DCB /* PBXContainerItemProxy */ = {
+		F4DAD54720D60C3F005B45B8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "MongoSwift::MongoSwift";
 			remoteInfo = MongoSwift;
 		};
-		F4E9E39720D47B5C00235DCB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = "MongoSwift::MongoSwift";
-			remoteInfo = MongoSwift;
-		};
-		F4E9E39820D47B5C00235DCB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = "StitchCoreSDK::StitchCoreSDK";
-			remoteInfo = StitchCoreSDK;
-		};
-		F4E9E39920D47B5C00235DCB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = "MongoSwift::MongoSwift";
-			remoteInfo = MongoSwift;
-		};
-		F4E9E39A20D47B5C00235DCB /* PBXContainerItemProxy */ = {
+		F4DAD54820D60C3F005B45B8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "StitchCoreSDK::StitchCoreSDKMocks";
 			remoteInfo = StitchCoreSDKMocks;
 		};
-		F4E9E39B20D47B5C00235DCB /* PBXContainerItemProxy */ = {
+		F4DAD54920D60C3F005B45B8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "MockUtils::MockUtils";
 			remoteInfo = MockUtils;
 		};
-		F4E9E39C20D47B5C00235DCB /* PBXContainerItemProxy */ = {
+		F4DAD54A20D60C3F005B45B8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "StitchCoreHTTPService::StitchCoreHTTPService";
 			remoteInfo = StitchCoreHTTPService;
 		};
-		F4E9E39D20D47B5C00235DCB /* PBXContainerItemProxy */ = {
+		F4DAD54B20D60C3F005B45B8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "StitchCoreSDK::StitchCoreSDK";
 			remoteInfo = StitchCoreSDK;
 		};
-		F4E9E39E20D47B5C00235DCB /* PBXContainerItemProxy */ = {
+		F4DAD54C20D60C3F005B45B8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "MongoSwift::MongoSwift";
 			remoteInfo = MongoSwift;
 		};
-		F4E9E3AD20D47B5F00235DCB /* PBXContainerItemProxy */ = {
+		F4DAD57B20D60C45005B45B8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
@@ -537,12 +537,12 @@
 		OBJ_153 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				"StitchCoreSDK::StitchCoreSDKMocks::Product" /* StitchCoreSDKMocks.framework */,
-				"StitchCoreSDK::StitchCoreSDK::Product" /* StitchCoreSDK.framework */,
-				"MockUtils::MockUtils::Product" /* MockUtils.framework */,
 				"StitchCoreHTTPService::StitchCoreHTTPService::Product" /* StitchCoreHTTPService.framework */,
+				"StitchCoreSDK::StitchCoreSDK::Product" /* StitchCoreSDK.framework */,
 				"MongoSwift::MongoSwift::Product" /* MongoSwift.framework */,
+				"StitchCoreSDK::StitchCoreSDKMocks::Product" /* StitchCoreSDKMocks.framework */,
 				"StitchCoreHTTPService::StitchCoreHTTPServiceTests::Product" /* StitchCoreHTTPServiceTests.xctest */,
+				"MockUtils::MockUtils::Product" /* MockUtils.framework */,
 			);
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -1261,62 +1261,62 @@
 		OBJ_217 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "StitchCoreSDK::StitchCoreSDK" /* StitchCoreSDK */;
-			targetProxy = F4E9E39820D47B5C00235DCB /* PBXContainerItemProxy */;
+			targetProxy = F4DAD54220D60C3F005B45B8 /* PBXContainerItemProxy */;
 		};
 		OBJ_219 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "MongoSwift::MongoSwift" /* MongoSwift */;
-			targetProxy = F4E9E39920D47B5C00235DCB /* PBXContainerItemProxy */;
+			targetProxy = F4DAD54420D60C3F005B45B8 /* PBXContainerItemProxy */;
 		};
 		OBJ_230 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "StitchCoreHTTPService::StitchCoreHTTPServiceTests" /* StitchCoreHTTPServiceTests */;
-			targetProxy = F4E9E3AD20D47B5F00235DCB /* PBXContainerItemProxy */;
+			targetProxy = F4DAD57B20D60C45005B45B8 /* PBXContainerItemProxy */;
 		};
 		OBJ_244 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "StitchCoreSDK::StitchCoreSDKMocks" /* StitchCoreSDKMocks */;
-			targetProxy = F4E9E39A20D47B5C00235DCB /* PBXContainerItemProxy */;
+			targetProxy = F4DAD54820D60C3F005B45B8 /* PBXContainerItemProxy */;
 		};
 		OBJ_246 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "MockUtils::MockUtils" /* MockUtils */;
-			targetProxy = F4E9E39B20D47B5C00235DCB /* PBXContainerItemProxy */;
+			targetProxy = F4DAD54920D60C3F005B45B8 /* PBXContainerItemProxy */;
 		};
 		OBJ_247 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "StitchCoreHTTPService::StitchCoreHTTPService" /* StitchCoreHTTPService */;
-			targetProxy = F4E9E39C20D47B5C00235DCB /* PBXContainerItemProxy */;
+			targetProxy = F4DAD54A20D60C3F005B45B8 /* PBXContainerItemProxy */;
 		};
 		OBJ_248 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "StitchCoreSDK::StitchCoreSDK" /* StitchCoreSDK */;
-			targetProxy = F4E9E39D20D47B5C00235DCB /* PBXContainerItemProxy */;
+			targetProxy = F4DAD54B20D60C3F005B45B8 /* PBXContainerItemProxy */;
 		};
 		OBJ_249 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "MongoSwift::MongoSwift" /* MongoSwift */;
-			targetProxy = F4E9E39E20D47B5C00235DCB /* PBXContainerItemProxy */;
+			targetProxy = F4DAD54C20D60C3F005B45B8 /* PBXContainerItemProxy */;
 		};
 		OBJ_321 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "MongoSwift::MongoSwift" /* MongoSwift */;
-			targetProxy = F4E9E39620D47B5C00235DCB /* PBXContainerItemProxy */;
+			targetProxy = F4DAD54320D60C3F005B45B8 /* PBXContainerItemProxy */;
 		};
 		OBJ_337 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "MockUtils::MockUtils" /* MockUtils */;
-			targetProxy = F4E9E39420D47B5C00235DCB /* PBXContainerItemProxy */;
+			targetProxy = F4DAD54520D60C3F005B45B8 /* PBXContainerItemProxy */;
 		};
 		OBJ_338 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "StitchCoreSDK::StitchCoreSDK" /* StitchCoreSDK */;
-			targetProxy = F4E9E39520D47B5C00235DCB /* PBXContainerItemProxy */;
+			targetProxy = F4DAD54620D60C3F005B45B8 /* PBXContainerItemProxy */;
 		};
 		OBJ_339 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "MongoSwift::MongoSwift" /* MongoSwift */;
-			targetProxy = F4E9E39720D47B5C00235DCB /* PBXContainerItemProxy */;
+			targetProxy = F4DAD54720D60C3F005B45B8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

@@ -4,3 +4,6 @@
 [submodule "iOS/StitchCore/PromiseKit"]
 	path = iOS/StitchCore/PromiseKit
 	url = https://github.com/mxcl/PromiseKit/
+[submodule "libmongoc"]
+	path = libmongoc
+	url = https://github.com/jsflax/libmongoc/

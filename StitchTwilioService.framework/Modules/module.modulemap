@@ -1,4 +1,0 @@
-framework module StitchTwilioService {
-    header "StitchTwilioService-Swift.h"
-    requires objc
-}
