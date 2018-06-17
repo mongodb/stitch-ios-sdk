@@ -1,0 +1,474 @@
+### Swift dependencies file v0 ###
+provides-top-level:
+- "StitchAuthImpl"
+provides-nominal:
+- "10StitchCore0A8AuthImplC"
+provides-member:
+- ["10StitchCore0A8AuthImplC", ""]
+provides-dynamic-lookup:
+depends-top-level:
+- "AnyStitchUserFactory"
+- "AssignmentPrecedence"
+- "AuthProviderClientFactory"
+- "CoreStitchAuth"
+- !private "DeviceField"
+- "Document"
+- "NamedAuthProviderClientFactory"
+- "OperationDispatcher"
+- !private "Stitch"
+- "StitchAppClientInfo"
+- "StitchAuth"
+- "StitchAuthDelegate"
+- "StitchAuthImpl"
+- "StitchAuthRequestClient"
+- "StitchAuthRoutes"
+- "StitchCredential"
+- "StitchRequestClient"
+- "StitchResult"
+- "StitchUser"
+- !private "StitchUserFactoryImpl"
+- "StitchUserImpl"
+- "Storage"
+- "String"
+- !private "StringLiteralType"
+- !private "UIDevice"
+- "Void"
+- !private "objc_sync_enter"
+- !private "objc_sync_exit"
+depends-member:
+- !private ["13StitchCoreSDK03AnyA11UserFactoryC", "init"]
+- !private ["Sa", "append"]
+- !private ["Sa", "enumerated"]
+- !private ["Sa", "forEach"]
+- !private ["Sa", "remove"]
+- !private ["10StitchCore25AuthProviderClientFactoryP", "client"]
+- !private ["s23BidirectionalCollectionP", "append"]
+- !private ["s23BidirectionalCollectionP", "enumerated"]
+- !private ["s23BidirectionalCollectionP", "forEach"]
+- !private ["s23BidirectionalCollectionP", "remove"]
+- !private ["Sb", "_getBuiltinLogicValue"]
+- !private ["10MongoSwift9BsonValueP", "_getBuiltinLogicValue"]
+- !private ["10MongoSwift9BsonValueP", "append"]
+- !private ["10MongoSwift9BsonValueP", "enumerated"]
+- !private ["10MongoSwift9BsonValueP", "forEach"]
+- !private ["10MongoSwift9BsonValueP", "init"]
+- !private ["10MongoSwift9BsonValueP", "remove"]
+- !private ["10MongoSwift9BsonValueP", "subscript"]
+- !private ["s7CVarArgP", "_getBuiltinLogicValue"]
+- !private ["s7CVarArgP", "append"]
+- !private ["s7CVarArgP", "async"]
+- !private ["s7CVarArgP", "current"]
+- !private ["s7CVarArgP", "enumerated"]
+- !private ["s7CVarArgP", "forEach"]
+- !private ["s7CVarArgP", "remove"]
+- !private ["s7CVarArgP", "systemName"]
+- !private ["s7CVarArgP", "systemVersion"]
+- !private ["s10CollectionP", "append"]
+- !private ["s10CollectionP", "enumerated"]
+- !private ["s10CollectionP", "forEach"]
+- !private ["s10CollectionP", "remove"]
+- ["13StitchCoreSDK0bA4AuthC", "AnyStitchUserFactory"]
+- ["13StitchCoreSDK0bA4AuthC", "AuthProviderClientFactory"]
+- ["13StitchCoreSDK0bA4AuthC", "DelegateWeakRef"]
+- !private ["13StitchCoreSDK0bA4AuthC", "DeviceField"]
+- ["13StitchCoreSDK0bA4AuthC", "Document"]
+- ["13StitchCoreSDK0bA4AuthC", "NamedAuthProviderClientFactory"]
+- ["13StitchCoreSDK0bA4AuthC", "OperationDispatcher"]
+- !private ["13StitchCoreSDK0bA4AuthC", "Stitch"]
+- ["13StitchCoreSDK0bA4AuthC", "StitchAppClientInfo"]
+- ["13StitchCoreSDK0bA4AuthC", "StitchAuthDelegate"]
+- ["13StitchCoreSDK0bA4AuthC", "StitchAuthRequestClient"]
+- ["13StitchCoreSDK0bA4AuthC", "StitchAuthRoutes"]
+- ["13StitchCoreSDK0bA4AuthC", "StitchCredential"]
+- ["13StitchCoreSDK0bA4AuthC", "StitchRequestClient"]
+- ["13StitchCoreSDK0bA4AuthC", "StitchResult"]
+- ["13StitchCoreSDK0bA4AuthC", "StitchUser"]
+- !private ["13StitchCoreSDK0bA4AuthC", "StitchUserFactoryImpl"]
+- ["13StitchCoreSDK0bA4AuthC", "StitchUserImpl"]
+- ["13StitchCoreSDK0bA4AuthC", "Storage"]
+- ["13StitchCoreSDK0bA4AuthC", "String"]
+- !private ["13StitchCoreSDK0bA4AuthC", "UIDevice"]
+- ["13StitchCoreSDK0bA4AuthC", "Void"]
+- ["13StitchCoreSDK0bA4AuthC", ""]
+- ["13StitchCoreSDK0bA4AuthC", "add"]
+- ["13StitchCoreSDK0bA4AuthC", "appInfo"]
+- !private ["13StitchCoreSDK0bA4AuthC", "authRoutes"]
+- ["13StitchCoreSDK0bA4AuthC", "currentUser"]
+- ["13StitchCoreSDK0bA4AuthC", "delegates"]
+- !private ["13StitchCoreSDK0bA4AuthC", "deviceID"]
+- ["13StitchCoreSDK0bA4AuthC", "deviceInfo"]
+- ["13StitchCoreSDK0bA4AuthC", "dispatcher"]
+- !private ["13StitchCoreSDK0bA4AuthC", "hasDeviceID"]
+- ["13StitchCoreSDK0bA4AuthC", "init"]
+- ["13StitchCoreSDK0bA4AuthC", "isLoggedIn"]
+- ["13StitchCoreSDK0bA4AuthC", "link"]
+- !private ["13StitchCoreSDK0bA4AuthC", "linkUserWithCredentialInternal"]
+- ["13StitchCoreSDK0bA4AuthC", "login"]
+- !private ["13StitchCoreSDK0bA4AuthC", "loginWithCredentialInternal"]
+- ["13StitchCoreSDK0bA4AuthC", "logout"]
+- !private ["13StitchCoreSDK0bA4AuthC", "logoutInternal"]
+- !private ["13StitchCoreSDK0bA4AuthC", "objc_sync_enter"]
+- !private ["13StitchCoreSDK0bA4AuthC", "objc_sync_exit"]
+- ["13StitchCoreSDK0bA4AuthC", "onAuthEvent"]
+- ["13StitchCoreSDK0bA4AuthC", "providerClient"]
+- !private ["13StitchCoreSDK0bA4AuthC", "requestClient"]
+- !private ["13StitchCoreSDK0bA4AuthC", "user"]
+- ["13StitchCoreSDK0bA4AuthC", "userFactory"]
+- !private ["s28CustomDebugStringConvertibleP", "append"]
+- !private ["s28CustomDebugStringConvertibleP", "async"]
+- !private ["s28CustomDebugStringConvertibleP", "current"]
+- !private ["s28CustomDebugStringConvertibleP", "enumerated"]
+- !private ["s28CustomDebugStringConvertibleP", "forEach"]
+- !private ["s28CustomDebugStringConvertibleP", "init"]
+- !private ["s28CustomDebugStringConvertibleP", "remove"]
+- !private ["s28CustomDebugStringConvertibleP", "systemName"]
+- !private ["s28CustomDebugStringConvertibleP", "systemVersion"]
+- !private ["s29CustomPlaygroundQuickLookableP", "_getBuiltinLogicValue"]
+- !private ["s17CustomReflectableP", "_getBuiltinLogicValue"]
+- !private ["s17CustomReflectableP", "append"]
+- !private ["s17CustomReflectableP", "enumerated"]
+- !private ["s17CustomReflectableP", "forEach"]
+- !private ["s17CustomReflectableP", "init"]
+- !private ["s17CustomReflectableP", "remove"]
+- !private ["s23CustomStringConvertibleP", "_getBuiltinLogicValue"]
+- !private ["s23CustomStringConvertibleP", "append"]
+- !private ["s23CustomStringConvertibleP", "async"]
+- !private ["s23CustomStringConvertibleP", "current"]
+- !private ["s23CustomStringConvertibleP", "enumerated"]
+- !private ["s23CustomStringConvertibleP", "forEach"]
+- !private ["s23CustomStringConvertibleP", "init"]
+- !private ["s23CustomStringConvertibleP", "remove"]
+- !private ["s23CustomStringConvertibleP", "subscript"]
+- !private ["s23CustomStringConvertibleP", "systemName"]
+- !private ["s23CustomStringConvertibleP", "systemVersion"]
+- !private ["s9DecodableP", "_getBuiltinLogicValue"]
+- !private ["s9DecodableP", "append"]
+- !private ["s9DecodableP", "enumerated"]
+- !private ["s9DecodableP", "forEach"]
+- !private ["s9DecodableP", "init"]
+- !private ["s9DecodableP", "remove"]
+- !private ["s9DecodableP", "subscript"]
+- !private ["13StitchCoreSDK11DeviceFieldO", "appID"]
+- !private ["13StitchCoreSDK11DeviceFieldO", "appVersion"]
+- !private ["13StitchCoreSDK11DeviceFieldO", "deviceID"]
+- !private ["13StitchCoreSDK11DeviceFieldO", "platform"]
+- !private ["13StitchCoreSDK11DeviceFieldO", "platformVersion"]
+- !private ["13StitchCoreSDK11DeviceFieldO", "rawValue"]
+- !private ["13StitchCoreSDK11DeviceFieldO", "sdkVersion"]
+- !private ["So14DispatchObjectC", "async"]
+- !private ["So13DispatchQueueC", "async"]
+- !private ["10MongoSwift8DocumentV", "init"]
+- !private ["10MongoSwift8DocumentV", "subscript"]
+- !private ["s9EncodableP", "_getBuiltinLogicValue"]
+- !private ["s9EncodableP", "append"]
+- !private ["s9EncodableP", "enumerated"]
+- !private ["s9EncodableP", "forEach"]
+- !private ["s9EncodableP", "init"]
+- !private ["s9EncodableP", "remove"]
+- !private ["s9EncodableP", "subscript"]
+- !private ["s18EnumeratedSequenceV", "reversed"]
+- !private ["s9EquatableP", "_getBuiltinLogicValue"]
+- !private ["s9EquatableP", "appID"]
+- !private ["s9EquatableP", "appVersion"]
+- !private ["s9EquatableP", "append"]
+- !private ["s9EquatableP", "async"]
+- !private ["s9EquatableP", "current"]
+- !private ["s9EquatableP", "deviceID"]
+- !private ["s9EquatableP", "enumerated"]
+- !private ["s9EquatableP", "forEach"]
+- !private ["s9EquatableP", "init"]
+- !private ["s9EquatableP", "platform"]
+- !private ["s9EquatableP", "platformVersion"]
+- !private ["s9EquatableP", "rawValue"]
+- !private ["s9EquatableP", "remove"]
+- !private ["s9EquatableP", "sdkVersion"]
+- !private ["s9EquatableP", "subscript"]
+- !private ["s9EquatableP", "systemName"]
+- !private ["s9EquatableP", "systemVersion"]
+- !private ["s25ExpressibleByArrayLiteralP", "append"]
+- !private ["s25ExpressibleByArrayLiteralP", "enumerated"]
+- !private ["s25ExpressibleByArrayLiteralP", "forEach"]
+- !private ["s25ExpressibleByArrayLiteralP", "init"]
+- !private ["s25ExpressibleByArrayLiteralP", "remove"]
+- !private ["s25ExpressibleByArrayLiteralP", "subscript"]
+- !private ["s27ExpressibleByBooleanLiteralP", "_getBuiltinLogicValue"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "init"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "subscript"]
+- !private ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s26ExpressibleByStringLiteralP", "init"]
+- !private ["s33ExpressibleByUnicodeScalarLiteralP", "init"]
+- !private ["s8HashableP", "_getBuiltinLogicValue"]
+- !private ["s8HashableP", "appID"]
+- !private ["s8HashableP", "appVersion"]
+- !private ["s8HashableP", "async"]
+- !private ["s8HashableP", "current"]
+- !private ["s8HashableP", "deviceID"]
+- !private ["s8HashableP", "platform"]
+- !private ["s8HashableP", "platformVersion"]
+- !private ["s8HashableP", "rawValue"]
+- !private ["s8HashableP", "sdkVersion"]
+- !private ["s8HashableP", "systemName"]
+- !private ["s8HashableP", "systemVersion"]
+- !private ["s25LosslessStringConvertibleP", "_getBuiltinLogicValue"]
+- !private ["s17MutableCollectionP", "append"]
+- !private ["s17MutableCollectionP", "enumerated"]
+- !private ["s17MutableCollectionP", "forEach"]
+- !private ["s17MutableCollectionP", "remove"]
+- !private ["So8NSObjectC", "async"]
+- !private ["So8NSObjectC", "current"]
+- !private ["So8NSObjectC", "systemName"]
+- !private ["So8NSObjectC", "systemVersion"]
+- !private ["So16NSObjectProtocolP", "async"]
+- !private ["So16NSObjectProtocolP", "current"]
+- !private ["So16NSObjectProtocolP", "systemName"]
+- !private ["So16NSObjectProtocolP", "systemVersion"]
+- !private ["10StitchCore30NamedAuthProviderClientFactoryP", "client"]
+- !private ["So9OS_objectC", "async"]
+- !private ["10StitchCore19OperationDispatcherC", "queue"]
+- !private ["10StitchCore19OperationDispatcherC", "run"]
+- !private ["s22RandomAccessCollectionP", "append"]
+- !private ["s22RandomAccessCollectionP", "enumerated"]
+- !private ["s22RandomAccessCollectionP", "forEach"]
+- !private ["s22RandomAccessCollectionP", "remove"]
+- !private ["s26RangeReplaceableCollectionP", "append"]
+- !private ["s26RangeReplaceableCollectionP", "enumerated"]
+- !private ["s26RangeReplaceableCollectionP", "forEach"]
+- !private ["s26RangeReplaceableCollectionP", "remove"]
+- !private ["s16RawRepresentableP", "appID"]
+- !private ["s16RawRepresentableP", "appVersion"]
+- !private ["s16RawRepresentableP", "deviceID"]
+- !private ["s16RawRepresentableP", "platform"]
+- !private ["s16RawRepresentableP", "platformVersion"]
+- !private ["s16RawRepresentableP", "rawValue"]
+- !private ["s16RawRepresentableP", "sdkVersion"]
+- !private ["s8SequenceP", "append"]
+- !private ["s8SequenceP", "enumerated"]
+- !private ["s8SequenceP", "forEach"]
+- !private ["s8SequenceP", "init"]
+- !private ["s8SequenceP", "remove"]
+- !private ["s8SequenceP", "reversed"]
+- !private ["s8SequenceP", "subscript"]
+- !private ["s12StaticStringV", "init"]
+- !private ["10StitchCore0A0C", "sdkVersion"]
+- !private ["13StitchCoreSDK0A13AppClientInfoV", "localAppName"]
+- !private ["13StitchCoreSDK0A13AppClientInfoV", "localAppVersion"]
+- !private ["10StitchCore0A4AuthP", "AnyStitchUserFactory"]
+- !private ["10StitchCore0A4AuthP", "DelegateWeakRef"]
+- !private ["10StitchCore0A4AuthP", "DeviceField"]
+- !private ["10StitchCore0A4AuthP", "Document"]
+- !private ["10StitchCore0A4AuthP", "Stitch"]
+- !private ["10StitchCore0A4AuthP", "StitchUserFactoryImpl"]
+- !private ["10StitchCore0A4AuthP", "UIDevice"]
+- ["10StitchCore0A4AuthP", ""]
+- ["10StitchCore0A4AuthP", "add"]
+- !private ["10StitchCore0A4AuthP", "appInfo"]
+- !private ["10StitchCore0A4AuthP", "authRoutes"]
+- ["10StitchCore0A4AuthP", "currentUser"]
+- !private ["10StitchCore0A4AuthP", "delegates"]
+- !private ["10StitchCore0A4AuthP", "deviceID"]
+- !private ["10StitchCore0A4AuthP", "dispatcher"]
+- !private ["10StitchCore0A4AuthP", "hasDeviceID"]
+- ["10StitchCore0A4AuthP", "isLoggedIn"]
+- !private ["10StitchCore0A4AuthP", "linkUserWithCredentialInternal"]
+- ["10StitchCore0A4AuthP", "login"]
+- !private ["10StitchCore0A4AuthP", "loginWithCredentialInternal"]
+- ["10StitchCore0A4AuthP", "logout"]
+- !private ["10StitchCore0A4AuthP", "logoutInternal"]
+- !private ["10StitchCore0A4AuthP", "objc_sync_enter"]
+- !private ["10StitchCore0A4AuthP", "objc_sync_exit"]
+- ["10StitchCore0A4AuthP", "providerClient"]
+- !private ["10StitchCore0A4AuthP", "requestClient"]
+- !private ["10StitchCore0A4AuthP", "user"]
+- !private ["10StitchCore0A12AuthDelegateP", "onAuthEvent"]
+- ["10StitchCore0A8AuthImplC", "AnyStitchUserFactory"]
+- ["10StitchCore0A8AuthImplC", "AuthProviderClientFactory"]
+- ["10StitchCore0A8AuthImplC", "DelegateWeakRef"]
+- !private ["10StitchCore0A8AuthImplC", "DeviceField"]
+- ["10StitchCore0A8AuthImplC", "Document"]
+- ["10StitchCore0A8AuthImplC", "NamedAuthProviderClientFactory"]
+- ["10StitchCore0A8AuthImplC", "OperationDispatcher"]
+- !private ["10StitchCore0A8AuthImplC", "Stitch"]
+- ["10StitchCore0A8AuthImplC", "StitchAppClientInfo"]
+- ["10StitchCore0A8AuthImplC", "StitchAuthDelegate"]
+- ["10StitchCore0A8AuthImplC", "StitchAuthRequestClient"]
+- ["10StitchCore0A8AuthImplC", "StitchAuthRoutes"]
+- ["10StitchCore0A8AuthImplC", "StitchCredential"]
+- ["10StitchCore0A8AuthImplC", "StitchRequestClient"]
+- ["10StitchCore0A8AuthImplC", "StitchResult"]
+- ["10StitchCore0A8AuthImplC", "StitchUser"]
+- !private ["10StitchCore0A8AuthImplC", "StitchUserFactoryImpl"]
+- ["10StitchCore0A8AuthImplC", "StitchUserImpl"]
+- ["10StitchCore0A8AuthImplC", "Storage"]
+- ["10StitchCore0A8AuthImplC", "String"]
+- !private ["10StitchCore0A8AuthImplC", "UIDevice"]
+- ["10StitchCore0A8AuthImplC", "Void"]
+- ["10StitchCore0A8AuthImplC", "add"]
+- !private ["10StitchCore0A8AuthImplC", "appInfo"]
+- !private ["10StitchCore0A8AuthImplC", "authRoutes"]
+- ["10StitchCore0A8AuthImplC", "currentUser"]
+- ["10StitchCore0A8AuthImplC", "deinit"]
+- !private ["10StitchCore0A8AuthImplC", "delegates"]
+- !private ["10StitchCore0A8AuthImplC", "deviceID"]
+- ["10StitchCore0A8AuthImplC", "deviceInfo"]
+- !private ["10StitchCore0A8AuthImplC", "dispatcher"]
+- !private ["10StitchCore0A8AuthImplC", "hasDeviceID"]
+- ["10StitchCore0A8AuthImplC", "init"]
+- ["10StitchCore0A8AuthImplC", "isLoggedIn"]
+- ["10StitchCore0A8AuthImplC", "link"]
+- !private ["10StitchCore0A8AuthImplC", "linkUserWithCredentialInternal"]
+- ["10StitchCore0A8AuthImplC", "login"]
+- !private ["10StitchCore0A8AuthImplC", "loginWithCredentialInternal"]
+- ["10StitchCore0A8AuthImplC", "logout"]
+- !private ["10StitchCore0A8AuthImplC", "logoutInternal"]
+- !private ["10StitchCore0A8AuthImplC", "objc_sync_enter"]
+- !private ["10StitchCore0A8AuthImplC", "objc_sync_exit"]
+- ["10StitchCore0A8AuthImplC", "onAuthEvent"]
+- ["10StitchCore0A8AuthImplC", "providerClient"]
+- !private ["10StitchCore0A8AuthImplC", "requestClient"]
+- !private ["10StitchCore0A8AuthImplC", "user"]
+- ["10StitchCore0A8AuthImplC", "userFactory"]
+- !private ["13StitchCoreSDK0A17AuthRequestClientP", "AnyStitchUserFactory"]
+- !private ["13StitchCoreSDK0A17AuthRequestClientP", "DelegateWeakRef"]
+- !private ["13StitchCoreSDK0A17AuthRequestClientP", "DeviceField"]
+- !private ["13StitchCoreSDK0A17AuthRequestClientP", "Document"]
+- !private ["13StitchCoreSDK0A17AuthRequestClientP", "Stitch"]
+- !private ["13StitchCoreSDK0A17AuthRequestClientP", "StitchUserFactoryImpl"]
+- !private ["13StitchCoreSDK0A17AuthRequestClientP", "UIDevice"]
+- ["13StitchCoreSDK0A17AuthRequestClientP", ""]
+- ["13StitchCoreSDK0A17AuthRequestClientP", "add"]
+- !private ["13StitchCoreSDK0A17AuthRequestClientP", "appInfo"]
+- !private ["13StitchCoreSDK0A17AuthRequestClientP", "authRoutes"]
+- ["13StitchCoreSDK0A17AuthRequestClientP", "currentUser"]
+- !private ["13StitchCoreSDK0A17AuthRequestClientP", "delegates"]
+- !private ["13StitchCoreSDK0A17AuthRequestClientP", "deviceID"]
+- !private ["13StitchCoreSDK0A17AuthRequestClientP", "dispatcher"]
+- !private ["13StitchCoreSDK0A17AuthRequestClientP", "hasDeviceID"]
+- !private ["13StitchCoreSDK0A17AuthRequestClientP", "init"]
+- ["13StitchCoreSDK0A17AuthRequestClientP", "isLoggedIn"]
+- !private ["13StitchCoreSDK0A17AuthRequestClientP", "linkUserWithCredentialInternal"]
+- ["13StitchCoreSDK0A17AuthRequestClientP", "login"]
+- !private ["13StitchCoreSDK0A17AuthRequestClientP", "loginWithCredentialInternal"]
+- ["13StitchCoreSDK0A17AuthRequestClientP", "logout"]
+- !private ["13StitchCoreSDK0A17AuthRequestClientP", "logoutInternal"]
+- !private ["13StitchCoreSDK0A17AuthRequestClientP", "objc_sync_enter"]
+- !private ["13StitchCoreSDK0A17AuthRequestClientP", "objc_sync_exit"]
+- ["13StitchCoreSDK0A17AuthRequestClientP", "providerClient"]
+- !private ["13StitchCoreSDK0A17AuthRequestClientP", "requestClient"]
+- !private ["13StitchCoreSDK0A17AuthRequestClientP", "user"]
+- !private ["13StitchCoreSDK0A11UserFactoryP", "init"]
+- !private ["10StitchCore0A15UserFactoryImplC", "deinit"]
+- !private ["10StitchCore0A15UserFactoryImplC", "init"]
+- ["10StitchCore0A8UserImplC", "deinit"]
+- !private ["So8UIDeviceC", "current"]
+- !private ["So8UIDeviceC", "systemName"]
+- !private ["So8UIDeviceC", "systemVersion"]
+- !private ["s14_ArrayProtocolP", "append"]
+- !private ["s14_ArrayProtocolP", "enumerated"]
+- !private ["s14_ArrayProtocolP", "forEach"]
+- !private ["s14_ArrayProtocolP", "remove"]
+- !private ["s24_DestructorSafeContainerP", "append"]
+- !private ["s24_DestructorSafeContainerP", "enumerated"]
+- !private ["s24_DestructorSafeContainerP", "forEach"]
+- !private ["s24_DestructorSafeContainerP", "remove"]
+- !private ["s35_ExpressibleByBuiltinBooleanLiteralP", "_getBuiltinLogicValue"]
+- !private ["s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s34_ExpressibleByBuiltinStringLiteralP", "init"]
+- !private ["s41_ExpressibleByBuiltinUnicodeScalarLiteralP", "init"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "async"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "current"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "systemName"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "systemVersion"]
+- !private ["s21_ObjectiveCBridgeableP", "_getBuiltinLogicValue"]
+- !private ["s21_ObjectiveCBridgeableP", "append"]
+- !private ["s21_ObjectiveCBridgeableP", "enumerated"]
+- !private ["s21_ObjectiveCBridgeableP", "forEach"]
+- !private ["s21_ObjectiveCBridgeableP", "remove"]
+depends-nominal:
+- !private "13StitchCoreSDK03AnyA11UserFactoryC"
+- !private "Sa"
+- !private "10StitchCore25AuthProviderClientFactoryP"
+- !private "s23BidirectionalCollectionP"
+- !private "Sb"
+- !private "10MongoSwift9BsonValueP"
+- !private "s7CVarArgP"
+- !private "s10CollectionP"
+- "13StitchCoreSDK0bA4AuthC"
+- !private "s28CustomDebugStringConvertibleP"
+- !private "s29CustomPlaygroundQuickLookableP"
+- !private "s17CustomReflectableP"
+- !private "s23CustomStringConvertibleP"
+- !private "s9DecodableP"
+- !private "13StitchCoreSDK11DeviceFieldO"
+- !private "So14DispatchObjectC"
+- !private "So13DispatchQueueC"
+- !private "10MongoSwift8DocumentV"
+- !private "s9EncodableP"
+- !private "s18EnumeratedSequenceV"
+- !private "s9EquatableP"
+- !private "s25ExpressibleByArrayLiteralP"
+- !private "s27ExpressibleByBooleanLiteralP"
+- !private "s30ExpressibleByDictionaryLiteralP"
+- !private "s43ExpressibleByExtendedGraphemeClusterLiteralP"
+- !private "s26ExpressibleByStringLiteralP"
+- !private "s33ExpressibleByUnicodeScalarLiteralP"
+- !private "s8HashableP"
+- !private "s25LosslessStringConvertibleP"
+- !private "s17MutableCollectionP"
+- !private "So8NSObjectC"
+- !private "So16NSObjectProtocolP"
+- !private "10StitchCore30NamedAuthProviderClientFactoryP"
+- !private "So9OS_objectC"
+- !private "10StitchCore19OperationDispatcherC"
+- !private "s22RandomAccessCollectionP"
+- !private "s26RangeReplaceableCollectionP"
+- !private "s16RawRepresentableP"
+- !private "s8SequenceP"
+- !private "s12StaticStringV"
+- !private "10StitchCore0A0C"
+- !private "13StitchCoreSDK0A13AppClientInfoV"
+- "10StitchCore0A4AuthP"
+- !private "10StitchCore0A12AuthDelegateP"
+- "10StitchCore0A8AuthImplC"
+- "13StitchCoreSDK0A17AuthRequestClientP"
+- !private "13StitchCoreSDK0A11UserFactoryP"
+- !private "10StitchCore0A15UserFactoryImplC"
+- "10StitchCore0A8UserImplC"
+- !private "So8UIDeviceC"
+- !private "s14_ArrayProtocolP"
+- !private "s24_DestructorSafeContainerP"
+- !private "s35_ExpressibleByBuiltinBooleanLiteralP"
+- !private "s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP"
+- !private "s34_ExpressibleByBuiltinStringLiteralP"
+- !private "s41_ExpressibleByBuiltinUnicodeScalarLiteralP"
+- !private "10Foundation27_KeyValueCodingAndObservingP"
+- !private "s21_ObjectiveCBridgeableP"
+depends-dynamic-lookup:
+depends-external:
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Dispatch.apinotesc"
+- "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Products/Debug-iphonesimulator/StitchCoreSDK.framework/Modules/StitchCoreSDK.swiftmodule/x86_64.swiftmodule"
+- "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Products/Debug-iphonesimulator/MongoSwift.framework/Modules/MongoSwift.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/ObjectiveC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/CoreImage.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/QuartzCore.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Dispatch.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Metal.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Darwin.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Foundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/CoreFoundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/CoreGraphics.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Swift.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/UIKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/SwiftOnoneSupport.swiftmodule"
+- "/Users/jsflax/Development/stitch-ios-sdk/iOS/StitchCore/../../Sources/libmongoc/module.modulemap"
+- "/Users/jsflax/Development/stitch-ios-sdk/iOS/StitchCore/../../Sources/libbson/module.modulemap"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/usr/include/objc/ObjectiveC.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/OpenGLES.framework/Headers/OpenGLES.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/CoreImage.framework/Headers/CoreImage.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/QuartzCore.framework/Headers/QuartzCore.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/Metal.framework/Headers/Metal.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/usr/include/Darwin.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CoreGraphics.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
+interface-hash: "ea60f073d0c87a74237031ed5e62a577"

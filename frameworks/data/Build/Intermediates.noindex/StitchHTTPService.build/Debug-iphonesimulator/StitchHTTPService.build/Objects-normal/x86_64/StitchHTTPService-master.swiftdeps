@@ -1,0 +1,7 @@
+version: "Apple Swift version 4.1 (swiftlang-902.0.48 clang-902.0.37.1)"
+options: "4518b829f148f96d9a6b65a280274797"
+build_time: [1529258731, 658489000]
+inputs:
+  "/Users/jsflax/Development/stitch-ios-sdk/iOS/Services/StitchHTTPService/StitchHTTPService/HTTPServiceClient.swift": [1528918602, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/iOS/Services/StitchHTTPService/StitchHTTPService/Internal/HTTPServiceClientImpl.swift": [1528918602, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/iOS/Services/StitchHTTPService/StitchHTTPService/StitchHTTPServiceExports.swift": [1528918602, 0]

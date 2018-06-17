@@ -1,0 +1,6 @@
+version: "Apple Swift version 4.1 (swiftlang-902.0.48 clang-902.0.37.1)"
+options: "abbaf9da4e3ea6e9d49b954ef0e91fae"
+build_time: [1529258657, 144635000]
+inputs:
+  "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreLocalMongoDBService/Sources/StitchCoreLocalMongoDBService/CoreLocalMongoDBService.swift": !dirty [1529021965, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreLocalMongoDBService/Sources/StitchCoreLocalMongoDBService/MongoMobile/MongoMobile.swift": !dirty [1529213248, 0]

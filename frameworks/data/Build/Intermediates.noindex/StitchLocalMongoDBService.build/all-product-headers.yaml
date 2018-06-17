@@ -1,0 +1,33 @@
+{
+  'version': 0,
+  'case-sensitive': 'false',
+  'roots': [
+    {
+      'type': 'directory',
+      'name': "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Products/Debug-iphonesimulator/StitchLocalMongoDBService.framework/Headers",
+      'contents': [
+        {
+          'type': 'file',
+          'name': "StitchLocalMongoDBService-Swift.h",
+          'external-contents': "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Products/Debug-iphonesimulator/StitchLocalMongoDBService.framework/Headers/StitchLocalMongoDBService-Swift.h"
+        },
+        {
+          'type': 'file',
+          'name': "StitchLocalMongoDBService.h",
+          'external-contents': "/Users/jsflax/Development/stitch-ios-sdk/iOS/Services/StitchLocalMongoDBService/StitchLocalMongoDBService/StitchLocalMongoDBService.h"
+        }
+      ]
+    },
+    {
+      'type': 'directory',
+      'name': "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Products/Debug-iphonesimulator/StitchLocalMongoDBService.framework/Modules",
+      'contents': [
+        {
+          'type': 'file',
+          'name': "module.modulemap",
+          'external-contents': "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Intermediates.noindex/StitchLocalMongoDBService.build/Debug-iphonesimulator/StitchLocalMongoDBService.build/module.modulemap"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+version: "Apple Swift version 4.1 (swiftlang-902.0.48 clang-902.0.37.1)"
+options: "a2550ecb999dce79ba0e12929dcb4ac1"
+build_time: [1529258715, 54317000]
+inputs:
+  "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreFCMService/Sources/StitchCoreFCMService/FCMSendMessageNotification.swift": [1529021965, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreFCMService/Sources/StitchCoreFCMService/FCMSendMessagePriority.swift": [1529021965, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreFCMService/Sources/StitchCoreFCMService/FCMSendMessageRequest.swift": [1529021965, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreFCMService/Sources/StitchCoreFCMService/FCMSendMessageResult.swift": [1529021965, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreFCMService/Sources/StitchCoreFCMService/FCMSendMessageResultFailureDetail.swift": [1529021965, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreFCMService/Sources/StitchCoreFCMService/Internal/CoreFCMServiceClient.swift": [1529021965, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreFCMService/Sources/StitchCoreFCMService/Internal/CoreFCMServicePushClient.swift": [1529021965, 0]

@@ -1,0 +1,33 @@
+{
+  'version': 0,
+  'case-sensitive': 'false',
+  'roots': [
+    {
+      'type': 'directory',
+      'name': "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Products/Debug-iphonesimulator/StitchAWSS3Service.framework/Headers",
+      'contents': [
+        {
+          'type': 'file',
+          'name': "StitchAWSS3Service-Swift.h",
+          'external-contents': "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Products/Debug-iphonesimulator/StitchAWSS3Service.framework/Headers/StitchAWSS3Service-Swift.h"
+        },
+        {
+          'type': 'file',
+          'name': "StitchCoreServicesAwsS3_iOS.h",
+          'external-contents': "/Users/jsflax/Development/stitch-ios-sdk/iOS/Services/StitchAWSS3Service/StitchAWSS3Service/StitchCoreServicesAwsS3_iOS.h"
+        }
+      ]
+    },
+    {
+      'type': 'directory',
+      'name': "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Products/Debug-iphonesimulator/StitchAWSS3Service.framework/Modules",
+      'contents': [
+        {
+          'type': 'file',
+          'name': "module.modulemap",
+          'external-contents': "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Intermediates.noindex/StitchAWSS3Service.build/Debug-iphonesimulator/StitchAWSS3Service.build/module.modulemap"
+        }
+      ]
+    }
+  ]
+}

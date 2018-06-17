@@ -1,0 +1,73 @@
+### Swift dependencies file v0 ###
+provides-top-level:
+- "StitchUserFactoryImpl"
+provides-nominal:
+- "10StitchCore0A15UserFactoryImplC"
+provides-member:
+- ["10StitchCore0A15UserFactoryImplC", ""]
+provides-dynamic-lookup:
+depends-top-level:
+- "AssignmentPrecedence"
+- "StitchAuthImpl"
+- "StitchProviderType"
+- "StitchUserFactory"
+- "StitchUserFactoryImpl"
+- "StitchUserImpl"
+- "StitchUserProfile"
+- "String"
+depends-member:
+- !private ["13StitchCoreSDK0bA4UserP", "init"]
+- !private ["10StitchCore0A4UserP", "init"]
+- !private ["13StitchCoreSDK0A11UserFactoryP", "StitchUserImpl"]
+- ["13StitchCoreSDK0A11UserFactoryP", "UserType"]
+- ["13StitchCoreSDK0A11UserFactoryP", ""]
+- !private ["13StitchCoreSDK0A11UserFactoryP", "auth"]
+- ["13StitchCoreSDK0A11UserFactoryP", "makeUser"]
+- ["10StitchCore0A15UserFactoryImplC", "StitchAuthImpl"]
+- ["10StitchCore0A15UserFactoryImplC", "StitchProviderType"]
+- ["10StitchCore0A15UserFactoryImplC", "StitchUserImpl"]
+- ["10StitchCore0A15UserFactoryImplC", "StitchUserProfile"]
+- ["10StitchCore0A15UserFactoryImplC", "String"]
+- ["10StitchCore0A15UserFactoryImplC", "UserType"]
+- !private ["10StitchCore0A15UserFactoryImplC", "auth"]
+- ["10StitchCore0A15UserFactoryImplC", "deinit"]
+- ["10StitchCore0A15UserFactoryImplC", "init"]
+- ["10StitchCore0A15UserFactoryImplC", "makeUser"]
+- ["10StitchCore0A8UserImplC", "deinit"]
+- !private ["10StitchCore0A8UserImplC", "init"]
+depends-nominal:
+- !private "13StitchCoreSDK0bA4UserP"
+- !private "10StitchCore0A4UserP"
+- "13StitchCoreSDK0A11UserFactoryP"
+- "10StitchCore0A15UserFactoryImplC"
+- "10StitchCore0A8UserImplC"
+depends-dynamic-lookup:
+depends-external:
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Dispatch.apinotesc"
+- "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Products/Debug-iphonesimulator/StitchCoreSDK.framework/Modules/StitchCoreSDK.swiftmodule/x86_64.swiftmodule"
+- "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Products/Debug-iphonesimulator/MongoSwift.framework/Modules/MongoSwift.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/ObjectiveC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/CoreImage.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/QuartzCore.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Dispatch.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Metal.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Darwin.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Foundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/CoreFoundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/CoreGraphics.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Swift.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/UIKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/SwiftOnoneSupport.swiftmodule"
+- "/Users/jsflax/Development/stitch-ios-sdk/iOS/StitchCore/../../Sources/libmongoc/module.modulemap"
+- "/Users/jsflax/Development/stitch-ios-sdk/iOS/StitchCore/../../Sources/libbson/module.modulemap"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/usr/include/objc/ObjectiveC.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/OpenGLES.framework/Headers/OpenGLES.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/CoreImage.framework/Headers/CoreImage.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/QuartzCore.framework/Headers/QuartzCore.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/Metal.framework/Headers/Metal.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/usr/include/Darwin.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CoreGraphics.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
+interface-hash: "eb879fdfcb4c920a6287ff05d9390850"

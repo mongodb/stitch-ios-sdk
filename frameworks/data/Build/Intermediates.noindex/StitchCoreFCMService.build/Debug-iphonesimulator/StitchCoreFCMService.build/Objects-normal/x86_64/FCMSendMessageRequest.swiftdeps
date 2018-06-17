@@ -1,0 +1,216 @@
+### Swift dependencies file v0 ###
+provides-top-level:
+- "FCMSendMessageRequest"
+- "FCMSendMessageRequestBuilder"
+provides-nominal:
+- "20StitchCoreFCMService21FCMSendMessageRequestV"
+- "20StitchCoreFCMService28FCMSendMessageRequestBuilderC"
+provides-member:
+- ["20StitchCoreFCMService21FCMSendMessageRequestV", ""]
+- ["20StitchCoreFCMService28FCMSendMessageRequestBuilderC", ""]
+provides-dynamic-lookup:
+depends-top-level:
+- "=="
+- !private "??"
+- "AssignmentPrecedence"
+- "Bool"
+- "Document"
+- "Encodable"
+- "FCMSendMessageNotification"
+- "FCMSendMessagePriority"
+- "FCMSendMessageRequest"
+- "FCMSendMessageRequestBuilder"
+- "Int64"
+- "String"
+- !private "StringLiteralType"
+- !private "~="
+depends-member:
+- !private ["s23BidirectionalCollectionP", "init"]
+- !private ["Sb", "_getBuiltinLogicValue"]
+- !private ["10MongoSwift9BsonValueP", "_getBuiltinLogicValue"]
+- !private ["10MongoSwift9BsonValueP", "init"]
+- !private ["s7CVarArgP", "_getBuiltinLogicValue"]
+- !private ["s7CVarArgP", "init"]
+- !private ["s9CodingKeyP", ""]
+- ["s9CodingKeyP", "debugDescription"]
+- ["s9CodingKeyP", "description"]
+- ["s9CodingKeyP", "hashValue"]
+- ["s9CodingKeyP", "init"]
+- ["s9CodingKeyP", "intValue"]
+- ["s9CodingKeyP", "stringValue"]
+- !private ["s10CollectionP", "init"]
+- !private ["s10ComparableP", "init"]
+- !private ["s28CustomDebugStringConvertibleP", ""]
+- ["s28CustomDebugStringConvertibleP", "debugDescription"]
+- ["s28CustomDebugStringConvertibleP", "description"]
+- ["s28CustomDebugStringConvertibleP", "hashValue"]
+- ["s28CustomDebugStringConvertibleP", "init"]
+- ["s28CustomDebugStringConvertibleP", "intValue"]
+- ["s28CustomDebugStringConvertibleP", "stringValue"]
+- !private ["s29CustomPlaygroundQuickLookableP", "_getBuiltinLogicValue"]
+- !private ["s29CustomPlaygroundQuickLookableP", "init"]
+- !private ["s17CustomReflectableP", "_getBuiltinLogicValue"]
+- !private ["s17CustomReflectableP", "init"]
+- !private ["s23CustomStringConvertibleP", ""]
+- !private ["s23CustomStringConvertibleP", "_getBuiltinLogicValue"]
+- ["s23CustomStringConvertibleP", "debugDescription"]
+- ["s23CustomStringConvertibleP", "description"]
+- ["s23CustomStringConvertibleP", "hashValue"]
+- ["s23CustomStringConvertibleP", "init"]
+- ["s23CustomStringConvertibleP", "intValue"]
+- ["s23CustomStringConvertibleP", "stringValue"]
+- !private ["s9DecodableP", "_getBuiltinLogicValue"]
+- !private ["s9DecodableP", "init"]
+- ["s9EncodableP", ""]
+- !private ["s9EncodableP", "_getBuiltinLogicValue"]
+- ["s9EncodableP", "encode"]
+- !private ["s9EncodableP", "init"]
+- !private ["s9EncodableP", "normal"]
+- !private ["s7EncoderP", "container"]
+- !private ["s9EquatableP", ""]
+- !private ["s9EquatableP", "_getBuiltinLogicValue"]
+- ["s9EquatableP", "debugDescription"]
+- ["s9EquatableP", "description"]
+- ["s9EquatableP", "hashValue"]
+- ["s9EquatableP", "init"]
+- ["s9EquatableP", "intValue"]
+- !private ["s9EquatableP", "normal"]
+- ["s9EquatableP", "stringValue"]
+- !private ["s27ExpressibleByBooleanLiteralP", "_getBuiltinLogicValue"]
+- !private ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s26ExpressibleByStringLiteralP", "init"]
+- !private ["s33ExpressibleByUnicodeScalarLiteralP", "init"]
+- ["20StitchCoreFCMService26FCMSendMessageNotificationV", "deinit"]
+- ["20StitchCoreFCMService22FCMSendMessagePriorityO", "deinit"]
+- !private ["20StitchCoreFCMService22FCMSendMessagePriorityO", "normal"]
+- ["20StitchCoreFCMService21FCMSendMessageRequestV", "Bool"]
+- !private ["20StitchCoreFCMService21FCMSendMessageRequestV", "CodingKeys"]
+- ["20StitchCoreFCMService21FCMSendMessageRequestV", "Document"]
+- ["20StitchCoreFCMService21FCMSendMessageRequestV", "FCMSendMessageNotification"]
+- ["20StitchCoreFCMService21FCMSendMessageRequestV", "FCMSendMessagePriority"]
+- ["20StitchCoreFCMService21FCMSendMessageRequestV", "Int64"]
+- ["20StitchCoreFCMService21FCMSendMessageRequestV", "String"]
+- ["20StitchCoreFCMService21FCMSendMessageRequestV", "collapseKey"]
+- ["20StitchCoreFCMService21FCMSendMessageRequestV", "contentAvailable"]
+- ["20StitchCoreFCMService21FCMSendMessageRequestV", "data"]
+- ["20StitchCoreFCMService21FCMSendMessageRequestV", "deinit"]
+- ["20StitchCoreFCMService21FCMSendMessageRequestV", "encode"]
+- ["20StitchCoreFCMService21FCMSendMessageRequestV", "init"]
+- ["20StitchCoreFCMService21FCMSendMessageRequestV", "mutableContent"]
+- ["20StitchCoreFCMService21FCMSendMessageRequestV", "notification"]
+- ["20StitchCoreFCMService21FCMSendMessageRequestV", "priority"]
+- ["20StitchCoreFCMService21FCMSendMessageRequestV", "timeToLive"]
+- ["20StitchCoreFCMService28FCMSendMessageRequestBuilderC", "Bool"]
+- ["20StitchCoreFCMService28FCMSendMessageRequestBuilderC", "Document"]
+- ["20StitchCoreFCMService28FCMSendMessageRequestBuilderC", "FCMSendMessageNotification"]
+- ["20StitchCoreFCMService28FCMSendMessageRequestBuilderC", "FCMSendMessagePriority"]
+- ["20StitchCoreFCMService28FCMSendMessageRequestBuilderC", "FCMSendMessageRequest"]
+- ["20StitchCoreFCMService28FCMSendMessageRequestBuilderC", "Int64"]
+- ["20StitchCoreFCMService28FCMSendMessageRequestBuilderC", "String"]
+- ["20StitchCoreFCMService28FCMSendMessageRequestBuilderC", "build"]
+- ["20StitchCoreFCMService28FCMSendMessageRequestBuilderC", "collapseKey"]
+- ["20StitchCoreFCMService28FCMSendMessageRequestBuilderC", "contentAvailable"]
+- ["20StitchCoreFCMService28FCMSendMessageRequestBuilderC", "data"]
+- ["20StitchCoreFCMService28FCMSendMessageRequestBuilderC", "deinit"]
+- ["20StitchCoreFCMService28FCMSendMessageRequestBuilderC", "init"]
+- ["20StitchCoreFCMService28FCMSendMessageRequestBuilderC", "mutableContent"]
+- ["20StitchCoreFCMService28FCMSendMessageRequestBuilderC", "notification"]
+- ["20StitchCoreFCMService28FCMSendMessageRequestBuilderC", "priority"]
+- ["20StitchCoreFCMService28FCMSendMessageRequestBuilderC", "timeToLive"]
+- ["20StitchCoreFCMService28FCMSendMessageRequestBuilderC", "with"]
+- !private ["s8HashableP", ""]
+- !private ["s8HashableP", "_getBuiltinLogicValue"]
+- ["s8HashableP", "debugDescription"]
+- ["s8HashableP", "description"]
+- ["s8HashableP", "hashValue"]
+- ["s8HashableP", "init"]
+- ["s8HashableP", "intValue"]
+- !private ["s8HashableP", "normal"]
+- ["s8HashableP", "stringValue"]
+- !private ["s22KeyedEncodingContainerV", "encode"]
+- !private ["s22KeyedEncodingContainerV", "encodeIfPresent"]
+- !private ["s30KeyedEncodingContainerProtocolP", "encode"]
+- !private ["s30KeyedEncodingContainerProtocolP", "encodeIfPresent"]
+- !private ["s25LosslessStringConvertibleP", "_getBuiltinLogicValue"]
+- !private ["s25LosslessStringConvertibleP", "init"]
+- !private ["s10MirrorPathP", "init"]
+- !private ["s26RangeReplaceableCollectionP", "init"]
+- !private ["s16RawRepresentableP", "normal"]
+- !private ["s8SequenceP", "init"]
+- !private ["SS", "init"]
+- !private ["s14StringProtocolP", "init"]
+- !private ["s16TextOutputStreamP", "init"]
+- !private ["s20TextOutputStreamableP", "init"]
+- !private ["s35_ExpressibleByBuiltinBooleanLiteralP", "_getBuiltinLogicValue"]
+- !private ["s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s34_ExpressibleByBuiltinStringLiteralP", "init"]
+- !private ["s39_ExpressibleByBuiltinUTF16StringLiteralP", "init"]
+- !private ["s41_ExpressibleByBuiltinUnicodeScalarLiteralP", "init"]
+- !private ["s33_ExpressibleByStringInterpolationP", "init"]
+- !private ["s21_ObjectiveCBridgeableP", "_getBuiltinLogicValue"]
+- !private ["s21_ObjectiveCBridgeableP", "init"]
+- !private ["s16_SwiftStringViewP", "init"]
+depends-nominal:
+- !private "s23BidirectionalCollectionP"
+- !private "Sb"
+- !private "10MongoSwift9BsonValueP"
+- !private "s7CVarArgP"
+- "s9CodingKeyP"
+- !private "s10CollectionP"
+- !private "s10ComparableP"
+- "s28CustomDebugStringConvertibleP"
+- !private "s29CustomPlaygroundQuickLookableP"
+- !private "s17CustomReflectableP"
+- "s23CustomStringConvertibleP"
+- !private "s9DecodableP"
+- "s9EncodableP"
+- !private "s7EncoderP"
+- "s9EquatableP"
+- !private "s27ExpressibleByBooleanLiteralP"
+- !private "s43ExpressibleByExtendedGraphemeClusterLiteralP"
+- !private "s26ExpressibleByStringLiteralP"
+- !private "s33ExpressibleByUnicodeScalarLiteralP"
+- "20StitchCoreFCMService26FCMSendMessageNotificationV"
+- "20StitchCoreFCMService22FCMSendMessagePriorityO"
+- "20StitchCoreFCMService21FCMSendMessageRequestV"
+- "20StitchCoreFCMService28FCMSendMessageRequestBuilderC"
+- "s8HashableP"
+- !private "s22KeyedEncodingContainerV"
+- !private "s30KeyedEncodingContainerProtocolP"
+- !private "s25LosslessStringConvertibleP"
+- !private "s10MirrorPathP"
+- !private "s26RangeReplaceableCollectionP"
+- !private "s16RawRepresentableP"
+- !private "s8SequenceP"
+- !private "SS"
+- !private "s14StringProtocolP"
+- !private "s16TextOutputStreamP"
+- !private "s20TextOutputStreamableP"
+- !private "s35_ExpressibleByBuiltinBooleanLiteralP"
+- !private "s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP"
+- !private "s34_ExpressibleByBuiltinStringLiteralP"
+- !private "s39_ExpressibleByBuiltinUTF16StringLiteralP"
+- !private "s41_ExpressibleByBuiltinUnicodeScalarLiteralP"
+- !private "s33_ExpressibleByStringInterpolationP"
+- !private "s21_ObjectiveCBridgeableP"
+- !private "s16_SwiftStringViewP"
+depends-dynamic-lookup:
+depends-external:
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Dispatch.apinotesc"
+- "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Products/Debug-iphonesimulator/StitchCoreSDK.framework/Modules/StitchCoreSDK.swiftmodule/x86_64.swiftmodule"
+- "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Products/Debug-iphonesimulator/MongoSwift.framework/Modules/MongoSwift.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/ObjectiveC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Dispatch.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Darwin.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Foundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/CoreFoundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/CoreGraphics.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Swift.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/SwiftOnoneSupport.swiftmodule"
+- "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreFCMService/.build/checkouts/swift-mongoc-4572998624666171810/module.modulemap"
+- "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreFCMService/.build/checkouts/swift-bson-2873930670968179217/module.modulemap"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/usr/include/objc/ObjectiveC.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/usr/include/Darwin.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CoreGraphics.apinotes"
+interface-hash: "b14b19839d646b1110e00093ef5e15eb"

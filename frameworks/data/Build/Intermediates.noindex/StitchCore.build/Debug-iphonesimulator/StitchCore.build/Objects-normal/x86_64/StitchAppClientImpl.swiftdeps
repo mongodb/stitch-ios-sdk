@@ -1,0 +1,254 @@
+### Swift dependencies file v0 ###
+provides-top-level:
+- "StitchAppClientImpl"
+provides-nominal:
+- "10StitchCore0A13AppClientImplC"
+provides-member:
+- ["10StitchCore0A13AppClientImplC", ""]
+provides-dynamic-lookup:
+depends-top-level:
+- "AnyNamedServiceClientFactory"
+- "AnyThrowingServiceClientFactory"
+- "AssignmentPrecedence"
+- "BsonValue"
+- "CoreStitchAppClient"
+- "Decodable"
+- "DispatchQueue"
+- "OperationDispatcher"
+- "StitchAppClient"
+- "StitchAppClientConfiguration"
+- "StitchAppClientImpl"
+- "StitchAppClientInfo"
+- "StitchAppRoutes"
+- "StitchAuth"
+- "StitchAuthImpl"
+- "StitchPush"
+- !private "StitchPushImpl"
+- !private "StitchRequestClientImpl"
+- "StitchResult"
+- !private "StitchServiceClientImpl"
+- "String"
+- !private "StringLiteralType"
+- "TimeInterval"
+- "Void"
+depends-member:
+- !private ["10StitchCore28AnyNamedServiceClientFactoryV", "client"]
+- !private ["10StitchCore31AnyThrowingServiceClientFactoryV", "client"]
+- !private ["s23BidirectionalCollectionP", "init"]
+- !private ["10MongoSwift9BsonValueP", "init"]
+- !private ["s7CVarArgP", "global"]
+- !private ["s7CVarArgP", "init"]
+- !private ["s10CollectionP", "init"]
+- !private ["s10ComparableP", "init"]
+- !private ["13StitchCoreSDK0bA9AppClientC", "callFunctionInternal"]
+- !private ["13StitchCoreSDK0bA9AppClientC", "init"]
+- !private ["13StitchCoreSDK0bA13ServiceClientP", "init"]
+- !private ["s28CustomDebugStringConvertibleP", "global"]
+- !private ["s28CustomDebugStringConvertibleP", "init"]
+- !private ["s29CustomPlaygroundQuickLookableP", "init"]
+- !private ["s17CustomReflectableP", "init"]
+- !private ["s23CustomStringConvertibleP", "global"]
+- !private ["s23CustomStringConvertibleP", "init"]
+- !private ["s9DecodableP", "init"]
+- !private ["So14DispatchObjectC", "global"]
+- !private ["So13DispatchQueueC", "global"]
+- !private ["s9EncodableP", "init"]
+- !private ["s9EquatableP", "global"]
+- !private ["s9EquatableP", "init"]
+- !private ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s26ExpressibleByStringLiteralP", "init"]
+- !private ["s33ExpressibleByUnicodeScalarLiteralP", "init"]
+- !private ["s8HashableP", "global"]
+- !private ["s8HashableP", "init"]
+- !private ["s25LosslessStringConvertibleP", "init"]
+- !private ["s10MirrorPathP", "init"]
+- !private ["So8NSObjectC", "global"]
+- !private ["So16NSObjectProtocolP", "global"]
+- !private ["So9OS_objectC", "global"]
+- !private ["10StitchCore19OperationDispatcherC", "init"]
+- !private ["10StitchCore19OperationDispatcherC", "run"]
+- !private ["s26RangeReplaceableCollectionP", "init"]
+- !private ["s8SequenceP", "init"]
+- !private ["10StitchCore0A9AppClientP", "CoreStitchAppClient"]
+- !private ["10StitchCore0A9AppClientP", "DispatchQueue"]
+- !private ["10StitchCore0A9AppClientP", "OperationDispatcher"]
+- !private ["10StitchCore0A9AppClientP", "StitchAppClientInfo"]
+- !private ["10StitchCore0A9AppClientP", "StitchAppRoutes"]
+- !private ["10StitchCore0A9AppClientP", "StitchAuthImpl"]
+- !private ["10StitchCore0A9AppClientP", "StitchPushImpl"]
+- !private ["10StitchCore0A9AppClientP", "StitchRequestClientImpl"]
+- !private ["10StitchCore0A9AppClientP", "StitchServiceClientImpl"]
+- ["10StitchCore0A9AppClientP", ""]
+- !private ["10StitchCore0A9AppClientP", "_auth"]
+- ["10StitchCore0A9AppClientP", "auth"]
+- ["10StitchCore0A9AppClientP", "callFunction"]
+- !private ["10StitchCore0A9AppClientP", "coreClient"]
+- !private ["10StitchCore0A9AppClientP", "dispatcher"]
+- !private ["10StitchCore0A9AppClientP", "info"]
+- ["10StitchCore0A9AppClientP", "push"]
+- !private ["10StitchCore0A9AppClientP", "routes"]
+- ["10StitchCore0A9AppClientP", "serviceClient"]
+- !private ["13StitchCoreSDK0A22AppClientConfigurationC", "baseURL"]
+- !private ["13StitchCoreSDK0A22AppClientConfigurationC", "clientAppID"]
+- !private ["13StitchCoreSDK0A22AppClientConfigurationC", "dataDirectory"]
+- !private ["13StitchCoreSDK0A22AppClientConfigurationC", "defaultRequestTimeout"]
+- !private ["13StitchCoreSDK0A22AppClientConfigurationC", "localAppName"]
+- !private ["13StitchCoreSDK0A22AppClientConfigurationC", "localAppVersion"]
+- !private ["13StitchCoreSDK0A22AppClientConfigurationC", "storage"]
+- !private ["13StitchCoreSDK0A22AppClientConfigurationC", "transport"]
+- ["10StitchCore0A13AppClientImplC", "AnyNamedServiceClientFactory"]
+- ["10StitchCore0A13AppClientImplC", "AnyThrowingServiceClientFactory"]
+- ["10StitchCore0A13AppClientImplC", "BsonValue"]
+- ["10StitchCore0A13AppClientImplC", "CoreStitchAppClient"]
+- ["10StitchCore0A13AppClientImplC", "Decodable"]
+- ["10StitchCore0A13AppClientImplC", "DispatchQueue"]
+- ["10StitchCore0A13AppClientImplC", "OperationDispatcher"]
+- ["10StitchCore0A13AppClientImplC", "StitchAppClientConfiguration"]
+- ["10StitchCore0A13AppClientImplC", "StitchAppClientInfo"]
+- ["10StitchCore0A13AppClientImplC", "StitchAppRoutes"]
+- ["10StitchCore0A13AppClientImplC", "StitchAuth"]
+- ["10StitchCore0A13AppClientImplC", "StitchAuthImpl"]
+- ["10StitchCore0A13AppClientImplC", "StitchPush"]
+- !private ["10StitchCore0A13AppClientImplC", "StitchPushImpl"]
+- !private ["10StitchCore0A13AppClientImplC", "StitchRequestClientImpl"]
+- ["10StitchCore0A13AppClientImplC", "StitchResult"]
+- !private ["10StitchCore0A13AppClientImplC", "StitchServiceClientImpl"]
+- ["10StitchCore0A13AppClientImplC", "String"]
+- ["10StitchCore0A13AppClientImplC", "TimeInterval"]
+- ["10StitchCore0A13AppClientImplC", "Void"]
+- !private ["10StitchCore0A13AppClientImplC", "_auth"]
+- ["10StitchCore0A13AppClientImplC", "auth"]
+- ["10StitchCore0A13AppClientImplC", "callFunction"]
+- !private ["10StitchCore0A13AppClientImplC", "coreClient"]
+- ["10StitchCore0A13AppClientImplC", "deinit"]
+- !private ["10StitchCore0A13AppClientImplC", "dispatcher"]
+- ["10StitchCore0A13AppClientImplC", "info"]
+- ["10StitchCore0A13AppClientImplC", "init"]
+- ["10StitchCore0A13AppClientImplC", "push"]
+- !private ["10StitchCore0A13AppClientImplC", "routes"]
+- ["10StitchCore0A13AppClientImplC", "serviceClient"]
+- !private ["13StitchCoreSDK0A13AppClientInfoV", "init"]
+- !private ["13StitchCoreSDK0A9AppRoutesC", "authRoutes"]
+- !private ["13StitchCoreSDK0A9AppRoutesC", "init"]
+- !private ["13StitchCoreSDK0A9AppRoutesC", "pushRoutes"]
+- !private ["13StitchCoreSDK0A9AppRoutesC", "serviceRoutes"]
+- !private ["10StitchCore0A4AuthP", "init"]
+- !private ["10StitchCore0A8AuthImplC", "deinit"]
+- !private ["10StitchCore0A8AuthImplC", "init"]
+- !private ["13StitchCoreSDK0A17AuthRequestClientP", "init"]
+- !private ["13StitchCoreSDK0A19ClientConfigurationC", "baseURL"]
+- !private ["13StitchCoreSDK0A19ClientConfigurationC", "clientAppID"]
+- !private ["13StitchCoreSDK0A19ClientConfigurationC", "dataDirectory"]
+- !private ["13StitchCoreSDK0A19ClientConfigurationC", "defaultRequestTimeout"]
+- !private ["13StitchCoreSDK0A19ClientConfigurationC", "localAppName"]
+- !private ["13StitchCoreSDK0A19ClientConfigurationC", "localAppVersion"]
+- !private ["13StitchCoreSDK0A19ClientConfigurationC", "storage"]
+- !private ["13StitchCoreSDK0A19ClientConfigurationC", "transport"]
+- !private ["10StitchCore0A4PushP", "init"]
+- !private ["10StitchCore0A8PushImplC", "deinit"]
+- !private ["10StitchCore0A8PushImplC", "init"]
+- !private ["13StitchCoreSDK0A13RequestClientP", "init"]
+- !private ["13StitchCoreSDK0A17RequestClientImplC", "init"]
+- !private ["10StitchCore0A13ServiceClientP", "init"]
+- !private ["10StitchCore0A17ServiceClientImplC", "deinit"]
+- !private ["10StitchCore0A17ServiceClientImplC", "init"]
+- !private ["SS", "init"]
+- !private ["s14StringProtocolP", "init"]
+- !private ["s16TextOutputStreamP", "init"]
+- !private ["s20TextOutputStreamableP", "init"]
+- !private ["s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s34_ExpressibleByBuiltinStringLiteralP", "init"]
+- !private ["s39_ExpressibleByBuiltinUTF16StringLiteralP", "init"]
+- !private ["s41_ExpressibleByBuiltinUnicodeScalarLiteralP", "init"]
+- !private ["s33_ExpressibleByStringInterpolationP", "init"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "global"]
+- !private ["s21_ObjectiveCBridgeableP", "init"]
+- !private ["s16_SwiftStringViewP", "init"]
+depends-nominal:
+- !private "10StitchCore28AnyNamedServiceClientFactoryV"
+- !private "10StitchCore31AnyThrowingServiceClientFactoryV"
+- !private "s23BidirectionalCollectionP"
+- !private "10MongoSwift9BsonValueP"
+- !private "s7CVarArgP"
+- !private "s10CollectionP"
+- !private "s10ComparableP"
+- !private "13StitchCoreSDK0bA9AppClientC"
+- !private "13StitchCoreSDK0bA13ServiceClientP"
+- !private "s28CustomDebugStringConvertibleP"
+- !private "s29CustomPlaygroundQuickLookableP"
+- !private "s17CustomReflectableP"
+- !private "s23CustomStringConvertibleP"
+- !private "s9DecodableP"
+- !private "So14DispatchObjectC"
+- !private "So13DispatchQueueC"
+- !private "s9EncodableP"
+- !private "s9EquatableP"
+- !private "s43ExpressibleByExtendedGraphemeClusterLiteralP"
+- !private "s26ExpressibleByStringLiteralP"
+- !private "s33ExpressibleByUnicodeScalarLiteralP"
+- !private "s8HashableP"
+- !private "s25LosslessStringConvertibleP"
+- !private "s10MirrorPathP"
+- !private "So8NSObjectC"
+- !private "So16NSObjectProtocolP"
+- !private "So9OS_objectC"
+- !private "10StitchCore19OperationDispatcherC"
+- !private "s26RangeReplaceableCollectionP"
+- !private "s8SequenceP"
+- "10StitchCore0A9AppClientP"
+- !private "13StitchCoreSDK0A22AppClientConfigurationC"
+- "10StitchCore0A13AppClientImplC"
+- !private "13StitchCoreSDK0A13AppClientInfoV"
+- !private "13StitchCoreSDK0A9AppRoutesC"
+- !private "10StitchCore0A4AuthP"
+- !private "10StitchCore0A8AuthImplC"
+- !private "13StitchCoreSDK0A17AuthRequestClientP"
+- !private "13StitchCoreSDK0A19ClientConfigurationC"
+- !private "10StitchCore0A4PushP"
+- !private "10StitchCore0A8PushImplC"
+- !private "13StitchCoreSDK0A13RequestClientP"
+- !private "13StitchCoreSDK0A17RequestClientImplC"
+- !private "10StitchCore0A13ServiceClientP"
+- !private "10StitchCore0A17ServiceClientImplC"
+- !private "SS"
+- !private "s14StringProtocolP"
+- !private "s16TextOutputStreamP"
+- !private "s20TextOutputStreamableP"
+- !private "s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP"
+- !private "s34_ExpressibleByBuiltinStringLiteralP"
+- !private "s39_ExpressibleByBuiltinUTF16StringLiteralP"
+- !private "s41_ExpressibleByBuiltinUnicodeScalarLiteralP"
+- !private "s33_ExpressibleByStringInterpolationP"
+- !private "10Foundation27_KeyValueCodingAndObservingP"
+- !private "s21_ObjectiveCBridgeableP"
+- !private "s16_SwiftStringViewP"
+depends-dynamic-lookup:
+depends-external:
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Dispatch.apinotesc"
+- "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Products/Debug-iphonesimulator/StitchCoreSDK.framework/Modules/StitchCoreSDK.swiftmodule/x86_64.swiftmodule"
+- "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Products/Debug-iphonesimulator/MongoSwift.framework/Modules/MongoSwift.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/ObjectiveC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/CoreImage.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/QuartzCore.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Dispatch.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Metal.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Darwin.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Foundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/CoreFoundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/CoreGraphics.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Swift.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/UIKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/SwiftOnoneSupport.swiftmodule"
+- "/Users/jsflax/Development/stitch-ios-sdk/iOS/StitchCore/../../Sources/libmongoc/module.modulemap"
+- "/Users/jsflax/Development/stitch-ios-sdk/iOS/StitchCore/../../Sources/libbson/module.modulemap"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/usr/include/objc/ObjectiveC.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/OpenGLES.framework/Headers/OpenGLES.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/CoreImage.framework/Headers/CoreImage.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/QuartzCore.framework/Headers/QuartzCore.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/Metal.framework/Headers/Metal.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/usr/include/Darwin.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CoreGraphics.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
+interface-hash: "8070c6e199378bd0aba0d40ca66da9a1"

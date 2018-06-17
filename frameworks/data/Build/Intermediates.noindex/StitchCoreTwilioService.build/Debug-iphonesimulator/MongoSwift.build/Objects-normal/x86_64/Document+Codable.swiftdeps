@@ -1,0 +1,525 @@
+### Swift dependencies file v0 ###
+provides-top-level:
+provides-nominal:
+- "10MongoSwift8DocumentV"
+provides-member:
+- ["10MongoSwift8DocumentV", ""]
+provides-dynamic-lookup:
+depends-top-level:
+- !private "!"
+- !private "Array"
+- "AssignmentPrecedence"
+- !private "Binary"
+- !private "Bool"
+- "BsonValue"
+- "CastingPrecedence"
+- "Codable"
+- !private "CodeWithScope"
+- !private "Date"
+- !private "Decimal128"
+- "Decoder"
+- !private "DecodingError"
+- "Document"
+- !private "Double"
+- "Encoder"
+- !private "Int"
+- !private "Int32"
+- !private "Int64"
+- "KeyedDecodingContainer"
+- "KeyedEncodingContainer"
+- !private "MaxKey"
+- !private "MinKey"
+- !private "MongoError"
+- !private "ObjectId"
+- !private "RegularExpression"
+- "String"
+- !private "StringLiteralType"
+- "UnkeyedDecodingContainer"
+- "UnkeyedEncodingContainer"
+- !private "_BsonDecoder"
+- !private "_BsonEncoder"
+- "_BsonKey"
+- !private "type"
+depends-member:
+- !private ["Sa", "append"]
+- !private ["Sa", "deinit"]
+- !private ["Sa", "init"]
+- !private ["s23BidirectionalCollectionP", "append"]
+- !private ["s23BidirectionalCollectionP", "init"]
+- !private ["10MongoSwift6BinaryV", "deinit"]
+- !private ["Sb", "_getBuiltinLogicValue"]
+- !private ["Sb", "deinit"]
+- !private ["10MongoSwift9BsonValueP", "Binary"]
+- !private ["10MongoSwift9BsonValueP", "Bool"]
+- !private ["10MongoSwift9BsonValueP", "BsonValue"]
+- !private ["10MongoSwift9BsonValueP", "CodeWithScope"]
+- !private ["10MongoSwift9BsonValueP", "Date"]
+- !private ["10MongoSwift9BsonValueP", "Decimal128"]
+- !private ["10MongoSwift9BsonValueP", "DecodingError"]
+- !private ["10MongoSwift9BsonValueP", "Document"]
+- !private ["10MongoSwift9BsonValueP", "Double"]
+- !private ["10MongoSwift9BsonValueP", "Int"]
+- !private ["10MongoSwift9BsonValueP", "Int32"]
+- !private ["10MongoSwift9BsonValueP", "Int64"]
+- !private ["10MongoSwift9BsonValueP", "MaxKey"]
+- !private ["10MongoSwift9BsonValueP", "MinKey"]
+- !private ["10MongoSwift9BsonValueP", "MongoError"]
+- !private ["10MongoSwift9BsonValueP", "ObjectId"]
+- !private ["10MongoSwift9BsonValueP", "RegularExpression"]
+- !private ["10MongoSwift9BsonValueP", "String"]
+- !private ["10MongoSwift9BsonValueP", "_BsonKey"]
+- !private ["10MongoSwift9BsonValueP", "_getBuiltinLogicValue"]
+- !private ["10MongoSwift9BsonValueP", "append"]
+- ["10MongoSwift9BsonValueP", "encode"]
+- ["10MongoSwift9BsonValueP", "init"]
+- !private ["10MongoSwift9BsonValueP", "recursivelyDecodeKeyed"]
+- !private ["10MongoSwift9BsonValueP", "recursivelyDecodeUnkeyed"]
+- !private ["10MongoSwift9BsonValueP", "recursivelyEncodeKeyed"]
+- !private ["10MongoSwift9BsonValueP", "recursivelyEncodeUnkeyed"]
+- !private ["10MongoSwift9BsonValueP", "subscript"]
+- !private ["10MongoSwift9BsonValueP", "type"]
+- !private ["s7CVarArgP", "_getBuiltinLogicValue"]
+- !private ["s7CVarArgP", "append"]
+- !private ["s7CVarArgP", "init"]
+- !private ["10MongoSwift13CodeWithScopeV", "deinit"]
+- !private ["s9CodingKeyP", "init"]
+- !private ["s9CodingKeyP", "stringValue"]
+- !private ["s10CollectionP", "append"]
+- !private ["s10CollectionP", "init"]
+- !private ["s10ComparableP", "init"]
+- !private ["s28CustomDebugStringConvertibleP", "append"]
+- !private ["s28CustomDebugStringConvertibleP", "init"]
+- ["s28CustomDebugStringConvertibleP", "some"]
+- !private ["s28CustomDebugStringConvertibleP", "stringValue"]
+- !private ["s29CustomPlaygroundQuickLookableP", "_getBuiltinLogicValue"]
+- !private ["s29CustomPlaygroundQuickLookableP", "init"]
+- !private ["s17CustomReflectableP", "_getBuiltinLogicValue"]
+- !private ["s17CustomReflectableP", "append"]
+- !private ["s17CustomReflectableP", "init"]
+- ["s17CustomReflectableP", "some"]
+- !private ["s23CustomStringConvertibleP", "Binary"]
+- !private ["s23CustomStringConvertibleP", "Bool"]
+- !private ["s23CustomStringConvertibleP", "BsonValue"]
+- !private ["s23CustomStringConvertibleP", "CodeWithScope"]
+- !private ["s23CustomStringConvertibleP", "Date"]
+- !private ["s23CustomStringConvertibleP", "Decimal128"]
+- !private ["s23CustomStringConvertibleP", "DecodingError"]
+- !private ["s23CustomStringConvertibleP", "Document"]
+- !private ["s23CustomStringConvertibleP", "Double"]
+- !private ["s23CustomStringConvertibleP", "Int"]
+- !private ["s23CustomStringConvertibleP", "Int32"]
+- !private ["s23CustomStringConvertibleP", "Int64"]
+- !private ["s23CustomStringConvertibleP", "MaxKey"]
+- !private ["s23CustomStringConvertibleP", "MinKey"]
+- !private ["s23CustomStringConvertibleP", "MongoError"]
+- !private ["s23CustomStringConvertibleP", "ObjectId"]
+- !private ["s23CustomStringConvertibleP", "RegularExpression"]
+- !private ["s23CustomStringConvertibleP", "String"]
+- !private ["s23CustomStringConvertibleP", "_BsonKey"]
+- !private ["s23CustomStringConvertibleP", "_getBuiltinLogicValue"]
+- !private ["s23CustomStringConvertibleP", "append"]
+- ["s23CustomStringConvertibleP", "encode"]
+- ["s23CustomStringConvertibleP", "init"]
+- !private ["s23CustomStringConvertibleP", "recursivelyDecodeKeyed"]
+- !private ["s23CustomStringConvertibleP", "recursivelyDecodeUnkeyed"]
+- !private ["s23CustomStringConvertibleP", "recursivelyEncodeKeyed"]
+- !private ["s23CustomStringConvertibleP", "recursivelyEncodeUnkeyed"]
+- !private ["s23CustomStringConvertibleP", "stringValue"]
+- !private ["s23CustomStringConvertibleP", "subscript"]
+- !private ["s23CustomStringConvertibleP", "type"]
+- !private ["10Foundation4DateV", "deinit"]
+- !private ["10MongoSwift10Decimal128V", "deinit"]
+- !private ["s9DecodableP", "Binary"]
+- !private ["s9DecodableP", "Bool"]
+- !private ["s9DecodableP", "BsonValue"]
+- !private ["s9DecodableP", "CodeWithScope"]
+- !private ["s9DecodableP", "Date"]
+- !private ["s9DecodableP", "Decimal128"]
+- !private ["s9DecodableP", "DecodingError"]
+- !private ["s9DecodableP", "Document"]
+- !private ["s9DecodableP", "Double"]
+- !private ["s9DecodableP", "Int"]
+- !private ["s9DecodableP", "Int32"]
+- !private ["s9DecodableP", "Int64"]
+- !private ["s9DecodableP", "MaxKey"]
+- !private ["s9DecodableP", "MinKey"]
+- !private ["s9DecodableP", "MongoError"]
+- !private ["s9DecodableP", "ObjectId"]
+- !private ["s9DecodableP", "RegularExpression"]
+- !private ["s9DecodableP", "String"]
+- ["s9DecodableP", ""]
+- !private ["s9DecodableP", "_BsonKey"]
+- !private ["s9DecodableP", "_getBuiltinLogicValue"]
+- !private ["s9DecodableP", "append"]
+- ["s9DecodableP", "encode"]
+- ["s9DecodableP", "init"]
+- !private ["s9DecodableP", "recursivelyDecodeKeyed"]
+- !private ["s9DecodableP", "recursivelyDecodeUnkeyed"]
+- !private ["s9DecodableP", "recursivelyEncodeKeyed"]
+- !private ["s9DecodableP", "recursivelyEncodeUnkeyed"]
+- ["s9DecodableP", "some"]
+- !private ["s9DecodableP", "subscript"]
+- !private ["s9DecodableP", "type"]
+- !private ["s7DecoderP", "container"]
+- !private ["s7DecoderP", "storage"]
+- !private ["s13DecodingErrorO", "_typeMismatch"]
+- !private ["10MongoSwift8DocumentV", "Binary"]
+- !private ["10MongoSwift8DocumentV", "Bool"]
+- ["10MongoSwift8DocumentV", "BsonValue"]
+- !private ["10MongoSwift8DocumentV", "CodeWithScope"]
+- !private ["10MongoSwift8DocumentV", "Date"]
+- !private ["10MongoSwift8DocumentV", "Decimal128"]
+- ["10MongoSwift8DocumentV", "Decoder"]
+- !private ["10MongoSwift8DocumentV", "DecodingError"]
+- !private ["10MongoSwift8DocumentV", "Document"]
+- !private ["10MongoSwift8DocumentV", "Double"]
+- ["10MongoSwift8DocumentV", "Encoder"]
+- !private ["10MongoSwift8DocumentV", "Int"]
+- !private ["10MongoSwift8DocumentV", "Int32"]
+- !private ["10MongoSwift8DocumentV", "Int64"]
+- ["10MongoSwift8DocumentV", "KeyedDecodingContainer"]
+- ["10MongoSwift8DocumentV", "KeyedEncodingContainer"]
+- !private ["10MongoSwift8DocumentV", "MaxKey"]
+- !private ["10MongoSwift8DocumentV", "MinKey"]
+- !private ["10MongoSwift8DocumentV", "MongoError"]
+- !private ["10MongoSwift8DocumentV", "ObjectId"]
+- !private ["10MongoSwift8DocumentV", "RegularExpression"]
+- ["10MongoSwift8DocumentV", "String"]
+- ["10MongoSwift8DocumentV", "UnkeyedDecodingContainer"]
+- ["10MongoSwift8DocumentV", "UnkeyedEncodingContainer"]
+- !private ["10MongoSwift8DocumentV", "_BsonDecoder"]
+- !private ["10MongoSwift8DocumentV", "_BsonEncoder"]
+- ["10MongoSwift8DocumentV", "_BsonKey"]
+- ["10MongoSwift8DocumentV", "deinit"]
+- ["10MongoSwift8DocumentV", "encode"]
+- ["10MongoSwift8DocumentV", "init"]
+- !private ["10MongoSwift8DocumentV", "recursivelyDecodeKeyed"]
+- !private ["10MongoSwift8DocumentV", "recursivelyDecodeUnkeyed"]
+- !private ["10MongoSwift8DocumentV", "recursivelyEncodeKeyed"]
+- !private ["10MongoSwift8DocumentV", "recursivelyEncodeUnkeyed"]
+- !private ["10MongoSwift8DocumentV", "subscript"]
+- !private ["10MongoSwift8DocumentV", "type"]
+- !private ["10MongoSwift8DocumentV0C8IteratorC", "deinit"]
+- !private ["Sd", "deinit"]
+- !private ["s9EncodableP", "Binary"]
+- !private ["s9EncodableP", "Bool"]
+- !private ["s9EncodableP", "BsonValue"]
+- !private ["s9EncodableP", "CodeWithScope"]
+- !private ["s9EncodableP", "Date"]
+- !private ["s9EncodableP", "Decimal128"]
+- !private ["s9EncodableP", "DecodingError"]
+- !private ["s9EncodableP", "Document"]
+- !private ["s9EncodableP", "Double"]
+- !private ["s9EncodableP", "Int"]
+- !private ["s9EncodableP", "Int32"]
+- !private ["s9EncodableP", "Int64"]
+- !private ["s9EncodableP", "MaxKey"]
+- !private ["s9EncodableP", "MinKey"]
+- !private ["s9EncodableP", "MongoError"]
+- !private ["s9EncodableP", "ObjectId"]
+- !private ["s9EncodableP", "RegularExpression"]
+- !private ["s9EncodableP", "String"]
+- ["s9EncodableP", ""]
+- !private ["s9EncodableP", "_BsonKey"]
+- !private ["s9EncodableP", "_getBuiltinLogicValue"]
+- !private ["s9EncodableP", "append"]
+- ["s9EncodableP", "encode"]
+- ["s9EncodableP", "init"]
+- !private ["s9EncodableP", "recursivelyDecodeKeyed"]
+- !private ["s9EncodableP", "recursivelyDecodeUnkeyed"]
+- !private ["s9EncodableP", "recursivelyEncodeKeyed"]
+- !private ["s9EncodableP", "recursivelyEncodeUnkeyed"]
+- ["s9EncodableP", "some"]
+- !private ["s9EncodableP", "subscript"]
+- !private ["s9EncodableP", "type"]
+- !private ["s7EncoderP", "container"]
+- !private ["s7EncoderP", "storage"]
+- !private ["s9EquatableP", "Binary"]
+- !private ["s9EquatableP", "Bool"]
+- !private ["s9EquatableP", "BsonValue"]
+- !private ["s9EquatableP", "CodeWithScope"]
+- !private ["s9EquatableP", "Date"]
+- !private ["s9EquatableP", "Decimal128"]
+- !private ["s9EquatableP", "DecodingError"]
+- !private ["s9EquatableP", "Document"]
+- !private ["s9EquatableP", "Double"]
+- !private ["s9EquatableP", "Int"]
+- !private ["s9EquatableP", "Int32"]
+- !private ["s9EquatableP", "Int64"]
+- !private ["s9EquatableP", "MaxKey"]
+- !private ["s9EquatableP", "MinKey"]
+- !private ["s9EquatableP", "MongoError"]
+- !private ["s9EquatableP", "ObjectId"]
+- !private ["s9EquatableP", "RegularExpression"]
+- !private ["s9EquatableP", "String"]
+- !private ["s9EquatableP", "_BsonKey"]
+- !private ["s9EquatableP", "_getBuiltinLogicValue"]
+- !private ["s9EquatableP", "append"]
+- ["s9EquatableP", "encode"]
+- ["s9EquatableP", "init"]
+- !private ["s9EquatableP", "recursivelyDecodeKeyed"]
+- !private ["s9EquatableP", "recursivelyDecodeUnkeyed"]
+- !private ["s9EquatableP", "recursivelyEncodeKeyed"]
+- !private ["s9EquatableP", "recursivelyEncodeUnkeyed"]
+- ["s9EquatableP", "some"]
+- !private ["s9EquatableP", "subscript"]
+- !private ["s9EquatableP", "type"]
+- !private ["s5ErrorP", "_typeMismatch"]
+- !private ["s5ErrorP", "typeError"]
+- !private ["s25ExpressibleByArrayLiteralP", "Binary"]
+- !private ["s25ExpressibleByArrayLiteralP", "Bool"]
+- !private ["s25ExpressibleByArrayLiteralP", "BsonValue"]
+- !private ["s25ExpressibleByArrayLiteralP", "CodeWithScope"]
+- !private ["s25ExpressibleByArrayLiteralP", "Date"]
+- !private ["s25ExpressibleByArrayLiteralP", "Decimal128"]
+- !private ["s25ExpressibleByArrayLiteralP", "DecodingError"]
+- !private ["s25ExpressibleByArrayLiteralP", "Document"]
+- !private ["s25ExpressibleByArrayLiteralP", "Double"]
+- !private ["s25ExpressibleByArrayLiteralP", "Int"]
+- !private ["s25ExpressibleByArrayLiteralP", "Int32"]
+- !private ["s25ExpressibleByArrayLiteralP", "Int64"]
+- !private ["s25ExpressibleByArrayLiteralP", "MaxKey"]
+- !private ["s25ExpressibleByArrayLiteralP", "MinKey"]
+- !private ["s25ExpressibleByArrayLiteralP", "MongoError"]
+- !private ["s25ExpressibleByArrayLiteralP", "ObjectId"]
+- !private ["s25ExpressibleByArrayLiteralP", "RegularExpression"]
+- !private ["s25ExpressibleByArrayLiteralP", "String"]
+- !private ["s25ExpressibleByArrayLiteralP", "_BsonKey"]
+- !private ["s25ExpressibleByArrayLiteralP", "append"]
+- ["s25ExpressibleByArrayLiteralP", "encode"]
+- ["s25ExpressibleByArrayLiteralP", "init"]
+- !private ["s25ExpressibleByArrayLiteralP", "recursivelyDecodeKeyed"]
+- !private ["s25ExpressibleByArrayLiteralP", "recursivelyDecodeUnkeyed"]
+- !private ["s25ExpressibleByArrayLiteralP", "recursivelyEncodeKeyed"]
+- !private ["s25ExpressibleByArrayLiteralP", "recursivelyEncodeUnkeyed"]
+- !private ["s25ExpressibleByArrayLiteralP", "subscript"]
+- !private ["s25ExpressibleByArrayLiteralP", "type"]
+- !private ["s27ExpressibleByBooleanLiteralP", "_getBuiltinLogicValue"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "Binary"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "Bool"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "BsonValue"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "CodeWithScope"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "Date"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "Decimal128"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "DecodingError"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "Document"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "Double"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "Int"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "Int32"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "Int64"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "MaxKey"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "MinKey"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "MongoError"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "ObjectId"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "RegularExpression"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "String"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "_BsonKey"]
+- ["s30ExpressibleByDictionaryLiteralP", "encode"]
+- ["s30ExpressibleByDictionaryLiteralP", "init"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "recursivelyDecodeKeyed"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "recursivelyDecodeUnkeyed"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "recursivelyEncodeKeyed"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "recursivelyEncodeUnkeyed"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "subscript"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "type"]
+- !private ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "init"]
+- ["s23ExpressibleByNilLiteralP", "some"]
+- !private ["s26ExpressibleByStringLiteralP", "init"]
+- !private ["s33ExpressibleByUnicodeScalarLiteralP", "init"]
+- !private ["s8HashableP", "_getBuiltinLogicValue"]
+- !private ["s8HashableP", "init"]
+- !private ["Si", "deinit"]
+- !private ["s5Int32V", "deinit"]
+- !private ["s5Int64V", "deinit"]
+- !private ["s22KeyedDecodingContainerV", "allKeys"]
+- !private ["s22KeyedDecodingContainerV", "decode"]
+- !private ["s22KeyedDecodingContainerV", "nestedUnkeyedContainer"]
+- !private ["s30KeyedDecodingContainerProtocolP", "allKeys"]
+- !private ["s30KeyedDecodingContainerProtocolP", "decode"]
+- !private ["s30KeyedDecodingContainerProtocolP", "nestedUnkeyedContainer"]
+- !private ["s22KeyedEncodingContainerV", "encode"]
+- !private ["s22KeyedEncodingContainerV", "encodeNil"]
+- !private ["s22KeyedEncodingContainerV", "nestedContainer"]
+- !private ["s22KeyedEncodingContainerV", "nestedUnkeyedContainer"]
+- !private ["s30KeyedEncodingContainerProtocolP", "encode"]
+- !private ["s30KeyedEncodingContainerProtocolP", "encodeNil"]
+- !private ["s30KeyedEncodingContainerProtocolP", "nestedContainer"]
+- !private ["s30KeyedEncodingContainerProtocolP", "nestedUnkeyedContainer"]
+- !private ["10Foundation14LocalizedErrorP", "_typeMismatch"]
+- !private ["10Foundation14LocalizedErrorP", "typeError"]
+- !private ["s25LosslessStringConvertibleP", "_getBuiltinLogicValue"]
+- !private ["s25LosslessStringConvertibleP", "init"]
+- !private ["10MongoSwift6MaxKeyV", "deinit"]
+- !private ["10MongoSwift6MinKeyV", "deinit"]
+- !private ["s10MirrorPathP", "init"]
+- !private ["10MongoSwift0A5ErrorO", "deinit"]
+- !private ["10MongoSwift0A5ErrorO", "typeError"]
+- !private ["s17MutableCollectionP", "append"]
+- !private ["s17MutableCollectionP", "init"]
+- !private ["10MongoSwift8ObjectIdV", "deinit"]
+- ["Sq", "some"]
+- !private ["s22RandomAccessCollectionP", "append"]
+- !private ["s22RandomAccessCollectionP", "init"]
+- !private ["s26RangeReplaceableCollectionP", "append"]
+- !private ["s26RangeReplaceableCollectionP", "init"]
+- !private ["10MongoSwift17RegularExpressionV", "deinit"]
+- !private ["s8SequenceP", "Binary"]
+- !private ["s8SequenceP", "Bool"]
+- !private ["s8SequenceP", "BsonValue"]
+- !private ["s8SequenceP", "CodeWithScope"]
+- !private ["s8SequenceP", "Date"]
+- !private ["s8SequenceP", "Decimal128"]
+- !private ["s8SequenceP", "DecodingError"]
+- !private ["s8SequenceP", "Document"]
+- !private ["s8SequenceP", "Double"]
+- !private ["s8SequenceP", "Int"]
+- !private ["s8SequenceP", "Int32"]
+- !private ["s8SequenceP", "Int64"]
+- !private ["s8SequenceP", "MaxKey"]
+- !private ["s8SequenceP", "MinKey"]
+- !private ["s8SequenceP", "MongoError"]
+- !private ["s8SequenceP", "ObjectId"]
+- !private ["s8SequenceP", "RegularExpression"]
+- !private ["s8SequenceP", "String"]
+- !private ["s8SequenceP", "_BsonKey"]
+- !private ["s8SequenceP", "append"]
+- ["s8SequenceP", "encode"]
+- ["s8SequenceP", "init"]
+- !private ["s8SequenceP", "recursivelyDecodeKeyed"]
+- !private ["s8SequenceP", "recursivelyDecodeUnkeyed"]
+- !private ["s8SequenceP", "recursivelyEncodeKeyed"]
+- !private ["s8SequenceP", "recursivelyEncodeUnkeyed"]
+- !private ["s8SequenceP", "subscript"]
+- !private ["s8SequenceP", "type"]
+- !private ["s28SingleValueDecodingContainerP", "storage"]
+- !private ["s28SingleValueEncodingContainerP", "storage"]
+- !private ["SS", "deinit"]
+- !private ["SS", "init"]
+- !private ["s14StringProtocolP", "init"]
+- !private ["s16TextOutputStreamP", "init"]
+- !private ["s20TextOutputStreamableP", "init"]
+- !private ["s24UnkeyedDecodingContainerP", "decode"]
+- !private ["s24UnkeyedDecodingContainerP", "isAtEnd"]
+- !private ["s24UnkeyedDecodingContainerP", "nestedUnkeyedContainer"]
+- !private ["s24UnkeyedEncodingContainerP", "encode"]
+- !private ["s24UnkeyedEncodingContainerP", "encodeNil"]
+- !private ["s24UnkeyedEncodingContainerP", "nestedContainer"]
+- !private ["s24UnkeyedEncodingContainerP", "nestedUnkeyedContainer"]
+- !private ["s14_ArrayProtocolP", "append"]
+- !private ["s14_ArrayProtocolP", "init"]
+- !private ["10MongoSwift12_BsonDecoderC", "storage"]
+- !private ["10MongoSwift20_BsonDecodingStorageV", "topContainer"]
+- !private ["10MongoSwift12_BsonEncoderC", "storage"]
+- !private ["10MongoSwift20_BsonEncodingStorageV", "containers"]
+- ["10MongoSwift8_BsonKeyV", "deinit"]
+- !private ["10MongoSwift8_BsonKeyV", "init"]
+- !private ["10MongoSwift8_BsonKeyV", "stringValue"]
+- !private ["s24_DestructorSafeContainerP", "append"]
+- !private ["s24_DestructorSafeContainerP", "init"]
+- !private ["s35_ExpressibleByBuiltinBooleanLiteralP", "_getBuiltinLogicValue"]
+- !private ["s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s34_ExpressibleByBuiltinStringLiteralP", "init"]
+- !private ["s39_ExpressibleByBuiltinUTF16StringLiteralP", "init"]
+- !private ["s41_ExpressibleByBuiltinUnicodeScalarLiteralP", "init"]
+- !private ["s33_ExpressibleByStringInterpolationP", "init"]
+- !private ["s21_ObjectiveCBridgeableP", "_getBuiltinLogicValue"]
+- !private ["s21_ObjectiveCBridgeableP", "append"]
+- !private ["s21_ObjectiveCBridgeableP", "init"]
+- ["s21_ObjectiveCBridgeableP", "some"]
+- !private ["s16_SwiftStringViewP", "init"]
+depends-nominal:
+- !private "Sa"
+- !private "s23BidirectionalCollectionP"
+- !private "10MongoSwift6BinaryV"
+- !private "Sb"
+- "10MongoSwift9BsonValueP"
+- !private "s7CVarArgP"
+- !private "10MongoSwift13CodeWithScopeV"
+- !private "s9CodingKeyP"
+- !private "s10CollectionP"
+- !private "s10ComparableP"
+- "s28CustomDebugStringConvertibleP"
+- !private "s29CustomPlaygroundQuickLookableP"
+- "s17CustomReflectableP"
+- "s23CustomStringConvertibleP"
+- !private "10Foundation4DateV"
+- !private "10MongoSwift10Decimal128V"
+- "s9DecodableP"
+- !private "s7DecoderP"
+- !private "s13DecodingErrorO"
+- "10MongoSwift8DocumentV"
+- !private "10MongoSwift8DocumentV0C8IteratorC"
+- !private "Sd"
+- "s9EncodableP"
+- !private "s7EncoderP"
+- "s9EquatableP"
+- !private "s5ErrorP"
+- "s25ExpressibleByArrayLiteralP"
+- !private "s27ExpressibleByBooleanLiteralP"
+- "s30ExpressibleByDictionaryLiteralP"
+- !private "s43ExpressibleByExtendedGraphemeClusterLiteralP"
+- "s23ExpressibleByNilLiteralP"
+- !private "s26ExpressibleByStringLiteralP"
+- !private "s33ExpressibleByUnicodeScalarLiteralP"
+- !private "s8HashableP"
+- !private "Si"
+- !private "s5Int32V"
+- !private "s5Int64V"
+- !private "s22KeyedDecodingContainerV"
+- !private "s30KeyedDecodingContainerProtocolP"
+- !private "s22KeyedEncodingContainerV"
+- !private "s30KeyedEncodingContainerProtocolP"
+- !private "10Foundation14LocalizedErrorP"
+- !private "s25LosslessStringConvertibleP"
+- !private "10MongoSwift6MaxKeyV"
+- !private "10MongoSwift6MinKeyV"
+- !private "s10MirrorPathP"
+- !private "10MongoSwift0A5ErrorO"
+- !private "s17MutableCollectionP"
+- !private "10MongoSwift8ObjectIdV"
+- "Sq"
+- !private "s22RandomAccessCollectionP"
+- !private "s26RangeReplaceableCollectionP"
+- !private "10MongoSwift17RegularExpressionV"
+- "s8SequenceP"
+- !private "s28SingleValueDecodingContainerP"
+- !private "s28SingleValueEncodingContainerP"
+- !private "SS"
+- !private "s14StringProtocolP"
+- !private "s16TextOutputStreamP"
+- !private "s20TextOutputStreamableP"
+- !private "s24UnkeyedDecodingContainerP"
+- !private "s24UnkeyedEncodingContainerP"
+- !private "s14_ArrayProtocolP"
+- !private "10MongoSwift12_BsonDecoderC"
+- !private "10MongoSwift20_BsonDecodingStorageV"
+- !private "10MongoSwift12_BsonEncoderC"
+- !private "10MongoSwift20_BsonEncodingStorageV"
+- "10MongoSwift8_BsonKeyV"
+- !private "s24_DestructorSafeContainerP"
+- !private "s35_ExpressibleByBuiltinBooleanLiteralP"
+- !private "s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP"
+- !private "s34_ExpressibleByBuiltinStringLiteralP"
+- !private "s39_ExpressibleByBuiltinUTF16StringLiteralP"
+- !private "s41_ExpressibleByBuiltinUnicodeScalarLiteralP"
+- !private "s33_ExpressibleByStringInterpolationP"
+- "s21_ObjectiveCBridgeableP"
+- !private "s16_SwiftStringViewP"
+depends-dynamic-lookup:
+depends-external:
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Dispatch.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/ObjectiveC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Dispatch.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Darwin.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Foundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/CoreFoundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/CoreGraphics.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Swift.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/SwiftOnoneSupport.swiftmodule"
+- "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreTwilioService/.build/checkouts/swift-mongoc-4572998624666171810/module.modulemap"
+- "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreTwilioService/.build/checkouts/swift-bson-2873930670968179217/module.modulemap"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/usr/include/objc/ObjectiveC.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/usr/include/Darwin.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CoreGraphics.apinotes"
+interface-hash: "ee6b4a317ab93c7e75cbe5a3edf47ec0"

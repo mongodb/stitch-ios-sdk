@@ -1,0 +1,4 @@
+framework module StitchCoreFCMService {
+    header "StitchCoreFCMService-Swift.h"
+    requires objc
+}

@@ -1,0 +1,253 @@
+### Swift dependencies file v0 ###
+provides-top-level:
+- "ClaimSet"
+- "ClaimSetBuilder"
+- "PayloadBuilder"
+provides-nominal:
+- "3JWT8ClaimSetV"
+- "3JWT15ClaimSetBuilderC"
+provides-member:
+- ["3JWT8ClaimSetV", ""]
+- ["3JWT15ClaimSetBuilderC", ""]
+- ["3JWT8ClaimSetV", "issuer"]
+- ["3JWT8ClaimSetV", "audience"]
+- ["3JWT8ClaimSetV", "expiration"]
+- ["3JWT8ClaimSetV", "notBefore"]
+- ["3JWT8ClaimSetV", "issuedAt"]
+- ["3JWT8ClaimSetV", "validate"]
+- ["3JWT8ClaimSetV", "validateAudience"]
+- ["3JWT8ClaimSetV", "validateIssuer"]
+- ["3JWT8ClaimSetV", "validateExpiary"]
+- ["3JWT8ClaimSetV", "validateNotBefore"]
+- ["3JWT8ClaimSetV", "validateIssuedAt"]
+provides-dynamic-lookup:
+depends-top-level:
+- !private "!"
+- !private "!="
+- !private "*"
+- !private "??"
+- "AssignmentPrecedence"
+- "CastingPrecedence"
+- "ClaimSet"
+- "ClaimSetBuilder"
+- "Date"
+- !private "Dictionary"
+- !private "InvalidToken"
+- "PayloadBuilder"
+- "String"
+- !private "StringLiteralType"
+- "TimeInterval"
+- !private "validateDate"
+depends-member:
+- !private ["Sa", "contains"]
+- !private ["s23BidirectionalCollectionP", "contains"]
+- !private ["s23BidirectionalCollectionP", "init"]
+- !private ["Sb", "_getBuiltinLogicValue"]
+- !private ["s7CVarArgP", "_getBuiltinLogicValue"]
+- !private ["s7CVarArgP", "contains"]
+- !private ["s7CVarArgP", "init"]
+- !private ["s7CVarArgP", "subscript"]
+- ["3JWT8ClaimSetV", "Date"]
+- !private ["3JWT8ClaimSetV", "InvalidToken"]
+- ["3JWT8ClaimSetV", "String"]
+- ["3JWT8ClaimSetV", "TimeInterval"]
+- ["3JWT8ClaimSetV", "audience"]
+- ["3JWT8ClaimSetV", "claims"]
+- ["3JWT8ClaimSetV", "expiration"]
+- ["3JWT8ClaimSetV", "init"]
+- ["3JWT8ClaimSetV", "issuedAt"]
+- ["3JWT8ClaimSetV", "issuer"]
+- ["3JWT8ClaimSetV", "notBefore"]
+- ["3JWT8ClaimSetV", "subscript"]
+- ["3JWT8ClaimSetV", "validate"]
+- ["3JWT8ClaimSetV", "validateAudience"]
+- !private ["3JWT8ClaimSetV", "validateDate"]
+- ["3JWT8ClaimSetV", "validateExpiary"]
+- ["3JWT8ClaimSetV", "validateIssuedAt"]
+- ["3JWT8ClaimSetV", "validateIssuer"]
+- ["3JWT8ClaimSetV", "validateNotBefore"]
+- ["3JWT15ClaimSetBuilderC", "ClaimSet"]
+- ["3JWT15ClaimSetBuilderC", "Date"]
+- ["3JWT15ClaimSetBuilderC", "String"]
+- ["3JWT15ClaimSetBuilderC", "audience"]
+- ["3JWT15ClaimSetBuilderC", "claims"]
+- ["3JWT15ClaimSetBuilderC", "deinit"]
+- ["3JWT15ClaimSetBuilderC", "expiration"]
+- ["3JWT15ClaimSetBuilderC", "init"]
+- ["3JWT15ClaimSetBuilderC", "issuedAt"]
+- ["3JWT15ClaimSetBuilderC", "issuer"]
+- ["3JWT15ClaimSetBuilderC", "notBefore"]
+- ["3JWT15ClaimSetBuilderC", "subscript"]
+- !private ["s10CollectionP", "contains"]
+- !private ["s10CollectionP", "init"]
+- !private ["s10CollectionP", "subscript"]
+- !private ["s10ComparableP", "init"]
+- !private ["s10ComparableP", "timeIntervalSince1970"]
+- !private ["SC16ComparisonResultO", "orderedAscending"]
+- !private ["SC16ComparisonResultO", "orderedDescending"]
+- !private ["s28CustomDebugStringConvertibleP", "contains"]
+- !private ["s28CustomDebugStringConvertibleP", "init"]
+- !private ["s28CustomDebugStringConvertibleP", "subscript"]
+- !private ["s28CustomDebugStringConvertibleP", "timeIntervalSince1970"]
+- !private ["s29CustomPlaygroundQuickLookableP", "_getBuiltinLogicValue"]
+- !private ["s29CustomPlaygroundQuickLookableP", "init"]
+- !private ["s29CustomPlaygroundQuickLookableP", "timeIntervalSince1970"]
+- !private ["s17CustomReflectableP", "_getBuiltinLogicValue"]
+- !private ["s17CustomReflectableP", "contains"]
+- !private ["s17CustomReflectableP", "init"]
+- !private ["s17CustomReflectableP", "subscript"]
+- !private ["s17CustomReflectableP", "timeIntervalSince1970"]
+- !private ["s23CustomStringConvertibleP", "_getBuiltinLogicValue"]
+- !private ["s23CustomStringConvertibleP", "contains"]
+- !private ["s23CustomStringConvertibleP", "decodeError"]
+- !private ["s23CustomStringConvertibleP", "expiredSignature"]
+- !private ["s23CustomStringConvertibleP", "immatureSignature"]
+- !private ["s23CustomStringConvertibleP", "init"]
+- !private ["s23CustomStringConvertibleP", "invalidAudience"]
+- !private ["s23CustomStringConvertibleP", "invalidIssuedAt"]
+- !private ["s23CustomStringConvertibleP", "invalidIssuer"]
+- !private ["s23CustomStringConvertibleP", "subscript"]
+- !private ["s23CustomStringConvertibleP", "timeIntervalSince1970"]
+- !private ["10Foundation4DateV", "init"]
+- !private ["10Foundation4DateV", "timeIntervalSince1970"]
+- !private ["s9DecodableP", "_getBuiltinLogicValue"]
+- !private ["s9DecodableP", "contains"]
+- !private ["s9DecodableP", "init"]
+- !private ["s9DecodableP", "subscript"]
+- !private ["s9DecodableP", "timeIntervalSince1970"]
+- !private ["s10DictionaryV", "subscript"]
+- !private ["s9EncodableP", "_getBuiltinLogicValue"]
+- !private ["s9EncodableP", "contains"]
+- !private ["s9EncodableP", "init"]
+- !private ["s9EncodableP", "subscript"]
+- !private ["s9EncodableP", "timeIntervalSince1970"]
+- !private ["s9EquatableP", "_getBuiltinLogicValue"]
+- !private ["s9EquatableP", "contains"]
+- !private ["s9EquatableP", "init"]
+- !private ["s9EquatableP", "orderedAscending"]
+- !private ["s9EquatableP", "orderedDescending"]
+- !private ["s9EquatableP", "subscript"]
+- !private ["s9EquatableP", "timeIntervalSince1970"]
+- !private ["s5ErrorP", "decodeError"]
+- !private ["s5ErrorP", "expiredSignature"]
+- !private ["s5ErrorP", "immatureSignature"]
+- !private ["s5ErrorP", "invalidAudience"]
+- !private ["s5ErrorP", "invalidIssuedAt"]
+- !private ["s5ErrorP", "invalidIssuer"]
+- !private ["s25ExpressibleByArrayLiteralP", "contains"]
+- !private ["s27ExpressibleByBooleanLiteralP", "_getBuiltinLogicValue"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "subscript"]
+- !private ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s26ExpressibleByStringLiteralP", "init"]
+- !private ["s33ExpressibleByUnicodeScalarLiteralP", "init"]
+- !private ["s8HashableP", "_getBuiltinLogicValue"]
+- !private ["s8HashableP", "init"]
+- !private ["s8HashableP", "orderedAscending"]
+- !private ["s8HashableP", "orderedDescending"]
+- !private ["s8HashableP", "timeIntervalSince1970"]
+- !private ["3JWT12InvalidTokenO", "decodeError"]
+- !private ["3JWT12InvalidTokenO", "deinit"]
+- !private ["3JWT12InvalidTokenO", "expiredSignature"]
+- !private ["3JWT12InvalidTokenO", "immatureSignature"]
+- !private ["3JWT12InvalidTokenO", "invalidAudience"]
+- !private ["3JWT12InvalidTokenO", "invalidIssuedAt"]
+- !private ["3JWT12InvalidTokenO", "invalidIssuer"]
+- !private ["s25LosslessStringConvertibleP", "_getBuiltinLogicValue"]
+- !private ["s25LosslessStringConvertibleP", "init"]
+- !private ["s10MirrorPathP", "init"]
+- !private ["s17MutableCollectionP", "contains"]
+- !private ["s22RandomAccessCollectionP", "contains"]
+- !private ["s26RangeReplaceableCollectionP", "contains"]
+- !private ["s26RangeReplaceableCollectionP", "init"]
+- !private ["s16RawRepresentableP", "orderedAscending"]
+- !private ["s16RawRepresentableP", "orderedDescending"]
+- !private ["10Foundation20ReferenceConvertibleP", "init"]
+- !private ["10Foundation20ReferenceConvertibleP", "timeIntervalSince1970"]
+- !private ["s8SequenceP", "contains"]
+- !private ["s8SequenceP", "init"]
+- !private ["s8SequenceP", "subscript"]
+- !private ["SS", "init"]
+- !private ["s14StringProtocolP", "init"]
+- !private ["s16TextOutputStreamP", "init"]
+- !private ["s20TextOutputStreamableP", "init"]
+- !private ["s14_ArrayProtocolP", "contains"]
+- !private ["s24_DestructorSafeContainerP", "contains"]
+- !private ["s35_ExpressibleByBuiltinBooleanLiteralP", "_getBuiltinLogicValue"]
+- !private ["s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s34_ExpressibleByBuiltinStringLiteralP", "init"]
+- !private ["s39_ExpressibleByBuiltinUTF16StringLiteralP", "init"]
+- !private ["s41_ExpressibleByBuiltinUnicodeScalarLiteralP", "init"]
+- !private ["s33_ExpressibleByStringInterpolationP", "init"]
+- !private ["s21_ObjectiveCBridgeableP", "_getBuiltinLogicValue"]
+- !private ["s21_ObjectiveCBridgeableP", "contains"]
+- !private ["s21_ObjectiveCBridgeableP", "init"]
+- !private ["s21_ObjectiveCBridgeableP", "subscript"]
+- !private ["s21_ObjectiveCBridgeableP", "timeIntervalSince1970"]
+- !private ["s16_SwiftStringViewP", "init"]
+depends-nominal:
+- !private "Sa"
+- !private "s23BidirectionalCollectionP"
+- !private "Sb"
+- !private "s7CVarArgP"
+- "3JWT8ClaimSetV"
+- "3JWT15ClaimSetBuilderC"
+- !private "s10CollectionP"
+- !private "s10ComparableP"
+- !private "SC16ComparisonResultO"
+- !private "s28CustomDebugStringConvertibleP"
+- !private "s29CustomPlaygroundQuickLookableP"
+- !private "s17CustomReflectableP"
+- !private "s23CustomStringConvertibleP"
+- !private "10Foundation4DateV"
+- !private "s9DecodableP"
+- !private "s10DictionaryV"
+- !private "s9EncodableP"
+- !private "s9EquatableP"
+- !private "s5ErrorP"
+- !private "s25ExpressibleByArrayLiteralP"
+- !private "s27ExpressibleByBooleanLiteralP"
+- !private "s30ExpressibleByDictionaryLiteralP"
+- !private "s43ExpressibleByExtendedGraphemeClusterLiteralP"
+- !private "s26ExpressibleByStringLiteralP"
+- !private "s33ExpressibleByUnicodeScalarLiteralP"
+- !private "s8HashableP"
+- !private "3JWT12InvalidTokenO"
+- !private "s25LosslessStringConvertibleP"
+- !private "s10MirrorPathP"
+- !private "s17MutableCollectionP"
+- !private "s22RandomAccessCollectionP"
+- !private "s26RangeReplaceableCollectionP"
+- !private "s16RawRepresentableP"
+- !private "10Foundation20ReferenceConvertibleP"
+- !private "s8SequenceP"
+- !private "SS"
+- !private "s14StringProtocolP"
+- !private "s16TextOutputStreamP"
+- !private "s20TextOutputStreamableP"
+- !private "s14_ArrayProtocolP"
+- !private "s24_DestructorSafeContainerP"
+- !private "s35_ExpressibleByBuiltinBooleanLiteralP"
+- !private "s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP"
+- !private "s34_ExpressibleByBuiltinStringLiteralP"
+- !private "s39_ExpressibleByBuiltinUTF16StringLiteralP"
+- !private "s41_ExpressibleByBuiltinUnicodeScalarLiteralP"
+- !private "s33_ExpressibleByStringInterpolationP"
+- !private "s21_ObjectiveCBridgeableP"
+- !private "s16_SwiftStringViewP"
+depends-dynamic-lookup:
+depends-external:
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Dispatch.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/ObjectiveC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Dispatch.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Darwin.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Foundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/CoreFoundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/CoreGraphics.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Swift.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/SwiftOnoneSupport.swiftmodule"
+- "/Users/jsflax/Development/stitch-ios-sdk/Core/StitchCoreSDK/.build/checkouts/CommonCrypto.git-5718070938381968625/module.modulemap"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/usr/include/objc/ObjectiveC.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/usr/include/Darwin.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CoreGraphics.apinotes"
+interface-hash: "dbbd712cb73288476022422df7d4452c"

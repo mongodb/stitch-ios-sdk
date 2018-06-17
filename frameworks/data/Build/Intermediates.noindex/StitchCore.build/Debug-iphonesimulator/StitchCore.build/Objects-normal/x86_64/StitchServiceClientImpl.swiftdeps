@@ -1,0 +1,120 @@
+### Swift dependencies file v0 ###
+provides-top-level:
+- "StitchServiceClientImpl"
+provides-nominal:
+- "10StitchCore0A17ServiceClientImplC"
+provides-member:
+- ["10StitchCore0A17ServiceClientImplC", ""]
+provides-dynamic-lookup:
+depends-top-level:
+- "AssignmentPrecedence"
+- "BsonValue"
+- "CoreStitchServiceClientImpl"
+- "Decodable"
+- !private "FloatLiteralType"
+- !private "IntegerLiteralType"
+- "OperationDispatcher"
+- "StitchAuthRequestClient"
+- "StitchResult"
+- "StitchServiceClient"
+- "StitchServiceClientImpl"
+- "StitchServiceRoutes"
+- "String"
+- !private "StringLiteralType"
+- "TimeInterval"
+- "Void"
+depends-member:
+- ["13StitchCoreSDK0bA13ServiceClientP", ""]
+- ["13StitchCoreSDK0bA13ServiceClientP", "callFunction"]
+- !private ["13StitchCoreSDK0bA13ServiceClientP", "callFunctionInternal"]
+- !private ["13StitchCoreSDK0bA13ServiceClientP", "dispatcher"]
+- !private ["13StitchCoreSDK0bA13ServiceClientP", "init"]
+- ["13StitchCoreSDK0bA17ServiceClientImplC", "BsonValue"]
+- ["13StitchCoreSDK0bA17ServiceClientImplC", "Decodable"]
+- ["13StitchCoreSDK0bA17ServiceClientImplC", "OperationDispatcher"]
+- ["13StitchCoreSDK0bA17ServiceClientImplC", "StitchAuthRequestClient"]
+- ["13StitchCoreSDK0bA17ServiceClientImplC", "StitchResult"]
+- ["13StitchCoreSDK0bA17ServiceClientImplC", "StitchServiceRoutes"]
+- ["13StitchCoreSDK0bA17ServiceClientImplC", "String"]
+- ["13StitchCoreSDK0bA17ServiceClientImplC", "TimeInterval"]
+- ["13StitchCoreSDK0bA17ServiceClientImplC", "Void"]
+- ["13StitchCoreSDK0bA17ServiceClientImplC", ""]
+- ["13StitchCoreSDK0bA17ServiceClientImplC", "callFunction"]
+- !private ["13StitchCoreSDK0bA17ServiceClientImplC", "callFunctionInternal"]
+- ["13StitchCoreSDK0bA17ServiceClientImplC", "dispatcher"]
+- ["13StitchCoreSDK0bA17ServiceClientImplC", "init"]
+- !private ["s28CustomDebugStringConvertibleP", "init"]
+- !private ["s17CustomReflectableP", "init"]
+- !private ["s23CustomStringConvertibleP", "init"]
+- !private ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s26ExpressibleByStringLiteralP", "init"]
+- !private ["s33ExpressibleByUnicodeScalarLiteralP", "init"]
+- !private ["10StitchCore19OperationDispatcherC", "run"]
+- !private ["s12StaticStringV", "init"]
+- ["10StitchCore0A13ServiceClientP", ""]
+- ["10StitchCore0A13ServiceClientP", "callFunction"]
+- !private ["10StitchCore0A13ServiceClientP", "callFunctionInternal"]
+- !private ["10StitchCore0A13ServiceClientP", "dispatcher"]
+- ["10StitchCore0A17ServiceClientImplC", "BsonValue"]
+- ["10StitchCore0A17ServiceClientImplC", "Decodable"]
+- ["10StitchCore0A17ServiceClientImplC", "OperationDispatcher"]
+- ["10StitchCore0A17ServiceClientImplC", "StitchAuthRequestClient"]
+- ["10StitchCore0A17ServiceClientImplC", "StitchResult"]
+- ["10StitchCore0A17ServiceClientImplC", "StitchServiceRoutes"]
+- ["10StitchCore0A17ServiceClientImplC", "String"]
+- ["10StitchCore0A17ServiceClientImplC", "TimeInterval"]
+- ["10StitchCore0A17ServiceClientImplC", "Void"]
+- ["10StitchCore0A17ServiceClientImplC", "callFunction"]
+- !private ["10StitchCore0A17ServiceClientImplC", "callFunctionInternal"]
+- ["10StitchCore0A17ServiceClientImplC", "deinit"]
+- !private ["10StitchCore0A17ServiceClientImplC", "dispatcher"]
+- ["10StitchCore0A17ServiceClientImplC", "init"]
+- !private ["s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s34_ExpressibleByBuiltinStringLiteralP", "init"]
+- !private ["s41_ExpressibleByBuiltinUnicodeScalarLiteralP", "init"]
+depends-nominal:
+- "13StitchCoreSDK0bA13ServiceClientP"
+- "13StitchCoreSDK0bA17ServiceClientImplC"
+- !private "s28CustomDebugStringConvertibleP"
+- !private "s17CustomReflectableP"
+- !private "s23CustomStringConvertibleP"
+- !private "s43ExpressibleByExtendedGraphemeClusterLiteralP"
+- !private "s26ExpressibleByStringLiteralP"
+- !private "s33ExpressibleByUnicodeScalarLiteralP"
+- !private "10StitchCore19OperationDispatcherC"
+- !private "s12StaticStringV"
+- "10StitchCore0A13ServiceClientP"
+- "10StitchCore0A17ServiceClientImplC"
+- !private "s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP"
+- !private "s34_ExpressibleByBuiltinStringLiteralP"
+- !private "s41_ExpressibleByBuiltinUnicodeScalarLiteralP"
+depends-dynamic-lookup:
+depends-external:
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Dispatch.apinotesc"
+- "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Products/Debug-iphonesimulator/StitchCoreSDK.framework/Modules/StitchCoreSDK.swiftmodule/x86_64.swiftmodule"
+- "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Products/Debug-iphonesimulator/MongoSwift.framework/Modules/MongoSwift.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/ObjectiveC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/CoreImage.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/QuartzCore.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Dispatch.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Metal.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Darwin.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Foundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/CoreFoundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/CoreGraphics.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Swift.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/UIKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/SwiftOnoneSupport.swiftmodule"
+- "/Users/jsflax/Development/stitch-ios-sdk/iOS/StitchCore/../../Sources/libmongoc/module.modulemap"
+- "/Users/jsflax/Development/stitch-ios-sdk/iOS/StitchCore/../../Sources/libbson/module.modulemap"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/usr/include/objc/ObjectiveC.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/OpenGLES.framework/Headers/OpenGLES.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/CoreImage.framework/Headers/CoreImage.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/QuartzCore.framework/Headers/QuartzCore.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/Metal.framework/Headers/Metal.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/usr/include/Darwin.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CoreGraphics.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
+interface-hash: "91a04c2943ffb44f8f52fa842a78ef69"

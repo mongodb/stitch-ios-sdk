@@ -1,0 +1,91 @@
+### Swift dependencies file v0 ###
+provides-top-level:
+- "CoreStitchPushClientImpl"
+provides-nominal:
+- "13StitchCoreSDK0bA14PushClientImplC"
+provides-member:
+- ["13StitchCoreSDK0bA14PushClientImplC", ""]
+provides-dynamic-lookup:
+depends-top-level:
+- "AssignmentPrecedence"
+- "CoreStitchPushClient"
+- "CoreStitchPushClientImpl"
+- "Document"
+- !private "Response"
+- !private "StitchAuthDocRequestBuilder"
+- !private "StitchAuthRequestBuilder"
+- "StitchAuthRequestClient"
+- "StitchPushRoutes"
+- "String"
+depends-member:
+- !private ["13StitchCoreSDK0bA10PushClientP", "StitchAuthDocRequestBuilder"]
+- !private ["13StitchCoreSDK0bA10PushClientP", "StitchAuthRequestBuilder"]
+- ["13StitchCoreSDK0bA10PushClientP", ""]
+- ["13StitchCoreSDK0bA10PushClientP", "deregisterInternal"]
+- !private ["13StitchCoreSDK0bA10PushClientP", "pushRoutes"]
+- ["13StitchCoreSDK0bA10PushClientP", "registerInternal"]
+- !private ["13StitchCoreSDK0bA10PushClientP", "requestClient"]
+- !private ["13StitchCoreSDK0bA10PushClientP", "serviceName"]
+- ["13StitchCoreSDK0bA14PushClientImplC", "Document"]
+- !private ["13StitchCoreSDK0bA14PushClientImplC", "Response"]
+- !private ["13StitchCoreSDK0bA14PushClientImplC", "StitchAuthDocRequestBuilder"]
+- !private ["13StitchCoreSDK0bA14PushClientImplC", "StitchAuthRequestBuilder"]
+- ["13StitchCoreSDK0bA14PushClientImplC", "StitchAuthRequestClient"]
+- ["13StitchCoreSDK0bA14PushClientImplC", "StitchPushRoutes"]
+- ["13StitchCoreSDK0bA14PushClientImplC", "String"]
+- ["13StitchCoreSDK0bA14PushClientImplC", "deinit"]
+- ["13StitchCoreSDK0bA14PushClientImplC", "deregisterInternal"]
+- ["13StitchCoreSDK0bA14PushClientImplC", "init"]
+- !private ["13StitchCoreSDK0bA14PushClientImplC", "pushRoutes"]
+- ["13StitchCoreSDK0bA14PushClientImplC", "registerInternal"]
+- !private ["13StitchCoreSDK0bA14PushClientImplC", "requestClient"]
+- !private ["13StitchCoreSDK0bA14PushClientImplC", "serviceName"]
+- !private ["s9EquatableP", "delete"]
+- !private ["s9EquatableP", "put"]
+- !private ["s8HashableP", "delete"]
+- !private ["s8HashableP", "put"]
+- !private ["13StitchCoreSDK6MethodO", "delete"]
+- !private ["13StitchCoreSDK6MethodO", "put"]
+- !private ["s16RawRepresentableP", "delete"]
+- !private ["s16RawRepresentableP", "put"]
+- !private ["13StitchCoreSDK0A21AuthDocRequestBuilderC", "build"]
+- !private ["13StitchCoreSDK0A21AuthDocRequestBuilderC", "init"]
+- !private ["13StitchCoreSDK0A21AuthDocRequestBuilderC", "with"]
+- !private ["13StitchCoreSDK0A18AuthRequestBuilderC", "build"]
+- !private ["13StitchCoreSDK0A18AuthRequestBuilderC", "init"]
+- !private ["13StitchCoreSDK0A18AuthRequestBuilderC", "with"]
+- !private ["13StitchCoreSDK0A17AuthRequestClientP", "doAuthenticatedRequest"]
+- !private ["13StitchCoreSDK0A10PushRoutesV", "registrationRoute"]
+- !private ["13StitchCoreSDK0A14RequestBuilderC", "build"]
+- !private ["13StitchCoreSDK0A14RequestBuilderC", "with"]
+depends-nominal:
+- "13StitchCoreSDK0bA10PushClientP"
+- "13StitchCoreSDK0bA14PushClientImplC"
+- !private "s9EquatableP"
+- !private "s8HashableP"
+- !private "13StitchCoreSDK6MethodO"
+- !private "s16RawRepresentableP"
+- !private "13StitchCoreSDK0A21AuthDocRequestBuilderC"
+- !private "13StitchCoreSDK0A18AuthRequestBuilderC"
+- !private "13StitchCoreSDK0A17AuthRequestClientP"
+- !private "13StitchCoreSDK0A10PushRoutesV"
+- !private "13StitchCoreSDK0A14RequestBuilderC"
+depends-dynamic-lookup:
+depends-external:
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Dispatch.apinotesc"
+- "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Products/Debug-iphonesimulator/MongoSwift.framework/Modules/MongoSwift.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/ObjectiveC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Dispatch.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Darwin.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Foundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/CoreFoundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/CoreGraphics.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Swift.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/SwiftOnoneSupport.swiftmodule"
+- "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreHTTPService/.build/checkouts/swift-mongoc-4572998624666171810/module.modulemap"
+- "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreHTTPService/.build/checkouts/swift-bson-2873930670968179217/module.modulemap"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/usr/include/objc/ObjectiveC.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/usr/include/Darwin.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CoreGraphics.apinotes"
+interface-hash: "98bb3bf910aadbb2fad5fca34f488bf8"

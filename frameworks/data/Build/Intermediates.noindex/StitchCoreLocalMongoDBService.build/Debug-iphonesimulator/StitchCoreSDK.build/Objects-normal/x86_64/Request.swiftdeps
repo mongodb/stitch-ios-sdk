@@ -1,0 +1,319 @@
+### Swift dependencies file v0 ###
+provides-top-level:
+- "RequestBuilderError"
+- "RequestBuilder"
+- "Request"
+- "Response"
+- "=="
+provides-nominal:
+- "13StitchCoreSDK19RequestBuilderErrorO"
+- "13StitchCoreSDK14RequestBuilderC"
+- "13StitchCoreSDK7RequestC"
+- "13StitchCoreSDK8ResponseV"
+provides-member:
+- ["13StitchCoreSDK19RequestBuilderErrorO", ""]
+- ["13StitchCoreSDK14RequestBuilderC", ""]
+- ["13StitchCoreSDK7RequestC", ""]
+- ["13StitchCoreSDK8ResponseV", ""]
+provides-dynamic-lookup:
+depends-top-level:
+- !private "&&"
+- "=="
+- !private "??"
+- "AssignmentPrecedence"
+- "Bool"
+- "Data"
+- !private "Dictionary"
+- "Equatable"
+- "Error"
+- !private "FloatLiteralType"
+- "Int"
+- !private "IntegerLiteralType"
+- !private "Locale"
+- "Method"
+- "Request"
+- "RequestBuilder"
+- "RequestBuilderError"
+- "Response"
+- "String"
+- !private "StringLiteralType"
+- "TimeInterval"
+- !private "||"
+depends-member:
+- !private ["s23BidirectionalCollectionP", "elementsEqual"]
+- !private ["s23BidirectionalCollectionP", "init"]
+- !private ["s23BidirectionalCollectionP", "lowercased"]
+- !private ["10MongoSwift9BsonValueP", "init"]
+- !private ["10MongoSwift9BsonValueP", "lowercased"]
+- !private ["s7CVarArgP", "forEach"]
+- !private ["s7CVarArgP", "init"]
+- !private ["s7CVarArgP", "lowercased"]
+- !private ["s7CVarArgP", "subscript"]
+- !private ["s10CollectionP", "elementsEqual"]
+- !private ["s10CollectionP", "forEach"]
+- !private ["s10CollectionP", "init"]
+- !private ["s10CollectionP", "lowercased"]
+- !private ["s10CollectionP", "subscript"]
+- !private ["s10ComparableP", "init"]
+- !private ["s10ComparableP", "lowercased"]
+- !private ["s28CustomDebugStringConvertibleP", "elementsEqual"]
+- !private ["s28CustomDebugStringConvertibleP", "forEach"]
+- !private ["s28CustomDebugStringConvertibleP", "init"]
+- !private ["s28CustomDebugStringConvertibleP", "lowercased"]
+- !private ["s28CustomDebugStringConvertibleP", "subscript"]
+- !private ["s29CustomPlaygroundQuickLookableP", "init"]
+- !private ["s29CustomPlaygroundQuickLookableP", "lowercased"]
+- !private ["s17CustomReflectableP", "elementsEqual"]
+- !private ["s17CustomReflectableP", "forEach"]
+- !private ["s17CustomReflectableP", "init"]
+- !private ["s17CustomReflectableP", "lowercased"]
+- !private ["s17CustomReflectableP", "subscript"]
+- !private ["s23CustomStringConvertibleP", "elementsEqual"]
+- !private ["s23CustomStringConvertibleP", "forEach"]
+- !private ["s23CustomStringConvertibleP", "init"]
+- !private ["s23CustomStringConvertibleP", "lowercased"]
+- !private ["s23CustomStringConvertibleP", "subscript"]
+- !private ["10Foundation4DataV", "elementsEqual"]
+- !private ["10Foundation4DataV", "init"]
+- !private ["s9DecodableP", "elementsEqual"]
+- !private ["s9DecodableP", "forEach"]
+- !private ["s9DecodableP", "init"]
+- !private ["s9DecodableP", "lowercased"]
+- !private ["s9DecodableP", "subscript"]
+- !private ["s10DictionaryV", "forEach"]
+- !private ["s10DictionaryV", "subscript"]
+- !private ["s9EncodableP", "elementsEqual"]
+- !private ["s9EncodableP", "forEach"]
+- !private ["s9EncodableP", "init"]
+- !private ["s9EncodableP", "lowercased"]
+- !private ["s9EncodableP", "subscript"]
+- !private ["s9EquatableP", "Data"]
+- !private ["s9EquatableP", "RequestBuilder"]
+- ["s9EquatableP", ""]
+- ["s9EquatableP", "_code"]
+- ["s9EquatableP", "_domain"]
+- ["s9EquatableP", "_getEmbeddedNSError"]
+- ["s9EquatableP", "_userInfo"]
+- !private ["s9EquatableP", "body"]
+- !private ["s9EquatableP", "elementsEqual"]
+- !private ["s9EquatableP", "forEach"]
+- ["s9EquatableP", "hashValue"]
+- !private ["s9EquatableP", "headers"]
+- !private ["s9EquatableP", "init"]
+- !private ["s9EquatableP", "lowercased"]
+- !private ["s9EquatableP", "method"]
+- !private ["s9EquatableP", "missingMethod"]
+- !private ["s9EquatableP", "missingTimeout"]
+- !private ["s9EquatableP", "missingURL"]
+- !private ["s9EquatableP", "subscript"]
+- !private ["s9EquatableP", "timeout"]
+- !private ["s9EquatableP", "url"]
+- ["s5ErrorP", ""]
+- ["s5ErrorP", "_code"]
+- ["s5ErrorP", "_domain"]
+- ["s5ErrorP", "_getEmbeddedNSError"]
+- ["s5ErrorP", "_userInfo"]
+- ["s5ErrorP", "hashValue"]
+- !private ["s5ErrorP", "missingMethod"]
+- !private ["s5ErrorP", "missingTimeout"]
+- !private ["s5ErrorP", "missingURL"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "forEach"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "subscript"]
+- !private ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "lowercased"]
+- !private ["s26ExpressibleByStringLiteralP", "init"]
+- !private ["s26ExpressibleByStringLiteralP", "lowercased"]
+- !private ["s33ExpressibleByUnicodeScalarLiteralP", "init"]
+- !private ["s33ExpressibleByUnicodeScalarLiteralP", "lowercased"]
+- ["s8HashableP", ""]
+- ["s8HashableP", "_code"]
+- ["s8HashableP", "_domain"]
+- ["s8HashableP", "_getEmbeddedNSError"]
+- ["s8HashableP", "_userInfo"]
+- !private ["s8HashableP", "elementsEqual"]
+- ["s8HashableP", "hashValue"]
+- !private ["s8HashableP", "init"]
+- !private ["s8HashableP", "lowercased"]
+- !private ["s8HashableP", "missingMethod"]
+- !private ["s8HashableP", "missingTimeout"]
+- !private ["s8HashableP", "missingURL"]
+- !private ["10Foundation6LocaleV", "init"]
+- !private ["s25LosslessStringConvertibleP", "init"]
+- !private ["s25LosslessStringConvertibleP", "lowercased"]
+- !private ["13StitchCoreSDK6MethodO", "deinit"]
+- !private ["s10MirrorPathP", "init"]
+- !private ["s10MirrorPathP", "lowercased"]
+- !private ["s17MutableCollectionP", "elementsEqual"]
+- !private ["s17MutableCollectionP", "init"]
+- !private ["So8NSCodingP", "lowercased"]
+- !private ["So9NSCopyingP", "lowercased"]
+- !private ["So21NSItemProviderReadingP", "lowercased"]
+- !private ["So21NSItemProviderWritingP", "lowercased"]
+- !private ["So16NSMutableCopyingP", "lowercased"]
+- !private ["So8NSObjectC", "lowercased"]
+- !private ["So16NSObjectProtocolP", "lowercased"]
+- !private ["So14NSSecureCodingP", "lowercased"]
+- !private ["So8NSStringC", "lowercased"]
+- !private ["s22RandomAccessCollectionP", "elementsEqual"]
+- !private ["s22RandomAccessCollectionP", "init"]
+- !private ["s26RangeReplaceableCollectionP", "elementsEqual"]
+- !private ["s26RangeReplaceableCollectionP", "init"]
+- !private ["s26RangeReplaceableCollectionP", "lowercased"]
+- !private ["10Foundation20ReferenceConvertibleP", "elementsEqual"]
+- !private ["10Foundation20ReferenceConvertibleP", "init"]
+- ["13StitchCoreSDK7RequestC", "=="]
+- ["13StitchCoreSDK7RequestC", "Bool"]
+- ["13StitchCoreSDK7RequestC", "Data"]
+- ["13StitchCoreSDK7RequestC", "Method"]
+- ["13StitchCoreSDK7RequestC", "Request"]
+- ["13StitchCoreSDK7RequestC", "RequestBuilder"]
+- ["13StitchCoreSDK7RequestC", "String"]
+- ["13StitchCoreSDK7RequestC", "TimeInterval"]
+- ["13StitchCoreSDK7RequestC", "body"]
+- ["13StitchCoreSDK7RequestC", "builder"]
+- ["13StitchCoreSDK7RequestC", "deinit"]
+- ["13StitchCoreSDK7RequestC", "headers"]
+- ["13StitchCoreSDK7RequestC", "init"]
+- ["13StitchCoreSDK7RequestC", "method"]
+- ["13StitchCoreSDK7RequestC", "timeout"]
+- ["13StitchCoreSDK7RequestC", "url"]
+- ["13StitchCoreSDK14RequestBuilderC", "Data"]
+- ["13StitchCoreSDK14RequestBuilderC", "Method"]
+- ["13StitchCoreSDK14RequestBuilderC", "Request"]
+- !private ["13StitchCoreSDK14RequestBuilderC", "RequestBuilderError"]
+- ["13StitchCoreSDK14RequestBuilderC", "String"]
+- ["13StitchCoreSDK14RequestBuilderC", "TimeInterval"]
+- ["13StitchCoreSDK14RequestBuilderC", "body"]
+- ["13StitchCoreSDK14RequestBuilderC", "build"]
+- ["13StitchCoreSDK14RequestBuilderC", "deinit"]
+- ["13StitchCoreSDK14RequestBuilderC", "headers"]
+- ["13StitchCoreSDK14RequestBuilderC", "init"]
+- ["13StitchCoreSDK14RequestBuilderC", "method"]
+- ["13StitchCoreSDK14RequestBuilderC", "timeout"]
+- ["13StitchCoreSDK14RequestBuilderC", "url"]
+- ["13StitchCoreSDK14RequestBuilderC", "with"]
+- ["13StitchCoreSDK19RequestBuilderErrorO", "__derived_enum_equals"]
+- ["13StitchCoreSDK19RequestBuilderErrorO", "_code"]
+- ["13StitchCoreSDK19RequestBuilderErrorO", "_domain"]
+- ["13StitchCoreSDK19RequestBuilderErrorO", "_getEmbeddedNSError"]
+- ["13StitchCoreSDK19RequestBuilderErrorO", "_userInfo"]
+- ["13StitchCoreSDK19RequestBuilderErrorO", "deinit"]
+- ["13StitchCoreSDK19RequestBuilderErrorO", "hashValue"]
+- ["13StitchCoreSDK19RequestBuilderErrorO", "missingMethod"]
+- ["13StitchCoreSDK19RequestBuilderErrorO", "missingTimeout"]
+- ["13StitchCoreSDK19RequestBuilderErrorO", "missingURL"]
+- ["13StitchCoreSDK8ResponseV", "Data"]
+- ["13StitchCoreSDK8ResponseV", "Int"]
+- !private ["13StitchCoreSDK8ResponseV", "Locale"]
+- ["13StitchCoreSDK8ResponseV", "String"]
+- ["13StitchCoreSDK8ResponseV", "body"]
+- ["13StitchCoreSDK8ResponseV", "headers"]
+- ["13StitchCoreSDK8ResponseV", "init"]
+- ["13StitchCoreSDK8ResponseV", "statusCode"]
+- !private ["s8SequenceP", "elementsEqual"]
+- !private ["s8SequenceP", "forEach"]
+- !private ["s8SequenceP", "init"]
+- !private ["s8SequenceP", "lowercased"]
+- !private ["s8SequenceP", "subscript"]
+- !private ["SS", "init"]
+- !private ["SS", "lowercased"]
+- !private ["s14StringProtocolP", "init"]
+- !private ["s14StringProtocolP", "lowercased"]
+- !private ["s16TextOutputStreamP", "init"]
+- !private ["s16TextOutputStreamP", "lowercased"]
+- !private ["s20TextOutputStreamableP", "init"]
+- !private ["s20TextOutputStreamableP", "lowercased"]
+- !private ["s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP", "lowercased"]
+- !private ["s34_ExpressibleByBuiltinStringLiteralP", "init"]
+- !private ["s34_ExpressibleByBuiltinStringLiteralP", "lowercased"]
+- !private ["s39_ExpressibleByBuiltinUTF16StringLiteralP", "init"]
+- !private ["s39_ExpressibleByBuiltinUTF16StringLiteralP", "lowercased"]
+- !private ["s41_ExpressibleByBuiltinUnicodeScalarLiteralP", "init"]
+- !private ["s41_ExpressibleByBuiltinUnicodeScalarLiteralP", "lowercased"]
+- !private ["s33_ExpressibleByStringInterpolationP", "init"]
+- !private ["s33_ExpressibleByStringInterpolationP", "lowercased"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "lowercased"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "lowercased"]
+- !private ["s21_ObjectiveCBridgeableP", "elementsEqual"]
+- !private ["s21_ObjectiveCBridgeableP", "forEach"]
+- !private ["s21_ObjectiveCBridgeableP", "init"]
+- !private ["s21_ObjectiveCBridgeableP", "lowercased"]
+- !private ["s21_ObjectiveCBridgeableP", "subscript"]
+- !private ["s16_SwiftStringViewP", "init"]
+- !private ["s16_SwiftStringViewP", "lowercased"]
+depends-nominal:
+- !private "s23BidirectionalCollectionP"
+- !private "10MongoSwift9BsonValueP"
+- !private "s7CVarArgP"
+- !private "s10CollectionP"
+- !private "s10ComparableP"
+- !private "s28CustomDebugStringConvertibleP"
+- !private "s29CustomPlaygroundQuickLookableP"
+- !private "s17CustomReflectableP"
+- !private "s23CustomStringConvertibleP"
+- !private "10Foundation4DataV"
+- !private "s9DecodableP"
+- !private "s10DictionaryV"
+- !private "s9EncodableP"
+- "s9EquatableP"
+- "s5ErrorP"
+- !private "s30ExpressibleByDictionaryLiteralP"
+- !private "s43ExpressibleByExtendedGraphemeClusterLiteralP"
+- !private "s26ExpressibleByStringLiteralP"
+- !private "s33ExpressibleByUnicodeScalarLiteralP"
+- "s8HashableP"
+- !private "10Foundation6LocaleV"
+- !private "s25LosslessStringConvertibleP"
+- !private "13StitchCoreSDK6MethodO"
+- !private "s10MirrorPathP"
+- !private "s17MutableCollectionP"
+- !private "So8NSCodingP"
+- !private "So9NSCopyingP"
+- !private "So21NSItemProviderReadingP"
+- !private "So21NSItemProviderWritingP"
+- !private "So16NSMutableCopyingP"
+- !private "So8NSObjectC"
+- !private "So16NSObjectProtocolP"
+- !private "So14NSSecureCodingP"
+- !private "So8NSStringC"
+- !private "s22RandomAccessCollectionP"
+- !private "s26RangeReplaceableCollectionP"
+- !private "10Foundation20ReferenceConvertibleP"
+- "13StitchCoreSDK7RequestC"
+- "13StitchCoreSDK14RequestBuilderC"
+- "13StitchCoreSDK19RequestBuilderErrorO"
+- "13StitchCoreSDK8ResponseV"
+- !private "s8SequenceP"
+- !private "SS"
+- !private "s14StringProtocolP"
+- !private "s16TextOutputStreamP"
+- !private "s20TextOutputStreamableP"
+- !private "s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP"
+- !private "s34_ExpressibleByBuiltinStringLiteralP"
+- !private "s39_ExpressibleByBuiltinUTF16StringLiteralP"
+- !private "s41_ExpressibleByBuiltinUnicodeScalarLiteralP"
+- !private "s33_ExpressibleByStringInterpolationP"
+- !private "s35_HasCustomAnyHashableRepresentationP"
+- !private "10Foundation27_KeyValueCodingAndObservingP"
+- !private "s21_ObjectiveCBridgeableP"
+- !private "s16_SwiftStringViewP"
+depends-dynamic-lookup:
+depends-external:
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Dispatch.apinotesc"
+- "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Products/Debug-iphonesimulator/MongoSwift.framework/Modules/MongoSwift.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/ObjectiveC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Dispatch.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Darwin.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Foundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/CoreFoundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/CoreGraphics.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Swift.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/SwiftOnoneSupport.swiftmodule"
+- "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreLocalMongoDBService/.build/checkouts/swift-mongoc-4572998624666171810/module.modulemap"
+- "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreLocalMongoDBService/.build/checkouts/swift-bson-2873930670968179217/module.modulemap"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/usr/include/objc/ObjectiveC.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/usr/include/Darwin.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CoreGraphics.apinotes"
+interface-hash: "2da5ea0f9633b6859015114f76341f74"

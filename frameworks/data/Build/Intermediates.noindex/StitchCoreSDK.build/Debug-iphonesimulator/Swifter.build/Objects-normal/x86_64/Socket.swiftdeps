@@ -1,0 +1,645 @@
+### Swift dependencies file v0 ###
+provides-top-level:
+- "SocketError"
+- "Socket"
+- "=="
+provides-nominal:
+- "7Swifter11SocketErrorO"
+- "7Swifter6SocketC"
+provides-member:
+- ["7Swifter11SocketErrorO", ""]
+- ["7Swifter6SocketC", ""]
+provides-dynamic-lookup:
+depends-top-level:
+- !private "!="
+- !private "+"
+- !private "+="
+- !private "-"
+- !private "<"
+- !private "<="
+- "=="
+- !private ">"
+- !private "AF_INET"
+- "ArraySlice"
+- "AssignmentPrecedence"
+- "Bool"
+- "BooleanLiteralType"
+- !private "CChar"
+- "CastingPrecedence"
+- !private "Character"
+- !private "Darwin"
+- "Data"
+- "Equatable"
+- !private "Errno"
+- "Error"
+- "FloatLiteralType"
+- "Hashable"
+- "Int"
+- "Int32"
+- "IntegerLiteralType"
+- !private "MemoryLayout"
+- !private "NI_MAXHOST"
+- !private "NI_NUMERICHOST"
+- "NSData"
+- !private "OSHostByteOrder"
+- !private "OSLittleEndian"
+- !private "OpaquePointer"
+- !private "SOL_SOCKET"
+- !private "SO_NOSIGPIPE"
+- "Socket"
+- "SocketError"
+- "String"
+- !private "StringLiteralType"
+- !private "TernaryPrecedence"
+- "UInt8"
+- !private "UnicodeScalar"
+- !private "UnsafeMutablePointer"
+- !private "UnsafePointer"
+- "UnsafeRawPointer"
+- !private "Void"
+- !private "getnameinfo"
+- !private "getpeername"
+- !private "getsockname"
+- "in_port_t"
+- !private "recv"
+- !private "setsockopt"
+- !private "sockaddr"
+- !private "sockaddr_in"
+- !private "socklen_t"
+- !private "withUnsafePointer"
+- !private "write"
+depends-member:
+- !private ["Sa", "count"]
+- !private ["Sa", "init"]
+- !private ["Sa", "subscript"]
+- !private ["s10ArraySliceV", "count"]
+- !private ["s10ArraySliceV", "init"]
+- !private ["s10ArraySliceV", "withUnsafeBufferPointer"]
+- !private ["s23BidirectionalCollectionP", "append"]
+- !private ["s23BidirectionalCollectionP", "baseAddress"]
+- !private ["s23BidirectionalCollectionP", "count"]
+- !private ["s23BidirectionalCollectionP", "init"]
+- !private ["s23BidirectionalCollectionP", "subscript"]
+- !private ["s23BidirectionalCollectionP", "utf8"]
+- !private ["s23BidirectionalCollectionP", "withUnsafeBufferPointer"]
+- !private ["s23BidirectionalCollectionP", "withUnsafeBytes"]
+- !private ["s13BinaryIntegerP", "bigEndian"]
+- ["s13BinaryIntegerP", "init"]
+- !private ["s13BinaryIntegerP", "littleEndian"]
+- !private ["Sb", "_getBuiltinLogicValue"]
+- !private ["s7CVarArgP", "_getBuiltinLogicValue"]
+- !private ["s7CVarArgP", "append"]
+- !private ["s7CVarArgP", "bigEndian"]
+- !private ["s7CVarArgP", "bytes"]
+- !private ["s7CVarArgP", "count"]
+- ["s7CVarArgP", "init"]
+- !private ["s7CVarArgP", "length"]
+- !private ["s7CVarArgP", "littleEndian"]
+- !private ["s7CVarArgP", "subscript"]
+- !private ["s7CVarArgP", "utf8"]
+- !private ["s9CharacterV", "init"]
+- !private ["s10CollectionP", "append"]
+- !private ["s10CollectionP", "baseAddress"]
+- !private ["s10CollectionP", "count"]
+- !private ["s10CollectionP", "init"]
+- !private ["s10CollectionP", "subscript"]
+- !private ["s10CollectionP", "utf8"]
+- !private ["s10CollectionP", "withUnsafeBufferPointer"]
+- !private ["s10CollectionP", "withUnsafeBytes"]
+- !private ["s10ComparableP", "append"]
+- !private ["s10ComparableP", "bigEndian"]
+- ["s10ComparableP", "init"]
+- !private ["s10ComparableP", "littleEndian"]
+- !private ["s10ComparableP", "utf8"]
+- !private ["s28CustomDebugStringConvertibleP", "append"]
+- !private ["s28CustomDebugStringConvertibleP", "baseAddress"]
+- !private ["s28CustomDebugStringConvertibleP", "bytes"]
+- !private ["s28CustomDebugStringConvertibleP", "count"]
+- !private ["s28CustomDebugStringConvertibleP", "init"]
+- !private ["s28CustomDebugStringConvertibleP", "length"]
+- !private ["s28CustomDebugStringConvertibleP", "subscript"]
+- !private ["s28CustomDebugStringConvertibleP", "utf8"]
+- !private ["s28CustomDebugStringConvertibleP", "withUnsafeBufferPointer"]
+- !private ["s28CustomDebugStringConvertibleP", "withUnsafeBytes"]
+- !private ["s29CustomPlaygroundQuickLookableP", "_getBuiltinLogicValue"]
+- !private ["s29CustomPlaygroundQuickLookableP", "append"]
+- !private ["s29CustomPlaygroundQuickLookableP", "bigEndian"]
+- ["s29CustomPlaygroundQuickLookableP", "init"]
+- !private ["s29CustomPlaygroundQuickLookableP", "littleEndian"]
+- !private ["s29CustomPlaygroundQuickLookableP", "utf8"]
+- !private ["s17CustomReflectableP", "_getBuiltinLogicValue"]
+- !private ["s17CustomReflectableP", "append"]
+- !private ["s17CustomReflectableP", "bigEndian"]
+- !private ["s17CustomReflectableP", "count"]
+- ["s17CustomReflectableP", "init"]
+- !private ["s17CustomReflectableP", "littleEndian"]
+- !private ["s17CustomReflectableP", "subscript"]
+- !private ["s17CustomReflectableP", "utf8"]
+- !private ["s17CustomReflectableP", "withUnsafeBufferPointer"]
+- !private ["s17CustomReflectableP", "withUnsafeBytes"]
+- !private ["s23CustomStringConvertibleP", "_getBuiltinLogicValue"]
+- !private ["s23CustomStringConvertibleP", "append"]
+- !private ["s23CustomStringConvertibleP", "bigEndian"]
+- !private ["s23CustomStringConvertibleP", "bytes"]
+- !private ["s23CustomStringConvertibleP", "count"]
+- ["s23CustomStringConvertibleP", "init"]
+- !private ["s23CustomStringConvertibleP", "length"]
+- !private ["s23CustomStringConvertibleP", "littleEndian"]
+- !private ["s23CustomStringConvertibleP", "subscript"]
+- !private ["s23CustomStringConvertibleP", "utf8"]
+- !private ["s23CustomStringConvertibleP", "withUnsafeBufferPointer"]
+- !private ["s23CustomStringConvertibleP", "withUnsafeBytes"]
+- !private ["10Foundation4DataV", "count"]
+- !private ["10Foundation4DataV", "withUnsafeBytes"]
+- !private ["s9DecodableP", "_getBuiltinLogicValue"]
+- !private ["s9DecodableP", "append"]
+- !private ["s9DecodableP", "bigEndian"]
+- !private ["s9DecodableP", "count"]
+- ["s9DecodableP", "init"]
+- !private ["s9DecodableP", "littleEndian"]
+- !private ["s9DecodableP", "subscript"]
+- !private ["s9DecodableP", "utf8"]
+- !private ["s9DecodableP", "withUnsafeBytes"]
+- !private ["s9EncodableP", "_getBuiltinLogicValue"]
+- !private ["s9EncodableP", "append"]
+- !private ["s9EncodableP", "bigEndian"]
+- !private ["s9EncodableP", "count"]
+- ["s9EncodableP", "init"]
+- !private ["s9EncodableP", "littleEndian"]
+- !private ["s9EncodableP", "subscript"]
+- !private ["s9EncodableP", "utf8"]
+- !private ["s9EncodableP", "withUnsafeBytes"]
+- !private ["s9EquatableP", "AF_INET"]
+- !private ["s9EquatableP", "ArraySlice"]
+- !private ["s9EquatableP", "CChar"]
+- !private ["s9EquatableP", "CR"]
+- !private ["s9EquatableP", "Character"]
+- !private ["s9EquatableP", "Darwin"]
+- !private ["s9EquatableP", "Errno"]
+- !private ["s9EquatableP", "Int"]
+- !private ["s9EquatableP", "Int32"]
+- !private ["s9EquatableP", "MemoryLayout"]
+- !private ["s9EquatableP", "NI_MAXHOST"]
+- !private ["s9EquatableP", "NI_NUMERICHOST"]
+- !private ["s9EquatableP", "NL"]
+- !private ["s9EquatableP", "OSHostByteOrder"]
+- !private ["s9EquatableP", "OSLittleEndian"]
+- !private ["s9EquatableP", "OpaquePointer"]
+- !private ["s9EquatableP", "SOL_SOCKET"]
+- !private ["s9EquatableP", "SO_NOSIGPIPE"]
+- !private ["s9EquatableP", "Socket"]
+- !private ["s9EquatableP", "SocketError"]
+- !private ["s9EquatableP", "String"]
+- ["s9EquatableP", "UInt8"]
+- !private ["s9EquatableP", "UnicodeScalar"]
+- !private ["s9EquatableP", "UnsafeMutablePointer"]
+- ["s9EquatableP", ""]
+- !private ["s9EquatableP", "_getBuiltinLogicValue"]
+- !private ["s9EquatableP", "append"]
+- !private ["s9EquatableP", "bigEndian"]
+- !private ["s9EquatableP", "bytes"]
+- !private ["s9EquatableP", "close"]
+- !private ["s9EquatableP", "count"]
+- !private ["s9EquatableP", "getnameinfo"]
+- !private ["s9EquatableP", "getpeername"]
+- !private ["s9EquatableP", "getsockname"]
+- ["s9EquatableP", "hashValue"]
+- ["s9EquatableP", "init"]
+- !private ["s9EquatableP", "length"]
+- !private ["s9EquatableP", "littleEndian"]
+- !private ["s9EquatableP", "read"]
+- !private ["s9EquatableP", "recv"]
+- !private ["s9EquatableP", "setsockopt"]
+- !private ["s9EquatableP", "shutdown"]
+- !private ["s9EquatableP", "sockaddr"]
+- !private ["s9EquatableP", "sockaddr_in"]
+- !private ["s9EquatableP", "socketFileDescriptor"]
+- !private ["s9EquatableP", "socklen_t"]
+- !private ["s9EquatableP", "subscript"]
+- !private ["s9EquatableP", "utf8"]
+- !private ["s9EquatableP", "withUnsafeBufferPointer"]
+- !private ["s9EquatableP", "withUnsafeBytes"]
+- !private ["s9EquatableP", "withUnsafePointer"]
+- !private ["s9EquatableP", "write"]
+- !private ["s9EquatableP", "writeBuffer"]
+- !private ["s9EquatableP", "writeUInt8"]
+- !private ["7Swifter5ErrnoC", "description"]
+- ["s5ErrorP", ""]
+- ["s5ErrorP", "_code"]
+- ["s5ErrorP", "_domain"]
+- ["s5ErrorP", "_getEmbeddedNSError"]
+- ["s5ErrorP", "_userInfo"]
+- !private ["s5ErrorP", "getNameInfoFailed"]
+- !private ["s5ErrorP", "getPeerNameFailed"]
+- !private ["s5ErrorP", "getSockNameFailed"]
+- !private ["s5ErrorP", "recvFailed"]
+- !private ["s5ErrorP", "writeFailed"]
+- !private ["s25ExpressibleByArrayLiteralP", "count"]
+- !private ["s25ExpressibleByArrayLiteralP", "init"]
+- !private ["s25ExpressibleByArrayLiteralP", "subscript"]
+- !private ["s25ExpressibleByArrayLiteralP", "withUnsafeBufferPointer"]
+- !private ["s27ExpressibleByBooleanLiteralP", "_getBuiltinLogicValue"]
+- !private ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "append"]
+- !private ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "utf8"]
+- !private ["s27ExpressibleByIntegerLiteralP", "bigEndian"]
+- ["s27ExpressibleByIntegerLiteralP", "init"]
+- !private ["s27ExpressibleByIntegerLiteralP", "littleEndian"]
+- !private ["s26ExpressibleByStringLiteralP", "append"]
+- !private ["s26ExpressibleByStringLiteralP", "init"]
+- !private ["s26ExpressibleByStringLiteralP", "utf8"]
+- !private ["s33ExpressibleByUnicodeScalarLiteralP", "append"]
+- !private ["s33ExpressibleByUnicodeScalarLiteralP", "init"]
+- !private ["s33ExpressibleByUnicodeScalarLiteralP", "utf8"]
+- !private ["s17FixedWidthIntegerP", "bigEndian"]
+- ["s17FixedWidthIntegerP", "init"]
+- !private ["s17FixedWidthIntegerP", "littleEndian"]
+- !private ["s8HashableP", "AF_INET"]
+- !private ["s8HashableP", "ArraySlice"]
+- !private ["s8HashableP", "CChar"]
+- !private ["s8HashableP", "CR"]
+- !private ["s8HashableP", "Character"]
+- !private ["s8HashableP", "Darwin"]
+- !private ["s8HashableP", "Errno"]
+- !private ["s8HashableP", "Int"]
+- !private ["s8HashableP", "Int32"]
+- !private ["s8HashableP", "MemoryLayout"]
+- !private ["s8HashableP", "NI_MAXHOST"]
+- !private ["s8HashableP", "NI_NUMERICHOST"]
+- !private ["s8HashableP", "NL"]
+- !private ["s8HashableP", "OSHostByteOrder"]
+- !private ["s8HashableP", "OSLittleEndian"]
+- !private ["s8HashableP", "OpaquePointer"]
+- !private ["s8HashableP", "SOL_SOCKET"]
+- !private ["s8HashableP", "SO_NOSIGPIPE"]
+- !private ["s8HashableP", "Socket"]
+- !private ["s8HashableP", "SocketError"]
+- !private ["s8HashableP", "String"]
+- ["s8HashableP", "UInt8"]
+- !private ["s8HashableP", "UnicodeScalar"]
+- !private ["s8HashableP", "UnsafeMutablePointer"]
+- ["s8HashableP", ""]
+- !private ["s8HashableP", "_getBuiltinLogicValue"]
+- !private ["s8HashableP", "append"]
+- !private ["s8HashableP", "bigEndian"]
+- !private ["s8HashableP", "bytes"]
+- !private ["s8HashableP", "close"]
+- !private ["s8HashableP", "count"]
+- !private ["s8HashableP", "getnameinfo"]
+- !private ["s8HashableP", "getpeername"]
+- !private ["s8HashableP", "getsockname"]
+- ["s8HashableP", "hashValue"]
+- ["s8HashableP", "init"]
+- !private ["s8HashableP", "length"]
+- !private ["s8HashableP", "littleEndian"]
+- !private ["s8HashableP", "read"]
+- !private ["s8HashableP", "recv"]
+- !private ["s8HashableP", "setsockopt"]
+- !private ["s8HashableP", "shutdown"]
+- !private ["s8HashableP", "sockaddr"]
+- !private ["s8HashableP", "sockaddr_in"]
+- !private ["s8HashableP", "socketFileDescriptor"]
+- !private ["s8HashableP", "socklen_t"]
+- !private ["s8HashableP", "utf8"]
+- !private ["s8HashableP", "withUnsafeBytes"]
+- !private ["s8HashableP", "withUnsafePointer"]
+- !private ["s8HashableP", "write"]
+- !private ["s8HashableP", "writeBuffer"]
+- !private ["s8HashableP", "writeUInt8"]
+- !private ["Si", "init"]
+- !private ["s5Int32V", "init"]
+- !private ["s25LosslessStringConvertibleP", "_getBuiltinLogicValue"]
+- !private ["s25LosslessStringConvertibleP", "append"]
+- !private ["s25LosslessStringConvertibleP", "bigEndian"]
+- ["s25LosslessStringConvertibleP", "init"]
+- !private ["s25LosslessStringConvertibleP", "littleEndian"]
+- !private ["s25LosslessStringConvertibleP", "utf8"]
+- !private ["s12MemoryLayoutO", "size"]
+- !private ["s10MirrorPathP", "append"]
+- !private ["s10MirrorPathP", "init"]
+- !private ["s10MirrorPathP", "utf8"]
+- !private ["s17MutableCollectionP", "count"]
+- !private ["s17MutableCollectionP", "init"]
+- !private ["s17MutableCollectionP", "subscript"]
+- !private ["s17MutableCollectionP", "withUnsafeBufferPointer"]
+- !private ["s17MutableCollectionP", "withUnsafeBytes"]
+- !private ["So8NSCodingP", "append"]
+- !private ["So8NSCodingP", "bytes"]
+- !private ["So8NSCodingP", "length"]
+- !private ["So8NSCodingP", "utf8"]
+- !private ["So9NSCopyingP", "append"]
+- !private ["So9NSCopyingP", "bytes"]
+- !private ["So9NSCopyingP", "length"]
+- !private ["So9NSCopyingP", "utf8"]
+- !private ["So6NSDataC", "bytes"]
+- !private ["So6NSDataC", "length"]
+- !private ["So21NSItemProviderReadingP", "append"]
+- !private ["So21NSItemProviderReadingP", "utf8"]
+- !private ["So21NSItemProviderWritingP", "append"]
+- !private ["So21NSItemProviderWritingP", "utf8"]
+- !private ["So16NSMutableCopyingP", "append"]
+- !private ["So16NSMutableCopyingP", "bytes"]
+- !private ["So16NSMutableCopyingP", "length"]
+- !private ["So16NSMutableCopyingP", "utf8"]
+- !private ["So8NSObjectC", "append"]
+- !private ["So8NSObjectC", "bytes"]
+- !private ["So8NSObjectC", "length"]
+- !private ["So8NSObjectC", "utf8"]
+- !private ["So16NSObjectProtocolP", "append"]
+- !private ["So16NSObjectProtocolP", "bytes"]
+- !private ["So16NSObjectProtocolP", "length"]
+- !private ["So16NSObjectProtocolP", "utf8"]
+- !private ["So14NSSecureCodingP", "append"]
+- !private ["So14NSSecureCodingP", "bytes"]
+- !private ["So14NSSecureCodingP", "length"]
+- !private ["So14NSSecureCodingP", "utf8"]
+- !private ["So8NSStringC", "append"]
+- !private ["So8NSStringC", "utf8"]
+- !private ["s7NumericP", "bigEndian"]
+- ["s7NumericP", "init"]
+- !private ["s7NumericP", "littleEndian"]
+- !private ["s13OpaquePointerV", "init"]
+- !private ["s22RandomAccessCollectionP", "baseAddress"]
+- !private ["s22RandomAccessCollectionP", "count"]
+- !private ["s22RandomAccessCollectionP", "init"]
+- !private ["s22RandomAccessCollectionP", "subscript"]
+- !private ["s22RandomAccessCollectionP", "withUnsafeBufferPointer"]
+- !private ["s22RandomAccessCollectionP", "withUnsafeBytes"]
+- !private ["s26RangeReplaceableCollectionP", "append"]
+- !private ["s26RangeReplaceableCollectionP", "count"]
+- !private ["s26RangeReplaceableCollectionP", "init"]
+- !private ["s26RangeReplaceableCollectionP", "subscript"]
+- !private ["s26RangeReplaceableCollectionP", "utf8"]
+- !private ["s26RangeReplaceableCollectionP", "withUnsafeBufferPointer"]
+- !private ["s26RangeReplaceableCollectionP", "withUnsafeBytes"]
+- !private ["10Foundation20ReferenceConvertibleP", "count"]
+- !private ["10Foundation20ReferenceConvertibleP", "withUnsafeBytes"]
+- !private ["s7UnicodeO6ScalarV", "init"]
+- !private ["s8SequenceP", "append"]
+- !private ["s8SequenceP", "baseAddress"]
+- !private ["s8SequenceP", "count"]
+- !private ["s8SequenceP", "init"]
+- !private ["s8SequenceP", "subscript"]
+- !private ["s8SequenceP", "utf8"]
+- !private ["s8SequenceP", "withUnsafeBufferPointer"]
+- !private ["s8SequenceP", "withUnsafeBytes"]
+- !private ["s13SignedIntegerP", "init"]
+- !private ["s13SignedNumericP", "init"]
+- !private ["7Swifter6SocketC", "AF_INET"]
+- ["7Swifter6SocketC", "ArraySlice"]
+- ["7Swifter6SocketC", "Bool"]
+- !private ["7Swifter6SocketC", "CChar"]
+- !private ["7Swifter6SocketC", "CR"]
+- !private ["7Swifter6SocketC", "Character"]
+- !private ["7Swifter6SocketC", "Darwin"]
+- ["7Swifter6SocketC", "Data"]
+- !private ["7Swifter6SocketC", "Errno"]
+- ["7Swifter6SocketC", "Int"]
+- ["7Swifter6SocketC", "Int32"]
+- !private ["7Swifter6SocketC", "MemoryLayout"]
+- !private ["7Swifter6SocketC", "NI_MAXHOST"]
+- !private ["7Swifter6SocketC", "NI_NUMERICHOST"]
+- !private ["7Swifter6SocketC", "NL"]
+- ["7Swifter6SocketC", "NSData"]
+- !private ["7Swifter6SocketC", "OSHostByteOrder"]
+- !private ["7Swifter6SocketC", "OSLittleEndian"]
+- !private ["7Swifter6SocketC", "OpaquePointer"]
+- !private ["7Swifter6SocketC", "SOL_SOCKET"]
+- !private ["7Swifter6SocketC", "SO_NOSIGPIPE"]
+- !private ["7Swifter6SocketC", "Socket"]
+- !private ["7Swifter6SocketC", "SocketError"]
+- ["7Swifter6SocketC", "String"]
+- ["7Swifter6SocketC", "UInt8"]
+- !private ["7Swifter6SocketC", "UnicodeScalar"]
+- !private ["7Swifter6SocketC", "UnsafeMutablePointer"]
+- !private ["7Swifter6SocketC", "UnsafePointer"]
+- ["7Swifter6SocketC", "UnsafeRawPointer"]
+- !private ["7Swifter6SocketC", "Void"]
+- ["7Swifter6SocketC", "close"]
+- ["7Swifter6SocketC", "deinit"]
+- !private ["7Swifter6SocketC", "getnameinfo"]
+- !private ["7Swifter6SocketC", "getpeername"]
+- !private ["7Swifter6SocketC", "getsockname"]
+- ["7Swifter6SocketC", "hashValue"]
+- ["7Swifter6SocketC", "in_port_t"]
+- ["7Swifter6SocketC", "init"]
+- ["7Swifter6SocketC", "isIPv4"]
+- ["7Swifter6SocketC", "peername"]
+- ["7Swifter6SocketC", "port"]
+- ["7Swifter6SocketC", "read"]
+- ["7Swifter6SocketC", "readLine"]
+- !private ["7Swifter6SocketC", "recv"]
+- ["7Swifter6SocketC", "setNoSigPipe"]
+- !private ["7Swifter6SocketC", "setsockopt"]
+- !private ["7Swifter6SocketC", "shutdown"]
+- !private ["7Swifter6SocketC", "sockaddr"]
+- !private ["7Swifter6SocketC", "sockaddr_in"]
+- ["7Swifter6SocketC", "socketFileDescriptor"]
+- !private ["7Swifter6SocketC", "socklen_t"]
+- !private ["7Swifter6SocketC", "withUnsafePointer"]
+- !private ["7Swifter6SocketC", "write"]
+- !private ["7Swifter6SocketC", "writeBuffer"]
+- ["7Swifter6SocketC", "writeData"]
+- ["7Swifter6SocketC", "writeUInt8"]
+- ["7Swifter6SocketC", "writeUTF8"]
+- ["7Swifter11SocketErrorO", "String"]
+- ["7Swifter11SocketErrorO", "_code"]
+- ["7Swifter11SocketErrorO", "_domain"]
+- ["7Swifter11SocketErrorO", "_getEmbeddedNSError"]
+- ["7Swifter11SocketErrorO", "_userInfo"]
+- ["7Swifter11SocketErrorO", "acceptFailed"]
+- ["7Swifter11SocketErrorO", "bindFailed"]
+- ["7Swifter11SocketErrorO", "convertingPeerNameFailed"]
+- ["7Swifter11SocketErrorO", "deinit"]
+- ["7Swifter11SocketErrorO", "getNameInfoFailed"]
+- ["7Swifter11SocketErrorO", "getPeerNameFailed"]
+- ["7Swifter11SocketErrorO", "getSockNameFailed"]
+- ["7Swifter11SocketErrorO", "listenFailed"]
+- ["7Swifter11SocketErrorO", "recvFailed"]
+- ["7Swifter11SocketErrorO", "socketCreationFailed"]
+- ["7Swifter11SocketErrorO", "socketSettingReUseAddrFailed"]
+- ["7Swifter11SocketErrorO", "writeFailed"]
+- !private ["s10StrideableP", "bigEndian"]
+- ["s10StrideableP", "init"]
+- !private ["s10StrideableP", "littleEndian"]
+- !private ["SS", "append"]
+- !private ["SS", "init"]
+- !private ["SS", "utf8"]
+- !private ["s14StringProtocolP", "append"]
+- !private ["s14StringProtocolP", "init"]
+- !private ["s14StringProtocolP", "utf8"]
+- !private ["s16TextOutputStreamP", "append"]
+- !private ["s16TextOutputStreamP", "init"]
+- !private ["s16TextOutputStreamP", "utf8"]
+- !private ["s20TextOutputStreamableP", "append"]
+- !private ["s20TextOutputStreamableP", "init"]
+- !private ["s20TextOutputStreamableP", "utf8"]
+- !private ["s6UInt16V", "bigEndian"]
+- !private ["s6UInt16V", "littleEndian"]
+- !private ["s6UInt32V", "init"]
+- ["s5UInt8V", "init"]
+- !private ["SR", "baseAddress"]
+- !private ["Sp", "init"]
+- !private ["s15UnsignedIntegerP", "bigEndian"]
+- ["s15UnsignedIntegerP", "init"]
+- !private ["s15UnsignedIntegerP", "littleEndian"]
+- !private ["s14_ArrayProtocolP", "count"]
+- !private ["s14_ArrayProtocolP", "init"]
+- !private ["s14_ArrayProtocolP", "subscript"]
+- !private ["s14_ArrayProtocolP", "withUnsafeBufferPointer"]
+- !private ["s18_BitwiseOperationsP", "bigEndian"]
+- ["s18_BitwiseOperationsP", "init"]
+- !private ["s18_BitwiseOperationsP", "littleEndian"]
+- !private ["s24_DestructorSafeContainerP", "count"]
+- !private ["s24_DestructorSafeContainerP", "init"]
+- !private ["s24_DestructorSafeContainerP", "subscript"]
+- !private ["s24_DestructorSafeContainerP", "withUnsafeBufferPointer"]
+- !private ["s35_ExpressibleByBuiltinBooleanLiteralP", "_getBuiltinLogicValue"]
+- !private ["s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP", "append"]
+- !private ["s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP", "utf8"]
+- !private ["s35_ExpressibleByBuiltinIntegerLiteralP", "bigEndian"]
+- ["s35_ExpressibleByBuiltinIntegerLiteralP", "init"]
+- !private ["s35_ExpressibleByBuiltinIntegerLiteralP", "littleEndian"]
+- !private ["s34_ExpressibleByBuiltinStringLiteralP", "append"]
+- !private ["s34_ExpressibleByBuiltinStringLiteralP", "init"]
+- !private ["s34_ExpressibleByBuiltinStringLiteralP", "utf8"]
+- !private ["s56_ExpressibleByBuiltinUTF16ExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s39_ExpressibleByBuiltinUTF16StringLiteralP", "append"]
+- !private ["s39_ExpressibleByBuiltinUTF16StringLiteralP", "init"]
+- !private ["s39_ExpressibleByBuiltinUTF16StringLiteralP", "utf8"]
+- !private ["s41_ExpressibleByBuiltinUnicodeScalarLiteralP", "append"]
+- !private ["s41_ExpressibleByBuiltinUnicodeScalarLiteralP", "init"]
+- !private ["s41_ExpressibleByBuiltinUnicodeScalarLiteralP", "utf8"]
+- !private ["s33_ExpressibleByStringInterpolationP", "append"]
+- !private ["s33_ExpressibleByStringInterpolationP", "init"]
+- !private ["s33_ExpressibleByStringInterpolationP", "utf8"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "append"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "bytes"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "length"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "utf8"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "append"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "bytes"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "length"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "utf8"]
+- !private ["s21_ObjectiveCBridgeableP", "_getBuiltinLogicValue"]
+- !private ["s21_ObjectiveCBridgeableP", "append"]
+- !private ["s21_ObjectiveCBridgeableP", "bigEndian"]
+- !private ["s21_ObjectiveCBridgeableP", "count"]
+- ["s21_ObjectiveCBridgeableP", "init"]
+- !private ["s21_ObjectiveCBridgeableP", "littleEndian"]
+- !private ["s21_ObjectiveCBridgeableP", "subscript"]
+- !private ["s21_ObjectiveCBridgeableP", "utf8"]
+- !private ["s21_ObjectiveCBridgeableP", "withUnsafeBytes"]
+- !private ["s8_PointerP", "init"]
+- !private ["s14_StringElementP", "bigEndian"]
+- ["s14_StringElementP", "init"]
+- !private ["s14_StringElementP", "littleEndian"]
+- !private ["s16_SwiftStringViewP", "append"]
+- !private ["s16_SwiftStringViewP", "init"]
+- !private ["s16_SwiftStringViewP", "utf8"]
+- !private ["SC8sockaddrV", "init"]
+- !private ["SC11sockaddr_inV", "init"]
+- !private ["SC11sockaddr_inV", "sin_family"]
+- !private ["SC11sockaddr_inV", "sin_port"]
+depends-nominal:
+- !private "Sa"
+- !private "s10ArraySliceV"
+- !private "s23BidirectionalCollectionP"
+- "s13BinaryIntegerP"
+- !private "Sb"
+- "s7CVarArgP"
+- !private "s9CharacterV"
+- !private "s10CollectionP"
+- "s10ComparableP"
+- !private "s28CustomDebugStringConvertibleP"
+- "s29CustomPlaygroundQuickLookableP"
+- "s17CustomReflectableP"
+- "s23CustomStringConvertibleP"
+- !private "10Foundation4DataV"
+- "s9DecodableP"
+- "s9EncodableP"
+- "s9EquatableP"
+- !private "7Swifter5ErrnoC"
+- "s5ErrorP"
+- !private "s25ExpressibleByArrayLiteralP"
+- !private "s27ExpressibleByBooleanLiteralP"
+- !private "s43ExpressibleByExtendedGraphemeClusterLiteralP"
+- "s27ExpressibleByIntegerLiteralP"
+- !private "s26ExpressibleByStringLiteralP"
+- !private "s33ExpressibleByUnicodeScalarLiteralP"
+- "s17FixedWidthIntegerP"
+- "s8HashableP"
+- !private "Si"
+- !private "s5Int32V"
+- "s25LosslessStringConvertibleP"
+- !private "s12MemoryLayoutO"
+- !private "s10MirrorPathP"
+- !private "s17MutableCollectionP"
+- !private "So8NSCodingP"
+- !private "So9NSCopyingP"
+- !private "So6NSDataC"
+- !private "So21NSItemProviderReadingP"
+- !private "So21NSItemProviderWritingP"
+- !private "So16NSMutableCopyingP"
+- !private "So8NSObjectC"
+- !private "So16NSObjectProtocolP"
+- !private "So14NSSecureCodingP"
+- !private "So8NSStringC"
+- "s7NumericP"
+- !private "s13OpaquePointerV"
+- !private "s22RandomAccessCollectionP"
+- !private "s26RangeReplaceableCollectionP"
+- !private "10Foundation20ReferenceConvertibleP"
+- !private "s7UnicodeO6ScalarV"
+- !private "s8SequenceP"
+- !private "s13SignedIntegerP"
+- !private "s13SignedNumericP"
+- "7Swifter6SocketC"
+- "7Swifter11SocketErrorO"
+- "s10StrideableP"
+- !private "SS"
+- !private "s14StringProtocolP"
+- !private "s16TextOutputStreamP"
+- !private "s20TextOutputStreamableP"
+- !private "s6UInt16V"
+- !private "s6UInt32V"
+- "s5UInt8V"
+- !private "SR"
+- !private "Sp"
+- "s15UnsignedIntegerP"
+- !private "s14_ArrayProtocolP"
+- "s18_BitwiseOperationsP"
+- !private "s24_DestructorSafeContainerP"
+- !private "s35_ExpressibleByBuiltinBooleanLiteralP"
+- !private "s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP"
+- "s35_ExpressibleByBuiltinIntegerLiteralP"
+- !private "s34_ExpressibleByBuiltinStringLiteralP"
+- !private "s56_ExpressibleByBuiltinUTF16ExtendedGraphemeClusterLiteralP"
+- !private "s39_ExpressibleByBuiltinUTF16StringLiteralP"
+- !private "s41_ExpressibleByBuiltinUnicodeScalarLiteralP"
+- !private "s33_ExpressibleByStringInterpolationP"
+- !private "s35_HasCustomAnyHashableRepresentationP"
+- !private "10Foundation27_KeyValueCodingAndObservingP"
+- "s21_ObjectiveCBridgeableP"
+- !private "s8_PointerP"
+- "s14_StringElementP"
+- !private "s16_SwiftStringViewP"
+- !private "SC8sockaddrV"
+- !private "SC11sockaddr_inV"
+depends-dynamic-lookup:
+depends-external:
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Dispatch.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/ObjectiveC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Dispatch.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Darwin.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Foundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/CoreFoundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/CoreGraphics.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Swift.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/SwiftOnoneSupport.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/usr/include/objc/ObjectiveC.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/usr/include/Darwin.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CoreGraphics.apinotes"
+interface-hash: "a20e19e578efe0c930d5bf77e704d25b"

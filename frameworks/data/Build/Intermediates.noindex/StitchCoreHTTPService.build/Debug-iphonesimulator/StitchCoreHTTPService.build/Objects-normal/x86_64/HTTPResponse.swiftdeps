@@ -1,0 +1,395 @@
+### Swift dependencies file v0 ###
+provides-top-level:
+- "HTTPResponse"
+provides-nominal:
+- "21StitchCoreHTTPService12HTTPResponseV"
+- "21StitchCoreHTTPService12HTTPResponseV10CodingKeysO"
+provides-member:
+- ["21StitchCoreHTTPService12HTTPResponseV", ""]
+- ["21StitchCoreHTTPService12HTTPResponseV10CodingKeysO", ""]
+provides-dynamic-lookup:
+depends-top-level:
+- "=="
+- !private "Array"
+- "AssignmentPrecedence"
+- !private "Binary"
+- !private "Bool"
+- !private "CastingPrecedence"
+- "CodingKey"
+- "Data"
+- "Decodable"
+- "Decoder"
+- !private "Document"
+- "HTTPCookie"
+- "HTTPResponse"
+- "Int"
+- "Int64"
+- !private "MongoError"
+- "String"
+- "StringLiteralType"
+- !private "_findStringSwitchCase"
+- !private "~="
+depends-member:
+- ["s23BidirectionalCollectionP", "init"]
+- !private ["10MongoSwift6BinaryV", "data"]
+- !private ["Sb", "_getBuiltinLogicValue"]
+- !private ["10MongoSwift9BsonValueP", "_getBuiltinLogicValue"]
+- !private ["10MongoSwift9BsonValueP", "data"]
+- !private ["10MongoSwift9BsonValueP", "forEach"]
+- !private ["10MongoSwift9BsonValueP", "get"]
+- ["10MongoSwift9BsonValueP", "init"]
+- !private ["10MongoSwift9BsonValueP", "subscript"]
+- !private ["s7CVarArgP", "_getBuiltinLogicValue"]
+- ["s7CVarArgP", "init"]
+- !private ["s7CVarArgP", "subscript"]
+- ["s9CodingKeyP", "RawValue"]
+- ["s9CodingKeyP", ""]
+- ["s9CodingKeyP", "_Default_RawValue"]
+- !private ["s9CodingKeyP", "_findStringSwitchCase"]
+- !private ["s9CodingKeyP", "body"]
+- !private ["s9CodingKeyP", "contentLength"]
+- !private ["s9CodingKeyP", "cookies"]
+- ["s9CodingKeyP", "debugDescription"]
+- ["s9CodingKeyP", "description"]
+- !private ["s9CodingKeyP", "domain"]
+- !private ["s9CodingKeyP", "expires"]
+- ["s9CodingKeyP", "hashValue"]
+- !private ["s9CodingKeyP", "headers"]
+- !private ["s9CodingKeyP", "httpOnly"]
+- ["s9CodingKeyP", "init"]
+- ["s9CodingKeyP", "intValue"]
+- !private ["s9CodingKeyP", "maxAge"]
+- !private ["s9CodingKeyP", "path"]
+- ["s9CodingKeyP", "rawValue"]
+- !private ["s9CodingKeyP", "secure"]
+- !private ["s9CodingKeyP", "status"]
+- !private ["s9CodingKeyP", "statusCode"]
+- ["s9CodingKeyP", "stringValue"]
+- !private ["21StitchCoreHTTPService10HTTPCookieV10CodingKeysO", "deinit"]
+- !private ["21StitchCoreHTTPService10HTTPCookieV10CodingKeysO", "domain"]
+- !private ["21StitchCoreHTTPService10HTTPCookieV10CodingKeysO", "expires"]
+- !private ["21StitchCoreHTTPService10HTTPCookieV10CodingKeysO", "httpOnly"]
+- !private ["21StitchCoreHTTPService10HTTPCookieV10CodingKeysO", "maxAge"]
+- !private ["21StitchCoreHTTPService10HTTPCookieV10CodingKeysO", "path"]
+- !private ["21StitchCoreHTTPService10HTTPCookieV10CodingKeysO", "rawValue"]
+- !private ["21StitchCoreHTTPService10HTTPCookieV10CodingKeysO", "secure"]
+- ["21StitchCoreHTTPService12HTTPResponseV10CodingKeysO", "RawValue"]
+- ["21StitchCoreHTTPService12HTTPResponseV10CodingKeysO", "_Default_RawValue"]
+- !private ["21StitchCoreHTTPService12HTTPResponseV10CodingKeysO", "_findStringSwitchCase"]
+- ["21StitchCoreHTTPService12HTTPResponseV10CodingKeysO", "body"]
+- ["21StitchCoreHTTPService12HTTPResponseV10CodingKeysO", "contentLength"]
+- ["21StitchCoreHTTPService12HTTPResponseV10CodingKeysO", "cookies"]
+- ["21StitchCoreHTTPService12HTTPResponseV10CodingKeysO", "debugDescription"]
+- ["21StitchCoreHTTPService12HTTPResponseV10CodingKeysO", "deinit"]
+- ["21StitchCoreHTTPService12HTTPResponseV10CodingKeysO", "description"]
+- ["21StitchCoreHTTPService12HTTPResponseV10CodingKeysO", "hashValue"]
+- ["21StitchCoreHTTPService12HTTPResponseV10CodingKeysO", "headers"]
+- ["21StitchCoreHTTPService12HTTPResponseV10CodingKeysO", "init"]
+- ["21StitchCoreHTTPService12HTTPResponseV10CodingKeysO", "intValue"]
+- ["21StitchCoreHTTPService12HTTPResponseV10CodingKeysO", "rawValue"]
+- ["21StitchCoreHTTPService12HTTPResponseV10CodingKeysO", "status"]
+- ["21StitchCoreHTTPService12HTTPResponseV10CodingKeysO", "statusCode"]
+- ["21StitchCoreHTTPService12HTTPResponseV10CodingKeysO", "stringValue"]
+- ["s10CollectionP", "init"]
+- !private ["s10CollectionP", "subscript"]
+- ["s10ComparableP", "init"]
+- ["s28CustomDebugStringConvertibleP", "RawValue"]
+- ["s28CustomDebugStringConvertibleP", ""]
+- ["s28CustomDebugStringConvertibleP", "_Default_RawValue"]
+- !private ["s28CustomDebugStringConvertibleP", "_findStringSwitchCase"]
+- !private ["s28CustomDebugStringConvertibleP", "body"]
+- !private ["s28CustomDebugStringConvertibleP", "contentLength"]
+- !private ["s28CustomDebugStringConvertibleP", "cookies"]
+- ["s28CustomDebugStringConvertibleP", "debugDescription"]
+- ["s28CustomDebugStringConvertibleP", "description"]
+- !private ["s28CustomDebugStringConvertibleP", "domain"]
+- !private ["s28CustomDebugStringConvertibleP", "expires"]
+- ["s28CustomDebugStringConvertibleP", "hashValue"]
+- !private ["s28CustomDebugStringConvertibleP", "headers"]
+- !private ["s28CustomDebugStringConvertibleP", "httpOnly"]
+- ["s28CustomDebugStringConvertibleP", "init"]
+- ["s28CustomDebugStringConvertibleP", "intValue"]
+- !private ["s28CustomDebugStringConvertibleP", "maxAge"]
+- !private ["s28CustomDebugStringConvertibleP", "path"]
+- ["s28CustomDebugStringConvertibleP", "rawValue"]
+- !private ["s28CustomDebugStringConvertibleP", "secure"]
+- !private ["s28CustomDebugStringConvertibleP", "status"]
+- !private ["s28CustomDebugStringConvertibleP", "statusCode"]
+- ["s28CustomDebugStringConvertibleP", "stringValue"]
+- !private ["s28CustomDebugStringConvertibleP", "subscript"]
+- !private ["s29CustomPlaygroundQuickLookableP", "_getBuiltinLogicValue"]
+- ["s29CustomPlaygroundQuickLookableP", "init"]
+- !private ["s17CustomReflectableP", "_getBuiltinLogicValue"]
+- ["s17CustomReflectableP", "init"]
+- !private ["s17CustomReflectableP", "subscript"]
+- ["s23CustomStringConvertibleP", "RawValue"]
+- ["s23CustomStringConvertibleP", ""]
+- ["s23CustomStringConvertibleP", "_Default_RawValue"]
+- !private ["s23CustomStringConvertibleP", "_findStringSwitchCase"]
+- !private ["s23CustomStringConvertibleP", "_getBuiltinLogicValue"]
+- !private ["s23CustomStringConvertibleP", "body"]
+- !private ["s23CustomStringConvertibleP", "contentLength"]
+- !private ["s23CustomStringConvertibleP", "cookies"]
+- ["s23CustomStringConvertibleP", "debugDescription"]
+- ["s23CustomStringConvertibleP", "description"]
+- !private ["s23CustomStringConvertibleP", "domain"]
+- !private ["s23CustomStringConvertibleP", "expires"]
+- !private ["s23CustomStringConvertibleP", "forEach"]
+- !private ["s23CustomStringConvertibleP", "get"]
+- ["s23CustomStringConvertibleP", "hashValue"]
+- !private ["s23CustomStringConvertibleP", "headers"]
+- !private ["s23CustomStringConvertibleP", "httpOnly"]
+- ["s23CustomStringConvertibleP", "init"]
+- ["s23CustomStringConvertibleP", "intValue"]
+- !private ["s23CustomStringConvertibleP", "maxAge"]
+- !private ["s23CustomStringConvertibleP", "path"]
+- ["s23CustomStringConvertibleP", "rawValue"]
+- !private ["s23CustomStringConvertibleP", "secure"]
+- !private ["s23CustomStringConvertibleP", "status"]
+- !private ["s23CustomStringConvertibleP", "statusCode"]
+- ["s23CustomStringConvertibleP", "stringValue"]
+- !private ["s23CustomStringConvertibleP", "subscript"]
+- !private ["s9DecodableP", "Binary"]
+- !private ["s9DecodableP", "CodingKeys"]
+- !private ["s9DecodableP", "Document"]
+- !private ["s9DecodableP", "HTTPCookie"]
+- !private ["s9DecodableP", "Int"]
+- !private ["s9DecodableP", "Int64"]
+- !private ["s9DecodableP", "MongoError"]
+- !private ["s9DecodableP", "String"]
+- ["s9DecodableP", ""]
+- !private ["s9DecodableP", "_findStringSwitchCase"]
+- !private ["s9DecodableP", "_getBuiltinLogicValue"]
+- !private ["s9DecodableP", "body"]
+- !private ["s9DecodableP", "contentLength"]
+- !private ["s9DecodableP", "cookies"]
+- !private ["s9DecodableP", "data"]
+- !private ["s9DecodableP", "forEach"]
+- !private ["s9DecodableP", "get"]
+- !private ["s9DecodableP", "headers"]
+- ["s9DecodableP", "init"]
+- !private ["s9DecodableP", "status"]
+- !private ["s9DecodableP", "statusCode"]
+- !private ["s9DecodableP", "subscript"]
+- !private ["s7DecoderP", "container"]
+- !private ["s10DictionaryV", "subscript"]
+- !private ["10MongoSwift8DocumentV", "forEach"]
+- !private ["10MongoSwift8DocumentV", "get"]
+- !private ["10MongoSwift8DocumentV", "subscript"]
+- !private ["s9EncodableP", "_getBuiltinLogicValue"]
+- !private ["s9EncodableP", "data"]
+- !private ["s9EncodableP", "forEach"]
+- !private ["s9EncodableP", "get"]
+- ["s9EncodableP", "init"]
+- !private ["s9EncodableP", "subscript"]
+- ["s9EquatableP", "RawValue"]
+- ["s9EquatableP", ""]
+- ["s9EquatableP", "_Default_RawValue"]
+- !private ["s9EquatableP", "_findStringSwitchCase"]
+- !private ["s9EquatableP", "_getBuiltinLogicValue"]
+- !private ["s9EquatableP", "body"]
+- !private ["s9EquatableP", "contentLength"]
+- !private ["s9EquatableP", "cookies"]
+- !private ["s9EquatableP", "data"]
+- ["s9EquatableP", "debugDescription"]
+- ["s9EquatableP", "description"]
+- !private ["s9EquatableP", "domain"]
+- !private ["s9EquatableP", "expires"]
+- !private ["s9EquatableP", "forEach"]
+- !private ["s9EquatableP", "get"]
+- ["s9EquatableP", "hashValue"]
+- !private ["s9EquatableP", "headers"]
+- !private ["s9EquatableP", "httpOnly"]
+- ["s9EquatableP", "init"]
+- ["s9EquatableP", "intValue"]
+- !private ["s9EquatableP", "maxAge"]
+- !private ["s9EquatableP", "path"]
+- ["s9EquatableP", "rawValue"]
+- !private ["s9EquatableP", "secure"]
+- !private ["s9EquatableP", "status"]
+- !private ["s9EquatableP", "statusCode"]
+- ["s9EquatableP", "stringValue"]
+- !private ["s9EquatableP", "subscript"]
+- !private ["s5ErrorP", "typeError"]
+- !private ["s25ExpressibleByArrayLiteralP", "forEach"]
+- !private ["s25ExpressibleByArrayLiteralP", "get"]
+- !private ["s25ExpressibleByArrayLiteralP", "subscript"]
+- !private ["s27ExpressibleByBooleanLiteralP", "_getBuiltinLogicValue"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "forEach"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "get"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "subscript"]
+- ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "init"]
+- ["s26ExpressibleByStringLiteralP", "init"]
+- ["s33ExpressibleByUnicodeScalarLiteralP", "init"]
+- !private ["21StitchCoreHTTPService10HTTPCookieV", "CodingKeys"]
+- !private ["21StitchCoreHTTPService10HTTPCookieV", "init"]
+- !private ["21StitchCoreHTTPService12HTTPResponseV", "Binary"]
+- !private ["21StitchCoreHTTPService12HTTPResponseV", "Bool"]
+- ["21StitchCoreHTTPService12HTTPResponseV", "CodingKey"]
+- ["21StitchCoreHTTPService12HTTPResponseV", "CodingKeys"]
+- ["21StitchCoreHTTPService12HTTPResponseV", "Data"]
+- ["21StitchCoreHTTPService12HTTPResponseV", "Decoder"]
+- !private ["21StitchCoreHTTPService12HTTPResponseV", "Document"]
+- ["21StitchCoreHTTPService12HTTPResponseV", "HTTPCookie"]
+- ["21StitchCoreHTTPService12HTTPResponseV", "Int"]
+- ["21StitchCoreHTTPService12HTTPResponseV", "Int64"]
+- !private ["21StitchCoreHTTPService12HTTPResponseV", "MongoError"]
+- ["21StitchCoreHTTPService12HTTPResponseV", "String"]
+- !private ["21StitchCoreHTTPService12HTTPResponseV", "_findStringSwitchCase"]
+- ["21StitchCoreHTTPService12HTTPResponseV", "body"]
+- ["21StitchCoreHTTPService12HTTPResponseV", "contentLength"]
+- ["21StitchCoreHTTPService12HTTPResponseV", "cookies"]
+- ["21StitchCoreHTTPService12HTTPResponseV", "deinit"]
+- ["21StitchCoreHTTPService12HTTPResponseV", "headers"]
+- ["21StitchCoreHTTPService12HTTPResponseV", "init"]
+- ["21StitchCoreHTTPService12HTTPResponseV", "status"]
+- ["21StitchCoreHTTPService12HTTPResponseV", "statusCode"]
+- ["s8HashableP", "RawValue"]
+- ["s8HashableP", ""]
+- ["s8HashableP", "_Default_RawValue"]
+- !private ["s8HashableP", "_findStringSwitchCase"]
+- !private ["s8HashableP", "_getBuiltinLogicValue"]
+- !private ["s8HashableP", "body"]
+- !private ["s8HashableP", "contentLength"]
+- !private ["s8HashableP", "cookies"]
+- ["s8HashableP", "debugDescription"]
+- ["s8HashableP", "description"]
+- !private ["s8HashableP", "domain"]
+- !private ["s8HashableP", "expires"]
+- ["s8HashableP", "hashValue"]
+- !private ["s8HashableP", "headers"]
+- !private ["s8HashableP", "httpOnly"]
+- ["s8HashableP", "init"]
+- ["s8HashableP", "intValue"]
+- !private ["s8HashableP", "maxAge"]
+- !private ["s8HashableP", "path"]
+- ["s8HashableP", "rawValue"]
+- !private ["s8HashableP", "secure"]
+- !private ["s8HashableP", "status"]
+- !private ["s8HashableP", "statusCode"]
+- ["s8HashableP", "stringValue"]
+- !private ["s22KeyedDecodingContainerV", "decode"]
+- !private ["s22KeyedDecodingContainerV", "decodeIfPresent"]
+- !private ["s30KeyedDecodingContainerProtocolP", "decode"]
+- !private ["s30KeyedDecodingContainerProtocolP", "decodeIfPresent"]
+- !private ["10Foundation14LocalizedErrorP", "typeError"]
+- !private ["s25LosslessStringConvertibleP", "_getBuiltinLogicValue"]
+- ["s25LosslessStringConvertibleP", "init"]
+- ["s10MirrorPathP", "init"]
+- !private ["10MongoSwift0A5ErrorO", "typeError"]
+- ["s26RangeReplaceableCollectionP", "init"]
+- ["s16RawRepresentableP", "RawValue"]
+- ["s16RawRepresentableP", ""]
+- ["s16RawRepresentableP", "_Default_RawValue"]
+- !private ["s16RawRepresentableP", "_findStringSwitchCase"]
+- !private ["s16RawRepresentableP", "body"]
+- !private ["s16RawRepresentableP", "contentLength"]
+- !private ["s16RawRepresentableP", "cookies"]
+- ["s16RawRepresentableP", "debugDescription"]
+- ["s16RawRepresentableP", "description"]
+- !private ["s16RawRepresentableP", "domain"]
+- !private ["s16RawRepresentableP", "expires"]
+- ["s16RawRepresentableP", "hashValue"]
+- !private ["s16RawRepresentableP", "headers"]
+- !private ["s16RawRepresentableP", "httpOnly"]
+- ["s16RawRepresentableP", "init"]
+- ["s16RawRepresentableP", "intValue"]
+- !private ["s16RawRepresentableP", "maxAge"]
+- !private ["s16RawRepresentableP", "path"]
+- ["s16RawRepresentableP", "rawValue"]
+- !private ["s16RawRepresentableP", "secure"]
+- !private ["s16RawRepresentableP", "status"]
+- !private ["s16RawRepresentableP", "statusCode"]
+- ["s16RawRepresentableP", "stringValue"]
+- !private ["s8SequenceP", "forEach"]
+- !private ["s8SequenceP", "get"]
+- ["s8SequenceP", "init"]
+- !private ["s8SequenceP", "subscript"]
+- !private ["s12StaticStringV", "init"]
+- ["SS", "init"]
+- ["s14StringProtocolP", "init"]
+- ["s16TextOutputStreamP", "init"]
+- ["s20TextOutputStreamableP", "init"]
+- !private ["s35_ExpressibleByBuiltinBooleanLiteralP", "_getBuiltinLogicValue"]
+- ["s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP", "init"]
+- ["s34_ExpressibleByBuiltinStringLiteralP", "init"]
+- ["s39_ExpressibleByBuiltinUTF16StringLiteralP", "init"]
+- ["s41_ExpressibleByBuiltinUnicodeScalarLiteralP", "init"]
+- ["s33_ExpressibleByStringInterpolationP", "init"]
+- !private ["s21_ObjectiveCBridgeableP", "_getBuiltinLogicValue"]
+- ["s21_ObjectiveCBridgeableP", "init"]
+- !private ["s21_ObjectiveCBridgeableP", "subscript"]
+- ["s16_SwiftStringViewP", "init"]
+depends-nominal:
+- "s23BidirectionalCollectionP"
+- !private "10MongoSwift6BinaryV"
+- !private "Sb"
+- "10MongoSwift9BsonValueP"
+- "s7CVarArgP"
+- "s9CodingKeyP"
+- !private "21StitchCoreHTTPService10HTTPCookieV10CodingKeysO"
+- "21StitchCoreHTTPService12HTTPResponseV10CodingKeysO"
+- "s10CollectionP"
+- "s10ComparableP"
+- "s28CustomDebugStringConvertibleP"
+- "s29CustomPlaygroundQuickLookableP"
+- "s17CustomReflectableP"
+- "s23CustomStringConvertibleP"
+- "s9DecodableP"
+- !private "s7DecoderP"
+- !private "s10DictionaryV"
+- !private "10MongoSwift8DocumentV"
+- "s9EncodableP"
+- "s9EquatableP"
+- !private "s5ErrorP"
+- !private "s25ExpressibleByArrayLiteralP"
+- !private "s27ExpressibleByBooleanLiteralP"
+- !private "s30ExpressibleByDictionaryLiteralP"
+- "s43ExpressibleByExtendedGraphemeClusterLiteralP"
+- "s26ExpressibleByStringLiteralP"
+- "s33ExpressibleByUnicodeScalarLiteralP"
+- !private "21StitchCoreHTTPService10HTTPCookieV"
+- "21StitchCoreHTTPService12HTTPResponseV"
+- "s8HashableP"
+- !private "s22KeyedDecodingContainerV"
+- !private "s30KeyedDecodingContainerProtocolP"
+- !private "10Foundation14LocalizedErrorP"
+- "s25LosslessStringConvertibleP"
+- "s10MirrorPathP"
+- !private "10MongoSwift0A5ErrorO"
+- "s26RangeReplaceableCollectionP"
+- "s16RawRepresentableP"
+- "s8SequenceP"
+- !private "s12StaticStringV"
+- "SS"
+- "s14StringProtocolP"
+- "s16TextOutputStreamP"
+- "s20TextOutputStreamableP"
+- !private "s35_ExpressibleByBuiltinBooleanLiteralP"
+- "s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP"
+- "s34_ExpressibleByBuiltinStringLiteralP"
+- "s39_ExpressibleByBuiltinUTF16StringLiteralP"
+- "s41_ExpressibleByBuiltinUnicodeScalarLiteralP"
+- "s33_ExpressibleByStringInterpolationP"
+- "s21_ObjectiveCBridgeableP"
+- "s16_SwiftStringViewP"
+depends-dynamic-lookup:
+depends-external:
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Dispatch.apinotesc"
+- "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Products/Debug-iphonesimulator/StitchCoreSDK.framework/Modules/StitchCoreSDK.swiftmodule/x86_64.swiftmodule"
+- "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Products/Debug-iphonesimulator/MongoSwift.framework/Modules/MongoSwift.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/ObjectiveC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Dispatch.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Darwin.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Foundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/CoreFoundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/CoreGraphics.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Swift.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/SwiftOnoneSupport.swiftmodule"
+- "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreHTTPService/.build/checkouts/swift-mongoc-4572998624666171810/module.modulemap"
+- "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreHTTPService/.build/checkouts/swift-bson-2873930670968179217/module.modulemap"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/usr/include/objc/ObjectiveC.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/usr/include/Darwin.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CoreGraphics.apinotes"
+interface-hash: "dfb70679662c7d67640bcf7012320f64"

@@ -1,0 +1,369 @@
+### Swift dependencies file v0 ###
+provides-top-level:
+- "CodableNumber"
+provides-nominal:
+- "10MongoSwift13CodableNumberP"
+- "Si"
+- "s5Int32V"
+- "s5Int64V"
+- "s4Int8V"
+- "s5Int16V"
+- "s5UInt8V"
+- "s6UInt16V"
+- "s6UInt32V"
+- "s6UInt64V"
+- "Su"
+- "Sd"
+- "Sf"
+provides-member:
+- ["10MongoSwift13CodableNumberP", ""]
+- ["Si", ""]
+- ["s5Int32V", ""]
+- ["s5Int64V", ""]
+- ["s4Int8V", ""]
+- ["s5Int16V", ""]
+- ["s5UInt8V", ""]
+- ["s6UInt16V", ""]
+- ["s6UInt32V", ""]
+- ["s6UInt64V", ""]
+- ["Su", ""]
+- ["Sd", ""]
+- ["Sf", ""]
+- ["10MongoSwift13CodableNumberP", "init"]
+- ["10MongoSwift13CodableNumberP", "bsonValue"]
+provides-dynamic-lookup:
+depends-top-level:
+- "AssignmentPrecedence"
+- "BinaryInteger"
+- "BsonValue"
+- "CastingPrecedence"
+- "CodableNumber"
+- "Double"
+- "Float"
+- "Int"
+- "Int16"
+- "Int32"
+- "Int64"
+- "Int8"
+- "UInt"
+- "UInt16"
+- "UInt32"
+- "UInt64"
+- "UInt8"
+depends-member:
+- !private ["s19BinaryFloatingPointP", "Double"]
+- !private ["s19BinaryFloatingPointP", "Float"]
+- ["s19BinaryFloatingPointP", "bsonValue"]
+- ["s19BinaryFloatingPointP", "init"]
+- !private ["s13BinaryIntegerP", "Double"]
+- !private ["s13BinaryIntegerP", "Int"]
+- !private ["s13BinaryIntegerP", "Int32"]
+- !private ["s13BinaryIntegerP", "Int64"]
+- ["s13BinaryIntegerP", "bsonValue"]
+- ["s13BinaryIntegerP", "init"]
+- !private ["10MongoSwift9BsonValueP", "Double"]
+- ["10MongoSwift9BsonValueP", "bsonValue"]
+- ["10MongoSwift9BsonValueP", "init"]
+- !private ["s7CVarArgP", "Double"]
+- !private ["s7CVarArgP", "Float"]
+- !private ["s7CVarArgP", "Int"]
+- !private ["s7CVarArgP", "Int32"]
+- !private ["s7CVarArgP", "Int64"]
+- ["s7CVarArgP", "bsonValue"]
+- ["s7CVarArgP", "init"]
+- ["10MongoSwift13CodableNumberP", "BinaryInteger"]
+- ["10MongoSwift13CodableNumberP", "BsonValue"]
+- ["10MongoSwift13CodableNumberP", "Double"]
+- !private ["10MongoSwift13CodableNumberP", "Float"]
+- !private ["10MongoSwift13CodableNumberP", "Int"]
+- !private ["10MongoSwift13CodableNumberP", "Int32"]
+- !private ["10MongoSwift13CodableNumberP", "Int64"]
+- !private ["10MongoSwift13CodableNumberP", "Self"]
+- ["10MongoSwift13CodableNumberP", ""]
+- ["10MongoSwift13CodableNumberP", "bsonValue"]
+- ["10MongoSwift13CodableNumberP", "init"]
+- !private ["s10ComparableP", "Double"]
+- !private ["s10ComparableP", "Float"]
+- !private ["s10ComparableP", "Int"]
+- !private ["s10ComparableP", "Int32"]
+- !private ["s10ComparableP", "Int64"]
+- ["s10ComparableP", "bsonValue"]
+- ["s10ComparableP", "init"]
+- !private ["s28CustomDebugStringConvertibleP", "Double"]
+- !private ["s28CustomDebugStringConvertibleP", "Float"]
+- ["s28CustomDebugStringConvertibleP", "bsonValue"]
+- ["s28CustomDebugStringConvertibleP", "init"]
+- !private ["s29CustomPlaygroundQuickLookableP", "Double"]
+- !private ["s29CustomPlaygroundQuickLookableP", "Float"]
+- !private ["s29CustomPlaygroundQuickLookableP", "Int"]
+- !private ["s29CustomPlaygroundQuickLookableP", "Int32"]
+- !private ["s29CustomPlaygroundQuickLookableP", "Int64"]
+- ["s29CustomPlaygroundQuickLookableP", "bsonValue"]
+- ["s29CustomPlaygroundQuickLookableP", "init"]
+- !private ["s17CustomReflectableP", "Double"]
+- !private ["s17CustomReflectableP", "Float"]
+- !private ["s17CustomReflectableP", "Int"]
+- !private ["s17CustomReflectableP", "Int32"]
+- !private ["s17CustomReflectableP", "Int64"]
+- ["s17CustomReflectableP", "bsonValue"]
+- ["s17CustomReflectableP", "init"]
+- !private ["s23CustomStringConvertibleP", "Double"]
+- !private ["s23CustomStringConvertibleP", "Float"]
+- !private ["s23CustomStringConvertibleP", "Int"]
+- !private ["s23CustomStringConvertibleP", "Int32"]
+- !private ["s23CustomStringConvertibleP", "Int64"]
+- ["s23CustomStringConvertibleP", "bsonValue"]
+- ["s23CustomStringConvertibleP", "init"]
+- !private ["s9DecodableP", "Double"]
+- !private ["s9DecodableP", "Float"]
+- !private ["s9DecodableP", "Int"]
+- !private ["s9DecodableP", "Int32"]
+- !private ["s9DecodableP", "Int64"]
+- ["s9DecodableP", "bsonValue"]
+- ["s9DecodableP", "init"]
+- ["Sd", "BsonValue"]
+- !private ["Sd", "Double"]
+- !private ["Sd", "Int"]
+- !private ["Sd", "Int32"]
+- !private ["Sd", "Int64"]
+- ["Sd", "bsonValue"]
+- ["Sd", "deinit"]
+- ["Sd", "init"]
+- !private ["s9EncodableP", "Double"]
+- !private ["s9EncodableP", "Float"]
+- !private ["s9EncodableP", "Int"]
+- !private ["s9EncodableP", "Int32"]
+- !private ["s9EncodableP", "Int64"]
+- ["s9EncodableP", "bsonValue"]
+- ["s9EncodableP", "init"]
+- !private ["s9EquatableP", "Double"]
+- !private ["s9EquatableP", "Float"]
+- !private ["s9EquatableP", "Int"]
+- !private ["s9EquatableP", "Int32"]
+- !private ["s9EquatableP", "Int64"]
+- ["s9EquatableP", "bsonValue"]
+- ["s9EquatableP", "init"]
+- !private ["s25ExpressibleByFloatLiteralP", "Double"]
+- !private ["s25ExpressibleByFloatLiteralP", "Float"]
+- ["s25ExpressibleByFloatLiteralP", "bsonValue"]
+- ["s25ExpressibleByFloatLiteralP", "init"]
+- !private ["s27ExpressibleByIntegerLiteralP", "Double"]
+- !private ["s27ExpressibleByIntegerLiteralP", "Float"]
+- !private ["s27ExpressibleByIntegerLiteralP", "Int"]
+- !private ["s27ExpressibleByIntegerLiteralP", "Int32"]
+- !private ["s27ExpressibleByIntegerLiteralP", "Int64"]
+- ["s27ExpressibleByIntegerLiteralP", "bsonValue"]
+- ["s27ExpressibleByIntegerLiteralP", "init"]
+- !private ["s17FixedWidthIntegerP", "Double"]
+- !private ["s17FixedWidthIntegerP", "Int"]
+- !private ["s17FixedWidthIntegerP", "Int32"]
+- !private ["s17FixedWidthIntegerP", "Int64"]
+- ["s17FixedWidthIntegerP", "bsonValue"]
+- ["s17FixedWidthIntegerP", "init"]
+- ["Sf", "BsonValue"]
+- !private ["Sf", "Double"]
+- !private ["Sf", "Float"]
+- !private ["Sf", "Int"]
+- !private ["Sf", "Int32"]
+- !private ["Sf", "Int64"]
+- ["Sf", "bsonValue"]
+- ["Sf", "deinit"]
+- ["Sf", "init"]
+- !private ["s13FloatingPointP", "Double"]
+- !private ["s13FloatingPointP", "Float"]
+- ["s13FloatingPointP", "bsonValue"]
+- ["s13FloatingPointP", "init"]
+- !private ["s8HashableP", "Double"]
+- !private ["s8HashableP", "Float"]
+- !private ["s8HashableP", "Int"]
+- !private ["s8HashableP", "Int32"]
+- !private ["s8HashableP", "Int64"]
+- ["s8HashableP", "bsonValue"]
+- ["s8HashableP", "init"]
+- ["Si", "bsonValue"]
+- ["Si", "deinit"]
+- ["Si", "init"]
+- ["s5Int16V", "BsonValue"]
+- !private ["s5Int16V", "Int32"]
+- ["s5Int16V", "bsonValue"]
+- ["s5Int16V", "deinit"]
+- ["s5Int16V", "init"]
+- ["s5Int32V", "bsonValue"]
+- ["s5Int32V", "deinit"]
+- ["s5Int32V", "init"]
+- ["s5Int64V", "bsonValue"]
+- ["s5Int64V", "deinit"]
+- ["s5Int64V", "init"]
+- ["s4Int8V", "BsonValue"]
+- !private ["s4Int8V", "Int32"]
+- ["s4Int8V", "bsonValue"]
+- ["s4Int8V", "deinit"]
+- ["s4Int8V", "init"]
+- !private ["s25LosslessStringConvertibleP", "Double"]
+- !private ["s25LosslessStringConvertibleP", "Float"]
+- !private ["s25LosslessStringConvertibleP", "Int"]
+- !private ["s25LosslessStringConvertibleP", "Int32"]
+- !private ["s25LosslessStringConvertibleP", "Int64"]
+- ["s25LosslessStringConvertibleP", "bsonValue"]
+- ["s25LosslessStringConvertibleP", "init"]
+- ["s10MirrorPathP", "bsonValue"]
+- ["s10MirrorPathP", "init"]
+- !private ["s7NumericP", "Double"]
+- !private ["s7NumericP", "Float"]
+- !private ["s7NumericP", "Int"]
+- !private ["s7NumericP", "Int32"]
+- !private ["s7NumericP", "Int64"]
+- ["s7NumericP", "bsonValue"]
+- ["s7NumericP", "init"]
+- !private ["s13SignedIntegerP", "Int32"]
+- ["s13SignedIntegerP", "bsonValue"]
+- ["s13SignedIntegerP", "init"]
+- !private ["s13SignedNumericP", "Double"]
+- !private ["s13SignedNumericP", "Float"]
+- !private ["s13SignedNumericP", "Int32"]
+- ["s13SignedNumericP", "bsonValue"]
+- ["s13SignedNumericP", "init"]
+- !private ["s10StrideableP", "Double"]
+- !private ["s10StrideableP", "Float"]
+- !private ["s10StrideableP", "Int"]
+- !private ["s10StrideableP", "Int32"]
+- !private ["s10StrideableP", "Int64"]
+- ["s10StrideableP", "bsonValue"]
+- ["s10StrideableP", "init"]
+- ["Su", "BsonValue"]
+- !private ["Su", "Double"]
+- !private ["Su", "Int32"]
+- !private ["Su", "Int64"]
+- ["Su", "bsonValue"]
+- ["Su", "deinit"]
+- ["Su", "init"]
+- ["s6UInt16V", "BsonValue"]
+- !private ["s6UInt16V", "Int"]
+- ["s6UInt16V", "bsonValue"]
+- ["s6UInt16V", "deinit"]
+- ["s6UInt16V", "init"]
+- ["s6UInt32V", "BsonValue"]
+- !private ["s6UInt32V", "Int32"]
+- !private ["s6UInt32V", "Int64"]
+- ["s6UInt32V", "bsonValue"]
+- ["s6UInt32V", "deinit"]
+- ["s6UInt32V", "init"]
+- ["s6UInt64V", "BsonValue"]
+- !private ["s6UInt64V", "Double"]
+- !private ["s6UInt64V", "Int32"]
+- !private ["s6UInt64V", "Int64"]
+- ["s6UInt64V", "bsonValue"]
+- ["s6UInt64V", "deinit"]
+- ["s6UInt64V", "init"]
+- ["s5UInt8V", "BsonValue"]
+- !private ["s5UInt8V", "Int32"]
+- ["s5UInt8V", "bsonValue"]
+- ["s5UInt8V", "deinit"]
+- ["s5UInt8V", "init"]
+- !private ["s15UnsignedIntegerP", "Double"]
+- !private ["s15UnsignedIntegerP", "Int"]
+- !private ["s15UnsignedIntegerP", "Int32"]
+- !private ["s15UnsignedIntegerP", "Int64"]
+- ["s15UnsignedIntegerP", "bsonValue"]
+- ["s15UnsignedIntegerP", "init"]
+- !private ["s18_BitwiseOperationsP", "Double"]
+- !private ["s18_BitwiseOperationsP", "Int"]
+- !private ["s18_BitwiseOperationsP", "Int32"]
+- !private ["s18_BitwiseOperationsP", "Int64"]
+- ["s18_BitwiseOperationsP", "bsonValue"]
+- ["s18_BitwiseOperationsP", "init"]
+- !private ["s15_CVarArgAlignedP", "Double"]
+- !private ["s15_CVarArgAlignedP", "Float"]
+- !private ["s15_CVarArgAlignedP", "Int32"]
+- !private ["s15_CVarArgAlignedP", "Int64"]
+- ["s15_CVarArgAlignedP", "bsonValue"]
+- ["s15_CVarArgAlignedP", "init"]
+- !private ["s22_CVarArgPassedAsDoubleP", "Double"]
+- !private ["s22_CVarArgPassedAsDoubleP", "Float"]
+- ["s22_CVarArgPassedAsDoubleP", "bsonValue"]
+- ["s22_CVarArgPassedAsDoubleP", "init"]
+- !private ["s33_ExpressibleByBuiltinFloatLiteralP", "Double"]
+- !private ["s33_ExpressibleByBuiltinFloatLiteralP", "Float"]
+- ["s33_ExpressibleByBuiltinFloatLiteralP", "bsonValue"]
+- ["s33_ExpressibleByBuiltinFloatLiteralP", "init"]
+- !private ["s35_ExpressibleByBuiltinIntegerLiteralP", "Double"]
+- !private ["s35_ExpressibleByBuiltinIntegerLiteralP", "Float"]
+- !private ["s35_ExpressibleByBuiltinIntegerLiteralP", "Int"]
+- !private ["s35_ExpressibleByBuiltinIntegerLiteralP", "Int32"]
+- !private ["s35_ExpressibleByBuiltinIntegerLiteralP", "Int64"]
+- ["s35_ExpressibleByBuiltinIntegerLiteralP", "bsonValue"]
+- ["s35_ExpressibleByBuiltinIntegerLiteralP", "init"]
+- !private ["s21_ObjectiveCBridgeableP", "Double"]
+- !private ["s21_ObjectiveCBridgeableP", "Float"]
+- !private ["s21_ObjectiveCBridgeableP", "Int"]
+- !private ["s21_ObjectiveCBridgeableP", "Int32"]
+- !private ["s21_ObjectiveCBridgeableP", "Int64"]
+- ["s21_ObjectiveCBridgeableP", "bsonValue"]
+- ["s21_ObjectiveCBridgeableP", "init"]
+- !private ["s14_StringElementP", "Int"]
+- !private ["s14_StringElementP", "Int32"]
+- ["s14_StringElementP", "bsonValue"]
+- ["s14_StringElementP", "init"]
+depends-nominal:
+- "s19BinaryFloatingPointP"
+- "s13BinaryIntegerP"
+- "10MongoSwift9BsonValueP"
+- "s7CVarArgP"
+- "10MongoSwift13CodableNumberP"
+- "s10ComparableP"
+- "s28CustomDebugStringConvertibleP"
+- "s29CustomPlaygroundQuickLookableP"
+- "s17CustomReflectableP"
+- "s23CustomStringConvertibleP"
+- "s9DecodableP"
+- "Sd"
+- "s9EncodableP"
+- "s9EquatableP"
+- "s25ExpressibleByFloatLiteralP"
+- "s27ExpressibleByIntegerLiteralP"
+- "s17FixedWidthIntegerP"
+- "Sf"
+- "s13FloatingPointP"
+- "s8HashableP"
+- "Si"
+- "s5Int16V"
+- "s5Int32V"
+- "s5Int64V"
+- "s4Int8V"
+- "s25LosslessStringConvertibleP"
+- "s10MirrorPathP"
+- "s7NumericP"
+- "s13SignedIntegerP"
+- "s13SignedNumericP"
+- "s10StrideableP"
+- "Su"
+- "s6UInt16V"
+- "s6UInt32V"
+- "s6UInt64V"
+- "s5UInt8V"
+- "s15UnsignedIntegerP"
+- "s18_BitwiseOperationsP"
+- "s15_CVarArgAlignedP"
+- "s22_CVarArgPassedAsDoubleP"
+- "s33_ExpressibleByBuiltinFloatLiteralP"
+- "s35_ExpressibleByBuiltinIntegerLiteralP"
+- "s21_ObjectiveCBridgeableP"
+- "s14_StringElementP"
+depends-dynamic-lookup:
+depends-external:
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Dispatch.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/ObjectiveC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Dispatch.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Darwin.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Foundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/CoreFoundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/CoreGraphics.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Swift.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/SwiftOnoneSupport.swiftmodule"
+- "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreHTTPService/.build/checkouts/swift-mongoc-4572998624666171810/module.modulemap"
+- "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreHTTPService/.build/checkouts/swift-bson-2873930670968179217/module.modulemap"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/usr/include/objc/ObjectiveC.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/usr/include/Darwin.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CoreGraphics.apinotes"
+interface-hash: "cb5ee622df58d7fcaa5956b23782547b"

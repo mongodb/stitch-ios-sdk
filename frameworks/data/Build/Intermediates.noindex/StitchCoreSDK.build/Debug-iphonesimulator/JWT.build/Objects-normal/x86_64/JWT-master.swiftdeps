@@ -1,0 +1,13 @@
+version: "Apple Swift version 4.1 (swiftlang-902.0.48 clang-902.0.37.1)"
+options: "3ad79033b84631e213c97219b2da5b89"
+build_time: [1529258534, 240911000]
+inputs:
+  "/Users/jsflax/Development/stitch-ios-sdk/Core/StitchCoreSDK/.build/checkouts/JSONWebToken.swift.git-7307767730484492200/Sources/Base64.swift": [1528918734, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/Core/StitchCoreSDK/.build/checkouts/JSONWebToken.swift.git-7307767730484492200/Sources/ClaimSet.swift": [1528918734, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/Core/StitchCoreSDK/.build/checkouts/JSONWebToken.swift.git-7307767730484492200/Sources/Claims.swift": [1528918734, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/Core/StitchCoreSDK/.build/checkouts/JSONWebToken.swift.git-7307767730484492200/Sources/Decode.swift": [1528918734, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/Core/StitchCoreSDK/.build/checkouts/JSONWebToken.swift.git-7307767730484492200/Sources/Encode.swift": [1528918734, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/Core/StitchCoreSDK/.build/checkouts/JSONWebToken.swift.git-7307767730484492200/Sources/HMAC.swift": [1528918734, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/Core/StitchCoreSDK/.build/checkouts/JSONWebToken.swift.git-7307767730484492200/Sources/HMACCommonCrypto.swift": [1528918734, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/Core/StitchCoreSDK/.build/checkouts/JSONWebToken.swift.git-7307767730484492200/Sources/JOSEHeader.swift": [1528918734, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/Core/StitchCoreSDK/.build/checkouts/JSONWebToken.swift.git-7307767730484492200/Sources/JWT.swift": [1528918734, 0]

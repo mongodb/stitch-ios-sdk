@@ -1,0 +1,11 @@
+version: "Apple Swift version 4.1 (swiftlang-902.0.48 clang-902.0.37.1)"
+options: "2ef9a0b725289731f2b86353f43a3f39"
+build_time: [1529258715, 54317000]
+inputs:
+  "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreFCMService/.build/checkouts/StitchCoreSDK--6611188111968536726/Sources/StitchCoreSDKMocks/Auth/Internal/MockCoreStitchAuth.swift": [1529099142, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreFCMService/.build/checkouts/StitchCoreSDK--6611188111968536726/Sources/StitchCoreSDKMocks/Auth/Internal/MockStitchAuthRequestClient.swift": [1529099142, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreFCMService/.build/checkouts/StitchCoreSDK--6611188111968536726/Sources/StitchCoreSDKMocks/Internal/MockStitchRequestClient.swift": [1529099142, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreFCMService/.build/checkouts/StitchCoreSDK--6611188111968536726/Sources/StitchCoreSDKMocks/Internal/MockTransport.swift": [1529099142, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreFCMService/.build/checkouts/StitchCoreSDK--6611188111968536726/Sources/StitchCoreSDKMocks/Push/Internal/MockCoreStitchPushClient.swift": [1529099142, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreFCMService/.build/checkouts/StitchCoreSDK--6611188111968536726/Sources/StitchCoreSDKMocks/Services/MockCoreStitchServiceClient.swift": [1529099142, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreFCMService/.build/checkouts/StitchCoreSDK--6611188111968536726/Sources/StitchCoreSDKMocks/Services/SpyCoreStitchServiceClient.swift": [1529099142, 0]

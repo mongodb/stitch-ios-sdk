@@ -1,0 +1,33 @@
+{
+  'version': 0,
+  'case-sensitive': 'false',
+  'roots': [
+    {
+      'type': 'directory',
+      'name': "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Products/Debug-iphonesimulator/StitchHTTPService.framework/Headers",
+      'contents': [
+        {
+          'type': 'file',
+          'name': "StitchCoreServicesHttp_iOS.h",
+          'external-contents': "/Users/jsflax/Development/stitch-ios-sdk/iOS/Services/StitchHTTPService/StitchHTTPService/StitchCoreServicesHttp_iOS.h"
+        },
+        {
+          'type': 'file',
+          'name': "StitchHTTPService-Swift.h",
+          'external-contents': "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Products/Debug-iphonesimulator/StitchHTTPService.framework/Headers/StitchHTTPService-Swift.h"
+        }
+      ]
+    },
+    {
+      'type': 'directory',
+      'name': "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Products/Debug-iphonesimulator/StitchHTTPService.framework/Modules",
+      'contents': [
+        {
+          'type': 'file',
+          'name': "module.modulemap",
+          'external-contents': "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Intermediates.noindex/StitchHTTPService.build/Debug-iphonesimulator/StitchHTTPService.build/module.modulemap"
+        }
+      ]
+    }
+  ]
+}

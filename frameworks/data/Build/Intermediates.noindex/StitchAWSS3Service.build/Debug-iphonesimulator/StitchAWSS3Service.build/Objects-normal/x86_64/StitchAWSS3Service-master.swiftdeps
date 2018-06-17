@@ -1,0 +1,7 @@
+version: "Apple Swift version 4.1 (swiftlang-902.0.48 clang-902.0.37.1)"
+options: "2901c509bc89d97da5acc53b79625d83"
+build_time: [1529258726, 495832000]
+inputs:
+  "/Users/jsflax/Development/stitch-ios-sdk/iOS/Services/StitchAWSS3Service/StitchAWSS3Service/Internal/AWSS3ServiceClientImpl.swift": [1528918602, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/iOS/Services/StitchAWSS3Service/StitchAWSS3Service/AWSS3ServiceClient.swift": [1528918602, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/iOS/Services/StitchAWSS3Service/StitchAWSS3Service/StitchAWSS3ServiceExports.swift": [1528918602, 0]

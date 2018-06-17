@@ -1,0 +1,8 @@
+version: "Apple Swift version 4.1 (swiftlang-902.0.48 clang-902.0.37.1)"
+options: "8cd44d4201bf780c0cbe793a3a9d5147"
+build_time: [1529258534, 241207000]
+inputs:
+  "/Users/jsflax/Development/stitch-ios-sdk/Core/StitchCoreSDK/.build/checkouts/MockUtils--3493337496829072534/Sources/MockUtils/Collection+count.swift": [1529212617, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/Core/StitchCoreSDK/.build/checkouts/MockUtils--3493337496829072534/Sources/MockUtils/Matcher.swift": [1529212617, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/Core/StitchCoreSDK/.build/checkouts/MockUtils--3493337496829072534/Sources/MockUtils/MockUtils.swift": [1529212617, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/Core/StitchCoreSDK/.build/checkouts/MockUtils--3493337496829072534/Sources/MockUtils/SpyUtils.swift": [1529212617, 0]

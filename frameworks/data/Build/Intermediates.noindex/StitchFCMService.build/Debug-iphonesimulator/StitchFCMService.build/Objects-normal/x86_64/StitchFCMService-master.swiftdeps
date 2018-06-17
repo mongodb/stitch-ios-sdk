@@ -1,0 +1,9 @@
+version: "Apple Swift version 4.1 (swiftlang-902.0.48 clang-902.0.37.1)"
+options: "2a1d525f9f49827e58d2f93232ec6f4c"
+build_time: [1529258741, 821359000]
+inputs:
+  "/Users/jsflax/Development/stitch-ios-sdk/iOS/Services/StitchFCMService/StitchFCMService/FCMServiceClient.swift": [1529021965, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/iOS/Services/StitchFCMService/StitchFCMService/Internal/FCMServicePushClientImpl.swift": [1529021965, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/iOS/Services/StitchFCMService/StitchFCMService/FCMServicePushClient.swift": [1529021965, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/iOS/Services/StitchFCMService/StitchFCMService/Internal/FCMServiceClientImpl.swift": [1529021965, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/iOS/Services/StitchFCMService/StitchFCMService/StitchFCMServiceExports.swift": [1529021965, 0]

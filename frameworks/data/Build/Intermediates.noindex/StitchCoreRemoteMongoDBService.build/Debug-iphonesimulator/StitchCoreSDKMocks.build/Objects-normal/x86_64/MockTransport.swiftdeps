@@ -1,0 +1,53 @@
+### Swift dependencies file v0 ###
+provides-top-level:
+- "MockTransport"
+provides-nominal:
+- "18StitchCoreSDKMocks13MockTransportC"
+provides-member:
+- ["18StitchCoreSDKMocks13MockTransportC", ""]
+provides-dynamic-lookup:
+depends-top-level:
+- "FunctionMockUnitOneArg"
+- "MockTransport"
+- "Request"
+- "Response"
+- "Transport"
+depends-member:
+- ["9MockUtils08FunctionA10UnitOneArgC", "init"]
+- !private ["9MockUtils08FunctionA10UnitOneArgC", "throwingRun"]
+- ["18StitchCoreSDKMocks13MockTransportC", "FunctionMockUnitOneArg"]
+- ["18StitchCoreSDKMocks13MockTransportC", "Request"]
+- ["18StitchCoreSDKMocks13MockTransportC", "Response"]
+- ["18StitchCoreSDKMocks13MockTransportC", "deinit"]
+- ["18StitchCoreSDKMocks13MockTransportC", "init"]
+- ["18StitchCoreSDKMocks13MockTransportC", "mockRoundTrip"]
+- ["18StitchCoreSDKMocks13MockTransportC", "roundTrip"]
+- ["13StitchCoreSDK9TransportP", "FunctionMockUnitOneArg"]
+- ["13StitchCoreSDK9TransportP", ""]
+- !private ["13StitchCoreSDK9TransportP", "mockRoundTrip"]
+- ["13StitchCoreSDK9TransportP", "roundTrip"]
+depends-nominal:
+- "9MockUtils08FunctionA10UnitOneArgC"
+- "18StitchCoreSDKMocks13MockTransportC"
+- "13StitchCoreSDK9TransportP"
+depends-dynamic-lookup:
+depends-external:
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Dispatch.apinotesc"
+- "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Products/Debug-iphonesimulator/StitchCoreSDK.framework/Modules/StitchCoreSDK.swiftmodule/x86_64.swiftmodule"
+- "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Products/Debug-iphonesimulator/MockUtils.framework/Modules/MockUtils.swiftmodule/x86_64.swiftmodule"
+- "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Products/Debug-iphonesimulator/MongoSwift.framework/Modules/MongoSwift.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/ObjectiveC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Dispatch.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Darwin.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Foundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/CoreFoundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/CoreGraphics.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Swift.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/SwiftOnoneSupport.swiftmodule"
+- "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreRemoteMongoDBService/.build/checkouts/swift-mongoc-4572998624666171810/module.modulemap"
+- "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreRemoteMongoDBService/.build/checkouts/swift-bson-2873930670968179217/module.modulemap"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/usr/include/objc/ObjectiveC.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/usr/include/Darwin.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CoreGraphics.apinotes"
+interface-hash: "661018a55019d0b4273b7772e31536af"

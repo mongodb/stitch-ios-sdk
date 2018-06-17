@@ -1,0 +1,10 @@
+framework module StitchLocalMongoDBService {
+  umbrella header "StitchLocalMongoDBService.h"
+
+  export *
+  module * { export * }
+}
+
+module StitchLocalMongoDBService.__Swift {
+    exclude header "StitchLocalMongoDBService-Swift.h"
+}

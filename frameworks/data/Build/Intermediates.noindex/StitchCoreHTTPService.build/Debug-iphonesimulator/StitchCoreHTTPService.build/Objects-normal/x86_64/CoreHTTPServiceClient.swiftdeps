@@ -1,0 +1,173 @@
+### Swift dependencies file v0 ###
+provides-top-level:
+- "CoreHTTPServiceClient"
+provides-nominal:
+- "21StitchCoreHTTPService0bC6ClientC"
+provides-member:
+- ["21StitchCoreHTTPService0bC6ClientC", ""]
+provides-dynamic-lookup:
+depends-top-level:
+- !private "Array"
+- "AssignmentPrecedence"
+- !private "Binary"
+- !private "BsonEncoder"
+- "CastingPrecedence"
+- "CoreHTTPServiceClient"
+- "CoreStitchServiceClient"
+- !private "Dictionary"
+- !private "Document"
+- "HTTPRequest"
+- "HTTPResponse"
+- !private "StitchError"
+- !private "StringLiteralType"
+- "TimeInterval"
+depends-member:
+- !private ["s23BidirectionalCollectionP", "init"]
+- !private ["10MongoSwift6BinaryV", "init"]
+- !private ["10MongoSwift11BsonEncoderC", "encode"]
+- !private ["10MongoSwift11BsonEncoderC", "init"]
+- !private ["10MongoSwift11BsonSubtypeO", "binary"]
+- !private ["10MongoSwift9BsonValueP", "init"]
+- !private ["10MongoSwift9BsonValueP", "subscript"]
+- !private ["s7CVarArgP", "init"]
+- !private ["s10CollectionP", "init"]
+- !private ["s10ComparableP", "init"]
+- !private ["21StitchCoreHTTPService0bC6ClientC", "Binary"]
+- !private ["21StitchCoreHTTPService0bC6ClientC", "BsonEncoder"]
+- ["21StitchCoreHTTPService0bC6ClientC", "CoreStitchServiceClient"]
+- !private ["21StitchCoreHTTPService0bC6ClientC", "Document"]
+- ["21StitchCoreHTTPService0bC6ClientC", "HTTPRequest"]
+- ["21StitchCoreHTTPService0bC6ClientC", "HTTPResponse"]
+- !private ["21StitchCoreHTTPService0bC6ClientC", "StitchError"]
+- ["21StitchCoreHTTPService0bC6ClientC", "TimeInterval"]
+- ["21StitchCoreHTTPService0bC6ClientC", "deinit"]
+- ["21StitchCoreHTTPService0bC6ClientC", "execute"]
+- ["21StitchCoreHTTPService0bC6ClientC", "init"]
+- !private ["21StitchCoreHTTPService0bC6ClientC", "service"]
+- !private ["13StitchCoreSDK0bA13ServiceClientP", "callFunctionInternal"]
+- !private ["s28CustomDebugStringConvertibleP", "init"]
+- !private ["s29CustomPlaygroundQuickLookableP", "init"]
+- !private ["s17CustomReflectableP", "init"]
+- !private ["s23CustomStringConvertibleP", "init"]
+- !private ["s23CustomStringConvertibleP", "subscript"]
+- !private ["s9DecodableP", "binary"]
+- !private ["s9DecodableP", "init"]
+- !private ["s9DecodableP", "subscript"]
+- !private ["10MongoSwift8DocumentV", "subscript"]
+- !private ["s9EncodableP", "binary"]
+- !private ["s9EncodableP", "init"]
+- !private ["s9EncodableP", "subscript"]
+- !private ["s9EquatableP", "binary"]
+- !private ["s9EquatableP", "encodingError"]
+- !private ["s9EquatableP", "init"]
+- !private ["s9EquatableP", "rawValue"]
+- !private ["s9EquatableP", "subscript"]
+- !private ["s5ErrorP", "requestError"]
+- !private ["s25ExpressibleByArrayLiteralP", "subscript"]
+- !private ["s30ExpressibleByDictionaryLiteralP", "subscript"]
+- !private ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s26ExpressibleByStringLiteralP", "init"]
+- !private ["s33ExpressibleByUnicodeScalarLiteralP", "init"]
+- !private ["21StitchCoreHTTPService10HTTPMethodO", "deinit"]
+- !private ["21StitchCoreHTTPService10HTTPMethodO", "rawValue"]
+- !private ["21StitchCoreHTTPService11HTTPRequestV", "authURL"]
+- !private ["21StitchCoreHTTPService11HTTPRequestV", "body"]
+- !private ["21StitchCoreHTTPService11HTTPRequestV", "cookies"]
+- !private ["21StitchCoreHTTPService11HTTPRequestV", "encodeBodyAsJSON"]
+- !private ["21StitchCoreHTTPService11HTTPRequestV", "followRedirects"]
+- !private ["21StitchCoreHTTPService11HTTPRequestV", "form"]
+- !private ["21StitchCoreHTTPService11HTTPRequestV", "headers"]
+- !private ["21StitchCoreHTTPService11HTTPRequestV", "method"]
+- !private ["21StitchCoreHTTPService11HTTPRequestV", "url"]
+- !private ["21StitchCoreHTTPService12HTTPResponseV", "deinit"]
+- !private ["s8HashableP", "binary"]
+- !private ["s8HashableP", "encodingError"]
+- !private ["s8HashableP", "init"]
+- !private ["s8HashableP", "rawValue"]
+- !private ["s25LosslessStringConvertibleP", "init"]
+- !private ["s10MirrorPathP", "init"]
+- !private ["s26RangeReplaceableCollectionP", "init"]
+- !private ["s16RawRepresentableP", "binary"]
+- !private ["s16RawRepresentableP", "rawValue"]
+- !private ["s8SequenceP", "init"]
+- !private ["s8SequenceP", "subscript"]
+- !private ["13StitchCoreSDK0A5ErrorO", "requestError"]
+- !private ["13StitchCoreSDK0A16RequestErrorCodeO", "encodingError"]
+- !private ["SS", "init"]
+- !private ["s14StringProtocolP", "init"]
+- !private ["s16TextOutputStreamP", "init"]
+- !private ["s20TextOutputStreamableP", "init"]
+- !private ["s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s34_ExpressibleByBuiltinStringLiteralP", "init"]
+- !private ["s39_ExpressibleByBuiltinUTF16StringLiteralP", "init"]
+- !private ["s41_ExpressibleByBuiltinUnicodeScalarLiteralP", "init"]
+- !private ["s33_ExpressibleByStringInterpolationP", "init"]
+- !private ["s21_ObjectiveCBridgeableP", "init"]
+- !private ["s16_SwiftStringViewP", "init"]
+depends-nominal:
+- !private "s23BidirectionalCollectionP"
+- !private "10MongoSwift6BinaryV"
+- !private "10MongoSwift11BsonEncoderC"
+- !private "10MongoSwift11BsonSubtypeO"
+- !private "10MongoSwift9BsonValueP"
+- !private "s7CVarArgP"
+- !private "s10CollectionP"
+- !private "s10ComparableP"
+- "21StitchCoreHTTPService0bC6ClientC"
+- !private "13StitchCoreSDK0bA13ServiceClientP"
+- !private "s28CustomDebugStringConvertibleP"
+- !private "s29CustomPlaygroundQuickLookableP"
+- !private "s17CustomReflectableP"
+- !private "s23CustomStringConvertibleP"
+- !private "s9DecodableP"
+- !private "10MongoSwift8DocumentV"
+- !private "s9EncodableP"
+- !private "s9EquatableP"
+- !private "s5ErrorP"
+- !private "s25ExpressibleByArrayLiteralP"
+- !private "s30ExpressibleByDictionaryLiteralP"
+- !private "s43ExpressibleByExtendedGraphemeClusterLiteralP"
+- !private "s26ExpressibleByStringLiteralP"
+- !private "s33ExpressibleByUnicodeScalarLiteralP"
+- !private "21StitchCoreHTTPService10HTTPMethodO"
+- !private "21StitchCoreHTTPService11HTTPRequestV"
+- !private "21StitchCoreHTTPService12HTTPResponseV"
+- !private "s8HashableP"
+- !private "s25LosslessStringConvertibleP"
+- !private "s10MirrorPathP"
+- !private "s26RangeReplaceableCollectionP"
+- !private "s16RawRepresentableP"
+- !private "s8SequenceP"
+- !private "13StitchCoreSDK0A5ErrorO"
+- !private "13StitchCoreSDK0A16RequestErrorCodeO"
+- !private "SS"
+- !private "s14StringProtocolP"
+- !private "s16TextOutputStreamP"
+- !private "s20TextOutputStreamableP"
+- !private "s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP"
+- !private "s34_ExpressibleByBuiltinStringLiteralP"
+- !private "s39_ExpressibleByBuiltinUTF16StringLiteralP"
+- !private "s41_ExpressibleByBuiltinUnicodeScalarLiteralP"
+- !private "s33_ExpressibleByStringInterpolationP"
+- !private "s21_ObjectiveCBridgeableP"
+- !private "s16_SwiftStringViewP"
+depends-dynamic-lookup:
+depends-external:
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Dispatch.apinotesc"
+- "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Products/Debug-iphonesimulator/StitchCoreSDK.framework/Modules/StitchCoreSDK.swiftmodule/x86_64.swiftmodule"
+- "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Products/Debug-iphonesimulator/MongoSwift.framework/Modules/MongoSwift.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/ObjectiveC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Dispatch.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Darwin.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Foundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/CoreFoundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/CoreGraphics.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/Swift.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/x86_64/SwiftOnoneSupport.swiftmodule"
+- "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreHTTPService/.build/checkouts/swift-mongoc-4572998624666171810/module.modulemap"
+- "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreHTTPService/.build/checkouts/swift-bson-2873930670968179217/module.modulemap"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/usr/include/objc/ObjectiveC.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/usr/include/Darwin.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.3.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CoreGraphics.apinotes"
+interface-hash: "add0817c473971cad85015f289c8d409"

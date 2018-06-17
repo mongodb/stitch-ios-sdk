@@ -1,0 +1,10 @@
+framework module StitchFCMService {
+  umbrella header "StitchFCMService.h"
+
+  export *
+  module * { export * }
+}
+
+module StitchFCMService.__Swift {
+    exclude header "StitchFCMService-Swift.h"
+}

@@ -1,0 +1,6 @@
+version: "Apple Swift version 4.1 (swiftlang-902.0.48 clang-902.0.37.1)"
+options: "d4c7e24b713d36c69f63ef3689d785a2"
+build_time: [1529258615, 115169000]
+inputs:
+  "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreAWSSESService/Sources/StitchCoreAWSSESService/AWSSESSendResult.swift": [1528918602, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreAWSSESService/Sources/StitchCoreAWSSESService/Internal/CoreAWSSESServiceClient.swift": [1528918602, 0]

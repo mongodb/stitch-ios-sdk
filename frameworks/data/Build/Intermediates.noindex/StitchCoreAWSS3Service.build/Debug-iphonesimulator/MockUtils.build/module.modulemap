@@ -1,0 +1,4 @@
+framework module MockUtils {
+    header "MockUtils-Swift.h"
+    requires objc
+}

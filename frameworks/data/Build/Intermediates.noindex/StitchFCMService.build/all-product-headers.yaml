@@ -1,0 +1,33 @@
+{
+  'version': 0,
+  'case-sensitive': 'false',
+  'roots': [
+    {
+      'type': 'directory',
+      'name': "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Products/Debug-iphonesimulator/StitchFCMService.framework/Headers",
+      'contents': [
+        {
+          'type': 'file',
+          'name': "StitchFCMService-Swift.h",
+          'external-contents': "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Products/Debug-iphonesimulator/StitchFCMService.framework/Headers/StitchFCMService-Swift.h"
+        },
+        {
+          'type': 'file',
+          'name': "StitchFCMService.h",
+          'external-contents': "/Users/jsflax/Development/stitch-ios-sdk/iOS/Services/StitchFCMService/StitchFCMService/StitchFCMService.h"
+        }
+      ]
+    },
+    {
+      'type': 'directory',
+      'name': "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Products/Debug-iphonesimulator/StitchFCMService.framework/Modules",
+      'contents': [
+        {
+          'type': 'file',
+          'name': "module.modulemap",
+          'external-contents': "/Users/jsflax/Development/stitch-ios-sdk/frameworks/data/Build/Intermediates.noindex/StitchFCMService.build/Debug-iphonesimulator/StitchFCMService.build/module.modulemap"
+        }
+      ]
+    }
+  ]
+}

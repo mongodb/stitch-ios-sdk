@@ -1,0 +1,4 @@
+framework module StitchCore {
+    header "StitchCore-Swift.h"
+    requires objc
+}

@@ -1,0 +1,4 @@
+framework module StitchCoreLocalMongoDBService {
+    header "StitchCoreLocalMongoDBService-Swift.h"
+    requires objc
+}

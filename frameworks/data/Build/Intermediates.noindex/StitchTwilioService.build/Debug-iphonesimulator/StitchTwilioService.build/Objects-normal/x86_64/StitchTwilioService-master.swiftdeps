@@ -1,0 +1,6 @@
+version: "Apple Swift version 4.1 (swiftlang-902.0.48 clang-902.0.37.1)"
+options: "9a013c2cfe7c42e14ce194487e215ff0"
+build_time: [1529258739, 338006000]
+inputs:
+  "/Users/jsflax/Development/stitch-ios-sdk/iOS/Services/StitchTwilioService/StitchTwilioService/Internal/TwilioServiceClientImpl.swift": [1528918602, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/iOS/Services/StitchTwilioService/StitchTwilioService/TwilioServiceClient.swift": [1528918602, 0]

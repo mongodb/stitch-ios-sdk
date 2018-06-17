@@ -1,0 +1,7 @@
+version: "Apple Swift version 4.1 (swiftlang-902.0.48 clang-902.0.37.1)"
+options: "507f000294521aeca462256d0e7a78e7"
+build_time: [1529258729, 56640000]
+inputs:
+  "/Users/jsflax/Development/stitch-ios-sdk/iOS/Services/StitchAWSSESService/StitchAWSSESService/AWSSESServiceClient.swift": [1528918602, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/iOS/Services/StitchAWSSESService/StitchAWSSESService/Internal/AWSSESServiceClientImpl.swift": [1528918602, 0]
+  "/Users/jsflax/Development/stitch-ios-sdk/iOS/Services/StitchAWSSESService/StitchAWSSESService/StitchAWSSESServiceExports.swift": [1528918602, 0]
