@@ -1,43 +1,7 @@
-PP = [
-  "Sources/mongo_embedded/*.{h,modulemap}",
-  "Sources/libbson/*.{h,modulemap}",
-  "Sources/libmongoc/*.{h,modulemap}",
-  "MobileSDKs",
-  "MongoSwift.framework",
-  "StitchCoreSDK.framework"
-]
-IOS_VL = ["MobileSDKs/iphoneos/lib/libmongoc-1.0.dylib", "MobileSDKs/iphoneos/lib/libbson-1.0.dylib"]
-TVOS_VL = ["MobileSDKs/iphoneos/lib/libmongoc-1.0.dylib", "MobileSDKs/iphoneos/lib/libbson-1.0.dylib"]
 
-PTXC = {
-  'OTHER_LDFLAGS[sdk=iphoneos*]' => '-rpath $(PODS_TARGET_SRCROOT)/MobileSDKs/iphoneos/lib',
-  'OTHER_LDFLAGS[sdk=iphonesimulator*]' => '-rpath $(PODS_TARGET_SRCROOT)/MobileSDKs/iphoneos/lib',
-  'OTHER_LDFLAGS[sdk=appletvos*]' => '-rpath $(PODS_TARGET_SRCROOT)/MobileSDKs/appletvos/lib',
-  'OTHER_LDFLAGS[sdk=appletvsimulator*]' => '-rpath $(PODS_TARGET_SRCROOT)/MobileSDKs/appletvos/lib',
-  'LIBRARY_SEARCH_PATHS[sdk=iphoneos*]'        => '$(PODS_TARGET_SRCROOT)/MobileSDKs/iphoneos/lib',
-  'LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]' => '$(PODS_TARGET_SRCROOT)/MobileSDKs/iphoneos/lib',
-  'LIBRARY_SEARCH_PATHS[sdk=appletvos*]'       => '$(PODS_TARGET_SRCROOT)/MobileSDKs/appletvos/lib',
-  'LIBRARY_SEARCH_PATHS[sdk=appletvsimulator*]'=> '$(PODS_TARGET_SRCROOT)/MobileSDKs/appletvos/lib',
-
-  'SWIFT_INCLUDE_PATHS' => [
-    '"$(PODS_TARGET_SRCROOT)/MobileSDKs/include"',
-    '"$(PODS_TARGET_SRCROOT)/MobileSDKs/include/mongo/embedded-v1/"',
-    '"$(PODS_TARGET_SRCROOT)/MobileSDKs/include/libbson-1.0"',
-    '"$(PODS_TARGET_SRCROOT)/MobileSDKs/include/libmongoc-1.0"',
-    '"$(PODS_TARGET_SRCROOT)/Sources/mongo_embedded"',
-    '"$(PODS_TARGET_SRCROOT)/Sources/libmongoc"',
-    '"$(PODS_TARGET_SRCROOT)/Sources/libbson"',
-  ].join(' ')
-}
-UTXC = {
-  'LIBRARY_SEARCH_PATHS[sdk=iphoneos*]'        => '$(PODS_ROOT)/MongoMobile/MobileSDKs/iphoneos/lib',
-  'LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]' => '$(PODS_ROOT)/MongoMobile/MobileSDKs/iphoneos/lib',
-  'LIBRARY_SEARCH_PATHS[sdk=appletvos*]'       => '$(PODS_ROOT)/MongoMobile/MobileSDKs/appletvos/lib',
-  'LIBRARY_SEARCH_PATHS[sdk=appletvsimulator*]'=> '$(PODS_ROOT)/MongoMobile/MobileSDKs/appletvos/lib',
-}
-
+  
 Pod::Spec.new do |spec|
-  spec.name       = "mongodb-stitch"
+  spec.name       = "StitchSDK"
   spec.version    = "4.0.0-beta0"
   spec.summary    = "Stitch"
   spec.homepage   = "https://github.com/jsflax/stitch-ios-sdk"
@@ -47,24 +11,64 @@ Pod::Spec.new do |spec|
     "Jason Flax" => "jason.flax@mongodb.com",
     "Eric Daniels" => "eric.daniels@mongodb.com"
   }
-  spec.platform = :ios, "11.3"
+  spec.platform = :ios, "8.0"
   spec.source     = {
     :git => "https://github.com/jsflax/stitch-ios-sdk.git",
     :branch => "TestLove",
-    :submodules => true
+    # :submodules => true
   }
+  spec.static_framework = true
+
   spec.ios.deployment_target = "11.3"
   spec.swift_version = "4.1"
   spec.requires_arc = true
-  #spec.default_subspec = 'mongodb-stitch'
+  spec.default_subspec = 'mongodb-stitch'
   
   spec.prepare_command = 'sh build.sh'
+
+  PP ||= [
+    "Sources/mongo_embedded/*.{h,modulemap}",
+    "Sources/libbson/*.{h,modulemap}",
+    "Sources/libmongoc/*.{h,modulemap}",
+    "MobileSDKs"
+  ]
+
+  IOS_VL ||= ["MobileSDKs/iphoneos/lib/libmongoc-1.0.dylib", "MobileSDKs/iphoneos/lib/libbson-1.0.dylib"]
+  TVOS_VL ||= ["MobileSDKs/iphoneos/lib/libmongoc-1.0.dylib", "MobileSDKs/iphoneos/lib/libbson-1.0.dylib"]
+  
+  PTXC ||= {
+    'OTHER_LDFLAGS[sdk=iphoneos*]' => '-rpath $(PODS_TARGET_SRCROOT)/MobileSDKs/iphoneos/lib',
+    'OTHER_LDFLAGS[sdk=iphonesimulator*]' => '-rpath $(PODS_TARGET_SRCROOT)/MobileSDKs/iphoneos/lib',
+    'OTHER_LDFLAGS[sdk=appletvos*]' => '-rpath $(PODS_TARGET_SRCROOT)/MobileSDKs/appletvos/lib',
+    'OTHER_LDFLAGS[sdk=appletvsimulator*]' => '-rpath $(PODS_TARGET_SRCROOT)/MobileSDKs/appletvos/lib',
+    'LIBRARY_SEARCH_PATHS[sdk=iphoneos*]'        => '$(PODS_TARGET_SRCROOT)/MobileSDKs/iphoneos/lib',
+    'LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]' => '$(PODS_TARGET_SRCROOT)/MobileSDKs/iphoneos/lib',
+    'LIBRARY_SEARCH_PATHS[sdk=appletvos*]'       => '$(PODS_TARGET_SRCROOT)/MobileSDKs/appletvos/lib',
+    'LIBRARY_SEARCH_PATHS[sdk=appletvsimulator*]'=> '$(PODS_TARGET_SRCROOT)/MobileSDKs/appletvos/lib',
+  
+    'SWIFT_INCLUDE_PATHS' => [
+      '"$(PODS_TARGET_SRCROOT)/MobileSDKs/include"',
+      '"$(PODS_TARGET_SRCROOT)/MobileSDKs/include/mongo/embedded-v1/"',
+      '"$(PODS_TARGET_SRCROOT)/MobileSDKs/include/libbson-1.0"',
+      '"$(PODS_TARGET_SRCROOT)/MobileSDKs/include/libmongoc-1.0"',
+      '"$(PODS_TARGET_SRCROOT)/Sources/mongo_embedded"',
+      '"$(PODS_TARGET_SRCROOT)/Sources/libmongoc"',
+      '"$(PODS_TARGET_SRCROOT)/Sources/libbson"',
+    ].join(' ')
+  }
+  UTXC ||= {
+    'LIBRARY_SEARCH_PATHS[sdk=iphoneos*]'        => '$(PODS_ROOT)/MobileSDKs/iphoneos/lib',
+    'LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]' => '$(PODS_ROOT)/MobileSDKs/iphoneos/lib',
+    'LIBRARY_SEARCH_PATHS[sdk=appletvos*]'       => '$(PODS_ROOT)/MobileSDKs/appletvos/lib',
+    'LIBRARY_SEARCH_PATHS[sdk=appletvsimulator*]'=> '$(PODS_ROOT)/MobileSDKs/appletvos/lib',
+  }
+
   spec.preserve_paths = PP
   spec.ios.vendored_library = IOS_VL
   spec.tvos.vendored_library = TVOS_VL
   spec.pod_target_xcconfig = PTXC
   spec.user_target_xcconfig = UTXC
-
+  spec.xcconfig = PTXC
   # spec.pod_target_xcconfig = {
   #   # 'OTHER_LDFLAGS[sdk=iphoneos*]' => '-rpath $(PODS_TARGET_SRCROOT)/libmongoc/lib',
   #   # 'OTHER_LDFLAGS[sdk=iphonesimulator*]' => '-rpath $(PODS_TARGET_SRCROOT)/libmongoc/lib',
@@ -107,9 +111,9 @@ Pod::Spec.new do |spec|
   #   "FRAMEWORK_SEARCH_PATHS" => ["$(PODS_TARGET_SRCROOT)/frameworks"].join(" ")
   # }
 
-  # spec.subspec "mongodb-stitch" do |s|
-  #   s.resource_bundle = { 'fail' => 'pod_fail.sh' }
-  # end
+  spec.subspec "StitchSDK" do |s|
+    s.resource_bundle = { 'fail' => 'README.md' }
+  end
 
   def self.configure_subspec(subspec)
     subspec.preserve_paths = PP
@@ -120,33 +124,34 @@ Pod::Spec.new do |spec|
   end
 
   # spec.xcconfig       = { 'FRAMEWORK_SEARCH_PATHS' => '"$(PODS_ROOT)/"' }
+  
 
-  # spec.subspec "MongoSwift" do |sub|
-  #   self.configure_subspec sub
-  #   sub.source_files = "mongo-swift-driver/Sources/MongoSwift/**/*.swift"
-  #   #sub.xcconfig = { "FRAMEWORK_SEARCH_PATHS" => "$(PODS_ROOT)/mongodb-stitch/mongo-swift"}
-  # end
+  spec.subspec "MongoSwift" do |mongo_swift|
+    # self.configure_subspec sub
+    mongo_swift.source_files = "MongoSwift/Sources/MongoSwift/**/*.swift"
+  end
 
-  # # pod "mongodb-stitch/core", "~> 4.0"
-  # spec.subspec "StitchCoreSDK" do |sub|
-  #   self.configure_subspec sub
+  # pod "mongodb-stitch/core-sdk", "~> 4.0"
+  spec.subspec "StitchCore" do |core|
+    # self.configure_subspec sub
 
-  #   sub.source_files = "Core/StitchCoreSDK/Sources/StitchCoreSDK/**/*.swift"
-  #   sub.dependency "mongodb-stitch/MongoSwift"
-  #   # sub.xcconfig = { "FRAMEWORK_SEARCH_PATHS" => "$(PODS_ROOT)/mongodb-stitch/core-sdk"}
-  #   sub.vendored_frameworks = "MongoSwift.framework"
-  # end
+    core.source_files = "sdk/core/core-sdk/**/*.swift"
+    # core.source_files = "Core/StitchCoreSDK/Sources/StitchCoreSDK/**/*.swift"
+    core.dependency "mongodb-stitch/MongoSwift"
+    # sub.xcconfig = { "FRAMEWORK_SEARCH_PATHS" => "$(PODS_ROOT)/mongodb-stitch/core-sdk"}
+    # sub.vendored_frameworks = "MongoSwift.framework"
+  end
 
-  # # pod "mongodb-stitch/core-services-aws-s3", "~> 4.0"
-  # spec.subspec "StitchCoreAWSS3Service" do |sub|
-  #   self.configure_subspec sub
+  # pod "mongodb-stitch/core-services-aws-s3", "~> 4.0"
+  spec.subspec "StitchCoreAWSS3Service" do |sub|
+    self.configure_subspec sub
 
-  #   sub.source_files = "Core/Services/StitchCoreAWSS3Service/Sources/StitchCoreAWSS3Service/**/*.swift"
-  #   sub.dependency 'mongodb-stitch/MongoSwift'
-  #   sub.dependency 'mongodb-stitch/StitchCoreSDK'
+    sub.source_files = "sdk/core/core-services-aws-s3/**/*.swift"
+    sub.dependency 'mongodb-stitch/MongoSwift'
+    sub.dependency 'mongodb-stitch/StitchCoreSDK'
 
-  #   sub.vendored_frameworks = "frameworks/data/Build/Products/Debug-iphonesimulator/StitchCoreSDK.framework"
-  # end
+    sub.vendored_frameworks = "frameworks/data/Build/Products/Debug-iphonesimulator/StitchCoreSDK.framework"
+  end
 
   # # pod "mongodb-stitch/core-services-aws-ses", "~> 4.0"
   # spec.subspec "core-services-aws-ses" do |sub|    
@@ -202,17 +207,13 @@ Pod::Spec.new do |spec|
   #   ]
   # end
 
-  # # pod "mongodb-stitch/ios-core", "~> 4.0"
-  # spec.subspec "StitchCore" do |sub|
-  #   self.configure_subspec sub
+  # pod "mongodb-stitch/ios-core", "~> 4.0"
+  spec.subspec "ios-core" do |sub|
+    sub.source_files = "sdk/ios/ios-core/**/*.swift"
+    sub.exclude_files = 'sdk/ios/ios-core/StitchCoreExports.swift'
     
-  #   sub.source_files = "iOS/StitchCore/StitchCore/**/*.swift"
-
-  #   sub.dependency 'mongodb-stitch/MongoSwift'
-  #   sub.dependency 'mongodb-stitch/StitchCoreSDK'
-
-  #   sub.vendored_frameworks = "frameworks/data/Build/Products/Debug-iphonesimulator/StitchCoreSDK.framework"
-  # end
+    sub.dependency 'mongodb-stitch/core-sdk'
+  end
 
   # # pod "mongodb-stitch/ios-services-aws-s3", "~> 4.0"
   # spec.subspec "StitchAWSS3Service" do |sub|
@@ -319,24 +320,25 @@ Pod::Spec.new do |spec|
   # end
   
   # pod "mongodb-stitch/ios-sdk", "~> 4.0"
-  spec.subspec "ios-sdk" do |sub|
-    self.configure_subspec sub
-    sub.source_files = "iOS/StitchSDK/StitchSDK/**/*.swift"
+  # spec.subspec "ios-sdk" do |sub|
+  #   self.configure_subspec sub
+  #   sub.source_files = "iOS/StitchSDK/StitchSDK/**/*.swift"
 
-    sub.vendored_frameworks = [
-      "frameworks/data/Build/Products/Debug-iphonesimulator/MongoSwift.framework", 
-      "frameworks/data/Build/Products/Debug-iphonesimulator/StitchCoreSDK.framework",
-      "frameworks/data/Build/Products/Debug-iphonesimulator/StitchCoreAWSSESService.framework",
-      "frameworks/data/Build/Products/Debug-iphonesimulator/StitchAWSSESService.framework",
-      "frameworks/data/Build/Products/Debug-iphonesimulator/StitchCoreAWSS3Service.framework",
-      "frameworks/data/Build/Products/Debug-iphonesimulator/StitchAWSS3Service.framework",
-      "frameworks/data/Build/Products/Debug-iphonesimulator/StitchCore.framework",
-      "frameworks/data/Build/Products/Debug-iphonesimulator/StitchCoreTwilioService.framework",
-      "frameworks/data/Build/Products/Debug-iphonesimulator/StitchTwilioService.framework",
-      "frameworks/data/Build/Products/Debug-iphonesimulator/StitchCoreRemoteMongoDBService.framework",
-      "frameworks/data/Build/Products/Debug-iphonesimulator/StitchRemoteMongoDBService.framework",
-      "frameworks/data/Build/Products/Debug-iphonesimulator/StitchCoreHTTPService.framework",
-      "frameworks/data/Build/Products/Debug-iphonesimulator/StitchHTTPService.framework"
-    ]
-  end
+  #   sub.dependency "mongodb-stitch/mongo-swift"
+  #   sub.vendored_frameworks = [
+  #     "frameworks/data/Build/Products/Debug-iphonesimulator/MongoSwift.framework", 
+  #     "frameworks/data/Build/Products/Debug-iphonesimulator/StitchCoreSDK.framework",
+  #     "frameworks/data/Build/Products/Debug-iphonesimulator/StitchCoreAWSSESService.framework",
+  #     "frameworks/data/Build/Products/Debug-iphonesimulator/StitchAWSSESService.framework",
+  #     "frameworks/data/Build/Products/Debug-iphonesimulator/StitchCoreAWSS3Service.framework",
+  #     "frameworks/data/Build/Products/Debug-iphonesimulator/StitchAWSS3Service.framework",
+  #     "frameworks/data/Build/Products/Debug-iphonesimulator/StitchCore.framework",
+  #     "frameworks/data/Build/Products/Debug-iphonesimulator/StitchCoreTwilioService.framework",
+  #     "frameworks/data/Build/Products/Debug-iphonesimulator/StitchTwilioService.framework",
+  #     "frameworks/data/Build/Products/Debug-iphonesimulator/StitchCoreRemoteMongoDBService.framework",
+  #     "frameworks/data/Build/Products/Debug-iphonesimulator/StitchRemoteMongoDBService.framework",
+  #     "frameworks/data/Build/Products/Debug-iphonesimulator/StitchCoreHTTPService.framework",
+  #     "frameworks/data/Build/Products/Debug-iphonesimulator/StitchHTTPService.framework"
+  #   ]
+  # end
 end
