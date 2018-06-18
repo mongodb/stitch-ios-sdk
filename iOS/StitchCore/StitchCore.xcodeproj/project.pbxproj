@@ -587,8 +587,8 @@
 				);
 				INFOPLIST_FILE = StitchCoreTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/Frameworks @executable_path/Frameworks @rpath$(SRCROOT)/../../Dependencies/lib $(SRCROOT)/../../Dependencies/lib \"$(SRCROOT)/../../MobileSDKs/iphoneos/lib\"";
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../MobileSDKs/iphoneos/lib";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/Frameworks @executable_path/Frameworks @rpath$(SRCROOT)/../../Dependencies/lib $(SRCROOT)/../../Dependencies/lib \"$(SRCROOT)/../../vendor/MobileSDKs/iphoneos/lib\"";
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../vendor/MobileSDKs/iphoneos/lib";
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchCoreTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -614,8 +614,8 @@
 				);
 				INFOPLIST_FILE = StitchCoreTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/Frameworks @executable_path/Frameworks @rpath$(SRCROOT)/../Dependencies/lib $(SRCROOT)/../Dependencies/lib $(SRCROOT)/../MobileSDKs/iphoneos/lib/";
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../MobileSDKs/iphoneos/lib";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/Frameworks @executable_path/Frameworks @rpath$(SRCROOT)/../Dependencies/lib $(SRCROOT)/../Dependencies/lib $(SRCROOT)/../vendor/MobileSDKs/iphoneos/lib/";
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../vendor/MobileSDKs/iphoneos/lib";
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchCoreTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -769,9 +769,9 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../MobileSDKs/iphoneos/lib";
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../vendor/MobileSDKs/iphoneos/lib";
 				OTHER_LDFLAGS = (
-					"-L$(SRCROOT)/../../MobileSDKs/iphoneos/lib",
+					"-L$(SRCROOT)/../../vendor/MobileSDKs/iphoneos/lib",
 					"-lbson-1.0",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchCore;
@@ -808,9 +808,9 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../MobileSDKs/iphoneos/lib";
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../vendor/MobileSDKs/iphoneos/lib";
 				OTHER_LDFLAGS = (
-					"-L$(SRCROOT)/../../MobileSDKs/iphoneos/lib",
+					"-L$(SRCROOT)/../../vendor/MobileSDKs/iphoneos/lib",
 					"-lbson-1.0",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchCore;

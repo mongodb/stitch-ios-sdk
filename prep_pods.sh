@@ -73,11 +73,12 @@ case $i in
     shift
     ;;
     *)
-          # unknown option
+    log_e "invalid option"
+    exit 1
     ;;
 esac
 done
-
+echo "found args"
 if [[ -z $MODULE ]]; then 
     log_e "must have module"
     exit 1

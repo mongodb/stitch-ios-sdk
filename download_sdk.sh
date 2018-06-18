@@ -145,7 +145,7 @@ fi
 
 # download MongoMobile
 find ../ -type d -name "StitchCoreLocalMongoDBService" -print | grep -v "dist" | while read dir; do
-  if [[ $dir =~ "Sources/StitchCoreLocalMongoDBService"$ ]]; then
+  if [[ $dir =~ .*Sources/StitchCoreLocalMongoDBService$ ]]; then
     LOCAL_MONGO_DB_SERVICE=$dir
   fi
 done

@@ -311,8 +311,8 @@
 					"$(SRCROOT)/../../../Sources/libmongoc",
 				);
 				INFOPLIST_FILE = StitchSDKExample/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks $(SRCROOT)/../../../MobileSDKs/iphoneos/lib/";
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../MobileSDKs/iphoneos/lib/";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks $(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib/";
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib/";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchSDKExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -330,8 +330,8 @@
 					"$(SRCROOT)/../../../Sources/libmongoc",
 				);
 				INFOPLIST_FILE = StitchSDKExample/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks $(SRCROOT)/../../../MobileSDKs/iphoneos/lib/";
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../MobileSDKs/iphoneos/lib/";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks $(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib/";
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib/";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchSDKExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;

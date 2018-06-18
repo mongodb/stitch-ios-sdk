@@ -56,10 +56,10 @@ If creating an iOS-specific module to complement the module:
    and the following setting for "Library Search Paths"
    ```
     //:configuration = Debug
-    LIBRARY_SEARCH_PATHS = $(SRCROOT)/../MobileSDKs/iphoneos/lib
+    LIBRARY_SEARCH_PATHS = $(SRCROOT)/../vendor/MobileSDKs/iphoneos/lib
 
     //:configuration = Release
-    LIBRARY_SEARCH_PATHS = $(SRCROOT)/../MobileSDKs/iphoneos/lib
+    LIBRARY_SEARCH_PATHS = $(SRCROOT)/../vendor/MobileSDKs/iphoneos/lib
 
     //:completeSettings = some
     LIBRARY_SEARCH_PATHS

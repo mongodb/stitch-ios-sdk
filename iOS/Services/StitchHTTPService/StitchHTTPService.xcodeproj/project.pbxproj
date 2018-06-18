@@ -411,9 +411,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
-					"$(SRCROOT)/../../../MobileSDKs/iphoneos/lib",
+					"$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib",
 				);
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../MobileSDKs/iphoneos/lib";
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchHTTPService;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -445,9 +445,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
-					"$(SRCROOT)/../../../MobileSDKs/iphoneos/lib",
+					"$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib",
 				);
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../MobileSDKs/iphoneos/lib";
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchHTTPService;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -470,9 +470,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
-					"$(SRCROOT)/../../../MobileSDKs/iphoneos/lib",
+					"$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib",
 				);
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../MobileSDKs/iphoneos/lib";
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchHTTPService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -494,9 +494,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
-					"$(SRCROOT)/../../../MobileSDKs/iphoneos/lib",
+					"$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib",
 				);
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../MobileSDKs/iphoneos/lib";
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchHTTPService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
