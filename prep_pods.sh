@@ -39,6 +39,7 @@ sanitize_imports() (
     find $local_module_path -type f -name '*.swift' | while read i; do
         sanitized_path="${i#*$sources/}"
         log_w "sanitized path: $sanitized_path"
+        log_w "module name: $1"
         sed -i '' "/import MongoSwift/d" dist/$1/$sanitized_path
         if [[ $SANITIZE_ALL == YES ]]; then
             for ((j=0; j < "${#MODULES[@]}"; j++)) ; do
