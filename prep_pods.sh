@@ -40,7 +40,7 @@ sanitize_imports() (
 
     find $sources -type f -name '*.swift' | while read i; do
         sanitized_path="${i#*$sources/}"
-        sed -i '' "s/import MongoSwift/import StitchCoreSDK/" dist/$module/$sanitized_path
+        sed -i '' "s/import MongoSwift/import MongoSwiftMobile/" dist/$module/$sanitized_path
     done
 )
 
