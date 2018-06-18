@@ -87,10 +87,12 @@ for ((i=0; i < "${#MODULES[@]}"; i++)) ; do
     module_path="${module#*:}"
     if [[ ! -z $MODULE ]]; then
         if [[ $module_name == $MODULE ]]; then
+            log_w "found module $MODULE"
             copy_module $module_name $module_path
             sanitize_imports $module_name $module_path
         fi
     else
+        log_w "sanitizing all modules"
         copy_module $module_name $module_path
         sanitize_imports $module_name $module_path
     fi
