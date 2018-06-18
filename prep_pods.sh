@@ -46,7 +46,7 @@ sanitize_imports() (
                 module=${MODULES[$j]}
 
                 module_name="${module%%:*}"
-                sed -i '' "/import $module_name/d" dist/$1/$i
+                sed -i '' "/import $module_name/d" dist/$1/$sanitized_path
             done
         fi
     done
