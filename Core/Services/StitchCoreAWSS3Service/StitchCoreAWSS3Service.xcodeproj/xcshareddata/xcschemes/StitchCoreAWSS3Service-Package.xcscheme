@@ -14,20 +14,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "MongoSwift::MongoSwift"
-               BuildableName = "MongoSwift.framework"
-               BlueprintName = "MongoSwift"
-               ReferencedContainer = "container:StitchCoreAWSS3Service.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "MockUtils::MockUtils"
                BuildableName = "MockUtils.framework"
                BlueprintName = "MockUtils"
@@ -42,9 +28,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "StitchCoreSDK::StitchCoreSDK"
-               BuildableName = "StitchCoreSDK.framework"
-               BlueprintName = "StitchCoreSDK"
+               BlueprintIdentifier = "StitchCoreAWSS3Service::StitchCoreAWSS3Service"
+               BuildableName = "StitchCoreAWSS3Service.framework"
+               BlueprintName = "StitchCoreAWSS3Service"
                ReferencedContainer = "container:StitchCoreAWSS3Service.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -70,9 +56,23 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "StitchCoreAWSS3Service::StitchCoreAWSS3Service"
-               BuildableName = "StitchCoreAWSS3Service.framework"
-               BlueprintName = "StitchCoreAWSS3Service"
+               BlueprintIdentifier = "MongoSwift::MongoSwift"
+               BuildableName = "MongoSwift.framework"
+               BlueprintName = "MongoSwift"
+               ReferencedContainer = "container:StitchCoreAWSS3Service.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "StitchCoreSDK::StitchCoreSDK"
+               BuildableName = "StitchCoreSDK.framework"
+               BlueprintName = "StitchCoreSDK"
                ReferencedContainer = "container:StitchCoreAWSS3Service.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -111,9 +111,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "MongoSwift::MongoSwift"
-            BuildableName = "MongoSwift.framework"
-            BlueprintName = "MongoSwift"
+            BlueprintIdentifier = "MockUtils::MockUtils"
+            BuildableName = "MockUtils.framework"
+            BlueprintName = "MockUtils"
             ReferencedContainer = "container:StitchCoreAWSS3Service.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

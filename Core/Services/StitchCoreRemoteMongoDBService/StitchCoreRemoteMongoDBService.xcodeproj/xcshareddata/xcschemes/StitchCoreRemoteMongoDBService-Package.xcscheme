@@ -14,34 +14,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "StitchCoreRemoteMongoDBService::StitchCoreRemoteMongoDBService"
-               BuildableName = "StitchCoreRemoteMongoDBService.framework"
-               BlueprintName = "StitchCoreRemoteMongoDBService"
-               ReferencedContainer = "container:StitchCoreRemoteMongoDBService.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "MockUtils::MockUtils"
-               BuildableName = "MockUtils.framework"
-               BlueprintName = "MockUtils"
-               ReferencedContainer = "container:StitchCoreRemoteMongoDBService.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "StitchCoreSDK::StitchCoreSDKMocks"
                BuildableName = "StitchCoreSDKMocks.framework"
                BlueprintName = "StitchCoreSDKMocks"
@@ -70,9 +42,37 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "StitchCoreRemoteMongoDBService::StitchCoreRemoteMongoDBService"
+               BuildableName = "StitchCoreRemoteMongoDBService.framework"
+               BlueprintName = "StitchCoreRemoteMongoDBService"
+               ReferencedContainer = "container:StitchCoreRemoteMongoDBService.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "StitchCoreSDK::StitchCoreSDK"
                BuildableName = "StitchCoreSDK.framework"
                BlueprintName = "StitchCoreSDK"
+               ReferencedContainer = "container:StitchCoreRemoteMongoDBService.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "MockUtils::MockUtils"
+               BuildableName = "MockUtils.framework"
+               BlueprintName = "MockUtils"
                ReferencedContainer = "container:StitchCoreRemoteMongoDBService.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -111,9 +111,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "StitchCoreRemoteMongoDBService::StitchCoreRemoteMongoDBService"
-            BuildableName = "StitchCoreRemoteMongoDBService.framework"
-            BlueprintName = "StitchCoreRemoteMongoDBService"
+            BlueprintIdentifier = "StitchCoreSDK::StitchCoreSDKMocks"
+            BuildableName = "StitchCoreSDKMocks.framework"
+            BlueprintName = "StitchCoreSDKMocks"
             ReferencedContainer = "container:StitchCoreRemoteMongoDBService.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

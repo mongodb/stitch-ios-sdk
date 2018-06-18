@@ -28,9 +28,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBService"
-               BuildableName = "StitchCoreLocalMongoDBService.framework"
-               BlueprintName = "StitchCoreLocalMongoDBService"
+               BlueprintIdentifier = "StitchCoreSDK::StitchCoreSDK"
+               BuildableName = "StitchCoreSDK.framework"
+               BlueprintName = "StitchCoreSDK"
                ReferencedContainer = "container:StitchCoreLocalMongoDBService.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -42,9 +42,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "StitchCoreSDK::StitchCoreSDK"
-               BuildableName = "StitchCoreSDK.framework"
-               BlueprintName = "StitchCoreSDK"
+               BlueprintIdentifier = "StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBService"
+               BuildableName = "StitchCoreLocalMongoDBService.framework"
+               BlueprintName = "StitchCoreLocalMongoDBService"
                ReferencedContainer = "container:StitchCoreLocalMongoDBService.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

@@ -6,7 +6,8 @@ MODULES=(
     "StitchCoreAWSSESService:Core/Services/StitchCoreAWSSESService/Sources/StitchCoreAWSSESService"
     "StitchCoreFCMService:Core/Services/StitchCoreFCMService/Sources/StitchCoreFCMService"
     "StitchCoreHTTPService:Core/Services/StitchCoreHTTPService/Sources/StitchCoreHTTPService"
-    "StitchCoreRemoteMongoDBService:Core/Services/StitchCoreRemoteMongoDBService/Sources/StitchCoreRemoteMongoDBService"
+    "StitchCoreHTTPService:Core/Services/StitchCoreHTTPService/Sources/StitchCoreHTTPService"
+    "StitchCoreTwilioService:Core/Services/StitchCoreTwilioService/Sources/StitchCoreTwilioService"
     "StitchCoreLocalMongoDBService:Core/Services/StitchCoreLocalMongoDBService/Sources/StitchCoreLocalMongoDBService"
 
     "StitchCore:iOS/StitchCore/StitchCore"
@@ -15,11 +16,12 @@ MODULES=(
     "StitchFCMService:iOS/Services/StitchFCMService/StitchFCMService"
     "StitchHTTPService:iOS/Services/StitchHTTPService/StitchHTTPService"
     "StitchRemoteMongoDBService:iOS/Services/StitchRemoteMongoDBService/StitchRemoteMongoDBService"
+    "StitchTwilioService:iOS/Services/StitchTwilioService/StitchTwilioService"
     "StitchLocalMongoDBService:iOS/Services/StitchLocalMongoDBService/StitchLocalMongoDBService"
 )
 
 log_i() {
-    printf "\033[1;35m$1\033[0m\n"
+    printf "\033[1;36m$1\033[0m\n"
 }
 
 sanitize_imports() (
@@ -48,3 +50,5 @@ for ((i=0; i < "${#MODULES[@]}"; i++)) ; do
     cp -r $module_path/* SDK/$module_name
     sanitize_imports SDK/$module_name
 done
+
+rm -rf SDK

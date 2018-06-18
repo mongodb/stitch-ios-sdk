@@ -1,5 +1,3 @@
-
-  
 Pod::Spec.new do |spec|
   spec.name       = "StitchSDK"
   spec.version    = "4.0.0-beta0"
@@ -22,7 +20,7 @@ Pod::Spec.new do |spec|
   spec.ios.deployment_target = "11.3"
   spec.swift_version = "4.1"
   spec.requires_arc = true
-  # spec.default_subspec = 'StitchSDK'
+  spec.default_subspec = 'StitchSDK'
   
   spec.prepare_command = 'sh build.sh; sh prep_pods.sh;'
   
