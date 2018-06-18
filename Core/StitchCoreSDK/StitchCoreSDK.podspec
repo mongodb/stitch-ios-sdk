@@ -23,7 +23,9 @@ Pod::Spec.new do |spec|
     
     spec.prepare_command = <<-CMD
       sh download_sdk.sh
-      sh prep_pods.sh --module=#{spec.name}
+      sh prep_pods.sh \
+        --module=#{spec.name} \
+        --sources=Sources/#{spec.name}
     CMD
 
     spec.pod_target_xcconfig = {
@@ -62,8 +64,19 @@ Pod::Spec.new do |spec|
 
     spec.exclude_files = "dist/**/*{Exports}.swift"
   
-    spec.source_files = ["dist/#{spec.name}/**/*.swift", "vendor/Sources/MongoSwift/**/*.swift"]
+    spec.source_files = "dist/#{spec.name}/**/*.swift"
     libs = ["vendor/MobileSDKs/iphoneos/lib/libmongoc-1.0.dylib", "vendor/MobileSDKs/iphoneos/lib/libbson-1.0.dylib"]
     spec.ios.vendored_library = libs
     spec.tvos.vendored_library = libs
+
+    spec.subspec "MongoSwift" do |mongo_swift|
+      libs = [
+        "vendor/MobileSDKs/iphoneos/lib/libmongoc-1.0.dylib", 
+        "vendor/MobileSDKs/iphoneos/lib/libbson-1.0.dylib"
+      ]
+      mongo_swift.ios.vendored_library = libs
+      mongo_swift.tvos.vendored_library = libs
+
+      mongo_swift.source_files = "vendor/Sources/MongoSwift/**/*.swift"
+    end
 end
