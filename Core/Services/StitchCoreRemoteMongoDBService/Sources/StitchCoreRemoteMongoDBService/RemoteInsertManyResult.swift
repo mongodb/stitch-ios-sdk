@@ -15,6 +15,7 @@ public struct RemoteInsertManyResult: Decodable {
         self.insertedIds = inserted
     }
     
+    /// :nodoc:
     public init(from decoder: Decoder) throws {
         let doc = try decoder.singleValueContainer().decode(Document.self)
         guard let insertedIdsArray = doc[CodingKeys.insertedIds.rawValue] as? [BsonValue] else {

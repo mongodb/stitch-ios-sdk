@@ -24,40 +24,40 @@ public protocol StitchAuth {
     // swiftlint:disable line_length
 
     /**
-     * Retrieves the authenticated authentication provider client associated with the authentication provider type
-     * specified in the argument.
+     * Retrieves the authenticated authentication provider client for the authentication provider associated with the
+     * specified factory.
      *
      * - parameters:
-     *     - forFactory: The authentication provider conforming to `AuthProviderClientFactory` which will provide the
-     *                   client for this authentication provider. Use the `clientFactory` field of the desired
-     *                   authentication provider class.
+     *     - forFactory: The `AuthProviderClientFactory` which will provide the client for this authentication
+     *                   provider. Each authentication provider that has extra functionality beyond logging in/linking
+     *                   will offer a static factory which can be used for this method.
+     *
      * - returns: an authentication provider client whose type is determined by the `Client` typealias in the type
      *            specified in the `forFactory` parameter.
-     * - throws: A Stitch client error if the client is not currently authenticated.
      */
-    func providerClient<Factory: AuthProviderClientFactory>(forFactory factory: Factory) throws -> Factory.ClientT where Factory.RequestClientT == StitchAuthRequestClient
+    func providerClient<Factory: AuthProviderClientFactory>(forFactory factory: Factory) -> Factory.ClientT where Factory.RequestClientT == StitchAuthRequestClient
 
     /**
-     * Retrieves the authentication provider client associated with the authentication provider type specified in the
-     * argument.
+     * Retrieves the authentication provider client for the authentication provider associated with the specified
+     * factory.
      *
      * - parameters:
-     *     - forFactory: The authentication provider conforming to `AuthProviderClientFactory` which will provide the
-     *                   client for this authentication provider. Use the `clientFactory` field of the desired
-     *                   authentication provider class.
+     *     - forFactory: The `AuthProviderClientFactory` which will provide the client for this authentication
+     *                   provider. Each authentication provider that has extra functionality beyond logging in/linking
+     *                   will offer a static factory which can be used for this method.
      * - returns: an authentication provider client whose type is determined by the `Client` typealias in the type
      *            specified in the `forFactory` parameter.
      */
     func providerClient<Factory: AuthProviderClientFactory>(forFactory factory: Factory) -> Factory.ClientT where Factory.RequestClientT == StitchRequestClient
 
     /**
-     * Retrieves the authentication provider client associated with the authentication provider with the specified name
-     * and type.
+     * Retrieves the authenticated authentication provider client for the authentication provider associated with the
+     * specified name and factory.
      *
      * - parameters:
-     *     - forFactory: The authentication provider conforming to `NamedAuthProviderClientFactory` which will
-     *                   provide the client for this authentication provider. Use the `namedClientFactory` field of
-     *                   the desired authentication provider class.
+     *     - forFactory: The `NamedAuthProviderClientFactory` which will provide the client for this authentication
+     *                   provider. Each named authentication provider that has extra functionality beyond
+     *                   logging in/linking will offer a static factory which can be used for this method.
      *     - withName: The name of the authentication provider as defined in the MongoDB Stitch application.
      * - returns: an authentication provider client whose type is determined by the `Client` typealias in the type
      *            specified in the `forFactory` parameter.
@@ -70,10 +70,9 @@ public protocol StitchAuth {
      * Authenticates the client as a MongoDB Stitch user using the provided `StitchCredential`.
      *
      * - parameters:
-     *     - withCredential: The `StitchCredential` used to authenticate the
-     *                       client. Credentials can be retrieved from an
-     *                       authentication provider client, which is retrieved
-     *                       using the `providerClient` method.
+     *     - withCredential: The `StitchCredential` used to authenticate the client as a particular user. Each
+     *                       authentication provider has an implementation of `StitchCredential` that can be used with
+     *                       this method.
      *     - completionHandler: The completion handler to call when the login is complete.
      *                          This handler is executed on a non-main global `DispatchQueue`. If the operation is
      *                          successful, the result will contain a `StitchUser` object representing the user that

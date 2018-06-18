@@ -21,6 +21,7 @@
             "Stitch",
             "StitchAppClient",
             "StitchAuth",
+            "StitchAuthDelegate",
             "StitchPush",
             "StitchUser",
             "StitchUserProfile",
@@ -32,8 +33,7 @@
         "children": [
             "StitchAppClientConfiguration",
             "StitchAppClientConfigurationBuilder",
-            "StitchAppClientConfigurationError",
-            "StitchClientConfigurationError"
+            "StitchAppClientConfigurationError"
         ]
     }, {
         "name": "Handling Errors",
@@ -43,11 +43,6 @@
             "StitchRequestErrorCode",
             "StitchClientErrorCode",
             "StitchInitializationError"
-        ]
-    }, {
-        "name": "Delegates",
-        "children": [
-            "StitchAuthDelegate"
         ]
     }, {
         "name": "Authentication Providers",
@@ -129,6 +124,16 @@
         "children": [
             "twilioServiceClientFactory",
             "TwilioServiceClient"
+        ]
+    }, {
+        "name": "Miscellaneous",
+        "children": [
+            "StitchCredential",
+            "StitchProviderType",
+            "ExtendedStitchUserProfile",
+            "AuthProviderClientFactory",
+            "NamedAuthProviderClientFactory",
+            "ProviderCapabilities"
         ]
     }]
 }

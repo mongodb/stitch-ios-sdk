@@ -15,10 +15,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Initialize MongoDB Stitch and its default app client
         do {
             try Stitch.initialize()
-            _ = try Stitch.initializeDefaultAppClient(
-                withConfigBuilder: StitchAppClientConfigurationBuilder()
-                    .with(clientAppID: "stitch-tests-ios-sdk-jjmum")
+            
+            _ = try Stitch.initializeDefaultAppClient(withConfigBuilder:
+                StitchAppClientConfigurationBuilder.forApp(withClientAppID: "stitch-tests-ios-sdk-jjmum")
             )
+            
+//            _ = try Stitch.initializeDefaultAppClient(
+//                withConfigBuilder: StitchAppClientConfigurationBuilder()
+//                    .with(clientAppID: "stitch-tests-ios-sdk-jjmum")
+//            )
             return true
         } catch {
             print("Failed to initialize MongoDB Stitch iOS SDK: \(error.localizedDescription)")

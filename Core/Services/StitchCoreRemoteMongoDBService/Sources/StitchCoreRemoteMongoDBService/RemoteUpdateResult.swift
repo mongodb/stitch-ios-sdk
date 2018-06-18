@@ -19,6 +19,7 @@ public struct RemoteUpdateResult: Decodable {
     }
     
     // Workaround until SWIFT-104 is merged, which will make BsonValue `Decodable`
+    /// :nodoc:
     public init(from decoder: Decoder) throws {
         let document = try decoder.singleValueContainer().decode(Document.self)
         guard let matched = document[CodingKeys.matchedCount.rawValue] as? Int,

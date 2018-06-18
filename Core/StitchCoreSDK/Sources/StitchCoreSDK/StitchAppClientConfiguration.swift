@@ -45,7 +45,8 @@ public enum StitchAppClientConfigurationError: Error {
 }
 
 /**
- * A builder that can build a `StitchAppClientConfiguration` object.
+ * A builder that can build a `StitchAppClientConfiguration` object. Use this class to prepare a builder to pass into
+ * client initialization methods on the `Stitch` utility class.
  */
 public class StitchAppClientConfigurationBuilder: StitchClientConfigurationBuilder {
     public internal(set) var clientAppID: String?
@@ -142,6 +143,12 @@ public class StitchAppClientConfigurationBuilder: StitchClientConfigurationBuild
         return self
     }
     
+    /**
+     * Builds a `StitchAppClientConfiguration` with the builder's specified settings.
+     *
+     * - important: The `Stitch` utility class accepts a builder for its client initialization methods so that it can
+     *   can add defaults for various internal properties, so in most cases you do not need to call this method.
+     */
     public override func build() throws -> StitchAppClientConfiguration {
         guard let clientAppID = self.clientAppID else {
             throw StitchAppClientConfigurationError.missingClientAppID

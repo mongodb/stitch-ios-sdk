@@ -56,6 +56,7 @@ public class StitchClientConfiguration {
 }
 
 /**
+ * :nodoc:
  * An error that a Stitch client configuration can throw if it is missing certain properties.
  */
 public enum StitchClientConfigurationError: Error {

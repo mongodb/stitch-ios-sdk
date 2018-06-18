@@ -73,9 +73,8 @@ public protocol ExtendedStitchUserProfile {
 }
 
 /**
- * The set of properties that describe a MongoDB Stitch user. See
- * the documentation of the inherited protocols for details about
- * these properties.
+ * The set of properties that describe a MongoDB Stitch user. See the documentation for `ExtendedStitchUserProfile` to
+ * see the additional fields available on this type.
  */
 public protocol StitchUserProfile: ExtendedStitchUserProfile {
     /**
@@ -89,9 +88,7 @@ public protocol StitchUserProfile: ExtendedStitchUserProfile {
      */
     var identities: [StitchUserIdentity] { get }
     
-    /**
-     * An object containing extra metadata about the user as supplied by the authentication provider.
-     */
+    /// :nodoc:
     var data: APIExtendedUserProfileImpl { get }
 }
 

@@ -5,6 +5,18 @@ import MongoSwift
  * using the Custom authentication provider.
  */
 public struct CustomCredential: StitchCredential {
+    // MARK: Initializer
+    
+    /**
+     * Initializes this credential with the name of the provider, and a JWT.
+     */
+    public init(withProviderName providerName: String = providerType.name, withToken token: String) {
+        self.providerName = providerName
+        self.token = token
+    }
+
+    // MARK: Properties
+    
     /**
      * The name of the provider for this credential.
      */
@@ -32,12 +44,4 @@ public struct CustomCredential: StitchCredential {
      * The JWT contained within this credential.
      */
     public let token: String
-
-    /**
-     * Initializes this credential with the name of the provider, and a JWT.
-     */
-    public init(withProviderName providerName: String = providerType.name, withToken token: String) {
-        self.providerName = providerName
-        self.token = token
-    }
 }

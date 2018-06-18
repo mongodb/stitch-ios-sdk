@@ -71,7 +71,9 @@ public struct FCMSendMessageNotification: Encodable {
     public let badge: String?
 }
 
-
+/**
+ * A builder class which can be used to prepare the notification inside of an FCM send message request.
+ */
 public class FCMSendMessageNotificationBuilder {
     internal var title: String?
     internal var body: String?

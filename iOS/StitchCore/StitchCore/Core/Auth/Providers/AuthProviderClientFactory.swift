@@ -3,7 +3,8 @@ import StitchCoreSDK
 
 /**
  * A protocol defining methods necessary to provide an authentication provider client.
- * This protocol is not to be inherited except internally within the StitchCore module.
+ * This protocol is not to be inherited except internally. Each authentication provider with a client offers a static
+ * factory implementing this protocol.
  */
 public protocol AuthProviderClientFactory {
     /**
@@ -25,4 +26,4 @@ public protocol AuthProviderClientFactory {
     func client(withRequestClient requestClient: RequestClientT,
                 withRoutes routes: StitchAuthRoutes,
                 withDispatcher dispatcher: OperationDispatcher) -> ClientT
-} 
+}

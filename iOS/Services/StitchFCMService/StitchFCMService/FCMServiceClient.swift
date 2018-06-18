@@ -15,7 +15,8 @@ private final class FCMNamedServiceClientFactory: NamedServiceClientFactory {
 }
 
 /**
- * Global factory const which can be used to create a `FCMServiceClient` with a `StitchAppClient`.
+ * Global factory const which can be used to create a `FCMServiceClient` with a `StitchAppClient`. Pass into
+ * `StitchAppClient.serviceClient(forFactory:withName)` to get an `FCMServiceClient.
  */
 public let fcmServiceClientFactory =
     AnyNamedServiceClientFactory<FCMServiceClient>(factory: FCMNamedServiceClientFactory())

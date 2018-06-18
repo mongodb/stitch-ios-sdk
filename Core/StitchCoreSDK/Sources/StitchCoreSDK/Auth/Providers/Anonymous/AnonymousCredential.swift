@@ -5,6 +5,17 @@ import MongoSwift
  * using the anonymous authentication provider.
  */
 public struct AnonymousCredential: StitchCredential {
+    // MARK: Initializer
+    
+    /**
+     * Initializes this credential with the name of the provider.
+     */
+    public init(withProviderName providerName: String = providerType.name) {
+        self.providerName = providerName
+    }
+    
+    // MARK: Properties
+    
     /**
      * The name of the provider for this credential.
      */
@@ -23,13 +34,5 @@ public struct AnonymousCredential: StitchCredential {
     /**
      * The behavior of this credential when logging in.
      */
-    public var providerCapabilities: ProviderCapabilities =
-        ProviderCapabilities.init(reusesExistingSession: true)
-
-    /**
-     * Initializes this credential with the name of the provider.
-     */
-    public init(withProviderName providerName: String = providerType.name) {
-        self.providerName = providerName
-    }
+    public var providerCapabilities: ProviderCapabilities = ProviderCapabilities.init(reusesExistingSession: true)
 }

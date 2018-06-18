@@ -68,7 +68,7 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
      * - throws: A Stitch client error if the client is not currently authenticated.
      */
     func providerClient<Factory: AuthProviderClientFactory>(forFactory factory: Factory)
-        throws -> Factory.ClientT where Factory.RequestClientT == StitchAuthRequestClient {
+        -> Factory.ClientT where Factory.RequestClientT == StitchAuthRequestClient {
         return factory.client(withRequestClient: self,
                               withRoutes: self.authRoutes,
                               withDispatcher: self.dispatcher)

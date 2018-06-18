@@ -5,15 +5,17 @@ import Foundation
 /**
  * The fundamental set of methods for communicating with a MongoDB Stitch application.
  * Contains methods for executing Stitch functions and retrieving clients for Stitch services,
- * and contains a StitchAuth object to manage the authentication state of the client. An
- * implementation can be instantiated using the `Stitch` utility class.
+ * contains a `StitchAuth` object to manage the authentication state of the client, and contains a
+ * `StitchPush` object to register the current user for push notifications. An implementation can be instantiated using
+ * the `Stitch` utility class.
  */
 public protocol StitchAppClient {
 
     // MARK: Authentication
 
     /**
-     * The StitchAuth object representing the authentication state of this client.
+     * The StitchAuth object representing the authentication state of this client. Includes methods for logging in
+     * and logging out.
      *
      * - important: Authentication state can be persisted beyond the lifetime of an application.
      *              A StitchAppClient retrieved from the `Stitch` singleton may or may not be
@@ -24,18 +26,21 @@ public protocol StitchAppClient {
     // MARK: Push Notifications
 
     /**
-     * The push notifications component of the app. This is used for registering for push notifications.
+     * The push notifications component of the app. This is used for registering the currently signed in user for push
+     * notifications.
      */
     var push: StitchPush { get }
 
     // MARK: Services
 
     /**
-     * Retrieves the service client associated with the Stitch service with the specified name and type.
+     * Retrieves the service client for the Stitch service associated with the specified name and factory.
      *
      * - parameters:
      *     - forFactory: An `AnyNamedServiceClientFactory` object which contains a `NamedServiceClientFactory`
-     *                   class which will provide the client for this service.
+     *                   class which will provide the client for this service. Each available service has a static
+     *                   factory which can be used for this method.
+     *
      *     - withName: The name of the service as defined in the MongoDB Stitch application.
      * - returns: a service client whose type is determined by the `T` type parameter of the
      *            `AnyNamedServiceClientFactory` passed in the `forFactory` parameter.
@@ -43,22 +48,24 @@ public protocol StitchAppClient {
     func serviceClient<T>(forFactory factory: AnyNamedServiceClientFactory<T>, withName serviceName: String) -> T
 
     /**
-     * Retrieves the service client associated with the service type specified in the argument.
+     * Retrieves the service client for the Stitch service associated with the specificed factory.
      *
      * - parameters:
      *     - forFactory: An `AnyNamedServiceClientFactory` object which contains a `NamedServiceClientFactory`
-     *                   class which will provide the client for this service.
+     *                   class which will provide the client for this service. Each available service has a static
+     *                   factory which can be used for this method.
      * - returns: a service client whose type is determined by the `T` type parameter of the
      *            `AnyNamedServiceClientFactory` passed in the `forFactory` parameter.
      */
     func serviceClient<T>(forFactory factory: AnyNamedServiceClientFactory<T>) -> T
 
     /**
-     * Retrieves the service client associated with the service type specified in the argument.
+     * Retrieves the service client for the Stitch service associated with the service type with the specified factory.
      *
      * - parameters:
      *     - forFactory: An `AnyThrowingServiceClientFactory` object which contains a `ThrowingServiceClientFactory`
-     *                    class which will provide the client for this service.
+     *                   class which will provide the client for this service. Each available service has a static
+     *                   factory which can be used for this method.
      * - returns: a service client whose type is determined by the `T` type parameter of the
      *            `AnyThrowingServiceClientFactory` passed in the `forFactory` parameter.
      */
@@ -84,7 +91,7 @@ public protocol StitchAppClient {
     func callFunction<T: Decodable>(withName name: String, withArgs args: [BsonValue], _ completionHandler: @escaping (StitchResult<T>) -> Void)
 
     /**
-     * Calls the MongoDB Stitch function with the provided name and arguments.
+     * Calls the MongoDB Stitch function with the provided name and arguments, ignoring the result of the function.
      *
      * - parameters:
      *     - withName: The name of the Stitch function to be called.
@@ -112,8 +119,9 @@ public protocol StitchAppClient {
     func callFunction<T: Decodable>(withName name: String, withArgs args: [BsonValue], withRequestTimeout requestTimeout: TimeInterval, _ completionHandler: @escaping (StitchResult<T>) -> Void)
 
     /**
-     * Calls the MongoDB Stitch function with the provided name and arguments. Also accepts a timeout. Use this for
-     * functions that may run longer than the client-wide default timeout (15 seconds by default).
+     * Calls the MongoDB Stitch function with the provided name and arguments, ignoring the result of the function.
+     * Also accepts a timeout. Use this for functions that may run longer than the client-wide default timeout (15
+     * seconds by default).
      *
      * - parameters:
      *     - withName: The name of the Stitch function to be called.

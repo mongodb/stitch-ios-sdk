@@ -17,7 +17,8 @@ private final class AWSS3NamedServiceClientFactory: NamedServiceClientFactory {
 }
 
 /**
- * Global factory const which can be used to create an `AWSS3ServiceClient` with a `StitchAppClient`.
+ * Global factory const which can be used to create an `AWSS3ServiceClient` with a `StitchAppClient`. Pass into
+ * `StitchAppClient.serviceClient(forFactory:withName)` to get an `AWSS3ServiceClient.
  */
 public let awsS3ServiceClientFactory =
     AnyNamedServiceClientFactory<AWSS3ServiceClient>(factory: AWSS3NamedServiceClientFactory())

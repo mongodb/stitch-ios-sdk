@@ -3,7 +3,8 @@ import StitchCoreSDK
 
 /**
  * A protocol defining methods necessary to provide an authentication provider client for a named authentication
- * provider. This protocol is not to be inherited except internally within the StitchCore-iOS module.
+ * provider. This protocol is not to be inherited except internally within the StitchCore-iOS module. Each named
+ * authentication provider with a client offers a static factory implementing this protocol.
  */
 public protocol NamedAuthProviderClientFactory {
     /**

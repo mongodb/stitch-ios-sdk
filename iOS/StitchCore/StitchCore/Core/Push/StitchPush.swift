@@ -5,12 +5,13 @@ import Foundation
  */
 public protocol StitchPush {
     /**
-     * Gets a push client for the given named push service.
+     * Gets a push client for the push service associated with the specified name and factory.
      *
      * - parameters:
-     *     - factory: the factory that will create a client for the push service
+     *     - factory: The factory that will create a client for the push service. Each service that offers the
+     *                capability of registering for push notifications will offer a static factory.
      *     - serviceName: the name of the push service
-     * - returns: A client to interact with the push service
+     * - returns: A client to interact with the push service.
      */
     func client<T>(forFactory factory: AnyNamedPushClientFactory<T>, withName serviceName: String) -> T
 }

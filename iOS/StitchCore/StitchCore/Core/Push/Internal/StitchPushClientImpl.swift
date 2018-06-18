@@ -13,7 +13,8 @@ internal final class StitchPushClientImpl: CoreStitchPushClientImpl, StitchPushC
         super.init(requestClient: requestClient, routes: routes, serviceName: name)
     }
 
-    public func register(withRegistrationInfo registrationInfo: Document, _ completionHandler: @escaping (StitchResult<Void>) -> Void) {
+    public func register(withRegistrationInfo registrationInfo: Document,
+                         _ completionHandler: @escaping (StitchResult<Void>) -> Void) {
         self.dispatcher.run(withCompletionHandler: completionHandler) {
             try self.registerInternal(withRegistrationInfo: registrationInfo)
         }

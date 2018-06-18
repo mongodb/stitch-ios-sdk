@@ -43,6 +43,9 @@ public struct FCMSendMessageRequest: Encodable {
     public let notification: FCMSendMessageNotification?
 }
 
+/**
+ * A builder class which can be used to prepare an FCM send message request.
+ */
 public class FCMSendMessageRequestBuilder {
     internal var priority: FCMSendMessagePriority?
     internal var collapseKey: String?

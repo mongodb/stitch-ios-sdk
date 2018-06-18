@@ -16,7 +16,8 @@ private final class TwilioNamedServiceClientFactory: NamedServiceClientFactory {
 }
 
 /**
- * Global factory const which can be used to create a `TwilioServiceClient` with a `StitchAppClient`.
+ * Global factory const which can be used to create a `TwilioServiceClient` with a `StitchAppClient`. Pass into
+ * `StitchAppClient.serviceClient(forFactory:withName)` to get a `TwilioServiceClient.
  */
 public let twilioServiceClientFactory =
     AnyNamedServiceClientFactory<TwilioServiceClient>(factory: TwilioNamedServiceClientFactory())

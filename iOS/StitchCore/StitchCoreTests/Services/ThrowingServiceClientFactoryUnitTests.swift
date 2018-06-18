@@ -19,7 +19,7 @@ class ThrowingServiceClientFactoryUnitTests: BaseStitchIntTestCocoaTouch {
     var appClient: StitchAppClient!
 
     override func setUp() {
-        guard let client = try? Stitch.getDefaultAppClient() else {
+        guard let client = try? Stitch.defaultAppClient else {
             do {
                 try Stitch.initialize()
                 appClient = try? Stitch.initializeDefaultAppClient(

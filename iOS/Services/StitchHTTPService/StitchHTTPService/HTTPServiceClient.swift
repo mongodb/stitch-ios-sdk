@@ -16,7 +16,8 @@ private final class HTTPNamedServiceClientFactory: NamedServiceClientFactory {
 }
 
 /**
- * Global factory const which can be used to create an `HTTPServiceClient` with a `StitchAppClient`.
+ * Global factory const which can be used to create an `HTTPServiceClient` with a `StitchAppClient`. Pass into
+ * `StitchAppClient.serviceClient(forFactory:withName)` to get a `HTTPServiceClient.
  */
 public let httpServiceClientFactory =
     AnyNamedServiceClientFactory<HTTPServiceClient>(factory: HTTPNamedServiceClientFactory())

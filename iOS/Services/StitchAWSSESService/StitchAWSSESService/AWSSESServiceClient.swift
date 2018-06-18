@@ -16,7 +16,8 @@ private final class AWSSESNamedServiceClientFactory: NamedServiceClientFactory {
 }
 
 /**
- * Global factory const which can be used to create an `AWSSESServiceClient` with a `StitchAppClient`.
+ * Global factory const which can be used to create an `AWSSESServiceClient` with a `StitchAppClient`. Pass into
+ * `StitchAppClient.serviceClient(forFactory:withName)` to get an `AWSSESServiceClient.
  */
 public let awsSESServiceClientFactory =
     AnyNamedServiceClientFactory<AWSSESServiceClient>(factory: AWSSESNamedServiceClientFactory())

@@ -7,16 +7,12 @@ public struct UserAPIKey: Decodable {
     enum CodingKeys: String, CodingKey {
         case id = "_id", key, name, disabled
     }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-
-        self.id = try ObjectId.init(fromString: container.decode(String.self, forKey: .id))
-        self.key = try container.decodeIfPresent(String.self, forKey: .key)
-        self.name = try container.decode(String.self, forKey: .name)
-        self.disabled = try container.decode(Bool.self, forKey: .disabled)
-    }
     
+    // MARK: Initializers
+    
+    /**
+     * Initializes the API key from its properties.
+     */
     public init(id: ObjectId,
                 key: String?,
                 name: String,
@@ -26,9 +22,24 @@ public struct UserAPIKey: Decodable {
         self.name = name
         self.disabled = disabled
     }
+    
+    /**
+     * :nodoc:
+     * Initializes the API from a decoder.
+     */
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        self.id = try ObjectId.init(fromString: container.decode(String.self, forKey: .id))
+        self.key = try container.decodeIfPresent(String.self, forKey: .key)
+        self.name = try container.decode(String.self, forKey: .name)
+        self.disabled = try container.decode(Bool.self, forKey: .disabled)
+    }
+    
+    // MARK: Properties
 
     /**
-     * The id of the key.
+     * The ID of the key.
      */
     public let id: ObjectId
 

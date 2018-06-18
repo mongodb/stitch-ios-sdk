@@ -5,6 +5,19 @@ import MongoSwift
  * using the Server API Key authentication provider.
  */
 public struct ServerAPIKeyCredential: StitchCredential {
+    // MARK: Initializer
+    
+    /**
+     * Initializes this credential with the name of the provider, and a server API key.
+     */
+    public init(withProviderName providerName: String = providerType.name,
+                withKey key: String) {
+        self.providerName = providerName
+        self.key = key
+    }
+
+    // MARK: Properties
+    
     /**
      * The name of the provider for this credential.
      */
@@ -32,13 +45,4 @@ public struct ServerAPIKeyCredential: StitchCredential {
      * The server API key contained within this credential.
      */
     public let key: String
-
-    /**
-     * Initializes this credential with the name of the provider, and a server API key.
-     */
-    public init(withProviderName providerName: String = providerType.name,
-                withKey key: String) {
-        self.providerName = providerName
-        self.key = key
-    }
 }

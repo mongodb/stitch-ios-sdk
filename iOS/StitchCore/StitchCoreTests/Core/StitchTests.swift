@@ -16,12 +16,7 @@ class StitchTests: XCTestCase {
     }
 
     func testDataDirectoryInitialization() {
-        var client: StitchAppClient!
-        do {
-            try client = Stitch.getDefaultAppClient()
-        } catch {
-            XCTFail("No default app client initialized")
-        }
+        let client: StitchAppClient! = Stitch.defaultAppClient
 
         guard let clientImpl = client as? StitchAppClientImpl else {
             XCTFail("App client is not a StitchAppClientImpl")

@@ -1,20 +1,26 @@
-# [![](https://www.rosehosting.com/blog/wp-content/uploads/2014/12/mongodb-50x50.png)Stitch](https://mongodb.com/cloud/stitch)
-
 [![Join the chat at https://gitter.im/mongodb/stitch](https://badges.gitter.im/mongodb/stitch.svg)](https://gitter.im/mongodb/stitch?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) ![iOS](https://img.shields.io/badge/platform-iOS-blue.svg) [![Swift 4.0](https://img.shields.io/badge/swift-4.0-orange.svg)](https://developer.apple.com/swift/) ![Apache 2.0 License](https://img.shields.io/badge/license-Apache%202-lightgrey.svg) [![Cocoapods compatible](https://img.shields.io/badge/pod-v1.0.0-ff69b4.svg)](#Cocoapods)
 
-[MongoDB Stitch Users - Google Group](https://groups.google.com/d/forum/mongodb-stitch-users)
+# MongoDB Stitch iOS/Swift SDK 
 
-[MongoDB Stitch Announcements - Google Group](https://groups.google.com/d/forum/mongodb-stitch-announce)
+The official [MongoDB Stitch](https://stitch.mongodb.com/) SDK for iOS/Swift.
 
-## Creating a new app with the iOS SDK
+### Index
+- [Documentation](#documentation)
+- [Discussion](#discussion)
+- [Installation](#installation)
+- [Example Usage](#example-usage)
 
-### Set up an application on Stitch
-1. Go to https://stitch.mongodb.com/ and log in
-2. Create a new app with your desired name
-3. Take note of the app's client App ID by going to Clients under Platform in the side pane
-4. Go to Authentication under Control in the side pane and enable "Allow users to log in anonymously"
+## Documentation
+* [API/Jazzy Documentation](https://s3.amazonaws.com/stitch-sdks/android/docs/4.0.0/index.html)
+* [MongoDB Stitch Documentation](https://docs.mongodb.com/stitch/)
 
-### Set up a project in XCode using Stitch
+## Discussion
+* [MongoDB Stitch Users - Google Group](https://groups.google.com/d/forum/mongodb-stitch-users)
+* [MongoDB Stitch Announcements - Google Group](https://groups.google.com/d/forum/mongodb-stitch-announce)
+
+## Installation
+
+### XCode/iOS
 
 #### CocoaPods
 
@@ -58,9 +64,9 @@ $ pod install
 
 #### Manually
 
-If you prefer not to use any of the aforementioned dependency managers, you can integrate the iOS SDK into your project manually.
+// TODO: Update this to reflect the process once we've figured out Pods.
 
-#### Embedded Framework
+If you prefer not to use any of the aforementioned dependency managers, you can integrate the iOS SDK into your project manually as an embedded framework.
 
 - Open up Terminal, `cd` into your top-level project directory, and run the following command "if" your project is not initialized as a git repository:
 
@@ -102,136 +108,130 @@ If you prefer not to use any of the aforementioned dependency managers, you can 
 
 ---
 
-### Using the SDK
+## Example Usage
 
-#### Logging In
-1. To initialize our connection to Stitch, use the static `StitchClientFactory.create()` method to asynchronously create a `StitchClient` that can be used to make requests to Stitch.
+### Creating a new app with the SDK (iOS)
+
+#### Set up an application on Stitch
+1. Go to [https://stitch.mongodb.com/](https://stitch.mongodb.com/) and log in to MongoDB Atlas.
+2. Create a new app in your project with your desired name.
+3. Go to your app in Stitch via Atlas by clicking Stitch Apps in the left side pane and clicking your app.
+3. Copy your app's client app id by going to Clients on the left side pane and clicking copy on the App ID section.
+4. Go to Providers from Users in the left side pane and edit and enable "Allow users to log in anonymously".
+
+#### Set up a project in XCode/CocoaPods using Stitch
+
+1. Download and install [XCode](https://developer.apple.com/xcode/)
+2. Create a new app project with your desired name. Ensure that Swift is the selected language.
+3. Navigate to the directory of the project in a command line, and run `pod init`.
+4. In the `Podfile` that is generated, add the following line under the dependencies for your app target:
+```ruby
+    pod 'TODO_FIXME_StitchSDK', '~> 4.0.0'
+```
+5. Run `pod install`
+6. Open the generated `.xcworkspace` file
+7. Your app project will have all the necessary dependencies configured to communicate with MongoDB Stitch.
+
+#### Using the SDK
+
+#### Initialize the SDK
+1. When your app is initialized, run the following code to initialize the Stitch SDK. The [`application(_:didFinishLaunchWithOptions)`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1622921-application) method of your `AppDelegate.swift` can be an appropriate place for this initialization step.
+
+```swift
+    do {
+        try Stitch.initialize()
+        
+        _ = try Stitch.initializeDefaultAppClient(withConfigBuilder:
+            StitchAppClientConfigurationBuilder.forApp(withClientAppID: "your-client-app-id")
+        )
+    } catch {
+        print("Failed to initialize MongoDB Stitch iOS SDK: \(error.localizedDescription)")
+        // note: This initialization will only fail if an incomplete configuration is passed to a client initialization method,
+        // a client for a particular app ID is initialized multiple times. See the documentation of the "Stitch" class for more details.
+    }
+```
+
+2. To get a client to use for logging in and communicating with Stitch, use `Stitch.defaultAppClient`.
+```swift
+// in a view controller's properties, for example
+private lazy var stitchClient = Stitch.defaultAppClient!
+```
+
+##### Logging In
+1. Since we enabled anonymous log in, let's log in with; add the following anywhere in your code:
 
     ```swift
-    StitchClientFactory
-        .create(appId: "<your-client-app-id>")
-        .done { (client: StitchClient) in
-            // Perform requests to Stitch using the variable "client",
-            // or assign the value of the variable "client" to some
-            // property accessible outside this closure.
+    let client = Stitch.defaultAppClient!
 
-            // For example, if this is in a class which has a
-            // stored StitchClient property named "stitchClient":
-            self.stitchClient = client
-        }.cauterize()
+    print("logging in anonymously")
+    client.auth.login(withCredential: AnonymousCredential()) { result in
+            switch result {
+            case .success(let user):
+                print("logged in anonymous as user \(user.id)")
+                DispatchQueue.main.async {
+                    // update UI accordingly
+                }
+            case .failure(let error):
+                print("Failed to log in: \(error)")
+            }
+        }
     ```
 
-    This will only instantiate a client but will not make any outgoing connection to Stitch.
-
-2. For guidance on how to perform this initialization cleanly in the context of developing an iOS app, see the page [Initialize StitchClient](https://docs.mongodb.com/stitch/getting-started/init-stitchclient/#ios-sdk) in the MongoDB Stitch documentation.
-
-3. Since we enabled anonymous log in, let's log in with it; add the following after you've initialized your new `StitchClient`:
-
-	```swift
-	self.stitchClient.fetchAuthProviders().then { (authProviderInfo: AuthProviderInfo) in
-            if (authProviderInfo.anonymousAuthProviderInfo != nil) {
-                print("logging in anonymously")
-                return self.stitchClient.anonymousAuth()
-            } else {
-                print("no anonymous provider")
-            }
-        }.then { (userId: String) in
-            print("logged in anonymously as user \(userId)")
-        }.catch { error in
-            print("failed to log in anonymously: \(error)")
-        }
-	```
-
-4. Now run your app in XCode by going to product, Run (or hitting ⌘R).
-5. Once the app is running, open up the Debug Area by going to View, Debug Area, Show Debug Area.
-6. You should see log messages like:
+2. Now run your app in XCode by going to product, Run (or hitting ⌘R).
+3. Once the app is running, open up the Debug Area by going to View, Debug Area, Show Debug Area.
+4. You should see log messages like:
 
 	```
 	logging in anonymously                                                    	
 	logged in anonymously as user 58c5d6ebb9ede022a3d75050
 	```
 
-#### Executing a Function
+##### Executing a Function
 
 1. Once logged in, executing a function happens via the StitchClient's `executeFunction()` method
 
 	```swift
-    self.stitchClient
-        .executeFunction(name: "echoArg", args: "Hello world!")
-        .done { (echoedArg: Any) in
-            print(echoedArg as? String ?? "return value not a string")
-        }.catch { error in
-            print("Could not execute function: \(error)")
+        client.callFunction(
+            withName: "echoArg", withArgs: ["Hello world!"], withRequestTimeout: 5.0
+        ) { (result: StitchResult<String>) in
+            switch result {
+            case .success(let stringResult):
+                print("String result: \(stringResult)")
+            case .failure(let error):
+                print("Error retrieving String: \(String(describing: error))")
+            }
         }
 	```
 
 2. If you've configured your Stitch application to have a function named "echoArg" that returns its argument, you should see a message like:
 
 	```
-	Hello world!
+	String result: Hello world!
 	```
 
-#### Set up Push Notifications (GCM)
+##### Getting a StitchAppClient without Stitch.defaultAppClient
 
-##### Set up a GCM provider
-
-1. Create a Firebase Project
-2. Click Add Firebase to your iOS app
-3. Skip downloading the config file
-4. Skip adding the Firebase SDK
-5. Click the gear next to overview in your Firebase project and go to Project Settings
-6. Go to Cloud Messaging and take note of your Legacy server key and Sender ID
-7. In Stitch go to the Notifications section and enter in your API Key (legacy server key) and Sender ID
-
-##### Receive Push Notifications in iOS
-
-1. Currently, StitchGCM needs to be added as a submodule.
-
-2. To create a GCM Push Provider by asking Stitch, you must use the *getPushProviders* method and ensure a GCM provider exists:
+In the case that you don't want a single default initialized StitchAppClient by setting up the resource values, you can use the following with as many client app IDs as you'd like to initialize clients for a multiple app IDs:
 
 ```swift
-self.stitchClient.getPushProviders().done { (result: AvailablePushProviders) in
-    if let gcm = result.gcm {
-        let listener = MyGCMListener(gcmClient: StitchGCMPushClient(stitchClient: self.stitchClient, info: gcm))
-
-	StitchGCMContext.sharedInstance().application(application,
-						      didFinishLaunchingWithOptions: launchOptions,
-						      gcmSenderID: "<YOUR-GCM-SENDER-ID>",
-						      stitchGCMDelegate: listener)
+    do {
+        try Stitch.initialize()
+        
+        let client1 = try Stitch.initializeAppClient(withConfigBuilder:
+            StitchAppClientConfigurationBuilder.forApp(withClientAppID: "your-first-client-app-id")
+        )
+        let client2 = try Stitch.initializeAppClient(withConfigBuilder:
+            StitchAppClientConfigurationBuilder.forApp(withClientAppID: "your-second-client-app-id")
+        )
+    } catch {
+        print("Failed to initialize MongoDB Stitch iOS SDK: \(error.localizedDescription)")
     }
-}
 ```
 
-3. To begin listening for notifications, set your `StitchGCMDelegate` to the StitchGCMContext:
+You can use the client returned there or anywhere else in your app you can use the following:
+
 
 ```swift
-class MyGCMDelegate: StitchGCMDelegate {
-    let gcmClient: StitchGCMPushClient
-        
-    init(gcmClient: StitchGCMPushClient) {
-        self.gcmClient = gcmClient
-    }
-        
-    func didFailToRegister(error: Error) {
-            
-    }
-        
-    func didReceiveToken(registrationToken: String) {
-            
-    }
-        
-    func didReceiveRemoteNotification(application: UIApplication, 
-				      pushMessage: PushMessage,
-				      handler: ((UIBackgroundFetchResult) -> Void)? 
-									  
-    }
-}
-```
-
-4. To register for push notifications, use the *registerToken* method on your StitchClient:
-
-```swift
-func didReceiveToken(registrationToken: String) {
-    gcmClient.registerToken(token: registrationToken)
-}
+let client1 = try! Stitch.appClient(forAppID: "your-first-client-app-id")
+let client2 = try! Stitch.appClient(forAppID: "your-second-client-app-id")
 ```

@@ -1,7 +1,7 @@
 import Foundation
 
 /**
- * An enum representing the types of errors that may be thrown by the Stitch SDK.
+ * An enumeration representing the types of errors that may be thrown by the Stitch SDK.
  */
 public enum StitchError: Error {
     /**
