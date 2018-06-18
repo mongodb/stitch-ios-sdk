@@ -20,7 +20,7 @@ Pod::Spec.new do |spec|
     spec.swift_version = "4.1"
     spec.requires_arc = true
     
-    spec.prepare_command = "sh prep_pods.sh --module=#{spec.name}"
+    spec.prepare_command = "sh prep_pods.sh --module=#{spec.name} --sources=#{spec.name}"
 
     spec.exclude_files = "dist/**/*{Exports}.swift"
   
