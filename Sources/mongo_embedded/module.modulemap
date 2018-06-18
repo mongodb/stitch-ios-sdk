@@ -1,6 +1,0 @@
-module mongo_embedded [system] {
-    header "mongo_embedded.h"
-    link "mongo_embedded_capi"
-    link "mongo_embedded_mongoc_client"
-    export *
-}
