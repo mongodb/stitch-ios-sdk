@@ -49,7 +49,6 @@ sanitize_imports() (
             done
         fi
     done
-    cd ..
 )
 
 copy_module() {
