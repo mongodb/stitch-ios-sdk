@@ -85,7 +85,7 @@ for ((i=0; i < "${#MODULES[@]}"; i++)) ; do
     if [[ ! -z $MODULE ]]; then
         if [[ $module_name == $MODULE ]]; then
             copy_module $module_name $module_path
-            sanitize_imports $module_name
+            sanitize_imports $module_name $module_path
         fi
     else
         copy_module $module_name $module_path

@@ -21,7 +21,7 @@ Pod::Spec.new do |spec|
     spec.swift_version = "4.1"
     spec.requires_arc = true
     
-    spec.prepare_command = 'sh ../../download_sdk.sh; sh ../../prep_pods.sh --module=StitchCoreSDK --sources=Sources/StitchCoreSDK;'
+    spec.prepare_command = 'sh download_sdk.sh; sh prep_pods.sh --module=StitchCoreSDK;'
     
     spec.pod_target_xcconfig = {
       'OTHER_LDFLAGS[sdk=iphoneos*]' => '-rpath $(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/iphoneos/lib',
@@ -61,7 +61,7 @@ Pod::Spec.new do |spec|
 
     spec.exclude_files = "dist/**/*{Exports}.swift"
   
-    spec.source_files = ["dist/StitchCoreSDK/**/*.swift", "vendor/Sources/MongoSwift/**/*.swift"]
+    spec.source_files = ["dist/#{spec.name}/**/*.swift", "vendor/Sources/MongoSwift/**/*.swift"]
     libs = ["vendor/MobileSDKs/iphoneos/lib/libmongoc-1.0.dylib", "vendor/MobileSDKs/iphoneos/lib/libbson-1.0.dylib"]
     spec.ios.vendored_library = libs
     spec.tvos.vendored_library = libs
