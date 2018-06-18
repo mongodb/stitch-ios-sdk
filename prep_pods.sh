@@ -61,7 +61,6 @@ mkdir -p dist
 
 for i in "$@"
 do
-echo $i
 case $i in
     -m=*|--module=*)
     MODULE="${i#*=}"
@@ -81,13 +80,17 @@ case $i in
 esac
 done
 
+log_w "MODULE=$MODULE"
+log_w "SANITIZE_ALL=$SANITIZE_ALL"
+log_w "SOURCES=$SOURCES"
+
 for ((i=0; i < "${#MODULES[@]}"; i++)) ; do
     log_w "module var=$MODULE"
     module=${MODULES[$i]}
 
     module_name="${module%%:*}"
     module_path="${module#*:}"
-    if [[ ! -z $MODULE ]]; then
+    if [[ $SANITIZE_ALL=NO && ! -z $MODULE ]]; then
         if [[ $module_name == $MODULE ]]; then
             log_w "found module $MODULE"
             copy_module $module_name $module_path
