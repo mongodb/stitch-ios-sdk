@@ -105,9 +105,9 @@ Pod::Spec.new do |spec|
   spec.subspec "StitchCoreAWSSESService" do |core_aws_ses_service|    
     self.configure core_aws_ses_service
 
-    core_aws_s3_service.source_files = "SDK/StitchCoreAWSSESService/**/*.swift"
+    core_aws_ses_service.source_files = "SDK/StitchCoreAWSSESService/**/*.swift"
 
-    core_aws_s3_service.dependency 'StitchSDK/StitchCoreSDK'
+    core_aws_ses_service.dependency 'StitchSDK/StitchCoreSDK'
   end
 
   # pod "StitchSDK/core-services-http", "~> 4.0"
@@ -129,7 +129,7 @@ Pod::Spec.new do |spec|
   end
 
   # pod "StitchSDK/core-services-twilio", "~> 4.0"
-  spec.subspec "StitchCoreServicesTwilio" do |core_twilio_service|
+  spec.subspec "StitchCoreTwilioService" do |core_twilio_service|
     self.configure core_twilio_service
 
     core_twilio_service.source_files = "SDK/StitchCoreTwilioService/**/*.swift"
@@ -190,10 +190,10 @@ Pod::Spec.new do |spec|
   spec.subspec "StitchRemoteMongoDBService" do |remote_mongodb_service|
     self.configure remote_mongodb_service
 
-    http_service.source_files = "SDK/StitchRemoteMongoDBService/**/*.swift"
+    remote_mongodb_service.source_files = "SDK/StitchRemoteMongoDBService/**/*.swift"
 
-    http_service.dependency 'StitchSDK/StitchCore'
-    http_service.dependency 'StitchSDK/StitchCoreRemoteMongoDBService'
+    remote_mongodb_service.dependency 'StitchSDK/StitchCore'
+    remote_mongodb_service.dependency 'StitchSDK/StitchCoreRemoteMongoDBService'
   end
 
   # pod "StitchSDK/ios-services-twilio", "~> 4.0"
@@ -212,7 +212,7 @@ Pod::Spec.new do |spec|
     local_mongodb_service.source_files = "SDK/StitchLocalMongoDBService/**/*.swift"
 
     local_mongodb_service.dependency 'StitchSDK/StitchCore'
-    local_mongodb_service.dependency 'StitchSDK/StitchLocalMongoDBService'
+    local_mongodb_service.dependency 'StitchSDK/StitchCoreLocalMongoDBService'
   end
   
   # pod "StitchSDK/ios-sdk", "~> 4.0"

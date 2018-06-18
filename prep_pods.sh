@@ -4,7 +4,7 @@ MODULES=(
     "StitchCoreSDK:Core/StitchCoreSDK/Sources/StitchCoreSDK"
     "StitchCoreAWSS3Service:Core/Services/StitchCoreAWSS3Service/Sources/StitchCoreAWSS3Service"
     "StitchCoreAWSSESService:Core/Services/StitchCoreAWSSESService/Sources/StitchCoreAWSSESService"
-    "StitchCoreFCMService:Core/Services/StitchCoreFCMService/Sources/StitchFCMService"
+    "StitchCoreFCMService:Core/Services/StitchCoreFCMService/Sources/StitchCoreFCMService"
     "StitchCoreHTTPService:Core/Services/StitchCoreHTTPService/Sources/StitchCoreHTTPService"
     "StitchCoreRemoteMongoDBService:Core/Services/StitchCoreRemoteMongoDBService/Sources/StitchCoreRemoteMongoDBService"
     "StitchCoreLocalMongoDBService:Core/Services/StitchCoreLocalMongoDBService/Sources/StitchCoreLocalMongoDBService"
@@ -14,8 +14,8 @@ MODULES=(
     "StitchAWSSESService:iOS/Services/StitchAWSSESService/StitchAWSSESService"
     "StitchFCMService:iOS/Services/StitchFCMService/StitchFCMService"
     "StitchHTTPService:iOS/Services/StitchHTTPService/StitchHTTPService"
-    "StitchRemoteMongoDBService:Core/Services/StitchRemoteMongoDBService/StitchRemoteMongoDBService"
-    "StitchLocalMongoDBService:Core/Services/StitchLocalMongoDBService/StitchLocalMongoDBService"
+    "StitchRemoteMongoDBService:iOS/Services/StitchRemoteMongoDBService/StitchRemoteMongoDBService"
+    "StitchLocalMongoDBService:iOS/Services/StitchLocalMongoDBService/StitchLocalMongoDBService"
 )
 
 log_i() {
