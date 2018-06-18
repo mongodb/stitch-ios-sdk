@@ -54,13 +54,17 @@ copy_module() {
     local module_path=`[[ ! -z $SOURCES ]] && echo "$SOURCES" || echo "$2"`
 
     mkdir -p dist/$module_name
+
+    echo "$sources"
+    echo "$sanitized_path"
     cp -r $module_path/* dist/$module_name
 }
 
 mkdir -p dist
 
-for i in "$@"
+while [[ $# -gt 0 ]]
 do
+i="$1"
 case $i in
     -m=*|--module=*)
     MODULE="${i#*=}"
@@ -90,13 +94,14 @@ for ((i=0; i < "${#MODULES[@]}"; i++)) ; do
 
     module_name="${module%%:*}"
     module_path="${module#*:}"
-    if [[ $SANITIZE_ALL=NO && ! -z $MODULE ]]; then
+    if [[ $SANITIZE_ALL == NO && ! -z $MODULE ]]; then
         if [[ $module_name == $MODULE ]]; then
             log_w "found module $MODULE"
             copy_module $module_name $module_path
             sanitize_imports $module_name $module_path
+            break
         fi
-    else
+    elif [[ $SANITIZE_ALL == YES ]]; then
         log_w "sanitizing all modules"
         copy_module $module_name $module_path
         sanitize_imports $module_name $module_path

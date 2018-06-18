@@ -1,8 +1,8 @@
 
 Pod::Spec.new do |spec|
-    spec.name       = "StitchCoreSDK"
+    spec.name       = "StitchCoreAWSS3Service"
     spec.version    = "4.0.0-beta0"
-    spec.summary    = "Stitch Core Module"
+    spec.summary    = "Stitch Core AWS S3 Module"
     spec.homepage   = "https://github.com/jsflax/stitch-ios-sdk"
     spec.license    = "Apache2"
     spec.authors    = {
@@ -21,12 +21,8 @@ Pod::Spec.new do |spec|
     spec.swift_version = "4.1"
     spec.requires_arc = true
     
-    spec.prepare_command = <<-CMD
-      sh download_sdk.sh
-      echo "--module=#{spec.name}"
-      sh prep_pods.sh --module=#{spec.name}
-    CMD
-
+    spec.prepare_command = 'sh ../../download_sdk.sh; sh ../../prep_pods.sh --module=StitchCoreSDK --sources=Sources/StitchCoreSDK;'
+    
     spec.pod_target_xcconfig = {
       'OTHER_LDFLAGS[sdk=iphoneos*]' => '-rpath $(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/iphoneos/lib',
       'OTHER_LDFLAGS[sdk=iphonesimulator*]' => '-rpath $(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/iphoneos/lib',
@@ -65,8 +61,8 @@ Pod::Spec.new do |spec|
 
     spec.exclude_files = "dist/**/*{Exports}.swift"
   
-    spec.source_files = ["dist/#{spec.name}/**/*.swift", "vendor/Sources/MongoSwift/**/*.swift"]
-    libs = ["vendor/MobileSDKs/iphoneos/lib/libmongoc-1.0.dylib", "vendor/MobileSDKs/iphoneos/lib/libbson-1.0.dylib"]
-    spec.ios.vendored_library = libs
-    spec.tvos.vendored_library = libs
+    spec.source_files = "dist/#{spec.name}/**/*.swift"
+
+    spec.dependency 'StitchCoreSDK', '~> 4.0.0-beta0'
+    
 end
