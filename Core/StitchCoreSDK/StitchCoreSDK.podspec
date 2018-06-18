@@ -21,7 +21,10 @@ Pod::Spec.new do |spec|
     spec.swift_version = "4.1"
     spec.requires_arc = true
     
-    spec.prepare_command = 'sh download_sdk.sh; sh prep_pods.sh --module=StitchCoreSDK;'
+    spec.prepare_command = <<-CMD
+      sh download_sdk.sh
+      sh prep_pods.sh --module=StitchCoreSDK
+    CMD
     
     spec.pod_target_xcconfig = {
       'OTHER_LDFLAGS[sdk=iphoneos*]' => '-rpath $(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/iphoneos/lib',

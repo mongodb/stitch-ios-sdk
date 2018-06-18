@@ -21,7 +21,10 @@ Pod::Spec.new do |spec|
   spec.requires_arc = true
   spec.default_subspec = 'StitchSDK'
 
-  spec.prepare_command = 'sh download_sdk.sh --with_mobile; sh prep_pods.sh --sanitize_all;'
+  spec.prepare_command = <<-CMD
+    sh download_sdk.sh --with_mobile
+    sh prep_pods.sh --sanitize_all
+  CMD
 
   PTXC ||= {
       'OTHER_LDFLAGS[sdk=iphoneos*]' => '-rpath $(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/iphoneos/lib',

@@ -61,6 +61,7 @@ mkdir -p dist
 
 for i in "$@"
 do
+echo $i
 case $i in
     -m=*|--module=*)
     MODULE="${i#*=}"
