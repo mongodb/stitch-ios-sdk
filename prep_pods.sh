@@ -6,8 +6,8 @@ MODULES=(
     "StitchCoreAWSSESService:Core/Services/StitchCoreAWSSESService/Sources/StitchCoreAWSSESService"
     "StitchCoreFCMService:Core/Services/StitchCoreFCMService/Sources/StitchCoreFCMService"
     "StitchCoreHTTPService:Core/Services/StitchCoreHTTPService/Sources/StitchCoreHTTPService"
-    "StitchCoreHTTPService:Core/Services/StitchCoreHTTPService/Sources/StitchCoreHTTPService"
     "StitchCoreTwilioService:Core/Services/StitchCoreTwilioService/Sources/StitchCoreTwilioService"
+    "StitchCoreRemoteMongoDBService:Core/Services/StitchCoreRemoteMongoDBService/Sources/StitchCoreRemoteMongoDBService"
     "StitchCoreLocalMongoDBService:Core/Services/StitchCoreLocalMongoDBService/Sources/StitchCoreLocalMongoDBService"
 
     "StitchCore:iOS/StitchCore/StitchCore"
@@ -38,7 +38,7 @@ sanitize_imports() (
     done
 )
 
-mkdir -p SDK
+mkdir -p dist
 
 for ((i=0; i < "${#MODULES[@]}"; i++)) ; do
     module=${MODULES[$i]}
@@ -46,9 +46,8 @@ for ((i=0; i < "${#MODULES[@]}"; i++)) ; do
     module_name="${module%%:*}"
     module_path="${module#*:}"
 
-    mkdir -p SDK/$module_name
-    cp -r $module_path/* SDK/$module_name
-    sanitize_imports SDK/$module_name
+    mkdir -p dist/$module_name
+    cp -r $module_path/* dist/$module_name
+    sanitize_imports dist/$module_name
 done
 
-rm -rf SDK

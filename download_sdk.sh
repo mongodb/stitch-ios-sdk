@@ -132,4 +132,4 @@ if [ ! -d Core/StitchCoreSDK/StitchCoreSDK.xcodeproj ]; then
     make
 fi
 
-echo "done!";
+log_i "done building!";
