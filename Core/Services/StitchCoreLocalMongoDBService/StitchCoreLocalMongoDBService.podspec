@@ -15,7 +15,6 @@ Pod::Spec.new do |spec|
       :branch => "TestLove",
       :submodules => true
     }
-    puts "OMGOMG"+Dir.pwd
 
     spec.ios.deployment_target = "11.3"
     spec.swift_version = "4.1"
@@ -23,7 +22,9 @@ Pod::Spec.new do |spec|
     
     spec.prepare_command = <<-CMD
       sh download_sdk.sh --with_mobile
-      sh prep_pods.sh --module=#{spec.name}
+      sh prep_pods.sh \
+        --module=#{spec.name} \
+        --sources=Sources/#{spec.name}
     CMD
 
     spec.pod_target_xcconfig = {
