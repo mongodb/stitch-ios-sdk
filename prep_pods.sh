@@ -29,18 +29,21 @@ log_i() {
 sanitize_imports() (
     log_i "sanitizing $1"
 
-    local local_module_path=`[[ ! -z $SOURCES ]] && echo "$SOURCES" || echo "$1"`
+    local local_module_path=`[[ ! -z $SOURCES ]] && echo "$SOURCES" || echo "$2"`
+    local sources=`[[ ! -z $SOURCES ]] && echo "$SOURCES" || echo "$2"`
     find $local_module_path -type f -name '*.swift' | while read i; do
-        sed -i '' "/import MongoSwift/d" $i
+        sanitized_path="${i#*$sources/}"
+        sed -i '' "/import MongoSwift/d" dist/$1/$sanitized_path
         if [[ $SANITIZE_ALL == YES ]]; then
             for ((j=0; j < "${#MODULES[@]}"; j++)) ; do
                 module=${MODULES[$j]}
 
                 module_name="${module%%:*}"
-                sed -i '' "/import $module_name/d" $i
+                sed -i '' "/import $module_name/d" dist/$1/$i
             done
         fi
     done
+    cd ..
 )
 
 copy_module() {
@@ -79,7 +82,6 @@ for ((i=0; i < "${#MODULES[@]}"; i++)) ; do
 
     module_name="${module%%:*}"
     module_path="${module#*:}"
-
     if [[ ! -z $MODULE ]]; then
         if [[ $module_name == $MODULE ]]; then
             copy_module $module_name $module_path
@@ -87,7 +89,7 @@ for ((i=0; i < "${#MODULES[@]}"; i++)) ; do
         fi
     else
         copy_module $module_name $module_path
-        sanitize_imports $module_name
+        sanitize_imports $module_name $module_path
     fi
 done
 
