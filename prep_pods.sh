@@ -26,13 +26,19 @@ log_i() {
     printf "\033[1;36m$1\033[0m\n"
 }
 
+log_w() {
+    printf "\033[1;33m$1\033[0m\n"
+}
+
 sanitize_imports() (
     log_i "sanitizing $1"
 
     local local_module_path=`[[ ! -z $SOURCES ]] && echo "$SOURCES" || echo "$2"`
     local sources=`[[ ! -z $SOURCES ]] && echo "$SOURCES" || echo "$2"`
+    log_w "sources: $sources"
     find $local_module_path -type f -name '*.swift' | while read i; do
         sanitized_path="${i#*$sources/}"
+        log_w "sanitized path: $sanitized_path"
         sed -i '' "/import MongoSwift/d" dist/$1/$sanitized_path
         if [[ $SANITIZE_ALL == YES ]]; then
             for ((j=0; j < "${#MODULES[@]}"; j++)) ; do
@@ -87,6 +93,7 @@ for ((i=0; i < "${#MODULES[@]}"; i++)) ; do
             copy_module $module_name $module_path
             sanitize_imports $module_name $module_path
         fi
+        break
     else
         copy_module $module_name $module_path
         sanitize_imports $module_name $module_path
