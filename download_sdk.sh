@@ -86,6 +86,8 @@ download_and_combine() {
   fi
 }
 
+mkdir vendor && cd vendor
+
 # download module definitions for libmongoc/libbson
 [[ -d Sources/libbson ]] || git clone --depth 1 https://github.com/mongodb/swift-bson Sources/libbson
 [[ -d Sources/libmongoc ]] || git clone --depth 1 https://github.com/mongodb/swift-mongoc Sources/libmongoc
