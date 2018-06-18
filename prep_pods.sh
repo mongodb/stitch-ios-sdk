@@ -20,14 +20,16 @@ MODULES=(
     "StitchLocalMongoDBService:iOS/Services/StitchLocalMongoDBService/StitchLocalMongoDBService"
 )
 
-SANITIZE_ALL=NO
-
 log_i() {
     printf "\033[1;36m$1\033[0m\n"
 }
 
 log_w() {
     printf "\033[1;33m$1\033[0m\n"
+}
+
+log_e() {
+    printf "\033[1;31m$1\033[0m\n"
 }
 
 sanitize_imports() (
@@ -38,14 +40,6 @@ sanitize_imports() (
     find $local_module_path -type f -name '*.swift' | while read i; do
         sanitized_path="${i#*$sources/}"
         sed -i '' "/import MongoSwift/d" dist/$1/$sanitized_path
-        if [[ $SANITIZE_ALL == YES ]]; then
-            for ((j=0; j < "${#MODULES[@]}"; j++)) ; do
-                module=${MODULES[$j]}
-
-                module_name="${module%%:*}"
-                sed -i '' "/import $module_name/d" dist/$1/$sanitized_path
-            done
-        fi
     done
 )
 
@@ -55,8 +49,6 @@ copy_module() {
 
     mkdir -p dist/$module_name
 
-    echo "$sources"
-    echo "$sanitized_path"
     cp -r $module_path/* dist/$module_name
 }
 
@@ -70,13 +62,14 @@ case $i in
     MODULE="${i#*=}"
     shift # past argument=value
     ;;
-    -sA|--sanitize_all)
-    SANITIZE_ALL=YES
-    shift # past argument=value
-    ;;
     -s|--sources=*)
     SOURCES="${i#*=}"
     shift # past argument=value
+    ;;
+    -h|--help)
+    log_w "[-m|--module]=MODULE_NAME [-s|--sources]=RELATIVE_SOURCE_PATH"
+    exit 0
+    shift
     ;;
     *)
           # unknown option
@@ -84,27 +77,21 @@ case $i in
 esac
 done
 
-log_w "MODULE=$MODULE"
-log_w "SANITIZE_ALL=$SANITIZE_ALL"
-log_w "SOURCES=$SOURCES"
+if [[ -z $MODULE ]]; then 
+    log_e "must have module"
+    exit 1
+fi
+
+[[ -z $SOURCES ]] && log_w "no source path provided; using defaults"
 
 for ((i=0; i < "${#MODULES[@]}"; i++)) ; do
-    log_w "module var=$MODULE"
     module=${MODULES[$i]}
 
     module_name="${module%%:*}"
     module_path="${module#*:}"
-    if [[ $SANITIZE_ALL == NO && ! -z $MODULE ]]; then
-        if [[ $module_name == $MODULE ]]; then
-            log_w "found module $MODULE"
-            copy_module $module_name $module_path
-            sanitize_imports $module_name $module_path
-            break
-        fi
-    elif [[ $SANITIZE_ALL == YES ]]; then
-        log_w "sanitizing all modules"
+    if [[ $module_name == $MODULE ]]; then
         copy_module $module_name $module_path
         sanitize_imports $module_name $module_path
+        break
     fi
 done
-

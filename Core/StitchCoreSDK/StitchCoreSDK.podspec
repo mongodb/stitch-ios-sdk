@@ -23,7 +23,6 @@ Pod::Spec.new do |spec|
     
     spec.prepare_command = <<-CMD
       sh download_sdk.sh
-      echo "--module=#{spec.name}"
       sh prep_pods.sh --module=#{spec.name}
     CMD
 
@@ -40,10 +39,8 @@ Pod::Spec.new do |spec|
     
       'SWIFT_INCLUDE_PATHS' => [
         '"$(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/include"',
-        '"$(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/include/mongo/embedded-v1/"',
         '"$(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/include/libbson-1.0"',
         '"$(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/include/libmongoc-1.0"',
-        '"$(PODS_TARGET_SRCROOT)/vendor/Sources/mongo_embedded"',
         '"$(PODS_TARGET_SRCROOT)/vendor/Sources/libmongoc"',
         '"$(PODS_TARGET_SRCROOT)/vendor/Sources/libbson"',
       ].join(' ')

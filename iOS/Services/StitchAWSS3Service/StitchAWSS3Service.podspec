@@ -26,5 +26,6 @@ Pod::Spec.new do |spec|
   
     spec.source_files = "dist/#{spec.name}/**/*.swift"
 
-    spec.dependency 'StitchCoreSDK', '~> 4.0.0-beta0'
+    spec.dependency 'StitchCore', '~> 4.0.0-beta0'
+    spec.dependency 'StitchCoreAWSS3Service', '~> 4.0.0-beta0'
 end

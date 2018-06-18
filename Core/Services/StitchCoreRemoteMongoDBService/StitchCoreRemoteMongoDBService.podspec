@@ -22,7 +22,7 @@ Pod::Spec.new do |spec|
     
     spec.prepare_command = "sh prep_pods.sh --module=#{spec.name}"
 
-    spec.exclude_files = "dist/**/*{Exports}.swift"
+    # spec.exclude_files = "dist/**/*{Exports}.swift"
   
     spec.source_files = "dist/#{spec.name}/**/*.swift"
 
