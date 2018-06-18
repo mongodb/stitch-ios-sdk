@@ -457,7 +457,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         let id = ObjectId()
         
         service.callFunctionInternalWithDecodingMock.doReturn(
-            result: RemoteUpdateResult.init(matchedCount: 1, upsertedId: id),
+            result: RemoteUpdateResult.init(matchedCount: 1, modifiedCount: 1, upsertedId: id),
             forArg1: .any, forArg2: .any, forArg3: .any
         )
         
@@ -468,6 +468,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         var result = try coll.updateOne(filter: expectedFilter, update: expectedUpdate)
         
         XCTAssertEqual(1, result.matchedCount)
+        XCTAssertEqual(1, result.modifiedCount)
         XCTAssertEqual(id, result.upsertedId as? ObjectId)
         
         var (funcNameArg, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
@@ -492,6 +493,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         )
         
         XCTAssertEqual(1, result.matchedCount)
+        XCTAssertEqual(1, result.modifiedCount)
         XCTAssertEqual(id, result.upsertedId as? ObjectId)
         
         XCTAssertTrue(service.callFunctionInternalWithDecodingMock
@@ -537,7 +539,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         let id = ObjectId()
         
         service.callFunctionInternalWithDecodingMock.doReturn(
-            result: RemoteUpdateResult.init(matchedCount: 1, upsertedId: id),
+            result: RemoteUpdateResult.init(matchedCount: 1, modifiedCount: 1, upsertedId: id),
             forArg1: .any, forArg2: .any, forArg3: .any
         )
         
@@ -548,6 +550,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         var result = try coll.updateMany(filter: expectedFilter, update: expectedUpdate)
         
         XCTAssertEqual(1, result.matchedCount)
+        XCTAssertEqual(1, result.modifiedCount)
         XCTAssertEqual(id, result.upsertedId as? ObjectId)
         
         var (funcNameArg, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
@@ -572,6 +575,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         )
         
         XCTAssertEqual(1, result.matchedCount)
+        XCTAssertEqual(1, result.modifiedCount)
         XCTAssertEqual(id, result.upsertedId as? ObjectId)
         
         XCTAssertTrue(service.callFunctionInternalWithDecodingMock

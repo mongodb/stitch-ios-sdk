@@ -817,6 +817,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             switch result {
             case .success(let updateResult):
                 XCTAssertEqual(0, updateResult.matchedCount)
+                XCTAssertEqual(0, updateResult.modifiedCount)
                 XCTAssertNil(updateResult.upsertedId)
             case .failure:
                 XCTFail("unexpected error in update")
@@ -830,6 +831,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             switch result {
             case .success(let updateResult):
                 XCTAssertEqual(0, updateResult.matchedCount)
+                XCTAssertEqual(0, updateResult.modifiedCount)
                 XCTAssertNotNil(updateResult.upsertedId)
             case .failure:
                 XCTFail("unexpected error in update")
@@ -843,6 +845,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             switch result {
             case .success(let updateResult):
                 XCTAssertEqual(1, updateResult.matchedCount)
+                XCTAssertEqual(1, updateResult.modifiedCount)
                 XCTAssertNil(updateResult.upsertedId)
             case .failure:
                 XCTFail("unexpected error in update")
@@ -893,6 +896,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             switch result {
             case .success(let updateResult):
                 XCTAssertEqual(0, updateResult.matchedCount)
+                XCTAssertEqual(0, updateResult.modifiedCount)
                 XCTAssertNil(updateResult.upsertedId)
             case .failure:
                 XCTFail("unexpected error in update")
@@ -906,6 +910,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             switch result {
             case .success(let updateResult):
                 XCTAssertEqual(0, updateResult.matchedCount)
+                XCTAssertEqual(0, updateResult.modifiedCount)
                 XCTAssertNotNil(updateResult.upsertedId)
             case .failure:
                 XCTFail("unexpected error in update")
@@ -919,6 +924,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             switch result {
             case .success(let updateResult):
                 XCTAssertEqual(1, updateResult.matchedCount)
+                XCTAssertEqual(1, updateResult.modifiedCount)
                 XCTAssertNil(updateResult.upsertedId)
             case .failure:
                 XCTFail("unexpected error in update")
@@ -939,6 +945,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             switch result {
             case .success(let updateResult):
                 XCTAssertEqual(2, updateResult.matchedCount)
+                XCTAssertEqual(2, updateResult.modifiedCount)
                 XCTAssertNil(updateResult.upsertedId)
             case .failure:
                 XCTFail("unexpected error in update")
