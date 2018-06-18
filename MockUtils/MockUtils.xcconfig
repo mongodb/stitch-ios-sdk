@@ -1,0 +1,4 @@
+IPHONEOS_DEPLOYMENT_TARGET[sdk=iphoneos*]=8.0
+IPHONEOS_DEPLOYMENT_TARGET[sdk=iphonesimulator*]=8.0
+IPHONEOS_DEPLOYMENT_TARGET[sdk=appletvos*]=8.0
+IPHONEOS_DEPLOYMENT_TARGET[sdk=appletvsimulator*]=8.0
