@@ -1,4 +1,4 @@
-[![Join the chat at https://gitter.im/mongodb/stitch](https://badges.gitter.im/mongodb/stitch.svg)](https://gitter.im/mongodb/stitch?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) ![iOS](https://img.shields.io/badge/platform-iOS-blue.svg) [![Swift 4.0](https://img.shields.io/badge/swift-4.0-orange.svg)](https://developer.apple.com/swift/) ![Apache 2.0 License](https://img.shields.io/badge/license-Apache%202-lightgrey.svg) [![Cocoapods compatible](https://img.shields.io/badge/pod-v1.0.0-ff69b4.svg)](#Cocoapods)
+[![Join the chat at https://gitter.im/mongodb/stitch](https://badges.gitter.im/mongodb/stitch.svg)](https://gitter.im/mongodb/stitch?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) ![iOS](https://img.shields.io/badge/platform-iOS-blue.svg) [![Swift 4.0](https://img.shields.io/badge/swift-4.0-orange.svg)](https://developer.apple.com/swift/) ![Apache 2.0 License](https://img.shields.io/badge/license-Apache%202-lightgrey.svg) [![Cocoapods compatible](https://img.shields.io/badge/pod-v1.0.0-ff69b4.svg)](#CocoaPods)
 
 # MongoDB Stitch iOS/Swift SDK 
 
@@ -125,9 +125,11 @@ If you prefer not to use any of the aforementioned dependency managers, you can 
 2. Create a new app project with your desired name. Ensure that Swift is the selected language.
 3. Navigate to the directory of the project in a command line, and run `pod init`.
 4. In the `Podfile` that is generated, add the following line under the dependencies for your app target:
+
 ```ruby
     pod 'TODO_FIXME_StitchSDK', '~> 4.0.0'
 ```
+
 5. Run `pod install`
 6. Open the generated `.xcworkspace` file
 7. Your app project will have all the necessary dependencies configured to communicate with MongoDB Stitch.
@@ -146,68 +148,71 @@ If you prefer not to use any of the aforementioned dependency managers, you can 
         )
     } catch {
         print("Failed to initialize MongoDB Stitch iOS SDK: \(error.localizedDescription)")
-        // note: This initialization will only fail if an incomplete configuration is passed to a client initialization method,
-        // a client for a particular app ID is initialized multiple times. See the documentation of the "Stitch" class for more details.
+        // note: This initialization will only fail if an incomplete configuration is 
+        // passed to a client initialization method, or if a client for a particular 
+        // app ID is initialized multiple times. See the documentation of the "Stitch" 
+        // class for more details.
     }
 ```
 
 2. To get a client to use for logging in and communicating with Stitch, use `Stitch.defaultAppClient`.
+
 ```swift
-// in a view controller's properties, for example
-private lazy var stitchClient = Stitch.defaultAppClient!
+    // in a view controller's properties, for example
+    private lazy var stitchClient = Stitch.defaultAppClient!
 ```
 
 ##### Logging In
-1. Since we enabled anonymous log in, let's log in with; add the following anywhere in your code:
+1. We enabled anonymous log in, so let's log in with it; add the following anywhere in your code:
 
-    ```swift
-    let client = Stitch.defaultAppClient!
+```swift
+let client = Stitch.defaultAppClient!
 
-    print("logging in anonymously")
-    client.auth.login(withCredential: AnonymousCredential()) { result in
-            switch result {
-            case .success(let user):
-                print("logged in anonymous as user \(user.id)")
-                DispatchQueue.main.async {
-                    // update UI accordingly
-                }
-            case .failure(let error):
-                print("Failed to log in: \(error)")
+print("logging in anonymously")
+client.auth.login(withCredential: AnonymousCredential()) { result in
+        switch result {
+        case .success(let user):
+            print("logged in anonymous as user \(user.id)")
+            DispatchQueue.main.async {
+                // update UI accordingly
             }
+        case .failure(let error):
+            print("Failed to log in: \(error)")
         }
-    ```
+    }
+```
 
 2. Now run your app in XCode by going to product, Run (or hitting ⌘R).
 3. Once the app is running, open up the Debug Area by going to View, Debug Area, Show Debug Area.
 4. You should see log messages like:
 
-	```
-	logging in anonymously                                                    	
-	logged in anonymously as user 58c5d6ebb9ede022a3d75050
-	```
+```
+logging in anonymously                                                    	
+logged in anonymously as user 58c5d6ebb9ede022a3d75050
+```
 
 ##### Executing a Function
 
 1. Once logged in, executing a function happens via the StitchClient's `executeFunction()` method
 
-	```swift
-        client.callFunction(
-            withName: "echoArg", withArgs: ["Hello world!"], withRequestTimeout: 5.0
-        ) { (result: StitchResult<String>) in
-            switch result {
-            case .success(let stringResult):
-                print("String result: \(stringResult)")
-            case .failure(let error):
-                print("Error retrieving String: \(String(describing: error))")
-            }
+```swift
+    client.callFunction(
+        withName: "echoArg", withArgs: ["Hello world!"], withRequestTimeout: 5.0
+    ) { (result: StitchResult<String>) in
+        switch result {
+        case .success(let stringResult):
+            print("String result: \(stringResult)")
+        case .failure(let error):
+            print("Error retrieving String: \(String(describing: error))")
         }
-	```
+    }
+```
 
 2. If you've configured your Stitch application to have a function named "echoArg" that returns its argument, you should see a message like:
 
-	```
-	String result: Hello world!
-	```
+```
+String result: Hello world!
+```
 
 ##### Getting a StitchAppClient without Stitch.defaultAppClient
 

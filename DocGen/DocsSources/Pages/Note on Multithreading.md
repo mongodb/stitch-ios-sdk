@@ -1,4 +1,4 @@
-# Notes on Multithreading
+# Note on Multithreading
 
 Many of the functions in `StitchCore_iOS`, especially network requests, can inherently take a long time. For this reason, `StitchCore_iOS` automatically queues these potentially long-running operations on the default background `DispatchQueue` so they don't block the main thread.
 

@@ -12,8 +12,8 @@
     "custom_categories": [{
         "name": "Getting Started",
         "children": [
-            "Note on StitchCore Module",
-            "Notes on Multithreading"
+            "Note on Modules",
+            "Note on Multithreading"
         ]
     }, {
         "name": "Interacting with Stitch",
