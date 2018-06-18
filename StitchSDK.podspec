@@ -80,7 +80,7 @@ Pod::Spec.new do |spec|
     mongo_swift.ios.vendored_library = libs
     mongo_swift.tvos.vendored_library = libs
 
-    mongo_swift.source_files = "MongoSwift/Sources/MongoSwift/**/*.swift"
+    mongo_swift.source_files = "Sources/MongoSwift/**/*.swift"
   end
 
   # pod "StitchSDK/StitchCoreSDK", "~> 4.0"
