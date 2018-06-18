@@ -141,11 +141,5 @@ fastlane/Preview.html
 fastlane/screenshots
 fastlane/test_output
 
-MobileSDKs
-MongoSwift
-mongo_embedded
-/Sources
-Sources/libbson
-Sources/libmongoc
-Sources/mongo_embedded
 dist
+vendor

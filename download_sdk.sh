@@ -76,7 +76,7 @@ download_and_combine() {
 
     log_i "merging architectures into universal dylibs..."
     for lib in $variant_os_tmp/lib/*.dylib; do
-      base_lib=$(basename "$lib")
+      local base_lib=$(basename "$lib")
       lipo $variant_os_tmp/lib/${base_lib} $variant_simulator_tmp/lib/${base_lib} -output ${variant_os}/lib/${base_lib} -create
     done
 
@@ -86,7 +86,33 @@ download_and_combine() {
   fi
 }
 
-mkdir vendor && cd vendor
+mkdir -p vendor && cd vendor
+
+POSITIONAL=()
+WITH_MOBILE=NO
+SHOULD_MAKE=NO
+while [[ $# -gt 0 ]]
+do
+key="$1"
+
+case $key in
+    -wM|--with_mobile)
+    WITH_MOBILE=YES
+    shift # past argument
+    shift # past value
+    ;;
+    -m|--make)
+    SHOULD_MAKE=YES
+    shift # past argument
+    shift # past value
+    ;;
+    *)    # unknown option
+    POSITIONAL+=("$1") # save it in an array for later
+    shift # past argument
+    ;;
+esac
+done
+set -- "${POSITIONAL[@]}" # restore positional parameters
 
 # download module definitions for libmongoc/libbson
 [[ -d Sources/libbson ]] || git clone --depth 1 https://github.com/mongodb/swift-bson Sources/libbson
@@ -118,7 +144,13 @@ else
 fi
 
 # download MongoMobile
-if [ ! -d Core/Services/StitchCoreLocalMongoDBService/Sources/MongoMobile ]; then
+find ../ -type d -name "StitchCoreLocalMongoDBService" -print | grep -v "dist" | while read dir; do
+  if [[ $dir =~ "Sources/StitchCoreLocalMongoDBService"$ ]]; then
+    LOCAL_MONGO_DB_SERVICE=$dir
+  fi
+done
+
+if [[ $WITH_MOBILE == YES && ! -z $LOCAL_MONGO_DB_SERVICE && ! -d $LOCAL_MONGO_DB_SERVICE/MongoMobile ]]; then
     log_i "downloading MongoMobile"
     curl -L https://api.github.com/repos/mongodb/swift-mongo-mobile/tarball > mongo-mobile.tgz
     mkdir mongo-mobile
@@ -127,11 +159,14 @@ if [ ! -d Core/Services/StitchCoreLocalMongoDBService/Sources/MongoMobile ]; the
     cp -r mongo-mobile/Sources/mongo_embedded Sources/
     rm -rf mongo-mobile mongo-mobile.tgz
 else
-  low_w "skipping downloading MongoMobile"
+  log_w "skipping downloading MongoMobile"
 fi
 
-if [ ! -d Core/StitchCoreSDK/StitchCoreSDK.xcodeproj ]; then
+cd ..
+if [[ $SHOULD_MAKE == YES && ! -d Core/StitchCoreSDK/StitchCoreSDK.xcodeproj ]]; then
     make
+else
+  log_w "skipping make phase"
 fi
 
 log_i "done building!";

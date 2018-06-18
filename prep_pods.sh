@@ -20,6 +20,8 @@ MODULES=(
     "StitchLocalMongoDBService:iOS/Services/StitchLocalMongoDBService/StitchLocalMongoDBService"
 )
 
+SANITIZE_ALL=NO
+
 log_i() {
     printf "\033[1;36m$1\033[0m\n"
 }
@@ -30,12 +32,14 @@ sanitize_imports() (
     local local_module_path=`[[ ! -z $FILE_PATH ]] && echo "$FILE_PATH" || echo "$1"`
     find $local_module_path -type f -name '*.swift' | while read i; do
         sed -i '' "/import MongoSwift/d" $i
-        for ((j=0; j < "${#MODULES[@]}"; j++)) ; do
-            module=${MODULES[$j]}
+        if [[ $SANITIZE_ONLY_MONGO_SWIFT == YES ]]; then
+            for ((j=0; j < "${#MODULES[@]}"; j++)) ; do
+                module=${MODULES[$j]}
 
-            module_name="${module%%:*}"
-            sed -i '' "/import $module_name/d" $i
-        done
+                module_name="${module%%:*}"
+                sed -i '' "/import $module_name/d" $i
+            done
+        fi
     done
 )
 
@@ -49,13 +53,30 @@ copy_module() {
 
 mkdir -p dist
 
+for i in "$@"
+do
+case $i in
+    -m=*|--module=*)
+    MODULE="${i#*=}"
+    shift # past argument=value
+    ;;
+    -s|--sanitize_all)
+    SANITIZE_ALL=YES
+    shift # past argument=value
+    ;;
+    *)
+          # unknown option
+    ;;
+esac
+done
+
 for ((i=0; i < "${#MODULES[@]}"; i++)) ; do        
     module=${MODULES[$i]}
 
     module_name="${module%%:*}"
     module_path="${module#*:}"
 
-    if [[ ! -z $1 ]]; then
+    if [[ ! -z $MODULE ]]; then
         if [[ $module_name == $1 ]]; then
             FILE_PATH=$2
             copy_module $module_name $module_path
