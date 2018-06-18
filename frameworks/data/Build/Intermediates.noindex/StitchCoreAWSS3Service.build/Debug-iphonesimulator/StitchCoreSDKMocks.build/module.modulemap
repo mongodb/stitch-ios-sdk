@@ -1,4 +1,0 @@
-framework module StitchCoreSDKMocks {
-    header "StitchCoreSDKMocks-Swift.h"
-    requires objc
-}

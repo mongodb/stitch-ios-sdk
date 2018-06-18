@@ -1,9 +1,0 @@
-version: "Apple Swift version 4.1 (swiftlang-902.0.48 clang-902.0.37.1)"
-options: "cf0c30bbba3b11bdf99789b6bc4448c0"
-build_time: [1529258637, 7096000]
-inputs:
-  "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreHTTPService/Sources/StitchCoreHTTPService/HTTPCookie.swift": [1528918602, 0]
-  "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreHTTPService/Sources/StitchCoreHTTPService/HTTPMethod.swift": [1528918602, 0]
-  "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreHTTPService/Sources/StitchCoreHTTPService/HTTPRequest.swift": [1528918602, 0]
-  "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreHTTPService/Sources/StitchCoreHTTPService/HTTPResponse.swift": [1528918602, 0]
-  "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreHTTPService/Sources/StitchCoreHTTPService/Internal/CoreHTTPServiceClient.swift": [1528918602, 0]

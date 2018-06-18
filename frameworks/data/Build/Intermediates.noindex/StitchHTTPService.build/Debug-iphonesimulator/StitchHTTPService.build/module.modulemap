@@ -1,4 +1,0 @@
-framework module StitchHTTPService {
-    header "StitchHTTPService-Swift.h"
-    requires objc
-}

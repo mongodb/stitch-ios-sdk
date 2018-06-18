@@ -1,7 +1,0 @@
-version: "Apple Swift version 4.1 (swiftlang-902.0.48 clang-902.0.37.1)"
-options: "c59c4083e3fefd3c78bd8ce5782c7eb0"
-build_time: [1529258594, 910484000]
-inputs:
-  "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreAWSS3Service/Sources/StitchCoreAWSS3Service/AWSS3PutObjectResult.swift": [1528918602, 0]
-  "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreAWSS3Service/Sources/StitchCoreAWSS3Service/AWSS3SignPolicyResult.swift": [1528918602, 0]
-  "/Users/jsflax/Development/stitch-ios-sdk/Core/Services/StitchCoreAWSS3Service/Sources/StitchCoreAWSS3Service/Internal/CoreAWSS3ServiceClient.swift": [1528918602, 0]
