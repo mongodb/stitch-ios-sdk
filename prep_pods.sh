@@ -80,7 +80,8 @@ case $i in
 esac
 done
 
-for ((i=0; i < "${#MODULES[@]}"; i++)) ; do        
+for ((i=0; i < "${#MODULES[@]}"; i++)) ; do
+    log_w "module var=$MODULE"
     module=${MODULES[$i]}
 
     module_name="${module%%:*}"
