@@ -17,14 +17,12 @@ Pod::Spec.new do |spec|
     }
   
     spec.ios.deployment_target = "11.3"
-    spec.swift_version = "4.1"
-    spec.requires_arc = true
+    # spec.swift_version = "4.1"
+    # spec.requires_arc = true
     
-    spec.prepare_command = "sh prep_pods.sh --module=#{spec.name}"
-
-    spec.exclude_files = "dist/**/*{Exports}.swift"
+    # spec.prepare_command = "sh prep_pods.sh --module=#{spec.name} --sources=Sources/#{spec.name}"
   
-    spec.source_files = "dist/#{spec.name}/**/*.swift"
+    spec.source_files = ["dist/#{spec.name}/**/*.swift"]
 
     spec.dependency 'StitchCoreSDK', '~> 4.0.0-beta0'
 end

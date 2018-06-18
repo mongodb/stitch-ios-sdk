@@ -268,7 +268,7 @@
 		OBJ_96 /* CoreStitchPushClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchPushClient.swift; sourceTree = "<group>"; };
 		OBJ_97 /* CoreStitchPushClientImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchPushClientImpl.swift; sourceTree = "<group>"; };
 		OBJ_98 /* StitchPushRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchPushRoutes.swift; sourceTree = "<group>"; };
-		"StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBService::Product" /* StitchCoreLocalMongoDBService.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = StitchCoreLocalMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBService::Product" /* StitchCoreLocalMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreLocalMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBServiceTests::Product" /* StitchCoreLocalMongoDBServiceTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = StitchCoreLocalMongoDBServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		"StitchCoreSDK::StitchCoreSDK::Product" /* StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -530,7 +530,7 @@
 			path = Custom;
 			sourceTree = "<group>";
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -540,7 +540,6 @@
 				OBJ_17 /* Dependencies */,
 				OBJ_128 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_50 /* Facebook */ = {
@@ -825,7 +824,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_128 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";

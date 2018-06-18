@@ -232,7 +232,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		"MockUtils::MockUtils::Product" /* MockUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MockUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"MockUtils::MockUtils::Product" /* MockUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MockUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"MongoSwift::MongoSwift::Product" /* MongoSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MongoSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_100 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		OBJ_101 /* StitchAuthDocRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAuthDocRequest.swift; sourceTree = "<group>"; };
@@ -335,10 +335,10 @@
 		OBJ_96 /* FoundationHTTPTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationHTTPTransport.swift; sourceTree = "<group>"; };
 		OBJ_97 /* Headers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Headers.swift; sourceTree = "<group>"; };
 		OBJ_98 /* Method.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Method.swift; sourceTree = "<group>"; };
-		"StitchCoreAWSS3Service::StitchCoreAWSS3Service::Product" /* StitchCoreAWSS3Service.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = StitchCoreAWSS3Service.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StitchCoreAWSS3Service::StitchCoreAWSS3Service::Product" /* StitchCoreAWSS3Service.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAWSS3Service.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"StitchCoreAWSS3Service::StitchCoreAWSS3ServiceTests::Product" /* StitchCoreAWSS3ServiceTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = StitchCoreAWSS3ServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		"StitchCoreSDK::StitchCoreSDK::Product" /* StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"StitchCoreSDK::StitchCoreSDKMocks::Product" /* StitchCoreSDKMocks.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = StitchCoreSDKMocks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StitchCoreSDK::StitchCoreSDKMocks::Product" /* StitchCoreSDKMocks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDKMocks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -690,7 +690,7 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -700,7 +700,6 @@
 				OBJ_18 /* Dependencies */,
 				OBJ_149 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_57 /* Providers */ = {
@@ -1043,7 +1042,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_149 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";

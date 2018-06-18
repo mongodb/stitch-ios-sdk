@@ -1,4 +1,3 @@
-
 Pod::Spec.new do |spec|
     spec.name       = "StitchCoreSDK"
     spec.version    = "4.0.0-beta0"
@@ -14,7 +13,7 @@ Pod::Spec.new do |spec|
     spec.source     = {
       :git => "https://github.com/jsflax/stitch-ios-sdk.git",
       :branch => "TestLove",
-      :submodules => true
+      # :submodules => true
     }
   
     spec.ios.deployment_target = "11.3"
@@ -60,20 +59,20 @@ Pod::Spec.new do |spec|
       'LIBRARY_SEARCH_PATHS[sdk=appletvsimulator*]'=> '$(PODS_ROOT)/StitchSDK/vendor/MobileSDKs/appletvos/lib',
     }
   
-    spec.preserve_paths = "vendor"
+    # spec.preserve_paths = "vendor"
 
-    spec.exclude_files = "dist/**/*{Exports}.swift"
+    # # spec.exclude_files = "dist/**/*{Exports}.swift"
   
     spec.source_files = "dist/#{spec.name}/**/*.swift"
     
-    spec.subspec "MongoSwift" do |mongo_swift|
-      libs = [
-        "vendor/MobileSDKs/iphoneos/lib/libmongoc-1.0.dylib", 
-        "vendor/MobileSDKs/iphoneos/lib/libbson-1.0.dylib"
-      ]
-      mongo_swift.ios.vendored_library = libs
-      mongo_swift.tvos.vendored_library = libs
+    # spec.subspec "MongoSwift" do |mongo_swift|
+    #   libs = [
+    #     "vendor/MobileSDKs/iphoneos/lib/libmongoc-1.0.dylib", 
+    #     "vendor/MobileSDKs/iphoneos/lib/libbson-1.0.dylib"
+    #   ]
+    #   mongo_swift.ios.vendored_library = libs
+    #   mongo_swift.tvos.vendored_library = libs
 
-      mongo_swift.source_files = "vendor/Sources/MongoSwift/**/*.swift"
-    end
+    #   mongo_swift.source_files = "vendor/Sources/MongoSwift/**/*.swift"
+    # end
 end

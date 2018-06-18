@@ -244,7 +244,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		"MockUtils::MockUtils::Product" /* MockUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MockUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"MockUtils::MockUtils::Product" /* MockUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MockUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"MongoSwift::MongoSwift::Product" /* MongoSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MongoSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_100 /* StitchUserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchUserProfile.swift; sourceTree = "<group>"; };
 		OBJ_103 /* ImplFailureFatalErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImplFailureFatalErrors.swift; sourceTree = "<group>"; };
@@ -359,10 +359,10 @@
 		OBJ_97 /* StitchCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchCredential.swift; sourceTree = "<group>"; };
 		OBJ_98 /* StitchProviderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchProviderType.swift; sourceTree = "<group>"; };
 		OBJ_99 /* StitchUserIdentity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchUserIdentity.swift; sourceTree = "<group>"; };
-		"StitchCoreRemoteMongoDBService::StitchCoreRemoteMongoDBService::Product" /* StitchCoreRemoteMongoDBService.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = StitchCoreRemoteMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StitchCoreRemoteMongoDBService::StitchCoreRemoteMongoDBService::Product" /* StitchCoreRemoteMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreRemoteMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"StitchCoreRemoteMongoDBService::StitchCoreRemoteMongoDBServiceTests::Product" /* StitchCoreRemoteMongoDBServiceTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = StitchCoreRemoteMongoDBServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		"StitchCoreSDK::StitchCoreSDK::Product" /* StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"StitchCoreSDK::StitchCoreSDKMocks::Product" /* StitchCoreSDKMocks.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = StitchCoreSDKMocks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StitchCoreSDK::StitchCoreSDKMocks::Product" /* StitchCoreSDKMocks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDKMocks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -758,7 +758,7 @@
 			path = Internal;
 			sourceTree = "<group>";
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -768,7 +768,6 @@
 				OBJ_30 /* Dependencies */,
 				OBJ_161 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_58 /* Models */ = {
@@ -1079,7 +1078,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_161 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";

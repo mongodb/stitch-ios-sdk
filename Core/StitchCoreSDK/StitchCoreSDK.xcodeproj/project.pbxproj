@@ -264,8 +264,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		"JWT::JWT::Product" /* JWT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = JWT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"MockUtils::MockUtils::Product" /* MockUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MockUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"JWT::JWT::Product" /* JWT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = JWT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"MockUtils::MockUtils::Product" /* MockUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MockUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"MongoSwift::MongoSwift::Product" /* MongoSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MongoSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_100 /* CoreStitchPushClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchPushClient.swift; sourceTree = "<group>"; };
 		OBJ_101 /* CoreStitchPushClientImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchPushClientImpl.swift; sourceTree = "<group>"; };
@@ -409,10 +409,10 @@
 		OBJ_95 /* StitchAppRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAppRoutes.swift; sourceTree = "<group>"; };
 		OBJ_96 /* StitchRequestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchRequestClient.swift; sourceTree = "<group>"; };
 		OBJ_97 /* Transport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transport.swift; sourceTree = "<group>"; };
-		"StitchCoreSDK::StitchCoreSDK::Product" /* StitchCoreSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"StitchCoreSDK::StitchCoreSDKMocks::Product" /* StitchCoreSDKMocks.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = StitchCoreSDKMocks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StitchCoreSDK::StitchCoreSDK::Product" /* StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StitchCoreSDK::StitchCoreSDKMocks::Product" /* StitchCoreSDKMocks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDKMocks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"StitchCoreSDK::StitchCoreSDKTests::Product" /* StitchCoreSDKTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = StitchCoreSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		"Swifter::Swifter::Product" /* Swifter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Swifter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"Swifter::Swifter::Product" /* Swifter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Swifter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -922,7 +922,7 @@
 			path = Anonymous;
 			sourceTree = "<group>";
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -933,7 +933,6 @@
 				OBJ_140 /* Dependencies */,
 				OBJ_203 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_51 /* Custom */ = {
@@ -1300,7 +1299,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_203 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";

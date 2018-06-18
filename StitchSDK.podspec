@@ -217,7 +217,7 @@ Pod::Spec.new do |spec|
 
   # pod "StitchSDK/StitchSDK", "~> 4.0"
   spec.subspec "StitchSDK" do |stitchSDK|
-      self.configure stitchSDK
+      # self.configure stitchSDK
 
     # stitchSDK.dependency "StitchSDK/StitchCore"
     #   stitchSDK.dependency "StitchSDK/StitchCoreRemoteMongoDBService"

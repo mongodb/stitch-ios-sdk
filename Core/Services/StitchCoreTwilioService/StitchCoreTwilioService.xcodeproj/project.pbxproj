@@ -230,7 +230,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		"MockUtils::MockUtils::Product" /* MockUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MockUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"MockUtils::MockUtils::Product" /* MockUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MockUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"MongoSwift::MongoSwift::Product" /* MongoSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MongoSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_100 /* StitchDocRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchDocRequest.swift; sourceTree = "<group>"; };
 		OBJ_101 /* StitchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchRequest.swift; sourceTree = "<group>"; };
@@ -332,8 +332,8 @@
 		OBJ_98 /* StitchAuthDocRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAuthDocRequest.swift; sourceTree = "<group>"; };
 		OBJ_99 /* StitchAuthRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAuthRequest.swift; sourceTree = "<group>"; };
 		"StitchCoreSDK::StitchCoreSDK::Product" /* StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"StitchCoreSDK::StitchCoreSDKMocks::Product" /* StitchCoreSDKMocks.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = StitchCoreSDKMocks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"StitchCoreTwilioService::StitchCoreTwilioService::Product" /* StitchCoreTwilioService.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = StitchCoreTwilioService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StitchCoreSDK::StitchCoreSDKMocks::Product" /* StitchCoreSDKMocks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDKMocks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StitchCoreTwilioService::StitchCoreTwilioService::Product" /* StitchCoreTwilioService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTwilioService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"StitchCoreTwilioService::StitchCoreTwilioServiceTests::Product" /* StitchCoreTwilioServiceTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = StitchCoreTwilioServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -676,7 +676,7 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -686,7 +686,6 @@
 				OBJ_15 /* Dependencies */,
 				OBJ_146 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_54 /* Providers */ = {
@@ -1029,7 +1028,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_146 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
