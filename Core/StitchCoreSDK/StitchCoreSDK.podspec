@@ -26,9 +26,6 @@ Pod::Spec.new do |spec|
         --sources=Sources/#{spec.name}
     CMD
 
-    spec.module_name = 'StitchSDK'
-    
-
     spec.source_files = "dist/#{spec.name}/**/*.swift"
 
     spec.dependency "MongoSwiftMobile", "~> 4.0.0-beta0"
