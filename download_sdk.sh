@@ -90,7 +90,6 @@ download_and_combine() {
   fi
 }
 
-cd ~/Development/stitch-ios-sdk
 mkdir -p vendor && cd vendor
 
 POSITIONAL=()
