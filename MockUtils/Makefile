@@ -1,4 +1,4 @@
-all: git build project
+all: git update project
 git:
 	git init
 	git add .
