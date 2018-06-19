@@ -10,6 +10,18 @@ all:
 	$(MAKE) -C Core/Services/StitchCoreRemoteMongoDBService all
 	$(MAKE) -C Core/Services/StitchCoreTwilioService all
 	$(MAKE) -C Core/StitchCoreTestUtils all
+build:
+	$(MAKE) -C MockUtils build
+	$(MAKE) -C Core/StitchCoreSDK build
+	$(MAKE) -C Core/StitchCoreAdminClient build
+	$(MAKE) -C Core/StitchCoreTestUtils build
+	$(MAKE) -C Core/Services/StitchCoreAWSS3Service build
+	$(MAKE) -C Core/Services/StitchCoreAWSSESService build
+	$(MAKE) -C Core/Services/StitchCoreFCMService build
+	$(MAKE) -C Core/Services/StitchCoreHTTPService build
+	$(MAKE) -C Core/Services/StitchCoreLocalMongoDBService build
+	$(MAKE) -C Core/Services/StitchCoreRemoteMongoDBService build
+	$(MAKE) -C Core/Services/StitchCoreTwilioService build
 lint:
 	$(MAKE) -C MockUtils lint
 	$(MAKE) -C Core/StitchCoreSDK lint
