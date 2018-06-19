@@ -44,10 +44,10 @@ If creating an iOS-specific module to complement the module:
 7. In the "Build Settings" for both the main target and test target, add the following setting for "Header Search Paths,
    ```
     //:configuration = Debug
-    HEADER_SEARCH_PATHS = $(SRCROOT)/../Sources/libbson $(SRCROOT)/../Sources/libmongoc
+    HEADER_SEARCH_PATHS = $(SRCROOT)/../vendor/Sources/libbson $(SRCROOT)/../vendor/Sources/libmongoc
 
     //:configuration = Release
-    HEADER_SEARCH_PATHS = $(SRCROOT)/../Sources/libbson $(SRCROOT)/../Sources/libmongoc
+    HEADER_SEARCH_PATHS = $(SRCROOT)/../vendor/Sources/libbson $(SRCROOT)/../vendor/Sources/libmongoc
 
     //:completeSettings = some
     HEADER_SEARCH_PATHS

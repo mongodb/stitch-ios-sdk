@@ -307,8 +307,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../Sources/libbson",
-					"$(SRCROOT)/../../../Sources/libmongoc",
+					"$(SRCROOT)/../../../vendor/Sources/libbson",
+					"$(SRCROOT)/../../../vendor/Sources/libmongoc",
 				);
 				INFOPLIST_FILE = StitchSDKExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks $(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib/";
@@ -326,8 +326,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../Sources/libbson",
-					"$(SRCROOT)/../../../Sources/libmongoc",
+					"$(SRCROOT)/../../../vendor/Sources/libbson",
+					"$(SRCROOT)/../../../vendor/Sources/libmongoc",
 				);
 				INFOPLIST_FILE = StitchSDKExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks $(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib/";

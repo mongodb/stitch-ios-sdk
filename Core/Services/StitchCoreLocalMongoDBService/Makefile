@@ -1,4 +1,4 @@
-all: git update project
+all: git resolve project
 git:
 	git init
 	git add .

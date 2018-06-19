@@ -404,8 +404,8 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../Sources/libbson",
-					"$(SRCROOT)/../../../Sources/libmongoc",
+					"$(SRCROOT)/../../../vendor/Sources/libbson",
+					"$(SRCROOT)/../../../vendor/Sources/libmongoc",
 				);
 				INFOPLIST_FILE = StitchFCMService/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -436,8 +436,8 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../Sources/libbson",
-					"$(SRCROOT)/../../../Sources/libmongoc",
+					"$(SRCROOT)/../../../vendor/Sources/libbson",
+					"$(SRCROOT)/../../../vendor/Sources/libmongoc",
 				);
 				INFOPLIST_FILE = StitchFCMService/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -462,8 +462,8 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../Sources/libbson",
-					"$(SRCROOT)/../../../Sources/libmongoc",
+					"$(SRCROOT)/../../../vendor/Sources/libbson",
+					"$(SRCROOT)/../../../vendor/Sources/libmongoc",
 				);
 				INFOPLIST_FILE = StitchFCMServiceTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -485,8 +485,8 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../Sources/libbson",
-					"$(SRCROOT)/../../../Sources/libmongoc",
+					"$(SRCROOT)/../../../vendor/Sources/libbson",
+					"$(SRCROOT)/../../../vendor/Sources/libmongoc",
 				);
 				INFOPLIST_FILE = StitchFCMServiceTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

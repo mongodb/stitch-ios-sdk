@@ -309,8 +309,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2Z8M9MTEVV;
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../Sources/libbson",
-					"$(SRCROOT)/../../../Sources/libmongoc",
+					"$(SRCROOT)/../../../vendor/Sources/libbson",
+					"$(SRCROOT)/../../../vendor/Sources/libmongoc",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/StitchLocalMongoDBServiceExample/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -329,8 +329,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2Z8M9MTEVV;
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../Sources/libbson",
-					"$(SRCROOT)/../../../Sources/libmongoc",
+					"$(SRCROOT)/../../../vendor/Sources/libbson",
+					"$(SRCROOT)/../../../vendor/Sources/libmongoc",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/StitchLocalMongoDBServiceExample/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

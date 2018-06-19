@@ -582,8 +582,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2Z8M9MTEVV;
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../Sources/libbson",
-					"$(SRCROOT)/../../Sources/libmongoc",
+					"$(SRCROOT)/../../vendor/Sources/libbson",
+					"$(SRCROOT)/../../vendor/Sources/libmongoc",
 				);
 				INFOPLIST_FILE = StitchCoreTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -609,8 +609,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2Z8M9MTEVV;
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../Sources/libbson",
-					"$(SRCROOT)/../../Sources/libmongoc",
+					"$(SRCROOT)/../../vendor/Sources/libbson",
+					"$(SRCROOT)/../../vendor/Sources/libmongoc",
 				);
 				INFOPLIST_FILE = StitchCoreTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -762,8 +762,8 @@
 					"$(inherited)",
 				);
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../Sources/libbson",
-					"$(SRCROOT)/../../Sources/libmongoc",
+					"$(SRCROOT)/../../vendor/Sources/libbson",
+					"$(SRCROOT)/../../vendor/Sources/libmongoc",
 				);
 				INFOPLIST_FILE = StitchCore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -777,6 +777,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -801,8 +802,8 @@
 					"$(inherited)",
 				);
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../Sources/libbson",
-					"$(SRCROOT)/../../Sources/libmongoc",
+					"$(SRCROOT)/../../vendor/Sources/libbson",
+					"$(SRCROOT)/../../vendor/Sources/libmongoc",
 				);
 				INFOPLIST_FILE = StitchCore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -816,6 +817,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7s armv7";
