@@ -46,7 +46,7 @@ class FCMServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         }
         wait(for: [exp], timeout: 5.0)
         
-        let fcm = client.serviceClient(forFactory: fcmServiceClientFactory, withName: "gcm")
+        let fcm = client.serviceClient(fromFactory: fcmServiceClientFactory, withName: "gcm")
         
         let collapseKey = "one"
         let contentAvailable = true

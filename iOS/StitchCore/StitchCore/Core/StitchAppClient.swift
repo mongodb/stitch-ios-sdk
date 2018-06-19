@@ -37,39 +37,39 @@ public protocol StitchAppClient {
      * Retrieves the service client for the Stitch service associated with the specified name and factory.
      *
      * - parameters:
-     *     - forFactory: An `AnyNamedServiceClientFactory` object which contains a `NamedServiceClientFactory`
-     *                   class which will provide the client for this service. Each available service has a static
-     *                   factory which can be used for this method.
+     *     - fromFactory: An `AnyNamedServiceClientFactory` object which contains a `NamedServiceClientFactory`
+     *                    class which will provide the client for this service. Each available service has a static
+     *                    factory which can be used for this method.
      *
      *     - withName: The name of the service as defined in the MongoDB Stitch application.
      * - returns: a service client whose type is determined by the `T` type parameter of the
-     *            `AnyNamedServiceClientFactory` passed in the `forFactory` parameter.
+     *            `AnyNamedServiceClientFactory` passed in the `fromFactory` parameter.
      */
-    func serviceClient<T>(forFactory factory: AnyNamedServiceClientFactory<T>, withName serviceName: String) -> T
+    func serviceClient<T>(fromFactory factory: AnyNamedServiceClientFactory<T>, withName serviceName: String) -> T
 
     /**
      * Retrieves the service client for the Stitch service associated with the specificed factory.
      *
      * - parameters:
-     *     - forFactory: An `AnyNamedServiceClientFactory` object which contains a `NamedServiceClientFactory`
-     *                   class which will provide the client for this service. Each available service has a static
-     *                   factory which can be used for this method.
+     *     - fromFactory: An `AnyNamedServiceClientFactory` object which contains a `NamedServiceClientFactory`
+     *                    class which will provide the client for this service. Each available service has a static
+     *                    factory which can be used for this method.
      * - returns: a service client whose type is determined by the `T` type parameter of the
-     *            `AnyNamedServiceClientFactory` passed in the `forFactory` parameter.
+     *            `AnyNamedServiceClientFactory` passed in the `fromFactory` parameter.
      */
-    func serviceClient<T>(forFactory factory: AnyNamedServiceClientFactory<T>) -> T
+    func serviceClient<T>(fromFactory factory: AnyNamedServiceClientFactory<T>) -> T
 
     /**
      * Retrieves the service client for the Stitch service associated with the service type with the specified factory.
      *
      * - parameters:
-     *     - forFactory: An `AnyThrowingServiceClientFactory` object which contains a `ThrowingServiceClientFactory`
-     *                   class which will provide the client for this service. Each available service has a static
-     *                   factory which can be used for this method.
+     *     - fromFactory: An `AnyThrowingServiceClientFactory` object which contains a `ThrowingServiceClientFactory`
+     *                    class which will provide the client for this service. Each available service has a static
+     *                    factory which can be used for this method.
      * - returns: a service client whose type is determined by the `T` type parameter of the
-     *            `AnyThrowingServiceClientFactory` passed in the `forFactory` parameter.
+     *            `AnyThrowingServiceClientFactory` passed in the `fromFactory` parameter.
      */
-    func serviceClient<T>(forFactory factory: AnyThrowingServiceClientFactory<T>) throws -> T
+    func serviceClient<T>(fromFactory factory: AnyThrowingServiceClientFactory<T>) throws -> T
 
     // MARK: Functions
 

@@ -41,6 +41,7 @@ use_frameworks!
 
 target '<Your Target Name>' do
     pod 'StitchSDK', '~> 4.0.0'
+
     # optional: for using the AWS S3 service
     pod 'StitchSDK/StitchAWSS3Service', '~> 4.0.0'
     # optional: for using the AWS SES service
@@ -127,7 +128,7 @@ If you prefer not to use any of the aforementioned dependency managers, you can 
 4. In the `Podfile` that is generated, add the following line under the dependencies for your app target:
 
 ```ruby
-    pod 'TODO_FIXME_StitchSDK', '~> 4.0.0'
+    pod 'StitchSDK', '~> 4.0.0'
 ```
 
 5. Run `pod install`

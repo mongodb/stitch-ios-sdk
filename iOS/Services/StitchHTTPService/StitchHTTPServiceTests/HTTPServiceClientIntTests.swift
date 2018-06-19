@@ -30,7 +30,7 @@ class HTTPServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         }
         wait(for: [exp0], timeout: 5.0)
         
-        let httpClient = client.serviceClient(forFactory: httpServiceClientFactory, withName: "http1")
+        let httpClient = client.serviceClient(fromFactory: httpServiceClientFactory, withName: "http1")
         
         // Specifying a request with a form AND body should fail.
         var badURL = "http://aol.com"

@@ -23,7 +23,7 @@ public final class UserAPIKeyClientFactory: AuthProviderClientFactory {
 
 /**
  * Global factory const which can be used to create a `UserAPIKeyAuthProviderClient` with a `StitchAuth`. Pass this
- * into `StitchAuth.providerClient(forFactory:) to get a `UserAPIKeyAuthProviderClient`.
+ * into `StitchAuth.providerClient(fromFactory:) to get a `UserAPIKeyAuthProviderClient`.
  */
 public let userAPIKeyClientFactory = UserAPIKeyClientFactory()
 

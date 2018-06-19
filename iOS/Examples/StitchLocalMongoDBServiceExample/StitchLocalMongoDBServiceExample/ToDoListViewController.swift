@@ -24,7 +24,7 @@ class ToDoListViewController: UITableViewController {
                     withConfigBuilder: StitchAppClientConfigurationBuilder()
                         .with(clientAppID: "test-app"))
             // try to get the default mongo client
-            let mongoClient = try client.serviceClient(forFactory: localMongoDBServiceClientFactory)
+            let mongoClient = try client.serviceClient(fromFactory: localMongoDBServiceClientFactory)
 
             // fetch the toDo list collection
             self.toDoListCollection =

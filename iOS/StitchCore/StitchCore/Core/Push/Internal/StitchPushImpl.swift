@@ -14,7 +14,7 @@ public class StitchPushImpl: StitchPush {
         self.dispatcher = dispatcher
     }
 
-    public func client<T>(forFactory factory: AnyNamedPushClientFactory<T>, withName serviceName: String) -> T {
+    public func client<T>(fromFactory factory: AnyNamedPushClientFactory<T>, withName serviceName: String) -> T {
         return factory.client(
             withPushClient: StitchPushClientImpl.init(
                 requestClient: self.requestClient,

@@ -28,41 +28,41 @@ public protocol StitchAuth {
      * specified factory.
      *
      * - parameters:
-     *     - forFactory: The `AuthProviderClientFactory` which will provide the client for this authentication
-     *                   provider. Each authentication provider that has extra functionality beyond logging in/linking
-     *                   will offer a static factory which can be used for this method.
+     *     - fromFactory: The `AuthProviderClientFactory` which will provide the client for this authentication
+     *                    provider. Each authentication provider that has extra functionality beyond logging in/linking
+     *                    will offer a static factory which can be used for this method.
      *
      * - returns: an authentication provider client whose type is determined by the `Client` typealias in the type
-     *            specified in the `forFactory` parameter.
+     *            specified in the `fromFactory` parameter.
      */
-    func providerClient<Factory: AuthProviderClientFactory>(forFactory factory: Factory) -> Factory.ClientT where Factory.RequestClientT == StitchAuthRequestClient
+    func providerClient<Factory: AuthProviderClientFactory>(fromFactory factory: Factory) -> Factory.ClientT where Factory.RequestClientT == StitchAuthRequestClient
 
     /**
      * Retrieves the authentication provider client for the authentication provider associated with the specified
      * factory.
      *
      * - parameters:
-     *     - forFactory: The `AuthProviderClientFactory` which will provide the client for this authentication
-     *                   provider. Each authentication provider that has extra functionality beyond logging in/linking
-     *                   will offer a static factory which can be used for this method.
+     *     - fromFactory: The `AuthProviderClientFactory` which will provide the client for this authentication
+     *                    provider. Each authentication provider that has extra functionality beyond logging in/linking
+     *                    will offer a static factory which can be used for this method.
      * - returns: an authentication provider client whose type is determined by the `Client` typealias in the type
-     *            specified in the `forFactory` parameter.
+     *            specified in the `fromFactory` parameter.
      */
-    func providerClient<Factory: AuthProviderClientFactory>(forFactory factory: Factory) -> Factory.ClientT where Factory.RequestClientT == StitchRequestClient
+    func providerClient<Factory: AuthProviderClientFactory>(fromFactory factory: Factory) -> Factory.ClientT where Factory.RequestClientT == StitchRequestClient
 
     /**
      * Retrieves the authenticated authentication provider client for the authentication provider associated with the
      * specified name and factory.
      *
      * - parameters:
-     *     - forFactory: The `NamedAuthProviderClientFactory` which will provide the client for this authentication
-     *                   provider. Each named authentication provider that has extra functionality beyond
-     *                   logging in/linking will offer a static factory which can be used for this method.
+     *     - fromFactory: The `NamedAuthProviderClientFactory` which will provide the client for this authentication
+     *                    provider. Each named authentication provider that has extra functionality beyond
+     *                    logging in/linking will offer a static factory which can be used for this method.
      *     - withName: The name of the authentication provider as defined in the MongoDB Stitch application.
      * - returns: an authentication provider client whose type is determined by the `Client` typealias in the type
-     *            specified in the `forFactory` parameter.
+     *            specified in the `fromFactory` parameter.
      */
-    func providerClient<Factory: NamedAuthProviderClientFactory>(forFactory factory: Factory, withName name: String) -> Factory.Client
+    func providerClient<Factory: NamedAuthProviderClientFactory>(fromFactory factory: Factory, withName name: String) -> Factory.Client
 
     // MARK: Authentication Actions
 

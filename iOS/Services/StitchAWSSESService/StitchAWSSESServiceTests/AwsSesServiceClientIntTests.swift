@@ -49,7 +49,7 @@ class AWSSESServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         }
         wait(for: [exp0], timeout: 5.0)
 
-        let awsSES = client.serviceClient(forFactory: awsSESServiceClientFactory, withName: "aws-ses1")
+        let awsSES = client.serviceClient(fromFactory: awsSESServiceClientFactory, withName: "aws-ses1")
 
         // Sending a random email to an invalid email should fail
         let to = "eliot@stitch-dev.10gen.cc"

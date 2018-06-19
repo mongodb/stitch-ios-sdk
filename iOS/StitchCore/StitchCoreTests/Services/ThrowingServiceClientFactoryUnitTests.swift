@@ -39,7 +39,7 @@ class ThrowingServiceClientFactoryUnitTests: BaseStitchIntTestCocoaTouch {
     func testThrowingServiceClient() throws {
         XCTAssertThrowsError(
             try appClient.serviceClient(
-                forFactory: AnyThrowingServiceClientFactory<String>.init(
+                fromFactory: AnyThrowingServiceClientFactory<String>.init(
                     factory: TestThrowingServiceClientFactory()
                 )
             )

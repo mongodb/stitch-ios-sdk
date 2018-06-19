@@ -17,7 +17,7 @@ private final class RemoteMongoDBServiceClientFactory: NamedServiceClientFactory
 
 /**
  * Global factory const which can be used to create a `RemoteMongoClient` with a `StitchAppClient`. Pass into
- * `StitchAppClient.serviceClient(forFactory:withName)` to get a `RemoteMongoClient.
+ * `StitchAppClient.serviceClient(fromFactory:withName)` to get a `RemoteMongoClient.
  */
 public let remoteMongoDBServiceClientFactory =
     AnyNamedServiceClientFactory<RemoteMongoClient>(factory: RemoteMongoDBServiceClientFactory())

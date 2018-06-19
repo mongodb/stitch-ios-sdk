@@ -46,7 +46,7 @@ class TwilioServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         }
         wait(for: [exp0], timeout: 5.0)
         
-        let twilio = client.serviceClient(forFactory: twilioServiceClientFactory, withName: "twilio1")
+        let twilio = client.serviceClient(fromFactory: twilioServiceClientFactory, withName: "twilio1")
         
         // Sending a random message to an invalid number should fail
         let to = "+15005550010"

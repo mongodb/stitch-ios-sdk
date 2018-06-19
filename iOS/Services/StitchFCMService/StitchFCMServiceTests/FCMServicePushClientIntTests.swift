@@ -45,7 +45,7 @@ class FCMServicePushClientIntTests: BaseStitchIntTestCocoaTouch {
         }
         wait(for: [exp], timeout: 5.0)
         
-        let fcmPush = client.push.client(forFactory: fcmServicePushClientFactory, withName: "gcm")
+        let fcmPush = client.push.client(fromFactory: fcmServicePushClientFactory, withName: "gcm")
         
         // can register and deregister multiple times
         exp = expectation(description: "can register once")
