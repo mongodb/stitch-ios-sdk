@@ -1,9 +1,9 @@
-OTHER_LDFLAGS = -rpath $(SRCROOT)/../../../MobileSDKs/iphoneos/lib
-LIBRARY_SEARCH_PATHS = $(SRCROOT)/../../MobileSDKs/iphoneos/lib $(SRCROOT)/../../../MobileSDKs/iphoneos/lib
+OTHER_LDFLAGS = -rpath $(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib
+LIBRARY_SEARCH_PATHS = $(SRCROOT)/../../vendor/MobileSDKs/iphoneos/lib $(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib
 
-SWIFT_INCLUDE_PATHS = $(SRCROOT)/../../MobileSDKs/include $(SRCROOT)/../../MobileSDKs/include/ libbson-1.0 $(SRCROOT)/../../MobileSDKs/include/libmongoc-1.0 $(SRCROOT)/../../../MobileSDKs/include/libmongoc-1.0 $(SRCROOT)/../../Sources/libmongoc $(SRCROOT)/../../Sources/libbson $(SRCROOT)/../../../MobileSDKs/include $(SRCROOT)/../../../MobileSDKs/include/libbson-1.0 $(SRCROOT)/../../../Sources/libmongoc $(SRCROOT)/../../../Sources/libbson
+SWIFT_INCLUDE_PATHS = $(SRCROOT)/../../vendor/MobileSDKs/include $(SRCROOT)/../../vendor/MobileSDKs/include/ libbson-1.0 $(SRCROOT)/../../vendor/MobileSDKs/include/libmongoc-1.0 $(SRCROOT)/../../../vendor/MobileSDKs/include/libmongoc-1.0 $(SRCROOT)/../../vendor/Sources/libmongoc $(SRCROOT)/../../vendor/Sources/libbson $(SRCROOT)/../../../vendor/MobileSDKs/include $(SRCROOT)/../../../vendor/MobileSDKs/include/libbson-1.0 $(SRCROOT)/../../../vendor/Sources/libmongoc $(SRCROOT)/../../../vendor/Sources/libbson
 ENABLE_BITCODE = NO
 
 IPHONEOS_DEPLOYMENT_TARGET=8.0
 
-HEADER_SEARCH_PATHS = $(SRCROOT)/../../MobileSDKs/include $(SRCROOT)/../../MobileSDKs/include/libbson-1.0 $(SRCROOT)/../../MobileSDKs/include/libmongoc-1.0 $(SRCROOT)/../../MobileSDKs/include $(SRCROOT)/../../../MobileSDKs/include/libbson-1.0 $(SRCROOT)/../../../MobileSDKs/include/libmongoc-1.0
+HEADER_SEARCH_PATHS = $(SRCROOT)/../../vendor/MobileSDKs/include $(SRCROOT)/../../vendor/MobileSDKs/include/libbson-1.0 $(SRCROOT)/../../vendor/MobileSDKs/include/libmongoc-1.0 $(SRCROOT)/../../vendor/MobileSDKs/include $(SRCROOT)/../../../vendor/MobileSDKs/include/libbson-1.0 $(SRCROOT)/../../../vendor/MobileSDKs/include/libmongoc-1.0

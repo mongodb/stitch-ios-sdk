@@ -115,7 +115,7 @@ do
 key="$1"
 
 case $key in
-    -wM|--with_mobile)
+    -wM|--with-mobile)
     WITH_MOBILE=YES
     shift # past argument
     shift # past value

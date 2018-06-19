@@ -1,6 +1,5 @@
 import UIKit
 import StitchCore
-//import StitchCore
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Initialize MongoDB Stitch and its default app client
         do {
             try Stitch.initialize()
-            
+
             _ = try Stitch.initializeDefaultAppClient(withConfigBuilder:
                 StitchAppClientConfigurationBuilder.forApp(withClientAppID: "stitch-tests-ios-sdk-jjmum")
             )

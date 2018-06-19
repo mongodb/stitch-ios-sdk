@@ -64,7 +64,6 @@
 
 // from iOS-specific module
 @_exported import protocol StitchAWSS3Service.AWSS3ServiceClient
-@_exported import class StitchAWSS3Service.AWSS3Service
 @_exported import let StitchAWSS3Service.awsS3ServiceClientFactory
 
 /////////////////////////
