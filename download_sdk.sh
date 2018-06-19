@@ -19,19 +19,19 @@ mobile_sdk_url() {
 
   case "$variant" in
     iphoneos)
-      echo "https://s3.amazonaws.com/mciuploads/mongodb-mongo-v4.0/embedded-sdk/embedded-sdk-iphoneos-10.2-latest.tgz"
+      echo "https://s3.amazonaws.com/mciuploads/mongodb-mongo-master/embedded-sdk/embedded-sdk-iphoneos-10.2/4c77f4f5a72a27ac98557de49b74eb1a019dd196/mongodb_mongo_master_embedded_sdk_iphoneos_10.2_patch_4c77f4f5a72a27ac98557de49b74eb1a019dd196_5b294ecae3c3312e46f5028e_18_06_19_18_43_41.tgz"
       ;;
 
     iphonesimulator)
-      echo "https://s3.amazonaws.com/mciuploads/mongodb-mongo-v4.0/embedded-sdk/embedded-sdk-iphonesimulator-10.2-latest.tgz"
+      echo "https://s3.amazonaws.com/mciuploads/mongodb-mongo-master/embedded-sdk/embedded-sdk-iphonesimulator-10.2/4c77f4f5a72a27ac98557de49b74eb1a019dd196/mongodb_mongo_master_embedded_sdk_iphonesimulator_10.2_patch_4c77f4f5a72a27ac98557de49b74eb1a019dd196_5b294ecae3c3312e46f5028e_18_06_19_18_43_41.tgz"
       ;;
 
     appletvos)
-      echo "https://s3.amazonaws.com/mciuploads/mongodb-mongo-v4.0/embedded-sdk/embedded-sdk-appletvos-10.2-latest.tgz"
+      echo "https://s3.amazonaws.com/mciuploads/mongodb-mongo-master/embedded-sdk/embedded-sdk-appletvos-10.2/4c77f4f5a72a27ac98557de49b74eb1a019dd196/mongodb_mongo_master_embedded_sdk_appletvos_10.2_patch_4c77f4f5a72a27ac98557de49b74eb1a019dd196_5b294ecae3c3312e46f5028e_18_06_19_18_43_41.tgz"
       ;;
 
     appletvsimulator)
-      echo "https://s3.amazonaws.com/mciuploads/mongodb-mongo-v4.0/embedded-sdk/embedded-sdk-appletvsimulator-10.2-latest.tgz"
+      echo "https://s3.amazonaws.com/mciuploads/mongodb-mongo-master/embedded-sdk/embedded-sdk-appletvsimulator-10.2/4c77f4f5a72a27ac98557de49b74eb1a019dd196/mongodb_mongo_master_embedded_sdk_appletvsimulator_10.2_patch_4c77f4f5a72a27ac98557de49b74eb1a019dd196_5b294ecae3c3312e46f5028e_18_06_19_18_43_41.tgz"
       ;;
 
     macos)
