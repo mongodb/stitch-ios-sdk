@@ -210,7 +210,8 @@ tasks:
             run_xctest StitchAWSS3Service StitchAWSS3Service
             run_xctest StitchAWSSESService StitchAWSSESService
             run_xctest StitchFCMService StitchFCMService
-            run_xctest StitchHTTPService StitchHTTPService
+            # TODO: Re-enable this once new version of libbson is released
+            # run_xctest StitchHTTPService StitchHTTPService
             run_xctest StitchRemoteMongoDBService StitchRemoteMongoDBService
             run_xctest StitchTwilioService StitchTwilioService
 

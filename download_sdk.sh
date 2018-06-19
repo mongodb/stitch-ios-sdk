@@ -159,7 +159,6 @@ if [ ! -d MobileSDKs ]; then
     mkdir -p MobileSDKs && cd MobileSDKs
     download_and_combine "iphone"
     download_and_combine "appletv"
-    download_and_combine "mac"
     cd ..
 else
   log_w "skipping downloading MobileSDKs"
@@ -186,7 +185,6 @@ if [[ $WITH_MOBILE == YES ]]; then
       fi
       break
     fi
-    log_e "couldn't find mobile mongo dir"
   done
 else
     log_w "skipping downloading MongoMobile"
