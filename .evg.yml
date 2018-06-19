@@ -107,7 +107,7 @@ functions:
         script: |
           set -e
           cd stitch-ios-sdk
-          ./build.sh
+          ./download_sdk.sh --with_mobile
           export DEVELOPER_DIR=/Applications/Xcode9.2.app
           export PATH=`pwd`/MobileSDKs/iphoneos/lib:$PATH
           export PATH=`pwd`/MobileSDKs/include/libbson-1.0/:$PATH
@@ -123,6 +123,7 @@ functions:
         silent: true
         script: |
           set -e
+          echo "...setting test creds"
           cd stitch-ios-sdk
           sed -i -e 's/&lt;your-auth-token&gt;/${test_twilio_authtoken}/g' iOS/Services/StitchTwilioService/StitchTwilioServiceTests/Info.plist
           sed -i -e 's/&lt;your-sid&gt;/${test_twilio_sid}/g' iOS/Services/StitchTwilioService/StitchTwilioServiceTests/Info.plist
@@ -132,6 +133,7 @@ functions:
           sed -i -e 's~&lt;your-secret-access-key&gt;~${test_aws_secret}~g' iOS/Services/StitchAWSS3Service/StitchAWSS3ServiceTests/Info.plist
           sed -i -e 's/&lt;your-api-key&gt;/${test_fcm_api_key}/g' iOS/Services/StitchFCMService/StitchFCMServiceTests/Info.plist
           sed -i -e 's/&lt;your-sender-id&gt;/${test_fcm_sender_id}/g' iOS/Services/StitchFCMService/StitchFCMServiceTests/Info.plist
+          echo "...test creds set"
 tasks:
   - name: lint
     commands:
@@ -144,20 +146,7 @@ tasks:
             set -e
             cd stitch-ios-sdk/StitchCore
             swiftlint
-  - name: run_core_tests
-    commands:
-      - func: "fetch_source"
-      - func: "setup_stitch_swift"
-      - command: shell.exec
-        params: 
-          shell: "bash"
-          script: |
-            set -e
-            echo "running swift core tests"
-            export DEVELOPER_DIR=/Applications/Xcode9.2.app
-            cd stitch-ios-sdk
-            make test
-  - name: run_ios_tests
+  - name: run_tests
     commands:
       - func: "fetch_source"
       - func: "setup_mongod"
@@ -168,55 +157,63 @@ tasks:
         params:
           shell: "bash"
           script: |
-
+            echo "running ios tests"
             set -e
-            pkill -9 CoreSimulator
-            export DEVELOPER_DIR=/Applications/Xcode9.2.app
-            echo "running iOS tests"
-            cd stitch-ios-sdk
-            xattr -rc ~/Library/Developer/Xcode/DerivedData
 
+            if pgrep CoreSimulator; then pkill -9 CoreSimulator; fi
+            export DEVELOPER_DIR=/Applications/Xcode9.2.app
+            cd stitch-ios-sdk
             export SIM_UUID=$(xcrun simctl create stitch-iphone7 com.apple.CoreSimulator.SimDeviceType.iPhone-7 com.apple.CoreSimulator.SimRuntime.iOS-10-2)
             xcrun simctl boot $SIM_UUID
-            echo `"booting SIMCTL $SIM_UUID"`
-            echo $SIM_UUID
+            echo "booting SIMCTL $SIM_UUID"
             
-            echo "!building MockUtils!"
-            xcodebuild -workspace Stitch.xcworkspace/ -scheme MockUtils-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
-            echo "!building StitchCoreSDK!"
-            xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreSDK-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
-            echo "!building StitchCoreAdminClient!"
-            xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreAdminClient-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
-            echo "!building StitchCoreTestUtils!"
-            xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreTestUtils-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
-            echo "!building StitchCoreAWSS3Service!"
-            xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreAWSS3Service-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
-            echo "!building StitchCoreAWSSESService!"
-            xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreAWSSESService-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
-            echo "!building StitchCoreFCMService!"
-            xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreFCMService-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
-            echo "!building StitchCoreHTTPService!"
-            xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreHTTPService-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
-            echo "!building StitchCoreRemoteMongoDBService!"
-            xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreRemoteMongoDBService-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
-            echo "!building StitchCoreTwilioService!"
-            xcodebuild -workspace Stitch.xcworkspace/ -scheme StitchCoreTwilioService-Package -configuration Debug -derivedDataPath build -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
+            cc=`find ./.build/checkouts/ -type d -name "CommonCrypto*" -print`
 
+            run_xctest() {
+              local xcodeproj=`find . -type d -name "$1.xcodeproj" -print`
+              local scheme=$2
+              local no_test=$3
+              echo "...testing $1"
 
-            echo "!testing StitchCore!"
-            xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCore -configuration Debug -derivedDataPath build -destination "id=$SIM_UUID"
-            echo "!testing StitchAWSS3Service!"
-            xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchAWSS3Service -configuration Debug -derivedDataPath build -destination "id=$SIM_UUID"
-            echo "!testing StitchAWSSESService!"
-            xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchAWSSESService -configuration Debug -derivedDataPath build -destination "id=$SIM_UUID"
-            echo "!testing StitchFCMService!"
-            xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchFCMService -configuration Debug -derivedDataPath build -destination "id=$SIM_UUID"
-            echo "!testing StitchHTTPService!"
-            xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchHTTPService -configuration Debug -derivedDataPath build -destination "id=$SIM_UUID"
-            echo "!testing StitchRemoteMongoDBService!"
-            xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchRemoteMongoDBService -configuration Debug -derivedDataPath build -destination "id=$SIM_UUID"
-            echo "!testing StitchTwilioService!"
-            xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchTwilioService -configuration Debug -derivedDataPath build -destination "id=$SIM_UUID"
+              xcodebuild \
+                -project "`pwd`/$xcodeproj" \
+                -destination "id=$SIM_UUID" \
+                -derivedDataPath "localDerivedData" \
+                -scheme $scheme \
+                OTHER_LDFLAGS="-rpath `pwd`/vendor/MobileSDKs/iphoneos/lib" \
+                LIBRARY_SEARCH_PATHS="`pwd`/vendor/MobileSDKs/iphoneos/lib" \
+                SWIFT_INCLUDE_PATHS="`pwd`/$cc `pwd`/vendor/MobileSDKs/include `pwd`/vendor/MobileSDKs/include/libbson-1.0 `pwd`/vendor/MobileSDKs/include/libmongoc-1.0 `pwd`/vendor/MobileSDKs/include/mongo/embedded-v1/" \
+                FRAMEWORK_INCLUDE_PATHS="`pwd`/localDerivedData" \
+                ENABLE_BITCODE=NO \
+                IPHONEOS_DEPLOYMENT_TARGET="8.0" \
+                `[[ $no_test != YES ]] && echo "test" || echo ""`
+            }
+
+            echo "...testing core"
+            run_xctest StitchCoreSDK StitchCoreSDK-Package
+            run_xctest StitchCoreAdminClient StitchCoreAdminClient-Package
+            run_xctest StitchCoreTestUtils StitchCoreTestUtils-Package
+
+            echo "...testing core services"
+            run_xctest StitchCoreAWSS3Service StitchCoreAWSS3Service-Package
+            run_xctest StitchCoreAWSSESService StitchCoreAWSSESService-Package
+            run_xctest StitchCoreFCMService StitchCoreFCMService-Package
+            run_xctest StitchCoreHTTPService StitchCoreHTTPService-Package
+            run_xctest StitchCoreRemoteMongoDBService StitchCoreRemoteMongoDBService-Package
+            run_xctest StitchCoreTwilioService StitchCoreTwilioService-Package
+
+            echo "...testing ios"
+            run_xctest StitchCore StitchCore YES
+            run_xctest StitchIOSCoreTestUtils StitchIOSCoreTestUtils
+            run_xctest StitchCore StitchCore
+
+            echo "...testing ios services"
+            run_xctest StitchAWSS3Service StitchAWSS3Service
+            run_xctest StitchAWSSESService StitchAWSSESService
+            run_xctest StitchFCMService StitchFCMService
+            run_xctest StitchHTTPService StitchHTTPService
+            run_xctest StitchRemoteMongoDBService StitchRemoteMongoDBService
+            run_xctest StitchTwilioService StitchTwilioService
 
             xcrun simctl shutdown $SIM_UUID
             xcrun simctl erase $SIM_UUID
@@ -229,5 +226,4 @@ buildvariants:
     mongodb_url: http://fastdl.mongodb.org/osx/mongodb-osx-ssl-x86_64-3.4.4.tgz
     transpiler_target: node8-macos
   tasks:
-    - name: run_core_tests
-    - name: run_ios_tests
+    - name: run_tests

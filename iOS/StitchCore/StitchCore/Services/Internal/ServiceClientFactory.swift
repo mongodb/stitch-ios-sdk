@@ -28,7 +28,7 @@ public struct AnyServiceClientFactory<T> {
     /**
      * Initializes this `AnyServiceClientFactory` with an arbitrary `ServiceClientFactory`.
      */
-    public init<U: ServiceClientProvider>(factory: U) where U.ClientType == T {
+    public init<U: ServiceClientFactory>(factory: U) where U.ClientType == T {
         self.clientBlock = factory.client
     }
 

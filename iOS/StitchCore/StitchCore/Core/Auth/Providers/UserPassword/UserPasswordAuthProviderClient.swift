@@ -2,40 +2,33 @@ import Foundation
 import StitchCoreSDK
 
 /**
- * A utility class which contains a property that can be used with `StitchAuth` to retrieve a
- * `UserPasswordAuthProviderClient`.
+ * :nodoc:
+ * An implementation of `AuthProviderClientFactory` that produces a `UserPasswordAuthProviderClient`.
  */
-public final class UserPasswordAuthProvider {
-    /**
-     * An `AuthProviderClientFactory` which can be used with `StitchAuth` to retrieve a
-     * `UserPasswordAuthProviderClient`.
-     */
-    public static let clientFactory: ClientFactoryImpl = ClientFactoryImpl.init()
+public final class UserPasswordClientFactoryImpl: AuthProviderClientFactory {
+    public typealias Client = UserPasswordAuthProviderClient
 
-    /**
-     * :nodoc:
-     * An implementation of `AuthProviderClientFactory` that produces a `UserPasswordAuthProviderClient`.
-     */
-    public final class ClientFactoryImpl: AuthProviderClientFactory {
-        public typealias Client = UserPasswordAuthProviderClient
-
-        public func client(withRequestClient requestClient: StitchRequestClient,
-                           withRoutes routes: StitchAuthRoutes,
-                           withDispatcher dispatcher: OperationDispatcher) -> UserPasswordAuthProviderClient {
-            return UserPasswordAuthProviderClientImpl.init(withRequestClient: requestClient,
-                                                           withAuthRoutes: routes,
-                                                           withDispatcher: dispatcher)
-        }
+    public func client(withRequestClient requestClient: StitchRequestClient,
+                       withRoutes routes: StitchAuthRoutes,
+                       withDispatcher dispatcher: OperationDispatcher) -> UserPasswordAuthProviderClient {
+        return UserPasswordAuthProviderClientImpl.init(withRequestClient: requestClient,
+                                                       withAuthRoutes: routes,
+                                                       withDispatcher: dispatcher)
     }
 }
 
+/**
+ * An `AuthProviderClientFactory` which can be used with `StitchAuth` to retrieve a
+ * `UserPasswordAuthProviderClient`.
+ */
+public let userPasswordClientFactory: UserPasswordClientFactoryImpl = UserPasswordClientFactoryImpl.init()
 /**
  * A protocol that provides a method for getting a `StitchCredential` property
  * that can be used to log in with the Username/Password authentication provider.
  */
 public protocol UserPasswordAuthProviderClient {
     // swiftlint:disable line_length
-    
+
     /**
      * Registers a new email identity with the username/password provider, and sends a confirmation email to the
      * provided address.

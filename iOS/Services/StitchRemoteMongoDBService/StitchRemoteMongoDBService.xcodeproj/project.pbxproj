@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1159637820D029EA00B0179B /* Exports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1159637720D029EA00B0179B /* Exports.swift */; };
+		1159637820D029EA00B0179B /* StitchRemoteMongoDBServiceExports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1159637720D029EA00B0179B /* StitchRemoteMongoDBServiceExports.swift */; };
 		1169217220C9D04C00930DD8 /* StitchRemoteMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1169216820C9D04C00930DD8 /* StitchRemoteMongoDBService.framework */; };
 		1169217720C9D04C00930DD8 /* RemoteMongoClientIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1169217620C9D04C00930DD8 /* RemoteMongoClientIntTests.swift */; };
 		1169217920C9D04C00930DD8 /* StitchCoreServicesMongoDbRemote_iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 1169216B20C9D04C00930DD8 /* StitchCoreServicesMongoDbRemote_iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -20,6 +20,7 @@
 		11CF5D9F20CF7D6C006D57BA /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11CF5D9E20CF7D6C006D57BA /* StitchCore.framework */; };
 		11CF5DA120CF7D6C006D57BA /* StitchCoreRemoteMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11CF5DA020CF7D6C006D57BA /* StitchCoreRemoteMongoDBService.framework */; };
 		11CF5DA320CF7D80006D57BA /* StitchIOSCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11CF5DA220CF7D80006D57BA /* StitchIOSCoreTestUtils.framework */; };
+		F494093F20D9761E001EF4C7 /* StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F494093E20D9761E001EF4C7 /* StitchCoreAdminClient.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,7 +34,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1159637720D029EA00B0179B /* Exports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exports.swift; sourceTree = "<group>"; };
+		1159637720D029EA00B0179B /* StitchRemoteMongoDBServiceExports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchRemoteMongoDBServiceExports.swift; sourceTree = "<group>"; };
 		1169216820C9D04C00930DD8 /* StitchRemoteMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StitchRemoteMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1169216B20C9D04C00930DD8 /* StitchCoreServicesMongoDbRemote_iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StitchCoreServicesMongoDbRemote_iOS.h; sourceTree = "<group>"; };
 		1169216C20C9D04C00930DD8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -52,6 +53,7 @@
 		11CF5D9E20CF7D6C006D57BA /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		11CF5DA020CF7D6C006D57BA /* StitchCoreRemoteMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreRemoteMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		11CF5DA220CF7D80006D57BA /* StitchIOSCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchIOSCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F494093E20D9761E001EF4C7 /* StitchCoreAdminClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAdminClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F494093F20D9761E001EF4C7 /* StitchCoreAdminClient.framework in Frameworks */,
 				1169218A20C9D0B900930DD8 /* StitchCoreTestUtils.framework in Frameworks */,
 				11CF5DA320CF7D80006D57BA /* StitchIOSCoreTestUtils.framework in Frameworks */,
 				1169217220C9D04C00930DD8 /* StitchRemoteMongoDBService.framework in Frameworks */,
@@ -104,7 +107,7 @@
 				1169218F20C9D28E00930DD8 /* RemoteMongoCursor.swift */,
 				1169219120C9D2A100930DD8 /* RemoteMongoDatabase.swift */,
 				1169219520C9FE3500930DD8 /* RemoteMongoReadOperation.swift */,
-				1159637720D029EA00B0179B /* Exports.swift */,
+				1159637720D029EA00B0179B /* StitchRemoteMongoDBServiceExports.swift */,
 				1169216C20C9D04C00930DD8 /* Info.plist */,
 				1169216B20C9D04C00930DD8 /* StitchCoreServicesMongoDbRemote_iOS.h */,
 			);
@@ -123,6 +126,7 @@
 		1169218220C9D09300930DD8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F494093E20D9761E001EF4C7 /* StitchCoreAdminClient.framework */,
 				11CF5DA220CF7D80006D57BA /* StitchIOSCoreTestUtils.framework */,
 				11CF5D9E20CF7D6C006D57BA /* StitchCore.framework */,
 				11CF5DA020CF7D6C006D57BA /* StitchCoreRemoteMongoDBService.framework */,
@@ -248,7 +252,7 @@
 				1169219020C9D28E00930DD8 /* RemoteMongoCursor.swift in Sources */,
 				1169218C20C9D27100930DD8 /* RemoteMongoClient.swift in Sources */,
 				1169219620C9FE3500930DD8 /* RemoteMongoReadOperation.swift in Sources */,
-				1159637820D029EA00B0179B /* Exports.swift in Sources */,
+				1159637820D029EA00B0179B /* StitchRemoteMongoDBServiceExports.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -403,8 +407,8 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../Sources/libbson",
-					"$(SRCROOT)/../../../Sources/libmongoc",
+					"$(SRCROOT)/../../../vendor/Sources/libbson",
+					"$(SRCROOT)/../../../vendor/Sources/libmongoc",
 				);
 				INFOPLIST_FILE = StitchRemoteMongoDBService/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -413,9 +417,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
-					"$(SRCROOT)/../../../MobileSDKs/iphoneos/lib",
+					"$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib",
 				);
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../MobileSDKs/iphoneos/lib";
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchRemoteMongoDBService;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -437,8 +441,8 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../Sources/libbson",
-					"$(SRCROOT)/../../../Sources/libmongoc",
+					"$(SRCROOT)/../../../vendor/Sources/libbson",
+					"$(SRCROOT)/../../../vendor/Sources/libmongoc",
 				);
 				INFOPLIST_FILE = StitchRemoteMongoDBService/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -447,9 +451,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
-					"$(SRCROOT)/../../../MobileSDKs/iphoneos/lib",
+					"$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib",
 				);
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../MobileSDKs/iphoneos/lib";
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchRemoteMongoDBService;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -464,17 +468,17 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../Sources/libbson",
-					"$(SRCROOT)/../../../Sources/libmongoc",
+					"$(SRCROOT)/../../../vendor/Sources/libbson",
+					"$(SRCROOT)/../../../vendor/Sources/libmongoc",
 				);
 				INFOPLIST_FILE = StitchRemoteMongoDBServiceTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
-					"$(SRCROOT)/../../../MobileSDKs/iphoneos/lib",
+					"$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib",
 				);
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../MobileSDKs/iphoneos/lib";
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchRemoteMongoDBServiceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -488,17 +492,17 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../Sources/libbson",
-					"$(SRCROOT)/../../../Sources/libmongoc",
+					"$(SRCROOT)/../../../vendor/Sources/libbson",
+					"$(SRCROOT)/../../../vendor/Sources/libmongoc",
 				);
 				INFOPLIST_FILE = StitchRemoteMongoDBServiceTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
-					"$(SRCROOT)/../../../MobileSDKs/iphoneos/lib",
+					"$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib",
 				);
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../MobileSDKs/iphoneos/lib";
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchRemoteMongoDBServiceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;

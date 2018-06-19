@@ -34,9 +34,19 @@ platform :ios, '11.0'
 use_frameworks!
 
 target '<Your Target Name>' do
-    pod 'Stitch', '~> 4.0.0'
+    pod 'StitchSDK', '~> 4.0.0'
+    # optional: for using the AWS S3 service
+    pod 'StitchSDK/StitchAWSS3Service', '~> 4.0.0'
+    # optional: for using the AWS SES service
+    pod 'StitchSDK/StitchAWSSESService', '~> 4.0.0'
+    # optional: for using the Firebase Cloud Messaging service
+    pod 'StitchSDK/StitchFCMService', '~> 4.0.0'
+    # optional: for using the HTTP service
+    pod 'StitchSDK/StitchHTTPService', '~> 4.0.0'
+    # optional: for using the Local MongoDB service
+    pod 'StitchSDK/StitchLocalMongoDBService', '~> 4.0.0'
     # optional: for using the twilio service
-    pod 'Stitch/Twilio', '~> 4.0.0'
+    pod 'StitchSDK/StitchTwilioService', '~> 4.0.0'
 end
 ```
 
@@ -64,9 +74,7 @@ If you prefer not to use any of the aforementioned dependency managers, you can 
   $ git submodule add https://github.com/10gen/stitch-ios-sdk.git
   ```
 
-- `cd` into stitch-ios-sdk, and run `build.sh`. This will download the required dependencies for Stitch.
-
-- Run `make`.
+- `cd` into stitch-ios-sdk, and run `make`.
 
 - Open the new `stitch-ios-sdk` folder, and drag the `StitchCore.xcodeproj` into the Project Navigator of your application's Xcode project.
 
