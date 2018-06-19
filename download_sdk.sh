@@ -150,8 +150,9 @@ fi
 # download MongoMobile
 if [[ $WITH_MOBILE == YES ]]; then
   find ../ -type d -name "StitchCoreLocalMongoDBService" -print | grep -v "dist" | while read dir; do
+    echo $dir
     if [[ $dir =~ .*Sources/StitchCoreLocalMongoDBService$ ]]; then
-      if [[ ! -z $dir && ! -d $dir/MongoMobile ]]; then
+      if [[ ! -d $dir/MongoMobile ]]; then
         log_i "downloading MongoMobile"
         curl -L https://api.github.com/repos/mongodb/swift-mongo-mobile/tarball > mongo-mobile.tgz
         mkdir mongo-mobile
@@ -164,7 +165,8 @@ if [[ $WITH_MOBILE == YES ]]; then
       fi
       break
     fi
-  done  
+  done
+  log_e "couldn't find mobile mongo dir"
 else
     log_w "skipping downloading MongoMobile"
 fi
