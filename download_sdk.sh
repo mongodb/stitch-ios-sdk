@@ -148,6 +148,8 @@ else
 fi
 
 # download MongoMobile
+log_e "WITH MOBILE: $WITH_MOBILE"
+log_e "CURRENT DIR: `pwd`"
 if [[ $WITH_MOBILE == YES ]]; then
   find ../ -type d -name "StitchCoreLocalMongoDBService" -print | grep -v "dist" | while read dir; do
     log_e $dir
@@ -162,7 +164,7 @@ if [[ $WITH_MOBILE == YES ]]; then
         cp -r mongo-mobile/Sources/mongo_embedded Sources/
         rm -rf mongo-mobile mongo-mobile.tgz
       else
-        log_e "error downloading MongoMobile"
+        log_w "MongoMobile already exists"
       fi
       break
     fi
