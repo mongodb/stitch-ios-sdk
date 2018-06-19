@@ -27,7 +27,7 @@ class ViewController: UIViewController {
         }
     }
 
-    private lazy var stitchClient: StitchAppClient! = try? Stitch.getDefaultAppClient()
+    private lazy var stitchClient: StitchAppClient! = Stitch.defaultAppClient
 
     @IBAction func functionOnePressed(_ sender: Any) {
         let abcr = ["1", 1] as [BsonValue]
@@ -72,7 +72,7 @@ class ViewController: UIViewController {
     @IBAction func loginButtonPressed(_ sender: Any) {
         print(UIDevice.current.systemName)
 
-        stitchClient.auth.login(withCredential: AnonymousCredential()) { result in //user, error in
+        stitchClient.auth.login(withCredential: AnonymousCredential()) { result in
             switch result {
             case .success(let user):
                 print("Logged in as user \(user.id)")

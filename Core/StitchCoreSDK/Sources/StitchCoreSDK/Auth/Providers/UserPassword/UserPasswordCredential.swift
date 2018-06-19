@@ -5,6 +5,22 @@ import MongoSwift
  * using the username/password authentication provider.
  */
 public struct UserPasswordCredential: StitchCredential {
+    // MARK: Initializer
+    
+    /**
+     * Initializes this credential with the name of the provider, the username of the user, and the password of the
+     * user.
+     */
+    public init(withProviderName providerName: String = providerType.name,
+                withUsername username: String,
+                withPassword password: String) {
+        self.providerName = providerName
+        self.username = username
+        self.password = password
+    }
+    
+    // MARK: Properties
+    
     /**
      * The name of the provider for this credential.
      */
@@ -38,16 +54,4 @@ public struct UserPasswordCredential: StitchCredential {
      * The password contained within this credential.
      */
     private let password: String
-
-    /**
-     * Initializes this credential with the name of the provider, the username of the user, and the password of the
-     * user.
-     */
-    public init(withProviderName providerName: String = providerType.name,
-                withUsername username: String,
-                withPassword password: String) {
-        self.providerName = providerName
-        self.username = username
-        self.password = password
-    }
 }

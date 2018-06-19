@@ -15,6 +15,14 @@ private final class FCMNamedPushClientFactory: NamedPushClientFactory {
 }
 
 /**
+ * Global factory const which can be used to create a `FCMServicePushClient` with a `StitchPush`. Pass into
+ * `StitchPush.pushClient(fromFactory:withName)` to get an `FCMServicePushClient.
+ */
+public let fcmServicePushClientFactory =
+    AnyNamedPushClientFactory<FCMServicePushClient>(factory: FCMNamedPushClientFactory())
+
+
+/**
  * The FCM service push client.
  */
 public protocol FCMServicePushClient {
@@ -38,7 +46,3 @@ public protocol FCMServicePushClient {
      */
     func deregister(_ completionHandler: @escaping (StitchResult<Void>) -> Void)
 }
-
-/// FCM service push client factory
-public let fcmServicePushClientFactory =
-    AnyNamedPushClientFactory<FCMServicePushClient>(factory: FCMNamedPushClientFactory())

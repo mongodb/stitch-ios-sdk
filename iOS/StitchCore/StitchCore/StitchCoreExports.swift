@@ -4,7 +4,6 @@
 @_exported import class StitchCoreSDK.StitchAppClientConfiguration
 @_exported import class StitchCoreSDK.StitchAppClientConfigurationBuilder
 @_exported import enum StitchCoreSDK.StitchAppClientConfigurationError
-@_exported import struct StitchCoreSDK.StitchAppClientInfo
 @_exported import class StitchCoreSDK.StitchClientConfiguration
 @_exported import enum StitchCoreSDK.StitchClientConfigurationError
 @_exported import enum StitchCoreSDK.StitchError

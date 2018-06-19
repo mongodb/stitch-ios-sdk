@@ -50,7 +50,7 @@ class AWSS3ServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         }
         wait(for: [exp0], timeout: 5.0)
         
-        let awsS3 = client.serviceClient(forFactory: AWSS3Service.sharedFactory, withName: "aws-s31")
+        let awsS3 = client.serviceClient(fromFactory: awsS3ServiceClientFactory, withName: "aws-s31")
         
         // Putting to an bad bucket should fail
         let bucket = "notmystuff"
@@ -200,7 +200,7 @@ class AWSS3ServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         }
         wait(for: [exp0], timeout: 5.0)
         
-        let awsS3 = client.serviceClient(forFactory: AWSS3Service.sharedFactory, withName: "aws-s31")
+        let awsS3 = client.serviceClient(fromFactory: awsS3ServiceClientFactory, withName: "aws-s31")
         
         // Including all parameters should succeed
         let bucket = "notmystuff"

@@ -3,9 +3,9 @@ import StitchCoreSDK
 
 /**
  * :nodoc:
- * An implementation of `AuthProviderClientFactory` that produces a `UserPasswordAuthProviderClient`.
+ * A factory for a `UserPasswordAuthProviderClient`.
  */
-public final class UserPasswordClientFactoryImpl: AuthProviderClientFactory {
+public final class UserPasswordClientFactory: AuthProviderClientFactory {
     public typealias Client = UserPasswordAuthProviderClient
 
     public func client(withRequestClient requestClient: StitchRequestClient,
@@ -18,13 +18,13 @@ public final class UserPasswordClientFactoryImpl: AuthProviderClientFactory {
 }
 
 /**
- * An `AuthProviderClientFactory` which can be used with `StitchAuth` to retrieve a
- * `UserPasswordAuthProviderClient`.
+ * Global factory const which can be used to create a `UserPasswordAuthProviderClient` with a `StitchAuth`. Pass this
+ * into `StitchAuth.providerClient(fromFactory:) to get a `UserPasswordAuthProviderClient`.
  */
-public let userPasswordClientFactory: UserPasswordClientFactoryImpl = UserPasswordClientFactoryImpl.init()
+public let userPasswordClientFactory = UserPasswordClientFactory()
+
 /**
- * A protocol that provides a method for getting a `StitchCredential` property
- * that can be used to log in with the Username/Password authentication provider.
+ * A protocol defining methods for interacting with username/password authentication provider in Stitch.
  */
 public protocol UserPasswordAuthProviderClient {
     // swiftlint:disable line_length

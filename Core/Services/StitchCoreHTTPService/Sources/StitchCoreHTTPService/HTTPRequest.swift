@@ -1,7 +1,7 @@
 import Foundation
 
 /**
- * An error that the HTTPRequest builder can throw if it is missing certain configuration properties.
+ * An error that the `HTTPRequestBuilder` can throw if it is missing certain configuration properties.
  */
 public enum HTTPRequestBuilderError: Error {
     case missingMethod
@@ -58,6 +58,9 @@ public struct HTTPRequest {
     public let followRedirects: Bool?
 }
 
+/**
+ * A builder class which can be used to prepare an HTTP request to be executed by the Stitch HTTP service.
+ */
 public class HTTPRequestBuilder {
     internal var url: String?
     internal var method: HTTPMethod?

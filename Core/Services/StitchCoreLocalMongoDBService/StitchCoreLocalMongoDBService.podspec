@@ -21,7 +21,7 @@ Pod::Spec.new do |spec|
     spec.requires_arc = true
     
     spec.prepare_command = <<-CMD
-      sh download_sdk.sh --with_mobile
+      sh download_sdk.sh --with-mobile
       sh prep_pods.sh \
         --module=#{spec.name} \
         --sources=Sources/#{spec.name}

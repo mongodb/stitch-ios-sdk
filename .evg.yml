@@ -107,7 +107,7 @@ functions:
         script: |
           set -e
           cd stitch-ios-sdk
-          ./download_sdk.sh --with_mobile
+          ./download_sdk.sh --with-mobile
           export DEVELOPER_DIR=/Applications/Xcode9.2.app
           export PATH=`pwd`/MobileSDKs/iphoneos/lib:$PATH
           export PATH=`pwd`/MobileSDKs/include/libbson-1.0/:$PATH

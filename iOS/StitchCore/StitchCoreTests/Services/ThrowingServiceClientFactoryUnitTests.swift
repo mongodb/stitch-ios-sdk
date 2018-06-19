@@ -19,7 +19,7 @@ class ThrowingServiceClientFactoryUnitTests: BaseStitchIntTestCocoaTouch {
     var appClient: StitchAppClient!
 
     override func setUp() {
-        guard let client = try? Stitch.getDefaultAppClient() else {
+        guard let client = Stitch.defaultAppClient else {
             do {
                 try Stitch.initialize()
                 appClient = try? Stitch.initializeDefaultAppClient(
@@ -39,7 +39,7 @@ class ThrowingServiceClientFactoryUnitTests: BaseStitchIntTestCocoaTouch {
     func testThrowingServiceClient() throws {
         XCTAssertThrowsError(
             try appClient.serviceClient(
-                forFactory: AnyThrowingServiceClientFactory<String>.init(
+                fromFactory: AnyThrowingServiceClientFactory<String>.init(
                     factory: TestThrowingServiceClientFactory()
                 )
             )

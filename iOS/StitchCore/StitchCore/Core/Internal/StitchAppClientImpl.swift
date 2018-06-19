@@ -88,13 +88,13 @@ internal final class StitchAppClientImpl: StitchAppClient {
      * Retrieves the service client associated with the Stitch service with the specified name and type.
      *
      * - parameters:
-     *     - forFactory: An `AnyNamedServiceClientFactory` object which contains a `NamedServiceClientFactory`
+     *     - fromFactory: An `AnyNamedServiceClientFactory` object which contains a `NamedServiceClientFactory`
      *                    class which will provide the client for this service.
      *     - withName: The name of the service as defined in the MongoDB Stitch application.
      * - returns: a service client whose type is determined by the `T` type parameter of the
-     *            `AnyNamedServiceClientFactory` passed in the `forFactory` parameter.
+     *            `AnyNamedServiceClientFactory` passed in the `fromFactory` parameter.
      */
-    public func serviceClient<T>(forFactory factory: AnyNamedServiceClientFactory<T>,
+    public func serviceClient<T>(fromFactory factory: AnyNamedServiceClientFactory<T>,
                                  withName serviceName: String) -> T {
         return factory.client(
             forService: StitchServiceClientImpl.init(requestClient: self._auth,
@@ -108,12 +108,12 @@ internal final class StitchAppClientImpl: StitchAppClient {
      * Retrieves the service client associated with the service type specified in the argument.
      *
      * - parameters:
-     *     - forFactory: An `AnyServiceClientProvider` object which contains a `ServiceClientFactory`
+     *     - fromFactory: An `AnyServiceClientProvider` object which contains a `ServiceClientFactory`
      *                    class which will provide the client for this service.
      * - returns: a service client whose type is determined by the `T` type parameter of the
-     *            `AnyNamedServiceClientFactory` passed in the `forFactory` parameter.
+     *            `AnyNamedServiceClientFactory` passed in the `fromFactory` parameter.
      */
-    public func serviceClient<T>(forFactory factory: AnyNamedServiceClientFactory<T>) -> T {
+    public func serviceClient<T>(fromFactory factory: AnyNamedServiceClientFactory<T>) -> T {
         return factory.client(
             forService: StitchServiceClientImpl.init(requestClient: self._auth,
                                                      routes: self.routes.serviceRoutes,
@@ -126,12 +126,12 @@ internal final class StitchAppClientImpl: StitchAppClient {
      * Retrieves the service client associated with the service type specified in the argument.
      *
      * - parameters:
-     *     - forFactory: An `AnyThrowingServiceClientFactory` object which contains a `ThrowingServiceClientFactory`
-     *                   class which will provide the client for this service.
+     *     - fromFactory: An `AnyThrowingServiceClientFactory` object which contains a `ThrowingServiceClientFactory`
+     *                    class which will provide the client for this service.
      * - returns: a service client whose type is determined by the `T` type parameter of the
-     *            `AnyThrowingServiceClientFactory` passed in the `forFactory` parameter.
+     *            `AnyThrowingServiceClientFactory` passed in the `fromFactory` parameter.
      */
-    public func serviceClient<T>(forFactory factory: AnyThrowingServiceClientFactory<T>) throws -> T {
+    public func serviceClient<T>(fromFactory factory: AnyThrowingServiceClientFactory<T>) throws -> T {
         return try factory.client(
             forService: StitchServiceClientImpl.init(requestClient: self._auth,
                                                      routes: self.routes.serviceRoutes,

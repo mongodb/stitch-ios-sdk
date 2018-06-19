@@ -5,6 +5,19 @@ import MongoSwift
  * using the Google authentication provider.
  */
 public struct GoogleCredential: StitchCredential {
+    // MARK: Initializer
+    
+    /**
+     * Initializes this credential with the name of the provider, and a Google OAuth2 authentication code.
+     */
+    public init(withProviderName providerName: String = providerType.name,
+                withAuthCode authCode: String) {
+        self.providerName = providerName
+        self.authCode = authCode
+    }
+
+    // MARK: Properties
+    
     /**
      * The name of the provider for this credential.
      */
@@ -32,13 +45,4 @@ public struct GoogleCredential: StitchCredential {
      * The Google OAuth2 authentication code contained within this credential.
      */
     private let authCode: String
-
-    /**
-     * Initializes this credential with the name of the provider, and a Google OAuth2 authentication code.
-     */
-    public init(withProviderName providerName: String = providerType.name,
-                withAuthCode authCode: String) {
-        self.providerName = providerName
-        self.authCode = authCode
-    }
 }

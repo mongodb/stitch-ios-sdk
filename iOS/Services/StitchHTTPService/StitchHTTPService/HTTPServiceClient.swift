@@ -15,6 +15,16 @@ private final class HTTPNamedServiceClientFactory: NamedServiceClientFactory {
     }
 }
 
+/**
+ * Global factory const which can be used to create an `HTTPServiceClient` with a `StitchAppClient`. Pass into
+ * `StitchAppClient.serviceClient(fromFactory:withName)` to get a `HTTPServiceClient.
+ */
+public let httpServiceClientFactory =
+    AnyNamedServiceClientFactory<HTTPServiceClient>(factory: HTTPNamedServiceClientFactory())
+
+/**
+ * The HTTP service client, which can be used to perform HTTP requests via MongoDB Stitch.
+ */
 public protocol HTTPServiceClient {
     /**
      * Executes the given `HTTPRequest`.
@@ -26,10 +36,4 @@ public protocol HTTPServiceClient {
      *                          successful, the result will contain the response to the request as an `HTTPResponse`.
      */
     func execute(request: HTTPRequest, _ completionHandler: @escaping (StitchResult<HTTPResponse>) -> Void)
-}
-
-public final class HTTPService {
-    public static let sharedFactory = AnyNamedServiceClientFactory<HTTPServiceClient>(
-        factory: HTTPNamedServiceClientFactory()
-    )
 }

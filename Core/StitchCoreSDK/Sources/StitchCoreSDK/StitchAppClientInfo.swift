@@ -1,6 +1,7 @@
 import Foundation
 
 /**
+ * :nodoc:
  * A struct providing basic information about a Stitch app client.
  */
 public struct StitchAppClientInfo {

@@ -47,7 +47,7 @@ open class BaseStitchIntTestCocoaTouch: BaseStitchIntTest {
     }
     
     public func appClient(forApp app: AppResponse) throws -> StitchAppClient {
-        if let appClient = try? Stitch.getAppClient(forAppID: app.clientAppID) {
+        if let appClient = try? Stitch.appClient(forAppID: app.clientAppID) {
             return appClient
         }
 
@@ -68,7 +68,7 @@ open class BaseStitchIntTestCocoaTouch: BaseStitchIntTest {
         email: String,
         pass: String
     ) throws -> String {
-        let emailPassClient = client.auth.providerClient(forFactory:
+        let emailPassClient = client.auth.providerClient(fromFactory:
             userPasswordClientFactory
         )
         

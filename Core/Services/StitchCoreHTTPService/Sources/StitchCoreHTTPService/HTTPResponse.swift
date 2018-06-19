@@ -5,7 +5,7 @@ import MongoSwift
  * The response to an HTTP request over the HTTP service.
  */
 public struct HTTPResponse: Decodable {
-    public enum CodingKeys: String, CodingKey {
+    internal enum CodingKeys: String, CodingKey {
         case status, statusCode, contentLength, headers, cookies, body
     }
     

@@ -2,13 +2,13 @@ import StitchCoreSDK
 
 /**
  * A set of methods and properties that represent a user that a `StitchAppClient` is currently authenticated as.
- * Can be instantiated from a `StitchAuth` or as a parameter to an authentication completion handler.
+ * Can be retrieved from a `StitchAuth` or from the `StitchResult` of certain methods.
  */
 public protocol StitchUser: CoreStitchUser {
     // MARK: Properties
 
     /**
-     * The String representation of the id of this Stitch user.
+     * The String representation of the ID of this Stitch user.
      */
     var id: String { get }
 
@@ -28,12 +28,12 @@ public protocol StitchUser: CoreStitchUser {
     var userType: String { get }
 
     /**
-     * A `StitchCore.StitchUserProfile` object describing this user.
+     * A `StitchUserProfile` object describing this user.
      */
     var profile: StitchUserProfile { get }
 
     /**
-     * An array of `StitchCore.StitchUserIdentity` objects representing the identities linked
+     * An array of `StitchUserIdentity` objects representing the identities linked
      * to this user which can be used to log in as this user.
      */
     var identities: [StitchUserIdentity] { get }

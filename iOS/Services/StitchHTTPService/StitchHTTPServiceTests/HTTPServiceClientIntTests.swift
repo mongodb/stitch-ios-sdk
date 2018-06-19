@@ -30,7 +30,7 @@ class HTTPServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         }
         wait(for: [exp0], timeout: 5.0)
         
-        let httpClient = client.serviceClient(forFactory: HTTPService.sharedFactory, withName: "http1")
+        let httpClient = client.serviceClient(fromFactory: httpServiceClientFactory, withName: "http1")
         
         // Specifying a request with a form AND body should fail.
         var badURL = "http://aol.com"
@@ -103,31 +103,32 @@ class HTTPServiceClientIntTests: BaseStitchIntTestCocoaTouch {
             .with(cookies: cookies)
             .with(headers: headers)
             .build()
-        
+
         let exp3 = expectation(description: "request should be successfully completed")
         var response: HTTPResponse!
         httpClient.execute(request: goodRequest) { result in
             switch result {
             case .success(let resp):
                 response = resp
-            case .failure:
+            case .failure(let error):
+                print(error)
                 XCTFail("unexpected error")
             }
-
+            
             exp3.fulfill()
         }
-        wait(for: [exp3], timeout: 5.0)
-        
+        wait(for: [exp3], timeout: 20.0)
+
         XCTAssertEqual("200 OK", response!.status)
         XCTAssertEqual(200, response!.statusCode)
         XCTAssertTrue(300 <= response!.contentLength && response!.contentLength <= 400)
         XCTAssertNotNil(response!.body)
 
         let dataDoc = try Document.init(fromJSON: response!.body!)
-        
+
         let dataString: String = try dataDoc.get("data")
         XCTAssertEqual(String.init(data: body, encoding: .utf8)!, dataString)
-        
+
         let headersDoc: Document = try dataDoc.get("headers")
         XCTAssertEqual("value1,value2", try headersDoc.get("Myheader"))
         XCTAssertEqual("bob=barker", try headersDoc.get("Cookie"))

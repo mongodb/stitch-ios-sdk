@@ -1,11 +1,15 @@
 .DS_Store
-docs
 /.build
 /Packages
 /*.xcodeproj
 # Xcode
 #
 # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
+
+# Custom docs generation process
+docs
+.raw_docs.json
+.raw_docs_merged.json
 
 ## Build generated
 build/

@@ -17,17 +17,7 @@ public class RemoteMongoCollection<T: Codable> {
         self.dispatcher = dispatcher
     }
     
-    /**
-     * A `Codable` type associated with this `MongoCollection` instance.
-     * This allows `CollectionType` values to be directly inserted into and
-     * retrieved from the collection, by encoding/decoding them using the
-     * `BsonEncoder` and `BsonDecoder`.
-     * This type association only exists in the context of this particular
-     * `MongoCollection` instance. It is the responsibility of the user to
-     * ensure that any data already stored in the collection was encoded
-     * from this same type.
-     */
-    public typealias CollectionType = T
+    // MARK: Properties
     
     /**
      * The name of this collection.
@@ -43,6 +33,20 @@ public class RemoteMongoCollection<T: Codable> {
         return proxy.databaseName
     }
     
+    // MARK: Custom Document Types
+    
+    /**
+     * A `Codable` type associated with this `MongoCollection` instance.
+     * This allows `CollectionType` values to be directly inserted into and
+     * retrieved from the collection, by encoding/decoding them using the
+     * `BsonEncoder` and `BsonDecoder`.
+     * This type association only exists in the context of this particular
+     * `MongoCollection` instance. It is the responsibility of the user to
+     * ensure that any data already stored in the collection was encoded
+     * from this same type.
+     */
+    public typealias CollectionType = T
+    
     /**
      * Creates a collection using the same datatabase name and collection name, but with a new `Codable` type with
      * which to encode and decode documents retrieved from and inserted into the collection.
@@ -53,6 +57,8 @@ public class RemoteMongoCollection<T: Codable> {
             withDispatcher: dispatcher
         )
     }
+    
+    // MARK: CRUD Operations
     
     /**
      * Finds the documents in this collection which match the provided filter.

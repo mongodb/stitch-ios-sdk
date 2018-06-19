@@ -1,8 +1,9 @@
 import StitchCoreSDK
 
 /**
- * A protocol to be inherited by classes that will take action whenever a `StitchAppClient` performs an authentication
- * event. An instance of a `StitchAuthDelegate` must be registered with a `StitchAuth` for this to work correctly.
+ * A protocol to be inherited by classes that need to take action whenever a particular `StitchAppClient` performs an
+ * authentication event. An instance of a `StitchAuthDelegate` must be registered with a `StitchAuth` for this to work
+ * correctly.
  */
 public protocol StitchAuthDelegate: class {
     /**

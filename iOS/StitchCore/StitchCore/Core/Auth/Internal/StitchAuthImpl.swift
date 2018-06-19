@@ -60,15 +60,15 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
      * specified in the argument.
      *
      * - parameters:
-     *     - forFactory: The authentication provider conforming to `AuthProviderClientFactory` which
+     *     - fromFactory: The authentication provider conforming to `AuthProviderClientFactory` which
      *                    will provide the client for this authentication provider. Use the `clientFactory` field of
      *                    the desired authentication provider class.
      * - returns: an authentication provider client whose type is determined by the `Client` typealias in the type
-     *            specified in the `forFactory` parameter.
+     *            specified in the `fromFactory` parameter.
      * - throws: A Stitch client error if the client is not currently authenticated.
      */
-    func providerClient<Factory: AuthProviderClientFactory>(forFactory factory: Factory)
-        throws -> Factory.ClientT where Factory.RequestClientT == StitchAuthRequestClient {
+    func providerClient<Factory: AuthProviderClientFactory>(fromFactory factory: Factory)
+        -> Factory.ClientT where Factory.RequestClientT == StitchAuthRequestClient {
         return factory.client(withRequestClient: self,
                               withRoutes: self.authRoutes,
                               withDispatcher: self.dispatcher)
@@ -79,13 +79,13 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
      * argument.
      *
      * - parameters:
-     *     - forFactory: The authentication provider conforming to `AuthProviderClientFactory` which will provide the
-     *                   client for this authentication provider. Use the `clientFactory` field of the desired
-     *                   authentication provider class.
+     *     - fromFactory: The authentication provider conforming to `AuthProviderClientFactory` which will provide the
+     *                    client for this authentication provider. Use the `clientFactory` field of the desired
+     *                    authentication provider class.
      * - returns: an authentication provider client whose type is determined by the `Client` typealias in the type
-     *            specified in the `forFactory` parameter.
+     *            specified in the `fromFactory` parameter.
      */
-    func providerClient<Factory: AuthProviderClientFactory>(forFactory factory: Factory)
+    func providerClient<Factory: AuthProviderClientFactory>(fromFactory factory: Factory)
         -> Factory.ClientT where Factory.RequestClientT == StitchRequestClient {
         return factory.client(withRequestClient: self.requestClient,
                               withRoutes: self.authRoutes,
@@ -97,14 +97,14 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
      * and type.
      *
      * - parameters:
-     *     - forFactory: The authentication provider conforming to `NamedAuthProviderClientFactory` which will
+     *     - fromFactory: The authentication provider conforming to `NamedAuthProviderClientFactory` which will
      *                    provide the client for this authentication provider. Use the `namedClientFactory` field of
      *                    the desired authentication provider class.
      *     - withName: The name of the authentication provider as defined in the MongoDB Stitch application.
      * - returns: an authentication provider client whose type is determined by the `Client` typealias in the type
-     *            specified in the `forFactory` parameter.
+     *            specified in the `fromFactory` parameter.
      */
-    public func providerClient<Factory>(forFactory factory: Factory, withName name: String)
+    public func providerClient<Factory>(fromFactory factory: Factory, withName name: String)
         -> Factory.Client where Factory: NamedAuthProviderClientFactory {
         return factory.client(forProviderName: name,
                                withRequestClient: self.requestClient,

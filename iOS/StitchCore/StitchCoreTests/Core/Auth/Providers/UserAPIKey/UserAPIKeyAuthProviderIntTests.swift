@@ -21,11 +21,7 @@ class UserAPIKeyAuthProviderIntTests: StitchIntegrationTestCase {
         wait(for: [exp1], timeout: defaultTimeoutSeconds)
 
         let auth = self.harness.stitchAppClient.auth
-        guard let userAPIKeyClient = try? auth.providerClient(
-            forFactory: userAPIKeyClientFactory) else {
-            XCTFail("could not get user API key client")
-            return
-        }
+        let userAPIKeyClient = auth.providerClient(fromFactory: userAPIKeyClientFactory)
 
         let exp2 = expectation(description: "created user API key, and logged out")
         var apiKey: UserAPIKey!
@@ -67,11 +63,7 @@ class UserAPIKeyAuthProviderIntTests: StitchIntegrationTestCase {
         wait(for: [exp1], timeout: defaultTimeoutSeconds)
 
         let auth = self.harness.stitchAppClient.auth
-        guard let userAPIKeyClient = try? auth.providerClient(
-            forFactory: userAPIKeyClientFactory) else {
-                XCTFail("could not get user API key client")
-                return
-        }
+        let userAPIKeyClient = auth.providerClient(fromFactory: userAPIKeyClientFactory)
 
         let exp2 = expectation(description: "created user API key, and fetched it")
         userAPIKeyClient.createAPIKey(withName: "key_test") { result in
@@ -105,11 +97,7 @@ class UserAPIKeyAuthProviderIntTests: StitchIntegrationTestCase {
         wait(for: [exp1], timeout: defaultTimeoutSeconds)
 
         let auth = self.harness.stitchAppClient.auth
-        guard let userAPIKeyClient = try? auth.providerClient(
-            forFactory: userAPIKeyClientFactory) else {
-                XCTFail("could not get user API key client")
-                return
-        }
+        let userAPIKeyClient = auth.providerClient(fromFactory: userAPIKeyClientFactory)
 
         let exp2 = expectation(description: "created two user API keys")
         var expectedID1: ObjectId!
@@ -161,11 +149,7 @@ class UserAPIKeyAuthProviderIntTests: StitchIntegrationTestCase {
         wait(for: [exp1], timeout: defaultTimeoutSeconds)
 
         let auth = self.harness.stitchAppClient.auth
-        guard let userAPIKeyClient = try? auth.providerClient(
-            forFactory: userAPIKeyClientFactory) else {
-                XCTFail("could not get user API key client")
-                return
-        }
+        let userAPIKeyClient = auth.providerClient(fromFactory: userAPIKeyClientFactory)
 
         let exp2 = expectation(description: "created user API key")
         var apiKey: UserAPIKey!
@@ -232,11 +216,7 @@ class UserAPIKeyAuthProviderIntTests: StitchIntegrationTestCase {
         wait(for: [exp1], timeout: defaultTimeoutSeconds)
 
         let auth = self.harness.stitchAppClient.auth
-        guard let userAPIKeyClient = try? auth.providerClient(
-            forFactory: userAPIKeyClientFactory) else {
-                XCTFail("could not get user API key client")
-                return
-        }
+        let userAPIKeyClient = auth.providerClient(fromFactory: userAPIKeyClientFactory)
 
         let exp2 = expectation(description: "created user API key, and logged out")
         userAPIKeyClient.createAPIKey(withName: "$$%%$$$") { result in
@@ -264,11 +244,7 @@ class UserAPIKeyAuthProviderIntTests: StitchIntegrationTestCase {
         wait(for: [exp1], timeout: defaultTimeoutSeconds)
 
         let auth = self.harness.stitchAppClient.auth
-        guard let userAPIKeyClient = try? auth.providerClient(
-            forFactory: userAPIKeyClientFactory) else {
-                XCTFail("could not get user API key client")
-                return
-        }
+        let userAPIKeyClient = auth.providerClient(fromFactory: userAPIKeyClientFactory)
 
         let exp2 = expectation(description: "created user API key, and logged out")
         userAPIKeyClient.fetchAPIKey(withID: ObjectId.init()) { result in // _, error in

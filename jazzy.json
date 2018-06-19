@@ -1,0 +1,139 @@
+{
+    "author": "MongoDB",
+    "author_url": "https://github.com/mongodb/stitch-ios-sdk",
+    "module": "StitchSDK",
+    "theme": "fullwidth",
+
+    "documentation":"DocGen/DocsSources/Pages/*.md",
+    "abstract":"DocGen/DocsSources/Abstracts/*.md",
+
+    "exclude": "/*/Internal*",
+
+    "custom_categories": [{
+        "name": "Getting Started",
+        "children": [
+            "Note on Modules",
+            "Note on Multithreading"
+        ]
+    }, {
+        "name": "Interacting with Stitch",
+        "children": [
+            "Stitch",
+            "StitchAppClient",
+            "StitchAuth",
+            "StitchAuthDelegate",
+            "StitchPush",
+            "StitchUser",
+            "StitchUserProfile",
+            "StitchUserIdentity",
+            "StitchResult"
+        ]
+    }, {
+        "name": "Configuring Stitch",
+        "children": [
+            "StitchAppClientConfiguration",
+            "StitchAppClientConfigurationBuilder",
+            "StitchAppClientConfigurationError"
+        ]
+    }, {
+        "name": "Handling Errors",
+        "children": [
+            "StitchError",
+            "StitchServiceErrorCode",
+            "StitchRequestErrorCode",
+            "StitchClientErrorCode",
+            "StitchInitializationError"
+        ]
+    }, {
+        "name": "Authentication Providers",
+        "children": [
+            "AnonymousCredential",
+            "CustomCredential",
+            "FacebookCredential",
+            "GoogleCredential",
+            "ServerAPIKeyCredential",
+            "UserAPIKey",
+            "UserAPIKeyCredential",
+            "UserAPIKeyAuthProviderClient",
+            "userAPIKeyClientFactory",
+            "UserPasswordCredential",
+            "UserPasswordAuthProviderClient",
+            "userPasswordClientFactory"
+        ]
+    }, {
+        "name": "Remote MongoDB Service",
+        "children": [
+            "remoteMongoDBServiceClientFactory",
+            "RemoteMongoClient",
+            "RemoteMongoDatabase",
+            "RemoteMongoCollection",
+            "RemoteMongoCursor",
+            "RemoteMongoReadOperation",
+            "RemoteCountOptions",
+            "RemoteDeleteResult",
+            "RemoteFindOptions",
+            "RemoteInsertManyResult",
+            "RemoteInsertOneResult",
+            "RemoteUpdateOptions",
+            "RemoteUpdateResult"
+        ]
+    }, {
+        "name": "AWS S3 Service",
+        "children": [
+            "awsS3ServiceClientFactory",
+            "AWSS3ServiceClient",
+            "AWSS3PutObjectResult",
+            "AWSS3SignPolicyResult"
+        ]
+    }, {
+        "name": "AWS SES Service",
+        "children": [
+            "awsSESServiceClientFactory",
+            "AWSSESServiceClient",
+            "AWSSESSendResult"
+        ]
+    }, {
+        "name": "FCM Service",
+        "children": [
+            "fcmServiceClientFactory",
+            "FCMServiceClient",
+            "fcmServicePushClientFactory",
+            "FCMServicePushClient",
+            "FCMSendMessageNotification",
+            "FCMSendMessageNotificationBuilder",
+            "FCMSendMessagePriority",
+            "FCMSendMessageRequest",
+            "FCMSendMessageRequestBuilder",
+            "FCMSendMessageResult",
+            "FCMSendMessageResultFailureDetail"
+        ]
+    }, {
+        "name": "HTTP Service",
+        "children": [
+            "httpServiceClientFactory",
+            "HTTPServiceClient",
+            "HTTPCookie",
+            "HTTPMethod",
+            "HTTPRequest",
+            "HTTPRequestBuilder",
+            "HTTPRequestBuilderError",
+            "HTTPResponse"
+        ]
+    }, {
+        "name": "Twilio Service",
+        "children": [
+            "twilioServiceClientFactory",
+            "TwilioServiceClient"
+        ]
+    }, {
+        "name": "Miscellaneous",
+        "children": [
+            "StitchCredential",
+            "StitchProviderType",
+            "ExtendedStitchUserProfile",
+            "AuthProviderClientFactory",
+            "NamedAuthProviderClientFactory",
+            "ProviderCapabilities"
+        ]
+    }]
+}

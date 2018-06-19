@@ -10,7 +10,6 @@
 @_exported import class StitchCore.StitchAppClientConfiguration
 @_exported import class StitchCore.StitchAppClientConfigurationBuilder
 @_exported import enum StitchCore.StitchAppClientConfigurationError
-@_exported import struct StitchCore.StitchAppClientInfo
 @_exported import class StitchCore.StitchClientConfiguration
 @_exported import enum StitchCore.StitchClientConfigurationError
 @_exported import enum StitchCore.StitchError
@@ -52,8 +51,6 @@
 @_exported import protocol StitchCore.UserAPIKeyAuthProviderClient
 @_exported import let StitchCore.userPasswordClientFactory
 @_exported import protocol StitchCore.UserPasswordAuthProviderClient
-@_exported import protocol StitchCore.AuthProviderClientFactory
-@_exported import protocol StitchCore.NamedAuthProviderClientFactory
 
 // StitchCore/Core/Push
 @_exported import protocol StitchCore.StitchPush
@@ -61,15 +58,14 @@
 ////////////////////////
 // StitchAWSS3Service //
 ////////////////////////
-#if canImport(StitchAWSS3Service)
 // from core
 @_exported import struct StitchAWSS3Service.AWSS3PutObjectResult
 @_exported import struct StitchAWSS3Service.AWSS3SignPolicyResult
 
 // from iOS-specific module
 @_exported import protocol StitchAWSS3Service.AWSS3ServiceClient
-@_exported import class StitchAWSS3Service.AWSS3Service
-#endif
+@_exported import let StitchAWSS3Service.awsS3ServiceClientFactory
+
 /////////////////////////
 // StitchAWSSESService //
 /////////////////////////
@@ -79,7 +75,7 @@
 
 // from iOS-specific module
 @_exported import protocol StitchAWSSESService.AWSSESServiceClient
-@_exported import class StitchAWSSESService.AWSSESService
+@_exported import let StitchAWSSESService.awsSESServiceClientFactory
 
 //////////////////////
 // StitchFCMService //
@@ -115,7 +111,7 @@
 
 // from iOS-specific module
 @_exported import protocol StitchHTTPService.HTTPServiceClient
-@_exported import class StitchHTTPService.HTTPService
+@_exported import let StitchHTTPService.httpServiceClientFactory
 
 ////////////////////////////////
 // StitchRemoteMongoDBService //
@@ -131,17 +127,17 @@
 @_exported import struct StitchRemoteMongoDBService.RemoteUpdateResult
 
 // from iOS-specific module
-@_exported import class StitchRemoteMongoDBService.RemoteMongoDBService
 @_exported import class StitchRemoteMongoDBService.RemoteMongoClient
 @_exported import class StitchRemoteMongoDBService.RemoteMongoCollection
 @_exported import class StitchRemoteMongoDBService.RemoteMongoCursor
 @_exported import class StitchRemoteMongoDBService.RemoteMongoDatabase
 @_exported import class StitchRemoteMongoDBService.RemoteMongoReadOperation
+@_exported import let StitchRemoteMongoDBService.remoteMongoDBServiceClientFactory
 
 /////////////////////////
 // StitchTwilioService //
 /////////////////////////
 
 // from iOS-specific module
-@_exported import class StitchTwilioService.TwilioService
 @_exported import protocol StitchTwilioService.TwilioServiceClient
+@_exported import let StitchTwilioService.twilioServiceClientFactory

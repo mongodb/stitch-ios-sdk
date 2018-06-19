@@ -2,17 +2,15 @@ import Foundation
 import StitchCoreSDK
 
 /**
- * Singleton class with utility functions for initializing the MongoDB Stitch iOS SDK,
- * and for retrieving a `StitchAppClient`. Not meant to be instantiated.
+ * Singleton class with static utility functions for initializing the MongoDB Stitch iOS SDK,
+ * and for retrieving a `StitchAppClient`.
  */
 public class Stitch {
 
     // MARK: Properties
 
-    /**
-     * The version of this MongoDB Stitch iOS SDK, which will be reported to Stitch in device info.
-     */
-    public static let sdkVersion: String = "4.0.0-alpha0"
+    internal static var sdkVersion: String =
+        Bundle(for: Stitch.self).infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown"
 
     private static let defaultBaseURL: String = "https://stitch.mongodb.com"
     private static let userDefaultsName: String = "com.mongodb.stitch.sdk.UserDefaults"
@@ -68,7 +66,7 @@ public class Stitch {
      *     - withConfigBuilder: a StitchAppClientConfigurationBuilder containing the configuration desired
      *       for the default StitchAppClient.
      * - returns: A StitchAppClient configured with the provided configuration.
-     * - throws: A `StitchInitializationError if the provided configuation is missing a client app id,
+     * - throws: A `StitchInitializationError` if the provided configuation is missing a client app id,
      *           if a default app client has already been initialized, or the provided configuration
      *           contains a client app id for which a non-default StitchAppClient has already been created.
      */
@@ -185,20 +183,20 @@ public class Stitch {
      *
      * - returns: A StitchAppClient with the configuration specified when
      *            `initializeDefaultAppClient(:withConfigBuilder)` was called.
-     * - throws: A `StitchInitializationError` if `initialize()` was never called, or if `initializeDefaultAppClient`
-     *           was never called.
+     *            If `initialize()` was never called, or if `initializeDefaultAppClient`
+     *            was never called, this will return `nil`.
      */
-    public static func getDefaultAppClient() throws -> StitchAppClient {
+    public static var defaultAppClient: StitchAppClient? {
         objc_sync_enter(self)
         defer { objc_sync_exit(self) }
 
         guard initialized else {
-            throw StitchInitializationError.stitchNotInitialized
+            return nil
         }
 
         guard let clientAppID = defaultClientAppID,
               let client = appClients[clientAppID] else {
-            throw StitchInitializationError.defaultClientNotInitialized
+            return nil
         }
         return client
     }
@@ -215,7 +213,7 @@ public class Stitch {
      * - parameters:
      *     - forAppID: The client app id of the app client to be retrieved.
      */
-    public static func getAppClient(forAppID appID: String) throws -> StitchAppClient {
+    public static func appClient(forAppID appID: String) throws -> StitchAppClient {
         objc_sync_enter(self)
         defer { objc_sync_exit(self) }
 

@@ -1,5 +1,6 @@
 import Foundation
 import StitchCore
+import StitchCoreSDK
 import StitchCoreFCMService
 
 private final class FCMNamedServiceClientFactory: NamedServiceClientFactory {
@@ -15,7 +16,14 @@ private final class FCMNamedServiceClientFactory: NamedServiceClientFactory {
 }
 
 /**
- * The FCM service client, which can be used to send push notifications to other users.
+ * Global factory const which can be used to create a `FCMServiceClient` with a `StitchAppClient`. Pass into
+ * `StitchAppClient.serviceClient(fromFactory:withName)` to get an `FCMServiceClient.
+ */
+public let fcmServiceClientFactory =
+    AnyNamedServiceClientFactory<FCMServiceClient>(factory: FCMNamedServiceClientFactory())
+
+/**
+ * The FCM service client, which can be used to send push notifications to other users via MongoDB Stitch.
  */
 public protocol FCMServiceClient {
     
@@ -58,7 +66,3 @@ public protocol FCMServiceClient {
      */
     func sendMessage(toRegistrationTokens registrationTokens: [String], withRequest request: FCMSendMessageRequest, _ completionHandler: @escaping (StitchResult<FCMSendMessageResult>) -> Void)
 }
-
-/// FCM service client factory singleton
-public let fcmServiceClientFactory =
-    AnyNamedServiceClientFactory<FCMServiceClient>(factory: FCMNamedServiceClientFactory())
