@@ -171,7 +171,7 @@ tasks:
             run_xctest() {
               local xcodeproj=`find . -type d -name "$1.xcodeproj" -print`
               local scheme=$2
-              
+              local no_test=$3
               echo "...testing $1"
 
               xcodebuild \
@@ -185,7 +185,7 @@ tasks:
                 FRAMEWORK_INCLUDE_PATHS="`pwd`/localDerivedData" \
                 ENABLE_BITCODE=NO \
                 IPHONEOS_DEPLOYMENT_TARGET="8.0" \
-                test
+                `[[ $no_test != YES ]] && test`
             }
 
             echo "...testing core"
@@ -202,8 +202,9 @@ tasks:
             run_xctest StitchCoreTwilioService StitchCoreTwilioService-Package
 
             echo "...testing ios"
-            run_xctest StitchCore StitchCore
+            run_xctest StitchCore StitchCore YES
             run_xctest StitchIOSCoreTestUtils StitchIOSCoreTestUtils
+            run_xctest StitchCore StitchCore
 
             echo "...testing ios services"
             run_xctest StitchAWSS3Service StitchAWSS3Service

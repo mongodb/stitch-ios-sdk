@@ -36,7 +36,7 @@ internal class StitchIntegrationTestCase: XCTestCase {
                                  password: String = pass,
                                  _ completionHandler: @escaping (StitchUser) -> Void) {
         let emailPassClient = self.stitchAppClient.auth.providerClient(
-            forFactory: UserPasswordAuthProvider.clientFactory
+            forFactory: userPasswordClientFactory
         )
         emailPassClient.register(withEmail: email, withPassword: password) { _ in
             let conf = try? self.harness.app.userRegistrations.sendConfirmation(toEmail: email)

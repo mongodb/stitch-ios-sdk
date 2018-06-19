@@ -22,7 +22,7 @@ class UserAPIKeyAuthProviderIntTests: StitchIntegrationTestCase {
 
         let auth = self.harness.stitchAppClient.auth
         guard let userAPIKeyClient = try? auth.providerClient(
-            forFactory: UserAPIKeyAuthProvider.clientFactory) else {
+            forFactory: userAPIKeyClientFactory) else {
             XCTFail("could not get user API key client")
             return
         }
@@ -68,7 +68,7 @@ class UserAPIKeyAuthProviderIntTests: StitchIntegrationTestCase {
 
         let auth = self.harness.stitchAppClient.auth
         guard let userAPIKeyClient = try? auth.providerClient(
-            forFactory: UserAPIKeyAuthProvider.clientFactory) else {
+            forFactory: userAPIKeyClientFactory) else {
                 XCTFail("could not get user API key client")
                 return
         }
@@ -106,7 +106,7 @@ class UserAPIKeyAuthProviderIntTests: StitchIntegrationTestCase {
 
         let auth = self.harness.stitchAppClient.auth
         guard let userAPIKeyClient = try? auth.providerClient(
-            forFactory: UserAPIKeyAuthProvider.clientFactory) else {
+            forFactory: userAPIKeyClientFactory) else {
                 XCTFail("could not get user API key client")
                 return
         }
@@ -162,7 +162,7 @@ class UserAPIKeyAuthProviderIntTests: StitchIntegrationTestCase {
 
         let auth = self.harness.stitchAppClient.auth
         guard let userAPIKeyClient = try? auth.providerClient(
-            forFactory: UserAPIKeyAuthProvider.clientFactory) else {
+            forFactory: userAPIKeyClientFactory) else {
                 XCTFail("could not get user API key client")
                 return
         }
@@ -233,7 +233,7 @@ class UserAPIKeyAuthProviderIntTests: StitchIntegrationTestCase {
 
         let auth = self.harness.stitchAppClient.auth
         guard let userAPIKeyClient = try? auth.providerClient(
-            forFactory: UserAPIKeyAuthProvider.clientFactory) else {
+            forFactory: userAPIKeyClientFactory) else {
                 XCTFail("could not get user API key client")
                 return
         }
@@ -265,7 +265,7 @@ class UserAPIKeyAuthProviderIntTests: StitchIntegrationTestCase {
 
         let auth = self.harness.stitchAppClient.auth
         guard let userAPIKeyClient = try? auth.providerClient(
-            forFactory: UserAPIKeyAuthProvider.clientFactory) else {
+            forFactory: userAPIKeyClientFactory) else {
                 XCTFail("could not get user API key client")
                 return
         }
