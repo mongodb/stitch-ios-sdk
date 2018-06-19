@@ -12,7 +12,7 @@ Pod::Spec.new do |spec|
   spec.platform = :ios, "11.0"
   spec.source     = {
       :git => "https://github.com/jsflax/stitch-ios-sdk.git",
-      :branch => "STITCH-1293",
+      :branch => "v4-alpha",
       :submodules => true
   }
 
@@ -20,7 +20,7 @@ Pod::Spec.new do |spec|
   spec.swift_version = "4.1"
   spec.requires_arc = true
   spec.default_subspec = 'StitchSDK'
-
+  
   # pod "StitchSDK/StitchCoreSDK", "~> 4.0"
   spec.subspec "StitchCoreSDK" do |core|
       core.dependency "StitchCoreSDK", "~> 4.0.0-beta0"
@@ -91,7 +91,7 @@ Pod::Spec.new do |spec|
       local_mongodb_service.dependency 'StitchLocalMongoDBService', '~> 4.0.0-beta0'
   end
 
-  # pod "StitchSDK/StitchSDK", "~> 4.0"
+  # pod "StitchSDK", "~> 4.0"
   spec.subspec "StitchSDK" do |stitchSDK|
       stitchSDK.dependency "StitchSDK/StitchRemoteMongoDBService"
   end

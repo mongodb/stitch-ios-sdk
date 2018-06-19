@@ -9,7 +9,7 @@ Follow these instructions to get started with the MongoDB Stitch iOS SDK.
 
 ### Set up a project in XCode using Stitch
 
-TODO: For STITCH-1293, Replace this with instructions on how to integrate the SDK into an XCode project. Instructions should be given for each of the package managers we'll support, as well as making the SDK an embedded framework.
+TODO: For v4-alpha, Replace this with instructions on how to integrate the SDK into an XCode project. Instructions should be given for each of the package managers we'll support, as well as making the SDK an embedded framework.
 
 ### Using the SDK
 

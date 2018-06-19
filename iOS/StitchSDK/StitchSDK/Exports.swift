@@ -61,7 +61,7 @@
 ////////////////////////
 // StitchAWSS3Service //
 ////////////////////////
-
+#if canImport(StitchAWSS3Service)
 // from core
 @_exported import struct StitchAWSS3Service.AWSS3PutObjectResult
 @_exported import struct StitchAWSS3Service.AWSS3SignPolicyResult
@@ -69,7 +69,7 @@
 // from iOS-specific module
 @_exported import protocol StitchAWSS3Service.AWSS3ServiceClient
 @_exported import class StitchAWSS3Service.AWSS3Service
-
+#endif
 /////////////////////////
 // StitchAWSSESService //
 /////////////////////////
