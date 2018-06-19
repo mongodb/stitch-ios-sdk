@@ -1,5 +1,6 @@
 #!/bin/bash
 
+## hashtable of modules to their path relative to ROOT
 MODULES=(
     "StitchCoreSDK:Core/StitchCoreSDK/Sources/StitchCoreSDK"
     "StitchCoreAWSS3Service:Core/Services/StitchCoreAWSS3Service/Sources/StitchCoreAWSS3Service"
@@ -20,14 +21,15 @@ MODULES=(
     "StitchLocalMongoDBService:iOS/Services/StitchLocalMongoDBService/StitchLocalMongoDBService"
 )
 
+# log info
 log_i() {
     printf "\033[1;36m$1\033[0m\n"
 }
-
+# log warning
 log_w() {
     printf "\033[1;33m$1\033[0m\n"
 }
-
+# log error
 log_e() {
     printf "\033[1;31m$1\033[0m\n"
 }

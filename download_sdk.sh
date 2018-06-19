@@ -1,18 +1,19 @@
 #!/bin/bash
 
 # helper functions
+# log info
 log_i() {
     printf "\033[1;36m$1\033[0m\n"
 }
-
+# log warn
 log_w() {
     printf "\033[1;33m$1\033[0m\n"
 }
-
+# log error
 log_e() {
     printf "\033[1;31m$1\033[0m\n"
 }
-
+# get sdk url for variange
 mobile_sdk_url() {
   local variant=$1
 
@@ -39,6 +40,7 @@ mobile_sdk_url() {
   esac
 }
 
+# download mobile sdk for target from url
 download_mobile_sdk() {
   local target=$1 url=$2
 
@@ -49,6 +51,7 @@ download_mobile_sdk() {
   rm mobile-sdks.tgz
 }
 
+# fix 1.0.0 -> 1.0 links
 fix_mongoc_symlinks() {
   local prefix=$1
 
@@ -58,6 +61,7 @@ fix_mongoc_symlinks() {
   cp $prefix/lib/libmongoc-1.0.0.dylib $prefix/lib/libmongoc-1.0.dylib
 }
 
+# download and lipo each variant
 download_and_combine() {
   local variant=$1
   local variant_os=${variant}os
@@ -93,7 +97,9 @@ download_and_combine() {
 mkdir -p vendor && cd vendor
 
 POSITIONAL=()
+# with MongoMobile
 WITH_MOBILE=NO
+# should also run make
 SHOULD_MAKE=NO
 while [[ $# -gt 0 ]]
 do
@@ -127,10 +133,11 @@ if [ ! -d Sources/MongoSwift ]; then
   log_i "downloading MongoSwift"
   curl -L https://api.github.com/repos/mongodb/mongo-swift-driver/tarball > mongo-swift.tgz
   mkdir mongo-swift
+  # extract mongo-swift
   tar -xzf mongo-swift.tgz -C mongo-swift --strip-components 1
+  # copy it to vendored Sources dir
   cp -r mongo-swift/Sources/MongoSwift Sources/MongoSwift
-  # TODO: copy tests
-
+  # remove artifacts
   rm -rf mongo-swift mongo-swift.tgz
 else
   log_w "skipping downloading MongoSwift"
@@ -149,18 +156,18 @@ else
 fi
 
 # download MongoMobile
-log_e "WITH MOBILE: $WITH_MOBILE"
-log_e "CURRENT DIR: `pwd`"
 if [[ $WITH_MOBILE == YES ]]; then
+  # find the StitchCoreLocalMongoDBService Sources directory
   find ../ -type d -name "StitchCoreLocalMongoDBService" -print | grep -v "dist" | while read dir; do
-    log_e $dir
+    # if the directory matches the Sources pattern
     if [[ $dir =~ .*Sources/StitchCoreLocalMongoDBService$ ]]; then
-      log_e "found it!"
+      # if we haven't already created the MongoMobile dir
       if [[ ! -d $dir/MongoMobile ]]; then
         log_i "downloading MongoMobile"
         curl -L https://api.github.com/repos/mongodb/swift-mongo-mobile/tarball > mongo-mobile.tgz
         mkdir mongo-mobile
         tar -xzf mongo-mobile.tgz -C mongo-mobile --strip-components 1
+        # copy MobileMongo into our Service's sources
         cp -r mongo-mobile/Sources/MongoMobile $dir
         cp -r mongo-mobile/Sources/mongo_embedded Sources/
         rm -rf mongo-mobile mongo-mobile.tgz
