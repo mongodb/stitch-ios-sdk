@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
       :submodules => true
     }
 
-    spec.ios.deployment_target = "11.3"
+    spec.ios.deployment_target = "8.0"
     spec.swift_version = "4.1"
     spec.requires_arc = true
     

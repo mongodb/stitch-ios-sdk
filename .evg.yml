@@ -166,7 +166,7 @@ tasks:
             xcrun simctl boot $SIM_UUID
             echo "booting SIMCTL $SIM_UUID"
             
-            cc=`find ./.build/checkouts/ -type d -name "CommonCrypto--*" -print`
+            cc=`find ./.build/checkouts/ -type d -name "CommonCrypto*" -print`
 
             run_xctest() {
               local xcodeproj=`find . -type d -name "$1.xcodeproj" -print`
@@ -185,7 +185,7 @@ tasks:
                 FRAMEWORK_INCLUDE_PATHS="`pwd`/localDerivedData" \
                 ENABLE_BITCODE=NO \
                 IPHONEOS_DEPLOYMENT_TARGET="8.0" \
-                `[[ $no_test != YES ]] && test`
+                `[[ $no_test != YES ]] && echo "test" || echo ""`
             }
 
             echo "...testing core"

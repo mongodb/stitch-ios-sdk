@@ -19,23 +19,23 @@ mobile_sdk_url() {
 
   case "$variant" in
     iphoneos)
-      echo "https://s3.amazonaws.com/mciuploads/mongodb-mongo-master/embedded-sdk/embedded-sdk-iphoneos-10.2/0dd1fc7ddde2a489558f5328dce5125bddfb9e4d/mongodb_mongo_master_embedded_sdk_iphoneos_10.2_0dd1fc7ddde2a489558f5328dce5125bddfb9e4d_18_06_11_10_58_10.tgz"
+      echo "https://s3.amazonaws.com/mciuploads/mongodb-mongo-v4.0/embedded-sdk/embedded-sdk-iphoneos-10.2-latest.tgz"
       ;;
 
     iphonesimulator)
-      echo "https://s3.amazonaws.com/mciuploads/mongodb-mongo-master/embedded-sdk/embedded-sdk-iphonesimulator-10.2/0dd1fc7ddde2a489558f5328dce5125bddfb9e4d/mongodb_mongo_master_embedded_sdk_iphonesimulator_10.2_0dd1fc7ddde2a489558f5328dce5125bddfb9e4d_18_06_11_10_58_10.tgz"
+      echo "https://s3.amazonaws.com/mciuploads/mongodb-mongo-v4.0/embedded-sdk/embedded-sdk-iphonesimulator-10.2-latest.tgz"
       ;;
 
     appletvos)
-      echo "https://s3.amazonaws.com/mciuploads/mongodb-mongo-master/embedded-sdk/embedded-sdk-appletvos-10.2/0dd1fc7ddde2a489558f5328dce5125bddfb9e4d/mongodb_mongo_master_embedded_sdk_appletvos_10.2_0dd1fc7ddde2a489558f5328dce5125bddfb9e4d_18_06_11_10_58_10.tgz"
+      echo "https://s3.amazonaws.com/mciuploads/mongodb-mongo-v4.0/embedded-sdk/embedded-sdk-appletvos-10.2-latest.tgz"
       ;;
 
     appletvsimulator)
-      echo "https://s3.amazonaws.com/mciuploads/mongodb-mongo-master/embedded-sdk/embedded-sdk-appletvsimulator-10.2/0dd1fc7ddde2a489558f5328dce5125bddfb9e4d/mongodb_mongo_master_embedded_sdk_appletvsimulator_10.2_0dd1fc7ddde2a489558f5328dce5125bddfb9e4d_18_06_11_10_58_10.tgz"
+      echo "https://s3.amazonaws.com/mciuploads/mongodb-mongo-v4.0/embedded-sdk/embedded-sdk-appletvsimulator-10.2-latest.tgz"
       ;;
 
-    macosx)
-      echo "https://s3.amazonaws.com/mciuploads/mongodb-mongo-master/embedded-sdk/embedded-sdk-macosx-10.10/0dd1fc7ddde2a489558f5328dce5125bddfb9e4d/mongodb_mongo_master_embedded_sdk_macosx_10.10_0dd1fc7ddde2a489558f5328dce5125bddfb9e4d_18_06_11_10_58_10.tgz"
+    macos)
+      echo "https://s3.amazonaws.com/mciuploads/mongodb-mongo-v4.0/embedded-sdk/embedded-sdk-macosx-10.10-latest.tgz"
       ;;
   esac
 }
@@ -70,11 +70,17 @@ download_and_combine() {
   local variant_simulator_tmp=${variant_simulator}-tmp
 
   if [ ! -d $variant_os ]; then
-    download_mobile_sdk $variant_os_tmp $(mobile_sdk_url ${variant_os})
-    fix_mongoc_symlinks $variant_os_tmp
+    local os_url=$(mobile_sdk_url ${variant_os})
+    if [[ ! -z $os_url ]]; then
+      download_mobile_sdk $variant_os_tmp $os_url
+      fix_mongoc_symlinks $variant_os_tmp
+    fi
 
-    download_mobile_sdk $variant_simulator_tmp $(mobile_sdk_url ${variant_simulator})
-    fix_mongoc_symlinks $variant_simulator_tmp
+    local sim_url=$(mobile_sdk_url ${variant_simulator})
+    if [[ ! -z $sim_url ]]; then
+      download_mobile_sdk $variant_simulator_tmp $sim_url
+      fix_mongoc_symlinks $variant_simulator_tmp
+    fi
 
     # create shared include path
     cp -r $variant_os_tmp/include .
@@ -85,7 +91,10 @@ download_and_combine() {
     log_i "merging architectures into universal dylibs..."
     for lib in $variant_os_tmp/lib/*.dylib; do
       local base_lib=$(basename "$lib")
-      lipo $variant_os_tmp/lib/${base_lib} $variant_simulator_tmp/lib/${base_lib} -output ${variant_os}/lib/${base_lib} -create
+      lipo $variant_os_tmp/lib/${base_lib} \
+        `[[ ! -z $sim_url ]] && echo $variant_simulator_tmp/lib/${base_lib}` \
+        -output ${variant_os}/lib/${base_lib} \
+        -create
     done
 
     # cleanup
@@ -150,6 +159,7 @@ if [ ! -d MobileSDKs ]; then
     mkdir -p MobileSDKs && cd MobileSDKs
     download_and_combine "iphone"
     download_and_combine "appletv"
+    download_and_combine "mac"
     cd ..
 else
   log_w "skipping downloading MobileSDKs"

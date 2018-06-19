@@ -466,8 +466,8 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../vendor/Sources/libmongoc",
-					"$(SRCROOT)/../vendor/Sources/libbson",
+					"$(SRCROOT)/../../vendor/Sources/libmongoc",
+					"$(SRCROOT)/../../vendor/Sources/libbson",
 				);
 				INFOPLIST_FILE = StitchIOSCoreTestUtilsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -488,8 +488,8 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../vendor/Sources/libmongoc",
-					"$(SRCROOT)/../vendor/Sources/libbson",
+					"$(SRCROOT)/../../vendor/Sources/libmongoc",
+					"$(SRCROOT)/../../vendor/Sources/libbson",
 				);
 				INFOPLIST_FILE = StitchIOSCoreTestUtilsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
