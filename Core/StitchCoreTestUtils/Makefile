@@ -1,4 +1,4 @@
-all: git clean update project build
+all: git project
 git:
 	git init
 	git add .

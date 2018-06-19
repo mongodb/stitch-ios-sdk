@@ -1,4 +1,4 @@
-all: git clean update project build
+all: git build project
 git:
 	git init
 	git add .
@@ -8,11 +8,13 @@ lint:
 clean:
 	swift package clean
 build:
-	swift build
+	swift build --build-path ../.build
+resolve:
+	swift package --build-path ../.build resolve
 update:
-	swift package update
+	swift package --build-path ../.build update
 test:
 	# temporary until a fix is in for .brew dependency for libmongoc
 	xcodebuild test -workspace ../Stitch.xcworkspace/ -scheme MockUtils-Package -configuration Debug -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
 project:
-	swift package generate-xcodeproj --xcconfig-overrides MockUtils.xcconfig
+	swift package --build-path ../.build generate-xcodeproj --xcconfig-overrides MockUtils.xcconfig

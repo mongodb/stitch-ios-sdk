@@ -22,35 +22,35 @@ Pod::Spec.new do |spec|
     spec.prepare_command = "sh download_sdk.sh"
   
     spec.pod_target_xcconfig = {
-      'OTHER_LDFLAGS[sdk=iphoneos*]' => '-rpath $(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/iphoneos/lib',
-      'OTHER_LDFLAGS[sdk=iphonesimulator*]' => '-rpath $(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/iphoneos/lib',
-      'OTHER_LDFLAGS[sdk=appletvos*]' => '-rpath $(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/appletvos/lib',
-      'OTHER_LDFLAGS[sdk=appletvsimulator*]' => '-rpath $(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/appletvos/lib',
+      "OTHER_LDFLAGS[sdk=iphoneos*]" => "-rpath $(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/iphoneos/lib",
+      "OTHER_LDFLAGS[sdk=iphonesimulator*]" => "-rpath $(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/iphoneos/lib",
+      "OTHER_LDFLAGS[sdk=appletvos*]" => "-rpath $(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/appletvos/lib",
+      "OTHER_LDFLAGS[sdk=appletvsimulator*]" => "-rpath $(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/appletvos/lib",
   
-      'LIBRARY_SEARCH_PATHS[sdk=iphoneos*]'        => '$(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/iphoneos/lib',
-      'LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]' => '$(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/iphoneos/lib',
-      'LIBRARY_SEARCH_PATHS[sdk=appletvos*]'       => '$(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/appletvos/lib',
-      'LIBRARY_SEARCH_PATHS[sdk=appletvsimulator*]'=> '$(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/appletvos/lib',
+      "LIBRARY_SEARCH_PATHS[sdk=iphoneos*]"        => "$(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/iphoneos/lib",
+      "LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]" => "$(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/iphoneos/lib",
+      "LIBRARY_SEARCH_PATHS[sdk=appletvos*]"       => "$(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/appletvos/lib",
+      "LIBRARY_SEARCH_PATHS[sdk=appletvsimulator*]"=> "$(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/appletvos/lib",
     
-      'SWIFT_INCLUDE_PATHS' => [
-        '"$(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/include"',
-        '"$(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/include/libbson-1.0"',
-        '"$(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/include/libmongoc-1.0"',
-        '"$(PODS_TARGET_SRCROOT)/vendor/Sources/libmongoc"',
-        '"$(PODS_TARGET_SRCROOT)/vendor/Sources/libbson"',
-      ].join(' ')
+      "SWIFT_INCLUDE_PATHS" => [
+        "$(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/include",
+        "$(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/include/libbson-1.0",
+        "$(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/include/libmongoc-1.0",
+        "$(PODS_TARGET_SRCROOT)/vendor/Sources/libmongoc",
+        "$(PODS_TARGET_SRCROOT)/vendor/Sources/libbson",
+      ].join(" ")
     }
   
     spec.user_target_xcconfig = {
-      'OTHER_LDFLAGS[sdk=iphoneos*]' => '-rpath $(PODS_ROOT)/StitchSDK/vendor/MobileSDKs/iphoneos/lib',
-      'OTHER_LDFLAGS[sdk=iphonesimulator*]' => '-rpath $(PODS_ROOT)/StitchSDK/vendor/MobileSDKs/iphoneos/lib',
-      'OTHER_LDFLAGS[sdk=appletvos*]' => '-rpath $(PODS_ROOT)/StitchSDK/vendor/MobileSDKs/appletvos/lib',
-      'OTHER_LDFLAGS[sdk=appletvsimulator*]' => '-rpath $(PODS_ROOT)/StitchSDK/vendor/MobileSDKs/appletvos/lib',
+      "OTHER_LDFLAGS[sdk=iphoneos*]" => "-rpath $(PODS_ROOT)/#{spec.name}/vendor/MobileSDKs/iphoneos/lib",
+      "OTHER_LDFLAGS[sdk=iphonesimulator*]" => "-rpath $(PODS_ROOT)/#{spec.name}/vendor/MobileSDKs/iphoneos/lib",
+      "OTHER_LDFLAGS[sdk=appletvos*]" => "-rpath $(PODS_ROOT)/#{spec.name}/vendor/MobileSDKs/appletvos/lib",
+      "OTHER_LDFLAGS[sdk=appletvsimulator*]" => "-rpath $(PODS_ROOT)/#{spec.name}/vendor/MobileSDKs/appletvos/lib",
   
-      'LIBRARY_SEARCH_PATHS[sdk=iphoneos*]'        => '$(PODS_ROOT)/StitchSDK/vendor/MobileSDKs/iphoneos/lib',
-      'LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]' => '$(PODS_ROOT)/StitchSDK/vendor/MobileSDKs/iphoneos/lib',
-      'LIBRARY_SEARCH_PATHS[sdk=appletvos*]'       => '$(PODS_ROOT)/StitchSDK/vendor/MobileSDKs/appletvos/lib',
-      'LIBRARY_SEARCH_PATHS[sdk=appletvsimulator*]'=> '$(PODS_ROOT)/StitchSDK/vendor/MobileSDKs/appletvos/lib',
+      "LIBRARY_SEARCH_PATHS[sdk=iphoneos*]"        => "$(PODS_ROOT)/#{spec.name}/vendor/MobileSDKs/iphoneos/lib",
+      "LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]" => "$(PODS_ROOT)/#{spec.name}/vendor/MobileSDKs/iphoneos/lib",
+      "LIBRARY_SEARCH_PATHS[sdk=appletvos*]"       => "$(PODS_ROOT)/#{spec.name}/vendor/MobileSDKs/appletvos/lib",
+      "LIBRARY_SEARCH_PATHS[sdk=appletvsimulator*]"=> "$(PODS_ROOT)/#{spec.name}/vendor/MobileSDKs/appletvos/lib",
     }
   
     spec.preserve_paths = "vendor"

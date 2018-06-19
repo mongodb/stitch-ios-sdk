@@ -1,4 +1,4 @@
-all: git clean update project build
+all: git update project
 git:
 	git init
 	git add .
@@ -10,9 +10,9 @@ clean:
 build:
 	swift build -Xcc -I../../../vendor/MobileSDKs/include/libbson-1.0/ -Xcc -I../../../vendor/MobileSDKs/include/libmongoc-1.0
 update:
-	swift package update
+	swift package --build-path ../../../.build update
 test:
 	# temporary until a fix is in for .brew dependency for libmongoc
 	xcodebuild test -workspace ../../../Stitch.xcworkspace/ -scheme StitchCoreFCMService-Package -configuration Debug -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
 project:
-	swift package generate-xcodeproj --xcconfig-overrides StitchCoreFCMService.xcconfig
+	swift package --build-path ../../../.build generate-xcodeproj --xcconfig-overrides StitchCoreFCMService.xcconfig

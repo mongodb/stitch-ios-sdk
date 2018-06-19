@@ -1,4 +1,4 @@
-all: git clean update project build
+all: git project
 git:
 	git init
 	git add .
@@ -15,4 +15,4 @@ test:
 	# temporary until a fix is in for .brew dependency for libmongoc
 	xcodebuild test -workspace ../../../Stitch.xcworkspace/ -scheme StitchCoreTwilioService-Package -configuration Debug -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
 project:
-	swift package generate-xcodeproj --xcconfig-overrides StitchCoreTwilioService.xcconfig
+	swift package --build-path ../../../.build generate-xcodeproj --xcconfig-overrides StitchCoreTwilioService.xcconfig
