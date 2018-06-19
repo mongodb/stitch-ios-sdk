@@ -76,6 +76,7 @@ functions:
         background: true
         script: |
           set -e
+          export PATH=`pwd`/:$PATH
           curl --silent https://dl.google.com/go/go1.10.2.darwin-amd64.tar.gz | tar xz
           export GOROOT=`pwd`/go
           export PATH=$GOROOT/bin:$PATH
