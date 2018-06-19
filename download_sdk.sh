@@ -90,6 +90,7 @@ download_and_combine() {
   fi
 }
 
+cd ~/Development/stitch-ios-sdk
 mkdir -p vendor && cd vendor
 
 POSITIONAL=()
@@ -150,8 +151,9 @@ fi
 # download MongoMobile
 if [[ $WITH_MOBILE == YES ]]; then
   find ../ -type d -name "StitchCoreLocalMongoDBService" -print | grep -v "dist" | while read dir; do
-    echo $dir
+    log_e $dir
     if [[ $dir =~ .*Sources/StitchCoreLocalMongoDBService$ ]]; then
+      log_e "found it!"
       if [[ ! -d $dir/MongoMobile ]]; then
         log_i "downloading MongoMobile"
         curl -L https://api.github.com/repos/mongodb/swift-mongo-mobile/tarball > mongo-mobile.tgz
@@ -165,8 +167,8 @@ if [[ $WITH_MOBILE == YES ]]; then
       fi
       break
     fi
+    log_e "couldn't find mobile mongo dir"
   done
-  log_e "couldn't find mobile mongo dir"
 else
     log_w "skipping downloading MongoMobile"
 fi
