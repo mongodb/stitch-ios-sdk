@@ -78,7 +78,7 @@ case $i in
     ;;
 esac
 done
-echo "found args"
+
 if [[ -z $MODULE ]]; then 
     log_e "must have module"
     exit 1

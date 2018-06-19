@@ -9,6 +9,10 @@ log_w() {
     printf "\033[1;33m$1\033[0m\n"
 }
 
+log_e() {
+    printf "\033[1;31m$1\033[0m\n"
+}
+
 mobile_sdk_url() {
   local variant=$1
 
@@ -144,22 +148,25 @@ else
 fi
 
 # download MongoMobile
-find ../ -type d -name "StitchCoreLocalMongoDBService" -print | grep -v "dist" | while read dir; do
-  if [[ $dir =~ .*Sources/StitchCoreLocalMongoDBService$ ]]; then
-    LOCAL_MONGO_DB_SERVICE=$dir
-  fi
-done
-
-if [[ $WITH_MOBILE == YES && ! -z $LOCAL_MONGO_DB_SERVICE && ! -d $LOCAL_MONGO_DB_SERVICE/MongoMobile ]]; then
-    log_i "downloading MongoMobile"
-    curl -L https://api.github.com/repos/mongodb/swift-mongo-mobile/tarball > mongo-mobile.tgz
-    mkdir mongo-mobile
-    tar -xzf mongo-mobile.tgz -C mongo-mobile --strip-components 1
-    cp -r mongo-mobile/Sources/MongoMobile Core/Services/StitchCoreLocalMongoDBService/Sources/StitchCoreLocalMongoDBService
-    cp -r mongo-mobile/Sources/mongo_embedded Sources/
-    rm -rf mongo-mobile mongo-mobile.tgz
+if [[ $WITH_MOBILE == YES ]]; then
+  find ../ -type d -name "StitchCoreLocalMongoDBService" -print | grep -v "dist" | while read dir; do
+    if [[ $dir =~ .*Sources/StitchCoreLocalMongoDBService$ ]]; then
+      if [[ ! -z $dir && ! -d $dir/MongoMobile ]]; then
+        log_i "downloading MongoMobile"
+        curl -L https://api.github.com/repos/mongodb/swift-mongo-mobile/tarball > mongo-mobile.tgz
+        mkdir mongo-mobile
+        tar -xzf mongo-mobile.tgz -C mongo-mobile --strip-components 1
+        cp -r mongo-mobile/Sources/MongoMobile $dir
+        cp -r mongo-mobile/Sources/mongo_embedded Sources/
+        rm -rf mongo-mobile mongo-mobile.tgz
+      else
+        log_e "error downloading MongoMobile"
+      fi
+      break
+    fi
+  done  
 else
-  log_w "skipping downloading MongoMobile"
+    log_w "skipping downloading MongoMobile"
 fi
 
 cd ..
