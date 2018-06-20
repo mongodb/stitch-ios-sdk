@@ -1,4 +1,5 @@
 import Foundation
+import StitchCoreSDK
 import StitchCoreLocalMongoDBService
 import os
 import StitchCore
