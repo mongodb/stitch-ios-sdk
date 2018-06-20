@@ -1,7 +1,7 @@
 Pod::Spec.new do |spec|
     spec.name       = File.basename(__FILE__, '.podspec')
     spec.version    = "4.0.0-beta-1"
-    spec.summary    = "Stitch Core Module"
+    spec.summary    = "#{__FILE__} Module"
     spec.homepage   = "https://github.com/mongodb/stitch-ios-sdk"
     spec.license    = "Apache2"
     spec.authors    = {
