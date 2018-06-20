@@ -1,8 +1,8 @@
 Pod::Spec.new do |spec|
     spec.name       = File.basename(__FILE__, '.podspec')
-    spec.version    = "4.0.0-beta0"
+    spec.version    = "4.0.0-beta-1"
     spec.summary    = "#{__FILE__} Module"
-    spec.homepage   = "https://github.com/jsflax/stitch-ios-sdk"
+    spec.homepage   = "https://github.com/mongodb/stitch-ios-sdk"
     spec.license    = "Apache2"
     spec.authors    = {
       "Jason Flax" => "jason.flax@mongodb.com",
@@ -11,8 +11,8 @@ Pod::Spec.new do |spec|
     }
     spec.platform = :ios, "11.0"
     spec.source     = {
-      :git => "https://github.com/jsflax/stitch-ios-sdk.git",
-      :branch => "v4-alpha",
+      :git => "https://github.com/mongodb/stitch-ios-sdk.git",
+      :branch => "master",
       :submodules => true
     }
 
@@ -31,7 +31,8 @@ Pod::Spec.new do |spec|
       'SWIFT_INCLUDE_PATHS' => [
         '"$(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/include/mongo/embedded-v1/"',
         '"$(PODS_TARGET_SRCROOT)/vendor/Sources/mongo_embedded"'
-      ].join(' ')
+      ].join(' '),
+      "ENABLE_BITCODE" => "NO"
     }
     
     spec.preserve_paths = "vendor"
@@ -42,5 +43,5 @@ Pod::Spec.new do |spec|
     spec.ios.vendored_library = libs
     spec.tvos.vendored_library = libs
 
-    spec.dependency 'StitchCoreSDK', '~> 4.0.0-beta0'
+    spec.dependency 'StitchCoreSDK', '~> 4.0.0-beta-1'
 end

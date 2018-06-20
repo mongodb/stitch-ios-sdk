@@ -1,8 +1,8 @@
 Pod::Spec.new do |spec|
     spec.name       = "MongoSwiftMobile"
-    spec.version    = "4.0.0-beta0"
+    spec.version    = "4.0.0-beta-1"
     spec.summary    = "MongoSwift Driver Mobile extension"
-    spec.homepage   = "https://github.com/jsflax/stitch-ios-sdk"
+    spec.homepage   = "https://github.com/mongodb/stitch-ios-sdk"
     spec.license    = "Apache2"
     spec.authors    = {
       "Jason Flax" => "jason.flax@mongodb.com",
@@ -11,8 +11,8 @@ Pod::Spec.new do |spec|
     }
     spec.platform = :ios, "11.0"
     spec.source     = {
-      :git => "https://github.com/jsflax/stitch-ios-sdk.git",
-      :branch => "v4-alpha"
+      :git => "https://github.com/mongodb/stitch-ios-sdk.git",
+      :branch => "master"
     }
   
     spec.ios.deployment_target = "11.0"
@@ -38,7 +38,9 @@ Pod::Spec.new do |spec|
         "$(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/include/libmongoc-1.0",
         "$(PODS_TARGET_SRCROOT)/vendor/Sources/libmongoc",
         "$(PODS_TARGET_SRCROOT)/vendor/Sources/libbson",
-      ].join(" ")
+      ].join(" "),
+
+      "ENABLE_BITCODE" => "NO"
     }
   
     spec.user_target_xcconfig = {
@@ -51,12 +53,16 @@ Pod::Spec.new do |spec|
       "LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]" => "$(PODS_ROOT)/#{spec.name}/vendor/MobileSDKs/iphoneos/lib",
       "LIBRARY_SEARCH_PATHS[sdk=appletvos*]"       => "$(PODS_ROOT)/#{spec.name}/vendor/MobileSDKs/appletvos/lib",
       "LIBRARY_SEARCH_PATHS[sdk=appletvsimulator*]"=> "$(PODS_ROOT)/#{spec.name}/vendor/MobileSDKs/appletvos/lib",
+
+      "ENABLE_BITCODE" => "NO"
     }
   
     spec.preserve_paths = "vendor"
     libs = [
       "vendor/MobileSDKs/iphoneos/lib/libmongoc-1.0.dylib", 
-      "vendor/MobileSDKs/iphoneos/lib/libbson-1.0.dylib"
+      "vendor/MobileSDKs/iphoneos/lib/libmongoc-1.0.0.dylib",
+      "vendor/MobileSDKs/iphoneos/lib/libbson-1.0.dylib",
+      "vendor/MobileSDKs/iphoneos/lib/libbson-1.0.0.dylib"
     ]
     spec.ios.vendored_library = libs
     spec.tvos.vendored_library = libs
