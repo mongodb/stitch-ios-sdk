@@ -16,6 +16,7 @@ Pod::Spec.new do |spec|
       :submodules => true
     }
   
+    spec.pod_target_xcconfig = { "ENABLE_BITCODE" => "NO" }
     spec.ios.deployment_target = "11.0"
     spec.swift_version = "4.1"
     spec.requires_arc = true
