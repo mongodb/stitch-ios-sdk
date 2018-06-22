@@ -203,13 +203,11 @@ final class TestHarness {
             fatalError("must have user before setting up stitch client")
         }
 
-        try! Stitch.initialize()
-
         let configBuilder = StitchAppClientConfigurationBuilder()
-            .with(clientAppID: self.testApp!.clientAppID)
             .with(baseURL: self.serverURL)
 
-        self.stitchAppClient = try! Stitch.initializeAppClient(withConfigBuilder: configBuilder)
+        self.stitchAppClient = try! Stitch.initializeAppClient(withClientAppID: self.testApp!.clientAppID,
+                                                               withConfig: configBuilder.build())
 
         self.stitchAppClient.auth.login(withCredential: UserPasswordCredential(
             withUsername: userCredentials.username,

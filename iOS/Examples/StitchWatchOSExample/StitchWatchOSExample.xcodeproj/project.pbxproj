@@ -1,0 +1,940 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F4BD8C6320DAD78000811B23 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4BD8C6220DAD78000811B23 /* StitchCore.framework */; };
+		F4BD8C6520DADD3900811B23 /* StitchLocalMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4BD8C6420DADD3900811B23 /* StitchLocalMongoDBService.framework */; };
+		F4E8CDB820DAB961000E4921 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E8CDB720DAB961000E4921 /* AppDelegate.swift */; };
+		F4E8CDBA20DAB961000E4921 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E8CDB920DAB961000E4921 /* ViewController.swift */; };
+		F4E8CDBD20DAB961000E4921 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4E8CDBB20DAB961000E4921 /* Main.storyboard */; };
+		F4E8CDBF20DAB962000E4921 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4E8CDBE20DAB962000E4921 /* Assets.xcassets */; };
+		F4E8CDC220DAB962000E4921 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4E8CDC020DAB962000E4921 /* LaunchScreen.storyboard */; };
+		F4E8CDCD20DAB963000E4921 /* StitchWatchOSExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E8CDCC20DAB963000E4921 /* StitchWatchOSExampleTests.swift */; };
+		F4E8CDD820DAB963000E4921 /* StitchWatchOSExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E8CDD720DAB963000E4921 /* StitchWatchOSExampleUITests.swift */; };
+		F4E8CDDD20DAB963000E4921 /* StitchWatchOSExample WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = F4E8CDDC20DAB963000E4921 /* StitchWatchOSExample WatchKit App.app */; };
+		F4E8CDE320DAB963000E4921 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4E8CDE120DAB963000E4921 /* Interface.storyboard */; };
+		F4E8CDE520DAB963000E4921 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4E8CDE420DAB963000E4921 /* Assets.xcassets */; };
+		F4E8CDEC20DAB964000E4921 /* StitchWatchOSExample WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F4E8CDEB20DAB964000E4921 /* StitchWatchOSExample WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F4E8CDF120DAB964000E4921 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E8CDF020DAB964000E4921 /* InterfaceController.swift */; };
+		F4E8CDF320DAB964000E4921 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E8CDF220DAB964000E4921 /* ExtensionDelegate.swift */; };
+		F4E8CDF520DAB964000E4921 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E8CDF420DAB964000E4921 /* NotificationController.swift */; };
+		F4E8CDF720DAB964000E4921 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4E8CDF620DAB964000E4921 /* Assets.xcassets */; };
+		F4E8CE1120DAB9F3000E4921 /* StitchCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E8CE1020DAB9F3000E4921 /* StitchCoreSDK.framework */; };
+		F4E8CE1320DAB9FC000E4921 /* StitchCoreLocalMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E8CE1220DAB9FC000E4921 /* StitchCoreLocalMongoDBService.framework */; };
+		F4E8CE1520DABA06000E4921 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E8CE1420DABA06000E4921 /* StitchCore.framework */; };
+		F4E8CE1720DABA0B000E4921 /* StitchLocalMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E8CE1620DABA0B000E4921 /* StitchLocalMongoDBService.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F4E8CDC920DAB963000E4921 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4E8CDAC20DAB961000E4921 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F4E8CDB320DAB961000E4921;
+			remoteInfo = StitchWatchOSExample;
+		};
+		F4E8CDD420DAB963000E4921 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4E8CDAC20DAB961000E4921 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F4E8CDB320DAB961000E4921;
+			remoteInfo = StitchWatchOSExample;
+		};
+		F4E8CDDE20DAB963000E4921 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4E8CDAC20DAB961000E4921 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F4E8CDDB20DAB963000E4921;
+			remoteInfo = "StitchWatchOSExample WatchKit App";
+		};
+		F4E8CDED20DAB964000E4921 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4E8CDAC20DAB961000E4921 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F4E8CDEA20DAB964000E4921;
+			remoteInfo = "StitchWatchOSExample WatchKit Extension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F4E8CDFF20DAB964000E4921 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				F4E8CDEC20DAB964000E4921 /* StitchWatchOSExample WatchKit Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4E8CE0320DAB964000E4921 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				F4E8CDDD20DAB963000E4921 /* StitchWatchOSExample WatchKit App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		F4BD8C5E20DAD74700811B23 /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4BD8C6020DAD74D00811B23 /* StitchLocalMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchLocalMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4BD8C6220DAD78000811B23 /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4BD8C6420DADD3900811B23 /* StitchLocalMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchLocalMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4E8CDB420DAB961000E4921 /* StitchWatchOSExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StitchWatchOSExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4E8CDB720DAB961000E4921 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		F4E8CDB920DAB961000E4921 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		F4E8CDBC20DAB961000E4921 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		F4E8CDBE20DAB962000E4921 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F4E8CDC120DAB962000E4921 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		F4E8CDC320DAB962000E4921 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F4E8CDC820DAB963000E4921 /* StitchWatchOSExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StitchWatchOSExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4E8CDCC20DAB963000E4921 /* StitchWatchOSExampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchWatchOSExampleTests.swift; sourceTree = "<group>"; };
+		F4E8CDCE20DAB963000E4921 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F4E8CDD320DAB963000E4921 /* StitchWatchOSExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StitchWatchOSExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4E8CDD720DAB963000E4921 /* StitchWatchOSExampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchWatchOSExampleUITests.swift; sourceTree = "<group>"; };
+		F4E8CDD920DAB963000E4921 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F4E8CDDC20DAB963000E4921 /* StitchWatchOSExample WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "StitchWatchOSExample WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4E8CDE220DAB963000E4921 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		F4E8CDE420DAB963000E4921 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F4E8CDE620DAB963000E4921 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F4E8CDEB20DAB964000E4921 /* StitchWatchOSExample WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "StitchWatchOSExample WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4E8CDF020DAB964000E4921 /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
+		F4E8CDF220DAB964000E4921 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
+		F4E8CDF420DAB964000E4921 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		F4E8CDF620DAB964000E4921 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F4E8CDF820DAB964000E4921 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F4E8CDF920DAB964000E4921 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		F4E8CE0E20DAB9E8000E4921 /* MongoSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MongoSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4E8CE1020DAB9F3000E4921 /* StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4E8CE1220DAB9FC000E4921 /* StitchCoreLocalMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreLocalMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4E8CE1420DABA06000E4921 /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4E8CE1620DABA0B000E4921 /* StitchLocalMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchLocalMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4E8CE1820DABA82000E4921 /* StitchLocalMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchLocalMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4E8CE1A20DABA87000E4921 /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F4E8CDB120DAB961000E4921 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4E8CE1720DABA0B000E4921 /* StitchLocalMongoDBService.framework in Frameworks */,
+				F4E8CE1520DABA06000E4921 /* StitchCore.framework in Frameworks */,
+				F4E8CE1320DAB9FC000E4921 /* StitchCoreLocalMongoDBService.framework in Frameworks */,
+				F4E8CE1120DAB9F3000E4921 /* StitchCoreSDK.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4E8CDC520DAB963000E4921 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4E8CDD020DAB963000E4921 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4E8CDE820DAB964000E4921 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4BD8C6520DADD3900811B23 /* StitchLocalMongoDBService.framework in Frameworks */,
+				F4BD8C6320DAD78000811B23 /* StitchCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F4E8CDAB20DAB961000E4921 = {
+			isa = PBXGroup;
+			children = (
+				F4E8CDB620DAB961000E4921 /* StitchWatchOSExample */,
+				F4E8CDCB20DAB963000E4921 /* StitchWatchOSExampleTests */,
+				F4E8CDD620DAB963000E4921 /* StitchWatchOSExampleUITests */,
+				F4E8CDE020DAB963000E4921 /* StitchWatchOSExample WatchKit App */,
+				F4E8CDEF20DAB964000E4921 /* StitchWatchOSExample WatchKit Extension */,
+				F4E8CDB520DAB961000E4921 /* Products */,
+				F4E8CE0D20DAB9E8000E4921 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		F4E8CDB520DAB961000E4921 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F4E8CDB420DAB961000E4921 /* StitchWatchOSExample.app */,
+				F4E8CDC820DAB963000E4921 /* StitchWatchOSExampleTests.xctest */,
+				F4E8CDD320DAB963000E4921 /* StitchWatchOSExampleUITests.xctest */,
+				F4E8CDDC20DAB963000E4921 /* StitchWatchOSExample WatchKit App.app */,
+				F4E8CDEB20DAB964000E4921 /* StitchWatchOSExample WatchKit Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F4E8CDB620DAB961000E4921 /* StitchWatchOSExample */ = {
+			isa = PBXGroup;
+			children = (
+				F4E8CDB720DAB961000E4921 /* AppDelegate.swift */,
+				F4E8CDB920DAB961000E4921 /* ViewController.swift */,
+				F4E8CDBB20DAB961000E4921 /* Main.storyboard */,
+				F4E8CDBE20DAB962000E4921 /* Assets.xcassets */,
+				F4E8CDC020DAB962000E4921 /* LaunchScreen.storyboard */,
+				F4E8CDC320DAB962000E4921 /* Info.plist */,
+			);
+			path = StitchWatchOSExample;
+			sourceTree = "<group>";
+		};
+		F4E8CDCB20DAB963000E4921 /* StitchWatchOSExampleTests */ = {
+			isa = PBXGroup;
+			children = (
+				F4E8CDCC20DAB963000E4921 /* StitchWatchOSExampleTests.swift */,
+				F4E8CDCE20DAB963000E4921 /* Info.plist */,
+			);
+			path = StitchWatchOSExampleTests;
+			sourceTree = "<group>";
+		};
+		F4E8CDD620DAB963000E4921 /* StitchWatchOSExampleUITests */ = {
+			isa = PBXGroup;
+			children = (
+				F4E8CDD720DAB963000E4921 /* StitchWatchOSExampleUITests.swift */,
+				F4E8CDD920DAB963000E4921 /* Info.plist */,
+			);
+			path = StitchWatchOSExampleUITests;
+			sourceTree = "<group>";
+		};
+		F4E8CDE020DAB963000E4921 /* StitchWatchOSExample WatchKit App */ = {
+			isa = PBXGroup;
+			children = (
+				F4E8CDE120DAB963000E4921 /* Interface.storyboard */,
+				F4E8CDE420DAB963000E4921 /* Assets.xcassets */,
+				F4E8CDE620DAB963000E4921 /* Info.plist */,
+			);
+			path = "StitchWatchOSExample WatchKit App";
+			sourceTree = "<group>";
+		};
+		F4E8CDEF20DAB964000E4921 /* StitchWatchOSExample WatchKit Extension */ = {
+			isa = PBXGroup;
+			children = (
+				F4E8CDF020DAB964000E4921 /* InterfaceController.swift */,
+				F4E8CDF220DAB964000E4921 /* ExtensionDelegate.swift */,
+				F4E8CDF420DAB964000E4921 /* NotificationController.swift */,
+				F4E8CDF620DAB964000E4921 /* Assets.xcassets */,
+				F4E8CDF820DAB964000E4921 /* Info.plist */,
+				F4E8CDF920DAB964000E4921 /* PushNotificationPayload.apns */,
+			);
+			path = "StitchWatchOSExample WatchKit Extension";
+			sourceTree = "<group>";
+		};
+		F4E8CE0D20DAB9E8000E4921 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F4BD8C6420DADD3900811B23 /* StitchLocalMongoDBService.framework */,
+				F4BD8C6220DAD78000811B23 /* StitchCore.framework */,
+				F4BD8C6020DAD74D00811B23 /* StitchLocalMongoDBService.framework */,
+				F4BD8C5E20DAD74700811B23 /* StitchCore.framework */,
+				F4E8CE1A20DABA87000E4921 /* StitchCore.framework */,
+				F4E8CE1820DABA82000E4921 /* StitchLocalMongoDBService.framework */,
+				F4E8CE1620DABA0B000E4921 /* StitchLocalMongoDBService.framework */,
+				F4E8CE1420DABA06000E4921 /* StitchCore.framework */,
+				F4E8CE1220DAB9FC000E4921 /* StitchCoreLocalMongoDBService.framework */,
+				F4E8CE1020DAB9F3000E4921 /* StitchCoreSDK.framework */,
+				F4E8CE0E20DAB9E8000E4921 /* MongoSwift.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F4E8CDB320DAB961000E4921 /* StitchWatchOSExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F4E8CE0420DAB964000E4921 /* Build configuration list for PBXNativeTarget "StitchWatchOSExample" */;
+			buildPhases = (
+				F4E8CDB020DAB961000E4921 /* Sources */,
+				F4E8CDB120DAB961000E4921 /* Frameworks */,
+				F4E8CDB220DAB961000E4921 /* Resources */,
+				F4E8CE0320DAB964000E4921 /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F4E8CDDF20DAB963000E4921 /* PBXTargetDependency */,
+			);
+			name = StitchWatchOSExample;
+			productName = StitchWatchOSExample;
+			productReference = F4E8CDB420DAB961000E4921 /* StitchWatchOSExample.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F4E8CDC720DAB963000E4921 /* StitchWatchOSExampleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F4E8CE0720DAB964000E4921 /* Build configuration list for PBXNativeTarget "StitchWatchOSExampleTests" */;
+			buildPhases = (
+				F4E8CDC420DAB963000E4921 /* Sources */,
+				F4E8CDC520DAB963000E4921 /* Frameworks */,
+				F4E8CDC620DAB963000E4921 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F4E8CDCA20DAB963000E4921 /* PBXTargetDependency */,
+			);
+			name = StitchWatchOSExampleTests;
+			productName = StitchWatchOSExampleTests;
+			productReference = F4E8CDC820DAB963000E4921 /* StitchWatchOSExampleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		F4E8CDD220DAB963000E4921 /* StitchWatchOSExampleUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F4E8CE0A20DAB964000E4921 /* Build configuration list for PBXNativeTarget "StitchWatchOSExampleUITests" */;
+			buildPhases = (
+				F4E8CDCF20DAB963000E4921 /* Sources */,
+				F4E8CDD020DAB963000E4921 /* Frameworks */,
+				F4E8CDD120DAB963000E4921 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F4E8CDD520DAB963000E4921 /* PBXTargetDependency */,
+			);
+			name = StitchWatchOSExampleUITests;
+			productName = StitchWatchOSExampleUITests;
+			productReference = F4E8CDD320DAB963000E4921 /* StitchWatchOSExampleUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		F4E8CDDB20DAB963000E4921 /* StitchWatchOSExample WatchKit App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F4E8CE0020DAB964000E4921 /* Build configuration list for PBXNativeTarget "StitchWatchOSExample WatchKit App" */;
+			buildPhases = (
+				F4E8CDDA20DAB963000E4921 /* Resources */,
+				F4E8CDFF20DAB964000E4921 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F4E8CDEE20DAB964000E4921 /* PBXTargetDependency */,
+			);
+			name = "StitchWatchOSExample WatchKit App";
+			productName = "StitchWatchOSExample WatchKit App";
+			productReference = F4E8CDDC20DAB963000E4921 /* StitchWatchOSExample WatchKit App.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		F4E8CDEA20DAB964000E4921 /* StitchWatchOSExample WatchKit Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F4E8CDFC20DAB964000E4921 /* Build configuration list for PBXNativeTarget "StitchWatchOSExample WatchKit Extension" */;
+			buildPhases = (
+				F4E8CDE720DAB964000E4921 /* Sources */,
+				F4E8CDE820DAB964000E4921 /* Frameworks */,
+				F4E8CDE920DAB964000E4921 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "StitchWatchOSExample WatchKit Extension";
+			productName = "StitchWatchOSExample WatchKit Extension";
+			productReference = F4E8CDEB20DAB964000E4921 /* StitchWatchOSExample WatchKit Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F4E8CDAC20DAB961000E4921 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0930;
+				LastUpgradeCheck = 0930;
+				ORGANIZATIONNAME = MongoDB;
+				TargetAttributes = {
+					F4E8CDB320DAB961000E4921 = {
+						CreatedOnToolsVersion = 9.3.1;
+					};
+					F4E8CDC720DAB963000E4921 = {
+						CreatedOnToolsVersion = 9.3.1;
+						TestTargetID = F4E8CDB320DAB961000E4921;
+					};
+					F4E8CDD220DAB963000E4921 = {
+						CreatedOnToolsVersion = 9.3.1;
+						TestTargetID = F4E8CDB320DAB961000E4921;
+					};
+					F4E8CDDB20DAB963000E4921 = {
+						CreatedOnToolsVersion = 9.3.1;
+					};
+					F4E8CDEA20DAB964000E4921 = {
+						CreatedOnToolsVersion = 9.3.1;
+					};
+				};
+			};
+			buildConfigurationList = F4E8CDAF20DAB961000E4921 /* Build configuration list for PBXProject "StitchWatchOSExample" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F4E8CDAB20DAB961000E4921;
+			productRefGroup = F4E8CDB520DAB961000E4921 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F4E8CDB320DAB961000E4921 /* StitchWatchOSExample */,
+				F4E8CDC720DAB963000E4921 /* StitchWatchOSExampleTests */,
+				F4E8CDD220DAB963000E4921 /* StitchWatchOSExampleUITests */,
+				F4E8CDDB20DAB963000E4921 /* StitchWatchOSExample WatchKit App */,
+				F4E8CDEA20DAB964000E4921 /* StitchWatchOSExample WatchKit Extension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F4E8CDB220DAB961000E4921 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4E8CDC220DAB962000E4921 /* LaunchScreen.storyboard in Resources */,
+				F4E8CDBF20DAB962000E4921 /* Assets.xcassets in Resources */,
+				F4E8CDBD20DAB961000E4921 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4E8CDC620DAB963000E4921 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4E8CDD120DAB963000E4921 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4E8CDDA20DAB963000E4921 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4E8CDE520DAB963000E4921 /* Assets.xcassets in Resources */,
+				F4E8CDE320DAB963000E4921 /* Interface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4E8CDE920DAB964000E4921 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4E8CDF720DAB964000E4921 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F4E8CDB020DAB961000E4921 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4E8CDBA20DAB961000E4921 /* ViewController.swift in Sources */,
+				F4E8CDB820DAB961000E4921 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4E8CDC420DAB963000E4921 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4E8CDCD20DAB963000E4921 /* StitchWatchOSExampleTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4E8CDCF20DAB963000E4921 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4E8CDD820DAB963000E4921 /* StitchWatchOSExampleUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4E8CDE720DAB964000E4921 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4E8CDF520DAB964000E4921 /* NotificationController.swift in Sources */,
+				F4E8CDF320DAB964000E4921 /* ExtensionDelegate.swift in Sources */,
+				F4E8CDF120DAB964000E4921 /* InterfaceController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F4E8CDCA20DAB963000E4921 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F4E8CDB320DAB961000E4921 /* StitchWatchOSExample */;
+			targetProxy = F4E8CDC920DAB963000E4921 /* PBXContainerItemProxy */;
+		};
+		F4E8CDD520DAB963000E4921 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F4E8CDB320DAB961000E4921 /* StitchWatchOSExample */;
+			targetProxy = F4E8CDD420DAB963000E4921 /* PBXContainerItemProxy */;
+		};
+		F4E8CDDF20DAB963000E4921 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F4E8CDDB20DAB963000E4921 /* StitchWatchOSExample WatchKit App */;
+			targetProxy = F4E8CDDE20DAB963000E4921 /* PBXContainerItemProxy */;
+		};
+		F4E8CDEE20DAB964000E4921 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F4E8CDEA20DAB964000E4921 /* StitchWatchOSExample WatchKit Extension */;
+			targetProxy = F4E8CDED20DAB964000E4921 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		F4E8CDBB20DAB961000E4921 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F4E8CDBC20DAB961000E4921 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		F4E8CDC020DAB962000E4921 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F4E8CDC120DAB962000E4921 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		F4E8CDE120DAB963000E4921 /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F4E8CDE220DAB963000E4921 /* Base */,
+			);
+			name = Interface.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		F4E8CDFA20DAB964000E4921 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../../../vendor/Sources/libbson",
+					"$(SRCROOT)/../../../vendor/Sources/libmongoc",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		F4E8CDFB20DAB964000E4921 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../../../vendor/Sources/libbson",
+					"$(SRCROOT)/../../../vendor/Sources/libmongoc",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F4E8CDFD20DAB964000E4921 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../../../vendor/Sources/libbson",
+					"$(SRCROOT)/../../../vendor/Sources/libmongoc",
+				);
+				INFOPLIST_FILE = "StitchWatchOSExample WatchKit Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/watchos/lib";
+				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchWatchOSExample.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 4.3;
+			};
+			name = Debug;
+		};
+		F4E8CDFE20DAB964000E4921 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../../../vendor/Sources/libbson",
+					"$(SRCROOT)/../../../vendor/Sources/libmongoc",
+				);
+				INFOPLIST_FILE = "StitchWatchOSExample WatchKit Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/watchos/lib";
+				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchWatchOSExample.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 4.3;
+			};
+			name = Release;
+		};
+		F4E8CE0120DAB964000E4921 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../../../vendor/Sources/libbson",
+					"$(SRCROOT)/../../../vendor/Sources/libmongoc",
+				);
+				IBSC_MODULE = StitchWatchOSExample_WatchKit_Extension;
+				INFOPLIST_FILE = "StitchWatchOSExample WatchKit App/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchWatchOSExample.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 4.3;
+			};
+			name = Debug;
+		};
+		F4E8CE0220DAB964000E4921 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../../../vendor/Sources/libbson",
+					"$(SRCROOT)/../../../vendor/Sources/libmongoc",
+				);
+				IBSC_MODULE = StitchWatchOSExample_WatchKit_Extension;
+				INFOPLIST_FILE = "StitchWatchOSExample WatchKit App/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchWatchOSExample.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 4.3;
+			};
+			name = Release;
+		};
+		F4E8CE0520DAB964000E4921 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../../../vendor/Sources/libbson",
+					"$(SRCROOT)/../../../vendor/Sources/libmongoc",
+				);
+				INFOPLIST_FILE = StitchWatchOSExample/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
+				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchWatchOSExample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F4E8CE0620DAB964000E4921 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../../../vendor/Sources/libbson",
+					"$(SRCROOT)/../../../vendor/Sources/libmongoc",
+				);
+				INFOPLIST_FILE = StitchWatchOSExample/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
+				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchWatchOSExample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		F4E8CE0820DAB964000E4921 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = StitchWatchOSExampleTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchWatchOSExampleTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StitchWatchOSExample.app/StitchWatchOSExample";
+			};
+			name = Debug;
+		};
+		F4E8CE0920DAB964000E4921 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = StitchWatchOSExampleTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchWatchOSExampleTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StitchWatchOSExample.app/StitchWatchOSExample";
+			};
+			name = Release;
+		};
+		F4E8CE0B20DAB964000E4921 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = StitchWatchOSExampleUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchWatchOSExampleUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = StitchWatchOSExample;
+			};
+			name = Debug;
+		};
+		F4E8CE0C20DAB964000E4921 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = StitchWatchOSExampleUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchWatchOSExampleUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = StitchWatchOSExample;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F4E8CDAF20DAB961000E4921 /* Build configuration list for PBXProject "StitchWatchOSExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F4E8CDFA20DAB964000E4921 /* Debug */,
+				F4E8CDFB20DAB964000E4921 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F4E8CDFC20DAB964000E4921 /* Build configuration list for PBXNativeTarget "StitchWatchOSExample WatchKit Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F4E8CDFD20DAB964000E4921 /* Debug */,
+				F4E8CDFE20DAB964000E4921 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F4E8CE0020DAB964000E4921 /* Build configuration list for PBXNativeTarget "StitchWatchOSExample WatchKit App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F4E8CE0120DAB964000E4921 /* Debug */,
+				F4E8CE0220DAB964000E4921 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F4E8CE0420DAB964000E4921 /* Build configuration list for PBXNativeTarget "StitchWatchOSExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F4E8CE0520DAB964000E4921 /* Debug */,
+				F4E8CE0620DAB964000E4921 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F4E8CE0720DAB964000E4921 /* Build configuration list for PBXNativeTarget "StitchWatchOSExampleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F4E8CE0820DAB964000E4921 /* Debug */,
+				F4E8CE0920DAB964000E4921 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F4E8CE0A20DAB964000E4921 /* Build configuration list for PBXNativeTarget "StitchWatchOSExampleUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F4E8CE0B20DAB964000E4921 /* Debug */,
+				F4E8CE0C20DAB964000E4921 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F4E8CDAC20DAB961000E4921 /* Project object */;
+}

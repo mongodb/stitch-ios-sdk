@@ -1,29 +1,35 @@
 import Foundation
 
+protocol Buildee {
+    associatedtype Builder
+}
+
 /**
  * :nodoc:
  * Properties representing the configuration of a client that can communicate with MongoDB Stitch.
  */
-public class StitchClientConfiguration {
+public class StitchClientConfiguration: Buildee {
+    public typealias Builder = StitchClientConfigurationBuilder
+    
     /**
      * The base URL of the Stitch server that the client will communicate with.
      */
-    public let baseURL: String
+    public let baseURL: String?
 
     /**
      * The local directory in which Stitch can store any data (e.g. embedded MongoDB data directory).
      */
-    public let dataDirectory: URL
+    public let dataDirectory: URL?
 
     /**
      * The underlying storage for persisting authentication and app state.
      */
-    public let storage: Storage
+    public let storage: Storage?
 
     /**
      * The `Transport` that the client will use to make HTTP round trips to the Stitch server.
      */
-    public let transport: Transport
+    public let transport: Transport?
 
     /**
      * The number of seconds that a `Transport` should spend by default on an HTTP round trip before failing with an
@@ -32,26 +38,21 @@ public class StitchClientConfiguration {
      * - important: If a request timeout was specified for a specific operation, for example in a function call, that
      *              timeout will override this one.
      */
-    public let defaultRequestTimeout: TimeInterval
+    public let defaultRequestTimeout: TimeInterval?
     
-    internal init(clientConfiguration: StitchClientConfiguration) {
-        self.baseURL = clientConfiguration.baseURL
-        self.dataDirectory = clientConfiguration.dataDirectory
-        self.storage = clientConfiguration.storage
-        self.transport = clientConfiguration.transport
-        self.defaultRequestTimeout = clientConfiguration.defaultRequestTimeout
+    /**
+     * Builder object for this configuration
+    */
+    public var builder: Builder {
+        return StitchClientConfigurationBuilder.init(clientConfiguration: self)
     }
     
-    internal init(baseURL: String,
-                  dataDirectory: URL,
-                  storage: Storage,
-                  transport: Transport,
-                  defaultRequestTimeout: TimeInterval) {
-        self.baseURL = baseURL
-        self.dataDirectory = dataDirectory
-        self.storage = storage
-        self.transport = transport
-        self.defaultRequestTimeout = defaultRequestTimeout
+    init(builder: StitchClientConfigurationBuilder) {
+        self.baseURL = builder.baseURL
+        self.dataDirectory = builder.dataDirectory
+        self.storage = builder.storage
+        self.transport = builder.transport
+        self.defaultRequestTimeout = builder.defaultRequestTimeout
     }
 }
 
@@ -60,11 +61,7 @@ public class StitchClientConfiguration {
  * An error that a Stitch client configuration can throw if it is missing certain properties.
  */
 public enum StitchClientConfigurationError: Error {
-    case missingBaseURL
-    case missingDataDirectory
-    case missingStorage
-    case missingTransport
-    case missingDefaultRequestTimeout
+    case missingProperty
 }
 
 /**
@@ -129,7 +126,7 @@ public class StitchClientConfigurationBuilder {
     
     public init() { }
     
-    init(clientConfiguration: StitchClientConfiguration) {
+    fileprivate init(clientConfiguration: StitchClientConfiguration) {
         self.baseURL = clientConfiguration.baseURL
         self.dataDirectory = clientConfiguration.dataDirectory
         self.storage = clientConfiguration.storage
@@ -137,33 +134,7 @@ public class StitchClientConfigurationBuilder {
         self.defaultRequestTimeout = clientConfiguration.defaultRequestTimeout
     }
     
-    public func build() throws -> StitchClientConfiguration {
-        guard let baseURL = self.baseURL else {
-            throw StitchClientConfigurationError.missingBaseURL
-        }
-
-        guard let dataDirectory = self.dataDirectory else {
-            throw StitchClientConfigurationError.missingDataDirectory
-        }
-
-        guard let storage = self.storage else {
-            throw StitchClientConfigurationError.missingStorage
-        }
-
-        guard let transport = self.transport else {
-            throw StitchClientConfigurationError.missingTransport
-        }
-
-        guard let defaultRequestTimeout = self.defaultRequestTimeout else {
-            throw StitchClientConfigurationError.missingDefaultRequestTimeout
-        }
-        
-        return StitchClientConfiguration.init(
-            baseURL: baseURL,
-            dataDirectory: dataDirectory,
-            storage: storage,
-            transport: transport,
-            defaultRequestTimeout: defaultRequestTimeout
-        )
+    public func build() -> StitchClientConfiguration {
+        return StitchClientConfiguration.init(builder: self)
     }
 }

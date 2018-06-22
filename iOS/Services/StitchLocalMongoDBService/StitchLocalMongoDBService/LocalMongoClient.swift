@@ -3,7 +3,9 @@ import StitchCoreSDK
 import StitchCoreLocalMongoDBService
 import os
 import StitchCore
-
+#if canImport(WatchKit)
+import WatchKit
+#endif
 /// Commands associated with reporting battery level
 /// to MongoMobile
 private enum BatteryLevelCommand: String {
@@ -33,15 +35,20 @@ private final class MobileMongoDBClientFactory: CoreLocalMongoDBService, Throwin
     
     /// Current battery level of this device between 0-100
     private var batteryLevel: Float {
+        #if os(iOS)
         return UIDevice.current.batteryLevel
+        #endif
+        #if os(watchOS)
+        return WKInterfaceDevice.current().batteryLevel
+        #endif
     }
     
     private var lastBatteryState: BatteryState = .unknown
-    private var backgroundTask: UIBackgroundTaskIdentifier?
     
     fileprivate override init() {
         super.init()
         
+        #if os(iOS)
         UIDevice.current.isBatteryMonitoringEnabled = true
         if UIDevice.current.batteryLevel < 30 {
             self.lastBatteryState = .low
@@ -70,6 +77,7 @@ private final class MobileMongoDBClientFactory: CoreLocalMongoDBService, Throwin
             name: .UIApplicationWillTerminate,
             object: nil
         )
+        #endif
     }
     
     func client(withServiceClient serviceClient: StitchServiceClient,
@@ -167,6 +175,6 @@ private final class MobileMongoDBClientFactory: CoreLocalMongoDBService, Throwin
 }
 
 /// MongoDBService singleton
-public let localMongoDBServiceClientFactory = AnyThrowingServiceClientFactory<MongoClient>.init(
+public let mongoClientFactory = AnyThrowingServiceClientFactory<MongoClient>.init(
     factory: MobileMongoDBClientFactory()
 )

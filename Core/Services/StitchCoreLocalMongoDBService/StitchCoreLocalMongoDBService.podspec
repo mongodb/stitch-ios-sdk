@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
     spec.name       = File.basename(__FILE__, '.podspec')
-    spec.version    = "4.0.0-beta-1"
+    spec.version    = "4.0.0-beta-2"
     spec.summary    = "#{__FILE__} Module"
     spec.homepage   = "https://github.com/mongodb/stitch-ios-sdk"
     spec.license    = "Apache2"
@@ -10,15 +10,17 @@ Pod::Spec.new do |spec|
       "Eric Daniels" => "eric.daniels@mongodb.com",
     }
     spec.platform = :ios, "11.0"
-    spec.source     = {
-      :git => "https://github.com/mongodb/stitch-ios-sdk.git",
-      :branch => "master",
-      :submodules => true
-    }
+    spec.platform = :tvos, "10.2"
+    spec.platform = :watchos, "4.3"
 
+    spec.source     = {
+      :git => "https://github.com/jsflax/stitch-ios-sdk.git",
+      :branch => "master"
+    }
+  
     spec.ios.deployment_target = "11.0"
-    spec.swift_version = "4.1"
-    spec.requires_arc = true
+    spec.tvos.deployment_target = "10.2"
+    spec.watchos.deployment_target = "4.3"
     
     spec.prepare_command = <<-CMD
       sh download_sdk.sh --with-mobile
@@ -39,9 +41,22 @@ Pod::Spec.new do |spec|
   
     spec.source_files = "dist/#{spec.name}/**/*.swift"
 
-    libs = "vendor/MobileSDKs/iphoneos/lib/lib*[^bson-1.0][^mongoc-1.0].dylib"
-    spec.ios.vendored_library = libs
-    spec.tvos.vendored_library = libs
+    def self.vendor_path(platform)
+      Dir.entries("vendor/MobileSDKs/#{platform}/lib/").select {
+        |f| ![
+          "libbson-1.0.0.0.0.dylib", 
+          "libbson-1.0.dylib", 
+          "libmongoc-1.0.0.dylib", 
+          "libbson-1.0.0.dylib", 
+          "libmongoc-1.0.0.0.0.dylib", 
+          "libmongoc-1.0.dylib"
+        ].any? { |lib| f.include?(lib) }
+      }.map { |lib| "vendor/MobileSDKs/#{platform}/lib/#{lib}" }
+    end
+    
+    spec.ios.vendored_library = self.vendor_path "iphoneos"
+    spec.tvos.vendored_library = self.vendor_path "appletvos"
+    spec.watchos.vendored_library = self.vendor_path "watchos"
 
-    spec.dependency 'StitchCoreSDK', '~> 4.0.0-beta-1'
+    spec.dependency 'StitchCoreSDK', '~> 4.0.0-beta-3'
 end

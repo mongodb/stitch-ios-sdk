@@ -30,13 +30,6 @@ open class BaseStitchIntTestCocoaTouch: BaseStitchIntTest {
         return myDict
     }()
     
-    override open func setUp() {
-        super.setUp()
-        
-        do { try Stitch.initialize() }
-        catch { XCTFail(error.localizedDescription) }
-    }
-    
     override open func tearDown() {
         super.tearDown()
         clients.forEach { $0.auth.logout { _ in } }
@@ -52,9 +45,10 @@ open class BaseStitchIntTestCocoaTouch: BaseStitchIntTest {
         }
 
         let client = try Stitch.initializeAppClient(
-            withConfigBuilder: StitchAppClientConfigurationBuilder()
-                .with(clientAppID: app.clientAppID)
+            withClientAppID: app.clientAppID,
+            withConfig: StitchAppClientConfigurationBuilder()
                 .with(baseURL: stitchBaseURL)
+                .build()
         )
             
         clients.append(client)

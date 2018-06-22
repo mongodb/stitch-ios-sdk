@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		F427686E20D42B5D00544A02 /* StitchLocalMongoDBServiceExports.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427686D20D42B5D00544A02 /* StitchLocalMongoDBServiceExports.swift */; };
+		F4BD8C4C20DAD48900811B23 /* StitchLocalMongoDBService_watchos.h in Headers */ = {isa = PBXBuildFile; fileRef = F4BD8C4A20DAD48900811B23 /* StitchLocalMongoDBService_watchos.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F4BD8C5020DAD49A00811B23 /* LocalMongoClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DA27AC20D1C65100852314 /* LocalMongoClient.swift */; };
+		F4BD8C5120DAD49A00811B23 /* StitchLocalMongoDBServiceExports.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427686D20D42B5D00544A02 /* StitchLocalMongoDBServiceExports.swift */; };
+		F4BD8C5720DAD4F400811B23 /* StitchCoreLocalMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4BD8C5620DAD4F400811B23 /* StitchCoreLocalMongoDBService.framework */; };
+		F4BD8C6920DAE19B00811B23 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4BD8C6820DAE19B00811B23 /* StitchCore.framework */; };
+		F4BD8C6B20DAE19B00811B23 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4BD8C6A20DAE19B00811B23 /* StitchCore.framework */; };
 		F4DA279C20D1C64600852314 /* StitchLocalMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4DA279220D1C64600852314 /* StitchLocalMongoDBService.framework */; };
 		F4DA27A120D1C64600852314 /* StitchLocalMongoDBServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DA27A020D1C64600852314 /* StitchLocalMongoDBServiceTests.swift */; };
 		F4DA27A320D1C64600852314 /* StitchLocalMongoDBService.h in Headers */ = {isa = PBXBuildFile; fileRef = F4DA279520D1C64600852314 /* StitchLocalMongoDBService.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -28,6 +34,15 @@
 
 /* Begin PBXFileReference section */
 		F427686D20D42B5D00544A02 /* StitchLocalMongoDBServiceExports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchLocalMongoDBServiceExports.swift; sourceTree = "<group>"; };
+		F4BD8C4820DAD48900811B23 /* StitchLocalMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StitchLocalMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4BD8C4A20DAD48900811B23 /* StitchLocalMongoDBService_watchos.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StitchLocalMongoDBService_watchos.h; sourceTree = "<group>"; };
+		F4BD8C4B20DAD48900811B23 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F4BD8C5220DAD4A900811B23 /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4BD8C5420DAD4B000811B23 /* StitchCore_watchos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore_watchos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4BD8C5620DAD4F400811B23 /* StitchCoreLocalMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreLocalMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4BD8C6620DADD9100811B23 /* StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4BD8C6820DAE19B00811B23 /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4BD8C6A20DAE19B00811B23 /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4DA279220D1C64600852314 /* StitchLocalMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StitchLocalMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4DA279520D1C64600852314 /* StitchLocalMongoDBService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StitchLocalMongoDBService.h; sourceTree = "<group>"; };
 		F4DA279620D1C64600852314 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -41,6 +56,16 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		F4BD8C4420DAD48900811B23 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4BD8C6920DAE19B00811B23 /* StitchCore.framework in Frameworks */,
+				F4BD8C6B20DAE19B00811B23 /* StitchCore.framework in Frameworks */,
+				F4BD8C5720DAD4F400811B23 /* StitchCoreLocalMongoDBService.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F4DA278E20D1C64600852314 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -61,11 +86,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F4BD8C4920DAD48900811B23 /* StitchLocalMongoDBService_watchos */ = {
+			isa = PBXGroup;
+			children = (
+				F4BD8C4A20DAD48900811B23 /* StitchLocalMongoDBService_watchos.h */,
+				F4BD8C4B20DAD48900811B23 /* Info.plist */,
+			);
+			path = StitchLocalMongoDBService_watchos;
+			sourceTree = "<group>";
+		};
 		F4DA278820D1C64600852314 = {
 			isa = PBXGroup;
 			children = (
 				F4DA279420D1C64600852314 /* StitchLocalMongoDBService */,
 				F4DA279F20D1C64600852314 /* StitchLocalMongoDBServiceTests */,
+				F4BD8C4920DAD48900811B23 /* StitchLocalMongoDBService_watchos */,
 				F4DA279320D1C64600852314 /* Products */,
 				F4DA27AE20D1C67A00852314 /* Frameworks */,
 			);
@@ -76,6 +111,7 @@
 			children = (
 				F4DA279220D1C64600852314 /* StitchLocalMongoDBService.framework */,
 				F4DA279B20D1C64600852314 /* StitchLocalMongoDBServiceTests.xctest */,
+				F4BD8C4820DAD48900811B23 /* StitchLocalMongoDBService.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -103,6 +139,12 @@
 		F4DA27AE20D1C67A00852314 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F4BD8C6820DAE19B00811B23 /* StitchCore.framework */,
+				F4BD8C6A20DAE19B00811B23 /* StitchCore.framework */,
+				F4BD8C6620DADD9100811B23 /* StitchCoreSDK.framework */,
+				F4BD8C5620DAD4F400811B23 /* StitchCoreLocalMongoDBService.framework */,
+				F4BD8C5420DAD4B000811B23 /* StitchCore_watchos.framework */,
+				F4BD8C5220DAD4A900811B23 /* StitchCore.framework */,
 				F4DA27B620D1CB9500852314 /* MongoSwift.framework */,
 				F4DA27B120D1C67E00852314 /* StitchCoreLocalMongoDBService.framework */,
 				F4DA27AF20D1C67A00852314 /* StitchCore.framework */,
@@ -113,6 +155,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		F4BD8C4520DAD48900811B23 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4BD8C4C20DAD48900811B23 /* StitchLocalMongoDBService_watchos.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F4DA278F20D1C64600852314 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -124,6 +174,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		F4BD8C4720DAD48900811B23 /* StitchLocalMongoDBService_watchos */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F4BD8C4F20DAD48900811B23 /* Build configuration list for PBXNativeTarget "StitchLocalMongoDBService_watchos" */;
+			buildPhases = (
+				F4BD8C4320DAD48900811B23 /* Sources */,
+				F4BD8C4420DAD48900811B23 /* Frameworks */,
+				F4BD8C4520DAD48900811B23 /* Headers */,
+				F4BD8C4620DAD48900811B23 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StitchLocalMongoDBService_watchos;
+			productName = StitchLocalMongoDBService_watchos;
+			productReference = F4BD8C4820DAD48900811B23 /* StitchLocalMongoDBService.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		F4DA279120D1C64600852314 /* StitchLocalMongoDBService */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F4DA27A620D1C64600852314 /* Build configuration list for PBXNativeTarget "StitchLocalMongoDBService" */;
@@ -170,6 +238,9 @@
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = MongoDB;
 				TargetAttributes = {
+					F4BD8C4720DAD48900811B23 = {
+						CreatedOnToolsVersion = 9.3.1;
+					};
 					F4DA279120D1C64600852314 = {
 						CreatedOnToolsVersion = 9.3.1;
 						LastSwiftMigration = 0930;
@@ -193,11 +264,19 @@
 			targets = (
 				F4DA279120D1C64600852314 /* StitchLocalMongoDBService */,
 				F4DA279A20D1C64600852314 /* StitchLocalMongoDBServiceTests */,
+				F4BD8C4720DAD48900811B23 /* StitchLocalMongoDBService_watchos */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		F4BD8C4620DAD48900811B23 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F4DA279020D1C64600852314 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -215,6 +294,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		F4BD8C4320DAD48900811B23 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4BD8C5020DAD49A00811B23 /* LocalMongoClient.swift in Sources */,
+				F4BD8C5120DAD49A00811B23 /* StitchLocalMongoDBServiceExports.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F4DA278D20D1C64600852314 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -243,6 +331,72 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		F4BD8C4D20DAD48900811B23 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../../../vendor/Sources/libbson",
+					"$(SRCROOT)/../../../vendor/Sources/libmongoc",
+				);
+				INFOPLIST_FILE = StitchLocalMongoDBService_watchos/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/watchos/lib";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.stitch.StitchLocalMongoDBService-watchos";
+				PRODUCT_NAME = StitchLocalMongoDBService;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 4.3;
+			};
+			name = Debug;
+		};
+		F4BD8C4E20DAD48900811B23 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../../../vendor/Sources/libbson",
+					"$(SRCROOT)/../../../vendor/Sources/libmongoc",
+				);
+				INFOPLIST_FILE = StitchLocalMongoDBService_watchos/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/watchos/lib";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.stitch.StitchLocalMongoDBService-watchos";
+				PRODUCT_NAME = StitchLocalMongoDBService;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 4.3;
+			};
+			name = Release;
+		};
 		F4DA27A420D1C64600852314 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -390,6 +544,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchLocalMongoDBService;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos watchsimulator watchos";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -423,6 +578,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchLocalMongoDBService;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos watchsimulator watchos";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -467,6 +623,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		F4BD8C4F20DAD48900811B23 /* Build configuration list for PBXNativeTarget "StitchLocalMongoDBService_watchos" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F4BD8C4D20DAD48900811B23 /* Debug */,
+				F4BD8C4E20DAD48900811B23 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		F4DA278C20D1C64600852314 /* Build configuration list for PBXProject "StitchLocalMongoDBService" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

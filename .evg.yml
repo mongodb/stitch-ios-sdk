@@ -148,75 +148,107 @@ tasks:
             swiftlint
   - name: run_tests
     commands:
-      - func: "fetch_source"
-      - func: "setup_mongod"
-      - func: "setup_stitch"
-      - func: "setup_stitch_swift"
-      - func: "setup_test_creds"
+      # - func: "fetch_source"
+      # - func: "setup_mongod"
+      # - func: "setup_stitch"
+      # - func: "setup_stitch_swift"
+      # - func: "setup_test_creds"
       - command: shell.exec
         params:
           shell: "bash"
           script: |
             echo "running ios tests"
-            set -e
-
-            if pgrep CoreSimulator; then pkill -9 CoreSimulator; fi
-            export DEVELOPER_DIR=/Applications/Xcode9.2.app
-            cd stitch-ios-sdk
-            export SIM_UUID=$(xcrun simctl create stitch-iphone7 com.apple.CoreSimulator.SimDeviceType.iPhone-7 com.apple.CoreSimulator.SimRuntime.iOS-10-2)
-            xcrun simctl boot $SIM_UUID
-            echo "booting SIMCTL $SIM_UUID"
+            ls -l /opt/chef/embedded/bin/
+            ls -l /usr/bin/
+            `which python` --version
+            ls -l /usr/local/opt/python3/bin
             
-            cc=`find ./.build/checkouts/ -type d -name "CommonCrypto*" -print`
+            # set -e
+            # export PATH=~/.gem/ruby/2.3.0/bin
+            # /opt/chef/embedded/bin/gem install --user-install xcpretty
 
-            run_xctest() {
-              local xcodeproj=`find . -type d -name "$1.xcodeproj" -print`
-              local scheme=$2
-              local no_test=$3
-              echo "...testing $1"
+            # cc=`find ./.build/checkouts/ -type d -name "CommonCrypto*" -print`
 
-              xcodebuild \
-                -project "`pwd`/$xcodeproj" \
-                -destination "id=$SIM_UUID" \
-                -derivedDataPath "localDerivedData" \
-                -scheme $scheme \
-                OTHER_LDFLAGS="-rpath `pwd`/vendor/MobileSDKs/iphoneos/lib" \
-                LIBRARY_SEARCH_PATHS="`pwd`/vendor/MobileSDKs/iphoneos/lib" \
-                SWIFT_INCLUDE_PATHS="`pwd`/$cc `pwd`/vendor/MobileSDKs/include `pwd`/vendor/MobileSDKs/include/libbson-1.0 `pwd`/vendor/MobileSDKs/include/libmongoc-1.0 `pwd`/vendor/MobileSDKs/include/mongo/embedded-v1/" \
-                FRAMEWORK_INCLUDE_PATHS="`pwd`/localDerivedData" \
-                ENABLE_BITCODE=NO \
-                IPHONEOS_DEPLOYMENT_TARGET="8.0" \
-                `[[ $no_test != YES ]] && echo "test" || echo ""`
-            }
+            # run_xctest() {
+            #   local xcodeproj=`find . -type d -name "$1.xcodeproj" -print`
+            #   local scheme=$2
+            #   local no_test=$3
+            #   echo "...testing $1"
 
-            echo "...testing core"
-            run_xctest StitchCoreSDK StitchCoreSDK-Package
-            run_xctest StitchCoreAdminClient StitchCoreAdminClient-Package
-            run_xctest StitchCoreTestUtils StitchCoreTestUtils-Package
+            #   xcodebuild \
+            #     -project "`pwd`/$xcodeproj" \
+            #     -destination "id=E57251F9-8718-4F19-9F46-64DF188A41F5" \
+            #     -derivedDataPath "localDerivedData" \
+            #     -scheme $scheme \
+            #     OTHER_LDFLAGS="-rpath `pwd`/vendor/MobileSDKs/iphoneos/lib -fprofile-arcs -ftest-coverage" \
+            #     LIBRARY_SEARCH_PATHS="`pwd`/vendor/MobileSDKs/iphoneos/lib" \
+            #     SWIFT_INCLUDE_PATHS="`pwd`/$cc `pwd`/vendor/MobileSDKs/include `pwd`/vendor/MobileSDKs/include/libbson-1.0 `pwd`/vendor/MobileSDKs/include/libmongoc-1.0 `pwd`/vendor/MobileSDKs/include/mongo/embedded-v1/" \
+            #     FRAMEWORK_INCLUDE_PATHS="`pwd`/localDerivedData " \
+            #     ENABLE_BITCODE=NO \
+            #     IPHONEOS_DEPLOYMENT_TARGET="10.2" \
+            #     -enableCodeCoverage YES \
+            #     `[[ $no_test != YES ]] && echo "test" || echo ""`
+              
+            #   find . -type f -name Coverage.profdata -exec cp {} ./$scheme.profdata \;
+            # }
+            #-enableCodeCoverage YES \
+            # if pgrep CoreSimulator; then pkill -9 CoreSimulator; fi
+            # export DEVELOPER_DIR=/Applications/Xcode9.2.app
+            # cd stitch-ios-sdk
+            # export SIM_UUID=$(xcrun simctl create stitch-iphone7 com.apple.CoreSimulator.SimDeviceType.iPhone-7 com.apple.CoreSimulator.SimRuntime.iOS-10-2)
+            # xcrun simctl boot $SIM_UUID
+            # echo "booting SIMCTL $SIM_UUID"
+            
+            # cc=`find ./.build/checkouts/ -type d -name "CommonCrypto*" -print`
 
-            echo "...testing core services"
-            run_xctest StitchCoreAWSS3Service StitchCoreAWSS3Service-Package
-            run_xctest StitchCoreAWSSESService StitchCoreAWSSESService-Package
-            run_xctest StitchCoreFCMService StitchCoreFCMService-Package
-            run_xctest StitchCoreHTTPService StitchCoreHTTPService-Package
-            run_xctest StitchCoreRemoteMongoDBService StitchCoreRemoteMongoDBService-Package
-            run_xctest StitchCoreTwilioService StitchCoreTwilioService-Package
+            # run_xctest() {
+            #   local xcodeproj=`find . -type d -name "$1.xcodeproj" -print`
+            #   local scheme=$2
+            #   local no_test=$3
+            #   echo "...testing $1"
 
-            echo "...testing ios"
-            run_xctest StitchCore StitchCore YES
-            run_xctest StitchIOSCoreTestUtils StitchIOSCoreTestUtils
-            run_xctest StitchCore StitchCore
+            #   xcodebuild \
+            #     -project "`pwd`/$xcodeproj" \
+            #     -destination "id=$SIM_UUID" \
+            #     -derivedDataPath "localDerivedData" \
+            #     -scheme $scheme \
+            #     OTHER_LDFLAGS="-rpath `pwd`/vendor/MobileSDKs/iphoneos/lib" \
+            #     LIBRARY_SEARCH_PATHS="`pwd`/vendor/MobileSDKs/iphoneos/lib" \
+            #     SWIFT_INCLUDE_PATHS="`pwd`/$cc `pwd`/vendor/MobileSDKs/include `pwd`/vendor/MobileSDKs/include/libbson-1.0 `pwd`/vendor/MobileSDKs/include/libmongoc-1.0 `pwd`/vendor/MobileSDKs/include/mongo/embedded-v1/" \
+            #     FRAMEWORK_INCLUDE_PATHS="`pwd`/localDerivedData" \
+            #     ENABLE_BITCODE=NO \
+            #     IPHONEOS_DEPLOYMENT_TARGET="10.2" \
+            #     `[[ $no_test != YES ]] && echo "test" || echo ""`
+            # }
 
-            echo "...testing ios services"
-            run_xctest StitchAWSS3Service StitchAWSS3Service
-            run_xctest StitchAWSSESService StitchAWSSESService
-            run_xctest StitchFCMService StitchFCMService
-            run_xctest StitchHTTPService StitchHTTPService
-            run_xctest StitchRemoteMongoDBService StitchRemoteMongoDBService
-            run_xctest StitchTwilioService StitchTwilioService
+            # echo "...testing core"
+            # run_xctest StitchCoreSDK StitchCoreSDK-Package
+            # run_xctest StitchCoreAdminClient StitchCoreAdminClient-Package
+            # run_xctest StitchCoreTestUtils StitchCoreTestUtils-Package
 
-            xcrun simctl shutdown $SIM_UUID
-            xcrun simctl erase $SIM_UUID
+            # echo "...testing core services"
+            # run_xctest StitchCoreAWSS3Service StitchCoreAWSS3Service-Package
+            # run_xctest StitchCoreAWSSESService StitchCoreAWSSESService-Package
+            # run_xctest StitchCoreFCMService StitchCoreFCMService-Package
+            # run_xctest StitchCoreHTTPService StitchCoreHTTPService-Package
+            # run_xctest StitchCoreRemoteMongoDBService StitchCoreRemoteMongoDBService-Package
+            # run_xctest StitchCoreTwilioService StitchCoreTwilioService-Package
+
+            # echo "...testing ios"
+            # run_xctest StitchCore StitchCore YES
+            # run_xctest StitchIOSCoreTestUtils StitchIOSCoreTestUtils
+            # run_xctest StitchCore StitchCore
+
+            # echo "...testing ios services"
+            # run_xctest StitchAWSS3Service StitchAWSS3Service
+            # run_xctest StitchAWSSESService StitchAWSSESService
+            # run_xctest StitchFCMService StitchFCMService
+            # run_xctest StitchHTTPService StitchHTTPService
+            # run_xctest StitchRemoteMongoDBService StitchRemoteMongoDBService
+            # run_xctest StitchTwilioService StitchTwilioService
+
+            # xcrun simctl shutdown $SIM_UUID
+            # xcrun simctl erase $SIM_UUID
 buildvariants:
 - name: macos-1013
   display_name: MacOS 10.13

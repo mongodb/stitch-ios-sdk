@@ -20,16 +20,9 @@ class ThrowingServiceClientFactoryUnitTests: BaseStitchIntTestCocoaTouch {
 
     override func setUp() {
         guard let client = Stitch.defaultAppClient else {
-            do {
-                try Stitch.initialize()
-                appClient = try? Stitch.initializeDefaultAppClient(
-                    withConfigBuilder: StitchAppClientConfigurationBuilder()
-                        .with(clientAppID: "placeholder-app-id")
-                )
-            } catch {
-                XCTFail("Failed to initialize MongoDB Stitch iOS SDK: \(error.localizedDescription)")
-            }
-
+            appClient = try? Stitch.initializeDefaultAppClient(
+                withClientAppID: "placeholder-app-id"
+            )
             return
         }
 
