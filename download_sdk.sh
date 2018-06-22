@@ -183,9 +183,6 @@ if [[ $WITH_MOBILE == YES ]]; then
         cp -r mongo-mobile/Sources/MongoMobile $dir
         cp -r mongo-mobile/Sources/mongo_embedded Sources/
         rm -rf mongo-mobile mongo-mobile.tgz
-      # else
-      #   log_w "MongoMobile already exists"
-      # fi
       break
     fi
   done

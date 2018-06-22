@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		F427686E20D42B5D00544A02 /* StitchLocalMongoDBServiceExports.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427686D20D42B5D00544A02 /* StitchLocalMongoDBServiceExports.swift */; };
-		F4BD8C4C20DAD48900811B23 /* StitchLocalMongoDBService_watchos.h in Headers */ = {isa = PBXBuildFile; fileRef = F4BD8C4A20DAD48900811B23 /* StitchLocalMongoDBService_watchos.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F4BD8C5020DAD49A00811B23 /* LocalMongoClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DA27AC20D1C65100852314 /* LocalMongoClient.swift */; };
 		F4BD8C5120DAD49A00811B23 /* StitchLocalMongoDBServiceExports.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427686D20D42B5D00544A02 /* StitchLocalMongoDBServiceExports.swift */; };
 		F4BD8C5720DAD4F400811B23 /* StitchCoreLocalMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4BD8C5620DAD4F400811B23 /* StitchCoreLocalMongoDBService.framework */; };
@@ -35,8 +34,6 @@
 /* Begin PBXFileReference section */
 		F427686D20D42B5D00544A02 /* StitchLocalMongoDBServiceExports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchLocalMongoDBServiceExports.swift; sourceTree = "<group>"; };
 		F4BD8C4820DAD48900811B23 /* StitchLocalMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StitchLocalMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F4BD8C4A20DAD48900811B23 /* StitchLocalMongoDBService_watchos.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StitchLocalMongoDBService_watchos.h; sourceTree = "<group>"; };
-		F4BD8C4B20DAD48900811B23 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F4BD8C5220DAD4A900811B23 /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4BD8C5420DAD4B000811B23 /* StitchCore_watchos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore_watchos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4BD8C5620DAD4F400811B23 /* StitchCoreLocalMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreLocalMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -86,21 +83,11 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		F4BD8C4920DAD48900811B23 /* StitchLocalMongoDBService_watchos */ = {
-			isa = PBXGroup;
-			children = (
-				F4BD8C4A20DAD48900811B23 /* StitchLocalMongoDBService_watchos.h */,
-				F4BD8C4B20DAD48900811B23 /* Info.plist */,
-			);
-			path = StitchLocalMongoDBService_watchos;
-			sourceTree = "<group>";
-		};
 		F4DA278820D1C64600852314 = {
 			isa = PBXGroup;
 			children = (
 				F4DA279420D1C64600852314 /* StitchLocalMongoDBService */,
 				F4DA279F20D1C64600852314 /* StitchLocalMongoDBServiceTests */,
-				F4BD8C4920DAD48900811B23 /* StitchLocalMongoDBService_watchos */,
 				F4DA279320D1C64600852314 /* Products */,
 				F4DA27AE20D1C67A00852314 /* Frameworks */,
 			);
@@ -159,7 +146,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4BD8C4C20DAD48900811B23 /* StitchLocalMongoDBService_watchos.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
