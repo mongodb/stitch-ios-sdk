@@ -3,7 +3,7 @@ import StitchCore
 import StitchCoreSDK
 import StitchCoreRemoteMongoDBService
 
-private final class RemoteMongoDBServiceClientFactory: NamedServiceClientFactory {
+private final class RemoteMongoClientFactory: NamedServiceClientFactory {
     typealias ClientType = RemoteMongoClient
     
     func client(withServiceClient serviceClient: StitchServiceClient,
@@ -19,8 +19,8 @@ private final class RemoteMongoDBServiceClientFactory: NamedServiceClientFactory
  * Global factory const which can be used to create a `RemoteMongoClient` with a `StitchAppClient`. Pass into
  * `StitchAppClient.serviceClient(fromFactory:withName)` to get a `RemoteMongoClient.
  */
-public let remoteMongoDBServiceClientFactory =
-    AnyNamedServiceClientFactory<RemoteMongoClient>(factory: RemoteMongoDBServiceClientFactory())
+public let remoteMongoClientFactory =
+    AnyNamedServiceClientFactory<RemoteMongoClient>(factory: RemoteMongoClientFactory())
 
 /**
  * A class which can be used to get database and collection objects which can be used to interact with MongoDB data via

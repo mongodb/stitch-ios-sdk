@@ -21,19 +21,21 @@ mobile_sdk_url() {
     iphoneos)
       echo "https://s3.amazonaws.com/mciuploads/mongodb-mongo-master/embedded-sdk/embedded-sdk-iphoneos-10.2/4c77f4f5a72a27ac98557de49b74eb1a019dd196/mongodb_mongo_master_embedded_sdk_iphoneos_10.2_patch_4c77f4f5a72a27ac98557de49b74eb1a019dd196_5b294ecae3c3312e46f5028e_18_06_19_18_43_41.tgz"
       ;;
-
     iphonesimulator)
       echo "https://s3.amazonaws.com/mciuploads/mongodb-mongo-master/embedded-sdk/embedded-sdk-iphonesimulator-10.2/4c77f4f5a72a27ac98557de49b74eb1a019dd196/mongodb_mongo_master_embedded_sdk_iphonesimulator_10.2_patch_4c77f4f5a72a27ac98557de49b74eb1a019dd196_5b294ecae3c3312e46f5028e_18_06_19_18_43_41.tgz"
       ;;
-
     appletvos)
       echo "https://s3.amazonaws.com/mciuploads/mongodb-mongo-master/embedded-sdk/embedded-sdk-appletvos-10.2/4c77f4f5a72a27ac98557de49b74eb1a019dd196/mongodb_mongo_master_embedded_sdk_appletvos_10.2_patch_4c77f4f5a72a27ac98557de49b74eb1a019dd196_5b294ecae3c3312e46f5028e_18_06_19_18_43_41.tgz"
       ;;
-
     appletvsimulator)
       echo "https://s3.amazonaws.com/mciuploads/mongodb-mongo-master/embedded-sdk/embedded-sdk-appletvsimulator-10.2/4c77f4f5a72a27ac98557de49b74eb1a019dd196/mongodb_mongo_master_embedded_sdk_appletvsimulator_10.2_patch_4c77f4f5a72a27ac98557de49b74eb1a019dd196_5b294ecae3c3312e46f5028e_18_06_19_18_43_41.tgz"
       ;;
-
+    watchos)
+      echo "https://s3.amazonaws.com/mciuploads/mongodb-mongo-master/embedded-sdk/embedded-sdk-watchos-4.2/32d04037b7b37ed68925b21b24dbd8e032ea7b48/mongodb_mongo_master_embedded_sdk_watchos_4.2_32d04037b7b37ed68925b21b24dbd8e032ea7b48_18_06_19_19_46_02.tgz"
+      ;;
+    watchsimulator)
+      echo "https://s3.amazonaws.com/mciuploads/mongodb-mongo-master/embedded-sdk/embedded-sdk-watchsimulator-4.2/32d04037b7b37ed68925b21b24dbd8e032ea7b48/mongodb_mongo_master_embedded_sdk_watchsimulator_4.2_32d04037b7b37ed68925b21b24dbd8e032ea7b48_18_06_19_19_46_02.tgz"
+      ;;
     macos)
       echo "https://s3.amazonaws.com/mciuploads/mongodb-mongo-v4.0/embedded-sdk/embedded-sdk-macosx-10.10-latest.tgz"
       ;;
@@ -43,9 +45,8 @@ mobile_sdk_url() {
 # download mobile sdk for target from url
 download_mobile_sdk() {
   local target=$1 url=$2
-
-  echo $url
-  curl $url > mobile-sdks.tgz
+  log_i "downloading to $1"
+  curl -# $url > mobile-sdks.tgz
   mkdir $target
   tar -xzf mobile-sdks.tgz -C $target --strip-components 2
   rm mobile-sdks.tgz
@@ -88,14 +89,15 @@ download_and_combine() {
     # create combined SDK library paths
     mkdir -p ${variant_os}/lib
 
-    log_i "merging architectures into universal dylibs..."
-    for lib in $variant_os_tmp/lib/*.dylib; do
+    log_i "merging $variant_os architectures into universal dylibs..."
+    tmp_libs=`[[ $WITH_MOBILE == YES ]] && echo $variant_os_tmp/lib/*.dylib || find -E ./$variant_os_tmp/lib -type f -regex ".*lib(bson|mongoc)-.*.dylib"`
+    for lib in $tmp_libs; do
       local base_lib=$(basename "$lib")
       lipo $variant_os_tmp/lib/${base_lib} \
         `[[ ! -z $sim_url ]] && echo $variant_simulator_tmp/lib/${base_lib}` \
         -output ${variant_os}/lib/${base_lib} \
         -create
-    done
+    done;
 
     # cleanup
     rm -rf $variant_os_tmp
@@ -140,7 +142,7 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 # download MongoSwift
 if [ ! -d Sources/MongoSwift ]; then
   log_i "downloading MongoSwift"
-  curl -L https://api.github.com/repos/mongodb/mongo-swift-driver/tarball > mongo-swift.tgz
+  curl -# -L https://api.github.com/repos/mongodb/mongo-swift-driver/tarball > mongo-swift.tgz
   mkdir mongo-swift
   # extract mongo-swift
   tar -xzf mongo-swift.tgz -C mongo-swift --strip-components 1
@@ -159,6 +161,7 @@ if [ ! -d MobileSDKs ]; then
     mkdir -p MobileSDKs && cd MobileSDKs
     download_and_combine "iphone"
     download_and_combine "appletv"
+    download_and_combine "watch"
     cd ..
 else
   log_w "skipping downloading MobileSDKs"
@@ -171,7 +174,7 @@ if [[ $WITH_MOBILE == YES ]]; then
     # if the directory matches the Sources pattern
     if [[ $dir =~ .*Sources/StitchCoreLocalMongoDBService$ ]]; then
       # if we haven't already created the MongoMobile dir
-      if [[ ! -d $dir/MongoMobile ]]; then
+      #if [[ ! -d $dir/MongoMobile ]]; then
         log_i "downloading MongoMobile"
         curl -L https://api.github.com/repos/mongodb/swift-mongo-mobile/tarball > mongo-mobile.tgz
         mkdir mongo-mobile
@@ -180,9 +183,6 @@ if [[ $WITH_MOBILE == YES ]]; then
         cp -r mongo-mobile/Sources/MongoMobile $dir
         cp -r mongo-mobile/Sources/mongo_embedded Sources/
         rm -rf mongo-mobile mongo-mobile.tgz
-      else
-        log_w "MongoMobile already exists"
-      fi
       break
     fi
   done

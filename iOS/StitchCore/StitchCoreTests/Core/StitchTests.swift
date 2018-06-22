@@ -5,11 +5,9 @@ class StitchTests: XCTestCase {
 
     override func setUp() {
         do {
-            try Stitch.initialize()
             _ = try Stitch.initializeDefaultAppClient(
-                withConfigBuilder: StitchAppClientConfigurationBuilder()
-                    .with(clientAppID: "placeholder-app-id")
-                )
+                withClientAppID: "placeholder-app-id"
+            )
         } catch {
             XCTFail("Failed to initialize MongoDB Stitch iOS SDK: \(error.localizedDescription)")
         }

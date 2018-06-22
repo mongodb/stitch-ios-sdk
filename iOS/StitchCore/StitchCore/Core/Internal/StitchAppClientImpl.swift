@@ -53,11 +53,12 @@ internal final class StitchAppClientImpl: StitchAppClient {
      * Initializes the app client with the provided configuration, and with an operation dispatcher that runs on
      * the provided `DispatchQueue` (the default global `DispatchQueue` by default).
      */
-    public init(withConfig config: StitchAppClientConfiguration,
+    public init(withClientAppID clientAppID: String,
+                withConfig config: ImmutableStitchAppClientConfiguration,
                 withDispatchQueue queue: DispatchQueue = DispatchQueue.global()) throws {
         self.dispatcher = OperationDispatcher.init(withDispatchQueue: queue)
-        self.routes = StitchAppRoutes.init(clientAppID: config.clientAppID)
-        self.info = StitchAppClientInfo(clientAppID: config.clientAppID,
+        self.routes = StitchAppRoutes.init(clientAppID: clientAppID)
+        self.info = StitchAppClientInfo(clientAppID: clientAppID,
                                         dataDirectory: config.dataDirectory,
                                         localAppName: config.localAppName,
                                         localAppVersion: config.localAppVersion

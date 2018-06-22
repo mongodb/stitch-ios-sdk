@@ -58,6 +58,9 @@
          location = "container:"
          name = "Examples">
          <FileRef
+            location = "group:iOS/Examples/StitchWatchOSExample/StitchWatchOSExample.xcodeproj">
+         </FileRef>
+         <FileRef
             location = "group:iOS/Examples/StitchLocalMongoDBServiceExample/StitchLocalMongoDBServiceExample.xcodeproj">
          </FileRef>
          <FileRef

@@ -201,8 +201,10 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
 
         info[DeviceField.appID.rawValue] = self.appInfo.localAppName
         info[DeviceField.appVersion.rawValue] = self.appInfo.localAppVersion
+        #if os(iOS)
         info[DeviceField.platform.rawValue] = UIDevice.current.systemName
         info[DeviceField.platformVersion.rawValue] = UIDevice.current.systemVersion
+        #endif
         info[DeviceField.sdkVersion.rawValue] = Stitch.sdkVersion
 
         return info

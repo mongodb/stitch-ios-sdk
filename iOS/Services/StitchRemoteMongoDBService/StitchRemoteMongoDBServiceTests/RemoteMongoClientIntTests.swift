@@ -58,7 +58,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         }
         wait(for: [exp], timeout: 5.0)
         
-        self.mongoClient = client.serviceClient(fromFactory: remoteMongoDBServiceClientFactory, withName: "mongodb1")
+        self.mongoClient = client.serviceClient(fromFactory: remoteMongoClientFactory, withName: "mongodb1")
     }
     
     private func getTestColl() -> RemoteMongoCollection<Document> {

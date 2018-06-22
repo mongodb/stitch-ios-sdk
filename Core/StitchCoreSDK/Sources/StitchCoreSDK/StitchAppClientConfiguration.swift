@@ -5,43 +5,28 @@ import Foundation
  */
 public class StitchAppClientConfiguration: StitchClientConfiguration {
     /**
-     * The client app id of the Stitch application that this client is going to communicate with.
-     */
-    public let clientAppID: String
-
-    /**
      * The name of the local application.
      */
-    public let localAppName: String
-
+    public let localAppName: String?
+    
     /**
      * The current version of the local application.
      */
-    public let localAppVersion: String
+    public let localAppVersion: String?
     
-    internal init(appClientConfiguration: StitchAppClientConfiguration) {
-        self.clientAppID = appClientConfiguration.clientAppID
-        self.localAppName = appClientConfiguration.localAppName
-        self.localAppVersion = appClientConfiguration.localAppVersion
-        super.init(clientConfiguration: appClientConfiguration)
+    /// assign to avoid force cast
+    private var _builder: StitchAppClientConfigurationBuilder
+    override public var builder: StitchAppClientConfigurationBuilder {
+        return _builder
     }
     
-    internal init(clientConfiguration: StitchClientConfiguration,
-                  clientAppID: String,
-                  localAppName: String,
-                  localAppVersion: String) {
-        self.clientAppID = clientAppID
-        self.localAppName = localAppName
-        self.localAppVersion = localAppVersion
-        super.init(clientConfiguration: clientConfiguration)
+    internal init(builder: StitchAppClientConfigurationBuilder) {
+        self.localAppName = builder.localAppName
+        self.localAppVersion = builder.localAppVersion
+        
+        self._builder = builder
+        super.init(builder: builder)
     }
-}
-
-/**
- * An error that a Stitch app client configuration can throw if it is missing certain properties.
- */
-public enum StitchAppClientConfigurationError: Error {
-    case missingClientAppID
 }
 
 /**
@@ -49,20 +34,8 @@ public enum StitchAppClientConfigurationError: Error {
  * client initialization methods on the `Stitch` utility class.
  */
 public class StitchAppClientConfigurationBuilder: StitchClientConfigurationBuilder {
-    public internal(set) var clientAppID: String?
     public internal(set) var localAppName: String?
     public internal(set) var localAppVersion: String?
-    
-    /**
-     * Returns a builder for a given client app ID.
-     *
-     * - parameter withClientAppID: the client app id of the app.
-     * - returns: a builder for the given client app id.
-     */
-    public static func forApp(withClientAppID clientAppID: String) -> StitchAppClientConfigurationBuilder {
-        return StitchAppClientConfigurationBuilder().with(clientAppID: clientAppID)
-
-    }
     
     // The `with` functions from the inherited builder are explicitly included and overriden here
     // for the sake of API documentation completeness.
@@ -115,16 +88,7 @@ public class StitchAppClientConfigurationBuilder: StitchClientConfigurationBuild
         self.defaultRequestTimeout = defaultRequestTimeout
         return self
     }
-
-    /**
-     * Sets the client app id of the Stitch application that this client is going to communicate with.
-     */
-    @discardableResult
-    public func with(clientAppID: String) -> Self {
-        self.clientAppID = clientAppID
-        return self
-    }
-
+    
     /**
      * Sets the name of the local application.
      */
@@ -133,7 +97,7 @@ public class StitchAppClientConfigurationBuilder: StitchClientConfigurationBuild
         self.localAppName = localAppName
         return self
     }
-
+    
     /**
      * Sets he current version of the local application.
      */
@@ -149,28 +113,21 @@ public class StitchAppClientConfigurationBuilder: StitchClientConfigurationBuild
      * - important: The `Stitch` utility class accepts a builder for its client initialization methods so that it can
      *   can add defaults for various internal properties, so in most cases you do not need to call this method.
      */
-    public override func build() throws -> StitchAppClientConfiguration {
-        guard let clientAppID = self.clientAppID else {
-            throw StitchAppClientConfigurationError.missingClientAppID
-        }
-
+    public override func build() -> StitchAppClientConfiguration {
         if let appName = self.localAppName {
             self.localAppName = appName
         } else {
             self.localAppName = "unkown app name"
         }
-
+        
         if let appVersion = self.localAppVersion {
             self.localAppVersion = appVersion
         } else {
             self.localAppVersion = "unknown app version"
         }
         
-        return try StitchAppClientConfiguration.init(
-            clientConfiguration: super.build(),
-            clientAppID: clientAppID,
-            localAppName: self.localAppName!,
-            localAppVersion: self.localAppVersion!
+        return StitchAppClientConfiguration.init(
+            builder: self
         )
     }
 }

@@ -132,7 +132,7 @@
 @_exported import class StitchRemoteMongoDBService.RemoteMongoCursor
 @_exported import class StitchRemoteMongoDBService.RemoteMongoDatabase
 @_exported import class StitchRemoteMongoDBService.RemoteMongoReadOperation
-@_exported import let StitchRemoteMongoDBService.remoteMongoDBServiceClientFactory
+@_exported import let StitchRemoteMongoDBService.remoteMongoClientFactory
 
 /////////////////////////
 // StitchTwilioService //

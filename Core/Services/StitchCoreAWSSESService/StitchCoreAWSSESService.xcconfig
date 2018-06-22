@@ -4,12 +4,16 @@
 
 OTHER_LDFLAGS[sdk=iphoneos*] = -rpath $(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib
 OTHER_LDFLAGS[sdk=iphonesimulator*] = -rpath $(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib
-OTHER_LDFLAGS[sdk=appletvos*] = -rpath $(SRCROOT)/../../../vendor/MobileSDKsappletvos/lib
-OTHER_LDFLAGS[sdk=appletvsimulator*] = -rpath $(SRCROOT)/../../../vendor/MobileSDKsappletvos/lib
+OTHER_LDFLAGS[sdk=appletvos*] = -rpath $(SRCROOT)/../../../vendor/MobileSDKs/appletvos/lib
+OTHER_LDFLAGS[sdk=appletvsimulator*] = -rpath $(SRCROOT)/../../../vendor/MobileSDKs/appletvos/lib 
+OTHER_LDFLAGS[sdk=watchos*] = -rpath $(SRCROOT)/../../../vendor/MobileSDKs/watchos/lib
+OTHER_LDFLAGS[sdk=watchsimulator*] = -rpath $(SRCROOT)/../../../vendor/MobileSDKs/watchos/lib
 LIBRARY_SEARCH_PATHS[sdk=iphoneos*]        = $(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib
 LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*] = $(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib
-LIBRARY_SEARCH_PATHS[sdk=appletvos*]       = $(SRCROOT)/../../../vendor/MobileSDKsappletvos/lib
-LIBRARY_SEARCH_PATHS[sdk=appletvsimulator*] = $(SRCROOT)/../../../vendor/MobileSDKsappletvos/lib
+LIBRARY_SEARCH_PATHS[sdk=appletvos*]       = $(SRCROOT)/../../../vendor/MobileSDKs/appletvos/lib
+LIBRARY_SEARCH_PATHS[sdk=appletvsimulator*] = $(SRCROOT)/../../../vendor/MobileSDKs/appletvos/lib 
+LIBRARY_SEARCH_PATHS[sdk=watchos*]       = $(SRCROOT)/../../../vendor/MobileSDKs/watchos/lib
+LIBRARY_SEARCH_PATHS[sdk=watchsimulator*] = $(SRCROOT)/../../../vendor/MobileSDKs/watchos/lib
 
 SWIFT_INCLUDE_PATHS = $(SRCROOT)/../../../vendor/MobileSDKs/include $(SRCROOT)/../../../vendor/MobileSDKs/include/libbson-1.0 $(SRCROOT)/../../../vendor/MobileSDKs/include/libmongoc-1.0
 
