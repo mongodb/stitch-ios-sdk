@@ -1,4 +1,8 @@
+#!/bin/sh
+
 set -e
+
+cd ../
 
 sourcekitten doc --module-name StitchCoreSDK -- -workspace ./Stitch.xcworkspace -scheme StitchCoreSDK-Package -xcconfig DocGen/Configs/kitten.xcconfig > .raw_docs.json
 
