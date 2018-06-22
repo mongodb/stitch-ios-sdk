@@ -1,11 +1,3 @@
-//
-//  InterfaceController.swift
-//  StitchWatchOSExample WatchKit Extension
-//
-//  Created by Jay Flax on 6/20/18.
-//  Copyright © 2018 MongoDB. All rights reserved.
-//
-
 import WatchKit
 import Foundation
 import StitchCore
@@ -23,11 +15,8 @@ class InterfaceController: WKInterfaceController {
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
         do {
-            try Stitch.initialize()
             let client =
-                try Stitch.initializeDefaultAppClient(
-                    withConfigBuilder: StitchAppClientConfigurationBuilder()
-                        .with(clientAppID: "test-app"))
+                try Stitch.initializeDefaultAppClient("test-app")
             // try to get the default mongo client
             let mongoClient = try client.serviceClient(fromFactory: mongoClientFactory)
             self.collection =

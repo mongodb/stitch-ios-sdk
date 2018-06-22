@@ -20,9 +20,7 @@ class ToDoListViewController: UITableViewController {
         do {
             // try to initialize the default stitch client
             let client =
-                try Stitch.initializeDefaultAppClient(
-                    withConfigBuilder: StitchAppClientConfigurationBuilder()
-                        .with(clientAppID: "test-app"))
+                try Stitch.initializeDefaultAppClient("test-app")
             // try to get the default mongo client
             let mongoClient = try client.serviceClient(fromFactory: mongoClientFactory)
 

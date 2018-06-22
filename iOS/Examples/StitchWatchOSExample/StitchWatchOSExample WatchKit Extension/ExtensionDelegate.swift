@@ -1,11 +1,3 @@
-//
-//  ExtensionDelegate.swift
-//  StitchWatchOSExample WatchKit Extension
-//
-//  Created by Jay Flax on 6/20/18.
-//  Copyright © 2018 MongoDB. All rights reserved.
-//
-
 import WatchKit
 
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
