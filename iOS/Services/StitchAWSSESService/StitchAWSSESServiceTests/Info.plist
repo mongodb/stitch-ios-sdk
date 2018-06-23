@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>test.stitch.secretAccessKey</key>
-	<string>&lt;your-secret-access-key&gt;</string>
+	<string>FISuT/KJlFPJXP3ltLYctG5fesmqur/vw9xlKUhM</string>
 	<key>test.stitch.accessKeyID</key>
-	<string>&lt;your-access-key-id&gt;</string>
+	<string>AKIAJQHDMBJTZVRGYHTA</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>

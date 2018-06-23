@@ -10,7 +10,7 @@ all:
 	$(MAKE) -C Core/Services/StitchCoreRemoteMongoDBService all
 	$(MAKE) -C Core/Services/StitchCoreTwilioService all
 	$(MAKE) -C Core/StitchCoreTestUtils all
-build:
+b:
 	$(MAKE) -C MockUtils build
 	$(MAKE) -C Core/StitchCoreSDK build
 	$(MAKE) -C Core/StitchCoreAdminClient build

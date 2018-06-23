@@ -106,47 +106,47 @@ internal final class StitchUserProfileImpl: StitchUserProfile {
     /**
      * The full name of the user.
      */
-    public lazy var name: String? = data.name
+    public lazy var name: String? = self.data.name
 
     /**
      * The email address of the user.
      */
-    public lazy var email: String? = data.email
+    public lazy var email: String? = self.data.email
 
     /**
      * A URL to the user's profile picture.
      */
-    public lazy var pictureURL: String? = data.pictureURL
+    public lazy var pictureURL: String? = self.data.pictureURL
 
     /**
      * The first name of the user.
      */
-    public lazy var firstName: String? = data.firstName
+    public lazy var firstName: String? = self.data.firstName
 
     /**
      * The last name of the user.
      */
-    public lazy var lastName: String? = data.lastName
+    public lazy var lastName: String? = self.data.lastName
 
     /**
      * The gender of the user.
      */
-    public lazy var gender: String? = data.gender
+    public lazy var gender: String? = self.data.gender
 
     /**
      * The birthdate of the user.
      */
-    public lazy var birthday: String? = data.birthday
+    public lazy var birthday: String? = self.data.birthday
 
     /**
      * The minimum age of the user.
      */
-    public lazy var minAge: Int? = data.minAge
+    public lazy var minAge: Int? = self.data.minAge
 
     /**
      * The maximum age of the user.
      */
-    public lazy var maxAge: Int? = data.maxAge
+    public lazy var maxAge: Int? = self.data.maxAge
 
     /**
      * An object containing extra metadata about the user as supplied by the authentication provider. This need not

@@ -15,7 +15,7 @@ Pod::Spec.new do |spec|
 
     spec.source     = {
       :git => "https://github.com/jsflax/stitch-ios-sdk.git",
-      :branch => "master"
+      :branch => "PATCH_coveralls"
     }
   
     spec.pod_target_xcconfig = { "ENABLE_BITCODE" => "NO" }
