@@ -26,6 +26,18 @@ clean:
 	$(MAKE) -C Core/Services/StitchCoreLocalMongoDBService clean
 	$(MAKE) -C Core/Services/StitchCoreRemoteMongoDBService clean
 	$(MAKE) -C Core/Services/StitchCoreTwilioService clean
+prepare:
+	$(MAKE) -C MockUtils prepare
+	$(MAKE) -C Core/StitchCoreSDK prepare
+	$(MAKE) -C Core/StitchCoreAdminClient prepare
+	$(MAKE) -C Core/StitchCoreTestUtils prepare
+	$(MAKE) -C Core/Services/StitchCoreAWSS3Service prepare
+	$(MAKE) -C Core/Services/StitchCoreAWSSESService prepare
+	$(MAKE) -C Core/Services/StitchCoreFCMService prepare
+	$(MAKE) -C Core/Services/StitchCoreHTTPService prepare
+	$(MAKE) -C Core/Services/StitchCoreLocalMongoDBService prepare
+	$(MAKE) -C Core/Services/StitchCoreRemoteMongoDBService prepare
+	$(MAKE) -C Core/Services/StitchCoreTwilioService prepare
 lint:
 	$(MAKE) -C MockUtils lint
 	$(MAKE) -C Core/StitchCoreSDK lint

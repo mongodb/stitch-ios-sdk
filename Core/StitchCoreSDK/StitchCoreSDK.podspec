@@ -14,8 +14,8 @@ Pod::Spec.new do |spec|
     spec.platform = :watchos, "4.3"
 
     spec.source     = {
-      :git => "https://github.com/jsflax/stitch-ios-sdk.git",
-      :branch => "PATCH_coveralls"
+      :git => "https://github.com/mongodb/stitch-ios-sdk.git",
+      :branch => "master"
     }
   
     spec.pod_target_xcconfig = { "ENABLE_BITCODE" => "NO" }

@@ -114,7 +114,8 @@ functions:
           export DYLD_LIBRARY_PATH=`pwd`/MobileSDKs/iphoneos/lib:$DYLD_LIBRARY_PATH
           git config --global user.email "evg@mongodb.com"
           git config --global user.name "evg"
-          make
+          sh scripts/download_sdk.sh --with-mobile
+          make prepare
 tasks:
   - name: lint
     commands:
@@ -149,30 +150,30 @@ tasks:
             echo "booting SIMCTL $SIM_UUID"
 
             echo "...testing core"
-            ./run_xctest.sh StitchCoreSDK StitchCoreSDK-Package NO
-            ./run_xctest.sh StitchCoreAdminClient StitchCoreAdminClient-Package YES
-            ./run_xctest.sh StitchCoreTestUtils StitchCoreTestUtils-Package YES
+            ./scripts/run_xctest.sh StitchCoreSDK StitchCoreSDK-Package NO $SIM_UUID
+            ./scripts/run_xctest.sh StitchCoreAdminClient StitchCoreAdminClient-Package YES $SIM_UUID
+            ./scripts/run_xctest.sh StitchCoreTestUtils StitchCoreTestUtils-Package YES $SIM_UUID
 
             echo "...testing core services"
-            ./run_xctest.sh StitchCoreAWSS3Service StitchCoreAWSS3Service-Package NO
-            ./run_xctest.sh StitchCoreAWSSESService StitchCoreAWSSESService-Package NO
-            ./run_xctest.sh StitchCoreFCMService StitchCoreFCMService-Package NO
-            ./run_xctest.sh StitchCoreHTTPService StitchCoreHTTPService-Package NO
-            ./run_xctest.sh StitchCoreRemoteMongoDBService StitchCoreRemoteMongoDBService-Package NO
-            ./run_xctest.sh StitchCoreTwilioService StitchCoreTwilioService-Package NO
+            ./scripts/run_xctest.sh StitchCoreAWSS3Service StitchCoreAWSS3Service-Package NO $SIM_UUID
+            ./scripts/run_xctest.sh StitchCoreAWSSESService StitchCoreAWSSESService-Package NO $SIM_UUID
+            ./scripts/run_xctest.sh StitchCoreFCMService StitchCoreFCMService-Package NO $SIM_UUID
+            ./scripts/run_xctest.sh StitchCoreHTTPService StitchCoreHTTPService-Package NO $SIM_UUID
+            ./scripts/run_xctest.sh StitchCoreRemoteMongoDBService StitchCoreRemoteMongoDBService-Package NO $SIM_UUID
+            ./scripts/run_xctest.sh StitchCoreTwilioService StitchCoreTwilioService-Package NO $SIM_UUID
 
             echo "...testing ios"
-            ./run_xctest.sh StitchCore StitchCore YES
-            ./run_xctest.sh StitchIOSCoreTestUtils StitchIOSCoreTestUtils YES
-            ./run_xctest.sh StitchCore StitchCore NO
+            ./scripts/run_xctest.sh StitchCore StitchCore YES $SIM_UUID
+            ./scripts/run_xctest.sh StitchIOSCoreTestUtils StitchIOSCoreTestUtils YES $SIM_UUID
+            ./scripts/run_xctest.sh StitchCore StitchCore NO $SIM_UUID
 
             echo "...testing ios services"
-            ./run_xctest.sh StitchAWSS3Service StitchAWSS3Service NO AWS_ACCESS_KEY_ID=${test_aws_key} AWS_SECRET_ACCESS_KEY=${test_aws_secret}
-            ./run_xctest.sh StitchAWSSESService StitchAWSSESService NO AWS_ACCESS_KEY_ID=${test_aws_key} AWS_SECRET_ACCESS_KEY=${test_aws_secret}
-            ./run_xctest.sh StitchFCMService StitchFCMService NO FCM_SENDER_ID=${test_fcm_sender_id} FCM_API_KEY=${test_fcm_api_key}
-            ./run_xctest.sh StitchHTTPService StitchHTTPService NO
-            ./run_xctest.sh StitchRemoteMongoDBService StitchRemoteMongoDBService NO
-            ./run_xctest.sh StitchTwilioService StitchTwilioService NO TWILIO_SID=${test_twilio_sid} TWILIO_AUTH_TOKEN=${test_twilio_authtoken}
+            ./scripts/run_xctest.sh StitchAWSS3Service StitchAWSS3Service NO $SIM_UUID AWS_ACCESS_KEY_ID=${test_aws_key} AWS_SECRET_ACCESS_KEY=${test_aws_secret}
+            ./scripts/run_xctest.sh StitchAWSSESService StitchAWSSESService NO $SIM_UUID AWS_ACCESS_KEY_ID=${test_aws_key} AWS_SECRET_ACCESS_KEY=${test_aws_secret}
+            ./scripts/run_xctest.sh StitchFCMService StitchFCMService NO $SIM_UUID FCM_SENDER_ID=${test_fcm_sender_id} FCM_API_KEY=${test_fcm_api_key}
+            ./scripts/run_xctest.sh StitchHTTPService StitchHTTPService NO $SIM_UUID
+            ./scripts/run_xctest.sh StitchRemoteMongoDBService StitchRemoteMongoDBService NO $SIM_UUID
+            ./scripts/run_xctest.sh StitchTwilioService StitchTwilioService NO $SIM_UUID TWILIO_SID=${test_twilio_sid} TWILIO_AUTH_TOKEN=${test_twilio_authtoken}
 
             xcrun simctl shutdown $SIM_UUID
             xcrun simctl erase $SIM_UUID
@@ -193,7 +194,7 @@ tasks:
               SHA=`echo $PR_INFO | python -c "import sys, json; print json.load(sys.stdin)['head']['sha']"`
               /usr/local/opt/python3/bin/python3 scripts/xccoveralls.py \
                 --repo-token=${coveralls_repo_token} \
-                --pull-request-id=${github_pr_number}
+                --pull-request-id=${github_pr_number} \
                 --commit-sha=$SHA
             fi
 buildvariants:
