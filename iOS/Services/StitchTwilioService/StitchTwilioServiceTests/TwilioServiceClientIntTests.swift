@@ -7,20 +7,13 @@ import StitchCoreTwilioService
 import StitchTwilioService
 
 class TwilioServiceClientIntTests: BaseStitchIntTestCocoaTouch {
-    private let twilioSidProp = "test.stitch.twilioSid"
-    private let twilioAuthTokenProp = "test.stitch.twilioAuthToken"
-    
-    private lazy var pList: [String: Any]? = fetchPlist(type(of: self))
-    
-    private lazy var twilioSID: String? = pList?[twilioSidProp] as? String
-    private lazy var twilioAuthToken: String? = pList?[twilioAuthTokenProp] as? String
-    
     override func setUp() {
         super.setUp()
         
-        guard twilioSID != nil && twilioSID != "<your-sid>",
-            twilioAuthToken != nil && twilioAuthToken != "<your-auth-token>" else {
-            XCTFail("No Twilio Sid or Auth Token in properties; failing test. See README for more details.")
+        print(TEST_TWILIO_SID)
+        guard !TEST_TWILIO_SID.isEmpty,
+            !TEST_TWILIO_AUTH_TOKEN.isEmpty else {
+            XCTFail("No TWILIO_SID or TWILIO_AUTH_TOKEN preprocessor macros; failing test. See README for more details.")
             return
         }
     }
@@ -32,7 +25,9 @@ class TwilioServiceClientIntTests: BaseStitchIntTestCocoaTouch {
             toApp: app.1,
             withType: "twilio",
             withName: "twilio1",
-            withConfig: ServiceConfigs.twilio(name: "twilio1", accountSid: twilioSID!, authToken: twilioAuthToken!)
+            withConfig: ServiceConfigs.twilio(name: "twilio1",
+                                              accountSid: TEST_TWILIO_SID,
+                                              authToken: TEST_TWILIO_AUTH_TOKEN)
         )
         _ = try self.addRule(toService: svc.1,
                          withConfig: RuleCreator.actions(name: "rule",

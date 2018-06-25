@@ -107,7 +107,6 @@ functions:
         script: |
           set -e
           cd stitch-ios-sdk
-          ./download_sdk.sh --with-mobile
           export DEVELOPER_DIR=/Applications/Xcode9.2.app
           export PATH=`pwd`/MobileSDKs/iphoneos/lib:$PATH
           export PATH=`pwd`/MobileSDKs/include/libbson-1.0/:$PATH
@@ -115,25 +114,8 @@ functions:
           export DYLD_LIBRARY_PATH=`pwd`/MobileSDKs/iphoneos/lib:$DYLD_LIBRARY_PATH
           git config --global user.email "evg@mongodb.com"
           git config --global user.name "evg"
-          make
-  "setup_test_creds":
-    - command: shell.exec
-      params:
-        shell: "bash"
-        silent: true
-        script: |
-          set -e
-          echo "...setting test creds"
-          cd stitch-ios-sdk
-          sed -i -e 's/&lt;your-auth-token&gt;/${test_twilio_authtoken}/g' iOS/Services/StitchTwilioService/StitchTwilioServiceTests/Info.plist
-          sed -i -e 's/&lt;your-sid&gt;/${test_twilio_sid}/g' iOS/Services/StitchTwilioService/StitchTwilioServiceTests/Info.plist
-          sed -i -e 's/&lt;your-access-key-id&gt;/${test_aws_key}/g' iOS/Services/StitchAWSSESService/StitchAWSSESServiceTests/Info.plist
-          sed -i -e 's~&lt;your-secret-access-key&gt;~${test_aws_secret}~g' iOS/Services/StitchAWSSESService/StitchAWSSESServiceTests/Info.plist
-          sed -i -e 's/&lt;your-access-key-id&gt;/${test_aws_key}/g' iOS/Services/StitchAWSS3Service/StitchAWSS3ServiceTests/Info.plist
-          sed -i -e 's~&lt;your-secret-access-key&gt;~${test_aws_secret}~g' iOS/Services/StitchAWSS3Service/StitchAWSS3ServiceTests/Info.plist
-          sed -i -e 's/&lt;your-api-key&gt;/${test_fcm_api_key}/g' iOS/Services/StitchFCMService/StitchFCMServiceTests/Info.plist
-          sed -i -e 's/&lt;your-sender-id&gt;/${test_fcm_sender_id}/g' iOS/Services/StitchFCMService/StitchFCMServiceTests/Info.plist
-          echo "...test creds set"
+          sh scripts/download_sdk.sh --with-mobile
+          make prepare
 tasks:
   - name: lint
     commands:
@@ -152,71 +134,66 @@ tasks:
       - func: "setup_mongod"
       - func: "setup_stitch"
       - func: "setup_stitch_swift"
-      - func: "setup_test_creds"
       - command: shell.exec
         params:
           shell: "bash"
           script: |
-            echo "running ios tests"
+            echo "running ios tests"           
             set -e
 
             if pgrep CoreSimulator; then pkill -9 CoreSimulator; fi
+
             export DEVELOPER_DIR=/Applications/Xcode9.2.app
             cd stitch-ios-sdk
             export SIM_UUID=$(xcrun simctl create stitch-iphone7 com.apple.CoreSimulator.SimDeviceType.iPhone-7 com.apple.CoreSimulator.SimRuntime.iOS-10-2)
             xcrun simctl boot $SIM_UUID
             echo "booting SIMCTL $SIM_UUID"
-            
-            cc=`find ./.build/checkouts/ -type d -name "CommonCrypto*" -print`
-
-            run_xctest() {
-              local xcodeproj=`find . -type d -name "$1.xcodeproj" -print`
-              local scheme=$2
-              local no_test=$3
-              echo "...testing $1"
-
-              xcodebuild \
-                -project "`pwd`/$xcodeproj" \
-                -destination "id=$SIM_UUID" \
-                -derivedDataPath "localDerivedData" \
-                -scheme $scheme \
-                OTHER_LDFLAGS="-rpath `pwd`/vendor/MobileSDKs/iphoneos/lib" \
-                LIBRARY_SEARCH_PATHS="`pwd`/vendor/MobileSDKs/iphoneos/lib" \
-                SWIFT_INCLUDE_PATHS="`pwd`/$cc `pwd`/vendor/MobileSDKs/include `pwd`/vendor/MobileSDKs/include/libbson-1.0 `pwd`/vendor/MobileSDKs/include/libmongoc-1.0 `pwd`/vendor/MobileSDKs/include/mongo/embedded-v1/" \
-                FRAMEWORK_INCLUDE_PATHS="`pwd`/localDerivedData" \
-                ENABLE_BITCODE=NO \
-                IPHONEOS_DEPLOYMENT_TARGET="8.0" \
-                `[[ $no_test != YES ]] && echo "test" || echo ""`
-            }
 
             echo "...testing core"
-            run_xctest StitchCoreSDK StitchCoreSDK-Package
-            run_xctest StitchCoreAdminClient StitchCoreAdminClient-Package
-            run_xctest StitchCoreTestUtils StitchCoreTestUtils-Package
+            ./scripts/run_xctest.sh StitchCoreSDK StitchCoreSDK-Package NO $SIM_UUID
+            ./scripts/run_xctest.sh StitchCoreAdminClient StitchCoreAdminClient-Package YES $SIM_UUID
+            ./scripts/run_xctest.sh StitchCoreTestUtils StitchCoreTestUtils-Package YES $SIM_UUID
 
             echo "...testing core services"
-            run_xctest StitchCoreAWSS3Service StitchCoreAWSS3Service-Package
-            run_xctest StitchCoreAWSSESService StitchCoreAWSSESService-Package
-            run_xctest StitchCoreFCMService StitchCoreFCMService-Package
-            run_xctest StitchCoreHTTPService StitchCoreHTTPService-Package
-            run_xctest StitchCoreRemoteMongoDBService StitchCoreRemoteMongoDBService-Package
-            run_xctest StitchCoreTwilioService StitchCoreTwilioService-Package
+            ./scripts/run_xctest.sh StitchCoreAWSS3Service StitchCoreAWSS3Service-Package NO $SIM_UUID
+            ./scripts/run_xctest.sh StitchCoreAWSSESService StitchCoreAWSSESService-Package NO $SIM_UUID
+            ./scripts/run_xctest.sh StitchCoreFCMService StitchCoreFCMService-Package NO $SIM_UUID
+            ./scripts/run_xctest.sh StitchCoreHTTPService StitchCoreHTTPService-Package NO $SIM_UUID
+            ./scripts/run_xctest.sh StitchCoreRemoteMongoDBService StitchCoreRemoteMongoDBService-Package NO $SIM_UUID
+            ./scripts/run_xctest.sh StitchCoreTwilioService StitchCoreTwilioService-Package NO $SIM_UUID
 
             echo "...testing ios"
-            run_xctest StitchCore StitchCore YES
-            run_xctest StitchIOSCoreTestUtils StitchIOSCoreTestUtils
-            run_xctest StitchCore StitchCore
+            ./scripts/run_xctest.sh StitchCore StitchCore YES $SIM_UUID
+            ./scripts/run_xctest.sh StitchIOSCoreTestUtils StitchIOSCoreTestUtils YES $SIM_UUID
+            ./scripts/run_xctest.sh StitchCore StitchCore NO $SIM_UUID
 
             echo "...testing ios services"
-            run_xctest StitchAWSS3Service StitchAWSS3Service
-            run_xctest StitchAWSSESService StitchAWSSESService
-            run_xctest StitchFCMService StitchFCMService
-            run_xctest StitchHTTPService StitchHTTPService
-            run_xctest StitchRemoteMongoDBService StitchRemoteMongoDBService
-            run_xctest StitchTwilioService StitchTwilioService
+            ./scripts/run_xctest.sh StitchAWSS3Service StitchAWSS3Service NO $SIM_UUID AWS_ACCESS_KEY_ID=${test_aws_key} AWS_SECRET_ACCESS_KEY=${test_aws_secret}
+            ./scripts/run_xctest.sh StitchAWSSESService StitchAWSSESService NO $SIM_UUID AWS_ACCESS_KEY_ID=${test_aws_key} AWS_SECRET_ACCESS_KEY=${test_aws_secret}
+            ./scripts/run_xctest.sh StitchFCMService StitchFCMService NO $SIM_UUID FCM_SENDER_ID=${test_fcm_sender_id} FCM_API_KEY=${test_fcm_api_key}
+            ./scripts/run_xctest.sh StitchHTTPService StitchHTTPService NO $SIM_UUID
+            ./scripts/run_xctest.sh StitchRemoteMongoDBService StitchRemoteMongoDBService NO $SIM_UUID
+            ./scripts/run_xctest.sh StitchTwilioService StitchTwilioService NO $SIM_UUID TWILIO_SID=${test_twilio_sid} TWILIO_AUTH_TOKEN=${test_twilio_authtoken}
 
             xcrun simctl shutdown $SIM_UUID
             xcrun simctl erase $SIM_UUID
+      - command: shell.exec
+        params:
+          shell: "bash"
+          script: |
+            cd stitch-ios-sdk
+            if [ -z "${github_pr_number}" ]
+            then
+              if [ "${is_patch}" = "true" ]; then
+                echo "not running xccoveralls"
+                exit 0
+              fi
+            else
+              /usr/local/opt/python3/bin/python3 scripts/xccoveralls.py \
+                --repo-token=${coveralls_repo_token} \
+                --pull-request-id=${github_pr_number} \
+                --commit-sha=${revision}
+            fi
 buildvariants:
 - name: macos-1013
   display_name: MacOS 10.13

@@ -14,7 +14,7 @@ Pod::Spec.new do |spec|
     spec.platform = :watchos, "4.3"
 
     spec.source     = {
-      :git => "https://github.com/jsflax/stitch-ios-sdk.git",
+      :git => "https://github.com/mongodb/stitch-ios-sdk.git",
       :branch => "master"
     }
   
@@ -22,7 +22,7 @@ Pod::Spec.new do |spec|
     spec.tvos.deployment_target = "10.2"
     spec.watchos.deployment_target = "4.3"
     
-    spec.prepare_command = "sh download_sdk.sh"
+    spec.prepare_command = "sh scripts/download_sdk.sh"
     
     spec.pod_target_xcconfig = {
       "OTHER_LDFLAGS[sdk=iphoneos*]" => "-rpath $(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/iphoneos/lib",
@@ -70,13 +70,18 @@ Pod::Spec.new do |spec|
   
     spec.preserve_paths = "vendor"
     
-    def self.libs(platform)
-      return "vendor/MobileSDKs/#{platform}/lib/*.dylib"
+    def self.vendor_path(platform)
+      Dir.entries("vendor/MobileSDKs/#{platform}/lib/").select {
+        |f| [
+          "libbson-1.0.dylib",
+          "libmongoc-1.0.dylib"
+        ].any? { |lib| f.include?(lib) }
+      }.map { |lib| "vendor/MobileSDKs/#{platform}/lib/#{lib}" }
     end
 
-    spec.ios.vendored_library = self.libs "iphoneos"
-    spec.tvos.vendored_library = self.libs "appletvos"
-    spec.watchos.vendored_library = self.libs "watchos"
+    spec.ios.vendored_library = self.vendor_path "iphoneos"
+    spec.tvos.vendored_library = self.vendor_path "appletvos"
+    spec.watchos.vendored_library = self.vendor_path "watchos"
 
     spec.source_files = "vendor/Sources/MongoSwift/**/*.swift"
 end

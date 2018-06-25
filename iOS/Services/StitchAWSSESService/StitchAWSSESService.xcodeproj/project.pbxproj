@@ -47,6 +47,7 @@
 		11CF5D9020CF72DD006D57BA /* StitchCoreAWSSESService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAWSSESService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		11CF5D9220CF7338006D57BA /* StitchCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		11CF5D9420CF7338006D57BA /* StitchIOSCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchIOSCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4E33AEC20DECD0E003DE41C /* AWSSESServiceTestsConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AWSSESServiceTestsConstants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				110188B720C1E2B700C4C119 /* AWSSESServiceClientIntTests.swift */,
+				F4E33AEC20DECD0E003DE41C /* AWSSESServiceTestsConstants.h */,
 				110188B920C1E2B700C4C119 /* Info.plist */,
 			);
 			path = StitchAWSSESServiceTests;
@@ -472,6 +474,7 @@
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchAWSSESServiceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = StitchAWSSESServiceTests/AWSSESServiceTestsConstants.h;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -495,6 +498,7 @@
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchAWSSESServiceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = StitchAWSSESServiceTests/AWSSESServiceTestsConstants.h;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

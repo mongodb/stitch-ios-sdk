@@ -12,47 +12,47 @@ internal final class StoreCoreUserProfile: Codable, StitchUserProfile {
     /**
      * The full name of the user.
      */
-    lazy var name: String? = data.name
+    lazy var name: String? = self.data.name
 
     /**
      * The email address of the user.
      */
-    lazy var email: String? = data.email
+    lazy var email: String? = self.data.email
 
     /**
      * A URL to the user's profile picture.
      */
-    lazy var pictureURL: String? = data.pictureURL
+    lazy var pictureURL: String? = self.data.pictureURL
 
     /**
      * The first name of the user.
      */
-    lazy var firstName: String? = data.firstName
+    lazy var firstName: String? = self.data.firstName
 
     /**
      * The last name of the user.
      */
-    lazy var lastName: String? = data.lastName
+    lazy var lastName: String? = self.data.lastName
 
     /**
      * The gender of the user.
      */
-    lazy var gender: String? = data.gender
+    lazy var gender: String? = self.data.gender
 
     /**
      * The birthdate of the user.
      */
-    lazy var birthday: String? = data.birthday
+    lazy var birthday: String? = self.data.birthday
 
     /**
      * The minimum age of the user.
      */
-    lazy var minAge: Int? = data.minAge
+    lazy var minAge: Int? = self.data.minAge
 
     /**
      * The maximum age of the user.
      */
-    lazy var maxAge: Int? = data.maxAge
+    lazy var maxAge: Int? = self.data.maxAge
 
     /**
      * A string describing the type of this user. (Either `server` or `normal`)

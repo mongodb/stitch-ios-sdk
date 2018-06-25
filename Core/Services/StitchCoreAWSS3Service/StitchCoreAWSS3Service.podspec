@@ -14,7 +14,7 @@ Pod::Spec.new do |spec|
     spec.platform = :watchos, "4.3"
 
     spec.source     = {
-      :git => "https://github.com/jsflax/stitch-ios-sdk.git",
+      :git => "https://github.com/mongodb/stitch-ios-sdk.git",
       :branch => "master"
     }
   
@@ -26,7 +26,7 @@ Pod::Spec.new do |spec|
     spec.swift_version = "4.1"
     spec.requires_arc = true
     
-    spec.prepare_command = "sh prep_pods.sh --module=#{spec.name} --sources=Sources/#{spec.name}"
+    spec.prepare_command = "sh scripts/prep_pods.sh --module=#{spec.name} --sources=Sources/#{spec.name}"
   
     spec.source_files = "dist/#{spec.name}/**/*.swift"
 

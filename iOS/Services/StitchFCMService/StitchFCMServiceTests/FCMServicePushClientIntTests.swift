@@ -6,20 +6,12 @@ import StitchIOSCoreTestUtils
 import StitchFCMService
 
 class FCMServicePushClientIntTests: BaseStitchIntTestCocoaTouch {
-    private let fcmSenderIDProp = "test.stitch.fcmSenderID"
-    private let fcmAPIKeyProp = "test.stitch.fcmAPIKey"
-    
-    private lazy var pList: [String: Any]? = fetchPlist(type(of: self))
-    
-    private lazy var fcmSenderID: String? = pList?[fcmSenderIDProp] as? String
-    private lazy var fcmAPIKey: String? = pList?[fcmAPIKeyProp] as? String
-    
     override func setUp() {
         super.setUp()
         
-        guard fcmSenderID != nil && fcmSenderID != "<your-sender-id>",
-            fcmAPIKey != nil && fcmAPIKey != "<your-api-key>" else {
-                XCTFail("No FCM sender ID or API key in properties; failing test. See README for more details.")
+        guard !TEST_FCM_SENDER_ID.isEmpty,
+            !TEST_FCM_API_KEY.isEmpty else {
+                XCTFail("No FCM_SENDER_ID or FCM_API_KEY in preprocessor macros; failing test. See README for more details.")
                 return
         }
     }
@@ -31,7 +23,7 @@ class FCMServicePushClientIntTests: BaseStitchIntTestCocoaTouch {
             toApp: app.1,
             withType: "gcm",
             withName: "gcm",
-            withConfig: ServiceConfigs.fcm(name: "gcm", senderID: fcmSenderID!, apiKey: fcmAPIKey!)
+            withConfig: ServiceConfigs.fcm(name: "gcm", senderID: TEST_FCM_SENDER_ID, apiKey: TEST_FCM_API_KEY)
         )
         _ = try self.addRule(toService: svc.1,
                              withConfig: RuleCreator.actions(name: "rule",

@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>test.stitch.fcmAPIKey</key>
-	<string>&lt;your-api-key&gt;</string>
-	<key>test.stitch.fcmSenderID</key>
-	<string>&lt;your-sender-id&gt;</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
