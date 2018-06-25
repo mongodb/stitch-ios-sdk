@@ -1,15 +1,15 @@
 Pod::Spec.new do |spec|
-  spec.name       = "StitchSDK"
-  spec.version    = "4.0.0-beta-3"
-  spec.summary    = "Stitch"
-  spec.homepage   = "https://github.com/mongodb/stitch-ios-sdk"
-  spec.license    = "Apache2"
-  spec.authors    = {
-      "Jason Flax" => "jason.flax@mongodb.com",
-      "Adam Chelminski" => "adam.chelminski@mongodb.com",
-      "Eric Daniels" => "eric.daniels@mongodb.com",
-  }
-  spec.platform = :ios, "10.2"
+    spec.name       = "StitchSDK"
+    spec.version    = "4.0.0-beta-3"
+    spec.summary    = "Stitch"
+    spec.homepage   = "https://github.com/mongodb/stitch-ios-sdk"
+    spec.license    = "Apache2"
+    spec.authors    = {
+        "Jason Flax" => "jason.flax@mongodb.com",
+        "Adam Chelminski" => "adam.chelminski@mongodb.com",
+        "Eric Daniels" => "eric.daniels@mongodb.com",
+    }
+    spec.platform = :ios, "11.0"
     spec.platform = :tvos, "10.2"
     spec.platform = :watchos, "4.3"
 
