@@ -90,7 +90,7 @@ download_and_combine() {
     mkdir -p ${variant_os}/lib
 
     log_i "merging $variant_os architectures into universal dylibs..."
-    tmp_libs=`[[ $WITH_MOBILE == YES ]] && echo $variant_os_tmp/lib/*.dylib || find -E ./$variant_os_tmp/lib -type f -regex ".*lib(bson|mongoc)-.*.dylib"`
+    tmp_libs=`[[ $WITH_MOBILE == YES ]] && echo $variant_os_tmp/lib/*.dylib || find -E ./$variant_os_tmp/lib -type f -regex ".*lib(bson|mongoc)-1.0.dylib"`
     for lib in $tmp_libs; do
       local base_lib=$(basename "$lib")
       lipo $variant_os_tmp/lib/${base_lib} \

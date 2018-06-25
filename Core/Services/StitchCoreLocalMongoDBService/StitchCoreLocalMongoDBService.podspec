@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
     spec.name       = File.basename(__FILE__, '.podspec')
-    spec.version    = "4.0.0-beta-3"
+    spec.version    = "4.0.0"
     spec.summary    = "#{__FILE__} Module"
     spec.homepage   = "https://github.com/mongodb/stitch-ios-sdk"
     spec.license    = "Apache2"
@@ -15,7 +15,8 @@ Pod::Spec.new do |spec|
 
     spec.source     = {
       :git => "https://github.com/mongodb/stitch-ios-sdk.git",
-      :branch => "master"
+      :branch => "master", 
+      :tag => '4.0.0'
     }
   
     spec.ios.deployment_target = "11.0"
@@ -40,23 +41,10 @@ Pod::Spec.new do |spec|
     spec.preserve_paths = "vendor"
   
     spec.source_files = "dist/#{spec.name}/**/*.swift"
-
-    def self.vendor_path(platform)
-      Dir.entries("vendor/MobileSDKs/#{platform}/lib/").select {
-        |f| ![
-          "libbson-1.0.0.0.0.dylib", 
-          "libbson-1.0.dylib", 
-          "libmongoc-1.0.0.dylib", 
-          "libbson-1.0.0.dylib", 
-          "libmongoc-1.0.0.0.0.dylib", 
-          "libmongoc-1.0.dylib"
-        ].any? { |lib| f.include?(lib) }
-      }.map { |lib| "vendor/MobileSDKs/#{platform}/lib/#{lib}" }
-    end
     
-    spec.ios.vendored_library = self.vendor_path "iphoneos"
-    spec.tvos.vendored_library = self.vendor_path "appletvos"
-    spec.watchos.vendored_library = self.vendor_path "watchos"
+    spec.ios.vendored_library = 'vendor/MobileSDKs/iphoneos/lib/*.dylib'
+    spec.tvos.vendored_library = 'vendor/MobileSDKs/appletvos/lib/*.dylib'
+    spec.watchos.vendored_library = 'vendor/MobileSDKs/watchos/lib/*.dylib'
 
-    spec.dependency 'StitchCoreSDK', '~> 4.0.0-beta-3'
+    spec.dependency 'StitchCoreSDK', '~> 4.0.0'
 end
