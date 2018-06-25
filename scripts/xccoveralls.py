@@ -300,7 +300,6 @@ with Pool(processes=4) as p:
         'source_files': list(chain(*coverage_payloads)),
     })
 
-    log_info(payload_json)
     log_info('coveralls response: {}'.format(send_payload_to_coveralls(payload_json).read()))
     end = datetime.now()
     log_info('xccoveralls took {} to run'.format(end - start))
