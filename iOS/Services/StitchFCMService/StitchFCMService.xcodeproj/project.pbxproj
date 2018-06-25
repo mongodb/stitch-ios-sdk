@@ -49,6 +49,7 @@
 		119F126D20D21E00009B1CF5 /* FCMServiceClientIntTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMServiceClientIntTests.swift; sourceTree = "<group>"; };
 		119F126F20D21E18009B1CF5 /* FCMServicePushClientIntTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMServicePushClientIntTests.swift; sourceTree = "<group>"; };
 		119F127120D22C01009B1CF5 /* StitchFCMServiceExports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchFCMServiceExports.swift; sourceTree = "<group>"; };
+		F4E33AEB20DEC1B1003DE41C /* FCMServiceTestsConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FCMServiceTestsConstants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				119F126D20D21E00009B1CF5 /* FCMServiceClientIntTests.swift */,
+				F4E33AEB20DEC1B1003DE41C /* FCMServiceTestsConstants.h */,
 				119F126F20D21E18009B1CF5 /* FCMServicePushClientIntTests.swift */,
 				119F125120D218D6009B1CF5 /* Info.plist */,
 			);
@@ -419,6 +421,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchFCMService;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -451,6 +454,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchFCMService;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -474,6 +478,7 @@
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchFCMServiceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = StitchFCMServiceTests/FCMServiceTestsConstants.h;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -497,6 +502,7 @@
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchFCMServiceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = StitchFCMServiceTests/FCMServiceTestsConstants.h;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

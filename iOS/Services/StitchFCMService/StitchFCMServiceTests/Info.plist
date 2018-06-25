@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>test.stitch.fcmAPIKey</key>
-	<string>AAAAE6lLd58:APA91bHqM6TR7z232lO6uxKD5ahcbpSMVL9j6SEcwy3BIwFrBVQWXP9As3ux5Z48vOf0mALKHvCVfrJ90badibhKGybaYfdxj7V_r_nNPCrHDAVseR74zAHbeJcB1tPZumpaYDUZdkYX3W_8uZqslalPRzQHt0iTbQ</string>
-	<key>test.stitch.fcmSenderID</key>
-	<string>84444673951</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>

@@ -45,6 +45,7 @@
 		F4D7CCF420AA0DCC003AA921 /* TwilioServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioServiceClient.swift; sourceTree = "<group>"; };
 		F4D7CCF720AA0E1E003AA921 /* TwilioServiceClientImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioServiceClientImpl.swift; sourceTree = "<group>"; };
 		F4D7CCFD20AA0F64003AA921 /* StitchCoreServicesTwilio.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreServicesTwilio.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4E33AEA20DEA75D003DE41C /* TwilioServiceClientTestsConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TwilioServiceClientTestsConstants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +105,7 @@
 			isa = PBXGroup;
 			children = (
 				F4D7CCE820AA0DC1003AA921 /* TwilioServiceClientIntTests.swift */,
+				F4E33AEA20DEA75D003DE41C /* TwilioServiceClientTestsConstants.h */,
 				F4D7CCEA20AA0DC1003AA921 /* Info.plist */,
 			);
 			path = StitchTwilioServiceTests;
@@ -388,9 +390,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -406,6 +409,7 @@
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchTwilioService;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
@@ -417,9 +421,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -435,6 +440,7 @@
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchTwilioService;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -455,6 +461,7 @@
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchTwilioServiceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = StitchTwilioServiceTests/TwilioServiceClientTestsConstants.h;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -474,6 +481,7 @@
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchTwilioServiceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = StitchTwilioServiceTests/TwilioServiceClientTestsConstants.h;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

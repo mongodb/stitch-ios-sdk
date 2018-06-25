@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>test.stitch.twilioAuthToken</key>
-	<string>2dc210b01e90e797ebf219d602e3dbf2</string>
-	<key>test.stitch.twilioSid</key>
-	<string>ACbe4a2a9269e4cc05598fe4d08af27156</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>

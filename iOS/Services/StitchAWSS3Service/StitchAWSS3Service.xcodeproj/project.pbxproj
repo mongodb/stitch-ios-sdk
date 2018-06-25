@@ -47,6 +47,7 @@
 		11CF5D7C20CF6D34006D57BA /* StitchCoreAWSS3Service.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAWSS3Service.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		11CF5D7E20CF6D5D006D57BA /* StitchCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		11CF5D8020CF6D5D006D57BA /* StitchIOSCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchIOSCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4E33AED20DECDD8003DE41C /* AWSS3ServiceTestsContants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AWSS3ServiceTestsContants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				11405A8220C5A01E0041105B /* AWSS3ServiceClientIntTests.swift */,
+				F4E33AED20DECDD8003DE41C /* AWSS3ServiceTestsContants.h */,
 				11405A8420C5A01E0041105B /* Info.plist */,
 			);
 			path = StitchAWSS3ServiceTests;
@@ -472,6 +474,7 @@
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchAWSS3ServiceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = StitchAWSS3ServiceTests/AWSS3ServiceTestsContants.h;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -495,6 +498,7 @@
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchAWSS3ServiceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = StitchAWSS3ServiceTests/AWSS3ServiceTestsContants.h;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

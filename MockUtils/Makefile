@@ -1,4 +1,4 @@
-all: git update project
+all: prepare build
 git:
 	git init
 	git add .
@@ -6,7 +6,7 @@ git:
 lint:
 	swiftlint
 clean:
-	swift package clean
+	swift package --build-path ../.build clean
 build:
 	swift build --build-path ../.build
 resolve:
@@ -18,3 +18,4 @@ test:
 	xcodebuild test -workspace ../Stitch.xcworkspace/ -scheme MockUtils-Package -configuration Debug -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
 project:
 	swift package --build-path ../.build generate-xcodeproj --xcconfig-overrides MockUtils.xcconfig
+prepare: git update project

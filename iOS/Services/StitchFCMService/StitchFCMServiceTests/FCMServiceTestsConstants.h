@@ -1,13 +1,15 @@
-//
-//  FCMServiceTestsConstants.h
-//  StitchFCMService
-//
-//  Created by Jay Flax on 6/23/18.
-//  Copyright © 2018 MongoDB. All rights reserved.
-//
+#define STRINGIZE(x) #x
+#define STRINGIZE2(x) STRINGIZE(x)
 
-#ifndef FCMServiceTestsConstants_h
-#define FCMServiceTestsConstants_h
+#if defined(FCM_SENDER_ID) && defined(FCM_API_KEY)
+#define __FCM_SENDER_ID @ STRINGIZE2(FCM_SENDER_ID)
+#define __FCM_API_KEY @ STRINGIZE2(FCM_API_KEY)
+#else
+#define __FCM_SENDER_ID NULL
+#define __FCM_API_KEY NULL
+#endif
 
+#import <Foundation/Foundation.h>
 
-#endif /* FCMServiceTestsConstants_h */
+static NSString* __nullable const TEST_FCM_SENDER_ID = __FCM_SENDER_ID;
+static NSString* __nullable const TEST_FCM_API_KEY = __FCM_API_KEY;

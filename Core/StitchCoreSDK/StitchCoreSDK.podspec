@@ -24,8 +24,8 @@ Pod::Spec.new do |spec|
     spec.watchos.deployment_target = "4.3"
     
     spec.prepare_command = <<-CMD
-      sh download_sdk.sh
-      sh prep_pods.sh \
+      sh scripts/download_sdk.sh
+      sh scripts/prep_pods.sh \
         --module=#{spec.name} \
         --sources=Sources/#{spec.name}
     CMD

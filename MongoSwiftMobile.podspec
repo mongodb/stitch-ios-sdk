@@ -22,7 +22,7 @@ Pod::Spec.new do |spec|
     spec.tvos.deployment_target = "10.2"
     spec.watchos.deployment_target = "4.3"
     
-    spec.prepare_command = "sh download_sdk.sh"
+    spec.prepare_command = "sh scripts/download_sdk.sh"
     
     spec.pod_target_xcconfig = {
       "OTHER_LDFLAGS[sdk=iphoneos*]" => "-rpath $(PODS_TARGET_SRCROOT)/vendor/MobileSDKs/iphoneos/lib",

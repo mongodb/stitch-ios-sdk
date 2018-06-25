@@ -1,13 +1,15 @@
-//
-//  TwilioServiceClientTestsConstants.h
-//  StitchTwilioService
-//
-//  Created by Jay Flax on 6/23/18.
-//  Copyright © 2018 MongoDB. All rights reserved.
-//
+#define STRINGIZE(x) #x
+#define STRINGIZE2(x) STRINGIZE(x)
 
-#ifndef TwilioServiceClientTestsConstants_h
-#define TwilioServiceClientTestsConstants_h
+#if defined(TWILIO_SID) && defined(TWILIO_AUTH_TOKEN)
+#define __TWILIO_SID @ STRINGIZE2(TWILIO_SID)
+#define __TWILIO_AUTH_TOKEN @ STRINGIZE2(TWILIO_AUTH_TOKEN)
+#else
+#define __TWILIO_SID NULL
+#define __TWILIO_AUTH_TOKEN NULL
+#endif
 
+#import <Foundation/Foundation.h>
 
-#endif /* TwilioServiceClientTestsConstants_h */
+static NSString* __nullable const TEST_TWILIO_SID = __TWILIO_SID;
+static NSString* __nullable const TEST_TWILIO_AUTH_TOKEN = __TWILIO_AUTH_TOKEN;
