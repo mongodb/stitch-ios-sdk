@@ -2,10 +2,11 @@
 @_exported import Foundation
 import StitchCoreSDK
 
-private var _localInstances = [String: MongoClient]()
 private var initialized = false;
 
 open class CoreLocalMongoDBService {
+    private static var _localInstances: Dictionary<String, MongoClient> = [String: MongoClient]()
+
     public static func client(withAppInfo appInfo: StitchAppClientInfo) throws -> MongoClient {
         objc_sync_enter(self)
         defer { objc_sync_exit(self) }
@@ -30,13 +31,13 @@ open class CoreLocalMongoDBService {
         )
         let client = try MongoMobile.create(settings)
         
-        _localInstances[appInfo.clientAppID] = client
+        CoreLocalMongoDBService._localInstances[appInfo.clientAppID] = client
         return client
     }
     
     public static var localInstances: Dictionary<String, MongoClient>.Values {
         // should sync
-        return _localInstances.values
+        return CoreLocalMongoDBService._localInstances.values
     }
     
     public init() {}
