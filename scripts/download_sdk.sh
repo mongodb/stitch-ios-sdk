@@ -90,13 +90,23 @@ download_and_combine() {
     mkdir -p ${variant_os}/lib
 
     log_i "merging $variant_os architectures into universal dylibs..."
-    tmp_libs=`[[ $WITH_MOBILE == YES ]] && echo $variant_os_tmp/lib/*.dylib || find -E ./$variant_os_tmp/lib -type f -regex ".*lib(bson|mongoc)-1.0.dylib"`
+    if [[ $WITH_MOBILE == YES ]]; then
+      if [[ $FOR_PODS == YES ]]; then
+        tmp_libs=`find -E ./$variant_os_tmp/lib -type f ! -regex ".*lib(bson|mongoc)-1.0.*.dylib"`
+      else
+        tmp_libs=`echo $variant_os_tmp/lib/*.dylib`
+      fi
+    else
+      tmp_libs=`find -E ./$variant_os_tmp/lib -type f -regex ".*lib(bson|mongoc)-1.0.dylib"`
+    fi
     for lib in $tmp_libs; do
       local base_lib=$(basename "$lib")
-      lipo $variant_os_tmp/lib/${base_lib} \
-        `[[ ! -z $sim_url ]] && echo $variant_simulator_tmp/lib/${base_lib}` \
-        -output ${variant_os}/lib/${base_lib} \
-        -create
+      if [[ -f $variant_os_tmp/lib/${base_lib} && -f $variant_simulator_tmp/lib/${base_lib} ]]; then
+        lipo $variant_os_tmp/lib/${base_lib} \
+          `[[ ! -z $sim_url ]] && echo $variant_simulator_tmp/lib/${base_lib}` \
+          -output ${variant_os}/lib/${base_lib} \
+          -create
+      fi
     done;
 
     # cleanup
@@ -110,28 +120,33 @@ mkdir -p vendor && cd vendor
 POSITIONAL=()
 # with MongoMobile
 WITH_MOBILE=NO
+# building for pods
+FOR_PODS=NO
 # should also run make
 SHOULD_MAKE=NO
-while [[ $# -gt 0 ]]
-do
-key="$1"
 
-case $key in
-    -wM|--with-mobile)
-    WITH_MOBILE=YES
-    shift # past argument
-    shift # past value
-    ;;
-    -m|--make)
-    SHOULD_MAKE=YES
-    shift # past argument
-    shift # past value
-    ;;
-    *)    # unknown option
-    POSITIONAL+=("$1") # save it in an array for later
-    shift # past argument
-    ;;
-esac
+for key in $@; do
+  case $key in
+      -wM|--with-mobile)
+      WITH_MOBILE=YES
+      shift # past argument
+      shift # past value
+      ;;
+      -fp|--for-pods)
+      FOR_PODS=YES
+      shift # past argument
+      shift # past value
+      ;;
+      -m|--make)
+      SHOULD_MAKE=YES
+      shift # past argument
+      shift # past value
+      ;;
+      *)    # unknown option
+      POSITIONAL+=("$1") # save it in an array for later
+      shift # past argument
+      ;;
+  esac
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
