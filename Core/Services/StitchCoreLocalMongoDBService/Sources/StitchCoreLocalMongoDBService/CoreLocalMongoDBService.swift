@@ -35,9 +35,9 @@ open class CoreLocalMongoDBService {
         return client
     }
     
-    public static var localInstances: Dictionary<String, MongoClient>.Values {
+    public static var localInstances: [MongoClient] {
         // should sync
-        return CoreLocalMongoDBService._localInstances.values
+        return CoreLocalMongoDBService._localInstances.map { $0.value }
     }
     
     public init() {}
