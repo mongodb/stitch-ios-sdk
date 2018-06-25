@@ -14,9 +14,9 @@ Pod::Spec.new do |spec|
     spec.platform = :watchos, "4.3"
 
     spec.source     = {
-      :git => "https://github.com/jsflax/stitch-ios-sdk.git",
-      :branch => "PATCH_11_dot_0_build_errors", 
-      # :tag => '4.0.0'
+      :git => "https://github.com/mongodb/stitch-ios-sdk.git",
+      :branch => "master", 
+      :tag => '4.0.0'
     }
   
     spec.ios.deployment_target = "11.0"
