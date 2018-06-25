@@ -182,7 +182,6 @@ tasks:
           shell: "bash"
           script: |
             cd stitch-ios-sdk
-            export COVERALLS_GIT_COMMIT=${revision}
             if [ -z "${github_pr_number}" ]
             then
               if [ "${is_patch}" = "true" ]; then
@@ -190,12 +189,10 @@ tasks:
                 exit 0
               fi
             else
-              PR_INFO=`curl https://api.github.com/repos/${github_org}/${github_repo}/pulls/${github_pr_number}`
-              SHA=`echo $PR_INFO | python -c "import sys, json; print json.load(sys.stdin)['head']['sha']"`
               /usr/local/opt/python3/bin/python3 scripts/xccoveralls.py \
                 --repo-token=${coveralls_repo_token} \
                 --pull-request-id=${github_pr_number} \
-                --commit-sha=$SHA
+                --commit-sha=${revision}
             fi
 buildvariants:
 - name: macos-1013
