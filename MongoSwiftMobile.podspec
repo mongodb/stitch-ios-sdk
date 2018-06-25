@@ -70,9 +70,9 @@ Pod::Spec.new do |spec|
   
     spec.preserve_paths = "vendor"
 
-    spec.ios.vendored_library = 'vendor/MobileSDKs/iphoneos/*.dylib'
-    spec.tvos.vendored_library = 'vendor/MobileSDKs/appletvos/*.dylib'
-    spec.watchos.vendored_library = 'vendor/MobileSDKs/watchos/*.dylib'
+    spec.ios.vendored_library = 'vendor/MobileSDKs/iphoneos/lib/*.dylib'
+    spec.tvos.vendored_library = 'vendor/MobileSDKs/appletvos/lib/*.dylib'
+    spec.watchos.vendored_library = 'vendor/MobileSDKs/watchos/lib/*.dylib'
 
     spec.source_files = "vendor/Sources/MongoSwift/**/*.swift"
 end
