@@ -69,19 +69,10 @@ Pod::Spec.new do |spec|
     }
   
     spec.preserve_paths = "vendor"
-    
-    def self.vendor_path(platform)
-      Dir.entries("vendor/MobileSDKs/#{platform}/lib/").select {
-        |f| [
-          "libbson-1.0.dylib",
-          "libmongoc-1.0.dylib"
-        ].any? { |lib| f.include?(lib) }
-      }.map { |lib| "vendor/MobileSDKs/#{platform}/lib/#{lib}" }
-    end
 
-    spec.ios.vendored_library = self.vendor_path "iphoneos"
-    spec.tvos.vendored_library = self.vendor_path "appletvos"
-    spec.watchos.vendored_library = self.vendor_path "watchos"
+    spec.ios.vendored_library = 'vendor/MobileSDKs/iphoneos/*.dylib'
+    spec.tvos.vendored_library = 'vendor/MobileSDKs/appletvos/*.dylib'
+    spec.watchos.vendored_library = 'vendor/MobileSDKs/watchos/*.dylib'
 
     spec.source_files = "vendor/Sources/MongoSwift/**/*.swift"
 end
