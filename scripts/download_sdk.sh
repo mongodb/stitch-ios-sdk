@@ -97,7 +97,7 @@ download_and_combine() {
         tmp_libs=`echo $variant_os_tmp/lib/*.dylib`
       fi
     else
-      tmp_libs=`find -E ./$variant_os_tmp/lib -type f -regex ".*lib(bson|mongoc)-1.0.dylib"`
+      tmp_libs=`find -E ./$variant_os_tmp/lib -type f -regex ".*lib(bson|mongoc)-1.0.*.dylib"`
     fi
     for lib in $tmp_libs; do
       local base_lib=$(basename "$lib")
