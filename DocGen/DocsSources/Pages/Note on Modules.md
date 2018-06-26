@@ -8,6 +8,7 @@ When you install the MongoDB Stitch iOS SDK via CocoaPods, several importable mo
 // OKAY 
 import StitchCore // basic Stitch features
 import StitchRemoteMongoDBService // MongoDB Atlas service features
+import MongoSwiftMobile // BSON types
 
 // DO NOT IMPORT - INTERNAL AND UNSTABLE
 import StitchCoreSDK

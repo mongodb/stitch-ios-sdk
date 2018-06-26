@@ -32,8 +32,7 @@
         "name": "Configuring Stitch",
         "children": [
             "StitchAppClientConfiguration",
-            "StitchAppClientConfigurationBuilder",
-            "StitchAppClientConfigurationError"
+            "StitchAppClientConfigurationBuilder"
         ]
     }, {
         "name": "Handling Errors",
@@ -63,7 +62,7 @@
     }, {
         "name": "Remote MongoDB Service",
         "children": [
-            "remoteMongoDBServiceClientFactory",
+            "remoteMongoClientFactory",
             "RemoteMongoClient",
             "RemoteMongoDatabase",
             "RemoteMongoCollection",
