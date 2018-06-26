@@ -37,9 +37,12 @@ private final class MobileMongoDBClientFactory: CoreLocalMongoDBService, Throwin
     private var batteryLevel: Float {
         #if os(watchOS)
         return WKInterfaceDevice.current().batteryLevel
-        #else
-        return UIDevice.current.batteryLevel
         #endif
+        #if os(tvOS)
+        return 100
+        #endif
+
+        return UIDevice.current.batteryLevel
     }
     
     private var lastBatteryState: BatteryState = .unknown
