@@ -176,15 +176,10 @@ String result: Hello world!
 In the case that you don't want a single default initialized StitchAppClient by setting up the resource values, you can use the following with as many client app IDs as you'd like to initialize clients for a multiple app IDs:
 
 ```swift
-    do {
-        try Stitch.initialize()
+    do {        
+        let client1 = try Stitch.initializeAppClient(withClientAppID: "your-first-client-app-id")
         
-        let client1 = try Stitch.initializeAppClient(withConfigBuilder:
-            StitchAppClientConfigurationBuilder.forApp(withClientAppID: "your-first-client-app-id")
-        )
-        let client2 = try Stitch.initializeAppClient(withConfigBuilder:
-            StitchAppClientConfigurationBuilder.forApp(withClientAppID: "your-second-client-app-id")
-        )
+        let client2 = try Stitch.initializeAppClient(withClientAppID: "your-second-client-app-id")
     } catch {
         print("Failed to initialize MongoDB Stitch iOS SDK: \(error.localizedDescription)")
     }
