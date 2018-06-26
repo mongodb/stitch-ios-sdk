@@ -92,14 +92,22 @@ download_and_combine() {
     log_i "merging $variant_os architectures into universal dylibs..."
     if [[ $WITH_MOBILE == YES ]]; then
       if [[ $FOR_PODS == YES ]]; then
-        tmp_libs=`find -E ./$variant_os_tmp/lib -type f ! -regex ".*lib(bson|mongoc)-1.0.*.dylib"`
+        tmp_libs=(`find -E ./$variant_os_tmp/lib -type f ! -regex ".*lib(bson|mongoc)-1.0.*.dylib"`)
       else
-        tmp_libs=`echo $variant_os_tmp/lib/*.dylib`
+        tmp_libs=(`echo $variant_os_tmp/lib/*.dylib`)
       fi
     else
-      tmp_libs=`find -E ./$variant_os_tmp/lib -type f -regex ".*lib(bson|mongoc)-1.0.*.dylib"`
+      tmp_libs=(
+        "$variant_os_tmp/lib/libbson-1.0.0.0.0.dylib" 
+        "$variant_os_tmp/lib/libbson-1.0.0.dylib"
+        "$variant_os_tmp/lib/libbson-1.0.dylib"
+        "$variant_os_tmp/lib/libmongoc-1.0.0.0.0.dylib" 
+        "$variant_os_tmp/lib/libmongoc-1.0.0.dylib"
+        "$variant_os_tmp/lib/libmongoc-1.0.dylib"
+      )
     fi
-    for lib in $tmp_libs; do
+    for ((i=0; i < "${#tmp_libs[@]}"; i++)) ; do
+      lib=${tmp_libs[$i]}
       local base_lib=$(basename "$lib")
       if [[ -f $variant_os_tmp/lib/${base_lib} && -f $variant_simulator_tmp/lib/${base_lib} ]]; then
         lipo $variant_os_tmp/lib/${base_lib} \
