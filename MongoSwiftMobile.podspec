@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
     spec.name       = "MongoSwiftMobile"
-    spec.version    = "4.0.2"
+    spec.version    = "4.0.3"
     spec.summary    = "MongoSwift Driver Mobile extension"
     spec.homepage   = "https://github.com/mongodb/stitch-ios-sdk"
     spec.license    = "Apache2"
