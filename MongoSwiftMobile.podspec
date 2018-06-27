@@ -35,7 +35,7 @@ Pod::Spec.new do |spec|
     
 
     spec.vendored_frameworks = ['Frameworks/libmongoc.framework', 'Frameworks/libbson.framework']
-    spec.source_files = "vendor/Sources/MongoSwift/**/*.swift"
+    spec.source_files = "Sources/MongoSwift/**/*.swift"
 
     # spec.dependency 'libbson', '~> 0.0.1'
 
