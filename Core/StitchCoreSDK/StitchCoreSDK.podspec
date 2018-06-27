@@ -14,9 +14,9 @@ Pod::Spec.new do |spec|
     spec.platform = :watchos, "4.3"
 
     spec.source     = {
-      :git => "https://github.com/mongodb/stitch-ios-sdk.git",
-      :branch => "master", 
-      :tag => '4.0.0'
+      :git => "https://github.com/jsflax/stitch-ios-sdk.git",
+      :branch => "Frameworkify",
+      # :tag => '4.0.0'
     }
   
     spec.pod_target_xcconfig = { "ENABLE_BITCODE" => "NO" }
@@ -25,7 +25,6 @@ Pod::Spec.new do |spec|
     spec.watchos.deployment_target = "4.3"
     
     spec.prepare_command = <<-CMD
-      sh scripts/download_sdk.sh
       sh scripts/prep_pods.sh \
         --module=#{spec.name} \
         --sources=Sources/#{spec.name}
@@ -33,5 +32,5 @@ Pod::Spec.new do |spec|
 
     spec.source_files = "dist/#{spec.name}/**/*.swift"
 
-    spec.dependency "MongoSwiftMobile", "~> 4.0.0"
+    spec.dependency "MongoSwiftMobile", "~> 4.0.1"
 end
