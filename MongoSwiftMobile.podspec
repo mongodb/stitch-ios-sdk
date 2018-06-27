@@ -25,16 +25,16 @@ Pod::Spec.new do |spec|
     
     spec.prepare_command = "sh scripts/download_frameworks.sh; sh scripts/download_mongoswift.sh"
     
-    spec.pod_target_xcconfig = {
-      'LIBRARY_SEARCH_PATHS' => '$(PODS_TARGET_SRCROOT)/Frameworks/libbson.framework/Frameworks $(PODS_TARGET_SRCROOT)/Frameworks/libmongoc.framework/Frameworks',
-    }
+    # spec.pod_target_xcconfig = {
+    #   'LIBRARY_SEARCH_PATHS' => '$(PODS_TARGET_SRCROOT)/Frameworks/libbson.framework/Frameworks $(PODS_TARGET_SRCROOT)/Frameworks/libmongoc.framework/Frameworks',
+    # }
   
-    spec.user_target_xcconfig = { 
-      'LIBRARY_SEARCH_PATHS' => '$(PODS_ROOT)/MongoSwiftMobile/Frameworks/libbson.framework/Frameworks $(PODS_TARGET_SRCROOT)/Frameworks/libmongoc.framework/Frameworks',
-    }
+    # spec.user_target_xcconfig = { 
+    #   'LIBRARY_SEARCH_PATHS' => '$(PODS_ROOT)/MongoSwiftMobile/Frameworks/libbson.framework/Frameworks $(PODS_TARGET_SRCROOT)/Frameworks/libmongoc.framework/Frameworks',
+    # }
     
 
-    spec.vendored_frameworks = ['Frameworks/libmongoc.framework', 'Frameworks/libbson.framework']
+    spec.vendored_frameworks = ['MobileSDKs/iphoneos/libmongoc.framework', 'MobileSDKs/iphoneos/libbson.framework']
     spec.source_files = "Sources/MongoSwift/**/*.swift"
 
     # spec.dependency 'libbson', '~> 0.0.1'
