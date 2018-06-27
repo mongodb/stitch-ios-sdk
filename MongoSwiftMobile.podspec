@@ -16,14 +16,14 @@ Pod::Spec.new do |spec|
     spec.source     = {
       :git => "https://github.com/jsflax/stitch-ios-sdk.git",
       :branch => "Frameworkify", 
-      :tag => '4.0.0'
+      # :tag => '4.0.0'
     }
   
     spec.ios.deployment_target = "11.3"
     # spec.tvos.deployment_target = "10.2"
     # spec.watchos.deployment_target = "4.3"
     
-    spec.prepare_command = "sh scripts/download_frameworks.sh"
+    spec.prepare_command = "sh scripts/download_frameworks.sh; sh scripts/download_mongoswift.sh"
     
     spec.pod_target_xcconfig = {
       'LIBRARY_SEARCH_PATHS' => '$(PODS_TARGET_SRCROOT)/Frameworks/libbson.framework/Frameworks $(PODS_TARGET_SRCROOT)/Frameworks/libmongoc.framework/Frameworks',
