@@ -20,10 +20,10 @@ Pod::Spec.new do |spec|
     }
   
     spec.ios.deployment_target = "11.3"
-    # spec.tvos.deployment_target = "10.2"
+    spec.tvos.deployment_target = "10.2"
     # spec.watchos.deployment_target = "4.3"
     
-    spec.prepare_command = "sh scripts/download_frameworks.sh; sh scripts/download_mongoswift.sh"
+    spec.prepare_command = "python scripts/download_frameworks.py; sh scripts/download_mongoswift.sh"
     
     # spec.pod_target_xcconfig = {
     #   'LIBRARY_SEARCH_PATHS' => '$(PODS_TARGET_SRCROOT)/Frameworks/libbson.framework/Frameworks $(PODS_TARGET_SRCROOT)/Frameworks/libmongoc.framework/Frameworks',
@@ -32,12 +32,9 @@ Pod::Spec.new do |spec|
     # spec.user_target_xcconfig = { 
     #   'LIBRARY_SEARCH_PATHS' => '$(PODS_ROOT)/MongoSwiftMobile/Frameworks/libbson.framework/Frameworks $(PODS_TARGET_SRCROOT)/Frameworks/libmongoc.framework/Frameworks',
     # }
-    
 
-    spec.vendored_frameworks = ['MobileSDKs/iphoneos/libmongoc.framework', 'MobileSDKs/iphoneos/libbson.framework']
+    spec.ios.vendored_frameworks = 'Frameworks/iOS/*.framework'
+    spec.tvos.vendored_frameworks = 'Frameworks/tvOS/*.framework'
+
     spec.source_files = "Sources/MongoSwift/**/*.swift"
-
-    # spec.dependency 'libbson', '~> 0.0.1'
-
-    # spec.dependency 'libmongoc', '~> 0.0.14'
 end
