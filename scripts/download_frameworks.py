@@ -1,3 +1,7 @@
+"""
+Download embedded mongo SDKs and covert
+the dylibs into .frameworks.
+"""
 import argparse
 import os
 import re
@@ -32,7 +36,8 @@ def log_info(msg):
     Arguments:
         msg: str: message to be logged
     """
-    print u'\u001b[94minfo: {}\u001b[0m'.format(msg)
+    if verbose:
+        print u'\u001b[94minfo: {}\u001b[0m'.format(msg)
 
 def change_dylib_identification_name(id, dylib_path):
     """Change the identification name of a given dylib.
@@ -566,10 +571,15 @@ parser.add_argument('-osx',
                     '--with-osx',
                     default=False,
                     help='with osx embedded architectures')
+parser.add_argument('-v',
+                    '--verbose',
+                    default=False,
+                    help='verbose logging')
 args = parser.parse_args()
 
 with_mobile = args.with_mobile
 with_osx = args.with_osx
+verbose = args.verbose
 
 if with_mobile is False:
     del Modules.modules_map[Modules.libmongo_embedded_capi.dylib]
