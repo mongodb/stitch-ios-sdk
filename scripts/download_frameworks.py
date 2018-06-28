@@ -337,8 +337,12 @@ class FrameworkModule(Framework):
         <string>FMWK</string>
         <key>CFBundleSignature</key>
         <string>????</string>
+        <key>CFBundleShortVersionString</key>
+        <string>1.0.0</string>
         <key>CFBundleVersion</key>
         <string>1.0.0</string>
+        <key>MinimumOSVersion</key>
+        <string>10.2</string>
         </dict>
         </plist>""".format(self.module.name, identifier).strip()
 
