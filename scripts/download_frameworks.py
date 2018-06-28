@@ -607,3 +607,6 @@ for platform in Platforms.platforms:
         lipo(platform, fmk_list)
     # remove the unlipo'd artifacts
     rmtree('Frameworks/{}'.format(platform.full_name))
+    # cleanup download dirs
+    for variant in platform.variants:
+        rmtree(variant.name)
