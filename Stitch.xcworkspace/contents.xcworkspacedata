@@ -47,12 +47,12 @@
    </Group>
    <Group
       location = "container:"
-      name = "iOS">
+      name = "Darwin">
       <FileRef
          location = "group:iOS/StitchCore/StitchCore.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:iOS/StitchIOSCoreTestUtils/StitchIOSCoreTestUtils.xcodeproj">
+         location = "group:/Users/jasonflax/Development/stitch-ios-sdk/iOS/StitchIOSCoreTestUtils/StitchDarwinCoreTestUtils.xcodeproj">
       </FileRef>
       <FileRef
          location = "group:iOS/StitchSDK/StitchSDK.xcodeproj">

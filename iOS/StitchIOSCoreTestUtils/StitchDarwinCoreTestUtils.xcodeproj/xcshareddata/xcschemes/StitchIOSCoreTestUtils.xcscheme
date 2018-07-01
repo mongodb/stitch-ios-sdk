@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F4D04C9320ADDA6F004CCCD7"
-               BuildableName = "StitchIOSCoreTestUtils.framework"
-               BlueprintName = "StitchIOSCoreTestUtils"
-               ReferencedContainer = "container:StitchIOSCoreTestUtils.xcodeproj">
+               BuildableName = "StitchDarwinCoreTestUtils.framework"
+               BlueprintName = "StitchDarwinCoreTestUtils"
+               ReferencedContainer = "container:StitchDarwinCoreTestUtils.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F4D04C9C20ADDA6F004CCCD7"
-               BuildableName = "StitchIOSCoreTestUtilsTests.xctest"
-               BlueprintName = "StitchIOSCoreTestUtilsTests"
-               ReferencedContainer = "container:StitchIOSCoreTestUtils.xcodeproj">
+               BuildableName = "StitchDarwinCoreTestUtilsTests.xctest"
+               BlueprintName = "StitchDarwinCoreTestUtilsTests"
+               ReferencedContainer = "container:StitchDarwinCoreTestUtils.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -43,9 +43,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F4D04C9320ADDA6F004CCCD7"
-            BuildableName = "StitchIOSCoreTestUtils.framework"
-            BlueprintName = "StitchIOSCoreTestUtils"
-            ReferencedContainer = "container:StitchIOSCoreTestUtils.xcodeproj">
+            BuildableName = "StitchDarwinCoreTestUtils.framework"
+            BlueprintName = "StitchDarwinCoreTestUtils"
+            ReferencedContainer = "container:StitchDarwinCoreTestUtils.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -65,9 +65,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F4D04C9320ADDA6F004CCCD7"
-            BuildableName = "StitchIOSCoreTestUtils.framework"
-            BlueprintName = "StitchIOSCoreTestUtils"
-            ReferencedContainer = "container:StitchIOSCoreTestUtils.xcodeproj">
+            BuildableName = "StitchDarwinCoreTestUtils.framework"
+            BlueprintName = "StitchDarwinCoreTestUtils"
+            ReferencedContainer = "container:StitchDarwinCoreTestUtils.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -83,9 +83,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F4D04C9320ADDA6F004CCCD7"
-            BuildableName = "StitchIOSCoreTestUtils.framework"
-            BlueprintName = "StitchIOSCoreTestUtils"
-            ReferencedContainer = "container:StitchIOSCoreTestUtils.xcodeproj">
+            BuildableName = "StitchDarwinCoreTestUtils.framework"
+            BlueprintName = "StitchDarwinCoreTestUtils"
+            ReferencedContainer = "container:StitchDarwinCoreTestUtils.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
