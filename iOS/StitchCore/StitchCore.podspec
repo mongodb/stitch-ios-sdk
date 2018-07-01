@@ -10,7 +10,7 @@ Pod::Spec.new do |spec|
       "Eric Daniels" => "eric.daniels@mongodb.com",
     }
     spec.platform = :ios, "11.3"
-    # spec.platform = :tvos, "10.2"
+    spec.platform = :tvos, "10.2"
     # spec.platform = :watchos, "4.3"
 
     spec.source     = {
@@ -21,7 +21,7 @@ Pod::Spec.new do |spec|
   
     spec.pod_target_xcconfig = { "ENABLE_BITCODE" => "NO" }
     spec.ios.deployment_target = "11.3"
-    # spec.tvos.deployment_target = "10.2"
+    spec.tvos.deployment_target = "10.2"
     # spec.watchos.deployment_target = "4.3"
     
     spec.prepare_command = "sh scripts/prep_pods.sh --module=#{spec.name} --sources=#{spec.name}"

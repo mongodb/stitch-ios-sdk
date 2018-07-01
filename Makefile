@@ -1,5 +1,6 @@
 all:
-	sh scripts/download_sdk.sh --with-mobile
+	python scripts/build_frameworks.py
+	python scripts/generate_xcodeprojs.py
 	$(MAKE) -C MockUtils all
 	$(MAKE) -C Core/StitchCoreSDK all
 	$(MAKE) -C Core/StitchCoreAdminClient all
@@ -15,6 +16,7 @@ clean:
 	rm -rf ./vendor
 	rm -rf ./.build
 	rm -rf dist
+	rm -rf Frameworks
 	$(MAKE) -C MockUtils clean
 	$(MAKE) -C Core/StitchCoreSDK clean
 	$(MAKE) -C Core/StitchCoreAdminClient clean
@@ -27,6 +29,8 @@ clean:
 	$(MAKE) -C Core/Services/StitchCoreRemoteMongoDBService clean
 	$(MAKE) -C Core/Services/StitchCoreTwilioService clean
 prepare:
+	python scripts/build_frameworks.py
+	python scripts/generate_xcodeprojs.py
 	$(MAKE) -C MockUtils prepare
 	$(MAKE) -C Core/StitchCoreSDK prepare
 	$(MAKE) -C Core/StitchCoreAdminClient prepare

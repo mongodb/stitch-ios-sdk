@@ -10,7 +10,7 @@ Pod::Spec.new do |spec|
       "Eric Daniels" => "eric.daniels@mongodb.com",
     }
     spec.platform = :ios, "11.3"
-    # spec.platform = :tvos, "10.2"
+    spec.platform = :tvos, "10.2"
     # spec.platform = :watchos, "4.3"
 
     spec.source     = {

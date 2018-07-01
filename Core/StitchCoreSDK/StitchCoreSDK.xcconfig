@@ -1,27 +1,9 @@
-//
-// StitchCoreSDK.xcconfig
-//
-
-OTHER_LDFLAGS[sdk=iphoneos*] = -rpath $(SRCROOT)/../../vendor/MobileSDKs/iphoneos/lib
-OTHER_LDFLAGS[sdk=iphonesimulator*] = -rpath $(SRCROOT)/../../vendor/MobileSDKs/iphoneos/lib
-OTHER_LDFLAGS[sdk=appletvos*] = -rpath $(SRCROOT)/../../vendor/MobileSDKs/appletvos/lib
-OTHER_LDFLAGS[sdk=appletvsimulator*] = -rpath $(SRCROOT)/../../vendor/MobileSDKs/appletvos/lib
-OTHER_LDFLAGS[sdk=watchos*] = -rpath $(SRCROOT)/../../vendor/MobileSDKs/watchos/lib
-OTHER_LDFLAGS[sdk=watchsimulator*] = -rpath $(SRCROOT)/../../vendor/MobileSDKs/watchos/lib
-LIBRARY_SEARCH_PATHS[sdk=iphoneos*]        = $(SRCROOT)/../../vendor/MobileSDKs/iphoneos/lib
-LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*] = $(SRCROOT)/../../vendor/MobileSDKs/iphoneos/lib
-LIBRARY_SEARCH_PATHS[sdk=appletvos*]       = $(SRCROOT)/../../vendor/MobileSDKs/appletvos/lib
-LIBRARY_SEARCH_PATHS[sdk=appletvsimulator*] = $(SRCROOT)/../../vendor/MobileSDKs/appletvos/lib
-LIBRARY_SEARCH_PATHS[sdk=watchos*]       = $(SRCROOT)/../../vendor/MobileSDKs/watchos/lib
-LIBRARY_SEARCH_PATHS[sdk=watchsimulator*] = $(SRCROOT)/../../vendor/MobileSDKs/watchos/lib
-
-SWIFT_INCLUDE_PATHS = $(SRCROOT)/../../vendor/MobileSDKs/include $(SRCROOT)/../../vendor/MobileSDKs/include/libbson-1.0 $(SRCROOT)/../../vendor/MobileSDKs/include/libmongoc-1.0
-
-ENABLE_BITCODE = NO
-
-IPHONEOS_DEPLOYMENT_TARGET[sdk=iphoneos*]=8.0
-IPHONEOS_DEPLOYMENT_TARGET[sdk=iphonesimulator*]=8.0
-IPHONEOS_DEPLOYMENT_TARGET[sdk=appletvos*]=8.0
-IPHONEOS_DEPLOYMENT_TARGET[sdk=appletvsimulator*]=8.0
-IPHONEOS_DEPLOYMENT_TARGET[sdk=watchos*]=8.0
-IPHONEOS_DEPLOYMENT_TARGET[sdk=watchsimulator*]=8.0
+FRAMEWORK_SEARCH_PATHS[sdk=iphoneos*]=/Users/jasonflax/Development/stitch-ios-sdk/Frameworks/ios
+FRAMEWORK_SEARCH_PATHS[sdk=iphonesimulator*]=/Users/jasonflax/Development/stitch-ios-sdk/Frameworks/ios
+FRAMEWORK_SEARCH_PATHS[sdk=appletvos*]=/Users/jasonflax/Development/stitch-ios-sdk/Frameworks/tvos
+FRAMEWORK_SEARCH_PATHS[sdk=appletvsimulator*]=/Users/jasonflax/Development/stitch-ios-sdk/Frameworks/tvos
+FRAMEWORK_SEARCH_PATHS[sdk=watchos*]=/Users/jasonflax/Development/stitch-ios-sdk/Frameworks/watchos
+FRAMEWORK_SEARCH_PATHS[sdk=watchsimulator*]=/Users/jasonflax/Development/stitch-ios-sdk/Frameworks/watchos
+FRAMEWORK_SEARCH_PATHS[sdk=macosx*]=/Users/jasonflax/Development/stitch-ios-sdk/Frameworks/macos
+ENABLE_BITCODE=NO
+IPHONEOS_DEPLOYMENT_TARGET=10.2

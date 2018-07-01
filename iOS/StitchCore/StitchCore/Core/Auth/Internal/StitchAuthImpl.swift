@@ -1,7 +1,11 @@
 import MongoSwift
 import StitchCoreSDK
 import Foundation
+#if canImport(UIKit) && !canImport(WatchKit)
 import UIKit
+#elseif canImport(WatchKit)
+import WatchKit
+#endif
 
 /**
  * The implementation of `StitchAuth`, which holds and manages the authentication state of a Stitch client.
@@ -201,10 +205,17 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
 
         info[DeviceField.appID.rawValue] = self.appInfo.localAppName
         info[DeviceField.appVersion.rawValue] = self.appInfo.localAppVersion
-        #if os(iOS)
+
+        #if canImport(UIKit) && !canImport(WatchKit)
         info[DeviceField.platform.rawValue] = UIDevice.current.systemName
-        info[DeviceField.platformVersion.rawValue] = UIDevice.current.systemVersion
+        #elseif canImport(WatchKit)
+        info[DeviceField.platform.rawValue] = WKInterfaceDevice.current().systemName
+        #else
+        info[DeviceField.platform.rawValue] = ProcessInfo.processInfo.processName
         #endif
+        info[DeviceField.platformVersion.rawValue] =
+            "\(ProcessInfo.processInfo.operatingSystemVersion.majorVersion)." +
+            "\(ProcessInfo.processInfo.operatingSystemVersion.minorVersion)"
         info[DeviceField.sdkVersion.rawValue] = Stitch.sdkVersion
 
         return info

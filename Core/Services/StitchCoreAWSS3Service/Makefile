@@ -17,5 +17,5 @@ test:
 	# temporary until a fix is in for .brew dependency for libmongoc
 	xcodebuild test -workspace ../../../Stitch.xcworkspace/ -scheme StitchCoreAWSS3Service-Package -configuration Debug -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
 project:
-	swift package --build-path ../../../.build generate-xcodeproj --xcconfig-overrides StitchCoreAWSS3Service.xcconfig
+	swift package generate-xcodeproj --xcconfig-overrides StitchCoreAWSS3Service.xcconfig
 prepare: git resolve project

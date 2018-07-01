@@ -14,10 +14,8 @@ xcodebuild \
     -derivedDataPath "localDerivedData" \
     -scheme $scheme \
     -json \
-    OTHER_LDFLAGS="-rpath `pwd`/vendor/MobileSDKs/iphoneos/lib -fprofile-arcs -ftest-coverage" \
-    LIBRARY_SEARCH_PATHS="`pwd`/vendor/MobileSDKs/iphoneos/lib" \
-    SWIFT_INCLUDE_PATHS="`pwd`/$cc `pwd`/vendor/MobileSDKs/include `pwd`/vendor/MobileSDKs/include/libbson-1.0 `pwd`/vendor/MobileSDKs/include/libmongoc-1.0 `pwd`/vendor/MobileSDKs/include/mongo/embedded-v1/" \
-    FRAMEWORK_INCLUDE_PATHS="`pwd`/localDerivedData " \
+    SWIFT_INCLUDE_PATHS="`pwd`/$cc"
+    FRAMEWORK_INCLUDE_PATHS="`pwd`/localDerivedData `pwd`/Frameworks/ios" \
     ENABLE_BITCODE=NO \
     IPHONEOS_DEPLOYMENT_TARGET="10.2" \
     GCC_PREPROCESSOR_DEFINITIONS="${*:5}" \
