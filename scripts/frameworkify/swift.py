@@ -7,10 +7,11 @@ from shutil import copy2, copytree, rmtree
 from subprocess import call
 
 class SwiftSource:
-    def __init__(self, name, source_paths, frameworks_search_paths = None):
+    def __init__(self, name, source_paths, frameworks_search_paths = None, flags = []):
         self.name = name
         self.source_paths = source_paths
         self.framework_search_paths = frameworks_search_paths
+        self.flags = flags
 
     def create_module(self, platform, variant, min_platform_version):
         module_dir = self.__build_for(platform, variant, min_platform_version)
@@ -36,13 +37,14 @@ class SwiftSource:
         if self.framework_search_paths is not None:
             cmd += ['-F./{}'.format(self.framework_search_paths)]
         cmd += self.source_paths
+        cmd += self.flags
         cmd += [
             '-o',
             '{}/{}'.format(module_dir, self.name),
             '-target',
             '{}-apple-{}{}'.format(variant.arch, platform.name, min_platform_version)]
         cmd += ['-emit-module', '-emit-objc-header', '-emit-library']
-
+        print ' '.join(cmd)
         if call(cmd) is not 0:
             return log_error('could not build {} from source').format(self.name)
 

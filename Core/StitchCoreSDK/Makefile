@@ -14,7 +14,7 @@ resolve:
 update:
 	swift package --build-path ../../.build update
 test:
-	swift test --build-path ../../.build -Xcc -F../../Frameworks
+	swift test
 project:
 	swift package generate-xcodeproj --xcconfig-overrides StitchCoreSDK.xcconfig
 prepare: git update project

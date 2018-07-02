@@ -1,6 +1,8 @@
-from __main__ import VERBOSE
-
 from subprocess import call
+
+_VERBOSE = False
+def set_verbosity(verbosity):
+    _VERBOSE = verbosity
 
 def log_error(msg):
     """Log an error to the terminal.
@@ -24,7 +26,7 @@ def log_info(msg):
     Arguments:
         msg: str: message to be logged
     """
-    if VERBOSE:
+    if _VERBOSE:
         print u'\u001b[94minfo: {}\u001b[0m'.format(msg)
 
 

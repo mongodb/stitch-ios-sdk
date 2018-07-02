@@ -1,6 +1,6 @@
 import os
 from subprocess import call
-from framework import platforms
+from frameworkify import platforms
 
 modules = [
     'MockUtils',
@@ -21,8 +21,8 @@ frameworks_dir = os.path.abspath('./Frameworks')
 tuples = list(map(lambda platform: (platform.name, platform.variants), platforms))
 
 xcconfig = '\n'.join([line for sub_list in map(lambda tup: map(
-    lambda variant: "FRAMEWORK_SEARCH_PATHS[sdk={}*]={}/{}".format(
-        variant.name, frameworks_dir, tup[0]),
+    lambda variant: "FRAMEWORK_SEARCH_PATHS[sdk={}*]={}/{}\nLD_RUNPATH_SEARCH_PATHS[sdk={}*]={}/{}".format(
+        variant.name, frameworks_dir, tup[0], variant.name, frameworks_dir, tup[0]),
         tup[1]),
     tuples) for line in sub_list] + [
         'ENABLE_BITCODE=NO',

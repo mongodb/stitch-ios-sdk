@@ -27,7 +27,9 @@ Pod::Spec.new do |spec|
     spec.platform = :macos, "10.10"
 
     spec.pod_target_xcconfig = { "ENABLE_BITCODE" => "NO" }
-
+    spec.user_target_xcconfig = {
+      'FRAMEWORK_SEARCH_PATHS' => "$(PODS_ROOT)/#{spec.name}/Frameworks/ios"
+    }
     spec.ios.deployment_target = "11.3"
     spec.tvos.deployment_target = "10.2"
     spec.watchos.deployment_target = "4.3"

@@ -44,6 +44,7 @@ public class FunctionMockUnit<ReturnType> { // takes no args
         self.invocations += 1
         
         // Don't search for a result matcher if return type is void
+        let rtype = ReturnType.self
         if ReturnType.self == Void.self {
             return () as! ReturnType
         }

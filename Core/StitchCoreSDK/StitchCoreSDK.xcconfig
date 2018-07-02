@@ -1,9 +1,16 @@
 FRAMEWORK_SEARCH_PATHS[sdk=iphoneos*]=/Users/jasonflax/Development/stitch-ios-sdk/Frameworks/ios
+LD_RUNPATH_SEARCH_PATHS[sdk=iphoneos*]=/Users/jasonflax/Development/stitch-ios-sdk/Frameworks/ios
 FRAMEWORK_SEARCH_PATHS[sdk=iphonesimulator*]=/Users/jasonflax/Development/stitch-ios-sdk/Frameworks/ios
+LD_RUNPATH_SEARCH_PATHS[sdk=iphonesimulator*]=/Users/jasonflax/Development/stitch-ios-sdk/Frameworks/ios
 FRAMEWORK_SEARCH_PATHS[sdk=appletvos*]=/Users/jasonflax/Development/stitch-ios-sdk/Frameworks/tvos
+LD_RUNPATH_SEARCH_PATHS[sdk=appletvos*]=/Users/jasonflax/Development/stitch-ios-sdk/Frameworks/tvos
 FRAMEWORK_SEARCH_PATHS[sdk=appletvsimulator*]=/Users/jasonflax/Development/stitch-ios-sdk/Frameworks/tvos
+LD_RUNPATH_SEARCH_PATHS[sdk=appletvsimulator*]=/Users/jasonflax/Development/stitch-ios-sdk/Frameworks/tvos
 FRAMEWORK_SEARCH_PATHS[sdk=watchos*]=/Users/jasonflax/Development/stitch-ios-sdk/Frameworks/watchos
+LD_RUNPATH_SEARCH_PATHS[sdk=watchos*]=/Users/jasonflax/Development/stitch-ios-sdk/Frameworks/watchos
 FRAMEWORK_SEARCH_PATHS[sdk=watchsimulator*]=/Users/jasonflax/Development/stitch-ios-sdk/Frameworks/watchos
+LD_RUNPATH_SEARCH_PATHS[sdk=watchsimulator*]=/Users/jasonflax/Development/stitch-ios-sdk/Frameworks/watchos
 FRAMEWORK_SEARCH_PATHS[sdk=macosx*]=/Users/jasonflax/Development/stitch-ios-sdk/Frameworks/macos
+LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]=/Users/jasonflax/Development/stitch-ios-sdk/Frameworks/macos
 ENABLE_BITCODE=NO
 IPHONEOS_DEPLOYMENT_TARGET=10.2

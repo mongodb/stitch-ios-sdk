@@ -2,7 +2,6 @@
 Download embedded mongo SDKs and covert
 the dylibs into .frameworks.
 """
-from __main__ import FRAMEWORKS_DIR
 from modules import SwiftModule
 from platforms import platforms
 from util import log_error, log_warning, log_info, change_library_identification_name, change_library_rpath
@@ -35,10 +34,10 @@ class Framework(object):
         self.should_fix_rpaths = should_fix_rpaths
         self.is_created = False
 
-    def create(self, platform, variant):
+    def create(self, platform, variant, output_dir):
         log_info('creating framework: {}'.format(self.name))
         self.framework_path = '{}/{}/{}/{}.framework'.format(
-            FRAMEWORKS_DIR, platform.full_name, variant.name, self.name)
+            output_dir, platform.full_name, variant.name, self.name)
         self.bin_path = '{}/{}'.format(self.framework_path, self.name)
         # set the framework path and make our dylib.framework
         # directory
@@ -138,12 +137,12 @@ class FrameworkModule(Framework):
         super(FrameworkModule, self).__init__(
             name=module.name,
             library_path=module.library_path,
-            should_fix_rpaths=module is not SwiftModule)
+            should_fix_rpaths=type(module) is not SwiftModule)
 
         self.module = module
 
-    def create(self, platform, variant):
-        super(FrameworkModule, self).create(platform, variant)
+    def create(self, platform, variant, output_dir):
+        super(FrameworkModule, self).create(platform, variant, output_dir)
         self.is_created = False
         log_info('creating framework module: {}'.format(self.module.name))
 
@@ -277,9 +276,9 @@ class SwiftFrameworkModule(FrameworkModule):
     def __init__(self, swift_module):
         super(SwiftFrameworkModule, self).__init__(swift_module)
 
-    def create(self):
+    def create(self, output_dir):
         super(SwiftFrameworkModule, self).create(
-            self.module.platform, self.module.variant)
+            self.module.platform, self.module.variant, output_dir)
         self.is_created = False
         self.swift_modules_path = '{}/{}.swiftmodule'.format(
             self.framework_modules_path, self.module.name)
@@ -288,6 +287,10 @@ class SwiftFrameworkModule(FrameworkModule):
         self.__add_swift_doc()
         self.__add_swift_module()
         self.is_created = True
+        
+        change_library_identification_name(
+                id='@rpath/{}.framework/{}'.format(self.name, self.name),
+                library_path=self.bin_path)
         return self
 
     def lipo(self, platform, *frameworks):
