@@ -1,4 +1,5 @@
 all:
+	sh scripts/download_mongoswift.sh
 	python scripts/build_frameworks.py
 	python scripts/generate_xcodeprojs.py
 	$(MAKE) -C MockUtils all
@@ -29,6 +30,7 @@ clean:
 	$(MAKE) -C Core/Services/StitchCoreRemoteMongoDBService clean
 	$(MAKE) -C Core/Services/StitchCoreTwilioService clean
 prepare:
+	sh scripts/download_mongoswift.sh
 	python scripts/build_frameworks.py
 	python scripts/generate_xcodeprojs.py
 	$(MAKE) -C MockUtils prepare

@@ -114,7 +114,6 @@ functions:
           export DYLD_LIBRARY_PATH=`pwd`/MobileSDKs/iphoneos/lib:$DYLD_LIBRARY_PATH
           git config --global user.email "evg@mongodb.com"
           git config --global user.name "evg"
-          sh scripts/download_sdk.sh --with-mobile
           make prepare
 tasks:
   - name: lint

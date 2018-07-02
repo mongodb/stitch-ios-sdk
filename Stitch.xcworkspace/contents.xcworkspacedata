@@ -49,13 +49,13 @@
       location = "container:"
       name = "Darwin">
       <FileRef
-         location = "group:iOS/StitchCore/StitchCore.xcodeproj">
+         location = "group:Darwin/StitchSDK/StitchSDK.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:/Users/jasonflax/Development/stitch-ios-sdk/iOS/StitchIOSCoreTestUtils/StitchDarwinCoreTestUtils.xcodeproj">
+         location = "group:Darwin/StitchCore/StitchCore.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:iOS/StitchSDK/StitchSDK.xcodeproj">
+         location = "group:Darwin/StitchDarwinCoreTestUtils/StitchDarwinCoreTestUtils.xcodeproj">
       </FileRef>
       <Group
          location = "container:"
@@ -74,25 +74,25 @@
          location = "container:"
          name = "Services">
          <FileRef
-            location = "group:iOS/Services/StitchLocalMongoDBService/StitchLocalMongoDBService.xcodeproj">
+            location = "group:Darwin/Services/StitchTwilioService/StitchTwilioService.xcodeproj">
          </FileRef>
          <FileRef
-            location = "group:iOS/Services/StitchTwilioService/StitchTwilioService.xcodeproj">
+            location = "group:Darwin/Services/StitchRemoteMongoDBService/StitchRemoteMongoDBService.xcodeproj">
          </FileRef>
          <FileRef
-            location = "group:iOS/Services/StitchRemoteMongoDBService/StitchRemoteMongoDBService.xcodeproj">
+            location = "group:Darwin/Services/StitchLocalMongoDBService/StitchLocalMongoDBService.xcodeproj">
          </FileRef>
          <FileRef
-            location = "group:iOS/Services/StitchHTTPService/StitchHTTPService.xcodeproj">
+            location = "group:Darwin/Services/StitchHTTPService/StitchHTTPService.xcodeproj">
          </FileRef>
          <FileRef
-            location = "group:iOS/Services/StitchFCMService/StitchFCMService.xcodeproj">
+            location = "group:Darwin/Services/StitchFCMService/StitchFCMService.xcodeproj">
          </FileRef>
          <FileRef
-            location = "group:iOS/Services/StitchAWSSESService/StitchAWSSESService.xcodeproj">
+            location = "group:Darwin/Services/StitchAWSSESService/StitchAWSSESService.xcodeproj">
          </FileRef>
          <FileRef
-            location = "group:iOS/Services/StitchAWSS3Service/StitchAWSS3Service.xcodeproj">
+            location = "group:Darwin/Services/StitchAWSS3Service/StitchAWSS3Service.xcodeproj">
          </FileRef>
       </Group>
    </Group>
