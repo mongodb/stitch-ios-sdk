@@ -17,8 +17,8 @@ Pod::Spec.new do |spec|
     }
 
     spec.prepare_command = <<-CMD
-      sh scripts/download_mongoswift.sh
-      python scripts/build_frameworks.py
+      sh scripts/download_mongoswift.sh;
+      python scripts/build_frameworks.py;
     CMD
 
     spec.platform = :ios, "11.0"
