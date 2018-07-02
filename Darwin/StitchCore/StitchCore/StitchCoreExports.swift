@@ -26,3 +26,5 @@
 @_exported import struct StitchCoreSDK.UserAPIKey
 @_exported import struct StitchCoreSDK.UserAPIKeyCredential
 @_exported import struct StitchCoreSDK.UserPasswordCredential
+
+@_exported import struct MongoSwift.Document
