@@ -187,12 +187,10 @@ tasks:
                 echo "not running xccoveralls"
                 exit 0
               fi
-            else
-              /usr/local/opt/python3/bin/python3 scripts/xccoveralls.py \
-                --repo-token=${coveralls_repo_token} \
-                --pull-request-id=${github_pr_number} \
-                --commit-sha=${revision}
-            fi
+            /usr/local/opt/python3/bin/python3 scripts/xccoveralls.py \
+              --repo-token=${coveralls_repo_token} \
+              --pull-request-id=${github_pr_number} \
+              --commit-sha=${revision}
 buildvariants:
 - name: macos-1013
   display_name: MacOS 10.13

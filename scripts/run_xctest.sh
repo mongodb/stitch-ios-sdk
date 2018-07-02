@@ -14,7 +14,7 @@ xcodebuild \
     -derivedDataPath "localDerivedData" \
     -scheme $scheme \
     -json \
-    SWIFT_INCLUDE_PATHS="`pwd`/$cc"
+    SWIFT_INCLUDE_PATHS="`pwd`/$cc" \
     FRAMEWORK_INCLUDE_PATHS="`pwd`/localDerivedData `pwd`/Frameworks/ios" \
     ENABLE_BITCODE=NO \
     IPHONEOS_DEPLOYMENT_TARGET="10.2" \
