@@ -32,8 +32,8 @@ clean:
 prepare:
 	sh scripts/download_mongoswift.sh
 	python scripts/build_frameworks.py
-	python scripts/generate_xcodeprojs.py
-	python3 scripts/generate_xcodeprojs.py
+	python scripts/generate_xcconfigs.py
+	/usr/local/opt/python3/bin/python3 scripts/generate_xcconfigs.py
 	$(MAKE) -C MockUtils prepare
 	$(MAKE) -C Core/StitchCoreSDK prepare
 	$(MAKE) -C Core/StitchCoreAdminClient prepare

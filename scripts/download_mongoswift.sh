@@ -8,10 +8,11 @@ if [ ! -d MongoSwift ]; then
   rm -rf mongo-swift mongo-swift.tgz
 fi
 
-git clone https://github.com/kronenthaler/mod-pbxproj.git --branch 2.5.1
-cd mod-pbxproj
-python3 setup.py install
-rm -rf mod-pbxproj
+if [ ! -d scripts/pbxproj ]; then
+  git clone https://github.com/kronenthaler/mod-pbxproj.git --branch 2.5.1
+  mv mod-pbxproj/pbxproj scripts
+  rm -rf mod-pbxproj
+fi
 
 # if [ ! -d Swifter ]; then
 #   curl -# -L https://api.github.com/repos/httpswift/swifter/tarball > swifter.tgz
