@@ -27,19 +27,23 @@ modules = [
 
 # open the project
 for module in modules:
-    project = XcodeProject.load('{}/{}.xcodeproj/project.pbxproj'.format(module, os.path.basename(module)))
+    try:
+        project = XcodeProject.load('{}/{}.xcodeproj/project.pbxproj'.format(module, os.path.basename(module)))
 
-    frameworks = [
-        os.path.abspath('Frameworks/ios/libbson.framework'),
-        os.path.abspath('Frameworks/ios/libmongoc.framework'),
-        os.path.abspath('Frameworks/ios/MongoSwift.framework')
-    ]
+        frameworks = [
+            os.path.abspath('Frameworks/ios/libbson.framework'),
+            os.path.abspath('Frameworks/ios/libmongoc.framework'),
+            os.path.abspath('Frameworks/ios/MongoSwift.framework')
+        ]
 
-    # add a file to it, force=false to not add it if it's already in the project
-    options = FileOptions(create_build_files=True, weak=True, embed_framework=True, code_sign_on_copy=True)
+        # add a file to it, force=false to not add it if it's already in the project
+        options = FileOptions(create_build_files=True, weak=True, embed_framework=True, code_sign_on_copy=True)
 
-    for fmk in frameworks:
-        project.add_file(fmk, file_options=options)
+        for fmk in frameworks:
+            project.add_file(fmk, force=False, file_options=options)
 
-    # save the project, otherwise your changes won't be picked up by Xcode
-    project.save()
+        # save the project, otherwise your changes won't be picked up by Xcode
+        project.save()
+    except:
+        # if we're here, chances are we've added these phases
+        pass
