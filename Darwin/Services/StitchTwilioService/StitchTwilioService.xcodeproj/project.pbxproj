@@ -10,6 +10,18 @@
 		11CF5DA520CF869D006D57BA /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11CF5DA420CF869D006D57BA /* StitchCore.framework */; };
 		11CF5DA720CF869D006D57BA /* StitchCoreTwilioService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11CF5DA620CF869D006D57BA /* StitchCoreTwilioService.framework */; };
 		11CF5DA920CF877B006D57BA /* StitchIOSCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11CF5DA820CF877B006D57BA /* StitchIOSCoreTestUtils.framework */; };
+		165B4C6E94ECE1309582B006 /* MongoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89444DE1B7E6581CDBF8A46C /* MongoSwift.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		379B429BA2F40DFD95F1F782 /* MongoSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 89444DE1B7E6581CDBF8A46C /* MongoSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4C0240879B8412CB16D6A1CE /* libmongoc.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D2B64622AD996F46C81A110E /* libmongoc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4CD44B1E8B79775D4DAF523A /* libbson.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F65649A7B7025D9416952A94 /* libbson.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		57314BD5A3568593E0C297D5 /* libmongoc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2B64622AD996F46C81A110E /* libmongoc.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		98A3486F82F4093B038ACE07 /* MongoSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 89444DE1B7E6581CDBF8A46C /* MongoSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9998476781552F856BB9552C /* libbson.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F65649A7B7025D9416952A94 /* libbson.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A7334D99840B996EF84D2747 /* libbson.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F65649A7B7025D9416952A94 /* libbson.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B3E641AF83545AD34BB64EE1 /* MongoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89444DE1B7E6581CDBF8A46C /* MongoSwift.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		C69C49D1907F705CEA3035CA /* libmongoc.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D2B64622AD996F46C81A110E /* libmongoc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CBC1441384A09A5FC7B119DE /* libbson.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F65649A7B7025D9416952A94 /* libbson.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		EE6344F0B0DCDEA9E35DB8AD /* libmongoc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2B64622AD996F46C81A110E /* libmongoc.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		F4D687BC20ACDD2A00C6C2BF /* StitchCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D687BB20ACDD2A00C6C2BF /* StitchCoreTestUtils.framework */; };
 		F4D7CCE420AA0DC1003AA921 /* StitchTwilioService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D7CCDA20AA0DC1003AA921 /* StitchTwilioService.framework */; };
 		F4D7CCE920AA0DC1003AA921 /* TwilioServiceClientIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D7CCE820AA0DC1003AA921 /* TwilioServiceClientIntTests.swift */; };
@@ -23,15 +35,46 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = F4D7CCD120AA0DC0003AA921 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = F4D7CCD920AA0DC1003AA921;
+			remoteGlobalIDString = F4D7CCD920AA0DC1003AA921 /* StitchTwilioService */;
 			remoteInfo = "Stitch-iOSServiceTwilio";
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A8174971BBE7D32E4B461D00 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				A7334D99840B996EF84D2747 /* libbson.framework in Embed Frameworks */,
+				C69C49D1907F705CEA3035CA /* libmongoc.framework in Embed Frameworks */,
+				379B429BA2F40DFD95F1F782 /* MongoSwift.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FAF84DB89CAC803B867D8293 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				9998476781552F856BB9552C /* libbson.framework in Embed Frameworks */,
+				4C0240879B8412CB16D6A1CE /* libmongoc.framework in Embed Frameworks */,
+				98A3486F82F4093B038ACE07 /* MongoSwift.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		11CF5DA420CF869D006D57BA /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		11CF5DA620CF869D006D57BA /* StitchCoreTwilioService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTwilioService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		11CF5DA820CF877B006D57BA /* StitchIOSCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchIOSCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		89444DE1B7E6581CDBF8A46C /* MongoSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MongoSwift.framework; path = ../../../Frameworks/ios/MongoSwift.framework; sourceTree = SOURCE_ROOT; };
+		D2B64622AD996F46C81A110E /* libmongoc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libmongoc.framework; path = ../../../Frameworks/ios/libmongoc.framework; sourceTree = SOURCE_ROOT; };
 		F4D3E4DE20B5D5CB00C7479A /* StitchCore_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4D687BB20ACDD2A00C6C2BF /* StitchCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4D748BC20B1AAC300393E45 /* StitchCoreTestUtils_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTestUtils_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -46,6 +89,7 @@
 		F4D7CCF720AA0E1E003AA921 /* TwilioServiceClientImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioServiceClientImpl.swift; sourceTree = "<group>"; };
 		F4D7CCFD20AA0F64003AA921 /* StitchCoreServicesTwilio.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreServicesTwilio.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4E33AEA20DEA75D003DE41C /* TwilioServiceClientTestsConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TwilioServiceClientTestsConstants.h; sourceTree = "<group>"; };
+		F65649A7B7025D9416952A94 /* libbson.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libbson.framework; path = ../../../Frameworks/ios/libbson.framework; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +99,9 @@
 			files = (
 				11CF5DA520CF869D006D57BA /* StitchCore.framework in Frameworks */,
 				11CF5DA720CF869D006D57BA /* StitchCoreTwilioService.framework in Frameworks */,
+				CBC1441384A09A5FC7B119DE /* libbson.framework in Frameworks */,
+				57314BD5A3568593E0C297D5 /* libmongoc.framework in Frameworks */,
+				B3E641AF83545AD34BB64EE1 /* MongoSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +112,9 @@
 				F4D687BC20ACDD2A00C6C2BF /* StitchCoreTestUtils.framework in Frameworks */,
 				11CF5DA920CF877B006D57BA /* StitchIOSCoreTestUtils.framework in Frameworks */,
 				F4D7CCE420AA0DC1003AA921 /* StitchTwilioService.framework in Frameworks */,
+				4CD44B1E8B79775D4DAF523A /* libbson.framework in Frameworks */,
+				EE6344F0B0DCDEA9E35DB8AD /* libmongoc.framework in Frameworks */,
+				165B4C6E94ECE1309582B006 /* MongoSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +128,9 @@
 				F4D7CCE720AA0DC1003AA921 /* StitchTwilioServiceTests */,
 				F4D7CCDB20AA0DC1003AA921 /* Products */,
 				F4D7CCFB20AA0F64003AA921 /* Frameworks */,
+				F65649A7B7025D9416952A94 /* libbson.framework */,
+				D2B64622AD996F46C81A110E /* libmongoc.framework */,
+				89444DE1B7E6581CDBF8A46C /* MongoSwift.framework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -156,6 +209,7 @@
 				F4D7CCD620AA0DC1003AA921 /* Frameworks */,
 				F4D7CCD720AA0DC1003AA921 /* Headers */,
 				F4D7CCD820AA0DC1003AA921 /* Resources */,
+				FAF84DB89CAC803B867D8293 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -173,6 +227,7 @@
 				F4D7CCDF20AA0DC1003AA921 /* Sources */,
 				F4D7CCE020AA0DC1003AA921 /* Frameworks */,
 				F4D7CCE120AA0DC1003AA921 /* Resources */,
+				A8174971BBE7D32E4B461D00 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -205,7 +260,7 @@
 					};
 				};
 			};
-			buildConfigurationList = F4D7CCD420AA0DC0003AA921 /* Build configuration list for PBXProject "StitchTwilioService" */;
+			buildConfigurationList = F4D7CCD420AA0DC0003AA921 /* Build configuration list for PBXProject "Stitch-iOSServiceTwilio" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -398,6 +453,10 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/../../../Frameworks/ios",
+					"$(inherited)",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../../../vendor/Sources/libbson",
 					"$(SRCROOT)/../../../vendor/Sources/libmongoc",
@@ -405,7 +464,10 @@
 				INFOPLIST_FILE = "$(SRCROOT)/StitchTwilioService/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib",
+					"$(inherited) @executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchTwilioService;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -429,6 +491,10 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/../../../Frameworks/ios",
+					"$(inherited)",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../../../vendor/Sources/libbson",
 					"$(SRCROOT)/../../../vendor/Sources/libmongoc",
@@ -436,7 +502,10 @@
 				INFOPLIST_FILE = "$(SRCROOT)/StitchTwilioService/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib",
+					"$(inherited) @executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchTwilioService;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -452,12 +521,19 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/../../../Frameworks/ios",
+					"$(inherited)",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../../../vendor/Sources/libbson",
 					"$(SRCROOT)/../../../vendor/Sources/libmongoc",
 				);
 				INFOPLIST_FILE = StitchTwilioServiceTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib",
+					"$(inherited) @executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchTwilioServiceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -472,12 +548,19 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/../../../Frameworks/ios",
+					"$(inherited)",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../../../vendor/Sources/libbson",
 					"$(SRCROOT)/../../../vendor/Sources/libmongoc",
 				);
 				INFOPLIST_FILE = StitchTwilioServiceTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib",
+					"$(inherited) @executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchTwilioServiceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -490,7 +573,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		F4D7CCD420AA0DC0003AA921 /* Build configuration list for PBXProject "StitchTwilioService" */ = {
+		F4D7CCD420AA0DC0003AA921 /* Build configuration list for PBXProject "Stitch-iOSServiceTwilio" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F4D7CCEC20AA0DC1003AA921 /* Debug */,

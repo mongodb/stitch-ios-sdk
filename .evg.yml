@@ -114,6 +114,7 @@ functions:
           export DYLD_LIBRARY_PATH=`pwd`/MobileSDKs/iphoneos/lib:$DYLD_LIBRARY_PATH
           git config --global user.email "evg@mongodb.com"
           git config --global user.name "evg"
+          alias python3=/usr/local/opt/python3/bin/python3
           make prepare
 tasks:
   - name: lint
