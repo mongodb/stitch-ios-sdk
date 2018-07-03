@@ -1,7 +1,8 @@
 all:
 	sh scripts/download_mongoswift.sh
 	python scripts/build_frameworks.py
-	python scripts/generate_xcodeprojs.py
+	python scripts/generate_xcconfigs.py
+	/usr/local/opt/python3/bin/python3 scripts/add_copy_phase.py
 	$(MAKE) -C MockUtils all
 	$(MAKE) -C Core/StitchCoreSDK all
 	$(MAKE) -C Core/StitchCoreAdminClient all
@@ -33,7 +34,7 @@ prepare:
 	sh scripts/download_mongoswift.sh
 	python scripts/build_frameworks.py
 	python scripts/generate_xcconfigs.py
-	/usr/local/opt/python3/bin/python3 scripts/generate_xcconfigs.py
+	/usr/local/opt/python3/bin/python3 scripts/add_copy_phase.py
 	$(MAKE) -C MockUtils prepare
 	$(MAKE) -C Core/StitchCoreSDK prepare
 	$(MAKE) -C Core/StitchCoreAdminClient prepare
