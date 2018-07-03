@@ -719,8 +719,6 @@
 				INFOPLIST_FILE = StitchCoreTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/Frameworks @executable_path/Frameworks @rpath$(SRCROOT)/../../Dependencies/lib $(SRCROOT)/../../Dependencies/lib \"$(SRCROOT)/../../vendor/MobileSDKs/iphoneos/lib\"";
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../vendor/MobileSDKs/iphoneos/lib";
-				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchCoreTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REEXPORTED_FRAMEWORK_NAMES = "";
@@ -746,8 +744,6 @@
 				INFOPLIST_FILE = StitchCoreTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/Frameworks @executable_path/Frameworks @rpath$(SRCROOT)/../Dependencies/lib $(SRCROOT)/../Dependencies/lib $(SRCROOT)/../vendor/MobileSDKs/iphoneos/lib/";
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../vendor/MobileSDKs/iphoneos/lib";
-				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchCoreTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REEXPORTED_FRAMEWORK_NAMES = "";
