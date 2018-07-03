@@ -7,13 +7,12 @@ if [ ! -d MongoSwift ]; then
   cp -r mongo-swift/Sources/MongoSwift MongoSwift
   rm -rf mongo-swift mongo-swift.tgz
 fi
-if [ ! -d CommonCrypto ]; then
-  curl -# -L https://api.github.com/repos/kylef-archive/CommonCrypto/tarball > commoncrypto.tgz
-  mkdir CommonCrypto
-  tar -xzf commoncrypto.tgz -C CommonCrypto --strip-components 1
-  rm -rf cryptoswift.tgz
-  cp -r CommonCrypto Frameworks/macos
-fi
+
+git clone https://github.com/kronenthaler/mod-pbxproj.git --branch 2.5.1
+cd mod-pbxproj
+python3 setup.py install
+rm -rf mod-pbxproj
+
 # if [ ! -d Swifter ]; then
 #   curl -# -L https://api.github.com/repos/httpswift/swifter/tarball > swifter.tgz
 #   mkdir Swifter

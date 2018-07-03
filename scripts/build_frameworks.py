@@ -204,27 +204,27 @@ for platform in platforms:
             '{}/{}/{}.framework'.format(FRAMEWORKS_DIR,
                 platform.name, framework.name)), bson_frameworks + mongoc_frameworks + mongoswift_frameworks)
 
-    call([
-        'codesign',
-        '-s',
-        '-',
-        '{}/{}/MongoSwift.framework/MongoSwift'.format(FRAMEWORKS_DIR, platform.name)])
+    # call([
+        # 'codesign',
+        # '-s',
+        # '-',
+        # '{}/{}/MongoSwift.framework/MongoSwift'.format(FRAMEWORKS_DIR, platform.name)])
     #     if call(['codesign', '-f', '--remove-signature', '{}/{}/libmongoc.framework/libmongoc'.format(FRAMEWORKS_DIR, platform.name)]) is not 0:
     #     log_error('could not remove signature from libmongoc')
     # if call(['codesign', '-f', '--remove-signature', '{}/{}/libbson.framework/libbson'.format(FRAMEWORKS_DIR, platform.name)]) is not 0:
     #     log_error('could not remove signature from libbson')
-    call([
-        'codesign',
-        '-f',
-        '-s',
-        '-',
-        '{}/{}/libmongoc.framework/libmongoc'.format(FRAMEWORKS_DIR, platform.name)])
-    call([
-        'codesign',
-        '-f',
-        '-s',
-        '-',
-        '{}/{}/libbson.framework/libbson'.format(FRAMEWORKS_DIR, platform.name)])
+    # call([
+    #     'codesign',
+    #     '-f',
+    #     '-s',
+    #     '-',
+    #     '{}/{}/libmongoc.framework/libmongoc'.format(FRAMEWORKS_DIR, platform.name)])
+    # call([
+    #     'codesign',
+    #     '-f',
+    #     '-s',
+    #     '-',
+    #     '{}/{}/libbson.framework/libbson'.format(FRAMEWORKS_DIR, platform.name)])
     # remove the artifacts
     rmtree('{}/{}'.format(FRAMEWORKS_DIR, platform.full_name))
 

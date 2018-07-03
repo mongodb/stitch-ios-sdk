@@ -1,8 +1,8 @@
 """
-Download embedded mongo SDKs and covert
-the dylibs into .frameworks.
+Framework classes that can be created
+or manipulated into frameworks.
 """
-from modules import SwiftModule
+from modules import Module, SwiftModule
 from platforms import platforms
 from util import log_error, log_warning, log_info, change_library_identification_name, change_library_rpath
 
@@ -12,10 +12,10 @@ import sys
 import tarfile
 import urllib2
 
+from glob import glob
 from multiprocessing import Process, Queue
 from shutil import copy2, copytree
 from subprocess import Popen, PIPE, call
-
 
 class Framework(object):
     """A Framework that encapsulates our embedded SDKs.
@@ -35,6 +35,10 @@ class Framework(object):
         self.is_created = False
 
     def create(self, platform, variant, output_dir):
+        if self.is_created:
+            log_error('framework {} has already been created'.format(self.name))
+            return self
+
         log_info('creating framework: {}'.format(self.name))
         self.framework_path = '{}/{}/{}/{}.framework'.format(
             output_dir, platform.full_name, variant.name, self.name)
@@ -89,6 +93,15 @@ class Framework(object):
             self.abs_path,
             'Frameworks/{}/{}.framework'.format(
                 platform.name, self.name))
+        
+        created_framework = Framework(self.name, 'Frameworks/{}/{}.framework/{}'.format(
+                platform.name, self.name, self.name), False)
+        
+        created_framework.framework_path = 'Frameworks/{}/{}.framework'.format(
+                platform.name, self.name)
+        created_framework.is_created = True
+        created_framework.abs_path = os.path.abspath(created_framework.framework_path)
+        return created_framework
 
     def __fix_rpaths(self):
         """Change the rpaths of a given dylib.
@@ -155,10 +168,33 @@ class FrameworkModule(Framework):
         self.__add_module_map()
         
         # create and add info plist to the appropriate directory
-        self.__add_info_plist()
+        self.add_info_plist()
 
         self.is_created = True
         return self
+    
+    def add_info_plist(self):
+        """Create and add and Info plist to the framework path"""
+
+        log_info('adding Info.plist')
+
+        open('{}/Info.plist'.format(self.framework_path), 'w').write(
+            self.__info_plist)
+
+    def lipo(self, platform, *frameworks):
+        merged = super(FrameworkModule, self).lipo(platform, *frameworks)
+        framework_module = FrameworkModule(Module(
+            merged.name,
+            merged.library_path,
+            glob('{}/Headers/*.h'.format(merged.framework_path)),
+            self.module.umbrella_header,
+            self.module.submodules  
+        ))
+        framework_module.framework_path = 'Frameworks/{}/{}.framework'.format(
+                platform.name, self.name)
+        framework_module.is_created = True
+        framework_module.abs_path = os.path.abspath(merged.framework_path)
+        return framework_module
 
     def __swift_module(self):
         pass
@@ -264,14 +300,6 @@ class FrameworkModule(Framework):
             self.module.name,
             identifier).strip()
 
-    def __add_info_plist(self):
-        """Create and add and Info plist to the framework path"""
-
-        log_info('adding Info.plist')
-
-        open('{}/Info.plist'.format(self.framework_path), 'w').write(
-            self.__info_plist)
-
 class SwiftFrameworkModule(FrameworkModule):
     def __init__(self, swift_module):
         super(SwiftFrameworkModule, self).__init__(swift_module)
@@ -303,7 +331,7 @@ class SwiftFrameworkModule(FrameworkModule):
             framework.swift_modules_path,
             self.swift_modules_path), frameworks + (self,))
 
-        super(SwiftFrameworkModule, self).lipo(platform, *frameworks)
+        return super(SwiftFrameworkModule, self).lipo(platform, *frameworks)
 
     def get_module_map(self):
         """.modulemap text for this Module"""

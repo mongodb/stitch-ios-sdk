@@ -10,11 +10,12 @@ echo "...testing $1"
 
 xcodebuild \
     -project "`pwd`/$xcodeproj" \
-    -destination "id=8F00AD9B-399A-4D57-9A20-B41160B99D1D" \
+    -destination "id=$sim_uuid" \
     -derivedDataPath "localDerivedData" \
     -scheme $scheme \
     -json \
     FRAMEWORK_SEARCH_PATHS="`pwd`/Frameworks/ios `pwd`/localDerivedData" \
+    LD_RUNPATH_SEARCH_PATHS="`pwd`/Frameworks/ios @executable_path/Frameworks @loader_path/Frameworks" \
     ENABLE_BITCODE=NO \
     IPHONEOS_DEPLOYMENT_TARGET="10.2" \
     GCC_PREPROCESSOR_DEFINITIONS="${*:5}" \

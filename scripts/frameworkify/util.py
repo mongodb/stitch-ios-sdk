@@ -1,7 +1,9 @@
 from subprocess import call
 
 _VERBOSE = False
+
 def set_verbosity(verbosity):
+    global _VERBOSE
     _VERBOSE = verbosity
 
 def log_error(msg):

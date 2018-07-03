@@ -1,7 +1,7 @@
 import StitchCore
 import StitchCoreSDK
 import XCTest
-import StitchIOSCoreTestUtils
+import StitchDarwinCoreTestUtils
 
 private final class TestThrowingServiceClientFactory: ThrowingServiceClientFactory {
     typealias ClientType = String
