@@ -3,7 +3,6 @@ from frameworks import SwiftFrameworkModule
 from modules import Module
 
 from platforms import platforms
-import argparse
 from util import log_error, set_verbosity, change_library_rpath
 from glob import glob
 from shutil import copytree, rmtree
@@ -19,7 +18,9 @@ class FrameworkBuilder:
         import_paths,
         excludes = [],
         enable_testing = False,
-        xctest = False):
+        xctest = False,
+        xctest_bundle = False,
+        xcode_path='/Applications/Xcode.app'):
         global FRAMEWORKS_DIR
         FRAMEWORKS_DIR = 'Frameworks'
         global OUTPUT
@@ -66,11 +67,11 @@ class FrameworkBuilder:
                 for header in headers:
                     flags += ['-import-objc-header', header]
             if enable_testing:
-                flags += ['-enable-testing']
+                flags += ['-enable-testing', '-emit-loaded-module-trace', '-dump-usr', '-parseable-output']
             
             if xctest:
                 flags += [
-                    '-F/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks',
+                    '-F{}/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks'.format(xcode_path),
                     '-Xlinker',
                     '-rpath',
                     '-Xlinker',
@@ -78,9 +79,15 @@ class FrameworkBuilder:
                     '-Xlinker',
                     '-rpath',
                     '-Xlinker',
-                    '/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks'
+                    '{}/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks'.format(xcode_path)
                 ]
 
+            if xctest_bundle or enable_testing:
+                flags += [
+                    '-profile-generate',
+                    '-profile-coverage-mapping'
+                ]
+            
             SwiftFrameworkModule(
                 SwiftSource(
                     OUTPUT, 
@@ -92,9 +99,11 @@ class FrameworkBuilder:
                         target_version
                     )).create('Frameworks')
 
+            if os.path.exists('Frameworks/{}/{}.{}'.format(platform.name, OUTPUT, 'framework' if xctest_bundle is False else 'xctest')):
+                rmtree('Frameworks/{}/{}.{}'.format(platform.name, OUTPUT, 'framework' if xctest_bundle is False else 'xctest'))
             copytree(
                 'Frameworks/{}/{}/{}.framework'.format(platform.full_name, variant.name, OUTPUT), 
-                'Frameworks/{}/{}.{}'.format(platform.name, OUTPUT, 'framework' if xctest is False else 'xctest'))
+                'Frameworks/{}/{}.{}'.format(platform.name, OUTPUT, 'framework' if xctest_bundle is False else 'xctest'))
             rmtree('.tmp')
             rmtree('Frameworks/{}'.format(platform.full_name))
         except Exception as e:

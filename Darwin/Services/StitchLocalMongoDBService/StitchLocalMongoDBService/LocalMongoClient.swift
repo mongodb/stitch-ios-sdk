@@ -3,7 +3,7 @@ import StitchCoreSDK
 import StitchCoreLocalMongoDBService
 import os
 import StitchCore
-#if canImport(WatchKit)
+#if os(watchOS)
 import WatchKit
 #endif
 /// Commands associated with reporting battery level

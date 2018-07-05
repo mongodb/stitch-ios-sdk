@@ -9,10 +9,10 @@ from glob import glob
 from shutil import copytree, rmtree
 
 parser = argparse.ArgumentParser()
-parser.add_argument('source_path',
+parser.add_argument('source_paths',
                     type=str,
                     help="swift source files",
-                    nargs='?',
+                    nargs='+',
                     metavar='N')
 parser.add_argument('-F',
                     '--framework-search-paths',
@@ -75,14 +75,18 @@ if __name__ == '__main__':
             tup[1]), tuples) for t in sublist)
 
         framework_search_paths = args.framework_search_paths
-        source_path = args.source_path
+        source_paths = args.source_paths
         import fnmatch
         import os
 
-        matches = []
-        for root, dirnames, filenames in os.walk(source_path):
-            for filename in fnmatch.filter(filenames, '*.swift'):
-                matches.append(os.path.join(root, filename))
+        source_matches = []
+        headers = []
+        for source_path in source_paths:
+            for root, dirnames, filenames in os.walk(source_path):
+                for filename in fnmatch.filter(filenames, '*.swift'):
+                    source_matches.append(os.path.join(root, filename))
+                for filename in fnmatch.filter(filenames, '*.h'):
+                    headers.append(os.path.join(root, filename))
 
         xctest = args.xctest
         platform = variants_to_platforms[args.sdk]
@@ -90,13 +94,16 @@ if __name__ == '__main__':
 
         excludes = args.excludes
         for exclusion in excludes:
-            if exclusion in matches:
-                matches.remove(exclusion)
+            if exclusion in source_matches:
+                source_matches.remove(exclusion)
 
         flags = []
         if args.import_paths is not None:
             flags += ['-I' + ' -I'.join(args.import_paths)]
 
+        if len(headers) > 0:
+            for header in headers:
+                flags += ['-import-objc-header', header]
         if args.enable_testing:
             flags += ['-enable-testing']
         
@@ -116,7 +123,7 @@ if __name__ == '__main__':
         SwiftFrameworkModule(
             SwiftSource(
                 OUTPUT, 
-                matches, 
+                source_matches, 
                 framework_search_paths,
                 flags = flags).create_module(
                     platform, 

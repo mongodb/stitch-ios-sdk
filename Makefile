@@ -31,10 +31,9 @@ clean:
 	$(MAKE) -C Core/Services/StitchCoreRemoteMongoDBService clean
 	$(MAKE) -C Core/Services/StitchCoreTwilioService clean
 prepare:
-	sh scripts/download_mongoswift.sh
+	sh scripts/download_dependencies.sh
 	python scripts/build_frameworks.py
 	python scripts/generate_xcconfigs.py
-	/usr/local/opt/python3/bin/python3 scripts/add_copy_phase.py
 	$(MAKE) -C MockUtils prepare
 	$(MAKE) -C Core/StitchCoreSDK prepare
 	$(MAKE) -C Core/StitchCoreAdminClient prepare
@@ -46,6 +45,7 @@ prepare:
 	$(MAKE) -C Core/Services/StitchCoreLocalMongoDBService prepare
 	$(MAKE) -C Core/Services/StitchCoreRemoteMongoDBService prepare
 	$(MAKE) -C Core/Services/StitchCoreTwilioService prepare
+	# /usr/local/opt/python3/bin/python3 scripts/add_copy_phase.py
 lint:
 	$(MAKE) -C MockUtils lint
 	$(MAKE) -C Core/StitchCoreSDK lint

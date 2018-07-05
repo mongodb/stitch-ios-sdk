@@ -1,9 +1,9 @@
 import MongoSwift
 import StitchCoreSDK
 import Foundation
-#if canImport(UIKit) && !canImport(WatchKit)
+#if os(iOS) || os(tvOS)
 import UIKit
-#elseif canImport(WatchKit)
+#elseif os(watchOS)
 import WatchKit
 #endif
 
@@ -206,9 +206,9 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
         info[DeviceField.appID.rawValue] = self.appInfo.localAppName
         info[DeviceField.appVersion.rawValue] = self.appInfo.localAppVersion
 
-        #if canImport(UIKit) && !canImport(WatchKit)
+        #if os(iOS) || os(tvOS)
         info[DeviceField.platform.rawValue] = UIDevice.current.systemName
-        #elseif canImport(WatchKit)
+        #elseif os(watchOS)
         info[DeviceField.platform.rawValue] = WKInterfaceDevice.current().systemName
         #else
         info[DeviceField.platform.rawValue] = ProcessInfo.processInfo.processName

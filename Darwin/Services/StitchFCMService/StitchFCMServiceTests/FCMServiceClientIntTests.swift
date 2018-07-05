@@ -3,15 +3,15 @@ import XCTest
 import MongoSwift
 import StitchCore
 import StitchCoreAdminClient
-import StitchIOSCoreTestUtils
+import StitchDarwinCoreTestUtils
 import StitchFCMService
 
 class FCMServiceClientIntTests: BaseStitchIntTestCocoaTouch {
     override func setUp() {
         super.setUp()
         
-        guard !TEST_FCM_SENDER_ID.isEmpty,
-            !TEST_FCM_API_KEY.isEmpty else {
+        guard !(testFCMSenderID?.isEmpty ?? true),
+            !(testFCMAPIKey?.isEmpty ?? true) else {
                 XCTFail("No FCM_SENDER_ID or FCM_API_KEY in preprocessor macros; failing test. See README for more details.")
                 return
         }
@@ -24,7 +24,7 @@ class FCMServiceClientIntTests: BaseStitchIntTestCocoaTouch {
             toApp: app.1,
             withType: "gcm",
             withName: "gcm",
-            withConfig: ServiceConfigs.fcm(name: "gcm", senderID: TEST_FCM_SENDER_ID, apiKey: TEST_FCM_API_KEY)
+            withConfig: ServiceConfigs.fcm(name: "gcm", senderID: testFCMSenderID!, apiKey: testFCMAPIKey!)
         )
         _ = try self.addRule(toService: svc.1,
                              withConfig: RuleCreator.actions(name: "rule",

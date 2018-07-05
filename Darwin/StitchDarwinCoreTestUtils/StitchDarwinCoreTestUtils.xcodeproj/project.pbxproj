@@ -34,7 +34,7 @@
 		494C0A7720EBCD4300773B49 /* BaseStitchIntTestCocoaTouch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseStitchIntTestCocoaTouch.swift; sourceTree = "<group>"; };
 		494C0A7820EBCD4300773B49 /* StitchCoreTestUtils_iOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StitchCoreTestUtils_iOS.h; sourceTree = "<group>"; };
 		494C0A7920EBCD4300773B49 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		494C0A7E20EBCD4A00773B49 /* StitchIOSCoreTestUtilsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchIOSCoreTestUtilsTests.swift; sourceTree = "<group>"; };
+		494C0A7E20EBCD4A00773B49 /* StitchDarwinCoreTestUtilsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchDarwinCoreTestUtilsTests.swift; sourceTree = "<group>"; };
 		494C0A7F20EBCD4A00773B49 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F466EE2C20B5203000D6E4E8 /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F466EE3020B5203800D6E4E8 /* StitchCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -89,7 +89,7 @@
 		494C0A7D20EBCD4A00773B49 /* StitchDarwinCoreTestUtilsTests */ = {
 			isa = PBXGroup;
 			children = (
-				494C0A7E20EBCD4A00773B49 /* StitchIOSCoreTestUtilsTests.swift */,
+				494C0A7E20EBCD4A00773B49 /* StitchDarwinCoreTestUtilsTests.swift */,
 				494C0A7F20EBCD4A00773B49 /* Info.plist */,
 			);
 			path = StitchDarwinCoreTestUtilsTests;
@@ -477,7 +477,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchIOSCoreTestUtilsTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchDarwinCoreTestUtilsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -499,7 +499,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchIOSCoreTestUtilsTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchDarwinCoreTestUtilsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

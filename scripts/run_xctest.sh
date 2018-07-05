@@ -8,17 +8,26 @@ do_not_test=$3
 sim_uuid=$4
 echo "...testing $1"
 
+# security create-keychain -p admin MyKeychain.keychain
+# security import MyPrivateKey.p12 -t agg -k MyKeychain.keychain -P admin -A
+
+# security list-keychains -s "MyKeyhain.keychain"
+# security default-keychain -s "MyKeychain.keychain"
+# security unlock-keychain -p "admin" "MyKeychain.keychain"
+
+codesign --force --sign - --verbose Frameworks/ios/MongoSwift.framework/MongoSwift
 xcodebuild \
     -project "`pwd`/$xcodeproj" \
     -destination "id=$sim_uuid" \
     -derivedDataPath "localDerivedData" \
     -scheme $scheme \
-    -json \
+    -verbose \
     FRAMEWORK_SEARCH_PATHS="`pwd`/Frameworks/ios `pwd`/localDerivedData" \
-    LD_RUNPATH_SEARCH_PATHS="`pwd`/Frameworks/ios @executable_path/Frameworks @loader_path/Frameworks" \
+    OTHER_LDFLAGS="-rpath `pwd`/Frameworks/ios" \
     ENABLE_BITCODE=NO \
     IPHONEOS_DEPLOYMENT_TARGET="10.2" \
     GCC_PREPROCESSOR_DEFINITIONS="${*:5}" \
+    RUN_CLANG_STATIC_ANALYZER=NO \
     `[[ $do_not_test != YES ]] && echo "-enableCodeCoverage YES" || echo ""` \
     `[[ $do_not_test != YES ]] && echo "test" || echo ""`
 

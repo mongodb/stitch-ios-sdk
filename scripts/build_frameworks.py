@@ -66,6 +66,10 @@ def fix_mongoc_symlinks(variant):
         old_rpath='@rpath/libbson-1.0.1.dylib',
         new_rpath='@rpath/libbson.framework/libbson',
         library_path='{}/lib/libmongoc-1.0.dylib'.format(variant.name))
+    change_library_rpath(
+        old_rpath='@rpath/libbson-1.0.0.dylib',
+        new_rpath='@rpath/libbson.framework/libbson',
+        library_path='{}/lib/libmongoc-1.0.dylib'.format(variant.name))
 
 def download(variant, min_version):
     """Download the embedded sdk for this variant
@@ -137,40 +141,25 @@ platform_to_min_version = {
 
 # for each platform
 for platform in platforms:
-    if os.path.exists('{}/{}'.format(FRAMEWORKS_DIR, platform.name)):
-        log_warning(
-            'not building {}: already exists'.format(platform.name))
-        continue
+    
     # build the frameworks for each variant
     bson_frameworks = []
     mongoc_frameworks = []
     mongoswift_frameworks = []
 
     min_version = platform_to_min_version[platform]
-
+    if os.path.exists('{}/{}/libbson.framework'.format(FRAMEWORKS_DIR, platform.name)):
+            log_warning(
+                'not building libbson for {}: already exists'.format(platform.name))
+            continue
     for variant in platform.variants:
-
         if os.path.exists(variant.name) is False:
             download(variant, min_version)
             fix_mongoc_symlinks(variant)
         else:
             log_warning(
                 'not downloading {}: already exists'.format(variant.name))
-
-        if call([
-            'codesign', 
-            '-f', 
-            '--remove-signature',
-            '{}/lib/libbson-1.0.dylib'.format(variant.name)]) is not 0:
-            log_error('could not remove signature from libbson')
-        if call([
-            'codesign', 
-            '-f', 
-            '--remove-signature',
-            '{}/lib/libmongoc-1.0.dylib'.format(variant.name)]) is not 0:
-            log_error('could not remove signature from libmongoc')
-        # if call(['codesign', '-f', '--remove-signature', '{}/{}/libbson.framework/libbson'.format(FRAMEWORKS_DIR, platform.name)]) is not 0:
-        #     log_error('could not remove signature from libbson')
+        
         libbson = Module(
             name='libbson',
             library_path='{}/lib/libbson-1.0.dylib'.format(variant.name),
@@ -204,29 +193,7 @@ for platform in platforms:
             '{}/{}/{}.framework'.format(FRAMEWORKS_DIR,
                 platform.name, framework.name)), bson_frameworks + mongoc_frameworks + mongoswift_frameworks)
 
-    # call([
-        # 'codesign',
-        # '-s',
-        # '-',
-        # '{}/{}/MongoSwift.framework/MongoSwift'.format(FRAMEWORKS_DIR, platform.name)])
-    #     if call(['codesign', '-f', '--remove-signature', '{}/{}/libmongoc.framework/libmongoc'.format(FRAMEWORKS_DIR, platform.name)]) is not 0:
-    #     log_error('could not remove signature from libmongoc')
-    # if call(['codesign', '-f', '--remove-signature', '{}/{}/libbson.framework/libbson'.format(FRAMEWORKS_DIR, platform.name)]) is not 0:
-    #     log_error('could not remove signature from libbson')
-    # call([
-    #     'codesign',
-    #     '-f',
-    #     '-s',
-    #     '-',
-    #     '{}/{}/libmongoc.framework/libmongoc'.format(FRAMEWORKS_DIR, platform.name)])
-    # call([
-    #     'codesign',
-    #     '-f',
-    #     '-s',
-    #     '-',
-    #     '{}/{}/libbson.framework/libbson'.format(FRAMEWORKS_DIR, platform.name)])
     # remove the artifacts
     rmtree('{}/{}'.format(FRAMEWORKS_DIR, platform.full_name))
 
 rmtree('.tmp', ignore_errors=True)
-# rmtree('MongoSwift', ignore_errors=True)

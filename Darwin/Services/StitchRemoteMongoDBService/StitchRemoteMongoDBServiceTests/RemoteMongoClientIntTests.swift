@@ -2,7 +2,7 @@ import XCTest
 import MongoSwift
 import StitchCoreSDK
 import StitchCoreAdminClient
-import StitchIOSCoreTestUtils
+import StitchDarwinCoreTestUtils
 import StitchCoreRemoteMongoDBService
 @testable import StitchRemoteMongoDBService
 
@@ -12,7 +12,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
     
     private lazy var pList: [String: Any]? = fetchPlist(type(of: self))
     
-    private lazy var mongodbUri: String? = pList?[mongodbUriProp] as? String
+    private lazy var mongodbUri: String = pList?[mongodbUriProp] as? String ?? "mongodb://localhost:26000"
 
     private let dbName = ObjectId().description
     private let collName = ObjectId().description
@@ -20,11 +20,11 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
     private var mongoClient: RemoteMongoClient!
     
     override func setUp() {
-        guard mongodbUri != nil && mongodbUri != "<your-mongodb-uri>" else {
-            XCTFail("No MongoDB URI in properties; failing test. See README for more details.")
-            return
-        }
-        
+//        guard mongodbUri != nil && mongodbUri != "<your-mongodb-uri>" else {
+//            XCTFail("No MongoDB URI in properties; failing test. See README for more details.")
+//            return
+//        }
+
         super.setUp()
         
         try! prepareService()
@@ -39,7 +39,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             withType: "mongodb",
             withName: "mongodb1",
             withConfig: ServiceConfigs.mongodb(
-                name: "mongodb1", uri: mongodbUri!
+                name: "mongodb1", uri: mongodbUri
             )
         )
         

@@ -4,7 +4,9 @@ from util import log_error, log_info
 
 import os
 from shutil import copy2, copytree, rmtree
-from subprocess import call
+from subprocess import call, Popen, PIPE
+import re
+import json
 
 class SwiftSource:
     def __init__(self, name, source_paths, frameworks_search_paths = None, flags = []):
@@ -44,8 +46,23 @@ class SwiftSource:
             '-target',
             '{}-apple-{}{}'.format(variant.arch, platform.name, min_platform_version)]
         cmd += ['-emit-module', '-emit-objc-header', '-emit-library']
-        print ' '.join(cmd)
-        if call(cmd) is not 0:
-            return log_error('could not build {} from source').format(self.name)
 
+        print ' '.join(cmd)
+        
+        output = Popen(cmd, stderr=PIPE).stderr.read()
+        
+        output = re.sub(r'^\d+$', ',', output, flags=re.MULTILINE)
+        
+        if os.path.exists('OutputFileMaps') is False:
+            os.mkdir('OutputFileMaps')
+
+        if output is not None:
+            if len(output.split('\n', 1)) > 1:
+                output = json.loads('[{}]'.format(output.split('\n', 1)[1]))
+                open('OutputFileMaps/{}-OutputFileMap.json'.format(self.name), 'w').write(
+                    json.dumps(map(
+                        lambda inner: inner['inputs'][0], 
+                        filter(lambda obj: obj['name'] == 'compile' and 'inputs' in obj, output)))
+                )
+        
         return module_dir

@@ -82,6 +82,7 @@ class LlvmCoverageClass():
             digest = md5()
             digest.update(self.raw_source.encode('utf-8'))
             our_hex = digest.digest()
+            print(self.project_source_files)
             for file in self.project_source_files:
                 if file is None or file is '':
                     continue
@@ -223,8 +224,13 @@ def map_coverage_files_to_coverage_payloads(file: bytes) -> [Dict[str, any]]:
     filepath = find_file(
         '{}-OutputFileMap.json'.format(xcproject_name), 
         os.fsencode('{}/Build/Intermediates.noindex'.format(derived_data_dir)))
+    if filepath is None:
+        filepath = find_file(
+            '{}-OutputFileMap.json'.format(xcproject_name), 
+            os.fsencode('OutputFileMaps'))
+    print ("filepath for {} is: {}".format(file, filepath))
     source_paths = list(map(
-        lambda filename: filename,
+        lambda json: json,
         json.loads(open(filepath).read())))
     log_info('parsing llvm coverage report for {}'.format(xcproject_name))
     return LlvmCoverageReport(

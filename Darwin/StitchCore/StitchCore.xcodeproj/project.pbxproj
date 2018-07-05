@@ -18,8 +18,6 @@
 		113AA79520D1BF1A00CF4E70 /* StitchPushClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113AA79420D1BF1A00CF4E70 /* StitchPushClient.swift */; };
 		113AA79720D1BF2200CF4E70 /* StitchPushClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113AA79620D1BF2200CF4E70 /* StitchPushClientImpl.swift */; };
 		113AA79920D1BF3200CF4E70 /* StitchPushImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113AA79820D1BF3200CF4E70 /* StitchPushImpl.swift */; };
-		11534406B599F1CCCC817DE7 /* libmongoc.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D86341DC84B1CFFDEDA074C2 /* libmongoc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		11584A098B2A22DC9DF811FF /* libbson.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9484B94B8118635F8C139 /* libbson.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		116168B6208A6B1000967A7E /* StitchAppClientIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116168B5208A6B1000967A7E /* StitchAppClientIntegrationTests.swift */; };
 		116168B9208A6B3200967A7E /* TestHarness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116168B8208A6B3200967A7E /* TestHarness.swift */; };
 		1163C6F120D045540038CD11 /* StitchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1163C6F020D045540038CD11 /* StitchResult.swift */; };
@@ -32,10 +30,6 @@
 		11C587EA20581C8000B34DD1 /* Stitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C587E920581C8000B34DD1 /* Stitch.swift */; };
 		11C587EF2058445200B34DD1 /* StitchUserFactoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C587EE2058445200B34DD1 /* StitchUserFactoryImpl.swift */; };
 		11CAF8CE205995C0003AF24D /* StitchCoreExports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CAF8CD205995C0003AF24D /* StitchCoreExports.swift */; };
-		19D74894AFBCA9576BE97389 /* libmongoc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D86341DC84B1CFFDEDA074C2 /* libmongoc.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		33DB4344B96FC751F145301B /* MongoSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EAFA4F548BC4F37C56454AA4 /* MongoSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		3A014AA0A6DF2B27D55D6E88 /* MongoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAFA4F548BC4F37C56454AA4 /* MongoSwift.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		4902C67D205006C800E53674 /* StitchCore_iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 4902C67B205006C800E53674 /* StitchCore_iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4902C68D2050078F00E53674 /* StitchAppClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C68C2050078F00E53674 /* StitchAppClient.swift */; };
 		4902C6902050083C00E53674 /* StitchAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C68F2050083C00E53674 /* StitchAuth.swift */; };
 		4902C694205009C400E53674 /* StitchUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C693205009C400E53674 /* StitchUser.swift */; };
@@ -45,24 +39,10 @@
 		4902C6C9205174A100E53674 /* NamedServiceClientFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C6C8205174A100E53674 /* NamedServiceClientFactory.swift */; };
 		49368D6D2052F350006153D3 /* StitchAppClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49368D6C2052F350006153D3 /* StitchAppClientImpl.swift */; };
 		49368D702052F35B006153D3 /* StitchAuthImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49368D6F2052F35B006153D3 /* StitchAuthImpl.swift */; };
-		494C0A8320EBCEA500773B49 /* libbson.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494C0A8220EBCEA500773B49 /* libbson.framework */; };
-		494C0A8520EBCEA500773B49 /* libmongoc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494C0A8420EBCEA500773B49 /* libmongoc.framework */; };
-		494C0A8720EBCEA500773B49 /* MongoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494C0A8620EBCEA500773B49 /* MongoSwift.framework */; };
 		494C0A8920EBCEC400773B49 /* StitchDarwinCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494C0A8820EBCEC400773B49 /* StitchDarwinCoreTestUtils.framework */; };
+		494C21D720ED804E00A26734 /* StitchCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494C21D620ED804E00A26734 /* StitchCoreSDK.framework */; };
 		496CAA8920A5E3A6001F0D3C /* ThrowingServiceClientFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496CAA8820A5E3A6001F0D3C /* ThrowingServiceClientFactory.swift */; };
 		496CAAEF20A60632001F0D3C /* ThrowingServiceClientFactoryUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496CAAEE20A60632001F0D3C /* ThrowingServiceClientFactoryUnitTests.swift */; };
-		497A49FCB5DD26EE377739FB /* MongoSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EAFA4F548BC4F37C56454AA4 /* MongoSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		4C0C41D9B9775937B435D291 /* MongoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAFA4F548BC4F37C56454AA4 /* MongoSwift.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		56234F2091E277AC5179F347 /* libbson.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9484B94B8118635F8C139 /* libbson.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		62A9452CA4E384B409B02106 /* libbson.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9484B94B8118635F8C139 /* libbson.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		6BC8454398B4BA543686DFFD /* MongoSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EAFA4F548BC4F37C56454AA4 /* MongoSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		7AE6478F81C9250794180822 /* MongoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAFA4F548BC4F37C56454AA4 /* MongoSwift.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		7B8C41F49A2FB86F8941D2CC /* libmongoc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D86341DC84B1CFFDEDA074C2 /* libmongoc.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		86334E8CA975C58C1E1F69A2 /* libmongoc.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D86341DC84B1CFFDEDA074C2 /* libmongoc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		91CD417FA6D1F36F946AF805 /* libbson.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9484B94B8118635F8C139 /* libbson.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		C5AF484EA72979ECB885BE84 /* libbson.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9484B94B8118635F8C139 /* libbson.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		D21A4B67A82E18EFF60C07BC /* libmongoc.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D86341DC84B1CFFDEDA074C2 /* libmongoc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		DF5A4894A42FE6BDA90736AA /* libbson.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9484B94B8118635F8C139 /* libbson.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F40E66D620DD6D8800105FE6 /* ImmutableStitchAppClientConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40E66D520DD6D8800105FE6 /* ImmutableStitchAppClientConfiguration.swift */; };
 		F40E66D720DD6D8800105FE6 /* ImmutableStitchAppClientConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40E66D520DD6D8800105FE6 /* ImmutableStitchAppClientConfiguration.swift */; };
 		F466EDFA20B5169000D6E4E8 /* StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F466EDF920B5169000D6E4E8 /* StitchCoreAdminClient.framework */; };
@@ -96,7 +76,6 @@
 		F4B2759320DAD304000CB126 /* ServiceClientFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C6CE2051753000E53674 /* ServiceClientFactory.swift */; };
 		F4D3E4DD20B5C28D00C7479A /* JWT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D3E4DC20B5C28D00C7479A /* JWT.framework */; };
 		F4DA27BB20D3445B00852314 /* UserPasswordAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DA27BA20D3445B00852314 /* UserPasswordAuthProviderClient.swift */; };
-		FB094DFEA752D8B529A0B22E /* libmongoc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D86341DC84B1CFFDEDA074C2 /* libmongoc.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,7 +83,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 4902C66F205006C800E53674 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 4902C677205006C800E53674 /* StitchCore */;
+			remoteGlobalIDString = 4902C677205006C800E53674;
 			remoteInfo = "StitchCore-iOS";
 		};
 /* End PBXContainerItemProxy section */
@@ -116,22 +95,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				11584A098B2A22DC9DF811FF /* libbson.framework in Embed Frameworks */,
-				11534406B599F1CCCC817DE7 /* libmongoc.framework in Embed Frameworks */,
-				497A49FCB5DD26EE377739FB /* MongoSwift.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		77A547628D368F7C83D6F781 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				DF5A4894A42FE6BDA90736AA /* libbson.framework in Embed Frameworks */,
-				D21A4B67A82E18EFF60C07BC /* libmongoc.framework in Embed Frameworks */,
-				6BC8454398B4BA543686DFFD /* MongoSwift.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -142,9 +105,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				62A9452CA4E384B409B02106 /* libbson.framework in Embed Frameworks */,
-				86334E8CA975C58C1E1F69A2 /* libmongoc.framework in Embed Frameworks */,
-				33DB4344B96FC751F145301B /* MongoSwift.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -157,7 +117,7 @@
 		11297B1D205301C9001D0711 /* AuthProviderClientFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthProviderClientFactory.swift; sourceTree = "<group>"; };
 		11297B1F205301D5001D0711 /* NamedAuthProviderClientFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamedAuthProviderClientFactory.swift; sourceTree = "<group>"; };
 		112F050E209149B500DDB147 /* StitchIntegrationTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchIntegrationTestCase.swift; sourceTree = "<group>"; };
-		1136564B20CF5B5800FB68BE /* StitchIOSCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchIOSCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1136564B20CF5B5800FB68BE /* StitchDarwinCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchDarwinCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		113AA79020D1BF0300CF4E70 /* StitchPush.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchPush.swift; sourceTree = "<group>"; };
 		113AA79220D1BF0F00CF4E70 /* NamedPushClientFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamedPushClientFactory.swift; sourceTree = "<group>"; };
 		113AA79420D1BF1A00CF4E70 /* StitchPushClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchPushClient.swift; sourceTree = "<group>"; };
@@ -177,10 +137,7 @@
 		11C587E920581C8000B34DD1 /* Stitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stitch.swift; sourceTree = "<group>"; };
 		11C587EE2058445200B34DD1 /* StitchUserFactoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchUserFactoryImpl.swift; sourceTree = "<group>"; };
 		11CAF8CD205995C0003AF24D /* StitchCoreExports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchCoreExports.swift; sourceTree = "<group>"; };
-		11F5D37520912EF2005FED94 /* module.map */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.map; sourceTree = "<group>"; };
-		11F5D37720913016005FED94 /* CommonCrypto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommonCrypto.h; sourceTree = "<group>"; };
 		4902C678205006C800E53674 /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4902C67B205006C800E53674 /* StitchCore_iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StitchCore_iOS.h; sourceTree = "<group>"; };
 		4902C67C205006C800E53674 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4902C68C2050078F00E53674 /* StitchAppClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAppClient.swift; sourceTree = "<group>"; };
 		4902C68F2050083C00E53674 /* StitchAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAuth.swift; sourceTree = "<group>"; };
@@ -196,11 +153,9 @@
 		494C0A8420EBCEA500773B49 /* libmongoc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libmongoc.framework; path = ../../Frameworks/ios/libmongoc.framework; sourceTree = "<group>"; };
 		494C0A8620EBCEA500773B49 /* MongoSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MongoSwift.framework; path = ../../Frameworks/ios/MongoSwift.framework; sourceTree = "<group>"; };
 		494C0A8820EBCEC400773B49 /* StitchDarwinCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchDarwinCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		494C21D620ED804E00A26734 /* StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		496CAA8820A5E3A6001F0D3C /* ThrowingServiceClientFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThrowingServiceClientFactory.swift; sourceTree = "<group>"; };
 		496CAAEE20A60632001F0D3C /* ThrowingServiceClientFactoryUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThrowingServiceClientFactoryUnitTests.swift; sourceTree = "<group>"; };
-		93D9484B94B8118635F8C139 /* libbson.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libbson.framework; path = ../../Frameworks/ios/libbson.framework; sourceTree = SOURCE_ROOT; };
-		D86341DC84B1CFFDEDA074C2 /* libmongoc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libmongoc.framework; path = ../../Frameworks/ios/libmongoc.framework; sourceTree = SOURCE_ROOT; };
-		EAFA4F548BC4F37C56454AA4 /* MongoSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MongoSwift.framework; path = ../../Frameworks/ios/MongoSwift.framework; sourceTree = SOURCE_ROOT; };
 		F40E66D520DD6D8800105FE6 /* ImmutableStitchAppClientConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImmutableStitchAppClientConfiguration.swift; sourceTree = "<group>"; };
 		F466EDF920B5169000D6E4E8 /* StitchCoreAdminClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAdminClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F466EDFB20B516B800D6E4E8 /* StitchCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -220,14 +175,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				494C21D720ED804E00A26734 /* StitchCoreSDK.framework in Frameworks */,
 				494C0A8920EBCEC400773B49 /* StitchDarwinCoreTestUtils.framework in Frameworks */,
 				1136564D20CF5CA100FB68BE /* StitchCore.framework in Frameworks */,
 				F466EDFC20B516B800D6E4E8 /* StitchCoreTestUtils.framework in Frameworks */,
 				F466EDFA20B5169000D6E4E8 /* StitchCoreAdminClient.framework in Frameworks */,
 				F4D3E4DD20B5C28D00C7479A /* JWT.framework in Frameworks */,
-				C5AF484EA72979ECB885BE84 /* libbson.framework in Frameworks */,
-				7B8C41F49A2FB86F8941D2CC /* libmongoc.framework in Frameworks */,
-				4C0C41D9B9775937B435D291 /* MongoSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,13 +188,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				494C0A8320EBCEA500773B49 /* libbson.framework in Frameworks */,
-				494C0A8520EBCEA500773B49 /* libmongoc.framework in Frameworks */,
-				494C0A8720EBCEA500773B49 /* MongoSwift.framework in Frameworks */,
 				1123018E20CF333200DE9A72 /* StitchCoreSDK.framework in Frameworks */,
-				91CD417FA6D1F36F946AF805 /* libbson.framework in Frameworks */,
-				FB094DFEA752D8B529A0B22E /* libmongoc.framework in Frameworks */,
-				7AE6478F81C9250794180822 /* MongoSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,9 +197,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4B2757920DAD13A000CB126 /* StitchCoreSDK.framework in Frameworks */,
-				56234F2091E277AC5179F347 /* libbson.framework in Frameworks */,
-				19D74894AFBCA9576BE97389 /* libmongoc.framework in Frameworks */,
-				3A014AA0A6DF2B27D55D6E88 /* MongoSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,7 +253,6 @@
 		116168B7208A6B2600967A7E /* TestUtil */ = {
 			isa = PBXGroup;
 			children = (
-				11F5D37620912F70005FED94 /* CommonCrypto */,
 				116168B8208A6B3200967A7E /* TestHarness.swift */,
 				112F050E209149B500DDB147 /* StitchIntegrationTestCase.swift */,
 			);
@@ -387,15 +330,6 @@
 			path = UserAPIKey;
 			sourceTree = "<group>";
 		};
-		11F5D37620912F70005FED94 /* CommonCrypto */ = {
-			isa = PBXGroup;
-			children = (
-				11F5D37520912EF2005FED94 /* module.map */,
-				11F5D37720913016005FED94 /* CommonCrypto.h */,
-			);
-			path = CommonCrypto;
-			sourceTree = "<group>";
-		};
 		4902C66E205006C800E53674 = {
 			isa = PBXGroup;
 			children = (
@@ -403,9 +337,6 @@
 				11981A1A2062C4AA0074BB11 /* StitchCoreTests */,
 				4902C679205006C800E53674 /* Products */,
 				4902C6872050076B00E53674 /* Frameworks */,
-				93D9484B94B8118635F8C139 /* libbson.framework */,
-				D86341DC84B1CFFDEDA074C2 /* libmongoc.framework */,
-				EAFA4F548BC4F37C56454AA4 /* MongoSwift.framework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -422,7 +353,6 @@
 		4902C67A205006C800E53674 /* StitchCore */ = {
 			isa = PBXGroup;
 			children = (
-				4902C67B205006C800E53674 /* StitchCore_iOS.h */,
 				11CAF8CD205995C0003AF24D /* StitchCoreExports.swift */,
 				4902C6AD20500FA000E53674 /* Core */,
 				4902C6B020500FB300E53674 /* Services */,
@@ -434,13 +364,14 @@
 		4902C6872050076B00E53674 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				494C21D620ED804E00A26734 /* StitchCoreSDK.framework */,
 				494C0A8820EBCEC400773B49 /* StitchDarwinCoreTestUtils.framework */,
 				F4B2757820DAD13A000CB126 /* StitchCoreSDK.framework */,
 				494C0A8220EBCEA500773B49 /* libbson.framework */,
 				494C0A8420EBCEA500773B49 /* libmongoc.framework */,
 				494C0A8620EBCEA500773B49 /* MongoSwift.framework */,
 				F4E8CE7920DAC860000E4921 /* StitchCoreSDK.framework */,
-				1136564B20CF5B5800FB68BE /* StitchIOSCoreTestUtils.framework */,
+				1136564B20CF5B5800FB68BE /* StitchDarwinCoreTestUtils.framework */,
 				1123018D20CF333200DE9A72 /* StitchCoreSDK.framework */,
 				F4D3E4DC20B5C28D00C7479A /* JWT.framework */,
 				F466EE3E20B5230E00D6E4E8 /* StitchCore.framework */,
@@ -533,7 +464,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4902C67D205006C800E53674 /* StitchCore_iOS.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -575,7 +505,6 @@
 				4902C675205006C800E53674 /* Headers */,
 				4902C676205006C800E53674 /* Resources */,
 				111E748A206C106200DFC43C /* ShellScript */,
-				77A547628D368F7C83D6F781 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -631,7 +560,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 4902C672205006C800E53674 /* Build configuration list for PBXProject "StitchCore-iOS" */;
+			buildConfigurationList = 4902C672205006C800E53674 /* Build configuration list for PBXProject "StitchCore" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -800,13 +729,11 @@
 				);
 				INFOPLIST_FILE = StitchCoreTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited) @loader_path/Frameworks @executable_path/Frameworks @rpath$(SRCROOT)/../../Dependencies/lib $(SRCROOT)/../../Dependencies/lib \"$(SRCROOT)/../../vendor/MobileSDKs/iphoneos/lib\"",
-					"$(inherited) @executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/Frameworks @executable_path/Frameworks @rpath$(SRCROOT)/../../Dependencies/lib $(SRCROOT)/../../Dependencies/lib \"$(SRCROOT)/../../vendor/MobileSDKs/iphoneos/lib\" $(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchCoreTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REEXPORTED_FRAMEWORK_NAMES = "";
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos watchos watchsimulator macosx";
 				SWIFT_INCLUDE_PATHS = StitchCoreTests/Core/TestUtil;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -832,13 +759,11 @@
 				);
 				INFOPLIST_FILE = StitchCoreTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited) @loader_path/Frameworks @executable_path/Frameworks @rpath$(SRCROOT)/../Dependencies/lib $(SRCROOT)/../Dependencies/lib $(SRCROOT)/../vendor/MobileSDKs/iphoneos/lib/",
-					"$(inherited) @executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/Frameworks @executable_path/Frameworks @rpath$(SRCROOT)/../Dependencies/lib $(SRCROOT)/../Dependencies/lib $(SRCROOT)/../vendor/MobileSDKs/iphoneos/lib/ $(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchCoreTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REEXPORTED_FRAMEWORK_NAMES = "";
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos watchos watchsimulator macosx";
 				SWIFT_INCLUDE_PATHS = StitchCoreTests/Core/TestUtil;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_VERSION = 4.0;
@@ -982,7 +907,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"$(inherited)",
-					"$(SRCROOT)/../../Frameworks/ios",
 				);
 				"FRAMEWORK_SEARCH_PATHS[sdk=appletvos*]" = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
@@ -1033,10 +957,7 @@
 				INFOPLIST_FILE = StitchCore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited) @executable_path/Frameworks @loader_path/Frameworks",
-					"$(inherited) @executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
@@ -1075,10 +996,7 @@
 				INFOPLIST_FILE = StitchCore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited) @executable_path/Frameworks @loader_path/Frameworks",
-					"$(inherited) @executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
@@ -1113,10 +1031,7 @@
 				);
 				INFOPLIST_FILE = StitchCore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited) @executable_path/Frameworks @loader_path/Frameworks",
-					"$(inherited) @executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchCore;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME)";
 				PRODUCT_NAME = StitchCore;
@@ -1151,10 +1066,7 @@
 				);
 				INFOPLIST_FILE = StitchCore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited) @executable_path/Frameworks @loader_path/Frameworks",
-					"$(inherited) @executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchCore;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME)";
 				PRODUCT_NAME = StitchCore;
@@ -1179,7 +1091,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4902C672205006C800E53674 /* Build configuration list for PBXProject "StitchCore-iOS" */ = {
+		4902C672205006C800E53674 /* Build configuration list for PBXProject "StitchCore" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4902C67E205006C800E53674 /* Debug */,

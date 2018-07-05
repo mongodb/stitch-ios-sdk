@@ -2,17 +2,20 @@ import XCTest
 import StitchCoreAdminClient
 import StitchCore
 import StitchCoreSDK
-import StitchIOSCoreTestUtils
+import StitchDarwinCoreTestUtils
 import StitchCoreTwilioService
 import StitchTwilioService
 
+let testTwilioSID = TEST_TWILIO_SID.isEmpty ?
+    ProcessInfo.processInfo.environment["TWILIO_SID"] : TEST_TWILIO_SID
+let testTwilioAuthToken = TEST_TWILIO_AUTH_TOKEN.isEmpty ?
+    ProcessInfo.processInfo.environment["TWILIO_AUTH_TOKEN"] : TEST_TWILIO_AUTH_TOKEN
 class TwilioServiceClientIntTests: BaseStitchIntTestCocoaTouch {
     override func setUp() {
         super.setUp()
         
-        print(TEST_TWILIO_SID)
-        guard !TEST_TWILIO_SID.isEmpty,
-            !TEST_TWILIO_AUTH_TOKEN.isEmpty else {
+        guard !(testTwilioSID?.isEmpty ?? true),
+            !(testTwilioAuthToken?.isEmpty ?? true) else {
             XCTFail("No TWILIO_SID or TWILIO_AUTH_TOKEN preprocessor macros; failing test. See README for more details.")
             return
         }
@@ -26,8 +29,8 @@ class TwilioServiceClientIntTests: BaseStitchIntTestCocoaTouch {
             withType: "twilio",
             withName: "twilio1",
             withConfig: ServiceConfigs.twilio(name: "twilio1",
-                                              accountSid: TEST_TWILIO_SID,
-                                              authToken: TEST_TWILIO_AUTH_TOKEN)
+                                              accountSid: testTwilioSID!,
+                                              authToken: testTwilioAuthToken!)
         )
         _ = try self.addRule(toService: svc.1,
                          withConfig: RuleCreator.actions(name: "rule",

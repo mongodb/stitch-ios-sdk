@@ -10,25 +10,12 @@
 		1159637620D028FF00B0179B /* StitchHTTPServiceExports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1159637520D028FF00B0179B /* StitchHTTPServiceExports.swift */; };
 		118C33AE20C72B7B00D1DE80 /* StitchHTTPService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 118C33A420C72B7B00D1DE80 /* StitchHTTPService.framework */; };
 		118C33B320C72B7B00D1DE80 /* HTTPServiceClientIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118C33B220C72B7B00D1DE80 /* HTTPServiceClientIntTests.swift */; };
-		118C33B520C72B7B00D1DE80 /* StitchCoreServicesHttp_iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 118C33A720C72B7B00D1DE80 /* StitchCoreServicesHttp_iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		118C33C920C72DE300D1DE80 /* HTTPServiceClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118C33C820C72DE300D1DE80 /* HTTPServiceClientImpl.swift */; };
 		118C33CB20C72DF400D1DE80 /* HTTPServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118C33CA20C72DF400D1DE80 /* HTTPServiceClient.swift */; };
 		11CF5D9720CF75F7006D57BA /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11CF5D9620CF75F7006D57BA /* StitchCore.framework */; };
 		11CF5D9920CF75F7006D57BA /* StitchCoreHTTPService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11CF5D9820CF75F7006D57BA /* StitchCoreHTTPService.framework */; };
 		11CF5D9B20CF760B006D57BA /* StitchCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11CF5D9A20CF760B006D57BA /* StitchCoreTestUtils.framework */; };
-		11CF5D9D20CF760B006D57BA /* StitchIOSCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11CF5D9C20CF760B006D57BA /* StitchIOSCoreTestUtils.framework */; };
-		15A242808AED6553879380F6 /* MongoSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B38E4156A6C145088D422878 /* MongoSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		1A3C41FAB1CC5B67730D36A2 /* MongoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B38E4156A6C145088D422878 /* MongoSwift.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		1D0E4806B4DDDA2FFC38BAAE /* libbson.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D92748EBB2A0CE83D13BF437 /* libbson.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		257544DEBA710DA6F71187DA /* libbson.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D92748EBB2A0CE83D13BF437 /* libbson.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		25C64AE087A31A0B278B8123 /* libmongoc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E134571A590B3757A707DD9 /* libmongoc.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		42864CFD910314EE2869A2A2 /* libmongoc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E134571A590B3757A707DD9 /* libmongoc.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		55D54A2886F4B2A975C209EB /* libbson.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D92748EBB2A0CE83D13BF437 /* libbson.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		72184C13900C629F6FF0026F /* MongoSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B38E4156A6C145088D422878 /* MongoSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C3104996B062150F9149EE81 /* libbson.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D92748EBB2A0CE83D13BF437 /* libbson.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		DD0B4F579C391D4A87AE6CC0 /* libmongoc.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4E134571A590B3757A707DD9 /* libmongoc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E67F4E248FB936802021F115 /* libmongoc.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4E134571A590B3757A707DD9 /* libmongoc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F9504EE8A13D72BD2FFADFA1 /* MongoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B38E4156A6C145088D422878 /* MongoSwift.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		11CF5D9D20CF760B006D57BA /* StitchDarwinCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11CF5D9C20CF760B006D57BA /* StitchDarwinCoreTestUtils.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +23,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 118C339B20C72B7B00D1DE80 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 118C33A320C72B7B00D1DE80 /* StitchHTTPService */;
+			remoteGlobalIDString = 118C33A320C72B7B00D1DE80;
 			remoteInfo = "StitchCoreServicesHttp-iOS";
 		};
 /* End PBXContainerItemProxy section */
@@ -48,9 +35,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C3104996B062150F9149EE81 /* libbson.framework in Embed Frameworks */,
-				E67F4E248FB936802021F115 /* libmongoc.framework in Embed Frameworks */,
-				15A242808AED6553879380F6 /* MongoSwift.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -61,9 +45,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				257544DEBA710DA6F71187DA /* libbson.framework in Embed Frameworks */,
-				DD0B4F579C391D4A87AE6CC0 /* libmongoc.framework in Embed Frameworks */,
-				72184C13900C629F6FF0026F /* MongoSwift.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -73,7 +54,6 @@
 /* Begin PBXFileReference section */
 		1159637520D028FF00B0179B /* StitchHTTPServiceExports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchHTTPServiceExports.swift; sourceTree = "<group>"; };
 		118C33A420C72B7B00D1DE80 /* StitchHTTPService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StitchHTTPService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		118C33A720C72B7B00D1DE80 /* StitchCoreServicesHttp_iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StitchCoreServicesHttp_iOS.h; sourceTree = "<group>"; };
 		118C33A820C72B7B00D1DE80 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		118C33AD20C72B7B00D1DE80 /* StitchHTTPServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StitchHTTPServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		118C33B220C72B7B00D1DE80 /* HTTPServiceClientIntTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServiceClientIntTests.swift; sourceTree = "<group>"; };
@@ -87,10 +67,7 @@
 		11CF5D9620CF75F7006D57BA /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		11CF5D9820CF75F7006D57BA /* StitchCoreHTTPService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreHTTPService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		11CF5D9A20CF760B006D57BA /* StitchCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		11CF5D9C20CF760B006D57BA /* StitchIOSCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchIOSCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4E134571A590B3757A707DD9 /* libmongoc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libmongoc.framework; path = ../../../Frameworks/ios/libmongoc.framework; sourceTree = SOURCE_ROOT; };
-		B38E4156A6C145088D422878 /* MongoSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MongoSwift.framework; path = ../../../Frameworks/ios/MongoSwift.framework; sourceTree = SOURCE_ROOT; };
-		D92748EBB2A0CE83D13BF437 /* libbson.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libbson.framework; path = ../../../Frameworks/ios/libbson.framework; sourceTree = SOURCE_ROOT; };
+		11CF5D9C20CF760B006D57BA /* StitchDarwinCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchDarwinCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,9 +77,6 @@
 			files = (
 				11CF5D9720CF75F7006D57BA /* StitchCore.framework in Frameworks */,
 				11CF5D9920CF75F7006D57BA /* StitchCoreHTTPService.framework in Frameworks */,
-				55D54A2886F4B2A975C209EB /* libbson.framework in Frameworks */,
-				42864CFD910314EE2869A2A2 /* libmongoc.framework in Frameworks */,
-				F9504EE8A13D72BD2FFADFA1 /* MongoSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -111,11 +85,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				11CF5D9B20CF760B006D57BA /* StitchCoreTestUtils.framework in Frameworks */,
-				11CF5D9D20CF760B006D57BA /* StitchIOSCoreTestUtils.framework in Frameworks */,
+				11CF5D9D20CF760B006D57BA /* StitchDarwinCoreTestUtils.framework in Frameworks */,
 				118C33AE20C72B7B00D1DE80 /* StitchHTTPService.framework in Frameworks */,
-				1D0E4806B4DDDA2FFC38BAAE /* libbson.framework in Frameworks */,
-				25C64AE087A31A0B278B8123 /* libmongoc.framework in Frameworks */,
-				1A3C41FAB1CC5B67730D36A2 /* MongoSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,9 +100,6 @@
 				118C33B120C72B7B00D1DE80 /* StitchHTTPServiceTests */,
 				118C33A520C72B7B00D1DE80 /* Products */,
 				118C33BE20C72B9500D1DE80 /* Frameworks */,
-				D92748EBB2A0CE83D13BF437 /* libbson.framework */,
-				4E134571A590B3757A707DD9 /* libmongoc.framework */,
-				B38E4156A6C145088D422878 /* MongoSwift.framework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -150,7 +118,6 @@
 				118C33C720C72DD000D1DE80 /* Internal */,
 				118C33CA20C72DF400D1DE80 /* HTTPServiceClient.swift */,
 				1159637520D028FF00B0179B /* StitchHTTPServiceExports.swift */,
-				118C33A720C72B7B00D1DE80 /* StitchCoreServicesHttp_iOS.h */,
 				118C33A820C72B7B00D1DE80 /* Info.plist */,
 			);
 			path = StitchHTTPService;
@@ -169,7 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				11CF5D9A20CF760B006D57BA /* StitchCoreTestUtils.framework */,
-				11CF5D9C20CF760B006D57BA /* StitchIOSCoreTestUtils.framework */,
+				11CF5D9C20CF760B006D57BA /* StitchDarwinCoreTestUtils.framework */,
 				11CF5D9620CF75F7006D57BA /* StitchCore.framework */,
 				11CF5D9820CF75F7006D57BA /* StitchCoreHTTPService.framework */,
 				118C33C320C72BA700D1DE80 /* StitchCoreTestUtils_iOS.framework */,
@@ -195,7 +162,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				118C33B520C72B7B00D1DE80 /* StitchCoreServicesHttp_iOS.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,7 +225,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 118C339E20C72B7B00D1DE80 /* Build configuration list for PBXProject "StitchCoreServicesHttp-iOS" */;
+			buildConfigurationList = 118C339E20C72B7B00D1DE80 /* Build configuration list for PBXProject "StitchHTTPService" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -471,7 +437,8 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 					"$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib",
-					"$(inherited) @executable_path/Frameworks",
+					"$(inherited)",
+					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchHTTPService;
@@ -510,7 +477,8 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 					"$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib",
-					"$(inherited) @executable_path/Frameworks",
+					"$(inherited)",
+					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchHTTPService;
@@ -540,7 +508,8 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 					"$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib",
-					"$(inherited) @executable_path/Frameworks",
+					"$(inherited)",
+					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchHTTPService;
@@ -569,7 +538,8 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 					"$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib",
-					"$(inherited) @executable_path/Frameworks",
+					"$(inherited)",
+					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchHTTPService;
@@ -582,7 +552,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		118C339E20C72B7B00D1DE80 /* Build configuration list for PBXProject "StitchCoreServicesHttp-iOS" */ = {
+		118C339E20C72B7B00D1DE80 /* Build configuration list for PBXProject "StitchHTTPService" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				118C33B620C72B7B00D1DE80 /* Debug */,

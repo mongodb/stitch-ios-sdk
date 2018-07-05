@@ -1,6 +1,6 @@
 # download MongoSwift
 if [ ! -d MongoSwift ]; then
-  curl -# -L https://api.github.com/repos/mongodb/mongo-swift-driver/tarball > mongo-swift.tgz
+  curl -# -L https://api.github.com/repos/mongodb/mongo-swift-driver/tarball/v0.0.2 > mongo-swift.tgz
   mkdir mongo-swift
   tar -xzf mongo-swift.tgz -C mongo-swift --strip-components 1
 

@@ -2,16 +2,21 @@ import XCTest
 
 import StitchCoreSDK
 import StitchCoreAdminClient
-import StitchIOSCoreTestUtils
+import StitchDarwinCoreTestUtils
 import StitchCoreAWSSESService
 @testable import StitchAWSSESService
+
+let testAWSAccessKeyID = TEST_AWS_ACCESS_KEY_ID.isEmpty ?
+    ProcessInfo.processInfo.environment["AWS_ACCESS_KEY_ID"] : TEST_AWS_ACCESS_KEY_ID
+let testAWSSecretAccessKey = TEST_AWS_SECRET_ACCESS_KEY.isEmpty ?
+    ProcessInfo.processInfo.environment["AWS_SECRET_ACCESS_KEY"] : TEST_AWS_SECRET_ACCESS_KEY
 
 class AWSSESServiceClientIntTests: BaseStitchIntTestCocoaTouch {
     override func setUp() {
         super.setUp()
         
-        guard !TEST_AWS_ACCESS_KEY_ID.isEmpty,
-              !TEST_AWS_SECRET_ACCESS_KEY.isEmpty else {
+        guard !(testAWSAccessKeyID?.isEmpty ?? true),
+            !(testAWSSecretAccessKey?.isEmpty ?? true) else {
                 XCTFail("No AWS_ACCESS_KEY_ID or AWS_SECRET_ACCESS_KEY in preprocessor macros; failing test. See README for more details.")
                 return
         }
@@ -27,8 +32,8 @@ class AWSSESServiceClientIntTests: BaseStitchIntTestCocoaTouch {
             withConfig: ServiceConfigs.awsSes(
                 name: "aws-ses1",
                 region: "us-east-1",
-                accessKeyID: TEST_AWS_ACCESS_KEY_ID,
-                secretAccessKey: TEST_AWS_SECRET_ACCESS_KEY
+                accessKeyID: testAWSAccessKeyID!,
+                secretAccessKey: testAWSSecretAccessKey!
             )
         )
         _ = try self.addRule(toService: svc.1,

@@ -3,7 +3,7 @@ import XCTest
 import MongoSwift
 import StitchCoreSDK
 import StitchCoreAdminClient
-import StitchIOSCoreTestUtils
+import StitchDarwinCoreTestUtils
 import StitchCoreHTTPService
 @testable import StitchHTTPService
 
