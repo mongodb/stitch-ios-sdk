@@ -11,9 +11,9 @@ Pod::Spec.new do |spec|
     }
 
     spec.source = {
-      :git => "https://github.com/jsflax/stitch-ios-sdk.git",
-      :branch => "Frameworkify",
-      # :tag => '4.0.0'
+      :git => "https://github.com/mongodb/stitch-ios-sdk.git",
+      :branch => "master", 
+      :tag => '4.0.1'
     }
 
     spec.prepare_command = <<-CMD

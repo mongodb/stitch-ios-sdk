@@ -108,13 +108,10 @@ functions:
           set -e
           cd stitch-ios-sdk
           export DEVELOPER_DIR=/Applications/Xcode9.2.app
-          # git config --global user.email "evg@mongodb.com"
-          # git config --global user.name "evg"
           export PYTHONPATH=$PYTHONPATH:~/local/lib/python3.6/site-packages/
           export swiftc="$DEVERLOPER_DIR/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
           sh scripts/download_dependencies.sh 
           python scripts/build_frameworks.py
-          # make prepare
 tasks:
   - name: lint
     commands:
@@ -140,8 +137,6 @@ tasks:
             echo "running ios tests"           
             set -e
 
-            # if pgrep CoreSimulator; then pkill -9 CoreSimulator; fi
-
             export DEVELOPER_DIR=/Applications/Xcode9.2.app
             cd stitch-ios-sdk
 
@@ -154,40 +149,6 @@ tasks:
 
             export swiftc="$DEVERLOPER_DIR/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
             python scripts/run_xctests.py --xcode-path=$DEVELOPER_DIR
-            # killall "Simulator" || echo "No matching processes belonging to you were found"
-
-            # export SIM_UUID=$(xcrun simctl create stitch-iphone7 com.apple.CoreSimulator.SimDeviceType.iPhone-7 com.apple.CoreSimulator.SimRuntime.iOS-10-2)
-            # xcrun simctl boot $SIM_UUID
-            # echo "booting SIMCTL $SIM_UUID"
-
-            # echo "...testing core"
-            # ./scripts/run_xctest.sh StitchCoreSDK StitchCoreSDK-Package NO $SIM_UUID
-            # ./scripts/run_xctest.sh StitchCoreAdminClient StitchCoreAdminClient-Package YES $SIM_UUID
-            # ./scripts/run_xctest.sh StitchCoreTestUtils StitchCoreTestUtils-Package YES $SIM_UUID
-
-            # echo "...testing core services"
-            # ./scripts/run_xctest.sh StitchCoreAWSS3Service StitchCoreAWSS3Service-Package NO $SIM_UUID
-            # ./scripts/run_xctest.sh StitchCoreAWSSESService StitchCoreAWSSESService-Package NO $SIM_UUID
-            # ./scripts/run_xctest.sh StitchCoreFCMService StitchCoreFCMService-Package NO $SIM_UUID
-            # ./scripts/run_xctest.sh StitchCoreHTTPService StitchCoreHTTPService-Package NO $SIM_UUID
-            # ./scripts/run_xctest.sh StitchCoreRemoteMongoDBService StitchCoreRemoteMongoDBService-Package NO $SIM_UUID
-            # ./scripts/run_xctest.sh StitchCoreTwilioService StitchCoreTwilioService-Package NO $SIM_UUID
-
-            # echo "...testing ios"
-            # ./scripts/run_xctest.sh StitchCore StitchCore YES $SIM_UUID
-            # ./scripts/run_xctest.sh StitchDarwinCoreTestUtils StitchDarwinCoreTestUtils YES $SIM_UUID
-            # ./scripts/run_xctest.sh StitchCore StitchCore NO $SIM_UUID
-
-            # echo "...testing ios services"
-            # ./scripts/run_xctest.sh StitchAWSS3Service StitchAWSS3Service NO $SIM_UUID AWS_ACCESS_KEY_ID=${test_aws_key} AWS_SECRET_ACCESS_KEY=${test_aws_secret}
-            # ./scripts/run_xctest.sh StitchAWSSESService StitchAWSSESService NO $SIM_UUID AWS_ACCESS_KEY_ID=${test_aws_key} AWS_SECRET_ACCESS_KEY=${test_aws_secret}
-            # ./scripts/run_xctest.sh StitchFCMService StitchFCMService NO $SIM_UUID FCM_SENDER_ID=${test_fcm_sender_id} FCM_API_KEY=${test_fcm_api_key}
-            # ./scripts/run_xctest.sh StitchHTTPService StitchHTTPService NO $SIM_UUID
-            # ./scripts/run_xctest.sh StitchRemoteMongoDBService StitchRemoteMongoDBService NO $SIM_UUID
-            # ./scripts/run_xctest.sh StitchTwilioService StitchTwilioService NO $SIM_UUID TWILIO_SID=${test_twilio_sid} TWILIO_AUTH_TOKEN=${test_twilio_authtoken}
-
-            # xcrun simctl shutdown $SIM_UUID
-            # xcrun simctl erase $SIM_UUID
       - command: shell.exec
         params:
           shell: "bash"
