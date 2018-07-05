@@ -23,7 +23,7 @@ Pod::Spec.new do |spec|
 
     spec.pod_target_xcconfig = { "ENABLE_BITCODE" => "NO" }
 
-    spec.ios.deployment_target = "11.3"
+    spec.ios.deployment_target = "11.0"
     spec.tvos.deployment_target = "10.2"
     spec.watchos.deployment_target = "4.3"
     spec.macos.deployment_target = "10.10"

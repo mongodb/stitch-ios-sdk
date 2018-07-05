@@ -94,6 +94,10 @@ darwin_tests = OrderedDict([
 
 set_verbosity(True)
 
+SDK = 'macosx'
+TARGET_VERSION = '10.10'
+FRAMEWORK_SEARCH_PATHS = 'Frameworks/macos'
+
 parser = argparse.ArgumentParser()
 parser.add_argument('-xcode-path', 
                     '--xcode-path',
@@ -103,10 +107,10 @@ args = parser.parse_args()
 for module, mini_module in dependencies.iteritems():
     FrameworkBuilder(
         mini_module.source_paths, 
-        'macosx', 
-        '10.10', 
+        SDK, 
+        TARGET_VERSION, 
         module, 
-        'Frameworks/macos', 
+        FRAMEWORK_SEARCH_PATHS, 
         import_paths=mini_module.import_paths,
         excludes = mini_module.excludes,
         enable_testing = True,
@@ -116,10 +120,10 @@ for module, mini_module in dependencies.iteritems():
 for module, mini_module in modules.iteritems():
     FrameworkBuilder(
         mini_module.source_paths, 
-        'macosx', 
-        '10.10', 
+        SDK, 
+        TARGET_VERSION, 
         module, 
-        'Frameworks/macos', 
+        FRAMEWORK_SEARCH_PATHS, 
         import_paths=mini_module.import_paths,
         excludes = mini_module.excludes,
         enable_testing = True,
@@ -138,10 +142,10 @@ for module, mini_module in modules.iteritems():
 for module, mini_module in test_utils.iteritems():
     FrameworkBuilder(
         mini_module.source_paths, 
-        'macosx', 
-        '10.10', 
+        SDK, 
+        TARGET_VERSION, 
         module, 
-        'Frameworks/macos', 
+        FRAMEWORK_SEARCH_PATHS, 
         import_paths=mini_module.import_paths,
         excludes = mini_module.excludes,
         enable_testing = False,
@@ -154,10 +158,10 @@ if os.path.exists('CoverageData') is False:
 for module, mini_module in core_tests.iteritems():
     FrameworkBuilder(
         mini_module.source_paths, 
-        'macosx', 
-        '10.10', 
+        SDK, 
+        TARGET_VERSION, 
         module, 
-        'Frameworks/macos', 
+        FRAMEWORK_SEARCH_PATHS, 
         import_paths=mini_module.import_paths,
         excludes = mini_module.excludes,
         enable_testing = False,
@@ -188,10 +192,10 @@ for module, mini_module in core_tests.iteritems():
 for module, mini_module in darwin_tests.iteritems():
     FrameworkBuilder(
         mini_module.source_paths + test_utils_source, 
-        'macosx', 
-        '10.10', 
+        SDK, 
+        TARGET_VERSION, 
         module, 
-        'Frameworks/macos', 
+        FRAMEWORK_SEARCH_PATHS, 
         import_paths=mini_module.import_paths,
         excludes = mini_module.excludes,
         enable_testing = False,

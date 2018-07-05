@@ -1,5 +1,6 @@
 from pbxproj import XcodeProject
 from pbxproj.XcodeProject import FileOptions
+from frameworkify.util import log_warning
 
 import os
 
@@ -46,4 +47,5 @@ for module in modules:
         project.save()
     except:
         # if we're here, chances are we've added these phases
+        log_warning('{} already covered'.format(os.path.basename(module)))
         pass

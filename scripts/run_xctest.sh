@@ -8,13 +8,6 @@ do_not_test=$3
 sim_uuid=$4
 echo "...testing $1"
 
-# security create-keychain -p admin MyKeychain.keychain
-# security import MyPrivateKey.p12 -t agg -k MyKeychain.keychain -P admin -A
-
-# security list-keychains -s "MyKeyhain.keychain"
-# security default-keychain -s "MyKeychain.keychain"
-# security unlock-keychain -p "admin" "MyKeychain.keychain"
-
 codesign --force --sign - --verbose Frameworks/ios/MongoSwift.framework/MongoSwift
 xcodebuild \
     -project "`pwd`/$xcodeproj" \

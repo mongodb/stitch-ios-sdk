@@ -28,3 +28,14 @@
 @_exported import struct StitchCoreSDK.UserPasswordCredential
 
 @_exported import struct MongoSwift.Document
+@_exported import struct MongoSwift.ObjectId
+@_exported import struct MongoSwift.Binary
+@_exported import struct MongoSwift.Timestamp
+@_exported import struct MongoSwift.CodeWithScope
+@_exported import struct MongoSwift.Decimal128
+@_exported import struct MongoSwift.MinKey
+@_exported import struct MongoSwift.MaxKey
+@_exported import class MongoSwift.BsonDecoder
+@_exported import class MongoSwift.BsonEncoder
+@_exported import enum MongoSwift.BsonSubtype
+@_exported import enum MongoSwift.BsonType

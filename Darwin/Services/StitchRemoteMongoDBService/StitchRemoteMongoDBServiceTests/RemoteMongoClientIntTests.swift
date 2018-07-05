@@ -20,15 +20,9 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
     private var mongoClient: RemoteMongoClient!
     
     override func setUp() {
-//        guard mongodbUri != nil && mongodbUri != "<your-mongodb-uri>" else {
-//            XCTFail("No MongoDB URI in properties; failing test. See README for more details.")
-//            return
-//        }
-
         super.setUp()
         
         try! prepareService()
-
     }
     
     private func prepareService() throws {

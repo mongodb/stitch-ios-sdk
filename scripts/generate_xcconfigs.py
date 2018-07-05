@@ -3,6 +3,7 @@ from subprocess import call
 from frameworkify import platforms
 
 modules = [
+    # core
     'MockUtils',
     'Core/StitchCoreSDK',
     'Core/StitchCoreAdminClient',
@@ -13,7 +14,15 @@ modules = [
     'Core/Services/StitchCoreHTTPService',
     'Core/Services/StitchCoreLocalMongoDBService',
     'Core/Services/StitchCoreRemoteMongoDBService',
-    'Core/Services/StitchCoreTwilioService'
+    'Core/Services/StitchCoreTwilioService',
+]
+
+# docgen
+doc_gen = [
+    'kitten.coreservice',
+    'kitten.ioscore',
+    'kitten.ioscoreservice',
+    'kitten'
 ]
 
 frameworks_dir = os.path.abspath('./Frameworks')
@@ -29,12 +38,14 @@ xcconfig = '\n'.join([line for sub_list in map(lambda tup: map(
         'IPHONEOS_DEPLOYMENT_TARGET=10.2'
     ])
 
-og_path = os.path.abspath('.')
-
 for module in modules:
-    os.chdir(module)
-
-    open('{}.xcconfig'.format(os.path.basename(module)), 'w+').write(
+    open('{}/{}.xcconfig'.format(module, os.path.basename(module)), 'w').write(
         xcconfig)
 
-    os.chdir(og_path)
+if os.path.exists('DocGen/Configs') is False:
+    os.mkdir('DocGen/Configs')
+
+for doc in doc_gen:
+    open('DocGen/Configs/{}.xcconfig'.format(doc), 'w').write(
+        xcconfig
+    )

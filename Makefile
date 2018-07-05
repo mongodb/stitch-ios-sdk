@@ -45,7 +45,6 @@ prepare:
 	$(MAKE) -C Core/Services/StitchCoreLocalMongoDBService prepare
 	$(MAKE) -C Core/Services/StitchCoreRemoteMongoDBService prepare
 	$(MAKE) -C Core/Services/StitchCoreTwilioService prepare
-	# /usr/local/opt/python3/bin/python3 scripts/add_copy_phase.py
 lint:
 	$(MAKE) -C MockUtils lint
 	$(MAKE) -C Core/StitchCoreSDK lint

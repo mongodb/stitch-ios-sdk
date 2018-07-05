@@ -82,7 +82,7 @@ class LlvmCoverageClass():
             digest = md5()
             digest.update(self.raw_source.encode('utf-8'))
             our_hex = digest.digest()
-            print(self.project_source_files)
+
             for file in self.project_source_files:
                 if file is None or file is '':
                     continue

@@ -30,7 +30,7 @@ Pod::Spec.new do |spec|
     spec.user_target_xcconfig = {
       'FRAMEWORK_SEARCH_PATHS' => "$(PODS_ROOT)/#{spec.name}/Frameworks/ios"
     }
-    spec.ios.deployment_target = "11.3"
+    spec.ios.deployment_target = "11.0"
     spec.tvos.deployment_target = "10.2"
     spec.watchos.deployment_target = "4.3"
     spec.macos.deployment_target = "10.10"
