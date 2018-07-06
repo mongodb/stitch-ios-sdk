@@ -108,14 +108,10 @@ functions:
           set -e
           cd stitch-ios-sdk
           export DEVELOPER_DIR=/Applications/Xcode9.2.app
-          export PATH=`pwd`/MobileSDKs/iphoneos/lib:$PATH
-          export PATH=`pwd`/MobileSDKs/include/libbson-1.0/:$PATH
-          export LD_LIBRARY_PATH=`pwd`/MobileSDKs/iphoneos/lib:$LD_LIBRARY_PATH
-          export DYLD_LIBRARY_PATH=`pwd`/MobileSDKs/iphoneos/lib:$DYLD_LIBRARY_PATH
-          git config --global user.email "evg@mongodb.com"
-          git config --global user.name "evg"
-          sh scripts/download_sdk.sh --with-mobile
-          make prepare
+          export PYTHONPATH=$PYTHONPATH:~/local/lib/python3.6/site-packages/
+          export swiftc="$DEVERLOPER_DIR/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+          sh scripts/download_dependencies.sh 
+          python scripts/build_frameworks.py
 tasks:
   - name: lint
     commands:
@@ -141,59 +137,33 @@ tasks:
             echo "running ios tests"           
             set -e
 
-            if pgrep CoreSimulator; then pkill -9 CoreSimulator; fi
-
             export DEVELOPER_DIR=/Applications/Xcode9.2.app
             cd stitch-ios-sdk
-            export SIM_UUID=$(xcrun simctl create stitch-iphone7 com.apple.CoreSimulator.SimDeviceType.iPhone-7 com.apple.CoreSimulator.SimRuntime.iOS-10-2)
-            xcrun simctl boot $SIM_UUID
-            echo "booting SIMCTL $SIM_UUID"
 
-            echo "...testing core"
-            ./scripts/run_xctest.sh StitchCoreSDK StitchCoreSDK-Package NO $SIM_UUID
-            ./scripts/run_xctest.sh StitchCoreAdminClient StitchCoreAdminClient-Package YES $SIM_UUID
-            ./scripts/run_xctest.sh StitchCoreTestUtils StitchCoreTestUtils-Package YES $SIM_UUID
+            export AWS_ACCESS_KEY_ID=${test_aws_key}
+            export AWS_SECRET_ACCESS_KEY=${test_aws_secret}
+            export FCM_SENDER_ID=${test_fcm_sender_id} 
+            export FCM_API_KEY=${test_fcm_api_key}
+            export TWILIO_SID=${test_twilio_sid}
+            export TWILIO_AUTH_TOKEN=${test_twilio_authtoken}
 
-            echo "...testing core services"
-            ./scripts/run_xctest.sh StitchCoreAWSS3Service StitchCoreAWSS3Service-Package NO $SIM_UUID
-            ./scripts/run_xctest.sh StitchCoreAWSSESService StitchCoreAWSSESService-Package NO $SIM_UUID
-            ./scripts/run_xctest.sh StitchCoreFCMService StitchCoreFCMService-Package NO $SIM_UUID
-            ./scripts/run_xctest.sh StitchCoreHTTPService StitchCoreHTTPService-Package NO $SIM_UUID
-            ./scripts/run_xctest.sh StitchCoreRemoteMongoDBService StitchCoreRemoteMongoDBService-Package NO $SIM_UUID
-            ./scripts/run_xctest.sh StitchCoreTwilioService StitchCoreTwilioService-Package NO $SIM_UUID
-
-            echo "...testing ios"
-            ./scripts/run_xctest.sh StitchCore StitchCore YES $SIM_UUID
-            ./scripts/run_xctest.sh StitchIOSCoreTestUtils StitchIOSCoreTestUtils YES $SIM_UUID
-            ./scripts/run_xctest.sh StitchCore StitchCore NO $SIM_UUID
-
-            echo "...testing ios services"
-            ./scripts/run_xctest.sh StitchAWSS3Service StitchAWSS3Service NO $SIM_UUID AWS_ACCESS_KEY_ID=${test_aws_key} AWS_SECRET_ACCESS_KEY=${test_aws_secret}
-            ./scripts/run_xctest.sh StitchAWSSESService StitchAWSSESService NO $SIM_UUID AWS_ACCESS_KEY_ID=${test_aws_key} AWS_SECRET_ACCESS_KEY=${test_aws_secret}
-            ./scripts/run_xctest.sh StitchFCMService StitchFCMService NO $SIM_UUID FCM_SENDER_ID=${test_fcm_sender_id} FCM_API_KEY=${test_fcm_api_key}
-            ./scripts/run_xctest.sh StitchHTTPService StitchHTTPService NO $SIM_UUID
-            ./scripts/run_xctest.sh StitchRemoteMongoDBService StitchRemoteMongoDBService NO $SIM_UUID
-            ./scripts/run_xctest.sh StitchTwilioService StitchTwilioService NO $SIM_UUID TWILIO_SID=${test_twilio_sid} TWILIO_AUTH_TOKEN=${test_twilio_authtoken}
-
-            xcrun simctl shutdown $SIM_UUID
-            xcrun simctl erase $SIM_UUID
+            export swiftc="$DEVERLOPER_DIR/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+            python scripts/run_xctests.py --xcode-path=$DEVELOPER_DIR
       - command: shell.exec
         params:
           shell: "bash"
           script: |
             cd stitch-ios-sdk
-            if [ -z "${github_pr_number}" ]
-            then
+            if [ -z "${github_pr_number}" ]; then
               if [ "${is_patch}" = "true" ]; then
                 echo "not running xccoveralls"
                 exit 0
               fi
-            else
-              /usr/local/opt/python3/bin/python3 scripts/xccoveralls.py \
-                --repo-token=${coveralls_repo_token} \
-                --pull-request-id=${github_pr_number} \
-                --commit-sha=${revision}
             fi
+            /usr/local/opt/python3/bin/python3 scripts/xccoveralls.py \
+              --repo-token=${coveralls_repo_token} \
+              --pull-request-id=${github_pr_number} \
+              --commit-sha=${revision}
 buildvariants:
 - name: macos-1013
   display_name: MacOS 10.13

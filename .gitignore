@@ -150,3 +150,14 @@ vendor
 CoverageData
 localDerivedData
 .vscode
+*.pyc
+*.xcconfig
+/Frameworks
+/MongoSwift
+/iphoneos
+/iphonesimulator
+/macosx
+/watchos
+/watchsimulator
+/appletvos
+/appletvsimulator

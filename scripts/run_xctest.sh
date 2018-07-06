@@ -8,19 +8,19 @@ do_not_test=$3
 sim_uuid=$4
 echo "...testing $1"
 
+codesign --force --sign - --verbose Frameworks/ios/MongoSwift.framework/MongoSwift
 xcodebuild \
     -project "`pwd`/$xcodeproj" \
     -destination "id=$sim_uuid" \
     -derivedDataPath "localDerivedData" \
     -scheme $scheme \
-    -json \
-    OTHER_LDFLAGS="-rpath `pwd`/vendor/MobileSDKs/iphoneos/lib -fprofile-arcs -ftest-coverage" \
-    LIBRARY_SEARCH_PATHS="`pwd`/vendor/MobileSDKs/iphoneos/lib" \
-    SWIFT_INCLUDE_PATHS="`pwd`/$cc `pwd`/vendor/MobileSDKs/include `pwd`/vendor/MobileSDKs/include/libbson-1.0 `pwd`/vendor/MobileSDKs/include/libmongoc-1.0 `pwd`/vendor/MobileSDKs/include/mongo/embedded-v1/" \
-    FRAMEWORK_INCLUDE_PATHS="`pwd`/localDerivedData " \
+    -verbose \
+    FRAMEWORK_SEARCH_PATHS="`pwd`/Frameworks/ios `pwd`/localDerivedData" \
+    OTHER_LDFLAGS="-rpath `pwd`/Frameworks/ios" \
     ENABLE_BITCODE=NO \
     IPHONEOS_DEPLOYMENT_TARGET="10.2" \
     GCC_PREPROCESSOR_DEFINITIONS="${*:5}" \
+    RUN_CLANG_STATIC_ANALYZER=NO \
     `[[ $do_not_test != YES ]] && echo "-enableCodeCoverage YES" || echo ""` \
     `[[ $do_not_test != YES ]] && echo "test" || echo ""`
 

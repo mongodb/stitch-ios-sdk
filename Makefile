@@ -1,5 +1,8 @@
 all:
-	sh scripts/download_sdk.sh --with-mobile
+	sh scripts/download_mongoswift.sh
+	python scripts/build_frameworks.py
+	python scripts/generate_xcconfigs.py
+	/usr/local/opt/python3/bin/python3 scripts/add_copy_phase.py
 	$(MAKE) -C MockUtils all
 	$(MAKE) -C Core/StitchCoreSDK all
 	$(MAKE) -C Core/StitchCoreAdminClient all
@@ -15,6 +18,7 @@ clean:
 	rm -rf ./vendor
 	rm -rf ./.build
 	rm -rf dist
+	rm -rf Frameworks
 	$(MAKE) -C MockUtils clean
 	$(MAKE) -C Core/StitchCoreSDK clean
 	$(MAKE) -C Core/StitchCoreAdminClient clean
@@ -27,6 +31,9 @@ clean:
 	$(MAKE) -C Core/Services/StitchCoreRemoteMongoDBService clean
 	$(MAKE) -C Core/Services/StitchCoreTwilioService clean
 prepare:
+	sh scripts/download_dependencies.sh
+	python scripts/build_frameworks.py
+	python scripts/generate_xcconfigs.py
 	$(MAKE) -C MockUtils prepare
 	$(MAKE) -C Core/StitchCoreSDK prepare
 	$(MAKE) -C Core/StitchCoreAdminClient prepare
