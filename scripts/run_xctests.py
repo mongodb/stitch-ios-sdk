@@ -95,13 +95,13 @@ darwin_tests = OrderedDict([
 set_verbosity(True)
 
 SDKS = [
-    # 'macosx', 
+    'macosx', 
     'iphoneos']
 TARGET_VERSIONS = [
-    # '10.10', 
+    '10.10', 
     '10.2']
 FRAMEWORK_SEARCH_PATH_PATHS = [
-    # 'Frameworks/macos', 
+    'Frameworks/macos', 
     'Frameworks/ios']
 
 parser = argparse.ArgumentParser()
