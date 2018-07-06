@@ -54,6 +54,8 @@ class FrameworkBuilder:
             platform = variants_to_platforms[sdk]
             variant = variants_to_variants[sdk]
 
+            print platform.name
+            print variant.name
             excludes = excludes
             for exclusion in excludes:
                 if exclusion in source_matches:

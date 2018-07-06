@@ -30,12 +30,15 @@ frameworks_dir = os.path.abspath('./Frameworks')
 tuples = list(map(lambda platform: (platform.name, platform.variants), platforms))
 
 xcconfig = '\n'.join([line for sub_list in map(lambda tup: map(
-    lambda variant: "FRAMEWORK_SEARCH_PATHS[sdk={}*]={}/{}\nLD_RUNPATH_SEARCH_PATHS[sdk={}*]={}/{}".format(
+    lambda variant: """
+    FRAMEWORK_SEARCH_PATHS[sdk={}*]={}/{}
+    OTHER_LD_FLAGS[sdk={}*]=-rpath {}/{}""".format(
         variant.name, frameworks_dir, tup[0], variant.name, frameworks_dir, tup[0]),
         tup[1]),
     tuples) for line in sub_list] + [
         'ENABLE_BITCODE=NO',
-        'IPHONEOS_DEPLOYMENT_TARGET=10.2'
+        'IPHONEOS_DEPLOYMENT_TARGET=10.2',
+        'VALID_ARCHS=i386 x86_64 arm64 armv7k armv7 armv7s',
     ])
 
 for module in modules:

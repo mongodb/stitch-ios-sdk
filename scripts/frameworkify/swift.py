@@ -45,6 +45,7 @@ class SwiftSource:
             '{}/{}'.format(module_dir, self.name),
             '-target',
             '{}-apple-{}{}'.format(variant.arch, platform.name, min_platform_version)]
+        print '{}-apple-{}{}'.format(variant.arch, platform.name, min_platform_version)
         cmd += ['-emit-module', '-emit-objc-header', '-emit-library']
 
         print ' '.join(cmd)
@@ -58,11 +59,14 @@ class SwiftSource:
 
         if output is not None:
             if len(output.split('\n', 1)) > 1:
-                output = json.loads('[{}]'.format(output.split('\n', 1)[1]))
-                open('OutputFileMaps/{}-OutputFileMap.json'.format(self.name), 'w').write(
-                    json.dumps(map(
-                        lambda inner: inner['inputs'][0], 
-                        filter(lambda obj: obj['name'] == 'compile' and 'inputs' in obj, output)))
-                )
+                try:
+                    output = json.loads('[{}]'.format(output.split('\n', 1)[1]))
+                    open('OutputFileMaps/{}-OutputFileMap.json'.format(self.name), 'w').write(
+                        json.dumps(map(
+                            lambda inner: inner['inputs'][0], 
+                            filter(lambda obj: obj['name'] == 'compile' and 'inputs' in obj, output)))
+                    )
+                except:
+                    log_error('could not generate output file map for {}'.format(self.name))
         
         return module_dir

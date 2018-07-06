@@ -7,9 +7,47 @@
    <FileRef
       location = "group:MockUtils/MockUtils.xcodeproj">
    </FileRef>
-   <FileRef
-      location = "group:Core/StitchCoreSDK/StitchCoreSDK.xcodeproj">
-   </FileRef>
+   <Group
+      location = "container:"
+      name = "Core">
+      <Group
+         location = "container:"
+         name = "Services">
+         <FileRef
+            location = "group:Core/Services/StitchCoreTwilioService/StitchCoreTwilioService.xcodeproj">
+         </FileRef>
+         <FileRef
+            location = "group:Core/Services/StitchCoreRemoteMongoDBService/StitchCoreRemoteMongoDBService.xcodeproj">
+         </FileRef>
+         <FileRef
+            location = "group:Core/Services/StitchCoreLocalMongoDBService/StitchCoreLocalMongoDBService.xcodeproj">
+         </FileRef>
+         <FileRef
+            location = "group:Core/Services/StitchCoreHTTPService/StitchCoreHTTPService.xcodeproj">
+         </FileRef>
+         <FileRef
+            location = "group:Core/Services/StitchCoreFCMService/StitchCoreFCMService.xcodeproj">
+         </FileRef>
+         <FileRef
+            location = "group:Core/Services/StitchCoreAWSSESService/StitchCoreAWSSESService.xcodeproj">
+         </FileRef>
+         <FileRef
+            location = "group:Core/Services/StitchCoreAWSS3Service/StitchCoreAWSS3Service.xcodeproj">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:Core/Services/StitchCoreAWSSESService/StitchCoreAWSSESService.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Core/StitchCoreAdminClient/StitchCoreAdminClient.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Core/StitchCoreSDK/StitchCoreSDK.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Core/StitchCoreTestUtils/StitchCoreTestUtils.xcodeproj">
+      </FileRef>
+   </Group>
    <Group
       location = "container:"
       name = "Darwin">

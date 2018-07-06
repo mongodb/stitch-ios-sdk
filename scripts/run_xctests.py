@@ -94,112 +94,132 @@ darwin_tests = OrderedDict([
 
 set_verbosity(True)
 
-SDK = 'macosx'
-TARGET_VERSION = '10.10'
-FRAMEWORK_SEARCH_PATHS = 'Frameworks/macos'
+SDKS = [
+    # 'macosx', 
+    'iphoneos']
+TARGET_VERSIONS = [
+    # '10.10', 
+    '10.2']
+FRAMEWORK_SEARCH_PATH_PATHS = [
+    # 'Frameworks/macos', 
+    'Frameworks/ios']
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-xcode-path', 
                     '--xcode-path',
                     default='/Applications/Xcode.app')
+parser.add_argument('-t',
+                    '--test',
+                    default=True)
 args = parser.parse_args()
 
-for module, mini_module in dependencies.iteritems():
-    FrameworkBuilder(
-        mini_module.source_paths, 
-        SDK, 
-        TARGET_VERSION, 
-        module, 
-        FRAMEWORK_SEARCH_PATHS, 
-        import_paths=mini_module.import_paths,
-        excludes = mini_module.excludes,
-        enable_testing = True,
-        xctest = False,
-        xcode_path=args.xcode_path)
+test = args.test
 
-for module, mini_module in modules.iteritems():
-    FrameworkBuilder(
-        mini_module.source_paths, 
-        SDK, 
-        TARGET_VERSION, 
-        module, 
-        FRAMEWORK_SEARCH_PATHS, 
-        import_paths=mini_module.import_paths,
-        excludes = mini_module.excludes,
-        enable_testing = True,
-        xctest = False,
-        xcode_path=args.xcode_path)
-    prof_data_file = '{}.profdata'.format(module)
-    call([
-        'xcrun', 
-        'llvm-profdata',
-        'merge',
-        '-o',
-        prof_data_file,
-        'default.profraw'
-    ])
+if test is True:
+    SDKS.remove('iphoneos')
 
-for module, mini_module in test_utils.iteritems():
-    FrameworkBuilder(
-        mini_module.source_paths, 
-        SDK, 
-        TARGET_VERSION, 
-        module, 
-        FRAMEWORK_SEARCH_PATHS, 
-        import_paths=mini_module.import_paths,
-        excludes = mini_module.excludes,
-        enable_testing = False,
-        xctest = True,
-        xcode_path=args.xcode_path)
+for i in range(0, len(SDKS)):
+    SDK = SDKS[i]
+    TARGET_VERSION = TARGET_VERSIONS[i]
+    FRAMEWORK_SEARCH_PATHS = FRAMEWORK_SEARCH_PATH_PATHS[i]
+    enable_testing = test
+    for module, mini_module in dependencies.iteritems():
+        FrameworkBuilder(
+            mini_module.source_paths, 
+            SDK, 
+            TARGET_VERSION, 
+            module, 
+            FRAMEWORK_SEARCH_PATHS, 
+            import_paths=mini_module.import_paths,
+            excludes = mini_module.excludes,
+            enable_testing = enable_testing,
+            xctest = False,
+            xcode_path=args.xcode_path)
 
-if os.path.exists('CoverageData') is False:
-    os.mkdir('CoverageData')
+    for module, mini_module in modules.iteritems():
+        FrameworkBuilder(
+            mini_module.source_paths, 
+            SDK, 
+            TARGET_VERSION, 
+            module, 
+            FRAMEWORK_SEARCH_PATHS, 
+            import_paths=mini_module.import_paths,
+            excludes = mini_module.excludes,
+            enable_testing = enable_testing,
+            xctest = False,
+            xcode_path=args.xcode_path)
+        prof_data_file = '{}.profdata'.format(module)
+        call([
+            'xcrun', 
+            'llvm-profdata',
+            'merge',
+            '-o',
+            prof_data_file,
+            'default.profraw'
+        ])
 
-for module, mini_module in core_tests.iteritems():
-    FrameworkBuilder(
-        mini_module.source_paths, 
-        SDK, 
-        TARGET_VERSION, 
-        module, 
-        FRAMEWORK_SEARCH_PATHS, 
-        import_paths=mini_module.import_paths,
-        excludes = mini_module.excludes,
-        enable_testing = False,
-        xctest = True,
-        xctest_bundle=True,
-        xcode_path=args.xcode_path)
-    run_xctest(module)
-    module_name = module.split('Tests')[0]
-    prof_data_file = '{}.profdata'.format(module_name)
-    call([
-        'xcrun', 
-        'llvm-profdata',
-        'merge',
-        '-o',
-        prof_data_file,
-        'default.profraw',
-        prof_data_file
-    ])
-    coverage_data = Popen([
-        'xcrun', 
-        'llvm-cov', 
-        'show', 
-        '-instr-profile={}'.format(prof_data_file),
-        'Frameworks/macos/{}.framework/{}'.format(module_name, module_name)
-    ], stdout=PIPE).stdout.read()
-    open('CoverageData/{}.cov'.format(module_name), 'w').write(coverage_data)
+    for module, mini_module in test_utils.iteritems():
+        FrameworkBuilder(
+            mini_module.source_paths, 
+            SDK, 
+            TARGET_VERSION, 
+            module, 
+            FRAMEWORK_SEARCH_PATHS, 
+            import_paths=mini_module.import_paths,
+            excludes = mini_module.excludes,
+            enable_testing = False,
+            xctest = True,
+            xcode_path=args.xcode_path)
 
-for module, mini_module in darwin_tests.iteritems():
-    FrameworkBuilder(
-        mini_module.source_paths + test_utils_source, 
-        SDK, 
-        TARGET_VERSION, 
-        module, 
-        FRAMEWORK_SEARCH_PATHS, 
-        import_paths=mini_module.import_paths,
-        excludes = mini_module.excludes,
-        enable_testing = False,
-        xctest = True,
-        xctest_bundle=True,
-        xcode_path=args.xcode_path)
-    run_xctest(module)
+    if os.path.exists('CoverageData') is False:
+        os.mkdir('CoverageData')
+
+    if test is True:
+        for module, mini_module in core_tests.iteritems():
+            FrameworkBuilder(
+                mini_module.source_paths, 
+                SDK, 
+                TARGET_VERSION, 
+                module, 
+                FRAMEWORK_SEARCH_PATHS, 
+                import_paths=mini_module.import_paths,
+                excludes = mini_module.excludes,
+                enable_testing = False,
+                xctest = True,
+                xctest_bundle=True,
+                xcode_path=args.xcode_path)
+            run_xctest(module)
+            module_name = module.split('Tests')[0]
+            prof_data_file = '{}.profdata'.format(module_name)
+            call([
+                'xcrun', 
+                'llvm-profdata',
+                'merge',
+                '-o',
+                prof_data_file,
+                'default.profraw',
+                prof_data_file
+            ])
+            coverage_data = Popen([
+                'xcrun', 
+                'llvm-cov', 
+                'show', 
+                '-instr-profile={}'.format(prof_data_file),
+                'Frameworks/macos/{}.framework/{}'.format(module_name, module_name)
+            ], stdout=PIPE).stdout.read()
+            open('CoverageData/{}.cov'.format(module_name), 'w').write(coverage_data)
+
+        for module, mini_module in darwin_tests.iteritems():
+            FrameworkBuilder(
+                mini_module.source_paths + test_utils_source, 
+                SDK, 
+                TARGET_VERSION, 
+                module, 
+                FRAMEWORK_SEARCH_PATHS, 
+                import_paths=mini_module.import_paths,
+                excludes = mini_module.excludes,
+                enable_testing = False,
+                xctest = True,
+                xctest_bundle=True,
+                xcode_path=args.xcode_path)
+            run_xctest(module)
