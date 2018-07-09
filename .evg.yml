@@ -6,7 +6,6 @@ functions:
   "setup_swiftlint":
     - command: shell.exec
       params:
-        shell: "bash"
         script: |
           git clone https://github.com/realm/SwiftLint
           cd SwiftLint
@@ -15,13 +14,11 @@ functions:
   "setup_mongod":
     - command: shell.exec
       params:
-        shell: "bash"
         script: |
           set -e
           curl --silent ${mongodb_url} | tar xz
     - command: shell.exec
       params:
-        shell: "bash"
         background: true
         script: |
           set -e
@@ -31,7 +28,6 @@ functions:
           ./bin/mongod --dbpath ./db_files --port 26000
     - command: shell.exec
       params:
-        shell: "bash"
         script: |
           set -e
           cd mongodb-*
@@ -41,15 +37,6 @@ functions:
   "setup_stitch":
     - command: shell.exec
       params:
-        shell: "bash"
-        silent: true
-        script: |
-          set -e
-          echo export AWS_ACCESS_KEY_ID=${test_aws_key} >> creds
-          echo export AWS_SECRET_ACCESS_KEY=${test_aws_secret} >> creds
-    - command: shell.exec
-      params:
-        shell: "bash"
         script: |
           set -e
           echo "cloning stitch"
@@ -72,7 +59,6 @@ functions:
           yarn install && yarn run build -t ${transpiler_target}
     - command: shell.exec
       params:
-        shell: "bash"
         background: true
         script: |
           set -e
@@ -89,7 +75,6 @@ functions:
           go run $STITCH_PATH/cmd/server/main.go --configFile $STITCH_PATH/etc/configs/test_config.json
     - command: shell.exec
       params:
-        shell: "bash"
         script: |
           counter=0
           until $(curl --output /dev/null --silent --head --fail http://localhost:9090); do
@@ -103,7 +88,6 @@ functions:
   "setup_stitch_swift":
     - command: shell.exec
       params:
-        shell: "bash"
         script: |
           set -e
           cd stitch-ios-sdk
@@ -119,7 +103,6 @@ tasks:
       - func: "setup_swiftlint"
       - command: shell.exec
         params: 
-          shell: "bash"
           script: |
             set -e
             cd stitch-ios-sdk/StitchCore
@@ -132,27 +115,35 @@ tasks:
       - func: "setup_stitch_swift"
       - command: shell.exec
         params:
-          shell: "bash"
+          silent: true
           script: |
-            echo "running ios tests"           
             set -e
+            echo export AWS_ACCESS_KEY_ID=${test_aws_key} >> creds
+            echo export AWS_SECRET_ACCESS_KEY=${test_aws_secret} >> creds
+            echo export TWILIO_SID=${test_twilio_sid} >> creds
+            echo export TWILIO_AUTH_TOKEN=${test_twilio_authtoken} >> creds
+            echo export FCM_SENDER_ID=${test_fcm_sender_id} >> creds
+            echo export FCM_API_KEY=${test_fcm_api_key} >> creds
+            echo export COVERALLS_TOKEN=${coveralls_repo_token} >> creds
+      - command: shell.exec
+        params:
+          script: |
+            set -e
+
+            echo "running ios tests"
+            source ./creds
 
             export DEVELOPER_DIR=/Applications/Xcode9.2.app
             cd stitch-ios-sdk
-
-            export AWS_ACCESS_KEY_ID=${test_aws_key}
-            export AWS_SECRET_ACCESS_KEY=${test_aws_secret}
-            export FCM_SENDER_ID=${test_fcm_sender_id} 
-            export FCM_API_KEY=${test_fcm_api_key}
-            export TWILIO_SID=${test_twilio_sid}
-            export TWILIO_AUTH_TOKEN=${test_twilio_authtoken}
 
             export swiftc="$DEVERLOPER_DIR/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
             python scripts/run_xctests.py --xcode-path=$DEVELOPER_DIR
       - command: shell.exec
         params:
-          shell: "bash"
+          silent: true
           script: |
+            set -e
+            source ./creds
             cd stitch-ios-sdk
             if [ -z "${github_pr_number}" ]; then
               if [ "${is_patch}" = "true" ]; then
