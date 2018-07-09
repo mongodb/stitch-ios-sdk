@@ -152,7 +152,7 @@ tasks:
               fi
             fi
             /usr/local/opt/python3/bin/python3 scripts/xccoveralls.py \
-              --repo-token=${coveralls_repo_token} \
+              --repo-token=$COVERALLS_TOKEN \
               --pull-request-id=${github_pr_number} \
               --commit-sha=${revision}
 buildvariants:
