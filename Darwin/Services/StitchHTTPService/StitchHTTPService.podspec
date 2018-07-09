@@ -27,7 +27,7 @@ Pod::Spec.new do |spec|
     spec.watchos.deployment_target = "4.3"
     spec.macos.deployment_target = "10.10"
   
-    spec.source_files = "Darwin/Services/#{spec.name}/**/*.swift"
+    spec.source_files = "Darwin/Services/#{spec.name}/#{spec.name}/**/*.swift"
 
     spec.dependency 'StitchCore', '~> 4.0.1'
     spec.dependency 'StitchCoreHTTPService', '~> 4.0.1'
