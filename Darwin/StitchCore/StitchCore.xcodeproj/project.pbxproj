@@ -39,6 +39,10 @@
 		4902C6C9205174A100E53674 /* NamedServiceClientFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C6C8205174A100E53674 /* NamedServiceClientFactory.swift */; };
 		49368D6D2052F350006153D3 /* StitchAppClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49368D6C2052F350006153D3 /* StitchAppClientImpl.swift */; };
 		49368D702052F35B006153D3 /* StitchAuthImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49368D6F2052F35B006153D3 /* StitchAuthImpl.swift */; };
+		493A699C20EFD8E700BFE39E /* JWT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 493A699B20EFD8E700BFE39E /* JWT.framework */; };
+		493A69A020EFE1E800BFE39E /* libbson.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 493A699D20EFE1E800BFE39E /* libbson.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		493A69A120EFE1E800BFE39E /* libmongoc.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 493A699E20EFE1E800BFE39E /* libmongoc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		493A69A220EFE1E800BFE39E /* MongoSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 493A699F20EFE1E800BFE39E /* MongoSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		494C0A8920EBCEC400773B49 /* StitchDarwinCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494C0A8820EBCEC400773B49 /* StitchDarwinCoreTestUtils.framework */; };
 		494C21D720ED804E00A26734 /* StitchCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494C21D620ED804E00A26734 /* StitchCoreSDK.framework */; };
 		496CAA8920A5E3A6001F0D3C /* ThrowingServiceClientFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496CAA8820A5E3A6001F0D3C /* ThrowingServiceClientFactory.swift */; };
@@ -74,7 +78,6 @@
 		F4B2759120DAD304000CB126 /* NamedServiceClientFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C6C8205174A100E53674 /* NamedServiceClientFactory.swift */; };
 		F4B2759220DAD304000CB126 /* ThrowingServiceClientFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496CAA8820A5E3A6001F0D3C /* ThrowingServiceClientFactory.swift */; };
 		F4B2759320DAD304000CB126 /* ServiceClientFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C6CE2051753000E53674 /* ServiceClientFactory.swift */; };
-		F4D3E4DD20B5C28D00C7479A /* JWT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D3E4DC20B5C28D00C7479A /* JWT.framework */; };
 		F4DA27BB20D3445B00852314 /* UserPasswordAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DA27BA20D3445B00852314 /* UserPasswordAuthProviderClient.swift */; };
 /* End PBXBuildFile section */
 
@@ -95,6 +98,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				493A69A020EFE1E800BFE39E /* libbson.framework in Embed Frameworks */,
+				493A69A120EFE1E800BFE39E /* libmongoc.framework in Embed Frameworks */,
+				493A69A220EFE1E800BFE39E /* MongoSwift.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -149,6 +155,10 @@
 		4902C6CE2051753000E53674 /* ServiceClientFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceClientFactory.swift; sourceTree = "<group>"; };
 		49368D6C2052F350006153D3 /* StitchAppClientImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchAppClientImpl.swift; sourceTree = "<group>"; };
 		49368D6F2052F35B006153D3 /* StitchAuthImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchAuthImpl.swift; sourceTree = "<group>"; };
+		493A699B20EFD8E700BFE39E /* JWT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = JWT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		493A699D20EFE1E800BFE39E /* libbson.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libbson.framework; path = ../../Frameworks/ios/libbson.framework; sourceTree = "<group>"; };
+		493A699E20EFE1E800BFE39E /* libmongoc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libmongoc.framework; path = ../../Frameworks/ios/libmongoc.framework; sourceTree = "<group>"; };
+		493A699F20EFE1E800BFE39E /* MongoSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MongoSwift.framework; path = ../../Frameworks/ios/MongoSwift.framework; sourceTree = "<group>"; };
 		494C0A8220EBCEA500773B49 /* libbson.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libbson.framework; path = ../../Frameworks/ios/libbson.framework; sourceTree = "<group>"; };
 		494C0A8420EBCEA500773B49 /* libmongoc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libmongoc.framework; path = ../../Frameworks/ios/libmongoc.framework; sourceTree = "<group>"; };
 		494C0A8620EBCEA500773B49 /* MongoSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MongoSwift.framework; path = ../../Frameworks/ios/MongoSwift.framework; sourceTree = "<group>"; };
@@ -175,12 +185,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				493A699C20EFD8E700BFE39E /* JWT.framework in Frameworks */,
 				494C21D720ED804E00A26734 /* StitchCoreSDK.framework in Frameworks */,
 				494C0A8920EBCEC400773B49 /* StitchDarwinCoreTestUtils.framework in Frameworks */,
 				1136564D20CF5CA100FB68BE /* StitchCore.framework in Frameworks */,
 				F466EDFC20B516B800D6E4E8 /* StitchCoreTestUtils.framework in Frameworks */,
 				F466EDFA20B5169000D6E4E8 /* StitchCoreAdminClient.framework in Frameworks */,
-				F4D3E4DD20B5C28D00C7479A /* JWT.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,6 +343,9 @@
 		4902C66E205006C800E53674 = {
 			isa = PBXGroup;
 			children = (
+				493A699D20EFE1E800BFE39E /* libbson.framework */,
+				493A699E20EFE1E800BFE39E /* libmongoc.framework */,
+				493A699F20EFE1E800BFE39E /* MongoSwift.framework */,
 				4902C67A205006C800E53674 /* StitchCore */,
 				11981A1A2062C4AA0074BB11 /* StitchCoreTests */,
 				4902C679205006C800E53674 /* Products */,
@@ -364,6 +377,7 @@
 		4902C6872050076B00E53674 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				493A699B20EFD8E700BFE39E /* JWT.framework */,
 				494C21D620ED804E00A26734 /* StitchCoreSDK.framework */,
 				494C0A8820EBCEC400773B49 /* StitchDarwinCoreTestUtils.framework */,
 				F4B2757820DAD13A000CB126 /* StitchCoreSDK.framework */,
@@ -717,6 +731,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2Z8M9MTEVV;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -734,7 +750,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REEXPORTED_FRAMEWORK_NAMES = "";
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos watchos watchsimulator macosx";
-				SWIFT_INCLUDE_PATHS = StitchCoreTests/Core/TestUtil;
+				SWIFT_INCLUDE_PATHS = "\"$(SRCROOT)/../../CommonCrypto\"";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
@@ -747,6 +763,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2Z8M9MTEVV;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -764,7 +782,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REEXPORTED_FRAMEWORK_NAMES = "";
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos watchos watchsimulator macosx";
-				SWIFT_INCLUDE_PATHS = StitchCoreTests/Core/TestUtil;
+				SWIFT_INCLUDE_PATHS = "\"$(SRCROOT)/../../CommonCrypto\"";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

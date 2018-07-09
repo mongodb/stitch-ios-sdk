@@ -17,7 +17,7 @@ Pod::Spec.new do |spec|
     }
 
     spec.prepare_command = <<-CMD
-      sh scripts/download_mongoswift.sh;
+      sh scripts/download_dependencies.sh;
       python scripts/build_frameworks.py;
     CMD
 

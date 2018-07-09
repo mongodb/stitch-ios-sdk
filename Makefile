@@ -1,5 +1,5 @@
 all:
-	sh scripts/download_mongoswift.sh
+	sh scripts/download_dependencies.sh
 	python scripts/build_frameworks.py
 	python scripts/generate_xcconfigs.py
 	/usr/local/opt/python3/bin/python3 scripts/add_copy_phase.py
