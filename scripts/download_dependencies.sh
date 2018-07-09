@@ -35,3 +35,10 @@ if [ ! -d CryptoSwift ]; then
   tar -xzf cryptoswift.tgz -C CryptoSwift --strip-components 1
   rm -rf cryptoswift.tgz
 fi
+
+if [ ! -d CommonCrypto ]; then
+    curl -# -L https://api.github.com/repos/kylef-archive/CommonCrypto/tarball > commoncrypto.tgz
+    mkdir CommonCrypto
+    tar -xzf commoncrypto.tgz -C CommonCrypto --strip-components 1
+    rm -rf commoncrypto.tgz
+fi

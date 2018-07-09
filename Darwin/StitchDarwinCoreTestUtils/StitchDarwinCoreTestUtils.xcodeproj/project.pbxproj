@@ -9,9 +9,6 @@
 /* Begin PBXBuildFile section */
 		1149A20E20CF3D2C006B2603 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1149A20D20CF3D2C006B2603 /* StitchCore.framework */; };
 		494C0A7A20EBCD4300773B49 /* BaseStitchIntTestCocoaTouch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C0A7720EBCD4300773B49 /* BaseStitchIntTestCocoaTouch.swift */; };
-		494C0A7B20EBCD4300773B49 /* StitchCoreTestUtils_iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 494C0A7820EBCD4300773B49 /* StitchCoreTestUtils_iOS.h */; };
-		494C0A7C20EBCD4300773B49 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 494C0A7920EBCD4300773B49 /* Info.plist */; };
-		494C0A8120EBCD4A00773B49 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 494C0A7F20EBCD4A00773B49 /* Info.plist */; };
 		F466EE3120B5203800D6E4E8 /* StitchCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F466EE3020B5203800D6E4E8 /* StitchCoreTestUtils.framework */; };
 		F466EE3320B5203E00D6E4E8 /* StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F466EE3220B5203E00D6E4E8 /* StitchCoreAdminClient.framework */; };
 		F466EE3520B520E100D6E4E8 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F466EE3420B520E100D6E4E8 /* StitchCore.framework */; };
@@ -32,7 +29,6 @@
 /* Begin PBXFileReference section */
 		1149A20D20CF3D2C006B2603 /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		494C0A7720EBCD4300773B49 /* BaseStitchIntTestCocoaTouch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseStitchIntTestCocoaTouch.swift; sourceTree = "<group>"; };
-		494C0A7820EBCD4300773B49 /* StitchCoreTestUtils_iOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StitchCoreTestUtils_iOS.h; sourceTree = "<group>"; };
 		494C0A7920EBCD4300773B49 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		494C0A7E20EBCD4A00773B49 /* StitchDarwinCoreTestUtilsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchDarwinCoreTestUtilsTests.swift; sourceTree = "<group>"; };
 		494C0A7F20EBCD4A00773B49 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -80,7 +76,6 @@
 			isa = PBXGroup;
 			children = (
 				494C0A7720EBCD4300773B49 /* BaseStitchIntTestCocoaTouch.swift */,
-				494C0A7820EBCD4300773B49 /* StitchCoreTestUtils_iOS.h */,
 				494C0A7920EBCD4300773B49 /* Info.plist */,
 			);
 			path = StitchDarwinCoreTestUtils;
@@ -141,7 +136,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				494C0A7B20EBCD4300773B49 /* StitchCoreTestUtils_iOS.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,7 +185,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0930;
-				LastUpgradeCheck = 0930;
+				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = MongoDB;
 				TargetAttributes = {
 					F4D04C9320ADDA6F004CCCD7 = {
@@ -226,8 +220,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				494C0A8120EBCD4A00773B49 /* Info.plist in Resources */,
-				494C0A7C20EBCD4300773B49 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -402,10 +394,12 @@
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../vendor/Sources/libbson",
-					"$(SRCROOT)/../../vendor/Sources/libmongoc",
+				"FRAMEWORK_SEARCH_PATHS[sdk=iphonesimulator*]" = (
+					"\"$(SRCROOT)/../../Frameworks/ios\"",
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "$(SRCROOT)/StitchDarwinCoreTestUtils/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
@@ -414,7 +408,6 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../vendor/MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchDarwinCoreTestUtils;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
@@ -440,10 +433,7 @@
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../vendor/Sources/libbson",
-					"$(SRCROOT)/../../vendor/Sources/libmongoc",
-				);
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "$(SRCROOT)/StitchDarwinCoreTestUtils/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
@@ -452,7 +442,6 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../vendor/MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchDarwinCoreTestUtils;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
