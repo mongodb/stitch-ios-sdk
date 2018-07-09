@@ -55,13 +55,8 @@ Pod::Spec.new do |spec|
     end
 
     # pod "StitchSDK/StitchCoreTwilioService", "~> 4.0"
-        spec.subspec "StitchCoreTwilioService" do |core_twilio_service|
+    spec.subspec "StitchCoreTwilioService" do |core_twilio_service|
         core_twilio_service.dependency 'StitchCoreTwilioService', '~> 4.0.1'
-        end
-
-    # pod "StitchSDK/StitchCoreLocalMongoDBService", "~> 4.0"
-    spec.subspec "StitchCoreLocalMongoDBService" do |core_local_mongodb_service|
-        core_local_mongodb_service.dependency 'StitchCoreLocalMongoDBService', '~> 4.0.1'
     end
 
     # pod "StitchSDK/StitchCore", "~> 4.0"
@@ -92,11 +87,6 @@ Pod::Spec.new do |spec|
     # pod "StitchSDK/StitchTwilioService", "~> 4.0"
     spec.subspec "StitchTwilioService" do |twilio_service|
         twilio_service.dependency 'StitchTwilioService', '~> 4.0.1'
-    end
-
-    # pod "StitchSDK/StitchLocalMongoDBService", "~> 4.0"
-    spec.subspec "StitchLocalMongoDBService" do |local_mongodb_service|
-        local_mongodb_service.dependency 'StitchLocalMongoDBService', '~> 4.0.0'
     end
 
     # pod "StitchSDK", "~> 4.0"
