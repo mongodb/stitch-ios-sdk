@@ -95,42 +95,50 @@ class HTTPServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         }
         wait(for: [exp2], timeout: 5.0)
         
-        // A correctly specific request should succeed
-        let goodRequest = try HTTPRequestBuilder()
-            .with(url: "https://httpbin.org/delete")
-            .with(method: method)
-            .with(body: body)
-            .with(cookies: cookies)
-            .with(headers: headers)
-            .build()
-
-        let exp3 = expectation(description: "request should be successfully completed")
-        var response: HTTPResponse!
-        httpClient.execute(request: goodRequest) { result in
-            switch result {
-            case .success(let resp):
-                response = resp
-            case .failure(let error):
-                print(error)
-                XCTFail("unexpected error")
+        let retryAttempts = 3
+        for index in 1...retryAttempts {
+            // A correctly specific request should succeed
+            let goodRequest = try HTTPRequestBuilder()
+                .with(url: "https://httpbin.org/delete")
+                .with(method: method)
+                .with(body: body)
+                .with(cookies: cookies)
+                .with(headers: headers)
+                .build()
+            
+            let exp3 = expectation(description: "request should be successfully completed")
+            var response: HTTPResponse!
+            httpClient.execute(request: goodRequest) { result in
+                switch result {
+                case .success(let resp):
+                    response = resp
+                case .failure(let error):
+                    print(error)
+                    XCTFail("unexpected error")
+                }
+                
+                exp3.fulfill()
+            }
+            wait(for: [exp3], timeout: 20.0)
+            
+            if (index != retryAttempts && response!.statusCode != 200) {
+                Thread.sleep(forTimeInterval: 5)
+                continue
             }
             
-            exp3.fulfill()
+            XCTAssertEqual("200 OK", response!.status)
+            XCTAssertEqual(200, response!.statusCode)
+            XCTAssertTrue(300 <= response!.contentLength && response!.contentLength <= 400)
+            XCTAssertNotNil(response!.body)
+            
+            let dataDoc = try Document.init(fromJSON: response!.body!)
+            
+            let dataString: String = try dataDoc.get("data")
+            XCTAssertEqual(String.init(data: body, encoding: .utf8)!, dataString)
+            
+            let headersDoc: Document = try dataDoc.get("headers")
+            XCTAssertEqual("value1,value2", try headersDoc.get("Myheader"))
+            XCTAssertEqual("bob=barker", try headersDoc.get("Cookie"))
         }
-        wait(for: [exp3], timeout: 20.0)
-
-        XCTAssertEqual("200 OK", response!.status)
-        XCTAssertEqual(200, response!.statusCode)
-        XCTAssertTrue(300 <= response!.contentLength && response!.contentLength <= 400)
-        XCTAssertNotNil(response!.body)
-
-        let dataDoc = try Document.init(fromJSON: response!.body!)
-
-        let dataString: String = try dataDoc.get("data")
-        XCTAssertEqual(String.init(data: body, encoding: .utf8)!, dataString)
-
-        let headersDoc: Document = try dataDoc.get("headers")
-        XCTAssertEqual("value1,value2", try headersDoc.get("Myheader"))
-        XCTAssertEqual("bob=barker", try headersDoc.get("Cookie"))
     }
 }
