@@ -2,18 +2,17 @@ all:
 	sh scripts/download_dependencies.sh
 	python scripts/build_frameworks.py
 	python scripts/generate_xcconfigs.py
-	/usr/local/opt/python3/bin/python3 scripts/add_copy_phase.py
-	$(MAKE) -C MockUtils all
-	$(MAKE) -C Core/StitchCoreSDK all
-	$(MAKE) -C Core/StitchCoreAdminClient all
-	$(MAKE) -C Core/Services/StitchCoreAWSS3Service all
-	$(MAKE) -C Core/Services/StitchCoreAWSSESService all
-	$(MAKE) -C Core/Services/StitchCoreFCMService all
-	$(MAKE) -C Core/Services/StitchCoreHTTPService all
-	$(MAKE) -C Core/Services/StitchCoreLocalMongoDBService all
-	$(MAKE) -C Core/Services/StitchCoreRemoteMongoDBService all
-	$(MAKE) -C Core/Services/StitchCoreTwilioService all
-	$(MAKE) -C Core/StitchCoreTestUtils all
+	$(MAKE) -C MockUtils prepare
+	$(MAKE) -C Core/StitchCoreSDK prepare
+	$(MAKE) -C Core/StitchCoreAdminClient prepare
+	$(MAKE) -C Core/StitchCoreTestUtils prepare
+	$(MAKE) -C Core/Services/StitchCoreAWSS3Service prepare
+	$(MAKE) -C Core/Services/StitchCoreAWSSESService prepare
+	$(MAKE) -C Core/Services/StitchCoreFCMService prepare
+	$(MAKE) -C Core/Services/StitchCoreHTTPService prepare
+	$(MAKE) -C Core/Services/StitchCoreLocalMongoDBService prepare
+	$(MAKE) -C Core/Services/StitchCoreRemoteMongoDBService prepare
+	$(MAKE) -C Core/Services/StitchCoreTwilioService prepare
 clean:
 	rm -rf ./vendor
 	rm -rf ./.build
@@ -29,22 +28,7 @@ clean:
 	$(MAKE) -C Core/Services/StitchCoreHTTPService clean
 	$(MAKE) -C Core/Services/StitchCoreLocalMongoDBService clean
 	$(MAKE) -C Core/Services/StitchCoreRemoteMongoDBService clean
-	$(MAKE) -C Core/Services/StitchCoreTwilioService clean
-prepare:
-	sh scripts/download_dependencies.sh
-	python scripts/build_frameworks.py
-	python scripts/generate_xcconfigs.py
-	$(MAKE) -C MockUtils prepare
-	$(MAKE) -C Core/StitchCoreSDK prepare
-	$(MAKE) -C Core/StitchCoreAdminClient prepare
-	$(MAKE) -C Core/StitchCoreTestUtils prepare
-	$(MAKE) -C Core/Services/StitchCoreAWSS3Service prepare
-	$(MAKE) -C Core/Services/StitchCoreAWSSESService prepare
-	$(MAKE) -C Core/Services/StitchCoreFCMService prepare
-	$(MAKE) -C Core/Services/StitchCoreHTTPService prepare
-	$(MAKE) -C Core/Services/StitchCoreLocalMongoDBService prepare
-	$(MAKE) -C Core/Services/StitchCoreRemoteMongoDBService prepare
-	$(MAKE) -C Core/Services/StitchCoreTwilioService prepare
+	$(MAKE) -C Core/Services/StitchCoreTwilioService clean	
 lint:
 	$(MAKE) -C MockUtils lint
 	$(MAKE) -C Core/StitchCoreSDK lint
