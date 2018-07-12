@@ -423,15 +423,10 @@
 					"$(SRCROOT)/../../../Frameworks/ios",
 					"$(inherited)",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../vendor/Sources/libbson",
-					"$(SRCROOT)/../../../vendor/Sources/libmongoc",
-				);
 				INFOPLIST_FILE = "$(SRCROOT)/StitchTwilioService/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib $(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchTwilioService;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -458,15 +453,10 @@
 					"$(SRCROOT)/../../../Frameworks/ios",
 					"$(inherited)",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../vendor/Sources/libbson",
-					"$(SRCROOT)/../../../vendor/Sources/libmongoc",
-				);
 				INFOPLIST_FILE = "$(SRCROOT)/StitchTwilioService/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib $(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchTwilioService;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -485,13 +475,9 @@
 					"$(SRCROOT)/../../../Frameworks/ios",
 					"$(inherited)",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../vendor/Sources/libbson",
-					"$(SRCROOT)/../../../vendor/Sources/libmongoc",
-				);
 				INFOPLIST_FILE = StitchTwilioServiceTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib $(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchTwilioServiceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = StitchTwilioServiceTests/TwilioServiceClientTestsConstants.h;
@@ -509,13 +495,9 @@
 					"$(SRCROOT)/../../../Frameworks/ios",
 					"$(inherited)",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../vendor/Sources/libbson",
-					"$(SRCROOT)/../../../vendor/Sources/libmongoc",
-				);
 				INFOPLIST_FILE = StitchTwilioServiceTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib $(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib";
 				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchTwilioServiceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = StitchTwilioServiceTests/TwilioServiceClientTestsConstants.h;

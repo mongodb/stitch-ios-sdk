@@ -739,10 +739,6 @@
 					"$(SRCROOT)/../../Frameworks/ios",
 					"$(inherited)",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../vendor/Sources/libbson",
-					"$(SRCROOT)/../../vendor/Sources/libmongoc",
-				);
 				INFOPLIST_FILE = StitchCoreTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/Frameworks @executable_path/Frameworks @rpath$(SRCROOT)/../../Dependencies/lib $(SRCROOT)/../../Dependencies/lib \"$(SRCROOT)/../../vendor/MobileSDKs/iphoneos/lib\" $(inherited) @executable_path/Frameworks";
@@ -770,10 +766,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/../../Frameworks/ios",
 					"$(inherited)",
-				);
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../vendor/Sources/libbson",
-					"$(SRCROOT)/../../vendor/Sources/libmongoc",
 				);
 				INFOPLIST_FILE = StitchCoreTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
@@ -968,10 +960,6 @@
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"\"$(SRCROOT)/../../Frameworks/watchos\"",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../vendor/Sources/libbson",
-					"$(SRCROOT)/../../vendor/Sources/libmongoc",
-				);
 				INFOPLIST_FILE = StitchCore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
@@ -1006,10 +994,6 @@
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(SRCROOT)/../../Frameworks/ios",
-				);
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../vendor/Sources/libbson",
-					"$(SRCROOT)/../../vendor/Sources/libmongoc",
 				);
 				INFOPLIST_FILE = StitchCore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
