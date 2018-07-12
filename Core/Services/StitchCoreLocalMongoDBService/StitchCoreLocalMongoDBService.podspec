@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
     spec.name       = File.basename(__FILE__, '.podspec')
-    spec.version    = "4.0.0"
+    spec.version    = "4.0.1"
     spec.summary    = "#{__FILE__} Module"
     spec.homepage   = "https://github.com/mongodb/stitch-ios-sdk"
     spec.license    = "Apache2"
@@ -46,5 +46,5 @@ Pod::Spec.new do |spec|
     spec.tvos.vendored_library = 'vendor/MobileSDKs/appletvos/lib/*.dylib'
     spec.watchos.vendored_library = 'vendor/MobileSDKs/watchos/lib/*.dylib'
 
-    spec.dependency 'StitchCoreSDK', '~> 4.0.0'
+    spec.dependency 'StitchCoreSDK', '<= 4.0.0'
 end
