@@ -128,7 +128,7 @@ class HTTPServiceClientIntTests: BaseStitchIntTestCocoaTouch {
             
             XCTAssertEqual("200 OK", response!.status)
             XCTAssertEqual(200, response!.statusCode)
-            XCTAssertTrue(300 <= response!.contentLength && response!.contentLength <= 400)
+            XCTAssertTrue(300 <= response!.contentLength && response!.contentLength <= 500)
             XCTAssertNotNil(response!.body)
             
             let dataDoc = try Document.init(fromJSON: response!.body!)
