@@ -153,7 +153,7 @@ logged in anonymously as user 58c5d6ebb9ede022a3d75050
 
 ##### Executing a Function
 
-1. Once logged in, executing a function happens via the StitchClient's `executeFunction()` method
+1. Once logged in, executing a function happens via the StitchClient's `callFunction()` method
 
 ```swift
     client.callFunction(
