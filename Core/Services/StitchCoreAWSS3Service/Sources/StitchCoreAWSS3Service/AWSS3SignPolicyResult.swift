@@ -1,8 +1,9 @@
 import Foundation
 
 /**
- * The result of an AWS S3 sign policy request.
+ * The result of an AWS S3 sign policy request. (Deprecated)
  */
+@available(*, deprecated, message: "Use AWSServiceClient instead")
 public struct AWSS3SignPolicyResult: Decodable {
     /**
      * The description of the policy that has been signed.

@@ -43,10 +43,8 @@ target '<Your Target Name>' do
     # For core functionality and the Remote MongoDB Service
     pod 'StitchSDK', '~> 4.0.3'
 
-    # optional: for using the AWS S3 service
-    pod 'StitchSDK/StitchAWSS3Service', '~> 4.0.3'
-    # optional: for using the AWS SES service
-    pod 'StitchSDK/StitchAWSSESService', '~> 4.0.3'
+    # optional: for using the AWS service
+    pod 'StitchSDK/StitchAWSService', '~> 4.0.3'
     # optional: for using the Firebase Cloud Messaging service
     pod 'StitchSDK/StitchFCMService', '~> 4.0.3'
     # optional: for using the HTTP service

@@ -2,7 +2,7 @@ import Foundation
 import MongoSwift
 import StitchCoreSDK
 
-
+@available(*, deprecated, message: "Use AWSServiceClient instead")
 public final class CoreAWSS3ServiceClient {
     private let service: CoreStitchServiceClient
     
@@ -41,7 +41,7 @@ public final class CoreAWSS3ServiceClient {
             args[bodyKey] = Binary.init(data: dataVal, subtype: .binary)
         }
         
-        return try self.service.callFunctionInternal(
+        return try self.service.callFunction(
             withName: "put",
             withArgs: [args],
             withRequestTimeout: timeout
@@ -107,7 +107,7 @@ public final class CoreAWSS3ServiceClient {
             "contentType": contentType
         ]
         
-        return try service.callFunctionInternal(
+        return try service.callFunction(
             withName: "signPolicy", withArgs: [args], withRequestTimeout: nil)
     }
 }

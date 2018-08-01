@@ -18,7 +18,7 @@ final class CoreAWSS3ServiceClientUnitTests: XCTestCase {
         
         let expectedLocation = "awsLocation"
         
-        service.callFunctionInternalWithDecodingMock.doReturn(
+        service.callFunctionWithDecodingMock.doReturn(
             result: AWSS3PutObjectResult.init(location: expectedLocation),
             forArg1: .any,
             forArg2: .any,
@@ -35,7 +35,7 @@ final class CoreAWSS3ServiceClientUnitTests: XCTestCase {
         
         XCTAssertEqual(expectedLocation, result.location)
         
-        let (funcNameArg, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
+        let (funcNameArg, funcArgsArg, _) = service.callFunctionWithDecodingMock.capturedInvocations.last!
         
         XCTAssertEqual("put", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
@@ -51,7 +51,7 @@ final class CoreAWSS3ServiceClientUnitTests: XCTestCase {
         XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
         
         // should pass along errors
-        service.callFunctionInternalWithDecodingMock.doThrow(
+        service.callFunctionWithDecodingMock.doThrow(
             error: StitchError.serviceError(withMessage: "", withServiceErrorCode: .unknown),
             forArg1: .any,
             forArg2: .any,
@@ -84,7 +84,7 @@ final class CoreAWSS3ServiceClientUnitTests: XCTestCase {
         
         let expectedLocation = "awsLocation"
         
-        service.callFunctionInternalWithDecodingMock.doReturn(
+        service.callFunctionWithDecodingMock.doReturn(
             result: AWSS3PutObjectResult.init(location: expectedLocation),
             forArg1: .any,
             forArg2: .any,
@@ -101,7 +101,7 @@ final class CoreAWSS3ServiceClientUnitTests: XCTestCase {
         
         XCTAssertEqual(expectedLocation, result.location)
         
-        let (funcNameArg, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
+        let (funcNameArg, funcArgsArg, _) = service.callFunctionWithDecodingMock.capturedInvocations.last!
         
         XCTAssertEqual("put", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
@@ -117,7 +117,7 @@ final class CoreAWSS3ServiceClientUnitTests: XCTestCase {
         XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
         
         // should pass along errors
-        service.callFunctionInternalWithDecodingMock.doThrow(
+        service.callFunctionWithDecodingMock.doThrow(
             error: StitchError.serviceError(withMessage: "", withServiceErrorCode: .unknown),
             forArg1: .any,
             forArg2: .any,
@@ -150,7 +150,7 @@ final class CoreAWSS3ServiceClientUnitTests: XCTestCase {
         
         let expectedLocation = "awsLocation"
         
-        service.callFunctionInternalWithDecodingMock.doReturn(
+        service.callFunctionWithDecodingMock.doReturn(
             result: AWSS3PutObjectResult.init(location: expectedLocation),
             forArg1: .any,
             forArg2: .any,
@@ -167,7 +167,7 @@ final class CoreAWSS3ServiceClientUnitTests: XCTestCase {
         
         XCTAssertEqual(expectedLocation, result.location)
         
-        let (funcNameArg, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
+        let (funcNameArg, funcArgsArg, _) = service.callFunctionWithDecodingMock.capturedInvocations.last!
         
         XCTAssertEqual("put", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
@@ -183,7 +183,7 @@ final class CoreAWSS3ServiceClientUnitTests: XCTestCase {
         XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
         
         // should pass along errors
-        service.callFunctionInternalWithDecodingMock.doThrow(
+        service.callFunctionWithDecodingMock.doThrow(
             error: StitchError.serviceError(withMessage: "", withServiceErrorCode: .unknown),
             forArg1: .any,
             forArg2: .any,
@@ -219,7 +219,7 @@ final class CoreAWSS3ServiceClientUnitTests: XCTestCase {
         let expectedDate = "01-101-2012"
         let expectedCredential = "someCredential"
         
-        service.callFunctionInternalWithDecodingMock.doReturn(
+        service.callFunctionWithDecodingMock.doReturn(
             result: AWSS3SignPolicyResult.init(policy: expectedPolicy,
                                                signature: expectedSignature,
                                                algorithm: expectedAlgorithm,
@@ -236,7 +236,7 @@ final class CoreAWSS3ServiceClientUnitTests: XCTestCase {
         XCTAssertEqual(expectedDate, result.date)
         XCTAssertEqual(expectedCredential, result.credential)
         
-        let (funcNameArg, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
+        let (funcNameArg, funcArgsArg, _) = service.callFunctionWithDecodingMock.capturedInvocations.last!
         
         XCTAssertEqual("signPolicy", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
@@ -251,7 +251,7 @@ final class CoreAWSS3ServiceClientUnitTests: XCTestCase {
         XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
         
         // should pass along errors
-        service.callFunctionInternalWithDecodingMock.doThrow(
+        service.callFunctionWithDecodingMock.doThrow(
             error: StitchError.serviceError(withMessage: "", withServiceErrorCode: .unknown),
             forArg1: .any,
             forArg2: .any,

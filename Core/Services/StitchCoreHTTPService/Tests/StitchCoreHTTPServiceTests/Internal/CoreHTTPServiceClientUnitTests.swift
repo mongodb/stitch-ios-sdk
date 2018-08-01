@@ -38,13 +38,13 @@ final class CoreHTTPServiceClientUnitTests: XCTestCase {
             body: "response body".data(using: .utf8)
         )
         
-        service.callFunctionInternalWithDecodingMock.doReturn(
+        service.callFunctionWithDecodingMock.doReturn(
             result: response, forArg1: .any, forArg2: .any, forArg3: .any
         )
         
         _ = try client.execute(request: request)
         
-        let (funcNameArg, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
+        let (funcNameArg, funcArgsArg, _) = service.callFunctionWithDecodingMock.capturedInvocations.last!
         
         XCTAssertEqual("delete", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
@@ -63,7 +63,7 @@ final class CoreHTTPServiceClientUnitTests: XCTestCase {
         XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
         
         // should pass along errors
-        service.callFunctionInternalWithDecodingMock.doThrow(
+        service.callFunctionWithDecodingMock.doThrow(
             error: StitchError.serviceError(withMessage: "", withServiceErrorCode: .unknown),
             forArg1: .any,
             forArg2: .any,

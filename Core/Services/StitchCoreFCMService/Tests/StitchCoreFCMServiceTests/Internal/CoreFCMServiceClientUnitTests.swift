@@ -90,7 +90,7 @@ final class CoreFCMServiceClientUnitTests: XCTestCase {
         
         let result = FCMSendMessageResult.init(successes: 4, failures: 2, failureDetails: failureDetails)
         
-        service.callFunctionInternalWithDecodingMock.doReturn(
+        service.callFunctionWithDecodingMock.doReturn(
             result: result,
             forArg1: .any, forArg2: .any, forArg3: .any
         )
@@ -100,7 +100,7 @@ final class CoreFCMServiceClientUnitTests: XCTestCase {
         let to = "who"
         XCTAssertEqual(result, try client.sendMessage(to: to, withRequest: fullRequest))
         
-        var (funcNameArg, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
+        var (funcNameArg, funcArgsArg, _) = service.callFunctionWithDecodingMock.capturedInvocations.last!
         
         XCTAssertEqual("send", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
@@ -141,8 +141,8 @@ final class CoreFCMServiceClientUnitTests: XCTestCase {
             try client.sendMessage(toRegistrationTokens: registrationTokens, withRequest: fullRequest)
         )
         
-        XCTAssertEqual(2, service.callFunctionInternalWithDecodingMock.capturedInvocations.count)
-        (funcNameArg, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
+        XCTAssertEqual(2, service.callFunctionWithDecodingMock.capturedInvocations.count)
+        (funcNameArg, funcArgsArg, _) = service.callFunctionWithDecodingMock.capturedInvocations.last!
         
         XCTAssertEqual("send", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
@@ -155,8 +155,8 @@ final class CoreFCMServiceClientUnitTests: XCTestCase {
         let userIDs = ["two", "three"]
         XCTAssertEqual(result, try client.sendMessage(toUserIDs: userIDs, withRequest: fullRequest))
         
-        XCTAssertEqual(3, service.callFunctionInternalWithDecodingMock.capturedInvocations.count)
-        (funcNameArg, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
+        XCTAssertEqual(3, service.callFunctionWithDecodingMock.capturedInvocations.count)
+        (funcNameArg, funcArgsArg, _) = service.callFunctionWithDecodingMock.capturedInvocations.last!
         
         XCTAssertEqual("send", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
@@ -166,7 +166,7 @@ final class CoreFCMServiceClientUnitTests: XCTestCase {
         XCTAssertEqual(userIDsExpectedArgs, funcArgsArg[0] as? Document)
         
         // should pass along errors
-        service.callFunctionInternalWithDecodingMock.doThrow(
+        service.callFunctionWithDecodingMock.doThrow(
             error: StitchError.serviceError(withMessage: "", withServiceErrorCode: .unknown),
             forArg1: .any, forArg2: .any, forArg3: .any
         )

@@ -6,7 +6,7 @@ import StitchCoreSDK
 private final class HTTPNamedServiceClientFactory: NamedServiceClientFactory {
     typealias ClientType = HTTPServiceClient
     
-    func client(withServiceClient serviceClient: StitchServiceClient,
+    func client(withServiceClient serviceClient: CoreStitchServiceClient,
                 withClientInfo clientInfo: StitchAppClientInfo) -> HTTPServiceClient {
         return HTTPServiceClientImpl(
             withClient: CoreHTTPServiceClient.init(withService: serviceClient),

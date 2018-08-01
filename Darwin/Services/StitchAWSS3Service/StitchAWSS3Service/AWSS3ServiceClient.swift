@@ -7,7 +7,7 @@ import StitchCoreAWSS3Service
 private final class AWSS3NamedServiceClientFactory: NamedServiceClientFactory {
     typealias ClientType = AWSS3ServiceClient
     
-    func client(withServiceClient serviceClient: StitchServiceClient,
+    func client(withServiceClient serviceClient: CoreStitchServiceClient,
                 withClientInfo clientInfo: StitchAppClientInfo) -> AWSS3ServiceClient {
         return AWSS3ServiceClientImpl(
             withClient: CoreAWSS3ServiceClient.init(withService: serviceClient),
@@ -20,12 +20,14 @@ private final class AWSS3NamedServiceClientFactory: NamedServiceClientFactory {
  * Global factory const which can be used to create an `AWSS3ServiceClient` with a `StitchAppClient`. Pass into
  * `StitchAppClient.serviceClient(fromFactory:withName)` to get an `AWSS3ServiceClient.
  */
+@available(*, deprecated, message: "Use awsServiceClientFactory instead")
 public let awsS3ServiceClientFactory =
     AnyNamedServiceClientFactory<AWSS3ServiceClient>(factory: AWSS3NamedServiceClientFactory())
 
 /**
  * The AWS S3 service client, which can be used to interact with AWS Simple Storage Service (S3) via MongoDB Stitch.
  */
+@available(*, deprecated, message: "Use AWSServiceClient instead")
 public protocol AWSS3ServiceClient {
     /**
      * Puts an object into an AWS S3 bucket as a string.

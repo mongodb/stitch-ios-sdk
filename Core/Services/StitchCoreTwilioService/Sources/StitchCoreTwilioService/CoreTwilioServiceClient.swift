@@ -25,6 +25,6 @@ public final class CoreTwilioServiceClient {
             args["mediaUrl"] = mediaURL
         }
         
-        try self.service.callFunctionInternal(withName: "send", withArgs: [args], withRequestTimeout: nil)
+        try self.service.callFunction(withName: "send", withArgs: [args], withRequestTimeout: nil)
     }
 }

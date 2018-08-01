@@ -2,6 +2,7 @@ import Foundation
 import MongoSwift
 import StitchCoreSDK
 
+@available(*, deprecated, message: "Use AWSServiceClient instead")
 public final class CoreAWSSESServiceClient {
     private let service: CoreStitchServiceClient
     
@@ -20,6 +21,6 @@ public final class CoreAWSSESServiceClient {
             "body": body
         ]
         
-        return try self.service.callFunctionInternal(withName: "send", withArgs: [args], withRequestTimeout: nil)
+        return try self.service.callFunction(withName: "send", withArgs: [args], withRequestTimeout: nil)
     }
 }

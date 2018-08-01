@@ -30,10 +30,10 @@ public final class CoreStitchAppClient {
      * Performs a request against the Stitch server to call a function in the Stitch application. Takes the function
      * name and arguments as parameters.
      */
-    public func callFunctionInternal(withName name: String,
+    public func callFunction(withName name: String,
                                      withArgs args: [BsonValue],
                                      withRequestTimeout requestTimeout: TimeInterval? = nil) throws {
-        try self.functionService.callFunctionInternal(withName: name,
+        try self.functionService.callFunction(withName: name,
                                                       withArgs: args,
                                                       withRequestTimeout: requestTimeout)
     }
@@ -44,10 +44,10 @@ public final class CoreStitchAppClient {
      *
      * - returns: A `T` representing the decoded JSON of the result of the function call.
      */
-    public func callFunctionInternal<T: Decodable>(withName name: String,
+    public func callFunction<T: Decodable>(withName name: String,
                                                    withArgs args: [BsonValue],
                                                    withRequestTimeout requestTimeout: TimeInterval? = nil) throws -> T {
-        return try self.functionService.callFunctionInternal(withName: name,
+        return try self.functionService.callFunction(withName: name,
                                                              withArgs: args,
                                                              withRequestTimeout: requestTimeout)
     }

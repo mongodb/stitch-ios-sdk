@@ -5,25 +5,25 @@ import MockUtils
 
 public final class SpyCoreStitchServiceClient: CoreStitchServiceClientImpl {
     public override init(requestClient: StitchAuthRequestClient,
-                routes: StitchServiceRoutes,
-                serviceName: String?) {
+                         routes: StitchServiceRoutes,
+                         serviceName: String?) {
         super.init(requestClient: requestClient, routes: routes, serviceName: serviceName)
     }
-    public var callFunctionInternalSpy = FunctionSpyUnitThreeArgs<String, [BsonValue], TimeInterval?>()
-    public override func callFunctionInternal(withName name: String,
-                                              withArgs args: [BsonValue],
-                                              withRequestTimeout requestTimeout: TimeInterval?) throws {
-        callFunctionInternalSpy.run(arg1: name, arg2: args, arg3: requestTimeout)
-        return try super.callFunctionInternal(withName: name, withArgs: args, withRequestTimeout: requestTimeout)
+    public var callFunctionSpy = FunctionSpyUnitThreeArgs<String, [BsonValue], TimeInterval?>()
+    public override func callFunction(withName name: String,
+                                      withArgs args: [BsonValue],
+                                      withRequestTimeout requestTimeout: TimeInterval?) throws {
+        callFunctionSpy.run(arg1: name, arg2: args, arg3: requestTimeout)
+        return try super.callFunction(withName: name, withArgs: args, withRequestTimeout: requestTimeout)
     }
     
-    public var callFunctionInternalWithDecodingSpy =
+    public var callFunctionWithDecodingSpy =
         FunctionSpyUnitThreeArgs<String, [BsonValue], TimeInterval?>()
-    public override func callFunctionInternal<T>(withName name: String,
-                                                 withArgs args: [BsonValue],
-                                                 withRequestTimeout requestTimeout: TimeInterval?)
+    public override func callFunction<T>(withName name: String,
+                                         withArgs args: [BsonValue],
+                                         withRequestTimeout requestTimeout: TimeInterval?)
         throws -> T where T : Decodable {
-        callFunctionInternalWithDecodingSpy.run(arg1: name, arg2: args, arg3: requestTimeout)
-        return try super.callFunctionInternal(withName: name, withArgs: args, withRequestTimeout: requestTimeout)
+        callFunctionWithDecodingSpy.run(arg1: name, arg2: args, arg3: requestTimeout)
+        return try super.callFunction(withName: name, withArgs: args, withRequestTimeout: requestTimeout)
     }
 }

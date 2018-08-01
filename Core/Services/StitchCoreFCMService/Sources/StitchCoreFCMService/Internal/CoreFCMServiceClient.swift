@@ -41,7 +41,7 @@ public class CoreFCMServiceClient {
                                      targetTypeValue: T) throws -> FCMSendMessageResult {
         var args = try BsonEncoder().encode(request)
         args[targetTypeKey.rawValue] = targetTypeValue
-        return try self.service.callFunctionInternal(
+        return try self.service.callFunction(
             withName: CoreFCMServiceClient.sendAction,
             withArgs: [args],
             withRequestTimeout: nil

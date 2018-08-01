@@ -49,7 +49,7 @@ public final class CoreHTTPServiceClient {
             throw StitchError.requestError(withError: error, withRequestErrorCode: .encodingError)
         }
         
-        return try service.callFunctionInternal(
+        return try service.callFunction(
             withName: request.method.rawValue,
             withArgs: [args],
             withRequestTimeout: timeout

@@ -6,7 +6,7 @@ import StitchCoreSDK
 private final class AWSSESNamedServiceClientFactory: NamedServiceClientFactory {
     typealias ClientType = AWSSESServiceClient
     
-    func client(withServiceClient service: StitchServiceClient,
+    func client(withServiceClient service: CoreStitchServiceClient,
                 withClientInfo client: StitchAppClientInfo) -> AWSSESServiceClient {
         return AWSSESServiceClientImpl(
             withClient: CoreAWSSESServiceClient.init(withService: service),
@@ -19,12 +19,14 @@ private final class AWSSESNamedServiceClientFactory: NamedServiceClientFactory {
  * Global factory const which can be used to create an `AWSSESServiceClient` with a `StitchAppClient`. Pass into
  * `StitchAppClient.serviceClient(fromFactory:withName)` to get an `AWSSESServiceClient.
  */
+@available(*, deprecated, message: "Use awsServiceClientFactory instead")
 public let awsSESServiceClientFactory =
     AnyNamedServiceClientFactory<AWSSESServiceClient>(factory: AWSSESNamedServiceClientFactory())
 
 /**
  * The AWS SES service client, which can be used to interact with AWS Simple Email Service (SES) via MongoDB Stitch.
  */
+@available(*, deprecated, message: "Use AWSServiceClient instead")
 public protocol AWSSESServiceClient {
     /**
      * Sends an email.

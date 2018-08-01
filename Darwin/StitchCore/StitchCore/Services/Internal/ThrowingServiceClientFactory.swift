@@ -10,9 +10,10 @@ public protocol ThrowingServiceClientFactory {
     associatedtype ClientType
 
     /**
-     * Returns a client of type `ClientType`, with the provided `StitchServiceClient` and `StitchAppClientInfo` objects.
+     * Returns a client of type `ClientType`, with the provided `CoreStitchServiceClient` and `StitchAppClientInfo`
+     * objects.
      */
-    func client(withServiceClient serviceClient: StitchServiceClient,
+    func client(withServiceClient serviceClient: CoreStitchServiceClient,
                 withClientInfo clientInfo: StitchAppClientInfo) throws -> ClientType
 }
 
@@ -23,7 +24,7 @@ public struct AnyThrowingServiceClientFactory<T> {
     /**
      * A property containing the function that provides the service client object.
      */
-    private let clientBlock: (StitchServiceClient, StitchAppClientInfo) throws -> T
+    private let clientBlock: (CoreStitchServiceClient, StitchAppClientInfo) throws -> T
 
     /**
      * Initializes this `AnyThrowingServiceClientFactory` with an arbitrary `ThrowingServiceClientFactory`.
@@ -35,7 +36,7 @@ public struct AnyThrowingServiceClientFactory<T> {
     /**
      * Produces a service client with the stored `clientBlock`.
      */
-    func client(forService service: StitchServiceClient,
+    func client(forService service: CoreStitchServiceClient,
                 withClientInfo clientInfo: StitchAppClientInfo) throws -> T {
         return try self.clientBlock(service, clientInfo)
     }

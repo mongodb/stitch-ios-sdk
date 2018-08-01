@@ -81,7 +81,7 @@ private final class MobileMongoDBClientFactory: CoreLocalMongoDBService, Throwin
         #endif
     }
     
-    func client(withServiceClient serviceClient: StitchServiceClient,
+    func client(withServiceClient serviceClient: CoreStitchServiceClient,
                 withClientInfo clientInfo: StitchAppClientInfo) throws -> MongoClient {
         return try CoreLocalMongoDBService.client(withAppInfo: clientInfo)
     }
