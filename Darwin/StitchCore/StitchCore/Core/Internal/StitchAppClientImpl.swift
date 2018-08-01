@@ -109,7 +109,8 @@ internal final class StitchAppClientImpl: StitchAppClient {
     public func serviceClient<T>(fromFactory factory: AnyNamedServiceClientFactory<T>) -> T {
         return factory.client(
             forService: CoreStitchServiceClientImpl.init(requestClient: self._auth,
-                                                     routes: self.routes.serviceRoutes),
+                                                     routes: self.routes.serviceRoutes,
+                                                     serviceName: nil),
             withClientInfo: self.info
         )
     }
@@ -117,7 +118,8 @@ internal final class StitchAppClientImpl: StitchAppClient {
     public func serviceClient<T>(fromFactory factory: AnyThrowingServiceClientFactory<T>) throws -> T {
         return try factory.client(
             forService: CoreStitchServiceClientImpl.init(requestClient: self._auth,
-                                                         routes: self.routes.serviceRoutes),
+                                                         routes: self.routes.serviceRoutes,
+                                                         serviceName: nil),
             withClientInfo: self.info
         )
     }

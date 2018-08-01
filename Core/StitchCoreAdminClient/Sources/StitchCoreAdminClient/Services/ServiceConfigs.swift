@@ -27,8 +27,8 @@ private struct ServiceConfigWrapper<SC: ServiceConfig>: Encodable {
 
 private struct HTTPServiceConfig: ServiceConfig { }
 
-/// Configuration for an AWS S3 service
-private struct AWSS3ServiceConfig: ServiceConfig {
+/// Configuration for an AWS service
+private struct AWSServiceConfig: ServiceConfig {
     /// your access key identifier
     private let accessKeyID: String
     /// your secret access key

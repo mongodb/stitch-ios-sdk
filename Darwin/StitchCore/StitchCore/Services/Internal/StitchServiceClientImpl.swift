@@ -43,7 +43,6 @@ internal final class StitchServiceClientImpl: StitchServiceClient {
     
     public func callFunction<T: Decodable>(withName name: String,
                                            withArgs args: [BsonValue],
-                                           withRequestTimeout requestTimeout: TimeInterval,
                                            _ completionHandler: @escaping (StitchResult<T>) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
             return try self.proxy.callFunction(withName: name, withArgs: args, withRequestTimeout: nil)
