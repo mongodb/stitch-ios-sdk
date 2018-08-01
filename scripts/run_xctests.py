@@ -84,7 +84,8 @@ core_tests = OrderedDict([
 darwin_tests = OrderedDict([
     # Darwin
     ('StitchCoreTests', mini_module('Darwin/StitchCore/StitchCoreTests', imports='JSONWebToken/CommonCrypto')),
-    ('StitchAWSServiceTests', mini_module('Darwin/Services/StitchAWSService/StitchAWSServiceTests')),
+    ('StitchAWSServiceTests', \
+        mini_module('Darwin/Services/StitchAWSService/StitchAWSServiceTests', imports='JSONWebToken/CommonCrypto')),
     ('StitchAWSS3ServiceTests', mini_module('Darwin/Services/StitchAWSS3Service/StitchAWSS3ServiceTests')),
     ('StitchAWSSESServiceTests', \
         mini_module('Darwin/Services/StitchAWSSESService/StitchAWSSESServiceTests', imports='JSONWebToken/CommonCrypto')),
