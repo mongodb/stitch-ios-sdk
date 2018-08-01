@@ -43,6 +43,7 @@ modules = OrderedDict([
     ('StitchCoreSDK', mini_module('Core/StitchCoreSDK/Sources/StitchCoreSDK')),
     ('StitchCoreAdminClient', mini_module('Core/StitchCoreAdminClient/Sources/StitchCoreAdminClient')),
     ('StitchCoreSDKMocks', mini_module('Core/StitchCoreSDK/Sources/StitchCoreSDKMocks', imports='JSONWebToken/CommonCrypto')),
+    ('StitchCoreAWSService', mini_module('Core/Services/StitchCoreAWSService/Sources/StitchCoreAWSService')),
     ('StitchCoreAWSS3Service', mini_module('Core/Services/StitchCoreAWSS3Service/Sources/StitchCoreAWSS3Service')),
     ('StitchCoreAWSSESService', mini_module('Core/Services/StitchCoreAWSSESService/Sources/StitchCoreAWSSESService')),
     ('StitchCoreFCMService', mini_module('Core/Services/StitchCoreFCMService/Sources/StitchCoreFCMService')),
@@ -55,6 +56,7 @@ modules = OrderedDict([
         mini_module('Core/Services/StitchCoreTwilioService/Sources/StitchCoreTwilioService')),
     # Darwin
     ('StitchCore', mini_module('Darwin/StitchCore/StitchCore')),
+    ('StitchAWSService', mini_module('Darwin/Services/StitchAWSService/StitchAWSService')),
     ('StitchAWSS3Service', mini_module('Darwin/Services/StitchAWSS3Service/StitchAWSS3Service')),
     ('StitchAWSSESService', mini_module('Darwin/Services/StitchAWSSESService/StitchAWSSESService')),
     ('StitchFCMService', mini_module('Darwin/Services/StitchFCMService/StitchFCMService')),
@@ -68,6 +70,7 @@ modules = OrderedDict([
 core_tests = OrderedDict([
     # Core
     ('StitchCoreSDKTests', mini_module('Core/StitchCoreSDK/Tests/StitchCoreSDKTests', imports='JSONWebToken/CommonCrypto')),
+    ('StitchCoreAWSServiceTests', mini_module('Core/Services/StitchCoreAWSService/Tests/StitchCoreAWSServiceTests')),
     ('StitchCoreAWSS3ServiceTests', mini_module('Core/Services/StitchCoreAWSS3Service/Tests/StitchCoreAWSS3ServiceTests')),
     ('StitchCoreAWSSESServiceTests', mini_module('Core/Services/StitchCoreAWSSESService/Tests/StitchCoreAWSSESServiceTests')),
     ('StitchCoreFCMServiceTests', mini_module('Core/Services/StitchCoreFCMService/Tests/StitchCoreFCMServiceTests')),
@@ -81,6 +84,7 @@ core_tests = OrderedDict([
 darwin_tests = OrderedDict([
     # Darwin
     ('StitchCoreTests', mini_module('Darwin/StitchCore/StitchCoreTests', imports='JSONWebToken/CommonCrypto')),
+    ('StitchAWSServiceTests', mini_module('Darwin/Services/StitchAWSService/StitchAWSServiceTests')),
     ('StitchAWSS3ServiceTests', mini_module('Darwin/Services/StitchAWSS3Service/StitchAWSS3ServiceTests')),
     ('StitchAWSSESServiceTests', \
         mini_module('Darwin/Services/StitchAWSSESService/StitchAWSSESServiceTests', imports='JSONWebToken/CommonCrypto')),

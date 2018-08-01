@@ -23,6 +23,7 @@
             "StitchAuth",
             "StitchAuthDelegate",
             "StitchPush",
+            "StitchServiceClient",
             "StitchUser",
             "StitchUserProfile",
             "StitchUserIdentity",

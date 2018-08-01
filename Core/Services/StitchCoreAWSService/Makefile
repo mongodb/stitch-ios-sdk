@@ -15,7 +15,7 @@ update:
 	swift package --build-path ../../../.build update
 test:
 	# temporary until a fix is in for .brew dependency for libmongoc
-	xcodebuild test -workspace ../../../Stitch.xcworkspace/ -scheme StitchCoreAWSS3Service-Package -configuration Debug -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
+	xcodebuild test -workspace ../../../Stitch.xcworkspace/ -scheme StitchCoreAWSService-Package -configuration Debug -destination "platform=iOS Simulator,name=iPhone 7,OS=11.2"
 project:
 	swift package generate-xcodeproj --xcconfig-overrides StitchCoreAWSService.xcconfig
 prepare: git resolve project

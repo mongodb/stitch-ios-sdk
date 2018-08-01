@@ -6,6 +6,7 @@ all:
 	$(MAKE) -C Core/StitchCoreSDK prepare
 	$(MAKE) -C Core/StitchCoreAdminClient prepare
 	$(MAKE) -C Core/StitchCoreTestUtils prepare
+	$(MAKE) -C Core/Services/StitchCoreAWSService prepare
 	$(MAKE) -C Core/Services/StitchCoreAWSS3Service prepare
 	$(MAKE) -C Core/Services/StitchCoreAWSSESService prepare
 	$(MAKE) -C Core/Services/StitchCoreFCMService prepare
@@ -22,6 +23,7 @@ clean:
 	$(MAKE) -C Core/StitchCoreSDK clean
 	$(MAKE) -C Core/StitchCoreAdminClient clean
 	$(MAKE) -C Core/StitchCoreTestUtils clean
+	$(MAKE) -C Core/Services/StitchCoreAWSService clean
 	$(MAKE) -C Core/Services/StitchCoreAWSS3Service clean
 	$(MAKE) -C Core/Services/StitchCoreAWSSESService clean
 	$(MAKE) -C Core/Services/StitchCoreFCMService clean
@@ -34,6 +36,7 @@ lint:
 	$(MAKE) -C Core/StitchCoreSDK lint
 	$(MAKE) -C Core/StitchCoreAdminClient lint
 	$(MAKE) -C Core/StitchCoreTestUtils lint
+	$(MAKE) -C Core/Services/StitchCoreAWSService lint
 	$(MAKE) -C Core/Services/StitchCoreAWSS3Service lint
 	$(MAKE) -C Core/Services/StitchCoreAWSSESService lint
 	$(MAKE) -C Core/Services/StitchCoreFCMService lint
@@ -46,6 +49,7 @@ git:
 	$(MAKE) -C Core/StitchCoreSDK git
 	$(MAKE) -C Core/StitchCoreAdminClient git
 	$(MAKE) -C Core/StitchCoreTestUtils git
+	$(MAKE) -C Core/Services/StitchCoreAWSService git
 	$(MAKE) -C Core/Services/StitchCoreAWSS3Service git
 	$(MAKE) -C Core/Services/StitchCoreAWSSESService git
 	$(MAKE) -C Core/Services/StitchCoreFCMService git
@@ -58,6 +62,7 @@ update:
 	$(MAKE) -C Core/StitchCoreSDK update
 	$(MAKE) -C Core/StitchCoreAdminClient update
 	$(MAKE) -C Core/StitchCoreTestUtils update
+	$(MAKE) -C Core/Services/StitchCoreAWSService update
 	$(MAKE) -C Core/Services/StitchCoreAWSS3Service update
 	$(MAKE) -C Core/Services/StitchCoreAWSSESService update
 	$(MAKE) -C Core/Services/StitchCoreFCMService update
@@ -70,6 +75,7 @@ test:
 	$(MAKE) -C Core/StitchCoreSDK test
 	$(MAKE) -C Core/StitchCoreAdminClient test
 	$(MAKE) -C Core/StitchCoreTestUtils test
+	$(MAKE) -C Core/Services/StitchCoreAWSService test
 	$(MAKE) -C Core/Services/StitchCoreAWSS3Service test
 	$(MAKE) -C Core/Services/StitchCoreAWSSESService test
 	$(MAKE) -C Core/Services/StitchCoreFCMService test
@@ -82,6 +88,7 @@ project:
 	$(MAKE) -C Core/StitchCoreSDK project
 	$(MAKE) -C Core/StitchCoreAdminClient project
 	$(MAKE)	-C Core/StitchCoreTestUtils project
+	$(MAKE) -C Core/Services/StitchCoreAWSService project
 	$(MAKE) -C Core/Services/StitchCoreAWSS3Service project
 	$(MAKE) -C Core/Services/StitchCoreAWSSESService project
 	$(MAKE) -C Core/Services/StitchCoreFCMService project

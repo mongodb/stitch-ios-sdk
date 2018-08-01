@@ -34,10 +34,10 @@
          <FileRef
             location = "group:Core/Services/StitchCoreAWSS3Service/StitchCoreAWSS3Service.xcodeproj">
          </FileRef>
+         <FileRef
+            location = "group:Core/Services/StitchCoreAWSService/StitchCoreAWSService.xcodeproj">
+         </FileRef>
       </Group>
-      <FileRef
-         location = "group:Core/Services/StitchCoreAWSSESService/StitchCoreAWSSESService.xcodeproj">
-      </FileRef>
       <FileRef
          location = "group:Core/StitchCoreAdminClient/StitchCoreAdminClient.xcodeproj">
       </FileRef>
@@ -96,6 +96,9 @@
          </FileRef>
          <FileRef
             location = "group:Darwin/Services/StitchAWSS3Service/StitchAWSS3Service.xcodeproj">
+         </FileRef>
+         <FileRef
+            location = "group:Darwin/Services/StitchAWSService/StitchAWSService.xcodeproj">
          </FileRef>
       </Group>
    </Group>

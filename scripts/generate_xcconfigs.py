@@ -8,6 +8,7 @@ modules = [
     'Core/StitchCoreSDK',
     'Core/StitchCoreAdminClient',
     'Core/StitchCoreTestUtils',
+    'Core/Services/StitchCoreAWSService',
     'Core/Services/StitchCoreAWSS3Service',
     'Core/Services/StitchCoreAWSSESService',
     'Core/Services/StitchCoreFCMService',
