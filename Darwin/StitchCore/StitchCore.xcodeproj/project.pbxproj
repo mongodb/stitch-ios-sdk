@@ -427,6 +427,7 @@
 			isa = PBXGroup;
 			children = (
 				4902C6BB2050112C00E53674 /* Internal */,
+				4902C6AE20500FAD00E53674 /* StitchServiceClient.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -434,7 +435,6 @@
 		4902C6BB2050112C00E53674 /* Internal */ = {
 			isa = PBXGroup;
 			children = (
-				4902C6AE20500FAD00E53674 /* StitchServiceClient.swift */,
 				4902C6B92050112300E53674 /* StitchServiceClientImpl.swift */,
 				4902C6C8205174A100E53674 /* NamedServiceClientFactory.swift */,
 				496CAA8820A5E3A6001F0D3C /* ThrowingServiceClientFactory.swift */,

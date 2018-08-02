@@ -6,7 +6,7 @@ import StitchCoreRemoteMongoDBService
 private final class RemoteMongoClientFactory: NamedServiceClientFactory {
     typealias ClientType = RemoteMongoClient
     
-    func client(withServiceClient serviceClient: StitchServiceClient,
+    func client(withServiceClient serviceClient: CoreStitchServiceClient,
                 withClientInfo clientInfo: StitchAppClientInfo) -> RemoteMongoClient {
         return RemoteMongoClient.init(
             withClient: CoreRemoteMongoClient.init(withService: serviceClient),

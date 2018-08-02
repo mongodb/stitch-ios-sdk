@@ -6,7 +6,7 @@ import StitchDarwinCoreTestUtils
 private final class TestThrowingServiceClientFactory: ThrowingServiceClientFactory {
     typealias ClientType = String
 
-    func client(withServiceClient service: StitchServiceClient,
+    func client(withServiceClient service: CoreStitchServiceClient,
                 withClientInfo clientInfo: StitchAppClientInfo) throws -> TestThrowingServiceClientFactory.ClientType {
         throw StitchError.serviceError(
             withMessage: "test-message",

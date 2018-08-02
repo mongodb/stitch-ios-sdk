@@ -15,7 +15,7 @@ private let expectedDoc: Document = [
 
 class CoreStitchServiceClientUnitTests: XCTestCase {
     
-    func testCallFunctionInternal() throws {
+    func testCallFunction() throws {
         let serviceName = "svc1"
         let routes = StitchAppRoutes.init(clientAppID: "foo").serviceRoutes
         let requestClient = MockStitchAuthRequestClient()
@@ -32,7 +32,7 @@ class CoreStitchServiceClientUnitTests: XCTestCase {
         let args = [1, 2, 3]
         let expectedRequestDoc: Document = ["name": funcName, "arguments": args, "service": serviceName]
 
-        XCTAssertEqual(42, try coreStitchService.callFunctionInternal(withName: funcName, withArgs: args))
+        XCTAssertEqual(42, try coreStitchService.callFunction(withName: funcName, withArgs: args))
         
         let functionCallRequest =
             requestClient.doAuthenticatedRequestWithDecodingMock.capturedInvocations[0] as? StitchAuthDocRequest

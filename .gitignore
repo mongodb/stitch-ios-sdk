@@ -68,6 +68,12 @@ Core/StitchCoreTestUtils/Package.resolved
 Core/StitchCoreTestUtils/.build/
 Core/StitchCoreTestUtils/*.xcodeproj/
 
+Core/Services/StitchCoreAWSService/Packages/
+Core/Services/StitchCoreAWSService/Package.pins
+Core/Services/StitchCoreAWSService/Package.resolved
+Core/Services/StitchCoreAWSService/.build/
+Core/Services/StitchCoreAWSService/StitchCoreAWSService.xcodeproj/
+
 Core/Services/StitchCoreAWSS3Service/Packages/
 Core/Services/StitchCoreAWSS3Service/Package.pins
 Core/Services/StitchCoreAWSS3Service/Package.resolved

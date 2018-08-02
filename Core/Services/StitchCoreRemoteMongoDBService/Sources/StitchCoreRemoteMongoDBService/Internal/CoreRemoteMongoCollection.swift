@@ -132,7 +132,7 @@ public class CoreRemoteMongoCollection<T: Codable> {
             args[RemoteCountOptionsKeys.limit.rawValue] = limit
         }
         
-        return try service.callFunctionInternal(
+        return try service.callFunction(
             withName: "count",
             withArgs: [args],
             withRequestTimeout: nil
@@ -163,7 +163,7 @@ public class CoreRemoteMongoCollection<T: Codable> {
         
         args["document"] = generateObjectIdIfMissing(try BsonEncoder().encode(value))
         
-        return try service.callFunctionInternal(
+        return try service.callFunction(
             withName: "insertOne",
             withArgs: [args],
             withRequestTimeout: nil
@@ -185,7 +185,7 @@ public class CoreRemoteMongoCollection<T: Codable> {
         let encoder = BsonEncoder()
         args["documents"] = try documents.map { generateObjectIdIfMissing(try encoder.encode($0)) }
         
-        return try service.callFunctionInternal(
+        return try service.callFunction(
             withName: "insertMany",
             withArgs: [args],
             withRequestTimeout: nil
@@ -222,7 +222,7 @@ public class CoreRemoteMongoCollection<T: Codable> {
         var args = baseOperationArgs
         args["query"] = filter
         
-        return try service.callFunctionInternal(
+        return try service.callFunction(
             withName: multi ? "deleteMany" : "deleteOne",
             withArgs: [args],
             withRequestTimeout: nil
@@ -284,7 +284,7 @@ public class CoreRemoteMongoCollection<T: Codable> {
             args[RemoteUpdateOptionsKeys.upsert.rawValue] = upsert
         }
         
-        return try service.callFunctionInternal(
+        return try service.callFunction(
             withName: multi ? "updateMany" : "updateOne",
             withArgs: [args],
             withRequestTimeout: nil

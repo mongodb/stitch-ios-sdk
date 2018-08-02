@@ -23,6 +23,7 @@
             "StitchAuth",
             "StitchAuthDelegate",
             "StitchPush",
+            "StitchServiceClient",
             "StitchUser",
             "StitchUserProfile",
             "StitchUserIdentity",
@@ -76,8 +77,17 @@
             "RemoteUpdateOptions",
             "RemoteUpdateResult"
         ]
-    }, {
-        "name": "AWS S3 Service",
+    }, 
+    {
+        "name": "AWS Service",
+        "children": [
+            "awsServiceClientFactory",
+            "AWSServiceClient",
+            "AWSRequest"
+        ]
+    },
+    {
+        "name": "AWS S3 Service (deprecated)",
         "children": [
             "awsS3ServiceClientFactory",
             "AWSS3ServiceClient",
@@ -85,7 +95,7 @@
             "AWSS3SignPolicyResult"
         ]
     }, {
-        "name": "AWS SES Service",
+        "name": "AWS SES Service (deprecated)",
         "children": [
             "awsSESServiceClientFactory",
             "AWSSESServiceClient",

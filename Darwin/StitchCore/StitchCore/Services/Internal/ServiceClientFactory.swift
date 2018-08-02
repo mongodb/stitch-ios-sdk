@@ -10,9 +10,10 @@ public protocol ServiceClientFactory {
     associatedtype ClientType
 
     /**
-     * Returns a client of type `ClientType`, with the provided `StitchServiceClient` and `StitchAppClientInfo` objects.
+     * Returns a client of type `ClientType`, with the provided `CoreStitchServiceClient` and `StitchAppClientInfo`
+     * objects.
      */
-    func client(withServiceClient serviceClient: StitchServiceClient,
+    func client(withServiceClient serviceClient: CoreStitchServiceClient,
                 withClientInfo clientInfo: StitchAppClientInfo) -> ClientType
 }
 
@@ -23,7 +24,7 @@ public struct AnyServiceClientFactory<T> {
     /**
      * A property containing the function that provides the service client object.
      */
-    private let clientBlock: (StitchServiceClient, StitchAppClientInfo) -> T
+    private let clientBlock: (CoreStitchServiceClient, StitchAppClientInfo) -> T
 
     /**
      * Initializes this `AnyServiceClientFactory` with an arbitrary `ServiceClientFactory`.
@@ -35,7 +36,7 @@ public struct AnyServiceClientFactory<T> {
     /**
      * Produces a service client with the stored `clientBlock`.
      */
-    func client(forService service: StitchServiceClient,
+    func client(forService service: CoreStitchServiceClient,
                 withClientInfo clientInfo: StitchAppClientInfo) -> T {
         return self.clientBlock(service, clientInfo)
     }

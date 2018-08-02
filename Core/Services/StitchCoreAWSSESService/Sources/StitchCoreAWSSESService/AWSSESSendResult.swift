@@ -1,8 +1,9 @@
 import Foundation
 
 /**
- * The result of an AWS SES send request.
+ * The result of an AWS SES send request. (Deprecated)
  */
+@available(*, deprecated, message: "Use the generic AWS service instead")
 public struct AWSSESSendResult: Decodable {
     /**
      * The id of the sent message.

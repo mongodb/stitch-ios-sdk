@@ -40,7 +40,7 @@ public class CoreRemoteMongoReadOperation<T: Codable> {
     }
     
     private func executeRead() throws -> [T] {
-        return try service.callFunctionInternal(
+        return try service.callFunction(
             withName: self.command,
             withArgs: [self.args],
             withRequestTimeout: nil

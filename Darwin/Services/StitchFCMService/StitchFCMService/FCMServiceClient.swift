@@ -6,7 +6,7 @@ import StitchCoreFCMService
 private final class FCMNamedServiceClientFactory: NamedServiceClientFactory {
     typealias ClientType = FCMServiceClient
     
-    func client(withServiceClient serviceClient: StitchServiceClient,
+    func client(withServiceClient serviceClient: CoreStitchServiceClient,
                 withClientInfo clientInfo: StitchAppClientInfo) -> FCMServiceClient {
         return FCMServiceClientImpl.init(
             withClient: CoreFCMServiceClient(withServiceClient: serviceClient),

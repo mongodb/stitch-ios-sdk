@@ -47,7 +47,7 @@ class FoundationHTTPTransportUnitTests: StitchXCTestCase {
         ) { error in
             XCTAssertEqual(error.localizedDescription, "unsupported URL")
         }
-        
+
         builder.with(url: "\(self.baseURL)\(self.getEndpoint)")
 
         var response = try transport.roundTrip(request: builder.build())
@@ -70,7 +70,7 @@ class FoundationHTTPTransportUnitTests: StitchXCTestCase {
         XCTAssertEqual(response.statusCode, 400)
 
         builder.with(url: "http://localhost:9000/notreal")
-        
+
         XCTAssertThrowsError(
             try transport.roundTrip(request: builder.build())
         ) { error in

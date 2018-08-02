@@ -16,7 +16,7 @@ final class CoreAWSSESServiceClientUnitTests: XCTestCase {
         
         let expectedMessageID = "yourMessageID"
         
-        service.callFunctionInternalWithDecodingMock.doReturn(
+        service.callFunctionWithDecodingMock.doReturn(
             result: AWSSESSendResult.init(messageID: expectedMessageID),
             forArg1: .any,
             forArg2: .any,
@@ -27,7 +27,7 @@ final class CoreAWSSESServiceClientUnitTests: XCTestCase {
         
         XCTAssertEqual(expectedMessageID, result.messageID)
         
-        let (funcNameArg, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
+        let (funcNameArg, funcArgsArg, _) = service.callFunctionWithDecodingMock.capturedInvocations.last!
         
         XCTAssertEqual("send", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
@@ -42,7 +42,7 @@ final class CoreAWSSESServiceClientUnitTests: XCTestCase {
         XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
         
         // should pass along errors
-        service.callFunctionInternalWithDecodingMock.doThrow(
+        service.callFunctionWithDecodingMock.doThrow(
             error: StitchError.serviceError(withMessage: "", withServiceErrorCode: .unknown),
             forArg1: .any,
             forArg2: .any,

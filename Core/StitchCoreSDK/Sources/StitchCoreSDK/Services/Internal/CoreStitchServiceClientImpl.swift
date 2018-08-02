@@ -39,9 +39,9 @@ open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
         return try reqBuilder.build()
     }
     
-    public func callFunctionInternal(withName name: String,
-                                     withArgs args: [BsonValue],
-                                     withRequestTimeout timeout: TimeInterval? = nil) throws {
+    public func callFunction(withName name: String,
+                             withArgs args: [BsonValue],
+                             withRequestTimeout timeout: TimeInterval? = nil) throws {
         // Coerce the `Response` return type so response decoding is not attempted.
         let _: Response = try requestClient.doAuthenticatedRequest(
             getCallServiceFunctionRequest(withName: name,
@@ -49,9 +49,9 @@ open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
                                           withTimeout: timeout))
     }
     
-    public func callFunctionInternal<T: Decodable>(withName name: String,
-                                                   withArgs args: [BsonValue],
-                                                   withRequestTimeout timeout: TimeInterval? = nil) throws -> T {
+    public func callFunction<T: Decodable>(withName name: String,
+                                           withArgs args: [BsonValue],
+                                           withRequestTimeout timeout: TimeInterval? = nil) throws -> T {
         return try requestClient.doAuthenticatedRequest(
             getCallServiceFunctionRequest(withName: name,
                                           withArgs: args,

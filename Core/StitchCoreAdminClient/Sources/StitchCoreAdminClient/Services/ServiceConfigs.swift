@@ -27,6 +27,24 @@ private struct ServiceConfigWrapper<SC: ServiceConfig>: Encodable {
 
 private struct HTTPServiceConfig: ServiceConfig { }
 
+/// Configuration for an AWS service
+private struct AWSServiceConfig: ServiceConfig {
+    /// your access key identifier
+    private let accessKeyID: String
+    /// your secret access key
+    private let secretAccessKey: String
+    
+    fileprivate init(accessKeyID: String,
+                     secretAccessKey: String) {
+        self.accessKeyID = accessKeyID
+        self.secretAccessKey = secretAccessKey
+    }
+    
+    internal enum CodingKeys: String, CodingKey {
+        case accessKeyID = "accessKeyId", secretAccessKey
+    }
+}
+
 /// Configuration for an AWS S3 service
 private struct AWSS3ServiceConfig: ServiceConfig {
     /// aws region
@@ -128,6 +146,12 @@ public enum ServiceConfigs: Encodable {
     /// - parameter name: name of this service
     case http(name: String)
     
+    /// configure an AWS service
+    /// - parameter name: name of this service
+    /// - parameter accessKeyID: your access key identifier
+    /// - parameter secretAccessKey: your secret access key
+    case aws(name: String, accessKeyID: String, secretAccessKey: String)
+    
     /// configure an AWS S3 service
     /// - parameter name: name of this service
     /// - parameter region: aws region
@@ -168,13 +192,20 @@ public enum ServiceConfigs: Encodable {
                 type: "http",
                 config: HTTPServiceConfig.init()
             ).encode(to: encoder)
+        case .aws(let name, let accessKeyID, let secretAccessKey):
+            try ServiceConfigWrapper.init(
+                name: name,
+                type: "aws",
+                config: AWSServiceConfig.init(accessKeyID: accessKeyID,
+                                              secretAccessKey: secretAccessKey)
+                ).encode(to: encoder)
         case .awsS3(let name, let region, let accessKeyID, let secretAccessKey):
             try ServiceConfigWrapper.init(
                 name: name,
                 type: "aws-s3",
-                config: AWSSESServiceConfig.init(region: region,
-                                                 accessKeyID: accessKeyID,
-                                                 secretAccessKey: secretAccessKey)
+                config: AWSS3ServiceConfig.init(region: region,
+                                                accessKeyID: accessKeyID,
+                                                secretAccessKey: secretAccessKey)
                 ).encode(to: encoder)
         case .awsSes(let name, let region, let accessKeyID, let secretAccessKey):
             try ServiceConfigWrapper.init(

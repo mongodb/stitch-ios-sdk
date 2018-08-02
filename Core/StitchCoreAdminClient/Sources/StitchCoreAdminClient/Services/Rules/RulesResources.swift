@@ -64,6 +64,17 @@ public class RuleCreatorMongoDb: Encodable {
     }
 }
 
+// Allowed actions for an AWS service rule
+private struct AWSRuleActions: Encodable {
+    let actions: [String]
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.unkeyedContainer()
+        for action in actions {
+            try container.encode(action)
+        }
+    }
+}
 
 /// Allowed actions for an AWS S3 service rule
 private struct AWSS3RuleActions: RuleActions {
@@ -100,6 +111,8 @@ public enum RuleActionsCreator: Encodable {
     case http(get: Bool, post: Bool, put: Bool, delete: Bool, patch: Bool, head: Bool)
     /// - parameter send: allow message sending
     case twilio(send: Bool)
+    /// - parameter actions: specify allowed AWS actions
+    case aws(actions: [String])
     /// - parameter putObject: allow object putting, signPolicy: allow policy signing
     case awsS3(put: Bool, signPolicy: Bool)
     /// - parameter send: allow message sending
@@ -119,6 +132,8 @@ public enum RuleActionsCreator: Encodable {
                                      head: head).encode(to: encoder)
         case .twilio(let send):
             try TwilioRuleActions.init(send: send).encode(to: encoder)
+        case .aws(let actions):
+            try AWSRuleActions.init(actions: actions).encode(to: encoder)
         case .awsS3(let put, let signPolicy):
             try AWSS3RuleActions.init(put: put, signPolicy: signPolicy).encode(to: encoder)
         case .awsSes(let send):
@@ -128,8 +143,6 @@ public enum RuleActionsCreator: Encodable {
         }
     }
 }
-
-
 
 public struct RuleResponse: Codable {
     init() {

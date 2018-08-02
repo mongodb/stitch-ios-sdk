@@ -33,6 +33,11 @@ Pod::Spec.new do |spec|
         core.dependency "StitchCoreSDK", "~> 4.0.3"
     end
 
+    # pod "StitchSDK/StitchCoreAWSService", "~> 4.0"
+    spec.subspec "StitchCoreAWSService" do |core_aws_service|
+        core_aws_service.dependency 'StitchCoreAWSService', '~> 4.0.3'
+    end
+
     # pod "StitchSDK/StitchCoreAWSS3Service", "~> 4.0"
     spec.subspec "StitchCoreAWSS3Service" do |core_aws_s3_service|
         core_aws_s3_service.dependency 'StitchCoreAWSS3Service', '~> 4.0.3'
@@ -61,6 +66,11 @@ Pod::Spec.new do |spec|
     # pod "StitchSDK/StitchCore", "~> 4.0"
     spec.subspec "StitchCore" do |ios_core|
         ios_core.dependency 'StitchCoreSDK', '~> 4.0.3'
+    end
+
+    # pod "StitchSDK/StitchAWSService", "~> 4.0"
+    spec.subspec "StitchAWSService" do |aws_service|
+        aws_service.dependency 'StitchAWSService', '~> 4.0.3'
     end
 
     # pod "StitchSDK/StitchAWSS3Service", "~> 4.0"

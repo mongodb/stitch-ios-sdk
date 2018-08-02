@@ -34,6 +34,16 @@ public protocol StitchAppClient {
     // MARK: Services
 
     /**
+     * Retrieves a general-purpose service client for the Stitch service
+     * associated with the specified name. Use this for services which do not
+     * have a well-defined interface in the SDK.
+     *
+     * - parameters:
+     *     - withServiceName: The name of the desired service in MongoDB Stitch.
+     */
+    func serviceClient(withServiceName serviceName: String) -> StitchServiceClient
+
+    /**
      * Retrieves the service client for the Stitch service associated with the specified name and factory.
      *
      * - parameters:

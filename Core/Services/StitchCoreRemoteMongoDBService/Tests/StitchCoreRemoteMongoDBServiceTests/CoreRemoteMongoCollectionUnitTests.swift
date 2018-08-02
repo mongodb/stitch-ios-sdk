@@ -35,14 +35,14 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         let client = CoreRemoteMongoClient.init(withService: service)
         let coll = TestUtils.getCollection(withClient: client)
         
-        service.callFunctionInternalWithDecodingMock.doReturn(
+        service.callFunctionWithDecodingMock.doReturn(
             result: 42, forArg1: .any, forArg2: .any, forArg3: .any
         )
         
         // without filter or options
         XCTAssertEqual(42, try coll.count())
         
-        var (funcNameArg, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
+        var (funcNameArg, funcArgsArg, _) = service.callFunctionWithDecodingMock.capturedInvocations.last!
         
         XCTAssertEqual("count", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
@@ -59,11 +59,11 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         let expectedFilter: Document = ["one": Int32(23)]
         XCTAssertEqual(42, try coll.count(expectedFilter, options: RemoteCountOptions.init(limit: 5)))
         
-        XCTAssertTrue(service.callFunctionInternalWithDecodingMock
+        XCTAssertTrue(service.callFunctionWithDecodingMock
             .verify(numberOfInvocations: 2, forArg1: .any, forArg2: .any, forArg3: .any)
         )
         
-        (funcNameArg, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
+        (funcNameArg, funcArgsArg, _) = service.callFunctionWithDecodingMock.capturedInvocations.last!
         
         XCTAssertEqual("count", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
@@ -78,7 +78,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
         
         // should pass along errors
-        service.callFunctionInternalWithDecodingMock.doThrow(
+        service.callFunctionWithDecodingMock.doThrow(
             error: StitchError.serviceError(withMessage: "whoops", withServiceErrorCode: .unknown),
             forArg1: .any,
             forArg2: .any,
@@ -103,7 +103,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         
         let docs = [doc1, doc2]
 
-        service.callFunctionInternalWithDecodingMock.doReturn(
+        service.callFunctionWithDecodingMock.doReturn(
             result: docs, forArg1: .any, forArg2: .any, forArg3: .any
         )
         
@@ -112,7 +112,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         
         XCTAssertEqual(docs, resultDocs)
         
-        var (funcNameArg, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
+        var (funcNameArg, funcArgsArg, _) = service.callFunctionWithDecodingMock.capturedInvocations.last!
         
         XCTAssertEqual("find", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
@@ -137,11 +137,11 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         
         XCTAssertEqual(docs, resultDocs)
         
-        XCTAssertTrue(service.callFunctionInternalWithDecodingMock
+        XCTAssertTrue(service.callFunctionWithDecodingMock
             .verify(numberOfInvocations: 2, forArg1: .any, forArg2: .any, forArg3: .any)
         )
         
-        (funcNameArg, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
+        (funcNameArg, funcArgsArg, _) = service.callFunctionWithDecodingMock.capturedInvocations.last!
         
         XCTAssertEqual("find", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
@@ -157,7 +157,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
         
         // should pass along errors
-        service.callFunctionInternalWithDecodingMock.doThrow(
+        service.callFunctionWithDecodingMock.doThrow(
             error: StitchError.serviceError(withMessage: "whoops", withServiceErrorCode: .unknown),
             forArg1: .any,
             forArg2: .any,
@@ -182,7 +182,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         
         let docs = [doc1, doc2]
         
-        service.callFunctionInternalWithDecodingMock.doReturn(
+        service.callFunctionWithDecodingMock.doReturn(
             result: docs, forArg1: .any, forArg2: .any, forArg3: .any
         )
         
@@ -191,7 +191,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         
         XCTAssertEqual(docs, resultDocs)
         
-        var (funcNameArg, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
+        var (funcNameArg, funcArgsArg, _) = service.callFunctionWithDecodingMock.capturedInvocations.last!
         
         XCTAssertEqual("aggregate", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
@@ -214,11 +214,11 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         
         XCTAssertEqual(docs, resultDocs)
         
-        XCTAssertTrue(service.callFunctionInternalWithDecodingMock
+        XCTAssertTrue(service.callFunctionWithDecodingMock
             .verify(numberOfInvocations: 2, forArg1: .any, forArg2: .any, forArg3: .any)
         )
         
-        (funcNameArg, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
+        (funcNameArg, funcArgsArg, _) = service.callFunctionWithDecodingMock.capturedInvocations.last!
         
         XCTAssertEqual("aggregate", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
@@ -232,7 +232,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
         
         // should pass along errors
-        service.callFunctionInternalWithDecodingMock.doThrow(
+        service.callFunctionWithDecodingMock.doThrow(
             error: StitchError.serviceError(withMessage: "whoops", withServiceErrorCode: .unknown),
             forArg1: .any,
             forArg2: .any,
@@ -255,7 +255,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         let id = ObjectId()
         let doc1: Document = ["_id": id, "one": 2]
         
-        service.callFunctionInternalWithDecodingMock.doReturn(
+        service.callFunctionWithDecodingMock.doReturn(
             result: RemoteInsertOneResult.init(insertedId: id),
             forArg1: .any, forArg2: .any, forArg3: .any
         )
@@ -265,7 +265,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         XCTAssertEqual(id, result.insertedId as? ObjectId)
         XCTAssertEqual(id, doc1["_id"] as? ObjectId)
         
-        var (funcNameArg, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
+        var (funcNameArg, funcArgsArg, _) = service.callFunctionWithDecodingMock.capturedInvocations.last!
         
         XCTAssertEqual("insertOne", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
@@ -280,12 +280,12 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         
         // object id should be generated if no _id was provided
         _ = try coll.insertOne(["hello": "world"])
-        (_, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
+        (_, funcArgsArg, _) = service.callFunctionWithDecodingMock.capturedInvocations.last!
         XCTAssertNotNil(((funcArgsArg[0] as? Document)!["document"] as? Document)!["_id"] as? ObjectId)
         
         
         // should pass along errors
-        service.callFunctionInternalWithDecodingMock.doThrow(
+        service.callFunctionWithDecodingMock.doThrow(
             error: StitchError.serviceError(withMessage: "whoops", withServiceErrorCode: .unknown),
             forArg1: .any,
             forArg2: .any,
@@ -313,7 +313,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         
         let ids: [Int64: BsonValue] = [Int64(0): id1, Int64(1): id2]
         
-        service.callFunctionInternalWithDecodingMock.doReturn(
+        service.callFunctionWithDecodingMock.doReturn(
             result: RemoteInsertManyResult.init(fromArray: [id1, id2]),
             forArg1: .any, forArg2: .any, forArg3: .any
         )
@@ -326,7 +326,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         XCTAssertEqual(result.insertedIds[Int64(0)] as? ObjectId, doc1["_id"] as? ObjectId)
         XCTAssertEqual(result.insertedIds[Int64(1)] as? ObjectId, doc2["_id"] as? ObjectId)
         
-        var (funcNameArg, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
+        var (funcNameArg, funcArgsArg, _) = service.callFunctionWithDecodingMock.capturedInvocations.last!
         
         XCTAssertEqual("insertMany", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
@@ -341,12 +341,12 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         
         // object ids should be generated if no _id was provided
         _ = try coll.insertMany([["hello": "world"], ["goodbye": "world"]])
-        (_, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
+        (_, funcArgsArg, _) = service.callFunctionWithDecodingMock.capturedInvocations.last!
         XCTAssertNotNil(((funcArgsArg[0] as? Document)!["documents"] as? [Document])![0]["_id"] as? ObjectId)
         XCTAssertNotNil(((funcArgsArg[0] as? Document)!["documents"] as? [Document])![1]["_id"] as? ObjectId)
         
         // should pass along errors
-        service.callFunctionInternalWithDecodingMock.doThrow(
+        service.callFunctionWithDecodingMock.doThrow(
             error: StitchError.serviceError(withMessage: "whoops", withServiceErrorCode: .unknown),
             forArg1: .any,
             forArg2: .any,
@@ -366,7 +366,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         let client = CoreRemoteMongoClient.init(withService: service)
         let coll = TestUtils.getCollection(withClient: client)
         
-        service.callFunctionInternalWithDecodingMock.doReturn(
+        service.callFunctionWithDecodingMock.doReturn(
             result: RemoteDeleteResult.init(deletedCount: 1),
             forArg1: .any, forArg2: .any, forArg3: .any
         )
@@ -376,7 +376,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         let result = try coll.deleteOne(expectedFilter)
         XCTAssertEqual(1, result.deletedCount)
         
-        let (funcNameArg, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
+        let (funcNameArg, funcArgsArg, _) = service.callFunctionWithDecodingMock.capturedInvocations.last!
         
         XCTAssertEqual("deleteOne", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
@@ -390,7 +390,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
         
         // should pass along errors
-        service.callFunctionInternalWithDecodingMock.doThrow(
+        service.callFunctionWithDecodingMock.doThrow(
             error: StitchError.serviceError(withMessage: "whoops", withServiceErrorCode: .unknown),
             forArg1: .any,
             forArg2: .any,
@@ -410,7 +410,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         let client = CoreRemoteMongoClient.init(withService: service)
         let coll = TestUtils.getCollection(withClient: client)
         
-        service.callFunctionInternalWithDecodingMock.doReturn(
+        service.callFunctionWithDecodingMock.doReturn(
             result: RemoteDeleteResult.init(deletedCount: 1),
             forArg1: .any, forArg2: .any, forArg3: .any
         )
@@ -420,7 +420,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         let result = try coll.deleteMany(expectedFilter)
         XCTAssertEqual(1, result.deletedCount)
         
-        let (funcNameArg, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
+        let (funcNameArg, funcArgsArg, _) = service.callFunctionWithDecodingMock.capturedInvocations.last!
         
         XCTAssertEqual("deleteMany", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
@@ -434,7 +434,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
         
         // should pass along errors
-        service.callFunctionInternalWithDecodingMock.doThrow(
+        service.callFunctionWithDecodingMock.doThrow(
             error: StitchError.serviceError(withMessage: "whoops", withServiceErrorCode: .unknown),
             forArg1: .any,
             forArg2: .any,
@@ -456,7 +456,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         
         let id = ObjectId()
         
-        service.callFunctionInternalWithDecodingMock.doReturn(
+        service.callFunctionWithDecodingMock.doReturn(
             result: RemoteUpdateResult.init(matchedCount: 1, modifiedCount: 1, upsertedId: id),
             forArg1: .any, forArg2: .any, forArg3: .any
         )
@@ -471,7 +471,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         XCTAssertEqual(1, result.modifiedCount)
         XCTAssertEqual(id, result.upsertedId as? ObjectId)
         
-        var (funcNameArg, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
+        var (funcNameArg, funcArgsArg, _) = service.callFunctionWithDecodingMock.capturedInvocations.last!
         
         XCTAssertEqual("updateOne", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
@@ -496,11 +496,11 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         XCTAssertEqual(1, result.modifiedCount)
         XCTAssertEqual(id, result.upsertedId as? ObjectId)
         
-        XCTAssertTrue(service.callFunctionInternalWithDecodingMock
+        XCTAssertTrue(service.callFunctionWithDecodingMock
             .verify(numberOfInvocations: 2, forArg1: .any, forArg2: .any, forArg3: .any)
         )
         
-        (funcNameArg, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
+        (funcNameArg, funcArgsArg, _) = service.callFunctionWithDecodingMock.capturedInvocations.last!
         
         XCTAssertEqual("updateOne", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
@@ -516,7 +516,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
         
         // should pass along errors
-        service.callFunctionInternalWithDecodingMock.doThrow(
+        service.callFunctionWithDecodingMock.doThrow(
             error: StitchError.serviceError(withMessage: "whoops", withServiceErrorCode: .unknown),
             forArg1: .any,
             forArg2: .any,
@@ -538,7 +538,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         
         let id = ObjectId()
         
-        service.callFunctionInternalWithDecodingMock.doReturn(
+        service.callFunctionWithDecodingMock.doReturn(
             result: RemoteUpdateResult.init(matchedCount: 1, modifiedCount: 1, upsertedId: id),
             forArg1: .any, forArg2: .any, forArg3: .any
         )
@@ -553,7 +553,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         XCTAssertEqual(1, result.modifiedCount)
         XCTAssertEqual(id, result.upsertedId as? ObjectId)
         
-        var (funcNameArg, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
+        var (funcNameArg, funcArgsArg, _) = service.callFunctionWithDecodingMock.capturedInvocations.last!
         
         XCTAssertEqual("updateMany", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
@@ -578,11 +578,11 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         XCTAssertEqual(1, result.modifiedCount)
         XCTAssertEqual(id, result.upsertedId as? ObjectId)
         
-        XCTAssertTrue(service.callFunctionInternalWithDecodingMock
+        XCTAssertTrue(service.callFunctionWithDecodingMock
             .verify(numberOfInvocations: 2, forArg1: .any, forArg2: .any, forArg3: .any)
         )
         
-        (funcNameArg, funcArgsArg, _) = service.callFunctionInternalWithDecodingMock.capturedInvocations.last!
+        (funcNameArg, funcArgsArg, _) = service.callFunctionWithDecodingMock.capturedInvocations.last!
         
         XCTAssertEqual("updateMany", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
@@ -598,7 +598,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
         
         // should pass along errors
-        service.callFunctionInternalWithDecodingMock.doThrow(
+        service.callFunctionWithDecodingMock.doThrow(
             error: StitchError.serviceError(withMessage: "whoops", withServiceErrorCode: .unknown),
             forArg1: .any,
             forArg2: .any,

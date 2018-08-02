@@ -6,7 +6,7 @@ import StitchCoreSDK
 private final class TwilioNamedServiceClientFactory: NamedServiceClientFactory {
     typealias ClientType = TwilioServiceClient
     
-    func client(withServiceClient service: StitchServiceClient,
+    func client(withServiceClient service: CoreStitchServiceClient,
                 withClientInfo client: StitchAppClientInfo) -> TwilioServiceClient {
         return TwilioServiceClientImpl(
             withClient: CoreTwilioServiceClient.init(withService: service),

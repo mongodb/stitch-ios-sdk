@@ -15,7 +15,7 @@ class CoreTwilioServiceClientUnitTests: XCTestCase {
         
         try client.sendMessage(to: to, from: from, body: body)
         
-        let (funcNameArg, funcArgsArg, _) = service.callFunctionInternalMock.capturedInvocations.first!
+        let (funcNameArg, funcArgsArg, _) = service.callFunctionMock.capturedInvocations.first!
         
         XCTAssertEqual("send", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
@@ -25,7 +25,7 @@ class CoreTwilioServiceClientUnitTests: XCTestCase {
         XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
         
         // should pass along errors
-        service.callFunctionInternalMock.doThrow(
+        service.callFunctionMock.doThrow(
             error: StitchError.serviceError(withMessage: "", withServiceErrorCode: .unknown),
             forArg1: .any,
             forArg2: .any,
@@ -51,7 +51,7 @@ class CoreTwilioServiceClientUnitTests: XCTestCase {
         
         try client.sendMessage(to: to, from: from, body: body, mediaURL: mediaURL)
         
-        let (funcNameArg, funcArgsArg, _) = service.callFunctionInternalMock.capturedInvocations.first!
+        let (funcNameArg, funcArgsArg, _) = service.callFunctionMock.capturedInvocations.first!
         
         XCTAssertEqual("send", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
@@ -61,7 +61,7 @@ class CoreTwilioServiceClientUnitTests: XCTestCase {
         XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
         
         // should pass along errors
-        service.callFunctionInternalMock.doThrow(
+        service.callFunctionMock.doThrow(
             error: StitchError.serviceError(withMessage: "", withServiceErrorCode: .unknown),
             forArg1: .any,
             forArg2: .any,

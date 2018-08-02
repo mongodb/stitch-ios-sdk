@@ -4,6 +4,7 @@ import StitchCore
 import StitchCoreSDK
 import StitchCoreAWSS3Service
 
+@available(*, deprecated, message: "Use AWSServiceClient instead")
 public final class AWSS3ServiceClientImpl: AWSS3ServiceClient {
     private let proxy: CoreAWSS3ServiceClient
     private let dispatcher: OperationDispatcher
