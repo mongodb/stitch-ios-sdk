@@ -22,6 +22,9 @@ private final class AWSNamedServiceClientFactory: NamedServiceClientFactory {
 public let awsServiceClientFactory =
     AnyNamedServiceClientFactory<AWSServiceClient>(factory: AWSNamedServiceClientFactory())
 
+/**
+ * The AWS service client, which can be used to interact with AWS via MongoDB Stitch.
+ */
 public protocol AWSServiceClient {
     
     /**
