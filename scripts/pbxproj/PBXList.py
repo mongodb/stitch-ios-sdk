@@ -1,2 +1,0 @@
-class PBXList(list):
-    pass
