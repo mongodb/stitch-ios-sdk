@@ -36,45 +36,45 @@ class FoundationHTTPTransportUnitTests: StitchXCTestCase {
     func testRoundTrip() throws {
         let transport = FoundationHTTPTransport()
         
-         let builder = RequestBuilder()
-             .with(method: .get)
-             .with(url: "badURL")
-             .with(timeout: testDefaultRequestTimeout)
-             .with(headers: self.headers)
+        let builder = RequestBuilder()
+            .with(method: .get)
+            .with(url: "badURL")
+            .with(timeout: testDefaultRequestTimeout)
+            .with(headers: self.headers)
 
-         XCTAssertThrowsError(
-             try transport.roundTrip(request: builder.build())
-         ) { error in
-             XCTAssertEqual(error.localizedDescription, "unsupported URL")
-         }
-        
-         builder.with(url: "\(self.baseURL)\(self.getEndpoint)")
+        XCTAssertThrowsError(
+            try transport.roundTrip(request: builder.build())
+        ) { error in
+            XCTAssertEqual(error.localizedDescription, "unsupported URL")
+        }
 
-         var response = try transport.roundTrip(request: builder.build())
+        builder.with(url: "\(self.baseURL)\(self.getEndpoint)")
 
-         XCTAssertEqual(response.statusCode, 200)
-         XCTAssertEqual(response.body, self.responseBody.data(using: .utf8))
+        var response = try transport.roundTrip(request: builder.build())
 
-         builder.with(url: "\(self.baseURL)\(self.notGetEndpoint)")
-         builder.with(method: .post)
-         builder.with(body: self.responseBody.data(using: .utf8))
+        XCTAssertEqual(response.statusCode, 200)
+        XCTAssertEqual(response.body, self.responseBody.data(using: .utf8))
 
-         response = try transport.roundTrip(request: builder.build())
+        builder.with(url: "\(self.baseURL)\(self.notGetEndpoint)")
+        builder.with(method: .post)
+        builder.with(body: self.responseBody.data(using: .utf8))
 
-         XCTAssertEqual(response.statusCode, 200)
-         XCTAssertEqual(response.body, self.responseBody.data(using: .utf8))
+        response = try transport.roundTrip(request: builder.build())
 
-         builder.with(url: "\(self.baseURL)\(self.badRequestEndpoint)")
+        XCTAssertEqual(response.statusCode, 200)
+        XCTAssertEqual(response.body, self.responseBody.data(using: .utf8))
 
-         response = try transport.roundTrip(request: builder.build())
-         XCTAssertEqual(response.statusCode, 400)
+        builder.with(url: "\(self.baseURL)\(self.badRequestEndpoint)")
 
-         builder.with(url: "http://localhost:9000/notreal")
-        
-         XCTAssertThrowsError(
-             try transport.roundTrip(request: builder.build())
-         ) { error in
-             XCTAssertEqual(error.localizedDescription, "Could not connect to the server.")
-         }
+        response = try transport.roundTrip(request: builder.build())
+        XCTAssertEqual(response.statusCode, 400)
+
+        builder.with(url: "http://localhost:9000/notreal")
+
+        XCTAssertThrowsError(
+            try transport.roundTrip(request: builder.build())
+        ) { error in
+            XCTAssertEqual(error.localizedDescription, "Could not connect to the server.")
+        }
     }
 }
