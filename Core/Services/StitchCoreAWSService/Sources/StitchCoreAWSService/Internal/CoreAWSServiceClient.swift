@@ -9,26 +9,26 @@ public final class CoreAWSServiceClient {
         self.service = service
     }
     
-    func execute(request: AWSRequest, withRequestTimeout requestTimeout: TimeInterval? = nil) throws {
+    public func execute(request: AWSRequest, withRequestTimeout requestTimeout: TimeInterval? = nil) throws {
         try service.callFunction(
             withName: Field.executeAction.rawValue,
             withArgs: [getRequestArgs(fromRequest: request)],
-            withRequestTimeout: nil
+            withRequestTimeout: requestTimeout
         )
     }
     
-    func execute<T: Decodable>(
+    public func execute<T: Decodable>(
         request: AWSRequest,
         withRequestTimeout requestTimeout: TimeInterval? = nil
         ) throws -> T {
         return try service.callFunction(
             withName: Field.executeAction.rawValue,
             withArgs: [getRequestArgs(fromRequest: request)],
-            withRequestTimeout: nil
+            withRequestTimeout: requestTimeout
         )
     }
     
-    func getRequestArgs(fromRequest request: AWSRequest) -> Document {
+    private func getRequestArgs(fromRequest request: AWSRequest) -> Document {
         var args: Document = [
             Field.serviceParam.rawValue: request.service,
             Field.actionParam.rawValue: request.action,

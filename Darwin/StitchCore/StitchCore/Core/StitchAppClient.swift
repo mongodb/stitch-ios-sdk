@@ -32,7 +32,7 @@ public protocol StitchAppClient {
     var push: StitchPush { get }
 
     // MARK: Services
-    
+
     /**
      * Retrieves a general-purpose service client for the Stitch service
      * associated with the specified name. Use this for services which do not
