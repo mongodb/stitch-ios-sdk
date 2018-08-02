@@ -26,6 +26,7 @@ public let awsS3ServiceClientFactory =
 
 /**
  * The AWS S3 service client, which can be used to interact with AWS Simple Storage Service (S3) via MongoDB Stitch.
+ * This client is deprecated. Use the AWSServiceClient in StitchAWSService.
  */
 @available(*, deprecated, message: "Use AWSServiceClient instead")
 public protocol AWSS3ServiceClient {
