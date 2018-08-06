@@ -46,7 +46,7 @@ class SwiftSource:
             '-target',
             '{}-apple-{}{}'.format(variant.arch, platform.name, min_platform_version)]
         print '{}-apple-{}{}'.format(variant.arch, platform.name, min_platform_version)
-        cmd += ['-emit-module', '-emit-objc-header', '-emit-library']
+        cmd += ['-emit-module', '-emit-objc-header', '-emit-library', '-embed-bitcode']
 
         print ' '.join(cmd)
         

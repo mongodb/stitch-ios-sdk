@@ -11,7 +11,7 @@ Pod::Spec.new do |spec|
     }
     spec.platform = :ios, "11.0"
     spec.platform = :tvos, "10.2"
-    spec.platform = :watchos, "4.3"
+    spec.platform = :watchos, "4.2"
 
     spec.source     = {
       :git => "https://github.com/mongodb/stitch-ios-sdk.git",
@@ -21,7 +21,7 @@ Pod::Spec.new do |spec|
   
     spec.ios.deployment_target = "11.0"
     spec.tvos.deployment_target = "10.2"
-    spec.watchos.deployment_target = "4.3"
+    spec.watchos.deployment_target = "4.2"
     
     spec.prepare_command = <<-CMD
       sh scripts/download_sdk.sh --with-mobile --for-pods
