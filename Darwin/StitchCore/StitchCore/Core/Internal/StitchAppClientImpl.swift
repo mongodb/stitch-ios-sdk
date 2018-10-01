@@ -138,7 +138,7 @@ internal final class StitchAppClientImpl: StitchAppClient {
                                            withArgs args: [BsonValue],
                                            _ completionHandler: @escaping (StitchResult<T>) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
-            return try self.coreClient.callFunctionInternal(withName: name,
+            return try self.coreClient.callFunction(withName: name,
                                                     withArgs: args)
         }
     }
