@@ -58,4 +58,10 @@ macos = Platform(
     ])
 
 # list of each platform
-platforms = [iphone, appletv, watch, macos]
+platforms = [
+    iphone,
+    appletv, 
+    # TODO: WatchOS Support
+    # watch,
+    macos
+]

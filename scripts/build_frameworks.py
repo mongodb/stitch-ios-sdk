@@ -135,7 +135,8 @@ def download(variant, min_version):
 platform_to_min_version = {
     iphone: 10.2,
     appletv: 10.2,
-    watch: 4.2,
+    # TODO: WatchOS support
+    # watch: 4.2,
     macos: '10.10' # float point
 }
 

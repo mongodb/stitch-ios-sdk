@@ -130,7 +130,7 @@ internal final class StitchAppClientImpl: StitchAppClient {
                              withArgs args: [BsonValue],
                              _ completionHandler: @escaping (StitchResult<Void>) -> Void) {
         self.dispatcher.run(withCompletionHandler: completionHandler) {
-            return try self.coreClient.callFunction(withName: name, withArgs: args)
+            return try self.coreClient.callFunctionInternal(withName: name, withArgs: args)
         }
     }
 
@@ -138,7 +138,7 @@ internal final class StitchAppClientImpl: StitchAppClient {
                                            withArgs args: [BsonValue],
                                            _ completionHandler: @escaping (StitchResult<T>) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
-            return try self.coreClient.callFunction(withName: name,
+            return try self.coreClient.callFunctionInternal(withName: name,
                                                     withArgs: args)
         }
     }
@@ -148,7 +148,7 @@ internal final class StitchAppClientImpl: StitchAppClient {
                              withRequestTimeout requestTimeout: TimeInterval,
                              _ completionHandler: @escaping (StitchResult<Void>) -> Void) {
         self.dispatcher.run(withCompletionHandler: completionHandler) {
-            return try self.coreClient.callFunction(withName: name,
+            return try self.coreClient.callFunctionInternal(withName: name,
                                                     withArgs: args,
                                                     withRequestTimeout: requestTimeout
             )
@@ -160,7 +160,7 @@ internal final class StitchAppClientImpl: StitchAppClient {
                                            withRequestTimeout requestTimeout: TimeInterval,
                                            _ completionHandler: @escaping (StitchResult<T>) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
-            return try self.coreClient.callFunction(withName: name,
+            return try self.coreClient.callFunctionInternal(withName: name,
                                                     withArgs: args,
                                                     withRequestTimeout: requestTimeout)
         }
