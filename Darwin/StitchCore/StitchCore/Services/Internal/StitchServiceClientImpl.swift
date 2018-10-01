@@ -28,7 +28,7 @@ internal final class StitchServiceClientImpl: StitchServiceClient {
                       withArgs args: [BsonValue],
                       _ completionHandler: @escaping (StitchResult<Void>) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
-            try self.proxy.callFunctionInternal(withName: name, withArgs: args, withRequestTimeout: nil)
+            try self.proxy.callFunction(withName: name, withArgs: args, withRequestTimeout: nil)
         }
     }
 
@@ -37,7 +37,7 @@ internal final class StitchServiceClientImpl: StitchServiceClient {
                       withRequestTimeout requestTimeout: TimeInterval,
                       _ completionHandler: @escaping (StitchResult<Void>) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
-            try self.proxy.callFunctionInternal(withName: name, withArgs: args, withRequestTimeout: requestTimeout)
+            try self.proxy.callFunction(withName: name, withArgs: args, withRequestTimeout: requestTimeout)
         }
     }
     
@@ -45,7 +45,7 @@ internal final class StitchServiceClientImpl: StitchServiceClient {
                                            withArgs args: [BsonValue],
                                            _ completionHandler: @escaping (StitchResult<T>) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
-            return try self.proxy.callFunctionInternal(withName: name, withArgs: args, withRequestTimeout: nil)
+            return try self.proxy.callFunction(withName: name, withArgs: args, withRequestTimeout: nil)
         }
     }
 
@@ -54,7 +54,7 @@ internal final class StitchServiceClientImpl: StitchServiceClient {
                                            withRequestTimeout requestTimeout: TimeInterval,
                                            _ completionHandler: @escaping (StitchResult<T>) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
-            return try self.proxy.callFunctionInternal(withName: name, withArgs: args, withRequestTimeout: requestTimeout)
+            return try self.proxy.callFunction(withName: name, withArgs: args, withRequestTimeout: requestTimeout)
         }
     }
 }
