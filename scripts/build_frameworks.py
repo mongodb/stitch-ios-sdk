@@ -30,10 +30,17 @@ FRAMEWORKS_DIR = 'Frameworks'
 def embedded_sdk_url(variant, min_version):
     """The url to download the embedded SDK for this variant."""
     return (
-        'https://s3.amazonaws.com/mciuploads/mongodb-mongo-v4.0'
-        '/embedded-sdk/embedded-sdk-{}-{}-latest.tgz'.format(
+        'https://s3.amazonaws.com/mciuploads/mongodb-mongo-v4.0/'
+        'embedded-sdk/embedded-sdk-{}-{}/d1a32060ff922f7bc38743484d44dad91cb6b617/4.0.0-114-gd1a3206.tgz'.format(
             variant.name,
-            min_version))
+            min_version
+        )
+    )
+    # return (
+    #     'https://s3.amazonaws.com/mciuploads/mongodb-mongo-v4.0'
+    #     '/embedded-sdk/embedded-sdk-{}-{}-latest.tgz'.format(
+    #         variant.name,
+    #         min_version))
 
 def fix_mongoc_symlinks(variant):
     """Fix the symlinked libraries and their rpaths.
