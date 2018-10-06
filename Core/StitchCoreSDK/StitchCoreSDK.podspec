@@ -12,7 +12,7 @@ Pod::Spec.new do |spec|
 
     spec.source = {
       :git => "https://github.com/mongodb/stitch-ios-sdk.git",
-      :branch => "master"
+      :branch => "master",
       :tag => '4.0.6'
     }
 
