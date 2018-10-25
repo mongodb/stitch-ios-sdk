@@ -37,5 +37,5 @@
 @_exported import struct MongoSwift.MaxKey
 @_exported import class MongoSwift.BSONDecoder
 @_exported import class MongoSwift.BSONEncoder
-@_exported import enum MongoSwift.BSONSubtype
+@_exported import enum MongoSwift.Binary.Subtype
 @_exported import enum MongoSwift.BSONType
