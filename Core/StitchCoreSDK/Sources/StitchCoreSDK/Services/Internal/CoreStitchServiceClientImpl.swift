@@ -15,7 +15,7 @@ open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
     }
     
     private func getCallServiceFunctionRequest(withName name: String,
-                                               withArgs args: [BsonValue],
+                                               withArgs args: [BSONValue],
                                                withTimeout timeout: TimeInterval?) throws -> StitchAuthDocRequest {
         var body: Document = [
             "name": name,
@@ -40,7 +40,7 @@ open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
     }
     
     public func callFunction(withName name: String,
-                             withArgs args: [BsonValue],
+                             withArgs args: [BSONValue],
                              withRequestTimeout timeout: TimeInterval? = nil) throws {
         // Coerce the `Response` return type so response decoding is not attempted.
         let _: Response = try requestClient.doAuthenticatedRequest(
@@ -50,7 +50,7 @@ open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
     }
     
     public func callFunction<T: Decodable>(withName name: String,
-                                           withArgs args: [BsonValue],
+                                           withArgs args: [BSONValue],
                                            withRequestTimeout timeout: TimeInterval? = nil) throws -> T {
         return try requestClient.doAuthenticatedRequest(
             getCallServiceFunctionRequest(withName: name,

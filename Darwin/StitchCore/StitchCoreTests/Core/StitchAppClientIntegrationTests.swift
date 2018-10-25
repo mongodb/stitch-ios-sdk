@@ -406,11 +406,11 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
         }
         wait(for: [exp4], timeout: defaultTimeoutSeconds)
 
-        // Will not compile until BsonValue conforms to Decodable (SWIFT-104)
+        // Will not compile until BSONValue conforms to Decodable (SWIFT-104)
 //        let exp5 = expectation(description: "called raw heterogenous array function successfully")
 //        stitchAppClient.callFunction(
 //            withName: "testFunctionRawHeterogenousArray",
-//            withArgs: [], withRequestTimeout: 5.0) { (arrayResponse: StitchResult<[BsonValue]>) in
+//            withArgs: [], withRequestTimeout: 5.0) { (arrayResponse: StitchResult<[BSONValue]>) in
 //                switch result {
 //                case .success(let arrayResponse):
 //                    XCTAssertEqual(arrayResponse, [1, "hello", 3])

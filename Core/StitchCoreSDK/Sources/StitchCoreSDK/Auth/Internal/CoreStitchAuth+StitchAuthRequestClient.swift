@@ -33,7 +33,7 @@ extension CoreStitchAuth {
             
             do {
                 // TODO: until Swift Driver decides on what to do
-                return try BsonDecoder().decode(T.self, from: responseString)
+                return try BSONDecoder().decode(T.self, from: responseString)
             } catch let err {
                 throw StitchError.requestError(withError: err, withRequestErrorCode: .decodingError)
             }

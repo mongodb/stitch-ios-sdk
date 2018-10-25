@@ -36,10 +36,10 @@ public class CoreFCMServiceClient {
         )
     }
     
-    private func sendMessageInternal<T: BsonValue>(request: FCMSendMessageRequest,
+    private func sendMessageInternal<T: BSONValue>(request: FCMSendMessageRequest,
                                      targetTypeKey: SendField,
                                      targetTypeValue: T) throws -> FCMSendMessageResult {
-        var args = try BsonEncoder().encode(request)
+        var args = try BSONEncoder().encode(request)
         args[targetTypeKey.rawValue] = targetTypeValue
         return try self.service.callFunction(
             withName: CoreFCMServiceClient.sendAction,

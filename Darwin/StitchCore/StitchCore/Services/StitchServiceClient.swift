@@ -20,7 +20,7 @@ public protocol StitchServiceClient {
      *                          This handler is executed on a non-main global `DispatchQueue`.
      *
      */
-    func callFunction(withName name: String, withArgs args: [BsonValue], _ completionHandler: @escaping (StitchResult<Void>) -> Void)
+    func callFunction(withName name: String, withArgs args: [BSONValue], _ completionHandler: @escaping (StitchResult<Void>) -> Void)
 
     /**
      * Calls the MongoDB Stitch function with the provided name and arguments. Also accepts a timeout. Use this for
@@ -35,7 +35,7 @@ public protocol StitchServiceClient {
      *                          This handler is executed on a non-main global `DispatchQueue`.
      *
      */
-    func callFunction(withName name: String, withArgs args: [BsonValue], withRequestTimeout requestTimeout: TimeInterval, _ completionHandler: @escaping (StitchResult<Void>) -> Void)
+    func callFunction(withName name: String, withArgs args: [BSONValue], withRequestTimeout requestTimeout: TimeInterval, _ completionHandler: @escaping (StitchResult<Void>) -> Void)
     
     /**
      * Calls the function for this service with the provided name and arguments.
@@ -50,7 +50,7 @@ public protocol StitchServiceClient {
      *              successful.
      *
      */
-    func callFunction<T: Decodable>(withName name: String, withArgs args: [BsonValue], _ completionHandler: @escaping (StitchResult<T>) -> Void)
+    func callFunction<T: Decodable>(withName name: String, withArgs args: [BSONValue], _ completionHandler: @escaping (StitchResult<T>) -> Void)
 
     /**
      * Calls the function for this service with the provided name and arguments, as well as with a specified timeout.
@@ -68,6 +68,6 @@ public protocol StitchServiceClient {
      *              successful.
      *
      */
-    func callFunction<T: Decodable>(withName name: String, withArgs args: [BsonValue], withRequestTimeout requestTimeout: TimeInterval, _ completionHandler: @escaping (StitchResult<T>) -> Void)
+    func callFunction<T: Decodable>(withName name: String, withArgs args: [BSONValue], withRequestTimeout requestTimeout: TimeInterval, _ completionHandler: @escaping (StitchResult<T>) -> Void)
     // swiftlint:enable line_length
 }

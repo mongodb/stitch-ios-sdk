@@ -10,15 +10,15 @@ public struct RemoteUpdateResult: Decodable {
     public let modifiedCount: Int
     
     /// The identifier of the inserted document if an upsert took place.
-    public let upsertedId: BsonValue?
+    public let upsertedId: BSONValue?
     
-    internal init(matchedCount: Int, modifiedCount: Int, upsertedId: BsonValue?) {
+    internal init(matchedCount: Int, modifiedCount: Int, upsertedId: BSONValue?) {
         self.matchedCount = matchedCount
         self.modifiedCount = modifiedCount
         self.upsertedId = upsertedId
     }
     
-    // Workaround until SWIFT-104 is merged, which will make BsonValue `Decodable`
+    // Workaround until SWIFT-104 is merged, which will make BSONValue `Decodable`
     /// :nodoc:
     public init(from decoder: Decoder) throws {
         let document = try decoder.singleValueContainer().decode(Document.self)

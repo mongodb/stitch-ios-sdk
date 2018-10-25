@@ -7,7 +7,7 @@ public class CoreRemoteMongoCollection<T: Codable> {
      * A `Codable` type associated with this `MongoCollection` instance.
      * This allows `CollectionType` values to be directly inserted into and
      * retrieved from the collection, by encoding/decoding them using the
-     * `BsonEncoder` and `BsonDecoder`.
+     * `BSONEncoder` and `BSONDecoder`.
      * This type association only exists in the context of this particular
      * `MongoCollection` instance. It is the responsibility of the user to
      * ensure that any data already stored in the collection was encoded
@@ -161,7 +161,7 @@ public class CoreRemoteMongoCollection<T: Codable> {
     public func insertOne(_ value: CollectionType) throws -> RemoteInsertOneResult {
         var args = baseOperationArgs
         
-        args["document"] = generateObjectIdIfMissing(try BsonEncoder().encode(value))
+        args["document"] = generateObjectIdIfMissing(try BSONEncoder().encode(value))
         
         return try service.callFunction(
             withName: "insertOne",
@@ -182,7 +182,7 @@ public class CoreRemoteMongoCollection<T: Codable> {
     public func insertMany(_ documents: [CollectionType]) throws -> RemoteInsertManyResult {
         var args = baseOperationArgs
         
-        let encoder = BsonEncoder()
+        let encoder = BSONEncoder()
         args["documents"] = try documents.map { generateObjectIdIfMissing(try encoder.encode($0)) }
         
         return try service.callFunction(

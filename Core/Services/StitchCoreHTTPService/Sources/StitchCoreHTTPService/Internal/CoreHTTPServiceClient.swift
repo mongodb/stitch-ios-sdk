@@ -19,11 +19,11 @@ public final class CoreHTTPServiceClient {
             }
             
             if let headers = request.headers {
-                args["headers"] = try BsonEncoder().encode(headers)
+                args["headers"] = try BSONEncoder().encode(headers)
             }
             
             if let cookies = request.cookies {
-                args["cookies"] = try BsonEncoder().encode(cookies)
+                args["cookies"] = try BSONEncoder().encode(cookies)
             }
             
             if let body = request.body {
@@ -35,7 +35,7 @@ public final class CoreHTTPServiceClient {
             }
             
             if let form = request.form {
-                args["form"] = try BsonEncoder().encode(form)
+                args["form"] = try BSONEncoder().encode(form)
             }
             
             if let followRedirects = request.followRedirects {
