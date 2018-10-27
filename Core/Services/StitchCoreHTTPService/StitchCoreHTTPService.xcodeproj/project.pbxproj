@@ -1,0 +1,414 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		OBJ_160 /* HTTPCookie.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* HTTPCookie.swift */; };
+		OBJ_161 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* HTTPMethod.swift */; };
+		OBJ_162 /* HTTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* HTTPRequest.swift */; };
+		OBJ_163 /* HTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* HTTPResponse.swift */; };
+		OBJ_164 /* CoreHTTPServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* CoreHTTPServiceClient.swift */; };
+		OBJ_185 /* HTTPRequestUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_19 /* HTTPRequestUnitTests.swift */; };
+		OBJ_186 /* CoreHTTPServiceClientUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_21 /* CoreHTTPServiceClientUnitTests.swift */; };
+		OBJ_190 /* StitchCoreHTTPService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "StitchCoreHTTPService::StitchCoreHTTPService::Product" /* StitchCoreHTTPService.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		498060B72184D9E300E2A3A2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "StitchCoreHTTPService::StitchCoreHTTPService";
+			remoteInfo = StitchCoreHTTPService;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		OBJ_11 /* HTTPCookie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPCookie.swift; sourceTree = "<group>"; };
+		OBJ_12 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		OBJ_13 /* HTTPRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPRequest.swift; sourceTree = "<group>"; };
+		OBJ_14 /* HTTPResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPResponse.swift; sourceTree = "<group>"; };
+		OBJ_16 /* CoreHTTPServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreHTTPServiceClient.swift; sourceTree = "<group>"; };
+		OBJ_19 /* HTTPRequestUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPRequestUnitTests.swift; sourceTree = "<group>"; };
+		OBJ_21 /* CoreHTTPServiceClientUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreHTTPServiceClientUnitTests.swift; sourceTree = "<group>"; };
+		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		OBJ_8 /* StitchCoreHTTPService.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = StitchCoreHTTPService.xcconfig; sourceTree = "<group>"; };
+		"StitchCoreHTTPService::StitchCoreHTTPService::Product" /* StitchCoreHTTPService.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = StitchCoreHTTPService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StitchCoreHTTPService::StitchCoreHTTPServiceTests::Product" /* StitchCoreHTTPServiceTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = StitchCoreHTTPServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		OBJ_165 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_187 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_190 /* StitchCoreHTTPService.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		OBJ_10 /* StitchCoreHTTPService */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_11 /* HTTPCookie.swift */,
+				OBJ_12 /* HTTPMethod.swift */,
+				OBJ_13 /* HTTPRequest.swift */,
+				OBJ_14 /* HTTPResponse.swift */,
+				OBJ_15 /* Internal */,
+			);
+			name = StitchCoreHTTPService;
+			path = Sources/StitchCoreHTTPService;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_133 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				"StitchCoreHTTPService::StitchCoreHTTPServiceTests::Product" /* StitchCoreHTTPServiceTests.xctest */,
+				"StitchCoreHTTPService::StitchCoreHTTPService::Product" /* StitchCoreHTTPService.framework */,
+			);
+			name = Products;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		OBJ_15 /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_16 /* CoreHTTPServiceClient.swift */,
+			);
+			path = Internal;
+			sourceTree = "<group>";
+		};
+		OBJ_17 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_18 /* StitchCoreHTTPServiceTests */,
+			);
+			name = Tests;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_18 /* StitchCoreHTTPServiceTests */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_19 /* HTTPRequestUnitTests.swift */,
+				OBJ_20 /* Internal */,
+			);
+			name = StitchCoreHTTPServiceTests;
+			path = Tests/StitchCoreHTTPServiceTests;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_20 /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_21 /* CoreHTTPServiceClientUnitTests.swift */,
+			);
+			path = Internal;
+			sourceTree = "<group>";
+		};
+		OBJ_5 = {
+			isa = PBXGroup;
+			children = (
+				OBJ_6 /* Package.swift */,
+				OBJ_7 /* Configs */,
+				OBJ_9 /* Sources */,
+				OBJ_17 /* Tests */,
+				OBJ_133 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		OBJ_7 /* Configs */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_8 /* StitchCoreHTTPService.xcconfig */,
+			);
+			name = Configs;
+			sourceTree = "<group>";
+		};
+		OBJ_9 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_10 /* StitchCoreHTTPService */,
+			);
+			name = Sources;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		"StitchCoreHTTPService::StitchCoreHTTPService" /* StitchCoreHTTPService */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_156 /* Build configuration list for PBXNativeTarget "StitchCoreHTTPService" */;
+			buildPhases = (
+				OBJ_159 /* Sources */,
+				OBJ_165 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StitchCoreHTTPService;
+			productName = StitchCoreHTTPService;
+			productReference = "StitchCoreHTTPService::StitchCoreHTTPService::Product" /* StitchCoreHTTPService.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		"StitchCoreHTTPService::StitchCoreHTTPServiceTests" /* StitchCoreHTTPServiceTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_181 /* Build configuration list for PBXNativeTarget "StitchCoreHTTPServiceTests" */;
+			buildPhases = (
+				OBJ_184 /* Sources */,
+				OBJ_187 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				OBJ_195 /* PBXTargetDependency */,
+			);
+			name = StitchCoreHTTPServiceTests;
+			productName = StitchCoreHTTPServiceTests;
+			productReference = "StitchCoreHTTPService::StitchCoreHTTPServiceTests::Product" /* StitchCoreHTTPServiceTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		OBJ_1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 9999;
+			};
+			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "StitchCoreHTTPService" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = OBJ_5;
+			productRefGroup = OBJ_133 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				"StitchCoreHTTPService::StitchCoreHTTPService" /* StitchCoreHTTPService */,
+				"StitchCoreHTTPService::StitchCoreHTTPServiceTests" /* StitchCoreHTTPServiceTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		OBJ_159 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_160 /* HTTPCookie.swift in Sources */,
+				OBJ_161 /* HTTPMethod.swift in Sources */,
+				OBJ_162 /* HTTPRequest.swift in Sources */,
+				OBJ_163 /* HTTPResponse.swift in Sources */,
+				OBJ_164 /* CoreHTTPServiceClient.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_184 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_185 /* HTTPRequestUnitTests.swift in Sources */,
+				OBJ_186 /* CoreHTTPServiceClientUnitTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		OBJ_195 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "StitchCoreHTTPService::StitchCoreHTTPService" /* StitchCoreHTTPService */;
+			targetProxy = 498060B72184D9E300E2A3A2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		OBJ_157 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* StitchCoreHTTPService.xcconfig */;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = StitchCoreHTTPService.xcodeproj/StitchCoreHTTPService_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = StitchCoreHTTPService;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = StitchCoreHTTPService;
+			};
+			name = Debug;
+		};
+		OBJ_158 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* StitchCoreHTTPService.xcconfig */;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = StitchCoreHTTPService.xcodeproj/StitchCoreHTTPService_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = StitchCoreHTTPService;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = StitchCoreHTTPService;
+			};
+			name = Release;
+		};
+		OBJ_182 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* StitchCoreHTTPService.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = StitchCoreHTTPService.xcodeproj/StitchCoreHTTPServiceTests_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = StitchCoreHTTPServiceTests;
+			};
+			name = Debug;
+		};
+		OBJ_183 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* StitchCoreHTTPService.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = StitchCoreHTTPService.xcodeproj/StitchCoreHTTPServiceTests_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = StitchCoreHTTPServiceTests;
+			};
+			name = Release;
+		};
+		OBJ_3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "-DXcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "SWIFT_PACKAGE DEBUG";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				USE_HEADERMAP = NO;
+			};
+			name = Debug;
+		};
+		OBJ_4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_OPTIMIZATION_LEVEL = s;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_SWIFT_FLAGS = "-DXcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = SWIFT_PACKAGE;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				USE_HEADERMAP = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		OBJ_156 /* Build configuration list for PBXNativeTarget "StitchCoreHTTPService" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_157 /* Debug */,
+				OBJ_158 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_181 /* Build configuration list for PBXNativeTarget "StitchCoreHTTPServiceTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_182 /* Debug */,
+				OBJ_183 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_2 /* Build configuration list for PBXProject "StitchCoreHTTPService" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_3 /* Debug */,
+				OBJ_4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = OBJ_1 /* Project object */;
+}

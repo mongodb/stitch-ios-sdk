@@ -1,0 +1,390 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		OBJ_155 /* AWSSESSendResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* AWSSESSendResult.swift */; };
+		OBJ_156 /* CoreAWSSESServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* CoreAWSSESServiceClient.swift */; };
+		OBJ_177 /* CoreAWSSESServiceClientUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* CoreAWSSESServiceClientUnitTests.swift */; };
+		OBJ_181 /* StitchCoreAWSSESService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "StitchCoreAWSSESService::StitchCoreAWSSESService::Product" /* StitchCoreAWSSESService.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		498060D92184DBEE00E2A3A2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "StitchCoreAWSSESService::StitchCoreAWSSESService";
+			remoteInfo = StitchCoreAWSSESService;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		OBJ_11 /* AWSSESSendResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSSESSendResult.swift; sourceTree = "<group>"; };
+		OBJ_13 /* CoreAWSSESServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAWSSESServiceClient.swift; sourceTree = "<group>"; };
+		OBJ_16 /* CoreAWSSESServiceClientUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAWSSESServiceClientUnitTests.swift; sourceTree = "<group>"; };
+		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		OBJ_8 /* StitchCoreAWSSESService.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = StitchCoreAWSSESService.xcconfig; sourceTree = "<group>"; };
+		"StitchCoreAWSSESService::StitchCoreAWSSESService::Product" /* StitchCoreAWSSESService.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = StitchCoreAWSSESService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StitchCoreAWSSESService::StitchCoreAWSSESServiceTests::Product" /* StitchCoreAWSSESServiceTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = StitchCoreAWSSESServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		OBJ_157 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_178 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_181 /* StitchCoreAWSSESService.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		OBJ_10 /* StitchCoreAWSSESService */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_11 /* AWSSESSendResult.swift */,
+				OBJ_12 /* Internal */,
+			);
+			name = StitchCoreAWSSESService;
+			path = Sources/StitchCoreAWSSESService;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_12 /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_13 /* CoreAWSSESServiceClient.swift */,
+			);
+			path = Internal;
+			sourceTree = "<group>";
+		};
+		OBJ_128 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				"StitchCoreAWSSESService::StitchCoreAWSSESServiceTests::Product" /* StitchCoreAWSSESServiceTests.xctest */,
+				"StitchCoreAWSSESService::StitchCoreAWSSESService::Product" /* StitchCoreAWSSESService.framework */,
+			);
+			name = Products;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		OBJ_14 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_15 /* StitchCoreAWSSESServiceTests */,
+			);
+			name = Tests;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_15 /* StitchCoreAWSSESServiceTests */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_16 /* CoreAWSSESServiceClientUnitTests.swift */,
+			);
+			name = StitchCoreAWSSESServiceTests;
+			path = Tests/StitchCoreAWSSESServiceTests;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_5 = {
+			isa = PBXGroup;
+			children = (
+				OBJ_6 /* Package.swift */,
+				OBJ_7 /* Configs */,
+				OBJ_9 /* Sources */,
+				OBJ_14 /* Tests */,
+				OBJ_128 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		OBJ_7 /* Configs */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_8 /* StitchCoreAWSSESService.xcconfig */,
+			);
+			name = Configs;
+			sourceTree = "<group>";
+		};
+		OBJ_9 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_10 /* StitchCoreAWSSESService */,
+			);
+			name = Sources;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		"StitchCoreAWSSESService::StitchCoreAWSSESService" /* StitchCoreAWSSESService */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_151 /* Build configuration list for PBXNativeTarget "StitchCoreAWSSESService" */;
+			buildPhases = (
+				OBJ_154 /* Sources */,
+				OBJ_157 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StitchCoreAWSSESService;
+			productName = StitchCoreAWSSESService;
+			productReference = "StitchCoreAWSSESService::StitchCoreAWSSESService::Product" /* StitchCoreAWSSESService.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		"StitchCoreAWSSESService::StitchCoreAWSSESServiceTests" /* StitchCoreAWSSESServiceTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_173 /* Build configuration list for PBXNativeTarget "StitchCoreAWSSESServiceTests" */;
+			buildPhases = (
+				OBJ_176 /* Sources */,
+				OBJ_178 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				OBJ_186 /* PBXTargetDependency */,
+			);
+			name = StitchCoreAWSSESServiceTests;
+			productName = StitchCoreAWSSESServiceTests;
+			productReference = "StitchCoreAWSSESService::StitchCoreAWSSESServiceTests::Product" /* StitchCoreAWSSESServiceTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		OBJ_1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 9999;
+			};
+			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "StitchCoreAWSSESService" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = OBJ_5;
+			productRefGroup = OBJ_128 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				"StitchCoreAWSSESService::StitchCoreAWSSESService" /* StitchCoreAWSSESService */,
+				"StitchCoreAWSSESService::StitchCoreAWSSESServiceTests" /* StitchCoreAWSSESServiceTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		OBJ_154 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_155 /* AWSSESSendResult.swift in Sources */,
+				OBJ_156 /* CoreAWSSESServiceClient.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_176 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_177 /* CoreAWSSESServiceClientUnitTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		OBJ_186 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "StitchCoreAWSSESService::StitchCoreAWSSESService" /* StitchCoreAWSSESService */;
+			targetProxy = 498060D92184DBEE00E2A3A2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		OBJ_152 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* StitchCoreAWSSESService.xcconfig */;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = StitchCoreAWSSESService.xcodeproj/StitchCoreAWSSESService_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = StitchCoreAWSSESService;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = StitchCoreAWSSESService;
+			};
+			name = Debug;
+		};
+		OBJ_153 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* StitchCoreAWSSESService.xcconfig */;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = StitchCoreAWSSESService.xcodeproj/StitchCoreAWSSESService_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = StitchCoreAWSSESService;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = StitchCoreAWSSESService;
+			};
+			name = Release;
+		};
+		OBJ_174 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* StitchCoreAWSSESService.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = StitchCoreAWSSESService.xcodeproj/StitchCoreAWSSESServiceTests_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = StitchCoreAWSSESServiceTests;
+			};
+			name = Debug;
+		};
+		OBJ_175 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* StitchCoreAWSSESService.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = StitchCoreAWSSESService.xcodeproj/StitchCoreAWSSESServiceTests_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = StitchCoreAWSSESServiceTests;
+			};
+			name = Release;
+		};
+		OBJ_3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "-DXcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "SWIFT_PACKAGE DEBUG";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				USE_HEADERMAP = NO;
+			};
+			name = Debug;
+		};
+		OBJ_4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_OPTIMIZATION_LEVEL = s;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_SWIFT_FLAGS = "-DXcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = SWIFT_PACKAGE;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				USE_HEADERMAP = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		OBJ_151 /* Build configuration list for PBXNativeTarget "StitchCoreAWSSESService" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_152 /* Debug */,
+				OBJ_153 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_173 /* Build configuration list for PBXNativeTarget "StitchCoreAWSSESServiceTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_174 /* Debug */,
+				OBJ_175 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_2 /* Build configuration list for PBXProject "StitchCoreAWSSESService" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_3 /* Debug */,
+				OBJ_4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = OBJ_1 /* Project object */;
+}
