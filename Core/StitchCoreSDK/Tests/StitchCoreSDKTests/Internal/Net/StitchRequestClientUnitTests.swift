@@ -175,7 +175,7 @@ class StitchRequestClientUnitTests: StitchXCTestCase {
         )
         
         let path = "/path"
-        let document = Document.init(["my": 24])
+        let document: Document = ["my": 24]
         let builder = StitchDocRequestBuilder()
             .with(path: path)
             .with(method: .get)

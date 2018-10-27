@@ -16,22 +16,11 @@ Pod::Spec.new do |spec|
     }
 
     spec.platform = :ios, "11.0"
-    # spec.platform = :tvos, "10.2"
-    # spec.platform = :macos, "10.10"
     spec.swift_version = '4.2'
-    
-    # spec.user_target_xcconfig = {
-    #   'FRAMEWORK_SEARCH_PATHS' => "$(PODS_ROOT)/#{spec.name}/Frameworks/ios"
-    # }
-    spec.ios.deployment_target = "11.0"
-    # spec.tvos.deployment_target = "10.2"
-    # spec.macos.deployment_target = "10.10"
 
-    # spec.ios.vendored_frameworks = 'Frameworks/ios/*.framework'
-    # spec.tvos.vendored_frameworks = 'Frameworks/tvos/*.framework'
-    # spec.macos.vendored_frameworks = 'Frameworks/macos/*.framework'
-    
-    spec.dependency 'MongoSwift', '0.0.4'
+    spec.ios.deployment_target = "11.0"
+
+    spec.dependency 'MongoSwift', '0.0.5'
     
     spec.source_files = "Core/#{spec.name}/Sources/#{spec.name}/**/*.swift"
 end

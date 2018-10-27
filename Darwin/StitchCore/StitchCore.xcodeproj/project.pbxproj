@@ -30,6 +30,7 @@
 		11C587EA20581C8000B34DD1 /* Stitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C587E920581C8000B34DD1 /* Stitch.swift */; };
 		11C587EF2058445200B34DD1 /* StitchUserFactoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C587EE2058445200B34DD1 /* StitchUserFactoryImpl.swift */; };
 		11CAF8CE205995C0003AF24D /* StitchCoreExports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CAF8CD205995C0003AF24D /* StitchCoreExports.swift */; };
+		2E3B8DC33E80BD304C175A0A /* libPods-StitchCoreTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A4372BFF397E64E08B44C78C /* libPods-StitchCoreTests.a */; };
 		4902C68D2050078F00E53674 /* StitchAppClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C68C2050078F00E53674 /* StitchAppClient.swift */; };
 		4902C6902050083C00E53674 /* StitchAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C68F2050083C00E53674 /* StitchAuth.swift */; };
 		4902C694205009C400E53674 /* StitchUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C693205009C400E53674 /* StitchUser.swift */; };
@@ -47,37 +48,10 @@
 		494C21D720ED804E00A26734 /* StitchCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494C21D620ED804E00A26734 /* StitchCoreSDK.framework */; };
 		496CAA8920A5E3A6001F0D3C /* ThrowingServiceClientFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496CAA8820A5E3A6001F0D3C /* ThrowingServiceClientFactory.swift */; };
 		496CAAEF20A60632001F0D3C /* ThrowingServiceClientFactoryUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496CAAEE20A60632001F0D3C /* ThrowingServiceClientFactoryUnitTests.swift */; };
+		82AAC2DDE047236B4D33236B /* libPods-StitchCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EA1A49329F47FE1C1850BE32 /* libPods-StitchCore.a */; };
 		F40E66D620DD6D8800105FE6 /* ImmutableStitchAppClientConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40E66D520DD6D8800105FE6 /* ImmutableStitchAppClientConfiguration.swift */; };
-		F40E66D720DD6D8800105FE6 /* ImmutableStitchAppClientConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40E66D520DD6D8800105FE6 /* ImmutableStitchAppClientConfiguration.swift */; };
 		F466EDFA20B5169000D6E4E8 /* StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F466EDF920B5169000D6E4E8 /* StitchCoreAdminClient.framework */; };
 		F466EDFC20B516B800D6E4E8 /* StitchCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F466EDFB20B516B800D6E4E8 /* StitchCoreTestUtils.framework */; };
-		F4B2757920DAD13A000CB126 /* StitchCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4B2757820DAD13A000CB126 /* StitchCoreSDK.framework */; };
-		F4B2757A20DAD304000CB126 /* StitchCoreExports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CAF8CD205995C0003AF24D /* StitchCoreExports.swift */; };
-		F4B2757B20DAD304000CB126 /* UserAPIKeyAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C587DF2056D6F300B34DD1 /* UserAPIKeyAuthProviderClient.swift */; };
-		F4B2757C20DAD304000CB126 /* UserPasswordAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DA27BA20D3445B00852314 /* UserPasswordAuthProviderClient.swift */; };
-		F4B2757D20DAD304000CB126 /* AuthProviderClientFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11297B1D205301C9001D0711 /* AuthProviderClientFactory.swift */; };
-		F4B2757E20DAD304000CB126 /* NamedAuthProviderClientFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11297B1F205301D5001D0711 /* NamedAuthProviderClientFactory.swift */; };
-		F4B2757F20DAD304000CB126 /* StitchAuthImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49368D6F2052F35B006153D3 /* StitchAuthImpl.swift */; };
-		F4B2758020DAD304000CB126 /* StitchUserImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C587E32057094B00B34DD1 /* StitchUserImpl.swift */; };
-		F4B2758120DAD304000CB126 /* StitchUserFactoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C587EE2058445200B34DD1 /* StitchUserFactoryImpl.swift */; };
-		F4B2758220DAD304000CB126 /* StitchAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C68F2050083C00E53674 /* StitchAuth.swift */; };
-		F4B2758320DAD304000CB126 /* StitchAuthDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C6B7205010AE00E53674 /* StitchAuthDelegate.swift */; };
-		F4B2758420DAD304000CB126 /* StitchUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C693205009C400E53674 /* StitchUser.swift */; };
-		F4B2758520DAD304000CB126 /* OperationDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11981A102061B9D50074BB11 /* OperationDispatcher.swift */; };
-		F4B2758620DAD304000CB126 /* StitchAppClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49368D6C2052F350006153D3 /* StitchAppClientImpl.swift */; };
-		F4B2758720DAD304000CB126 /* NamedPushClientFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113AA79220D1BF0F00CF4E70 /* NamedPushClientFactory.swift */; };
-		F4B2758820DAD304000CB126 /* StitchPushClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113AA79420D1BF1A00CF4E70 /* StitchPushClient.swift */; };
-		F4B2758920DAD304000CB126 /* StitchPushClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113AA79620D1BF2200CF4E70 /* StitchPushClientImpl.swift */; };
-		F4B2758A20DAD304000CB126 /* StitchPushImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113AA79820D1BF3200CF4E70 /* StitchPushImpl.swift */; };
-		F4B2758B20DAD304000CB126 /* StitchPush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113AA79020D1BF0300CF4E70 /* StitchPush.swift */; };
-		F4B2758C20DAD304000CB126 /* Stitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C587E920581C8000B34DD1 /* Stitch.swift */; };
-		F4B2758D20DAD304000CB126 /* StitchAppClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C68C2050078F00E53674 /* StitchAppClient.swift */; };
-		F4B2758E20DAD304000CB126 /* StitchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1163C6F020D045540038CD11 /* StitchResult.swift */; };
-		F4B2758F20DAD304000CB126 /* StitchServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C6AE20500FAD00E53674 /* StitchServiceClient.swift */; };
-		F4B2759020DAD304000CB126 /* StitchServiceClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C6B92050112300E53674 /* StitchServiceClientImpl.swift */; };
-		F4B2759120DAD304000CB126 /* NamedServiceClientFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C6C8205174A100E53674 /* NamedServiceClientFactory.swift */; };
-		F4B2759220DAD304000CB126 /* ThrowingServiceClientFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496CAA8820A5E3A6001F0D3C /* ThrowingServiceClientFactory.swift */; };
-		F4B2759320DAD304000CB126 /* ServiceClientFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C6CE2051753000E53674 /* ServiceClientFactory.swift */; };
 		F4DA27BB20D3445B00852314 /* UserPasswordAuthProviderClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DA27BA20D3445B00852314 /* UserPasswordAuthProviderClient.swift */; };
 /* End PBXBuildFile section */
 
@@ -101,16 +75,6 @@
 				493A69A020EFE1E800BFE39E /* libbson.framework in Embed Frameworks */,
 				493A69A120EFE1E800BFE39E /* libmongoc.framework in Embed Frameworks */,
 				493A69A220EFE1E800BFE39E /* MongoSwift.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D5DE4FED98BAE5DC525281FA /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -166,6 +130,12 @@
 		494C21D620ED804E00A26734 /* StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		496CAA8820A5E3A6001F0D3C /* ThrowingServiceClientFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThrowingServiceClientFactory.swift; sourceTree = "<group>"; };
 		496CAAEE20A60632001F0D3C /* ThrowingServiceClientFactoryUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThrowingServiceClientFactoryUnitTests.swift; sourceTree = "<group>"; };
+		7ED73BB1857E7962158D2F9C /* Pods-StitchCore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCore.debug.xcconfig"; path = "Target Support Files/Pods-StitchCore/Pods-StitchCore.debug.xcconfig"; sourceTree = "<group>"; };
+		86D71FAB7833AC1381215C92 /* Pods-StitchCoreTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreTests.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreTests/Pods-StitchCoreTests.debug.xcconfig"; sourceTree = "<group>"; };
+		94C2741514CBDE42221218BC /* Pods-StitchCoreTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreTests.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreTests/Pods-StitchCoreTests.release.xcconfig"; sourceTree = "<group>"; };
+		A4372BFF397E64E08B44C78C /* libPods-StitchCoreTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchCoreTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C7A21E129574F547E6AD50DC /* Pods-StitchCore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCore.release.xcconfig"; path = "Target Support Files/Pods-StitchCore/Pods-StitchCore.release.xcconfig"; sourceTree = "<group>"; };
+		EA1A49329F47FE1C1850BE32 /* libPods-StitchCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchCore.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F40E66D520DD6D8800105FE6 /* ImmutableStitchAppClientConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImmutableStitchAppClientConfiguration.swift; sourceTree = "<group>"; };
 		F466EDF920B5169000D6E4E8 /* StitchCoreAdminClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAdminClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F466EDFB20B516B800D6E4E8 /* StitchCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -176,7 +146,6 @@
 		F4B2757820DAD13A000CB126 /* StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4D3E4DC20B5C28D00C7479A /* JWT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = JWT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4DA27BA20D3445B00852314 /* UserPasswordAuthProviderClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserPasswordAuthProviderClient.swift; sourceTree = "<group>"; };
-		F4E8CE2120DAC4DB000E4921 /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4E8CE7920DAC860000E4921 /* StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -191,6 +160,7 @@
 				1136564D20CF5CA100FB68BE /* StitchCore.framework in Frameworks */,
 				F466EDFC20B516B800D6E4E8 /* StitchCoreTestUtils.framework in Frameworks */,
 				F466EDFA20B5169000D6E4E8 /* StitchCoreAdminClient.framework in Frameworks */,
+				2E3B8DC33E80BD304C175A0A /* libPods-StitchCoreTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -199,14 +169,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1123018E20CF333200DE9A72 /* StitchCoreSDK.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F4E8CE1D20DAC4DB000E4921 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F4B2757920DAD13A000CB126 /* StitchCoreSDK.framework in Frameworks */,
+				82AAC2DDE047236B4D33236B /* libPods-StitchCore.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,6 +313,7 @@
 				11981A1A2062C4AA0074BB11 /* StitchCoreTests */,
 				4902C679205006C800E53674 /* Products */,
 				4902C6872050076B00E53674 /* Frameworks */,
+				C09E27A1FB3C55D85A2E2DBD /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -358,7 +322,6 @@
 			children = (
 				4902C678205006C800E53674 /* StitchCore.framework */,
 				11981A192062C4AA0074BB11 /* StitchCoreTests.xctest */,
-				F4E8CE2120DAC4DB000E4921 /* StitchCore.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -394,6 +357,8 @@
 				F466EDFD20B516DB00D6E4E8 /* StitchCoreTestUtils_iOS.framework */,
 				F466EDFB20B516B800D6E4E8 /* StitchCoreTestUtils.framework */,
 				F466EDF920B5169000D6E4E8 /* StitchCoreAdminClient.framework */,
+				EA1A49329F47FE1C1850BE32 /* libPods-StitchCore.a */,
+				A4372BFF397E64E08B44C78C /* libPods-StitchCoreTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -471,17 +436,22 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		C09E27A1FB3C55D85A2E2DBD /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7ED73BB1857E7962158D2F9C /* Pods-StitchCore.debug.xcconfig */,
+				C7A21E129574F547E6AD50DC /* Pods-StitchCore.release.xcconfig */,
+				86D71FAB7833AC1381215C92 /* Pods-StitchCoreTests.debug.xcconfig */,
+				94C2741514CBDE42221218BC /* Pods-StitchCoreTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../../Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
 		4902C675205006C800E53674 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F4E8CE1E20DAC4DB000E4921 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -495,6 +465,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 11981A212062C4AA0074BB11 /* Build configuration list for PBXNativeTarget "StitchCoreTests" */;
 			buildPhases = (
+				7D356309E691071DD3B62426 /* [CP] Check Pods Manifest.lock */,
 				11981A152062C4AA0074BB11 /* Sources */,
 				11981A162062C4AA0074BB11 /* Frameworks */,
 				11981A172062C4AA0074BB11 /* Resources */,
@@ -514,6 +485,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4902C680205006C800E53674 /* Build configuration list for PBXNativeTarget "StitchCore" */;
 			buildPhases = (
+				300F6E843237B4F54BDC3A5E /* [CP] Check Pods Manifest.lock */,
 				4902C673205006C800E53674 /* Sources */,
 				4902C674205006C800E53674 /* Frameworks */,
 				4902C675205006C800E53674 /* Headers */,
@@ -527,25 +499,6 @@
 			name = StitchCore;
 			productName = "StitchCore-iOS";
 			productReference = 4902C678205006C800E53674 /* StitchCore.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		F4E8CE2020DAC4DB000E4921 /* StitchCore-watchos */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = F4E8CE2620DAC4DC000E4921 /* Build configuration list for PBXNativeTarget "StitchCore-watchos" */;
-			buildPhases = (
-				F4E8CE1C20DAC4DB000E4921 /* Sources */,
-				F4E8CE1D20DAC4DB000E4921 /* Frameworks */,
-				F4E8CE1E20DAC4DB000E4921 /* Headers */,
-				F4E8CE1F20DAC4DB000E4921 /* Resources */,
-				D5DE4FED98BAE5DC525281FA /* Embed Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "StitchCore-watchos";
-			productName = "StitchCore-watchos";
-			productReference = F4E8CE2120DAC4DB000E4921 /* StitchCore.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -568,10 +521,6 @@
 						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
-					F4E8CE2020DAC4DB000E4921 = {
-						CreatedOnToolsVersion = 9.3.1;
-						ProvisioningStyle = Automatic;
-					};
 				};
 			};
 			buildConfigurationList = 4902C672205006C800E53674 /* Build configuration list for PBXProject "StitchCore" */;
@@ -588,7 +537,6 @@
 			targets = (
 				4902C677205006C800E53674 /* StitchCore */,
 				11981A182062C4AA0074BB11 /* StitchCoreTests */,
-				F4E8CE2020DAC4DB000E4921 /* StitchCore-watchos */,
 			);
 		};
 /* End PBXProject section */
@@ -602,13 +550,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		4902C676205006C800E53674 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F4E8CE1F20DAC4DB000E4921 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -630,6 +571,50 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+		};
+		300F6E843237B4F54BDC3A5E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-StitchCore-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7D356309E691071DD3B62426 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-StitchCoreTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -682,40 +667,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F4E8CE1C20DAC4DB000E4921 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F4B2757A20DAD304000CB126 /* StitchCoreExports.swift in Sources */,
-				F4B2757B20DAD304000CB126 /* UserAPIKeyAuthProviderClient.swift in Sources */,
-				F4B2757C20DAD304000CB126 /* UserPasswordAuthProviderClient.swift in Sources */,
-				F4B2757D20DAD304000CB126 /* AuthProviderClientFactory.swift in Sources */,
-				F4B2757E20DAD304000CB126 /* NamedAuthProviderClientFactory.swift in Sources */,
-				F4B2757F20DAD304000CB126 /* StitchAuthImpl.swift in Sources */,
-				F4B2758020DAD304000CB126 /* StitchUserImpl.swift in Sources */,
-				F4B2758120DAD304000CB126 /* StitchUserFactoryImpl.swift in Sources */,
-				F4B2758220DAD304000CB126 /* StitchAuth.swift in Sources */,
-				F4B2758320DAD304000CB126 /* StitchAuthDelegate.swift in Sources */,
-				F4B2758420DAD304000CB126 /* StitchUser.swift in Sources */,
-				F4B2758520DAD304000CB126 /* OperationDispatcher.swift in Sources */,
-				F4B2758620DAD304000CB126 /* StitchAppClientImpl.swift in Sources */,
-				F4B2758720DAD304000CB126 /* NamedPushClientFactory.swift in Sources */,
-				F4B2758820DAD304000CB126 /* StitchPushClient.swift in Sources */,
-				F4B2758920DAD304000CB126 /* StitchPushClientImpl.swift in Sources */,
-				F40E66D720DD6D8800105FE6 /* ImmutableStitchAppClientConfiguration.swift in Sources */,
-				F4B2758A20DAD304000CB126 /* StitchPushImpl.swift in Sources */,
-				F4B2758B20DAD304000CB126 /* StitchPush.swift in Sources */,
-				F4B2758C20DAD304000CB126 /* Stitch.swift in Sources */,
-				F4B2758D20DAD304000CB126 /* StitchAppClient.swift in Sources */,
-				F4B2758E20DAD304000CB126 /* StitchResult.swift in Sources */,
-				F4B2758F20DAD304000CB126 /* StitchServiceClient.swift in Sources */,
-				F4B2759020DAD304000CB126 /* StitchServiceClientImpl.swift in Sources */,
-				F4B2759120DAD304000CB126 /* NamedServiceClientFactory.swift in Sources */,
-				F4B2759220DAD304000CB126 /* ThrowingServiceClientFactory.swift in Sources */,
-				F4B2759320DAD304000CB126 /* ServiceClientFactory.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -729,6 +680,7 @@
 /* Begin XCBuildConfiguration section */
 		11981A222062C4AA0074BB11 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 86D71FAB7833AC1381215C92 /* Pods-StitchCoreTests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -757,6 +709,7 @@
 		};
 		11981A232062C4AA0074BB11 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 94C2741514CBDE42221218BC /* Pods-StitchCoreTests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -903,6 +856,7 @@
 		};
 		4902C681205006C800E53674 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7ED73BB1857E7962158D2F9C /* Pods-StitchCore.debug.xcconfig */;
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
 				CLANG_ENABLE_MODULES = YES;
@@ -962,7 +916,7 @@
 				);
 				INFOPLIST_FILE = StitchCore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -979,6 +933,7 @@
 		};
 		4902C682205006C800E53674 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C7A21E129574F547E6AD50DC /* Pods-StitchCore.release.xcconfig */;
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
 				CLANG_ENABLE_MODULES = YES;
@@ -997,7 +952,7 @@
 				);
 				INFOPLIST_FILE = StitchCore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -1008,76 +963,6 @@
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7s armv7 i386 x86_64 armv7k";
-			};
-			name = Release;
-		};
-		F4E8CE2720DAC4DC000E4921 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)/../../Frameworks/ios",
-					"$(inherited)",
-				);
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../vendor/Sources/libbson",
-					"$(SRCROOT)/../../vendor/Sources/libmongoc",
-				);
-				INFOPLIST_FILE = StitchCore/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchCore;
-				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME)";
-				PRODUCT_NAME = StitchCore;
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "watchsimulator watchos";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 4.2;
-			};
-			name = Debug;
-		};
-		F4E8CE2820DAC4DC000E4921 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)/../../Frameworks/ios",
-					"$(inherited)",
-				);
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../vendor/Sources/libbson",
-					"$(SRCROOT)/../../vendor/Sources/libmongoc",
-				);
-				INFOPLIST_FILE = StitchCore/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.stitch.StitchCore;
-				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME)";
-				PRODUCT_NAME = StitchCore;
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "watchsimulator watchos";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 4.2;
 			};
 			name = Release;
 		};
@@ -1107,15 +992,6 @@
 			buildConfigurations = (
 				4902C681205006C800E53674 /* Debug */,
 				4902C682205006C800E53674 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		F4E8CE2620DAC4DC000E4921 /* Build configuration list for PBXNativeTarget "StitchCore-watchos" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				F4E8CE2720DAC4DC000E4921 /* Debug */,
-				F4E8CE2820DAC4DC000E4921 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Frameworks">
+      location = "group:Podfile">
    </FileRef>
    <FileRef
       location = "group:MockUtils/MockUtils.xcodeproj">
@@ -102,4 +102,7 @@
          </FileRef>
       </Group>
    </Group>
+   <FileRef
+      location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
 </Workspace>

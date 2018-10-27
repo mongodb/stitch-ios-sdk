@@ -48,75 +48,61 @@ MockUtils/Packages/
 MockUtils/Package.pins
 MockUtils/Package.resolved
 MockUtils/.build/
-MockUtils/*.xcodeproj/
 
 Core/StitchCoreSDK/Packages/
 Core/StitchCoreSDK/Package.pins
 Core/StitchCoreSDK/Package.resolved
 Core/StitchCoreSDK/.build/
-Core/StitchCoreSDK/*.xcodeproj/
 
 Core/StitchCoreAdminClient/Packages/
 Core/StitchCoreAdminClient/Package.pins
 Core/StitchCoreAdminClient/Package.resolved
 Core/StitchCoreAdminClient/.build/
-Core/StitchCoreAdminClient/*.xcodeproj/
 
 Core/StitchCoreTestUtils/Packages/
 Core/StitchCoreTestUtils/Package.pins
 Core/StitchCoreTestUtils/Package.resolved
 Core/StitchCoreTestUtils/.build/
-Core/StitchCoreTestUtils/*.xcodeproj/
 
 Core/Services/StitchCoreAWSService/Packages/
 Core/Services/StitchCoreAWSService/Package.pins
 Core/Services/StitchCoreAWSService/Package.resolved
 Core/Services/StitchCoreAWSService/.build/
-Core/Services/StitchCoreAWSService/StitchCoreAWSService.xcodeproj/
 
 Core/Services/StitchCoreAWSS3Service/Packages/
 Core/Services/StitchCoreAWSS3Service/Package.pins
 Core/Services/StitchCoreAWSS3Service/Package.resolved
 Core/Services/StitchCoreAWSS3Service/.build/
-Core/Services/StitchCoreAWSS3Service/StitchCoreAWSS3Service.xcodeproj/
 
 Core/Services/StitchCoreAWSSESService/Packages/
 Core/Services/StitchCoreAWSSESService/Package.pins
 Core/Services/StitchCoreAWSSESService/Package.resolved
 Core/Services/StitchCoreAWSSESService/.build/
-Core/Services/StitchCoreAWSSESService/StitchCoreAWSSESService.xcodeproj/
 
 Core/Services/StitchCoreFCMService/Packages/
 Core/Services/StitchCoreFCMService/Package.pins
 Core/Services/StitchCoreFCMService/Package.resolved
 Core/Services/StitchCoreFCMService/.build/
-Core/Services/StitchCoreFCMService/StitchCoreFCMService.xcodeproj/
 
 Core/Services/StitchCoreHTTPService/Packages/
 Core/Services/StitchCoreHTTPService/Package.pins
 Core/Services/StitchCoreHTTPService/Package.resolved
 Core/Services/StitchCoreHTTPService/.build/
-Core/Services/StitchCoreHTTPService/StitchCoreHTTPService.xcodeproj/
 
 Core/Services/StitchCoreRemoteMongoDBService/Packages/
 Core/Services/StitchCoreRemoteMongoDBService/Package.pins
 Core/Services/StitchCoreRemoteMongoDBService/Package.resolved
 Core/Services/StitchCoreRemoteMongoDBService/.build/
-Core/Services/StitchCoreRemoteMongoDBService/StitchCoreRemoteMongoDBService.xcodeproj/
 
 Core/Services/StitchCoreTwilioService/Packages/
 Core/Services/StitchCoreTwilioService/Package.pins
 Core/Services/StitchCoreTwilioService/Package.resolved
 Core/Services/StitchCoreTwilioService/.build/
-Core/Services/StitchCoreTwilioService/StitchCoreTwilioService.xcodeproj/
 
 Core/Services/StitchCoreLocalMongoDBService/Packages/
 Core/Services/StitchCoreLocalMongoDBService/Package.pins
 Core/Services/StitchCoreLocalMongoDBService/Package.resolved
 Core/Services/StitchCoreLocalMongoDBService/.build/
-Core/Services/StitchCoreLocalMongoDBService/StitchCoreLocalMongoDBService.xcodeproj/
-# Special case for vendored MongoMobile
-Core/Services/StitchCoreLocalMongoDBService/Sources/StitchCoreLocalMongoDBService/MongoMobile
 
 .build/
 

@@ -1,5 +1,6 @@
 @_exported import MongoSwift
 @_exported import Foundation
+@_exported import MongoMobile
 import StitchCoreSDK
 
 private var initialized = false;

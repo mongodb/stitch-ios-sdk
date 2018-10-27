@@ -439,7 +439,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
             throw StitchError.clientError(withClientErrorCode: .loggedOutDuringRequest)
         }
         
-        let jwt = try JWT.init(fromEncodedJWT: accessToken)
+        let jwt = try StitchJWT.init(fromEncodedJWT: accessToken)
         guard let issuedAt = jwt.issuedAt,
             issuedAt < reqStartedAt else {
                 return
