@@ -30,7 +30,7 @@
 		11C587EA20581C8000B34DD1 /* Stitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C587E920581C8000B34DD1 /* Stitch.swift */; };
 		11C587EF2058445200B34DD1 /* StitchUserFactoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C587EE2058445200B34DD1 /* StitchUserFactoryImpl.swift */; };
 		11CAF8CE205995C0003AF24D /* StitchCoreExports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CAF8CD205995C0003AF24D /* StitchCoreExports.swift */; };
-		2E3B8DC33E80BD304C175A0A /* libPods-StitchCoreTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A4372BFF397E64E08B44C78C /* libPods-StitchCoreTests.a */; };
+		2632A73BB2A0A17B48D67A59 /* libPods-StitchCore-StitchCoreTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A0F9D33B50DB868AD802E4BD /* libPods-StitchCore-StitchCoreTests.a */; };
 		4902C68D2050078F00E53674 /* StitchAppClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C68C2050078F00E53674 /* StitchAppClient.swift */; };
 		4902C6902050083C00E53674 /* StitchAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C68F2050083C00E53674 /* StitchAuth.swift */; };
 		4902C694205009C400E53674 /* StitchUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C693205009C400E53674 /* StitchUser.swift */; };
@@ -40,10 +40,6 @@
 		4902C6C9205174A100E53674 /* NamedServiceClientFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C6C8205174A100E53674 /* NamedServiceClientFactory.swift */; };
 		49368D6D2052F350006153D3 /* StitchAppClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49368D6C2052F350006153D3 /* StitchAppClientImpl.swift */; };
 		49368D702052F35B006153D3 /* StitchAuthImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49368D6F2052F35B006153D3 /* StitchAuthImpl.swift */; };
-		493A699C20EFD8E700BFE39E /* JWT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 493A699B20EFD8E700BFE39E /* JWT.framework */; };
-		493A69A020EFE1E800BFE39E /* libbson.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 493A699D20EFE1E800BFE39E /* libbson.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		493A69A120EFE1E800BFE39E /* libmongoc.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 493A699E20EFE1E800BFE39E /* libmongoc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		493A69A220EFE1E800BFE39E /* MongoSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 493A699F20EFE1E800BFE39E /* MongoSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		494C0A8920EBCEC400773B49 /* StitchDarwinCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494C0A8820EBCEC400773B49 /* StitchDarwinCoreTestUtils.framework */; };
 		494C21D720ED804E00A26734 /* StitchCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494C21D620ED804E00A26734 /* StitchCoreSDK.framework */; };
 		496CAA8920A5E3A6001F0D3C /* ThrowingServiceClientFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496CAA8820A5E3A6001F0D3C /* ThrowingServiceClientFactory.swift */; };
@@ -72,9 +68,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				493A69A020EFE1E800BFE39E /* libbson.framework in Embed Frameworks */,
-				493A69A120EFE1E800BFE39E /* libmongoc.framework in Embed Frameworks */,
-				493A69A220EFE1E800BFE39E /* MongoSwift.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -120,9 +113,6 @@
 		49368D6C2052F350006153D3 /* StitchAppClientImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchAppClientImpl.swift; sourceTree = "<group>"; };
 		49368D6F2052F35B006153D3 /* StitchAuthImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchAuthImpl.swift; sourceTree = "<group>"; };
 		493A699B20EFD8E700BFE39E /* JWT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = JWT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		493A699D20EFE1E800BFE39E /* libbson.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libbson.framework; path = ../../Frameworks/ios/libbson.framework; sourceTree = "<group>"; };
-		493A699E20EFE1E800BFE39E /* libmongoc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libmongoc.framework; path = ../../Frameworks/ios/libmongoc.framework; sourceTree = "<group>"; };
-		493A699F20EFE1E800BFE39E /* MongoSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MongoSwift.framework; path = ../../Frameworks/ios/MongoSwift.framework; sourceTree = "<group>"; };
 		494C0A8220EBCEA500773B49 /* libbson.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libbson.framework; path = ../../Frameworks/ios/libbson.framework; sourceTree = "<group>"; };
 		494C0A8420EBCEA500773B49 /* libmongoc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libmongoc.framework; path = ../../Frameworks/ios/libmongoc.framework; sourceTree = "<group>"; };
 		494C0A8620EBCEA500773B49 /* MongoSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MongoSwift.framework; path = ../../Frameworks/ios/MongoSwift.framework; sourceTree = "<group>"; };
@@ -130,10 +120,13 @@
 		494C21D620ED804E00A26734 /* StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		496CAA8820A5E3A6001F0D3C /* ThrowingServiceClientFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThrowingServiceClientFactory.swift; sourceTree = "<group>"; };
 		496CAAEE20A60632001F0D3C /* ThrowingServiceClientFactoryUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThrowingServiceClientFactoryUnitTests.swift; sourceTree = "<group>"; };
+		6839D903CAB20F269B876B6A /* Pods-StitchCore-StitchCoreTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCore-StitchCoreTests.debug.xcconfig"; path = "Target Support Files/Pods-StitchCore-StitchCoreTests/Pods-StitchCore-StitchCoreTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7ED73BB1857E7962158D2F9C /* Pods-StitchCore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCore.debug.xcconfig"; path = "Target Support Files/Pods-StitchCore/Pods-StitchCore.debug.xcconfig"; sourceTree = "<group>"; };
 		86D71FAB7833AC1381215C92 /* Pods-StitchCoreTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreTests.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreTests/Pods-StitchCoreTests.debug.xcconfig"; sourceTree = "<group>"; };
 		94C2741514CBDE42221218BC /* Pods-StitchCoreTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreTests.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreTests/Pods-StitchCoreTests.release.xcconfig"; sourceTree = "<group>"; };
+		A0F9D33B50DB868AD802E4BD /* libPods-StitchCore-StitchCoreTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchCore-StitchCoreTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4372BFF397E64E08B44C78C /* libPods-StitchCoreTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchCoreTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A6B440C2E38C49539CB260AE /* Pods-StitchCore-StitchCoreTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCore-StitchCoreTests.release.xcconfig"; path = "Target Support Files/Pods-StitchCore-StitchCoreTests/Pods-StitchCore-StitchCoreTests.release.xcconfig"; sourceTree = "<group>"; };
 		C7A21E129574F547E6AD50DC /* Pods-StitchCore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCore.release.xcconfig"; path = "Target Support Files/Pods-StitchCore/Pods-StitchCore.release.xcconfig"; sourceTree = "<group>"; };
 		EA1A49329F47FE1C1850BE32 /* libPods-StitchCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchCore.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F40E66D520DD6D8800105FE6 /* ImmutableStitchAppClientConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImmutableStitchAppClientConfiguration.swift; sourceTree = "<group>"; };
@@ -154,13 +147,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				493A699C20EFD8E700BFE39E /* JWT.framework in Frameworks */,
 				494C21D720ED804E00A26734 /* StitchCoreSDK.framework in Frameworks */,
 				494C0A8920EBCEC400773B49 /* StitchDarwinCoreTestUtils.framework in Frameworks */,
 				1136564D20CF5CA100FB68BE /* StitchCore.framework in Frameworks */,
 				F466EDFC20B516B800D6E4E8 /* StitchCoreTestUtils.framework in Frameworks */,
 				F466EDFA20B5169000D6E4E8 /* StitchCoreAdminClient.framework in Frameworks */,
-				2E3B8DC33E80BD304C175A0A /* libPods-StitchCoreTests.a in Frameworks */,
+				2632A73BB2A0A17B48D67A59 /* libPods-StitchCore-StitchCoreTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,9 +298,6 @@
 		4902C66E205006C800E53674 = {
 			isa = PBXGroup;
 			children = (
-				493A699D20EFE1E800BFE39E /* libbson.framework */,
-				493A699E20EFE1E800BFE39E /* libmongoc.framework */,
-				493A699F20EFE1E800BFE39E /* MongoSwift.framework */,
 				4902C67A205006C800E53674 /* StitchCore */,
 				11981A1A2062C4AA0074BB11 /* StitchCoreTests */,
 				4902C679205006C800E53674 /* Products */,
@@ -359,6 +348,7 @@
 				F466EDF920B5169000D6E4E8 /* StitchCoreAdminClient.framework */,
 				EA1A49329F47FE1C1850BE32 /* libPods-StitchCore.a */,
 				A4372BFF397E64E08B44C78C /* libPods-StitchCoreTests.a */,
+				A0F9D33B50DB868AD802E4BD /* libPods-StitchCore-StitchCoreTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -443,6 +433,8 @@
 				C7A21E129574F547E6AD50DC /* Pods-StitchCore.release.xcconfig */,
 				86D71FAB7833AC1381215C92 /* Pods-StitchCoreTests.debug.xcconfig */,
 				94C2741514CBDE42221218BC /* Pods-StitchCoreTests.release.xcconfig */,
+				6839D903CAB20F269B876B6A /* Pods-StitchCore-StitchCoreTests.debug.xcconfig */,
+				A6B440C2E38C49539CB260AE /* Pods-StitchCore-StitchCoreTests.release.xcconfig */,
 			);
 			name = Pods;
 			path = ../../Pods;
@@ -470,6 +462,7 @@
 				11981A162062C4AA0074BB11 /* Frameworks */,
 				11981A172062C4AA0074BB11 /* Resources */,
 				573A4E9799A3D1CEF8887CA8 /* Embed Frameworks */,
+				887CA9810A0914F98D671EDB /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -609,11 +602,35 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-StitchCoreTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-StitchCore-StitchCoreTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		887CA9810A0914F98D671EDB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-StitchCore-StitchCoreTests/Pods-StitchCore-StitchCoreTests-frameworks.sh",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/bson.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongoc.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-StitchCore-StitchCoreTests/Pods-StitchCore-StitchCoreTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -680,28 +697,25 @@
 /* Begin XCBuildConfiguration section */
 		11981A222062C4AA0074BB11 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 86D71FAB7833AC1381215C92 /* Pods-StitchCoreTests.debug.xcconfig */;
+			baseConfigurationReference = 6839D903CAB20F269B876B6A /* Pods-StitchCore-StitchCoreTests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2Z8M9MTEVV;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)/../../Frameworks/ios",
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = StitchCoreTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/Frameworks @executable_path/Frameworks @rpath$(SRCROOT)/../../Dependencies/lib $(SRCROOT)/../../Dependencies/lib \"$(SRCROOT)/../../vendor/MobileSDKs/iphoneos/lib\" $(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchCoreTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REEXPORTED_FRAMEWORK_NAMES = "";
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos watchos watchsimulator macosx";
-				SWIFT_INCLUDE_PATHS = "\"$(SRCROOT)/../../CommonCrypto\"";
+				SWIFT_INCLUDE_PATHS = "$(inherited)";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7s armv7";
 			};
@@ -709,27 +723,24 @@
 		};
 		11981A232062C4AA0074BB11 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 94C2741514CBDE42221218BC /* Pods-StitchCoreTests.release.xcconfig */;
+			baseConfigurationReference = A6B440C2E38C49539CB260AE /* Pods-StitchCore-StitchCoreTests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2Z8M9MTEVV;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)/../../Frameworks/ios",
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = StitchCoreTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/Frameworks @executable_path/Frameworks @rpath$(SRCROOT)/../Dependencies/lib $(SRCROOT)/../Dependencies/lib $(SRCROOT)/../vendor/MobileSDKs/iphoneos/lib/ $(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchCoreTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REEXPORTED_FRAMEWORK_NAMES = "";
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos watchos watchsimulator macosx";
-				SWIFT_INCLUDE_PATHS = "\"$(SRCROOT)/../../CommonCrypto\"";
+				SWIFT_INCLUDE_PATHS = "$(inherited)";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7s armv7";
 			};
@@ -872,48 +883,6 @@
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
-				"FRAMEWORK_SEARCH_PATHS[sdk=appletvos*]" = (
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-					"\"$(SRCROOT)/../../Frameworks/tvos\"",
-				);
-				"FRAMEWORK_SEARCH_PATHS[sdk=appletvsimulator*]" = (
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-					"\"$(SRCROOT)/../../Frameworks/tvos\"",
-				);
-				"FRAMEWORK_SEARCH_PATHS[sdk=iphoneos*]" = (
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-					"\"$(SRCROOT)/../../Frameworks/ios\"",
-				);
-				"FRAMEWORK_SEARCH_PATHS[sdk=iphonesimulator*]" = (
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-					"\"$(SRCROOT)/../../Frameworks/ios\"",
-				);
-				"FRAMEWORK_SEARCH_PATHS[sdk=macosx*]" = (
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-					"\"$(SRCROOT)/../../Frameworks/macos\"",
-				);
-				"FRAMEWORK_SEARCH_PATHS[sdk=watchos*]" = (
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-					"\"$(SRCROOT)/../../Frameworks/watchos\"",
-				);
-				"FRAMEWORK_SEARCH_PATHS[sdk=watchsimulator*]" = (
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-					"\"$(SRCROOT)/../../Frameworks/watchos\"",
-				);
 				INFOPLIST_FILE = StitchCore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -923,7 +892,6 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx watchsimulator watchos appletvsimulator appletvos";
-				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -959,7 +927,6 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx watchsimulator watchos appletvsimulator appletvos";
-				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7s armv7 i386 x86_64 armv7k";

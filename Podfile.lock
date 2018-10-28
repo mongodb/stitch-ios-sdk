@@ -1,0 +1,43 @@
+PODS:
+  - JSONWebToken (2.2.0)
+  - mongo-embedded-c-driver (1.13.0-dev3)
+  - mongo_embedded (4.0.3-92-g8468282)
+  - mongoc_embedded (4.0.3-92-g8468282):
+    - mongo-embedded-c-driver (~> 1.13-dev3)
+    - mongo_embedded (~> 4.0.3-92-g8468282)
+  - MongoMobile (0.0.3):
+    - mongo_embedded (~> 4.0.3-92-g8468282)
+    - mongoc_embedded (~> 4.0.3-92-g8468282)
+    - MongoSwift (~> 0.0.5)
+  - MongoSwift (0.0.5):
+    - mongo-embedded-c-driver (~> 1.13.0-dev3)
+  - Swifter (1.4.5)
+
+DEPENDENCIES:
+  - JSONWebToken (= 2.2.0)
+  - MongoMobile (~> 0.0.3)
+  - MongoSwift (~> 0.0.5)
+  - Swifter (= 1.4.5)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - JSONWebToken
+    - mongo-embedded-c-driver
+    - mongo_embedded
+    - mongoc_embedded
+    - MongoMobile
+    - MongoSwift
+    - Swifter
+
+SPEC CHECKSUMS:
+  JSONWebToken: 6fae32489632658d563dd6952a5c34020ea813e4
+  mongo-embedded-c-driver: 94964f59ab3ad3990c9f69cd5c60300f056847d5
+  mongo_embedded: 7fb273ff2f7ef3c82079271eff757c40434a3be8
+  mongoc_embedded: 0022dc2c9cc7cb38f6562e1f8efa64e51ee752a8
+  MongoMobile: e1263223f1a9f21844087a130680b49745c1ac65
+  MongoSwift: 91244e47a7b0167b2647a1922cd2776166c9ba5e
+  Swifter: eb2bc1d192a1c09169c7fefd01971565fa940521
+
+PODFILE CHECKSUM: d7b7fb9f5380acf0b1f52fb27a6925ddced633da
+
+COCOAPODS: 1.6.0.beta.1

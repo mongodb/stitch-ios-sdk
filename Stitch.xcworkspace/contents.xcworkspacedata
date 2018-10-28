@@ -39,6 +39,9 @@
          </FileRef>
       </Group>
       <FileRef
+         location = "group:Core/StitchCoreTestUtils/StitchCoreTestUtils.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:Core/StitchCoreAdminClient/StitchCoreAdminClient.xcodeproj">
       </FileRef>
       <FileRef

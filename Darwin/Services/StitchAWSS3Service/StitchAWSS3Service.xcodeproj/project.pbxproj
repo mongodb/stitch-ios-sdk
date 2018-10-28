@@ -17,6 +17,8 @@
 		11CF5D7F20CF6D5D006D57BA /* StitchCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11CF5D7E20CF6D5D006D57BA /* StitchCoreTestUtils.framework */; };
 		494C21D920ED825400A26734 /* StitchDarwinCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494C21D820ED825400A26734 /* StitchDarwinCoreTestUtils.framework */; };
 		75B146CB8A3DBF56FCCD53A7 /* MongoSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F587472A83DBC77E5D5D487C /* MongoSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8838106B05773086AAEFE6E6 /* libPods-StitchAWSS3ServiceTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA55163BE23EBCD99EC4732 /* libPods-StitchAWSS3ServiceTests.a */; };
+		8849D0BADF61CE1D5E567A34 /* libPods-StitchAWSS3Service.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD242BD309776CAC844AD78 /* libPods-StitchAWSS3Service.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,8 +76,14 @@
 		494C21D220ED7B3D00A26734 /* libmongoc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libmongoc.framework; path = ../../../Frameworks/macos/libmongoc.framework; sourceTree = "<group>"; };
 		494C21D420ED7B4200A26734 /* MongoSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MongoSwift.framework; path = ../../../Frameworks/macos/MongoSwift.framework; sourceTree = "<group>"; };
 		494C21D820ED825400A26734 /* StitchDarwinCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchDarwinCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B3A291DA06DB9456458A4A4 /* Pods-StitchAWSS3ServiceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchAWSS3ServiceTests.debug.xcconfig"; path = "Target Support Files/Pods-StitchAWSS3ServiceTests/Pods-StitchAWSS3ServiceTests.debug.xcconfig"; sourceTree = "<group>"; };
+		9F03BBFAE5F0B4A7BC52EE8C /* Pods-StitchAWSS3ServiceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchAWSS3ServiceTests.release.xcconfig"; path = "Target Support Files/Pods-StitchAWSS3ServiceTests/Pods-StitchAWSS3ServiceTests.release.xcconfig"; sourceTree = "<group>"; };
+		C4E60FBE332B2AB48C935182 /* Pods-StitchAWSS3Service.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchAWSS3Service.release.xcconfig"; path = "Target Support Files/Pods-StitchAWSS3Service/Pods-StitchAWSS3Service.release.xcconfig"; sourceTree = "<group>"; };
+		D350C604E7115510E9FDB059 /* Pods-StitchAWSS3Service.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchAWSS3Service.debug.xcconfig"; path = "Target Support Files/Pods-StitchAWSS3Service/Pods-StitchAWSS3Service.debug.xcconfig"; sourceTree = "<group>"; };
 		F4E33AED20DECDD8003DE41C /* AWSS3ServiceTestsConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AWSS3ServiceTestsConstants.h; sourceTree = "<group>"; };
 		F587472A83DBC77E5D5D487C /* MongoSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MongoSwift.framework; path = "/Users/jasonflax/Development/stitch-ios-sdk/Frameworks/ios/MongoSwift.framework"; sourceTree = "<absolute>"; };
+		FAA55163BE23EBCD99EC4732 /* libPods-StitchAWSS3ServiceTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchAWSS3ServiceTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FCD242BD309776CAC844AD78 /* libPods-StitchAWSS3Service.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchAWSS3Service.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +93,7 @@
 			files = (
 				11CF5D7B20CF6D34006D57BA /* StitchCore.framework in Frameworks */,
 				11CF5D7D20CF6D34006D57BA /* StitchCoreAWSS3Service.framework in Frameworks */,
+				8849D0BADF61CE1D5E567A34 /* libPods-StitchAWSS3Service.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,6 +104,7 @@
 				494C21D920ED825400A26734 /* StitchDarwinCoreTestUtils.framework in Frameworks */,
 				11CF5D7F20CF6D5D006D57BA /* StitchCoreTestUtils.framework in Frameworks */,
 				11405A7E20C5A01E0041105B /* StitchAWSS3Service.framework in Frameworks */,
+				8838106B05773086AAEFE6E6 /* libPods-StitchAWSS3ServiceTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,6 +119,7 @@
 				11405A7520C5A01E0041105B /* Products */,
 				11405A8E20C5A0AC0041105B /* Frameworks */,
 				494915EF20F5092B00E15B58 /* Recovered References */,
+				5D328212B8D05F33E4439FE3 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -157,6 +168,8 @@
 				494C21D220ED7B3D00A26734 /* libmongoc.framework */,
 				11405A8F20C5A0AC0041105B /* StitchCore_iOS.framework */,
 				11405A9120C5A0AC0041105B /* StitchCoreServicesAwsS3.framework */,
+				FCD242BD309776CAC844AD78 /* libPods-StitchAWSS3Service.a */,
+				FAA55163BE23EBCD99EC4732 /* libPods-StitchAWSS3ServiceTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -177,6 +190,18 @@
 			name = "Recovered References";
 			sourceTree = "<group>";
 		};
+		5D328212B8D05F33E4439FE3 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D350C604E7115510E9FDB059 /* Pods-StitchAWSS3Service.debug.xcconfig */,
+				C4E60FBE332B2AB48C935182 /* Pods-StitchAWSS3Service.release.xcconfig */,
+				8B3A291DA06DB9456458A4A4 /* Pods-StitchAWSS3ServiceTests.debug.xcconfig */,
+				9F03BBFAE5F0B4A7BC52EE8C /* Pods-StitchAWSS3ServiceTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../../../Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -194,6 +219,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 11405A8820C5A01E0041105B /* Build configuration list for PBXNativeTarget "StitchAWSS3Service" */;
 			buildPhases = (
+				A68D0CE50564E7DD163B4A94 /* [CP] Check Pods Manifest.lock */,
 				11405A6F20C5A01E0041105B /* Sources */,
 				11405A7020C5A01E0041105B /* Frameworks */,
 				11405A7120C5A01E0041105B /* Headers */,
@@ -213,6 +239,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 11405A8B20C5A01E0041105B /* Build configuration list for PBXNativeTarget "StitchAWSS3ServiceTests" */;
 			buildPhases = (
+				0E8B0A8057ECF3346F54626C /* [CP] Check Pods Manifest.lock */,
 				11405A7920C5A01E0041105B /* Sources */,
 				11405A7A20C5A01E0041105B /* Frameworks */,
 				11405A7B20C5A01E0041105B /* Resources */,
@@ -281,6 +308,53 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0E8B0A8057ECF3346F54626C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-StitchAWSS3ServiceTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A68D0CE50564E7DD163B4A94 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-StitchAWSS3Service-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		11405A6F20C5A01E0041105B /* Sources */ = {
@@ -434,6 +508,7 @@
 		};
 		11405A8920C5A01E0041105B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D350C604E7115510E9FDB059 /* Pods-StitchAWSS3Service.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -460,13 +535,14 @@
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		11405A8A20C5A01E0041105B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C4E60FBE332B2AB48C935182 /* Pods-StitchAWSS3Service.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -491,13 +567,14 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
 		11405A8C20C5A01E0041105B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8B3A291DA06DB9456458A4A4 /* Pods-StitchAWSS3ServiceTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -506,14 +583,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				"FRAMEWORK_SEARCH_PATHS[sdk=iphonesimulator*]" = (
-					"$(SRCROOT)/../../../Frameworks/ios",
-					"$(inherited)",
-				);
-				"FRAMEWORK_SEARCH_PATHS[sdk=macosx*]" = (
-					"$(SRCROOT)/../../../Frameworks/macos",
-					"$(inherited)",
-				);
+				"FRAMEWORK_SEARCH_PATHS[sdk=iphonesimulator*]" = "$(SRCROOT)/../../../Frameworks/ios $(inherited)";
+				"FRAMEWORK_SEARCH_PATHS[sdk=macosx*]" = "$(SRCROOT)/../../../Frameworks/macos $(inherited)";
 				INFOPLIST_FILE = StitchAWSS3ServiceTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -523,14 +594,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
-					"\"$(SRCROOT)/../../../Frameworks/macos\"",
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "\"$(SRCROOT)/../../../Frameworks/macos\" $(inherited) @executable_path/Frameworks @loader_path/Frameworks $(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchAWSS3ServiceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";
@@ -542,6 +606,7 @@
 		};
 		11405A8D20C5A01E0041105B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9F03BBFAE5F0B4A7BC52EE8C /* Pods-StitchAWSS3ServiceTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

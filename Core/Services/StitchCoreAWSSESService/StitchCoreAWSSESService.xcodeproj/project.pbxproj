@@ -7,10 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		10465426614C1523271AEC9A /* libPods-StitchCoreAWSSESService.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4945F962A335F2FBF0EFEEB /* libPods-StitchCoreAWSSESService.a */; };
+		EB72054511AE36D61250BD0E /* libPods-StitchCoreAWSSESServiceTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AFD185EEB659B1E0F6615289 /* libPods-StitchCoreAWSSESServiceTests.a */; };
 		OBJ_155 /* AWSSESSendResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* AWSSESSendResult.swift */; };
 		OBJ_156 /* CoreAWSSESServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* CoreAWSSESServiceClient.swift */; };
 		OBJ_177 /* CoreAWSSESServiceClientUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* CoreAWSSESServiceClientUnitTests.swift */; };
-		OBJ_181 /* StitchCoreAWSSESService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "StitchCoreAWSSESService::StitchCoreAWSSESService::Product" /* StitchCoreAWSSESService.framework */; };
+		OBJ_181 /* StitchCoreAWSSESService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = StitchCoreAWSSESService::StitchCoreAWSSESService::Product /* StitchCoreAWSSESService.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -24,13 +26,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1FA1A1CA4914CA28E2D984A9 /* Pods-StitchCoreAWSSESServiceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAWSSESServiceTests.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreAWSSESServiceTests/Pods-StitchCoreAWSSESServiceTests.debug.xcconfig"; sourceTree = "<group>"; };
+		5DBF6EBA347A261AD46E1498 /* Pods-StitchCoreAWSSESService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAWSSESService.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreAWSSESService/Pods-StitchCoreAWSSESService.release.xcconfig"; sourceTree = "<group>"; };
+		83D7EB3BEDCE91960F04E83B /* Pods-StitchCoreAWSSESService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAWSSESService.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreAWSSESService/Pods-StitchCoreAWSSESService.debug.xcconfig"; sourceTree = "<group>"; };
+		9589FF6235D3FC0EC5D64C25 /* Pods-StitchCoreAWSSESServiceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAWSSESServiceTests.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreAWSSESServiceTests/Pods-StitchCoreAWSSESServiceTests.release.xcconfig"; sourceTree = "<group>"; };
+		AFD185EEB659B1E0F6615289 /* libPods-StitchCoreAWSSESServiceTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchCoreAWSSESServiceTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4945F962A335F2FBF0EFEEB /* libPods-StitchCoreAWSSESService.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchCoreAWSSESService.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_11 /* AWSSESSendResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSSESSendResult.swift; sourceTree = "<group>"; };
 		OBJ_13 /* CoreAWSSESServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAWSSESServiceClient.swift; sourceTree = "<group>"; };
 		OBJ_16 /* CoreAWSSESServiceClientUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAWSSESServiceClientUnitTests.swift; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
-		OBJ_8 /* StitchCoreAWSSESService.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = StitchCoreAWSSESService.xcconfig; sourceTree = "<group>"; };
-		"StitchCoreAWSSESService::StitchCoreAWSSESService::Product" /* StitchCoreAWSSESService.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = StitchCoreAWSSESService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"StitchCoreAWSSESService::StitchCoreAWSSESServiceTests::Product" /* StitchCoreAWSSESServiceTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = StitchCoreAWSSESServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		StitchCoreAWSSESService::StitchCoreAWSSESService::Product /* StitchCoreAWSSESService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAWSSESService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		StitchCoreAWSSESService::StitchCoreAWSSESServiceTests::Product /* StitchCoreAWSSESServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = StitchCoreAWSSESServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
+				10465426614C1523271AEC9A /* libPods-StitchCoreAWSSESService.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,12 +54,34 @@
 			buildActionMask = 0;
 			files = (
 				OBJ_181 /* StitchCoreAWSSESService.framework in Frameworks */,
+				EB72054511AE36D61250BD0E /* libPods-StitchCoreAWSSESServiceTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5CFCBA18C35801C204E527BD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F4945F962A335F2FBF0EFEEB /* libPods-StitchCoreAWSSESService.a */,
+				AFD185EEB659B1E0F6615289 /* libPods-StitchCoreAWSSESServiceTests.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6C6C507E880540BF1B14CE8F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				83D7EB3BEDCE91960F04E83B /* Pods-StitchCoreAWSSESService.debug.xcconfig */,
+				5DBF6EBA347A261AD46E1498 /* Pods-StitchCoreAWSSESService.release.xcconfig */,
+				1FA1A1CA4914CA28E2D984A9 /* Pods-StitchCoreAWSSESServiceTests.debug.xcconfig */,
+				9589FF6235D3FC0EC5D64C25 /* Pods-StitchCoreAWSSESServiceTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../../../Pods;
+			sourceTree = "<group>";
+		};
 		OBJ_10 /* StitchCoreAWSSESService */ = {
 			isa = PBXGroup;
 			children = (
@@ -73,8 +103,8 @@
 		OBJ_128 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				"StitchCoreAWSSESService::StitchCoreAWSSESServiceTests::Product" /* StitchCoreAWSSESServiceTests.xctest */,
-				"StitchCoreAWSSESService::StitchCoreAWSSESService::Product" /* StitchCoreAWSSESService.framework */,
+				StitchCoreAWSSESService::StitchCoreAWSSESServiceTests::Product /* StitchCoreAWSSESServiceTests.xctest */,
+				StitchCoreAWSSESService::StitchCoreAWSSESService::Product /* StitchCoreAWSSESService.framework */,
 			);
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -100,19 +130,12 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
-				OBJ_7 /* Configs */,
 				OBJ_9 /* Sources */,
 				OBJ_14 /* Tests */,
 				OBJ_128 /* Products */,
+				6C6C507E880540BF1B14CE8F /* Pods */,
+				5CFCBA18C35801C204E527BD /* Frameworks */,
 			);
-			sourceTree = "<group>";
-		};
-		OBJ_7 /* Configs */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_8 /* StitchCoreAWSSESService.xcconfig */,
-			);
-			name = Configs;
 			sourceTree = "<group>";
 		};
 		OBJ_9 /* Sources */ = {
@@ -126,10 +149,11 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		"StitchCoreAWSSESService::StitchCoreAWSSESService" /* StitchCoreAWSSESService */ = {
+		StitchCoreAWSSESService::StitchCoreAWSSESService /* StitchCoreAWSSESService */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_151 /* Build configuration list for PBXNativeTarget "StitchCoreAWSSESService" */;
 			buildPhases = (
+				C4A8A701C2580A9E10809E4F /* [CP] Check Pods Manifest.lock */,
 				OBJ_154 /* Sources */,
 				OBJ_157 /* Frameworks */,
 			);
@@ -139,13 +163,14 @@
 			);
 			name = StitchCoreAWSSESService;
 			productName = StitchCoreAWSSESService;
-			productReference = "StitchCoreAWSSESService::StitchCoreAWSSESService::Product" /* StitchCoreAWSSESService.framework */;
+			productReference = StitchCoreAWSSESService::StitchCoreAWSSESService::Product /* StitchCoreAWSSESService.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		"StitchCoreAWSSESService::StitchCoreAWSSESServiceTests" /* StitchCoreAWSSESServiceTests */ = {
+		StitchCoreAWSSESService::StitchCoreAWSSESServiceTests /* StitchCoreAWSSESServiceTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_173 /* Build configuration list for PBXNativeTarget "StitchCoreAWSSESServiceTests" */;
 			buildPhases = (
+				51FF05598DF8CCDB4882B0FB /* [CP] Check Pods Manifest.lock */,
 				OBJ_176 /* Sources */,
 				OBJ_178 /* Frameworks */,
 			);
@@ -156,7 +181,7 @@
 			);
 			name = StitchCoreAWSSESServiceTests;
 			productName = StitchCoreAWSSESServiceTests;
-			productReference = "StitchCoreAWSSESService::StitchCoreAWSSESServiceTests::Product" /* StitchCoreAWSSESServiceTests.xctest */;
+			productReference = StitchCoreAWSSESService::StitchCoreAWSSESServiceTests::Product /* StitchCoreAWSSESServiceTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -179,11 +204,58 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				"StitchCoreAWSSESService::StitchCoreAWSSESService" /* StitchCoreAWSSESService */,
-				"StitchCoreAWSSESService::StitchCoreAWSSESServiceTests" /* StitchCoreAWSSESServiceTests */,
+				StitchCoreAWSSESService::StitchCoreAWSSESService /* StitchCoreAWSSESService */,
+				StitchCoreAWSSESService::StitchCoreAWSSESServiceTests /* StitchCoreAWSSESServiceTests */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		51FF05598DF8CCDB4882B0FB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-StitchCoreAWSSESServiceTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C4A8A701C2580A9E10809E4F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-StitchCoreAWSSESService-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		OBJ_154 /* Sources */ = {
@@ -208,7 +280,7 @@
 /* Begin PBXTargetDependency section */
 		OBJ_186 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = "StitchCoreAWSSESService::StitchCoreAWSSESService" /* StitchCoreAWSSESService */;
+			target = StitchCoreAWSSESService::StitchCoreAWSSESService /* StitchCoreAWSSESService */;
 			targetProxy = 498060D92184DBEE00E2A3A2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -216,7 +288,7 @@
 /* Begin XCBuildConfiguration section */
 		OBJ_152 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = OBJ_8 /* StitchCoreAWSSESService.xcconfig */;
+			baseConfigurationReference = 83D7EB3BEDCE91960F04E83B /* Pods-StitchCoreAWSSESService.debug.xcconfig */;
 			buildSettings = {
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -234,14 +306,14 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGET_NAME = StitchCoreAWSSESService;
 			};
 			name = Debug;
 		};
 		OBJ_153 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = OBJ_8 /* StitchCoreAWSSESService.xcconfig */;
+			baseConfigurationReference = 5DBF6EBA347A261AD46E1498 /* Pods-StitchCoreAWSSESService.release.xcconfig */;
 			buildSettings = {
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -259,14 +331,14 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGET_NAME = StitchCoreAWSSESService;
 			};
 			name = Release;
 		};
 		OBJ_174 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = OBJ_8 /* StitchCoreAWSSESService.xcconfig */;
+			baseConfigurationReference = 1FA1A1CA4914CA28E2D984A9 /* Pods-StitchCoreAWSSESServiceTests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
@@ -288,7 +360,7 @@
 		};
 		OBJ_175 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = OBJ_8 /* StitchCoreAWSSESService.xcconfig */;
+			baseConfigurationReference = 9589FF6235D3FC0EC5D64C25 /* Pods-StitchCoreAWSSESServiceTests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;

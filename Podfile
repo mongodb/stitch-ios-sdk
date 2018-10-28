@@ -2,9 +2,7 @@ workspace 'Stitch.xcworkspace'
 
 platform :ios, '11.0'
 
-target :StitchCoreAdminClient do
-  project 'Core/StitchCoreAdminClient/StitchCoreAdminClient.xcodeproj'
-end
+
 
 target :MockUtils do
     project 'MockUtils/MockUtils.xcodeproj'
@@ -12,17 +10,25 @@ end
 
 pod 'MongoSwift', '~> 0.0.5'
 
-target 'StitchCoreSDK' do
+target :StitchCoreAdminClient do
+    project 'Core/StitchCoreAdminClient/StitchCoreAdminClient.xcodeproj'
+end
+
+target :StitchCoreSDK do
     project 'Core/StitchCoreSDK/StitchCoreSDK.xcodeproj'
 
     target :StitchCoreSDKMocks do
         inherit! :search_paths
     end
 
-    target 'StitchCoreSDKTests' do
+    target :StitchCoreSDKTests do
         pod 'JSONWebToken', '2.2.0'
         pod 'Swifter', '1.4.5'
     end
+end
+
+target :StitchCoreTestUtils do
+    project 'Core/StitchCoreTestUtils/StitchCoreTestUtils.xcodeproj'
 end
 
 target :StitchCoreTwilioService do
@@ -59,7 +65,7 @@ target :StitchCoreHTTPService do
 end
 
 target :StitchCoreFCMService do
-    project 'Core/Services/StitchCoreHTTPService/StitchCoreHTTPService.xcodeproj'
+    project 'Core/Services/StitchCoreFCMService/StitchCoreFCMService.xcodeproj'
 
     target :StitchCoreFCMServiceTests do
         inherit! :search_paths
@@ -67,7 +73,7 @@ target :StitchCoreFCMService do
 end
 
 target :StitchCoreAWSSESService do
-    project 'Core/Services/StitchCoreHTTPService/StitchCoreHTTPService.xcodeproj'
+    project 'Core/Services/StitchCoreAWSSESService/StitchCoreAWSSESService.xcodeproj'
 
     target :StitchCoreAWSSESServiceTests do
         inherit! :search_paths
@@ -75,7 +81,7 @@ target :StitchCoreAWSSESService do
 end
 
 target :StitchCoreAWSS3Service do
-    project 'Core/Services/StitchCoreHTTPService/StitchCoreHTTPService.xcodeproj'
+    project 'Core/Services/StitchCoreAWSS3Service/StitchCoreAWSS3Service.xcodeproj'
 
     target :StitchCoreAWSS3ServiceTests do
         inherit! :search_paths
@@ -83,7 +89,7 @@ target :StitchCoreAWSS3Service do
 end
 
 target :StitchCoreAWSService do
-    project 'Core/Services/StitchCoreHTTPService/StitchCoreHTTPService.xcodeproj'
+    project 'Core/Services/StitchCoreAWSService/StitchCoreAWSService.xcodeproj'
 
     target :StitchCoreAWSServiceTests do
         inherit! :search_paths
@@ -94,7 +100,7 @@ target :StitchCore do
   project 'Darwin/StitchCore/StitchCore.xcodeproj'
 
   target :StitchCoreTests do
-      inherit! :search_paths
+      pod 'JSONWebToken', '2.2.0'
   end
 end
 
@@ -148,7 +154,7 @@ target :StitchFCMService do
 end
 
 target :StitchAWSSESService do
-    project 'Darwin/Services/StitchHTTPService/StitchHTTPService.xcodeproj'
+    project 'Darwin/Services/StitchAWSSESService/StitchAWSSESService.xcodeproj'
 
     target :StitchAWSSESServiceTests do
         inherit! :search_paths
@@ -156,7 +162,7 @@ target :StitchAWSSESService do
 end
 
 target :StitchAWSS3Service do
-    project 'Darwin/Services/StitchHTTPService/StitchHTTPService.xcodeproj'
+    project 'Darwin/Services/StitchAWSS3Service/StitchAWSS3Service.xcodeproj'
 
     target :StitchAWSS3ServiceTests do
         inherit! :search_paths
@@ -164,7 +170,7 @@ target :StitchAWSS3Service do
 end
 
 target :StitchAWSService do
-    project 'Darwin/Services/StitchHTTPService/StitchHTTPService.xcodeproj'
+    project 'Darwin/Services/StitchAWSService/StitchAWSService.xcodeproj'
 
     target :StitchAWSServiceTests do
         inherit! :search_paths
