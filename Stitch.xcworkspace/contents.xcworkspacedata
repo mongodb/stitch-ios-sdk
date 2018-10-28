@@ -44,9 +44,6 @@
       <FileRef
          location = "group:Core/StitchCoreSDK/StitchCoreSDK.xcodeproj">
       </FileRef>
-      <FileRef
-         location = "group:Core/StitchCoreTestUtils/StitchCoreTestUtils.xcodeproj">
-      </FileRef>
    </Group>
    <Group
       location = "container:"

@@ -1,6 +1,7 @@
 .DS_Store
 /.build
 /Packages
+/xcuserdata
 
 # Xcode
 #
@@ -117,7 +118,7 @@ Extensions/PromiseKit/Stitch-PromiseKit/Pods/
 LocalMongoDBService/Pods/
 LocalMongoDBServiceExample/Pods/
 StitchCore-iOS/Extensions/PromiseKit/Stitch-PromiseKit/Pods/
-
+Pods/
 # Carthage
 #
 # Add this line if you want to avoid checking in source code from Carthage dependencies.
@@ -144,12 +145,3 @@ localDerivedData
 .vscode
 *.pyc
 *.xcconfig
-/Frameworks
-/MongoSwift
-/iphoneos
-/iphonesimulator
-/macosx
-/watchos
-/watchsimulator
-/appletvos
-/appletvsimulator

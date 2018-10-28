@@ -6,10 +6,6 @@ target :StitchCoreAdminClient do
   project 'Core/StitchCoreAdminClient/StitchCoreAdminClient.xcodeproj'
 end
 
-target :StitchCoreTestUtils do
-    project 'Core/StitchCoreTestUtils/StitchCoreTestUtils.xcodeproj'
-end
-
 target :MockUtils do
     project 'MockUtils/MockUtils.xcodeproj'
 end
@@ -54,12 +50,76 @@ target :StitchCoreLocalMongoDBService do
     end
 end
 
+target :StitchCoreHTTPService do
+    project 'Core/Services/StitchCoreHTTPService/StitchCoreHTTPService.xcodeproj'
+
+    target :StitchCoreHTTPServiceTests do
+        inherit! :search_paths
+    end
+end
+
+target :StitchCoreFCMService do
+    project 'Core/Services/StitchCoreHTTPService/StitchCoreHTTPService.xcodeproj'
+
+    target :StitchCoreFCMServiceTests do
+        inherit! :search_paths
+    end
+end
+
+target :StitchCoreAWSSESService do
+    project 'Core/Services/StitchCoreHTTPService/StitchCoreHTTPService.xcodeproj'
+
+    target :StitchCoreAWSSESServiceTests do
+        inherit! :search_paths
+    end
+end
+
+target :StitchCoreAWSS3Service do
+    project 'Core/Services/StitchCoreHTTPService/StitchCoreHTTPService.xcodeproj'
+
+    target :StitchCoreAWSS3ServiceTests do
+        inherit! :search_paths
+    end
+end
+
+target :StitchCoreAWSService do
+    project 'Core/Services/StitchCoreHTTPService/StitchCoreHTTPService.xcodeproj'
+
+    target :StitchCoreAWSServiceTests do
+        inherit! :search_paths
+    end
+end
+
 target :StitchCore do
   project 'Darwin/StitchCore/StitchCore.xcodeproj'
 
   target :StitchCoreTests do
       inherit! :search_paths
   end
+end
+
+target :StitchDarwinCoreTestUtils do
+    project 'Darwin/StitchDarwinCoreTestUtils/StitchDarwinCoreTestUtils.xcodeproj'
+
+    target :StitchDarwinCoreTestUtilsTests do
+        inherit! :search_paths
+    end
+end
+
+target :StitchTwilioService do
+    project 'Darwin/Services/StitchTwilioService/StitchTwilioService.xcodeproj'
+
+    target :StitchTwilioServiceTests do
+        inherit! :search_paths
+    end
+end
+
+target :StitchRemoteMongoDBService do
+    project 'Darwin/Services/StitchRemoteMongoDBService/StitchRemoteMongoDBService.xcodeproj'
+
+    target :StitchRemoteMongoDBServiceTests do
+        inherit! :search_paths
+    end
 end
 
 target :StitchLocalMongoDBService do
@@ -71,8 +131,49 @@ target :StitchLocalMongoDBService do
   end
 end
 
+target :StitchHTTPService do
+    project 'Darwin/Services/StitchHTTPService/StitchHTTPService.xcodeproj'
+
+    target :StitchHTTPServiceTests do
+        inherit! :search_paths
+    end
+end
+
+target :StitchFCMService do
+    project 'Darwin/Services/StitchFCMService/StitchFCMService.xcodeproj'
+
+    target :StitchFCMServiceTests do
+        inherit! :search_paths
+    end
+end
+
+target :StitchAWSSESService do
+    project 'Darwin/Services/StitchHTTPService/StitchHTTPService.xcodeproj'
+
+    target :StitchAWSSESServiceTests do
+        inherit! :search_paths
+    end
+end
+
+target :StitchAWSS3Service do
+    project 'Darwin/Services/StitchHTTPService/StitchHTTPService.xcodeproj'
+
+    target :StitchAWSS3ServiceTests do
+        inherit! :search_paths
+    end
+end
+
+target :StitchAWSService do
+    project 'Darwin/Services/StitchHTTPService/StitchHTTPService.xcodeproj'
+
+    target :StitchAWSServiceTests do
+        inherit! :search_paths
+    end
+end
+
 post_install do |installer|
     installer.pods_project.targets.each do |target|
+        # this is to fix a bug in JSONWebToken
         if target.name == 'JSONWebToken'
             system("rm -rf Pods/JSONWebToken/CommonCrypto")
         end
