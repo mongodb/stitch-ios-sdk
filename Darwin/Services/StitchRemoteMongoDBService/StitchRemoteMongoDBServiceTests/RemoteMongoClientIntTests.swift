@@ -361,7 +361,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         exp = expectation(
             description: "should find the second document when sorting by descending object id, and limiting to 1"
         )
-        coll.aggregate([["$sort": Document(["_id": -1])], ["$limit": 1]]).asArray { result in
+        coll.aggregate([["$sort": ["_id": -1] as Document], ["$limit": 1]]).asArray { result in
             switch result {
             case .success(let docs):
                 XCTAssertEqual(1, docs.count)
@@ -835,7 +835,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         wait(for: [exp], timeout: 5.0)
         
         exp = expectation(description: "updating an existing document should work")
-        coll.updateOne(filter: [:], update: ["$set": Document(["woof": "meow"])]) { result in
+        coll.updateOne(filter: [:], update: ["$set": ["woof": "meow"] as Document]) { result in
             switch result {
             case .success(let updateResult):
                 XCTAssertEqual(1, updateResult.matchedCount)
@@ -914,7 +914,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         wait(for: [exp], timeout: 5.0)
         
         exp = expectation(description: "updating an existing document should work")
-        coll.updateMany(filter: [:], update: ["$set": Document(["woof": "meow"])]) { result in
+        coll.updateMany(filter: [:], update: ["$set": ["woof": "meow"] as Document]) { result in
             switch result {
             case .success(let updateResult):
                 XCTAssertEqual(1, updateResult.matchedCount)
@@ -935,7 +935,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         wait(for: [exp], timeout: 5.0)
         
         exp = expectation(description: "updating multiple existing documents should work")
-        coll.updateMany(filter: [:], update: ["$set": Document(["woof": "meow"])]) { result in
+        coll.updateMany(filter: [:], update: ["$set": ["woof": "meow"] as Document]) { result in
             switch result {
             case .success(let updateResult):
                 XCTAssertEqual(2, updateResult.matchedCount)

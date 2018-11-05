@@ -80,7 +80,7 @@ final class CoreAWSS3ServiceClientUnitTests: XCTestCase {
         let key = "myFile"
         let acl = "public-read"
         let contentType = "plain/text"
-        let body = Binary.init(data: "some data yo".data(using: .utf8)!, subtype: .binary)
+        let body = try Binary.init(data: "some data yo".data(using: .utf8)!, subtype: .binaryDeprecated)
         
         let expectedLocation = "awsLocation"
         
@@ -177,7 +177,7 @@ final class CoreAWSS3ServiceClientUnitTests: XCTestCase {
             "key": key,
             "acl": acl,
             "contentType": contentType,
-            "body": Binary.init(data: body, subtype: .binary)
+            "body": try Binary.init(data: body, subtype: .binaryDeprecated)
         ]
         
         XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)

@@ -132,12 +132,18 @@ tasks:
 
             echo "running ios tests"
             source ./creds
-
+            if pgrep CoreSimulator; then pkill -9 CoreSimulator; fi
             export DEVELOPER_DIR=/Applications/Xcode9.2.app
+          
             cd stitch-ios-sdk
-
-            export swiftc="$DEVERLOPER_DIR/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
-            python scripts/run_xctests.py --xcode-path=$DEVELOPER_DIR
+            pod install
+            export SIM_UUID=$(xcrun simctl create stitch-iphone8 com.apple.CoreSimulator.SimDeviceType.iPhone-8 com.apple.CoreSimulator.SimRuntime.iOS-11.0)
+            xcrun simctl boot $SIM_UUID
+            echo "booting SIMCTL $SIM_UUID"
+            echo "...testing core"
+            xcodebuild test -workspace Stitch.xcworkspace/ -scheme "All Core Tests" -destination $SIM_UUID
+            echo "...testing Darwin"
+            xcodebuild test -workspace Stitch.xcworkspace/ -scheme "All Darwin Tests" -destination $SIM_UUID
       - command: shell.exec
         params:
           silent: true

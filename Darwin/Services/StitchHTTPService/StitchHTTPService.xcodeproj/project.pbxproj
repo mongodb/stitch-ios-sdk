@@ -8,16 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		1159637620D028FF00B0179B /* StitchHTTPServiceExports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1159637520D028FF00B0179B /* StitchHTTPServiceExports.swift */; };
-		118C33AE20C72B7B00D1DE80 /* StitchHTTPService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 118C33A420C72B7B00D1DE80 /* StitchHTTPService.framework */; };
 		118C33B320C72B7B00D1DE80 /* HTTPServiceClientIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118C33B220C72B7B00D1DE80 /* HTTPServiceClientIntTests.swift */; };
 		118C33C920C72DE300D1DE80 /* HTTPServiceClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118C33C820C72DE300D1DE80 /* HTTPServiceClientImpl.swift */; };
 		118C33CB20C72DF400D1DE80 /* HTTPServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118C33CA20C72DF400D1DE80 /* HTTPServiceClient.swift */; };
-		11CF5D9720CF75F7006D57BA /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11CF5D9620CF75F7006D57BA /* StitchCore.framework */; };
-		11CF5D9920CF75F7006D57BA /* StitchCoreHTTPService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11CF5D9820CF75F7006D57BA /* StitchCoreHTTPService.framework */; };
-		11CF5D9B20CF760B006D57BA /* StitchCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11CF5D9A20CF760B006D57BA /* StitchCoreTestUtils.framework */; };
-		11CF5D9D20CF760B006D57BA /* StitchDarwinCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11CF5D9C20CF760B006D57BA /* StitchDarwinCoreTestUtils.framework */; };
-		7EC47A3C7A74457BAC5B81C4 /* libPods-StitchHTTPServiceTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A67EE67001812F5F714F95BC /* libPods-StitchHTTPServiceTests.a */; };
-		B6C5C0817843F48FA0CD24A8 /* libPods-StitchHTTPService.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B61F255FFC63E958697951B /* libPods-StitchHTTPService.a */; };
+		1CD6DE09D3F13C7CC944F9AA /* libPods-StitchHTTPServiceTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 51A359C6579F75720B56058C /* libPods-StitchHTTPServiceTests.a */; };
+		498E55D42190B7B100A02A03 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E55D32190B7B100A02A03 /* StitchCore.framework */; };
+		498E55EA2190B90600A02A03 /* StitchCoreHTTPService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E55E92190B90600A02A03 /* StitchCoreHTTPService.framework */; };
+		C4687201DF1C0957FB2A1C62 /* libPods-StitchHTTPService.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A5A053801CF8E55C88C8AF2 /* libPods-StitchHTTPService.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,22 +57,16 @@
 		118C33AD20C72B7B00D1DE80 /* StitchHTTPServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StitchHTTPServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		118C33B220C72B7B00D1DE80 /* HTTPServiceClientIntTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServiceClientIntTests.swift; sourceTree = "<group>"; };
 		118C33B420C72B7B00D1DE80 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		118C33BF20C72B9500D1DE80 /* StitchCore_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		118C33C120C72B9500D1DE80 /* StitchCoreServicesHttp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreServicesHttp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		118C33C320C72BA700D1DE80 /* StitchCoreTestUtils_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTestUtils_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		118C33C520C72BA700D1DE80 /* StitchCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		118C33C820C72DE300D1DE80 /* HTTPServiceClientImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServiceClientImpl.swift; sourceTree = "<group>"; };
 		118C33CA20C72DF400D1DE80 /* HTTPServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServiceClient.swift; sourceTree = "<group>"; };
-		11CF5D9620CF75F7006D57BA /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		11CF5D9820CF75F7006D57BA /* StitchCoreHTTPService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreHTTPService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		11CF5D9A20CF760B006D57BA /* StitchCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		11CF5D9C20CF760B006D57BA /* StitchDarwinCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchDarwinCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		27A501C921CDC57E62494383 /* Pods-StitchHTTPService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchHTTPService.release.xcconfig"; path = "Target Support Files/Pods-StitchHTTPService/Pods-StitchHTTPService.release.xcconfig"; sourceTree = "<group>"; };
-		391093B7C0E235C197928601 /* Pods-StitchHTTPServiceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchHTTPServiceTests.release.xcconfig"; path = "Target Support Files/Pods-StitchHTTPServiceTests/Pods-StitchHTTPServiceTests.release.xcconfig"; sourceTree = "<group>"; };
-		4B61F255FFC63E958697951B /* libPods-StitchHTTPService.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchHTTPService.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		64D0CB0D63C949E66A2E360F /* Pods-StitchHTTPService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchHTTPService.debug.xcconfig"; path = "Target Support Files/Pods-StitchHTTPService/Pods-StitchHTTPService.debug.xcconfig"; sourceTree = "<group>"; };
-		776BC266770A0D361E08A677 /* Pods-StitchHTTPServiceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchHTTPServiceTests.debug.xcconfig"; path = "Target Support Files/Pods-StitchHTTPServiceTests/Pods-StitchHTTPServiceTests.debug.xcconfig"; sourceTree = "<group>"; };
-		A67EE67001812F5F714F95BC /* libPods-StitchHTTPServiceTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchHTTPServiceTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		498E55D32190B7B100A02A03 /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		498E55E92190B90600A02A03 /* StitchCoreHTTPService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreHTTPService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		51A359C6579F75720B56058C /* libPods-StitchHTTPServiceTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchHTTPServiceTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		58AC18798751DB75DBF13174 /* Pods-StitchHTTPService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchHTTPService.release.xcconfig"; path = "Target Support Files/Pods-StitchHTTPService/Pods-StitchHTTPService.release.xcconfig"; sourceTree = "<group>"; };
+		8B70E61461EBD7F3C911836E /* Pods-StitchHTTPService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchHTTPService.debug.xcconfig"; path = "Target Support Files/Pods-StitchHTTPService/Pods-StitchHTTPService.debug.xcconfig"; sourceTree = "<group>"; };
+		9A5A053801CF8E55C88C8AF2 /* libPods-StitchHTTPService.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchHTTPService.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D09767ACD570DBF7CF528E5A /* Pods-StitchHTTPServiceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchHTTPServiceTests.release.xcconfig"; path = "Target Support Files/Pods-StitchHTTPServiceTests/Pods-StitchHTTPServiceTests.release.xcconfig"; sourceTree = "<group>"; };
+		E90579C85E8B8F14AD778DA6 /* Pods-StitchHTTPServiceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchHTTPServiceTests.debug.xcconfig"; path = "Target Support Files/Pods-StitchHTTPServiceTests/Pods-StitchHTTPServiceTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,9 +74,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				11CF5D9720CF75F7006D57BA /* StitchCore.framework in Frameworks */,
-				11CF5D9920CF75F7006D57BA /* StitchCoreHTTPService.framework in Frameworks */,
-				B6C5C0817843F48FA0CD24A8 /* libPods-StitchHTTPService.a in Frameworks */,
+				498E55EA2190B90600A02A03 /* StitchCoreHTTPService.framework in Frameworks */,
+				498E55D42190B7B100A02A03 /* StitchCore.framework in Frameworks */,
+				C4687201DF1C0957FB2A1C62 /* libPods-StitchHTTPService.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,10 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				11CF5D9B20CF760B006D57BA /* StitchCoreTestUtils.framework in Frameworks */,
-				11CF5D9D20CF760B006D57BA /* StitchDarwinCoreTestUtils.framework in Frameworks */,
-				118C33AE20C72B7B00D1DE80 /* StitchHTTPService.framework in Frameworks */,
-				7EC47A3C7A74457BAC5B81C4 /* libPods-StitchHTTPServiceTests.a in Frameworks */,
+				1CD6DE09D3F13C7CC944F9AA /* libPods-StitchHTTPServiceTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,7 +98,7 @@
 				118C33B120C72B7B00D1DE80 /* StitchHTTPServiceTests */,
 				118C33A520C72B7B00D1DE80 /* Products */,
 				118C33BE20C72B9500D1DE80 /* Frameworks */,
-				62B4A27F6409DA1D37256A42 /* Pods */,
+				EEFEB583CB841C2F637C2F3E /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -146,16 +134,10 @@
 		118C33BE20C72B9500D1DE80 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				11CF5D9A20CF760B006D57BA /* StitchCoreTestUtils.framework */,
-				11CF5D9C20CF760B006D57BA /* StitchDarwinCoreTestUtils.framework */,
-				11CF5D9620CF75F7006D57BA /* StitchCore.framework */,
-				11CF5D9820CF75F7006D57BA /* StitchCoreHTTPService.framework */,
-				118C33C320C72BA700D1DE80 /* StitchCoreTestUtils_iOS.framework */,
-				118C33C520C72BA700D1DE80 /* StitchCoreTestUtils.framework */,
-				118C33BF20C72B9500D1DE80 /* StitchCore_iOS.framework */,
-				118C33C120C72B9500D1DE80 /* StitchCoreServicesHttp.framework */,
-				4B61F255FFC63E958697951B /* libPods-StitchHTTPService.a */,
-				A67EE67001812F5F714F95BC /* libPods-StitchHTTPServiceTests.a */,
+				498E55E92190B90600A02A03 /* StitchCoreHTTPService.framework */,
+				498E55D32190B7B100A02A03 /* StitchCore.framework */,
+				9A5A053801CF8E55C88C8AF2 /* libPods-StitchHTTPService.a */,
+				51A359C6579F75720B56058C /* libPods-StitchHTTPServiceTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -168,13 +150,13 @@
 			path = Internal;
 			sourceTree = "<group>";
 		};
-		62B4A27F6409DA1D37256A42 /* Pods */ = {
+		EEFEB583CB841C2F637C2F3E /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				64D0CB0D63C949E66A2E360F /* Pods-StitchHTTPService.debug.xcconfig */,
-				27A501C921CDC57E62494383 /* Pods-StitchHTTPService.release.xcconfig */,
-				776BC266770A0D361E08A677 /* Pods-StitchHTTPServiceTests.debug.xcconfig */,
-				391093B7C0E235C197928601 /* Pods-StitchHTTPServiceTests.release.xcconfig */,
+				8B70E61461EBD7F3C911836E /* Pods-StitchHTTPService.debug.xcconfig */,
+				58AC18798751DB75DBF13174 /* Pods-StitchHTTPService.release.xcconfig */,
+				E90579C85E8B8F14AD778DA6 /* Pods-StitchHTTPServiceTests.debug.xcconfig */,
+				D09767ACD570DBF7CF528E5A /* Pods-StitchHTTPServiceTests.release.xcconfig */,
 			);
 			name = Pods;
 			path = ../../../Pods;
@@ -197,7 +179,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 118C33B820C72B7B00D1DE80 /* Build configuration list for PBXNativeTarget "StitchHTTPService" */;
 			buildPhases = (
-				0618104338A64DE3325C70CF /* [CP] Check Pods Manifest.lock */,
+				FA202874E8BC7A724C86AF85 /* [CP] Check Pods Manifest.lock */,
 				118C339F20C72B7B00D1DE80 /* Sources */,
 				118C33A020C72B7B00D1DE80 /* Frameworks */,
 				118C33A120C72B7B00D1DE80 /* Headers */,
@@ -217,11 +199,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 118C33BB20C72B7B00D1DE80 /* Build configuration list for PBXNativeTarget "StitchHTTPServiceTests" */;
 			buildPhases = (
-				1C9B0B5F56D90B0A390E6FE2 /* [CP] Check Pods Manifest.lock */,
+				EE214409D938CACB19CA3E29 /* [CP] Check Pods Manifest.lock */,
 				118C33A920C72B7B00D1DE80 /* Sources */,
 				118C33AA20C72B7B00D1DE80 /* Frameworks */,
 				118C33AB20C72B7B00D1DE80 /* Resources */,
 				6F0B4FB29F4F1E9992D9B9C1 /* Embed Frameworks */,
+				6CD8A4DBE014BFC835647463 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -288,7 +271,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0618104338A64DE3325C70CF /* [CP] Check Pods Manifest.lock */ = {
+		6CD8A4DBE014BFC835647463 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -296,21 +279,23 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
+				"${PODS_ROOT}/Target Support Files/Pods-StitchHTTPServiceTests/Pods-StitchHTTPServiceTests-frameworks.sh",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework",
 			);
-			name = "[CP] Check Pods Manifest.lock";
+			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-StitchHTTPService-checkManifestLockResult.txt",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/bson.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongoc.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-StitchHTTPServiceTests/Pods-StitchHTTPServiceTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		1C9B0B5F56D90B0A390E6FE2 /* [CP] Check Pods Manifest.lock */ = {
+		EE214409D938CACB19CA3E29 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -326,6 +311,28 @@
 			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-StitchHTTPServiceTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FA202874E8BC7A724C86AF85 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-StitchHTTPService-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -486,7 +493,7 @@
 		};
 		118C33B920C72B7B00D1DE80 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 64D0CB0D63C949E66A2E360F /* Pods-StitchHTTPService.debug.xcconfig */;
+			baseConfigurationReference = 8B70E61461EBD7F3C911836E /* Pods-StitchHTTPService.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -499,7 +506,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = StitchHTTPService/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -519,7 +526,7 @@
 		};
 		118C33BA20C72B7B00D1DE80 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 27A501C921CDC57E62494383 /* Pods-StitchHTTPService.release.xcconfig */;
+			baseConfigurationReference = 58AC18798751DB75DBF13174 /* Pods-StitchHTTPService.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -532,7 +539,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = StitchHTTPService/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -551,16 +558,13 @@
 		};
 		118C33BC20C72B7B00D1DE80 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 776BC266770A0D361E08A677 /* Pods-StitchHTTPServiceTests.debug.xcconfig */;
+			baseConfigurationReference = E90579C85E8B8F14AD778DA6 /* Pods-StitchHTTPServiceTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../Frameworks/ios",
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = StitchHTTPServiceTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -571,23 +575,20 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchHTTPService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		118C33BD20C72B7B00D1DE80 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 391093B7C0E235C197928601 /* Pods-StitchHTTPServiceTests.release.xcconfig */;
+			baseConfigurationReference = D09767ACD570DBF7CF528E5A /* Pods-StitchHTTPServiceTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../Frameworks/ios",
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = StitchHTTPServiceTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -598,7 +599,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchHTTPService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

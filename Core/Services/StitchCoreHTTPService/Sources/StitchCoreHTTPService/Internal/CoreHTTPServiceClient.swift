@@ -27,7 +27,7 @@ public final class CoreHTTPServiceClient {
             }
             
             if let body = request.body {
-                args["body"] = Binary.init(data: body, subtype: .binary)
+                args["body"] = try Binary.init(data: body, subtype: Binary.Subtype.binaryDeprecated)
             }
             
             if let encodeBodyAsJSON = request.encodeBodyAsJSON {

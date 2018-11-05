@@ -54,7 +54,7 @@ final class CoreHTTPServiceClientUnitTests: XCTestCase {
             "authUrl": expectedAuthURL,
             "headers": try BSONEncoder().encode(expectedHeaders),
             "cookies": try BSONEncoder().encode(expectedCookies),
-            "body": Binary.init(data: expectedBody, subtype: .binary),
+            "body": try Binary.init(data: expectedBody, subtype: .binaryDeprecated),
             "encodeBodyAsJSON": false,
             "form": try BSONEncoder().encode(expectedForm),
             "followRedirects": true

@@ -205,11 +205,11 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
         
         // with pipeline
-        resultDocs = try coll.aggregate([Document(["$match": 1]), Document(["sort": 2])]).asArray()
+        resultDocs = try coll.aggregate([["$match": 1], ["sort": 2]]).asArray()
         
-        let expectedPipeline = [
-            Document(["$match": Int32(1)]),
-            Document(["sort": Int32(2)])
+        let expectedPipeline: [Document] = [
+            ["$match": Int32(1)],
+            ["sort": Int32(2)]
         ]
         
         XCTAssertEqual(docs, resultDocs)

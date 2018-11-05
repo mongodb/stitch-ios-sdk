@@ -2,20 +2,20 @@ workspace 'Stitch.xcworkspace'
 
 platform :ios, '11.0'
 
-
-
 target :MockUtils do
     project 'MockUtils/MockUtils.xcodeproj'
 end
 
-pod 'MongoSwift', '~> 0.0.5'
-
-target :StitchCoreAdminClient do
-    project 'Core/StitchCoreAdminClient/StitchCoreAdminClient.xcodeproj'
-end
-
 target :StitchCoreSDK do
+    pod 'MongoSwift', '~> 0.0.5'
+
     project 'Core/StitchCoreSDK/StitchCoreSDK.xcodeproj'
+
+    target :StitchCoreAdminClient do    
+        project 'Core/StitchCoreAdminClient/StitchCoreAdminClient.xcodeproj'
+
+        inherit! :search_paths
+    end
 
     target :StitchCoreSDKMocks do
         inherit! :search_paths
@@ -24,157 +24,207 @@ target :StitchCoreSDK do
     target :StitchCoreSDKTests do
         pod 'JSONWebToken', '2.2.0'
         pod 'Swifter', '1.4.5'
-    end
-end
+        pod 'MongoSwift', '~> 0.0.5'
 
-target :StitchCoreTestUtils do
-    project 'Core/StitchCoreTestUtils/StitchCoreTestUtils.xcodeproj'
-end
-
-target :StitchCoreTwilioService do
-  project 'Core/Services/StitchCoreTwilioService/StitchCoreTwilioService.xcodeproj'
-
-  target :StitchCoreTwilioServiceTests do
-    inherit! :search_paths
-  end
-end
-
-target :StitchCoreRemoteMongoDBService do
-  project 'Core/Services/StitchCoreRemoteMongoDBService/StitchCoreRemoteMongoDBService.xcodeproj'
-
-  target :StitchCoreRemoteMongoDBServiceTests do
-    inherit! :search_paths
-  end
-end
-
-target :StitchCoreLocalMongoDBService do
-    project 'Core/Services/StitchCoreLocalMongoDBService/StitchCoreLocalMongoDBService.xcodeproj'
-    pod 'MongoMobile', '~> 0.0.3'
-
-    target :StitchCoreLocalMongoDBServiceTests do
         inherit! :search_paths
     end
-end
 
-target :StitchCoreHTTPService do
-    project 'Core/Services/StitchCoreHTTPService/StitchCoreHTTPService.xcodeproj'
-
-    target :StitchCoreHTTPServiceTests do
+    target :StitchCoreFCMService do
+        project 'Core/Services/StitchCoreFCMService/StitchCoreFCMService.xcodeproj'
         inherit! :search_paths
+
+        target :StitchCoreFCMServiceTests do
+            pod 'MongoSwift', '~> 0.0.5'
+            inherit! :search_paths
+        end
     end
-end
 
-target :StitchCoreFCMService do
-    project 'Core/Services/StitchCoreFCMService/StitchCoreFCMService.xcodeproj'
-
-    target :StitchCoreFCMServiceTests do
+    target :StitchCoreTwilioService do
+        project 'Core/Services/StitchCoreTwilioService/StitchCoreTwilioService.xcodeproj'
         inherit! :search_paths
+        
+        target :StitchCoreTwilioServiceTests do
+            pod 'MongoSwift', '~> 0.0.5'
+            inherit! :search_paths
+        end
     end
-end
 
-target :StitchCoreAWSSESService do
-    project 'Core/Services/StitchCoreAWSSESService/StitchCoreAWSSESService.xcodeproj'
-
-    target :StitchCoreAWSSESServiceTests do
+    target :StitchCoreRemoteMongoDBService do
+        project 'Core/Services/StitchCoreRemoteMongoDBService/StitchCoreRemoteMongoDBService.xcodeproj'
         inherit! :search_paths
+        
+        target :StitchCoreRemoteMongoDBServiceTests do
+            pod 'MongoSwift', '~> 0.0.5'
+            inherit! :search_paths
+        end
     end
-end
 
-target :StitchCoreAWSS3Service do
-    project 'Core/Services/StitchCoreAWSS3Service/StitchCoreAWSS3Service.xcodeproj'
+    target :StitchCoreLocalMongoDBService do
+        project 'Core/Services/StitchCoreLocalMongoDBService/StitchCoreLocalMongoDBService.xcodeproj'
+        pod 'MongoMobile', '~> 0.0.3'
 
-    target :StitchCoreAWSS3ServiceTests do
+        target :StitchCoreLocalMongoDBServiceTests do
+            pod 'MongoMobile', '~> 0.0.3'    
+            inherit! :search_paths
+        end
+    end
+
+    target :StitchCoreHTTPService do
+        project 'Core/Services/StitchCoreHTTPService/StitchCoreHTTPService.xcodeproj'
         inherit! :search_paths
+
+        target :StitchCoreHTTPServiceTests do
+            pod 'MongoSwift', '~> 0.0.5'
+            inherit! :search_paths
+        end
     end
-end
-
-target :StitchCoreAWSService do
-    project 'Core/Services/StitchCoreAWSService/StitchCoreAWSService.xcodeproj'
-
-    target :StitchCoreAWSServiceTests do
+    
+    target :StitchCoreAWSSESService do
+        project 'Core/Services/StitchCoreAWSSESService/StitchCoreAWSSESService.xcodeproj'
         inherit! :search_paths
+
+        target :StitchCoreAWSSESServiceTests do
+            pod 'MongoSwift', '~> 0.0.5'
+            inherit! :search_paths
+        end
     end
-end
-
-target :StitchCore do
-  project 'Darwin/StitchCore/StitchCore.xcodeproj'
-
-  target :StitchCoreTests do
-      pod 'JSONWebToken', '2.2.0'
-  end
-end
-
-target :StitchDarwinCoreTestUtils do
-    project 'Darwin/StitchDarwinCoreTestUtils/StitchDarwinCoreTestUtils.xcodeproj'
-
-    target :StitchDarwinCoreTestUtilsTests do
+    
+    target :StitchCoreAWSS3Service do
+        project 'Core/Services/StitchCoreAWSS3Service/StitchCoreAWSS3Service.xcodeproj'
         inherit! :search_paths
+        
+        target :StitchCoreAWSS3ServiceTests do
+            pod 'MongoSwift', '~> 0.0.5'
+            inherit! :search_paths
+        end
     end
-end
-
-target :StitchTwilioService do
-    project 'Darwin/Services/StitchTwilioService/StitchTwilioService.xcodeproj'
-
-    target :StitchTwilioServiceTests do
+    
+    target :StitchCoreAWSService do
+        project 'Core/Services/StitchCoreAWSService/StitchCoreAWSService.xcodeproj'
         inherit! :search_paths
+
+        target :StitchCoreAWSServiceTests do
+            pod 'MongoSwift', '~> 0.0.5'
+            inherit! :search_paths
+        end
     end
-end
 
-target :StitchRemoteMongoDBService do
-    project 'Darwin/Services/StitchRemoteMongoDBService/StitchRemoteMongoDBService.xcodeproj'
-
-    target :StitchRemoteMongoDBServiceTests do
+    target :StitchCore do
+        project 'Darwin/StitchCore/StitchCore.xcodeproj'
         inherit! :search_paths
+    
+        target :StitchCoreTests do
+            pod 'JSONWebToken', '2.2.0'
+            pod 'MongoSwift', '~> 0.0.5'
+    
+            inherit! :search_paths
+        end
     end
-end
-
-target :StitchLocalMongoDBService do
-  project 'Darwin/Services/StitchLocalMongoDBService/StitchLocalMongoDBService.xcodeproj'
-  pod 'MongoMobile', '~> 0.0.3'
-
-  target :StitchLocalMongoDBServiceTests do
-      inherit! :search_paths
-  end
-end
-
-target :StitchHTTPService do
-    project 'Darwin/Services/StitchHTTPService/StitchHTTPService.xcodeproj'
-
-    target :StitchHTTPServiceTests do
+    
+    target :StitchDarwinCoreTestUtils do
+        project 'Darwin/StitchDarwinCoreTestUtils/StitchDarwinCoreTestUtils.xcodeproj'
         inherit! :search_paths
+    
+        target :StitchDarwinCoreTestUtilsTests do
+            pod 'MongoSwift', '~> 0.0.5'
+    
+            inherit! :search_paths
+        end
     end
-end
-
-target :StitchFCMService do
-    project 'Darwin/Services/StitchFCMService/StitchFCMService.xcodeproj'
-
-    target :StitchFCMServiceTests do
+    
+    target :StitchTwilioService do
+        project 'Darwin/Services/StitchTwilioService/StitchTwilioService.xcodeproj'
         inherit! :search_paths
+    
+        target :StitchTwilioServiceTests do
+            pod 'MongoSwift', '~> 0.0.5'
+    
+            inherit! :search_paths
+        end
     end
-end
-
-target :StitchAWSSESService do
-    project 'Darwin/Services/StitchAWSSESService/StitchAWSSESService.xcodeproj'
-
-    target :StitchAWSSESServiceTests do
+    
+    target :StitchRemoteMongoDBService do
+        project 'Darwin/Services/StitchRemoteMongoDBService/StitchRemoteMongoDBService.xcodeproj'
         inherit! :search_paths
+    
+        target :StitchRemoteMongoDBServiceTests do
+            pod 'MongoSwift', '~> 0.0.5'
+    
+            inherit! :search_paths
+        end
     end
-end
-
-target :StitchAWSS3Service do
-    project 'Darwin/Services/StitchAWSS3Service/StitchAWSS3Service.xcodeproj'
-
-    target :StitchAWSS3ServiceTests do
+    
+    target :StitchLocalMongoDBService do
+        project 'Darwin/Services/StitchLocalMongoDBService/StitchLocalMongoDBService.xcodeproj'
+        pod 'MongoMobile', '~> 0.0.3'
+    
+        target :StitchLocalMongoDBServiceTests do
+            pod 'MongoMobile', '~> 0.0.3'
+    
+            inherit! :search_paths
+        end
+    end
+    
+    target :StitchHTTPService do
+        project 'Darwin/Services/StitchHTTPService/StitchHTTPService.xcodeproj'
         inherit! :search_paths
+    
+        target :StitchHTTPServiceTests do
+            pod 'MongoSwift', '~> 0.0.5'
+    
+            inherit! :search_paths
+        end
     end
-end
-
-target :StitchAWSService do
-    project 'Darwin/Services/StitchAWSService/StitchAWSService.xcodeproj'
-
-    target :StitchAWSServiceTests do
+    
+    target :StitchFCMService do
+        project 'Darwin/Services/StitchFCMService/StitchFCMService.xcodeproj'
         inherit! :search_paths
+    
+        target :StitchFCMServiceTests do
+            pod 'MongoSwift', '~> 0.0.5'
+    
+            inherit! :search_paths
+        end
     end
+    
+    target :StitchAWSSESService do
+        project 'Darwin/Services/StitchAWSSESService/StitchAWSSESService.xcodeproj'
+        inherit! :search_paths
+    
+        target :StitchAWSSESServiceTests do
+            pod 'MongoSwift', '~> 0.0.5'
+    
+            inherit! :search_paths
+        end
+    end
+    
+    target :StitchAWSS3Service do
+        project 'Darwin/Services/StitchAWSS3Service/StitchAWSS3Service.xcodeproj'
+        inherit! :search_paths
+    
+        target :StitchAWSS3ServiceTests do
+            pod 'MongoSwift', '~> 0.0.5'
+    
+            inherit! :search_paths
+        end
+    end
+    
+    target :StitchAWSService do
+        project 'Darwin/Services/StitchAWSService/StitchAWSService.xcodeproj'
+        inherit! :search_paths
+    
+        target :StitchAWSServiceTests do
+            pod 'MongoSwift', '~> 0.0.5'
+    
+            inherit! :search_paths
+        end
+    end
+    
+    target :StitchCoreTestUtils do
+        project 'Core/StitchCoreTestUtils/StitchCoreTestUtils.xcodeproj'
+    
+        inherit! :search_paths
+    end    
 end
 
 post_install do |installer|
