@@ -128,7 +128,7 @@ tasks:
             /opt/chef/embedded/bin/gem install cocoapods -v 1.6.0.beta.1 --install-dir ./
             export GEM_HOME=`pwd`
             export GEM_PATH=`pwd`
-            bin/pod repo add mongo-swift https://github.com/mongodb/mongo-swift-driver/ v0.0.6
+            bin/pod repo add mongo-swift https://github.com/mongodb/mongo-swift-driver/ v0.0.5
             bin/pod install
             export SIM_UUID=$(xcrun simctl create stitch-iphone8 com.apple.CoreSimulator.SimDeviceType.iPhone-8 com.apple.CoreSimulator.SimRuntime.iOS-11.0)
             xcrun simctl boot $SIM_UUID
