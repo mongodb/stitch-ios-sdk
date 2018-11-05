@@ -1,6 +1,3 @@
-source 'https://github.com/CocoaPods/Specs.git'
-source 'mongo-swift'
-
 workspace 'Stitch.xcworkspace'
 
 platform :ios, '11.0'
