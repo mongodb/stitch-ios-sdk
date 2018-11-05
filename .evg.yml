@@ -119,6 +119,9 @@ tasks:
             set -e
 
             echo "running ios tests"
+            locate gem
+            locate ruby
+            locate cocoapods
             gem install cocoapods
             source ./creds
             if pgrep CoreSimulator; then pkill -9 CoreSimulator; fi
