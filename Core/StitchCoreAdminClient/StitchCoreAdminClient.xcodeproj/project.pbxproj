@@ -1,0 +1,531 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		CE207770668786428E57A196 /* libPods-StitchCoreAdminClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9CA31F9AB3DE74B0EE93992 /* libPods-StitchCoreAdminClient.a */; };
+		OBJ_136 /* AppsResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* AppsResources.swift */; };
+		OBJ_137 /* AuthProvidersResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* AuthProvidersResources.swift */; };
+		OBJ_138 /* ProviderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* ProviderConfig.swift */; };
+		OBJ_139 /* FunctionsResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* FunctionsResources.swift */; };
+		OBJ_140 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_18 /* Resources.swift */; };
+		OBJ_141 /* RulesResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_21 /* RulesResources.swift */; };
+		OBJ_142 /* ServiceConfigs.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_22 /* ServiceConfigs.swift */; };
+		OBJ_143 /* ServicesResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_23 /* ServicesResources.swift */; };
+		OBJ_144 /* StitchAdminAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_24 /* StitchAdminAuth.swift */; };
+		OBJ_145 /* StitchAdminAuthRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* StitchAdminAuthRoutes.swift */; };
+		OBJ_146 /* StitchAdminClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_26 /* StitchAdminClient.swift */; };
+		OBJ_147 /* StitchAdminUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_27 /* StitchAdminUser.swift */; };
+		OBJ_148 /* StitchAdminUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_28 /* StitchAdminUserProfile.swift */; };
+		OBJ_149 /* UserRegistrationsResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_30 /* UserRegistrationsResources.swift */; };
+		OBJ_150 /* UsersResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_32 /* UsersResources.swift */; };
+		OBJ_171 /* StitchCoreAdminClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_35 /* StitchCoreAdminClientTests.swift */; };
+		OBJ_173 /* StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = StitchCoreAdminClient::StitchCoreAdminClient::Product /* StitchCoreAdminClient.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		49805FB52184CB2E00E2A3A2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "StitchCoreAdminClient::StitchCoreAdminClient";
+			remoteInfo = StitchCoreAdminClient;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		7B5B8B7FD3A4B81EC6989600 /* Pods-StitchCoreAdminClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAdminClient.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreAdminClient/Pods-StitchCoreAdminClient.release.xcconfig"; sourceTree = "<group>"; };
+		80BAC86F5FA1E1ED73F2FE19 /* Pods-StitchCoreAdminClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAdminClient.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreAdminClient/Pods-StitchCoreAdminClient.debug.xcconfig"; sourceTree = "<group>"; };
+		C9CA31F9AB3DE74B0EE93992 /* libPods-StitchCoreAdminClient.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchCoreAdminClient.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		OBJ_12 /* AppsResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsResources.swift; sourceTree = "<group>"; };
+		OBJ_14 /* AuthProvidersResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthProvidersResources.swift; sourceTree = "<group>"; };
+		OBJ_15 /* ProviderConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderConfig.swift; sourceTree = "<group>"; };
+		OBJ_17 /* FunctionsResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionsResources.swift; sourceTree = "<group>"; };
+		OBJ_18 /* Resources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
+		OBJ_21 /* RulesResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesResources.swift; sourceTree = "<group>"; };
+		OBJ_22 /* ServiceConfigs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceConfigs.swift; sourceTree = "<group>"; };
+		OBJ_23 /* ServicesResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesResources.swift; sourceTree = "<group>"; };
+		OBJ_24 /* StitchAdminAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAdminAuth.swift; sourceTree = "<group>"; };
+		OBJ_25 /* StitchAdminAuthRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAdminAuthRoutes.swift; sourceTree = "<group>"; };
+		OBJ_26 /* StitchAdminClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAdminClient.swift; sourceTree = "<group>"; };
+		OBJ_27 /* StitchAdminUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAdminUser.swift; sourceTree = "<group>"; };
+		OBJ_28 /* StitchAdminUserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAdminUserProfile.swift; sourceTree = "<group>"; };
+		OBJ_30 /* UserRegistrationsResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRegistrationsResources.swift; sourceTree = "<group>"; };
+		OBJ_32 /* UsersResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersResources.swift; sourceTree = "<group>"; };
+		OBJ_35 /* StitchCoreAdminClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchCoreAdminClientTests.swift; sourceTree = "<group>"; };
+		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		StitchCoreAdminClient::StitchCoreAdminClient::Product /* StitchCoreAdminClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAdminClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		StitchCoreAdminClient::StitchCoreAdminClientTests::Product /* StitchCoreAdminClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = StitchCoreAdminClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		OBJ_151 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				CE207770668786428E57A196 /* libPods-StitchCoreAdminClient.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_172 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_173 /* StitchCoreAdminClient.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0EC19B21460B1A3C657D0A2C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C9CA31F9AB3DE74B0EE93992 /* libPods-StitchCoreAdminClient.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4157E9EA4630A96689458B8B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				80BAC86F5FA1E1ED73F2FE19 /* Pods-StitchCoreAdminClient.debug.xcconfig */,
+				7B5B8B7FD3A4B81EC6989600 /* Pods-StitchCoreAdminClient.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../../Pods;
+			sourceTree = "<group>";
+		};
+		OBJ_10 /* StitchCoreAdminClient */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_11 /* Apps */,
+				OBJ_13 /* AuthProviders */,
+				OBJ_16 /* Functions */,
+				OBJ_18 /* Resources.swift */,
+				OBJ_19 /* Services */,
+				OBJ_24 /* StitchAdminAuth.swift */,
+				OBJ_25 /* StitchAdminAuthRoutes.swift */,
+				OBJ_26 /* StitchAdminClient.swift */,
+				OBJ_27 /* StitchAdminUser.swift */,
+				OBJ_28 /* StitchAdminUserProfile.swift */,
+				OBJ_29 /* UserRegistrations */,
+				OBJ_31 /* Users */,
+			);
+			name = StitchCoreAdminClient;
+			path = Sources/StitchCoreAdminClient;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_11 /* Apps */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_12 /* AppsResources.swift */,
+			);
+			path = Apps;
+			sourceTree = "<group>";
+		};
+		OBJ_127 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				StitchCoreAdminClient::StitchCoreAdminClientTests::Product /* StitchCoreAdminClientTests.xctest */,
+				StitchCoreAdminClient::StitchCoreAdminClient::Product /* StitchCoreAdminClient.framework */,
+			);
+			name = Products;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		OBJ_13 /* AuthProviders */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_14 /* AuthProvidersResources.swift */,
+				OBJ_15 /* ProviderConfig.swift */,
+			);
+			path = AuthProviders;
+			sourceTree = "<group>";
+		};
+		OBJ_16 /* Functions */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_17 /* FunctionsResources.swift */,
+			);
+			path = Functions;
+			sourceTree = "<group>";
+		};
+		OBJ_19 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_20 /* Rules */,
+				OBJ_22 /* ServiceConfigs.swift */,
+				OBJ_23 /* ServicesResources.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		OBJ_20 /* Rules */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_21 /* RulesResources.swift */,
+			);
+			path = Rules;
+			sourceTree = "<group>";
+		};
+		OBJ_29 /* UserRegistrations */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_30 /* UserRegistrationsResources.swift */,
+			);
+			path = UserRegistrations;
+			sourceTree = "<group>";
+		};
+		OBJ_31 /* Users */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_32 /* UsersResources.swift */,
+			);
+			path = Users;
+			sourceTree = "<group>";
+		};
+		OBJ_33 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_34 /* StitchCoreAdminClientTests */,
+			);
+			name = Tests;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_34 /* StitchCoreAdminClientTests */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_35 /* StitchCoreAdminClientTests.swift */,
+			);
+			name = StitchCoreAdminClientTests;
+			path = Tests/StitchCoreAdminClientTests;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_5 = {
+			isa = PBXGroup;
+			children = (
+				OBJ_6 /* Package.swift */,
+				OBJ_9 /* Sources */,
+				OBJ_33 /* Tests */,
+				OBJ_127 /* Products */,
+				4157E9EA4630A96689458B8B /* Pods */,
+				0EC19B21460B1A3C657D0A2C /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		OBJ_9 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_10 /* StitchCoreAdminClient */,
+			);
+			name = Sources;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		StitchCoreAdminClient::StitchCoreAdminClient /* StitchCoreAdminClient */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_132 /* Build configuration list for PBXNativeTarget "StitchCoreAdminClient" */;
+			buildPhases = (
+				0EC5DBD92EFC7BE9991F0DA2 /* [CP] Check Pods Manifest.lock */,
+				OBJ_135 /* Sources */,
+				OBJ_151 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StitchCoreAdminClient;
+			productName = StitchCoreAdminClient;
+			productReference = StitchCoreAdminClient::StitchCoreAdminClient::Product /* StitchCoreAdminClient.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		StitchCoreAdminClient::StitchCoreAdminClientTests /* StitchCoreAdminClientTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_167 /* Build configuration list for PBXNativeTarget "StitchCoreAdminClientTests" */;
+			buildPhases = (
+				OBJ_170 /* Sources */,
+				OBJ_172 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				OBJ_175 /* PBXTargetDependency */,
+			);
+			name = StitchCoreAdminClientTests;
+			productName = StitchCoreAdminClientTests;
+			productReference = StitchCoreAdminClient::StitchCoreAdminClientTests::Product /* StitchCoreAdminClientTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		OBJ_1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 9999;
+			};
+			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "StitchCoreAdminClient" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = OBJ_5;
+			productRefGroup = OBJ_127 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				StitchCoreAdminClient::StitchCoreAdminClient /* StitchCoreAdminClient */,
+				StitchCoreAdminClient::StitchCoreAdminClientTests /* StitchCoreAdminClientTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0EC5DBD92EFC7BE9991F0DA2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-StitchCoreAdminClient-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		OBJ_135 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_136 /* AppsResources.swift in Sources */,
+				OBJ_137 /* AuthProvidersResources.swift in Sources */,
+				OBJ_138 /* ProviderConfig.swift in Sources */,
+				OBJ_139 /* FunctionsResources.swift in Sources */,
+				OBJ_140 /* Resources.swift in Sources */,
+				OBJ_141 /* RulesResources.swift in Sources */,
+				OBJ_142 /* ServiceConfigs.swift in Sources */,
+				OBJ_143 /* ServicesResources.swift in Sources */,
+				OBJ_144 /* StitchAdminAuth.swift in Sources */,
+				OBJ_145 /* StitchAdminAuthRoutes.swift in Sources */,
+				OBJ_146 /* StitchAdminClient.swift in Sources */,
+				OBJ_147 /* StitchAdminUser.swift in Sources */,
+				OBJ_148 /* StitchAdminUserProfile.swift in Sources */,
+				OBJ_149 /* UserRegistrationsResources.swift in Sources */,
+				OBJ_150 /* UsersResources.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_170 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_171 /* StitchCoreAdminClientTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		OBJ_175 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = StitchCoreAdminClient::StitchCoreAdminClient /* StitchCoreAdminClient */;
+			targetProxy = 49805FB52184CB2E00E2A3A2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		OBJ_133 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 80BAC86F5FA1E1ED73F2FE19 /* Pods-StitchCoreAdminClient.debug.xcconfig */;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = StitchCoreAdminClient.xcodeproj/StitchCoreAdminClient_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = StitchCoreAdminClient;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 4.2;
+				TARGET_NAME = StitchCoreAdminClient;
+			};
+			name = Debug;
+		};
+		OBJ_134 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7B5B8B7FD3A4B81EC6989600 /* Pods-StitchCoreAdminClient.release.xcconfig */;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = StitchCoreAdminClient.xcodeproj/StitchCoreAdminClient_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = StitchCoreAdminClient;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 4.2;
+				TARGET_NAME = StitchCoreAdminClient;
+			};
+			name = Release;
+		};
+		OBJ_168 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = StitchCoreAdminClient.xcodeproj/StitchCoreAdminClientTests_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = StitchCoreAdminClientTests;
+			};
+			name = Debug;
+		};
+		OBJ_169 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = StitchCoreAdminClient.xcodeproj/StitchCoreAdminClientTests_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = StitchCoreAdminClientTests;
+			};
+			name = Release;
+		};
+		OBJ_3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "-DXcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "SWIFT_PACKAGE DEBUG";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				USE_HEADERMAP = NO;
+			};
+			name = Debug;
+		};
+		OBJ_4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_OPTIMIZATION_LEVEL = s;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_SWIFT_FLAGS = "-DXcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = SWIFT_PACKAGE;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				USE_HEADERMAP = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		OBJ_132 /* Build configuration list for PBXNativeTarget "StitchCoreAdminClient" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_133 /* Debug */,
+				OBJ_134 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_167 /* Build configuration list for PBXNativeTarget "StitchCoreAdminClientTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_168 /* Debug */,
+				OBJ_169 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_2 /* Build configuration list for PBXProject "StitchCoreAdminClient" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_3 /* Debug */,
+				OBJ_4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = OBJ_1 /* Project object */;
+}
