@@ -121,7 +121,7 @@ tasks:
             echo "running ios tests"
             ls -l /opt/chef/embedded/lib/ruby/2.3.0
             locate gem
-            gem install cocoapods
+            /opt/chef/embedded/bin/gem install cocoapods
             source ./creds
             if pgrep CoreSimulator; then pkill -9 CoreSimulator; fi
             export DEVELOPER_DIR=/Applications/Xcode9.2.app
