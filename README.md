@@ -41,16 +41,16 @@ use_frameworks!
 
 target '<Your Target Name>' do
     # For core functionality and the Remote MongoDB Service
-    pod 'StitchSDK', '~> 4.0.5'
+    pod 'StitchSDK', '~> 4.0.7'
 
     # optional: for using the AWS service
-    pod 'StitchSDK/StitchAWSService', '~> 4.0.5'
+    pod 'StitchSDK/StitchAWSService', '~> 4.0.7'
     # optional: for using the Firebase Cloud Messaging service
-    pod 'StitchSDK/StitchFCMService', '~> 4.0.5'
+    pod 'StitchSDK/StitchFCMService', '~> 4.0.7'
     # optional: for using the HTTP service
-    pod 'StitchSDK/StitchHTTPService', '~> 4.0.5'
+    pod 'StitchSDK/StitchHTTPService', '~> 4.0.7'
     # optional: for using the twilio service
-    pod 'StitchSDK/StitchTwilioService', '~> 4.0.5'
+    pod 'StitchSDK/StitchTwilioService', '~> 4.0.7'
 end
 ```
 

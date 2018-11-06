@@ -99,8 +99,8 @@ tasks:
   - name: run_tests
     commands:
       - func: "fetch_source"
-      # - func: "setup_mongod"
-      # - func: "setup_stitch"
+      - func: "setup_mongod"
+      - func: "setup_stitch"
       - command: shell.exec
         params:
           silent: true
