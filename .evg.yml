@@ -124,6 +124,8 @@ tasks:
             if pgrep CoreSimulator; then pkill -9 CoreSimulator; fi
             export DEVELOPER_DIR=/Applications/Xcode9.2.app
             xcodebuild -showsdks
+            xcrun simctl list
+            exit
             cd stitch-ios-sdk
             export GEM_HOME=`pwd`
             export GEM_PATH=`pwd`
@@ -134,7 +136,7 @@ tasks:
             xcrun simctl boot $SIM_UUID
             echo "booting SIMCTL $SIM_UUID"
             echo "...testing core"
-            xcodebuild test -workspace Stitch.xcworkspace/ -scheme "All Core Tests" -destination $SIM_UUID
+            xcodebuild test -workspace Stitch.xcworkspace/ -scheme "All Core Tests" -sdk iphoneos11.2
             echo "...testing Darwin"
             xcodebuild test -workspace Stitch.xcworkspace/ -scheme "All Darwin Tests" -destination $SIM_UUID
 buildvariants:
