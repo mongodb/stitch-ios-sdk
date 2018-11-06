@@ -230,8 +230,8 @@ end
 post_install do |installer|
     installer.pods_project.targets.each do |target|
         # this is to fix a bug in JSONWebToken
-        if target.name == 'JSONWebToken'
-            system("rm -rf Pods/JSONWebToken/CommonCrypto")
-        end
+        # if target.name == 'JSONWebToken'
+        #     system("rm -rf Pods/JSONWebToken/CommonCrypto")
+        # end
     end
 end
