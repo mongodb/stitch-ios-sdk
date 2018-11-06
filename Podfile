@@ -1,6 +1,3 @@
-source 'https://github.com/CocoaPods/Specs/tree/a5b9c7eef63951b1fd1efcb8db719e76c9194e2d/Specs/d/6/a/mongoc_embedded'
-source 'https://github.com/CocoaPods/Specs/tree/82bc047aa0c1b07909218c598d8d2b8323e61bc4/Specs/9/c/3/mongo_embedded'
-
 workspace 'Stitch.xcworkspace'
 
 platform :ios, '11.0'
@@ -14,6 +11,8 @@ swifter_podspec = 'https://raw.githubusercontent.com/CocoaPods/Specs/master/Spec
 mongo_swift_podspec = 'https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/4/5/d/MongoSwift/0.0.5/MongoSwift.podspec.json'
 mongo_mobile_podspec = 'https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/9/5/d/MongoMobile/0.0.3/MongoMobile.podspec.json'
 
+pod 'mongo_embedded', :podspec => 'https://raw.githubusercontent.com/CocoaPods/Specs/6c0c38352880a0c1a1da09a8737518c4ce2ac61e/Specs/9/c/3/mongo_embedded/4.0.3-107-g0b0aac7/mongo_embedded.podspec.json'
+pod 'mongoc_embedded', :podspec => 'https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/d/6/a/mongoc_embedded/4.0.3-92-g8468282/mongoc_embedded.podspec.json'
 pod 'mongo-embedded-c-driver', :podspec => 'https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/0/2/a/mongo-embedded-c-driver/1.13.0-dev3/mongo-embedded-c-driver.podspec.json'
 
 target :StitchCoreSDK do
