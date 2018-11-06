@@ -131,9 +131,9 @@ tasks:
             bin/pod setup
             bin/pod install
             echo "...testing core"
-            xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCoreSDK -destination 'platform=iOS Simulator,name=iPhone 8,OS=11.2'
+            xcodebuild test -workspace Stitch.xcworkspace/ -scheme "All Core Tests" -destination 'platform=iOS Simulator,name=iPhone 8,OS=11.2'
             echo "...testing Darwin"
-            xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCore -destination 'platform=iOS Simulator,name=iPhone 8,OS=11.2'
+            xcodebuild test -workspace Stitch.xcworkspace/ -scheme "All Darwin Tests" -destination 'platform=iOS Simulator,name=iPhone 8,OS=11.2'
 buildvariants:
 - name: macos-1013
   display_name: MacOS 10.13
