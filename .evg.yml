@@ -130,6 +130,7 @@ tasks:
             locate cocoapods
             /opt/chef/embedded/bin/gem install cocoapods -v 1.6.0.beta.1 --install-dir ./
             echo "adding repo"
+            bin/pod repo add https://github.com/jsflax/stitchpods/ 
             echo "repo added"
             bin/pod install
             export SIM_UUID=$(xcrun simctl create stitch-iphone8 com.apple.CoreSimulator.SimDeviceType.iPhone-8 com.apple.CoreSimulator.SimRuntime.iOS-11.0)
