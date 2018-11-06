@@ -133,9 +133,9 @@ tasks:
             xcrun simctl boot $SIM_UUID
             echo "booting SIMCTL $SIM_UUID"
             echo "...testing core"
-            xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCoreSDK -destination=$SIM_UUID
+            xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCoreSDK -destination 'platform=iOS Simulator,name=iPhone 8,OS=11.2'
             echo "...testing Darwin"
-            xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCore -destination=$SIM_UUID
+            xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCore -destination 'platform=iOS Simulator,name=iPhone 8,OS=11.2'
             xcrun simctl delete $SIM_UUID
 buildvariants:
 - name: macos-1013
