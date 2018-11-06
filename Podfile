@@ -1,5 +1,6 @@
 source 'https://github.com/CocoaPods/Specs/tree/a5b9c7eef63951b1fd1efcb8db719e76c9194e2d/Specs/d/6/a/mongoc_embedded'
 source 'https://github.com/CocoaPods/Specs/tree/82bc047aa0c1b07909218c598d8d2b8323e61bc4/Specs/9/c/3/mongo_embedded'
+source 'https://github.com/CocoaPods/Specs/tree/1d1335f6e3c30f0b79d653031b3b51c499f6b8ac/Specs/0/2/a/mongo-embedded-c-driver'
 
 workspace 'Stitch.xcworkspace'
 
