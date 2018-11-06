@@ -1,10 +1,10 @@
 PODS:
   - JSONWebToken (2.2.0)
-  - mongo-embedded-c-driver (1.13.0-dev3)
+  - mongo-embedded-c-driver (1.13.0-4.0.3-107-g0b0aac7)
   - mongo_embedded (4.0.3-107-g0b0aac7)
-  - mongoc_embedded (4.0.3-92-g8468282):
-    - mongo-embedded-c-driver (~> 1.13-dev3)
-    - mongo_embedded (~> 4.0.3-92-g8468282)
+  - mongoc_embedded (4.0.3-107-g0b0aac7):
+    - mongo-embedded-c-driver (~> 1.13.0-4.0.3-107-g0b0aac7)
+    - mongo_embedded (~> 4.0.3-107-g0b0aac7)
   - MongoMobile (0.0.3):
     - mongo_embedded (~> 4.0.3-92-g8468282)
     - mongoc_embedded (~> 4.0.3-92-g8468282)
@@ -15,22 +15,19 @@ PODS:
 
 DEPENDENCIES:
   - JSONWebToken (from `https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/6/1/a/JSONWebToken/2.2.0/JSONWebToken.podspec.json`)
-  - mongo-embedded-c-driver (from `https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/0/2/a/mongo-embedded-c-driver/1.13.0-dev3/mongo-embedded-c-driver.podspec.json`)
-  - mongo_embedded (from `https://raw.githubusercontent.com/CocoaPods/Specs/6c0c38352880a0c1a1da09a8737518c4ce2ac61e/Specs/9/c/3/mongo_embedded/4.0.3-107-g0b0aac7/mongo_embedded.podspec.json`)
-  - mongoc_embedded (from `https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/d/6/a/mongoc_embedded/4.0.3-92-g8468282/mongoc_embedded.podspec.json`)
   - MongoMobile (from `https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/9/5/d/MongoMobile/0.0.3/MongoMobile.podspec.json`)
   - MongoSwift (from `https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/4/5/d/MongoSwift/0.0.5/MongoSwift.podspec.json`)
   - Swifter (from `https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/4/2/2/Swifter/1.4.5/Swifter.podspec.json`)
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - mongo-embedded-c-driver
+    - mongo_embedded
+    - mongoc_embedded
+
 EXTERNAL SOURCES:
   JSONWebToken:
     :podspec: https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/6/1/a/JSONWebToken/2.2.0/JSONWebToken.podspec.json
-  mongo-embedded-c-driver:
-    :podspec: https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/0/2/a/mongo-embedded-c-driver/1.13.0-dev3/mongo-embedded-c-driver.podspec.json
-  mongo_embedded:
-    :podspec: https://raw.githubusercontent.com/CocoaPods/Specs/6c0c38352880a0c1a1da09a8737518c4ce2ac61e/Specs/9/c/3/mongo_embedded/4.0.3-107-g0b0aac7/mongo_embedded.podspec.json
-  mongoc_embedded:
-    :podspec: https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/d/6/a/mongoc_embedded/4.0.3-92-g8468282/mongoc_embedded.podspec.json
   MongoMobile:
     :podspec: https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/9/5/d/MongoMobile/0.0.3/MongoMobile.podspec.json
   MongoSwift:
@@ -40,13 +37,13 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   JSONWebToken: 6fae32489632658d563dd6952a5c34020ea813e4
-  mongo-embedded-c-driver: 94964f59ab3ad3990c9f69cd5c60300f056847d5
+  mongo-embedded-c-driver: 14d63c3dd17eef037d800e0045c18d7fac06758b
   mongo_embedded: e918e4ead39bc8bba58dc77bd5e09e3522788acb
-  mongoc_embedded: 0022dc2c9cc7cb38f6562e1f8efa64e51ee752a8
+  mongoc_embedded: f061ecf061d4fa91964055305739fcdd2ace1b6b
   MongoMobile: e1263223f1a9f21844087a130680b49745c1ac65
   MongoSwift: 91244e47a7b0167b2647a1922cd2776166c9ba5e
   Swifter: eb2bc1d192a1c09169c7fefd01971565fa940521
 
-PODFILE CHECKSUM: cf8eb86e6aac3ecd0e03690aa2ddd15fb0079dea
+PODFILE CHECKSUM: 01f46a9237b69fa4aa8a83d1b25f7b558efa6ae9
 
 COCOAPODS: 1.6.0.beta.1

@@ -11,8 +11,9 @@ Pod::Spec.new do |spec|
     }
 
     spec.source     = {
-      :git => "https://github.com/jsflax/stitch-ios-sdk.git",
-      :branch => "master"
+      :git => "https://github.com/mongodb/stitch-ios-sdk.git",
+      :branch => "master",
+      :tag => '4.0.7'
     }
   
     spec.platform = :ios, "11.0"
