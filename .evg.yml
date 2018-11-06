@@ -135,7 +135,7 @@ tasks:
             xcrun simctl boot $SIM_UUID
             echo "booting SIMCTL $SIM_UUID"
             echo "...testing core"
-            xcodebuild test -workspace Stitch.xcworkspace/ -scheme "All Core Tests" -sdk iphoneos11.2
+            xcodebuild test -workspace Stitch.xcworkspace/ -scheme "All Core Tests" -destination $SIM_UUID
             echo "...testing Darwin"
             xcodebuild test -workspace Stitch.xcworkspace/ -scheme "All Darwin Tests" -destination $SIM_UUID
             xcrun simctl delete $SIM_UUID
