@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
     spec.name       = "StitchSDK"
-    spec.version    = "4.0.7"
+    spec.version    = "5.0.0"
     spec.summary    = "Stitch"
     spec.homepage   = "https://github.com/mongodb/stitch-ios-sdk"
     spec.license    = "Apache2"
@@ -14,7 +14,7 @@ Pod::Spec.new do |spec|
     spec.source     = {
       :git => "https://github.com/mongodb/stitch-ios-sdk.git",
       :branch => "master",
-      :tag => '4.0.7',
+      :tag => '5.0.0',
       :submodules => true
     }
   
@@ -24,72 +24,72 @@ Pod::Spec.new do |spec|
   
     # pod "StitchSDK/StitchCoreSDK", "~> 4.0"
     spec.subspec "StitchCoreSDK" do |core|
-        core.dependency "StitchCoreSDK", "~> 4.0.7"
+        core.dependency "StitchCoreSDK", "~> 5.0.0"
     end
 
     # pod "StitchSDK/StitchCoreAWSService", "~> 4.0"
     spec.subspec "StitchCoreAWSService" do |core_aws_service|
-        core_aws_service.dependency 'StitchCoreAWSService', '~> 4.0.7'
+        core_aws_service.dependency 'StitchCoreAWSService', '~> 5.0.0'
     end
 
     # pod "StitchSDK/StitchCoreAWSS3Service", "~> 4.0"
     spec.subspec "StitchCoreAWSS3Service" do |core_aws_s3_service|
-        core_aws_s3_service.dependency 'StitchCoreAWSS3Service', '~> 4.0.7'
+        core_aws_s3_service.dependency 'StitchCoreAWSS3Service', '~> 5.0.0'
     end
 
     # pod "StitchSDK/StitchCoreAWSSESService", "~> 4.0"
     spec.subspec "StitchCoreAWSSESService" do |core_aws_ses_service|    
-        core_aws_ses_service.dependency 'StitchCoreAWSSESService', '~> 4.0.7'
+        core_aws_ses_service.dependency 'StitchCoreAWSSESService', '~> 5.0.0'
     end
 
     # pod "StitchSDK/StitchCoreHTTPService", "~> 4.0"
     spec.subspec "StitchCoreHTTPService" do |core_http_service|
-        core_http_service.dependency 'StitchCoreHTTPService', '~> 4.0.7'
+        core_http_service.dependency 'StitchCoreHTTPService', '~> 5.0.0'
     end
 
     # pod "StitchSDK/StitchCoreRemoteMongoDBService", "~> 4.0"
     spec.subspec "StitchCoreRemoteMongoDBService" do |core_remote_mongodb_service|
-        core_remote_mongodb_service.dependency 'StitchCoreRemoteMongoDBService', '~> 4.0.7'
+        core_remote_mongodb_service.dependency 'StitchCoreRemoteMongoDBService', '~> 5.0.0'
     end
 
     # pod "StitchSDK/StitchCoreTwilioService", "~> 4.0"
     spec.subspec "StitchCoreTwilioService" do |core_twilio_service|
-        core_twilio_service.dependency 'StitchCoreTwilioService', '~> 4.0.7'
+        core_twilio_service.dependency 'StitchCoreTwilioService', '~> 5.0.0'
     end
 
     # pod "StitchSDK/StitchCore", "~> 4.0"
     spec.subspec "StitchCore" do |ios_core|
-        ios_core.dependency 'StitchCoreSDK', '~> 4.0.7'
+        ios_core.dependency 'StitchCoreSDK', '~> 5.0.0'
     end
 
     # pod "StitchSDK/StitchAWSService", "~> 4.0"
     spec.subspec "StitchAWSService" do |aws_service|
-        aws_service.dependency 'StitchAWSService', '~> 4.0.7'
+        aws_service.dependency 'StitchAWSService', '~> 5.0.0'
     end
 
     # pod "StitchSDK/StitchAWSS3Service", "~> 4.0"
     spec.subspec "StitchAWSS3Service" do |aws_s3_service|
-        aws_s3_service.dependency 'StitchAWSS3Service', '~> 4.0.7'
+        aws_s3_service.dependency 'StitchAWSS3Service', '~> 5.0.0'
     end
 
     # pod "StitchSDK/StitchAWSSESService", "~> 4.0"
     spec.subspec "StitchAWSSESService" do |aws_ses_service|
-        aws_ses_service.dependency 'StitchAWSSESService', '~> 4.0.7'
+        aws_ses_service.dependency 'StitchAWSSESService', '~> 5.0.0'
     end
 
     # pod "StitchSDK/StitchHTTPService", "~> 4.0"
     spec.subspec "StitchHTTPService" do |http_service|
-        http_service.dependency 'StitchHTTPService', '~> 4.0.7'
+        http_service.dependency 'StitchHTTPService', '~> 5.0.0'
     end
 
     # pod "StitchSDK/StitchRemoteMongoDBService", "~> 4.0"
     spec.subspec "StitchRemoteMongoDBService" do |remote_mongodb_service|
-        remote_mongodb_service.dependency 'StitchRemoteMongoDBService', '~> 4.0.7'
+        remote_mongodb_service.dependency 'StitchRemoteMongoDBService', '~> 5.0.0'
     end
 
     # pod "StitchSDK/StitchTwilioService", "~> 4.0"
     spec.subspec "StitchTwilioService" do |twilio_service|
-        twilio_service.dependency 'StitchTwilioService', '~> 4.0.7'
+        twilio_service.dependency 'StitchTwilioService', '~> 5.0.0'
     end
 
     # pod "StitchSDK", "~> 4.0"

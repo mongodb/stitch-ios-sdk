@@ -9,7 +9,6 @@
 // StitchCoreSDK/
 @_exported import class StitchCore.StitchAppClientConfiguration
 @_exported import class StitchCore.StitchAppClientConfigurationBuilder
-@_exported import enum StitchCore.StitchAppClientConfigurationError
 @_exported import class StitchCore.StitchClientConfiguration
 @_exported import enum StitchCore.StitchClientConfigurationError
 @_exported import enum StitchCore.StitchError

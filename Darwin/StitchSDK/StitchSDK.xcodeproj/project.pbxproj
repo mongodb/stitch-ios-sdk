@@ -16,6 +16,7 @@
 		1159639820D02B8F00B0179B /* StitchHTTPService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1159639720D02B8F00B0179B /* StitchHTTPService.framework */; };
 		1159639A20D02B8F00B0179B /* StitchRemoteMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1159639920D02B8F00B0179B /* StitchRemoteMongoDBService.framework */; };
 		1159639C20D02B8F00B0179B /* StitchTwilioService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1159639B20D02B8F00B0179B /* StitchTwilioService.framework */; };
+		73DF1BFBD55A1449524651AE /* libPods-StitchSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A871300F398B696D77A06A5 /* libPods-StitchSDK.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,9 @@
 		1159639720D02B8F00B0179B /* StitchHTTPService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchHTTPService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1159639920D02B8F00B0179B /* StitchRemoteMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchRemoteMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1159639B20D02B8F00B0179B /* StitchTwilioService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchTwilioService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A871300F398B696D77A06A5 /* libPods-StitchSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchSDK.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C46681A06B721BFC1B8CCEFF /* Pods-StitchSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchSDK.debug.xcconfig"; path = "Target Support Files/Pods-StitchSDK/Pods-StitchSDK.debug.xcconfig"; sourceTree = "<group>"; };
+		E49C146702F863D7D6DDFB73 /* Pods-StitchSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchSDK.release.xcconfig"; path = "Target Support Files/Pods-StitchSDK/Pods-StitchSDK.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +48,7 @@
 				1159639820D02B8F00B0179B /* StitchHTTPService.framework in Frameworks */,
 				1159639A20D02B8F00B0179B /* StitchRemoteMongoDBService.framework in Frameworks */,
 				1159639C20D02B8F00B0179B /* StitchTwilioService.framework in Frameworks */,
+				73DF1BFBD55A1449524651AE /* libPods-StitchSDK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,6 +61,7 @@
 				1159638520D02B0800B0179B /* StitchSDK */,
 				1159638420D02B0800B0179B /* Products */,
 				1159639020D02B8E00B0179B /* Frameworks */,
+				2322F9C1E14380D5FB91AFB0 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -87,8 +93,19 @@
 				1159639720D02B8F00B0179B /* StitchHTTPService.framework */,
 				1159639920D02B8F00B0179B /* StitchRemoteMongoDBService.framework */,
 				1159639B20D02B8F00B0179B /* StitchTwilioService.framework */,
+				3A871300F398B696D77A06A5 /* libPods-StitchSDK.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2322F9C1E14380D5FB91AFB0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C46681A06B721BFC1B8CCEFF /* Pods-StitchSDK.debug.xcconfig */,
+				E49C146702F863D7D6DDFB73 /* Pods-StitchSDK.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../../Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -109,6 +126,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1159638B20D02B0800B0179B /* Build configuration list for PBXNativeTarget "StitchSDK" */;
 			buildPhases = (
+				18964B468B24C079EEFD1D1A /* [CP] Check Pods Manifest.lock */,
 				1159637E20D02B0800B0179B /* Sources */,
 				1159637F20D02B0800B0179B /* Frameworks */,
 				1159638020D02B0800B0179B /* Headers */,
@@ -164,6 +182,31 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		18964B468B24C079EEFD1D1A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-StitchSDK-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1159637E20D02B0800B0179B /* Sources */ = {
@@ -299,6 +342,7 @@
 		};
 		1159638C20D02B0800B0179B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C46681A06B721BFC1B8CCEFF /* Pods-StitchSDK.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -310,7 +354,7 @@
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = StitchSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -327,6 +371,7 @@
 		};
 		1159638D20D02B0800B0179B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E49C146702F863D7D6DDFB73 /* Pods-StitchSDK.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -338,7 +383,7 @@
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = StitchSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

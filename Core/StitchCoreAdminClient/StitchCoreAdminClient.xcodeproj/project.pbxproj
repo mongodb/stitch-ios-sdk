@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CE207770668786428E57A196 /* libPods-StitchCoreAdminClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9CA31F9AB3DE74B0EE93992 /* libPods-StitchCoreAdminClient.a */; };
+		03EABAF2AB3B6C213166BF35 /* libPods-StitchCoreAdminClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFB5777417A9299BC966E51 /* libPods-StitchCoreAdminClient.a */; };
 		OBJ_136 /* AppsResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* AppsResources.swift */; };
 		OBJ_137 /* AuthProvidersResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* AuthProvidersResources.swift */; };
 		OBJ_138 /* ProviderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* ProviderConfig.swift */; };
@@ -38,9 +38,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		7B5B8B7FD3A4B81EC6989600 /* Pods-StitchCoreAdminClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAdminClient.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreAdminClient/Pods-StitchCoreAdminClient.release.xcconfig"; sourceTree = "<group>"; };
-		80BAC86F5FA1E1ED73F2FE19 /* Pods-StitchCoreAdminClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAdminClient.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreAdminClient/Pods-StitchCoreAdminClient.debug.xcconfig"; sourceTree = "<group>"; };
-		C9CA31F9AB3DE74B0EE93992 /* libPods-StitchCoreAdminClient.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchCoreAdminClient.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4FFB5777417A9299BC966E51 /* libPods-StitchCoreAdminClient.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchCoreAdminClient.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		65FC41B502423600D49F3CA2 /* Pods-StitchCoreAdminClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAdminClient.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreAdminClient/Pods-StitchCoreAdminClient.debug.xcconfig"; sourceTree = "<group>"; };
+		7AD5A4D72F022D5EBCB76FCC /* Pods-StitchCoreAdminClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAdminClient.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreAdminClient/Pods-StitchCoreAdminClient.release.xcconfig"; sourceTree = "<group>"; };
 		OBJ_12 /* AppsResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsResources.swift; sourceTree = "<group>"; };
 		OBJ_14 /* AuthProvidersResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthProvidersResources.swift; sourceTree = "<group>"; };
 		OBJ_15 /* ProviderConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderConfig.swift; sourceTree = "<group>"; };
@@ -67,7 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
-				CE207770668786428E57A196 /* libPods-StitchCoreAdminClient.a in Frameworks */,
+				03EABAF2AB3B6C213166BF35 /* libPods-StitchCoreAdminClient.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,22 +82,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0EC19B21460B1A3C657D0A2C /* Frameworks */ = {
+		B9915F95C20E8B963B8D1224 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				C9CA31F9AB3DE74B0EE93992 /* libPods-StitchCoreAdminClient.a */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		4157E9EA4630A96689458B8B /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				80BAC86F5FA1E1ED73F2FE19 /* Pods-StitchCoreAdminClient.debug.xcconfig */,
-				7B5B8B7FD3A4B81EC6989600 /* Pods-StitchCoreAdminClient.release.xcconfig */,
+				65FC41B502423600D49F3CA2 /* Pods-StitchCoreAdminClient.debug.xcconfig */,
+				7AD5A4D72F022D5EBCB76FCC /* Pods-StitchCoreAdminClient.release.xcconfig */,
 			);
 			name = Pods;
 			path = ../../Pods;
+			sourceTree = "<group>";
+		};
+		D3A4C1E019A67B92360ECBDF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4FFB5777417A9299BC966E51 /* libPods-StitchCoreAdminClient.a */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		OBJ_10 /* StitchCoreAdminClient */ = {
@@ -212,8 +212,8 @@
 				OBJ_9 /* Sources */,
 				OBJ_33 /* Tests */,
 				OBJ_127 /* Products */,
-				4157E9EA4630A96689458B8B /* Pods */,
-				0EC19B21460B1A3C657D0A2C /* Frameworks */,
+				B9915F95C20E8B963B8D1224 /* Pods */,
+				D3A4C1E019A67B92360ECBDF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -232,7 +232,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_132 /* Build configuration list for PBXNativeTarget "StitchCoreAdminClient" */;
 			buildPhases = (
-				0EC5DBD92EFC7BE9991F0DA2 /* [CP] Check Pods Manifest.lock */,
+				834B460D4ABDA425F6BFABBE /* [CP] Check Pods Manifest.lock */,
 				OBJ_135 /* Sources */,
 				OBJ_151 /* Frameworks */,
 			);
@@ -289,7 +289,7 @@
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0EC5DBD92EFC7BE9991F0DA2 /* [CP] Check Pods Manifest.lock */ = {
+		834B460D4ABDA425F6BFABBE /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -357,7 +357,7 @@
 /* Begin XCBuildConfiguration section */
 		OBJ_133 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 80BAC86F5FA1E1ED73F2FE19 /* Pods-StitchCoreAdminClient.debug.xcconfig */;
+			baseConfigurationReference = 65FC41B502423600D49F3CA2 /* Pods-StitchCoreAdminClient.debug.xcconfig */;
 			buildSettings = {
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -383,7 +383,7 @@
 		};
 		OBJ_134 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7B5B8B7FD3A4B81EC6989600 /* Pods-StitchCoreAdminClient.release.xcconfig */;
+			baseConfigurationReference = 7AD5A4D72F022D5EBCB76FCC /* Pods-StitchCoreAdminClient.release.xcconfig */;
 			buildSettings = {
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (

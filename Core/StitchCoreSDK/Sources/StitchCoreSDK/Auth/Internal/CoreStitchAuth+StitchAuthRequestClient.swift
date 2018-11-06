@@ -31,7 +31,6 @@ extension CoreStitchAuth {
             }
 
             do {
-                // TODO: until Swifdriver decides on what to do
                 return try BSONDecoder().decode(T.self, from: responseString)
             } catch let err {
                 throw StitchError.requestError(withError: err, withRequestErrorCode: .decodingError)
