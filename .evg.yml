@@ -128,6 +128,7 @@ tasks:
             export GEM_PATH=`pwd`
             locate cocoapods
             /opt/chef/embedded/bin/gem install cocoapods -v 1.6.0.beta.1 --install-dir ./
+            bin/pod setup
             bin/pod install
             echo "...testing core"
             xcodebuild test -workspace Stitch.xcworkspace/ -scheme StitchCoreSDK -destination 'platform=iOS Simulator,name=iPhone 8,OS=11.2'
