@@ -13,6 +13,7 @@
 		11405A9B20C5AF230041105B /* AWSS3ServiceClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11405A9A20C5AF230041105B /* AWSS3ServiceClientImpl.swift */; };
 		1159637220D0266400B0179B /* StitchAWSS3ServiceExports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1159637120D0266400B0179B /* StitchAWSS3ServiceExports.swift */; };
 		494335A62190FD02005B170D /* StitchDarwinCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494335A52190FD02005B170D /* StitchDarwinCoreTestUtils.framework */; };
+		494335B621923621005B170D /* StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494335B521923621005B170D /* StitchCoreAdminClient.framework */; };
 		498E55E62190B8A600A02A03 /* StitchCoreAWSS3Service.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E55E52190B8A600A02A03 /* StitchCoreAWSS3Service.framework */; };
 		B83E80C0A76CC161BC056AB4 /* libPods-StitchAWSS3ServiceTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C1B6C200EE91377F477CCDBB /* libPods-StitchAWSS3ServiceTests.a */; };
 		EB7CF05AA85384206FBB74C1 /* libPods-StitchAWSS3Service.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F0A9D9236CC3A93CA0B2AC1 /* libPods-StitchAWSS3Service.a */; };
@@ -64,6 +65,7 @@
 		15FB71831C09BB6E2BFF0A30 /* Pods-StitchAWSS3ServiceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchAWSS3ServiceTests.debug.xcconfig"; path = "Target Support Files/Pods-StitchAWSS3ServiceTests/Pods-StitchAWSS3ServiceTests.debug.xcconfig"; sourceTree = "<group>"; };
 		3B9490BC64BC60BDF2DC470C /* Pods-StitchAWSS3Service.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchAWSS3Service.release.xcconfig"; path = "Target Support Files/Pods-StitchAWSS3Service/Pods-StitchAWSS3Service.release.xcconfig"; sourceTree = "<group>"; };
 		494335A52190FD02005B170D /* StitchDarwinCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchDarwinCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		494335B521923621005B170D /* StitchCoreAdminClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAdminClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		498E55E52190B8A600A02A03 /* StitchCoreAWSS3Service.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAWSS3Service.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		534DC9152139EE4259E541BB /* Pods-StitchAWSS3Service.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchAWSS3Service.debug.xcconfig"; path = "Target Support Files/Pods-StitchAWSS3Service/Pods-StitchAWSS3Service.debug.xcconfig"; sourceTree = "<group>"; };
 		6F0A9D9236CC3A93CA0B2AC1 /* libPods-StitchAWSS3Service.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchAWSS3Service.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -85,6 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				494335B621923621005B170D /* StitchCoreAdminClient.framework in Frameworks */,
 				494335A62190FD02005B170D /* StitchDarwinCoreTestUtils.framework in Frameworks */,
 				11405A7E20C5A01E0041105B /* StitchAWSS3Service.framework in Frameworks */,
 				B83E80C0A76CC161BC056AB4 /* libPods-StitchAWSS3ServiceTests.a in Frameworks */,
@@ -138,6 +141,7 @@
 		11405A8E20C5A0AC0041105B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				494335B521923621005B170D /* StitchCoreAdminClient.framework */,
 				494335A52190FD02005B170D /* StitchDarwinCoreTestUtils.framework */,
 				498E55E52190B8A600A02A03 /* StitchCoreAWSS3Service.framework */,
 				6F0A9D9236CC3A93CA0B2AC1 /* libPods-StitchAWSS3Service.a */,
@@ -577,7 +581,14 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "\"$(SRCROOT)/../../../Frameworks/macos\" $(inherited) @executable_path/Frameworks @loader_path/Frameworks $(inherited) @executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"\"$(SRCROOT)/../../../Frameworks/macos\"",
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchAWSS3ServiceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";

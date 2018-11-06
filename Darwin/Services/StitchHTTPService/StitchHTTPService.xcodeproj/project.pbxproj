@@ -11,6 +11,7 @@
 		118C33B320C72B7B00D1DE80 /* HTTPServiceClientIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118C33B220C72B7B00D1DE80 /* HTTPServiceClientIntTests.swift */; };
 		118C33C920C72DE300D1DE80 /* HTTPServiceClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118C33C820C72DE300D1DE80 /* HTTPServiceClientImpl.swift */; };
 		118C33CB20C72DF400D1DE80 /* HTTPServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118C33CA20C72DF400D1DE80 /* HTTPServiceClient.swift */; };
+		494335B0219235F6005B170D /* StitchDarwinCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494335AF219235F6005B170D /* StitchDarwinCoreTestUtils.framework */; };
 		498E55D42190B7B100A02A03 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E55D32190B7B100A02A03 /* StitchCore.framework */; };
 		498E55EA2190B90600A02A03 /* StitchCoreHTTPService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E55E92190B90600A02A03 /* StitchCoreHTTPService.framework */; };
 		631A0602BAE58AA9DCB295FB /* libPods-StitchHTTPService.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C3AAC72D7321D12F1F4D2438 /* libPods-StitchHTTPService.a */; };
@@ -62,6 +63,7 @@
 		118C33CA20C72DF400D1DE80 /* HTTPServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServiceClient.swift; sourceTree = "<group>"; };
 		364CF96BEB69A87AD6F15B71 /* Pods-StitchHTTPServiceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchHTTPServiceTests.debug.xcconfig"; path = "Target Support Files/Pods-StitchHTTPServiceTests/Pods-StitchHTTPServiceTests.debug.xcconfig"; sourceTree = "<group>"; };
 		3DD880E8BA68690EE6558494 /* Pods-StitchHTTPService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchHTTPService.debug.xcconfig"; path = "Target Support Files/Pods-StitchHTTPService/Pods-StitchHTTPService.debug.xcconfig"; sourceTree = "<group>"; };
+		494335AF219235F6005B170D /* StitchDarwinCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchDarwinCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		498E55D32190B7B100A02A03 /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		498E55E92190B90600A02A03 /* StitchCoreHTTPService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreHTTPService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7574258A04E8F3E791ACAB3E /* Pods-StitchHTTPService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchHTTPService.release.xcconfig"; path = "Target Support Files/Pods-StitchHTTPService/Pods-StitchHTTPService.release.xcconfig"; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				494335B0219235F6005B170D /* StitchDarwinCoreTestUtils.framework in Frameworks */,
 				498E55EA2190B90600A02A03 /* StitchCoreHTTPService.framework in Frameworks */,
 				498E55D42190B7B100A02A03 /* StitchCore.framework in Frameworks */,
 				631A0602BAE58AA9DCB295FB /* libPods-StitchHTTPService.a in Frameworks */,
@@ -134,6 +137,7 @@
 		118C33BE20C72B9500D1DE80 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				494335AF219235F6005B170D /* StitchDarwinCoreTestUtils.framework */,
 				498E55E92190B90600A02A03 /* StitchCoreHTTPService.framework */,
 				498E55D32190B7B100A02A03 /* StitchCore.framework */,
 				C3AAC72D7321D12F1F4D2438 /* libPods-StitchHTTPService.a */,
