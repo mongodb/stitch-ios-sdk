@@ -6,8 +6,13 @@ target :MockUtils do
     project 'MockUtils/MockUtils.xcodeproj'
 end
 
+json_web_token_podspec = 'https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/6/1/a/JSONWebToken/2.2.0/JSONWebToken.podspec.json'
+swifter_podspec = 'https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/4/2/2/Swifter/1.4.5/Swifter.podspec.json'
+mongo_swift_podspec = 'https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/4/5/d/MongoSwift/0.0.5/MongoSwift.podspec.json'
+mongo_mobile_podspec = 'https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/9/5/d/MongoMobile/0.0.3/MongoMobile.podspec.json'
+
 target :StitchCoreSDK do
-    pod 'MongoSwift', '~> 0.0.5'
+    pod 'MongoSwift', :podspec => mongo_swift_podspec
 
     project 'Core/StitchCoreSDK/StitchCoreSDK.xcodeproj'
 
@@ -22,9 +27,9 @@ target :StitchCoreSDK do
     end
 
     target :StitchCoreSDKTests do
-        pod 'JSONWebToken', '2.2.0'
-        pod 'Swifter', '1.4.5'
-        pod 'MongoSwift', '~> 0.0.5'
+        pod 'JSONWebToken', :podspec => json_web_token_podspec
+        pod 'Swifter', :podspec => swifter_podspec
+        pod 'MongoSwift', :podspec => mongo_swift_podspec
 
         inherit! :search_paths
     end
@@ -34,7 +39,7 @@ target :StitchCoreSDK do
         inherit! :search_paths
 
         target :StitchCoreFCMServiceTests do
-            pod 'MongoSwift', '~> 0.0.5'
+            pod 'MongoSwift', :podspec => mongo_swift_podspec
             inherit! :search_paths
         end
     end
@@ -44,7 +49,7 @@ target :StitchCoreSDK do
         inherit! :search_paths
         
         target :StitchCoreTwilioServiceTests do
-            pod 'MongoSwift', '~> 0.0.5'
+            pod 'MongoSwift', :podspec => mongo_swift_podspec
             inherit! :search_paths
         end
     end
@@ -54,17 +59,17 @@ target :StitchCoreSDK do
         inherit! :search_paths
         
         target :StitchCoreRemoteMongoDBServiceTests do
-            pod 'MongoSwift', '~> 0.0.5'
+            pod 'MongoSwift', :podspec => mongo_swift_podspec
             inherit! :search_paths
         end
     end
 
     target :StitchCoreLocalMongoDBService do
         project 'Core/Services/StitchCoreLocalMongoDBService/StitchCoreLocalMongoDBService.xcodeproj'
-        pod 'MongoMobile', '~> 0.0.3'
+        pod 'MongoMobile', :podspec => mongo_mobile_podspec
 
         target :StitchCoreLocalMongoDBServiceTests do
-            pod 'MongoMobile', '~> 0.0.3'    
+            pod 'MongoMobile', :podspec => mongo_mobile_podspec
             inherit! :search_paths
         end
     end
@@ -74,7 +79,7 @@ target :StitchCoreSDK do
         inherit! :search_paths
 
         target :StitchCoreHTTPServiceTests do
-            pod 'MongoSwift', '~> 0.0.5'
+            pod 'MongoSwift', :podspec => mongo_swift_podspec
             inherit! :search_paths
         end
     end
@@ -84,7 +89,7 @@ target :StitchCoreSDK do
         inherit! :search_paths
 
         target :StitchCoreAWSSESServiceTests do
-            pod 'MongoSwift', '~> 0.0.5'
+            pod 'MongoSwift', :podspec => mongo_swift_podspec
             inherit! :search_paths
         end
     end
@@ -94,7 +99,7 @@ target :StitchCoreSDK do
         inherit! :search_paths
         
         target :StitchCoreAWSS3ServiceTests do
-            pod 'MongoSwift', '~> 0.0.5'
+            pod 'MongoSwift', :podspec => mongo_swift_podspec
             inherit! :search_paths
         end
     end
@@ -104,7 +109,7 @@ target :StitchCoreSDK do
         inherit! :search_paths
 
         target :StitchCoreAWSServiceTests do
-            pod 'MongoSwift', '~> 0.0.5'
+            pod 'MongoSwift', :podspec => mongo_swift_podspec
             inherit! :search_paths
         end
     end
@@ -114,8 +119,8 @@ target :StitchCoreSDK do
         inherit! :search_paths
     
         target :StitchCoreTests do
-            pod 'JSONWebToken', '2.2.0'
-            pod 'MongoSwift', '~> 0.0.5'
+            pod 'JSONWebToken', :podspec => json_web_token_podspec
+            pod 'MongoSwift', :podspec => mongo_swift_podspec
     
             inherit! :search_paths
         end
@@ -126,7 +131,7 @@ target :StitchCoreSDK do
         inherit! :search_paths
     
         target :StitchDarwinCoreTestUtilsTests do
-            pod 'MongoSwift', '~> 0.0.5'
+            pod 'MongoSwift', :podspec => mongo_swift_podspec
     
             inherit! :search_paths
         end
@@ -137,7 +142,7 @@ target :StitchCoreSDK do
         inherit! :search_paths
     
         target :StitchTwilioServiceTests do
-            pod 'MongoSwift', '~> 0.0.5'
+            pod 'MongoSwift', :podspec => mongo_swift_podspec
     
             inherit! :search_paths
         end
@@ -148,7 +153,7 @@ target :StitchCoreSDK do
         inherit! :search_paths
     
         target :StitchRemoteMongoDBServiceTests do
-            pod 'MongoSwift', '~> 0.0.5'
+            pod 'MongoSwift', :podspec => mongo_swift_podspec
     
             inherit! :search_paths
         end
@@ -156,10 +161,10 @@ target :StitchCoreSDK do
     
     target :StitchLocalMongoDBService do
         project 'Darwin/Services/StitchLocalMongoDBService/StitchLocalMongoDBService.xcodeproj'
-        pod 'MongoMobile', '~> 0.0.3'
+        pod 'MongoMobile', :podspec => mongo_mobile_podspec
     
         target :StitchLocalMongoDBServiceTests do
-            pod 'MongoMobile', '~> 0.0.3'
+            pod 'MongoMobile', :podspec => mongo_mobile_podspec
     
             inherit! :search_paths
         end
@@ -170,7 +175,7 @@ target :StitchCoreSDK do
         inherit! :search_paths
     
         target :StitchHTTPServiceTests do
-            pod 'MongoSwift', '~> 0.0.5'
+            pod 'MongoSwift', :podspec => mongo_swift_podspec
     
             inherit! :search_paths
         end
@@ -181,7 +186,7 @@ target :StitchCoreSDK do
         inherit! :search_paths
     
         target :StitchFCMServiceTests do
-            pod 'MongoSwift', '~> 0.0.5'
+            pod 'MongoSwift', :podspec => mongo_swift_podspec
     
             inherit! :search_paths
         end
@@ -192,7 +197,7 @@ target :StitchCoreSDK do
         inherit! :search_paths
     
         target :StitchAWSSESServiceTests do
-            pod 'MongoSwift', '~> 0.0.5'
+            pod 'MongoSwift', :podspec => mongo_swift_podspec
     
             inherit! :search_paths
         end
@@ -203,7 +208,7 @@ target :StitchCoreSDK do
         inherit! :search_paths
     
         target :StitchAWSS3ServiceTests do
-            pod 'MongoSwift', '~> 0.0.5'
+            pod 'MongoSwift', :podspec => mongo_swift_podspec
     
             inherit! :search_paths
         end
@@ -214,7 +219,7 @@ target :StitchCoreSDK do
         inherit! :search_paths
     
         target :StitchAWSServiceTests do
-            pod 'MongoSwift', '~> 0.0.5'
+            pod 'MongoSwift', :podspec => mongo_swift_podspec
     
             inherit! :search_paths
         end

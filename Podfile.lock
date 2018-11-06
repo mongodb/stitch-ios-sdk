@@ -14,20 +14,24 @@ PODS:
   - Swifter (1.4.5)
 
 DEPENDENCIES:
-  - JSONWebToken (= 2.2.0)
+  - JSONWebToken (from `https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/6/1/a/JSONWebToken/2.2.0/JSONWebToken.podspec.json`)
   - MongoMobile (~> 0.0.3)
-  - MongoSwift (~> 0.0.5)
+  - MongoSwift (from `https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/4/5/d/MongoSwift/0.0.5/MongoSwift.podspec.json`)
   - Swifter (= 1.4.5)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
-    - JSONWebToken
     - mongo-embedded-c-driver
     - mongo_embedded
     - mongoc_embedded
     - MongoMobile
-    - MongoSwift
     - Swifter
+
+EXTERNAL SOURCES:
+  JSONWebToken:
+    :podspec: https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/6/1/a/JSONWebToken/2.2.0/JSONWebToken.podspec.json
+  MongoSwift:
+    :podspec: https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/4/5/d/MongoSwift/0.0.5/MongoSwift.podspec.json
 
 SPEC CHECKSUMS:
   JSONWebToken: 6fae32489632658d563dd6952a5c34020ea813e4
@@ -38,6 +42,6 @@ SPEC CHECKSUMS:
   MongoSwift: 91244e47a7b0167b2647a1922cd2776166c9ba5e
   Swifter: eb2bc1d192a1c09169c7fefd01971565fa940521
 
-PODFILE CHECKSUM: c9ac1c341e580bb15aad1ce2a54a04fba238bf1e
+PODFILE CHECKSUM: 01460be1d99f2ead0ff4993917fb70e3c44ffe06
 
 COCOAPODS: 1.6.0.beta.1
