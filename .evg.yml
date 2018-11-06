@@ -123,14 +123,15 @@ tasks:
             source ./creds
             if pgrep CoreSimulator; then pkill -9 CoreSimulator; fi
             export DEVELOPER_DIR=/Applications/Xcode9.2.app
-
+            xcodebuild -showsdks
+            exit
             cd stitch-ios-sdk
             export GEM_HOME=`pwd`
             export GEM_PATH=`pwd`
             locate cocoapods
             /opt/chef/embedded/bin/gem install cocoapods -v 1.6.0.beta.1 --install-dir ./
             bin/pod install
-            export SIM_UUID=$(xcrun simctl create stitch-iphone8 com.apple.CoreSimulator.SimDeviceType.iPhone-8 com.apple.CoreSimulator.SimRuntime.iOS-11.0)
+            export SIM_UUID=$(xcrun simctl create stitch-iphone8 com.apple.CoreSimulator.SimDeviceType.iPhone-8 com.apple.CoreSimulator.SimRuntime.iOS-11.2)
             xcrun simctl boot $SIM_UUID
             echo "booting SIMCTL $SIM_UUID"
             echo "...testing core"
