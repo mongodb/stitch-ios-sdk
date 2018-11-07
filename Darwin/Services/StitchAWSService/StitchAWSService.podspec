@@ -10,8 +10,8 @@ Pod::Spec.new do |spec|
       "Eric Daniels" => "eric.daniels@mongodb.com",
     }
     spec.source     = {
-      :git => "https://github.com/jsflax/stitch-ios-sdk.git",
-      :branch => "STITCH-1999" 
+      :git => "https://github.com/mongodb/stitch-ios-sdk.git",
+      :branch => "master", :tag => "4.1.0" 
       
     }
   
