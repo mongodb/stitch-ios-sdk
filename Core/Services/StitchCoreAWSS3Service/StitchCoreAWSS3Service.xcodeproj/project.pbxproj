@@ -1,0 +1,509 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		492FA72D21909308001DFD53 /* StitchCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 492FA72C21909308001DFD53 /* StitchCoreSDK.framework */; };
+		492FA72F21909338001DFD53 /* MockUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 492FA72E21909338001DFD53 /* MockUtils.framework */; };
+		492FA73321909351001DFD53 /* StitchCoreSDKMocks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 492FA73221909351001DFD53 /* StitchCoreSDKMocks.framework */; };
+		AE3FAAFB31BE9D7D55FFC622 /* libPods-StitchCoreAWSS3Service.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 471CBEEEDD51986508C0F591 /* libPods-StitchCoreAWSS3Service.a */; };
+		FDA5BEF356900B013C812B0F /* libPods-StitchCoreAWSS3ServiceTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 85603B760FB854A36EB63122 /* libPods-StitchCoreAWSS3ServiceTests.a */; };
+		OBJ_156 /* AWSS3PutObjectResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* AWSS3PutObjectResult.swift */; };
+		OBJ_157 /* AWSS3SignPolicyResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* AWSS3SignPolicyResult.swift */; };
+		OBJ_158 /* CoreAWSS3ServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* CoreAWSS3ServiceClient.swift */; };
+		OBJ_179 /* CoreAWSS3ServiceClientUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* CoreAWSS3ServiceClientUnitTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		492FA7302190934D001DFD53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "StitchCoreAWSS3Service::StitchCoreAWSS3Service";
+			remoteInfo = StitchCoreAWSS3Service;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		471CBEEEDD51986508C0F591 /* libPods-StitchCoreAWSS3Service.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchCoreAWSS3Service.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		492FA72C21909308001DFD53 /* StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		492FA72E21909338001DFD53 /* MockUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MockUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		492FA73221909351001DFD53 /* StitchCoreSDKMocks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDKMocks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		85603B760FB854A36EB63122 /* libPods-StitchCoreAWSS3ServiceTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchCoreAWSS3ServiceTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8AE65DBF0FEDA16C772F6698 /* Pods-StitchCoreAWSS3ServiceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAWSS3ServiceTests.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreAWSS3ServiceTests/Pods-StitchCoreAWSS3ServiceTests.debug.xcconfig"; sourceTree = "<group>"; };
+		8E1BB30389A35A84BE1AF07A /* Pods-StitchCoreAWSS3ServiceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAWSS3ServiceTests.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreAWSS3ServiceTests/Pods-StitchCoreAWSS3ServiceTests.release.xcconfig"; sourceTree = "<group>"; };
+		CA9B43070C5D4C3CCD5FF03C /* Pods-StitchCoreAWSS3Service.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAWSS3Service.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreAWSS3Service/Pods-StitchCoreAWSS3Service.debug.xcconfig"; sourceTree = "<group>"; };
+		EDAFC6CB655EF5ED56E8DBB9 /* Pods-StitchCoreAWSS3Service.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAWSS3Service.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreAWSS3Service/Pods-StitchCoreAWSS3Service.release.xcconfig"; sourceTree = "<group>"; };
+		OBJ_11 /* AWSS3PutObjectResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSS3PutObjectResult.swift; sourceTree = "<group>"; };
+		OBJ_12 /* AWSS3SignPolicyResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSS3SignPolicyResult.swift; sourceTree = "<group>"; };
+		OBJ_14 /* CoreAWSS3ServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAWSS3ServiceClient.swift; sourceTree = "<group>"; };
+		OBJ_17 /* CoreAWSS3ServiceClientUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAWSS3ServiceClientUnitTests.swift; sourceTree = "<group>"; };
+		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		StitchCoreAWSS3Service::StitchCoreAWSS3Service::Product /* StitchCoreAWSS3Service.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAWSS3Service.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		StitchCoreAWSS3Service::StitchCoreAWSS3ServiceTests::Product /* StitchCoreAWSS3ServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = StitchCoreAWSS3ServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		OBJ_159 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				492FA72D21909308001DFD53 /* StitchCoreSDK.framework in Frameworks */,
+				AE3FAAFB31BE9D7D55FFC622 /* libPods-StitchCoreAWSS3Service.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_180 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				492FA73321909351001DFD53 /* StitchCoreSDKMocks.framework in Frameworks */,
+				492FA72F21909338001DFD53 /* MockUtils.framework in Frameworks */,
+				FDA5BEF356900B013C812B0F /* libPods-StitchCoreAWSS3ServiceTests.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4FBCA86831B3A16DB214E8D8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				492FA73221909351001DFD53 /* StitchCoreSDKMocks.framework */,
+				492FA72E21909338001DFD53 /* MockUtils.framework */,
+				492FA72C21909308001DFD53 /* StitchCoreSDK.framework */,
+				471CBEEEDD51986508C0F591 /* libPods-StitchCoreAWSS3Service.a */,
+				85603B760FB854A36EB63122 /* libPods-StitchCoreAWSS3ServiceTests.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		967A443FE41DF4C66307A93C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				CA9B43070C5D4C3CCD5FF03C /* Pods-StitchCoreAWSS3Service.debug.xcconfig */,
+				EDAFC6CB655EF5ED56E8DBB9 /* Pods-StitchCoreAWSS3Service.release.xcconfig */,
+				8AE65DBF0FEDA16C772F6698 /* Pods-StitchCoreAWSS3ServiceTests.debug.xcconfig */,
+				8E1BB30389A35A84BE1AF07A /* Pods-StitchCoreAWSS3ServiceTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../../../Pods;
+			sourceTree = "<group>";
+		};
+		OBJ_10 /* StitchCoreAWSS3Service */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_11 /* AWSS3PutObjectResult.swift */,
+				OBJ_12 /* AWSS3SignPolicyResult.swift */,
+				OBJ_13 /* Internal */,
+			);
+			name = StitchCoreAWSS3Service;
+			path = Sources/StitchCoreAWSS3Service;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_129 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				StitchCoreAWSS3Service::StitchCoreAWSS3ServiceTests::Product /* StitchCoreAWSS3ServiceTests.xctest */,
+				StitchCoreAWSS3Service::StitchCoreAWSS3Service::Product /* StitchCoreAWSS3Service.framework */,
+			);
+			name = Products;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		OBJ_13 /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_14 /* CoreAWSS3ServiceClient.swift */,
+			);
+			path = Internal;
+			sourceTree = "<group>";
+		};
+		OBJ_15 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_16 /* StitchCoreAWSS3ServiceTests */,
+			);
+			name = Tests;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_16 /* StitchCoreAWSS3ServiceTests */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_17 /* CoreAWSS3ServiceClientUnitTests.swift */,
+			);
+			name = StitchCoreAWSS3ServiceTests;
+			path = Tests/StitchCoreAWSS3ServiceTests;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_5 = {
+			isa = PBXGroup;
+			children = (
+				OBJ_6 /* Package.swift */,
+				OBJ_9 /* Sources */,
+				OBJ_15 /* Tests */,
+				OBJ_129 /* Products */,
+				4FBCA86831B3A16DB214E8D8 /* Frameworks */,
+				967A443FE41DF4C66307A93C /* Pods */,
+			);
+			sourceTree = "<group>";
+		};
+		OBJ_9 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_10 /* StitchCoreAWSS3Service */,
+			);
+			name = Sources;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		StitchCoreAWSS3Service::StitchCoreAWSS3Service /* StitchCoreAWSS3Service */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_152 /* Build configuration list for PBXNativeTarget "StitchCoreAWSS3Service" */;
+			buildPhases = (
+				AB8DC98D6A85B4154F4D1752 /* [CP] Check Pods Manifest.lock */,
+				OBJ_155 /* Sources */,
+				OBJ_159 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StitchCoreAWSS3Service;
+			productName = StitchCoreAWSS3Service;
+			productReference = StitchCoreAWSS3Service::StitchCoreAWSS3Service::Product /* StitchCoreAWSS3Service.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		StitchCoreAWSS3Service::StitchCoreAWSS3ServiceTests /* StitchCoreAWSS3ServiceTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_175 /* Build configuration list for PBXNativeTarget "StitchCoreAWSS3ServiceTests" */;
+			buildPhases = (
+				91B085C23FFEB1AE3B95D583 /* [CP] Check Pods Manifest.lock */,
+				OBJ_178 /* Sources */,
+				OBJ_180 /* Frameworks */,
+				711A705E5AD5A78A7BCB4323 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				492FA7312190934D001DFD53 /* PBXTargetDependency */,
+			);
+			name = StitchCoreAWSS3ServiceTests;
+			productName = StitchCoreAWSS3ServiceTests;
+			productReference = StitchCoreAWSS3Service::StitchCoreAWSS3ServiceTests::Product /* StitchCoreAWSS3ServiceTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		OBJ_1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 9999;
+			};
+			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "StitchCoreAWSS3Service" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = OBJ_5;
+			productRefGroup = OBJ_129 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				StitchCoreAWSS3Service::StitchCoreAWSS3Service /* StitchCoreAWSS3Service */,
+				StitchCoreAWSS3Service::StitchCoreAWSS3ServiceTests /* StitchCoreAWSS3ServiceTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		711A705E5AD5A78A7BCB4323 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-StitchCoreAWSS3ServiceTests/Pods-StitchCoreAWSS3ServiceTests-frameworks.sh",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework.dSYM",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework.dSYM",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/bson.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/bson.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongoc.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/mongoc.framework.dSYM",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-StitchCoreAWSS3ServiceTests/Pods-StitchCoreAWSS3ServiceTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		91B085C23FFEB1AE3B95D583 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-StitchCoreAWSS3ServiceTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AB8DC98D6A85B4154F4D1752 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-StitchCoreAWSS3Service-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		OBJ_155 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_156 /* AWSS3PutObjectResult.swift in Sources */,
+				OBJ_157 /* AWSS3SignPolicyResult.swift in Sources */,
+				OBJ_158 /* CoreAWSS3ServiceClient.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_178 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_179 /* CoreAWSS3ServiceClientUnitTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		492FA7312190934D001DFD53 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = StitchCoreAWSS3Service::StitchCoreAWSS3Service /* StitchCoreAWSS3Service */;
+			targetProxy = 492FA7302190934D001DFD53 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		OBJ_153 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CA9B43070C5D4C3CCD5FF03C /* Pods-StitchCoreAWSS3Service.debug.xcconfig */;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = StitchCoreAWSS3Service.xcodeproj/StitchCoreAWSS3Service_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = StitchCoreAWSS3Service;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 4.2;
+				TARGET_NAME = StitchCoreAWSS3Service;
+			};
+			name = Debug;
+		};
+		OBJ_154 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EDAFC6CB655EF5ED56E8DBB9 /* Pods-StitchCoreAWSS3Service.release.xcconfig */;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = StitchCoreAWSS3Service.xcodeproj/StitchCoreAWSS3Service_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = StitchCoreAWSS3Service;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 4.2;
+				TARGET_NAME = StitchCoreAWSS3Service;
+			};
+			name = Release;
+		};
+		OBJ_176 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8AE65DBF0FEDA16C772F6698 /* Pods-StitchCoreAWSS3ServiceTests.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = StitchCoreAWSS3Service.xcodeproj/StitchCoreAWSS3ServiceTests_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 4.2;
+				TARGET_NAME = StitchCoreAWSS3ServiceTests;
+			};
+			name = Debug;
+		};
+		OBJ_177 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8E1BB30389A35A84BE1AF07A /* Pods-StitchCoreAWSS3ServiceTests.release.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = StitchCoreAWSS3Service.xcodeproj/StitchCoreAWSS3ServiceTests_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 4.2;
+				TARGET_NAME = StitchCoreAWSS3ServiceTests;
+			};
+			name = Release;
+		};
+		OBJ_3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "-DXcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "SWIFT_PACKAGE DEBUG";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				USE_HEADERMAP = NO;
+			};
+			name = Debug;
+		};
+		OBJ_4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_OPTIMIZATION_LEVEL = s;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_SWIFT_FLAGS = "-DXcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = SWIFT_PACKAGE;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				USE_HEADERMAP = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		OBJ_152 /* Build configuration list for PBXNativeTarget "StitchCoreAWSS3Service" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_153 /* Debug */,
+				OBJ_154 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_175 /* Build configuration list for PBXNativeTarget "StitchCoreAWSS3ServiceTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_176 /* Debug */,
+				OBJ_177 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_2 /* Build configuration list for PBXProject "StitchCoreAWSS3Service" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_3 /* Debug */,
+				OBJ_4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = OBJ_1 /* Project object */;
+}

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scheme
+   LastUpgradeVersion = "1000"
+   version = "1.3">
+   <BuildAction
+      parallelizeBuildables = "YES"
+      buildImplicitDependencies = "YES">
+   </BuildAction>
+   <TestAction
+      buildConfiguration = "Debug"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      shouldUseLaunchSchemeArgsEnv = "YES">
+      <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "11405A7C20C5A01E0041105B"
+               BuildableName = "StitchAWSS3ServiceTests.xctest"
+               BlueprintName = "StitchAWSS3ServiceTests"
+               ReferencedContainer = "container:Darwin/Services/StitchAWSS3Service/StitchAWSS3Service.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "11B54E18211248D80009E0F0"
+               BuildableName = "StitchAWSServiceTests.xctest"
+               BlueprintName = "StitchAWSServiceTests"
+               ReferencedContainer = "container:Darwin/Services/StitchAWSService/StitchAWSService.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "110188B120C1E2B700C4C119"
+               BuildableName = "StitchAWSSESServiceTests.xctest"
+               BlueprintName = "StitchAWSSESServiceTests"
+               ReferencedContainer = "container:Darwin/Services/StitchAWSSESService/StitchAWSSESService.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "11981A182062C4AA0074BB11"
+               BuildableName = "StitchCoreTests.xctest"
+               BlueprintName = "StitchCoreTests"
+               ReferencedContainer = "container:Darwin/StitchCore/StitchCore.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "119F124920D218D6009B1CF5"
+               BuildableName = "StitchFCMServiceTests.xctest"
+               BlueprintName = "StitchFCMServiceTests"
+               ReferencedContainer = "container:Darwin/Services/StitchFCMService/StitchFCMService.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "118C33AC20C72B7B00D1DE80"
+               BuildableName = "StitchHTTPServiceTests.xctest"
+               BlueprintName = "StitchHTTPServiceTests"
+               ReferencedContainer = "container:Darwin/Services/StitchHTTPService/StitchHTTPService.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F4DA279A20D1C64600852314"
+               BuildableName = "StitchLocalMongoDBServiceTests.xctest"
+               BlueprintName = "StitchLocalMongoDBServiceTests"
+               ReferencedContainer = "container:Darwin/Services/StitchLocalMongoDBService/StitchLocalMongoDBService.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "1169217020C9D04C00930DD8"
+               BuildableName = "StitchRemoteMongoDBServiceTests.xctest"
+               BlueprintName = "StitchRemoteMongoDBServiceTests"
+               ReferencedContainer = "container:Darwin/Services/StitchRemoteMongoDBService/StitchRemoteMongoDBService.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F4D7CCE220AA0DC1003AA921"
+               BuildableName = "StitchTwilioServiceTests.xctest"
+               BlueprintName = "StitchTwilioServiceTests"
+               ReferencedContainer = "container:Darwin/Services/StitchTwilioService/StitchTwilioService.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
+      <AdditionalOptions>
+      </AdditionalOptions>
+   </TestAction>
+   <LaunchAction
+      buildConfiguration = "Debug"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      launchStyle = "0"
+      useCustomWorkingDirectory = "NO"
+      ignoresPersistentStateOnLaunch = "NO"
+      debugDocumentVersioning = "YES"
+      debugServiceExtension = "internal"
+      allowLocationSimulation = "YES">
+      <AdditionalOptions>
+      </AdditionalOptions>
+   </LaunchAction>
+   <ProfileAction
+      buildConfiguration = "Release"
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      savedToolIdentifier = ""
+      useCustomWorkingDirectory = "NO"
+      debugDocumentVersioning = "YES">
+   </ProfileAction>
+   <AnalyzeAction
+      buildConfiguration = "Debug">
+   </AnalyzeAction>
+   <ArchiveAction
+      buildConfiguration = "Release"
+      revealArchiveInOrganizer = "YES">
+   </ArchiveAction>
+</Scheme>

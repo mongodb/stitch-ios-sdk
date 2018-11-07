@@ -30,6 +30,7 @@ public final class FoundationHTTPTransport: Transport {
 
         if request.method != .get, let data = request.body {
             urlRequest.httpBody = data
+            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         }
 
         let sema = DispatchSemaphore(value: 0)

@@ -38,7 +38,7 @@ public final class CoreAWSS3ServiceClient {
         case .bsonBinary(let binaryVal):
             args[bodyKey] = binaryVal
         case .data(let dataVal):
-            args[bodyKey] = Binary.init(data: dataVal, subtype: .binary)
+            args[bodyKey] = try Binary.init(data: dataVal, subtype: .binaryDeprecated)
         }
         
         return try self.service.callFunction(

@@ -127,7 +127,7 @@ internal final class StitchAppClientImpl: StitchAppClient {
     // MARK: Functions
 
     public func callFunction(withName name: String,
-                             withArgs args: [BsonValue],
+                             withArgs args: [BSONValue],
                              _ completionHandler: @escaping (StitchResult<Void>) -> Void) {
         self.dispatcher.run(withCompletionHandler: completionHandler) {
             return try self.coreClient.callFunction(withName: name, withArgs: args)
@@ -135,7 +135,7 @@ internal final class StitchAppClientImpl: StitchAppClient {
     }
 
     public func callFunction<T: Decodable>(withName name: String,
-                                           withArgs args: [BsonValue],
+                                           withArgs args: [BSONValue],
                                            _ completionHandler: @escaping (StitchResult<T>) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
             return try self.coreClient.callFunction(withName: name,
@@ -144,7 +144,7 @@ internal final class StitchAppClientImpl: StitchAppClient {
     }
 
     public func callFunction(withName name: String,
-                             withArgs args: [BsonValue],
+                             withArgs args: [BSONValue],
                              withRequestTimeout requestTimeout: TimeInterval,
                              _ completionHandler: @escaping (StitchResult<Void>) -> Void) {
         self.dispatcher.run(withCompletionHandler: completionHandler) {
@@ -156,7 +156,7 @@ internal final class StitchAppClientImpl: StitchAppClient {
     }
 
     public func callFunction<T: Decodable>(withName name: String,
-                                           withArgs args: [BsonValue],
+                                           withArgs args: [BSONValue],
                                            withRequestTimeout requestTimeout: TimeInterval,
                                            _ completionHandler: @escaping (StitchResult<T>) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {

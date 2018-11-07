@@ -8,14 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		1159637620D028FF00B0179B /* StitchHTTPServiceExports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1159637520D028FF00B0179B /* StitchHTTPServiceExports.swift */; };
-		118C33AE20C72B7B00D1DE80 /* StitchHTTPService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 118C33A420C72B7B00D1DE80 /* StitchHTTPService.framework */; };
 		118C33B320C72B7B00D1DE80 /* HTTPServiceClientIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118C33B220C72B7B00D1DE80 /* HTTPServiceClientIntTests.swift */; };
 		118C33C920C72DE300D1DE80 /* HTTPServiceClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118C33C820C72DE300D1DE80 /* HTTPServiceClientImpl.swift */; };
 		118C33CB20C72DF400D1DE80 /* HTTPServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118C33CA20C72DF400D1DE80 /* HTTPServiceClient.swift */; };
-		11CF5D9720CF75F7006D57BA /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11CF5D9620CF75F7006D57BA /* StitchCore.framework */; };
-		11CF5D9920CF75F7006D57BA /* StitchCoreHTTPService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11CF5D9820CF75F7006D57BA /* StitchCoreHTTPService.framework */; };
-		11CF5D9B20CF760B006D57BA /* StitchCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11CF5D9A20CF760B006D57BA /* StitchCoreTestUtils.framework */; };
-		11CF5D9D20CF760B006D57BA /* StitchDarwinCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11CF5D9C20CF760B006D57BA /* StitchDarwinCoreTestUtils.framework */; };
+		494335B0219235F6005B170D /* StitchDarwinCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494335AF219235F6005B170D /* StitchDarwinCoreTestUtils.framework */; };
+		498E55D42190B7B100A02A03 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E55D32190B7B100A02A03 /* StitchCore.framework */; };
+		498E55EA2190B90600A02A03 /* StitchCoreHTTPService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E55E92190B90600A02A03 /* StitchCoreHTTPService.framework */; };
+		631A0602BAE58AA9DCB295FB /* libPods-StitchHTTPService.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C3AAC72D7321D12F1F4D2438 /* libPods-StitchHTTPService.a */; };
+		F5EB5C89283A0526A20AA445 /* libPods-StitchHTTPServiceTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A823B976552B5BC39C96FF0D /* libPods-StitchHTTPServiceTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,22 +52,23 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		06606F6DE00C89086610AF08 /* Pods-StitchHTTPServiceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchHTTPServiceTests.release.xcconfig"; path = "Target Support Files/Pods-StitchHTTPServiceTests/Pods-StitchHTTPServiceTests.release.xcconfig"; sourceTree = "<group>"; };
 		1159637520D028FF00B0179B /* StitchHTTPServiceExports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchHTTPServiceExports.swift; sourceTree = "<group>"; };
 		118C33A420C72B7B00D1DE80 /* StitchHTTPService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StitchHTTPService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		118C33A820C72B7B00D1DE80 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		118C33AD20C72B7B00D1DE80 /* StitchHTTPServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StitchHTTPServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		118C33B220C72B7B00D1DE80 /* HTTPServiceClientIntTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServiceClientIntTests.swift; sourceTree = "<group>"; };
 		118C33B420C72B7B00D1DE80 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		118C33BF20C72B9500D1DE80 /* StitchCore_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		118C33C120C72B9500D1DE80 /* StitchCoreServicesHttp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreServicesHttp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		118C33C320C72BA700D1DE80 /* StitchCoreTestUtils_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTestUtils_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		118C33C520C72BA700D1DE80 /* StitchCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		118C33C820C72DE300D1DE80 /* HTTPServiceClientImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServiceClientImpl.swift; sourceTree = "<group>"; };
 		118C33CA20C72DF400D1DE80 /* HTTPServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServiceClient.swift; sourceTree = "<group>"; };
-		11CF5D9620CF75F7006D57BA /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		11CF5D9820CF75F7006D57BA /* StitchCoreHTTPService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreHTTPService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		11CF5D9A20CF760B006D57BA /* StitchCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		11CF5D9C20CF760B006D57BA /* StitchDarwinCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchDarwinCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		364CF96BEB69A87AD6F15B71 /* Pods-StitchHTTPServiceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchHTTPServiceTests.debug.xcconfig"; path = "Target Support Files/Pods-StitchHTTPServiceTests/Pods-StitchHTTPServiceTests.debug.xcconfig"; sourceTree = "<group>"; };
+		3DD880E8BA68690EE6558494 /* Pods-StitchHTTPService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchHTTPService.debug.xcconfig"; path = "Target Support Files/Pods-StitchHTTPService/Pods-StitchHTTPService.debug.xcconfig"; sourceTree = "<group>"; };
+		494335AF219235F6005B170D /* StitchDarwinCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchDarwinCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		498E55D32190B7B100A02A03 /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		498E55E92190B90600A02A03 /* StitchCoreHTTPService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreHTTPService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7574258A04E8F3E791ACAB3E /* Pods-StitchHTTPService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchHTTPService.release.xcconfig"; path = "Target Support Files/Pods-StitchHTTPService/Pods-StitchHTTPService.release.xcconfig"; sourceTree = "<group>"; };
+		A823B976552B5BC39C96FF0D /* libPods-StitchHTTPServiceTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchHTTPServiceTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C3AAC72D7321D12F1F4D2438 /* libPods-StitchHTTPService.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchHTTPService.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,8 +76,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				11CF5D9720CF75F7006D57BA /* StitchCore.framework in Frameworks */,
-				11CF5D9920CF75F7006D57BA /* StitchCoreHTTPService.framework in Frameworks */,
+				494335B0219235F6005B170D /* StitchDarwinCoreTestUtils.framework in Frameworks */,
+				498E55EA2190B90600A02A03 /* StitchCoreHTTPService.framework in Frameworks */,
+				498E55D42190B7B100A02A03 /* StitchCore.framework in Frameworks */,
+				631A0602BAE58AA9DCB295FB /* libPods-StitchHTTPService.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,9 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				11CF5D9B20CF760B006D57BA /* StitchCoreTestUtils.framework in Frameworks */,
-				11CF5D9D20CF760B006D57BA /* StitchDarwinCoreTestUtils.framework in Frameworks */,
-				118C33AE20C72B7B00D1DE80 /* StitchHTTPService.framework in Frameworks */,
+				F5EB5C89283A0526A20AA445 /* libPods-StitchHTTPServiceTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,6 +101,7 @@
 				118C33B120C72B7B00D1DE80 /* StitchHTTPServiceTests */,
 				118C33A520C72B7B00D1DE80 /* Products */,
 				118C33BE20C72B9500D1DE80 /* Frameworks */,
+				39F2BCD9E0B743A75DE7EA2D /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -135,14 +137,11 @@
 		118C33BE20C72B9500D1DE80 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				11CF5D9A20CF760B006D57BA /* StitchCoreTestUtils.framework */,
-				11CF5D9C20CF760B006D57BA /* StitchDarwinCoreTestUtils.framework */,
-				11CF5D9620CF75F7006D57BA /* StitchCore.framework */,
-				11CF5D9820CF75F7006D57BA /* StitchCoreHTTPService.framework */,
-				118C33C320C72BA700D1DE80 /* StitchCoreTestUtils_iOS.framework */,
-				118C33C520C72BA700D1DE80 /* StitchCoreTestUtils.framework */,
-				118C33BF20C72B9500D1DE80 /* StitchCore_iOS.framework */,
-				118C33C120C72B9500D1DE80 /* StitchCoreServicesHttp.framework */,
+				494335AF219235F6005B170D /* StitchDarwinCoreTestUtils.framework */,
+				498E55E92190B90600A02A03 /* StitchCoreHTTPService.framework */,
+				498E55D32190B7B100A02A03 /* StitchCore.framework */,
+				C3AAC72D7321D12F1F4D2438 /* libPods-StitchHTTPService.a */,
+				A823B976552B5BC39C96FF0D /* libPods-StitchHTTPServiceTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -153,6 +152,18 @@
 				118C33C820C72DE300D1DE80 /* HTTPServiceClientImpl.swift */,
 			);
 			path = Internal;
+			sourceTree = "<group>";
+		};
+		39F2BCD9E0B743A75DE7EA2D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3DD880E8BA68690EE6558494 /* Pods-StitchHTTPService.debug.xcconfig */,
+				7574258A04E8F3E791ACAB3E /* Pods-StitchHTTPService.release.xcconfig */,
+				364CF96BEB69A87AD6F15B71 /* Pods-StitchHTTPServiceTests.debug.xcconfig */,
+				06606F6DE00C89086610AF08 /* Pods-StitchHTTPServiceTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../../../Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -172,6 +183,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 118C33B820C72B7B00D1DE80 /* Build configuration list for PBXNativeTarget "StitchHTTPService" */;
 			buildPhases = (
+				0C83C5A1A90805C2C839891D /* [CP] Check Pods Manifest.lock */,
 				118C339F20C72B7B00D1DE80 /* Sources */,
 				118C33A020C72B7B00D1DE80 /* Frameworks */,
 				118C33A120C72B7B00D1DE80 /* Headers */,
@@ -191,10 +203,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 118C33BB20C72B7B00D1DE80 /* Build configuration list for PBXNativeTarget "StitchHTTPServiceTests" */;
 			buildPhases = (
+				9B82E1200896426942287DC3 /* [CP] Check Pods Manifest.lock */,
 				118C33A920C72B7B00D1DE80 /* Sources */,
 				118C33AA20C72B7B00D1DE80 /* Frameworks */,
 				118C33AB20C72B7B00D1DE80 /* Resources */,
 				6F0B4FB29F4F1E9992D9B9C1 /* Embed Frameworks */,
+				BA7C78143ABFDCF2B5C12DE2 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -259,6 +273,81 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0C83C5A1A90805C2C839891D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-StitchHTTPService-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9B82E1200896426942287DC3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-StitchHTTPServiceTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BA7C78143ABFDCF2B5C12DE2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-StitchHTTPServiceTests/Pods-StitchHTTPServiceTests-frameworks.sh",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework.dSYM",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework.dSYM",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/bson.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/bson.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongoc.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/mongoc.framework.dSYM",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-StitchHTTPServiceTests/Pods-StitchHTTPServiceTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		118C339F20C72B7B00D1DE80 /* Sources */ = {
@@ -412,6 +501,7 @@
 		};
 		118C33B920C72B7B00D1DE80 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3DD880E8BA68690EE6558494 /* Pods-StitchHTTPService.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -421,13 +511,10 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../Frameworks/ios",
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = StitchHTTPService/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -440,13 +527,14 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		118C33BA20C72B7B00D1DE80 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7574258A04E8F3E791ACAB3E /* Pods-StitchHTTPService.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -456,13 +544,10 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../Frameworks/ios",
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = StitchHTTPService/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -474,22 +559,20 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchHTTPService;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
 		118C33BC20C72B7B00D1DE80 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 364CF96BEB69A87AD6F15B71 /* Pods-StitchHTTPServiceTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../Frameworks/ios",
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = StitchHTTPServiceTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -500,22 +583,20 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchHTTPService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		118C33BD20C72B7B00D1DE80 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 06606F6DE00C89086610AF08 /* Pods-StitchHTTPServiceTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../Frameworks/ios",
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = StitchHTTPServiceTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -526,7 +607,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchHTTPService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

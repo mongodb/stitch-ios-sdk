@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Frameworks">
+      location = "group:Podfile">
    </FileRef>
    <FileRef
       location = "group:MockUtils/MockUtils.xcodeproj">
@@ -39,13 +39,13 @@
          </FileRef>
       </Group>
       <FileRef
+         location = "group:Core/StitchCoreTestUtils/StitchCoreTestUtils.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:Core/StitchCoreAdminClient/StitchCoreAdminClient.xcodeproj">
       </FileRef>
       <FileRef
          location = "group:Core/StitchCoreSDK/StitchCoreSDK.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:Core/StitchCoreTestUtils/StitchCoreTestUtils.xcodeproj">
       </FileRef>
    </Group>
    <Group
@@ -102,4 +102,7 @@
          </FileRef>
       </Group>
    </Group>
+   <FileRef
+      location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
 </Workspace>

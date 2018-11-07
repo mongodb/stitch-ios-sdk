@@ -130,7 +130,7 @@ class AWSServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         XCTAssertEqual(body, String.init(data: httpResult.body!, encoding: .utf8))
         
         // ...with BSON binary parameter
-        let bodyBin = Binary(data: body.data(using: .utf8)!, subtype: .binary)
+        let bodyBin = try Binary(data: body.data(using: .utf8)!, subtype: .binaryDeprecated)
         
         let args3: Document = [
             "Bucket": bucketGood,

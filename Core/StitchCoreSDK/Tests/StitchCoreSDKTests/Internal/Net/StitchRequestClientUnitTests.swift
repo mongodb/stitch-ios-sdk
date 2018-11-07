@@ -67,8 +67,8 @@ class StitchRequestClientUnitTests: StitchXCTestCase {
         XCTAssertEqual(response.statusCode, 200)
         
         // TODO: uncomment when SWIFT-104 is completed
-        // let expected = ["hello": "world", "a": 42] as [String : BsonValue]
-        // XCTAssertEqual(expected, BsonDecoder().decode([String: BsonValue].self, from: response.body!))
+        // let expected = ["hello": "world", "a": 42] as [String : BSONValue]
+        // XCTAssertEqual(expected, BSONDecoder().decode([String: BSONValue].self, from: response.body!))
         
         transport.mockRoundTrip.clearStubs()
         
@@ -175,7 +175,7 @@ class StitchRequestClientUnitTests: StitchXCTestCase {
         )
         
         let path = "/path"
-        let document = Document.init(["my": 24])
+        let document: Document = ["my": 24]
         let builder = StitchDocRequestBuilder()
             .with(path: path)
             .with(method: .get)
@@ -229,8 +229,8 @@ class StitchRequestClientUnitTests: StitchXCTestCase {
         XCTAssertEqual(response.statusCode, 200)
         
         // TODO: uncomment when SWIFT-104 is completed
-        // let expected = ["hello": "world", "a": 42] as [String : BsonValue]
-        // XCTAssertEqual(expected, BsonDecoder().decode([String: BsonValue].self, from: response.body!))
+        // let expected = ["hello": "world", "a": 42] as [String : BSONValue]
+        // XCTAssertEqual(expected, BSONDecoder().decode([String: BSONValue].self, from: response.body!))
         
         transport.mockRoundTrip.clearStubs()
         

@@ -31,7 +31,7 @@ public final class CoreStitchAppClient {
      * name and arguments as parameters.
      */
     public func callFunction(withName name: String,
-                                     withArgs args: [BsonValue],
+                                     withArgs args: [BSONValue],
                                      withRequestTimeout requestTimeout: TimeInterval? = nil) throws {
         try self.functionService.callFunction(withName: name,
                                                       withArgs: args,
@@ -45,7 +45,7 @@ public final class CoreStitchAppClient {
      * - returns: A `T` representing the decoded JSON of the result of the function call.
      */
     public func callFunction<T: Decodable>(withName name: String,
-                                                   withArgs args: [BsonValue],
+                                                   withArgs args: [BSONValue],
                                                    withRequestTimeout requestTimeout: TimeInterval? = nil) throws -> T {
         return try self.functionService.callFunction(withName: name,
                                                              withArgs: args,

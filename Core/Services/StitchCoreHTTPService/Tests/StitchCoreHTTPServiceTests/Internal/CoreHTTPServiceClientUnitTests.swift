@@ -52,11 +52,11 @@ final class CoreHTTPServiceClientUnitTests: XCTestCase {
         let expectedArgs: Document = [
             "url": expectedURL,
             "authUrl": expectedAuthURL,
-            "headers": try BsonEncoder().encode(expectedHeaders),
-            "cookies": try BsonEncoder().encode(expectedCookies),
-            "body": Binary.init(data: expectedBody, subtype: .binary),
+            "headers": try BSONEncoder().encode(expectedHeaders),
+            "cookies": try BSONEncoder().encode(expectedCookies),
+            "body": try Binary.init(data: expectedBody, subtype: .binaryDeprecated),
             "encodeBodyAsJSON": false,
-            "form": try BsonEncoder().encode(expectedForm),
+            "form": try BSONEncoder().encode(expectedForm),
             "followRedirects": true
         ]
         

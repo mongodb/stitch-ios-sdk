@@ -1,0 +1,496 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2BF8E5124A4C1CBEE32577C3 /* libPods-StitchCoreSDK-StitchCoreLocalMongoDBService.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CC48C2ED7943472BA2D6C35F /* libPods-StitchCoreSDK-StitchCoreLocalMongoDBService.a */; };
+		498060BF2184DA7B00E2A3A2 /* StitchCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498060BE2184DA7B00E2A3A2 /* StitchCoreSDK.framework */; };
+		95CC8BE7CF95F82B361FB299 /* libPods-StitchCoreLocalMongoDBServiceTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45F93E1A05D7BF3C8B08753C /* libPods-StitchCoreLocalMongoDBServiceTests.a */; };
+		OBJ_115 /* CoreLocalMongoDBService.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* CoreLocalMongoDBService.swift */; };
+		OBJ_136 /* StitchCoreLocalMongoDBServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* StitchCoreLocalMongoDBServiceTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		4914D76C218398630037DB73 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBService";
+			remoteInfo = StitchCoreLocalMongoDBService;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		45F93E1A05D7BF3C8B08753C /* libPods-StitchCoreLocalMongoDBServiceTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchCoreLocalMongoDBServiceTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		498060BE2184DA7B00E2A3A2 /* StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4D18CB0F0E7121126DF36D4B /* Pods-StitchCoreSDK-StitchCoreLocalMongoDBService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreSDK-StitchCoreLocalMongoDBService.release.xcconfig"; path = "../../../../Pods/Target Support Files/Pods-StitchCoreSDK-StitchCoreLocalMongoDBService/Pods-StitchCoreSDK-StitchCoreLocalMongoDBService.release.xcconfig"; sourceTree = "<group>"; };
+		703E9241F9B5DE658584F7EB /* Pods-StitchCoreSDK-StitchCoreLocalMongoDBService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreSDK-StitchCoreLocalMongoDBService.debug.xcconfig"; path = "../../../../Pods/Target Support Files/Pods-StitchCoreSDK-StitchCoreLocalMongoDBService/Pods-StitchCoreSDK-StitchCoreLocalMongoDBService.debug.xcconfig"; sourceTree = "<group>"; };
+		A588309C8894208696B898CB /* Pods-StitchCoreLocalMongoDBServiceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreLocalMongoDBServiceTests.debug.xcconfig"; path = "../../../../Pods/Target Support Files/Pods-StitchCoreLocalMongoDBServiceTests/Pods-StitchCoreLocalMongoDBServiceTests.debug.xcconfig"; sourceTree = "<group>"; };
+		B39194A865969E8EE3930C1B /* Pods-StitchCoreLocalMongoDBServiceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreLocalMongoDBServiceTests.release.xcconfig"; path = "../../../../Pods/Target Support Files/Pods-StitchCoreLocalMongoDBServiceTests/Pods-StitchCoreLocalMongoDBServiceTests.release.xcconfig"; sourceTree = "<group>"; };
+		CC48C2ED7943472BA2D6C35F /* libPods-StitchCoreSDK-StitchCoreLocalMongoDBService.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchCoreSDK-StitchCoreLocalMongoDBService.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		OBJ_11 /* CoreLocalMongoDBService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreLocalMongoDBService.swift; sourceTree = "<group>"; };
+		OBJ_14 /* StitchCoreLocalMongoDBServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchCoreLocalMongoDBServiceTests.swift; sourceTree = "<group>"; };
+		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBService::Product /* StitchCoreLocalMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreLocalMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBServiceTests::Product /* StitchCoreLocalMongoDBServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = StitchCoreLocalMongoDBServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		OBJ_116 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				498060BF2184DA7B00E2A3A2 /* StitchCoreSDK.framework in Frameworks */,
+				2BF8E5124A4C1CBEE32577C3 /* libPods-StitchCoreSDK-StitchCoreLocalMongoDBService.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_137 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				95CC8BE7CF95F82B361FB299 /* libPods-StitchCoreLocalMongoDBServiceTests.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2461172E745C587D15DB2378 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				498060BE2184DA7B00E2A3A2 /* StitchCoreSDK.framework */,
+				45F93E1A05D7BF3C8B08753C /* libPods-StitchCoreLocalMongoDBServiceTests.a */,
+				CC48C2ED7943472BA2D6C35F /* libPods-StitchCoreSDK-StitchCoreLocalMongoDBService.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C15893C6B3D3C8D0031DD38A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A588309C8894208696B898CB /* Pods-StitchCoreLocalMongoDBServiceTests.debug.xcconfig */,
+				B39194A865969E8EE3930C1B /* Pods-StitchCoreLocalMongoDBServiceTests.release.xcconfig */,
+				703E9241F9B5DE658584F7EB /* Pods-StitchCoreSDK-StitchCoreLocalMongoDBService.debug.xcconfig */,
+				4D18CB0F0E7121126DF36D4B /* Pods-StitchCoreSDK-StitchCoreLocalMongoDBService.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		OBJ_10 /* StitchCoreLocalMongoDBService */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_11 /* CoreLocalMongoDBService.swift */,
+			);
+			name = StitchCoreLocalMongoDBService;
+			path = Sources/StitchCoreLocalMongoDBService;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_106 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBService::Product /* StitchCoreLocalMongoDBService.framework */,
+				StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBServiceTests::Product /* StitchCoreLocalMongoDBServiceTests.xctest */,
+			);
+			name = Products;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		OBJ_12 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_13 /* StitchCoreLocalMongoDBServiceTests */,
+			);
+			name = Tests;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_13 /* StitchCoreLocalMongoDBServiceTests */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_14 /* StitchCoreLocalMongoDBServiceTests.swift */,
+			);
+			name = StitchCoreLocalMongoDBServiceTests;
+			path = Tests/StitchCoreLocalMongoDBServiceTests;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_5 = {
+			isa = PBXGroup;
+			children = (
+				OBJ_6 /* Package.swift */,
+				OBJ_9 /* Sources */,
+				OBJ_12 /* Tests */,
+				OBJ_106 /* Products */,
+				C15893C6B3D3C8D0031DD38A /* Pods */,
+				2461172E745C587D15DB2378 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		OBJ_9 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_10 /* StitchCoreLocalMongoDBService */,
+			);
+			name = Sources;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBService /* StitchCoreLocalMongoDBService */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_111 /* Build configuration list for PBXNativeTarget "StitchCoreLocalMongoDBService" */;
+			buildPhases = (
+				E5F5FD9BFF29ECD22828164D /* [CP] Check Pods Manifest.lock */,
+				OBJ_114 /* Sources */,
+				OBJ_116 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StitchCoreLocalMongoDBService;
+			productName = StitchCoreLocalMongoDBService;
+			productReference = StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBService::Product /* StitchCoreLocalMongoDBService.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBServiceTests /* StitchCoreLocalMongoDBServiceTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_132 /* Build configuration list for PBXNativeTarget "StitchCoreLocalMongoDBServiceTests" */;
+			buildPhases = (
+				E41FD84385008CE871FD033F /* [CP] Check Pods Manifest.lock */,
+				OBJ_135 /* Sources */,
+				OBJ_137 /* Frameworks */,
+				26372DA86BD7ECE38C9CFB6F /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				OBJ_140 /* PBXTargetDependency */,
+			);
+			name = StitchCoreLocalMongoDBServiceTests;
+			productName = StitchCoreLocalMongoDBServiceTests;
+			productReference = StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBServiceTests::Product /* StitchCoreLocalMongoDBServiceTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		OBJ_1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 9999;
+			};
+			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "StitchCoreLocalMongoDBService" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = OBJ_5;
+			productRefGroup = OBJ_106 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBService /* StitchCoreLocalMongoDBService */,
+				StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBServiceTests /* StitchCoreLocalMongoDBServiceTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		26372DA86BD7ECE38C9CFB6F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-StitchCoreLocalMongoDBServiceTests/Pods-StitchCoreLocalMongoDBServiceTests-frameworks.sh",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework.dSYM",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework.dSYM",
+				"${PODS_ROOT}/mongo_embedded/iPhoneOS/Frameworks/mongo_embedded.framework",
+				"${PODS_ROOT}/mongo_embedded/iPhoneOS/Frameworks/mongo_embedded.framework.dSYM",
+				"${PODS_ROOT}/mongoc_embedded/iPhoneOS/Frameworks/mongoc_embedded.framework",
+				"${PODS_ROOT}/mongoc_embedded/iPhoneOS/Frameworks/mongoc_embedded.framework.dSYM",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/bson.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/bson.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongoc.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/mongoc.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongo_embedded.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/mongo_embedded.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongoc_embedded.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/mongoc_embedded.framework.dSYM",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-StitchCoreLocalMongoDBServiceTests/Pods-StitchCoreLocalMongoDBServiceTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E41FD84385008CE871FD033F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-StitchCoreLocalMongoDBServiceTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E5F5FD9BFF29ECD22828164D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-StitchCoreSDK-StitchCoreLocalMongoDBService-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		OBJ_114 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_115 /* CoreLocalMongoDBService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_135 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_136 /* StitchCoreLocalMongoDBServiceTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		OBJ_140 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBService /* StitchCoreLocalMongoDBService */;
+			targetProxy = 4914D76C218398630037DB73 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		OBJ_112 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 703E9241F9B5DE658584F7EB /* Pods-StitchCoreSDK-StitchCoreLocalMongoDBService.debug.xcconfig */;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = StitchCoreLocalMongoDBService.xcodeproj/StitchCoreLocalMongoDBService_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = StitchCoreLocalMongoDBService;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 4.2;
+				TARGET_NAME = StitchCoreLocalMongoDBService;
+			};
+			name = Debug;
+		};
+		OBJ_113 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4D18CB0F0E7121126DF36D4B /* Pods-StitchCoreSDK-StitchCoreLocalMongoDBService.release.xcconfig */;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = StitchCoreLocalMongoDBService.xcodeproj/StitchCoreLocalMongoDBService_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = StitchCoreLocalMongoDBService;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 4.2;
+				TARGET_NAME = StitchCoreLocalMongoDBService;
+			};
+			name = Release;
+		};
+		OBJ_133 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A588309C8894208696B898CB /* Pods-StitchCoreLocalMongoDBServiceTests.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = StitchCoreLocalMongoDBService.xcodeproj/StitchCoreLocalMongoDBServiceTests_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 4.2;
+				TARGET_NAME = StitchCoreLocalMongoDBServiceTests;
+			};
+			name = Debug;
+		};
+		OBJ_134 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B39194A865969E8EE3930C1B /* Pods-StitchCoreLocalMongoDBServiceTests.release.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = StitchCoreLocalMongoDBService.xcodeproj/StitchCoreLocalMongoDBServiceTests_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 4.2;
+				TARGET_NAME = StitchCoreLocalMongoDBServiceTests;
+			};
+			name = Release;
+		};
+		OBJ_3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "-DXcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "SWIFT_PACKAGE DEBUG";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				USE_HEADERMAP = NO;
+			};
+			name = Debug;
+		};
+		OBJ_4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_OPTIMIZATION_LEVEL = s;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_SWIFT_FLAGS = "-DXcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = SWIFT_PACKAGE;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				USE_HEADERMAP = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		OBJ_111 /* Build configuration list for PBXNativeTarget "StitchCoreLocalMongoDBService" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_112 /* Debug */,
+				OBJ_113 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_132 /* Build configuration list for PBXNativeTarget "StitchCoreLocalMongoDBServiceTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_133 /* Debug */,
+				OBJ_134 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_2 /* Build configuration list for PBXProject "StitchCoreLocalMongoDBService" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_3 /* Debug */,
+				OBJ_4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = OBJ_1 /* Project object */;
+}

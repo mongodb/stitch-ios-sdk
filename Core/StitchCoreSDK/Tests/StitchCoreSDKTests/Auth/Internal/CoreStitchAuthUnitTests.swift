@@ -140,8 +140,8 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         let expectedRequest: StitchDocRequestBuilder = StitchDocRequestBuilder()
             .with(method: .post)
             .with(path: routes.authProviderLoginRoute(withProviderName: AnonymousAuthProvider.defaultName))
-            .with(document: ["options": Document.init(["device": Document.init()])])
-        
+            .with(document: ["options": ["device": Document.init()] as Document])
+
         XCTAssertEqual(try expectedRequest.build() as StitchRequest,
                        requestClient.doRequestMock.capturedInvocations[0])
         
@@ -279,9 +279,8 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         requestClient.doRequestMock.doReturn(
             result: Response.init(statusCode: 200,
                                   headers: baseJSONHeaders,
-                                  body: Document.init(
-                                    ["access_token": refreshedToken]
-                                  ).canonicalExtendedJSON.data(using: .utf8)),
+                                  body: (["access_token": refreshedToken] as Document)
+                                    .canonicalExtendedJSON.data(using: .utf8)),
             forArg: Matcher<StitchRequest>.with(condition: { req -> Bool in
                 return req.path.hasSuffix("/session") && req.method == .post
             })
@@ -386,7 +385,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
             authRoutes: routes,
             storage: MemoryStorage.init()
         )
-        
+
         _ = try auth.loginWithCredentialInternal(withCredential: AnonymousCredential())
         
         let reqBuilder = StitchAuthDocRequestBuilder()
@@ -424,23 +423,26 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         // Check that BSON documents returned as extended JSON can be decoded
         let expectedObjectId = ObjectId()
         let docRaw = """
-                     {
-                         "_id": { "$oid": "\(expectedObjectId.description)"},
-                         "intValue": { "$numberInt": "42" }
-                     }
-                     """
-        
+        {
+            "_id": {
+                "$oid": "\(expectedObjectId.description)"
+            },
+            "intValue": {
+                "$numberInt": "42"
+            }
+        }
+        """
+
         requestClient.doRequestMock.clearStubs()
         requestClient.doRequestMock.doReturn(
             result: Response(statusCode: 200, headers: baseJSONHeaders, body: docRaw.data(using: .utf8)),
             forArg: .any
         )
-        
+
         let documentResult: Document = try auth.doAuthenticatedRequest(reqBuilder.build())
         XCTAssertEqual(expectedObjectId, try documentResult.get("_id"))
         XCTAssertEqual(42, try documentResult.get("intValue"))
-        
-        // Check that BSON documents returned as extended JSON can be decoded as a custom Decodable type
+
         let customObjResult: CustomType = try auth.doAuthenticatedRequest(reqBuilder.build())
         XCTAssertEqual(expectedObjectId, customObjResult.id)
         XCTAssertEqual(42, customObjResult.intValue)

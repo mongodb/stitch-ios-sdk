@@ -27,13 +27,11 @@ extension CoreStitchAuth {
                 let responseString = String.init(data: responseBody, encoding: .utf8) else {
                     throw StitchError.serviceError(
                         withMessage: StitchErrorCodable.genericErrorMessage(withStatusCode: response.statusCode),
-                        withServiceErrorCode: .unknown
-                    )
+                        withServiceErrorCode: .unknown)
             }
-            
+
             do {
-                // TODO: until Swift Driver decides on what to do
-                return try BsonDecoder().decode(T.self, from: responseString)
+                return try BSONDecoder().decode(T.self, from: responseString)
             } catch let err {
                 throw StitchError.requestError(withError: err, withRequestErrorCode: .decodingError)
             }

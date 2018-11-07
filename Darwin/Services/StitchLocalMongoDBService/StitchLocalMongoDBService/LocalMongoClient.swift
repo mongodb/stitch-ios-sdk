@@ -32,7 +32,7 @@ private let adminDatabaseName = "admin"
 /// Local MongoDB Service Provider
 private final class MobileMongoDBClientFactory: CoreLocalMongoDBService, ThrowingServiceClientFactory {
     typealias ClientType = MongoClient
-    
+
     /// Current battery level of this device between 0-100
     private var batteryLevel: Float {
         #if os(watchOS)
@@ -43,12 +43,12 @@ private final class MobileMongoDBClientFactory: CoreLocalMongoDBService, Throwin
         return UIDevice.current.batteryLevel
         #endif
     }
-    
+
     private var lastBatteryState: BatteryState = .unknown
-    
+
     fileprivate override init() {
         super.init()
-        
+
         #if os(iOS)
         UIDevice.current.isBatteryMonitoringEnabled = true
         if UIDevice.current.batteryLevel < 30 {
@@ -56,36 +56,60 @@ private final class MobileMongoDBClientFactory: CoreLocalMongoDBService, Throwin
         } else {
             self.lastBatteryState = .normal
         }
-        
+
+        #if swift(>=4.2)
         // observe when the battery level changes
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(batteryLevelDidChange(_:)),
-            name: .UIDeviceBatteryLevelDidChange,
+            name: UIDevice.batteryLevelDidChangeNotification,
             object: nil
         )
         // observe when memory warnings are received
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(didReceiveMemoryWarning(_:)),
-            name: .UIApplicationDidReceiveMemoryWarning,
+            name: UIApplication.didReceiveMemoryWarningNotification,
             object: nil
         )
         // observe when application will terminate
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(applicationWillTerminate(_:)),
-            name: .UIApplicationWillTerminate,
+            name: UIApplication.willTerminateNotification,
             object: nil
         )
+        #else
+        // observe when the battery level changes
+        NotificationCenter.default.addObserver(
+        self,
+        selector: #selector(batteryLevelDidChange(_:)),
+        name: NSNotification.Name.UIDeviceBatteryLevelDidChange,
+        object: nil
+        )
+        // observe when memory warnings are received
+        NotificationCenter.default.addObserver(
+        self,
+        selector: #selector(didReceiveMemoryWarning(_:)),
+        name: NSNotification.Name.UIApplicationDidReceiveMemoryWarning,
+        object: nil
+        )
+        // observe when application will terminate
+        NotificationCenter.default.addObserver(
+        self,
+        selector: #selector(applicationWillTerminate(_:)),
+        name: NSNotification.Name.UIApplicationWillTerminate,
+        object: nil
+        )
+        #endif
         #endif
     }
-    
+
     func client(withServiceClient serviceClient: CoreStitchServiceClient,
                 withClientInfo clientInfo: StitchAppClientInfo) throws -> MongoClient {
         return try CoreLocalMongoDBService.client(withAppInfo: clientInfo)
     }
-    
+
     /// Private log func due to API level
     private func log(_ msg: StaticString, type: OSLogType = __OS_LOG_TYPE_DEFAULT, _ args: CVarArg...) {
         if #available(iOS 10.0, *) {
@@ -95,17 +119,17 @@ private final class MobileMongoDBClientFactory: CoreLocalMongoDBService, Throwin
             print(String.init(format: msg.description, args))
         }
     }
-    
+
     @objc private func applicationWillTerminate(_ notification: Notification) {
         // close all mongo instances/clients/colls
         self.close()
     }
-    
+
     /// Observer for UIDeviceBatteryLevelDidChange notification
     @objc private func batteryLevelDidChange(_ notification: Notification) {
         objc_sync_enter(self)
         defer { objc_sync_exit(self) }
-        
+
         if self.lastBatteryState == .normal && self.batteryLevel < 30 {
             // Battery level is low. Start reducing activity to conserve energy.
             if #available(iOS 10.0, *) {
@@ -150,12 +174,12 @@ private final class MobileMongoDBClientFactory: CoreLocalMongoDBService, Throwin
             }
         }
     }
-    
+
     /// Observer for UIApplicationDidReceiveMemoryWarning notification
     @objc private func didReceiveMemoryWarning(_ notification: Notification) {
         objc_sync_enter(self)
         defer { objc_sync_exit(self) }
-        
+
         log("Notifying embedded MongoDB of low memory condition on host")
         CoreLocalMongoDBService.localInstances.forEach { (client) in
             do {

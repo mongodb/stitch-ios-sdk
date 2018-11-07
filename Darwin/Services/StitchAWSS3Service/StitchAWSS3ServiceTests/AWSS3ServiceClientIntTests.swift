@@ -104,7 +104,7 @@ class AWSS3ServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         XCTAssertEqual(body, String.init(data: httpResult.body!, encoding: .utf8))
         
         // ...with BSON binary parameter
-        let bodyBin = Binary(data: body.data(using: .utf8)!, subtype: .binary)
+        let bodyBin = try Binary(data: body.data(using: .utf8)!, subtype: .binaryDeprecated)
         
         let exp3 = expectation(description: "should put string")
         awsS3.putObject(bucket: bucketGood, key: key, acl: acl, contentType: contentType, body: bodyBin) { result in

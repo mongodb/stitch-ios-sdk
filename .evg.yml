@@ -85,17 +85,6 @@ functions:
               exit 1
             fi
           done
-  "setup_stitch_swift":
-    - command: shell.exec
-      params:
-        script: |
-          set -e
-          cd stitch-ios-sdk
-          export DEVELOPER_DIR=/Applications/Xcode9.2.app
-          export PYTHONPATH=$PYTHONPATH:~/local/lib/python3.6/site-packages/
-          export swiftc="$DEVERLOPER_DIR/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
-          sh scripts/download_dependencies.sh 
-          python scripts/build_frameworks.py
 tasks:
   - name: lint
     commands:
@@ -112,7 +101,6 @@ tasks:
       - func: "fetch_source"
       - func: "setup_mongod"
       - func: "setup_stitch"
-      - func: "setup_stitch_swift"
       - command: shell.exec
         params:
           silent: true
@@ -131,30 +119,21 @@ tasks:
             set -e
 
             echo "running ios tests"
+            
             source ./creds
-
+            if pgrep CoreSimulator; then pkill -9 CoreSimulator; fi
             export DEVELOPER_DIR=/Applications/Xcode9.2.app
             cd stitch-ios-sdk
-
-            export swiftc="$DEVERLOPER_DIR/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
-            python scripts/run_xctests.py --xcode-path=$DEVELOPER_DIR
-      - command: shell.exec
-        params:
-          silent: true
-          script: |
-            set -e
-            source ./creds
-            cd stitch-ios-sdk
-            if [ -z "${github_pr_number}" ]; then
-              if [ "${is_patch}" = "true" ]; then
-                echo "not running xccoveralls"
-                exit 0
-              fi
-            fi
-            /usr/local/opt/python3/bin/python3 scripts/xccoveralls.py \
-              --repo-token=$COVERALLS_TOKEN \
-              --pull-request-id=${github_pr_number} \
-              --commit-sha=${revision}
+            export GEM_HOME=`pwd`
+            export GEM_PATH=`pwd`
+            locate cocoapods
+            /opt/chef/embedded/bin/gem install cocoapods -v 1.6.0.beta.1 --install-dir ./
+            bin/pod setup
+            bin/pod install
+            echo "...testing core"
+            xcodebuild test -workspace Stitch.xcworkspace/ -scheme "All Core Tests" -destination 'platform=iOS Simulator,name=iPhone 8,OS=11.2'
+            echo "...testing Darwin"
+            xcodebuild test -workspace Stitch.xcworkspace/ -scheme "All Darwin Tests" -destination 'platform=iOS Simulator,name=iPhone 8,OS=11.2'
 buildvariants:
 - name: macos-1013
   display_name: MacOS 10.13

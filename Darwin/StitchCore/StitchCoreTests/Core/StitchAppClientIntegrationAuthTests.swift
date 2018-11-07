@@ -65,9 +65,9 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
     }
 
     func testCustomLogin() throws {
-        let jwt = JWT.encode(Algorithm.hs256(
+        let jwt = JWT.encode(JWT.Algorithm.hs256(
             "abcdefghijklmnopqrstuvwxyz1234567890".data(using: .utf8)!)
-        ) { (builder: ClaimSetBuilder) in
+        ) { (builder: JWT.ClaimSetBuilder) in
             builder.audience = harness.testApp?.clientAppID
             builder.notBefore = Date()
             builder.issuedAt = Date()
