@@ -74,7 +74,7 @@ public struct HTTPResponse: Decodable {
                     throw MongoError.typeError(message: "unexpected cookie type in HTTP service response")
                 }
                 
-                guard let value: String = try? document.get("value") else {
+                guard let value = document["value"] as? String else {
                     throw MongoError.typeError(message: "expected string value for cookie value in HTTP service response")
                 }
                 
