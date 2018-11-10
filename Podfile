@@ -51,11 +51,10 @@ target :StitchCoreSDK do
 
     target :StitchCoreRemoteMongoDBService do
         project 'Core/Services/StitchCoreRemoteMongoDBService/StitchCoreRemoteMongoDBService.xcodeproj'
-        inherit! :search_paths
+        pod 'MongoMobile', '= 0.0.5'
         
         target :StitchCoreRemoteMongoDBServiceTests do
-            pod 'MongoSwift', '= 0.0.7'
-            inherit! :search_paths
+            pod 'MongoMobile', '= 0.0.5'
         end
     end
 
