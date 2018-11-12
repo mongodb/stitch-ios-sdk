@@ -438,10 +438,10 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
             result: Response(statusCode: 200, headers: baseJSONHeaders, body: docRaw.data(using: .utf8)),
             forArg: .any
         )
-
+        
         let documentResult: Document = try auth.doAuthenticatedRequest(reqBuilder.build())
-        XCTAssertEqual(expectedObjectId, try documentResult.get("_id"))
-        XCTAssertEqual(42, try documentResult.get("intValue"))
+        XCTAssertEqual(expectedObjectId, documentResult["_id"] as! ObjectId)
+        XCTAssertEqual(42, documentResult["intValue"] as! Int)
 
         let customObjResult: CustomType = try auth.doAuthenticatedRequest(reqBuilder.build())
         XCTAssertEqual(expectedObjectId, customObjResult.id)
