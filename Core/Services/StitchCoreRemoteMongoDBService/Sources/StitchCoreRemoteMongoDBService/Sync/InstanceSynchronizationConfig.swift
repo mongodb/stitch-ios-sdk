@@ -1,11 +1,22 @@
 import Foundation
 import MongoSwift
 
-struct InstanceSynchronization {
-    struct Config: Codable {
+/**
+ The synchronization portal for this instance.
+
+ Instances contain a set of namespace configurations, which contains
+ sets of document configurations.
+
+ Configurations are stored both persistently and in memory, and should
+ always be in sync.
+ */
+internal struct InstanceSynchronization: Sequence {
+    /// The actual configuration to be persisted for this instance.
+    struct Config {
         fileprivate var namespaces: [MongoNamespace: NamespaceSynchronization.Config]
     }
 
+    /// Allows for the iteration of the namespaces contained in this instance.
     struct InstanceSynchronizationIterator: IteratorProtocol {
         typealias Element = NamespaceSynchronization
         private typealias Values = Dictionary<MongoNamespace, NamespaceSynchronization.Config>.Values
@@ -13,7 +24,7 @@ struct InstanceSynchronization {
         private let namespacesColl: MongoCollection<NamespaceSynchronization.Config>
         private let docsColl: MongoCollection<CoreDocumentSynchronization.Config>
         private var values: Values
-        private var currentIndex: Values.Index
+        private var indices: DefaultIndices<Values>
 
         init(namespacesColl: MongoCollection<NamespaceSynchronization.Config>,
              docsColl: MongoCollection<CoreDocumentSynchronization.Config>,
@@ -21,17 +32,17 @@ struct InstanceSynchronization {
             self.namespacesColl = namespacesColl
             self.docsColl = docsColl
             self.values = values
-            self.currentIndex = values.startIndex
+            self.indices = self.values.indices
         }
 
         mutating func next() -> NamespaceSynchronization? {
-            guard values.endIndex != currentIndex else {
+            guard let index = self.indices.popFirst() else {
                 return nil
             }
-            currentIndex = values.index(after: currentIndex)
+
             return NamespaceSynchronization.init(namespacesColl: namespacesColl,
                                                  docsColl: docsColl,
-                                                 config: values[currentIndex])
+                                                 config: &values[index])
         }
     }
 
@@ -39,6 +50,7 @@ struct InstanceSynchronization {
     private let docsColl: MongoCollection<CoreDocumentSynchronization.Config>
     private let instanceLock = ReadWriteLock()
 
+    /// The configuration for this instance.
     private(set) var config: Config
 
     init(configDb: MongoDatabase) {
@@ -51,33 +63,35 @@ struct InstanceSynchronization {
             namespaces: try! self.namespacesColl.find()
                 .reduce(into: [MongoNamespace: NamespaceSynchronization.Config](),
                         { (syncedNamespaces, config) in
-            syncedNamespaces[config.namespace] = config
-        }))
+                            syncedNamespaces[config.namespace] = config
+                }))
     }
 
+    /// Make an iterator that will iterate over the associated namespaces.
     func makeIterator() -> InstanceSynchronizationIterator {
         return InstanceSynchronizationIterator.init(namespacesColl: namespacesColl,
                                                     docsColl: docsColl,
                                                     values: self.config.namespaces.values)
     }
 
+    /**
+     Read a namespace configuration from this instance.
+     If the namespace does not exist, one will be created for you.
+     - parameter namespace: the namespace to read
+     - returns: a new or existing NamespaceConfiguration
+     */
     subscript(namespace: MongoNamespace) -> NamespaceSynchronization {
         mutating get {
-            instanceLock.readLock()
             instanceLock.writeLock()
             defer {
                 instanceLock.unlock()
-                instanceLock.unlock()
             }
 
-            if let config = config.namespaces[namespace] {
+            if var config = config.namespaces[namespace] {
                 return NamespaceSynchronization.init(namespacesColl: namespacesColl,
                                                      docsColl: docsColl,
-                                                     config: config)
+                                                     config: &config)
             }
-
-            instanceLock.writeLock()
-            defer { instanceLock.unlock() }
 
             let newConfig = NamespaceSynchronization.init(namespacesColl: namespacesColl,
                                                           docsColl: docsColl,

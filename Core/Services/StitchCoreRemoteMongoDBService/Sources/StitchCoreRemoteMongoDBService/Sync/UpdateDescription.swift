@@ -1,6 +1,6 @@
 import MongoSwift
 
-public struct UpdateDescription: Codable {
+public class UpdateDescription: Codable {
     public let updatedFields: Document
     public let removedFields: [String]
 
@@ -16,12 +16,16 @@ public struct UpdateDescription: Codable {
     public lazy var asUpdateDocument: Document = {
         var updateDocument = Document()
 
-        if removedFields.count > 0 {
-            updateDocument["$unset"] = self.removedFields.map({($0, true)})
-        }
-
         if self.updatedFields.count > 0 {
             updateDocument["$set"] = self.updatedFields
+        }
+
+        if removedFields.count > 0 {
+            var unset = Document()
+            self.removedFields.forEach {
+                unset[$0] = true
+            }
+            updateDocument["$unset"] = unset
         }
 
         return updateDocument
@@ -29,31 +33,31 @@ public struct UpdateDescription: Codable {
 }
 
 /**
- * Find the diff between two documents.
- *
- * NOTE: This does not do a full diff on [BsonArray]. If there is
- * an inequality between the old and new array, the old array will
- * simply be replaced by the new one.
- *
- * @param beforeDocument original document
- * @param afterDocument document to diff on
- * @param onKey the key for our depth level
- * @param updatedFields contiguous document of updated fields,
- *                      nested or otherwise
- * @param removedFields contiguous list of removedFields,
- *                      nested or otherwise
- * @return a description of the updated fields and removed keys between
- *         the documents
+ Find the diff between two documents.
+
+ NOTE: This does not do a full diff on [BsonArray]. If there is
+ an inequality between the old and new array, the old array will
+ simply be replaced by the new one.
+
+ - parameter ourDocument: original document
+ - parameter theirDocument: document to diff on
+ - parameter onKey: the key for our depth level
+ - parameter updatedFields: contiguous document of updated fields,
+ nested or otherwise
+ - parameter removedFields: contiguous list of removedFields,
+ nested or otherwise
+ - returns: a description of the updated fields and removed keys between
+ the documents
  */
 private func diffBetween(ourDocument: Document,
-                  theirDocument: Document,
-                  onKey: String?,
-                  updatedFields: inout Document,
-                  removedFields: inout [String]) {
+                         theirDocument: Document,
+                         onKey: String?,
+                         updatedFields: inout Document,
+                         removedFields: inout [String]) {
     // for each key in this document...
     ourDocument.forEach { (key, ourValue) in
         // don't worry about the _id or version field for now
-        if key == "_id" || key == "__stitch_sync_version" {
+        if key == "_id" || key == DOCUMENT_VERSION_FIELD {
             return
         }
 
@@ -68,20 +72,26 @@ private func diffBetween(ourDocument: Document,
         if let theirValue = theirDocument[key] {
             if ourValue is Document && theirValue is Document {
                 diffBetween(ourDocument: ourValue as! Document,
-                     theirDocument: theirValue as! Document,
-                     onKey: actualKey,
-                     updatedFields: &updatedFields,
-                     removedFields: &removedFields)
+                            theirDocument: theirValue as! Document,
+                            onKey: actualKey,
+                            updatedFields: &updatedFields,
+                            removedFields: &removedFields)
+            } else if (!bsonEquals(ourValue, theirValue)) {
+                updatedFields[actualKey] = theirValue
             }
         } else {
-            removedFields.append(key)
+            if theirDocument.hasKey(key) {
+                updatedFields[actualKey] = nil
+            } else {
+                removedFields.append(actualKey)
+            }
         }
     }
 
     // for each key in the other document...
     theirDocument.forEach { (key, theirValue) in
         // don't worry about the _id or version field for now
-        if key == "_id" || key == "__stitch_sync_version" {
+        if key == "_id" || key == DOCUMENT_VERSION_FIELD {
             return
         }
 
@@ -99,15 +109,15 @@ private func diffBetween(ourDocument: Document,
 
 extension Document {
     /**
-     * Find the diff between two documents.
-     *
-     * NOTE: This does not do a full diff on [BsonArray]. If there is
-     * an inequality between the old and new array, the old array will
-     * simply be replaced by the new one.
-     *
-     * -parameter otherDocument document to diff on
-     * -returns a description of the updated fields and removed keys between
-     *         the documents
+     Find the diff between two documents.
+
+     NOTE: This does not do a full diff on [BsonArray]. If there is
+     an inequality between the old and new array, the old array will
+     simply be replaced by the new one.
+
+     -parameter otherDocument: document to diff on
+     -returns: a description of the updated fields and removed keys between
+     the documents
      */
     func diff(otherDocument: Document) -> UpdateDescription {
         var updatedFields = Document()

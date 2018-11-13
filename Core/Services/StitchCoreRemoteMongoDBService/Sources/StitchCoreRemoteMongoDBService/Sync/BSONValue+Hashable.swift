@@ -1,6 +1,9 @@
 import Foundation
 import MongoSwift
-
+/**
+ TODO: Remove this class entirely once the Swift Driver
+ conforms to Hashable/Equatable
+*/
 private func _hash(into hasher: inout Hasher, bsonValue: BSONValue?) {
     switch (bsonValue) {
     case (let value as Int):

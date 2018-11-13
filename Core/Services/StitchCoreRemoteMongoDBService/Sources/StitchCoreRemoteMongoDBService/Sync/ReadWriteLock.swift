@@ -11,23 +11,28 @@ final internal class ReadWriteLock {
         pthread_rwlock_destroy(&lock)
     }
 
-    func readLock() {
-        pthread_rwlock_rdlock(&lock)
+    @discardableResult
+    func readLock() -> Bool {
+        return pthread_rwlock_rdlock(&lock) == 0
     }
 
-    func tryReadLock() {
-        pthread_rwlock_tryrdlock(&lock)
+    @discardableResult
+    func tryReadLock() -> Bool {
+        return pthread_rwlock_tryrdlock(&lock) == 0
     }
 
-    func writeLock() {
-        pthread_rwlock_wrlock(&lock)
+    @discardableResult
+    func writeLock() -> Bool {
+        return pthread_rwlock_wrlock(&lock) == 0
     }
 
-    func tryWriteLock() {
-        pthread_rwlock_trywrlock(&lock)
+    @discardableResult
+    func tryWriteLock() -> Bool {
+        return pthread_rwlock_trywrlock(&lock) == 0
     }
 
-    func unlock() {
-        pthread_rwlock_unlock(&lock)
+    @discardableResult
+    func unlock() -> Bool {
+        return pthread_rwlock_unlock(&lock) == 0
     }
 }

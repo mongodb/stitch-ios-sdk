@@ -3,10 +3,9 @@ import Foundation
 import MongoMobile
 @testable import StitchCoreRemoteMongoDBService
 
-final class CoreRemoteMongoClientUnitTests: XCTestCase {
+final class CoreRemoteMongoClientUnitTests: XCMongoMobileTestCase {
 
     func testGetDatabase() throws {
-        try MongoMobile.initialize()
         let client = TestUtils.getClient()
         
         let db1 = client.db("dbName1")
