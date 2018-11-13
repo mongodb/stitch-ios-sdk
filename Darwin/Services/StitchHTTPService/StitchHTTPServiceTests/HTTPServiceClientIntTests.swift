@@ -133,12 +133,12 @@ class HTTPServiceClientIntTests: BaseStitchIntTestCocoaTouch {
             
             let dataDoc = try Document.init(fromJSON: response!.body!)
             
-            let dataString: String = try dataDoc.get("data")
+            let dataString: String = dataDoc["data"] as! String
             XCTAssertEqual(String.init(data: body, encoding: .utf8)!, dataString)
             
-            let headersDoc: Document = try dataDoc.get("headers")
-            XCTAssertEqual("value1,value2", try headersDoc.get("Myheader"))
-            XCTAssertEqual("bob=barker", try headersDoc.get("Cookie"))
+            let headersDoc: Document = dataDoc["headers"] as! Document
+            XCTAssertEqual("value1,value2", headersDoc["Myheader"] as! String)
+            XCTAssertEqual("bob=barker", headersDoc["Cookie"] as! String)
         }
     }
 }

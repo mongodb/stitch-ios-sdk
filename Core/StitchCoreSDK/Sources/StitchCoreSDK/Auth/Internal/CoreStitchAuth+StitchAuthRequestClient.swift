@@ -43,8 +43,9 @@ extension CoreStitchAuth {
      * (depending on the type of request) to the request's `"Authorization"` header.
      */
     private func prepareAuthRequest(_ stitchReq: StitchAuthRequest) throws -> StitchRequest {
-        objc_sync_enter(self)
-        defer { objc_sync_exit(self) }
+        objc_sync_enter(authStateLock)
+        defer { objc_sync_exit(authStateLock) }
+        
         guard self.isLoggedIn,
             let refreshToken = self.authStateHolder.refreshToken,
             let accessToken = self.authStateHolder.accessToken else {

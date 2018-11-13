@@ -49,6 +49,9 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
      */
     public internal(set) var authInfo: AuthInfo? {
         get {
+            objc_sync_enter(authStateLock)
+            defer { objc_sync_exit(authStateLock) }
+            
             return authStateHolder.authInfo
         }
         set {
@@ -57,6 +60,12 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
             authStateHolder.extendedAuthInfo = newValue
         }
     }
+    
+    /**
+     * Objects used by objc_sync_enter and objc_sync_exit as recursive mutexes to synchronize auth operations.
+     */
+    internal var authOperationLock = NSObject()
+    internal var authStateLock = NSObject()
 
     // MARK: Initialization
 
@@ -147,8 +156,9 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
      * Whether or not a user is currently logged in.
      */
     public var isLoggedIn: Bool {
-        objc_sync_enter(self)
-        defer { objc_sync_exit(self) }
+        objc_sync_enter(authStateLock)
+        defer { objc_sync_exit(authStateLock) }
+        
         return self.authStateHolder.isLoggedIn
     }
 
@@ -156,8 +166,9 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
      * The currently authenticated user as a `TStitchUser`, or `nil` if no user is currently authenticated.
      */
     public var user: TStitchUser? {
-        objc_sync_enter(self)
-        defer { objc_sync_exit(self) }
+        objc_sync_enter(authStateLock)
+        defer { objc_sync_exit(authStateLock) }
+        
         return self.currentUser
     }
 
@@ -165,6 +176,9 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
      * Returns whether or not the current authentication state has a meaningful device id.
      */
     public var hasDeviceID: Bool {
+        objc_sync_enter(authStateLock)
+        defer { objc_sync_exit(authStateLock) }
+        
         return authInfo?.deviceID != nil
             && authInfo?.deviceID != ""
             && authInfo?.deviceID != "000000000000000000000000"
@@ -175,6 +189,9 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
      * device id does not exist.
      */
     public var deviceID: String? {
+        objc_sync_enter(authStateLock)
+        defer { objc_sync_exit(authStateLock) }
+        
         return authInfo?.deviceID
     }
 
@@ -185,8 +202,9 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
      * request is completed.
      */
     public func loginWithCredentialInternal(withCredential credential: StitchCredential) throws -> TStitchUser {
-        objc_sync_enter(self)
-        defer { objc_sync_exit(self) }
+        objc_sync_enter(authOperationLock)
+        defer { objc_sync_exit(authOperationLock) }
+        
         if !isLoggedIn {
             return try doLogin(withCredential: credential, asLinkRequest: false)
         }
@@ -207,8 +225,9 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
      */
     public func linkUserWithCredentialInternal(withUser user: TStitchUser,
                                                withCredential credential: StitchCredential) throws -> TStitchUser {
-        objc_sync_enter(self)
-        defer { objc_sync_exit(self) }
+        objc_sync_enter(authOperationLock)
+        defer { objc_sync_exit(authOperationLock) }
+        
         guard let currentUser = self.currentUser,
             user == currentUser else {
             throw StitchError.clientError(withClientErrorCode: .userNoLongerValid)
@@ -223,6 +242,12 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
      * still clear local authentication state.
      */
     public func logoutInternal() {
+        objc_sync_enter(authStateLock)
+        defer { objc_sync_exit(authStateLock) }
+        
+        objc_sync_enter(authOperationLock)
+        defer { objc_sync_exit(authOperationLock) }
+        
         guard isLoggedIn else { return }
 
         _ = try? self.doLogout()
@@ -416,8 +441,9 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
      * storage.
      */
     internal func clearAuth() {
-        objc_sync_enter(self)
-        defer { objc_sync_exit(self) }
+        objc_sync_enter(authStateLock)
+        defer { objc_sync_exit(authStateLock) }
+        
         guard self.isLoggedIn else { return }
         self.authStateHolder.clearState()
         StoreAuthInfo.clear(storage: &storage)
@@ -433,8 +459,9 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
         // use this critical section to create a queue of pending outbound requests
         // that should wait on the result of doing a token refresh or logout. This will
         // prevent too many refreshes happening one after the other.
-        objc_sync_enter(self)
-        defer { objc_sync_exit(self) }
+        objc_sync_enter(authOperationLock)
+        defer { objc_sync_exit(authOperationLock) }
+        
         guard isLoggedIn, let accessToken = self.authStateHolder.accessToken else {
             throw StitchError.clientError(withClientErrorCode: .loggedOutDuringRequest)
         }
@@ -453,6 +480,9 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
      * - important: This method must be called within a lock.
      */
     internal func refreshAccessToken() throws {
+        objc_sync_enter(authOperationLock)
+        defer { objc_sync_exit(authOperationLock) }
+        
         let response = try self.doAuthenticatedRequest(
             StitchAuthRequestBuilder()
                 .withRefreshToken()
