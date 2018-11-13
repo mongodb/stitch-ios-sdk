@@ -15,8 +15,8 @@
 		494335B821923626005B170D /* StitchDarwinCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494335B721923626005B170D /* StitchDarwinCoreTestUtils.framework */; };
 		494335BA2192362A005B170D /* StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494335B92192362A005B170D /* StitchCoreAdminClient.framework */; };
 		498E55E82190B8B200A02A03 /* StitchCoreAWSService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E55E72190B8B200A02A03 /* StitchCoreAWSService.framework */; };
-		B8CE0EF04A8A50EF9F55034A /* libPods-StitchAWSService.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD27BCE93D9E9916EBF73BF /* libPods-StitchAWSService.a */; };
-		F40A39E25F1F2DD943A1F3BB /* libPods-StitchAWSServiceTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 75B9D2F7F596A136567B0750 /* libPods-StitchAWSServiceTests.a */; };
+		8403B94CB432EA5C777A272F /* Pods_StitchAWSServiceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36B9E754694C772C6EA03D63 /* Pods_StitchAWSServiceTests.framework */; };
+		CBC42A59637EB86CCD9E7EFC /* Pods_StitchAWSService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 220B73C0893330D5D9255B73 /* Pods_StitchAWSService.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,7 +31,6 @@
 
 /* Begin PBXFileReference section */
 		03A052F628F5337035122010 /* Pods-StitchAWSService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchAWSService.debug.xcconfig"; path = "Target Support Files/Pods-StitchAWSService/Pods-StitchAWSService.debug.xcconfig"; sourceTree = "<group>"; };
-		0AD27BCE93D9E9916EBF73BF /* libPods-StitchAWSService.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchAWSService.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		11B54E10211248D80009E0F0 /* StitchAWSService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StitchAWSService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		11B54E14211248D80009E0F0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		11B54E19211248D80009E0F0 /* StitchAWSServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StitchAWSServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -42,10 +41,11 @@
 		11FCDC342112640400894377 /* AWSServiceClientImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSServiceClientImpl.swift; sourceTree = "<group>"; };
 		11FCDC362112643600894377 /* StitchAWSServiceExports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAWSServiceExports.swift; sourceTree = "<group>"; };
 		15014E77A4EDB66F1D3A1B21 /* Pods-StitchAWSServiceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchAWSServiceTests.debug.xcconfig"; path = "Target Support Files/Pods-StitchAWSServiceTests/Pods-StitchAWSServiceTests.debug.xcconfig"; sourceTree = "<group>"; };
+		220B73C0893330D5D9255B73 /* Pods_StitchAWSService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchAWSService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		36B9E754694C772C6EA03D63 /* Pods_StitchAWSServiceTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchAWSServiceTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		494335B721923626005B170D /* StitchDarwinCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchDarwinCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		494335B92192362A005B170D /* StitchCoreAdminClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAdminClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		498E55E72190B8B200A02A03 /* StitchCoreAWSService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAWSService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		75B9D2F7F596A136567B0750 /* libPods-StitchAWSServiceTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchAWSServiceTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A284300496E7E1C3C50C3CCB /* Pods-StitchAWSServiceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchAWSServiceTests.release.xcconfig"; path = "Target Support Files/Pods-StitchAWSServiceTests/Pods-StitchAWSServiceTests.release.xcconfig"; sourceTree = "<group>"; };
 		FC3219A6CE32762278C97BBD /* Pods-StitchAWSService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchAWSService.release.xcconfig"; path = "Target Support Files/Pods-StitchAWSService/Pods-StitchAWSService.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -58,7 +58,7 @@
 				494335BA2192362A005B170D /* StitchCoreAdminClient.framework in Frameworks */,
 				494335B821923626005B170D /* StitchDarwinCoreTestUtils.framework in Frameworks */,
 				498E55E82190B8B200A02A03 /* StitchCoreAWSService.framework in Frameworks */,
-				B8CE0EF04A8A50EF9F55034A /* libPods-StitchAWSService.a in Frameworks */,
+				CBC42A59637EB86CCD9E7EFC /* Pods_StitchAWSService.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,7 +67,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				11B54E1A211248D80009E0F0 /* StitchAWSService.framework in Frameworks */,
-				F40A39E25F1F2DD943A1F3BB /* libPods-StitchAWSServiceTests.a in Frameworks */,
+				8403B94CB432EA5C777A272F /* Pods_StitchAWSServiceTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,8 +121,8 @@
 				494335B92192362A005B170D /* StitchCoreAdminClient.framework */,
 				494335B721923626005B170D /* StitchDarwinCoreTestUtils.framework */,
 				498E55E72190B8B200A02A03 /* StitchCoreAWSService.framework */,
-				0AD27BCE93D9E9916EBF73BF /* libPods-StitchAWSService.a */,
-				75B9D2F7F596A136567B0750 /* libPods-StitchAWSServiceTests.a */,
+				220B73C0893330D5D9255B73 /* Pods_StitchAWSService.framework */,
+				36B9E754694C772C6EA03D63 /* Pods_StitchAWSServiceTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -285,6 +285,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-StitchAWSServiceTests/Pods-StitchAWSServiceTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/MongoSwift/MongoSwift.framework",
 				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework",
 				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework.dSYM",
 				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework",
@@ -294,6 +295,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MongoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/bson.framework",
 				"${DWARF_DSYM_FOLDER_PATH}/bson.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongoc.framework",
@@ -558,14 +560,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
-					"\"$(SRCROOT)/../../../Frameworks/macos\"",
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "\"$(SRCROOT)/../../../Frameworks/macos\" $(inherited) @executable_path/Frameworks @loader_path/Frameworks $(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchAWSServiceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";

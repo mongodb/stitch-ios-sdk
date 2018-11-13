@@ -11,9 +11,7 @@ public struct UpdateDescription: Codable {
     }
 
     /**
-     * Convert this update description to an update document.
-     * @return an update document with the appropriate $set and $unset
-     *         documents
+     * Lazily convert this update description to an update document.
      */
     public lazy var asUpdateDocument: Document = {
         var updateDocument = Document()
@@ -33,7 +31,7 @@ public struct UpdateDescription: Codable {
 /**
  * Find the diff between two documents.
  *
- * NOTE: This does not do a full diff on {@link BsonArray}. If there is
+ * NOTE: This does not do a full diff on [BsonArray]. If there is
  * an inequality between the old and new array, the old array will
  * simply be replaced by the new one.
  *

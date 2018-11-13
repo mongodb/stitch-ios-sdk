@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		28497F9933110FF4EE12D82C /* libPods-StitchCoreAWSSESService.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CE4C8AAF4A1A34CA9C6A591 /* libPods-StitchCoreAWSSESService.a */; };
-		46D86332C71B55B70A6E14F4 /* libPods-StitchCoreAWSSESServiceTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E153C53757F2A8432CE307FD /* libPods-StitchCoreAWSSESServiceTests.a */; };
+		24DB2FBAD657CCB3D38857A0 /* Pods_StitchCoreAWSSESService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E2B2669587C0C7B66B58C14 /* Pods_StitchCoreAWSSESService.framework */; };
 		494335A821912F20005B170D /* StitchCoreSDKMocks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494335A721912F20005B170D /* StitchCoreSDKMocks.framework */; };
+		AFFE7DF4CB6ACC314B01A594 /* Pods_StitchCoreAWSSESServiceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 485291E239DD4A2FD676A789 /* Pods_StitchCoreAWSSESServiceTests.framework */; };
 		OBJ_155 /* AWSSESSendResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* AWSSESSendResult.swift */; };
 		OBJ_156 /* CoreAWSSESServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* CoreAWSSESServiceClient.swift */; };
 		OBJ_177 /* CoreAWSSESServiceClientUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* CoreAWSSESServiceClientUnitTests.swift */; };
@@ -26,11 +26,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2CE4C8AAF4A1A34CA9C6A591 /* libPods-StitchCoreAWSSESService.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchCoreAWSSESService.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2E2B2669587C0C7B66B58C14 /* Pods_StitchCoreAWSSESService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreAWSSESService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F296AF09CEC981096A15585 /* Pods-StitchCoreAWSSESService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAWSSESService.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreAWSSESService/Pods-StitchCoreAWSSESService.release.xcconfig"; sourceTree = "<group>"; };
+		485291E239DD4A2FD676A789 /* Pods_StitchCoreAWSSESServiceTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreAWSSESServiceTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		494335A721912F20005B170D /* StitchCoreSDKMocks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDKMocks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C98BF1C0920EB1AACC17380 /* Pods-StitchCoreAWSSESService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAWSSESService.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreAWSSESService/Pods-StitchCoreAWSSESService.debug.xcconfig"; sourceTree = "<group>"; };
-		E153C53757F2A8432CE307FD /* libPods-StitchCoreAWSSESServiceTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchCoreAWSSESServiceTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1D03864672A9E0788CCBC2B /* Pods-StitchCoreAWSSESServiceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAWSSESServiceTests.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreAWSSESServiceTests/Pods-StitchCoreAWSSESServiceTests.debug.xcconfig"; sourceTree = "<group>"; };
 		FDAD976B77E958598986573D /* Pods-StitchCoreAWSSESServiceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAWSSESServiceTests.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreAWSSESServiceTests/Pods-StitchCoreAWSSESServiceTests.release.xcconfig"; sourceTree = "<group>"; };
 		OBJ_11 /* AWSSESSendResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSSESSendResult.swift; sourceTree = "<group>"; };
@@ -46,7 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
-				28497F9933110FF4EE12D82C /* libPods-StitchCoreAWSSESService.a in Frameworks */,
+				24DB2FBAD657CCB3D38857A0 /* Pods_StitchCoreAWSSESService.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,7 +55,7 @@
 			buildActionMask = 0;
 			files = (
 				494335A821912F20005B170D /* StitchCoreSDKMocks.framework in Frameworks */,
-				46D86332C71B55B70A6E14F4 /* libPods-StitchCoreAWSSESServiceTests.a in Frameworks */,
+				AFFE7DF4CB6ACC314B01A594 /* Pods_StitchCoreAWSSESServiceTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,8 +78,8 @@
 			isa = PBXGroup;
 			children = (
 				494335A721912F20005B170D /* StitchCoreSDKMocks.framework */,
-				2CE4C8AAF4A1A34CA9C6A591 /* libPods-StitchCoreAWSSESService.a */,
-				E153C53757F2A8432CE307FD /* libPods-StitchCoreAWSSESServiceTests.a */,
+				2E2B2669587C0C7B66B58C14 /* Pods_StitchCoreAWSSESService.framework */,
+				485291E239DD4A2FD676A789 /* Pods_StitchCoreAWSSESServiceTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -223,6 +223,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-StitchCoreAWSSESServiceTests/Pods-StitchCoreAWSSESServiceTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/MongoSwift/MongoSwift.framework",
 				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework",
 				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework.dSYM",
 				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework",
@@ -232,6 +233,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MongoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/bson.framework",
 				"${DWARF_DSYM_FOLDER_PATH}/bson.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongoc.framework",

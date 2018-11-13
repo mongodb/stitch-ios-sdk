@@ -1,60 +1,33 @@
 import Foundation
 
-protocol Lock {
-    func lock()
-    func tryLock()
-    func unlock()
-}
-
-private class ReadLock: Lock {
-    var readLock = pthread_rwlock_t()
+final internal class ReadWriteLock {
+    private var lock = pthread_rwlock_t()
 
     init() {
-        pthread_rwlock_init(&readLock, nil)
+        pthread_rwlock_init(&lock, nil)
     }
 
     deinit {
-        pthread_rwlock_destroy(&readLock)
+        pthread_rwlock_destroy(&lock)
     }
 
-    func lock() {
-        pthread_rwlock_rdlock(&readLock)
+    func readLock() {
+        pthread_rwlock_rdlock(&lock)
     }
 
-    func tryLock() {
-        pthread_rwlock_tryrdlock(&readLock)
+    func tryReadLock() {
+        pthread_rwlock_tryrdlock(&lock)
     }
 
-    func unlock() {
-        pthread_rwlock_unlock(&readLock)
-    }
-}
-
-private class WriteLock: Lock {
-    var writeLock = pthread_rwlock_t()
-
-    init() {
-        pthread_rwlock_init(&writeLock, nil)
+    func writeLock() {
+        pthread_rwlock_wrlock(&lock)
     }
 
-    deinit {
-        pthread_rwlock_destroy(&writeLock)
-    }
-
-    func lock() {
-        pthread_rwlock_wrlock(&writeLock)
-    }
-
-    func tryLock() {
-        pthread_rwlock_trywrlock(&writeLock)
+    func tryWriteLock() {
+        pthread_rwlock_trywrlock(&lock)
     }
 
     func unlock() {
-        pthread_rwlock_unlock(&writeLock)
+        pthread_rwlock_unlock(&lock)
     }
-}
-
-class ReadWriteLock {
-    let readLock: Lock = ReadLock()
-    let writeLock: Lock  = WriteLock()
 }

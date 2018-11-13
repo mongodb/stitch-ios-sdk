@@ -1,14 +1,19 @@
 workspace 'Stitch.xcworkspace'
 
 platform :ios, '11.0'
+use_frameworks!
 
 target :MockUtils do
     project 'MockUtils/MockUtils.xcodeproj'
 end
 
-target :StitchCoreSDK do
-    pod 'MongoSwift', '= 0.0.7'
+# Note: we use static libs for all pods
+def shared_pods
+    pod 'MongoMobile', '= 0.0.5'
+end
 
+target :StitchCoreSDK do
+    shared_pods
     project 'Core/StitchCoreSDK/StitchCoreSDK.xcodeproj'
 
     target :StitchCoreAdminClient do    
@@ -24,7 +29,6 @@ target :StitchCoreSDK do
     target :StitchCoreSDKTests do
         pod 'JSONWebToken', '~> 2.2.0'
         pod 'Swifter', '~> 1.4.5'
-        pod 'MongoSwift', '= 0.0.7'
 
         inherit! :search_paths
     end
@@ -34,7 +38,6 @@ target :StitchCoreSDK do
         inherit! :search_paths
 
         target :StitchCoreFCMServiceTests do
-            pod 'MongoSwift', '= 0.0.7'
             inherit! :search_paths
         end
     end
@@ -51,10 +54,9 @@ target :StitchCoreSDK do
 
     target :StitchCoreRemoteMongoDBService do
         project 'Core/Services/StitchCoreRemoteMongoDBService/StitchCoreRemoteMongoDBService.xcodeproj'
-        pod 'MongoMobile', '= 0.0.5'
-        
+        inherit! :complete
         target :StitchCoreRemoteMongoDBServiceTests do
-            pod 'MongoMobile', '= 0.0.5'
+            inherit! :complete
         end
     end
 
@@ -237,6 +239,35 @@ post_install do |installer|
         # this is to fix a bug in JSONWebToken
         if target.name == 'JSONWebToken'
             system("rm -rf Pods/JSONWebToken/CommonCrypto")
+        end
+    end
+    # sample for the question
+    sharedLibrary = installer.aggregate_targets.find { |aggregate_target| aggregate_target.name == 'Pods-[MongoSwift]' }
+    installer.aggregate_targets.each do |aggregate_target|
+        puts aggregate_target
+        if aggregate_target.name == 'Pods-StitchCoreRemoteMongoDBService'
+            puts aggregate_target.name
+            aggregate_target.xcconfigs.each do |config_name, config_file|
+                sharedLibraryPodTargets = sharedLibrary.pod_targets
+                aggregate_target.pod_targets.select { |pod_target| sharedLibraryPodTargets.include?(pod_target) }.each do |pod_target|
+                    pod_target.specs.each do |spec|
+                        frameworkPaths = unless spec.attributes_hash['ios'].nil? then spec.attributes_hash['ios']['vendored_frameworks'] else spec.attributes_hash['vendored_frameworks'] end || Set.new
+                    frameworkNames = Array(frameworkPaths).map(&:to_s).map do |filename|
+                        extension = File.extname filename
+                        File.basename filename, extension
+                    end
+                    frameworkNames.each do |name|
+                        if name != '[MongoSwift]' && name != '[MongoMobile]'
+                            raise("Script is trying to remove unwanted flags: #{name}. Check it out!")
+                        end
+                        puts "Removing #{name} from OTHER_LDFLAGS"
+                        config_file.frameworks.delete(name)
+                    end
+                end
+            end
+            xcconfig_path = aggregate_target.xcconfig_path(config_name)
+            config_file.save_as(xcconfig_path)
+        end
         end
     end
 end
