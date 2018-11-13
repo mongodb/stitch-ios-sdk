@@ -42,9 +42,6 @@ class InstanceSynchronizationConfigTests: XCMongoMobileTestCase {
                                                                  documentId: documentId.bsonValue)
 
         XCTAssertEqual(2, instanceSync.map { $0 }.count)
-        print(nsConfig2.map { $0 }.count)
-        print(instanceSync[namespace2].map { $0 }.count)
-
         XCTAssertEqual(documentId, HashableBSONValue((instanceSync[namespace2][documentId]?.documentId)!))
     }
 }

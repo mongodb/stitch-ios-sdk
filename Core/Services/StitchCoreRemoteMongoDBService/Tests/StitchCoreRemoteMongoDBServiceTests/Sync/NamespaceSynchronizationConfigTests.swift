@@ -72,7 +72,6 @@ class NamespaceSynchronizationConfigTests: XCMongoMobileTestCase {
 
         docConfigs[1].isStale = true
 
-        try! docsColl.find().forEach { print($0) }
         XCTAssertEqual(1, nsConfig.staleDocumentIds.count)
         XCTAssertEqual(documentIds[1], nsConfig.staleDocumentIds.first)
         XCTAssertEqual(3, nsConfig.map { $0 }.count)

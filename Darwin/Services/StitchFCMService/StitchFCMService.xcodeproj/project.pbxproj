@@ -221,7 +221,6 @@
 				119F124720D218D6009B1CF5 /* Frameworks */,
 				119F124820D218D6009B1CF5 /* Resources */,
 				FACA443FA5460B45DA58D7B9 /* Embed Frameworks */,
-				99139F9340051B7F5E827B04 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -308,36 +307,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		99139F9340051B7F5E827B04 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-StitchFCMServiceTests/Pods-StitchFCMServiceTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/MongoSwift/MongoSwift.framework",
-				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework",
-				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework.dSYM",
-				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework",
-				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework.dSYM",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MongoSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/bson.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/bson.framework.dSYM",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongoc.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/mongoc.framework.dSYM",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-StitchFCMServiceTests/Pods-StitchFCMServiceTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F4E491E85F3EB209E5F8B0FD /* [CP] Check Pods Manifest.lock */ = {

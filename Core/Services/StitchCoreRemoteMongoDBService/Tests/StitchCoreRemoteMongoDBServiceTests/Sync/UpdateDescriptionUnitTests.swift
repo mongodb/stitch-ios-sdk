@@ -214,8 +214,6 @@ class UpdateDescriptionUnitTests: XCMongoMobileTestCase {
         // create an update description via diff'ing the two documents.
         let updateDescription = beforeDocument.diff(otherDocument: afterDocument)
 
-        print(updateDescription.updatedFields)
-        print(updateDescription.removedFields)
         XCTAssertEqual(expectedUpdateDocument,
                        updateDescription.asUpdateDocument)
 
