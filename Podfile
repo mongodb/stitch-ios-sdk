@@ -7,7 +7,6 @@ target :MockUtils do
     project 'MockUtils/MockUtils.xcodeproj'
 end
 
-# Note: we use static libs for all pods
 def shared_pods
     pod 'MongoSwift', '= 0.0.7'
 end

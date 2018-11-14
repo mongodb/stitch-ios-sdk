@@ -1,5 +1,9 @@
 import MongoSwift
 
+/*
+ The update description for changed fields in a
+ $changeStream operation.
+*/
 public class UpdateDescription: Codable {
     public let updatedFields: Document
     public let removedFields: [String]
