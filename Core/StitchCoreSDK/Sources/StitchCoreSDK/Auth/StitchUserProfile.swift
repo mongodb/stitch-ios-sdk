@@ -64,12 +64,12 @@ public protocol ExtendedStitchUserProfile {
     /**
      * The minimum age of the user.
      */
-    var minAge: Int? { get }
+    var minAge: String? { get }
 
     /**
      * The maximum age of the user.
      */
-    var maxAge: Int? { get }
+    var maxAge: String? { get }
 }
 
 /**
@@ -141,12 +141,12 @@ internal final class StitchUserProfileImpl: StitchUserProfile {
     /**
      * The minimum age of the user.
      */
-    public lazy var minAge: Int? = self.data.minAge
+    public lazy var minAge: String? = self.data.minAge
 
     /**
      * The maximum age of the user.
      */
-    public lazy var maxAge: Int? = self.data.maxAge
+    public lazy var maxAge: String? = self.data.maxAge
 
     /**
      * An object containing extra metadata about the user as supplied by the authentication provider. This need not
