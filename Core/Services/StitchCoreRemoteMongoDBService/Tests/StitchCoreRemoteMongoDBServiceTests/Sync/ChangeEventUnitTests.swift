@@ -12,14 +12,27 @@ class ChangeEventUnitTests: XCTestCase {
                                  "bar": "baz"] as Document
     private let writePending = false
 
-    func testTransform() {
+    private func compare<T: Codable>(expectedChangeEvent: ChangeEvent<T>,
+                                     to actualChangeEvent: ChangeEvent<T>) throws {
+        XCTAssertTrue(bsonEquals(expectedChangeEvent.id.value, actualChangeEvent.id.value))
+        XCTAssertEqual(expectedChangeEvent.operationType, actualChangeEvent.operationType)
+        XCTAssertEqual(try BSONEncoder().encode(expectedChangeEvent.fullDocument),
+                       try BSONEncoder().encode(actualChangeEvent.fullDocument))
+        XCTAssertEqual(expectedChangeEvent.ns, actualChangeEvent.ns)
+        XCTAssertEqual(expectedChangeEvent.documentKey, actualChangeEvent.documentKey)
+        XCTAssertEqual(expectedChangeEvent.updateDescription?.asUpdateDocument,
+                       actualChangeEvent.updateDescription?.asUpdateDocument)
+        XCTAssertEqual(expectedChangeEvent.hasUncommittedWrites, actualChangeEvent.hasUncommittedWrites)
+    }
+
+    func testTransform() throws {
         struct TestTransform: Codable {
             let _id: ObjectId
             let foo: Int
             let bar: String
         }
         let originalChangeEvent = ChangeEvent<Document>.init(
-            id: Document(),
+            id: AnyBSONValue(Document()),
             operationType: .insert,
             fullDocument: ["_id": docId, "foo": 42, "bar": "baz"] as Document,
             ns: namespace,
@@ -27,9 +40,9 @@ class ChangeEventUnitTests: XCTestCase {
             updateDescription: nil,
             hasUncommittedWrites: writePending)
         let transformedChangeEvent: ChangeEvent<TestTransform> =
-            ChangeEvent<TestTransform>.transform(changeEvent: originalChangeEvent)
+            try ChangeEvent<TestTransform>.transform(changeEvent: originalChangeEvent)
 
-        XCTAssertEqual(originalChangeEvent.id, transformedChangeEvent.id)
+        XCTAssertTrue(bsonEquals(originalChangeEvent.id.value, transformedChangeEvent.id.value))
         XCTAssertEqual(originalChangeEvent.operationType, transformedChangeEvent.operationType)
         XCTAssertEqual(originalChangeEvent.fullDocument?["foo"] as? Int, transformedChangeEvent.fullDocument?.foo)
         XCTAssertEqual(originalChangeEvent.fullDocument?["bar"] as? String, transformedChangeEvent.fullDocument?.bar)
@@ -40,9 +53,9 @@ class ChangeEventUnitTests: XCTestCase {
         XCTAssertEqual(originalChangeEvent.hasUncommittedWrites, transformedChangeEvent.hasUncommittedWrites)
     }
 
-    func testChangeEventForLocalInsert() {
+    func testChangeEventForLocalInsert() throws {
         let expectedLocalInsertEvent = ChangeEvent<Document>.init(
-            id: Document(),
+            id: AnyBSONValue(Document()),
             operationType: .insert,
             fullDocument: document,
             ns: namespace,
@@ -53,12 +66,12 @@ class ChangeEventUnitTests: XCTestCase {
         let actualLocalInsertEvent = ChangeEvent<Document>.changeEventForLocalInsert(namespace: namespace,
                                                                                      document: document,
                                                                                      writePending: writePending)
-        XCTAssertEqual(expectedLocalInsertEvent, actualLocalInsertEvent)
+        try compare(expectedChangeEvent: expectedLocalInsertEvent, to: actualLocalInsertEvent)
     }
 
-    func testChangeEventForLocalReplace() {
+    func testChangeEventForLocalReplace() throws {
         let expectedLocalReplaceEvent = ChangeEvent<Document>(
-            id: Document(),
+            id: AnyBSONValue(Document()),
             operationType: .replace,
             fullDocument: document,
             ns: namespace,
@@ -68,12 +81,12 @@ class ChangeEventUnitTests: XCTestCase {
 
         let actualLocalReplaceEvent = ChangeEvent<Document>.changeEventForLocalReplace(namespace: namespace, documentId: docId, document: document, writePending: writePending)
 
-        XCTAssertEqual(expectedLocalReplaceEvent, actualLocalReplaceEvent)
+        try compare(expectedChangeEvent: expectedLocalReplaceEvent, to: actualLocalReplaceEvent)
     }
 
-    func testChangeEventForLocalUpdate() {
+    func testChangeEventForLocalUpdate() throws {
         let expectedLocalUpdateEvent = ChangeEvent<Document>(
-            id: Document(),
+            id: AnyBSONValue(Document()),
             operationType: .update,
             fullDocument: document,
             ns: namespace,
@@ -90,12 +103,13 @@ class ChangeEventUnitTests: XCTestCase {
             fullDocumentAfterUpdate: document,
             writePending: writePending)
 
-        XCTAssertEqual(expectedLocalUpdateEvent, actualLocalUpdateEvent)
+        try compare(expectedChangeEvent: expectedLocalUpdateEvent,
+                    to: actualLocalUpdateEvent)
     }
 
-    func testChangeEventForLocalDelete() {
+    func testChangeEventForLocalDelete() throws {
         let expectedLocalDeleteEvent = ChangeEvent<Document>(
-            id: Document(),
+            id: AnyBSONValue(Document()),
             operationType: .delete,
             fullDocument: nil,
             ns: namespace,
@@ -107,6 +121,61 @@ class ChangeEventUnitTests: XCTestCase {
                                                                                      documentId: docId,
                                                                                      writePending: writePending)
 
-        XCTAssertEqual(expectedLocalDeleteEvent, actualLocalDeleteEvent)
+        try compare(expectedChangeEvent: expectedLocalDeleteEvent,
+                    to: actualLocalDeleteEvent)
+    }
+
+    func testRoundTrip() throws {
+        let id = ObjectId()
+        let documentKey = ObjectId()
+        let insertEvent = try BSONDecoder().decode(ChangeEvent<Document>.self, from: """
+        {
+           "_id" : { "$oid": "\(id.oid)" },
+           "operationType" : "INSERT",
+           "fullDocument" : { "foo": "bar" },
+           "ns" : {
+              "db" : "database",
+              "coll" : "collection"
+           },
+           "documentKey" : { "_id" : "\(documentKey.oid)" },
+           "updateDescription" : null
+        }
+        """)
+
+        var expectedChangeEvent = ChangeEvent<Document>.init(
+            id: AnyBSONValue(id),
+            operationType: .insert,
+            fullDocument: ["foo": "bar"],
+            ns: MongoNamespace.init(databaseName: "database", collectionName: "collection"),
+            documentKey: ["_id": documentKey.oid],
+            updateDescription: nil,
+            hasUncommittedWrites: false)
+
+        try compare(expectedChangeEvent: expectedChangeEvent, to: insertEvent)
+
+        let unknownEvent = try BSONDecoder().decode(ChangeEvent<Document>.self, from: """
+            {
+            "_id" : { "$oid": "\(id.oid)" },
+            "operationType" : "__lolwut__",
+            "fullDocument" : { "foo": "bar" },
+            "ns" : {
+            "db" : "database",
+            "coll" : "collection"
+            },
+            "documentKey" : { "_id" : "\(documentKey.oid)" },
+            "updateDescription" : null
+            }
+        """)
+
+        expectedChangeEvent = ChangeEvent<Document>.init(
+            id: AnyBSONValue(id),
+            operationType: .unknown,
+            fullDocument: ["foo": "bar"],
+            ns: MongoNamespace.init(databaseName: "database", collectionName: "collection"),
+            documentKey: ["_id": documentKey.oid],
+            updateDescription: nil,
+            hasUncommittedWrites: false)
+
+        try compare(expectedChangeEvent: expectedChangeEvent, to: unknownEvent)
     }
 }

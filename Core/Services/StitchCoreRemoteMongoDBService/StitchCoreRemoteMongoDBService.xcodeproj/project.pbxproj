@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		10EFC004FFFF7C19813FAD43 /* Pods_StitchCoreRemoteMongoDBServiceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 709AA19060D3B86D29BEB64E /* Pods_StitchCoreRemoteMongoDBServiceTests.framework */; };
+		49037A44219E0ECD0066E109 /* ErrorListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49037A43219E0ECD0066E109 /* ErrorListener.swift */; };
 		4943FC5B2196506300DED08C /* ChangeEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4943FC5A2196506300DED08C /* ChangeEvent.swift */; };
 		4943FC5D2196508100DED08C /* MongoNamespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4943FC5C2196508100DED08C /* MongoNamespace.swift */; };
 		4943FC61219650A200DED08C /* UpdateDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4943FC60219650A200DED08C /* UpdateDescription.swift */; };
@@ -66,6 +67,7 @@
 		3681B7A8CFE56F721C7015E5 /* Pods_StitchCoreSDK_StitchCoreRemoteMongoDBService_StitchCoreRemoteMongoDBServiceTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreSDK_StitchCoreRemoteMongoDBService_StitchCoreRemoteMongoDBServiceTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3933F08FF5BAED636C28203E /* Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService/Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService.release.xcconfig"; sourceTree = "<group>"; };
 		3A1BD4AAE033374B49CE5D88 /* Pods-StitchCoreRemoteMongoDBService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreRemoteMongoDBService.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreRemoteMongoDBService/Pods-StitchCoreRemoteMongoDBService.debug.xcconfig"; sourceTree = "<group>"; };
+		49037A43219E0ECD0066E109 /* ErrorListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorListener.swift; sourceTree = "<group>"; };
 		4943FC5A2196506300DED08C /* ChangeEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeEvent.swift; sourceTree = "<group>"; };
 		4943FC5C2196508100DED08C /* MongoNamespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MongoNamespace.swift; sourceTree = "<group>"; };
 		4943FC60219650A200DED08C /* UpdateDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateDescription.swift; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 				49E8957A21991C1A003C3758 /* NamespaceSynchronizationConfig.swift */,
 				4943FC622196591F00DED08C /* CoreDocumentSynchronizationConfig.swift */,
 				4943FC5A2196506300DED08C /* ChangeEvent.swift */,
+				49037A43219E0ECD0066E109 /* ErrorListener.swift */,
 				4943FC60219650A200DED08C /* UpdateDescription.swift */,
 				4980B1282199E7E000D6E49C /* ConflictHandler.swift */,
 				4980B12A2199EBE100D6E49C /* ChangeEventListener.swift */,
@@ -408,7 +411,6 @@
 				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework.dSYM",
 				"${BUILT_PRODUCTS_DIR}/MongoMobile/MongoMobile.framework",
 				"${PODS_ROOT}/mongo_embedded/iPhoneOS/Frameworks/mongo_embedded.framework",
-				"${PODS_ROOT}/mongo_embedded/iPhoneOS/Frameworks/mongo_embedded.framework.dSYM",
 				"${PODS_ROOT}/mongoc_embedded/iPhoneOS/Frameworks/mongoc_embedded.framework",
 				"${PODS_ROOT}/mongoc_embedded/iPhoneOS/Frameworks/mongoc_embedded.framework.dSYM",
 			);
@@ -423,7 +425,6 @@
 				"${DWARF_DSYM_FOLDER_PATH}/mongoc.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MongoMobile.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongo_embedded.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/mongo_embedded.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongoc_embedded.framework",
 				"${DWARF_DSYM_FOLDER_PATH}/mongoc_embedded.framework.dSYM",
 			);
@@ -445,6 +446,7 @@
 				OBJ_169 /* CoreRemoteMongoCollection.swift in Sources */,
 				4980B1292199E7E000D6E49C /* ConflictHandler.swift in Sources */,
 				4943FC6F219724E800DED08C /* DocumentVersionInfo.swift in Sources */,
+				49037A44219E0ECD0066E109 /* ErrorListener.swift in Sources */,
 				OBJ_170 /* CoreRemoteMongoCursor.swift in Sources */,
 				OBJ_171 /* CoreRemoteMongoDatabase.swift in Sources */,
 				OBJ_172 /* CoreRemoteMongoReadOperation.swift in Sources */,

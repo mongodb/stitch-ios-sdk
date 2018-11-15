@@ -16,7 +16,7 @@ class XCMongoMobileConfiguration: NSObject, XCTestObservation {
     }
 
     func testBundleWillStart(_ testBundle: Bundle) {
-        try? MongoMobile.initialize()
+        try! MongoMobile.initialize()
     }
 
     func testBundleDidFinish(_ testBundle: Bundle) {

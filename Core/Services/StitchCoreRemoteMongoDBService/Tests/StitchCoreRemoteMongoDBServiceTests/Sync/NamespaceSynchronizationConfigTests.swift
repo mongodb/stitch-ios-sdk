@@ -22,11 +22,12 @@ class NamespaceSynchronizationConfigTests: XCMongoMobileTestCase {
         try? XCMongoMobileTestCase.client.db(namespace.databaseName).drop()
     }
 
-    func testSet() {
+    func testSet() throws {
         let documentId = HashableBSONValue(ObjectId())
-        var nsConfig = NamespaceSynchronization.init(namespacesColl: namespaceColl,
-                                                     docsColl: docsColl,
-                                                     namespace: namespace)
+        var nsConfig = try NamespaceSynchronization.init(namespacesColl: namespaceColl,
+                                                         docsColl: docsColl,
+                                                         namespace: namespace,
+                                                         errorListener: nil)
 
         var docConfig = nsConfig[documentId]
 
@@ -34,7 +35,8 @@ class NamespaceSynchronizationConfigTests: XCMongoMobileTestCase {
 
         docConfig = CoreDocumentSynchronization.init(docsColl: docsColl,
                                                      namespace: namespace,
-                                                     documentId: documentId.bsonValue)
+                                                     documentId: documentId.bsonValue,
+                                                     errorListener: nil)
 
         nsConfig[documentId] = docConfig
 
@@ -45,27 +47,41 @@ class NamespaceSynchronizationConfigTests: XCMongoMobileTestCase {
         XCTAssertEqual(nil, nsConfig[documentId])
     }
 
-    func testStaleDocumentIds() {
+    func testStaleDocumentIds() throws {
+        class TestErrorListener: ErrorListener {
+            public init() {
+            }
+
+            func on(error: Error, forDocumentId documentId: BSONValue?) {
+                XCTFail(error.localizedDescription)
+            }
+        }
+        let errorListener = TestErrorListener()
+
         let documentIds = [
             HashableBSONValue(ObjectId()),
             HashableBSONValue(ObjectId()),
             HashableBSONValue(ObjectId())
         ]
 
-        var nsConfig = NamespaceSynchronization.init(namespacesColl: namespaceColl,
-                                                     docsColl: docsColl,
-                                                     namespace: namespace)
+        var nsConfig = try NamespaceSynchronization.init(namespacesColl: namespaceColl,
+                                                         docsColl: docsColl,
+                                                         namespace: namespace,
+                                                         errorListener: errorListener)
 
         var docConfigs = [
             CoreDocumentSynchronization.init(docsColl: docsColl,
                                              namespace: namespace,
-                                             documentId: documentIds[0].bsonValue),
+                                             documentId: documentIds[0].bsonValue,
+                                             errorListener: errorListener),
             CoreDocumentSynchronization.init(docsColl: docsColl,
                                              namespace: namespace,
-                                             documentId: documentIds[1].bsonValue),
+                                             documentId: documentIds[1].bsonValue,
+                                             errorListener: errorListener),
             CoreDocumentSynchronization.init(docsColl: docsColl,
                                              namespace: namespace,
-                                             documentId: documentIds[2].bsonValue)
+                                             documentId: documentIds[2].bsonValue,
+                                             errorListener: errorListener)
         ]
 
         docConfigs.forEach { nsConfig[HashableBSONValue($0.documentId)] = $0 }

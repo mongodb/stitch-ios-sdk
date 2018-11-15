@@ -25,7 +25,8 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
 
         var coreDocSync = CoreDocumentSynchronization.init(docsColl: docsColl,
                                                            namespace: namespace,
-                                                           documentId: AnyBSONValue(documentId))
+                                                           documentId: AnyBSONValue(documentId),
+                                                           errorListener: nil)
 
         try! docsColl.insertOne(coreDocSync.config)
 
@@ -42,7 +43,7 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
                                                        removedFields: udRemovedFields)
         let ceHasUncommittedWrites = false
         let lastUncommittedChangeEvent = ChangeEvent.init(
-            id: ceId,
+            id: AnyBSONValue(ceId),
             operationType: .insert,
             fullDocument: ceFullDocument,
             ns: namespace, documentKey: ceDocumentKey,
@@ -71,8 +72,9 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
 
         var decodedCoreDocConfig = try BSONDecoder().decode(CoreDocumentSynchronization.Config.self,
                                                             from: encodedCoreDocSync)
-        let decodedCoreDocSync = CoreDocumentSynchronization.init(docsColl: docsColl,
-                                                                  config: &decodedCoreDocConfig)
+        let decodedCoreDocSync = try CoreDocumentSynchronization.init(docsColl: docsColl,
+                                                                      config: &decodedCoreDocConfig,
+                                                                      errorListener: nil)
 
         XCTAssertEqual(isPaused, decodedCoreDocSync.isPaused)
         XCTAssertEqual(isStale, decodedCoreDocSync.isStale)
@@ -87,7 +89,8 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
 
         var coreDocSync = CoreDocumentSynchronization.init(docsColl: docsColl,
                                                            namespace: namespace,
-                                                           documentId: AnyBSONValue(documentId))
+                                                           documentId: AnyBSONValue(documentId),
+                                                           errorListener: nil)
 
         try! docsColl.insertOne(coreDocSync.config)
 
@@ -99,7 +102,7 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
                                                        removedFields: udRemovedFields)
         let ceHasUncommittedWrites = false
         let changeEvent = ChangeEvent.init(
-            id: ceId,
+            id: AnyBSONValue(ceId),
             operationType: .insert,
             fullDocument: ceFullDocument,
             ns: namespace, documentKey: ceDocumentKey,
@@ -107,7 +110,7 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
             hasUncommittedWrites: ceHasUncommittedWrites)
 
         coreDocSync.isPaused = true
-        coreDocSync.setSomePendingWrites(atTime: 100.0, changeEvent: changeEvent)
+        try coreDocSync.setSomePendingWrites(atTime: 100.0, changeEvent: changeEvent)
 
         XCTAssertEqual(false, coreDocSync.isPaused)
         XCTAssertEqual(true, coreDocSync.isStale)
@@ -116,16 +119,16 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
         XCTAssertEqual(coreDocSync.config, try docsColl.find(["documentId": documentId]).next())
 
         let atVersion = DocumentVersionInfo.freshVersionDocument()
-        coreDocSync.setSomePendingWrites(atTime: 101.0,
-                                         atVersion: atVersion,
-                                         changeEvent: changeEvent)
+        try coreDocSync.setSomePendingWrites(atTime: 101.0,
+                                             atVersion: atVersion,
+                                             changeEvent: changeEvent)
 
         XCTAssertEqual(changeEvent, coreDocSync.lastUncommittedChangeEvent)
         XCTAssertEqual(101.0, coreDocSync.lastResolution)
         XCTAssertEqual(atVersion, coreDocSync.lastKnownRemoteVersion)
         XCTAssertEqual(coreDocSync.config, try docsColl.find(["documentId": documentId]).next())
 
-        coreDocSync.setPendingWritesComplete(atVersion: atVersion)
+        try coreDocSync.setPendingWritesComplete(atVersion: atVersion)
         XCTAssertNil(coreDocSync.lastUncommittedChangeEvent)
         XCTAssertEqual(atVersion, coreDocSync.lastKnownRemoteVersion)
         XCTAssertEqual(101.0, coreDocSync.lastResolution)

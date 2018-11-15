@@ -19,25 +19,27 @@ public protocol ConflictHandler {
     func resolveConflict(
         documentId: BSONValue,
         localEvent: ChangeEvent<DocumentT>,
-        remoteEvent: ChangeEvent<DocumentT>) -> DocumentT?
+        remoteEvent: ChangeEvent<DocumentT>) throws -> DocumentT?
 }
 
 internal final class AnyConflictHandler: ConflictHandler {
-    private let _resolver: (BSONValue, ChangeEvent<Document>, ChangeEvent<Document>) -> Document?
+    private let _resolver: (BSONValue, ChangeEvent<Document>, ChangeEvent<Document>) throws -> Document?
 
     init<U: ConflictHandler>(_ conflictHandler: U) {
         self._resolver = { (documentId, localEvent, remoteEvent) in
-            let documentT = conflictHandler.resolveConflict(
-                documentId: documentId,
-                localEvent: ChangeEvent<U.DocumentT>.transform(changeEvent: localEvent),
-                remoteEvent: ChangeEvent<U.DocumentT>.transform(changeEvent: remoteEvent))
-            return try! BSONEncoder().encode(documentT)
+            do {
+                let documentT = try conflictHandler.resolveConflict(
+                    documentId: documentId,
+                    localEvent: try ChangeEvent<U.DocumentT>.transform(changeEvent: localEvent),
+                    remoteEvent: try ChangeEvent<U.DocumentT>.transform(changeEvent: remoteEvent))
+                return try! BSONEncoder().encode(documentT)
+            }
         }
     }
 
     func resolveConflict(documentId: BSONValue,
                          localEvent: ChangeEvent<Document>,
-                         remoteEvent: ChangeEvent<Document>) -> Document? {
-        return self._resolver(documentId, localEvent, remoteEvent)
+                         remoteEvent: ChangeEvent<Document>) throws -> Document? {
+        return try self._resolver(documentId, localEvent, remoteEvent)
     }
 }

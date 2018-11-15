@@ -18,7 +18,7 @@ class ConflictHandlerUnitTests: XCTestCase {
                              localEvent: ChangeEvent<ConflictHandlerUnitTests.TestCodable>,
                              remoteEvent: ChangeEvent<ConflictHandlerUnitTests.TestCodable>) -> ConflictHandlerUnitTests.TestCodable? {
             XCTAssertEqual(ConflictHandlerUnitTests.documentId, documentId as! ObjectId)
-            XCTAssertEqual(expectedLocalEvent.id, localEvent.id)
+            XCTAssertTrue(bsonEquals(expectedLocalEvent.id.value, localEvent.id.value))
             XCTAssertEqual(expectedLocalEvent.operationType, localEvent.operationType)
             XCTAssertEqual(expectedLocalEvent.fullDocument?["foo"] as? Int, localEvent.fullDocument?.foo)
             XCTAssertEqual(expectedLocalEvent.fullDocument?["bar"] as? String, localEvent.fullDocument?.bar)
@@ -28,7 +28,7 @@ class ConflictHandlerUnitTests: XCTestCase {
             XCTAssertNil(localEvent.updateDescription)
             XCTAssertEqual(expectedLocalEvent.hasUncommittedWrites, localEvent.hasUncommittedWrites)
 
-            XCTAssertEqual(expectedRemoteEvent.id, remoteEvent.id)
+            XCTAssertTrue(bsonEquals(expectedRemoteEvent.id.value, remoteEvent.id.value))
             XCTAssertEqual(expectedRemoteEvent.operationType, remoteEvent.operationType)
             XCTAssertEqual(expectedRemoteEvent.fullDocument?["foo"] as? Int, remoteEvent.fullDocument?.foo)
             XCTAssertEqual(expectedRemoteEvent.fullDocument?["bar"] as? String, remoteEvent.fullDocument?.bar)
@@ -44,7 +44,7 @@ class ConflictHandlerUnitTests: XCTestCase {
 
     static let documentId = ObjectId()
     static let expectedLocalEvent = ChangeEvent<Document>.init(
-        id: ["apples": "pears"],
+        id: AnyBSONValue(["apples": "pears"] as Document),
         operationType: .insert,
         fullDocument: ["foo": 42, "bar": "baz", "_id": documentId],
         ns: MongoNamespace.init(databaseName: "beep", collectionName: "boop"),
@@ -52,7 +52,7 @@ class ConflictHandlerUnitTests: XCTestCase {
         updateDescription: nil,
         hasUncommittedWrites: false)
     static let expectedRemoteEvent = ChangeEvent<Document>.init(
-        id: ["oranges": "bananas"],
+        id: AnyBSONValue(["oranges": "bananas"] as Document),
         operationType: .delete,
         fullDocument: ["_id": documentId, "foo": 84, "bar": "qux"],
         ns: MongoNamespace.init(databaseName: "beep", collectionName: "boop"),
@@ -60,11 +60,11 @@ class ConflictHandlerUnitTests: XCTestCase {
         updateDescription: nil,
         hasUncommittedWrites: false)
 
-    func testResolveConflict() {
+    func testResolveConflict() throws {
         let conflictHandler = AnyConflictHandler(TestCodableConflictHandler())
-        let resolution = conflictHandler.resolveConflict(documentId: ConflictHandlerUnitTests.documentId,
-                                                         localEvent: ConflictHandlerUnitTests.expectedLocalEvent,
-                                                         remoteEvent: ConflictHandlerUnitTests.expectedRemoteEvent)
+        let resolution = try conflictHandler.resolveConflict(documentId: ConflictHandlerUnitTests.documentId,
+                                                             localEvent: ConflictHandlerUnitTests.expectedLocalEvent,
+                                                             remoteEvent: ConflictHandlerUnitTests.expectedRemoteEvent)
         XCTAssertEqual(ConflictHandlerUnitTests.expectedRemoteEvent.fullDocument, resolution)
     }
 }

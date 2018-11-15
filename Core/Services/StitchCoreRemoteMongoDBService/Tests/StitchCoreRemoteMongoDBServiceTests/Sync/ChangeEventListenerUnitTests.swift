@@ -16,7 +16,7 @@ class ChangeEventListenerUnitTests: XCTestCase {
 
         func onEvent(documentId: BSONValue, event: ChangeEvent<ChangeEventListenerUnitTests.TestCodable>) {
             XCTAssertEqual(ChangeEventListenerUnitTests.documentId, documentId as! ObjectId)
-            XCTAssertEqual(expectedChangeEvent.id, event.id)
+            XCTAssertTrue(bsonEquals(expectedChangeEvent.id.value, event.id.value))
             XCTAssertEqual(expectedChangeEvent.operationType, event.operationType)
             XCTAssertEqual(expectedChangeEvent.fullDocument?["foo"] as? Int, event.fullDocument?.foo)
             XCTAssertEqual(expectedChangeEvent.fullDocument?["bar"] as? String, event.fullDocument?.bar)
@@ -30,7 +30,7 @@ class ChangeEventListenerUnitTests: XCTestCase {
 
     private static let documentId = ObjectId()
     private static let expectedChangeEvent = ChangeEvent<Document>.init(
-        id: ["apples": "pears"],
+        id: AnyBSONValue(["apples": "pears"] as Document),
         operationType: .insert,
         fullDocument: ["foo": 42, "bar": "baz", "_id": documentId],
         ns: MongoNamespace.init(databaseName: "beep", collectionName: "boop"),
@@ -39,7 +39,8 @@ class ChangeEventListenerUnitTests: XCTestCase {
         hasUncommittedWrites: false)
 
     func testOnEvent() {
-        let changeEventListener = AnyChangeEventListener(TestCodableChangeEventListener())
+        let changeEventListener = AnyChangeEventListener(TestCodableChangeEventListener(),
+                                                         errorListener: nil)
         changeEventListener.onEvent(documentId: ChangeEventListenerUnitTests.documentId,
                                     event: ChangeEventListenerUnitTests.expectedChangeEvent)
     }

@@ -18,10 +18,14 @@ public protocol ChangeEventListener {
 internal final class AnyChangeEventListener: ChangeEventListener {
     private let _onEvent: (BSONValue, ChangeEvent<Document>) -> Void
 
-    init<U: ChangeEventListener>(_ changeEventListener: U) {
+    init<U: ChangeEventListener>(_ changeEventListener: U, errorListener: ErrorListener?) {
         self._onEvent = { documentId, event in
-            changeEventListener.onEvent(documentId: documentId,
-                                        event: ChangeEvent<U.DocumentT>.transform(changeEvent: event))
+            do {
+                changeEventListener.onEvent(documentId: documentId,
+                                            event: try ChangeEvent<U.DocumentT>.transform(changeEvent: event))
+            } catch {
+                errorListener?.on(error: error, forDocumentId: documentId)
+            }
         }
     }
 

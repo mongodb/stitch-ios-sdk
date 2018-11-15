@@ -23,6 +23,7 @@ private func getVersionedFilter(documentId: BSONValue?,
     return filter
 }
 
+// TODO: Wiring to DataSynchronizer
 final class DocumentVersionInfo {
     let version: Version?
     let versionDoc: Document?
@@ -54,8 +55,7 @@ final class DocumentVersionInfo {
      The absence of a version is effectively a version, and should be treated as such by consumers
      of this method.
      */
-    var hasVersion: Bool
-    {
+    var hasVersion: Bool {
         get {
             return version != nil
         }
