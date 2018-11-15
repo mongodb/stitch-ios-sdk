@@ -5,6 +5,7 @@ import StitchCoreSDK
 
 private var initialized = false;
 
+/// :nodoc:
 open class CoreLocalMongoDBService {
     private static var _localInstances: Dictionary<String, MongoClient> = [String: MongoClient]()
 
