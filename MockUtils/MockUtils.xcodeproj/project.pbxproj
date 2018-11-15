@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		18BE78A6D26855A7B1C52AD9 /* Pods_MockUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDAF059548651D827901B637 /* Pods_MockUtils.framework */; };
 		49E3C1C52182461A007E270D /* MockUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49E3C1B1218245CA007E270D /* MockUtils.framework */; };
 		49E3C1D12182462F007E270D /* SpyUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E3C1CD2182462E007E270D /* SpyUtils.swift */; };
 		49E3C1D22182462F007E270D /* Matcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E3C1CE2182462E007E270D /* Matcher.swift */; };
 		49E3C1D32182462F007E270D /* Collection+count.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E3C1CF2182462E007E270D /* Collection+count.swift */; };
 		49E3C1D42182462F007E270D /* MockUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E3C1D02182462E007E270D /* MockUtils.swift */; };
 		49E3C1D821824639007E270D /* MockUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E3C1D721824639007E270D /* MockUtilsTests.swift */; };
-		AC8DE981689B82C2BF05D0CC /* libPods-MockUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F0D476C169DE1EE79B470A84 /* libPods-MockUtils.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,8 +36,8 @@
 		49E3C1D02182462E007E270D /* MockUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockUtils.swift; sourceTree = "<group>"; };
 		49E3C1D721824639007E270D /* MockUtilsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockUtilsTests.swift; sourceTree = "<group>"; };
 		8CA37DADA6D4191B2AF98C54 /* Pods-MockUtils.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MockUtils.release.xcconfig"; path = "Target Support Files/Pods-MockUtils/Pods-MockUtils.release.xcconfig"; sourceTree = "<group>"; };
-		F0D476C169DE1EE79B470A84 /* libPods-MockUtils.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MockUtils.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F37F96B4943CA964F83EB5D6 /* libPods-StitchCoreSDK-MockUtils.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchCoreSDK-MockUtils.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FDAF059548651D827901B637 /* Pods_MockUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MockUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,7 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC8DE981689B82C2BF05D0CC /* libPods-MockUtils.a in Frameworks */,
+				18BE78A6D26855A7B1C52AD9 /* Pods_MockUtils.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,8 +128,8 @@
 		FA6825CA31382917C5943E5D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F0D476C169DE1EE79B470A84 /* libPods-MockUtils.a */,
 				F37F96B4943CA964F83EB5D6 /* libPods-StitchCoreSDK-MockUtils.a */,
+				FDAF059548651D827901B637 /* Pods_MockUtils.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
