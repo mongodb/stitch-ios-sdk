@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		40893A56C92FB960E40723F3 /* libPods-StitchCoreTestUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F149453705BF81543625A99 /* libPods-StitchCoreTestUtils.a */; };
 		498062ED2185BA7B00E2A3A2 /* BaseStitchIntTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498062EC2185BA7B00E2A3A2 /* BaseStitchIntTest.swift */; };
 		498062F22185BB2600E2A3A2 /* StitchCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498062F12185BB2600E2A3A2 /* StitchCoreSDK.framework */; };
 		498062F42185BBA500E2A3A2 /* StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498062F32185BBA500E2A3A2 /* StitchCoreAdminClient.framework */; };
+		6196E23B4381C6188B56F0D2 /* Pods_StitchCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E5FE1975CF3949B7B426942 /* Pods_StitchCoreTestUtils.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,7 +19,7 @@
 		498062EF2185BAB400E2A3A2 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		498062F12185BB2600E2A3A2 /* StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		498062F32185BBA500E2A3A2 /* StitchCoreAdminClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAdminClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4F149453705BF81543625A99 /* libPods-StitchCoreTestUtils.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchCoreTestUtils.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4E5FE1975CF3949B7B426942 /* Pods_StitchCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAA1C313718D7ABE5716E04C /* Pods-StitchCoreTestUtils.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreTestUtils.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreTestUtils/Pods-StitchCoreTestUtils.release.xcconfig"; sourceTree = "<group>"; };
 		E5E68F3BF85CAD1FF08807D0 /* Pods-StitchCoreTestUtils.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreTestUtils.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreTestUtils/Pods-StitchCoreTestUtils.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -31,7 +31,7 @@
 			files = (
 				498062F42185BBA500E2A3A2 /* StitchCoreAdminClient.framework in Frameworks */,
 				498062F22185BB2600E2A3A2 /* StitchCoreSDK.framework in Frameworks */,
-				40893A56C92FB960E40723F3 /* libPods-StitchCoreTestUtils.a in Frameworks */,
+				6196E23B4381C6188B56F0D2 /* Pods_StitchCoreTestUtils.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,7 +78,7 @@
 				498062F32185BBA500E2A3A2 /* StitchCoreAdminClient.framework */,
 				498062F12185BB2600E2A3A2 /* StitchCoreSDK.framework */,
 				498062EF2185BAB400E2A3A2 /* XCTest.framework */,
-				4F149453705BF81543625A99 /* libPods-StitchCoreTestUtils.a */,
+				4E5FE1975CF3949B7B426942 /* Pods_StitchCoreTestUtils.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

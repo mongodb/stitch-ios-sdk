@@ -7,10 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		117A90F0D4593D121E3ACDD1 /* libPods-StitchCoreRemoteMongoDBServiceTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B092721D50556510FCE0A230 /* libPods-StitchCoreRemoteMongoDBServiceTests.a */; };
-		43ECFFE9FF1B2373F32B1E44 /* libPods-StitchCoreRemoteMongoDBService.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5382DDFA5BD2D6A775B923BF /* libPods-StitchCoreRemoteMongoDBService.a */; };
+		10EFC004FFFF7C19813FAD43 /* Pods_StitchCoreRemoteMongoDBServiceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 709AA19060D3B86D29BEB64E /* Pods_StitchCoreRemoteMongoDBServiceTests.framework */; };
+		49037A44219E0ECD0066E109 /* ErrorListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49037A43219E0ECD0066E109 /* ErrorListener.swift */; };
+		4943FC5B2196506300DED08C /* ChangeEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4943FC5A2196506300DED08C /* ChangeEvent.swift */; };
+		4943FC5D2196508100DED08C /* MongoNamespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4943FC5C2196508100DED08C /* MongoNamespace.swift */; };
+		4943FC61219650A200DED08C /* UpdateDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4943FC60219650A200DED08C /* UpdateDescription.swift */; };
+		4943FC632196591F00DED08C /* CoreDocumentSynchronizationConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4943FC622196591F00DED08C /* CoreDocumentSynchronizationConfig.swift */; };
+		4943FC65219659AE00DED08C /* ReadWriteLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4943FC64219659AE00DED08C /* ReadWriteLock.swift */; };
+		4943FC69219688FA00DED08C /* BSONValue+Hashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4943FC68219688FA00DED08C /* BSONValue+Hashable.swift */; };
+		4943FC6D21968B6D00DED08C /* CoreDocumentSynchronizationConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4943FC6B21968A0900DED08C /* CoreDocumentSynchronizationConfigTests.swift */; };
+		4943FC6F219724E800DED08C /* DocumentVersionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4943FC6E219724E800DED08C /* DocumentVersionInfo.swift */; };
+		4980B1292199E7E000D6E49C /* ConflictHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4980B1282199E7E000D6E49C /* ConflictHandler.swift */; };
+		4980B12B2199EBE100D6E49C /* ChangeEventListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4980B12A2199EBE100D6E49C /* ChangeEventListener.swift */; };
+		4980B12D219A1AA500D6E49C /* InstanceSynchronizationConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4980B12C219A1AA500D6E49C /* InstanceSynchronizationConfig.swift */; };
 		498E55D02190A05C00A02A03 /* StitchCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E55CF2190A05C00A02A03 /* StitchCoreSDK.framework */; };
 		498E55D22190A08400A02A03 /* StitchCoreSDKMocks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E55D12190A08400A02A03 /* StitchCoreSDKMocks.framework */; };
+		49E8957B21991C1A003C3758 /* NamespaceSynchronizationConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E8957A21991C1A003C3758 /* NamespaceSynchronizationConfig.swift */; };
+		49FA277D219A605700F9E3D4 /* ConflictHandlerUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA277C219A605700F9E3D4 /* ConflictHandlerUnitTests.swift */; };
+		49FA277F219B1F1300F9E3D4 /* ReadWriteLockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA277E219B1F1300F9E3D4 /* ReadWriteLockTests.swift */; };
+		49FA2781219B2A8900F9E3D4 /* NamespaceSynchronizationConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA2780219B2A8900F9E3D4 /* NamespaceSynchronizationConfigTests.swift */; };
+		49FA2783219B373B00F9E3D4 /* XCMongoMobileTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA2782219B373B00F9E3D4 /* XCMongoMobileTestCase.swift */; };
+		49FA2785219B656000F9E3D4 /* ChangeEventUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA2784219B656000F9E3D4 /* ChangeEventUnitTests.swift */; };
+		49FA2787219B6DE500F9E3D4 /* InstanceSynchronizationConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA2786219B6DE500F9E3D4 /* InstanceSynchronizationConfigTests.swift */; };
+		49FA2789219B748300F9E3D4 /* UpdateDescriptionUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA2788219B748300F9E3D4 /* UpdateDescriptionUnitTests.swift */; };
+		49FA278B219B839F00F9E3D4 /* ChangeEventListenerUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA278A219B839F00F9E3D4 /* ChangeEventListenerUnitTests.swift */; };
+		49FA278D219B84F400F9E3D4 /* DocumentVersionInfoUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA278C219B84F400F9E3D4 /* DocumentVersionInfoUnitTests.swift */; };
+		D6D7930046A12C074CD77BDD /* Pods_StitchCoreRemoteMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F235E164A012D569D890610 /* Pods_StitchCoreRemoteMongoDBService.framework */; };
 		OBJ_168 /* CoreRemoteMongoClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* CoreRemoteMongoClient.swift */; };
 		OBJ_169 /* CoreRemoteMongoCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* CoreRemoteMongoCollection.swift */; };
 		OBJ_170 /* CoreRemoteMongoCursor.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* CoreRemoteMongoCursor.swift */; };
@@ -40,13 +62,41 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0CE26FA34612A18974F693CE /* Pods_StitchCoreSDK_StitchCoreRemoteMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreSDK_StitchCoreRemoteMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		25FFBB5452FFCDAE99EEE4F5 /* Pods-StitchCoreRemoteMongoDBServiceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreRemoteMongoDBServiceTests.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreRemoteMongoDBServiceTests/Pods-StitchCoreRemoteMongoDBServiceTests.debug.xcconfig"; sourceTree = "<group>"; };
+		3681B7A8CFE56F721C7015E5 /* Pods_StitchCoreSDK_StitchCoreRemoteMongoDBService_StitchCoreRemoteMongoDBServiceTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreSDK_StitchCoreRemoteMongoDBService_StitchCoreRemoteMongoDBServiceTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3933F08FF5BAED636C28203E /* Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService/Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService.release.xcconfig"; sourceTree = "<group>"; };
 		3A1BD4AAE033374B49CE5D88 /* Pods-StitchCoreRemoteMongoDBService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreRemoteMongoDBService.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreRemoteMongoDBService/Pods-StitchCoreRemoteMongoDBService.debug.xcconfig"; sourceTree = "<group>"; };
+		49037A43219E0ECD0066E109 /* ErrorListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorListener.swift; sourceTree = "<group>"; };
+		4943FC5A2196506300DED08C /* ChangeEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeEvent.swift; sourceTree = "<group>"; };
+		4943FC5C2196508100DED08C /* MongoNamespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MongoNamespace.swift; sourceTree = "<group>"; };
+		4943FC60219650A200DED08C /* UpdateDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateDescription.swift; sourceTree = "<group>"; };
+		4943FC622196591F00DED08C /* CoreDocumentSynchronizationConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDocumentSynchronizationConfig.swift; sourceTree = "<group>"; };
+		4943FC64219659AE00DED08C /* ReadWriteLock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadWriteLock.swift; sourceTree = "<group>"; };
+		4943FC68219688FA00DED08C /* BSONValue+Hashable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BSONValue+Hashable.swift"; sourceTree = "<group>"; };
+		4943FC6B21968A0900DED08C /* CoreDocumentSynchronizationConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDocumentSynchronizationConfigTests.swift; sourceTree = "<group>"; };
+		4943FC6E219724E800DED08C /* DocumentVersionInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentVersionInfo.swift; sourceTree = "<group>"; };
+		4980B1282199E7E000D6E49C /* ConflictHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConflictHandler.swift; sourceTree = "<group>"; };
+		4980B12A2199EBE100D6E49C /* ChangeEventListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeEventListener.swift; sourceTree = "<group>"; };
+		4980B12C219A1AA500D6E49C /* InstanceSynchronizationConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceSynchronizationConfig.swift; sourceTree = "<group>"; };
 		498E55CF2190A05C00A02A03 /* StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		498E55D12190A08400A02A03 /* StitchCoreSDKMocks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDKMocks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5382DDFA5BD2D6A775B923BF /* libPods-StitchCoreRemoteMongoDBService.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchCoreRemoteMongoDBService.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		49E8957A21991C1A003C3758 /* NamespaceSynchronizationConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamespaceSynchronizationConfig.swift; sourceTree = "<group>"; };
+		49FA277C219A605700F9E3D4 /* ConflictHandlerUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConflictHandlerUnitTests.swift; sourceTree = "<group>"; };
+		49FA277E219B1F1300F9E3D4 /* ReadWriteLockTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadWriteLockTests.swift; sourceTree = "<group>"; };
+		49FA2780219B2A8900F9E3D4 /* NamespaceSynchronizationConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamespaceSynchronizationConfigTests.swift; sourceTree = "<group>"; };
+		49FA2782219B373B00F9E3D4 /* XCMongoMobileTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCMongoMobileTestCase.swift; sourceTree = "<group>"; };
+		49FA2784219B656000F9E3D4 /* ChangeEventUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeEventUnitTests.swift; sourceTree = "<group>"; };
+		49FA2786219B6DE500F9E3D4 /* InstanceSynchronizationConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceSynchronizationConfigTests.swift; sourceTree = "<group>"; };
+		49FA2788219B748300F9E3D4 /* UpdateDescriptionUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateDescriptionUnitTests.swift; sourceTree = "<group>"; };
+		49FA278A219B839F00F9E3D4 /* ChangeEventListenerUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeEventListenerUnitTests.swift; sourceTree = "<group>"; };
+		49FA278C219B84F400F9E3D4 /* DocumentVersionInfoUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentVersionInfoUnitTests.swift; sourceTree = "<group>"; };
+		67F24790BBDC46E344B22CF9 /* Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService/Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService.debug.xcconfig"; sourceTree = "<group>"; };
+		6AE360C94F62DEC54AE228E4 /* Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService-StitchCoreRemoteMongoDBServiceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService-StitchCoreRemoteMongoDBServiceTests.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService-StitchCoreRemoteMongoDBServiceTests/Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService-StitchCoreRemoteMongoDBServiceTests.debug.xcconfig"; sourceTree = "<group>"; };
+		709AA19060D3B86D29BEB64E /* Pods_StitchCoreRemoteMongoDBServiceTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreRemoteMongoDBServiceTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7996BF2D43C5B862F229A1B4 /* Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService-StitchCoreRemoteMongoDBServiceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService-StitchCoreRemoteMongoDBServiceTests.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService-StitchCoreRemoteMongoDBServiceTests/Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService-StitchCoreRemoteMongoDBServiceTests.release.xcconfig"; sourceTree = "<group>"; };
 		7DACA4B4DE536C643AE7BB93 /* Pods-StitchCoreRemoteMongoDBServiceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreRemoteMongoDBServiceTests.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreRemoteMongoDBServiceTests/Pods-StitchCoreRemoteMongoDBServiceTests.release.xcconfig"; sourceTree = "<group>"; };
-		B092721D50556510FCE0A230 /* libPods-StitchCoreRemoteMongoDBServiceTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchCoreRemoteMongoDBServiceTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9F235E164A012D569D890610 /* Pods_StitchCoreRemoteMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreRemoteMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1C6CB58888182B5A49347E5 /* Pods-StitchCoreRemoteMongoDBService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreRemoteMongoDBService.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreRemoteMongoDBService/Pods-StitchCoreRemoteMongoDBService.release.xcconfig"; sourceTree = "<group>"; };
 		OBJ_12 /* CoreRemoteMongoClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreRemoteMongoClient.swift; sourceTree = "<group>"; };
 		OBJ_13 /* CoreRemoteMongoCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreRemoteMongoCollection.swift; sourceTree = "<group>"; };
@@ -65,8 +115,8 @@
 		OBJ_28 /* CoreRemoteMongoDatabaseUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreRemoteMongoDatabaseUnitTests.swift; sourceTree = "<group>"; };
 		OBJ_29 /* TestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUtils.swift; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
-		StitchCoreRemoteMongoDBService::StitchCoreRemoteMongoDBService::Product /* StitchCoreRemoteMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreRemoteMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		StitchCoreRemoteMongoDBService::StitchCoreRemoteMongoDBServiceTests::Product /* StitchCoreRemoteMongoDBServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = StitchCoreRemoteMongoDBServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StitchCoreRemoteMongoDBService::StitchCoreRemoteMongoDBService::Product" /* StitchCoreRemoteMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreRemoteMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StitchCoreRemoteMongoDBService::StitchCoreRemoteMongoDBServiceTests::Product" /* StitchCoreRemoteMongoDBServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = StitchCoreRemoteMongoDBServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,7 +125,7 @@
 			buildActionMask = 0;
 			files = (
 				498E55D02190A05C00A02A03 /* StitchCoreSDK.framework in Frameworks */,
-				43ECFFE9FF1B2373F32B1E44 /* libPods-StitchCoreRemoteMongoDBService.a in Frameworks */,
+				D6D7930046A12C074CD77BDD /* Pods_StitchCoreRemoteMongoDBService.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,7 +134,7 @@
 			buildActionMask = 0;
 			files = (
 				498E55D22190A08400A02A03 /* StitchCoreSDKMocks.framework in Frameworks */,
-				117A90F0D4593D121E3ACDD1 /* libPods-StitchCoreRemoteMongoDBServiceTests.a in Frameworks */,
+				10EFC004FFFF7C19813FAD43 /* Pods_StitchCoreRemoteMongoDBServiceTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,10 +146,48 @@
 			children = (
 				498E55D12190A08400A02A03 /* StitchCoreSDKMocks.framework */,
 				498E55CF2190A05C00A02A03 /* StitchCoreSDK.framework */,
-				5382DDFA5BD2D6A775B923BF /* libPods-StitchCoreRemoteMongoDBService.a */,
-				B092721D50556510FCE0A230 /* libPods-StitchCoreRemoteMongoDBServiceTests.a */,
+				0CE26FA34612A18974F693CE /* Pods_StitchCoreSDK_StitchCoreRemoteMongoDBService.framework */,
+				3681B7A8CFE56F721C7015E5 /* Pods_StitchCoreSDK_StitchCoreRemoteMongoDBService_StitchCoreRemoteMongoDBServiceTests.framework */,
+				9F235E164A012D569D890610 /* Pods_StitchCoreRemoteMongoDBService.framework */,
+				709AA19060D3B86D29BEB64E /* Pods_StitchCoreRemoteMongoDBServiceTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4943FC592196505500DED08C /* Sync */ = {
+			isa = PBXGroup;
+			children = (
+				4980B12C219A1AA500D6E49C /* InstanceSynchronizationConfig.swift */,
+				49E8957A21991C1A003C3758 /* NamespaceSynchronizationConfig.swift */,
+				4943FC622196591F00DED08C /* CoreDocumentSynchronizationConfig.swift */,
+				4943FC5A2196506300DED08C /* ChangeEvent.swift */,
+				49037A43219E0ECD0066E109 /* ErrorListener.swift */,
+				4943FC60219650A200DED08C /* UpdateDescription.swift */,
+				4980B1282199E7E000D6E49C /* ConflictHandler.swift */,
+				4980B12A2199EBE100D6E49C /* ChangeEventListener.swift */,
+				4943FC5C2196508100DED08C /* MongoNamespace.swift */,
+				4943FC6E219724E800DED08C /* DocumentVersionInfo.swift */,
+				4943FC68219688FA00DED08C /* BSONValue+Hashable.swift */,
+				4943FC64219659AE00DED08C /* ReadWriteLock.swift */,
+			);
+			path = Sync;
+			sourceTree = "<group>";
+		};
+		4943FC6A219689FD00DED08C /* Sync */ = {
+			isa = PBXGroup;
+			children = (
+				49FA2782219B373B00F9E3D4 /* XCMongoMobileTestCase.swift */,
+				49FA2786219B6DE500F9E3D4 /* InstanceSynchronizationConfigTests.swift */,
+				49FA2780219B2A8900F9E3D4 /* NamespaceSynchronizationConfigTests.swift */,
+				4943FC6B21968A0900DED08C /* CoreDocumentSynchronizationConfigTests.swift */,
+				49FA2784219B656000F9E3D4 /* ChangeEventUnitTests.swift */,
+				49FA2788219B748300F9E3D4 /* UpdateDescriptionUnitTests.swift */,
+				49FA277C219A605700F9E3D4 /* ConflictHandlerUnitTests.swift */,
+				49FA278A219B839F00F9E3D4 /* ChangeEventListenerUnitTests.swift */,
+				49FA278C219B84F400F9E3D4 /* DocumentVersionInfoUnitTests.swift */,
+				49FA277E219B1F1300F9E3D4 /* ReadWriteLockTests.swift */,
+			);
+			path = Sync;
 			sourceTree = "<group>";
 		};
 		F6E3DD06A570C811022F7736 /* Pods */ = {
@@ -109,6 +197,10 @@
 				E1C6CB58888182B5A49347E5 /* Pods-StitchCoreRemoteMongoDBService.release.xcconfig */,
 				25FFBB5452FFCDAE99EEE4F5 /* Pods-StitchCoreRemoteMongoDBServiceTests.debug.xcconfig */,
 				7DACA4B4DE536C643AE7BB93 /* Pods-StitchCoreRemoteMongoDBServiceTests.release.xcconfig */,
+				67F24790BBDC46E344B22CF9 /* Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService.debug.xcconfig */,
+				3933F08FF5BAED636C28203E /* Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService.release.xcconfig */,
+				6AE360C94F62DEC54AE228E4 /* Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService-StitchCoreRemoteMongoDBServiceTests.debug.xcconfig */,
+				7996BF2D43C5B862F229A1B4 /* Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService-StitchCoreRemoteMongoDBServiceTests.release.xcconfig */,
 			);
 			name = Pods;
 			path = ../../../Pods;
@@ -118,6 +210,7 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_11 /* Internal */,
+				4943FC592196505500DED08C /* Sync */,
 				OBJ_17 /* RemoteCountOptions.swift */,
 				OBJ_18 /* RemoteDeleteResult.swift */,
 				OBJ_19 /* RemoteFindOptions.swift */,
@@ -145,8 +238,8 @@
 		OBJ_141 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				StitchCoreRemoteMongoDBService::StitchCoreRemoteMongoDBServiceTests::Product /* StitchCoreRemoteMongoDBServiceTests.xctest */,
-				StitchCoreRemoteMongoDBService::StitchCoreRemoteMongoDBService::Product /* StitchCoreRemoteMongoDBService.framework */,
+				"StitchCoreRemoteMongoDBService::StitchCoreRemoteMongoDBServiceTests::Product" /* StitchCoreRemoteMongoDBServiceTests.xctest */,
+				"StitchCoreRemoteMongoDBService::StitchCoreRemoteMongoDBService::Product" /* StitchCoreRemoteMongoDBService.framework */,
 			);
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -162,6 +255,7 @@
 		OBJ_25 /* StitchCoreRemoteMongoDBServiceTests */ = {
 			isa = PBXGroup;
 			children = (
+				4943FC6A219689FD00DED08C /* Sync */,
 				OBJ_26 /* CoreRemoteMongoClientUnitTests.swift */,
 				OBJ_27 /* CoreRemoteMongoCollectionUnitTests.swift */,
 				OBJ_28 /* CoreRemoteMongoDatabaseUnitTests.swift */,
@@ -194,7 +288,7 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		StitchCoreRemoteMongoDBService::StitchCoreRemoteMongoDBService /* StitchCoreRemoteMongoDBService */ = {
+		"StitchCoreRemoteMongoDBService::StitchCoreRemoteMongoDBService" /* StitchCoreRemoteMongoDBService */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_164 /* Build configuration list for PBXNativeTarget "StitchCoreRemoteMongoDBService" */;
 			buildPhases = (
@@ -208,17 +302,17 @@
 			);
 			name = StitchCoreRemoteMongoDBService;
 			productName = StitchCoreRemoteMongoDBService;
-			productReference = StitchCoreRemoteMongoDBService::StitchCoreRemoteMongoDBService::Product /* StitchCoreRemoteMongoDBService.framework */;
+			productReference = "StitchCoreRemoteMongoDBService::StitchCoreRemoteMongoDBService::Product" /* StitchCoreRemoteMongoDBService.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		StitchCoreRemoteMongoDBService::StitchCoreRemoteMongoDBServiceTests /* StitchCoreRemoteMongoDBServiceTests */ = {
+		"StitchCoreRemoteMongoDBService::StitchCoreRemoteMongoDBServiceTests" /* StitchCoreRemoteMongoDBServiceTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_196 /* Build configuration list for PBXNativeTarget "StitchCoreRemoteMongoDBServiceTests" */;
 			buildPhases = (
 				57C46BFBE3A872C21AA806E1 /* [CP] Check Pods Manifest.lock */,
 				OBJ_199 /* Sources */,
 				OBJ_204 /* Frameworks */,
-				C6D397AA14B98F94BAEE30A9 /* [CP] Embed Pods Frameworks */,
+				68A4E96F74964205BA31D0BE /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -227,7 +321,7 @@
 			);
 			name = StitchCoreRemoteMongoDBServiceTests;
 			productName = StitchCoreRemoteMongoDBServiceTests;
-			productReference = StitchCoreRemoteMongoDBService::StitchCoreRemoteMongoDBServiceTests::Product /* StitchCoreRemoteMongoDBServiceTests.xctest */;
+			productReference = "StitchCoreRemoteMongoDBService::StitchCoreRemoteMongoDBServiceTests::Product" /* StitchCoreRemoteMongoDBServiceTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -250,8 +344,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				StitchCoreRemoteMongoDBService::StitchCoreRemoteMongoDBService /* StitchCoreRemoteMongoDBService */,
-				StitchCoreRemoteMongoDBService::StitchCoreRemoteMongoDBServiceTests /* StitchCoreRemoteMongoDBServiceTests */,
+				"StitchCoreRemoteMongoDBService::StitchCoreRemoteMongoDBService" /* StitchCoreRemoteMongoDBService */,
+				"StitchCoreRemoteMongoDBService::StitchCoreRemoteMongoDBServiceTests" /* StitchCoreRemoteMongoDBServiceTests */,
 			);
 		};
 /* End PBXProject section */
@@ -301,7 +395,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C6D397AA14B98F94BAEE30A9 /* [CP] Embed Pods Frameworks */ = {
+		68A4E96F74964205BA31D0BE /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -310,19 +404,29 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-StitchCoreRemoteMongoDBServiceTests/Pods-StitchCoreRemoteMongoDBServiceTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/MongoSwift/MongoSwift.framework",
 				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework",
 				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework.dSYM",
 				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework",
 				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework.dSYM",
+				"${BUILT_PRODUCTS_DIR}/MongoMobile/MongoMobile.framework",
+				"${PODS_ROOT}/mongo_embedded/iPhoneOS/Frameworks/mongo_embedded.framework",
+				"${PODS_ROOT}/mongoc_embedded/iPhoneOS/Frameworks/mongoc_embedded.framework",
+				"${PODS_ROOT}/mongoc_embedded/iPhoneOS/Frameworks/mongoc_embedded.framework.dSYM",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MongoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/bson.framework",
 				"${DWARF_DSYM_FOLDER_PATH}/bson.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongoc.framework",
 				"${DWARF_DSYM_FOLDER_PATH}/mongoc.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MongoMobile.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongo_embedded.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongoc_embedded.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/mongoc_embedded.framework.dSYM",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -337,16 +441,28 @@
 			buildActionMask = 0;
 			files = (
 				OBJ_168 /* CoreRemoteMongoClient.swift in Sources */,
+				4943FC5B2196506300DED08C /* ChangeEvent.swift in Sources */,
+				4943FC632196591F00DED08C /* CoreDocumentSynchronizationConfig.swift in Sources */,
 				OBJ_169 /* CoreRemoteMongoCollection.swift in Sources */,
+				4980B1292199E7E000D6E49C /* ConflictHandler.swift in Sources */,
+				4943FC6F219724E800DED08C /* DocumentVersionInfo.swift in Sources */,
+				49037A44219E0ECD0066E109 /* ErrorListener.swift in Sources */,
 				OBJ_170 /* CoreRemoteMongoCursor.swift in Sources */,
 				OBJ_171 /* CoreRemoteMongoDatabase.swift in Sources */,
 				OBJ_172 /* CoreRemoteMongoReadOperation.swift in Sources */,
+				4943FC65219659AE00DED08C /* ReadWriteLock.swift in Sources */,
 				OBJ_173 /* RemoteCountOptions.swift in Sources */,
+				4943FC69219688FA00DED08C /* BSONValue+Hashable.swift in Sources */,
 				OBJ_174 /* RemoteDeleteResult.swift in Sources */,
+				4943FC5D2196508100DED08C /* MongoNamespace.swift in Sources */,
+				4943FC61219650A200DED08C /* UpdateDescription.swift in Sources */,
 				OBJ_175 /* RemoteFindOptions.swift in Sources */,
 				OBJ_176 /* RemoteInsertManyResult.swift in Sources */,
+				49E8957B21991C1A003C3758 /* NamespaceSynchronizationConfig.swift in Sources */,
 				OBJ_177 /* RemoteInsertOneResult.swift in Sources */,
+				4980B12D219A1AA500D6E49C /* InstanceSynchronizationConfig.swift in Sources */,
 				OBJ_178 /* RemoteUpdateOptions.swift in Sources */,
+				4980B12B2199EBE100D6E49C /* ChangeEventListener.swift in Sources */,
 				OBJ_179 /* RemoteUpdateResult.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -355,7 +471,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				4943FC6D21968B6D00DED08C /* CoreDocumentSynchronizationConfigTests.swift in Sources */,
+				49FA277F219B1F1300F9E3D4 /* ReadWriteLockTests.swift in Sources */,
+				49FA2787219B6DE500F9E3D4 /* InstanceSynchronizationConfigTests.swift in Sources */,
+				49FA2783219B373B00F9E3D4 /* XCMongoMobileTestCase.swift in Sources */,
 				OBJ_200 /* CoreRemoteMongoClientUnitTests.swift in Sources */,
+				49FA277D219A605700F9E3D4 /* ConflictHandlerUnitTests.swift in Sources */,
+				49FA2789219B748300F9E3D4 /* UpdateDescriptionUnitTests.swift in Sources */,
+				49FA278D219B84F400F9E3D4 /* DocumentVersionInfoUnitTests.swift in Sources */,
+				49FA278B219B839F00F9E3D4 /* ChangeEventListenerUnitTests.swift in Sources */,
+				49FA2781219B2A8900F9E3D4 /* NamespaceSynchronizationConfigTests.swift in Sources */,
+				49FA2785219B656000F9E3D4 /* ChangeEventUnitTests.swift in Sources */,
 				OBJ_201 /* CoreRemoteMongoCollectionUnitTests.swift in Sources */,
 				OBJ_202 /* CoreRemoteMongoDatabaseUnitTests.swift in Sources */,
 				OBJ_203 /* TestUtils.swift in Sources */,
@@ -367,7 +493,7 @@
 /* Begin PBXTargetDependency section */
 		OBJ_212 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = StitchCoreRemoteMongoDBService::StitchCoreRemoteMongoDBService /* StitchCoreRemoteMongoDBService */;
+			target = "StitchCoreRemoteMongoDBService::StitchCoreRemoteMongoDBService" /* StitchCoreRemoteMongoDBService */;
 			targetProxy = 498060582184CF4300E2A3A2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
