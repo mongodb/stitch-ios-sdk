@@ -68,7 +68,7 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
                        encodedCoreDocSync[CoreDocumentSynchronization.Config.CodingKeys.lastResolution.rawValue] as? Double)
         XCTAssertEqual(lastUncommittedChangeEvent,
                        try BSONDecoder().decode(ChangeEvent.self,
-                                                from: encodedCoreDocSync[CoreDocumentSynchronization.Config.CodingKeys.lastUncommittedChangeEvent.rawValue] as! Document))
+                                                from: encodedCoreDocSync[CoreDocumentSynchronization.Config.CodingKeys.uncommittedChangeEvent.rawValue] as! Document))
 
         var decodedCoreDocConfig = try BSONDecoder().decode(CoreDocumentSynchronization.Config.self,
                                                             from: encodedCoreDocSync)

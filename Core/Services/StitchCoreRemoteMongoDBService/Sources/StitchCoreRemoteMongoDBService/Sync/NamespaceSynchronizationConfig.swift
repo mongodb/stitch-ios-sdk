@@ -12,7 +12,7 @@ import MongoMobile
  */
 internal struct NamespaceSynchronization: Sequence {
     /// The actual configuration to be persisted for this namespace.
-    class Config: Codable, Hashable {
+    class Config: Codable {
         fileprivate enum CodingKeys: CodingKey {
             case syncedDocuments, namespace
         }
@@ -25,15 +25,6 @@ internal struct NamespaceSynchronization: Sequence {
              syncedDocuments: [HashableBSONValue: CoreDocumentSynchronization.Config]) {
             self.namespace = namespace
             self.syncedDocuments = syncedDocuments
-        }
-
-        static func == (lhs: NamespaceSynchronization.Config, rhs: NamespaceSynchronization.Config) -> Bool {
-            return lhs.namespace == rhs.namespace
-        }
-
-        func hash(into hasher: inout Hasher) {
-            namespace.hash(into: &hasher)
-            syncedDocuments.hash(into: &hasher)
         }
     }
 

@@ -30,7 +30,7 @@ internal struct CoreDocumentSynchronization: Hashable {
     /// The actual configuration to be persisted for this document.
     class Config: Codable, Hashable {
         enum CodingKeys: String, CodingKey {
-            case namespace, documentId, lastUncommittedChangeEvent,
+            case namespace, documentId, uncommittedChangeEvent,
             lastResolution, lastKnownRemoteVersion, isStale, isPaused
         }
 

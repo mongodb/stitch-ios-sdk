@@ -39,7 +39,7 @@ class InstanceSynchronizationConfigTests: XCMongoMobileTestCase, ErrorListener {
                                                      errorListener: nil)
         XCTAssertNotNil(instanceSync[namespace])
 
-        XCTAssertEqual(instanceSync[namespace]?.config, nsConfig.config)
+        XCTAssertEqual(instanceSync[namespace]?.config.namespace, nsConfig.config.namespace)
 
         let documentId = HashableBSONValue(ObjectId())
         var nsConfig2 = instanceSync[namespace2]
