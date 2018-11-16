@@ -131,7 +131,7 @@ class ChangeEventUnitTests: XCTestCase {
         let insertEvent = try BSONDecoder().decode(ChangeEvent<Document>.self, from: """
         {
            "_id" : { "$oid": "\(id.oid)" },
-           "operationType" : "INSERT",
+           "operationType" : "insert",
            "fullDocument" : { "foo": "bar" },
            "ns" : {
               "db" : "database",

@@ -2,11 +2,7 @@ import MongoSwift
 
 /// The type of operation that occurred within a ChangeEvent.
 public enum OperationType: String, Codable {
-    case insert = "INSERT"
-    case delete = "DELETE"
-    case replace = "REPLACE"
-    case update = "UPDATE"
-    case unknown = "UNKNOWN"
+    case insert, delete, replace, update, unknown
 }
 
 /// Represents possible fields that a change stream response document can have.
