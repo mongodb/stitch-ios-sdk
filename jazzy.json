@@ -77,13 +77,21 @@
             "RemoteUpdateOptions",
             "RemoteUpdateResult"
         ]
-    }, 
+    },
+    {
+        "name": "Local MongoDB Service",
+        "children": [
+            "mongoClientFactory"
+        ]
+    },
     {
         "name": "AWS Service",
         "children": [
             "awsServiceClientFactory",
             "AWSServiceClient",
-            "AWSRequest"
+            "AWSRequest",
+            "AWSRequestBuilder",
+            "AWSRequestBuilderError"
         ]
     },
     {

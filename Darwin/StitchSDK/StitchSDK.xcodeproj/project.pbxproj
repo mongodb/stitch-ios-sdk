@@ -16,7 +16,7 @@
 		1159639820D02B8F00B0179B /* StitchHTTPService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1159639720D02B8F00B0179B /* StitchHTTPService.framework */; };
 		1159639A20D02B8F00B0179B /* StitchRemoteMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1159639920D02B8F00B0179B /* StitchRemoteMongoDBService.framework */; };
 		1159639C20D02B8F00B0179B /* StitchTwilioService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1159639B20D02B8F00B0179B /* StitchTwilioService.framework */; };
-		73DF1BFBD55A1449524651AE /* libPods-StitchSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A871300F398B696D77A06A5 /* libPods-StitchSDK.a */; };
+		D0C400D42B38F5A323C85730 /* Pods_StitchSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50F4CFD902D8FB3205A2198B /* Pods_StitchSDK.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,7 +31,7 @@
 		1159639720D02B8F00B0179B /* StitchHTTPService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchHTTPService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1159639920D02B8F00B0179B /* StitchRemoteMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchRemoteMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1159639B20D02B8F00B0179B /* StitchTwilioService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchTwilioService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		3A871300F398B696D77A06A5 /* libPods-StitchSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchSDK.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		50F4CFD902D8FB3205A2198B /* Pods_StitchSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C46681A06B721BFC1B8CCEFF /* Pods-StitchSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchSDK.debug.xcconfig"; path = "Target Support Files/Pods-StitchSDK/Pods-StitchSDK.debug.xcconfig"; sourceTree = "<group>"; };
 		E49C146702F863D7D6DDFB73 /* Pods-StitchSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchSDK.release.xcconfig"; path = "Target Support Files/Pods-StitchSDK/Pods-StitchSDK.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -48,7 +48,7 @@
 				1159639820D02B8F00B0179B /* StitchHTTPService.framework in Frameworks */,
 				1159639A20D02B8F00B0179B /* StitchRemoteMongoDBService.framework in Frameworks */,
 				1159639C20D02B8F00B0179B /* StitchTwilioService.framework in Frameworks */,
-				73DF1BFBD55A1449524651AE /* libPods-StitchSDK.a in Frameworks */,
+				D0C400D42B38F5A323C85730 /* Pods_StitchSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,7 +93,7 @@
 				1159639720D02B8F00B0179B /* StitchHTTPService.framework */,
 				1159639920D02B8F00B0179B /* StitchRemoteMongoDBService.framework */,
 				1159639B20D02B8F00B0179B /* StitchTwilioService.framework */,
-				3A871300F398B696D77A06A5 /* libPods-StitchSDK.a */,
+				50F4CFD902D8FB3205A2198B /* Pods_StitchSDK.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

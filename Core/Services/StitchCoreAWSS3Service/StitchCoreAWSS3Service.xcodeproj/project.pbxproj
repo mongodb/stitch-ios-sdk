@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C2880988A7E40893747C3CC /* Pods_StitchCoreAWSS3Service.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 364F2C85D334ACA72A58E9F0 /* Pods_StitchCoreAWSS3Service.framework */; };
 		492FA72D21909308001DFD53 /* StitchCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 492FA72C21909308001DFD53 /* StitchCoreSDK.framework */; };
 		492FA72F21909338001DFD53 /* MockUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 492FA72E21909338001DFD53 /* MockUtils.framework */; };
 		492FA73321909351001DFD53 /* StitchCoreSDKMocks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 492FA73221909351001DFD53 /* StitchCoreSDKMocks.framework */; };
-		AE3FAAFB31BE9D7D55FFC622 /* libPods-StitchCoreAWSS3Service.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 471CBEEEDD51986508C0F591 /* libPods-StitchCoreAWSS3Service.a */; };
-		FDA5BEF356900B013C812B0F /* libPods-StitchCoreAWSS3ServiceTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 85603B760FB854A36EB63122 /* libPods-StitchCoreAWSS3ServiceTests.a */; };
+		8B6D37606F6718965450011A /* Pods_StitchCoreAWSS3ServiceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FA86F68A2506491637D487B /* Pods_StitchCoreAWSS3ServiceTests.framework */; };
 		OBJ_156 /* AWSS3PutObjectResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* AWSS3PutObjectResult.swift */; };
 		OBJ_157 /* AWSS3SignPolicyResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* AWSS3SignPolicyResult.swift */; };
 		OBJ_158 /* CoreAWSS3ServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* CoreAWSS3ServiceClient.swift */; };
@@ -29,15 +29,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		471CBEEEDD51986508C0F591 /* libPods-StitchCoreAWSS3Service.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchCoreAWSS3Service.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		364F2C85D334ACA72A58E9F0 /* Pods_StitchCoreAWSS3Service.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreAWSS3Service.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		492FA72C21909308001DFD53 /* StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		492FA72E21909338001DFD53 /* MockUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MockUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		492FA73221909351001DFD53 /* StitchCoreSDKMocks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDKMocks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		85603B760FB854A36EB63122 /* libPods-StitchCoreAWSS3ServiceTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchCoreAWSS3ServiceTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		8AE65DBF0FEDA16C772F6698 /* Pods-StitchCoreAWSS3ServiceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAWSS3ServiceTests.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreAWSS3ServiceTests/Pods-StitchCoreAWSS3ServiceTests.debug.xcconfig"; sourceTree = "<group>"; };
-		8E1BB30389A35A84BE1AF07A /* Pods-StitchCoreAWSS3ServiceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAWSS3ServiceTests.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreAWSS3ServiceTests/Pods-StitchCoreAWSS3ServiceTests.release.xcconfig"; sourceTree = "<group>"; };
-		CA9B43070C5D4C3CCD5FF03C /* Pods-StitchCoreAWSS3Service.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAWSS3Service.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreAWSS3Service/Pods-StitchCoreAWSS3Service.debug.xcconfig"; sourceTree = "<group>"; };
-		EDAFC6CB655EF5ED56E8DBB9 /* Pods-StitchCoreAWSS3Service.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAWSS3Service.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreAWSS3Service/Pods-StitchCoreAWSS3Service.release.xcconfig"; sourceTree = "<group>"; };
+		4FA86F68A2506491637D487B /* Pods_StitchCoreAWSS3ServiceTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreAWSS3ServiceTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		748D5A65C9CEF8E317716FE2 /* Pods-StitchCoreAWSS3Service.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAWSS3Service.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreAWSS3Service/Pods-StitchCoreAWSS3Service.release.xcconfig"; sourceTree = "<group>"; };
+		7919F2EA8C7CA4F601DDFC7E /* Pods-StitchCoreAWSS3ServiceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAWSS3ServiceTests.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreAWSS3ServiceTests/Pods-StitchCoreAWSS3ServiceTests.release.xcconfig"; sourceTree = "<group>"; };
+		8DFC77A806CC0B3A503DDE5A /* Pods-StitchCoreAWSS3ServiceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAWSS3ServiceTests.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreAWSS3ServiceTests/Pods-StitchCoreAWSS3ServiceTests.debug.xcconfig"; sourceTree = "<group>"; };
+		A57E7075999B1B712C6658BB /* Pods-StitchCoreAWSS3Service.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAWSS3Service.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreAWSS3Service/Pods-StitchCoreAWSS3Service.debug.xcconfig"; sourceTree = "<group>"; };
 		OBJ_11 /* AWSS3PutObjectResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSS3PutObjectResult.swift; sourceTree = "<group>"; };
 		OBJ_12 /* AWSS3SignPolicyResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSS3SignPolicyResult.swift; sourceTree = "<group>"; };
 		OBJ_14 /* CoreAWSS3ServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAWSS3ServiceClient.swift; sourceTree = "<group>"; };
@@ -53,7 +53,7 @@
 			buildActionMask = 0;
 			files = (
 				492FA72D21909308001DFD53 /* StitchCoreSDK.framework in Frameworks */,
-				AE3FAAFB31BE9D7D55FFC622 /* libPods-StitchCoreAWSS3Service.a in Frameworks */,
+				0C2880988A7E40893747C3CC /* Pods_StitchCoreAWSS3Service.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,7 +63,7 @@
 			files = (
 				492FA73321909351001DFD53 /* StitchCoreSDKMocks.framework in Frameworks */,
 				492FA72F21909338001DFD53 /* MockUtils.framework in Frameworks */,
-				FDA5BEF356900B013C812B0F /* libPods-StitchCoreAWSS3ServiceTests.a in Frameworks */,
+				8B6D37606F6718965450011A /* Pods_StitchCoreAWSS3ServiceTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,19 +76,19 @@
 				492FA73221909351001DFD53 /* StitchCoreSDKMocks.framework */,
 				492FA72E21909338001DFD53 /* MockUtils.framework */,
 				492FA72C21909308001DFD53 /* StitchCoreSDK.framework */,
-				471CBEEEDD51986508C0F591 /* libPods-StitchCoreAWSS3Service.a */,
-				85603B760FB854A36EB63122 /* libPods-StitchCoreAWSS3ServiceTests.a */,
+				364F2C85D334ACA72A58E9F0 /* Pods_StitchCoreAWSS3Service.framework */,
+				4FA86F68A2506491637D487B /* Pods_StitchCoreAWSS3ServiceTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		967A443FE41DF4C66307A93C /* Pods */ = {
+		D9AA957744346BB93655A5E3 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				CA9B43070C5D4C3CCD5FF03C /* Pods-StitchCoreAWSS3Service.debug.xcconfig */,
-				EDAFC6CB655EF5ED56E8DBB9 /* Pods-StitchCoreAWSS3Service.release.xcconfig */,
-				8AE65DBF0FEDA16C772F6698 /* Pods-StitchCoreAWSS3ServiceTests.debug.xcconfig */,
-				8E1BB30389A35A84BE1AF07A /* Pods-StitchCoreAWSS3ServiceTests.release.xcconfig */,
+				A57E7075999B1B712C6658BB /* Pods-StitchCoreAWSS3Service.debug.xcconfig */,
+				748D5A65C9CEF8E317716FE2 /* Pods-StitchCoreAWSS3Service.release.xcconfig */,
+				8DFC77A806CC0B3A503DDE5A /* Pods-StitchCoreAWSS3ServiceTests.debug.xcconfig */,
+				7919F2EA8C7CA4F601DDFC7E /* Pods-StitchCoreAWSS3ServiceTests.release.xcconfig */,
 			);
 			name = Pods;
 			path = ../../../Pods;
@@ -147,7 +147,7 @@
 				OBJ_15 /* Tests */,
 				OBJ_129 /* Products */,
 				4FBCA86831B3A16DB214E8D8 /* Frameworks */,
-				967A443FE41DF4C66307A93C /* Pods */,
+				D9AA957744346BB93655A5E3 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -166,7 +166,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_152 /* Build configuration list for PBXNativeTarget "StitchCoreAWSS3Service" */;
 			buildPhases = (
-				AB8DC98D6A85B4154F4D1752 /* [CP] Check Pods Manifest.lock */,
+				9259BA10EE0370DD622066D7 /* [CP] Check Pods Manifest.lock */,
 				OBJ_155 /* Sources */,
 				OBJ_159 /* Frameworks */,
 			);
@@ -183,10 +183,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_175 /* Build configuration list for PBXNativeTarget "StitchCoreAWSS3ServiceTests" */;
 			buildPhases = (
-				91B085C23FFEB1AE3B95D583 /* [CP] Check Pods Manifest.lock */,
+				ECC327E7B153E31B36C9C1F9 /* [CP] Check Pods Manifest.lock */,
 				OBJ_178 /* Sources */,
 				OBJ_180 /* Frameworks */,
-				711A705E5AD5A78A7BCB4323 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -225,57 +224,7 @@
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		711A705E5AD5A78A7BCB4323 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-StitchCoreAWSS3ServiceTests/Pods-StitchCoreAWSS3ServiceTests-frameworks.sh",
-				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework",
-				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework.dSYM",
-				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework",
-				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework.dSYM",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/bson.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/bson.framework.dSYM",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongoc.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/mongoc.framework.dSYM",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-StitchCoreAWSS3ServiceTests/Pods-StitchCoreAWSS3ServiceTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		91B085C23FFEB1AE3B95D583 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-StitchCoreAWSS3ServiceTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		AB8DC98D6A85B4154F4D1752 /* [CP] Check Pods Manifest.lock */ = {
+		9259BA10EE0370DD622066D7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -291,6 +240,28 @@
 			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-StitchCoreAWSS3Service-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		ECC327E7B153E31B36C9C1F9 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-StitchCoreAWSS3ServiceTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -331,7 +302,7 @@
 /* Begin XCBuildConfiguration section */
 		OBJ_153 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CA9B43070C5D4C3CCD5FF03C /* Pods-StitchCoreAWSS3Service.debug.xcconfig */;
+			baseConfigurationReference = A57E7075999B1B712C6658BB /* Pods-StitchCoreAWSS3Service.debug.xcconfig */;
 			buildSettings = {
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -357,7 +328,7 @@
 		};
 		OBJ_154 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EDAFC6CB655EF5ED56E8DBB9 /* Pods-StitchCoreAWSS3Service.release.xcconfig */;
+			baseConfigurationReference = 748D5A65C9CEF8E317716FE2 /* Pods-StitchCoreAWSS3Service.release.xcconfig */;
 			buildSettings = {
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -383,7 +354,7 @@
 		};
 		OBJ_176 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8AE65DBF0FEDA16C772F6698 /* Pods-StitchCoreAWSS3ServiceTests.debug.xcconfig */;
+			baseConfigurationReference = 8DFC77A806CC0B3A503DDE5A /* Pods-StitchCoreAWSS3ServiceTests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
@@ -406,7 +377,7 @@
 		};
 		OBJ_177 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8E1BB30389A35A84BE1AF07A /* Pods-StitchCoreAWSS3ServiceTests.release.xcconfig */;
+			baseConfigurationReference = 7919F2EA8C7CA4F601DDFC7E /* Pods-StitchCoreAWSS3ServiceTests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
