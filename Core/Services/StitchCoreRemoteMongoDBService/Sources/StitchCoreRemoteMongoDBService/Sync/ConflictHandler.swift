@@ -27,13 +27,11 @@ internal final class AnyConflictHandler: ConflictHandler {
 
     init<U: ConflictHandler>(_ conflictHandler: U) {
         self._resolver = { (documentId, localEvent, remoteEvent) in
-            do {
-                let documentT = try conflictHandler.resolveConflict(
-                    documentId: documentId,
-                    localEvent: try ChangeEvent<U.DocumentT>.transform(changeEvent: localEvent),
-                    remoteEvent: try ChangeEvent<U.DocumentT>.transform(changeEvent: remoteEvent))
-                return try! BSONEncoder().encode(documentT)
-            }
+            let documentT = try conflictHandler.resolveConflict(
+                documentId: documentId,
+                localEvent: try ChangeEvent<U.DocumentT>.transform(changeEvent: localEvent),
+                remoteEvent: try ChangeEvent<U.DocumentT>.transform(changeEvent: remoteEvent))
+            return try BSONEncoder().encode(documentT)
         }
     }
 

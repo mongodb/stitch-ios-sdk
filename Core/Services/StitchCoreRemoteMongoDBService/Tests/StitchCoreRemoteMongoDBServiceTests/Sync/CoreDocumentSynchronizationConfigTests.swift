@@ -54,7 +54,7 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
         coreDocSync.isStale = isStale
         coreDocSync.lastKnownRemoteVersion = lastKnownRemoteVersion
         coreDocSync.lastResolution = lastResolution
-        coreDocSync.lastUncommittedChangeEvent = lastUncommittedChangeEvent
+        coreDocSync.uncommittedChangeEvent = lastUncommittedChangeEvent
 
         let encodedCoreDocSync = try BSONEncoder().encode(coreDocSync.config)
 
@@ -80,7 +80,7 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
         XCTAssertEqual(isStale, decodedCoreDocSync.isStale)
         XCTAssertEqual(lastKnownRemoteVersion, decodedCoreDocSync.lastKnownRemoteVersion)
         XCTAssertEqual(lastResolution, decodedCoreDocSync.lastResolution)
-        XCTAssertEqual(lastUncommittedChangeEvent, decodedCoreDocSync.lastUncommittedChangeEvent)
+        XCTAssertEqual(lastUncommittedChangeEvent, decodedCoreDocSync.uncommittedChangeEvent)
         XCTAssertEqual(coreDocSync, decodedCoreDocSync)
     }
 
@@ -114,7 +114,7 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
 
         XCTAssertEqual(false, coreDocSync.isPaused)
         XCTAssertEqual(true, coreDocSync.isStale)
-        XCTAssertEqual(changeEvent, coreDocSync.lastUncommittedChangeEvent)
+        XCTAssertEqual(changeEvent, coreDocSync.uncommittedChangeEvent)
         XCTAssertEqual(100.0, coreDocSync.lastResolution)
         XCTAssertEqual(coreDocSync.config, try docsColl.find(["documentId": documentId]).next())
 
@@ -123,13 +123,13 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
                                              atVersion: atVersion,
                                              changeEvent: changeEvent)
 
-        XCTAssertEqual(changeEvent, coreDocSync.lastUncommittedChangeEvent)
+        XCTAssertEqual(changeEvent, coreDocSync.uncommittedChangeEvent)
         XCTAssertEqual(101.0, coreDocSync.lastResolution)
         XCTAssertEqual(atVersion, coreDocSync.lastKnownRemoteVersion)
         XCTAssertEqual(coreDocSync.config, try docsColl.find(["documentId": documentId]).next())
 
         try coreDocSync.setPendingWritesComplete(atVersion: atVersion)
-        XCTAssertNil(coreDocSync.lastUncommittedChangeEvent)
+        XCTAssertNil(coreDocSync.uncommittedChangeEvent)
         XCTAssertEqual(atVersion, coreDocSync.lastKnownRemoteVersion)
         XCTAssertEqual(101.0, coreDocSync.lastResolution)
         XCTAssertEqual(coreDocSync.config, try docsColl.find(["documentId": documentId]).next())

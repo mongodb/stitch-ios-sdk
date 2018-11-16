@@ -36,7 +36,7 @@ internal struct CoreDocumentSynchronization: Hashable {
 
         let namespace: MongoNamespace
         let documentId: HashableBSONValue
-        fileprivate var lastUncommittedChangeEvent: ChangeEvent<Document>?
+        fileprivate var uncommittedChangeEvent: ChangeEvent<Document>?
         fileprivate var lastResolution: TimeInterval
         fileprivate var lastKnownRemoteVersion: Document?
         fileprivate var isStale: Bool
@@ -51,7 +51,7 @@ internal struct CoreDocumentSynchronization: Hashable {
              isPaused: Bool) {
             self.namespace = namespace
             self.documentId = documentId
-            self.lastUncommittedChangeEvent = lastUncommittedChangeEvent
+            self.uncommittedChangeEvent = lastUncommittedChangeEvent
             self.lastResolution = lastResolution
             self.lastKnownRemoteVersion = lastKnownRemoteVersion
             self.isStale = isStale
@@ -82,16 +82,16 @@ internal struct CoreDocumentSynchronization: Hashable {
     var documentId: AnyBSONValue { get { return config.documentId.bsonValue } }
 
     /// The most recent pending change event
-    var lastUncommittedChangeEvent: ChangeEvent<Document>? {
+    var uncommittedChangeEvent: ChangeEvent<Document>? {
         get {
             docLock.readLock()
             defer { docLock.unlock() }
-            return config.lastUncommittedChangeEvent
+            return config.uncommittedChangeEvent
         }
         set(value) {
             // the write lock should be held elsewhere
             // when setting this value
-            self.config.lastUncommittedChangeEvent = value
+            self.config.uncommittedChangeEvent = value
         }
     }
 
@@ -178,7 +178,7 @@ internal struct CoreDocumentSynchronization: Hashable {
     /// Whether or not there is a pending write for this document.
     var hasUncommittedWrites: Bool {
         get {
-            return lastUncommittedChangeEvent != nil
+            return uncommittedChangeEvent != nil
         }
     }
 
@@ -224,8 +224,8 @@ internal struct CoreDocumentSynchronization: Hashable {
 
         docLock.writeLock()
         defer { docLock.unlock() }
-        self.lastUncommittedChangeEvent = CoreDocumentSynchronization.coalesceChangeEvents(
-            lastUncommittedChangeEvent: self.lastUncommittedChangeEvent,
+        self.uncommittedChangeEvent = CoreDocumentSynchronization.coalesceChangeEvents(
+            lastUncommittedChangeEvent: self.uncommittedChangeEvent,
             newestChangeEvent: changeEvent)
         self.lastResolution = atTime
         try docsColl.replaceOne(filter: docConfigFilter(forNamespace: namespace,
@@ -247,7 +247,7 @@ internal struct CoreDocumentSynchronization: Hashable {
         docLock.writeLock()
         defer { docLock.unlock() }
 
-        self.lastUncommittedChangeEvent = changeEvent
+        self.uncommittedChangeEvent = changeEvent
         self.lastResolution = atTime
         self.lastKnownRemoteVersion = atVersion
 
@@ -267,7 +267,7 @@ internal struct CoreDocumentSynchronization: Hashable {
     mutating func setPendingWritesComplete(atVersion: Document) throws {
         docLock.writeLock()
         defer { docLock.unlock() }
-        self.lastUncommittedChangeEvent = nil
+        self.uncommittedChangeEvent = nil
         self.lastKnownRemoteVersion = atVersion
 
         try docsColl.replaceOne(
