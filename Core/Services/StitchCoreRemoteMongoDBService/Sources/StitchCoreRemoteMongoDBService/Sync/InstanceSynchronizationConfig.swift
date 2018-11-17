@@ -12,7 +12,7 @@ import MongoSwift
  */
 internal struct InstanceSynchronization: Sequence {
     /// The actual configuration to be persisted for this instance.
-    struct Config {
+    struct Config: Codable {
         fileprivate var namespaces: [MongoNamespace: NamespaceSynchronization.Config]
     }
 
@@ -53,13 +53,13 @@ internal struct InstanceSynchronization: Sequence {
     private let namespacesColl: MongoCollection<NamespaceSynchronization.Config>
     private let docsColl: MongoCollection<CoreDocumentSynchronization.Config>
     private let instanceLock = ReadWriteLock()
-    private weak var errorListener: ErrorListener?
+    weak var errorListener: ErrorListener?
 
     /// The configuration for this instance.
     private(set) var config: Config
 
     init(configDb: MongoDatabase,
-         errorListener: ErrorListener) throws {
+         errorListener: ErrorListener?) throws {
         self.namespacesColl = try configDb
             .collection("namespaces", withType: NamespaceSynchronization.Config.self)
         self.docsColl = try configDb

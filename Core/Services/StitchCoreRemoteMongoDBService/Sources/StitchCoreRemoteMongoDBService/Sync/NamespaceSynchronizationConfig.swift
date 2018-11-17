@@ -117,6 +117,18 @@ internal struct NamespaceSynchronization: Sequence {
                                                      errorListener: errorListener)
     }
 
+    /// The number of documents synced on this namespace
+    var count: Int {
+        return self.config.syncedDocuments.count
+    }
+
+    mutating func sync(id: BSONValue) {
+        self[id] = CoreDocumentSynchronization.init(docsColl: docsColl,
+                                                    namespace: config.namespace,
+                                                    documentId: AnyBSONValue(id),
+                                                    errorListener: errorListener)
+    }
+
     /**
      Read or set a document configuration from this namespace.
      If the document does not exist, one will not be returned.
@@ -125,11 +137,11 @@ internal struct NamespaceSynchronization: Sequence {
      - parameter documentId: the id of the document to read
      - returns: a new or existing NamespaceConfiguration
      */
-    subscript(documentId: HashableBSONValue) -> CoreDocumentSynchronization? {
+    subscript(documentId: BSONValue) -> CoreDocumentSynchronization? {
         get {
             nsLock.readLock()
             defer { nsLock.unlock() }
-            guard var config = config.syncedDocuments[documentId] else {
+            guard var config = config.syncedDocuments[HashableBSONValue(documentId)] else {
                 return nil
             }
             return CoreDocumentSynchronization.init(docsColl: docsColl,
@@ -139,7 +151,7 @@ internal struct NamespaceSynchronization: Sequence {
         set(value) {
             nsLock.writeLock()
             defer { nsLock.unlock() }
-            
+            let documentId = HashableBSONValue(documentId)
             guard let value = value else {
                 do {
                     try docsColl.deleteOne(docConfigFilter(forNamespace: config.namespace,

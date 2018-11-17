@@ -518,6 +518,7 @@
 		498062372185B6A100E2A3A2 /* Net */ = {
 			isa = PBXGroup;
 			children = (
+				498DF592219F7451009F1B3F /* NetworkMonitor.swift */,
 				498062382185B6A100E2A3A2 /* StitchRequestClient.swift */,
 				498062392185B6A100E2A3A2 /* Transport.swift */,
 				4980623A2185B6A100E2A3A2 /* FoundationHTTPTransport.swift */,
@@ -545,6 +546,7 @@
 		498062452185B6A100E2A3A2 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				498DF594219F748D009F1B3F /* AuthMonitor.swift */,
 				498062462185B6A100E2A3A2 /* Storage.swift */,
 				498062472185B6A100E2A3A2 /* ImplFailureFatalErrors.swift */,
 			);
@@ -1035,12 +1037,14 @@
 				498062B32185B6BC00E2A3A2 /* Request.swift in Sources */,
 				498062B42185B6BC00E2A3A2 /* StitchAuthRequest.swift in Sources */,
 				498062B52185B6BC00E2A3A2 /* Method.swift in Sources */,
+				498DF593219F7451009F1B3F /* NetworkMonitor.swift in Sources */,
 				498062B62185B6BC00E2A3A2 /* ContentType.swift in Sources */,
 				498062B72185B6BC00E2A3A2 /* Storage.swift in Sources */,
 				498062B82185B6BC00E2A3A2 /* ImplFailureFatalErrors.swift in Sources */,
 				498062B92185B6BC00E2A3A2 /* CoreStitchAppClient.swift in Sources */,
 				498062BA2185B6BC00E2A3A2 /* CoreStitchPushClient.swift in Sources */,
 				498062BB2185B6BC00E2A3A2 /* StitchPushRoutes.swift in Sources */,
+				498DF595219F748D009F1B3F /* AuthMonitor.swift in Sources */,
 				498062BC2185B6BC00E2A3A2 /* CoreStitchPushClientImpl.swift in Sources */,
 				498062BD2185B6BC00E2A3A2 /* StitchError.swift in Sources */,
 				498062BE2185B6BC00E2A3A2 /* CoreStitchServiceClientImpl.swift in Sources */,
