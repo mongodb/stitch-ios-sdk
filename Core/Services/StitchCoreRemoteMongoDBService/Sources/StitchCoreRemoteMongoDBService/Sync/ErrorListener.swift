@@ -3,7 +3,7 @@ import MongoSwift
 /**
  ErrorListener receives non-network related errors that occur.
  */
-protocol ErrorListener: class {
+public protocol ErrorListener: class {
     /**
      Called when an error happens for the given document id.
 

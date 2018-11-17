@@ -41,14 +41,14 @@ class InstanceSynchronizationConfigTests: XCMongoMobileTestCase, ErrorListener {
 
         XCTAssertEqual(instanceSync[namespace]?.config.namespace, nsConfig.config.namespace)
 
-        let documentId = HashableBSONValue(ObjectId())
+        let documentId = ObjectId()
         var nsConfig2 = instanceSync[namespace2]
         nsConfig2?[documentId] = CoreDocumentSynchronization.init(docsColl: docsColl,
                                                                   namespace: namespace2,
-                                                                  documentId: documentId.bsonValue,
+                                                                  documentId: AnyBSONValue(documentId),
                                                                   errorListener: nil)
 
         XCTAssertEqual(2, instanceSync.map { $0 }.count)
-        XCTAssertEqual(documentId, HashableBSONValue((instanceSync[namespace2]?[documentId]?.documentId)!))
+        XCTAssertEqual(documentId, instanceSync[namespace2]?[documentId]?.documentId.value as? ObjectId)
     }
 }
