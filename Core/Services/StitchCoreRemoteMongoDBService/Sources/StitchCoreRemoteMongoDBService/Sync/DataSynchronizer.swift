@@ -2,7 +2,6 @@ import Foundation
 import MongoSwift
 import MongoMobile
 import StitchCoreSDK
-import os
 
 /**
  DataSynchronizer handles the bidirectional synchronization of documents between a local MongoDB
@@ -482,7 +481,7 @@ public class DataSynchronizer: NetworkStateListener, FatalErrorListener {
 
     /// Potentially pass along useful error information to the user.
     /// This should only be used for low level errors.
-    func on(error: Error, for documentId: BSONValue?, in namespace: MongoNamespace?) {
+    func on(error: Error, forDocumentId documentId: BSONValue?, in namespace: MongoNamespace?) {
         guard let errorListener = self.errorListener else {
             return
         }

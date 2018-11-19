@@ -52,7 +52,7 @@ class NamespaceSynchronizationConfigTests: XCMongoMobileTestCase {
             public init() {
             }
 
-            func on(error: Error, for documentId: BSONValue?, in namespace: MongoNamespace?) {
+            func on(error: Error, forDocumentId documentId: BSONValue?, in namespace: MongoNamespace?) {
                 XCTFail(error.localizedDescription)
             }
         }
