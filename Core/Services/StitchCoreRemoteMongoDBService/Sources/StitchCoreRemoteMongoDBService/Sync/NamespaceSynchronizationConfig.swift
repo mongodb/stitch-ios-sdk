@@ -61,12 +61,12 @@ internal struct NamespaceSynchronization: Sequence {
         }
     }
 
+    /// Standard read-write lock.
+    let nsLock: ReadWriteLock = ReadWriteLock()
     /// The collection we are storing namespace configs in.
     private let namespacesColl: MongoCollection<NamespaceSynchronization.Config>
     /// The collection we are storing document configs in.
     private let docsColl: MongoCollection<CoreDocumentSynchronization.Config>
-    /// Standard read-write lock.
-    private let nsLock: ReadWriteLock = ReadWriteLock()
     /// The error listener to propagate errors to.
     private weak var errorListener: FatalErrorListener?
     /// The configuration for this namespace.

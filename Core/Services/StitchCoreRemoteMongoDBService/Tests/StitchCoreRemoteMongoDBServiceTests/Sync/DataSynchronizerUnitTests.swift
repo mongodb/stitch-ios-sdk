@@ -69,7 +69,10 @@ class DataSynchronizerUnitTests: XCMongoMobileTestCase {
     )
 
     override func tearDown() {
-        try? XCMongoMobileTestCase.client.db("sync_config" + instanceKey.oid).drop()
+        try? XCMongoMobileTestCase.client.db(
+            DataSynchronizer.localConfigDBName(withInstanceKey: instanceKey.oid)).drop()
+        try? XCMongoMobileTestCase.client.db(
+            DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace)).drop()
     }
 
     func testStart_Stop() {
@@ -113,5 +116,85 @@ class DataSynchronizerUnitTests: XCMongoMobileTestCase {
         try dataSynchronizer.reloadConfig()
 
         XCTAssertFalse(dataSynchronizer.isRunning)
+    }
+
+    func testCount() throws {
+        dataSynchronizer.configure(namespace: namespace,
+                                   conflictHandler: TestConflictHandler(),
+                                   changeEventListener: TestEventListener(),
+                                   errorListener: TestErrorListener())
+        XCTAssertEqual(0, try dataSynchronizer.count(in: namespace))
+
+        let doc1 = ["hello": "world", "a": "b"] as Document
+        let doc2 = ["hello": "computer", "a": "b"] as Document
+
+        try XCMongoMobileTestCase.client.db(DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace))
+            .collection(namespace.collectionName, withType: Document.self).insertMany([doc1, doc2])
+
+        XCTAssertEqual(2, try dataSynchronizer.count(in: namespace))
+
+        try XCMongoMobileTestCase.client.db(DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace))
+            .collection(namespace.collectionName, withType: Document.self).deleteMany(Document())
+
+        XCTAssertEqual(0, try dataSynchronizer.count(in: namespace))
+    }
+    
+    func testFind() throws {
+        dataSynchronizer.configure(namespace: namespace,
+                                   conflictHandler: TestConflictHandler(),
+                                   changeEventListener: TestEventListener(),
+                                   errorListener: TestErrorListener())
+        XCTAssertEqual(0, try dataSynchronizer.count(in: namespace))
+
+        let doc1 = ["hello": "world", "a": "b"] as Document
+        let doc2 = ["hello": "computer", "a": "b"] as Document
+
+        try XCMongoMobileTestCase.client.db(DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace))
+            .collection(namespace.collectionName, withType: Document.self).insertMany([doc1, doc2])
+
+        let cursor: MongoCursor<Document> =
+            try dataSynchronizer.find(filter: ["hello": "computer"], options: nil, in: namespace)
+
+        XCTAssertEqual(2, try dataSynchronizer.count(in: namespace))
+
+        let actualDoc = cursor.next()
+
+        XCTAssertEqual("b", actualDoc?["a"] as? String)
+        XCTAssertNotNil(actualDoc?["_id"])
+        XCTAssertEqual("computer", actualDoc?["hello"] as? String)
+
+        XCTAssertNil(cursor.next())
+    }
+
+    func testAggregate() throws {
+        dataSynchronizer.configure(namespace: namespace,
+                                   conflictHandler: TestConflictHandler(),
+                                   changeEventListener: TestEventListener(),
+                                   errorListener: TestErrorListener())
+        XCTAssertEqual(0, try dataSynchronizer.count(in: namespace))
+
+        let doc1 = ["hello": "world", "a": "b"] as Document
+        let doc2 = ["hello": "computer", "a": "b"] as Document
+
+        try XCMongoMobileTestCase.client.db(DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace))
+            .collection(namespace.collectionName, withType: Document.self).insertMany([doc1, doc2])
+
+        let cursor = try dataSynchronizer.aggregate(
+            pipeline: [
+                ["$project": ["_id": 0, "a": 0] as Document],
+                ["$match": ["hello": "computer"] as Document]
+            ],
+            options: nil,
+            in: namespace)
+
+        XCTAssertEqual(2, try dataSynchronizer.count(in: namespace))
+
+        let actualDoc = cursor.next()
+
+        XCTAssertNil(actualDoc?["a"])
+        XCTAssertNil(actualDoc?["_id"])
+        XCTAssertEqual("computer", actualDoc?["hello"] as? String)
+
+        XCTAssertNil(cursor.next())
     }
 }
