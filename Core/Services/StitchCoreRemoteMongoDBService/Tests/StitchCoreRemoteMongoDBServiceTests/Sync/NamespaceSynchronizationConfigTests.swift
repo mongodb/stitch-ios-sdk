@@ -48,11 +48,11 @@ class NamespaceSynchronizationConfigTests: XCMongoMobileTestCase {
     }
 
     func testStaleDocumentIds() throws {
-        class TestErrorListener: ErrorListener {
+        class TestErrorListener: FatalErrorListener {
             public init() {
             }
 
-            func on(error: Error, forDocumentId documentId: BSONValue?) {
+            func on(error: Error, for documentId: BSONValue?, in namespace: MongoNamespace?) {
                 XCTFail(error.localizedDescription)
             }
         }

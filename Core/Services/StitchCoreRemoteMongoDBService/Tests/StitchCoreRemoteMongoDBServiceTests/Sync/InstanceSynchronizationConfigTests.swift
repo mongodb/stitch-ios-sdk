@@ -4,7 +4,7 @@ import MongoSwift
 import XCTest
 @testable import StitchCoreRemoteMongoDBService
 
-class InstanceSynchronizationConfigTests: XCMongoMobileTestCase, ErrorListener {
+class InstanceSynchronizationConfigTests: XCMongoMobileTestCase, FatalErrorListener {
     private var namespaceColl: MongoCollection<NamespaceSynchronization.Config>!
     private var docsColl: MongoCollection<CoreDocumentSynchronization.Config>!
 
@@ -24,8 +24,8 @@ class InstanceSynchronizationConfigTests: XCMongoMobileTestCase, ErrorListener {
         try? XCMongoMobileTestCase.client.db(namespace.databaseName).drop()
     }
 
-    func on(error: Error, forDocumentId documentId: BSONValue?) {
-
+    func on(error: Error, for documentId: BSONValue?, in namespace: MongoNamespace?) {
+        XCTFail(error.localizedDescription)
     }
 
     func testGet_Set_ModifyInPlace() throws {

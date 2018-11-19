@@ -6,7 +6,6 @@ import MongoSwift
 @testable import StitchCoreRemoteMongoDBService
 
 class DataSynchronizerUnitTests: XCMongoMobileTestCase {
-    let mockServiceClient = MockCoreStitchServiceClient.init()
     class TestNetworkMonitor: NetworkMonitor {
         var networkStateListeners = [NetworkStateListener]()
 
@@ -52,15 +51,22 @@ class DataSynchronizerUnitTests: XCMongoMobileTestCase {
         }
     }
 
-    let instanceKey = ObjectId()
-    lazy var dataSynchronizer = try! DataSynchronizer.init(
-        instanceKey: instanceKey.oid,
-        service: MockCoreStitchServiceClient.init(),
-        localClient: XCMongoMobileTestCase.client,
-        remoteClient: CoreRemoteMongoClient.init(withService: mockServiceClient),
-        networkMonitor: TestNetworkMonitor(),
-        authMonitor: TestAuthMonitor())
-    let namespace = MongoNamespace.init(databaseName: "db", collectionName: "coll")
+    static func dataSynchronizer(withInstanceKey instanceKey: ObjectId) -> DataSynchronizer {
+        let mockServiceClient = MockCoreStitchServiceClient.init()
+        return try! DataSynchronizer.init(
+            instanceKey: instanceKey.oid,
+            service: mockServiceClient,
+            localClient: XCMongoMobileTestCase.client,
+            remoteClient: CoreRemoteMongoClient.init(withService: mockServiceClient),
+            networkMonitor: TestNetworkMonitor(),
+            authMonitor: TestAuthMonitor())
+    }
+
+    private let instanceKey = ObjectId()
+    private let namespace = MongoNamespace.init(databaseName: "db", collectionName: "coll")
+    private lazy var dataSynchronizer = DataSynchronizerUnitTests.dataSynchronizer(
+        withInstanceKey: instanceKey
+    )
 
     override func tearDown() {
         try? XCMongoMobileTestCase.client.db("sync_config" + instanceKey.oid).drop()
@@ -68,13 +74,20 @@ class DataSynchronizerUnitTests: XCMongoMobileTestCase {
 
     func testStart_Stop() {
         XCTAssertFalse(dataSynchronizer.isRunning)
-        
-        dataSynchronizer.start()
 
+        // dataSynchronizer should not start until configured
+        dataSynchronizer.start()
+        XCTAssertFalse(dataSynchronizer.isRunning)
+
+        dataSynchronizer.configure(namespace: namespace,
+                                   conflictHandler: TestConflictHandler(),
+                                   changeEventListener: TestEventListener(),
+                                   errorListener: TestErrorListener())
+
+        dataSynchronizer.start()
         XCTAssertTrue(dataSynchronizer.isRunning)
 
         dataSynchronizer.stop()
-
         XCTAssertFalse(dataSynchronizer.isRunning)
     }
 

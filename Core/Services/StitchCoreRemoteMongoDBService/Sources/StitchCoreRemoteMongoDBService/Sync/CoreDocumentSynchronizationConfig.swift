@@ -73,7 +73,7 @@ internal struct CoreDocumentSynchronization: Hashable {
     /// Standard read-write lock.
     private let docLock: ReadWriteLock = ReadWriteLock()
     /// The error listener to propogate errors to.
-    private weak var errorListener: ErrorListener?
+    private weak var errorListener: FatalErrorListener?
     /// The configuration for this document.
     private(set) var config: Config
     /// The namespace this document is stored in.
@@ -134,7 +134,7 @@ internal struct CoreDocumentSynchronization: Hashable {
                 let count = try docsColl.count(filter)
                 return count == 1
             } catch {
-                errorListener?.on(error: error, forDocumentId: documentId.value)
+                errorListener?.on(error: error, for: documentId.value, in: namespace)
                 return self.config.isStale
             }
         }
@@ -146,7 +146,7 @@ internal struct CoreDocumentSynchronization: Hashable {
                     filter: docConfigFilter(forNamespace: namespace, withDocumentId: documentId),
                     update: ["$set": [Config.CodingKeys.isStale.rawValue: value] as Document])
             } catch {
-                errorListener?.on(error: error, forDocumentId: documentId.value)
+                errorListener?.on(error: error, for: documentId.value, in: namespace)
             }
             self.config.isStale = value
         }
@@ -169,7 +169,7 @@ internal struct CoreDocumentSynchronization: Hashable {
                     update: [ "$set": [ Config.CodingKeys.isPaused.rawValue : value ] as Document
                     ])
             } catch {
-                errorListener?.on(error: error, forDocumentId: documentId.value)
+                errorListener?.on(error: error, for: documentId.value, in: namespace)
             }
             config.isPaused = value
         }
@@ -185,7 +185,7 @@ internal struct CoreDocumentSynchronization: Hashable {
     init(docsColl: MongoCollection<CoreDocumentSynchronization.Config>,
          namespace: MongoNamespace,
          documentId: AnyBSONValue,
-         errorListener: ErrorListener?) {
+         errorListener: FatalErrorListener?) {
         self.docsColl = docsColl
         self.config = Config.init(namespace: namespace,
                                   documentId: HashableBSONValue.init(documentId),
@@ -199,7 +199,7 @@ internal struct CoreDocumentSynchronization: Hashable {
 
     init(docsColl: MongoCollection<CoreDocumentSynchronization.Config>,
          config: inout Config,
-         errorListener: ErrorListener?) {
+         errorListener: FatalErrorListener?) {
         self.docsColl = docsColl
         self.config = config
         self.errorListener = errorListener
