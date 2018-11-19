@@ -24,5 +24,5 @@ internal protocol FatalErrorListener: class {
      - parameter documentId: the _id of the document related to the error.
      - parameter namespace: the namespace the error may have occured in
      */
-    func on(error: Error, for documentId: BSONValue?, in namespace: MongoNamespace?)
+    func on(error: Error, forDocumentId documentId: BSONValue?, in namespace: MongoNamespace?)
 }

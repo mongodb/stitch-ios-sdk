@@ -24,7 +24,7 @@ class InstanceSynchronizationConfigTests: XCMongoMobileTestCase, FatalErrorListe
         try? XCMongoMobileTestCase.client.db(namespace.databaseName).drop()
     }
 
-    func on(error: Error, for documentId: BSONValue?, in namespace: MongoNamespace?) {
+    func on(error: Error, forDocumentId documentId: BSONValue?, in namespace: MongoNamespace?) {
         XCTFail(error.localizedDescription)
     }
 

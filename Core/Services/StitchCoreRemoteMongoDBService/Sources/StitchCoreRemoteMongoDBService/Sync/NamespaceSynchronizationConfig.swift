@@ -159,7 +159,7 @@ internal struct NamespaceSynchronization: Sequence {
                                                            withDocumentId: documentId.bsonValue))
                     config.syncedDocuments[documentId] = nil
                 } catch {
-                    errorListener?.on(error: error, for: documentId.bsonValue.value, in: self.config.namespace)
+                    errorListener?.on(error: error, forDocumentId: documentId.bsonValue.value, in: self.config.namespace)
                 }
                 return
             }
@@ -172,7 +172,7 @@ internal struct NamespaceSynchronization: Sequence {
                     options: ReplaceOptions.init(upsert: true))
                 self.config.syncedDocuments[documentId] = value.config
             } catch {
-                errorListener?.on(error: error, for: documentId.bsonValue.value, in: self.config.namespace)
+                errorListener?.on(error: error, forDocumentId: documentId.bsonValue.value, in: self.config.namespace)
             }
         }
     }
@@ -209,7 +209,7 @@ internal struct NamespaceSynchronization: Sequence {
                     ).compactMap({$0 == nil ? nil : HashableBSONValue($0!)})
                 )
             } catch {
-                errorListener?.on(error: error, for: nil, in: self.config.namespace)
+                errorListener?.on(error: error, forDocumentId: nil, in: self.config.namespace)
                 return Set()
             }
         }

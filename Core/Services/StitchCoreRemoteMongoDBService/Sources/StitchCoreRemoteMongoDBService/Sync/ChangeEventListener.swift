@@ -24,7 +24,7 @@ internal final class AnyChangeEventListener: ChangeEventListener {
                 changeEventListener.onEvent(documentId: documentId,
                                             event: try ChangeEvent<U.DocumentT>.transform(changeEvent: event))
             } catch {
-                errorListener?.on(error: error, for: documentId, in: event.ns)
+                errorListener?.on(error: error, forDocumentId: documentId, in: event.ns)
             }
         }
     }

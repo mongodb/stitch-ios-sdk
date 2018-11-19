@@ -111,7 +111,7 @@ internal struct InstanceSynchronization: Sequence {
                 config.namespaces[namespace] = newConfig.config
                 return newConfig
             } catch {
-                errorListener?.on(error: error, for: nil, in: namespace)
+                errorListener?.on(error: error, forDocumentId: nil, in: namespace)
             }
 
             return nil

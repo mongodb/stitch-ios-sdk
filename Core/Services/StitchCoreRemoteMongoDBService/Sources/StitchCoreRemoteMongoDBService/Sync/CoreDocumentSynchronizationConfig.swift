@@ -134,7 +134,7 @@ internal struct CoreDocumentSynchronization: Hashable {
                 let count = try docsColl.count(filter)
                 return count == 1
             } catch {
-                errorListener?.on(error: error, for: documentId.value, in: namespace)
+                errorListener?.on(error: error, forDocumentId: documentId.value, in: namespace)
                 return self.config.isStale
             }
         }
@@ -146,7 +146,7 @@ internal struct CoreDocumentSynchronization: Hashable {
                     filter: docConfigFilter(forNamespace: namespace, withDocumentId: documentId),
                     update: ["$set": [Config.CodingKeys.isStale.rawValue: value] as Document])
             } catch {
-                errorListener?.on(error: error, for: documentId.value, in: namespace)
+                errorListener?.on(error: error, forDocumentId: documentId.value, in: namespace)
             }
             self.config.isStale = value
         }
@@ -169,7 +169,7 @@ internal struct CoreDocumentSynchronization: Hashable {
                     update: [ "$set": [ Config.CodingKeys.isPaused.rawValue : value ] as Document
                     ])
             } catch {
-                errorListener?.on(error: error, for: documentId.value, in: namespace)
+                errorListener?.on(error: error, forDocumentId: documentId.value, in: namespace)
             }
             config.isPaused = value
         }
