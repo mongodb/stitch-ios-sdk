@@ -395,6 +395,7 @@
 				49FA278B219B839F00F9E3D4 /* ChangeEventListenerUnitTests.swift in Sources */,
 				49FA2781219B2A8900F9E3D4 /* NamespaceSynchronizationConfigTests.swift in Sources */,
 				498DF591219F73CB009F1B3F /* DataSynchronizerUnitTests.swift in Sources */,
+				49F40F4C21A2FFE500FAB750 /* CoreSyncUnitTests.swift in Sources */,
 				49FA2785219B656000F9E3D4 /* ChangeEventUnitTests.swift in Sources */,
 				OBJ_201 /* CoreRemoteMongoCollectionUnitTests.swift in Sources */,
 				OBJ_202 /* CoreRemoteMongoDatabaseUnitTests.swift in Sources */,

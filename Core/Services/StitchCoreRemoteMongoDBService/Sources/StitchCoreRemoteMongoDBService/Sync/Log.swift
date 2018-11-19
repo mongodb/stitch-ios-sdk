@@ -1,25 +1,31 @@
 import Foundation
 import os
 
-class Log {
+/// Basic compat logger
+final class Log {
+    /// Tag to prefix log messages
     private let tag: String
 
     init(tag: String) {
         self.tag = tag
     }
 
+    /// Log info
     func i(_ msg: String) {
         log("%@: %@", type: __OS_LOG_TYPE_INFO, tag, msg)
     }
 
+    /// Log debug
     func d(_ msg: String) {
         log("%@: %@", type: __OS_LOG_TYPE_DEBUG, tag, msg)
     }
 
+    /// Log error
     func e(_ msg: String) {
         log("%@: %@", type: __OS_LOG_TYPE_ERROR, tag, msg)
     }
 
+    /// Log fault
     func f(_ msg: String) {
         log("%@: %@", type: __OS_LOG_TYPE_FAULT, tag, msg)
     }

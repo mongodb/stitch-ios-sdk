@@ -4,8 +4,15 @@ import MongoMobile
 import StitchCoreSDK
 import os
 
-public class DataSynchronizer: NetworkStateListener, ErrorListener {
+/**
+ DataSynchronizer handles the bidirectional synchronization of documents between a local MongoDB
+ and a remote MongoDB (via Stitch). It also expose CRUD operations to interact with synchronized
+ documents.
+ */
+public class DataSynchronizer: NetworkStateListener, FatalErrorListener {
+    /// The amount of time to sleep between sync passes in a non-error state.
     fileprivate static let shortSleepSeconds: UInt32 = 1
+    /// The amount of time to sleep between sync passes in an error-state.
     fileprivate static let longSleepSeconds: UInt32 = 5
 
     /// The unique instance key for this DataSynchronizer
@@ -28,7 +35,7 @@ public class DataSynchronizer: NetworkStateListener, ErrorListener {
     private var syncConfig: InstanceSynchronization
 
     /// Whether or not the DataSynchronizer has been configured
-    private(set) var isConfigured = true
+    private(set) var isConfigured = false
     /// Whether or not the sync thread is enabled
     private(set) var isSyncThreadEnabled = true
 
@@ -36,21 +43,26 @@ public class DataSynchronizer: NetworkStateListener, ErrorListener {
     private let syncLock = ReadWriteLock()
     /// RW lock for the listeners
     private let listenersLock = ReadWriteLock()
-
+    /// Dispatch queue for one-off events
     private lazy var eventDispatchQueue = DispatchQueue.init(
         label: "eventEmission-\(self.instanceKey)",
         qos: .default,
         attributes: .concurrent,
         autoreleaseFrequency: .inherit)
+    /// Dispatch queue for long running sync loop
     private lazy var syncDispatchQueue = DispatchQueue.init(
         label: "synchronizer-\(self.instanceKey)",
         qos: .background,
         autoreleaseFrequency: .never)
+    /// Local logger
     private let log: Log
+    /// The current work item running the sync loop
     private var syncWorkItem: DispatchWorkItem? = nil
+    /// The user's error listener
     private var errorListener: ErrorListener?
+    /// Current sync pass iteration
     private var logicalT: Int = 0
-
+    /// Whether or not the sync loop is running
     var isRunning: Bool {
         syncLock.readLock()
         defer { syncLock.unlock() }
@@ -93,10 +105,6 @@ public class DataSynchronizer: NetworkStateListener, ErrorListener {
         self.networkMonitor.add(networkStateListener: self)
     }
 
-    public func on(error: Error, forDocumentId documentId: BSONValue?) {
-
-    }
-
     public func onNetworkStateChanged() {
         if (!self.networkMonitor.isConnected()) {
             self.stop()
@@ -115,11 +123,11 @@ public class DataSynchronizer: NetworkStateListener, ErrorListener {
             return
         }
 
-        nsConfig.configure(conflictHandler: conflictHandler,
-                           changeEventListener: changeEventListener)
-
         syncLock.writeLock()
         defer { syncLock.unlock() }
+
+        nsConfig.configure(conflictHandler: conflictHandler,
+                           changeEventListener: changeEventListener)
 
         if (!self.isConfigured) {
             self.isConfigured = true
@@ -129,7 +137,8 @@ public class DataSynchronizer: NetworkStateListener, ErrorListener {
             syncLock.unlock()
         }
 
-        if syncWorkItem == nil {
+        // now that we are configured, start syncing
+        if !isRunning {
             self.start()
         }
     }
@@ -167,7 +176,7 @@ public class DataSynchronizer: NetworkStateListener, ErrorListener {
             return
         }
 
-        // restart changestream listeners
+        // TODO STITCH-2217: restart changestream listeners
         if isSyncThreadEnabled {
             self.syncWorkItem = DispatchWorkItem { [weak self] in
                 repeat {
@@ -191,7 +200,7 @@ public class DataSynchronizer: NetworkStateListener, ErrorListener {
     }
 
     /**
-     * Stops the background data synchronization thread.
+     Stops the background data synchronization thread.
      */
     public func stop() {
         syncLock.writeLock()
@@ -230,7 +239,7 @@ public class DataSynchronizer: NetworkStateListener, ErrorListener {
     /**
      Stops synchronizing the given document _ids. Any uncommitted writes will be lost.
 
-     - parameter ids the _ids of the documents to desynchronize.
+     - parameter ids: the _ids of the documents to desynchronize.
      */
     func desync(ids: [BSONValue], in namespace: MongoNamespace) {
         ids.forEach { id in
@@ -471,6 +480,35 @@ public class DataSynchronizer: NetworkStateListener, ErrorListener {
         }
     }
 
+    /// Potentially pass along useful error information to the user.
+    /// This should only be used for low level errors.
+    func on(error: Error, for documentId: BSONValue?, in namespace: MongoNamespace?) {
+        guard let errorListener = self.errorListener else {
+            return
+        }
+
+        guard let unwrappedNamespace = namespace, let unwrappedDocumentId = documentId else {
+            log.e(error.localizedDescription)
+            log.e("Fatal error occured: \(error.localizedDescription)")
+            self.eventDispatchQueue.async {
+                errorListener.on(error: error, forDocumentId: documentId)
+            }
+            return
+        }
+
+        guard var config = syncConfig[unwrappedNamespace]?[unwrappedDocumentId] else {
+            log.e(error.localizedDescription)
+            log.e("Fatal error occured in namespace \(unwrappedNamespace) " +
+                "for documentId \(unwrappedDocumentId): \(error.localizedDescription)")
+            self.eventDispatchQueue.async {
+                errorListener.on(error: error, forDocumentId: documentId)
+            }
+            return
+        }
+
+        emitError(docConfig: &config, error: error)
+    }
+
     /**
      Emits an error for the given document id. This should be used
      for irrecoverable errors. Pauses the doc config.
@@ -493,6 +531,10 @@ public class DataSynchronizer: NetworkStateListener, ErrorListener {
         log.e("Setting document to frozen: \(docConfig.documentId.value)")
     }
 
+    /**
+     Trigger change stream listeners for a given namespace
+     - parameter namespace: namespace to listen to
+     */
     private func triggerListening(to namespace: MongoNamespace) {
         syncLock.writeLock()
         defer { syncLock.unlock() }

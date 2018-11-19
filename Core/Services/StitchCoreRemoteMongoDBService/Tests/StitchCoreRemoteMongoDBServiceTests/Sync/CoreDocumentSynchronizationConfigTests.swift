@@ -72,9 +72,9 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
 
         var decodedCoreDocConfig = try BSONDecoder().decode(CoreDocumentSynchronization.Config.self,
                                                             from: encodedCoreDocSync)
-        let decodedCoreDocSync = try CoreDocumentSynchronization.init(docsColl: docsColl,
-                                                                      config: &decodedCoreDocConfig,
-                                                                      errorListener: nil)
+        let decodedCoreDocSync = CoreDocumentSynchronization.init(docsColl: docsColl,
+                                                                  config: &decodedCoreDocConfig,
+                                                                  errorListener: nil)
 
         XCTAssertEqual(isPaused, decodedCoreDocSync.isPaused)
         XCTAssertEqual(isStale, decodedCoreDocSync.isStale)
