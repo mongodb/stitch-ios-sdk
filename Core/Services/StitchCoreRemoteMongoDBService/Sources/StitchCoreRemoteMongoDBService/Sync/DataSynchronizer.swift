@@ -52,7 +52,7 @@ public class DataSynchronizer: NetworkStateListener, FatalErrorListener {
     private lazy var syncDispatchQueue = DispatchQueue.init(
         label: "synchronizer-\(self.instanceKey)",
         qos: .background,
-        autoreleaseFrequency: .never)
+        autoreleaseFrequency: .inherit)
     /// Local logger
     private let log: Log
     /// The current work item running the sync loop
@@ -93,8 +93,8 @@ public class DataSynchronizer: NetworkStateListener, FatalErrorListener {
             try instancesColl.insertOne(self.syncConfig.config)
         } else {
             if try instancesColl.find().next() == nil {
-                throw StitchError.serviceError(withMessage: "expected to find instance configuration",
-                                               withServiceErrorCode: .unknown)
+                throw StitchError.clientError(
+                    withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
             }
             self.syncConfig = try InstanceSynchronization(configDb: configDb,
                                                           errorListener: nil)
@@ -255,6 +255,7 @@ public class DataSynchronizer: NetworkStateListener, FatalErrorListener {
     /**
      Returns the set of synchronized document ids in a namespace.
 
+     TODO Remove custom HashableBSONValue after: https://jira.mongodb.org/browse/SWIFT-255
      - returns: the set of synchronized document ids in a namespace.
      */
     func syncedIds(in namespace: MongoNamespace) -> Set<HashableBSONValue> {
@@ -263,7 +264,6 @@ public class DataSynchronizer: NetworkStateListener, FatalErrorListener {
         }
 
         let v = nsConfig.map { $0.documentId }
-        print(v)
         return Set(nsConfig.map({HashableBSONValue($0.documentId)}))
     }
 
