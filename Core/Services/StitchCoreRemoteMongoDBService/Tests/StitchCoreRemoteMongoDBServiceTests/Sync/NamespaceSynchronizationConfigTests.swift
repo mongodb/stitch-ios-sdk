@@ -23,7 +23,7 @@ class NamespaceSynchronizationConfigTests: XCMongoMobileTestCase {
     }
 
     func testSet() throws {
-        let documentId = HashableBSONValue(ObjectId())
+        let documentId = ObjectId()
         var nsConfig = try NamespaceSynchronization.init(namespacesColl: namespaceColl,
                                                          docsColl: docsColl,
                                                          namespace: namespace,
@@ -35,7 +35,7 @@ class NamespaceSynchronizationConfigTests: XCMongoMobileTestCase {
 
         docConfig = CoreDocumentSynchronization.init(docsColl: docsColl,
                                                      namespace: namespace,
-                                                     documentId: documentId.bsonValue,
+                                                     documentId: AnyBSONValue(documentId),
                                                      errorListener: nil)
 
         nsConfig[documentId] = docConfig
@@ -48,11 +48,11 @@ class NamespaceSynchronizationConfigTests: XCMongoMobileTestCase {
     }
 
     func testStaleDocumentIds() throws {
-        class TestErrorListener: ErrorListener {
+        class TestErrorListener: FatalErrorListener {
             public init() {
             }
 
-            func on(error: Error, forDocumentId documentId: BSONValue?) {
+            func on(error: Error, forDocumentId documentId: BSONValue?, in namespace: MongoNamespace?) {
                 XCTFail(error.localizedDescription)
             }
         }
@@ -84,7 +84,7 @@ class NamespaceSynchronizationConfigTests: XCMongoMobileTestCase {
                                              errorListener: errorListener)
         ]
 
-        docConfigs.forEach { nsConfig[HashableBSONValue($0.documentId)] = $0 }
+        docConfigs.forEach { nsConfig[$0.documentId.value] = $0 }
 
         docConfigs[1].isStale = true
 

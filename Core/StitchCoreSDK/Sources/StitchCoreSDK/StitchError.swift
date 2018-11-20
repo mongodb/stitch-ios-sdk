@@ -109,6 +109,7 @@ public enum StitchClientErrorCode {
     case userNoLongerValid
     case couldNotLoadPersistedAuthInfo
     case couldNotPersistAuthInfo
+    case couldNotLoadSyncInfo
 }
 
 /**

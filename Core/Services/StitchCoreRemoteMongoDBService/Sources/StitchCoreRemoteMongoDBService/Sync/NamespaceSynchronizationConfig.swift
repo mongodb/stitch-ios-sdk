@@ -39,11 +39,11 @@ internal struct NamespaceSynchronization: Sequence {
         private let docsColl: MongoCollection<CoreDocumentSynchronization.Config>
         private var values: Values
         private var indices: DefaultIndices<Values>
-        private weak var errorListener: ErrorListener?
+        private weak var errorListener: FatalErrorListener?
 
         init(docsColl: MongoCollection<CoreDocumentSynchronization.Config>,
              values: Dictionary<HashableBSONValue, CoreDocumentSynchronization.Config>.Values,
-             errorListener: ErrorListener?) {
+             errorListener: FatalErrorListener?) {
             self.docsColl = docsColl
             self.values = values
             self.indices = self.values.indices
@@ -68,7 +68,7 @@ internal struct NamespaceSynchronization: Sequence {
     /// Standard read-write lock.
     private let nsLock: ReadWriteLock = ReadWriteLock()
     /// The error listener to propagate errors to.
-    private weak var errorListener: ErrorListener?
+    private weak var errorListener: FatalErrorListener?
     /// The configuration for this namespace.
     private(set) var config: Config
     /// The conflict handler configured to this namespace.
@@ -86,7 +86,7 @@ internal struct NamespaceSynchronization: Sequence {
     init(namespacesColl: MongoCollection<NamespaceSynchronization.Config>,
          docsColl: MongoCollection<CoreDocumentSynchronization.Config>,
          namespace: MongoNamespace,
-         errorListener: ErrorListener?) throws {
+         errorListener: FatalErrorListener?) throws {
         self.namespacesColl = namespacesColl
         self.docsColl = docsColl
         // read the sync'd document configs from the local collection,
@@ -98,16 +98,17 @@ internal struct NamespaceSynchronization: Sequence {
                 .reduce(into: [HashableBSONValue: CoreDocumentSynchronization.Config](), { (syncedDocuments, config) in
                     syncedDocuments[config.documentId] = config
                 }))
-
+        self.errorListener = errorListener
     }
 
     init(namespacesColl: MongoCollection<NamespaceSynchronization.Config>,
          docsColl: MongoCollection<CoreDocumentSynchronization.Config>,
          config: inout Config,
-         errorListener: ErrorListener?) {
+         errorListener: FatalErrorListener?) {
         self.namespacesColl = namespacesColl
         self.docsColl = docsColl
         self.config = config
+        self.errorListener = errorListener
     }
 
     /// Make an iterator that will iterate over the associated documents.
@@ -115,6 +116,18 @@ internal struct NamespaceSynchronization: Sequence {
         return NamespaceSynchronizationIterator.init(docsColl: docsColl,
                                                      values: config.syncedDocuments.values,
                                                      errorListener: errorListener)
+    }
+
+    /// The number of documents synced on this namespace
+    var count: Int {
+        return self.config.syncedDocuments.count
+    }
+
+    mutating func sync(id: BSONValue) {
+        self[id] = CoreDocumentSynchronization.init(docsColl: docsColl,
+                                                    namespace: config.namespace,
+                                                    documentId: AnyBSONValue(id),
+                                                    errorListener: errorListener)
     }
 
     /**
@@ -125,11 +138,11 @@ internal struct NamespaceSynchronization: Sequence {
      - parameter documentId: the id of the document to read
      - returns: a new or existing NamespaceConfiguration
      */
-    subscript(documentId: HashableBSONValue) -> CoreDocumentSynchronization? {
+    subscript(documentId: BSONValue) -> CoreDocumentSynchronization? {
         get {
             nsLock.readLock()
             defer { nsLock.unlock() }
-            guard var config = config.syncedDocuments[documentId] else {
+            guard var config = config.syncedDocuments[HashableBSONValue(documentId)] else {
                 return nil
             }
             return CoreDocumentSynchronization.init(docsColl: docsColl,
@@ -139,15 +152,15 @@ internal struct NamespaceSynchronization: Sequence {
         set(value) {
             nsLock.writeLock()
             defer { nsLock.unlock() }
-            
+            let documentId = HashableBSONValue(documentId)
             guard let value = value else {
                 do {
                     try docsColl.deleteOne(docConfigFilter(forNamespace: config.namespace,
                                                            withDocumentId: documentId.bsonValue))
+                    config.syncedDocuments[documentId] = nil
                 } catch {
-                    errorListener?.on(error: error, forDocumentId: documentId.bsonValue.value)
+                    errorListener?.on(error: error, forDocumentId: documentId.bsonValue.value, in: self.config.namespace)
                 }
-                config.syncedDocuments[documentId] = nil
                 return
             }
 
@@ -157,10 +170,10 @@ internal struct NamespaceSynchronization: Sequence {
                                             withDocumentId: documentId.bsonValue),
                     replacement: value.config,
                     options: ReplaceOptions.init(upsert: true))
+                self.config.syncedDocuments[documentId] = value.config
             } catch {
-                errorListener?.on(error: error, forDocumentId: documentId.bsonValue.value)
+                errorListener?.on(error: error, forDocumentId: documentId.bsonValue.value, in: self.config.namespace)
             }
-            self.config.syncedDocuments[documentId] = value.config
         }
     }
 
@@ -196,7 +209,7 @@ internal struct NamespaceSynchronization: Sequence {
                     ).compactMap({$0 == nil ? nil : HashableBSONValue($0!)})
                 )
             } catch {
-                errorListener?.on(error: error, forDocumentId: nil)
+                errorListener?.on(error: error, forDocumentId: nil, in: self.config.namespace)
                 return Set()
             }
         }

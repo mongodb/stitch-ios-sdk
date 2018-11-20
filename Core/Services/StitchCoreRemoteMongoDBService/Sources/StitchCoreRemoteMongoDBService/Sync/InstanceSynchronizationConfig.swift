@@ -12,7 +12,7 @@ import MongoSwift
  */
 internal struct InstanceSynchronization: Sequence {
     /// The actual configuration to be persisted for this instance.
-    struct Config {
+    struct Config: Codable {
         fileprivate var namespaces: [MongoNamespace: NamespaceSynchronization.Config]
     }
 
@@ -25,12 +25,12 @@ internal struct InstanceSynchronization: Sequence {
         private let docsColl: MongoCollection<CoreDocumentSynchronization.Config>
         private var values: Values
         private var indices: DefaultIndices<Values>
-        private weak var errorListener: ErrorListener?
+        private weak var errorListener: FatalErrorListener?
 
         init(namespacesColl: MongoCollection<NamespaceSynchronization.Config>,
              docsColl: MongoCollection<CoreDocumentSynchronization.Config>,
              values: Dictionary<MongoNamespace, NamespaceSynchronization.Config>.Values,
-             errorListener: ErrorListener?) {
+             errorListener: FatalErrorListener?) {
             self.namespacesColl = namespacesColl
             self.docsColl = docsColl
             self.values = values
@@ -53,13 +53,13 @@ internal struct InstanceSynchronization: Sequence {
     private let namespacesColl: MongoCollection<NamespaceSynchronization.Config>
     private let docsColl: MongoCollection<CoreDocumentSynchronization.Config>
     private let instanceLock = ReadWriteLock()
-    private weak var errorListener: ErrorListener?
+    weak var errorListener: FatalErrorListener?
 
     /// The configuration for this instance.
     private(set) var config: Config
 
     init(configDb: MongoDatabase,
-         errorListener: ErrorListener) throws {
+         errorListener: FatalErrorListener?) throws {
         self.namespacesColl = try configDb
             .collection("namespaces", withType: NamespaceSynchronization.Config.self)
         self.docsColl = try configDb
@@ -111,7 +111,7 @@ internal struct InstanceSynchronization: Sequence {
                 config.namespaces[namespace] = newConfig.config
                 return newConfig
             } catch {
-                errorListener?.on(error: error, forDocumentId: nil)
+                errorListener?.on(error: error, forDocumentId: nil, in: namespace)
             }
 
             return nil
