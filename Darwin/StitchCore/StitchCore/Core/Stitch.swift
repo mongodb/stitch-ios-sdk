@@ -105,6 +105,10 @@ public class Stitch {
             finalConfigBuilder.with(localAppVersion: localAppVersion)
         }
 
+        if config.networkMonitor == nil {
+            finalConfigBuilder.with(networkMonitor: try DarwinNetworkMonitor.shared())
+        }
+        
         return try ImmutableStitchAppClientConfiguration(builder: finalConfigBuilder.build())
     }
 

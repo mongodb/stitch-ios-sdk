@@ -1,5 +1,5 @@
 public protocol NetworkMonitor {
-    func isConnected() -> Bool
+    var isConnected: Bool { get }
 
     func add(networkStateListener listener: NetworkStateListener)
 

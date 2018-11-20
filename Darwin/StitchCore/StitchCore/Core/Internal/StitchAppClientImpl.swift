@@ -61,9 +61,10 @@ internal final class StitchAppClientImpl: StitchAppClient {
         self.info = StitchAppClientInfo(clientAppID: clientAppID,
                                         dataDirectory: config.dataDirectory,
                                         localAppName: config.localAppName,
-                                        localAppVersion: config.localAppVersion
+                                        localAppVersion: config.localAppVersion,
+                                        networkMonitor: config.networkMonitor,
+                                        authMonitor: config.authMonitor
         )
-
         let internalAuth =
             try StitchAuthImpl.init(
                 requestClient: StitchRequestClientImpl.init(baseURL: config.baseURL,

@@ -9,7 +9,9 @@ private final class RemoteMongoClientFactory: NamedServiceClientFactory {
     func client(withServiceClient serviceClient: CoreStitchServiceClient,
                 withClientInfo clientInfo: StitchAppClientInfo) -> RemoteMongoClient {
         return RemoteMongoClient.init(
-            withClient: CoreRemoteMongoClient.init(withService: serviceClient),
+            withClient: CoreRemoteMongoClientFactory.shared.client(
+                withService: serviceClient,
+                withAppInfo: clientInfo),
             withDispatcher: OperationDispatcher.init(withDispatchQueue: DispatchQueue.global())
         )
     }

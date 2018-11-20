@@ -312,7 +312,7 @@ public class DataSynchronizer: NetworkStateListener, FatalErrorListener {
      - parameter namespace: the namespace to conduct this op
      - returns: the number of documents in the collection
      */
-    func count(in namespace: MongoNamespace) {
+    func count(in namespace: MongoNamespace) -> Int {
         fatalError("\(#function) not implemented")
     }
 
@@ -327,7 +327,7 @@ public class DataSynchronizer: NetworkStateListener, FatalErrorListener {
      */
     func count(filter: Document,
                options: CountOptions?,
-               in namespace: MongoNamespace) {
+               in namespace: MongoNamespace) -> Int {
         fatalError("\(#function) not implemented")
     }
 
@@ -337,7 +337,7 @@ public class DataSynchronizer: NetworkStateListener, FatalErrorListener {
      - parameter namespace: the namespace to conduct this op
      - returns: the find iterable interface
      */
-    func find<DocumentT: Codable>(in namespace: MongoNamespace) -> MongoCursor<DocumentT> {
+    func find<DocumentT: Codable>(in namespace: MongoNamespace) throws -> MongoCursor<DocumentT> {
         fatalError("\(#function) not implemented")
     }
 
@@ -351,7 +351,7 @@ public class DataSynchronizer: NetworkStateListener, FatalErrorListener {
      */
     func find<DocumentT: Codable>(filter: Document,
                                   options: FindOptions?,
-                                  in namespace: MongoNamespace) -> MongoCursor<DocumentT> {
+                                  in namespace: MongoNamespace) throws -> MongoCursor<DocumentT> {
         fatalError("\(#function) not implemented")
     }
 

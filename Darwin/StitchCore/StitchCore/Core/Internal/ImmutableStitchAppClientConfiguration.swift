@@ -32,6 +32,9 @@ internal struct ImmutableStitchAppClientConfiguration {
      */
     let transport: Transport
 
+    let authMonitor: AuthMonitor
+
+    let networkMonitor: NetworkMonitor
     /**
      * The number of seconds that a `Transport` should spend by default on an HTTP round trip before failing with an
      * error.
@@ -48,7 +51,9 @@ internal struct ImmutableStitchAppClientConfiguration {
             let dataDirectory = builder.dataDirectory,
             let storage = builder.storage,
             let transport = builder.transport,
-            let defaultRequestTimeout = builder.defaultRequestTimeout else {
+            let defaultRequestTimeout = builder.defaultRequestTimeout,
+            let authMonitor = builder.authMonitor,
+            let networkMonitor = builder.networkMonitor else {
             throw StitchClientConfigurationError.missingProperty
         }
 
@@ -59,5 +64,7 @@ internal struct ImmutableStitchAppClientConfiguration {
         self.storage = storage
         self.transport = transport
         self.defaultRequestTimeout = defaultRequestTimeout
+        self.authMonitor = authMonitor
+        self.networkMonitor = networkMonitor
     }
 }
