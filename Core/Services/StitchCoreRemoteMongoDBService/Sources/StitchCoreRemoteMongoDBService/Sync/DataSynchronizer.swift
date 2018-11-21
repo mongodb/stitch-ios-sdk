@@ -572,12 +572,11 @@ public class DataSynchronizer: NetworkStateListener, FatalErrorListener {
     }
 
     /**
-     * Returns the local collection representing the given namespace.
-     *
-     * @param namespace   the namespace referring to the local collection.
-     * @param resultClass the {@link Class} that represents documents in the collection.
-     * @param <T>         the type documents in the collection.
-     * @return the local collection representing the given namespace.
+     Returns the local collection representing the given namespace.
+
+     - parameter namespace:   the namespace referring to the local collection.
+     - parameter type: the type of document in this collection
+     - returns: the local collection representing the given namespace.
      */
     private func localCollection<T: Codable>(for namespace: MongoNamespace,
                                              withType type: T.Type = T.self) throws -> MongoCollection<T> {
