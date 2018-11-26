@@ -45,7 +45,7 @@ public final class CoreRemoteMongoClientFactory {
      */
     public func client(withService service: CoreStitchServiceClient,
                        withAppInfo appInfo: StitchAppClientInfo) throws -> CoreRemoteMongoClient {
-        let instanceKey = "\(appInfo.clientAppID)-\(service.name)"
+        let instanceKey = "\(appInfo.clientAppID)-\(service.name ?? "mongodb-local")"
         if let instance = syncInstances[instanceKey] {
             return instance
         }
@@ -54,7 +54,7 @@ public final class CoreRemoteMongoClientFactory {
             withService: service,
             withInstanceKey: instanceKey,
             withLocalClient: try syncMongoClient(withAppInfo: appInfo,
-                                                 withServiceName: service),
+                                                 withServiceName: service.name ?? "mongodb-local"),
             withNetworkMonitor: appInfo.networkMonitor,
             withAuthMonitor: appInfo.authMonitor)
         syncInstances[instanceKey] = syncClient

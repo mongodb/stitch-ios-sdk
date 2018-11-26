@@ -82,7 +82,7 @@ internal final class StitchAppClientImpl: StitchAppClient, AuthMonitor {
     }
 
     // MARK: Services
-    
+
     public func serviceClient(withServiceName serviceName: String) -> StitchServiceClient {
         return StitchServiceClientImpl.init(
             proxy: CoreStitchServiceClientImpl.init(

@@ -101,11 +101,11 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         }
 
         self.syncConfig.errorListener = self
-        self.networkMonitor.add(networkStateListener: self)
+        self.networkMonitor.add(networkStateDelegate: self)
     }
 
     public func onNetworkStateChanged() {
-        if (!self.networkMonitor.isConnected()) {
+        if (!self.networkMonitor.isConnected) {
             self.stop()
         } else {
             self.start()
