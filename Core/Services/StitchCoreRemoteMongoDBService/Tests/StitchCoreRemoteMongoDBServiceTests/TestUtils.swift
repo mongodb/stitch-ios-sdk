@@ -8,7 +8,9 @@ final class TestUtils {
     
     static func getClient() -> CoreRemoteMongoClient {
         let service = MockCoreStitchServiceClient()
-        return CoreRemoteMongoClient.init(withService: service)
+        CoreRemoteMongoClientFactory.shared.client(withService: service,
+                                                   withAppInfo: StitchAppClientInfo.init(clientAppID: <#T##String#>, dataDirectory: <#T##URL#>, localAppName: <#T##String#>, localAppVersion: <#T##String#>, networkMonitor: <#T##NetworkMonitor#>, authMonitor: <#T##AuthMonitor?#>))
+        return CoreRemoteMongoClient.init(withService: service, withInstanceKey: "1234")
     }
     
     static func getDatabase(withName name: String) -> CoreRemoteMongoDatabase {

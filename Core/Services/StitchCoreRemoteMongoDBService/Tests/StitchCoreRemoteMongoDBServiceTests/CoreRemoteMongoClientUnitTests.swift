@@ -4,7 +4,6 @@ import MongoMobile
 @testable import StitchCoreRemoteMongoDBService
 
 final class CoreRemoteMongoClientUnitTests: XCMongoMobileTestCase {
-
     func testGetDatabase() throws {
         let client = TestUtils.getClient()
         
