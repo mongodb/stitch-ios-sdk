@@ -13,7 +13,7 @@ public struct StitchAppClientInfo {
                 localAppName: String,
                 localAppVersion: String,
                 networkMonitor: NetworkMonitor,
-                authMonitor: AuthMonitor) {
+                authMonitor: AuthMonitor?) {
         self.clientAppID = clientAppID
         self.dataDirectory = dataDirectory
         self.localAppName = localAppName
@@ -42,7 +42,13 @@ public struct StitchAppClientInfo {
      */
     public let localAppVersion: String
 
+    /**
+     The network monitor of the local application.
+     */
     public let networkMonitor: NetworkMonitor
 
-    public let authMonitor: AuthMonitor
+    /**
+     The auth monitor of the local application.
+     */
+    public var authMonitor: AuthMonitor!
 }

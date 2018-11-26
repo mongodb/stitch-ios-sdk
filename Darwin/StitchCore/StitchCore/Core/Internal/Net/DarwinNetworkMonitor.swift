@@ -13,7 +13,7 @@ public enum ReachabilityError: Error {
 internal class DarwinNetworkMonitor: NetworkMonitor {
     private static var _shared: DarwinNetworkMonitor?
 
-    private var networkStateListeners = [NetworkStateListener]()
+    private var networkStateListeners = [NetworkStateDelegate]()
     // Queue where the `SCNetworkReachability` callbacks run
     private let queue = DispatchQueue.init(label: "com.stitch.darwin_network_monitor")
     // Flag used to avoid starting listening if we are already listening
@@ -115,30 +115,18 @@ internal class DarwinNetworkMonitor: NetworkMonitor {
         stopNotifier()
     }
 
-    func add(networkStateListener listener: NetworkStateListener) {
-        self.networkStateListeners.append(listener)
+    func add(networkStateDelegate delegate: NetworkStateDelegate) {
+        self.networkStateListeners.append(delegate)
     }
 
-    func remove(networkStateListener listener: NetworkStateListener) {
-        self.networkStateListeners.removeAll(where: {$0 === listener})
+    func remove(networkStateDelegate delegate: NetworkStateDelegate) {
+        self.networkStateListeners.removeAll(where: {$0 === delegate})
     }
 
     func stopNotifier() {
-//        SCNetworkReachabilitySetCallback(reachabilityRef, nil, nil)
-//        SCNetworkReachabilitySetDispatchQueue(reachabilityRef, nil)
+        SCNetworkReachabilitySetCallback(reachability, nil, nil)
+        SCNetworkReachabilitySetDispatchQueue(reachability, nil)
     }
-//
-//    func setReachabilityFlags() throws {
-//        try reachabilitySerialQueue.sync { [unowned self] in
-//            var flags = SCNetworkReachabilityFlags()
-//            if !SCNetworkReachabilityGetFlags(self.reachabilityRef, &flags) {
-//                self.stopNotifier()
-//                throw ReachabilityError.UnableToGetInitialFlags
-//            }
-//
-//            self.flags = flags
-//        }
-//    }
 
     func reachabilityChanged() {
         self.networkStateListeners.forEach({ $0.onNetworkStateChanged() })

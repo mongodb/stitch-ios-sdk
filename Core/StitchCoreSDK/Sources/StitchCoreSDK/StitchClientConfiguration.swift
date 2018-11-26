@@ -40,10 +40,12 @@ public class StitchClientConfiguration: Buildee {
      */
     public let defaultRequestTimeout: TimeInterval?
 
+    /**
+     The network monitor that the client will use to monitor network conditions.
+     */
     public let networkMonitor: NetworkMonitor?
 
-    public let authMonitor: AuthMonitor?
-    
+
     /**
      * Builder object for this configuration
     */
@@ -58,7 +60,6 @@ public class StitchClientConfiguration: Buildee {
         self.transport = builder.transport
         self.defaultRequestTimeout = builder.defaultRequestTimeout
         self.networkMonitor = builder.networkMonitor
-        self.authMonitor = builder.authMonitor
     }
 }
 
@@ -81,7 +82,6 @@ public class StitchClientConfigurationBuilder {
     public internal(set) var transport: Transport?
     public internal(set) var defaultRequestTimeout: TimeInterval?
     public internal(set) var networkMonitor: NetworkMonitor?
-    public internal(set) var authMonitor: AuthMonitor?
     /**
      * Sets the base URL of the Stitch server that the client will communicate with.
      */
@@ -131,15 +131,12 @@ public class StitchClientConfigurationBuilder {
         return self
     }
 
+    /**
+     Sets the network monitor that the client will use to monitor network conditions.
+     */
     @discardableResult
     public func with(networkMonitor: NetworkMonitor) -> Self {
         self.networkMonitor = networkMonitor
-        return self
-    }
-
-    @discardableResult
-    public func with(authMonitor: AuthMonitor) -> Self {
-        self.authMonitor = authMonitor
         return self
     }
 

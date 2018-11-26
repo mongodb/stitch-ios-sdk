@@ -7,17 +7,17 @@ import MongoSwift
 
 class DataSynchronizerUnitTests: XCMongoMobileTestCase {
     class TestNetworkMonitor: NetworkMonitor {
-        var networkStateListeners = [NetworkStateListener]()
+        var networkStateListeners = [NetworkStateDelegate]()
 
         func isConnected() -> Bool {
             return true
         }
 
-        func add(networkStateListener listener: NetworkStateListener) {
+        func add(networkStateListener listener: NetworkStateDelegate) {
             self.networkStateListeners.append(listener)
         }
 
-        func remove(networkStateListener listener: NetworkStateListener) {
+        func remove(networkStateListener listener: NetworkStateDelegate) {
             if let index = self.networkStateListeners.firstIndex(where: { $0 === listener }) {
                 self.networkStateListeners.remove(at: index)
             }

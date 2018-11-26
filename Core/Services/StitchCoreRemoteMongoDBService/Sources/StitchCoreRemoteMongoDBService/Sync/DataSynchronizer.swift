@@ -8,7 +8,7 @@ import StitchCoreSDK
  and a remote MongoDB (via Stitch). It also expose CRUD operations to interact with synchronized
  documents.
  */
-public class DataSynchronizer: NetworkStateListener, FatalErrorListener {
+public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     /// The amount of time to sleep between sync passes in a non-error state.
     fileprivate static let shortSleepSeconds: UInt32 = 1
     /// The amount of time to sleep between sync passes in an error-state.

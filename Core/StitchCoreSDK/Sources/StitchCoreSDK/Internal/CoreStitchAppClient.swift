@@ -23,7 +23,7 @@ public final class CoreStitchAppClient {
         self.functionService = CoreStitchServiceClientImpl.init(
             requestClient: authRequestClient,
             routes: routes.serviceRoutes,
-            serviceName: "core")
+            serviceName: nil)
     }
 
     // MARK: Methods

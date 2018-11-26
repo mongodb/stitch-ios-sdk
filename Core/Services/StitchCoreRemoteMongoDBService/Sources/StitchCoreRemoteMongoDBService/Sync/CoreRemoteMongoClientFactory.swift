@@ -3,6 +3,13 @@ import StitchCoreSDK
 import MongoMobile
 import StitchCoreLocalMongoDBService
 
+/**
+ Get a new MongoClient for sync purposes.
+
+ - parameter appInfo: info to be keyed on for storage purposes
+ - parameter serviceName: name of the local mdb service
+ - returns: a local mongo client
+*/
 private func syncMongoClient(
     withAppInfo appInfo: StitchAppClientInfo,
     withServiceName serviceName: String
@@ -15,13 +22,27 @@ private func syncMongoClient(
                                               withDBPath: dbPath)
 }
 
+/**
+ Factory that produces new core local mongo clients.
+
+ Initialization must be internalized so that we can maintain
+ strong references to sync clients.
+*/
 public final class CoreRemoteMongoClientFactory {
+    /// Singleton instance of this factory
     public static let shared = CoreRemoteMongoClientFactory()
+    /// References to CoreRemoteMongoClients keyed on the instance key
     private var syncInstances = [String: CoreRemoteMongoClient]()
 
     private init() {
     }
 
+    /**
+     Get a new remote mongo client.
+     - parameter service: mongodb service connected with this client
+     - parameter appInfo: appInfo to use for keying
+     - returns: a new CoreRemoteMongoClient
+     */
     public func client(withService service: CoreStitchServiceClient,
                        withAppInfo appInfo: StitchAppClientInfo) throws -> CoreRemoteMongoClient {
         let instanceKey = "\(appInfo.clientAppID)-\(service.name)"
