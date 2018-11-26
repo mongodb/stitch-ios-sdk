@@ -8,8 +8,6 @@ class InstanceSynchronizationConfigTests: XCMongoMobileTestCase, FatalErrorListe
     private var namespaceColl: MongoCollection<NamespaceSynchronization.Config>!
     private var docsColl: MongoCollection<CoreDocumentSynchronization.Config>!
 
-    private let namespace = MongoNamespace.init(databaseName: ObjectId().description,
-                                                collectionName: ObjectId().description)
     private let namespace2 = MongoNamespace.init(databaseName: ObjectId().description,
                                                  collectionName: ObjectId().description)
 
@@ -21,7 +19,7 @@ class InstanceSynchronizationConfigTests: XCMongoMobileTestCase, FatalErrorListe
     }
 
     override func tearDown() {
-        try? XCMongoMobileTestCase.client.db(namespace.databaseName).drop()
+        try? XCMongoMobileTestCase.client.db(namespace2.databaseName).drop()
     }
 
     func on(error: Error, forDocumentId documentId: BSONValue?, in namespace: MongoNamespace?) {

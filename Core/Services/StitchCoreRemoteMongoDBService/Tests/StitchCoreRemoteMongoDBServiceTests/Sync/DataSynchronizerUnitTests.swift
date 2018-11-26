@@ -6,74 +6,9 @@ import MongoSwift
 @testable import StitchCoreRemoteMongoDBService
 
 class DataSynchronizerUnitTests: XCMongoMobileTestCase {
-    class TestNetworkMonitor: NetworkMonitor {
-        var networkStateListeners = [NetworkStateListener]()
-
-        func isConnected() -> Bool {
-            return true
-        }
-
-        func add(networkStateListener listener: NetworkStateListener) {
-            self.networkStateListeners.append(listener)
-        }
-
-        func remove(networkStateListener listener: NetworkStateListener) {
-            if let index = self.networkStateListeners.firstIndex(where: { $0 === listener }) {
-                self.networkStateListeners.remove(at: index)
-            }
-        }
-    }
-
-    class TestAuthMonitor: AuthMonitor {
-        func isLoggedIn() -> Bool {
-            return true
-        }
-    }
-
-    class TestConflictHandler: ConflictHandler {
-        typealias DocumentT = Document
-        func resolveConflict(documentId: BSONValue,
-                             localEvent: ChangeEvent<Document>,
-                             remoteEvent: ChangeEvent<Document>) throws -> Document? {
-            return remoteEvent.fullDocument
-        }
-    }
-
-    class TestErrorListener: ErrorListener {
-        func on(error: Error, forDocumentId documentId: BSONValue?) {
-        }
-    }
-
-    class TestEventListener: ChangeEventListener {
-        typealias DocumentT = Document
-        func onEvent(documentId: BSONValue,
-                     event: ChangeEvent<Document>) {
-        }
-    }
-
-    static func dataSynchronizer(withInstanceKey instanceKey: ObjectId) -> DataSynchronizer {
-        let mockServiceClient = MockCoreStitchServiceClient.init()
-        return try! DataSynchronizer.init(
-            instanceKey: instanceKey.oid,
-            service: mockServiceClient,
-            localClient: XCMongoMobileTestCase.client,
-            remoteClient: CoreRemoteMongoClient.init(withService: mockServiceClient),
-            networkMonitor: TestNetworkMonitor(),
-            authMonitor: TestAuthMonitor())
-    }
-
-    private let instanceKey = ObjectId()
-    private let namespace = MongoNamespace.init(databaseName: "db", collectionName: "coll")
-    private lazy var dataSynchronizer = DataSynchronizerUnitTests.dataSynchronizer(
-        withInstanceKey: instanceKey
-    )
-
-    override func tearDown() {
-        try? XCMongoMobileTestCase.client.db(
-            DataSynchronizer.localConfigDBName(withInstanceKey: instanceKey.oid)).drop()
-        try? XCMongoMobileTestCase.client.db(
-            DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace)).drop()
-    }
+    lazy var collection = try! defaultCollection(for: MongoNamespace.init(
+        databaseName: DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace),
+        collectionName: namespace.collectionName))
 
     func testStart_Stop() {
         XCTAssertFalse(dataSynchronizer.isRunning)
@@ -128,13 +63,11 @@ class DataSynchronizerUnitTests: XCMongoMobileTestCase {
         let doc1 = ["hello": "world", "a": "b"] as Document
         let doc2 = ["hello": "computer", "a": "b"] as Document
 
-        try XCMongoMobileTestCase.client.db(DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace))
-            .collection(namespace.collectionName, withType: Document.self).insertMany([doc1, doc2])
+        try collection.insertMany([doc1, doc2])
 
         XCTAssertEqual(2, try dataSynchronizer.count(in: namespace))
 
-        try XCMongoMobileTestCase.client.db(DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace))
-            .collection(namespace.collectionName, withType: Document.self).deleteMany(Document())
+        try collection.deleteMany(Document())
 
         XCTAssertEqual(0, try dataSynchronizer.count(in: namespace))
     }
@@ -148,9 +81,7 @@ class DataSynchronizerUnitTests: XCMongoMobileTestCase {
 
         let doc1 = ["hello": "world", "a": "b"] as Document
         let doc2 = ["hello": "computer", "a": "b"] as Document
-
-        try XCMongoMobileTestCase.client.db(DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace))
-            .collection(namespace.collectionName, withType: Document.self).insertMany([doc1, doc2])
+        try collection.insertMany([doc1, doc2])
 
         let cursor: MongoCursor<Document> =
             try dataSynchronizer.find(filter: ["hello": "computer"], options: nil, in: namespace)
@@ -176,8 +107,7 @@ class DataSynchronizerUnitTests: XCMongoMobileTestCase {
         let doc1 = ["hello": "world", "a": "b"] as Document
         let doc2 = ["hello": "computer", "a": "b"] as Document
 
-        try XCMongoMobileTestCase.client.db(DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace))
-            .collection(namespace.collectionName, withType: Document.self).insertMany([doc1, doc2])
+        try collection.insertMany([doc1, doc2])
 
         let cursor = try dataSynchronizer.aggregate(
             pipeline: [

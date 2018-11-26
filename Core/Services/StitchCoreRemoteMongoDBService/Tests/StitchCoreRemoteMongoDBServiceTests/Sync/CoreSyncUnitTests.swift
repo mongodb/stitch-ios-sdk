@@ -3,15 +3,12 @@ import MongoSwift
 import XCTest
 @testable import StitchCoreRemoteMongoDBService
 class CoreSyncUnitTests: XCMongoMobileTestCase {
-    private let instanceKey = ObjectId()
-    private let namespace = MongoNamespace.init(databaseName: "db", collectionName: "coll")
-
-    private lazy var dataSynchronizer = DataSynchronizerUnitTests.dataSynchronizer(
-        withInstanceKey: instanceKey
-    )
     private lazy var coreSync = CoreSync<Document>.init(namespace: namespace,
                                                         dataSynchronizer: dataSynchronizer)
-
+    lazy var collection = try! defaultCollection(for: MongoNamespace.init(
+        databaseName: DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace),
+        collectionName: namespace.collectionName))
+    
     override func tearDown() {
         try? XCMongoMobileTestCase.client.db("sync_config" + instanceKey.oid).drop()
     }

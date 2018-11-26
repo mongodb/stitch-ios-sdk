@@ -330,7 +330,10 @@ public class DataSynchronizer: NetworkStateListener, FatalErrorListener {
     func count(filter: Document,
                options: CountOptions?,
                in namespace: MongoNamespace) throws -> Int {
-        let lock = self.syncConfig[namespace]?.nsLock ?? syncLock
+        guard let lock = self.syncConfig[namespace]?.nsLock else {
+            throw StitchError.clientError(
+                withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
+        }
         lock.readLock()
         defer { lock.unlock() }
 
@@ -359,7 +362,10 @@ public class DataSynchronizer: NetworkStateListener, FatalErrorListener {
     func find<DocumentT: Codable>(filter: Document,
                                   options: FindOptions?,
                                   in namespace: MongoNamespace) throws -> MongoCursor<DocumentT> {
-        let lock = self.syncConfig[namespace]?.nsLock ?? syncLock
+        guard let lock = self.syncConfig[namespace]?.nsLock else {
+            throw StitchError.clientError(
+                withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
+        }
         lock.readLock()
         defer { lock.unlock() }
 
@@ -378,7 +384,10 @@ public class DataSynchronizer: NetworkStateListener, FatalErrorListener {
     func aggregate(pipeline: [Document],
                    options: AggregateOptions? = nil,
                    in namespace: MongoNamespace) throws -> MongoCursor<Document> {
-        let lock = self.syncConfig[namespace]?.nsLock ?? syncLock
+        guard let lock = self.syncConfig[namespace]?.nsLock else {
+            throw StitchError.clientError(
+                withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
+        }
         lock.readLock()
         defer { lock.unlock() }
 
