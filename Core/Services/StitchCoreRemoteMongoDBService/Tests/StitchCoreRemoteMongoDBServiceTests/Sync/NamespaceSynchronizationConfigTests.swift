@@ -8,9 +8,6 @@ class NamespaceSynchronizationConfigTests: XCMongoMobileTestCase {
     private var namespaceColl: MongoCollection<NamespaceSynchronization.Config>!
     private var docsColl: MongoCollection<CoreDocumentSynchronization.Config>!
 
-    private var namespace = MongoNamespace.init(databaseName: ObjectId().description,
-                                                collectionName: ObjectId().description)
-
     override func setUp() {
         namespaceColl = try! XCMongoMobileTestCase.client.db(namespace.databaseName)
             .collection("namespaces", withType: NamespaceSynchronization.Config.self)
