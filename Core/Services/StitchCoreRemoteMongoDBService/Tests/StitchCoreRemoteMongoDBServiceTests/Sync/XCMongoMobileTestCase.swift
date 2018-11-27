@@ -161,7 +161,7 @@ class XCMongoMobileTestCase: XCTestCase {
     func remoteCollection(withSpy: Bool = false, for namespace: MongoNamespace) throws -> CoreRemoteMongoCollection<Document> {
         return try remoteCollection(withSpy: withSpy, for: namespace, withType: Document.self)
     }
-    
+
     func remoteCollection<T: Codable>(withSpy: Bool = false,
                                       for namespace: MongoNamespace,
                                       withType type: T.Type) throws -> CoreRemoteMongoCollection<T> {

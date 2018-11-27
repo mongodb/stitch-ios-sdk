@@ -8,11 +8,11 @@ class CoreSyncUnitTests: XCMongoMobileTestCase {
     lazy var collection = try! localCollection(for: MongoNamespace.init(
         databaseName: DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace),
         collectionName: namespace.collectionName))
-    
+
     override func tearDown() {
         try? localClient.db("sync_config" + instanceKey.oid).drop()
     }
-    
+
     func testConfigure() {
         XCTAssertFalse(dataSynchronizer.isConfigured)
         coreSync.configure(conflictHandler: TestConflictHandler(),

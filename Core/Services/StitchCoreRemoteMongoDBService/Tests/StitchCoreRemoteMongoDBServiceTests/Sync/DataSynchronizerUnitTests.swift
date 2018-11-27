@@ -71,7 +71,7 @@ class DataSynchronizerUnitTests: XCMongoMobileTestCase {
 
         XCTAssertEqual(0, try dataSynchronizer.count(in: namespace))
     }
-    
+
     func testFind() throws {
         dataSynchronizer.configure(namespace: namespace,
                                    conflictHandler: TestConflictHandler(),

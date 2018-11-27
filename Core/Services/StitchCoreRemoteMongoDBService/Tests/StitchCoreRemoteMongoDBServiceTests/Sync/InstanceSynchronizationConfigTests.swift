@@ -32,9 +32,9 @@ class InstanceSynchronizationConfigTests: XCMongoMobileTestCase, FatalErrorListe
             errorListener: self)
 
         let nsConfig = try NamespaceSynchronization.init(namespacesColl: namespaceColl,
-                                                     docsColl: docsColl,
-                                                     namespace: namespace,
-                                                     errorListener: nil)
+                                                         docsColl: docsColl,
+                                                         namespace: namespace,
+                                                         errorListener: nil)
         XCTAssertNotNil(instanceSync[namespace])
 
         XCTAssertEqual(instanceSync[namespace]?.config.namespace, nsConfig.config.namespace)
