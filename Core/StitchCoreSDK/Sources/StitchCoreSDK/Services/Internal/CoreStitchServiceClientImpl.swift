@@ -4,14 +4,14 @@ import Foundation
 open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
     private let requestClient: StitchAuthRequestClient
     private let serviceRoutes: StitchServiceRoutes
-    public let name: String?
+    public let serviceName: String?
     
     public init(requestClient: StitchAuthRequestClient,
                 routes:  StitchServiceRoutes,
                 serviceName: String?) {
         self.requestClient = requestClient
         self.serviceRoutes = routes
-        self.name = serviceName
+        self.serviceName = serviceName
     }
     
     private func getCallServiceFunctionRequest(withName name: String,
@@ -22,7 +22,7 @@ open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
             "arguments": args
         ]
         
-        if let serviceName = self.name {
+        if let serviceName = self.serviceName {
             body["service"] = serviceName
         }
         

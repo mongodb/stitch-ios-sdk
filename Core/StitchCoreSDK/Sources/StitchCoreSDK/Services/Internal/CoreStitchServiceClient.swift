@@ -6,7 +6,7 @@ import Foundation
  * Stitch service.
  */
 public protocol CoreStitchServiceClient {
-    var name: String? { get }
+    var serviceName: String? { get }
     
     func callFunction(withName name: String, withArgs args: [BSONValue], withRequestTimeout requestTimeout: TimeInterval?) throws
     

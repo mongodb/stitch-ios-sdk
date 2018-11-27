@@ -4,7 +4,7 @@ import MockUtils
 @testable import StitchCoreSDK
 
 public final class MockCoreStitchServiceClient: CoreStitchServiceClient {
-    public var name: String? = nil
+    public var serviceName: String? = nil
 
     public init() { }
     public var callFunctionMock = FunctionMockUnitThreeArgs<Void, String, [BSONValue], TimeInterval?>()

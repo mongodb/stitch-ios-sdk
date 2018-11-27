@@ -3,7 +3,7 @@ import StitchCore
 import StitchCoreSDK
 import StitchCoreRemoteMongoDBService
 
-private final class RemoteMongoClientFactory: ThrowingServiceClientFactory {
+private final class RemoteMongoClientFactory: NamedThrowingServiceClientFactory {
     typealias ClientType = RemoteMongoClient
     
     func client(withServiceClient serviceClient: CoreStitchServiceClient,
@@ -22,7 +22,7 @@ private final class RemoteMongoClientFactory: ThrowingServiceClientFactory {
  * `StitchAppClient.serviceClient(fromFactory:withName)` to get a `RemoteMongoClient.
  */
 public let remoteMongoClientFactory =
-    AnyThrowingServiceClientFactory<RemoteMongoClient>(factory: RemoteMongoClientFactory())
+    AnyNamedThrowingServiceClientFactory<RemoteMongoClient>(factory: RemoteMongoClientFactory())
 
 /**
  * A class which can be used to get database and collection objects which can be used to interact with MongoDB data via

@@ -89,7 +89,7 @@ public final class CoreSync<DocumentT: Codable> {
      - returns: the number of documents in the collection
      */
     public func count() throws -> Int {
-        return self.dataSynchronizer.count(in: namespace)
+        return try self.dataSynchronizer.count(in: namespace)
     }
 
     /**
@@ -100,10 +100,10 @@ public final class CoreSync<DocumentT: Codable> {
      - parameter options: the options describing the count
      - returns: the number of documents in the collection
      */
-    public func count(filter: Document, options: CountOptions?) throws -> Int {
-        return self.dataSynchronizer.count(filter: filter,
-                                           options: options,
-                                           in: namespace)
+    public func count(filter: Document, options: CountOptions? = nil) throws -> Int {
+        return try self.dataSynchronizer.count(filter: filter,
+                                               options: options,
+                                               in: namespace)
     }
 
     /**
@@ -122,10 +122,10 @@ public final class CoreSync<DocumentT: Codable> {
      - parameter options: the options for this findo p
      - returns: the find iterable interface
      */
-    public func find(filter: Document, options: FindOptions?) throws -> MongoCursor<DocumentT> {
+    public func find(filter: Document, options: FindOptions? = nil) throws -> MongoCursor<DocumentT> {
         return try self.dataSynchronizer.find(filter: filter,
-                                          options: options,
-                                          in: namespace)
+                                              options: options,
+                                              in: namespace)
     }
 
     /**
@@ -137,10 +137,10 @@ public final class CoreSync<DocumentT: Codable> {
      - returns: an iterable containing the result of the aggregation operation
      */
     public func aggregate(pipeline: [Document],
-                          options: AggregateOptions?) -> MongoCursor<Document> {
-        return self.dataSynchronizer.aggregate(pipeline: pipeline,
-                                               options: options,
-                                               in: namespace)
+                          options: AggregateOptions? = nil) throws -> MongoCursor<Document> {
+        return try self.dataSynchronizer.aggregate(pipeline: pipeline,
+                                                   options: options,
+                                                   in: namespace)
     }
     
     /**

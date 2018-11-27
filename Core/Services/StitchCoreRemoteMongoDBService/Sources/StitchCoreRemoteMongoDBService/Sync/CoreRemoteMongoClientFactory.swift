@@ -4,25 +4,6 @@ import MongoMobile
 import StitchCoreLocalMongoDBService
 
 /**
- Get a new MongoClient for sync purposes.
-
- - parameter appInfo: info to be keyed on for storage purposes
- - parameter serviceName: name of the local mdb service
- - returns: a local mongo client
-*/
-private func syncMongoClient(
-    withAppInfo appInfo: StitchAppClientInfo,
-    withServiceName serviceName: String
-) throws -> MongoClient {
-    let dataDir = appInfo.dataDirectory
-    let instanceKey = "\(appInfo.clientAppID)-\(dataDir)_sync_\(serviceName)"
-    let dbPath = "\(dataDir)/\(appInfo.clientAppID)/sync_mongodb_\(serviceName)/0/"
-
-    return try CoreLocalMongoDBService.client(withKey: instanceKey,
-                                              withDBPath: dbPath)
-}
-
-/**
  Factory that produces new core local mongo clients.
 
  Initialization must be internalized so that we can maintain
@@ -45,7 +26,9 @@ public final class CoreRemoteMongoClientFactory {
      */
     public func client(withService service: CoreStitchServiceClient,
                        withAppInfo appInfo: StitchAppClientInfo) throws -> CoreRemoteMongoClient {
-        let instanceKey = "\(appInfo.clientAppID)-\(service.name ?? "mongodb-local")"
+        // Default to "mongodb-local" for now. Unclear if local service
+        // will be able to take on its own name.
+        let instanceKey = "\(appInfo.clientAppID)-\(service.serviceName ?? "mongodb-local")"
         if let instance = syncInstances[instanceKey] {
             return instance
         }
@@ -53,8 +36,7 @@ public final class CoreRemoteMongoClientFactory {
         let syncClient = try CoreRemoteMongoClient.init(
             withService: service,
             withInstanceKey: instanceKey,
-            withLocalClient: try syncMongoClient(withAppInfo: appInfo,
-                                                 withServiceName: service.name ?? "mongodb-local"),
+            withLocalClient: try CoreLocalMongoDBService.shared.client(withAppInfo: appInfo),
             withNetworkMonitor: appInfo.networkMonitor,
             withAuthMonitor: appInfo.authMonitor)
         syncInstances[instanceKey] = syncClient

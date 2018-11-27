@@ -19,6 +19,7 @@
 		491F9B4E21A3568800802A4D /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 491F9B4D21A3568800802A4D /* StitchCore.framework */; };
 		494335A42190FC99005B170D /* StitchDarwinCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494335A32190FC99005B170D /* StitchDarwinCoreTestUtils.framework */; };
 		494335B22192360A005B170D /* StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494335B12192360A005B170D /* StitchCoreAdminClient.framework */; };
+		497473D121ADC9080011BA1C /* SyncIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497473D021ADC9080011BA1C /* SyncIntTests.swift */; };
 		498E55DE2190B86100A02A03 /* StitchCoreRemoteMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E55DD2190B86100A02A03 /* StitchCoreRemoteMongoDBService.framework */; };
 		8CE6FD5AE732A98583AA6C97 /* Pods_StitchRemoteMongoDBServiceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07405BAEFBBEC9476B7340D /* Pods_StitchRemoteMongoDBServiceTests.framework */; };
 		B87BDBAF77B6E10CA0CD7802 /* Pods_StitchRemoteMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62BF72CF8056A42264AA842F /* Pods_StitchRemoteMongoDBService.framework */; };
@@ -76,6 +77,7 @@
 		491F9B4D21A3568800802A4D /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		494335A32190FC99005B170D /* StitchDarwinCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchDarwinCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		494335B12192360A005B170D /* StitchCoreAdminClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAdminClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		497473D021ADC9080011BA1C /* SyncIntTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncIntTests.swift; sourceTree = "<group>"; };
 		498E55DD2190B86100A02A03 /* StitchCoreRemoteMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreRemoteMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		62BF72CF8056A42264AA842F /* Pods_StitchRemoteMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchRemoteMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		922CFC4065796D5BCE74E3B5 /* Pods-StitchRemoteMongoDBServiceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchRemoteMongoDBServiceTests.debug.xcconfig"; path = "Target Support Files/Pods-StitchRemoteMongoDBServiceTests/Pods-StitchRemoteMongoDBServiceTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 			isa = PBXGroup;
 			children = (
 				1169217620C9D04C00930DD8 /* RemoteMongoClientIntTests.swift */,
+				497473D021ADC9080011BA1C /* SyncIntTests.swift */,
 				1169217820C9D04C00930DD8 /* Info.plist */,
 			);
 			path = StitchRemoteMongoDBServiceTests;
@@ -218,6 +221,7 @@
 				1169216E20C9D04C00930DD8 /* Frameworks */,
 				1169216F20C9D04C00930DD8 /* Resources */,
 				970D4224B62CA2C834D609DF /* Embed Frameworks */,
+				D3DB8FB75973E46DF15BFE7B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -328,6 +332,44 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		D3DB8FB75973E46DF15BFE7B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-StitchRemoteMongoDBServiceTests/Pods-StitchRemoteMongoDBServiceTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/MongoSwift/MongoSwift.framework",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework.dSYM",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework.dSYM",
+				"${BUILT_PRODUCTS_DIR}/MongoMobile/MongoMobile.framework",
+				"${PODS_ROOT}/mongo_embedded/iPhoneOS/Frameworks/mongo_embedded.framework",
+				"${PODS_ROOT}/mongoc_embedded/iPhoneOS/Frameworks/mongoc_embedded.framework",
+				"${PODS_ROOT}/mongoc_embedded/iPhoneOS/Frameworks/mongoc_embedded.framework.dSYM",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MongoSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/bson.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/bson.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongoc.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/mongoc.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MongoMobile.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongo_embedded.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongoc_embedded.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/mongoc_embedded.framework.dSYM",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-StitchRemoteMongoDBServiceTests/Pods-StitchRemoteMongoDBServiceTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -349,6 +391,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				497473D121ADC9080011BA1C /* SyncIntTests.swift in Sources */,
 				1169217720C9D04C00930DD8 /* RemoteMongoClientIntTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

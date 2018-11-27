@@ -6,7 +6,6 @@ import Foundation
  * The implementation of the `StitchAppClient` protocol.
  */
 internal final class StitchAppClientImpl: StitchAppClient, AuthMonitor {
-
     // MARK: Properties
 
     /**
@@ -122,6 +121,15 @@ internal final class StitchAppClientImpl: StitchAppClient, AuthMonitor {
         )
     }
 
+    func serviceClient<T>(fromFactory factory: AnyNamedThrowingServiceClientFactory<T>,
+                          withName serviceName: String) throws -> T {
+        return try factory.client(
+            forService: CoreStitchServiceClientImpl.init(requestClient: self._auth,
+                                                         routes: self.routes.serviceRoutes,
+                                                         serviceName: serviceName),
+            withClientInfo: self.info
+        )
+    }
     // MARK: Functions
 
     public func callFunction(withName name: String,

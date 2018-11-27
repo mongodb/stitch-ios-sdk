@@ -3,20 +3,39 @@
 @_exported import MongoMobile
 import StitchCoreSDK
 
-private var initialized = false;
+public final class CoreLocalMongoDBService {
+    public static let shared = CoreLocalMongoDBService()
+    private var handles = 0
+    private var initialized = false
+    private var _localInstances: Dictionary<String, MongoClient> = [String: MongoClient]()
+    public var localInstances: [MongoClient] {
+        // should sync
+        return _localInstances.map { $0.value }
+    }
 
-open class CoreLocalMongoDBService {
-    private static var _localInstances: Dictionary<String, MongoClient> = [String: MongoClient]()
+    private init() {}
 
-    public static func client(withKey key: String,
-                              withDBPath dbPath: String) throws -> MongoClient {
-        objc_sync_enter(self)
-        defer { objc_sync_exit(self) }
+    deinit {
+        self.close()
+    }
 
+    public func initialize() throws {
         if (!initialized) {
             try MongoMobile.initialize()
             initialized = true
         }
+    }
+
+    public func client(withKey key: String,
+                       withDBPath dbPath: String) throws -> MongoClient {
+        if let client = _localInstances[key] {
+            return client
+        }
+
+        objc_sync_enter(self)
+        defer { objc_sync_exit(self) }
+
+        try initialize()
 
         var isDir : ObjCBool = true
         if !FileManager().fileExists(atPath: dbPath, isDirectory: &isDir) {
@@ -26,11 +45,11 @@ open class CoreLocalMongoDBService {
         let settings = MongoClientSettings(dbPath: dbPath)
         let client = try MongoMobile.create(settings)
 
-        CoreLocalMongoDBService._localInstances[key] = client
+        _localInstances[key] = client
         return client
     }
 
-    public static func client(withAppInfo appInfo: StitchAppClientInfo) throws -> MongoClient {
+    public func client(withAppInfo appInfo: StitchAppClientInfo) throws -> MongoClient {
         if let client = _localInstances[appInfo.clientAppID] {
             return client
         }
@@ -39,17 +58,6 @@ open class CoreLocalMongoDBService {
         let dbPath = "\(FileManager().currentDirectoryPath)\(appInfo.dataDirectory.path)/local_mongodb/0/"
 
         return try client(withKey: instanceKey, withDBPath: dbPath)
-    }
-    
-    public static var localInstances: [MongoClient] {
-        // should sync
-        return CoreLocalMongoDBService._localInstances.map { $0.value }
-    }
-    
-    public init() {}
-    
-    deinit {
-        self.close()
     }
     
     public func close() {

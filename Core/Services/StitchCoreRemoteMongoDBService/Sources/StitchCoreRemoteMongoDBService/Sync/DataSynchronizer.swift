@@ -81,7 +81,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         self.networkMonitor = networkMonitor
         self.authMonitor = authMonitor
 
-        self.configDb = try localClient.db("sync_config" + instanceKey)
+        self.configDb = try localClient.db(DataSynchronizer.localConfigDBName(withInstanceKey: instanceKey))
 
         self.instancesColl = try configDb.collection("instances",
                                                      withType: InstanceSynchronization.Config.self)
@@ -263,7 +263,6 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             return Set()
         }
 
-        let v = nsConfig.map { $0.documentId }
         return Set(nsConfig.map({HashableBSONValue($0.documentId)}))
     }
 
@@ -312,8 +311,10 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      - parameter namespace: the namespace to conduct this op
      - returns: the number of documents in the collection
      */
-    func count(in namespace: MongoNamespace) -> Int {
-        fatalError("\(#function) not implemented")
+    func count(in namespace: MongoNamespace) throws -> Int {
+        return try self.count(filter: Document(),
+                              options: nil,
+                              in: namespace)
     }
 
     /**
@@ -327,8 +328,16 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      */
     func count(filter: Document,
                options: CountOptions?,
-               in namespace: MongoNamespace) -> Int {
-        fatalError("\(#function) not implemented")
+               in namespace: MongoNamespace) throws -> Int {
+        guard let lock = self.syncConfig[namespace]?.nsLock else {
+            throw StitchError.clientError(
+                withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
+        }
+        lock.readLock()
+        defer { lock.unlock() }
+
+        return try localCollection(for: namespace, withType: Document.self)
+            .count(filter, options: options)
     }
 
     /**
@@ -338,7 +347,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      - returns: the find iterable interface
      */
     func find<DocumentT: Codable>(in namespace: MongoNamespace) throws -> MongoCursor<DocumentT> {
-        fatalError("\(#function) not implemented")
+        return try self.find(filter: Document.init(), options: nil, in: namespace)
     }
 
     /**
@@ -352,7 +361,14 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     func find<DocumentT: Codable>(filter: Document,
                                   options: FindOptions?,
                                   in namespace: MongoNamespace) throws -> MongoCursor<DocumentT> {
-        fatalError("\(#function) not implemented")
+        guard let lock = self.syncConfig[namespace]?.nsLock else {
+            throw StitchError.clientError(
+                withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
+        }
+        lock.readLock()
+        defer { lock.unlock() }
+
+        return try localCollection(for: namespace).find(filter, options: options)
     }
 
     /**
@@ -365,9 +381,18 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      - returns: an iterable containing the result of the aggregation operation
      */
     func aggregate(pipeline: [Document],
-                   options: AggregateOptions?,
-                   in namespace: MongoNamespace) -> MongoCursor<Document> {
-        fatalError("\(#function) not implemented")
+                   options: AggregateOptions? = nil,
+                   in namespace: MongoNamespace) throws -> MongoCursor<Document> {
+        guard let lock = self.syncConfig[namespace]?.nsLock else {
+            throw StitchError.clientError(
+                withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
+        }
+        lock.readLock()
+        defer { lock.unlock() }
+
+        return try localCollection(for: namespace, withType: Document.self).aggregate(
+            pipeline,
+            options: options)
     }
 
 
@@ -552,5 +577,28 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         } catch {
             log.e("t='\(logicalT)': triggerListeningToNamespace ns=\(namespace) exception: \(error)")
         }
+    }
+
+    /**
+     Returns the local collection representing the given namespace.
+
+     - parameter namespace:   the namespace referring to the local collection.
+     - parameter type: the type of document in this collection
+     - returns: the local collection representing the given namespace.
+     */
+    private func localCollection<T: Codable>(for namespace: MongoNamespace,
+                                             withType type: T.Type = T.self) throws -> MongoCollection<T> {
+        return try localClient.db(DataSynchronizer.localUserDBName(withInstanceKey: instanceKey,
+                                                                   for: namespace))
+            .collection(namespace.collectionName, withType: type)
+    }
+
+    internal static func localConfigDBName(withInstanceKey instanceKey: String) -> String {
+        return "sync_config_\(instanceKey)"
+    }
+    
+    internal static func localUserDBName(withInstanceKey instanceKey: String,
+                                         for namespace: MongoNamespace) -> String {
+        return "sync_user_\(instanceKey)_\(namespace.databaseName)"
     }
 }

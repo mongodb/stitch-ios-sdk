@@ -8,18 +8,15 @@ class NamespaceSynchronizationConfigTests: XCMongoMobileTestCase {
     private var namespaceColl: MongoCollection<NamespaceSynchronization.Config>!
     private var docsColl: MongoCollection<CoreDocumentSynchronization.Config>!
 
-    private var namespace = MongoNamespace.init(databaseName: ObjectId().description,
-                                                collectionName: ObjectId().description)
-
     override func setUp() {
-        namespaceColl = try! XCMongoMobileTestCase.client.db(namespace.databaseName)
+        namespaceColl = try! localClient.db(namespace.databaseName)
             .collection("namespaces", withType: NamespaceSynchronization.Config.self)
-        docsColl = try! XCMongoMobileTestCase.client.db(namespace.databaseName)
+        docsColl = try! localClient.db(namespace.databaseName)
             .collection("documents", withType: CoreDocumentSynchronization.Config.self)
     }
 
     override func tearDown() {
-        try? XCMongoMobileTestCase.client.db(namespace.databaseName).drop()
+        try? localClient.db(namespace.databaseName).drop()
     }
 
     func testSet() throws {

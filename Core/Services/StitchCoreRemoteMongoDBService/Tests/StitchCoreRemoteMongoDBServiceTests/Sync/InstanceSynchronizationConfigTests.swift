@@ -8,20 +8,18 @@ class InstanceSynchronizationConfigTests: XCMongoMobileTestCase, FatalErrorListe
     private var namespaceColl: MongoCollection<NamespaceSynchronization.Config>!
     private var docsColl: MongoCollection<CoreDocumentSynchronization.Config>!
 
-    private let namespace = MongoNamespace.init(databaseName: ObjectId().description,
-                                                collectionName: ObjectId().description)
     private let namespace2 = MongoNamespace.init(databaseName: ObjectId().description,
                                                  collectionName: ObjectId().description)
 
     override func setUp() {
-        namespaceColl = try! XCMongoMobileTestCase.client.db(namespace.databaseName)
+        namespaceColl = try! localClient.db(namespace.databaseName)
             .collection("namespaces", withType: NamespaceSynchronization.Config.self)
-        docsColl = try! XCMongoMobileTestCase.client.db(namespace.databaseName)
+        docsColl = try! localClient.db(namespace.databaseName)
             .collection("documents", withType: CoreDocumentSynchronization.Config.self)
     }
 
     override func tearDown() {
-        try? XCMongoMobileTestCase.client.db(namespace.databaseName).drop()
+        try? localClient.db(namespace2.databaseName).drop()
     }
 
     func on(error: Error, forDocumentId documentId: BSONValue?, in namespace: MongoNamespace?) {
@@ -30,7 +28,7 @@ class InstanceSynchronizationConfigTests: XCMongoMobileTestCase, FatalErrorListe
 
     func testGet_Set_ModifyInPlace() throws {
         var instanceSync = try InstanceSynchronization.init(
-            configDb: try XCMongoMobileTestCase.client.db(namespace.databaseName),
+            configDb: try localClient.db(namespace.databaseName),
             errorListener: self)
 
         let nsConfig = try NamespaceSynchronization.init(namespacesColl: namespaceColl,
