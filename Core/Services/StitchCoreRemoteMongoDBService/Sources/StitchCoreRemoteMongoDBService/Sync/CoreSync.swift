@@ -88,8 +88,8 @@ open class CoreSync<DocumentT: Codable> {
 
      - returns: the number of documents in the collection
      */
-    func count() {
-        return self.dataSynchronizer.count(in: namespace)
+    func count() throws -> Int {
+        return try self.dataSynchronizer.count(in: namespace)
     }
 
     /**
@@ -100,10 +100,10 @@ open class CoreSync<DocumentT: Codable> {
      - parameter options: the options describing the count
      - returns: the number of documents in the collection
      */
-    func count(filter: Document, options: CountOptions?) {
-        return self.dataSynchronizer.count(filter: filter,
-                                           options: options,
-                                           in: namespace)
+    func count(filter: Document, options: CountOptions? = nil) throws -> Int {
+        return try self.dataSynchronizer.count(filter: filter,
+                                               options: options,
+                                               in: namespace)
     }
 
     /**
@@ -111,8 +111,8 @@ open class CoreSync<DocumentT: Codable> {
 
      - returns: the find iterable interface
      */
-    func find() -> MongoCursor<DocumentT> {
-        return self.dataSynchronizer.find(in: namespace)
+    func find() throws -> MongoCursor<DocumentT> {
+        return try self.dataSynchronizer.find(in: namespace)
     }
 
     /**
@@ -122,10 +122,10 @@ open class CoreSync<DocumentT: Codable> {
      - parameter options: the options for this findo p
      - returns: the find iterable interface
      */
-    func find(filter: Document, options: FindOptions?) -> MongoCursor<DocumentT> {
-        return self.dataSynchronizer.find(filter: filter,
-                                          options: options,
-                                          in: namespace)
+    func find(filter: Document, options: FindOptions? = nil) throws -> MongoCursor<DocumentT> {
+        return try self.dataSynchronizer.find(filter: filter,
+                                              options: options,
+                                              in: namespace)
     }
 
     /**
@@ -137,10 +137,10 @@ open class CoreSync<DocumentT: Codable> {
      - returns: an iterable containing the result of the aggregation operation
      */
     func aggregate(pipeline: [Document],
-                   options: AggregateOptions?) -> MongoCursor<Document> {
-        return self.dataSynchronizer.aggregate(pipeline: pipeline,
-                                               options: options,
-                                               in: namespace)
+                   options: AggregateOptions? = nil) throws -> MongoCursor<Document> {
+        return try self.dataSynchronizer.aggregate(pipeline: pipeline,
+                                                   options: options,
+                                                   in: namespace)
     }
 
 

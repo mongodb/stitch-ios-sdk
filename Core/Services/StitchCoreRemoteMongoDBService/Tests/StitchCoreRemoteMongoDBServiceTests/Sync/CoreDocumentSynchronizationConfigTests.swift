@@ -7,17 +7,11 @@ import MongoSwift
 class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
     private var database: MongoDatabase!
     private var docsColl: MongoCollection<CoreDocumentSynchronization.Config>!
-    private var namespace = MongoNamespace.init(databaseName: ObjectId().description,
-                                                collectionName: ObjectId().description)
 
     override func setUp() {
         self.docsColl = try! CoreDocumentSynchronizationConfigTests.client.db(namespace.databaseName)
             .collection("documents",
                         withType: CoreDocumentSynchronization.Config.self)
-    }
-
-    override func tearDown() {
-        try? CoreDocumentSynchronizationConfigTests.client.db(namespace.databaseName).drop()
     }
 
     func testRoundTrip() throws {
