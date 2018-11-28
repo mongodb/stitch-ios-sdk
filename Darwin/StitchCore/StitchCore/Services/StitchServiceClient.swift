@@ -9,7 +9,7 @@ import Foundation
 public protocol StitchServiceClient {
 
     // swiftlint:disable line_length
-    
+
     /**
      * Calls the MongoDB Stitch function with the provided name and arguments.
      *
@@ -36,7 +36,7 @@ public protocol StitchServiceClient {
      *
      */
     func callFunction(withName name: String, withArgs args: [BSONValue], withRequestTimeout requestTimeout: TimeInterval, _ completionHandler: @escaping (StitchResult<Void>) -> Void)
-    
+
     /**
      * Calls the function for this service with the provided name and arguments.
      *
