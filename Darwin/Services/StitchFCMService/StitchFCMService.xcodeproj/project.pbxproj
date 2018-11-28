@@ -202,6 +202,7 @@
 				119F123E20D218D6009B1CF5 /* Headers */,
 				119F123F20D218D6009B1CF5 /* Resources */,
 				4325429AA3B5A85CB6FB7594 /* Embed Frameworks */,
+				11FED8B421AF47A100CFFDCF /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -287,6 +288,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		11FED8B421AF47A100CFFDCF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
+		};
 		5502D8D29E755639A2F953A0 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -509,7 +527,14 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(inherited) \"$(SRCROOT)/../../../Frameworks/macos\" @executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../Frameworks/macos\"",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchFCMService;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -562,7 +587,10 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
 				CODE_SIGN_STYLE = Automatic;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				"FRAMEWORK_SEARCH_PATHS[sdk=macosx10.13]" = "\"$(SRCROOT)/../../../Frameworks/macos\" $(inherited)";
+				"FRAMEWORK_SEARCH_PATHS[sdk=macosx10.13]" = (
+					"\"$(SRCROOT)/../../../Frameworks/macos\"",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = StitchFCMServiceTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -6,7 +6,7 @@ let package = Package(
     products: [
         .library(
             name: "StitchCoreAWSService",
-            targets: ["StitchCoreAWSService"]),
+            targets: ["StitchCoreAWSService"])
     ],
     dependencies: [
         .package(url: "../../StitchCoreSDK", .branch("master"))
@@ -17,6 +17,6 @@ let package = Package(
             dependencies: ["StitchCoreSDK"]),
         .testTarget(
             name: "StitchCoreAWSServiceTests",
-            dependencies: ["StitchCoreAWSService", "StitchCoreSDKMocks"]),
+            dependencies: ["StitchCoreAWSService", "StitchCoreSDKMocks"])
     ]
 )

@@ -39,8 +39,8 @@
 		OBJ_13 /* CoreAWSSESServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAWSSESServiceClient.swift; sourceTree = "<group>"; };
 		OBJ_16 /* CoreAWSSESServiceClientUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAWSSESServiceClientUnitTests.swift; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
-		StitchCoreAWSSESService::StitchCoreAWSSESService::Product /* StitchCoreAWSSESService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAWSSESService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		StitchCoreAWSSESService::StitchCoreAWSSESServiceTests::Product /* StitchCoreAWSSESServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = StitchCoreAWSSESServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StitchCoreAWSSESService::StitchCoreAWSSESService::Product" /* StitchCoreAWSSESService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAWSSESService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StitchCoreAWSSESService::StitchCoreAWSSESServiceTests::Product" /* StitchCoreAWSSESServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = StitchCoreAWSSESServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,8 +109,8 @@
 		OBJ_128 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				StitchCoreAWSSESService::StitchCoreAWSSESServiceTests::Product /* StitchCoreAWSSESServiceTests.xctest */,
-				StitchCoreAWSSESService::StitchCoreAWSSESService::Product /* StitchCoreAWSSESService.framework */,
+				"StitchCoreAWSSESService::StitchCoreAWSSESServiceTests::Product" /* StitchCoreAWSSESServiceTests.xctest */,
+				"StitchCoreAWSSESService::StitchCoreAWSSESService::Product" /* StitchCoreAWSSESService.framework */,
 			);
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -155,13 +155,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		StitchCoreAWSSESService::StitchCoreAWSSESService /* StitchCoreAWSSESService */ = {
+		"StitchCoreAWSSESService::StitchCoreAWSSESService" /* StitchCoreAWSSESService */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_151 /* Build configuration list for PBXNativeTarget "StitchCoreAWSSESService" */;
 			buildPhases = (
 				0875738C3391103FCBFB0663 /* [CP] Check Pods Manifest.lock */,
 				OBJ_154 /* Sources */,
 				OBJ_157 /* Frameworks */,
+				11FED8A721AF472600CFFDCF /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -169,10 +170,10 @@
 			);
 			name = StitchCoreAWSSESService;
 			productName = StitchCoreAWSSESService;
-			productReference = StitchCoreAWSSESService::StitchCoreAWSSESService::Product /* StitchCoreAWSSESService.framework */;
+			productReference = "StitchCoreAWSSESService::StitchCoreAWSSESService::Product" /* StitchCoreAWSSESService.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		StitchCoreAWSSESService::StitchCoreAWSSESServiceTests /* StitchCoreAWSSESServiceTests */ = {
+		"StitchCoreAWSSESService::StitchCoreAWSSESServiceTests" /* StitchCoreAWSSESServiceTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_173 /* Build configuration list for PBXNativeTarget "StitchCoreAWSSESServiceTests" */;
 			buildPhases = (
@@ -187,7 +188,7 @@
 			);
 			name = StitchCoreAWSSESServiceTests;
 			productName = StitchCoreAWSSESServiceTests;
-			productReference = StitchCoreAWSSESService::StitchCoreAWSSESServiceTests::Product /* StitchCoreAWSSESServiceTests.xctest */;
+			productReference = "StitchCoreAWSSESService::StitchCoreAWSSESServiceTests::Product" /* StitchCoreAWSSESServiceTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -210,8 +211,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				StitchCoreAWSSESService::StitchCoreAWSSESService /* StitchCoreAWSSESService */,
-				StitchCoreAWSSESService::StitchCoreAWSSESServiceTests /* StitchCoreAWSSESServiceTests */,
+				"StitchCoreAWSSESService::StitchCoreAWSSESService" /* StitchCoreAWSSESService */,
+				"StitchCoreAWSSESService::StitchCoreAWSSESServiceTests" /* StitchCoreAWSSESServiceTests */,
 			);
 		};
 /* End PBXProject section */
@@ -238,6 +239,23 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		11FED8A721AF472600CFFDCF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
 		};
 		D3AC13B774F34C439A2361D6 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -286,7 +304,7 @@
 /* Begin PBXTargetDependency section */
 		OBJ_186 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = StitchCoreAWSSESService::StitchCoreAWSSESService /* StitchCoreAWSSESService */;
+			target = "StitchCoreAWSSESService::StitchCoreAWSSESService" /* StitchCoreAWSSESService */;
 			targetProxy = 498060D92184DBEE00E2A3A2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */

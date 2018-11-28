@@ -53,8 +53,8 @@
 		OBJ_23 /* CoreFCMServiceClientUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreFCMServiceClientUnitTests.swift; sourceTree = "<group>"; };
 		OBJ_24 /* CoreFCMServicePushClientUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreFCMServicePushClientUnitTests.swift; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
-		StitchCoreFCMService::StitchCoreFCMService::Product /* StitchCoreFCMService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreFCMService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		StitchCoreFCMService::StitchCoreFCMServiceTests::Product /* StitchCoreFCMServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = StitchCoreFCMServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StitchCoreFCMService::StitchCoreFCMService::Product" /* StitchCoreFCMService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreFCMService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StitchCoreFCMService::StitchCoreFCMServiceTests::Product" /* StitchCoreFCMServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = StitchCoreFCMServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,8 +119,8 @@
 		OBJ_136 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				StitchCoreFCMService::StitchCoreFCMServiceTests::Product /* StitchCoreFCMServiceTests.xctest */,
-				StitchCoreFCMService::StitchCoreFCMService::Product /* StitchCoreFCMService.framework */,
+				"StitchCoreFCMService::StitchCoreFCMServiceTests::Product" /* StitchCoreFCMServiceTests.xctest */,
+				"StitchCoreFCMService::StitchCoreFCMService::Product" /* StitchCoreFCMService.framework */,
 			);
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -184,13 +184,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		StitchCoreFCMService::StitchCoreFCMService /* StitchCoreFCMService */ = {
+		"StitchCoreFCMService::StitchCoreFCMService" /* StitchCoreFCMService */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_159 /* Build configuration list for PBXNativeTarget "StitchCoreFCMService" */;
 			buildPhases = (
 				CFD1DF58F5DBCE419C32140D /* [CP] Check Pods Manifest.lock */,
 				OBJ_162 /* Sources */,
 				OBJ_170 /* Frameworks */,
+				11FED8A821AF472F00CFFDCF /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -198,10 +199,10 @@
 			);
 			name = StitchCoreFCMService;
 			productName = StitchCoreFCMService;
-			productReference = StitchCoreFCMService::StitchCoreFCMService::Product /* StitchCoreFCMService.framework */;
+			productReference = "StitchCoreFCMService::StitchCoreFCMService::Product" /* StitchCoreFCMService.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		StitchCoreFCMService::StitchCoreFCMServiceTests /* StitchCoreFCMServiceTests */ = {
+		"StitchCoreFCMService::StitchCoreFCMServiceTests" /* StitchCoreFCMServiceTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_186 /* Build configuration list for PBXNativeTarget "StitchCoreFCMServiceTests" */;
 			buildPhases = (
@@ -216,7 +217,7 @@
 			);
 			name = StitchCoreFCMServiceTests;
 			productName = StitchCoreFCMServiceTests;
-			productReference = StitchCoreFCMService::StitchCoreFCMServiceTests::Product /* StitchCoreFCMServiceTests.xctest */;
+			productReference = "StitchCoreFCMService::StitchCoreFCMServiceTests::Product" /* StitchCoreFCMServiceTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -239,13 +240,30 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				StitchCoreFCMService::StitchCoreFCMService /* StitchCoreFCMService */,
-				StitchCoreFCMService::StitchCoreFCMServiceTests /* StitchCoreFCMServiceTests */,
+				"StitchCoreFCMService::StitchCoreFCMService" /* StitchCoreFCMService */,
+				"StitchCoreFCMService::StitchCoreFCMServiceTests" /* StitchCoreFCMServiceTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		11FED8A821AF472F00CFFDCF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
+		};
 		5377FA8A25084DA8914D1025 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -322,7 +340,7 @@
 /* Begin PBXTargetDependency section */
 		OBJ_201 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = StitchCoreFCMService::StitchCoreFCMService /* StitchCoreFCMService */;
+			target = "StitchCoreFCMService::StitchCoreFCMService" /* StitchCoreFCMService */;
 			targetProxy = 498060D42184DBEE00E2A3A2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */

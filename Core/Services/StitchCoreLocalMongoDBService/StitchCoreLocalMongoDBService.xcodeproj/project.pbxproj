@@ -35,8 +35,8 @@
 		OBJ_11 /* CoreLocalMongoDBService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreLocalMongoDBService.swift; sourceTree = "<group>"; };
 		OBJ_14 /* StitchCoreLocalMongoDBServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchCoreLocalMongoDBServiceTests.swift; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
-		StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBService::Product /* StitchCoreLocalMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreLocalMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBServiceTests::Product /* StitchCoreLocalMongoDBServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = StitchCoreLocalMongoDBServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBService::Product" /* StitchCoreLocalMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreLocalMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBServiceTests::Product" /* StitchCoreLocalMongoDBServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = StitchCoreLocalMongoDBServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,8 +93,8 @@
 		OBJ_106 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBService::Product /* StitchCoreLocalMongoDBService.framework */,
-				StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBServiceTests::Product /* StitchCoreLocalMongoDBServiceTests.xctest */,
+				"StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBService::Product" /* StitchCoreLocalMongoDBService.framework */,
+				"StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBServiceTests::Product" /* StitchCoreLocalMongoDBServiceTests.xctest */,
 			);
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -139,13 +139,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBService /* StitchCoreLocalMongoDBService */ = {
+		"StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBService" /* StitchCoreLocalMongoDBService */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_111 /* Build configuration list for PBXNativeTarget "StitchCoreLocalMongoDBService" */;
 			buildPhases = (
 				5A3E5EF8E741AF613358F44E /* [CP] Check Pods Manifest.lock */,
 				OBJ_114 /* Sources */,
 				OBJ_116 /* Frameworks */,
+				11FED8AA21AF474100CFFDCF /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -153,10 +154,10 @@
 			);
 			name = StitchCoreLocalMongoDBService;
 			productName = StitchCoreLocalMongoDBService;
-			productReference = StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBService::Product /* StitchCoreLocalMongoDBService.framework */;
+			productReference = "StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBService::Product" /* StitchCoreLocalMongoDBService.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBServiceTests /* StitchCoreLocalMongoDBServiceTests */ = {
+		"StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBServiceTests" /* StitchCoreLocalMongoDBServiceTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_132 /* Build configuration list for PBXNativeTarget "StitchCoreLocalMongoDBServiceTests" */;
 			buildPhases = (
@@ -171,7 +172,7 @@
 			);
 			name = StitchCoreLocalMongoDBServiceTests;
 			productName = StitchCoreLocalMongoDBServiceTests;
-			productReference = StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBServiceTests::Product /* StitchCoreLocalMongoDBServiceTests.xctest */;
+			productReference = "StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBServiceTests::Product" /* StitchCoreLocalMongoDBServiceTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -194,13 +195,30 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBService /* StitchCoreLocalMongoDBService */,
-				StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBServiceTests /* StitchCoreLocalMongoDBServiceTests */,
+				"StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBService" /* StitchCoreLocalMongoDBService */,
+				"StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBServiceTests" /* StitchCoreLocalMongoDBServiceTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		11FED8AA21AF474100CFFDCF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
+		};
 		4340E13AC42E737BA7FA09E3 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -269,7 +287,7 @@
 /* Begin PBXTargetDependency section */
 		OBJ_140 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBService /* StitchCoreLocalMongoDBService */;
+			target = "StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBService" /* StitchCoreLocalMongoDBService */;
 			targetProxy = 4914D76C218398630037DB73 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */

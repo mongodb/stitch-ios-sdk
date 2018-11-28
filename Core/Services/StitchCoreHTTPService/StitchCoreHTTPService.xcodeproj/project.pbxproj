@@ -47,8 +47,8 @@
 		OBJ_19 /* HTTPRequestUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPRequestUnitTests.swift; sourceTree = "<group>"; };
 		OBJ_21 /* CoreHTTPServiceClientUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreHTTPServiceClientUnitTests.swift; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
-		StitchCoreHTTPService::StitchCoreHTTPService::Product /* StitchCoreHTTPService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreHTTPService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		StitchCoreHTTPService::StitchCoreHTTPServiceTests::Product /* StitchCoreHTTPServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = StitchCoreHTTPServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StitchCoreHTTPService::StitchCoreHTTPService::Product" /* StitchCoreHTTPService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreHTTPService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StitchCoreHTTPService::StitchCoreHTTPServiceTests::Product" /* StitchCoreHTTPServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = StitchCoreHTTPServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,8 +112,8 @@
 		OBJ_133 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				StitchCoreHTTPService::StitchCoreHTTPServiceTests::Product /* StitchCoreHTTPServiceTests.xctest */,
-				StitchCoreHTTPService::StitchCoreHTTPService::Product /* StitchCoreHTTPService.framework */,
+				"StitchCoreHTTPService::StitchCoreHTTPServiceTests::Product" /* StitchCoreHTTPServiceTests.xctest */,
+				"StitchCoreHTTPService::StitchCoreHTTPService::Product" /* StitchCoreHTTPService.framework */,
 			);
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -175,13 +175,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		StitchCoreHTTPService::StitchCoreHTTPService /* StitchCoreHTTPService */ = {
+		"StitchCoreHTTPService::StitchCoreHTTPService" /* StitchCoreHTTPService */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_156 /* Build configuration list for PBXNativeTarget "StitchCoreHTTPService" */;
 			buildPhases = (
 				0D4C14EE188BA6B7032EF759 /* [CP] Check Pods Manifest.lock */,
 				OBJ_159 /* Sources */,
 				OBJ_165 /* Frameworks */,
+				11FED8A921AF473700CFFDCF /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -189,10 +190,10 @@
 			);
 			name = StitchCoreHTTPService;
 			productName = StitchCoreHTTPService;
-			productReference = StitchCoreHTTPService::StitchCoreHTTPService::Product /* StitchCoreHTTPService.framework */;
+			productReference = "StitchCoreHTTPService::StitchCoreHTTPService::Product" /* StitchCoreHTTPService.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		StitchCoreHTTPService::StitchCoreHTTPServiceTests /* StitchCoreHTTPServiceTests */ = {
+		"StitchCoreHTTPService::StitchCoreHTTPServiceTests" /* StitchCoreHTTPServiceTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_181 /* Build configuration list for PBXNativeTarget "StitchCoreHTTPServiceTests" */;
 			buildPhases = (
@@ -207,7 +208,7 @@
 			);
 			name = StitchCoreHTTPServiceTests;
 			productName = StitchCoreHTTPServiceTests;
-			productReference = StitchCoreHTTPService::StitchCoreHTTPServiceTests::Product /* StitchCoreHTTPServiceTests.xctest */;
+			productReference = "StitchCoreHTTPService::StitchCoreHTTPServiceTests::Product" /* StitchCoreHTTPServiceTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -230,8 +231,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				StitchCoreHTTPService::StitchCoreHTTPService /* StitchCoreHTTPService */,
-				StitchCoreHTTPService::StitchCoreHTTPServiceTests /* StitchCoreHTTPServiceTests */,
+				"StitchCoreHTTPService::StitchCoreHTTPService" /* StitchCoreHTTPService */,
+				"StitchCoreHTTPService::StitchCoreHTTPServiceTests" /* StitchCoreHTTPServiceTests */,
 			);
 		};
 /* End PBXProject section */
@@ -258,6 +259,23 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		11FED8A921AF473700CFFDCF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
 		};
 		3380A5433DAC0AA52ED4DF19 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -310,7 +328,7 @@
 /* Begin PBXTargetDependency section */
 		OBJ_195 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = StitchCoreHTTPService::StitchCoreHTTPService /* StitchCoreHTTPService */;
+			target = "StitchCoreHTTPService::StitchCoreHTTPService" /* StitchCoreHTTPService */;
 			targetProxy = 498060B72184D9E300E2A3A2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */

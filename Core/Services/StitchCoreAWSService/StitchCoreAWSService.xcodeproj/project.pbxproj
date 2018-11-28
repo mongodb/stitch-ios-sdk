@@ -44,7 +44,7 @@
 		OBJ_16 /* AWSRequestUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSRequestUnitTests.swift; sourceTree = "<group>"; };
 		OBJ_17 /* CoreAWSServiceClientUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAWSServiceClientUnitTests.swift; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
-		StitchCoreAWSService::StitchCoreAWSService::Product /* StitchCoreAWSService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAWSService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StitchCoreAWSService::StitchCoreAWSService::Product" /* StitchCoreAWSService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAWSService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,7 +115,7 @@
 		OBJ_129 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				StitchCoreAWSService::StitchCoreAWSService::Product /* StitchCoreAWSService.framework */,
+				"StitchCoreAWSService::StitchCoreAWSService::Product" /* StitchCoreAWSService.framework */,
 				498062CB2185B7B700E2A3A2 /* StitchCoreAWSServiceTests.xctest */,
 			);
 			name = Products;
@@ -181,13 +181,14 @@
 			productReference = 498062CB2185B7B700E2A3A2 /* StitchCoreAWSServiceTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		StitchCoreAWSService::StitchCoreAWSService /* StitchCoreAWSService */ = {
+		"StitchCoreAWSService::StitchCoreAWSService" /* StitchCoreAWSService */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_152 /* Build configuration list for PBXNativeTarget "StitchCoreAWSService" */;
 			buildPhases = (
 				E896BAD18E4CDC80CC2D1F5A /* [CP] Check Pods Manifest.lock */,
 				OBJ_155 /* Sources */,
 				OBJ_158 /* Frameworks */,
+				11FED8A321AF46F300CFFDCF /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -195,7 +196,7 @@
 			);
 			name = StitchCoreAWSService;
 			productName = StitchCoreAWSService;
-			productReference = StitchCoreAWSService::StitchCoreAWSService::Product /* StitchCoreAWSService.framework */;
+			productReference = "StitchCoreAWSService::StitchCoreAWSService::Product" /* StitchCoreAWSService.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -225,7 +226,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				StitchCoreAWSService::StitchCoreAWSService /* StitchCoreAWSService */,
+				"StitchCoreAWSService::StitchCoreAWSService" /* StitchCoreAWSService */,
 				498062CA2185B7B700E2A3A2 /* StitchCoreAWSServiceTests */,
 			);
 		};
@@ -242,6 +243,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		11FED8A321AF46F300CFFDCF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
+		};
 		813CBB374779F57E0A1FEEC8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -312,7 +330,7 @@
 /* Begin PBXTargetDependency section */
 		49E6DDBF21905AF400AF0582 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = StitchCoreAWSService::StitchCoreAWSService /* StitchCoreAWSService */;
+			target = "StitchCoreAWSService::StitchCoreAWSService" /* StitchCoreAWSService */;
 			targetProxy = 49E6DDBE21905AF400AF0582 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
