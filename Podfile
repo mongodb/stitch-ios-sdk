@@ -3,6 +3,8 @@ workspace 'Stitch.xcworkspace'
 platform :ios, '11.0'
 use_frameworks!
 
+pod 'SwiftLint'
+
 target :MockUtils do
     project 'MockUtils/MockUtils.xcodeproj'
 end

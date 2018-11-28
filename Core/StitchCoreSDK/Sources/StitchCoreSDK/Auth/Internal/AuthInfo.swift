@@ -50,7 +50,7 @@ public protocol ExtendedAuthInfo {
  * A protocol representing the combined information represented by `APIAuthInfo` and `ExtendedAuthInfo`
  */
 public protocol AuthInfo: APIAuthInfo, ExtendedAuthInfo {
-    
+
 }
 
 /**

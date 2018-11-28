@@ -5,15 +5,15 @@ open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
     private let requestClient: StitchAuthRequestClient
     private let serviceRoutes: StitchServiceRoutes
     private let serviceName: String?
-    
+
     public init(requestClient: StitchAuthRequestClient,
-                routes:  StitchServiceRoutes,
+                routes: StitchServiceRoutes,
                 serviceName: String?) {
         self.requestClient = requestClient
         self.serviceRoutes = routes
         self.serviceName = serviceName
     }
-    
+
     private func getCallServiceFunctionRequest(withName name: String,
                                                withArgs args: [BSONValue],
                                                withTimeout timeout: TimeInterval?) throws -> StitchAuthDocRequest {
@@ -21,24 +21,24 @@ open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
             "name": name,
             "arguments": args
         ]
-        
+
         if let serviceName = serviceName {
             body["service"] = serviceName
         }
-        
+
         let reqBuilder =
             StitchAuthDocRequestBuilder()
                 .with(method: .post)
                 .with(path: self.serviceRoutes.functionCallRoute)
                 .with(document: body)
-                
+
         if let timeout = timeout {
             reqBuilder.with(timeout: timeout)
         }
-        
+
         return try reqBuilder.build()
     }
-    
+
     public func callFunction(withName name: String,
                              withArgs args: [BSONValue],
                              withRequestTimeout timeout: TimeInterval? = nil) throws {
@@ -48,7 +48,7 @@ open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
                                           withArgs: args,
                                           withTimeout: timeout))
     }
-    
+
     public func callFunction<T: Decodable>(withName name: String,
                                            withArgs args: [BSONValue],
                                            withRequestTimeout timeout: TimeInterval? = nil) throws -> T {
@@ -58,4 +58,3 @@ open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
                                           withTimeout: timeout))
     }
 }
-

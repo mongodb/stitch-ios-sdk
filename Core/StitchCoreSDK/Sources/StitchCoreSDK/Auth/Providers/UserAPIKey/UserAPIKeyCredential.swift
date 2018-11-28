@@ -6,7 +6,7 @@ import MongoSwift
  */
 public struct UserAPIKeyCredential: StitchCredential {
     // MARK: Initializer
-    
+
     /**
      * Initializes this credential with the name of the provider, and a user API key.
      */
@@ -15,9 +15,9 @@ public struct UserAPIKeyCredential: StitchCredential {
         self.providerName = providerName
         self.key = key
     }
-    
+
     // MARK: Properties
-    
+
     /**
      * The name of the provider for this credential.
      */

@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		05007177BD0FF1C357A3A58B /* Pods_StitchCoreFCMService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02771285E3F97D2ADCF65615 /* Pods_StitchCoreFCMService.framework */; };
 		4969205B2190EB2F00DB340D /* StitchCoreSDKMocks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4969205A2190EB2F00DB340D /* StitchCoreSDKMocks.framework */; };
 		49F021152190CC130046F20E /* StitchCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49F021142190CC130046F20E /* StitchCoreSDK.framework */; };
-		6B4544DDF06D90854BA97234 /* Pods_StitchCoreFCMServiceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3085E196F819E8B9E08BAE8B /* Pods_StitchCoreFCMServiceTests.framework */; };
-		F7164B238B5A727341FB3276 /* Pods_StitchCoreFCMService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 851B02BDF4DF019BBD20C5C4 /* Pods_StitchCoreFCMService.framework */; };
+		AED8FB7A618C0CE40EAB3BEB /* Pods_StitchCoreFCMServiceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC4C48A21C72989FF38F6FBA /* Pods_StitchCoreFCMServiceTests.framework */; };
 		OBJ_163 /* FCMSendMessageNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* FCMSendMessageNotification.swift */; };
 		OBJ_164 /* FCMSendMessagePriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* FCMSendMessagePriority.swift */; };
 		OBJ_165 /* FCMSendMessageRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* FCMSendMessageRequest.swift */; };
@@ -34,14 +34,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3085E196F819E8B9E08BAE8B /* Pods_StitchCoreFCMServiceTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreFCMServiceTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		02771285E3F97D2ADCF65615 /* Pods_StitchCoreFCMService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreFCMService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		419EB67FB3D2AAEF48041689 /* Pods-StitchCoreFCMServiceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreFCMServiceTests.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreFCMServiceTests/Pods-StitchCoreFCMServiceTests.debug.xcconfig"; sourceTree = "<group>"; };
 		4969205A2190EB2F00DB340D /* StitchCoreSDKMocks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDKMocks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		49F021142190CC130046F20E /* StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		54B3ECC35018C888112947AF /* Pods-StitchCoreFCMService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreFCMService.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreFCMService/Pods-StitchCoreFCMService.release.xcconfig"; sourceTree = "<group>"; };
-		5DEB2B328885DDD8721EDDB1 /* Pods-StitchCoreFCMService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreFCMService.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreFCMService/Pods-StitchCoreFCMService.debug.xcconfig"; sourceTree = "<group>"; };
-		6D52563215C1C09C8AC33CA3 /* Pods-StitchCoreFCMServiceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreFCMServiceTests.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreFCMServiceTests/Pods-StitchCoreFCMServiceTests.release.xcconfig"; sourceTree = "<group>"; };
-		851B02BDF4DF019BBD20C5C4 /* Pods_StitchCoreFCMService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreFCMService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E040476B269EAD1A5C2DFA1B /* Pods-StitchCoreFCMServiceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreFCMServiceTests.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreFCMServiceTests/Pods-StitchCoreFCMServiceTests.debug.xcconfig"; sourceTree = "<group>"; };
+		5115B70C648B93E6AB7D7B34 /* Pods-StitchCoreFCMService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreFCMService.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreFCMService/Pods-StitchCoreFCMService.debug.xcconfig"; sourceTree = "<group>"; };
+		5B391DDF191EF79B5EEEC622 /* Pods-StitchCoreFCMService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreFCMService.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreFCMService/Pods-StitchCoreFCMService.release.xcconfig"; sourceTree = "<group>"; };
+		B492C94A51E97CAF60138027 /* Pods-StitchCoreFCMServiceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreFCMServiceTests.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreFCMServiceTests/Pods-StitchCoreFCMServiceTests.release.xcconfig"; sourceTree = "<group>"; };
+		EC4C48A21C72989FF38F6FBA /* Pods_StitchCoreFCMServiceTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreFCMServiceTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_11 /* FCMSendMessageNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMSendMessageNotification.swift; sourceTree = "<group>"; };
 		OBJ_12 /* FCMSendMessagePriority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMSendMessagePriority.swift; sourceTree = "<group>"; };
 		OBJ_13 /* FCMSendMessageRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMSendMessageRequest.swift; sourceTree = "<group>"; };
@@ -63,7 +63,7 @@
 			buildActionMask = 0;
 			files = (
 				49F021152190CC130046F20E /* StitchCoreSDK.framework in Frameworks */,
-				F7164B238B5A727341FB3276 /* Pods_StitchCoreFCMService.framework in Frameworks */,
+				05007177BD0FF1C357A3A58B /* Pods_StitchCoreFCMService.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,20 +72,20 @@
 			buildActionMask = 0;
 			files = (
 				4969205B2190EB2F00DB340D /* StitchCoreSDKMocks.framework in Frameworks */,
-				6B4544DDF06D90854BA97234 /* Pods_StitchCoreFCMServiceTests.framework in Frameworks */,
+				AED8FB7A618C0CE40EAB3BEB /* Pods_StitchCoreFCMServiceTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		95214E1D2E52238619397EEE /* Pods */ = {
+		108EF566F683B88E9E3F5914 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				5DEB2B328885DDD8721EDDB1 /* Pods-StitchCoreFCMService.debug.xcconfig */,
-				54B3ECC35018C888112947AF /* Pods-StitchCoreFCMService.release.xcconfig */,
-				E040476B269EAD1A5C2DFA1B /* Pods-StitchCoreFCMServiceTests.debug.xcconfig */,
-				6D52563215C1C09C8AC33CA3 /* Pods-StitchCoreFCMServiceTests.release.xcconfig */,
+				5115B70C648B93E6AB7D7B34 /* Pods-StitchCoreFCMService.debug.xcconfig */,
+				5B391DDF191EF79B5EEEC622 /* Pods-StitchCoreFCMService.release.xcconfig */,
+				419EB67FB3D2AAEF48041689 /* Pods-StitchCoreFCMServiceTests.debug.xcconfig */,
+				B492C94A51E97CAF60138027 /* Pods-StitchCoreFCMServiceTests.release.xcconfig */,
 			);
 			name = Pods;
 			path = ../../../Pods;
@@ -96,8 +96,8 @@
 			children = (
 				4969205A2190EB2F00DB340D /* StitchCoreSDKMocks.framework */,
 				49F021142190CC130046F20E /* StitchCoreSDK.framework */,
-				851B02BDF4DF019BBD20C5C4 /* Pods_StitchCoreFCMService.framework */,
-				3085E196F819E8B9E08BAE8B /* Pods_StitchCoreFCMServiceTests.framework */,
+				02771285E3F97D2ADCF65615 /* Pods_StitchCoreFCMService.framework */,
+				EC4C48A21C72989FF38F6FBA /* Pods_StitchCoreFCMServiceTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -169,7 +169,7 @@
 				OBJ_19 /* Tests */,
 				OBJ_136 /* Products */,
 				EB0451C8AD4BAE0FE120B626 /* Frameworks */,
-				95214E1D2E52238619397EEE /* Pods */,
+				108EF566F683B88E9E3F5914 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -188,7 +188,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_159 /* Build configuration list for PBXNativeTarget "StitchCoreFCMService" */;
 			buildPhases = (
-				81D4ABDA6083C3D600601DD6 /* [CP] Check Pods Manifest.lock */,
+				CFD1DF58F5DBCE419C32140D /* [CP] Check Pods Manifest.lock */,
 				OBJ_162 /* Sources */,
 				OBJ_170 /* Frameworks */,
 			);
@@ -205,7 +205,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_186 /* Build configuration list for PBXNativeTarget "StitchCoreFCMServiceTests" */;
 			buildPhases = (
-				22FBA7965E958A88EF27E43B /* [CP] Check Pods Manifest.lock */,
+				5377FA8A25084DA8914D1025 /* [CP] Check Pods Manifest.lock */,
 				OBJ_189 /* Sources */,
 				OBJ_193 /* Frameworks */,
 			);
@@ -246,7 +246,7 @@
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		22FBA7965E958A88EF27E43B /* [CP] Check Pods Manifest.lock */ = {
+		5377FA8A25084DA8914D1025 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -268,7 +268,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		81D4ABDA6083C3D600601DD6 /* [CP] Check Pods Manifest.lock */ = {
+		CFD1DF58F5DBCE419C32140D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -330,7 +330,7 @@
 /* Begin XCBuildConfiguration section */
 		OBJ_160 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5DEB2B328885DDD8721EDDB1 /* Pods-StitchCoreFCMService.debug.xcconfig */;
+			baseConfigurationReference = 5115B70C648B93E6AB7D7B34 /* Pods-StitchCoreFCMService.debug.xcconfig */;
 			buildSettings = {
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -356,7 +356,7 @@
 		};
 		OBJ_161 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 54B3ECC35018C888112947AF /* Pods-StitchCoreFCMService.release.xcconfig */;
+			baseConfigurationReference = 5B391DDF191EF79B5EEEC622 /* Pods-StitchCoreFCMService.release.xcconfig */;
 			buildSettings = {
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -382,7 +382,7 @@
 		};
 		OBJ_187 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E040476B269EAD1A5C2DFA1B /* Pods-StitchCoreFCMServiceTests.debug.xcconfig */;
+			baseConfigurationReference = 419EB67FB3D2AAEF48041689 /* Pods-StitchCoreFCMServiceTests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
@@ -405,7 +405,7 @@
 		};
 		OBJ_188 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6D52563215C1C09C8AC33CA3 /* Pods-StitchCoreFCMServiceTests.release.xcconfig */;
+			baseConfigurationReference = B492C94A51E97CAF60138027 /* Pods-StitchCoreFCMServiceTests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;

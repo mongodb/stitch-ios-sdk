@@ -35,7 +35,7 @@ class FoundationHTTPTransportUnitTests: StitchXCTestCase {
 
     func testRoundTrip() throws {
         let transport = FoundationHTTPTransport()
-        
+
         let builder = RequestBuilder()
             .with(method: .get)
             .with(url: "badURL")

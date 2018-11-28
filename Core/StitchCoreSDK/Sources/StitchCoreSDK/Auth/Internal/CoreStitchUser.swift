@@ -37,7 +37,7 @@ public protocol CoreStitchUser {
 /**
  * An `==` overload checking if the two provided `CoreStitchUser`s have the same id.
  */
-public func ==(_ lhs: CoreStitchUser,
-               _ rhs: CoreStitchUser) -> Bool {
+public func == (_ lhs: CoreStitchUser,
+                _ rhs: CoreStitchUser) -> Bool {
     return lhs.id == rhs.id
 }

@@ -147,7 +147,7 @@ public final class StitchAppRoutes {
      * Returns the service routes for the current app.
      */
     public let serviceRoutes: StitchServiceRoutes
-    
+
     /**
      * Returns the push routes for the current app.
      */

@@ -6,7 +6,9 @@ import Foundation
  * Stitch service.
  */
 public protocol CoreStitchServiceClient {
+    // swiftlint:disable line_length
+
     func callFunction(withName name: String, withArgs args: [BSONValue], withRequestTimeout requestTimeout: TimeInterval?) throws
-    
+
     func callFunction<T: Decodable>(withName name: String, withArgs args: [BSONValue], withRequestTimeout requestTimeout: TimeInterval?) throws -> T
 }
