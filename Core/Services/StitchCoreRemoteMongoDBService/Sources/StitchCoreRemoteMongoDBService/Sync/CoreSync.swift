@@ -9,6 +9,8 @@ public final class CoreSync<DocumentT: Codable> {
     private let namespace: MongoNamespace
     /// The dataSynchronizer from the RemoteCollection.
     private let dataSynchronizer: DataSynchronizer
+    /// Lazily initialized encoder for T
+    private lazy var encoder = BSONEncoder()
 
     internal init(namespace: MongoNamespace,
                   dataSynchronizer: DataSynchronizer) {
@@ -150,9 +152,9 @@ public final class CoreSync<DocumentT: Codable> {
      - parameter document: the document to insert
      - returns: the result of the insert one operation
      */
-    public func insertOne(document: DocumentT) -> InsertOneResult? {
-        return self.dataSynchronizer.insertOne(document: document,
-                                               in: namespace)
+    public func insertOne(document: DocumentT) throws -> InsertOneResult? {
+        return try self.dataSynchronizer.insertOne(document: encoder.encode(document),
+                                                   in: namespace)
     }
 
     /**
@@ -161,9 +163,9 @@ public final class CoreSync<DocumentT: Codable> {
      - parameter documents: the documents to insert
      - returns: the result of the insert many operation
      */
-    public func insertMany(documents: [DocumentT]) -> InsertManyResult? {
-        return self.dataSynchronizer.insertMany(documents: documents,
-                                                in: namespace)
+    public func insertMany(documents: [DocumentT]) throws -> InsertManyResult? {
+        return try self.dataSynchronizer.insertMany(documents: try documents.map { try encoder.encode($0) },
+                                                    in: namespace)
     }
 
     /**
@@ -203,11 +205,11 @@ public final class CoreSync<DocumentT: Codable> {
      */
     public func updateOne(filter: Document,
                           update: Document,
-                          options: UpdateOptions?) -> UpdateResult? {
-        return self.dataSynchronizer.updateOne(filter: filter,
-                                               update: update,
-                                               options: options,
-                                               in: namespace)
+                          options: UpdateOptions?) throws -> UpdateResult? {
+        return try self.dataSynchronizer.updateOne(filter: filter,
+                                                   update: update,
+                                                   options: options,
+                                                   in: namespace)
     }
 
     /**
@@ -223,10 +225,10 @@ public final class CoreSync<DocumentT: Codable> {
      */
     public func updateMany(filter: Document,
                            update: Document,
-                           options: UpdateOptions?) -> UpdateResult? {
-        return self.dataSynchronizer.updateMany(filter: filter,
-                                                update: update,
-                                                options: options,
-                                                in: namespace)
+                           options: UpdateOptions?) throws -> UpdateResult? {
+        return try self.dataSynchronizer.updateMany(filter: filter,
+                                                    update: update,
+                                                    options: options,
+                                                    in: namespace)
     }
 }

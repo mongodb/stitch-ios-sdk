@@ -119,7 +119,10 @@ class XCMongoMobileTestCase: XCTestCase {
 
     private(set) var mockServiceClient: MockCoreStitchServiceClient!
     private(set) var coreRemoteMongoClient: CoreRemoteMongoClient!
-    private(set) var dataSynchronizer: DataSynchronizer!
+    lazy var dataSynchronizer: DataSynchronizer =
+        try! DeinitializingDataSynchronizer.init(instanceKey: instanceKey.oid,
+                                                 coreRemoteMongoClient: self.coreRemoteMongoClient,
+                                                 localClient: localClient)
 
     private var _instanceKey = ObjectId()
     open var instanceKey: ObjectId {
@@ -138,9 +141,6 @@ class XCMongoMobileTestCase: XCTestCase {
         coreRemoteMongoClient = try! CoreRemoteMongoClientFactory.shared.client(
             withService: mockServiceClient,
             withAppInfo: appClientInfo)
-        dataSynchronizer = try! DeinitializingDataSynchronizer.init(instanceKey: instanceKey.oid,
-                                                                    coreRemoteMongoClient: self.coreRemoteMongoClient,
-                                                                    localClient: localClient)
     }
 
     override func tearDown() {

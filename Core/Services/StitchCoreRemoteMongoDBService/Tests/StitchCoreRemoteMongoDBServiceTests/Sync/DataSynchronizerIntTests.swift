@@ -3,9 +3,10 @@ import StitchCoreSDK
 import StitchCoreSDKMocks
 import XCTest
 import MongoSwift
+import mongoc
 @testable import StitchCoreRemoteMongoDBService
 
-class DataSynchronizerUnitTests: XCMongoMobileTestCase {
+class DataSynchronizerIntTests: XCMongoMobileTestCase {
     lazy var collection = try! localCollection(for: MongoNamespace.init(
         databaseName: DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace),
         collectionName: namespace.collectionName))
@@ -126,5 +127,74 @@ class DataSynchronizerUnitTests: XCMongoMobileTestCase {
         XCTAssertEqual("computer", actualDoc?["hello"] as? String)
 
         XCTAssertNil(cursor.next())
+    }
+
+    func testInsertOne() throws {
+        dataSynchronizer.configure(namespace: namespace,
+                                   conflictHandler: TestConflictHandler(),
+                                   changeEventListener: TestEventListener(),
+                                   errorListener: TestErrorListener())
+        XCTAssertEqual(0, try dataSynchronizer.count(in: namespace))
+
+        let doc1 = ["hello": "world", "a": "b", DOCUMENT_VERSION_FIELD: "naughty"] as Document
+
+        let insertOneResult = try dataSynchronizer.insertOne(document: doc1,
+                                                              in: namespace)
+
+        let cursor: MongoCursor<Document> =
+            try dataSynchronizer.find(filter: ["_id": insertOneResult?.insertedId],
+                                      options: nil,
+                                      in: namespace)
+
+        XCTAssertEqual(1, try dataSynchronizer.count(in: namespace))
+
+        guard let actualDoc = cursor.next() else {
+            XCTFail("doc was not inserted")
+            return
+        }
+
+        XCTAssertEqual("b", actualDoc["a"] as? String)
+        XCTAssert(bsonEquals(insertOneResult?.insertedId ?? nil, actualDoc["_id"]))
+        XCTAssertEqual("world", actualDoc["hello"] as? String)
+        XCTAssertFalse(actualDoc.hasKey(DOCUMENT_VERSION_FIELD))
+        XCTAssertNil(cursor.next())
+    }
+
+    func testInsertMany() throws {
+        dataSynchronizer.configure(namespace: namespace,
+                                   conflictHandler: TestConflictHandler(),
+                                   changeEventListener: TestEventListener(),
+                                   errorListener: TestErrorListener())
+        XCTAssertEqual(0, try dataSynchronizer.count(in: namespace))
+
+        let doc1 = ["hello": "world", "a": "b"] as Document
+        let doc2 = ["hello": "computer", "a": "b"] as Document
+
+        let insertManyResult = try dataSynchronizer.insertMany(documents: [doc1, doc2],
+                                                               in: namespace)
+
+        let cursor: MongoCursor<Document> =
+            try dataSynchronizer.find(filter: ["_id":
+                [ "$in": insertManyResult?.insertedIds.values.map { $0 } ] as Document
+            ],
+                                      options: nil,
+                                      in: namespace)
+
+        XCTAssertEqual(2, try dataSynchronizer.count(in: namespace))
+
+        guard let actualDoc = cursor.next() else {
+            XCTFail("doc was not inserted")
+            return
+        }
+
+        XCTAssertEqual("b", actualDoc?["a"] as? String)
+        XCTAssert(bsonEquals(insertManyResult?.insertedIds[0] ?? nil, actualDoc?["_id"]))
+        XCTAssertEqual("world", actualDoc?["hello"] as? String)
+        XCTAssertFalse(actualDoc.hasKey(DOCUMENT_VERSION_FIELD))
+        XCTAssertNotNil(cursor.next())
+    }
+
+    func testUpdateOne() throws {
+
     }
 }
