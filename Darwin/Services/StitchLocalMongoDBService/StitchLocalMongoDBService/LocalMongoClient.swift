@@ -57,27 +57,33 @@ private final class MobileMongoDBClientFactory: CoreLocalMongoDBService, Throwin
             self.lastBatteryState = .normal
         }
 
+        self.addObservers()
+
+        #endif
+    }
+
+    private func addObservers() {
         #if swift(>=4.2)
         // observe when the battery level changes
         NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(batteryLevelDidChange(_:)),
-            name: UIDevice.batteryLevelDidChangeNotification,
-            object: nil
+        self,
+        selector: #selector(batteryLevelDidChange(_:)),
+        name: UIDevice.batteryLevelDidChangeNotification,
+        object: nil
         )
         // observe when memory warnings are received
         NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(didReceiveMemoryWarning(_:)),
-            name: UIApplication.didReceiveMemoryWarningNotification,
-            object: nil
+        self,
+        selector: #selector(didReceiveMemoryWarning(_:)),
+        name: UIApplication.didReceiveMemoryWarningNotification,
+        object: nil
         )
         // observe when application will terminate
         NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(applicationWillTerminate(_:)),
-            name: UIApplication.willTerminateNotification,
-            object: nil
+        self,
+        selector: #selector(applicationWillTerminate(_:)),
+        name: UIApplication.willTerminateNotification,
+        object: nil
         )
         #else
         // observe when the battery level changes
@@ -101,7 +107,6 @@ private final class MobileMongoDBClientFactory: CoreLocalMongoDBService, Throwin
         name: NSNotification.Name.UIApplicationWillTerminate,
         object: nil
         )
-        #endif
         #endif
     }
 
@@ -140,7 +145,7 @@ private final class MobileMongoDBClientFactory: CoreLocalMongoDBService, Throwin
             self.lastBatteryState = .low
             CoreLocalMongoDBService.localInstances.forEach { (client) in
                 do {
-                    let _ = try client.db(adminDatabaseName)
+                    _ = try client.db(adminDatabaseName)
                         .runCommand([
                             BatteryLevelCommand.mongoCommand.rawValue:
                                 BatteryLevelCommand.batteryLevelLow.rawValue
@@ -159,7 +164,7 @@ private final class MobileMongoDBClientFactory: CoreLocalMongoDBService, Throwin
             self.lastBatteryState = .normal
             CoreLocalMongoDBService.localInstances.forEach { (client) in
                 do {
-                    let _ = try client.db(adminDatabaseName)
+                    _ = try client.db(adminDatabaseName)
                         .runCommand([
                             BatteryLevelCommand.mongoCommand.rawValue:
                                 BatteryLevelCommand.batteryLevelNormal.rawValue
@@ -183,7 +188,7 @@ private final class MobileMongoDBClientFactory: CoreLocalMongoDBService, Throwin
         log("Notifying embedded MongoDB of low memory condition on host")
         CoreLocalMongoDBService.localInstances.forEach { (client) in
             do {
-                let _ = try client.db(adminDatabaseName)
+                _ = try client.db(adminDatabaseName)
                     .runCommand([
                         TrimMemoryCommand.mongoCommand.rawValue:
                             TrimMemoryCommand.aggressiveLevel.rawValue
