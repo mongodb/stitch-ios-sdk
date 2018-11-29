@@ -4,14 +4,11 @@ import MongoMobile
 @testable import StitchCoreRemoteMongoDBService
 
 final class CoreRemoteMongoClientUnitTests: XCMongoMobileTestCase {
-
-    func testGetDatabase() throws {
-        let client = TestUtils.getClient()
-        
-        let db1 = client.db("dbName1")
+    func testGetDatabase() throws {        
+        let db1 = coreRemoteMongoClient.db("dbName1")
         XCTAssertEqual("dbName1", db1.name)
         
-        let db2 = client.db("dbName2")
+        let db2 = coreRemoteMongoClient.db("dbName2")
         XCTAssertEqual("dbName2", db2.name)
     }
 }

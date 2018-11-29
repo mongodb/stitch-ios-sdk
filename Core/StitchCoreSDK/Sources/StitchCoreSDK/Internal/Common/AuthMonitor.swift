@@ -1,3 +1,3 @@
 public protocol AuthMonitor {
-    func isLoggedIn() -> Bool
+    var isLoggedIn: Bool { get }
 }

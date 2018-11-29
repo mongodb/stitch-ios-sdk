@@ -1,11 +1,11 @@
 public protocol NetworkMonitor {
-    func isConnected() -> Bool
+    var isConnected: Bool { get }
 
-    func add(networkStateListener listener: NetworkStateListener)
+    func add(networkStateDelegate delegate: NetworkStateDelegate)
 
-    func remove(networkStateListener listener: NetworkStateListener)
+    func remove(networkStateDelegate delegate: NetworkStateDelegate)
 }
 
-public protocol NetworkStateListener: class {
+public protocol NetworkStateDelegate: class {
     func onNetworkStateChanged()
 }

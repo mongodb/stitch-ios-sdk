@@ -9,7 +9,7 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
     private var docsColl: MongoCollection<CoreDocumentSynchronization.Config>!
 
     override func setUp() {
-        self.docsColl = try! CoreDocumentSynchronizationConfigTests.client.db(namespace.databaseName)
+        self.docsColl = try! localClient.db(namespace.databaseName)
             .collection("documents",
                         withType: CoreDocumentSynchronization.Config.self)
     }

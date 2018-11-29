@@ -31,13 +31,21 @@ public class CoreRemoteMongoCollection<T: Codable> {
     ]
     
     private let service: CoreStitchServiceClient
-    
-    public init(withName name: String,
-                withDatabaseName dbName: String,
-                withService service: CoreStitchServiceClient) {
+    private let dataSynchronizer: DataSynchronizer
+
+    public let sync: CoreSync<T>
+
+    internal init(withName name: String,
+                  withDatabaseName dbName: String,
+                  withService service: CoreStitchServiceClient,
+                  withDataSynchronizer dataSynchronizer: DataSynchronizer) {
         self.name = name
         self.databaseName = dbName
         self.service = service
+        self.dataSynchronizer = dataSynchronizer
+        self.sync = CoreSync.init(namespace: MongoNamespace.init(databaseName: databaseName,
+                                                                 collectionName: name),
+                                  dataSynchronizer: dataSynchronizer)
     }
     
     /**
@@ -48,14 +56,15 @@ public class CoreRemoteMongoCollection<T: Codable> {
         return CoreRemoteMongoCollection<U>.init(
             withName: self.name,
             withDatabaseName: self.databaseName,
-            withService: self.service
+            withService: self.service,
+            withDataSynchronizer: self.dataSynchronizer
         )
     }
     
     private enum RemoteFindOptionsKeys: String {
         case limit, projection = "project", sort
     }
-    
+
     /**
      * Finds the documents in this collection which match the provided filter.
      *
@@ -218,7 +227,7 @@ public class CoreRemoteMongoCollection<T: Codable> {
     }
     
     private func executeDelete(_ filter: Document,
-                              multi: Bool) throws -> RemoteDeleteResult {
+                               multi: Bool) throws -> RemoteDeleteResult {
         var args = baseOperationArgs
         args["query"] = filter
         
@@ -259,8 +268,8 @@ public class CoreRemoteMongoCollection<T: Codable> {
      * - Returns: The result of attempting to update multiple documents.
      */
     public func updateMany(filter: Document,
-                          update: Document,
-                          options: RemoteUpdateOptions? = nil) throws -> RemoteUpdateResult {
+                           update: Document,
+                           options: RemoteUpdateOptions? = nil) throws -> RemoteUpdateResult {
         return try executeUpdate(filter: filter,
                                  update: update,
                                  options: options,

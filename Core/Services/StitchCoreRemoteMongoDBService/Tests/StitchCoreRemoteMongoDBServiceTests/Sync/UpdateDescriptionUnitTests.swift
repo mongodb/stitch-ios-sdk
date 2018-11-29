@@ -7,7 +7,7 @@ class UpdateDescriptionUnitTests: XCMongoMobileTestCase {
     var collection: MongoCollection<Document>!
 
     override func setUp() {
-        collection = try! XCMongoMobileTestCase.client
+        collection = try! localClient
             .db("dublin")
             .collection("restaurants\(ObjectId().oid)")
     }

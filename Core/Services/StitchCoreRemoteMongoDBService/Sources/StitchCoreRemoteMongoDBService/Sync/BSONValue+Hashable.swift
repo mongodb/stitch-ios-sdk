@@ -52,7 +52,7 @@ extension BSONValue {
     }
 }
 
-struct HashableBSONValue: Codable, Hashable {
+public struct HashableBSONValue: Codable, Hashable {
     let bsonValue: AnyBSONValue
 
     init(_ bsonValue: BSONValue) {
@@ -63,19 +63,19 @@ struct HashableBSONValue: Codable, Hashable {
         self.bsonValue = anyBSONValue
     }
 
-    init(from decoder: Decoder) {
+    public init(from decoder: Decoder) {
         bsonValue = try! AnyBSONValue.init(from: decoder)
     }
 
-    func encode(to encoder: Encoder) {
+    public func encode(to encoder: Encoder) {
         try! bsonValue.encode(to: encoder)
     }
 
-    static func == (lhs: HashableBSONValue, rhs: HashableBSONValue) -> Bool {
+    public static func == (lhs: HashableBSONValue, rhs: HashableBSONValue) -> Bool {
         return bsonEquals(lhs.bsonValue.value, rhs.bsonValue.value)
     }
 
-    func hash(into hasher: inout Hasher) {
+    public func hash(into hasher: inout Hasher) {
         _hash(into: &hasher, bsonValue: self.bsonValue.value)
     }
 }

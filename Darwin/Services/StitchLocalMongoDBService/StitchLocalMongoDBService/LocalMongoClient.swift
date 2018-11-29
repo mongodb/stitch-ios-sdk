@@ -30,7 +30,7 @@ private enum TrimMemoryCommand: String {
 private let adminDatabaseName = "admin"
 
 /// Local MongoDB Service Provider
-private final class MobileMongoDBClientFactory: CoreLocalMongoDBService, ThrowingServiceClientFactory {
+private final class MobileMongoDBClientFactory: ThrowingServiceClientFactory {
     typealias ClientType = MongoClient
 
     /// Current battery level of this device between 0-100

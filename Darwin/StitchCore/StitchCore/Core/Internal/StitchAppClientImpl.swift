@@ -5,8 +5,7 @@ import Foundation
 /**
  * The implementation of the `StitchAppClient` protocol.
  */
-internal final class StitchAppClientImpl: StitchAppClient {
-
+internal final class StitchAppClientImpl: StitchAppClient, AuthMonitor {
     // MARK: Properties
 
     /**
@@ -19,7 +18,11 @@ internal final class StitchAppClientImpl: StitchAppClient {
     /**
      * The client's underlying push notification component.
      */
-    public var push: StitchPush
+    public lazy var push: StitchPush = StitchPushImpl.init(
+        requestClient: self._auth,
+        pushRoutes: self.routes.pushRoutes,
+        dispatcher: self.dispatcher
+    )
 
     /**
      * The client's underlying authentication state.
@@ -40,7 +43,7 @@ internal final class StitchAppClientImpl: StitchAppClient {
     /**
      * A `StitchAppClientInfo` describing the basic properties of this app client.
      */
-    internal let info: StitchAppClientInfo
+    internal private(set) var info: StitchAppClientInfo
 
     /**
      * The API routes on the Stitch server to perform actions for this particular app.
@@ -58,33 +61,27 @@ internal final class StitchAppClientImpl: StitchAppClient {
                 withDispatchQueue queue: DispatchQueue = DispatchQueue.global()) throws {
         self.dispatcher = OperationDispatcher.init(withDispatchQueue: queue)
         self.routes = StitchAppRoutes.init(clientAppID: clientAppID)
-        self.info = StitchAppClientInfo(clientAppID: clientAppID,
-                                        dataDirectory: config.dataDirectory,
-                                        localAppName: config.localAppName,
-                                        localAppVersion: config.localAppVersion
-        )
-
-        let internalAuth =
-            try StitchAuthImpl.init(
-                requestClient: StitchRequestClientImpl.init(baseURL: config.baseURL,
-                                                            transport: config.transport,
-                                                            defaultRequestTimeout: config.defaultRequestTimeout),
-                authRoutes: self.routes.authRoutes,
-                storage: config.storage,
-                dispatcher: self.dispatcher,
-                appInfo: self.info)
-
-        self._auth = internalAuth
-        self.push = StitchPushImpl.init(
-            requestClient: self._auth,
-            pushRoutes: self.routes.pushRoutes,
-            dispatcher: self.dispatcher
-        )
-        self.coreClient = CoreStitchAppClient.init(authRequestClient: internalAuth, routes: routes)
+        self.info = StitchAppClientInfo(
+            clientAppID: clientAppID,
+            dataDirectory: config.dataDirectory,
+            localAppName: config.localAppName,
+            localAppVersion: config.localAppVersion,
+            networkMonitor: config.networkMonitor,
+            authMonitor: nil)
+        self._auth = try StitchAuthImpl.init(
+            requestClient: StitchRequestClientImpl.init(baseURL: config.baseURL,
+                                                        transport: config.transport,
+                                                        defaultRequestTimeout: config.defaultRequestTimeout),
+            authRoutes: self.routes.authRoutes,
+            storage: config.storage,
+            dispatcher: self.dispatcher,
+            appInfo: self.info)
+        self.coreClient = CoreStitchAppClient.init(authRequestClient: self._auth, routes: routes)
+        self.info.authMonitor = self
     }
 
     // MARK: Services
-    
+
     public func serviceClient(withServiceName serviceName: String) -> StitchServiceClient {
         return StitchServiceClientImpl.init(
             proxy: CoreStitchServiceClientImpl.init(
@@ -124,6 +121,15 @@ internal final class StitchAppClientImpl: StitchAppClient {
         )
     }
 
+    func serviceClient<T>(fromFactory factory: AnyNamedThrowingServiceClientFactory<T>,
+                          withName serviceName: String) throws -> T {
+        return try factory.client(
+            forService: CoreStitchServiceClientImpl.init(requestClient: self._auth,
+                                                         routes: self.routes.serviceRoutes,
+                                                         serviceName: serviceName),
+            withClientInfo: self.info
+        )
+    }
     // MARK: Functions
 
     public func callFunction(withName name: String,
@@ -164,5 +170,9 @@ internal final class StitchAppClientImpl: StitchAppClient {
                                                     withArgs: args,
                                                     withRequestTimeout: requestTimeout)
         }
+    }
+
+    var isLoggedIn: Bool {
+        return auth.isLoggedIn
     }
 }

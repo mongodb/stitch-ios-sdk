@@ -12,14 +12,14 @@ class InstanceSynchronizationConfigTests: XCMongoMobileTestCase, FatalErrorListe
                                                  collectionName: ObjectId().description)
 
     override func setUp() {
-        namespaceColl = try! XCMongoMobileTestCase.client.db(namespace.databaseName)
+        namespaceColl = try! localClient.db(namespace.databaseName)
             .collection("namespaces", withType: NamespaceSynchronization.Config.self)
-        docsColl = try! XCMongoMobileTestCase.client.db(namespace.databaseName)
+        docsColl = try! localClient.db(namespace.databaseName)
             .collection("documents", withType: CoreDocumentSynchronization.Config.self)
     }
 
     override func tearDown() {
-        try? XCMongoMobileTestCase.client.db(namespace2.databaseName).drop()
+        try? localClient.db(namespace2.databaseName).drop()
     }
 
     func on(error: Error, forDocumentId documentId: BSONValue?, in namespace: MongoNamespace?) {
@@ -28,13 +28,13 @@ class InstanceSynchronizationConfigTests: XCMongoMobileTestCase, FatalErrorListe
 
     func testGet_Set_ModifyInPlace() throws {
         var instanceSync = try InstanceSynchronization.init(
-            configDb: try XCMongoMobileTestCase.client.db(namespace.databaseName),
+            configDb: try localClient.db(namespace.databaseName),
             errorListener: self)
 
         let nsConfig = try NamespaceSynchronization.init(namespacesColl: namespaceColl,
-                                                     docsColl: docsColl,
-                                                     namespace: namespace,
-                                                     errorListener: nil)
+                                                         docsColl: docsColl,
+                                                         namespace: namespace,
+                                                         errorListener: nil)
         XCTAssertNotNil(instanceSync[namespace])
 
         XCTAssertEqual(instanceSync[namespace]?.config.namespace, nsConfig.config.namespace)
