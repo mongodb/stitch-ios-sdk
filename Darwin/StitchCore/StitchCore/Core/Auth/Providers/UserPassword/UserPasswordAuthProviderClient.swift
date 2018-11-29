@@ -27,6 +27,7 @@ public let userPasswordClientFactory = UserPasswordClientFactory()
  * A protocol defining methods for interacting with username/password authentication provider in Stitch.
  */
 public protocol UserPasswordAuthProviderClient {
+
     // Disabled line length rule due to https://github.com/realm/jazzy/issues/896
     // swiftlint:disable line_length
 

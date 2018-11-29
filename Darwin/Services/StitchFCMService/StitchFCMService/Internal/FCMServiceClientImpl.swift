@@ -5,13 +5,13 @@ import StitchCoreFCMService
 internal final class FCMServiceClientImpl: FCMServiceClient {
     private let proxy: CoreFCMServiceClient
     private let dispatcher: OperationDispatcher
-    
+
     internal init(withClient client: CoreFCMServiceClient,
                   withDispatcher dispatcher: OperationDispatcher) {
         self.proxy = client
         self.dispatcher = dispatcher
     }
-    
+
     func sendMessage(to target: String,
                      withRequest request: FCMSendMessageRequest,
                      _ completionHandler: @escaping (StitchResult<FCMSendMessageResult>) -> Void) {
@@ -19,7 +19,7 @@ internal final class FCMServiceClientImpl: FCMServiceClient {
             return try self.proxy.sendMessage(to: target, withRequest: request)
         }
     }
-    
+
     func sendMessage(toUserIDs userIDs: [String],
                      withRequest request: FCMSendMessageRequest,
                      _ completionHandler: @escaping (StitchResult<FCMSendMessageResult>) -> Void) {
@@ -27,7 +27,7 @@ internal final class FCMServiceClientImpl: FCMServiceClient {
             return try self.proxy.sendMessage(toUserIDs: userIDs, withRequest: request)
         }
     }
-    
+
     func sendMessage(toRegistrationTokens registrationTokens: [String],
                      withRequest request: FCMSendMessageRequest,
                      _ completionHandler: @escaping (StitchResult<FCMSendMessageResult>) -> Void) {
