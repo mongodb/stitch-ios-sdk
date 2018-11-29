@@ -39,7 +39,13 @@ public class StitchClientConfiguration: Buildee {
      *              timeout will override this one.
      */
     public let defaultRequestTimeout: TimeInterval?
-    
+
+    /**
+     The network monitor that the client will use to monitor network conditions.
+     */
+    public let networkMonitor: NetworkMonitor?
+
+
     /**
      * Builder object for this configuration
     */
@@ -53,6 +59,7 @@ public class StitchClientConfiguration: Buildee {
         self.storage = builder.storage
         self.transport = builder.transport
         self.defaultRequestTimeout = builder.defaultRequestTimeout
+        self.networkMonitor = builder.networkMonitor
     }
 }
 
@@ -74,7 +81,7 @@ public class StitchClientConfigurationBuilder {
     public internal(set) var storage: Storage?
     public internal(set) var transport: Transport?
     public internal(set) var defaultRequestTimeout: TimeInterval?
-    
+    public internal(set) var networkMonitor: NetworkMonitor?
     /**
      * Sets the base URL of the Stitch server that the client will communicate with.
      */
@@ -123,7 +130,16 @@ public class StitchClientConfigurationBuilder {
         self.defaultRequestTimeout = defaultRequestTimeout
         return self
     }
-    
+
+    /**
+     Sets the network monitor that the client will use to monitor network conditions.
+     */
+    @discardableResult
+    public func with(networkMonitor: NetworkMonitor) -> Self {
+        self.networkMonitor = networkMonitor
+        return self
+    }
+
     public init() { }
     
     fileprivate init(clientConfiguration: StitchClientConfiguration) {

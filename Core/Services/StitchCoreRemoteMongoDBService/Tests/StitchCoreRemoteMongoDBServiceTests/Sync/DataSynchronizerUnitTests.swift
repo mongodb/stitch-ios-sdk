@@ -6,7 +6,7 @@ import MongoSwift
 @testable import StitchCoreRemoteMongoDBService
 
 class DataSynchronizerUnitTests: XCMongoMobileTestCase {
-    lazy var collection = try! defaultCollection(for: MongoNamespace.init(
+    lazy var collection = try! localCollection(for: MongoNamespace.init(
         databaseName: DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace),
         collectionName: namespace.collectionName))
 
@@ -71,7 +71,7 @@ class DataSynchronizerUnitTests: XCMongoMobileTestCase {
 
         XCTAssertEqual(0, try dataSynchronizer.count(in: namespace))
     }
-    
+
     func testFind() throws {
         dataSynchronizer.configure(namespace: namespace,
                                    conflictHandler: TestConflictHandler(),

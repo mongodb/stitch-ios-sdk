@@ -4,6 +4,7 @@ import StitchCoreSDK
 import StitchCoreAdminClient
 import StitchDarwinCoreTestUtils
 import StitchCoreRemoteMongoDBService
+import StitchCoreLocalMongoDBService
 @testable import StitchRemoteMongoDBService
 
 class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
@@ -24,7 +25,11 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         
         try! prepareService()
     }
-    
+
+    override class func tearDown() {
+        CoreLocalMongoDBService.shared.close()
+    }
+
     private func prepareService() throws {
         let app = try self.createApp()
         let _ = try self.addProvider(toApp: app.1, withConfig: ProviderConfigs.anon())
@@ -52,7 +57,8 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         }
         wait(for: [exp], timeout: 5.0)
         
-        self.mongoClient = client.serviceClient(fromFactory: remoteMongoClientFactory, withName: "mongodb1")
+        self.mongoClient = try client.serviceClient(fromFactory: remoteMongoClientFactory,
+                                                    withName: "mongodb1")
     }
     
     private func getTestColl() -> RemoteMongoCollection<Document> {
@@ -1011,6 +1017,18 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
+    }
+
+    func testSync_find() {
+        // TODO: STITCH-2237
+    }
+
+    func testSync_count() {
+        // TODO: STITCH-2237
+    }
+
+    func testSync_aggregate() {
+        // TODO: STITCH-2237
     }
 }
 

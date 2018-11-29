@@ -1,11 +1,24 @@
 import Foundation
 import StitchCoreSDK
+import MongoSwift
 
 public class CoreRemoteMongoClient {
     private let service: CoreStitchServiceClient
-    
-    public init(withService service: CoreStitchServiceClient) {
+    private var dataSynchronizer: DataSynchronizer!
+
+    internal init(withService service: CoreStitchServiceClient,
+                  withInstanceKey instanceKey: String,
+                  withLocalClient localClient: MongoClient,
+                  withNetworkMonitor networkMonitor: NetworkMonitor,
+                  withAuthMonitor authMonitor: AuthMonitor) throws {
         self.service = service
+        self.dataSynchronizer = try DataSynchronizer.init(
+            instanceKey: instanceKey,
+            service: service,
+            localClient: localClient,
+            remoteClient: self,
+            networkMonitor: networkMonitor,
+            authMonitor: authMonitor)
     }
     
     /**
@@ -14,6 +27,8 @@ public class CoreRemoteMongoClient {
      * - parameter name: the name of the database to retrieve
      */
     public func db(_ name: String) -> CoreRemoteMongoDatabase {
-        return CoreRemoteMongoDatabase.init(withName: name, withService: service)
+        return CoreRemoteMongoDatabase.init(withName: name,
+                                            withService: service,
+                                            withDataSynchronizer: dataSynchronizer)
     }
 }

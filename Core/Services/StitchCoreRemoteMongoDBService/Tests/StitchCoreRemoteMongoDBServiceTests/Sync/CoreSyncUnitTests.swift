@@ -5,19 +5,19 @@ import XCTest
 class CoreSyncUnitTests: XCMongoMobileTestCase {
     private lazy var coreSync = CoreSync<Document>.init(namespace: namespace,
                                                         dataSynchronizer: dataSynchronizer)
-    lazy var collection = try! defaultCollection(for: MongoNamespace.init(
+    lazy var collection = try! localCollection(for: MongoNamespace.init(
         databaseName: DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace),
         collectionName: namespace.collectionName))
-    
+
     override func tearDown() {
-        try? XCMongoMobileTestCase.client.db("sync_config" + instanceKey.oid).drop()
+        try? localClient.db("sync_config" + instanceKey.oid).drop()
     }
-    
+
     func testConfigure() {
         XCTAssertFalse(dataSynchronizer.isConfigured)
-        coreSync.configure(conflictHandler: DataSynchronizerUnitTests.TestConflictHandler(),
-                           changeEventListener: DataSynchronizerUnitTests.TestEventListener(),
-                           errorListener: DataSynchronizerUnitTests.TestErrorListener())
+        coreSync.configure(conflictHandler: TestConflictHandler(),
+                           changeEventListener: TestEventListener(),
+                           errorListener: TestErrorListener())
         XCTAssertTrue(dataSynchronizer.isConfigured)
         XCTAssertTrue(dataSynchronizer.isRunning)
     }
@@ -44,12 +44,12 @@ class CoreSyncUnitTests: XCMongoMobileTestCase {
         let doc1 = ["hello": "world", "a": "b"] as Document
         let doc2 = ["hello": "computer", "a": "b"] as Document
 
-        try XCMongoMobileTestCase.client.db(DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace))
+        try localClient.db(DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace))
             .collection(namespace.collectionName, withType: Document.self).insertMany([doc1, doc2])
 
         XCTAssertEqual(2, try coreSync.count())
 
-        try XCMongoMobileTestCase.client.db(DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace))
+        try localClient.db(DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace))
             .collection(namespace.collectionName, withType: Document.self).deleteMany(Document())
 
         XCTAssertEqual(0, try coreSync.count())
@@ -61,7 +61,7 @@ class CoreSyncUnitTests: XCMongoMobileTestCase {
         let doc1 = ["hello": "world", "a": "b"] as Document
         let doc2 = ["hello": "computer", "a": "b"] as Document
 
-        try XCMongoMobileTestCase.client.db(DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace))
+        try localClient.db(DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace))
             .collection(namespace.collectionName, withType: Document.self).insertMany([doc1, doc2])
 
         let cursor: MongoCursor<Document> =
@@ -84,7 +84,7 @@ class CoreSyncUnitTests: XCMongoMobileTestCase {
         let doc1 = ["hello": "world", "a": "b"] as Document
         let doc2 = ["hello": "computer", "a": "b"] as Document
 
-        try XCMongoMobileTestCase.client.db(DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace))
+        try localClient.db(DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace))
             .collection(namespace.collectionName, withType: Document.self).insertMany([doc1, doc2])
 
         let cursor = try coreSync.aggregate(

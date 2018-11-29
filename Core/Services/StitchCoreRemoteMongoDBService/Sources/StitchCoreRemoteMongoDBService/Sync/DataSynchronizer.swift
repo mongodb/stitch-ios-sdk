@@ -8,7 +8,7 @@ import StitchCoreSDK
  and a remote MongoDB (via Stitch). It also expose CRUD operations to interact with synchronized
  documents.
  */
-public class DataSynchronizer: NetworkStateListener, FatalErrorListener {
+public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     /// The amount of time to sleep between sync passes in a non-error state.
     fileprivate static let shortSleepSeconds: UInt32 = 1
     /// The amount of time to sleep between sync passes in an error-state.
@@ -101,11 +101,11 @@ public class DataSynchronizer: NetworkStateListener, FatalErrorListener {
         }
 
         self.syncConfig.errorListener = self
-        self.networkMonitor.add(networkStateListener: self)
+        self.networkMonitor.add(networkStateDelegate: self)
     }
 
     public func onNetworkStateChanged() {
-        if (!self.networkMonitor.isConnected()) {
+        if (!self.networkMonitor.isConnected) {
             self.stop()
         } else {
             self.start()
@@ -263,7 +263,6 @@ public class DataSynchronizer: NetworkStateListener, FatalErrorListener {
             return Set()
         }
 
-        let v = nsConfig.map { $0.documentId }
         return Set(nsConfig.map({HashableBSONValue($0.documentId)}))
     }
 

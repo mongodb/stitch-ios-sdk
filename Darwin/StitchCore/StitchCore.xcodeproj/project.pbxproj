@@ -38,6 +38,7 @@
 		4902C6B8205010AE00E53674 /* StitchAuthDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C6B7205010AE00E53674 /* StitchAuthDelegate.swift */; };
 		4902C6BA2050112300E53674 /* StitchServiceClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C6B92050112300E53674 /* StitchServiceClientImpl.swift */; };
 		4902C6C9205174A100E53674 /* NamedServiceClientFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C6C8205174A100E53674 /* NamedServiceClientFactory.swift */; };
+		491F9C3021A46D1800802A4D /* DarwinNetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491F9C2F21A46D1800802A4D /* DarwinNetworkMonitor.swift */; };
 		49368D6D2052F350006153D3 /* StitchAppClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49368D6C2052F350006153D3 /* StitchAppClientImpl.swift */; };
 		49368D702052F35B006153D3 /* StitchAuthImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49368D6F2052F35B006153D3 /* StitchAuthImpl.swift */; };
 		494C0A8920EBCEC400773B49 /* StitchDarwinCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494C0A8820EBCEC400773B49 /* StitchDarwinCoreTestUtils.framework */; };
@@ -110,6 +111,7 @@
 		4902C6B92050112300E53674 /* StitchServiceClientImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchServiceClientImpl.swift; sourceTree = "<group>"; };
 		4902C6C8205174A100E53674 /* NamedServiceClientFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamedServiceClientFactory.swift; sourceTree = "<group>"; };
 		4902C6CE2051753000E53674 /* ServiceClientFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceClientFactory.swift; sourceTree = "<group>"; };
+		491F9C2F21A46D1800802A4D /* DarwinNetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarwinNetworkMonitor.swift; sourceTree = "<group>"; };
 		49368D6C2052F350006153D3 /* StitchAppClientImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchAppClientImpl.swift; sourceTree = "<group>"; };
 		49368D6F2052F35B006153D3 /* StitchAuthImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchAuthImpl.swift; sourceTree = "<group>"; };
 		493A699B20EFD8E700BFE39E /* JWT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = JWT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -394,9 +396,18 @@
 			path = Internal;
 			sourceTree = "<group>";
 		};
+		491F9C2E21A46D0300802A4D /* Net */ = {
+			isa = PBXGroup;
+			children = (
+				491F9C2F21A46D1800802A4D /* DarwinNetworkMonitor.swift */,
+			);
+			path = Net;
+			sourceTree = "<group>";
+		};
 		49368D6B2052F350006153D3 /* Internal */ = {
 			isa = PBXGroup;
 			children = (
+				491F9C2E21A46D0300802A4D /* Net */,
 				11981A0F2061B9AC0074BB11 /* Common */,
 				49368D6C2052F350006153D3 /* StitchAppClientImpl.swift */,
 				F40E66D520DD6D8800105FE6 /* ImmutableStitchAppClientConfiguration.swift */,
@@ -612,12 +623,22 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-StitchCoreTests/Pods-StitchCoreTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/MongoSwift/MongoSwift.framework",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework.dSYM",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework.dSYM",
 				"${BUILT_PRODUCTS_DIR}/JSONWebToken/JWT.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MongoSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/bson.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/bson.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongoc.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/mongoc.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JWT.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -667,6 +688,7 @@
 				4902C6B8205010AE00E53674 /* StitchAuthDelegate.swift in Sources */,
 				11C587E02056D6F300B34DD1 /* UserAPIKeyAuthProviderClient.swift in Sources */,
 				F4DA27BB20D3445B00852314 /* UserPasswordAuthProviderClient.swift in Sources */,
+				491F9C3021A46D1800802A4D /* DarwinNetworkMonitor.swift in Sources */,
 				4902C68D2050078F00E53674 /* StitchAppClient.swift in Sources */,
 				11981A112061B9D50074BB11 /* OperationDispatcher.swift in Sources */,
 				11297B1E205301C9001D0711 /* AuthProviderClientFactory.swift in Sources */,

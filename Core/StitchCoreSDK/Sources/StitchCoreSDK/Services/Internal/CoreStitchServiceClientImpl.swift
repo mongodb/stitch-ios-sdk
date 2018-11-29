@@ -4,7 +4,7 @@ import Foundation
 open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
     private let requestClient: StitchAuthRequestClient
     private let serviceRoutes: StitchServiceRoutes
-    private let serviceName: String?
+    public let serviceName: String?
     
     public init(requestClient: StitchAuthRequestClient,
                 routes:  StitchServiceRoutes,
@@ -22,7 +22,7 @@ open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
             "arguments": args
         ]
         
-        if let serviceName = serviceName {
+        if let serviceName = self.serviceName {
             body["service"] = serviceName
         }
         
