@@ -4,7 +4,7 @@ import MongoSwift
 
 public class CoreRemoteMongoClient {
     private let service: CoreStitchServiceClient
-    private let dataSynchronizer: DataSynchronizer
+    private var dataSynchronizer: DataSynchronizer!
 
     internal init(withService service: CoreStitchServiceClient,
                   withInstanceKey instanceKey: String,

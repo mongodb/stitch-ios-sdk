@@ -55,8 +55,7 @@ public protocol NamedThrowingServiceClientFactory {
      * Returns a client of type `ClientType`, with the provided `CoreStitchServiceClient` and `StitchAppClientInfo`
      * objects.
      */
-    func client(withServiceClient serviceClient: CoreStitchServiceClient,
-                withClientInfo clientInfo: StitchAppClientInfo) throws -> ClientType
+    func client(withServiceClient serviceClient: CoreStitchServiceClient, withClientInfo clientInfo: StitchAppClientInfo) throws -> ClientType
 }
 
 /**
