@@ -8,63 +8,63 @@ public struct FCMSendMessageNotification: Encodable {
      * The notification's title.
      */
     public let title: String?
-    
+
     /**
      * The notification's body text.
      */
     public let body: String?
-    
+
     /**
      * The sound to play when the device receives the notification.
      */
     public let sound: String?
-    
+
     /**
      * The action associated with a user click on the notification.
      */
     public let clickAction: String?
-    
+
     /**
      * The the key to the body string in the app's string resources to use to localize the body
      * text to the user's current localization.
      */
     public let bodyLocKey: String?
-    
+
     /**
      * The variable string values to be used in place of the format specifiers in
      * bodyLocKey to use to localize the body text to the user's current localization.
      */
     public let bodyLocArgs: String?
-    
+
     /**
      * The key to the title string in the app's string resources to use to localize the
      * title text to the user's current localization.
      */
     public let titleLocKey: String?
-    
+
     /**
      * The variable string values to be used in place of the format specifiers in
      * titleLocKey to use to localize the title text to the user's current localization.
      */
     public let titleLocArgs: String?
-    
+
     /**
      * The notification's icon. Note: for messages to Android devices only.
      */
     public let icon: String?
-    
+
     /**
      * The identifier used to replace existing notifications in the notification drawer.
      * Note: for messages to Android devices only.
      */
     public let tag: String?
-    
+
     /**
      * The notification's icon color, expressed in #rrggbb format. Note: for messages to
      * Android devices only.
      */
     public let color: String?
-    
+
     /**
      * The value of the badge on the home screen app icon. Note: for messages to iOS devices only.
      */
@@ -87,12 +87,12 @@ public class FCMSendMessageNotificationBuilder {
     internal var tag: String?
     internal var color: String?
     internal var badge: String?
-    
+
     /**
      * Initializes a new builder for an FCM send message notification.
      */
     public init() { }
-    
+
     /**
      * Sets the notification's title.
      */
@@ -101,7 +101,7 @@ public class FCMSendMessageNotificationBuilder {
         self.title = title
         return self
     }
-    
+
     /**
      * Sets the notification's body text.
      */
@@ -110,7 +110,7 @@ public class FCMSendMessageNotificationBuilder {
         self.body = body
         return self
     }
-    
+
     /**
      * Sets the sound to play when the device receives the notification.
      */
@@ -119,7 +119,7 @@ public class FCMSendMessageNotificationBuilder {
         self.sound = sound
         return self
     }
-    
+
     /**
      * Sets the action associated with a user click on the notification.
      */
@@ -128,7 +128,7 @@ public class FCMSendMessageNotificationBuilder {
         self.clickAction = clickAction
         return self
     }
-    
+
     /**
      * Sets the key to the body string in the app's string resources to use to localize the body
      * text to the user's current localization.
@@ -138,7 +138,7 @@ public class FCMSendMessageNotificationBuilder {
         self.bodyLocKey = bodyLocKey
         return self
     }
-    
+
     /**
      * Sets the variable string values to be used in place of the format specifiers in
      * bodyLocKey to use to localize the body text to the user's current localization.
@@ -148,7 +148,7 @@ public class FCMSendMessageNotificationBuilder {
         self.bodyLocArgs = bodyLocArgs
         return self
     }
-    
+
     /**
      * Sets the key to the title string in the app's string resources to use to localize the
      * title text to the user's current localization.
@@ -158,7 +158,7 @@ public class FCMSendMessageNotificationBuilder {
         self.titleLocKey = titleLocKey
         return self
     }
-    
+
     /**
      * Sets the variable string values to be used in place of the format specifiers in
      * titleLocKey to use to localize the title text to the user's current localization.
@@ -168,7 +168,7 @@ public class FCMSendMessageNotificationBuilder {
         self.titleLocArgs = titleLocArgs
         return self
     }
-    
+
     /**
      * Sets the notification's icon. Note: for messages to Android devices only.
      */
@@ -177,7 +177,7 @@ public class FCMSendMessageNotificationBuilder {
         self.icon = icon
         return self
     }
-    
+
     /**
      * Sets the identifier used to replace existing notifications in the notification drawer.
      * Note: for messages to Android devices only.
@@ -187,7 +187,7 @@ public class FCMSendMessageNotificationBuilder {
         self.tag = tag
         return self
     }
-    
+
     /**
      * Sets the notification's icon color, expressed in #rrggbb format. Note: for messages to
      * Android devices only.
@@ -197,7 +197,7 @@ public class FCMSendMessageNotificationBuilder {
         self.color = color
         return self
     }
-    
+
     /**
      * Sets the value of the badge on the home screen app icon. Note: for messages to iOS devices only.
      */
@@ -206,7 +206,7 @@ public class FCMSendMessageNotificationBuilder {
         self.badge = badge
         return self
     }
-    
+
     /**
      * Builds, validates, and returns the `FCMSendMessageNotification`.
      *

@@ -3,11 +3,11 @@ import StitchCoreSDK
 
 public class CoreRemoteMongoClient {
     private let service: CoreStitchServiceClient
-    
+
     public init(withService service: CoreStitchServiceClient) {
         self.service = service
     }
-    
+
     /**
      * Gets a `CoreRemoteMongoDatabase` instance for the given database name.
      *

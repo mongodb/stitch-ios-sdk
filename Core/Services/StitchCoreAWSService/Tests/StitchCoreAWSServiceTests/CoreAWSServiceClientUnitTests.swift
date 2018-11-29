@@ -1,3 +1,4 @@
+// swiftlint:disable function_body_length
 import XCTest
 import MockUtils
 import MongoSwift
@@ -30,11 +31,11 @@ final class CoreAWSServiceClientUnitTests: XCTestCase {
         )
 
         let result: Document = try client.execute(request: request)
-        
+
         XCTAssertEqual(response, result)
 
         var (funcNameArg, funcArgsArg, _) = service.callFunctionWithDecodingMock.capturedInvocations.last!
-        
+
         XCTAssertEqual("execute", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
 
@@ -56,7 +57,7 @@ final class CoreAWSServiceClientUnitTests: XCTestCase {
 
         let result2: Document = try client.execute(request: request2)
         XCTAssertEqual(response, result2)
-        
+
         (funcNameArg, funcArgsArg, _) = service.callFunctionWithDecodingMock.capturedInvocations.last!
 
         XCTAssertEqual("execute", funcNameArg)
@@ -77,7 +78,7 @@ final class CoreAWSServiceClientUnitTests: XCTestCase {
             forArg2: .any,
             forArg3: .any
         )
-    
+
         do {
             _ = try client.execute(request: request)
             XCTFail("function did not fail where expected")
