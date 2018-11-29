@@ -10,6 +10,7 @@ public enum ReachabilityError: Error {
     case UnableToGetInitialFlags
 }
 
+// Based on https://github.com/ashleymills/Reachability.swift
 internal class DarwinNetworkMonitor: NetworkMonitor {
     private static var _shared: DarwinNetworkMonitor?
 
