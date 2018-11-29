@@ -47,7 +47,7 @@ public struct AnyThrowingServiceClientFactory<T> {
  */
 public protocol NamedThrowingServiceClientFactory {
     /**
-     * The type that this `NamedServiceClientFactory` can produce.
+     * The type that this `NamedThrowingServiceClientFactory` can produce.
      */
     associatedtype ClientType
 
@@ -69,7 +69,7 @@ public struct AnyNamedThrowingServiceClientFactory<T> {
     private let clientBlock: (CoreStitchServiceClient, StitchAppClientInfo) throws -> T
 
     /**
-     * Initializes this `AnyNamedServiceClientFactory` with an arbitrary `NamedServiceClientFactory`.
+     * Initializes this `AnyNamedThrowingServiceClientFactory` with an arbitrary `NamedThrowingServiceClientFactory`.
      */
     public init<U: NamedThrowingServiceClientFactory>(factory: U) where U.ClientType == T {
         self.clientBlock = factory.client

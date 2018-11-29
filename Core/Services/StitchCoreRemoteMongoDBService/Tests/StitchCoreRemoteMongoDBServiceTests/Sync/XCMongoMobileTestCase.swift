@@ -62,6 +62,7 @@ class TestConflictHandler: ConflictHandler {
 
 class TestErrorListener: ErrorListener {
     func on(error: Error, forDocumentId documentId: BSONValue?) {
+        XCTFail(error.localizedDescription)
     }
 }
 
@@ -181,3 +182,4 @@ class XCMongoMobileTestCase: XCTestCase {
             .collection(namespace.collectionName, withType: Document.self)
     }
 }
+

@@ -36,9 +36,9 @@ public class CoreRemoteMongoCollection<T: Codable> {
     public let sync: CoreSync<T>
 
     internal init(withName name: String,
-                withDatabaseName dbName: String,
-                withService service: CoreStitchServiceClient,
-                withDataSynchronizer dataSynchronizer: DataSynchronizer) {
+                  withDatabaseName dbName: String,
+                  withService service: CoreStitchServiceClient,
+                  withDataSynchronizer dataSynchronizer: DataSynchronizer) {
         self.name = name
         self.databaseName = dbName
         self.service = service
@@ -227,7 +227,7 @@ public class CoreRemoteMongoCollection<T: Codable> {
     }
     
     private func executeDelete(_ filter: Document,
-                              multi: Bool) throws -> RemoteDeleteResult {
+                               multi: Bool) throws -> RemoteDeleteResult {
         var args = baseOperationArgs
         args["query"] = filter
         
@@ -268,8 +268,8 @@ public class CoreRemoteMongoCollection<T: Codable> {
      * - Returns: The result of attempting to update multiple documents.
      */
     public func updateMany(filter: Document,
-                          update: Document,
-                          options: RemoteUpdateOptions? = nil) throws -> RemoteUpdateResult {
+                           update: Document,
+                           options: RemoteUpdateOptions? = nil) throws -> RemoteUpdateResult {
         return try executeUpdate(filter: filter,
                                  update: update,
                                  options: options,

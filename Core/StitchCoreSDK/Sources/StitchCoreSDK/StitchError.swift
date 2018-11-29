@@ -110,7 +110,7 @@ public enum StitchClientErrorCode {
     case couldNotLoadPersistedAuthInfo
     case couldNotPersistAuthInfo
     case couldNotLoadSyncInfo
-    case couldNotCommunicateWithDriver(withError: Error)
+    case mongoDriverError(withError: Error)
 }
 
 /**
