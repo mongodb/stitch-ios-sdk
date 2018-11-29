@@ -60,7 +60,7 @@ public protocol NamedThrowingServiceClientFactory {
 }
 
 /**
- * A generic wrapper for a `NamedServiceClientFactory`.
+ * A generic wrapper for a `NamedThrowingServiceClientFactory`.
  */
 public struct AnyNamedThrowingServiceClientFactory<T> {
     /**
