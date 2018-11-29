@@ -5,7 +5,7 @@ import StitchCoreSDK
 
 private final class AWSSESNamedServiceClientFactory: NamedServiceClientFactory {
     typealias ClientType = AWSSESServiceClient
-    
+
     func client(withServiceClient service: CoreStitchServiceClient,
                 withClientInfo client: StitchAppClientInfo) -> AWSSESServiceClient {
         return AWSSESServiceClientImpl(
@@ -29,6 +29,9 @@ public let awsSESServiceClientFactory =
  */
 @available(*, deprecated, message: "Use AWSServiceClient instead")
 public protocol AWSSESServiceClient {
+    // Disabled line length rule due to https://github.com/realm/jazzy/issues/896
+    // swiftlint:disable line_length
+
     /**
      * Sends an email.
      *

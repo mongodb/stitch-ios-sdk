@@ -7,13 +7,13 @@ import StitchCoreAWSSESService
 public final class AWSSESServiceClientImpl: AWSSESServiceClient {
     private let proxy: CoreAWSSESServiceClient
     private let dispatcher: OperationDispatcher
-    
+
     internal init(withClient client: CoreAWSSESServiceClient,
                   withDispatcher dispatcher: OperationDispatcher) {
         self.proxy = client
         self.dispatcher = dispatcher
     }
-    
+
     public func sendEmail(to: String,
                           from: String,
                           subject: String,
