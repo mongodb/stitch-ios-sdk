@@ -35,8 +35,13 @@ public class CoreRemoteMongoReadOperation<T: Codable> {
         return try executeRead().first
     }
     
-    public func asArray() throws -> [T] {
+    public func toArray() throws -> [T] {
         return try executeRead()
+    }
+    
+    @available(*, deprecated, message: "use toArray instead")
+    public func asArray() throws -> [T] {
+        return try self.toArray()
     }
     
     private func executeRead() throws -> [T] {

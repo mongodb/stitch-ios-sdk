@@ -108,7 +108,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         )
         
         // without filter or options
-        var resultDocs = try coll.find().asArray()
+        var resultDocs = try coll.find().toArray()
         
         XCTAssertEqual(docs, resultDocs)
         
@@ -133,7 +133,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         resultDocs = try coll.find(expectedFilter, options: RemoteFindOptions.init(
             projection: expectedProject,
             sort: expectedSort
-        )).asArray()
+        )).toArray()
         
         XCTAssertEqual(docs, resultDocs)
         
@@ -165,7 +165,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         )
         
         do {
-            _ = try coll.find().asArray()
+            _ = try coll.find().toArray()
             XCTFail("function did not fail where expected")
         } catch {
             // do nothing
@@ -187,7 +187,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         )
         
         // with empty pipeline
-        var resultDocs = try coll.aggregate([]).asArray()
+        var resultDocs = try coll.aggregate([]).toArray()
         
         XCTAssertEqual(docs, resultDocs)
         
@@ -205,7 +205,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
         
         // with pipeline
-        resultDocs = try coll.aggregate([["$match": 1], ["sort": 2]]).asArray()
+        resultDocs = try coll.aggregate([["$match": 1], ["sort": 2]]).toArray()
         
         let expectedPipeline: [Document] = [
             ["$match": Int32(1)],
@@ -240,7 +240,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         )
         
         do {
-            _ = try coll.aggregate([]).asArray()
+            _ = try coll.aggregate([]).toArray()
             XCTFail("function did not fail where expected")
         } catch {
             // do nothing

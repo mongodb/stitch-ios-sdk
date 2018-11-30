@@ -198,7 +198,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
     func testFind() {
         let coll = getTestColl()
         var exp = expectation(description: "should not find any documents in empty collection")
-        coll.find().asArray { result in
+        coll.find().toArray { result in
             switch result {
             case .success(let docs):
                 XCTAssertEqual([], docs)
@@ -217,7 +217,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         wait(for: [exp], timeout: 5.0)
         
         exp = expectation(description: "should find the inserted documents")
-        coll.find().asArray { result in
+        coll.find().toArray { result in
             switch result {
             case .success(let resultDocs):
                 XCTAssertEqual(self.withoutId(doc1), self.withoutId(resultDocs[0]))
@@ -327,7 +327,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
     func testAggregate() {
         let coll = getTestColl()
         var exp = expectation(description: "should not find any documents in empty collection")
-        coll.aggregate([]).asArray { result in
+        coll.aggregate([]).toArray { result in
             switch result {
             case .success(let docs):
                 XCTAssertEqual([], docs)
@@ -346,7 +346,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         wait(for: [exp], timeout: 5.0)
         
         exp = expectation(description: "should find the inserted documents")
-        coll.aggregate([]).asArray { result in
+        coll.aggregate([]).toArray { result in
             switch result {
             case .success(let docs):
                 XCTAssertEqual(self.withoutId(doc1), self.withoutId(docs[0]))
@@ -361,7 +361,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         exp = expectation(
             description: "should find the second document when sorting by descending object id, and limiting to 1"
         )
-        coll.aggregate([["$sort": ["_id": -1] as Document], ["$limit": 1]]).asArray { result in
+        coll.aggregate([["$sort": ["_id": -1] as Document], ["$limit": 1]]).toArray { result in
             switch result {
             case .success(let docs):
                 XCTAssertEqual(1, docs.count)
@@ -374,7 +374,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         wait(for: [exp], timeout: 5.0)
         
         exp = expectation(description: "should find first document when matching for it")
-        coll.aggregate([["$match": doc1]]).asArray { result in
+        coll.aggregate([["$match": doc1]]).toArray { result in
             switch result {
             case .success(let docs):
                 XCTAssertEqual(1, docs.count)
@@ -517,7 +517,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         wait(for: [exp], timeout: 5.0)
         
         exp = expectation(description: "all inserted documents should be findable")
-        coll.find().asArray { result in
+        coll.find().toArray { result in
             switch result {
             case .success(let documents):
                 XCTAssertEqual(self.withoutIds([doc1, doc2, doc3, doc4]), self.withoutIds(documents))
@@ -952,7 +952,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         let expectedDoc2: Document = ["woof": "meow"]
         
         exp = expectation(description: "should find the updated documents in the collection")
-        coll.find().asArray { result in
+        coll.find().toArray { result in
             switch result {
             case .success(let documents):
                 XCTAssertEqual([expectedDoc1, expectedDoc2], self.withoutIds(documents))
