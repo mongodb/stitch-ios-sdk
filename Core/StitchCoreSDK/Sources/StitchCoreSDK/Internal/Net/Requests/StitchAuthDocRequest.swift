@@ -9,14 +9,14 @@ public final class StitchAuthDocRequestBuilder: StitchAuthRequestBuilder {
      * The BSON document that will become the body of the request to be built.
      */
     internal var document: Document?
-    
+
     public override init() { super.init() }
-    
+
     init(request: StitchAuthDocRequest) {
         super.init(request: request)
         self.document = request.document
     }
-    
+
     /**
      * Sets the BSON document that will become the body of the request to be built.
      */
@@ -25,7 +25,7 @@ public final class StitchAuthDocRequestBuilder: StitchAuthRequestBuilder {
         self.document = document
         return self
     }
-  
+
     /**
      * Builds the `StitchAuthDocRequest`.
      */
@@ -33,9 +33,9 @@ public final class StitchAuthDocRequestBuilder: StitchAuthRequestBuilder {
         guard let document = self.document else {
             throw StitchDocRequestBuilderError.missingDocument
         }
-        
+
         let docString = document.canonicalExtendedJSON
-        
+
         // computed properties can't throw errors, so `document.canonicalExtendedJSON`
         // returns an empty string if it could not encode the document
         if docString == "" {
@@ -44,12 +44,12 @@ public final class StitchAuthDocRequestBuilder: StitchAuthRequestBuilder {
                 withRequestErrorCode: .encodingError
             )
         }
-        
+
         self.body = docString.data(using: .utf8)
-        
+
         self.headers = self.headers ?? [:]
         self.headers![Headers.contentType.rawValue] = ContentTypes.applicationJSON.rawValue
-        
+
         return try StitchAuthDocRequest.init(stitchAuthRequest: super.build(), document: document)
     }
 }
@@ -64,12 +64,12 @@ public final class StitchAuthDocRequest: StitchAuthRequest {
     public override var builder: StitchAuthDocRequestBuilder {
         return StitchAuthDocRequestBuilder.init(request: self)
     }
-    
+
     /**
      * The BSON document that will become the body of the request when it is performed.
      */
     public let document: Document
-    
+
     /**
      * Convert an authenticated Stitch request into an authenticated Stitch request with a document body.
      */
@@ -77,7 +77,7 @@ public final class StitchAuthDocRequest: StitchAuthRequest {
         self.document = document
         super.init(stitchAuthRequest: stitchAuthRequest)
     }
-    
+
     /**
      * Convert a normal Stitch request into an authenticated Stitch request with a document body.
      */
@@ -85,8 +85,8 @@ public final class StitchAuthDocRequest: StitchAuthRequest {
         self.document = document
         super.init(stitchRequest: stitchRequest, useRefreshToken: false)
     }
-    
-    public static func ==(lhs: StitchAuthDocRequest, rhs: StitchAuthDocRequest) -> Bool {
+
+    public static func == (lhs: StitchAuthDocRequest, rhs: StitchAuthDocRequest) -> Bool {
         return lhs as StitchAuthRequest == rhs as StitchAuthRequest && lhs.document == rhs.document
     }
 }

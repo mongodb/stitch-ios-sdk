@@ -6,7 +6,7 @@ import StitchCoreTwilioService
 public final class TwilioServiceClientImpl: TwilioServiceClient {
     private let proxy: CoreTwilioServiceClient
     private let dispatcher: OperationDispatcher
-    
+
     internal init(withClient client: CoreTwilioServiceClient,
                   withDispatcher dispatcher: OperationDispatcher) {
         self.proxy = client

@@ -6,7 +6,7 @@ import MongoSwift
  */
 public struct GoogleCredential: StitchCredential {
     // MARK: Initializer
-    
+
     /**
      * Initializes this credential with the name of the provider, and a Google OAuth2 authentication code.
      */
@@ -17,7 +17,7 @@ public struct GoogleCredential: StitchCredential {
     }
 
     // MARK: Properties
-    
+
     /**
      * The name of the provider for this credential.
      */

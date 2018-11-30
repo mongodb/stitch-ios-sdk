@@ -4,7 +4,7 @@ import StitchCoreFCMService
 
 private final class FCMNamedPushClientFactory: NamedPushClientFactory {
     typealias ClientType = FCMServicePushClient
-    
+
     func client(withPushClient pushClient: StitchPushClient,
                 withDispatcher dispatcher: OperationDispatcher) -> ClientType {
         return FCMServicePushClientImpl(
@@ -21,12 +21,11 @@ private final class FCMNamedPushClientFactory: NamedPushClientFactory {
 public let fcmServicePushClientFactory =
     AnyNamedPushClientFactory<FCMServicePushClient>(factory: FCMNamedPushClientFactory())
 
-
 /**
  * The FCM service push client.
  */
 public protocol FCMServicePushClient {
-    
+
     /**
      * Registers the given FCM registration token with the currently logged in user's device on Stitch.
      *
@@ -36,7 +35,7 @@ public protocol FCMServicePushClient {
      *                          This handler is executed on a non-main global `DispatchQueue`.
      */
     func register(withRegistrationToken token: String, _ completionHandler: @escaping (StitchResult<Void>) -> Void)
-    
+
     /**
      * Deregisters the FCM registration token bound to the currently logged in user's device on Stitch.
      *

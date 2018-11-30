@@ -27,7 +27,7 @@ public class RequestBuilder {
         self.method = method
         return self
     }
-    
+
     /**
      * Sets the URL of the request to be built.
      */
@@ -64,9 +64,9 @@ public class RequestBuilder {
         self.body = body
         return self
     }
-    
+
     public init() { }
-    
+
     init(request: Request) {
         self.method = request.method
         self.url = request.url
@@ -89,7 +89,7 @@ public class RequestBuilder {
         guard let timeout = self.timeout else {
             throw RequestBuilderError.missingTimeout
         }
-        
+
         return Request.init(
             method: method,
             url: url,
@@ -106,7 +106,7 @@ public class RequestBuilder {
 public class Request: Equatable {
 
     // MARK: Properties
-    
+
     public var builder: RequestBuilder {
         return RequestBuilder.init(request: self)
     }
@@ -138,7 +138,7 @@ public class Request: Equatable {
     public var body: Data?
 
     // MARK: Initializers
-    
+
     internal init(request: Request) {
         self.method = request.method
         self.url = request.url
@@ -146,7 +146,7 @@ public class Request: Equatable {
         self.headers = request.headers
         self.body = request.body
     }
-    
+
     internal init(method: Method,
                   url: String,
                   timeout: TimeInterval,
@@ -159,7 +159,7 @@ public class Request: Equatable {
         self.body = body
     }
 
-    public static func ==(lhs: Request, rhs: Request) -> Bool {
+    public static func == (lhs: Request, rhs: Request) -> Bool {
         let bodiesEqual =
             (lhs.body == nil && rhs.body == nil) || (lhs.body ?? Data()).elementsEqual(rhs.body ?? Data())
         return lhs.method == rhs.method && lhs.headers == rhs.headers && bodiesEqual && lhs.url == rhs.url
@@ -184,7 +184,7 @@ public struct Response {
      * The body of the HTTP response.
      */
     public let body: Data?
-    
+
     /**
      * Initializes the response and preprocesses the headers to support non-canonical headers.
      */
@@ -193,7 +193,7 @@ public struct Response {
                 body: Data?) {
         self.statusCode = statusCode
         self.body = body
-        
+
         var processedHeaders: [String: String] = [:]
         headers.forEach { (key, val) in
             processedHeaders[key.lowercased(with: Locale.init(identifier: "en_US"))] = val

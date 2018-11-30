@@ -9,13 +9,13 @@ import StitchCoreRemoteMongoDBService
 public class RemoteMongoCursor<T: Codable> {
     private let dispatcher: OperationDispatcher
     private let proxy: CoreRemoteMongoCursor<T>
-    
+
     internal init(withCursor cursor: CoreRemoteMongoCursor<T>,
                   withDispatcher dispatcher: OperationDispatcher) {
         self.proxy = cursor
         self.dispatcher = dispatcher
     }
-    
+
     /**
      * Retrieves the next document in this cursor, potentially fetching from the server.
      *

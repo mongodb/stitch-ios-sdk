@@ -16,42 +16,42 @@ public struct HTTPRequest {
      * The URL that the request will be performed against.
      */
     public let url: String
-    
+
     /**
      * The HTTP method of the request.
      */
     public let method: HTTPMethod
-    
+
     /**
      * The URL that will be used to capture cookies for authentication before the actual request is executed.
      */
     public let authURL: String?
-    
+
     /**
      * The headers that will be included in the request.
      */
     public let headers: [String: [String]]?
-    
+
     /**
      * The cookies that will be included in the request.
      */
     public let cookies: [String: String]?
-    
+
     /**
      * The body that will be included in the request.
      */
     public let body: Data?
-    
+
     /**
      * Whether or not the included body should be encoded as extended JSON when sent to the url in this request.
      */
     public let encodeBodyAsJSON: Bool?
-    
+
     /**
      * The form that will be included in the request.
      */
     public let form: [String: String]?
-    
+
     /**
      * Whether or not Stitch should follow redirects while executing the request. Defaults to false.
      */
@@ -71,9 +71,9 @@ public class HTTPRequestBuilder {
     internal var encodeBodyAsJSON: Bool?
     internal var form: [String: String]?
     internal var followRedirects: Bool?
-    
+
     public init() { }
-    
+
     /**
      * Sets the URL that the request will be performed against.
      */
@@ -82,7 +82,7 @@ public class HTTPRequestBuilder {
         self.url = url
         return self
     }
-    
+
     /**
      * Sets the HTTP method of the request.
      */
@@ -91,7 +91,7 @@ public class HTTPRequestBuilder {
         self.method = method
         return self
     }
-    
+
     /**
      * Sets the URL that will be used to capture cookies for authentication before the actual request is executed.
      */
@@ -100,7 +100,7 @@ public class HTTPRequestBuilder {
         self.authURL = authURL
         return self
     }
-    
+
     /**
      * Sets the headers that will be included in the request.
      */
@@ -109,7 +109,7 @@ public class HTTPRequestBuilder {
         self.headers = headers
         return self
     }
-    
+
     /**
      * Sets the cookies that will be included in the request.
      */
@@ -118,7 +118,7 @@ public class HTTPRequestBuilder {
         self.cookies = cookies
         return self
     }
-    
+
     /**
      * Sets the body that will be included in the request.
      */
@@ -127,7 +127,7 @@ public class HTTPRequestBuilder {
         self.body = body
         return self
     }
-    
+
     /**
      * Sets whether or not the included body should be encoded as extended JSON when sent to the url in this request.
      * Defaults to false if not set.
@@ -137,7 +137,7 @@ public class HTTPRequestBuilder {
         self.encodeBodyAsJSON = encodeBodyAsJSON
         return self
     }
-    
+
     /**
      * Sets the form that will be included in the request.
      */
@@ -146,7 +146,7 @@ public class HTTPRequestBuilder {
         self.form = form
         return self
     }
-    
+
     /**
      * Sets whether or not Stitch should follow redirects while executing the request. Defaults to false if not set.
      */
@@ -155,7 +155,7 @@ public class HTTPRequestBuilder {
         self.followRedirects = followRedirects
         return self
     }
-    
+
     /**
      * Builds, validates, and returns the `HTTPRequest`.
      */
@@ -163,11 +163,11 @@ public class HTTPRequestBuilder {
         guard let url = url, url != "" else {
             throw HTTPRequestBuilderError.missingURL
         }
-        
+
         guard let method = method else {
             throw HTTPRequestBuilderError.missingMethod
         }
-        
+
         return HTTPRequest.init(
             url: url,
             method: method,
@@ -181,4 +181,3 @@ public class HTTPRequestBuilder {
         )
     }
 }
-

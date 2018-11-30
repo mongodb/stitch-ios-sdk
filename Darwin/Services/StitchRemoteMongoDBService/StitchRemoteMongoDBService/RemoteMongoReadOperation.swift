@@ -10,7 +10,7 @@ import StitchCoreRemoteMongoDBService
 public class RemoteMongoReadOperation<T: Codable> {
     private let proxy: CoreRemoteMongoReadOperation<T>
     private let dispatcher: OperationDispatcher
-    
+
     internal init(withOperations operations: CoreRemoteMongoReadOperation<T>,
                   withDispatcher dispatcher: OperationDispatcher) {
         self.proxy = operations
@@ -31,7 +31,7 @@ public class RemoteMongoReadOperation<T: Codable> {
             return try self.proxy.first()
         }
     }
-    
+
     /**
      * Executes the operation and returns the result as an array.
      *
@@ -45,7 +45,7 @@ public class RemoteMongoReadOperation<T: Codable> {
             return try self.proxy.asArray()
         }
     }
-    
+
     /**
      * Executes the operation and returns a cursor to its resulting documents.
      *

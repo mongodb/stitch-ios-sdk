@@ -9,20 +9,20 @@ import StitchCoreRemoteMongoDBService
 public class RemoteMongoDatabase {
     private let dispatcher: OperationDispatcher
     private let proxy: CoreRemoteMongoDatabase
-    
+
     internal init(withDatabase database: CoreRemoteMongoDatabase,
                   withDispatcher dispatcher: OperationDispatcher) {
         self.proxy = database
         self.dispatcher = dispatcher
     }
-    
+
     /**
      * The name of this database.
      */
     public var name: String {
         return proxy.name
     }
-    
+
     /**
      * Gets a collection.
      *
@@ -35,7 +35,7 @@ public class RemoteMongoDatabase {
             withDispatcher: self.dispatcher
         )
     }
-    
+
     /**
      * Gets a collection with a specific default document type.
      *

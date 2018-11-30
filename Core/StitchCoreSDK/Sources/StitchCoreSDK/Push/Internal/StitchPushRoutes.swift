@@ -8,11 +8,11 @@ internal final class StitchPushRouteParts {
 
 public struct StitchPushRoutes {
     let clientAppID: String
-    
+
     public init(clientAppID: String) {
         self.clientAppID = clientAppID
     }
-    
+
     public func registrationRoute(forServiceName serviceName: String) -> String {
         return String.init(format: StitchPushRouteParts.registrationRoute, self.clientAppID, serviceName)
     }
