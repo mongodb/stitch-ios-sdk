@@ -36,15 +36,9 @@ public class CoreRemoteMongoCollection<T: Codable> {
     public let sync: CoreSync<T>
 
     internal init(withName name: String,
-<<<<<<< HEAD
-                withDatabaseName dbName: String,
-                withService service: CoreStitchServiceClient,
-                withDataSynchronizer dataSynchronizer: DataSynchronizer) {
-=======
                   withDatabaseName dbName: String,
                   withService service: CoreStitchServiceClient,
                   withDataSynchronizer dataSynchronizer: DataSynchronizer) {
->>>>>>> 29957887dedc09affb1906af1f27b2e8de6a5a66
         self.name = name
         self.databaseName = dbName
         self.service = service

@@ -152,15 +152,9 @@ public final class CoreSync<DocumentT: Codable> {
      - parameter document: the document to insert
      - returns: the result of the insert one operation
      */
-<<<<<<< HEAD
     public func insertOne(document: DocumentT) throws -> InsertOneResult? {
         return try self.dataSynchronizer.insertOne(document: encoder.encode(document),
                                                    in: namespace)
-=======
-    public func insertOne(document: DocumentT) -> InsertOneResult? {
-        return self.dataSynchronizer.insertOne(document: document,
-                                               in: namespace)
->>>>>>> 29957887dedc09affb1906af1f27b2e8de6a5a66
     }
 
     /**
@@ -169,15 +163,9 @@ public final class CoreSync<DocumentT: Codable> {
      - parameter documents: the documents to insert
      - returns: the result of the insert many operation
      */
-<<<<<<< HEAD
     public func insertMany(documents: [DocumentT]) throws -> InsertManyResult? {
         return try self.dataSynchronizer.insertMany(documents: try documents.map { try encoder.encode($0) },
                                                     in: namespace)
-=======
-    public func insertMany(documents: [DocumentT]) -> InsertManyResult? {
-        return self.dataSynchronizer.insertMany(documents: documents,
-                                                in: namespace)
->>>>>>> 29957887dedc09affb1906af1f27b2e8de6a5a66
     }
 
     /**
@@ -217,19 +205,11 @@ public final class CoreSync<DocumentT: Codable> {
      */
     public func updateOne(filter: Document,
                           update: Document,
-<<<<<<< HEAD
                           options: UpdateOptions?) throws -> UpdateResult? {
         return try self.dataSynchronizer.updateOne(filter: filter,
                                                    update: update,
                                                    options: options,
                                                    in: namespace)
-=======
-                          options: UpdateOptions?) -> UpdateResult? {
-        return self.dataSynchronizer.updateOne(filter: filter,
-                                               update: update,
-                                               options: options,
-                                               in: namespace)
->>>>>>> 29957887dedc09affb1906af1f27b2e8de6a5a66
     }
 
     /**
@@ -245,18 +225,10 @@ public final class CoreSync<DocumentT: Codable> {
      */
     public func updateMany(filter: Document,
                            update: Document,
-<<<<<<< HEAD
                            options: UpdateOptions?) throws -> UpdateResult? {
         return try self.dataSynchronizer.updateMany(filter: filter,
                                                     update: update,
                                                     options: options,
                                                     in: namespace)
-=======
-                           options: UpdateOptions?) -> UpdateResult? {
-        return self.dataSynchronizer.updateMany(filter: filter,
-                                                update: update,
-                                                options: options,
-                                                in: namespace)
->>>>>>> 29957887dedc09affb1906af1f27b2e8de6a5a66
     }
 }

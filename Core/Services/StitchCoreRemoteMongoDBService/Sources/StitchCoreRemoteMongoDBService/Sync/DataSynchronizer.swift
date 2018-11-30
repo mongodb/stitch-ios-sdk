@@ -241,7 +241,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 return
             }
 
-            nsConfig.sync(id: id)
+            let _ = nsConfig.sync(id: id)
         }
 
         self.triggerListening(to: namespace)
@@ -811,13 +811,12 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     }
 
     /**
-     * Given a BSON document, remove any forbidden fields and return the document. If no changes are
-     * made, the original document reference is returned. If changes are made, a cloned copy of the
-     * document with the changes will be returned.
-     *
-     * @param document the document from which to remove forbidden fields
-     *
-     * @return a BsonDocument without any forbidden fields.
+     Given a BSON document, remove any forbidden fields and return the document. If no changes are
+     made, the original document reference is returned. If changes are made, a cloned copy of the
+     document with the changes will be returned.
+
+     - parameter document: the document from which to remove forbidden fields
+     - returns: a BsonDocument without any forbidden fields.
      */
     private static func sanitizeDocument(_ document: Document) -> Document {
         guard document.hasKey(DOCUMENT_VERSION_FIELD) else {
@@ -827,6 +826,19 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         return document.filter { $0.key != DOCUMENT_VERSION_FIELD }
     }
 
+    /**
+     Given a local collection, a document fetched from that collection, and its _id, ensure that
+     the document does not contain forbidden fields (currently just the document version field),
+     and remove them from the document and the local collection. If no changes are made, the
+     original document reference is returned. If changes are made, a cloned copy of the document
+     with the changes will be returned.
+
+     - parameter localCollection: the local MongoCollection from which the document was fetched
+     - parameter document: the document fetched from the local collection. this argument may be mutated
+     - parameter documentId: the _id of the fetched document (taken as an arg so that if the caller
+     already knows the _id, the document need not be traversed to find it)
+     - returns: a BsonDocument without any forbidden fields.
+     */
     private static func sanitizeCachedDocument(_ document: Document,
                                                documentId: BSONValue,
                                                in localCollection: MongoCollection<Document>) throws -> Document {

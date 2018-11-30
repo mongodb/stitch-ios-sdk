@@ -88,11 +88,7 @@ public class Sync<DocumentT: Codable> {
                     StitchResult.success(result: try self.proxy.count()))
             } catch {
                 completionHandler(
-<<<<<<< HEAD
                     StitchResult.failure(error: StitchError.clientError(withClientErrorCode: StitchClientErrorCode.couldNotCommunicateWithDriver(withError: error))))
-=======
-                    StitchResult.failure(error: StitchError.clientError(withClientErrorCode: StitchClientErrorCode.mongoDriverError(withError: error))))
->>>>>>> 29957887dedc09affb1906af1f27b2e8de6a5a66
             }
         }
     }
@@ -116,11 +112,7 @@ public class Sync<DocumentT: Codable> {
                                                                       options: options)))
             } catch {
                 completionHandler(
-<<<<<<< HEAD
                     StitchResult.failure(error: StitchError.clientError(withClientErrorCode: StitchClientErrorCode.couldNotCommunicateWithDriver(withError: error))))
-=======
-                    StitchResult.failure(error: StitchError.clientError(withClientErrorCode: StitchClientErrorCode.mongoDriverError(withError: error))))
->>>>>>> 29957887dedc09affb1906af1f27b2e8de6a5a66
             }
         }
     }
@@ -138,11 +130,7 @@ public class Sync<DocumentT: Codable> {
                     StitchResult.success(result: try self.proxy.find()))
             } catch {
                 completionHandler(
-<<<<<<< HEAD
                     StitchResult.failure(error: StitchError.clientError(withClientErrorCode: StitchClientErrorCode.couldNotCommunicateWithDriver(withError: error))))
-=======
-                    StitchResult.failure(error: StitchError.clientError(withClientErrorCode: StitchClientErrorCode.mongoDriverError(withError: error))))
->>>>>>> 29957887dedc09affb1906af1f27b2e8de6a5a66
             }
         }
     }
@@ -187,11 +175,7 @@ public class Sync<DocumentT: Codable> {
                     StitchResult.success(result: try self.proxy.aggregate(pipeline: pipeline, options: options)))
             } catch {
                 completionHandler(
-<<<<<<< HEAD
                     StitchResult.failure(error: StitchError.clientError(withClientErrorCode: StitchClientErrorCode.couldNotCommunicateWithDriver(withError: error))))
-=======
-                    StitchResult.failure(error: StitchError.clientError(withClientErrorCode: StitchClientErrorCode.mongoDriverError(withError: error))))
->>>>>>> 29957887dedc09affb1906af1f27b2e8de6a5a66
             }
         }
     }
@@ -205,7 +189,6 @@ public class Sync<DocumentT: Codable> {
      - parameter document: the document to insert
      - returns: the result of the insert one operation
      */
-<<<<<<< HEAD
     func insertOne(document: DocumentT,
                    _ completionHandler: @escaping (StitchResult<InsertOneResult?>) -> Void) {
         queue.async {
@@ -215,10 +198,6 @@ public class Sync<DocumentT: Codable> {
                 completionHandler(.failure(error: StitchError.clientError(withClientErrorCode: StitchClientErrorCode.couldNotCommunicateWithDriver(withError: error))))
             }
         }
-=======
-    func insertOne(document: DocumentT) -> InsertOneResult? {
-        return self.proxy.insertOne(document: document)
->>>>>>> 29957887dedc09affb1906af1f27b2e8de6a5a66
     }
 
     /**
@@ -227,7 +206,6 @@ public class Sync<DocumentT: Codable> {
      - parameter documents: the documents to insert
      - returns: the result of the insert many operation
      */
-<<<<<<< HEAD
     func insertMany(documents: [DocumentT],
                     _ completionHandler: @escaping (StitchResult<InsertManyResult?>) -> Void) {
         queue.async {
@@ -237,10 +215,6 @@ public class Sync<DocumentT: Codable> {
                 completionHandler(.failure(error: StitchError.clientError(withClientErrorCode: StitchClientErrorCode.couldNotCommunicateWithDriver(withError: error))))
             }
         }
-=======
-    func insertMany(documents: [DocumentT]) -> InsertManyResult? {
-        return self.proxy.insertMany(documents: documents)
->>>>>>> 29957887dedc09affb1906af1f27b2e8de6a5a66
     }
 
     /**
@@ -278,7 +252,6 @@ public class Sync<DocumentT: Codable> {
      */
     func updateOne(filter: Document,
                    update: Document,
-<<<<<<< HEAD
                    options: UpdateOptions?,
                    _ completionHandler: @escaping (StitchResult<UpdateResult?>) -> Void) {
         queue.async {
@@ -291,12 +264,6 @@ public class Sync<DocumentT: Codable> {
                 completionHandler(.failure(error: StitchError.clientError(withClientErrorCode: StitchClientErrorCode.couldNotCommunicateWithDriver(withError: error))))
             }
         }
-=======
-                   options: UpdateOptions?) -> UpdateResult? {
-        return self.proxy.updateOne(filter: filter,
-                                    update: update,
-                                    options: options)
->>>>>>> 29957887dedc09affb1906af1f27b2e8de6a5a66
     }
 
     /**
@@ -312,7 +279,6 @@ public class Sync<DocumentT: Codable> {
      */
     func updateMany(filter: Document,
                     update: Document,
-<<<<<<< HEAD
                     options: UpdateOptions?,
                     _ completionHandler: @escaping (StitchResult<UpdateResult?>) -> Void) {
         queue.async {
@@ -325,11 +291,5 @@ public class Sync<DocumentT: Codable> {
                 completionHandler(.failure(error: StitchError.clientError(withClientErrorCode: StitchClientErrorCode.couldNotCommunicateWithDriver(withError: error))))
             }
         }
-=======
-                    options: UpdateOptions?) -> UpdateResult? {
-        return self.proxy.updateMany(filter: filter,
-                                     update: update,
-                                     options: options)
->>>>>>> 29957887dedc09affb1906af1f27b2e8de6a5a66
     }
 }
