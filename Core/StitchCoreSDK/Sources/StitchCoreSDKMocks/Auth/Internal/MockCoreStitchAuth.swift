@@ -26,17 +26,17 @@ public struct StubAuthRoutes: StitchAuthRoutes {
 
 public final class StubStitchRequestClient: StitchRequestClient {
     public let baseURL: String
-    
+
     public let transport: Transport
-    
+
     public let defaultRequestTimeout: TimeInterval
-    
+
     public init() {
         baseURL = ""
         transport = MockTransport()
         defaultRequestTimeout = 0
     }
-    
+
     public func doRequest(_ stitchReq: StitchRequest) throws -> Response {
         return Response.init(statusCode: 500, headers: [:], body: nil)
     }
