@@ -62,6 +62,10 @@ class TestConflictHandler: ConflictHandler {
 
 class TestErrorListener: ErrorListener {
     func on(error: Error, forDocumentId documentId: BSONValue?) {
+<<<<<<< HEAD
+=======
+        XCTFail(error.localizedDescription)
+>>>>>>> 29957887dedc09affb1906af1f27b2e8de6a5a66
     }
 }
 
@@ -119,10 +123,14 @@ class XCMongoMobileTestCase: XCTestCase {
 
     private(set) var mockServiceClient: MockCoreStitchServiceClient!
     private(set) var coreRemoteMongoClient: CoreRemoteMongoClient!
+<<<<<<< HEAD
     lazy var dataSynchronizer: DataSynchronizer =
         try! DeinitializingDataSynchronizer.init(instanceKey: instanceKey.oid,
                                                  coreRemoteMongoClient: self.coreRemoteMongoClient,
                                                  localClient: localClient)
+=======
+    private(set) var dataSynchronizer: DataSynchronizer!
+>>>>>>> 29957887dedc09affb1906af1f27b2e8de6a5a66
 
     private var _instanceKey = ObjectId()
     open var instanceKey: ObjectId {
@@ -141,6 +149,12 @@ class XCMongoMobileTestCase: XCTestCase {
         coreRemoteMongoClient = try! CoreRemoteMongoClientFactory.shared.client(
             withService: mockServiceClient,
             withAppInfo: appClientInfo)
+<<<<<<< HEAD
+=======
+        dataSynchronizer = try! DeinitializingDataSynchronizer.init(instanceKey: instanceKey.oid,
+                                                                    coreRemoteMongoClient: self.coreRemoteMongoClient,
+                                                                    localClient: localClient)
+>>>>>>> 29957887dedc09affb1906af1f27b2e8de6a5a66
     }
 
     override func tearDown() {
@@ -181,3 +195,4 @@ class XCMongoMobileTestCase: XCTestCase {
             .collection(namespace.collectionName, withType: Document.self)
     }
 }
+

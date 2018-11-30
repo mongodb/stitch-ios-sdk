@@ -94,8 +94,7 @@ public protocol StitchAppClient {
      * - returns: a service client whose type is determined by the `T` type parameter of the
      *            `AnyNamedServiceClientFactory` passed in the `fromFactory` parameter.
      */
-    func serviceClient<T>(fromFactory factory: AnyNamedThrowingServiceClientFactory<T>,
-                          withName serviceName: String) throws -> T
+    func serviceClient<T>(fromFactory factory: AnyNamedThrowingServiceClientFactory<T>, withName serviceName: String) throws -> T
 
     // MARK: Functions
 

@@ -7,7 +7,7 @@ public final class CoreLocalMongoDBService {
     public static let shared = CoreLocalMongoDBService()
     private var handles = 0
     private var initialized = false
-    private var _localInstances: Dictionary<String, MongoClient> = [String: MongoClient]()
+    private var _localInstances = [String: MongoClient]()
     public var localInstances: [MongoClient] {
         // should sync
         return _localInstances.map { $0.value }

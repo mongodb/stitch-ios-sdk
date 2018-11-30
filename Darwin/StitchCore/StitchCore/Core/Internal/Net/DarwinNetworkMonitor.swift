@@ -10,6 +10,7 @@ public enum ReachabilityError: Error {
     case UnableToGetInitialFlags
 }
 
+// Based on https://github.com/ashleymills/Reachability.swift
 internal class DarwinNetworkMonitor: NetworkMonitor {
     private static var _shared: DarwinNetworkMonitor?
 
@@ -79,6 +80,7 @@ internal class DarwinNetworkMonitor: NetworkMonitor {
             let handler = Unmanaged<DarwinNetworkMonitor>.fromOpaque(info).takeUnretainedValue()
 
             handler.queue.async {
+                // this has a didSet block that notifies the delegates
                 handler.flags = flags
             }
         }
@@ -89,7 +91,7 @@ internal class DarwinNetworkMonitor: NetworkMonitor {
             throw ReachabilityError.UnableToSetCallback
         }
 
-        // Sets the dispatch queue which is `DispatchQueue.main` for this example. It can be also a background queue
+        // Sets the dispatch queue
         if !SCNetworkReachabilitySetDispatchQueue(reachability, queue) {
             // Not able to set the queue
             throw ReachabilityError.UnableToSetDispatchQueue
