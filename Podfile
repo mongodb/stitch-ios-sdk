@@ -153,7 +153,7 @@ target :StitchCoreSDK do
         inherit! :search_paths
     
         target :StitchRemoteMongoDBServiceTests do
-            shared_pods
+            pod 'MongoMobile', '= 0.0.5'
             inherit! :search_paths
         end
     end
@@ -163,7 +163,7 @@ target :StitchCoreSDK do
         pod 'MongoMobile', '= 0.0.5'
     
         target :StitchLocalMongoDBServiceTests do
-            shared_pods
+            pod 'MongoMobile', '= 0.0.5'
             inherit! :search_paths
         end
     end
