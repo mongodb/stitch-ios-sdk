@@ -4,10 +4,11 @@
 internal final class StitchAppRouteParts {
     static let baseRoute = "/api/client/v2.0"
     static let appRoute = baseRoute + "/app/%@"
+    static let appMetadataRoute = appRoute + "/location"
     static let functionCallRoute = appRoute + "/functions/call"
     static let baseAuthRoute = baseRoute + "/auth"
     static let baseAppAuthRoute = appRoute + "/auth"
-
+    
     static let sessionRoute = baseAuthRoute + "/session"
     static let profileRoute = baseAuthRoute + "/profile"
     static let authProviderRoute = baseAppAuthRoute + "/providers/%@"
@@ -23,27 +24,27 @@ public protocol StitchAuthRoutes {
      * The route on the server for getting a new access token.
      */
     var sessionRoute: String { get }
-
+    
     /**
      * The route on the server for fetching the currently authenticated user's profile.
      */
     var profileRoute: String { get }
-
+    
     /**
      * The base route on the server for authentication-related actions.
      */
     var baseAuthRoute: String { get }
-
+    
     /**
      * Returns the route on the server for getting information about a particular authentication provider.
      */
     func authProviderRoute(withProviderName providerName: String) -> String
-
+    
     /**
      * Returns the route on the server for logging in with a particular authentication provider.
      */
     func authProviderLoginRoute(withProviderName providerName: String) -> String
-
+    
     /**
      * Returns the route on the server for linking the currently authenticated user with an identity associated with a
      * particular authentication provider.
@@ -59,14 +60,20 @@ public final class StitchServiceRoutes {
      * The client app id of the app that these routes are for.
      */
     private let clientAppID: String
-
+    
     /**
      * Initializes these routes with the provided client app id.
      */
     fileprivate init(clientAppID: String) {
         self.clientAppID = clientAppID
     }
-
+    
+    /**
+     * Returns the route on the server for discovering application metadata.
+     */
+    public lazy var appMetadataRoute = String.init(format: StitchAppRouteParts.appMetadataRoute,
+                                              self.clientAppID)
+    
     /**
      * Returns the route on the server for executing a function.
      */
@@ -82,29 +89,29 @@ public struct StitchAppAuthRoutes: StitchAuthRoutes {
      * The client app id of the app that these routes are for.
      */
     private let clientAppID: String
-
+    
     /**
      * The route on the server for getting a new access token.
      */
     public var sessionRoute: String = StitchAppRouteParts.sessionRoute
-
+    
     /**
      * The route on the server for fetching the currently authenticated user's profile.
      */
     public var profileRoute: String = StitchAppRouteParts.profileRoute
-
+    
     /**
      * The route on the server for creating and modifying user API keys.
      */
     public var baseAuthRoute: String = StitchAppRouteParts.baseAuthRoute
-
+    
     /**
      * Initializes these routes with the provided client app id.
      */
     fileprivate init(clientAppID: String) {
         self.clientAppID = clientAppID
     }
-
+    
     /**
      * Returns the route on the server for getting information about a particular authentication provider.
      */
@@ -113,7 +120,7 @@ public struct StitchAppAuthRoutes: StitchAuthRoutes {
                            self.clientAppID,
                            providerName)
     }
-
+    
     /**
      * Returns the route on the server for logging in with a particular authentication provider.
      */
@@ -122,7 +129,7 @@ public struct StitchAppAuthRoutes: StitchAuthRoutes {
                            self.clientAppID,
                            providerName)
     }
-
+    
     /**
      * Returns the route on the server for linking the currently authenticated user with an identity associated with a
      * particular authentication provider.
@@ -142,7 +149,7 @@ public final class StitchAppRoutes {
      * Returns the authentication routes for the current app.
      */
     public let authRoutes: StitchAppAuthRoutes
-
+    
     /**
      * Returns the service routes for the current app.
      */
@@ -152,7 +159,7 @@ public final class StitchAppRoutes {
      * Returns the push routes for the current app.
      */
     public let pushRoutes: StitchPushRoutes
-
+    
     /**
      * Initializes the app routes with the provided client app id.
      */
@@ -162,3 +169,4 @@ public final class StitchAppRoutes {
         self.pushRoutes = StitchPushRoutes.init(clientAppID: clientAppID)
     }
 }
+

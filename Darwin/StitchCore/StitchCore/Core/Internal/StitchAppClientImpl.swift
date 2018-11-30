@@ -66,9 +66,10 @@ internal final class StitchAppClientImpl: StitchAppClient {
 
         let internalAuth =
             try StitchAuthImpl.init(
-                requestClient: StitchRequestClientImpl.init(baseURL: config.baseURL,
-                                                            transport: config.transport,
-                                                            defaultRequestTimeout: config.defaultRequestTimeout),
+                requestClient: StitchAppRequestClientImpl.init(clientAppId: clientAppID,
+                                                               baseURL: config.baseURL,
+                                                               transport: config.transport,
+                                                               defaultRequestTimeout: config.defaultRequestTimeout),
                 authRoutes: self.routes.authRoutes,
                 storage: config.storage,
                 dispatcher: self.dispatcher,
