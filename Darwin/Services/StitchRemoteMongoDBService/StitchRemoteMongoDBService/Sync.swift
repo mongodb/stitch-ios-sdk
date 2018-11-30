@@ -88,7 +88,7 @@ public class Sync<DocumentT: Codable> {
                     StitchResult.success(result: try self.proxy.count()))
             } catch {
                 completionHandler(
-                    StitchResult.failure(error: StitchError.clientError(withClientErrorCode: StitchClientErrorCode.couldNotCommunicateWithDriver(withError: error))))
+                    StitchResult.failure(error: StitchError.clientError(withClientErrorCode: StitchClientErrorCode.mongoDriverError(withError: error))))
             }
         }
     }
@@ -112,7 +112,7 @@ public class Sync<DocumentT: Codable> {
                                                                       options: options)))
             } catch {
                 completionHandler(
-                    StitchResult.failure(error: StitchError.clientError(withClientErrorCode: StitchClientErrorCode.couldNotCommunicateWithDriver(withError: error))))
+                    StitchResult.failure(error: StitchError.clientError(withClientErrorCode: StitchClientErrorCode.mongoDriverError(withError: error))))
             }
         }
     }
@@ -130,7 +130,7 @@ public class Sync<DocumentT: Codable> {
                     StitchResult.success(result: try self.proxy.find()))
             } catch {
                 completionHandler(
-                    StitchResult.failure(error: StitchError.clientError(withClientErrorCode: StitchClientErrorCode.couldNotCommunicateWithDriver(withError: error))))
+                    StitchResult.failure(error: StitchError.clientError(withClientErrorCode: StitchClientErrorCode.mongoDriverError(withError: error))))
             }
         }
     }
@@ -175,7 +175,7 @@ public class Sync<DocumentT: Codable> {
                     StitchResult.success(result: try self.proxy.aggregate(pipeline: pipeline, options: options)))
             } catch {
                 completionHandler(
-                    StitchResult.failure(error: StitchError.clientError(withClientErrorCode: StitchClientErrorCode.couldNotCommunicateWithDriver(withError: error))))
+                    StitchResult.failure(error: StitchError.clientError(withClientErrorCode: StitchClientErrorCode.mongoDriverError(withError: error))))
             }
         }
     }
@@ -195,7 +195,7 @@ public class Sync<DocumentT: Codable> {
             do {
                 completionHandler(.success(result: try self.proxy.insertOne(document: document)))
             } catch {
-                completionHandler(.failure(error: StitchError.clientError(withClientErrorCode: StitchClientErrorCode.couldNotCommunicateWithDriver(withError: error))))
+                completionHandler(.failure(error: StitchError.clientError(withClientErrorCode: StitchClientErrorCode.mongoDriverError(withError: error))))
             }
         }
     }
@@ -212,7 +212,7 @@ public class Sync<DocumentT: Codable> {
             do {
                 completionHandler(.success(result: try self.proxy.insertMany(documents: documents)))
             } catch {
-                completionHandler(.failure(error: StitchError.clientError(withClientErrorCode: StitchClientErrorCode.couldNotCommunicateWithDriver(withError: error))))
+                completionHandler(.failure(error: StitchError.clientError(withClientErrorCode: StitchClientErrorCode.mongoDriverError(withError: error))))
             }
         }
     }
@@ -261,7 +261,7 @@ public class Sync<DocumentT: Codable> {
                                                      update: update,
                                                      options: options)))
             } catch {
-                completionHandler(.failure(error: StitchError.clientError(withClientErrorCode: StitchClientErrorCode.couldNotCommunicateWithDriver(withError: error))))
+                completionHandler(.failure(error: StitchError.clientError(withClientErrorCode: StitchClientErrorCode.mongoDriverError(withError: error))))
             }
         }
     }
@@ -288,7 +288,7 @@ public class Sync<DocumentT: Codable> {
                                                       update: update,
                                                       options: options)))
             } catch {
-                completionHandler(.failure(error: StitchError.clientError(withClientErrorCode: StitchClientErrorCode.couldNotCommunicateWithDriver(withError: error))))
+                completionHandler(.failure(error: StitchError.clientError(withClientErrorCode: StitchClientErrorCode.mongoDriverError(withError: error))))
             }
         }
     }
