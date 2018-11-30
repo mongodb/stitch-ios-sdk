@@ -6,15 +6,15 @@ import Foundation
 public class StitchAuthRequestBuilder: StitchRequestBuilder {
     internal var useRefreshToken: Bool = false
     internal var shouldRefreshOnFailure: Bool = true
-    
+
     public override init() { super.init() }
-    
+
     init(request: StitchAuthRequest) {
         super.init(request: request)
         self.useRefreshToken = request.useRefreshToken
         self.shouldRefreshOnFailure = request.shouldRefreshOnFailure
     }
-    
+
     /**
      * Specifies that the request should use the temporary access token.
      */
@@ -23,7 +23,7 @@ public class StitchAuthRequestBuilder: StitchRequestBuilder {
         self.useRefreshToken = false
         return self
     }
-    
+
     /**
      * Specifies that the request should use the permanent refresh token.
      */
@@ -32,7 +32,7 @@ public class StitchAuthRequestBuilder: StitchRequestBuilder {
         self.useRefreshToken = true
         return self
     }
-    
+
     /**
      * Sets whether or not the request client carrying out the request to be built should attempt to refresh the access
      * token and retry the operation if there was an invalid sesion error.
@@ -42,7 +42,7 @@ public class StitchAuthRequestBuilder: StitchRequestBuilder {
         self.shouldRefreshOnFailure = shouldRefreshOnFailure
         return self
     }
-    
+
     /**
      * Builds the `StitchAuthRequest` as a `StitchAuthRequestImpl`.
      */
@@ -68,7 +68,7 @@ public class StitchAuthRequest: StitchRequest {
     public override var builder: StitchAuthRequestBuilder {
         return StitchAuthRequestBuilder.init(request: self)
     }
-    
+
     /**
      * Whether or not the request should use the refresh token instead of the temporary access token.
      */
@@ -79,7 +79,7 @@ public class StitchAuthRequest: StitchRequest {
      * the operation if there was an invalid sesion error.
      */
     public let shouldRefreshOnFailure: Bool
-    
+
     /**
      * Constructs a request from an existing authenticated request.
      */
@@ -88,7 +88,7 @@ public class StitchAuthRequest: StitchRequest {
         self.shouldRefreshOnFailure = stitchAuthRequest.shouldRefreshOnFailure
         super.init(request: stitchAuthRequest)
     }
-    
+
     /**
      * Upgrades a request to an authenticated request.
      */
@@ -97,7 +97,7 @@ public class StitchAuthRequest: StitchRequest {
         self.shouldRefreshOnFailure = !useRefreshToken
         super.init(request: stitchRequest)
     }
-    
+
     fileprivate init(stitchRequest: StitchRequest,
                      useRefreshToken: Bool,
                      shouldRefreshOnFailure: Bool) {
@@ -105,8 +105,8 @@ public class StitchAuthRequest: StitchRequest {
         self.shouldRefreshOnFailure = shouldRefreshOnFailure
         super.init(request: stitchRequest)
     }
-    
-    public static func ==(lhs: StitchAuthRequest, rhs: StitchAuthRequest) -> Bool {
+
+    public static func == (lhs: StitchAuthRequest, rhs: StitchAuthRequest) -> Bool {
         return lhs as StitchRequest == rhs as StitchRequest
             && lhs.useRefreshToken == rhs.useRefreshToken
             && lhs.shouldRefreshOnFailure == rhs.shouldRefreshOnFailure

@@ -6,7 +6,7 @@ import StitchCoreAWSS3Service
 
 private final class AWSS3NamedServiceClientFactory: NamedServiceClientFactory {
     typealias ClientType = AWSS3ServiceClient
-    
+
     func client(withServiceClient serviceClient: CoreStitchServiceClient,
                 withClientInfo clientInfo: StitchAppClientInfo) -> AWSS3ServiceClient {
         return AWSS3ServiceClientImpl(
@@ -30,6 +30,14 @@ public let awsS3ServiceClientFactory =
  */
 @available(*, deprecated, message: "Use AWSServiceClient instead")
 public protocol AWSS3ServiceClient {
+
+    // Disabled line length rule due to https://github.com/realm/jazzy/issues/896
+    // swiftlint:disable line_length
+
+    // We are disabling this because this is a deprecated library, and the new AWS service has the more reasonable
+    // approach of an AWSRequest object as a parameter.
+    // swiftlint:disable function_parameter_count
+
     /**
      * Puts an object into an AWS S3 bucket as a string.
      *
@@ -45,7 +53,7 @@ public protocol AWSS3ServiceClient {
      *                          `AWSS3PutObjectResult.`
      */
     func putObject(bucket: String, key: String, acl: String, contentType: String, body: String, _ completionHandler: @escaping (StitchResult<AWSS3PutObjectResult>) -> Void)
-    
+
     /**
      * Puts a binary object into an AWS S3 bucket as a Foundation `Data` object.
      *
@@ -61,7 +69,7 @@ public protocol AWSS3ServiceClient {
      *                          `AWSS3PutObjectResult.`
      */
     func putObject(bucket: String, key: String, acl: String, contentType: String, body: Data, _ completionHandler: @escaping (StitchResult<AWSS3PutObjectResult>) -> Void)
-    
+
     /**
      * Puts a binary object into an AWS S3 bucket as a BSON `Binary` object.
      *
@@ -77,7 +85,7 @@ public protocol AWSS3ServiceClient {
      *                          `AWSS3PutObjectResult.`
      */
     func putObject(bucket: String, key: String, acl: String, contentType: String, body: Binary, _ completionHandler: @escaping (StitchResult<AWSS3PutObjectResult>) -> Void)
-    
+
     /**
      * Signs an AWS S3 security policy for a future put object request. This future request would
      * be made outside of the Stitch SDK. This is typically used for large requests that are better

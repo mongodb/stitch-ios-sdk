@@ -21,7 +21,7 @@ public enum RuleCreator: Encodable {
     case actions(name: String, actions: RuleActionsCreator)
     case actionsWithWhen(name: String, actions: RuleActionsCreator, when: Document)
     case mongoDb(namespace: String, rule: Document)
-    
+
     public func encode(to encoder: Encoder) throws {
         switch self {
         case .actions(let name, let actions):
@@ -51,12 +51,12 @@ public struct RuleCreatorActions: Encodable {
 public class RuleCreatorMongoDb: Encodable {
     let namespace: String
     let rule: Document
-    
+
     public init(namespace: String, rule: Document) {
         self.namespace = namespace
         self.rule = rule
     }
-    
+
     public func encode(to encoder: Encoder) throws {
         var creator = rule
         creator["namespace"] = namespace
@@ -67,7 +67,7 @@ public class RuleCreatorMongoDb: Encodable {
 // Allowed actions for an AWS service rule
 private struct AWSRuleActions: Encodable {
     let actions: [String]
-    
+
     func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
         for action in actions {

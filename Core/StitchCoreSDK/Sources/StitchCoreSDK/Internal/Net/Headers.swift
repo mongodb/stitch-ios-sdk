@@ -9,7 +9,7 @@ public enum Headers: String {
     public func nonCanonical() -> String {
         return self.rawValue.lowercased(with: Locale.init(identifier: "en_US"))
     }
-    
+
     /**
      * Returns an Authorization bearer header with the `forValue` parameter as the Bearer value.
      */

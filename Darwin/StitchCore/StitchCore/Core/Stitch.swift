@@ -45,7 +45,8 @@ public class Stitch {
      */
     public static func initializeDefaultAppClient(
         withClientAppID clientAppID: String,
-        withConfig config: StitchAppClientConfiguration = StitchAppClientConfigurationBuilder().build()) throws -> StitchAppClient {
+        withConfig config: StitchAppClientConfiguration = StitchAppClientConfigurationBuilder().build()
+    ) throws -> StitchAppClient {
         objc_sync_enter(self)
         defer { objc_sync_exit(self) }
 
@@ -63,8 +64,10 @@ public class Stitch {
      * `StitchAppClientConfigurationBuilder`. Fields not included in the provided builder will be populated with
      * sensible defaults.
      */
-    private static func generateConfig(from config: StitchAppClientConfiguration,
-                                       forClientAppID clientAppID: String) throws -> ImmutableStitchAppClientConfiguration {
+    private static func generateConfig(
+        from config: StitchAppClientConfiguration,
+        forClientAppID clientAppID: String
+    ) throws -> ImmutableStitchAppClientConfiguration {
         let finalConfigBuilder = config.builder
 
         if config.storage == nil {
@@ -120,7 +123,8 @@ public class Stitch {
      */
     public static func initializeAppClient(
         withClientAppID clientAppID: String,
-        withConfig config: StitchAppClientConfiguration = StitchAppClientConfigurationBuilder().build()) throws -> StitchAppClient {
+        withConfig config: StitchAppClientConfiguration = StitchAppClientConfigurationBuilder().build()
+    ) throws -> StitchAppClient {
         objc_sync_enter(self)
         defer { objc_sync_exit(self) }
 

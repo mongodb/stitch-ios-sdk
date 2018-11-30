@@ -81,13 +81,13 @@ public protocol StitchUserProfile: ExtendedStitchUserProfile {
      * A string describing the type of this user. (Either `server` or `normal`)
      */
     var userType: String { get }
-    
+
     /**
      * An array of `StitchUserIdentity` objects representing the identities linked
      * to this user which can be used to log in as this user.
      */
     var identities: [StitchUserIdentity] { get }
-    
+
     /// :nodoc:
     var data: APIExtendedUserProfileImpl { get }
 }

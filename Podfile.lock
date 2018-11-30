@@ -12,12 +12,14 @@ PODS:
   - MongoSwift (0.0.7):
     - mongo-embedded-c-driver (~> 1.13.0-4.0.0)
   - Swifter (1.4.5)
+  - SwiftLint (0.27.0)
 
 DEPENDENCIES:
   - JSONWebToken (~> 2.2.0)
   - MongoMobile (= 0.0.5)
   - MongoSwift (= 0.0.7)
   - Swifter (~> 1.4.5)
+  - SwiftLint
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -28,6 +30,7 @@ SPEC REPOS:
     - MongoMobile
     - MongoSwift
     - Swifter
+    - SwiftLint
 
 SPEC CHECKSUMS:
   JSONWebToken: 6fae32489632658d563dd6952a5c34020ea813e4
@@ -37,7 +40,8 @@ SPEC CHECKSUMS:
   MongoMobile: 2fc916b194dc19b9a6b8d948d42441b0b37812e7
   MongoSwift: de22baca5a59aef44de44e07ee9adb8c4f59c5ee
   Swifter: eb2bc1d192a1c09169c7fefd01971565fa940521
+  SwiftLint: 3207c1faa2240bf8973b191820a116113cd11073
 
-PODFILE CHECKSUM: 04edb50ac0a4742f592786d792fc3d6128e57f53
+PODFILE CHECKSUM: 333d44854a93e5d06cda8524f24349fb41b0c60a
 
-COCOAPODS: 1.6.0.beta.2
+COCOAPODS: 1.6.0.beta.1

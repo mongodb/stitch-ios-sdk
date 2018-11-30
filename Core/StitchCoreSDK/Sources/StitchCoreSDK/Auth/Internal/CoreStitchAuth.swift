@@ -51,7 +51,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
         get {
             objc_sync_enter(authStateLock)
             defer { objc_sync_exit(authStateLock) }
-            
+
             return authStateHolder.authInfo
         }
         set {
@@ -60,7 +60,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
             authStateHolder.extendedAuthInfo = newValue
         }
     }
-    
+
     /**
      * Objects used by objc_sync_enter and objc_sync_exit as recursive mutexes to synchronize auth operations.
      */
@@ -97,7 +97,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
                               withLoggedInProviderName: authInfo.loggedInProviderName,
                               withUserProfile: authInfo.userProfile)
         }
-        
+
         if startRefresherThread {
             self.refresherThread = Thread.init(target: self,
                                                selector: #selector(doRunAccessTokenRefresher),
@@ -158,7 +158,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
     public var isLoggedIn: Bool {
         objc_sync_enter(authStateLock)
         defer { objc_sync_exit(authStateLock) }
-        
+
         return self.authStateHolder.isLoggedIn
     }
 
@@ -168,7 +168,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
     public var user: TStitchUser? {
         objc_sync_enter(authStateLock)
         defer { objc_sync_exit(authStateLock) }
-        
+
         return self.currentUser
     }
 
@@ -178,7 +178,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
     public var hasDeviceID: Bool {
         objc_sync_enter(authStateLock)
         defer { objc_sync_exit(authStateLock) }
-        
+
         return authInfo?.deviceID != nil
             && authInfo?.deviceID != ""
             && authInfo?.deviceID != "000000000000000000000000"
@@ -191,7 +191,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
     public var deviceID: String? {
         objc_sync_enter(authStateLock)
         defer { objc_sync_exit(authStateLock) }
-        
+
         return authInfo?.deviceID
     }
 
@@ -204,7 +204,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
     public func loginWithCredentialInternal(withCredential credential: StitchCredential) throws -> TStitchUser {
         objc_sync_enter(authOperationLock)
         defer { objc_sync_exit(authOperationLock) }
-        
+
         if !isLoggedIn {
             return try doLogin(withCredential: credential, asLinkRequest: false)
         }
@@ -227,7 +227,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
                                                withCredential credential: StitchCredential) throws -> TStitchUser {
         objc_sync_enter(authOperationLock)
         defer { objc_sync_exit(authOperationLock) }
-        
+
         guard let currentUser = self.currentUser,
             user == currentUser else {
             throw StitchError.clientError(withClientErrorCode: .userNoLongerValid)
@@ -244,10 +244,10 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
     public func logoutInternal() {
         objc_sync_enter(authStateLock)
         defer { objc_sync_exit(authStateLock) }
-        
+
         objc_sync_enter(authOperationLock)
         defer { objc_sync_exit(authOperationLock) }
-        
+
         guard isLoggedIn else { return }
 
         _ = try? self.doLogout()
@@ -296,15 +296,15 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
     private func doLoginRequest(withCredential credential: StitchCredential,
                                 asLinkRequest: Bool) throws -> Response {
         let reqBuilder = StitchDocRequestBuilder()
-        
+
         reqBuilder.with(method: .post)
-        
+
         if asLinkRequest {
             reqBuilder.with(path: authRoutes.authProviderLinkRoute(withProviderName: credential.providerName))
         } else {
             reqBuilder.with(path: authRoutes.authProviderLoginRoute(withProviderName: credential.providerName))
         }
-        
+
         var body = credential.material
         self.attachAuthOptions(authBody: &body)
         reqBuilder.with(document: body)
@@ -312,7 +312,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
         if !asLinkRequest {
             return try self.requestClient.doRequest(reqBuilder.build())
         }
-        
+
         return try doAuthenticatedRequest(
             StitchAuthDocRequest.init(stitchRequest: reqBuilder.build(), document: body)
         )
@@ -371,10 +371,10 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
                 self.authInfo = nil
                 currentUser = nil
             }
-    
+
             throw err
         }
-        
+
         // Finally set the info and user
         self.authInfo = StoreAuthInfo.init(
             withAPIAuthInfo: newAPIAuthInfo,
@@ -443,14 +443,14 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
     internal func clearAuth() {
         objc_sync_enter(authStateLock)
         defer { objc_sync_exit(authStateLock) }
-        
+
         guard self.isLoggedIn else { return }
         self.authStateHolder.clearState()
         StoreAuthInfo.clear(storage: &storage)
         currentUser = nil
         onAuthEvent()
     }
-    
+
     /**
      * Checks if the current access token is expired or going to expire soon, and refreshes the access token if
      * necessary.
@@ -461,11 +461,11 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
         // prevent too many refreshes happening one after the other.
         objc_sync_enter(authOperationLock)
         defer { objc_sync_exit(authOperationLock) }
-        
+
         guard isLoggedIn, let accessToken = self.authStateHolder.accessToken else {
             throw StitchError.clientError(withClientErrorCode: .loggedOutDuringRequest)
         }
-        
+
         let jwt = try StitchJWT.init(fromEncodedJWT: accessToken)
         guard let issuedAt = jwt.issuedAt,
             issuedAt < reqStartedAt else {
@@ -473,7 +473,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
         }
         try refreshAccessToken()
     }
-    
+
     /**
      * Attempts to refresh the current access token.
      *
@@ -482,7 +482,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
     internal func refreshAccessToken() throws {
         objc_sync_enter(authOperationLock)
         defer { objc_sync_exit(authOperationLock) }
-        
+
         let response = try self.doAuthenticatedRequest(
             StitchAuthRequestBuilder()
                 .withRefreshToken()
@@ -490,7 +490,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
                 .with(method: .post)
                 .build()
         )
-        
+
         var newAccessToken: APIAccessToken!
         do {
             newAccessToken = try JSONDecoder().decode(APIAccessToken.self,
@@ -498,9 +498,9 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
         } catch let err {
             throw StitchError.requestError(withError: err, withRequestErrorCode: .decodingError)
         }
-        
+
         self.authInfo = self.authInfo?.refresh(withNewAccessToken: newAccessToken)
-        
+
         do {
             try self.authInfo?.write(toStorage: &self.storage)
         } catch {

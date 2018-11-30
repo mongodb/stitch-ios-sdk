@@ -33,13 +33,13 @@ private struct AWSServiceConfig: ServiceConfig {
     private let accessKeyID: String
     /// your secret access key
     private let secretAccessKey: String
-    
+
     fileprivate init(accessKeyID: String,
                      secretAccessKey: String) {
         self.accessKeyID = accessKeyID
         self.secretAccessKey = secretAccessKey
     }
-    
+
     internal enum CodingKeys: String, CodingKey {
         case accessKeyID = "accessKeyId", secretAccessKey
     }
@@ -53,7 +53,7 @@ private struct AWSS3ServiceConfig: ServiceConfig {
     private let accessKeyID: String
     /// your secret access key
     private let secretAccessKey: String
-    
+
     fileprivate init(region: String,
                      accessKeyID: String,
                      secretAccessKey: String) {
@@ -61,7 +61,7 @@ private struct AWSS3ServiceConfig: ServiceConfig {
         self.accessKeyID = accessKeyID
         self.secretAccessKey = secretAccessKey
     }
-    
+
     internal enum CodingKeys: String, CodingKey {
         case region, accessKeyID = "accessKeyId", secretAccessKey
     }
@@ -83,7 +83,7 @@ private struct AWSSESServiceConfig: ServiceConfig {
         self.accessKeyID = accessKeyID
         self.secretAccessKey = secretAccessKey
     }
-    
+
     internal enum CodingKeys: String, CodingKey {
         case region, accessKeyID = "accessKeyId", secretAccessKey
     }
@@ -95,13 +95,13 @@ private struct FCMServiceConfig: ServiceConfig {
     private let senderID: String
     /// your API key
     private let apiKey: String
-    
+
     fileprivate init(senderID: String,
                      apiKey: String) {
         self.senderID = senderID
         self.apiKey = apiKey
     }
-    
+
     internal enum CodingKeys: String, CodingKey {
         case senderID = "senderId", apiKey
     }
@@ -129,10 +129,10 @@ private struct MongoDbServiceConfig: ServiceConfig {
     private enum CodingKeys: String, CodingKey {
         case uri
     }
-    
+
     /// the URI of the cluster of this service
     private let uri: String
-    
+
     fileprivate init(uri: String) {
         self.uri = uri
     }
@@ -145,13 +145,13 @@ public enum ServiceConfigs: Encodable {
     /// configure an http service
     /// - parameter name: name of this service
     case http(name: String)
-    
+
     /// configure an AWS service
     /// - parameter name: name of this service
     /// - parameter accessKeyID: your access key identifier
     /// - parameter secretAccessKey: your secret access key
     case aws(name: String, accessKeyID: String, secretAccessKey: String)
-    
+
     /// configure an AWS S3 service
     /// - parameter name: name of this service
     /// - parameter region: aws region
@@ -165,7 +165,7 @@ public enum ServiceConfigs: Encodable {
     /// - parameter accessKeyID: your access key identifier
     /// - parameter secretAccessKey: your secret access key
     case awsSes(name: String, region: String, accessKeyID: String, secretAccessKey: String)
-    
+
     /// configure an FCM service
     /// - parameter name: name of this service
     /// - parameter senderID: your sender ID
@@ -177,7 +177,7 @@ public enum ServiceConfigs: Encodable {
     /// - parameter accountSid: your account identifier
     /// - parameter authToken: your authorization token
     case twilio(name: String, accountSid: String, authToken: String)
-    
+
     /// configure a MongoDB service
     /// - parameter uri: The URI to the MongoDB cluster for this service
     case mongodb(name: String, uri: String)
@@ -188,9 +188,7 @@ public enum ServiceConfigs: Encodable {
         switch self {
         case .http(let name):
             try ServiceConfigWrapper.init(
-                name: name,
-                type: "http",
-                config: HTTPServiceConfig.init()
+                name: name, type: "http", config: HTTPServiceConfig.init()
             ).encode(to: encoder)
         case .aws(let name, let accessKeyID, let secretAccessKey):
             try ServiceConfigWrapper.init(
@@ -198,44 +196,34 @@ public enum ServiceConfigs: Encodable {
                 type: "aws",
                 config: AWSServiceConfig.init(accessKeyID: accessKeyID,
                                               secretAccessKey: secretAccessKey)
-                ).encode(to: encoder)
+            ).encode(to: encoder)
         case .awsS3(let name, let region, let accessKeyID, let secretAccessKey):
             try ServiceConfigWrapper.init(
-                name: name,
-                type: "aws-s3",
+                name: name, type: "aws-s3",
                 config: AWSS3ServiceConfig.init(region: region,
                                                 accessKeyID: accessKeyID,
                                                 secretAccessKey: secretAccessKey)
                 ).encode(to: encoder)
         case .awsSes(let name, let region, let accessKeyID, let secretAccessKey):
             try ServiceConfigWrapper.init(
-                name: name,
-                type: "aws-ses",
+                name: name, type: "aws-ses",
                 config: AWSSESServiceConfig.init(region: region,
                                                  accessKeyID: accessKeyID,
                                                  secretAccessKey: secretAccessKey)
             ).encode(to: encoder)
         case .fcm(let name, let senderID, let apiKey):
             try ServiceConfigWrapper.init(
-                name: name,
-                type: "gcm",
-                config: FCMServiceConfig.init(senderID: senderID,
-                                              apiKey: apiKey)
+                name: name, type: "gcm", config: FCMServiceConfig.init(senderID: senderID, apiKey: apiKey)
             ).encode(to: encoder)
         case .twilio(let name, let accountSid, let authToken):
             try ServiceConfigWrapper.init(
-                name: name,
-                type: "twilio",
-                config: TwilioServiceConfig.init(accountSid: accountSid,
-                                                 authToken: authToken)
+                name: name, type: "twilio",
+                config: TwilioServiceConfig.init(accountSid: accountSid, authToken: authToken)
             ).encode(to: encoder)
         case .mongodb(let name, let uri):
             try ServiceConfigWrapper.init(
-                name: name,
-                type: "mongodb",
-                config: MongoDbServiceConfig.init(uri: uri)
+                name: name, type: "mongodb", config: MongoDbServiceConfig.init(uri: uri)
             ).encode(to: encoder)
         }
-    
     }
 }

@@ -35,7 +35,7 @@ public enum StitchError: Error {
      * was a transport error or decoding error.
      */
     case requestError(withError: Error, withRequestErrorCode: StitchRequestErrorCode)
-    
+
     /**
      * Indicates that an error occurred when using the Stitch client, typically before the client performed a request.
      * An error code indicating the reason for the error is included.

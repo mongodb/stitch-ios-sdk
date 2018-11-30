@@ -10,31 +10,31 @@ import StitchCoreRemoteMongoDBService
 public class RemoteMongoCollection<T: Codable> {
     private let dispatcher: OperationDispatcher
     private let proxy: CoreRemoteMongoCollection<T>
-    
+
     internal init(withCollection collection: CoreRemoteMongoCollection<T>,
                   withDispatcher dispatcher: OperationDispatcher) {
         self.proxy = collection
         self.dispatcher = dispatcher
     }
-    
+
     // MARK: Properties
-    
+
     /**
      * The name of this collection.
      */
     public var name: String {
         return proxy.name
     }
-    
+
     /**
      * The name of the database containing this collection.
      */
     public var databaseName: String {
         return proxy.databaseName
     }
-    
+
     // MARK: Custom Document Types
-    
+
     /**
      * A `Codable` type associated with this `MongoCollection` instance.
      * This allows `CollectionType` values to be directly inserted into and
@@ -46,7 +46,7 @@ public class RemoteMongoCollection<T: Codable> {
      * from this same type.
      */
     public typealias CollectionType = T
-    
+
     /**
      * Creates a collection using the same datatabase name and collection name, but with a new `Codable` type with
      * which to encode and decode documents retrieved from and inserted into the collection.
@@ -57,9 +57,9 @@ public class RemoteMongoCollection<T: Codable> {
             withDispatcher: dispatcher
         )
     }
-    
+
     // MARK: CRUD Operations
-    
+
     /**
      * Finds the documents in this collection which match the provided filter.
      *
@@ -79,7 +79,7 @@ public class RemoteMongoCollection<T: Codable> {
             withOperations: proxy.find(filter, options: options), withDispatcher: dispatcher
         )
     }
-    
+
     /**
      * Runs an aggregation framework pipeline against this collection.
      *
@@ -97,7 +97,7 @@ public class RemoteMongoCollection<T: Codable> {
             withOperations: proxy.aggregate(pipeline), withDispatcher: dispatcher
         )
     }
-    
+
     /**
      * Counts the number of documents in this collection matching the provided filter.
      *
@@ -115,7 +115,7 @@ public class RemoteMongoCollection<T: Codable> {
             return try self.proxy.count(filter, options: options)
         }
     }
-    
+
     /**
      * Encodes the provided value to BSON and inserts it. If the value is missing an identifier, one will be
      * generated for it.
@@ -137,7 +137,7 @@ public class RemoteMongoCollection<T: Codable> {
             return try self.proxy.insertOne(value)
         }
     }
-    
+
     /**
      * Encodes the provided values to BSON and inserts them. If any values are missing identifiers,
      * they will be generated.
@@ -160,7 +160,7 @@ public class RemoteMongoCollection<T: Codable> {
             return try self.proxy.insertMany(documents)
         }
     }
-    
+
     /**
      * Deletes a single matching document from the collection.
      *
@@ -181,7 +181,7 @@ public class RemoteMongoCollection<T: Codable> {
             return try self.proxy.deleteOne(filter)
         }
     }
-    
+
     /**
      * Deletes multiple documents from the collection.
      *
@@ -202,7 +202,7 @@ public class RemoteMongoCollection<T: Codable> {
             return try self.proxy.deleteMany(filter)
         }
     }
-    
+
     /**
      * Updates a single document matching the provided filter in this collection.
      *
@@ -227,7 +227,7 @@ public class RemoteMongoCollection<T: Codable> {
             return try self.proxy.updateOne(filter: filter, update: update, options: options)
         }
     }
-    
+
     /**
      * Updates mutiple documents matching the provided filter in this collection.
      *

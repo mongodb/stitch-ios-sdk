@@ -5,7 +5,7 @@ public struct FunctionCreator: Encodable {
     enum CodingKeys: String, CodingKey {
         case name, source, canEvaluate = "can_evaluate", isPrivate = "private"
     }
-    
+
     public init(name: String, source: String, canEvaluate: String?, isPrivate: Bool) {
         self.name = name
         self.source = source
@@ -24,10 +24,10 @@ public struct FunctionResponse: Decodable {
     enum CodingKeys: String, CodingKey {
         case id = "_id", name
     }
-    
+
     /// id of the function
     public var id: String?
-    
+
     /// name of the function
     public var name: String?
 }

@@ -6,7 +6,7 @@ public struct UserCreator: Encodable {
         self.email = email
         self.password = password
     }
-    
+
     /// email for the new user
     let email: String
     /// password for the new user

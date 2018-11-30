@@ -5,7 +5,7 @@ import StitchCoreRemoteMongoDBService
 
 private final class RemoteMongoClientFactory: NamedServiceClientFactory {
     typealias ClientType = RemoteMongoClient
-    
+
     func client(withServiceClient serviceClient: CoreStitchServiceClient,
                 withClientInfo clientInfo: StitchAppClientInfo) -> RemoteMongoClient {
         return RemoteMongoClient.init(
@@ -29,13 +29,13 @@ public let remoteMongoClientFactory =
 public class RemoteMongoClient {
     private let dispatcher: OperationDispatcher
     private let proxy: CoreRemoteMongoClient
-    
+
     internal init(withClient client: CoreRemoteMongoClient,
                   withDispatcher dispatcher: OperationDispatcher) {
         self.proxy = client
         self.dispatcher = dispatcher
     }
-    
+
     /**
      * Gets a `CoreRemoteMongoDatabase` instance for the given database name.
      *
