@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		11258B5021B0BA690082EC1A /* StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11258B4F21B0BA690082EC1A /* StitchCoreAdminClient.framework */; };
 		114DB73121B0B63900BBDC81 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 114DB73021B0B63900BBDC81 /* StitchCore.framework */; };
 		114DB73D21B0B6BA00BBDC81 /* StitchDarwinCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 114DB73C21B0B6BA00BBDC81 /* StitchDarwinCoreTestUtils.framework */; };
 		498E55E02190B87C00A02A03 /* StitchCoreLocalMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E55DF2190B87C00A02A03 /* StitchCoreLocalMongoDBService.framework */; };
@@ -51,6 +52,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		11258B4F21B0BA690082EC1A /* StitchCoreAdminClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAdminClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		114DB73021B0B63900BBDC81 /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		114DB73C21B0B6BA00BBDC81 /* StitchDarwinCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchDarwinCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		30F203133A34D26D8CA059DF /* Pods-StitchCoreSDK-StitchLocalMongoDBService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreSDK-StitchLocalMongoDBService.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreSDK-StitchLocalMongoDBService/Pods-StitchCoreSDK-StitchLocalMongoDBService.debug.xcconfig"; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11258B5021B0BA690082EC1A /* StitchCoreAdminClient.framework in Frameworks */,
 				114DB73D21B0B6BA00BBDC81 /* StitchDarwinCoreTestUtils.framework in Frameworks */,
 				8AE9CB2BFA1230FCD8C52C87 /* Pods_StitchLocalMongoDBServiceTests.framework in Frameworks */,
 			);
@@ -147,6 +150,7 @@
 		F4DA27AE20D1C67A00852314 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				11258B4F21B0BA690082EC1A /* StitchCoreAdminClient.framework */,
 				114DB73C21B0B6BA00BBDC81 /* StitchDarwinCoreTestUtils.framework */,
 				114DB73021B0B63900BBDC81 /* StitchCore.framework */,
 				494335BB2192D076005B170D /* StitchCore.framework */,

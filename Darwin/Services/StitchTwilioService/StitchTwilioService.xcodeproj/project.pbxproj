@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		11258B5421B0BA720082EC1A /* StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11258B5321B0BA720082EC1A /* StitchCoreAdminClient.framework */; };
 		114DB72D21B0B61900BBDC81 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 114DB72C21B0B61900BBDC81 /* StitchCore.framework */; };
 		498E55D82190B80400A02A03 /* StitchCoreTwilioService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E55D72190B80400A02A03 /* StitchCoreTwilioService.framework */; };
 		498E55DC2190B82600A02A03 /* StitchDarwinCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E55DB2190B82600A02A03 /* StitchDarwinCoreTestUtils.framework */; };
@@ -51,6 +52,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		11258B5321B0BA720082EC1A /* StitchCoreAdminClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAdminClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		114DB72C21B0B61900BBDC81 /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		12A444BA749976EB461B5983 /* Pods_StitchTwilioService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchTwilioService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A14B990A666CE9B43622084 /* Pods-StitchTwilioService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchTwilioService.debug.xcconfig"; path = "Target Support Files/Pods-StitchTwilioService/Pods-StitchTwilioService.debug.xcconfig"; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11258B5421B0BA720082EC1A /* StitchCoreAdminClient.framework in Frameworks */,
 				498E55DC2190B82600A02A03 /* StitchDarwinCoreTestUtils.framework in Frameworks */,
 				DF208B3FCC60C798DAC42301 /* Pods_StitchTwilioServiceTests.framework in Frameworks */,
 			);
@@ -146,6 +149,7 @@
 		F4D7CCFB20AA0F64003AA921 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				11258B5321B0BA720082EC1A /* StitchCoreAdminClient.framework */,
 				114DB72C21B0B61900BBDC81 /* StitchCore.framework */,
 				498E55DB2190B82600A02A03 /* StitchDarwinCoreTestUtils.framework */,
 				498E55D92190B81900A02A03 /* StitchCoreAdminClient.framework */,

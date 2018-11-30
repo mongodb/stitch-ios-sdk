@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		11258B5621B0BC100082EC1A /* StitchCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11258B5521B0BC100082EC1A /* StitchCoreSDK.framework */; };
 		2274C1EC997E50432B04E3B1 /* Pods_StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 556876301D03D0E7D08AFB0E /* Pods_StitchCoreAdminClient.framework */; };
 		OBJ_136 /* AppsResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* AppsResources.swift */; };
 		OBJ_137 /* AuthProvidersResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* AuthProvidersResources.swift */; };
@@ -24,7 +25,7 @@
 		OBJ_149 /* UserRegistrationsResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_30 /* UserRegistrationsResources.swift */; };
 		OBJ_150 /* UsersResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_32 /* UsersResources.swift */; };
 		OBJ_171 /* StitchCoreAdminClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_35 /* StitchCoreAdminClientTests.swift */; };
-		OBJ_173 /* StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = StitchCoreAdminClient::StitchCoreAdminClient::Product /* StitchCoreAdminClient.framework */; };
+		OBJ_173 /* StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "StitchCoreAdminClient::StitchCoreAdminClient::Product" /* StitchCoreAdminClient.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		11258B5521B0BC100082EC1A /* StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		556876301D03D0E7D08AFB0E /* Pods_StitchCoreAdminClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreAdminClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADDD9FA5AAA27745F6688D3B /* Pods-StitchCoreAdminClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAdminClient.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreAdminClient/Pods-StitchCoreAdminClient.release.xcconfig"; sourceTree = "<group>"; };
 		EAB8767D86690BB92F55AF50 /* Pods-StitchCoreAdminClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAdminClient.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreAdminClient/Pods-StitchCoreAdminClient.debug.xcconfig"; sourceTree = "<group>"; };
@@ -58,8 +60,8 @@
 		OBJ_32 /* UsersResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersResources.swift; sourceTree = "<group>"; };
 		OBJ_35 /* StitchCoreAdminClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchCoreAdminClientTests.swift; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
-		StitchCoreAdminClient::StitchCoreAdminClient::Product /* StitchCoreAdminClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAdminClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		StitchCoreAdminClient::StitchCoreAdminClientTests::Product /* StitchCoreAdminClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = StitchCoreAdminClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StitchCoreAdminClient::StitchCoreAdminClient::Product" /* StitchCoreAdminClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAdminClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StitchCoreAdminClient::StitchCoreAdminClientTests::Product" /* StitchCoreAdminClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = StitchCoreAdminClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
+				11258B5621B0BC100082EC1A /* StitchCoreSDK.framework in Frameworks */,
 				2274C1EC997E50432B04E3B1 /* Pods_StitchCoreAdminClient.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -85,6 +88,7 @@
 		76D2637C84F22B7787F2A8DA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				11258B5521B0BC100082EC1A /* StitchCoreSDK.framework */,
 				556876301D03D0E7D08AFB0E /* Pods_StitchCoreAdminClient.framework */,
 			);
 			name = Frameworks;
@@ -131,8 +135,8 @@
 		OBJ_127 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				StitchCoreAdminClient::StitchCoreAdminClientTests::Product /* StitchCoreAdminClientTests.xctest */,
-				StitchCoreAdminClient::StitchCoreAdminClient::Product /* StitchCoreAdminClient.framework */,
+				"StitchCoreAdminClient::StitchCoreAdminClientTests::Product" /* StitchCoreAdminClientTests.xctest */,
+				"StitchCoreAdminClient::StitchCoreAdminClient::Product" /* StitchCoreAdminClient.framework */,
 			);
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -228,7 +232,7 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		StitchCoreAdminClient::StitchCoreAdminClient /* StitchCoreAdminClient */ = {
+		"StitchCoreAdminClient::StitchCoreAdminClient" /* StitchCoreAdminClient */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_132 /* Build configuration list for PBXNativeTarget "StitchCoreAdminClient" */;
 			buildPhases = (
@@ -243,10 +247,10 @@
 			);
 			name = StitchCoreAdminClient;
 			productName = StitchCoreAdminClient;
-			productReference = StitchCoreAdminClient::StitchCoreAdminClient::Product /* StitchCoreAdminClient.framework */;
+			productReference = "StitchCoreAdminClient::StitchCoreAdminClient::Product" /* StitchCoreAdminClient.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		StitchCoreAdminClient::StitchCoreAdminClientTests /* StitchCoreAdminClientTests */ = {
+		"StitchCoreAdminClient::StitchCoreAdminClientTests" /* StitchCoreAdminClientTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_167 /* Build configuration list for PBXNativeTarget "StitchCoreAdminClientTests" */;
 			buildPhases = (
@@ -260,7 +264,7 @@
 			);
 			name = StitchCoreAdminClientTests;
 			productName = StitchCoreAdminClientTests;
-			productReference = StitchCoreAdminClient::StitchCoreAdminClientTests::Product /* StitchCoreAdminClientTests.xctest */;
+			productReference = "StitchCoreAdminClient::StitchCoreAdminClientTests::Product" /* StitchCoreAdminClientTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -283,8 +287,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				StitchCoreAdminClient::StitchCoreAdminClient /* StitchCoreAdminClient */,
-				StitchCoreAdminClient::StitchCoreAdminClientTests /* StitchCoreAdminClientTests */,
+				"StitchCoreAdminClient::StitchCoreAdminClient" /* StitchCoreAdminClient */,
+				"StitchCoreAdminClient::StitchCoreAdminClientTests" /* StitchCoreAdminClientTests */,
 			);
 		};
 /* End PBXProject section */
@@ -367,7 +371,7 @@
 /* Begin PBXTargetDependency section */
 		OBJ_175 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = StitchCoreAdminClient::StitchCoreAdminClient /* StitchCoreAdminClient */;
+			target = "StitchCoreAdminClient::StitchCoreAdminClient" /* StitchCoreAdminClient */;
 			targetProxy = 49805FB52184CB2E00E2A3A2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */

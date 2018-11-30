@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		11258B5221B0BA6D0082EC1A /* StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11258B5121B0BA6D0082EC1A /* StitchCoreAdminClient.framework */; };
 		114DB72F21B0B62300BBDC81 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 114DB72E21B0B62300BBDC81 /* StitchCore.framework */; };
 		1159637820D029EA00B0179B /* StitchRemoteMongoDBServiceExports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1159637720D029EA00B0179B /* StitchRemoteMongoDBServiceExports.swift */; };
 		1169217720C9D04C00930DD8 /* RemoteMongoClientIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1169217620C9D04C00930DD8 /* RemoteMongoClientIntTests.swift */; };
@@ -55,6 +56,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		11258B5121B0BA6D0082EC1A /* StitchCoreAdminClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAdminClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		114DB72E21B0B62300BBDC81 /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1159637720D029EA00B0179B /* StitchRemoteMongoDBServiceExports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchRemoteMongoDBServiceExports.swift; sourceTree = "<group>"; };
 		1169216820C9D04C00930DD8 /* StitchRemoteMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StitchRemoteMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -93,6 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11258B5221B0BA6D0082EC1A /* StitchCoreAdminClient.framework in Frameworks */,
 				494335A42190FC99005B170D /* StitchDarwinCoreTestUtils.framework in Frameworks */,
 				883951A08F590837FBBC64BB /* Pods_StitchRemoteMongoDBServiceTests.framework in Frameworks */,
 			);
@@ -147,6 +150,7 @@
 		1169218220C9D09300930DD8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				11258B5121B0BA6D0082EC1A /* StitchCoreAdminClient.framework */,
 				114DB72E21B0B62300BBDC81 /* StitchCore.framework */,
 				494335B12192360A005B170D /* StitchCoreAdminClient.framework */,
 				494335A32190FC99005B170D /* StitchDarwinCoreTestUtils.framework */,

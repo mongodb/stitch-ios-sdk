@@ -10,6 +10,7 @@
 		110188B820C1E2B700C4C119 /* AWSSESServiceClientIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110188B720C1E2B700C4C119 /* AWSSESServiceClientIntTests.swift */; };
 		110188CA20C1E47100C4C119 /* AWSSESServiceClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110188C920C1E47100C4C119 /* AWSSESServiceClientImpl.swift */; };
 		110188CC20C1E47C00C4C119 /* AWSSESServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110188CB20C1E47C00C4C119 /* AWSSESServiceClient.swift */; };
+		11258B4A21B0BA5B0082EC1A /* StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11258B4921B0BA5B0082EC1A /* StitchCoreAdminClient.framework */; };
 		114DB73721B0B65600BBDC81 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 114DB73621B0B65600BBDC81 /* StitchCore.framework */; };
 		114DB74121B0B6D800BBDC81 /* StitchDarwinCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 114DB74021B0B6D800BBDC81 /* StitchDarwinCoreTestUtils.framework */; };
 		1159637420D0281700B0179B /* StitchAWSSESServiceExports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1159637320D0281700B0179B /* StitchAWSSESServiceExports.swift */; };
@@ -59,6 +60,7 @@
 		110188B920C1E2B700C4C119 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		110188C920C1E47100C4C119 /* AWSSESServiceClientImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSSESServiceClientImpl.swift; sourceTree = "<group>"; };
 		110188CB20C1E47C00C4C119 /* AWSSESServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSSESServiceClient.swift; sourceTree = "<group>"; };
+		11258B4921B0BA5B0082EC1A /* StitchCoreAdminClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAdminClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		114DB73621B0B65600BBDC81 /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		114DB74021B0B6D800BBDC81 /* StitchDarwinCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchDarwinCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1159637320D0281700B0179B /* StitchAWSSESServiceExports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAWSSESServiceExports.swift; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11258B4A21B0BA5B0082EC1A /* StitchCoreAdminClient.framework in Frameworks */,
 				114DB74121B0B6D800BBDC81 /* StitchDarwinCoreTestUtils.framework in Frameworks */,
 				1454D95CA070AF20A16434E5 /* Pods_StitchAWSSESServiceTests.framework in Frameworks */,
 			);
@@ -141,6 +144,7 @@
 		110188C320C1E32300C4C119 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				11258B4921B0BA5B0082EC1A /* StitchCoreAdminClient.framework */,
 				114DB74021B0B6D800BBDC81 /* StitchDarwinCoreTestUtils.framework */,
 				114DB73621B0B65600BBDC81 /* StitchCore.framework */,
 				494335B32192361C005B170D /* StitchDarwinCoreTestUtils.framework */,

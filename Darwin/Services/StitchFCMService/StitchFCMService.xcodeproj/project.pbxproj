@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		11258B4C21B0BA5F0082EC1A /* StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11258B4B21B0BA5F0082EC1A /* StitchCoreAdminClient.framework */; };
 		114DB73521B0B64E00BBDC81 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 114DB73421B0B64E00BBDC81 /* StitchCore.framework */; };
 		119F126520D21DA8009B1CF5 /* FCMServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119F126420D21DA8009B1CF5 /* FCMServiceClient.swift */; };
 		119F126720D21DB2009B1CF5 /* FCMServicePushClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119F126620D21DB2009B1CF5 /* FCMServicePushClient.swift */; };
@@ -55,6 +56,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		11258B4B21B0BA5F0082EC1A /* StitchCoreAdminClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAdminClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		114DB73421B0B64E00BBDC81 /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		119F124120D218D6009B1CF5 /* StitchFCMService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StitchFCMService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		119F124520D218D6009B1CF5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11258B4C21B0BA5F0082EC1A /* StitchCoreAdminClient.framework in Frameworks */,
 				494335AE219235ED005B170D /* StitchDarwinCoreTestUtils.framework in Frameworks */,
 				9795345C4C39B9BF7F5A98DE /* Pods_StitchFCMServiceTests.framework in Frameworks */,
 			);
@@ -148,6 +151,7 @@
 		119F125B20D219F7009B1CF5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				11258B4B21B0BA5F0082EC1A /* StitchCoreAdminClient.framework */,
 				114DB73421B0B64E00BBDC81 /* StitchCore.framework */,
 				494335AD219235ED005B170D /* StitchDarwinCoreTestUtils.framework */,
 				494335A921923243005B170D /* StitchCoreAdminClient.framework */,
