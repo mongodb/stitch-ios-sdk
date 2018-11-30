@@ -19,6 +19,17 @@ To add a new module the Stitch workspace, use this procedure.
 4. Run `pod install`.
 5. Add the XCTest associated with your module to the appropriate scheme.
 
+### Working with SwiftLint
+This project uses SwiftLint to lint source files. CocoaPods includes SwiftLint as a dependency and the projects are set up such that each project will automatically lint its source files. 
+
+We also recommend installing `swiftlint` separately with `brew install swiftlint`. This will allow you to run `swiftlint`, and `swiftlint autocorrect` from each project's root directory to quickly fix automatically correctable errors, and to see linter output when XCode is acting up.
+
+#### Special Settings
+To avoid getting a lot of linter warnings, make sure the following whitespace settings are enabled in the `Text Editing` Preferences in XCode:
+
+- Automatically trim trailing whitespace
+    - Including whitespace-only lines
+
 ### Publishing a New SDK version
 ```bash
 # update podspecs for affected modules in relation to semver as it applies
