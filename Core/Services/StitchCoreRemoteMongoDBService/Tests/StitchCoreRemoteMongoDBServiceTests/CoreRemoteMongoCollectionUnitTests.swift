@@ -168,7 +168,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         )
 
         do {
-            _ = try coll.find().asArray()
+            _ = try coll.find().toArray()
             XCTFail("function did not fail where expected")
         } catch {
             // do nothing
@@ -243,7 +243,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCTestCase {
         )
 
         do {
-            _ = try coll.aggregate([]).asArray()
+            _ = try coll.aggregate([]).toArray()
             XCTFail("function did not fail where expected")
         } catch {
             // do nothing
