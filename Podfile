@@ -30,6 +30,7 @@ target :StitchCoreSDK do
         pod 'JSONWebToken', '~> 2.2.0'
         pod 'Swifter', '~> 1.4.5'
 
+        shared_pods
         inherit! :search_paths
     end
 
@@ -38,6 +39,7 @@ target :StitchCoreSDK do
         inherit! :search_paths
 
         target :StitchCoreFCMServiceTests do
+            shared_pods
             inherit! :search_paths
         end
     end
@@ -47,6 +49,7 @@ target :StitchCoreSDK do
         inherit! :search_paths
         
         target :StitchCoreTwilioServiceTests do
+            shared_pods
             inherit! :search_paths
         end
     end
@@ -68,6 +71,8 @@ target :StitchCoreSDK do
 
         inherit! :search_paths
         target :StitchCoreLocalMongoDBServiceTests do
+            shared_pods
+            pod 'MongoMobile', '= 0.0.5'
             inherit! :search_paths
         end
     end
@@ -77,6 +82,7 @@ target :StitchCoreSDK do
         inherit! :search_paths
 
         target :StitchCoreHTTPServiceTests do
+            shared_pods
             inherit! :search_paths
         end
     end
@@ -86,6 +92,7 @@ target :StitchCoreSDK do
         inherit! :search_paths
 
         target :StitchCoreAWSSESServiceTests do
+            shared_pods
             inherit! :search_paths
         end
     end
@@ -95,6 +102,7 @@ target :StitchCoreSDK do
         inherit! :search_paths
         
         target :StitchCoreAWSS3ServiceTests do
+            shared_pods
             inherit! :search_paths
         end
     end
@@ -104,6 +112,7 @@ target :StitchCoreSDK do
         inherit! :search_paths
 
         target :StitchCoreAWSServiceTests do
+            shared_pods
             inherit! :search_paths
         end
     end
@@ -114,6 +123,7 @@ target :StitchCoreSDK do
     
         target :StitchCoreTests do
             pod 'JSONWebToken', '~> 2.2.0'
+            shared_pods
             inherit! :search_paths
         end
     end
@@ -123,6 +133,7 @@ target :StitchCoreSDK do
         inherit! :search_paths
     
         target :StitchDarwinCoreTestUtilsTests do
+            shared_pods
             inherit! :search_paths
         end
     end
@@ -132,6 +143,7 @@ target :StitchCoreSDK do
         inherit! :search_paths
     
         target :StitchTwilioServiceTests do
+            shared_pods
             inherit! :search_paths
         end
     end
@@ -141,6 +153,7 @@ target :StitchCoreSDK do
         inherit! :search_paths
     
         target :StitchRemoteMongoDBServiceTests do
+            shared_pods
             inherit! :search_paths
         end
     end
@@ -150,6 +163,7 @@ target :StitchCoreSDK do
         pod 'MongoMobile', '= 0.0.5'
     
         target :StitchLocalMongoDBServiceTests do
+            shared_pods
             inherit! :search_paths
         end
     end
@@ -159,6 +173,7 @@ target :StitchCoreSDK do
         inherit! :search_paths
     
         target :StitchHTTPServiceTests do
+            shared_pods
             inherit! :search_paths
         end
     end
@@ -168,6 +183,7 @@ target :StitchCoreSDK do
         inherit! :search_paths
     
         target :StitchFCMServiceTests do
+            shared_pods
             inherit! :search_paths
         end
     end
@@ -177,6 +193,7 @@ target :StitchCoreSDK do
         inherit! :search_paths
     
         target :StitchAWSSESServiceTests do
+            shared_pods
             inherit! :search_paths
         end
     end
@@ -186,6 +203,7 @@ target :StitchCoreSDK do
         inherit! :search_paths
     
         target :StitchAWSS3ServiceTests do
+            shared_pods
             inherit! :search_paths
         end
     end
@@ -195,12 +213,14 @@ target :StitchCoreSDK do
         inherit! :search_paths
     
         target :StitchAWSServiceTests do
+            shared_pods
             inherit! :search_paths
         end
     end
     
     target :StitchCoreTestUtils do
         project 'Core/StitchCoreTestUtils/StitchCoreTestUtils.xcodeproj'
+        shared_pods
         inherit! :search_paths
     end    
 end
@@ -213,6 +233,11 @@ end
 
 post_install do |installer|
     installer.pods_project.targets.each do |target|
+        # this is to fix an issue that happens between cocoapods and xcode 10
+        target.build_configurations.each do |config|
+            config.build_settings['ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES'] = 'YES'
+        end
+
         # this is to fix a bug in JSONWebToken
         if target.name == 'JSONWebToken'
             system("rm -rf Pods/JSONWebToken/CommonCrypto")
