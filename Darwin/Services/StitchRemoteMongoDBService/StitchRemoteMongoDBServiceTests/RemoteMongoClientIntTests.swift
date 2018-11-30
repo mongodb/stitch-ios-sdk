@@ -1020,7 +1020,8 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
     }
 
     func testSync_find() {
-        // TODO: STITCH-2237
+        let coll = getTestColl().withCollectionType(CustomType.self)
+        
     }
 
     func testSync_count() {

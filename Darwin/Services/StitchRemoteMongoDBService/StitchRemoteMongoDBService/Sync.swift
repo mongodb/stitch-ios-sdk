@@ -189,8 +189,15 @@ public class Sync<DocumentT: Codable> {
      - parameter document: the document to insert
      - returns: the result of the insert one operation
      */
-    func insertOne(document: DocumentT) -> InsertOneResult? {
-        return self.proxy.insertOne(document: document)
+    func insertOne(document: DocumentT,
+                   _ completionHandler: @escaping (StitchResult<InsertOneResult?>) -> Void) {
+        queue.async {
+            do {
+                completionHandler(.success(result: try self.proxy.insertOne(document: document)))
+            } catch {
+                completionHandler(.failure(error: StitchError.clientError(withClientErrorCode: StitchClientErrorCode.couldNotCommunicateWithDriver(withError: error))))
+            }
+        }
     }
 
     /**
@@ -199,8 +206,15 @@ public class Sync<DocumentT: Codable> {
      - parameter documents: the documents to insert
      - returns: the result of the insert many operation
      */
-    func insertMany(documents: [DocumentT]) -> InsertManyResult? {
-        return self.proxy.insertMany(documents: documents)
+    func insertMany(documents: [DocumentT],
+                    _ completionHandler: @escaping (StitchResult<InsertManyResult?>) -> Void) {
+        queue.async {
+            do {
+                completionHandler(.success(result: try self.proxy.insertMany(documents: documents)))
+            } catch {
+                completionHandler(.failure(error: StitchError.clientError(withClientErrorCode: StitchClientErrorCode.couldNotCommunicateWithDriver(withError: error))))
+            }
+        }
     }
 
     /**
@@ -238,10 +252,18 @@ public class Sync<DocumentT: Codable> {
      */
     func updateOne(filter: Document,
                    update: Document,
-                   options: UpdateOptions?) -> UpdateResult? {
-        return self.proxy.updateOne(filter: filter,
-                                    update: update,
-                                    options: options)
+                   options: UpdateOptions?,
+                   _ completionHandler: @escaping (StitchResult<UpdateResult?>) -> Void) {
+        queue.async {
+            do {
+                completionHandler(.success(
+                    result: try self.proxy.updateOne(filter: filter,
+                                                     update: update,
+                                                     options: options)))
+            } catch {
+                completionHandler(.failure(error: StitchError.clientError(withClientErrorCode: StitchClientErrorCode.couldNotCommunicateWithDriver(withError: error))))
+            }
+        }
     }
 
     /**
@@ -257,9 +279,17 @@ public class Sync<DocumentT: Codable> {
      */
     func updateMany(filter: Document,
                     update: Document,
-                    options: UpdateOptions?) -> UpdateResult? {
-        return self.proxy.updateMany(filter: filter,
-                                     update: update,
-                                     options: options)
+                    options: UpdateOptions?,
+                    _ completionHandler: @escaping (StitchResult<UpdateResult?>) -> Void) {
+        queue.async {
+            do {
+                completionHandler(.success(
+                    result: try self.proxy.updateMany(filter: filter,
+                                                      update: update,
+                                                      options: options)))
+            } catch {
+                completionHandler(.failure(error: StitchError.clientError(withClientErrorCode: StitchClientErrorCode.couldNotCommunicateWithDriver(withError: error))))
+            }
+        }
     }
 }
