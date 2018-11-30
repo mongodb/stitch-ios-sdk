@@ -9,7 +9,7 @@ private func inspectResponse(response: Response) throws -> Response {
         response.statusCode < 300 else {
             throw StitchErrorCodable.handleError(forResponse: response)
     }
-    
+
     return response
 }
 
@@ -21,12 +21,12 @@ public protocol StitchRequestClient {
      * The base URL of the Stitch server to which this client will retrieve metadata.
      */
     var baseURL: String { get }
-    
+
     /**
      * The `Transport` which this client will use to make round trips to the Stitch server.
      */
     var transport: Transport { get }
-    
+
     /**
      * The number of seconds that a `Transport` should spend by default on an HTTP round trip before failing with an
      * error.
@@ -55,7 +55,7 @@ extension StitchRequestClient {
         }
         return try inspectResponse(response: response)
     }
-    
+
     /**
      * Builds a plain HTTP request out of the provided `StitchRequest` object.
      */
@@ -66,7 +66,7 @@ extension StitchRequestClient {
             .with(timeout: stitchReq.timeout ?? self.defaultRequestTimeout)
             .with(headers: stitchReq.headers)
             .with(body: stitchReq.body)
-        
+
         return try reqBuilder.build()
     }
 }
@@ -80,12 +80,12 @@ public class StitchAppRequestClientImpl: StitchRequestClient {
      * The base URL of the Stitch server to which this client will retrieve metadata.
      */
     public let baseURL: String
-    
+
     /**
      * The `Transport` which this client will use to make round trips to the Stitch server.
      */
     public let transport: Transport
-    
+
     /**
      * The number of seconds that a `Transport` should spend by default on an HTTP round trip before failing with an
      * error.
@@ -94,12 +94,12 @@ public class StitchAppRequestClientImpl: StitchRequestClient {
      *              timeout should override this one.
      */
     public let defaultRequestTimeout: TimeInterval
-    
+
     /**
      * The client application ID for the application.
      */
     private let clientAppId: String
-    
+
     /**
      * Route constants used to path requests properly.
      */
@@ -109,7 +109,7 @@ public class StitchAppRequestClientImpl: StitchRequestClient {
      * The application metadata as discovered by communicating with the server.
      */
     private var appMetadata: AppMetadata?
-    
+
     /**
      * Initializes the request client with the provided client app ID, base URL and `Transport`.
      */
@@ -121,7 +121,7 @@ public class StitchAppRequestClientImpl: StitchRequestClient {
         self.defaultRequestTimeout = defaultRequestTimeout
         self.appRoutes = StitchAppRoutes.init(clientAppID: clientAppId)
     }
-    
+
     /**
      * Performs a request against the Stitch server with the given `StitchRequest` object. Uses
      * the local stitch hostname provided by the server instead of the base URL.
@@ -132,21 +132,22 @@ public class StitchAppRequestClientImpl: StitchRequestClient {
         try self.initAppMetadata()
         return try doRequest(stitchReq, url: self.appMetadata!.hostname)
     }
-    
+
     func initAppMetadata() throws {
         guard appMetadata == nil else {
             return
         }
-        
+
         let req = StitchRequest.init(path: self.appRoutes.serviceRoutes.appMetadataRoute,
                                      method: Method.get, headers: [:],
                                      timeout: self.defaultRequestTimeout, body: nil)
-        
+
         let decoder = JSONDecoder()
         do {
             let response = try doRequest(req, url: self.baseURL)
             guard let body = response.body else {
-                throw StitchError.requestError(withMessage: "empty body in location metadata", withRequestErrorCode: .decodingError)
+                throw StitchError.requestError(
+                     withMessage: "empty body in location metadata", withRequestErrorCode: .decodingError)
             }
             self.appMetadata = try decoder.decode(AppMetadata.self, from: body)
         } catch {
@@ -163,12 +164,12 @@ public class StitchRequestClientImpl: StitchRequestClient {
      * The base URL of the Stitch server to which this client will make requests.
      */
     public let baseURL: String
-    
+
     /**
      * The `Transport` which this client will use to make round trips to the Stitch server.
      */
     public let transport: Transport
-    
+
     /**
      * The number of seconds that a `Transport` should spend by default on an HTTP round trip before failing with an
      * error.
@@ -177,7 +178,7 @@ public class StitchRequestClientImpl: StitchRequestClient {
      *              timeout should override this one.
      */
     public let defaultRequestTimeout: TimeInterval
-    
+
     /**
      * Initializes the request client with the provided base URL and `Transport`.
      */
@@ -186,7 +187,7 @@ public class StitchRequestClientImpl: StitchRequestClient {
         self.transport = transport
         self.defaultRequestTimeout = defaultRequestTimeout
     }
-    
+
     /**
      * Performs a request against the Stitch server with the given `StitchRequest` object.
      *
@@ -196,4 +197,3 @@ public class StitchRequestClientImpl: StitchRequestClient {
         return try doRequest(stitchReq, url: self.baseURL)
     }
 }
-
