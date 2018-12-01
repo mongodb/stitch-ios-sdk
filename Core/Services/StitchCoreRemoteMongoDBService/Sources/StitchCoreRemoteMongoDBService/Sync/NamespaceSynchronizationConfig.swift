@@ -74,7 +74,7 @@ internal struct NamespaceSynchronization: Sequence {
     /// The conflict handler configured to this namespace.
     private(set) var conflictHandler: AnyConflictHandler?
     /// The change event listener configured to this namespace.
-    private(set) var changeEventListener: AnyChangeEventListener?
+    private(set) var changeEventDelegate: AnyChangeEventDelegate?
 
     /// Whether or not this namespace has been configured.
     var isConfigured: Bool {
@@ -180,21 +180,21 @@ internal struct NamespaceSynchronization: Sequence {
     }
 
     /**
-     Configure a ConflictHandler and ChangeEventListener to this namespace.
+     Configure a ConflictHandler and ChangeEventDelegate to this namespace.
      These will be used to handle conflicts or listen to events, for this namespace,
      respectively.
 
      TODO STITCH-2212: Add typealias lambdas to the higher level call for this function.
      
      - parameter conflictHandler: a ConflictHandler to handle conflicts on this namespace
-     - parameter changeEventListener: a ChangeEventListener to listen to events on this namespace
+     - parameter changeEventDelegate: a ChangeEventDelegate to listen to events on this namespace
      */
-    mutating func configure<T: ConflictHandler, V: ChangeEventListener>(conflictHandler: T,
-                                                                        changeEventListener: V) {
+    mutating func configure<T: ConflictHandler, V: ChangeEventDelegate>(conflictHandler: T,
+                                                                        changeEventDelegate: V) {
         nsLock.writeLock()
         defer { nsLock.unlock() }
         self.conflictHandler = AnyConflictHandler(conflictHandler)
-        self.changeEventListener = AnyChangeEventListener(changeEventListener,
+        self.changeEventDelegate = AnyChangeEventDelegate(changeEventDelegate,
                                                           errorListener: errorListener)
     }
 

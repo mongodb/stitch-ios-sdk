@@ -1,9 +1,10 @@
 import XCTest
 import MongoSwift
+import StitchCore
 import StitchCoreSDK
 import StitchCoreAdminClient
 import StitchDarwinCoreTestUtils
-import StitchCoreRemoteMongoDBService
+@testable import StitchCoreRemoteMongoDBService
 import StitchCoreLocalMongoDBService
 @testable import StitchRemoteMongoDBService
 
@@ -15,8 +16,8 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
     
     private lazy var mongodbUri: String = pList?[mongodbUriProp] as? String ?? "mongodb://localhost:26000"
 
-    private let dbName = ObjectId().description
-    private let collName = ObjectId().description
+    private let dbName = "dbName"
+    private let collName = "collName"
     
     private var mongoClient: RemoteMongoClient!
     
@@ -24,6 +25,17 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         super.setUp()
         
         try! prepareService()
+    }
+
+    override func tearDown() {
+        let joiner = CallbackJoiner()
+        getTestColl().deleteMany([:], joiner.capture())
+        XCTAssertNotNil(joiner.capturedValue)
+        CoreLocalMongoDBService.shared.localInstances.forEach { client in
+            try! client.listDatabases().forEach {
+                try? client.db($0["name"] as! String).drop()
+            }
+        }
     }
 
     override class func tearDown() {
@@ -1019,114 +1031,120 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         wait(for: [exp], timeout: 5.0)
     }
 
-    // TODO: STITCH-2215: This is an integration test and
-    // should be moved upstream to `Sync` within RemoteMongoClientIntTests.
-    // This will be possible after configuration is configured.
     func testSync_Count() throws {
         let coll = getTestColl()
         let sync = coll.sync
-        sync.configure(conflictHandler: TestConflictHandler(),
-                       changeEventListener: TestEventListener(),
-                       errorListener: TestErrorListener())
-        XCTAssertEqual(0, try dataSynchronizer.count(in: namespace))
+        sync.configure(conflictHandler: { _, _, rDoc in rDoc.fullDocument },
+                       changeEventDelegate: { _, _ in },
+                       errorListener: { _, _ in })
+
+        let joiner = CallbackJoiner()
+
+        sync.count(joiner.capture())
+        XCTAssertEqual(0, joiner.value())
 
         let doc1 = ["hello": "world", "a": "b"] as Document
         let doc2 = ["hello": "computer", "a": "b"] as Document
+        sync.insertMany(documents: [doc1, doc2], joiner.capture())
+        sync.count(joiner.capture())
 
-        try collection.insertMany([doc1, doc2])
-
-        XCTAssertEqual(2, try dataSynchronizer.count(in: namespace))
-
-        try collection.deleteMany(Document())
-
-        XCTAssertEqual(0, try dataSynchronizer.count(in: namespace))
+        XCTAssertEqual(2, joiner.value())
+        // TODO: STITCH-2262 Add delete case
     }
 
-    // TODO: STITCH-2215: This is an integration test and
-    // should be moved upstream to `Sync` within RemoteMongoClientIntTests.
-    // This will be possible after configuration is configured.
     func testSync_Find() throws {
-        dataSynchronizer.configure(namespace: namespace,
-                                   conflictHandler: TestConflictHandler(),
-                                   changeEventListener: TestEventListener(),
-                                   errorListener: TestErrorListener())
-        XCTAssertEqual(0, try dataSynchronizer.count(in: namespace))
+        let coll = getTestColl()
+        let sync = coll.sync
+        sync.configure(conflictHandler: { _, _, rDoc in rDoc.fullDocument },
+                       changeEventDelegate: { _, _ in },
+                       errorListener: { _, _ in })
+
+        let joiner = CallbackJoiner()
+
+        sync.count(joiner.capture())
+        XCTAssertEqual(0, joiner.value())
 
         let doc1 = ["hello": "world", "a": "b"] as Document
         let doc2 = ["hello": "computer", "a": "b"] as Document
-        try collection.insertMany([doc1, doc2])
+        sync.insertMany(documents: [doc1, doc2], joiner.capture())
 
-        let cursor: MongoCursor<Document> =
-            try dataSynchronizer.find(filter: ["hello": "computer"], options: nil, in: namespace)
+        sync.count(joiner.capture())
+        XCTAssertEqual(2, joiner.value())
 
-        XCTAssertEqual(2, try dataSynchronizer.count(in: namespace))
+        sync.find(filter: ["hello": "computer"], options: nil, joiner.capture())
+        guard let cursor = joiner.value(asType: MongoCursor<Document>.self),
+            let actualDoc = cursor.next()else {
+            XCTFail("documents not found")
+            return
+        }
 
-        let actualDoc = cursor.next()
-
-        XCTAssertEqual("b", actualDoc?["a"] as? String)
-        XCTAssertNotNil(actualDoc?["_id"])
-        XCTAssertEqual("computer", actualDoc?["hello"] as? String)
+        XCTAssertEqual("b", actualDoc["a"] as? String)
+        XCTAssertNotNil(actualDoc["_id"])
+        XCTAssertEqual("computer", actualDoc["hello"] as? String)
 
         XCTAssertNil(cursor.next())
     }
 
-    // TODO: STITCH-2215: This is an integration test and
-    // should be moved upstream to `Sync` within RemoteMongoClientIntTests.
-    // This will be possible after configuration is configured.
     func testSync_Aggregate() throws {
-        dataSynchronizer.configure(namespace: namespace,
-                                   conflictHandler: TestConflictHandler(),
-                                   changeEventListener: TestEventListener(),
-                                   errorListener: TestErrorListener())
-        XCTAssertEqual(0, try dataSynchronizer.count(in: namespace))
+        let coll = getTestColl()
+        let sync = coll.sync
+        sync.configure(conflictHandler: { _, _, rDoc in rDoc.fullDocument },
+                       changeEventDelegate: { _, _ in },
+                       errorListener: { _, _ in })
+        let joiner = CallbackJoiner()
+        sync.count(joiner.capture())
+        XCTAssertEqual(0, joiner.value())
 
         let doc1 = ["hello": "world", "a": "b"] as Document
         let doc2 = ["hello": "computer", "a": "b"] as Document
 
-        try collection.insertMany([doc1, doc2])
+        sync.insertMany(documents: [doc1, doc2], joiner.capture())
+        sync.count(joiner.capture())
+        XCTAssertEqual(2, joiner.value())
 
-        let cursor = try dataSynchronizer.aggregate(
+        sync.aggregate(
             pipeline: [
                 ["$project": ["_id": 0, "a": 0] as Document],
                 ["$match": ["hello": "computer"] as Document]
             ],
             options: nil,
-            in: namespace)
+            joiner.capture())
 
-        XCTAssertEqual(2, try dataSynchronizer.count(in: namespace))
+        guard let cursor = joiner.value(asType: MongoCursor<Document>.self),
+            let actualDoc = cursor.next() else {
+            XCTFail("docs not inserted")
+            return
+        }
 
-        let actualDoc = cursor.next()
-
-        XCTAssertNil(actualDoc?["a"])
-        XCTAssertNil(actualDoc?["_id"])
-        XCTAssertEqual("computer", actualDoc?["hello"] as? String)
+        XCTAssertNil(actualDoc["a"])
+        XCTAssertNil(actualDoc["_id"])
+        XCTAssertEqual("computer", actualDoc["hello"] as? String)
 
         XCTAssertNil(cursor.next())
     }
 
-    // TODO: STITCH-2215: This is an integration test and
-    // should be moved upstream to `Sync` within RemoteMongoClientIntTests.
-    // This will be possible after configuration is configured.
     func testSync_InsertOne() throws {
-        dataSynchronizer.configure(namespace: namespace,
-                                   conflictHandler: TestConflictHandler(),
-                                   changeEventListener: TestEventListener(),
-                                   errorListener: TestErrorListener())
-        XCTAssertEqual(0, try dataSynchronizer.count(in: namespace))
+        let coll = getTestColl()
+        let sync = coll.sync
+        sync.configure(conflictHandler: { _, _, rDoc in rDoc.fullDocument },
+                       changeEventDelegate: { _, _ in },
+                       errorListener: { _, _ in })
+
+        let joiner = CallbackJoiner()
+
+        sync.count(joiner.capture())
+        XCTAssertEqual(0, joiner.value())
 
         let doc1 = ["hello": "world", "a": "b", DOCUMENT_VERSION_FIELD: "naughty"] as Document
 
-        let insertOneResult = try dataSynchronizer.insertOne(document: doc1,
-                                                             in: namespace)
+        sync.insertOne(document: doc1, joiner.capture())
+        let insertOneResult = joiner.value(asType: InsertOneResult.self)
+        sync.count(joiner.capture())
+        XCTAssertEqual(1, joiner.value())
+        sync.find(filter: ["_id": insertOneResult?.insertedId], options: nil, joiner.capture())
 
-        let cursor: MongoCursor<Document> =
-            try dataSynchronizer.find(filter: ["_id": insertOneResult?.insertedId],
-                                      options: nil,
-                                      in: namespace)
-
-        XCTAssertEqual(1, try dataSynchronizer.count(in: namespace))
-
-        guard let actualDoc = cursor.next() else {
+        guard let cursor = joiner.value(asType: MongoCursor<Document>.self),
+            let actualDoc = cursor.next() else {
             XCTFail("doc was not inserted")
             return
         }
@@ -1138,32 +1156,33 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         XCTAssertNil(cursor.next())
     }
 
-    // TODO: STITCH-2215: This is an integration test and
-    // should be moved upstream to `Sync` within RemoteMongoClientIntTests.
-    // This will be possible after configuration is configured.
     func testSync_InsertMany() throws {
-        dataSynchronizer.configure(namespace: namespace,
-                                   conflictHandler: TestConflictHandler(),
-                                   changeEventListener: TestEventListener(),
-                                   errorListener: TestErrorListener())
-        XCTAssertEqual(0, try dataSynchronizer.count(in: namespace))
+        let coll = getTestColl()
+        let sync = coll.sync
+        sync.configure(conflictHandler: { _, _, rDoc in rDoc.fullDocument },
+                       changeEventDelegate: { _, _ in },
+                       errorListener: { _, _ in })
+
+        let joiner = CallbackJoiner()
+
+        sync.count(joiner.capture())
+        XCTAssertEqual(0, joiner.value())
 
         let doc1 = ["hello": "world", "a": "b"] as Document
         let doc2 = ["hello": "computer", "a": "b"] as Document
 
-        let insertManyResult = try dataSynchronizer.insertMany(documents: [doc1, doc2],
-                                                               in: namespace)
+        
+        sync.insertMany(documents: [doc1, doc2], joiner.capture())
+        let insertManyResult = joiner.value(asType: InsertManyResult.self)
 
-        let cursor: MongoCursor<Document> =
-            try dataSynchronizer.find(filter: ["_id":
-                [ "$in": insertManyResult?.insertedIds.values.map { $0 } ] as Document
-                ],
-                                      options: nil,
-                                      in: namespace)
+        sync.count(joiner.capture())
+        XCTAssertEqual(2, joiner.value())
 
-        XCTAssertEqual(2, try dataSynchronizer.count(in: namespace))
-
-        guard let actualDoc = cursor.next() else {
+        sync.find(filter: [
+            "_id": ["$in": insertManyResult?.insertedIds.values.map { $0 } ] as Document],
+                  joiner.capture())
+        guard let cursor = joiner.capturedValue as? MongoCursor<Document>,
+            let actualDoc = cursor.next() else {
             XCTFail("doc was not inserted")
             return
         }
@@ -1175,44 +1194,55 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         XCTAssertNotNil(cursor.next())
     }
 
-    // TODO: STITCH-2215: This is an integration test and
-    // should be moved upstream to `Sync` within RemoteMongoClientIntTests.
-    // This will be possible after configuration is configured.
     func testSync_UpdateOne() throws {
-        dataSynchronizer.configure(namespace: namespace,
-                                   conflictHandler: TestConflictHandler(),
-                                   changeEventListener: TestEventListener(),
-                                   errorListener: TestErrorListener())
-        XCTAssertEqual(0, try dataSynchronizer.count(in: namespace))
+        let coll = getTestColl()
+        let sync = coll.sync
+        sync.configure(conflictHandler: { _, _, rDoc in rDoc.fullDocument },
+                       changeEventDelegate: { _, _ in },
+                       errorListener: { _, _ in })
+
+        let joiner = CallbackJoiner()
+
+        sync.count(joiner.capture())
+        XCTAssertEqual(0, joiner.value())
 
         let doc1 = ["hello": "world", "a": "b", DOCUMENT_VERSION_FIELD: "naughty"] as Document
 
-        guard let insertedId = try dataSynchronizer.updateOne(
-            filter: doc1,
-            update: doc1,
-            options: UpdateOptions(upsert: true),
-            in: namespace)?.upsertedId?.value else {
-                XCTFail("upsert failed")
-                return
+        sync.updateOne(filter: doc1,
+                       update: doc1,
+                       options: UpdateOptions(upsert: true),
+                       joiner.capture())
+
+        guard let insertedId = (joiner.capturedValue as? UpdateResult)?.upsertedId else {
+            XCTFail("doc not upserted")
+            return
         }
 
-        let updateResult = try dataSynchronizer.updateOne(filter: ["_id": insertedId],
-                                                          update: ["$set": ["hello": "goodbye"] as Document],
-                                                          options: nil,
-                                                          in: namespace)
 
-        XCTAssertEqual(updateResult?.matchedCount, 1)
-        XCTAssertEqual(updateResult?.modifiedCount, 1)
-        XCTAssertEqual(updateResult?.upsertedCount, 0)
-        XCTAssertNil(updateResult?.upsertedId)
-        let cursor: MongoCursor<Document> =
-            try dataSynchronizer.find(filter: ["_id": insertedId],
-                                      options: nil,
-                                      in: namespace)
+        sync.updateOne(filter: ["_id": insertedId.value],
+                       update: ["$set": ["hello": "goodbye"] as Document],
+                       options: nil,
+                       joiner.capture())
 
-        XCTAssertEqual(1, try dataSynchronizer.count(in: namespace))
+        guard let updateResult = joiner.capturedValue as? UpdateResult else {
+            XCTFail("failed to update doc")
+            return
+        }
+        XCTAssertEqual(updateResult.matchedCount, 1)
+        XCTAssertEqual(updateResult.modifiedCount, 1)
+        XCTAssertEqual(updateResult.upsertedCount, 0)
+        XCTAssertNil(updateResult.upsertedId)
 
-        guard let actualDoc = cursor.next() else {
+        sync.count(joiner.capture())
+        XCTAssertEqual(1, joiner.value())
+
+        sync.find(filter: ["_id": insertedId.value],
+                  options: nil,
+                  joiner.capture())
+
+
+        guard let cursor = joiner.value(asType: MongoCursor<Document>.self),
+            let actualDoc = cursor.next() else {
             XCTFail("doc was not inserted")
             return
         }
@@ -1223,42 +1253,53 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         XCTAssertNil(cursor.next())
     }
 
-    // TODO: STITCH-2215: This is an integration test and
-    // should be moved upstream to `Sync` within RemoteMongoClientIntTests.
-    // This will be possible after configuration is configured.
     func testSync_UpdateMany() throws {
-        dataSynchronizer.configure(namespace: namespace,
-                                   conflictHandler: TestConflictHandler(),
-                                   changeEventListener: TestEventListener(),
-                                   errorListener: TestErrorListener())
-        XCTAssertEqual(0, try dataSynchronizer.count(in: namespace))
+        let coll = getTestColl()
+        let sync = coll.sync
+        sync.configure(conflictHandler: { _, _, rDoc in rDoc.fullDocument },
+                       changeEventDelegate: { _, _ in },
+                       errorListener: { _, _ in })
+
+        let joiner = CallbackJoiner()
+
+        sync.count(joiner.capture())
+        XCTAssertEqual(0, joiner.value())
 
         let doc1 = ["hello": "world", "a": "b", DOCUMENT_VERSION_FIELD: "naughty"] as Document
         let doc2 = ["hello": "computer", "a": "b"] as Document
 
-        guard let insertedIds: [BSONValue] = try dataSynchronizer
-            .insertMany(documents: [doc1, doc2],
-                        in: namespace)?
-            .insertedIds.compactMap({ $0.value }) else {
-                XCTFail("insert failed")
-                return
+        sync.insertMany(documents: [doc1, doc2], joiner.capture())
+
+        guard let insertManyResult = (joiner.capturedValue as? InsertManyResult) else {
+            XCTFail("insert failed")
+            return
         }
 
-        let updateResult = try dataSynchronizer.updateMany(filter: ["_id": ["$in": insertedIds] as Document],
-                                                           update: ["$set": ["hello": "goodbye"] as Document],
-                                                           options: nil,
-                                                           in: namespace)
+        let insertedIds = insertManyResult.insertedIds.compactMap({ $0.value })
+        sync.updateMany(filter: ["_id": ["$in": insertedIds] as Document],
+                        update: ["$set": ["hello": "goodbye"] as Document],
+                        options: nil,
+                        joiner.capture())
+        guard let updateResult = joiner.capturedValue as? UpdateResult else {
+            XCTFail("update failed")
+            return
+        }
 
-        XCTAssertEqual(updateResult?.matchedCount, 2)
-        XCTAssertEqual(updateResult?.modifiedCount, 2)
-        XCTAssertEqual(updateResult?.upsertedCount, 0)
-        XCTAssertNil(updateResult?.upsertedId)
-        let cursor: MongoCursor<Document> =
-            try dataSynchronizer.find(filter: ["_id": ["$in": insertedIds] as Document],
-                                      options: nil,
-                                      in: namespace)
+        XCTAssertEqual(updateResult.matchedCount, 2)
+        XCTAssertEqual(updateResult.modifiedCount, 2)
+        XCTAssertEqual(updateResult.upsertedCount, 0)
+        XCTAssertNil(updateResult.upsertedId)
 
-        XCTAssertEqual(2, try dataSynchronizer.count(in: namespace))
+        sync.count(joiner.capture())
+        XCTAssertEqual(2, joiner.value())
+
+        sync.find(filter: ["_id": ["$in": insertedIds] as Document],
+                  options: nil,
+                  joiner.capture())
+        guard let cursor = joiner.value(asType: MongoCursor<Document>.self) else {
+            XCTFail("could not find documents")
+            return
+        }
 
         cursor.forEach { actualDoc in
             XCTAssertEqual("b", actualDoc["a"] as? String)

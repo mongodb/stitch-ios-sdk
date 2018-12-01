@@ -22,17 +22,17 @@ public final class CoreSync<DocumentT: Codable> {
      Set the conflict resolver and and change event listener on this collection.
      - parameter conflictHandler: the conflict resolver to invoke when a conflict happens between local
      and remote events.
-     - parameter changeEventListener: the event listener to invoke when a change event happens for the
+     - parameter changeEventDelegate: the event listener to invoke when a change event happens for the
      document.
      - parameter errorListener: the error listener to invoke when an irrecoverable error occurs
      */
-    public func configure<CH: ConflictHandler, CEL: ChangeEventListener>(
+    public func configure<CH: ConflictHandler, CED: ChangeEventDelegate>(
         conflictHandler: CH,
-        changeEventListener: CEL,
-        errorListener: ErrorListener) where CH.DocumentT == DocumentT, CEL.DocumentT == DocumentT {
+        changeEventDelegate: CED,
+        errorListener: ErrorListener) where CH.DocumentT == DocumentT, CED.DocumentT == DocumentT {
         dataSynchronizer.configure(namespace: namespace,
                                    conflictHandler: conflictHandler,
-                                   changeEventListener: changeEventListener,
+                                   changeEventDelegate: changeEventDelegate,
                                    errorListener: errorListener)
     }
 

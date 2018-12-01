@@ -124,9 +124,9 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         }
     }
 
-    public func configure<CH: ConflictHandler, CEL: ChangeEventListener>(namespace: MongoNamespace,
+    public func configure<CH: ConflictHandler, CED: ChangeEventDelegate>(namespace: MongoNamespace,
                                                                          conflictHandler: CH,
-                                                                         changeEventListener: CEL,
+                                                                         changeEventDelegate: CED,
                                                                          errorListener: ErrorListener) {
         self.errorListener = errorListener
 
@@ -138,7 +138,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         defer { syncLock.unlock() }
 
         nsConfig.configure(conflictHandler: conflictHandler,
-                           changeEventListener: changeEventListener)
+                           changeEventDelegate: changeEventDelegate)
 
         if (!self.isConfigured) {
             self.isConfigured = true
@@ -730,7 +730,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         let nsConfig = syncConfig[event.ns]
 
         eventDispatchQueue.async {
-            nsConfig?.changeEventListener?.onEvent(documentId: documentId,
+            nsConfig?.changeEventDelegate?.onEvent(documentId: documentId,
                                                    event: event)
         }
     }
@@ -868,11 +868,11 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     }
 
     internal static func localConfigDBName(withInstanceKey instanceKey: String) -> String {
-        return "sync_config_\(instanceKey)"
+        return "sync-config-\(instanceKey)"
     }
     
     internal static func localUserDBName(withInstanceKey instanceKey: String,
                                          for namespace: MongoNamespace) -> String {
-        return "sync_user_\(instanceKey)_\(namespace.databaseName)"
+        return "sync-user-\(instanceKey)-\(namespace.databaseName)"
     }
 }

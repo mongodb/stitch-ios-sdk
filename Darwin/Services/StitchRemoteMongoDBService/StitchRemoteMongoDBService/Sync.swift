@@ -15,16 +15,33 @@ public class Sync<DocumentT: Codable> {
      Set the conflict resolver and and change event listener on this collection.
      - parameter conflictHandler: the conflict resolver to invoke when a conflict happens between local
      and remote events.
-     - parameter changeEventListener: the event listener to invoke when a change event happens for the
+     - parameter changeEventDelegate: the event listener to invoke when a change event happens for the
      document.
      - parameter errorListener: the error listener to invoke when an irrecoverable error occurs
      */
-    func configure<CH: ConflictHandler, CEL: ChangeEventListener>(
+    func configure(
+        conflictHandler: @escaping BlockConflictHandler<DocumentT>.ResolveConflictBlock,
+        changeEventDelegate: @escaping BlockChangeEventDelegate<DocumentT>.OnEventBlock,
+        errorListener: @escaping BlockErrorDelegate.OnErrorBlock) {
+        self.proxy.configure(conflictHandler: BlockConflictHandler(conflictHandler),
+                             changeEventDelegate: BlockChangeEventDelegate(changeEventDelegate),
+                             errorListener: BlockErrorDelegate(errorListener))
+    }
+
+    /**
+     Set the conflict resolver and and change event listener on this collection.
+     - parameter conflictHandler: the conflict resolver to invoke when a conflict happens between local
+     and remote events.
+     - parameter changeEventDelegate: the event listener to invoke when a change event happens for the
+     document.
+     - parameter errorListener: the error listener to invoke when an irrecoverable error occurs
+     */
+    func configure<CH: ConflictHandler, CED: ChangeEventDelegate>(
         conflictHandler: CH,
-        changeEventListener: CEL,
-        errorListener: ErrorListener) where CH.DocumentT == DocumentT, CEL.DocumentT == DocumentT {
+        changeEventDelegate: CED,
+        errorListener: ErrorListener) where CH.DocumentT == DocumentT, CED.DocumentT == DocumentT {
         self.proxy.configure(conflictHandler: conflictHandler,
-                             changeEventListener: changeEventListener,
+                             changeEventDelegate: changeEventDelegate,
                              errorListener: errorListener)
     }
 
@@ -145,7 +162,7 @@ public class Sync<DocumentT: Codable> {
      */
     func find(
         filter: Document,
-        options: FindOptions?,
+        options: FindOptions? = nil,
         _ completionHandler: @escaping (StitchResult<MongoCursor<DocumentT>>) -> Void) {
         queue.async {
             do {

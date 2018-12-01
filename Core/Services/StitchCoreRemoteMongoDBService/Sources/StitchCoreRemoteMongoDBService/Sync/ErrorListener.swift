@@ -3,7 +3,7 @@ import MongoSwift
 /**
  ErrorListener receives non-network related errors that occur.
  */
-public protocol ErrorListener: class {
+public protocol ErrorListener {
     /**
      Called when an error happens for the given document id.
 
@@ -11,6 +11,19 @@ public protocol ErrorListener: class {
      - parameter documentId: the _id of the document related to the error.
      */
     func on(error: Error, forDocumentId documentId: BSONValue?)
+}
+
+public class BlockErrorDelegate: ErrorListener {
+    public typealias OnErrorBlock = (_ error: Error, _ documentId: BSONValue?) -> Void
+
+    private let onErrorBlock: OnErrorBlock
+    public init(_ onErrorBlock: @escaping OnErrorBlock) {
+        self.onErrorBlock = onErrorBlock
+    }
+
+    public func on(error: Error, forDocumentId documentId: BSONValue?) {
+        self.onErrorBlock(error, documentId)
+    }
 }
 
 /**

@@ -22,6 +22,24 @@ public protocol ConflictHandler {
         remoteEvent: ChangeEvent<DocumentT>) throws -> DocumentT?
 }
 
+public final class BlockConflictHandler<T: Codable>: ConflictHandler {
+    public typealias DocumentT = T
+    public typealias ResolveConflictBlock = (
+        _ documentId: BSONValue,
+        _ localEvent: ChangeEvent<DocumentT>,
+        _ remoteEvent: ChangeEvent<DocumentT>) throws -> DocumentT?
+
+    private let resolveConflictBlock: ResolveConflictBlock
+
+    public init(_ resolveConflictBlock: @escaping ResolveConflictBlock) {
+        self.resolveConflictBlock = resolveConflictBlock
+    }
+
+    public func resolveConflict(documentId: BSONValue, localEvent: ChangeEvent<BlockConflictHandler.DocumentT>, remoteEvent: ChangeEvent<BlockConflictHandler.DocumentT>) throws -> BlockConflictHandler.DocumentT? {
+        return try self.resolveConflictBlock(documentId, localEvent, remoteEvent)
+    }
+}
+
 internal final class AnyConflictHandler: ConflictHandler {
     private let _resolver: (BSONValue, ChangeEvent<Document>, ChangeEvent<Document>) throws -> Document?
 

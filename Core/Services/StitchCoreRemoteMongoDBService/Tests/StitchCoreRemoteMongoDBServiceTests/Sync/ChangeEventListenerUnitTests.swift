@@ -4,18 +4,18 @@ import MongoMobile
 import MongoSwift
 @testable import StitchCoreRemoteMongoDBService
 
-class ChangeEventListenerUnitTests: XCTestCase {
+class ChangeEventDelegateUnitTests: XCTestCase {
     private struct TestCodable: Codable {
         let _id: ObjectId
         let foo: Int
         let bar: String
     }
 
-    private class TestCodableChangeEventListener: ChangeEventListener {
+    private class TestCodableChangeEventDelegate: ChangeEventDelegate {
         typealias DocumentT = TestCodable
 
-        func onEvent(documentId: BSONValue, event: ChangeEvent<ChangeEventListenerUnitTests.TestCodable>) {
-            XCTAssertEqual(ChangeEventListenerUnitTests.documentId, documentId as! ObjectId)
+        func onEvent(documentId: BSONValue, event: ChangeEvent<ChangeEventDelegateUnitTests.TestCodable>) {
+            XCTAssertEqual(ChangeEventDelegateUnitTests.documentId, documentId as! ObjectId)
             XCTAssertTrue(bsonEquals(expectedChangeEvent.id.value, event.id.value))
             XCTAssertEqual(expectedChangeEvent.operationType, event.operationType)
             XCTAssertEqual(expectedChangeEvent.fullDocument?["foo"] as? Int, event.fullDocument?.foo)
@@ -39,9 +39,9 @@ class ChangeEventListenerUnitTests: XCTestCase {
         hasUncommittedWrites: false)
 
     func testOnEvent() {
-        let changeEventListener = AnyChangeEventListener(TestCodableChangeEventListener(),
+        let changeEventDelegate = AnyChangeEventDelegate(TestCodableChangeEventDelegate(),
                                                          errorListener: nil)
-        changeEventListener.onEvent(documentId: ChangeEventListenerUnitTests.documentId,
-                                    event: ChangeEventListenerUnitTests.expectedChangeEvent)
+        changeEventDelegate.onEvent(documentId: ChangeEventDelegateUnitTests.documentId,
+                                    event: ChangeEventDelegateUnitTests.expectedChangeEvent)
     }
 }
