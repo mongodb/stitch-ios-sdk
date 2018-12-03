@@ -3,6 +3,20 @@ import MongoSwift
 import MongoMobile
 import StitchCoreSDK
 
+/// Internal extension so we can initialize using
+/// internal initializer.
+extension UpdateResult {
+    init(matchedCount: Int,
+         modifiedCount: Int,
+         upsertedId: AnyBSONValue?,
+         upsertedCount: Int) {
+        self.matchedCount = matchedCount
+        self.modifiedCount = modifiedCount
+        self.upsertedId = upsertedId
+        self.upsertedCount = upsertedCount
+    }
+}
+
 /**
  DataSynchronizer handles the bidirectional synchronization of documents between a local MongoDB
  and a remote MongoDB (via Stitch). It also expose CRUD operations to interact with synchronized
@@ -60,7 +74,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     /// The user's error listener
     private var errorListener: ErrorListener?
     /// Current sync pass iteration
-    private var logicalT: Int = 0
+    private var logicalT: UInt = 0
     /// Whether or not the sync loop is running
     var isRunning: Bool {
         syncLock.readLock()
@@ -229,7 +243,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 return
             }
 
-            nsConfig.sync(id: id)
+            _ = nsConfig.sync(id: id)
         }
 
         self.triggerListening(to: namespace)
@@ -331,7 +345,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                in namespace: MongoNamespace) throws -> Int {
         guard let lock = self.syncConfig[namespace]?.nsLock else {
             throw StitchError.clientError(
-                withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
+                withClientErrorCode: .couldNotLoadSyncInfo)
         }
         lock.readLock()
         defer { lock.unlock() }
@@ -363,7 +377,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                                   in namespace: MongoNamespace) throws -> MongoCursor<DocumentT> {
         guard let lock = self.syncConfig[namespace]?.nsLock else {
             throw StitchError.clientError(
-                withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
+                withClientErrorCode: .couldNotLoadSyncInfo)
         }
         lock.readLock()
         defer { lock.unlock() }
@@ -385,7 +399,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                    in namespace: MongoNamespace) throws -> MongoCursor<Document> {
         guard let lock = self.syncConfig[namespace]?.nsLock else {
             throw StitchError.clientError(
-                withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
+                withClientErrorCode: .couldNotLoadSyncInfo)
         }
         lock.readLock()
         defer { lock.unlock() }
@@ -405,9 +419,29 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      - parameter namespace: the namespace to conduct this op
      - returns: the result of the insert one operation
      */
-    func insertOne<DocumentT: Codable>(document: DocumentT,
-                                       in namespace: MongoNamespace) -> InsertOneResult? {
-        fatalError("\(#function) not implemented")
+    func insertOne(document: Document,
+                   in namespace: MongoNamespace) throws -> InsertOneResult? {
+        guard var nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
+            throw StitchError.clientError(
+                withClientErrorCode: .couldNotLoadSyncInfo)
+        }
+        let lock = nsConfig.nsLock
+        lock.writeLock()
+        defer { lock.unlock() }
+        // Remove forbidden fields from the document before inserting it into the local collection.
+        let docForStorage = DataSynchronizer.sanitizeDocument(document)
+        guard let result = try localCollection(for: namespace).insertOne(docForStorage),
+            let documentId = result.insertedId else {
+            return nil
+        }
+        let event = ChangeEvent<Document>.changeEventForLocalInsert(namespace: namespace,
+                                                                    document: docForStorage,
+                                                                    writePending: true)
+        var config = nsConfig.sync(id: documentId)
+        try config.setSomePendingWrites(atTime: logicalT, changeEvent: event)
+        triggerListening(to: namespace)
+        emitEvent(documentId: documentId, event: event)
+        return result
     }
 
     /**
@@ -417,9 +451,37 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      - parameter namespace: the namespace to conduct this op
      - returns: the result of the insert many operation
      */
-    func insertMany<DocumentT: Codable>(documents: DocumentT...,
-        in namespace: MongoNamespace) -> InsertManyResult? {
-        fatalError("\(#function) not implemented")
+    func insertMany(documents: [Document], in namespace: MongoNamespace) throws -> InsertManyResult? {
+        guard var nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
+            throw StitchError.clientError(
+                withClientErrorCode: .couldNotLoadSyncInfo)
+        }
+        let lock = nsConfig.nsLock
+        lock.writeLock()
+        defer { lock.unlock() }
+
+        // Remove forbidden fields from the documents before inserting them into the local collection.
+        let docsForStorage = documents.map { DataSynchronizer.sanitizeDocument($0) }
+        guard let result = try localCollection(for: namespace).insertMany(docsForStorage) else {
+            return nil
+        }
+
+        let eventEmitters = try result.insertedIds.compactMap({ (kv) -> (() -> Void)? in
+            guard let documentId = kv.value else {
+                return nil
+            }
+            let document = docsForStorage[kv.key]
+            let event = ChangeEvent<Document>.changeEventForLocalInsert(namespace: namespace,
+                                                                        document: document,
+                                                                        writePending: true)
+            var config = nsConfig.sync(id: documentId)
+            try config.setSomePendingWrites(atTime: logicalT, changeEvent: event)
+            return { self.emitEvent(documentId: documentId, event: event) }
+        })
+
+        triggerListening(to: namespace)
+        eventEmitters.forEach({$0()})
+        return result
     }
 
     /**
@@ -463,8 +525,88 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     func updateOne(filter: Document,
                    update: Document,
                    options: UpdateOptions?,
-                   in namespace: MongoNamespace) -> UpdateResult? {
-        fatalError("\(#function) not implemented")
+                   in namespace: MongoNamespace) throws -> UpdateResult? {
+        guard var nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
+            throw StitchError.clientError(
+                withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
+        }
+        let lock = nsConfig.nsLock
+        lock.writeLock()
+        defer { lock.unlock() }
+        // read the local collection
+        let localCollection = try self.localCollection(for: namespace, withType: Document.self)
+        let upsert = options?.upsert ?? false
+
+        // fetch the document prior to updating
+        let documentBeforeUpdate = try localCollection.find(filter).next()
+
+        // if there was no document prior and this is not an upsert,
+        // do not acknowledge the update
+        if !upsert && documentBeforeUpdate == nil {
+            return nil
+        }
+
+        // find and update the single document, returning the document post-update
+        // if the document was deleted between our earlier check and now, it will not have
+        // been updated. do not acknowledge the update
+        guard let unsanitizedDocumentAfterUpdate = try localCollection.findOneAndUpdate(
+            filter: filter,
+            update: update,
+            options: FindOneAndUpdateOptions.init(arrayFilters: options?.arrayFilters,
+                                                  bypassDocumentValidation: options?.bypassDocumentValidation,
+                                                  collation: options?.collation,
+                                                  returnDocument: .after,
+                                                  upsert: options?.upsert)),
+            let documentId = unsanitizedDocumentAfterUpdate["_id"] else {
+            return nil
+        }
+
+        // Ensure that the update didn't add any forbidden fields to the document, and remove them if
+        // it did.
+        let documentAfterUpdate =
+            try DataSynchronizer.sanitizeCachedDocument(unsanitizedDocumentAfterUpdate,
+                                                        documentId: documentId,
+                                                        in: localCollection)
+
+        // if there was no document prior and this was an upsert,
+        // treat this as an insert.
+        // else this is an update
+        let triggerNamespace = documentBeforeUpdate == nil && upsert
+        var config: CoreDocumentSynchronization
+        let event: ChangeEvent<Document>
+        if triggerNamespace {
+            config = nsConfig.sync(id: documentId)
+            event = ChangeEvent<Document>.changeEventForLocalInsert(
+                namespace: namespace,
+                document: documentAfterUpdate,
+                writePending: true)
+        } else {
+            // if the document config has been removed from the namespace
+            // during the time this occured, a delete must have occured,
+            // so we can swallow this update
+            guard let docConfig = nsConfig[documentId],
+                let documentBeforeUpdate = documentBeforeUpdate,
+                let documentId = documentAfterUpdate["_id"] else {
+                return nil
+            }
+            config = docConfig
+            event = ChangeEvent<Document>.changeEventForLocalUpdate(
+                namespace: namespace,
+                documentId: documentId,
+                update: documentBeforeUpdate.diff(otherDocument: documentAfterUpdate),
+                fullDocumentAfterUpdate: documentAfterUpdate,
+                writePending: true)
+        }
+
+        try config.setSomePendingWrites(atTime: logicalT, changeEvent: event)
+        if triggerNamespace {
+            triggerListening(to: namespace)
+        }
+        self.emitEvent(documentId: documentId, event: event);
+        return UpdateResult(matchedCount: 1,
+                            modifiedCount: 1,
+                            upsertedId: upsert ? AnyBSONValue(documentId) : nil,
+                            upsertedCount: upsert ? 1 : 0)
     }
 
     /**
@@ -482,8 +624,99 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     func updateMany(filter: Document,
                     update: Document,
                     options: UpdateOptions?,
-                    in namespace: MongoNamespace) -> UpdateResult? {
-        fatalError("\(#function) not implemented")
+                    in namespace: MongoNamespace) throws -> UpdateResult? {
+        guard var nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
+            throw StitchError.clientError(
+                withClientErrorCode: .couldNotLoadSyncInfo)
+        }
+        let lock = nsConfig.nsLock
+        lock.writeLock()
+        defer { lock.unlock() }
+
+        // fetch all of the documents that this filter will match
+        let localCollection = try self.localCollection(for: namespace, withType: Document.self)
+        let beforeDocuments = try localCollection.find(filter)
+
+        // use the matched ids from prior to create a new filter.
+        // this will prevent any race conditions if documents were
+        // inserted between the prior find
+        let ids = beforeDocuments.map({$0["_id"]})
+        var updatedFilter = (options?.upsert ?? false) ? filter :
+            ["_id": ["$in": ids] as Document] as Document
+
+        // do the bulk write
+        let result = try localCollection.updateMany(filter: updatedFilter,
+                                                    update: update,
+                                                    options: options)
+
+        // if this was an upsert, create the post-update filter using
+        // the upserted id.
+        if let upsertedId = result?.upsertedId {
+            updatedFilter = ["_id": upsertedId.value] as Document
+        }
+
+        let upsert = options?.upsert ?? false
+        // iterate over the after-update docs using the updated filter
+        let eventsToEmit: [ChangeEvent<Document>] =
+            try localCollection.find(updatedFilter).compactMap { unsanitizedAfterDocument in
+            // get the id of the after-update document, and fetch the before-update
+            // document from the map we created from our pre-update `find`
+            guard let documentId = unsanitizedAfterDocument["_id"] else {
+                return nil
+            }
+
+            let beforeDocument = beforeDocuments.first(where: {
+                bsonEquals($0["_id"], documentId)
+            })
+
+            // if there was no before-update document and this was not an upsert,
+            // a document that meets the filter criteria must have been
+            // inserted or upserted asynchronously between this find and the update.
+            if beforeDocument == nil && !upsert {
+                return nil
+            }
+
+            // Ensure that the update didn't add any forbidden fields to the document, and remove
+            // them if it did.
+            let afterDocument =
+                try DataSynchronizer.sanitizeCachedDocument(unsanitizedAfterDocument,
+                                                            documentId: documentId,
+                                                            in: localCollection)
+
+            var config: CoreDocumentSynchronization
+            let event: ChangeEvent<Document>
+
+            // if there was no earlier document and this was an upsert,
+            // treat the upsert as an insert, as far as sync is concerned
+            // else treat it as a standard update
+            if let beforeDocument = beforeDocument {
+                guard let docConfig = nsConfig[documentId] else {
+                    return nil
+                }
+                config = docConfig
+                event = ChangeEvent<Document>.changeEventForLocalUpdate(
+                    namespace: namespace,
+                    documentId: documentId,
+                    update: beforeDocument.diff(otherDocument: afterDocument),
+                    fullDocumentAfterUpdate: afterDocument,
+                    writePending: true)
+            } else {
+                config = nsConfig.sync(id: documentId)
+                event = ChangeEvent<Document>.changeEventForLocalInsert(namespace: namespace,
+                                                                        document: afterDocument,
+                                                                        writePending: true);
+            }
+
+            try config.setSomePendingWrites(atTime: logicalT, changeEvent: event);
+            return event
+        }
+
+        if result?.upsertedId != nil {
+            triggerListening(to: namespace)
+        }
+
+        eventsToEmit.forEach({emitEvent(documentId: $0.documentKey, event: $0)})
+        return result
     }
 
     /**
@@ -577,6 +810,49 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         } catch {
             log.e("t='\(logicalT)': triggerListeningToNamespace ns=\(namespace) exception: \(error)")
         }
+    }
+
+    /**
+     Given a BSON document, remove any forbidden fields and return the document. If no changes are
+     made, the original document reference is returned. If changes are made, a cloned copy of the
+     document with the changes will be returned.
+
+     - parameter document: the document from which to remove forbidden fields
+     - returns: a BsonDocument without any forbidden fields.
+     */
+    private static func sanitizeDocument(_ document: Document) -> Document {
+        guard document.hasKey(DOCUMENT_VERSION_FIELD) else {
+            return document
+        }
+
+        return document.filter { $0.key != DOCUMENT_VERSION_FIELD }
+    }
+
+    /**
+     Given a local collection, a document fetched from that collection, and its _id, ensure that
+     the document does not contain forbidden fields (currently just the document version field),
+     and remove them from the document and the local collection. If no changes are made, the
+     original document reference is returned. If changes are made, a cloned copy of the document
+     with the changes will be returned.
+
+     - parameter localCollection: the local MongoCollection from which the document was fetched
+     - parameter document: the document fetched from the local collection. this argument may be mutated
+     - parameter documentId: the _id of the fetched document (taken as an arg so that if the caller
+     already knows the _id, the document need not be traversed to find it)
+     - returns: a BsonDocument without any forbidden fields.
+     */
+    private static func sanitizeCachedDocument(_ document: Document,
+                                               documentId: BSONValue,
+                                               in localCollection: MongoCollection<Document>) throws -> Document {
+        guard document[DOCUMENT_VERSION_FIELD] != nil else {
+            return document
+        }
+
+        let clonedDoc = sanitizeDocument(document)
+
+        try localCollection.findOneAndUpdate(filter: ["_id": documentId],
+                                             update: ["$unset": [DOCUMENT_VERSION_FIELD: 1] as Document])
+        return clonedDoc
     }
 
     /**
