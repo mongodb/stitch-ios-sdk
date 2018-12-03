@@ -3,7 +3,8 @@ import MongoSwift
 import MongoMobile
 import StitchCoreSDK
 
-/// Internal extension to initialize UpdateResults as we see fit
+/// Internal extension so we can initialize using
+/// internal initializer.
 extension UpdateResult {
     init(matchedCount: Int,
          modifiedCount: Int,
@@ -242,7 +243,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 return
             }
 
-            let _ = nsConfig.sync(id: id)
+            _ = nsConfig.sync(id: id)
         }
 
         self.triggerListening(to: namespace)
