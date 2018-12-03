@@ -28,6 +28,8 @@ public protocol StitchRequestClient {
      * - returns: the response to the request as a `Response` object.
      */
     func doRequest(_ stitchReq: StitchRequest) throws -> Response
+
+    func doStreamRequest(_ stitchReq: StitchRequest) throws -> EventStream
 }
 
 /**
@@ -76,6 +78,14 @@ public final class StitchRequestClientImpl: StitchRequestClient {
             throw StitchError.requestError(withError: error, withRequestErrorCode: .transportError)
         }
         return try inspectResponse(response: response)
+    }
+
+    public func doStreamRequest(_ stitchReq: StitchRequest) throws -> EventStream {
+        do {
+            return try transport.stream(request: buildRequest(stitchReq))
+        } catch  {
+            throw StitchError.requestError(withError: error, withRequestErrorCode: .transportError)
+        }
     }
 
     /**
