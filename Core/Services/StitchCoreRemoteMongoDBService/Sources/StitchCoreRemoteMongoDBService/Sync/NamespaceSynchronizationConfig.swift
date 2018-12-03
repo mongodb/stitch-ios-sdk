@@ -123,11 +123,13 @@ internal struct NamespaceSynchronization: Sequence {
         return self.config.syncedDocuments.count
     }
 
-    mutating func sync(id: BSONValue) {
-        self[id] = CoreDocumentSynchronization.init(docsColl: docsColl,
-                                                    namespace: config.namespace,
-                                                    documentId: AnyBSONValue(id),
-                                                    errorListener: errorListener)
+    mutating func sync(id: BSONValue) -> CoreDocumentSynchronization {
+        let docConfig = CoreDocumentSynchronization.init(docsColl: docsColl,
+                                                         namespace: self.config.namespace,
+                                                         documentId: AnyBSONValue(id),
+                                                         errorListener: errorListener)
+        self[id] = docConfig
+        return docConfig
     }
 
     /**
