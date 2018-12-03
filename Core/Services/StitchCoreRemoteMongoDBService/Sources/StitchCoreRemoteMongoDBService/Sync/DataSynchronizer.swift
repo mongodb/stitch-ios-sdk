@@ -3,6 +3,7 @@ import MongoSwift
 import MongoMobile
 import StitchCoreSDK
 
+/// Internal extension to initialize UpdateResults as we see fit
 extension UpdateResult {
     init(matchedCount: Int,
          modifiedCount: Int,
@@ -72,7 +73,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     /// The user's error listener
     private var errorListener: ErrorListener?
     /// Current sync pass iteration
-    private var logicalT: TimeInterval = 0
+    private var logicalT: UInt = 0
     /// Whether or not the sync loop is running
     var isRunning: Bool {
         syncLock.readLock()
@@ -343,7 +344,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                in namespace: MongoNamespace) throws -> Int {
         guard let lock = self.syncConfig[namespace]?.nsLock else {
             throw StitchError.clientError(
-                withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
+                withClientErrorCode: .couldNotLoadSyncInfo)
         }
         lock.readLock()
         defer { lock.unlock() }
@@ -375,7 +376,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                                   in namespace: MongoNamespace) throws -> MongoCursor<DocumentT> {
         guard let lock = self.syncConfig[namespace]?.nsLock else {
             throw StitchError.clientError(
-                withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
+                withClientErrorCode: .couldNotLoadSyncInfo)
         }
         lock.readLock()
         defer { lock.unlock() }
@@ -397,7 +398,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                    in namespace: MongoNamespace) throws -> MongoCursor<Document> {
         guard let lock = self.syncConfig[namespace]?.nsLock else {
             throw StitchError.clientError(
-                withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
+                withClientErrorCode: .couldNotLoadSyncInfo)
         }
         lock.readLock()
         defer { lock.unlock() }
@@ -421,7 +422,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                    in namespace: MongoNamespace) throws -> InsertOneResult? {
         guard var nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
             throw StitchError.clientError(
-                withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
+                withClientErrorCode: .couldNotLoadSyncInfo)
         }
         let lock = nsConfig.nsLock
         lock.writeLock()
@@ -452,7 +453,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     func insertMany(documents: [Document], in namespace: MongoNamespace) throws -> InsertManyResult? {
         guard var nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
             throw StitchError.clientError(
-                withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
+                withClientErrorCode: .couldNotLoadSyncInfo)
         }
         let lock = nsConfig.nsLock
         lock.writeLock()
@@ -625,7 +626,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                     in namespace: MongoNamespace) throws -> UpdateResult? {
         guard var nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
             throw StitchError.clientError(
-                withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
+                withClientErrorCode: .couldNotLoadSyncInfo)
         }
         let lock = nsConfig.nsLock
         lock.writeLock()
@@ -687,7 +688,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             // if there was no earlier document and this was an upsert,
             // treat the upsert as an insert, as far as sync is concerned
             // else treat it as a standard update
-            if let beforeDocument = beforeDocument, !upsert {
+            if let beforeDocument = beforeDocument {
                 guard let docConfig = nsConfig[documentId] else {
                     return nil
                 }
