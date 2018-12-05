@@ -12,5 +12,5 @@ public protocol Transport {
      */
     func roundTrip(request: Request) throws -> Response
 
-    func stream(request: Request) throws -> EventStream
+    func stream(request: Request) throws -> RawSSEStream
 }

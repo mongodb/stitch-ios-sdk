@@ -1,37 +1,43 @@
-public protocol EventStream {
-    /**
-      The next event in this event stream.
+import Foundation
 
-      @return next event in this stream
-     */
-    func nextEvent() throws -> Event
+private let newlineChar = [UInt8]("\n".utf8)[0]
+open class RawSSEStream {
+    private var error: Error? = nil
+    private var data = Data()
+    private var isOpen = false
 
-    /**
-     * Whether or not the stream is currently open.
-     * @return true if open, false if not
-     */
-    var isOpen: Bool { get }
+    open func open() {
+        isOpen = true
+    }
 
-    /**
-     * Close the current stream.
-     * @throws IOException can throw exception if internal buffer not closed properly
-     */
-    func close()
+    open func close() {
+        isOpen = false
+    }
 
-    /**
-     * Cancels the underlying connection to the current stream.
-     */
-    func cancel()
+    open func appendData(_ data: Data) {
+        objc_sync_enter(self)
+        defer { objc_sync_exit(self) }
+        self.data.append(data)
+    }
 
     /**
-     * Read the next line of a stream from a given source.
-     * @return the next utf8 line
-     * @throws IOException if a stream is in the wrong state, IO errors can be thrown
+     Read the next line of a stream from a given source.
+     - returns: the next utf8 line
      */
-    func readLine() -> String?
-}
+    public func readLine() -> String? {
+        objc_sync_enter(self)
+        defer { objc_sync_exit(self) }
+        guard let newlineIndex = self.data.firstIndex(of: newlineChar) else {
+            let line = String.init(data: data, encoding: .utf8)!
+            data.removeAll()
+            return line
+        }
 
-extension EventStream {
+        let line = data[data.startIndex ..< newlineIndex]
+        data.removeSubrange(data.startIndex ..< newlineIndex + 1)
+        return String.init(data: line, encoding: .utf8)
+    }
+
     private func process(value: String,
                          forField field: String,
                          eventName: inout String,
@@ -66,15 +72,18 @@ extension EventStream {
     }
 
     /**
-     * Process the next event in a given stream.
-     * @return the fully processed event
-     * @throws IOException if a stream is in the wrong state, IO errors can be thrown
+     Process the next event in a given stream.
+     - returns: the fully processed event
      */
-    public func nextEvent() throws -> Event {
+    open func nextEvent() throws -> RawSSE {
         var doneOnce = false
         var dataBuffer = ""
         var eventName = ""
         while true {
+            guard isOpen else {
+                continue
+            }
+
             guard let line = readLine() else {
                 if doneOnce {
                     throw StitchError.clientError(
@@ -85,7 +94,7 @@ extension EventStream {
             }
 
             // If the line is empty (a blank line), Dispatch the event, as defined below.
-            if line.isEmpty {
+            if line.isEmpty || line == "\n" {
                 // If the data buffer is an empty string, set the data buffer and the event name buffer to
                 // the empty string and abort these steps.
                 if (dataBuffer.count == 0) {
@@ -96,12 +105,17 @@ extension EventStream {
                 // If the event name buffer is not the empty string but is also not a valid NCName,
                 // set the data buffer and the event name buffer to the empty string and abort these steps.
                 // NOT IMPLEMENTED
-                return Event.init(data: dataBuffer, eventName: eventName)
+                guard let sse = try RawSSE.init(rawData: dataBuffer, eventName: eventName) else {
+                    continue
+                }
+
+                return sse
             // If the line starts with a U+003A COLON character (':')
             } else if line.starts(with: ":") {
                 // ignore the line
                 // If the line contains a U+003A COLON character (':') character
             } else if line.contains(":") {
+                print(line)
                 // Collect the characters on the line before the first U+003A COLON character (':'),
                 // and let field be that string.
                 let colonIdx = line.firstIndex(of: ":")!

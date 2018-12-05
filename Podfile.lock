@@ -1,4 +1,5 @@
 PODS:
+  - Embassy (4.0.8)
   - JSONWebToken (2.2.0)
   - mongo-embedded-c-driver (1.13.0-4.0.4)
   - mongo_embedded (4.0.4)
@@ -15,6 +16,7 @@ PODS:
   - SwiftLint (0.28.0)
 
 DEPENDENCIES:
+  - Embassy (~> 4.0)
   - JSONWebToken (~> 2.2.0)
   - MongoMobile (= 0.0.5)
   - MongoSwift (= 0.0.7)
@@ -23,6 +25,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - Embassy
     - JSONWebToken
     - mongo-embedded-c-driver
     - mongo_embedded
@@ -33,6 +36,7 @@ SPEC REPOS:
     - SwiftLint
 
 SPEC CHECKSUMS:
+  Embassy: fe6a3f8dd2d705881c172dcb144fb97b9408f4cd
   JSONWebToken: 6fae32489632658d563dd6952a5c34020ea813e4
   mongo-embedded-c-driver: b46360baa15fc142baae80628822f26663220bde
   mongo_embedded: e413134eb6b60544e7278add03007f8fe384a00c
@@ -42,6 +46,6 @@ SPEC CHECKSUMS:
   Swifter: eb2bc1d192a1c09169c7fefd01971565fa940521
   SwiftLint: 088cfacb75b45970017e62b7524d506776d60148
 
-PODFILE CHECKSUM: f5d729b32714a25802d977f720457303a051bc7f
+PODFILE CHECKSUM: 4c2f565b78d13fa5475422e16e7da324e0c9ce7e
 
 COCOAPODS: 1.6.0.beta.1

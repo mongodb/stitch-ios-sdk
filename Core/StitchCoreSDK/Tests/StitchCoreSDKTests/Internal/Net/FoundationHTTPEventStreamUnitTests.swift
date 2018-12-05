@@ -4,6 +4,8 @@ import XCTest
 
 public class FoundationHTTPEventStreamUnitTests: XCTestCase {
     func testReadLine() {
+        let eventStream = FoundationHTTPEventStream()
+
         let line1 = "They dined on mince and slices of quince,"
         let line2 = "Which they ate with a runcible spoon;"
         let line3 = "And hand in hand, on the edge of the sand,"
@@ -15,14 +17,16 @@ public class FoundationHTTPEventStreamUnitTests: XCTestCase {
         \(line4)
         """
 
-        XCTAssertTrue(string.contains("\n"))
-        let inputStream = InputStream.init(data: string.data(using: .utf8)!)
-        inputStream.open()
-        let eventStream = FoundationHTTPEventStream.init(inputStream: inputStream)
+        // inject data into stream
+        eventStream.urlSession(URLSession(),
+                               dataTask: URLSessionDataTask(),
+                               didReceive: string.data(using: .utf8)!)
+
         XCTAssertEqual(eventStream.readLine(), line1)
         XCTAssertEqual(eventStream.readLine(), line2)
         XCTAssertEqual(eventStream.readLine(), line3)
         XCTAssertEqual(eventStream.readLine(), line4)
+        XCTAssertEqual(eventStream.readLine(), "")
     }
 
     func testNextEvent() throws {
@@ -32,18 +36,27 @@ public class FoundationHTTPEventStreamUnitTests: XCTestCase {
         let dataOdds = "data: \(odds)"
         let dataTreason = "data: \(treason)"
 
-        let inputStream = InputStream.init(data: """
-        \(dataOdds)
-        \(dataTreason)\n
-        """.data(using: .utf8)!)
-        inputStream.open()
-        let stream = FoundationHTTPEventStream.init(inputStream: inputStream)
+        let data = """
+        \n
+        \(dataOdds)\n
+        \(dataTreason)\n\n
+        """.data(using: .utf8)!
 
-        XCTAssertTrue(stream.isOpen)
+        let stream = FoundationHTTPEventStream()
+        stream.urlSession(URLSession(),
+                          dataTask: URLSessionDataTask(),
+                          didReceive: data)
 
-        XCTAssertEqual(dataOdds, stream.readLine())
+        // mock open the stream
+        stream.urlSession(URLSession(),
+                          dataTask: URLSessionDataTask(),
+                          didReceive: HTTPURLResponse.init(url: URL.init(fileURLWithPath: ""),
+                                                           statusCode: 200,
+                                                           httpVersion: nil,
+                                                           headerFields: nil)!,
+                          completionHandler: { _ in })
 
-        XCTAssertTrue(stream.isOpen)
+        XCTAssertEqual(odds, try stream.nextEvent().data)
 
         XCTAssertEqual(treason, try stream.nextEvent().data)
 

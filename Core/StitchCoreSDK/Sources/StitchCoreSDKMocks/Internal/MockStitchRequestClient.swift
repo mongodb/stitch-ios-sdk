@@ -15,4 +15,9 @@ public final class MockStitchRequestClient: StitchRequestClient {
     public func doRequest(_ stitchReq: StitchRequest) throws -> Response {
         return try doRequestMock.throwingRun(arg1: stitchReq)
     }
+
+    public var doStreamRequestMock = FunctionMockUnitOneArg<EventStream, StitchRequest>()
+    public func doStreamRequest(_ stitchReq: StitchRequest) throws -> EventStream {
+        return try doStreamRequestMock.throwingRun(arg1: stitchReq)
+    }
 }

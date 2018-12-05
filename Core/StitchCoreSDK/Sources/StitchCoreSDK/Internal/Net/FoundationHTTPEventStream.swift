@@ -1,38 +1,44 @@
 import Foundation
 
-public class FoundationHTTPEventStream: EventStream {
-    private static let newlineChar = [UInt8]("\n".utf8)[0]
+public class FoundationHTTPSSEStream: RawSSEStream {
+    public lazy var delegate =
+        FoundationHTTPSSEStream.FoundationURLSessionDataDelegate(self)
 
-    private let inputStream: InputStream
-    public var isOpen: Bool {
-        return inputStream.streamStatus == .open
-    }
+    public class FoundationURLSessionDataDelegate: NSObject, URLSessionDelegate {
+        let rawSSEStream: RawSSEStream
+        fileprivate init(_ rawSSEStream: RawSSEStream) {
+            self.rawSSEStream = rawSSEStream
+            super.init()
+        }
 
-    init(inputStream: InputStream) {
-        self.inputStream = inputStream
-    }
+        public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+            self.rawSSEStream.appendData(data)
+        }
 
-    public func close() {
-        inputStream.close()
-    }
+        private func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+            if let error = error as NSError? {
+                NSLog("task error: %@ / %d", error.domain, error.code)
+            } else {
+                NSLog("task complete")
+            }
+        }
 
-    public func cancel() {
-        inputStream.close()
-    }
-
-    public func readLine() -> String? {
-        // Read data chunks from inputStream until a line delimiter is found:
-        var data = Data()
-        var nextChar: UInt8 = 0
-        repeat {
-            guard inputStream.read(&nextChar, maxLength: 1) > 0,
-                nextChar != FoundationHTTPEventStream.newlineChar else {
-                break
+        public func urlSession(_ session: URLSession,
+                               dataTask: URLSessionDataTask,
+                               didReceive response: URLResponse,
+                               completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
+            completionHandler(URLSession.ResponseDisposition.allow)
+            guard let httpResponse = response as? HTTPURLResponse else {
+                return
             }
 
-            data.append(nextChar)
-        } while inputStream.streamStatus != .atEnd
-        
-        return String.init(data: data, encoding: .utf8)
+            if httpResponse.statusCode == 200 {
+                rawSSEStream.open()
+            }
+
+            if httpResponse.statusCode == 204 {
+                rawSSEStream.close()
+            }
+        }
     }
 }

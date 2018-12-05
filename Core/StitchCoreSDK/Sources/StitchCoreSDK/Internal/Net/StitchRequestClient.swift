@@ -29,7 +29,7 @@ public protocol StitchRequestClient {
      */
     func doRequest(_ stitchReq: StitchRequest) throws -> Response
 
-    func doStreamRequest(_ stitchReq: StitchRequest) throws -> EventStream
+    func doStreamRequest(_ stitchReq: StitchRequest) throws -> RawSSEStream
 }
 
 /**
@@ -75,12 +75,13 @@ public final class StitchRequestClientImpl: StitchRequestClient {
             response = try self.transport.roundTrip(request: self.buildRequest(stitchReq))
         } catch {
             // Wrap the error from the transport in a `StitchError.requestError`
-            throw StitchError.requestError(withError: error, withRequestErrorCode: .transportError)
+            throw StitchError.requestError(withError: error,
+                                           withRequestErrorCode: .transportError)
         }
         return try inspectResponse(response: response)
     }
 
-    public func doStreamRequest(_ stitchReq: StitchRequest) throws -> EventStream {
+    public func doStreamRequest(_ stitchReq: StitchRequest) throws -> RawSSEStream {
         do {
             return try transport.stream(request: buildRequest(stitchReq))
         } catch  {

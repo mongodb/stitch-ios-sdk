@@ -38,6 +38,26 @@ extension CoreStitchAuth {
         }
     }
 
+    public func openAuthenticatedStream<T>(_ stitchReq: StitchAuthRequest) throws -> SSEStream<T> where T : Decodable {
+//        if !isLoggedIn {
+//            throw StitchError.clientError(withClientErrorCode: .mustAuthenticateFirst)
+//        }
+//
+//        let authToken = stitchReq.useRefreshToken
+//            ? authInfo?.refreshToken : authInfo?.accessToken
+//        do {
+//            requestClient.doStreamRequest(<#T##stitchReq: StitchRequest##StitchRequest#>)
+//        return new Stream<>(
+//        requestClient.doStreamRequest(stitchReq.builder().withPath(
+//        stitchReq.getPath() + AuthStreamFields.AUTH_TOKEN + authToken
+//        ).build()),
+//        )
+//        } catch (final StitchServiceException ex) {
+//        return handleAuthFailureForStream(ex, stitchReq, decoder);
+//        }
+        return SSEStream<T>()
+    }
+
     /**
      * Prepares an authenticated Stitch request by attaching the `CoreStitchAuth`'s current access or refresh token
      * (depending on the type of request) to the request's `"Authorization"` header.
