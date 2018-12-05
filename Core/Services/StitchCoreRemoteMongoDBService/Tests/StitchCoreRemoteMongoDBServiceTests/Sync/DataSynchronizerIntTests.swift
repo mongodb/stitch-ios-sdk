@@ -20,7 +20,7 @@ class DataSynchronizerIntTests: XCMongoMobileTestCase {
 
         dataSynchronizer.configure(namespace: namespace,
                                    conflictHandler: TestConflictHandler(),
-                                   changeEventListener: TestEventListener(),
+                                   changeEventDelegate: TestEventDelegate(),
                                    errorListener: TestErrorListener())
 
         dataSynchronizer.start()
@@ -45,7 +45,7 @@ class DataSynchronizerIntTests: XCMongoMobileTestCase {
     func testConfigure_ReloadConfig() throws {
         dataSynchronizer.configure(namespace: namespace,
                                    conflictHandler: TestConflictHandler(),
-                                   changeEventListener: TestEventListener(),
+                                   changeEventDelegate: TestEventDelegate(),
                                    errorListener: TestErrorListener())
         XCTAssertTrue(dataSynchronizer.isRunning)
 
@@ -60,7 +60,7 @@ class DataSynchronizerIntTests: XCMongoMobileTestCase {
     func testCount() throws {
         dataSynchronizer.configure(namespace: namespace,
                                    conflictHandler: TestConflictHandler(),
-                                   changeEventListener: TestEventListener(),
+                                   changeEventDelegate: TestEventDelegate(),
                                    errorListener: TestErrorListener())
         XCTAssertEqual(0, try dataSynchronizer.count(in: namespace))
 
@@ -82,7 +82,7 @@ class DataSynchronizerIntTests: XCMongoMobileTestCase {
     func testFind() throws {
         dataSynchronizer.configure(namespace: namespace,
                                    conflictHandler: TestConflictHandler(),
-                                   changeEventListener: TestEventListener(),
+                                   changeEventDelegate: TestEventDelegate(),
                                    errorListener: TestErrorListener())
         XCTAssertEqual(0, try dataSynchronizer.count(in: namespace))
 
@@ -110,7 +110,7 @@ class DataSynchronizerIntTests: XCMongoMobileTestCase {
     func testAggregate() throws {
         dataSynchronizer.configure(namespace: namespace,
                                    conflictHandler: TestConflictHandler(),
-                                   changeEventListener: TestEventListener(),
+                                   changeEventDelegate: TestEventDelegate(),
                                    errorListener: TestErrorListener())
         XCTAssertEqual(0, try dataSynchronizer.count(in: namespace))
 
@@ -144,7 +144,7 @@ class DataSynchronizerIntTests: XCMongoMobileTestCase {
     func testInsertOne() throws {
         dataSynchronizer.configure(namespace: namespace,
                                    conflictHandler: TestConflictHandler(),
-                                   changeEventListener: TestEventListener(),
+                                   changeEventDelegate: TestEventDelegate(),
                                    errorListener: TestErrorListener())
         XCTAssertEqual(0, try dataSynchronizer.count(in: namespace))
 
@@ -178,7 +178,7 @@ class DataSynchronizerIntTests: XCMongoMobileTestCase {
     func testInsertMany() throws {
         dataSynchronizer.configure(namespace: namespace,
                                    conflictHandler: TestConflictHandler(),
-                                   changeEventListener: TestEventListener(),
+                                   changeEventDelegate: TestEventDelegate(),
                                    errorListener: TestErrorListener())
         XCTAssertEqual(0, try dataSynchronizer.count(in: namespace))
 
@@ -215,7 +215,7 @@ class DataSynchronizerIntTests: XCMongoMobileTestCase {
     func testUpdateOne() throws {
         dataSynchronizer.configure(namespace: namespace,
                                    conflictHandler: TestConflictHandler(),
-                                   changeEventListener: TestEventListener(),
+                                   changeEventDelegate: TestEventDelegate(),
                                    errorListener: TestErrorListener())
         XCTAssertEqual(0, try dataSynchronizer.count(in: namespace))
 
@@ -263,7 +263,7 @@ class DataSynchronizerIntTests: XCMongoMobileTestCase {
     func testUpdateMany() throws {
         dataSynchronizer.configure(namespace: namespace,
                                    conflictHandler: TestConflictHandler(),
-                                   changeEventListener: TestEventListener(),
+                                   changeEventDelegate: TestEventDelegate(),
                                    errorListener: TestErrorListener())
         XCTAssertEqual(0, try dataSynchronizer.count(in: namespace))
 

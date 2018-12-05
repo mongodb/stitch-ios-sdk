@@ -3,6 +3,8 @@ import MongoSwift
 import MongoMobile
 import StitchCoreSDK
 
+/// Internal extension so we can initialize using
+/// internal initializer.
 extension UpdateResult {
     init(matchedCount: Int,
          modifiedCount: Int,
@@ -74,7 +76,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     /// The user's error listener
     private var errorListener: ErrorListener?
     /// Current sync pass iteration
-    private var logicalT: TimeInterval = 0
+    private var logicalT: UInt32 = 0
     /// Whether or not the sync loop is running
     var isRunning: Bool {
         syncLock.readLock()
@@ -134,9 +136,9 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         }
     }
 
-    public func configure<CH: ConflictHandler, CEL: ChangeEventListener>(namespace: MongoNamespace,
+    public func configure<CH: ConflictHandler, CED: ChangeEventDelegate>(namespace: MongoNamespace,
                                                                          conflictHandler: CH,
-                                                                         changeEventListener: CEL,
+                                                                         changeEventDelegate: CED,
                                                                          errorListener: ErrorListener) {
         self.errorListener = errorListener
 
@@ -148,7 +150,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         defer { syncLock.unlock() }
 
         nsConfig.configure(conflictHandler: conflictHandler,
-                           changeEventListener: changeEventListener)
+                           changeEventDelegate: changeEventDelegate)
 
         if (!self.isConfigured) {
             self.isConfigured = true
@@ -251,7 +253,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 return
             }
 
-            let _ = nsConfig.sync(id: id)
+            _ = nsConfig.sync(id: id)
         }
 
         self.triggerListening(to: namespace)
@@ -353,7 +355,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                in namespace: MongoNamespace) throws -> Int {
         guard let lock = self.syncConfig[namespace]?.nsLock else {
             throw StitchError.clientError(
-                withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
+                withClientErrorCode: .couldNotLoadSyncInfo)
         }
         lock.readLock()
         defer { lock.unlock() }
@@ -385,7 +387,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                                   in namespace: MongoNamespace) throws -> MongoCursor<DocumentT> {
         guard let lock = self.syncConfig[namespace]?.nsLock else {
             throw StitchError.clientError(
-                withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
+                withClientErrorCode: .couldNotLoadSyncInfo)
         }
         lock.readLock()
         defer { lock.unlock() }
@@ -407,7 +409,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                    in namespace: MongoNamespace) throws -> MongoCursor<Document> {
         guard let lock = self.syncConfig[namespace]?.nsLock else {
             throw StitchError.clientError(
-                withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
+                withClientErrorCode: .couldNotLoadSyncInfo)
         }
         lock.readLock()
         defer { lock.unlock() }
@@ -431,7 +433,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                    in namespace: MongoNamespace) throws -> InsertOneResult? {
         guard var nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
             throw StitchError.clientError(
-                withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
+                withClientErrorCode: .couldNotLoadSyncInfo)
         }
         let lock = nsConfig.nsLock
         lock.writeLock()
@@ -462,7 +464,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     func insertMany(documents: [Document], in namespace: MongoNamespace) throws -> InsertManyResult? {
         guard var nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
             throw StitchError.clientError(
-                withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
+                withClientErrorCode: .couldNotLoadSyncInfo)
         }
         let lock = nsConfig.nsLock
         lock.writeLock()
@@ -635,7 +637,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                     in namespace: MongoNamespace) throws -> UpdateResult? {
         guard var nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
             throw StitchError.clientError(
-                withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
+                withClientErrorCode: .couldNotLoadSyncInfo)
         }
         let lock = nsConfig.nsLock
         lock.writeLock()
@@ -697,7 +699,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             // if there was no earlier document and this was an upsert,
             // treat the upsert as an insert, as far as sync is concerned
             // else treat it as a standard update
-            if let beforeDocument = beforeDocument, !upsert {
+            if let beforeDocument = beforeDocument {
                 guard let docConfig = nsConfig[documentId] else {
                     return nil
                 }
@@ -740,7 +742,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         let nsConfig = syncConfig[event.ns]
 
         eventDispatchQueue.async {
-            nsConfig?.changeEventListener?.onEvent(documentId: documentId,
+            nsConfig?.changeEventDelegate?.onEvent(documentId: documentId,
                                                    event: event)
         }
     }
@@ -885,6 +887,6 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     
     internal static func localUserDBName(withInstanceKey instanceKey: String,
                                          for namespace: MongoNamespace) -> String {
-        return "sync_user_\(instanceKey)_\(namespace.databaseName)"
+        return "sync_user_\(instanceKey)-\(namespace.databaseName)"
     }
 }

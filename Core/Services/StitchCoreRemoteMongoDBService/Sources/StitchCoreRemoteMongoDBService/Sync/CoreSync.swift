@@ -18,21 +18,33 @@ public final class CoreSync<DocumentT: Codable> {
         self.dataSynchronizer = dataSynchronizer
     }
 
+    public func configure(
+        conflictHandler: @escaping (
+        _ documentId: BSONValue,
+        _ localEvent: ChangeEvent<DocumentT>,
+        _ remoteEvent: ChangeEvent<DocumentT>) throws -> DocumentT?,
+        changeEventDelegate: @escaping (_ documentId: BSONValue, _ event: ChangeEvent<DocumentT>) -> Void,
+        errorListener: @escaping (_ error: Error, _ documentId: BSONValue?) -> Void) {
+        self.configure(conflictHandler: BlockConflictHandler(conflictHandler),
+                       changeEventDelegate: BlockChangeEventDelegate(changeEventDelegate),
+                       errorListener: BlockErrorDelegate(errorListener))
+    }
+    
     /**
      Set the conflict resolver and and change event listener on this collection.
      - parameter conflictHandler: the conflict resolver to invoke when a conflict happens between local
      and remote events.
-     - parameter changeEventListener: the event listener to invoke when a change event happens for the
+     - parameter changeEventDelegate: the event listener to invoke when a change event happens for the
      document.
      - parameter errorListener: the error listener to invoke when an irrecoverable error occurs
      */
-    public func configure<CH: ConflictHandler, CEL: ChangeEventListener>(
+    public func configure<CH: ConflictHandler, CED: ChangeEventDelegate>(
         conflictHandler: CH,
-        changeEventListener: CEL,
-        errorListener: ErrorListener) where CH.DocumentT == DocumentT, CEL.DocumentT == DocumentT {
+        changeEventDelegate: CED,
+        errorListener: ErrorListener) where CH.DocumentT == DocumentT, CED.DocumentT == DocumentT {
         dataSynchronizer.configure(namespace: namespace,
                                    conflictHandler: conflictHandler,
-                                   changeEventListener: changeEventListener,
+                                   changeEventDelegate: changeEventDelegate,
                                    errorListener: errorListener)
     }
 

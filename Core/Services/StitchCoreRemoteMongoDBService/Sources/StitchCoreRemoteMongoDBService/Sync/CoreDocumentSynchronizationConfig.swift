@@ -37,7 +37,7 @@ internal struct CoreDocumentSynchronization: Hashable {
         let namespace: MongoNamespace
         let documentId: HashableBSONValue
         fileprivate var uncommittedChangeEvent: ChangeEvent<Document>?
-        fileprivate var lastResolution: TimeInterval
+        fileprivate var lastResolution: UInt32
         fileprivate var lastKnownRemoteVersion: Document?
         fileprivate var isStale: Bool
         fileprivate var isPaused: Bool
@@ -45,7 +45,7 @@ internal struct CoreDocumentSynchronization: Hashable {
         init(namespace: MongoNamespace,
              documentId: HashableBSONValue,
              lastUncommittedChangeEvent: ChangeEvent<Document>?,
-             lastResolution: TimeInterval,
+             lastResolution: UInt32,
              lastKnownRemoteVersion: Document?,
              isStale: Bool,
              isPaused: Bool) {
@@ -96,7 +96,7 @@ internal struct CoreDocumentSynchronization: Hashable {
     }
 
     /// The last time a pending write has been triggered.
-    var lastResolution: TimeInterval {
+    var lastResolution: UInt32 {
         get {
             docLock.readLock()
             defer { docLock.unlock() }
@@ -190,7 +190,7 @@ internal struct CoreDocumentSynchronization: Hashable {
         self.config = Config.init(namespace: namespace,
                                   documentId: HashableBSONValue.init(documentId),
                                   lastUncommittedChangeEvent: nil,
-                                  lastResolution: -1,
+                                  lastResolution: 0,
                                   lastKnownRemoteVersion: nil,
                                   isStale: false,
                                   isPaused: false)
@@ -212,7 +212,7 @@ internal struct CoreDocumentSynchronization: Hashable {
      - parameter atTime: the time at which the write occurred.
      - parameter changeEvent: the description of the write/change.
      */
-    mutating func setSomePendingWrites(atTime: TimeInterval,
+    mutating func setSomePendingWrites(atTime: UInt32,
                                        changeEvent: ChangeEvent<Document>) throws {
         // if we were frozen
         if (isPaused) {
@@ -241,7 +241,7 @@ internal struct CoreDocumentSynchronization: Hashable {
      - parameter atVersion:   the version for which the write occurred.
      - parameter changeEvent: the description of the write/change.
      */
-    mutating func setSomePendingWrites(atTime: TimeInterval,
+    mutating func setSomePendingWrites(atTime: UInt32,
                                        atVersion: Document,
                                        changeEvent: ChangeEvent<Document>) throws {
         docLock.writeLock()
