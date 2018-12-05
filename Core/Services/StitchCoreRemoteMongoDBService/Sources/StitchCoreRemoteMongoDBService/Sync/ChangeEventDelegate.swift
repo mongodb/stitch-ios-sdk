@@ -15,12 +15,12 @@ public protocol ChangeEventDelegate {
     func onEvent(documentId: BSONValue, event: ChangeEvent<DocumentT>)
 }
 
-public class BlockChangeEventDelegate<T: Codable>: ChangeEventDelegate {
+internal class BlockChangeEventDelegate<T: Codable>: ChangeEventDelegate {
     public typealias DocumentT = T
-    public typealias OnEventBlock = (_ documentId: BSONValue, _ event: ChangeEvent<DocumentT>) -> Void
 
-    private let onEventBlock: OnEventBlock
-    public init(_ onEventBlock: @escaping OnEventBlock) {
+    private let onEventBlock: (_ documentId: BSONValue, _ event: ChangeEvent<DocumentT>) -> Void
+    public init(_ onEventBlock:
+        @escaping (_ documentId: BSONValue, _ event: ChangeEvent<DocumentT>) -> Void) {
         self.onEventBlock = onEventBlock
     }
 

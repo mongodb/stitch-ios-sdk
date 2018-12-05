@@ -74,7 +74,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     /// The user's error listener
     private var errorListener: ErrorListener?
     /// Current sync pass iteration
-    private var logicalT: UInt = 0
+    private var logicalT: UInt32 = 0
     /// Whether or not the sync loop is running
     var isRunning: Bool {
         syncLock.readLock()
@@ -870,11 +870,11 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     }
 
     internal static func localConfigDBName(withInstanceKey instanceKey: String) -> String {
-        return "sync-config-\(instanceKey)"
+        return "sync_config_\(instanceKey)"
     }
     
     internal static func localUserDBName(withInstanceKey instanceKey: String,
                                          for namespace: MongoNamespace) -> String {
-        return "sync-user-\(instanceKey)-\(namespace.databaseName)"
+        return "sync_user_\(instanceKey)-\(namespace.databaseName)"
     }
 }

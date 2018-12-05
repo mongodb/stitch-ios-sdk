@@ -183,8 +183,6 @@ internal struct NamespaceSynchronization: Sequence {
      Configure a ConflictHandler and ChangeEventDelegate to this namespace.
      These will be used to handle conflicts or listen to events, for this namespace,
      respectively.
-
-     TODO STITCH-2212: Add typealias lambdas to the higher level call for this function.
      
      - parameter conflictHandler: a ConflictHandler to handle conflicts on this namespace
      - parameter changeEventDelegate: a ChangeEventDelegate to listen to events on this namespace

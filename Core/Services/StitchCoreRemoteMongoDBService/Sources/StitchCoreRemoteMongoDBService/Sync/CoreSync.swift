@@ -18,6 +18,18 @@ public final class CoreSync<DocumentT: Codable> {
         self.dataSynchronizer = dataSynchronizer
     }
 
+    public func configure(
+        conflictHandler: @escaping (
+        _ documentId: BSONValue,
+        _ localEvent: ChangeEvent<DocumentT>,
+        _ remoteEvent: ChangeEvent<DocumentT>) throws -> DocumentT?,
+        changeEventDelegate: @escaping (_ documentId: BSONValue, _ event: ChangeEvent<DocumentT>) -> Void,
+        errorListener: @escaping (_ error: Error, _ documentId: BSONValue?) -> Void) {
+        self.configure(conflictHandler: BlockConflictHandler(conflictHandler),
+                       changeEventDelegate: BlockChangeEventDelegate(changeEventDelegate),
+                       errorListener: BlockErrorDelegate(errorListener))
+    }
+    
     /**
      Set the conflict resolver and and change event listener on this collection.
      - parameter conflictHandler: the conflict resolver to invoke when a conflict happens between local

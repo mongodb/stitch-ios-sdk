@@ -20,12 +20,15 @@ public class Sync<DocumentT: Codable> {
      - parameter errorListener: the error listener to invoke when an irrecoverable error occurs
      */
     func configure(
-        conflictHandler: @escaping BlockConflictHandler<DocumentT>.ResolveConflictBlock,
-        changeEventDelegate: @escaping BlockChangeEventDelegate<DocumentT>.OnEventBlock,
-        errorListener: @escaping BlockErrorDelegate.OnErrorBlock) {
-        self.proxy.configure(conflictHandler: BlockConflictHandler(conflictHandler),
-                             changeEventDelegate: BlockChangeEventDelegate(changeEventDelegate),
-                             errorListener: BlockErrorDelegate(errorListener))
+        conflictHandler: @escaping (
+        _ documentId: BSONValue,
+        _ localEvent: ChangeEvent<DocumentT>,
+        _ remoteEvent: ChangeEvent<DocumentT>)  throws -> DocumentT?,
+        changeEventDelegate: @escaping (_ documentId: BSONValue, _ event: ChangeEvent<DocumentT>) -> Void,
+        errorListener:  @escaping (_ error: Error, _ documentId: BSONValue?) -> Void) {
+        self.proxy.configure(conflictHandler: conflictHandler,
+                             changeEventDelegate: changeEventDelegate,
+                             errorListener: errorListener)
     }
 
     /**

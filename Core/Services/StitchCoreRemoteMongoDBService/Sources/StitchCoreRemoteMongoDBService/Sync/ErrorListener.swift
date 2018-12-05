@@ -13,11 +13,9 @@ public protocol ErrorListener {
     func on(error: Error, forDocumentId documentId: BSONValue?)
 }
 
-public class BlockErrorDelegate: ErrorListener {
-    public typealias OnErrorBlock = (_ error: Error, _ documentId: BSONValue?) -> Void
-
-    private let onErrorBlock: OnErrorBlock
-    public init(_ onErrorBlock: @escaping OnErrorBlock) {
+internal class BlockErrorDelegate: ErrorListener {
+    private let onErrorBlock: (_ error: Error, _ documentId: BSONValue?) -> Void
+    public init(_ onErrorBlock: @escaping (_ error: Error, _ documentId: BSONValue?) -> Void) {
         self.onErrorBlock = onErrorBlock
     }
 
