@@ -11,23 +11,23 @@ final class Log {
     }
 
     /// Log info
-    func i(_ msg: String) {
-        log("%@: %@", type: __OS_LOG_TYPE_INFO, tag, msg)
+    func i(_ msg: CustomStringConvertible) {
+        log("%@: %@", type: __OS_LOG_TYPE_INFO, tag, msg.description)
     }
 
     /// Log debug
-    func d(_ msg: String) {
-        log("%@: %@", type: __OS_LOG_TYPE_DEBUG, tag, msg)
+    func d(_ msg: CustomStringConvertible) {
+        log("%@: %@", type: __OS_LOG_TYPE_DEBUG, tag, msg.description)
     }
 
     /// Log error
-    func e(_ msg: String) {
-        log("%@: %@", type: __OS_LOG_TYPE_ERROR, tag, msg)
+    func e(_ msg: CustomStringConvertible) {
+        log("%@: %@", type: __OS_LOG_TYPE_ERROR, tag, msg.description)
     }
 
     /// Log fault
-    func f(_ msg: String) {
-        log("%@: %@", type: __OS_LOG_TYPE_FAULT, tag, msg)
+    func f(_ msg: CustomStringConvertible) {
+        log("%@: %@", type: __OS_LOG_TYPE_FAULT, tag, msg.description)
     }
 
     private func log(_ msg: StaticString,

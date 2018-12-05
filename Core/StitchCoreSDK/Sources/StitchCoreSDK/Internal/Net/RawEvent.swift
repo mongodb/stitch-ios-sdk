@@ -2,28 +2,22 @@ import Foundation
 import MongoSwift
 
 let messageEvent = "message"
-open class RawSSE {
-    public let rawData: String
+public protocol RawSSE {
+    var rawData: String { get }
 
-    public let eventName: String
+    var eventName: String { get }
 
-    public init?(rawData: String,
-                 eventName: String) throws {
-        self.rawData = rawData
-        if eventName.isEmpty {
-            self.eventName = messageEvent
-        } else {
-            self.eventName = eventName
-        }
-    }
+    init?(rawData: String, eventName: String) throws
 }
-
 
 /// Stitch event name for error messages
 private let errorEventName = "error"
 
 /// Stitch abstraction of server-sent events.
-public class SSE<T: Decodable>: RawSSE {
+public final class SSE<T: Decodable>: RawSSE {
+    public let rawData: String
+
+    public let eventName: String
 
     /// Decoded data from the event
     public var data: T? = nil
@@ -31,9 +25,9 @@ public class SSE<T: Decodable>: RawSSE {
     /// Error from the event
     public var error: StitchError? = nil
 
-    public override init?(rawData: String,
-                          eventName: String) throws {
-        try super.init(rawData: rawData, eventName: eventName)
+    public init?(rawData: String, eventName: String) throws {
+        self.rawData = rawData
+        self.eventName = eventName
         let data = rawData
         var indices = data.indices
         var decodedData = ""

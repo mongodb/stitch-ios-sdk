@@ -1,18 +1,36 @@
 import Foundation
 
-public class FoundationHTTPSSEStream: RawSSEStream {
-    public lazy var delegate =
+public class FoundationHTTPSSEStream<T: RawSSE>: RawSSEStream {
+    public var delegate: SSEStreamDelegate<T>?
+
+    private var _state: SSEStreamState = .closed
+    public private(set) var state: SSEStreamState {
+        get {
+            return _state
+        }
+        set {
+            _state = newValue
+            delegate?.on(stateChangedFor: _state)
+        }
+    }
+
+    public typealias SSEType = T
+
+    private var data = Data()
+
+    public lazy var urlSessionDelegate =
         FoundationHTTPSSEStream.FoundationURLSessionDataDelegate(self)
 
     public class FoundationURLSessionDataDelegate: NSObject, URLSessionDelegate {
-        let rawSSEStream: RawSSEStream
-        fileprivate init(_ rawSSEStream: RawSSEStream) {
-            self.rawSSEStream = rawSSEStream
+        let rawSSEStream: FoundationHTTPSSEStream
+        fileprivate init(_ foundationHTTPStream: FoundationHTTPSSEStream) {
+            self.rawSSEStream = foundationHTTPStream
             super.init()
         }
 
         public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
-            self.rawSSEStream.appendData(data)
+            var data = data
+            self.rawSSEStream.dispatchEvents(from: &data)
         }
 
         private func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
@@ -33,12 +51,20 @@ public class FoundationHTTPSSEStream: RawSSEStream {
             }
 
             if httpResponse.statusCode == 200 {
-                rawSSEStream.open()
+                rawSSEStream.state = .open
             }
 
             if httpResponse.statusCode == 204 {
-                rawSSEStream.close()
+                rawSSEStream.state = .closed
             }
         }
+    }
+
+    public func open() {
+        // open by default
+    }
+
+    public func close() {
+        // TODO: close
     }
 }

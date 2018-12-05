@@ -1030,6 +1030,10 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
     func testSync_aggregate() {
         // TODO: STITCH-2215
     }
+
+    func testSync_changeStreamDelegates() {
+        
+    }
 }
 
 public struct CustomType: Codable {

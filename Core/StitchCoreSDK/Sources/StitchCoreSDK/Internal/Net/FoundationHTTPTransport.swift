@@ -5,7 +5,6 @@ import MongoSwift
  * A basic implementation of the `Transport` protocol using the `URLSession.dataTask` method in the Foundation library.
  */
 public final class FoundationHTTPTransport: Transport {
-
     /**
      * Empty public initializer to make initialization of this Transport available outside of this module.
      */
@@ -70,7 +69,7 @@ public final class FoundationHTTPTransport: Transport {
         return response
     }
 
-    public func stream(request: Request) throws -> RawSSEStream {
+    public func stream<T>(request: Request) throws -> AnyRawSSEStream<T> where T : RawSSE {
         guard let url = URL(string: request.url) else {
             throw StitchError.clientError(withClientErrorCode: .missingURL)
         }
@@ -78,9 +77,9 @@ public final class FoundationHTTPTransport: Transport {
         let sessionConfig = URLSessionConfiguration.default
         sessionConfig.timeoutIntervalForRequest = 60
 
-        let sseStream = FoundationHTTPSSEStream()
+        var sseStream = FoundationHTTPSSEStream<T>()
         let session = URLSession.init(configuration: sessionConfig,
-                                      delegate: sseStream.delegate,
+                                      delegate: sseStream.urlSessionDelegate,
                                       delegateQueue: nil)
 
         var urlRequest = URLRequest(url: url)
@@ -91,6 +90,6 @@ public final class FoundationHTTPTransport: Transport {
         urlRequest.setValue("text/event-stream", forHTTPHeaderField: "accept")
 
         session.dataTask(with: urlRequest).resume()
-        return sseStream
+        return AnyRawSSEStream(&sseStream)
     }
 }

@@ -1,6 +1,12 @@
 import MongoSwift
 import Foundation
 
+private let nameField = "name"
+private let serviceField = "service"
+private let argumentsField = "arguments"
+
+private let stitchRequestField = "?stitch_request="
+
 open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
     private let requestClient: StitchAuthRequestClient
     private let serviceRoutes: StitchServiceRoutes
@@ -38,7 +44,29 @@ open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
         
         return try reqBuilder.build()
     }
-    
+
+    private func getStreamServiceFunctionRequest(
+        name: String,
+        args: [BSONValue]) throws -> StitchAuthRequest {
+        var body = [
+            "name": name,
+            "arguments": args
+        ] as Document
+
+        if let serviceName = self.serviceName {
+            body["service"] = serviceName
+        }
+
+        let reqBuilder =
+            StitchAuthDocRequestBuilder()
+                .with(method: .get)
+                .with(path: self.serviceRoutes.functionCallRoute +
+                    stitchRequestField +
+                    body.canonicalExtendedJSON.data(using: .utf8)!.base64EncodedString())
+
+        return try reqBuilder.build()
+    }
+
     public func callFunction(withName name: String,
                              withArgs args: [BSONValue],
                              withRequestTimeout timeout: TimeInterval? = nil) throws {
@@ -56,6 +84,13 @@ open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
             getCallServiceFunctionRequest(withName: name,
                                           withArgs: args,
                                           withTimeout: timeout))
+    }
+
+    public func streamFunction<T>(withName name: String,
+                                  withArgs args: [BSONValue]) throws -> SSEStream<T> where T : Decodable {
+        return try requestClient.openAuthenticatedStream(
+            getStreamServiceFunctionRequest(name: name, args: args)
+        )
     }
 }
 

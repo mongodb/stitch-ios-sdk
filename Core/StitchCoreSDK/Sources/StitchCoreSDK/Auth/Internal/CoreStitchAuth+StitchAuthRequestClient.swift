@@ -5,6 +5,7 @@ import MongoSwift
  * Extension functions for `CoreStitchAuth` to add conformance to `StitchAuthRequestClient`, and to support proactive
  * and non-proactive access token refresh.
  */
+private let authToken = "&stitch_at="
 extension CoreStitchAuth {
     /**
      * Performs an authenticated request to the Stitch server, using the current authentication state. Will throw when
@@ -39,23 +40,22 @@ extension CoreStitchAuth {
     }
 
     public func openAuthenticatedStream<T>(_ stitchReq: StitchAuthRequest) throws -> SSEStream<T> where T : Decodable {
-//        if !isLoggedIn {
-//            throw StitchError.clientError(withClientErrorCode: .mustAuthenticateFirst)
-//        }
-//
-//        let authToken = stitchReq.useRefreshToken
-//            ? authInfo?.refreshToken : authInfo?.accessToken
-//        do {
-//            requestClient.doStreamRequest(<#T##stitchReq: StitchRequest##StitchRequest#>)
-//        return new Stream<>(
-//        requestClient.doStreamRequest(stitchReq.builder().withPath(
-//        stitchReq.getPath() + AuthStreamFields.AUTH_TOKEN + authToken
-//        ).build()),
-//        )
-//        } catch (final StitchServiceException ex) {
-//        return handleAuthFailureForStream(ex, stitchReq, decoder);
-//        }
-        return SSEStream<T>()
+        guard isLoggedIn,
+            let authInfo = self.authInfo,
+            let authToken = stitchReq.useRefreshToken
+                ? authInfo.refreshToken : authInfo.accessToken else {
+            throw StitchError.clientError(withClientErrorCode: .mustAuthenticateFirst)
+        }
+
+
+        do {
+            return SSEStream.init(try requestClient.doStreamRequest(
+                stitchReq.builder.with(path: stitchReq.path +
+                    authToken +
+                    authToken).build()))
+        } catch {
+            return try handleAuthFailureForStream(forError: error, withRequest: stitchReq);
+        }
     }
 
     /**
@@ -130,5 +130,32 @@ extension CoreStitchAuth {
         try self.tryRefreshAccessToken(reqStartedAt: req.startedAt)
 
         return try doAuthenticatedRequest(req.builder.with(shouldRefreshOnFailure: false).build())
+    }
+
+    private func handleAuthFailureForStream<T>(forError error: Error,
+                                            withRequest req: StitchAuthRequest) throws -> SSEStream<T> where T : Decodable {
+        guard let sError = error as? StitchError else {
+            throw error
+        }
+
+        switch sError {
+        case .serviceError(_, let withErrorCode):
+            guard withErrorCode == .invalidSession else {
+                throw error
+            }
+        default:
+            throw error
+        }
+
+        // using a refresh token implies we cannot refresh anything, so clear auth and
+        // notify
+        if req.useRefreshToken || !req.shouldRefreshOnFailure {
+            self.clearAuth()
+            throw error
+        }
+
+        try self.tryRefreshAccessToken(reqStartedAt: req.startedAt)
+
+        return try openAuthenticatedStream(req.builder.with(shouldRefreshOnFailure: false).build())
     }
 }

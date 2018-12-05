@@ -1,16 +1,31 @@
 import Foundation
 
 public class SSEStream<T: Decodable>: RawSSEStream {
-    override init() {
-        super.init()
-    }
-    public override func nextEvent() throws -> SSE<T> {
-        let nextEvent = try super.nextEvent()
-        guard let sse = try SSE<T>(rawData: nextEvent.rawData,
-                                   eventName: nextEvent.eventName) else {
-            // drop the nil event. we don't want to expose these
-            return try self.nextEvent()
+    public var delegate: SSEStreamDelegate<SSE<T>>? {
+        get {
+            return underlyingRawStream.delegate
+        } set {
+            underlyingRawStream.delegate = newValue
         }
-        return sse
+    }
+
+    public var state: SSEStreamState {
+        return underlyingRawStream.state
+    }
+
+    public typealias SSEType = SSE<T>
+    
+    private let underlyingRawStream: AnyRawSSEStream<SSE<T>>
+
+    init(_ underlyingRawStream: AnyRawSSEStream<SSE<T>>) {
+        self.underlyingRawStream = underlyingRawStream
+    }
+
+    public func open() {
+        self.underlyingRawStream.open()
+    }
+
+    public func close() {
+        self.underlyingRawStream.close()
     }
 }

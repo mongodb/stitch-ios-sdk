@@ -1,33 +1,89 @@
 import Foundation
 
-private let newlineChar = [UInt8]("\n".utf8)[0]
-open class RawSSEStream {
-    private var error: Error? = nil
-    private var data = Data()
-    private var isOpen = false
+internal let newlineChar = [UInt8]("\n".utf8)[0]
 
-    open func open() {
-        isOpen = true
+public enum SSEStreamState {
+    case open, closed
+}
+
+open class SSEStreamDelegate<SSEType: RawSSE> {
+    public init() {}
+    
+    open func on(newEvent event: SSEType) {
+
     }
 
-    open func close() {
-        isOpen = false
+    open func on(stateChangedFor state: SSEStreamState) {
+
     }
 
-    open func appendData(_ data: Data) {
-        objc_sync_enter(self)
-        defer { objc_sync_exit(self) }
-        self.data.append(data)
+    open func on(error: Error) {
+
+    }
+}
+
+public protocol RawSSEStream {
+    associatedtype SSEType: RawSSE
+
+    var delegate: SSEStreamDelegate<SSEType>? { get set }
+    var state: SSEStreamState { get }
+
+    func open()
+    func close()
+}
+
+public class AnyRawSSEStream<T: RawSSE>: RawSSEStream {
+    private let _state: () -> SSEStreamState
+    private let _open: () -> ()
+    private let _close: () -> ()
+    private let _delegate_get: () -> SSEStreamDelegate<T>?
+    private let _delegate_set: (SSEStreamDelegate<T>?) -> ()
+
+    public typealias SSEType = T
+
+    public init<U: RawSSEStream>(_ rawSSEStream: inout U) where U.SSEType == T {
+        var rawRef = rawSSEStream
+        self._state = { rawRef.state }
+        self._open = rawRef.open
+        self._close = rawRef.close
+
+        self._delegate_get = {
+            rawRef.delegate
+        }
+        self._delegate_set = {
+            rawRef.delegate = $0
+        }
     }
 
+    public var delegate: SSEStreamDelegate<T>? {
+        get {
+            return self._delegate_get()
+        }
+        set {
+            self._delegate_set(newValue)
+        }
+    }
+
+    public var state: SSEStreamState {
+        return _state()
+    }
+
+    public func open() {
+        _open()
+    }
+
+    public func close() {
+        _close()
+    }
+}
+
+extension RawSSEStream {
     /**
      Read the next line of a stream from a given source.
      - returns: the next utf8 line
      */
-    public func readLine() -> String? {
-        objc_sync_enter(self)
-        defer { objc_sync_exit(self) }
-        guard let newlineIndex = self.data.firstIndex(of: newlineChar) else {
+    private func readLine(from data: inout Data) -> String? {
+        guard let newlineIndex = data.firstIndex(of: newlineChar) else {
             let line = String.init(data: data, encoding: .utf8)!
             data.removeAll()
             return line
@@ -75,24 +131,10 @@ open class RawSSEStream {
      Process the next event in a given stream.
      - returns: the fully processed event
      */
-    open func nextEvent() throws -> RawSSE {
-        var doneOnce = false
+    internal func dispatchEvents(from data: inout Data) {
         var dataBuffer = ""
         var eventName = ""
-        while true {
-            guard isOpen else {
-                continue
-            }
-
-            guard let line = readLine() else {
-                if doneOnce {
-                    throw StitchError.clientError(
-                        withClientErrorCode: StitchClientErrorCode.couldNotLoadPersistedAuthInfo)
-                }
-                doneOnce = true
-                continue
-            }
-
+        while state == .open, let line = self.readLine(from: &data) {
             // If the line is empty (a blank line), Dispatch the event, as defined below.
             if line.isEmpty || line == "\n" {
                 // If the data buffer is an empty string, set the data buffer and the event name buffer to
@@ -105,11 +147,16 @@ open class RawSSEStream {
                 // If the event name buffer is not the empty string but is also not a valid NCName,
                 // set the data buffer and the event name buffer to the empty string and abort these steps.
                 // NOT IMPLEMENTED
-                guard let sse = try RawSSE.init(rawData: dataBuffer, eventName: eventName) else {
-                    continue
-                }
+                do {
+                    guard let sse = try SSEType.init(rawData: dataBuffer, eventName: eventName) else {
+                        continue
+                    }
 
-                return sse
+                    delegate?.on(newEvent: sse)
+                } catch {
+                    delegate?.on(error: error)
+                    return
+                }
             // If the line starts with a U+003A COLON character (':')
             } else if line.starts(with: ":") {
                 // ignore the line

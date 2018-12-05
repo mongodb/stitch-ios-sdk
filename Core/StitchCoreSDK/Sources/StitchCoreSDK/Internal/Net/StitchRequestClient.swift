@@ -29,7 +29,7 @@ public protocol StitchRequestClient {
      */
     func doRequest(_ stitchReq: StitchRequest) throws -> Response
 
-    func doStreamRequest(_ stitchReq: StitchRequest) throws -> RawSSEStream
+    func doStreamRequest<T: RawSSE>(_ stitchReq: StitchRequest) throws -> AnyRawSSEStream<T>
 }
 
 /**
@@ -81,7 +81,7 @@ public final class StitchRequestClientImpl: StitchRequestClient {
         return try inspectResponse(response: response)
     }
 
-    public func doStreamRequest(_ stitchReq: StitchRequest) throws -> RawSSEStream {
+    public func doStreamRequest<T: RawSSE>(_ stitchReq: StitchRequest) throws -> AnyRawSSEStream<T> {
         do {
             return try transport.stream(request: buildRequest(stitchReq))
         } catch  {

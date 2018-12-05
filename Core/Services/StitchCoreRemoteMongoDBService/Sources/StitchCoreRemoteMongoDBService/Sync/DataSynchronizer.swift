@@ -45,6 +45,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     /// The configuration for this sync instance
     private var syncConfig: InstanceSynchronization
 
+    private let instanceChangeStreamDelegate: InstanceChangeStreamDelegate
+
     /// Whether or not the DataSynchronizer has been configured
     private(set) var isConfigured = false
     /// Whether or not the sync thread is enabled
@@ -112,6 +114,14 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                                                           errorListener: nil)
         }
 
+        self.instanceChangeStreamDelegate = InstanceChangeStreamDelegate(
+            instanceConfig: syncConfig,
+            service: service,
+            networkMonitor: networkMonitor,
+            authMonitor: authMonitor)
+        self.syncConfig.forEach {
+            self.instanceChangeStreamDelegate.append(namespace: $0.config.namespace)
+        }
         self.syncConfig.errorListener = self
         self.networkMonitor.add(networkStateDelegate: self)
     }
@@ -800,11 +810,13 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
             guard nsConfig.count > 0,
                 nsConfig.isConfigured else {
-                    // TODO STITCH-2217: removeNamespace
+                    instanceChangeStreamDelegate.remove(namespace: namespace)
                     return
             }
 
-            // TODO STITCH-2217: addNamespace, stop, start
+            instanceChangeStreamDelegate.append(namespace: namespace)
+            try instanceChangeStreamDelegate.stop(namespace: namespace)
+            try instanceChangeStreamDelegate.start(namespace: namespace)
         } catch {
             log.e("t='\(logicalT)': triggerListeningToNamespace ns=\(namespace) exception: \(error)")
         }
