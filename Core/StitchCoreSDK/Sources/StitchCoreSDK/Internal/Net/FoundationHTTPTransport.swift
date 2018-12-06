@@ -69,13 +69,7 @@ public final class FoundationHTTPTransport: Transport {
         return response
     }
 
-    let operationQueue = OperationQueue.init()
-    let queue = DispatchQueue(label: "ReactiveSSE", qos: .background)
-    var anyRawStream: Any!
-    var dataDel: Any!
-
     public func stream<T>(request: Request) throws -> AnyRawSSEStream<T> where T : RawSSE {
-        operationQueue.underlyingQueue = queue
         guard let url = URL(string: request.url) else {
             throw StitchError.clientError(withClientErrorCode: .missingURL)
         }
@@ -88,17 +82,12 @@ public final class FoundationHTTPTransport: Transport {
                                  "Cache-Control": "no-cache",
                                  "Accept": "text/event-stream"]
         sessionConfig.httpAdditionalHeaders = additionalheaders
-        var sseStream = FoundationHTTPSSEStream<T>()
-        dataDel = sseStream
-        anyRawStream = sseStream
-
+        let sseStream = FoundationHTTPSSEStream<T>()
         let session = URLSession.init(configuration: sessionConfig,
-                                      delegate: dataDel as! URLSessionDataDelegate,
+                                      delegate: sseStream,
                                       delegateQueue: nil)
 
-        let task = session.dataTask(with: url)
-        task.resume()
-
+        session.dataTask(with: url).resume()
         return AnyRawSSEStream(sseStream)
     }
 }

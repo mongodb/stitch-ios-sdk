@@ -17,4 +17,13 @@ public final class MockStitchAuthRequestClient: StitchAuthRequestClient {
             fatalError("Returning incorrect type from mocked result")
         }
     }
+
+    public var openAuthenticatedStreamMock = FunctionMockUnitOneArg<Any, StitchAuthRequest>()
+    public func openAuthenticatedStream<T>(_ stitchReq: StitchAuthRequest) throws -> SSEStream<T> where T : Decodable {
+        if let result = try openAuthenticatedStreamMock.throwingRun(arg1: stitchReq) as? SSEStream<T> {
+            return result
+        } else {
+            fatalError("Returning incorrect type from mocked result")
+        }
+    }
 }

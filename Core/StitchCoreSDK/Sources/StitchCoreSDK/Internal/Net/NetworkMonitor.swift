@@ -1,5 +1,9 @@
+public enum NetworkState {
+    case connected, disconnected
+}
+
 public protocol NetworkMonitor {
-    var isConnected: Bool { get }
+    var state: NetworkState { get }
 
     func add(networkStateDelegate delegate: NetworkStateDelegate)
 
@@ -7,5 +11,5 @@ public protocol NetworkMonitor {
 }
 
 public protocol NetworkStateDelegate: class {
-    func onNetworkStateChanged()
+    func on(stateChangedFor state: NetworkState)
 }

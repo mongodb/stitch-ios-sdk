@@ -1,7 +1,6 @@
 import Foundation
 import MongoSwift
 
-let messageEvent = "message"
 public protocol RawSSE {
     var rawData: String { get }
 
@@ -10,6 +9,8 @@ public protocol RawSSE {
     init?(rawData: String, eventName: String) throws
 }
 
+/// Default message name
+let messageEvent = "message"
 /// Stitch event name for error messages
 private let errorEventName = "error"
 
@@ -20,10 +21,7 @@ public final class SSE<T: Decodable>: RawSSE {
     public let eventName: String
 
     /// Decoded data from the event
-    public var data: T? = nil
-
-    /// Error from the event
-    public var error: StitchError? = nil
+    public let data: T
 
     public init?(rawData: String, eventName: String) throws {
         self.rawData = rawData
@@ -68,11 +66,11 @@ public final class SSE<T: Decodable>: RawSSE {
             do {
                 let error = try JSONDecoder().decode(Error.self,
                                                      from: decodedData.data(using: .utf8) ?? Data())
-                self.error = StitchError.serviceError(withMessage: error.error,
-                                                      withServiceErrorCode: error.errorCode)
+                throw StitchError.serviceError(withMessage: error.error,
+                                               withServiceErrorCode: error.errorCode)
             } catch {
-                self.error = StitchError.serviceError(withMessage: decodedData,
-                                                      withServiceErrorCode: .unknown)
+                throw StitchError.serviceError(withMessage: decodedData,
+                                               withServiceErrorCode: .unknown)
             }
         case messageEvent, "":
             self.data = try BSONDecoder().decode(T.self,

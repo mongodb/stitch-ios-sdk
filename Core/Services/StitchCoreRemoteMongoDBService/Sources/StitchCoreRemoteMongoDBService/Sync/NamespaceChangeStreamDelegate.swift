@@ -8,6 +8,8 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate<SSE<ChangeEvent<Document>
     private let networkMonitor: NetworkMonitor
     private let authMonitor: AuthMonitor
     private let nsConfig: NamespaceSynchronization
+    private var eventsKeyedQueue = [HashableBSONValue: ChangeEvent<Document>]()
+    private var streamDelegates = [SSEStreamDelegate<SSE<ChangeEvent<Document>>>]()
 
     private var stream: SSEStream<ChangeEvent<Document>>? = nil
     private lazy var tag = "NSChangeStreamListener-\(namespace.description)"
@@ -31,7 +33,7 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate<SSE<ChangeEvent<Document>
      */
     func start() throws {
         logger.i("stream START")
-        guard networkMonitor.isConnected else {
+        guard networkMonitor.state == .connected else {
             logger.i("stream END - Network disconnected")
             return
         }
@@ -58,40 +60,52 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate<SSE<ChangeEvent<Document>
     }
 
     func stop() {
+        logger.i("stream STOP")
+        self.stream?.close()
     }
 
-    var streamDelegates = [SSEStreamDelegate<SSE<ChangeEvent<Document>>>]()
-    internal func add(streamDelegate: SSEStreamDelegate<SSE<ChangeEvent<Document>>>) {
+    func add(streamDelegate: SSEStreamDelegate<SSE<ChangeEvent<Document>>>) {
         streamDelegates.append(streamDelegate)
     }
 
-    func onNetworkStateChanged() {
-
+    func on(stateChangedFor state: NetworkState) {
+        self.stop()
     }
 
     override func on(newEvent event: SSE<ChangeEvent<Document>>) {
-        guard let changeEvent = event.data else {
+        guard let id = event.data.documentKey["_id"] else {
             return
         }
 
-        logger.d(
-            "Received ChangeEvent for id: \(changeEvent.id.value) " +
-            "of type: \(changeEvent.operationType)")
+        logger.d("event found: op=\(event.data.operationType) id=\(id)")
 
         streamDelegates.forEach({$0.on(newEvent: event)})
+        self.eventsKeyedQueue[HashableBSONValue(id)] = event.data
     }
 
     override func on(stateChangedFor state: SSEStreamState) {
         switch state {
         case .open:
-            logger.d("stream open")
+            logger.d("stream OPEN")
         case .closed:
-            logger.d("stream closed")
+            logger.d("stream CLOSED")
         }
         streamDelegates.forEach({$0.on(stateChangedFor: state)})
     }
 
     override func on(error: Error) {
         logger.e(error.localizedDescription)
+    }
+
+    func dequeueEvents() -> [HashableBSONValue: ChangeEvent<Document>] {
+        var events = [HashableBSONValue: ChangeEvent<Document>]()
+        while let (key, value) = eventsKeyedQueue.popFirst() {
+            events[key] = value
+        }
+        return events
+    }
+
+    func unprocessedEvent(for documentId: BSONValue) -> ChangeEvent<Document>? {
+        return self.eventsKeyedQueue.removeValue(forKey: HashableBSONValue(documentId))
     }
 }

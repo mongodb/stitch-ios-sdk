@@ -3,6 +3,7 @@ import Foundation
 /// HTTP Header definitions and helper methods.
 public enum Headers: String {
     case contentType = "Content-Type"
+    case accept = "Accept"
     case authorization = "Authorization"
     case bearer = "Bearer"
 
