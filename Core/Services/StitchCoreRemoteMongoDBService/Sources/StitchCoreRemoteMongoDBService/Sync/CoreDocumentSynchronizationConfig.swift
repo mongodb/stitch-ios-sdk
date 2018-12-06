@@ -299,7 +299,8 @@ internal struct CoreDocumentSynchronization: Hashable {
     }
 
     internal static func filter(forNamespace namespace: MongoNamespace) -> Document {
-        return [CoreDocumentSynchronization.Config.CodingKeys.namespace.rawValue: namespace.description]
+        return [CoreDocumentSynchronization.Config.CodingKeys.namespace.rawValue:
+            try! BSONEncoder().encode(namespace)]
     }
 
     /**

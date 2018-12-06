@@ -41,7 +41,7 @@ public class AnyRawSSEStream<T: RawSSE>: RawSSEStream {
 
     public typealias SSEType = T
 
-    public init<U: RawSSEStream>(_ rawSSEStream: inout U) where U.SSEType == T {
+    public init<U: RawSSEStream>(_ rawSSEStream: U) where U.SSEType == T {
         var rawRef = rawSSEStream
         self._state = { rawRef.state }
         self._open = rawRef.open
@@ -84,9 +84,7 @@ extension RawSSEStream {
      */
     private func readLine(from data: inout Data) -> String? {
         guard let newlineIndex = data.firstIndex(of: newlineChar) else {
-            let line = String.init(data: data, encoding: .utf8)!
-            data.removeAll()
-            return line
+            return nil
         }
 
         let line = data[data.startIndex ..< newlineIndex]
@@ -162,7 +160,6 @@ extension RawSSEStream {
                 // ignore the line
                 // If the line contains a U+003A COLON character (':') character
             } else if line.contains(":") {
-                print(line)
                 // Collect the characters on the line before the first U+003A COLON character (':'),
                 // and let field be that string.
                 let colonIdx = line.firstIndex(of: ":")!

@@ -19,13 +19,13 @@ class InstanceChangeStreamDelegate {
     }
 
     func append(namespace: MongoNamespace) {
-        guard let nsConfig = instanceConfig[namespace] else {
+        guard var nsConfig = instanceConfig[namespace] else {
             return
         }
 
         self.namespaceToStreamDelegates[namespace] = NamespaceChangeStreamDelegate(
             namespace: namespace,
-            config: nsConfig,
+            config: &nsConfig,
             service: service,
             networkMonitor: networkMonitor,
             authMonitor: authMonitor)
@@ -45,5 +45,9 @@ class InstanceChangeStreamDelegate {
 
     func stop(namespace: MongoNamespace) throws {
         try self.namespaceToStreamDelegates[namespace]?.stop()
+    }
+
+    subscript(namespace: MongoNamespace) -> NamespaceChangeStreamDelegate? {
+        return namespaceToStreamDelegates[namespace]
     }
 }

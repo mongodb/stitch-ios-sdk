@@ -1308,8 +1308,69 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         }
     }
 
+    private class StreamJoiner: SSEStreamDelegate<SSE<ChangeEvent<Document>>> {
+        private let semaphore: DispatchSemaphore
+
+        init(_ semaphore: DispatchSemaphore) {
+            self.semaphore = semaphore
+        }
+
+        override func on(stateChangedFor state: SSEStreamState) {
+            semaphore.signal()
+        }
+
+        override func on(newEvent event: SSE<ChangeEvent<Document>>) {
+
+        }
+    }
+
     func testSync_changeStreamDelegates() {
-        
+        let coll = getTestColl()
+        let sync = coll.sync
+        sync.configure(conflictHandler: { _, _, rDoc in rDoc.fullDocument },
+                       changeEventDelegate: { _, _ in },
+                       errorListener: { _, _ in })
+
+        let joiner = CallbackJoiner()
+        let doc = ["foo": 42] as Document
+        coll.insertOne(doc, joiner.capture())
+
+        guard let insertOneResult = joiner.value(asType: RemoteInsertOneResult.self) else {
+            XCTFail("could not insert")
+            return
+        }
+
+        let iCSDel = sync.proxy
+            .dataSynchronizer
+            .instanceChangeStreamDelegate
+
+        let ns = MongoNamespace.init(databaseName: dbName, collectionName: collName)
+
+        sync.sync(ids: [insertOneResult.insertedId])
+
+        let nsChangeStreamDelegate = iCSDel[ns]
+        let semaphore = DispatchSemaphore.init(value: 0)
+        nsChangeStreamDelegate?.add(streamDelegate: StreamJoiner(semaphore))
+
+        semaphore.wait()
+        for i in 0..<100 {
+            print ("Updating document with id: \(insertOneResult.insertedId)")
+            coll.updateOne(filter: ["_id": insertOneResult.insertedId] as Document,
+                           update: ["$set": ["foo": i] as Document] as Document,
+                           options: nil,
+                           joiner.capture())
+
+
+            guard let updateResult = joiner.value(asType: RemoteUpdateResult.self) else {
+                XCTFail("could not insert")
+                return
+            }
+
+            XCTAssertEqual(updateResult.modifiedCount, 1)
+            sleep(5)
+        }
+        let sem = DispatchSemaphore.init(value: 0)
+        sem.wait()
     }
 }
 

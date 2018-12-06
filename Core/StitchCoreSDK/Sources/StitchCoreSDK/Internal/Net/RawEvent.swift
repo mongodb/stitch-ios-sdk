@@ -52,9 +52,11 @@ public final class SSE<T: Decodable>: RawSSE {
                 case "0D":
                     decodedData += "\r"
                     indices.removeFirst(2)
-                default: break
+                default:
+                    break
                 }
-            default: break
+            default:
+                decodedData.append(char)
             }
         }
 
@@ -72,9 +74,9 @@ public final class SSE<T: Decodable>: RawSSE {
                 self.error = StitchError.serviceError(withMessage: decodedData,
                                                       withServiceErrorCode: .unknown)
             }
-        case messageEvent:
+        case messageEvent, "":
             self.data = try BSONDecoder().decode(T.self,
-                                                 from: decodedData.data(using: .utf8) ?? Data())
+                                                 from: Document.init(fromJSON: decodedData))
         default: return nil
         }
     }

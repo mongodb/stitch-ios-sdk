@@ -36,7 +36,7 @@ open class BaseStitchIntTestCocoaTouch: BaseStitchIntTest {
     }
     
     override open var stitchBaseURL: String {
-        return (pList?[stitchBaseURLProp] as? String) ?? "http://localhost:9090"
+        return (pList?[stitchBaseURLProp] as? String) ?? "http://192.168.1.248:9090"
     }
     
     public func appClient(forApp app: AppResponse) throws -> StitchAppClient {

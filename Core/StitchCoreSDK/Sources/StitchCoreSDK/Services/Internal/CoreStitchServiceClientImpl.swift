@@ -58,11 +58,11 @@ open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
         }
 
         let reqBuilder =
-            StitchAuthDocRequestBuilder()
+            StitchAuthRequestBuilder()
                 .with(method: .get)
                 .with(path: self.serviceRoutes.functionCallRoute +
                     stitchRequestField +
-                    body.canonicalExtendedJSON.data(using: .utf8)!.base64EncodedString())
+                    body.extendedJSON.data(using: .utf8)!.base64EncodedString())
 
         return try reqBuilder.build()
     }

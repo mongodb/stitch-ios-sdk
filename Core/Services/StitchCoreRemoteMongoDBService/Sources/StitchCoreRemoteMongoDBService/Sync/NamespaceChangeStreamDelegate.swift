@@ -3,18 +3,18 @@ import MongoSwift
 import StitchCoreSDK
 
 class NamespaceChangeStreamDelegate: SSEStreamDelegate<SSE<ChangeEvent<Document>>>, NetworkStateDelegate {
-    let namespace: MongoNamespace
-    let nsConfig: NamespaceSynchronization
-    let service: CoreStitchServiceClient
-    let networkMonitor: NetworkMonitor
-    let authMonitor: AuthMonitor
+    private let namespace: MongoNamespace
+    private let service: CoreStitchServiceClient
+    private let networkMonitor: NetworkMonitor
+    private let authMonitor: AuthMonitor
+    private let nsConfig: NamespaceSynchronization
 
     private var stream: SSEStream<ChangeEvent<Document>>? = nil
     private lazy var tag = "NSChangeStreamListener-\(namespace.description)"
     private lazy var logger = Log.init(tag: tag)
 
     init(namespace: MongoNamespace,
-         config: NamespaceSynchronization,
+         config: inout NamespaceSynchronization,
          service: CoreStitchServiceClient,
          networkMonitor: NetworkMonitor,
          authMonitor: AuthMonitor) {
@@ -35,12 +35,12 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate<SSE<ChangeEvent<Document>
             logger.i("stream END - Network disconnected")
             return
         }
-        guard !authMonitor.isLoggedIn else {
+        guard authMonitor.isLoggedIn else {
             logger.i("stream END - Logged out")
             return
         }
 
-        let idsToWatch = nsConfig.map({ $0.documentId })
+        let idsToWatch = nsConfig.map({ $0.documentId.value })
         guard !idsToWatch.isEmpty else {
             logger.i("stream END - No synchronized documents")
             return
@@ -59,17 +59,36 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate<SSE<ChangeEvent<Document>
 
     func stop() {
     }
-    
+
+    var streamDelegates = [SSEStreamDelegate<SSE<ChangeEvent<Document>>>]()
+    internal func add(streamDelegate: SSEStreamDelegate<SSE<ChangeEvent<Document>>>) {
+        streamDelegates.append(streamDelegate)
+    }
+
     func onNetworkStateChanged() {
 
     }
 
     override func on(newEvent event: SSE<ChangeEvent<Document>>) {
-        logger.d(try! BSONEncoder().encode(event.data!).description)
+        guard let changeEvent = event.data else {
+            return
+        }
+
+        logger.d(
+            "Received ChangeEvent for id: \(changeEvent.id.value) " +
+            "of type: \(changeEvent.operationType)")
+
+        streamDelegates.forEach({$0.on(newEvent: event)})
     }
 
     override func on(stateChangedFor state: SSEStreamState) {
-
+        switch state {
+        case .open:
+            logger.d("stream open")
+        case .closed:
+            logger.d("stream closed")
+        }
+        streamDelegates.forEach({$0.on(stateChangedFor: state)})
     }
 
     override func on(error: Error) {

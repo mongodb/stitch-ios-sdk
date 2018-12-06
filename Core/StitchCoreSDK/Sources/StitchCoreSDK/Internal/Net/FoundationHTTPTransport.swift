@@ -69,27 +69,36 @@ public final class FoundationHTTPTransport: Transport {
         return response
     }
 
+    let operationQueue = OperationQueue.init()
+    let queue = DispatchQueue(label: "ReactiveSSE", qos: .background)
+    var anyRawStream: Any!
+    var dataDel: Any!
+
     public func stream<T>(request: Request) throws -> AnyRawSSEStream<T> where T : RawSSE {
+        operationQueue.underlyingQueue = queue
         guard let url = URL(string: request.url) else {
             throw StitchError.clientError(withClientErrorCode: .missingURL)
         }
 
         let sessionConfig = URLSessionConfiguration.default
-        sessionConfig.timeoutIntervalForRequest = 60
-
+        sessionConfig.timeoutIntervalForRequest = 5000
+        sessionConfig.timeoutIntervalForResource = 5000
+        sessionConfig.requestCachePolicy = .reloadIgnoringLocalCacheData
+        let additionalheaders = ["Content-Type": "text/event-stream",
+                                 "Cache-Control": "no-cache",
+                                 "Accept": "text/event-stream"]
+        sessionConfig.httpAdditionalHeaders = additionalheaders
         var sseStream = FoundationHTTPSSEStream<T>()
+        dataDel = sseStream
+        anyRawStream = sseStream
+
         let session = URLSession.init(configuration: sessionConfig,
-                                      delegate: sseStream.urlSessionDelegate,
+                                      delegate: dataDel as! URLSessionDataDelegate,
                                       delegateQueue: nil)
 
-        var urlRequest = URLRequest(url: url)
+        let task = session.dataTask(with: url)
+        task.resume()
 
-        urlRequest.allHTTPHeaderFields = request.headers
-        urlRequest.httpMethod = request.method.rawValue
-        urlRequest.setValue("text/event-stream", forHTTPHeaderField: "content-type")
-        urlRequest.setValue("text/event-stream", forHTTPHeaderField: "accept")
-
-        session.dataTask(with: urlRequest).resume()
-        return AnyRawSSEStream(&sseStream)
+        return AnyRawSSEStream(sseStream)
     }
 }

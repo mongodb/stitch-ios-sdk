@@ -4,7 +4,7 @@ import MongoSwift
 import StitchCore
 
 public class Sync<DocumentT: Codable> {
-    private let proxy: CoreSync<DocumentT>
+    internal let proxy: CoreSync<DocumentT>
     private let queue = DispatchQueue.init(label: "sync", qos: .userInitiated)
 
     internal init(proxy: CoreSync<DocumentT>) {

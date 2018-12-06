@@ -47,7 +47,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     /// The configuration for this sync instance
     private var syncConfig: InstanceSynchronization
 
-    private let instanceChangeStreamDelegate: InstanceChangeStreamDelegate
+    internal let instanceChangeStreamDelegate: InstanceChangeStreamDelegate
 
     /// Whether or not the DataSynchronizer has been configured
     private(set) var isConfigured = false
