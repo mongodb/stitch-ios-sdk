@@ -80,7 +80,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     /// The user's error listener
     private var errorListener: ErrorListener?
     /// Current sync pass iteration
-    private var logicalT: UInt64 = 0
+    private var logicalT: Int64 = 0
     /// Whether or not the sync loop is running
     var isRunning: Bool {
         syncLock.readLock()
@@ -561,8 +561,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         lock.writeLock()
         defer { lock.unlock() }
 
-
-        var eventsToEmit = [ChangeEvent<Document>]()
+        var eventsToEmit = [(BSONValue, ChangeEvent<Document>)]()
         let localColl = try localCollection(for: namespace, withType: Document.self)
 
         let idsToDelete = try localColl.find(filter).map { doc -> BSONValue? in
@@ -595,12 +594,11 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             }
 
             try docConfig.setSomePendingWrites(atTime: logicalT, changeEvent: event)
-            eventsToEmit.append(event)
+            eventsToEmit.append((documentId, event))
         }
 
-        for event in eventsToEmit {
-            // TODO should not do "!"
-            emitEvent(documentId: event.documentKey["_id"]!, event: event)
+        for eventTuple in eventsToEmit {
+            emitEvent(documentId: eventTuple.0, event: eventTuple.1)
         }
 
         return result
