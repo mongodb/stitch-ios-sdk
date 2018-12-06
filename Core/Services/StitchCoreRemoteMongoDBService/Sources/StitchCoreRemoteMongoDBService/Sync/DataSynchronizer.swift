@@ -3,7 +3,7 @@ import MongoSwift
 import MongoMobile
 import StitchCoreSDK
 
-/// Internal extension so we can initialize using
+/// Internal extensions so we can initialize using
 /// internal initializer.
 extension UpdateResult {
     init(matchedCount: Int,
@@ -14,6 +14,12 @@ extension UpdateResult {
         self.modifiedCount = modifiedCount
         self.upsertedId = upsertedId
         self.upsertedCount = upsertedCount
+    }
+}
+
+extension DeleteResult {
+    init(deletedCount: Int) {
+        self.deletedCount = deletedCount
     }
 }
 
@@ -494,8 +500,46 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      - returns: the result of the remove one operation
      */
     func deleteOne(filter: Document,
-                   in namespace: MongoNamespace) -> DeleteResult? {
-        fatalError("\(#function) not implemented")
+                   options: DeleteOptions?,
+                   in namespace: MongoNamespace) throws -> DeleteResult? {
+        guard var nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
+            throw StitchError.clientError(
+                withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
+        }
+        let lock = nsConfig.nsLock
+        lock.writeLock()
+        defer { lock.unlock() }
+
+        let localColl = try localCollection(for: namespace, withType: Document.self)
+
+        guard let docToDelete = try localColl.find(filter).first(where: { _ in true}) else {
+            return DeleteResult(deletedCount: 0)
+        }
+
+        guard let documentId = docToDelete["_id"],
+              var docConfig = nsConfig[documentId] else {
+            return DeleteResult(deletedCount: 0)
+        }
+
+        let result = try localColl.deleteOne(filter)
+        let event =  ChangeEvent<Document>.changeEventForLocalDelete(
+            namespace: namespace,
+            documentId: documentId,
+            writePending: true
+        )
+
+        // this block is to trigger coalescence for a delete after insert
+        if let uncommittedEvent = docConfig.uncommittedChangeEvent,
+           uncommittedEvent.operationType == OperationType.insert {
+
+            desync(ids: [docConfig.documentId.value], in: docConfig.namespace)
+            return result
+        }
+
+        try docConfig.setSomePendingWrites(atTime: logicalT, changeEvent: event)
+        emitEvent(documentId: documentId, event: event)
+
+        return result
     }
 
     /**
@@ -507,8 +551,59 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      - returns: the result of the remove many operation
      */
     func deleteMany(filter: Document,
-                    in namespace: MongoNamespace) -> DeleteResult? {
-        fatalError("\(#function) not implemented")
+                    options: DeleteOptions?,
+                    in namespace: MongoNamespace) throws -> DeleteResult? {
+        guard var nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
+            throw StitchError.clientError(
+                withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
+        }
+        let lock = nsConfig.nsLock
+        lock.writeLock()
+        defer { lock.unlock() }
+
+
+        var eventsToEmit = [ChangeEvent<Document>]()
+        let localColl = try localCollection(for: namespace, withType: Document.self)
+
+        let idsToDelete = try localColl.find(filter).map { doc -> BSONValue? in
+            return doc["_id"]
+        }
+
+        let result = try localColl.deleteMany(filter, options: options)
+
+        for documentId in idsToDelete {
+            guard let documentId = documentId else {
+                continue
+            }
+
+            guard var docConfig = nsConfig[documentId] else {
+                continue
+            }
+
+            let event = ChangeEvent<Document>.changeEventForLocalDelete(
+                namespace: namespace,
+                documentId: documentId,
+                writePending: true
+            )
+
+            // this block is to trigger coalescence for a delete after insert
+            if let uncommittedEvent = docConfig.uncommittedChangeEvent,
+                uncommittedEvent.operationType == OperationType.insert {
+
+                desync(ids: [docConfig.documentId.value], in: docConfig.namespace)
+                continue
+            }
+
+            try docConfig.setSomePendingWrites(atTime: logicalT, changeEvent: event)
+            eventsToEmit.append(event)
+        }
+
+        for event in eventsToEmit {
+            // TODO should not do "!"
+            emitEvent(documentId: event.documentKey["_id"]!, event: event)
+        }
+
+        return result
     }
 
     /**
