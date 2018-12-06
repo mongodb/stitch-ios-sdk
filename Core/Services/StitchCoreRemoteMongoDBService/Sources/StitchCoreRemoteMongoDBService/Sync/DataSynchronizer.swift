@@ -74,7 +74,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     /// The user's error listener
     private var errorListener: ErrorListener?
     /// Current sync pass iteration
-    private var logicalT: UInt32 = 0
+    private var logicalT: UInt64 = 0
     /// Whether or not the sync loop is running
     var isRunning: Bool {
         syncLock.readLock()
