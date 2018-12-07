@@ -32,8 +32,8 @@ public final class StubStitchRequestClient: StitchRequestClient {
         return Response.init(statusCode: 500, headers: [:], body: nil)
     }
 
-    public func doStreamRequest<T: RawSSE>(_ stitchReq: StitchRequest) throws -> AnyRawSSEStream<T> {
-        return AnyRawSSEStream(FoundationHTTPSSEStream<T>())
+    public func doStreamRequest(_ stitchReq: StitchRequest, delegate: SSEStreamDelegate? = nil) throws -> RawSSEStream {
+        return FoundationHTTPSSEStream()
     }
 }
 

@@ -2,10 +2,15 @@ import Foundation
 import StitchCoreSDK
 
 class InstanceChangeStreamDelegate {
+    /// The configuration for this instance
     private var instanceConfig: InstanceSynchronization
+    /// The service client for network calls
     private let service: CoreStitchServiceClient
+    /// The network monitor that will notify us of network state
     private let networkMonitor: NetworkMonitor
+    /// The auth monitor that will notify us of auth state
     private let authMonitor: AuthMonitor
+    /// A mapping of of change stream delegates keyed on namespaces
     private var namespaceToStreamDelegates = [MongoNamespace: NamespaceChangeStreamDelegate]()
     
     init(instanceConfig: InstanceSynchronization,
@@ -18,6 +23,12 @@ class InstanceChangeStreamDelegate {
         self.authMonitor = authMonitor;
     }
 
+    /**
+     Append a namespace to this instance, initing a NamespaceChangeStreamDelegate
+     in the process.
+
+     - parameter namespace: the namespace to add a listener for
+     */
     func append(namespace: MongoNamespace) {
         guard var nsConfig = instanceConfig[namespace] else {
             return
@@ -43,8 +54,8 @@ class InstanceChangeStreamDelegate {
         try self.namespaceToStreamDelegates[namespace]?.start()
     }
 
-    func stop(namespace: MongoNamespace) throws {
-        try self.namespaceToStreamDelegates[namespace]?.stop()
+    func stop(namespace: MongoNamespace) {
+        self.namespaceToStreamDelegates[namespace]?.stop()
     }
 
     subscript(namespace: MongoNamespace) -> NamespaceChangeStreamDelegate? {

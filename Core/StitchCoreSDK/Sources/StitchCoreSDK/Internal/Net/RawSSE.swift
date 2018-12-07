@@ -1,37 +1,46 @@
 import Foundation
 import MongoSwift
 
-public protocol RawSSE {
-    var rawData: String { get }
-
-    var eventName: String { get }
-
-    init?(rawData: String, eventName: String) throws
-}
-
 /// Default message name
-let messageEvent = "message"
+private let messageEvent = "message"
 /// Stitch event name for error messages
 private let errorEventName = "error"
 
-/// Stitch abstraction of server-sent events.
-public final class SSE<T: Decodable>: RawSSE {
-    public let rawData: String
+/// Stitch Error representation from within SSEs
+private struct Error: Codable {
+    private enum CodingKeys: String, CodingKey {
+        case error = "error"
+        case errorCode = "error_code"
+    }
 
-    public let eventName: String
+    let error: String
+    let errorCode: StitchServiceErrorCode
+}
 
-    /// Decoded data from the event
-    public let data: T
+/// Representation of a raw server sent event
+open class RawSSE {
+    /// The raw data from this event
+    let rawData: String
+    /// The name of this event
+    let eventName: String
 
-    public init?(rawData: String, eventName: String) throws {
+    required public init?(rawData: String, eventName: String) throws {
         self.rawData = rawData
         self.eventName = eventName
+    }
+
+    /*
+     Decode the data from this raw SSE into the Stitch format
+
+     - returns: the data decoded as type T
+     */
+    public final func decodeStitchSSE<T: Decodable>() throws -> T? {
         let data = rawData
         var indices = data.indices
         var decodedData = ""
 
         while let chIdx = indices.popFirst() {
-            let char = rawData[chIdx]
+            let char = data[chIdx]
             switch char {
             case "%":
                 let startIndex = data.index(after: chIdx)
@@ -73,19 +82,10 @@ public final class SSE<T: Decodable>: RawSSE {
                                                withServiceErrorCode: .unknown)
             }
         case messageEvent, "":
-            self.data = try BSONDecoder().decode(T.self,
-                                                 from: Document.init(fromJSON: decodedData))
+            return try BSONDecoder().decode(T.self,
+                                            from: Document.init(fromJSON: decodedData))
         default: return nil
         }
     }
 
-    private struct Error: Codable {
-        private enum CodingKeys: String, CodingKey {
-            case error = "error"
-            case errorCode = "error_code"
-        }
-
-        let error: String
-        let errorCode: StitchServiceErrorCode
-    }
 }

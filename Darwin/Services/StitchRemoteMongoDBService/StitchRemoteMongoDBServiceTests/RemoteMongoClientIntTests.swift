@@ -1308,19 +1308,46 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         }
     }
 
-    private class StreamJoiner: SSEStreamDelegate<SSE<ChangeEvent<Document>>> {
-        private let semaphore: DispatchSemaphore
+    struct FooIter: Codable {
+        var foo = 42
+    }
 
-        init(_ semaphore: DispatchSemaphore) {
-            self.semaphore = semaphore
-        }
+    private class StreamJoiner: SSEStreamDelegate {
+        var events = [ChangeEvent<FooIter>]()
+        var streamState: SSEStreamState?
 
         override func on(stateChangedFor state: SSEStreamState) {
-            semaphore.signal()
+            streamState = state
         }
 
-        override func on(newEvent event: SSE<ChangeEvent<Document>>) {
+        override func on(newEvent event: RawSSE) {
+            guard let changeEvent: ChangeEvent<FooIter> = try! event.decodeStitchSSE() else {
+                return
+            }
 
+            events.append(changeEvent)
+        }
+
+        func wait(forState state: SSEStreamState) {
+            let semaphore = DispatchSemaphore.init(value: 0)
+            DispatchWorkItem {
+                while self.streamState != state {
+                    usleep(10)
+                }
+                semaphore.signal()
+            }.perform()
+            semaphore.wait()
+        }
+
+        func wait(forEvents eventCount: Int) {
+            let semaphore = DispatchSemaphore.init(value: 0)
+            DispatchWorkItem {
+                while self.events.count < eventCount {
+                    usleep(10)
+                }
+                semaphore.signal()
+            }.perform()
+            semaphore.wait()
         }
     }
 
@@ -1332,8 +1359,8 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
                        errorListener: { _, _ in })
 
         let joiner = CallbackJoiner()
-        let doc = ["foo": 42] as Document
-        coll.insertOne(doc, joiner.capture())
+        let doc = FooIter()
+        coll.withCollectionType(FooIter.self).insertOne(doc, joiner.capture())
 
         guard let insertOneResult = joiner.value(asType: RemoteInsertOneResult.self) else {
             XCTFail("could not insert")
@@ -1349,28 +1376,29 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         sync.sync(ids: [insertOneResult.insertedId])
 
         let nsChangeStreamDelegate = iCSDel[ns]
-        let semaphore = DispatchSemaphore.init(value: 0)
-        nsChangeStreamDelegate?.add(streamDelegate: StreamJoiner(semaphore))
+        let streamJoiner = StreamJoiner()
+        nsChangeStreamDelegate?.add(streamDelegate: streamJoiner)
+        streamJoiner.wait(forState: .open)
 
-        semaphore.wait()
-        for i in 0..<100 {
-            print ("Updating document with id: \(insertOneResult.insertedId)")
+        for i in 0 ..< 10 {
             coll.updateOne(filter: ["_id": insertOneResult.insertedId] as Document,
                            update: ["$set": ["foo": i] as Document] as Document,
                            options: nil,
                            joiner.capture())
 
-
             guard let updateResult = joiner.value(asType: RemoteUpdateResult.self) else {
-                XCTFail("could not insert")
+                XCTFail("could not update")
                 return
             }
 
             XCTAssertEqual(updateResult.modifiedCount, 1)
-            sleep(5)
+            streamJoiner.wait(forEvents: 1)
+
+            XCTAssertEqual(i, streamJoiner.events.removeFirst().fullDocument?.foo)
         }
-        let sem = DispatchSemaphore.init(value: 0)
-        sem.wait()
+
+        nsChangeStreamDelegate?.stop()
+        streamJoiner.wait(forState: .closed)
     }
 }
 

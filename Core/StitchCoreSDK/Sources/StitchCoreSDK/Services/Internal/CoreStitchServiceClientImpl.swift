@@ -86,10 +86,11 @@ open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
                                           withTimeout: timeout))
     }
 
-    public func streamFunction<T>(withName name: String,
-                                  withArgs args: [BSONValue]) throws -> SSEStream<T> where T : Decodable {
+    public func streamFunction(withName name: String,
+                               withArgs args: [BSONValue],
+                               delegate: SSEStreamDelegate? = nil) throws -> RawSSEStream {
         return try requestClient.openAuthenticatedStream(
-            getStreamServiceFunctionRequest(name: name, args: args)
+            getStreamServiceFunctionRequest(name: name, args: args), delegate: delegate
         )
     }
 }

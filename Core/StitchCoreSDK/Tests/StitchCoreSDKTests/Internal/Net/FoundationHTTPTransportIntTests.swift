@@ -1,7 +1,6 @@
 import XCTest
 @testable import Swifter
 @testable import StitchCoreSDK
-import Embassy
 
 class FoundationHTTPTransportIntTests: StitchXCTestCase {
     let responseBody = "foo"
@@ -81,7 +80,7 @@ class FoundationHTTPTransportIntTests: StitchXCTestCase {
     }
 
     func testStream() throws {
-        let lines = [
+        var lines = [
             "'And oh, what a terrible country it is!",
             "Nothing but thick jungles infested by the most dangerous beasts in the entire world –",
             "hornswogglers and snozzwangers and those terrible wicked whangdoodles.",
@@ -111,11 +110,43 @@ class FoundationHTTPTransportIntTests: StitchXCTestCase {
             .with(timeout: testDefaultRequestTimeout)
             .with(headers: self.headers)
 
-        let eventStream = try transport.stream(request: builder.build())
+        class WonkaDelegate: SSEStreamDelegate {
+            let lineExp: XCTestExpectation
+            let closeExp: XCTestExpectation
+            var events = [RawSSE]()
 
-        for line in lines {
-            let event = try eventStream.nextEvent()
-            XCTAssertEqual(event.data, line)
+            init(_ xcTestCase: XCTestCase) {
+                lineExp = xcTestCase.expectation(description: "lines should be equal")
+                closeExp = xcTestCase.expectation(description: "stream should close")
+            }
+
+            override func on(newEvent event: RawSSE) {
+                events.append(event)
+                if events.count >= 4 {
+                    lineExp.fulfill()
+                }
+            }
+
+            override func on(stateChangedFor state: SSEStreamState) {
+                if state == .closed {
+                    closeExp.fulfill()
+                }
+            }
+        }
+
+        let delegate = WonkaDelegate(self)
+        let eventStream = try transport.stream(request: builder.build(), delegate: delegate)
+
+        wait(for: [delegate.lineExp], timeout: 10)
+
+        eventStream.close()
+        
+        wait(for: [delegate.closeExp], timeout: 10)
+
+        for i in 0 ..< 4 {
+            print(delegate.events[i].rawData)
+            print(lines[i])
+            XCTAssertEqual(delegate.events[i].rawData, lines[i])
         }
     }
 }

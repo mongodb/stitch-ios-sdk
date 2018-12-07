@@ -16,8 +16,8 @@ public final class MockStitchRequestClient: StitchRequestClient {
         return try doRequestMock.throwingRun(arg1: stitchReq)
     }
 
-    public var doStreamRequestMock = FunctionMockUnitOneArg<EventStream, StitchRequest>()
-    public func doStreamRequest(_ stitchReq: StitchRequest) throws -> EventStream {
-        return try doStreamRequestMock.throwingRun(arg1: stitchReq)
+    public var doStreamRequestMock = FunctionMockUnitTwoArgs<RawSSEStream, StitchRequest, SSEStreamDelegate?>()
+    public func doStreamRequest(_ stitchReq: StitchRequest, delegate: SSEStreamDelegate?) throws -> RawSSEStream {
+        return try doStreamRequestMock.throwingRun(arg1: stitchReq, arg2: delegate)
     }
 }

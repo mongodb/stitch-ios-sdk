@@ -2,64 +2,35 @@ import Foundation
 import XCTest
 @testable import StitchCoreSDK
 
-public class FoundationHTTPEventStreamUnitTests: XCTestCase {
-    func testReadLine() {
-        let eventStream = FoundationHTTPEventStream()
+public class RawSSEStreamUnitTests: XCTestCase {
+    func testDispatchEvents() throws {
+        class PartialDelegate: SSEStreamDelegate {
+            var lastEvent: RawSSE? = nil
 
-        let line1 = "They dined on mince and slices of quince,"
-        let line2 = "Which they ate with a runcible spoon;"
-        let line3 = "And hand in hand, on the edge of the sand,"
-        let line4 = "They danced by the light of the moon."
-        let string = """
-        \(line1)
-        \(line2)
-        \(line3)
-        \(line4)\n
-        """
+            override func on(newEvent event: RawSSE) {
+                lastEvent = event
+            }
+        }
 
-        // inject data into stream
-        eventStream.urlSession(URLSession(),
-                               dataTask: URLSessionDataTask(),
-                               didReceive: string.data(using: .utf8)!)
+        let partialDelegate = PartialDelegate()
+        let stream = RawSSEStream(partialDelegate)
+        stream.state = .open
+        let partialLine1 = "They dined on mince and slices of quince,"
+        let partialLine2 = "Which they ate with a runcible spoon;"
 
-        XCTAssertEqual(eventStream.readLine(), line1)
-        XCTAssertEqual(eventStream.readLine(), line2)
-        XCTAssertEqual(eventStream.readLine(), line3)
-        XCTAssertEqual(eventStream.readLine(), line4)
-        XCTAssertEqual(eventStream.readLine(), "")
-    }
+        stream.dataBuffer.append("data: \(partialLine1)\n".data(using: .utf8)!)
+        stream.dispatchEvents()
+        XCTAssertNil(partialDelegate.lastEvent)
+        stream.dataBuffer.append("data: \(partialLine2)\n\n".data(using: .utf8)!)
+        stream.dispatchEvents()
+        XCTAssertEqual(partialDelegate.lastEvent?.rawData, partialLine1 + partialLine2)
 
-    func testNextEvent() throws {
-        let odds = "never tell me the odds"
-        let treason = "it's treason then"
+        let partialLine3 = "And hand in hand, on the edge of the sand,"
+        let partialLine4 = "They danced by the light of the moon."
 
-        let dataOdds = "data: \(odds)"
-        let dataTreason = "data: \(treason)"
-
-        let data = """
-        \n
-        \(dataOdds)\n
-        \(dataTreason)\n\n
-        """.data(using: .utf8)!
-
-        let stream = FoundationHTTPEventStream()
-        stream.urlSession(URLSession(),
-                          dataTask: URLSessionDataTask(),
-                          didReceive: data)
-
-        // mock open the stream
-        stream.urlSession(URLSession(),
-                          dataTask: URLSessionDataTask(),
-                          didReceive: HTTPURLResponse.init(url: URL.init(fileURLWithPath: ""),
-                                                           statusCode: 200,
-                                                           httpVersion: nil,
-                                                           headerFields: nil)!,
-                          completionHandler: { _ in })
-
-        XCTAssertEqual(odds, try stream.nextEvent().data)
-
-        XCTAssertEqual(treason, try stream.nextEvent().data)
-
-        stream.close()
+        stream.dataBuffer.append("data: \(partialLine3)\ndata:\(partialLine4)\n\n".data(using: .utf8)!)
+        stream.dispatchEvents()
+        XCTAssertEqual(partialDelegate.lastEvent?.rawData.split(separator: "\n"),
+                       [Substring(partialLine3), Substring(partialLine4)])
     }
 }

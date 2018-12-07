@@ -1,15 +1,15 @@
 import Foundation
 
-internal let newlineChar = [UInt8]("\n".utf8)[0]
+private let newlineChar = [UInt8]("\n".utf8)[0]
 
 public enum SSEStreamState {
     case open, closed
 }
 
-open class SSEStreamDelegate<SSEType: RawSSE> {
+open class SSEStreamDelegate {
     public init() {}
     
-    open func on(newEvent event: SSEType) {
+    open func on(newEvent event: RawSSE) {
 
     }
 
@@ -22,80 +22,46 @@ open class SSEStreamDelegate<SSEType: RawSSE> {
     }
 }
 
-public protocol RawSSEStream {
-    associatedtype SSEType: RawSSE
-
-    var delegate: SSEStreamDelegate<SSEType>? { get set }
-    var state: SSEStreamState { get }
-
-    func open()
-    func close()
-}
-
-public class AnyRawSSEStream<T: RawSSE>: RawSSEStream {
-    private let _state: () -> SSEStreamState
-    private let _open: () -> ()
-    private let _close: () -> ()
-    private let _delegate_get: () -> SSEStreamDelegate<T>?
-    private let _delegate_set: (SSEStreamDelegate<T>?) -> ()
-
-    public typealias SSEType = T
-
-    public init<U: RawSSEStream>(_ rawSSEStream: U) where U.SSEType == T {
-        var rawRef = rawSSEStream
-        self._state = { rawRef.state }
-        self._open = rawRef.open
-        self._close = rawRef.close
-
-        self._delegate_get = {
-            rawRef.delegate
-        }
-        self._delegate_set = {
-            rawRef.delegate = $0
+open class RawSSEStream {
+    open var state: SSEStreamState = .closed {
+        didSet {
+            delegate?.on(stateChangedFor: state)
         }
     }
+    public weak var delegate: SSEStreamDelegate? = nil
+    public var dataBuffer = Data()
 
-    public var delegate: SSEStreamDelegate<T>? {
-        get {
-            return self._delegate_get()
-        }
-        set {
-            self._delegate_set(newValue)
-        }
+    private var stringBuffer: String = ""
+    private var eventName: String = ""
+
+    public init(_ delegate: SSEStreamDelegate? = nil) {
+        self.delegate = delegate
     }
 
-    public var state: SSEStreamState {
-        return _state()
+    open func open() {
+
     }
 
-    public func open() {
-        _open()
+    open func close() {
+
     }
 
-    public func close() {
-        _close()
-    }
-}
-
-extension RawSSEStream {
     /**
      Read the next line of a stream from a given source.
      - returns: the next utf8 line
      */
-    private func readLine(from data: inout Data) -> String? {
-        guard let newlineIndex = data.firstIndex(of: newlineChar) else {
+    private func readLine() -> String? {
+        guard let newlineIndex = self.dataBuffer.firstIndex(of: newlineChar) else {
             return nil
         }
 
-        let line = data[data.startIndex ..< newlineIndex]
-        data.removeSubrange(data.startIndex ..< newlineIndex + 1)
+        let line = self.dataBuffer[dataBuffer.startIndex ..< newlineIndex]
+        self.dataBuffer.removeSubrange(dataBuffer.startIndex ..< newlineIndex + 1)
         return String.init(data: line, encoding: .utf8)
     }
 
     private func process(value: String,
-                         forField field: String,
-                         eventName: inout String,
-                         dataBuffer: inout String) {
+                         forField field: String) {
         // If the field name is "event"
         switch (field) {
         case "event":
@@ -105,10 +71,10 @@ extension RawSSEStream {
         case "data":
             // If the data buffer is not the empty string, then append a single U+000A LINE FEED
             // character to the data buffer.
+            stringBuffer += value
             if dataBuffer.count != 0 {
-                dataBuffer += "\n"
+                stringBuffer += "\n"
             }
-            dataBuffer += value
             break
         // If the field name is "id"
         case "id":
@@ -129,15 +95,13 @@ extension RawSSEStream {
      Process the next event in a given stream.
      - returns: the fully processed event
      */
-    internal func dispatchEvents(from data: inout Data) {
-        var dataBuffer = ""
-        var eventName = ""
-        while state == .open, let line = self.readLine(from: &data) {
+    internal func dispatchEvents() {
+        while state == .open, let line = self.readLine() {
             // If the line is empty (a blank line), Dispatch the event, as defined below.
-            if line.isEmpty || line == "\n" {
+            if line.isEmpty {
                 // If the data buffer is an empty string, set the data buffer and the event name buffer to
                 // the empty string and abort these steps.
-                if (dataBuffer.count == 0) {
+                if (stringBuffer.count == 0) {
                     eventName = ""
                     continue
                 }
@@ -146,16 +110,18 @@ extension RawSSEStream {
                 // set the data buffer and the event name buffer to the empty string and abort these steps.
                 // NOT IMPLEMENTED
                 do {
-                    guard let sse = try SSEType.init(rawData: dataBuffer, eventName: eventName) else {
+                    guard let sse = try RawSSE.init(rawData: String(stringBuffer.dropLast()), eventName: eventName) else {
                         continue
                     }
 
                     delegate?.on(newEvent: sse)
+                    stringBuffer = ""
+                    eventName = ""
                 } catch {
                     delegate?.on(error: error)
                     return
                 }
-            // If the line starts with a U+003A COLON character (':')
+                // If the line starts with a U+003A COLON character (':')
             } else if line.starts(with: ":") {
                 // ignore the line
                 // If the line contains a U+003A COLON character (':') character
@@ -171,11 +137,11 @@ extension RawSSEStream {
                 var value = line[line.index(after: colonIdx) ..< line.endIndex]
                 value = value.starts(with: " ") ? value.dropFirst() : value
 
-                process(value: String(value), forField: String(field), eventName: &eventName, dataBuffer: &dataBuffer)
+                process(value: String(value), forField: String(field))
                 // Otherwise, the string is not empty but does not contain a U+003A COLON character (':')
                 // character
             } else {
-                process(value: "", forField: line, eventName: &eventName, dataBuffer: &dataBuffer)
+                process(value: "", forField: line)
             }
         }
     }

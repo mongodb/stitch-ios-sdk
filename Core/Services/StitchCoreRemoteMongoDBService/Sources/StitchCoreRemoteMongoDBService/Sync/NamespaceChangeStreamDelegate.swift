@@ -2,16 +2,16 @@ import Foundation
 import MongoSwift
 import StitchCoreSDK
 
-class NamespaceChangeStreamDelegate: SSEStreamDelegate<SSE<ChangeEvent<Document>>>, NetworkStateDelegate {
+class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
     private let namespace: MongoNamespace
     private let service: CoreStitchServiceClient
     private let networkMonitor: NetworkMonitor
     private let authMonitor: AuthMonitor
     private let nsConfig: NamespaceSynchronization
     private var eventsKeyedQueue = [HashableBSONValue: ChangeEvent<Document>]()
-    private var streamDelegates = [SSEStreamDelegate<SSE<ChangeEvent<Document>>>]()
+    private var streamDelegates = [SSEStreamDelegate]()
 
-    private var stream: SSEStream<ChangeEvent<Document>>? = nil
+    private var stream: RawSSEStream? = nil
     private lazy var tag = "NSChangeStreamListener-\(namespace.description)"
     private lazy var logger = Log.init(tag: tag)
 
@@ -64,7 +64,7 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate<SSE<ChangeEvent<Document>
         self.stream?.close()
     }
 
-    func add(streamDelegate: SSEStreamDelegate<SSE<ChangeEvent<Document>>>) {
+    func add(streamDelegate: SSEStreamDelegate) {
         streamDelegates.append(streamDelegate)
     }
 
@@ -72,15 +72,22 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate<SSE<ChangeEvent<Document>
         self.stop()
     }
 
-    override func on(newEvent event: SSE<ChangeEvent<Document>>) {
-        guard let id = event.data.documentKey["_id"] else {
-            return
+    override func on(newEvent event: RawSSE) {
+        do {
+            guard let changeEvent: ChangeEvent<Document> = try event.decodeStitchSSE(),
+                let id = changeEvent.documentKey["_id"] else {
+                return
+            }
+
+            logger.d("event found: op=\(changeEvent.operationType) id=\(id)")
+
+            streamDelegates.forEach({$0.on(newEvent: event)})
+            self.eventsKeyedQueue[HashableBSONValue(id)] = changeEvent
+
+        } catch {
+            logger.e("error occurred: err=\(error.localizedDescription)")
+            self.stop()
         }
-
-        logger.d("event found: op=\(event.data.operationType) id=\(id)")
-
-        streamDelegates.forEach({$0.on(newEvent: event)})
-        self.eventsKeyedQueue[HashableBSONValue(id)] = event.data
     }
 
     override func on(stateChangedFor state: SSEStreamState) {

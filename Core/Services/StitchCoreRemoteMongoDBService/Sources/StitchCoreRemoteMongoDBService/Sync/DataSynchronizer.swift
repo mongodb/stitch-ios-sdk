@@ -818,7 +818,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             }
 
             instanceChangeStreamDelegate.append(namespace: namespace)
-            try instanceChangeStreamDelegate.stop(namespace: namespace)
+            instanceChangeStreamDelegate.stop(namespace: namespace)
             try instanceChangeStreamDelegate.start(namespace: namespace)
         } catch {
             log.e("t='\(logicalT)': triggerListeningToNamespace ns=\(namespace) exception: \(error)")

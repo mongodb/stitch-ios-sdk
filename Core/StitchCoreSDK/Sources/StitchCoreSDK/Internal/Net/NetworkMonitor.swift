@@ -1,5 +1,9 @@
+/// The state of the network
 public enum NetworkState {
-    case connected, disconnected
+    /// The network is currently connected
+    case connected
+    /// The network is currently disconnected
+    case disconnected
 }
 
 public protocol NetworkMonitor {

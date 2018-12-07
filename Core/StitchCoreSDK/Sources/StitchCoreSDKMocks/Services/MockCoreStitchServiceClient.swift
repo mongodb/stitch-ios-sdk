@@ -25,4 +25,9 @@ public final class MockCoreStitchServiceClient: CoreStitchServiceClient {
             fatalError("Returning incorrect type from mocked result")
         }
     }
+    public var streamFunctionMock =
+        FunctionMockUnitThreeArgs<RawSSEStream, String, [BSONValue], SSEStreamDelegate?>()
+    public func streamFunction(withName name: String, withArgs args: [BSONValue], delegate: SSEStreamDelegate? = nil) throws -> RawSSEStream {
+        return try streamFunctionMock.throwingRun(arg1: name, arg2: args, arg3: delegate)
+    }
 }

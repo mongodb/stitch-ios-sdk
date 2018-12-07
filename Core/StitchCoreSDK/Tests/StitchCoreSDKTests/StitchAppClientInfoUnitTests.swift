@@ -3,6 +3,8 @@ import XCTest
 @testable import StitchCoreSDK
 
 class StitchAppClientInfoUnitTests: XCTestCase, NetworkMonitor, AuthMonitor {
+    var state: NetworkState = .connected
+
     var isLoggedIn: Bool = true
 
     var isConnected: Bool = true
