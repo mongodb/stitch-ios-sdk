@@ -37,7 +37,7 @@ internal struct CoreDocumentSynchronization: Hashable {
         let namespace: MongoNamespace
         let documentId: HashableBSONValue
         fileprivate var uncommittedChangeEvent: ChangeEvent<Document>?
-        fileprivate var lastResolution: UInt64
+        fileprivate var lastResolution: Int64
         fileprivate var lastKnownRemoteVersion: Document?
         fileprivate var isStale: Bool
         fileprivate var isPaused: Bool
@@ -45,7 +45,7 @@ internal struct CoreDocumentSynchronization: Hashable {
         init(namespace: MongoNamespace,
              documentId: HashableBSONValue,
              lastUncommittedChangeEvent: ChangeEvent<Document>?,
-             lastResolution: UInt64,
+             lastResolution: Int64,
              lastKnownRemoteVersion: Document?,
              isStale: Bool,
              isPaused: Bool) {
@@ -96,7 +96,7 @@ internal struct CoreDocumentSynchronization: Hashable {
     }
 
     /// The last time a pending write has been triggered.
-    var lastResolution: UInt64 {
+    var lastResolution: Int64 {
         get {
             docLock.readLock()
             defer { docLock.unlock() }
@@ -212,7 +212,7 @@ internal struct CoreDocumentSynchronization: Hashable {
      - parameter atTime: the time at which the write occurred.
      - parameter changeEvent: the description of the write/change.
      */
-    mutating func setSomePendingWrites(atTime: UInt64,
+    mutating func setSomePendingWrites(atTime: Int64,
                                        changeEvent: ChangeEvent<Document>) throws {
         // if we were frozen
         if (isPaused) {
@@ -241,7 +241,7 @@ internal struct CoreDocumentSynchronization: Hashable {
      - parameter atVersion:   the version for which the write occurred.
      - parameter changeEvent: the description of the write/change.
      */
-    mutating func setSomePendingWrites(atTime: UInt64,
+    mutating func setSomePendingWrites(atTime: Int64,
                                        atVersion: Document,
                                        changeEvent: ChangeEvent<Document>) throws {
         docLock.writeLock()
