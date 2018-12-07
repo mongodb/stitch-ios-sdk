@@ -446,6 +446,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         var config = nsConfig.sync(id: documentId)
         try config.setSomePendingWrites(atTime: logicalT, changeEvent: event)
         triggerListening(to: namespace)
+
+        // TODO(STITCH-2220): when we do undo collection logic, this will happen after the lock is released
         emitEvent(documentId: documentId, event: event)
         return result
     }
@@ -486,6 +488,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         })
 
         triggerListening(to: namespace)
+
+        // TODO(STITCH-2220): when we do undo collection logic, this will happen after the lock is released
         eventEmitters.forEach({$0()})
         return result
     }
@@ -537,6 +541,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         }
 
         try docConfig.setSomePendingWrites(atTime: logicalT, changeEvent: event)
+
+        // TODO(STITCH-2220): when we do undo collection logic, this will happen after the lock is released
         emitEvent(documentId: documentId, event: event)
 
         return result
@@ -561,22 +567,18 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         lock.writeLock()
         defer { lock.unlock() }
 
-        var eventsToEmit = [(BSONValue, ChangeEvent<Document>)]()
         let localColl = try localCollection(for: namespace, withType: Document.self)
 
-        let idsToDelete = try localColl.find(filter).map { doc -> BSONValue? in
+        let idsToDelete = try localColl.find(filter).compactMap { doc -> BSONValue? in
             return doc["_id"]
         }
 
         let result = try localColl.deleteMany(filter, options: options)
 
-        for documentId in idsToDelete {
-            guard let documentId = documentId else {
-                continue
-            }
-
+        typealias EventTuple = (BSONValue, ChangeEvent<Document>)
+        let eventEmitters = try idsToDelete.compactMap { documentId -> (() -> Void)? in
             guard var docConfig = nsConfig[documentId] else {
-                continue
+                return nil
             }
 
             let event = ChangeEvent<Document>.changeEventForLocalDelete(
@@ -590,16 +592,15 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 uncommittedEvent.operationType == OperationType.insert {
 
                 desync(ids: [docConfig.documentId.value], in: docConfig.namespace)
-                continue
+                return nil
             }
 
             try docConfig.setSomePendingWrites(atTime: logicalT, changeEvent: event)
-            eventsToEmit.append((documentId, event))
+            return { self.emitEvent(documentId: documentId, event: event) }
         }
 
-        for eventTuple in eventsToEmit {
-            emitEvent(documentId: eventTuple.0, event: eventTuple.1)
-        }
+        // TODO(STITCH-2220): when we do undo collection logic, this will happen after the lock is released
+        eventEmitters.forEach({$0()})
 
         return result
     }
@@ -808,6 +809,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             triggerListening(to: namespace)
         }
 
+        // TODO(STITCH-2220): when we do undo collection logic, this will happen after the lock is released
         eventsToEmit.forEach({emitEvent(documentId: $0.documentKey, event: $0)})
         return result
     }

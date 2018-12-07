@@ -1395,7 +1395,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         XCTAssertEqual(2, joiner.value())
 
         // delete all the documents we inserted
-        sync.deleteOne(filter: ["a": "b"], joiner.capture())
+        sync.deleteMany(filter: ["a": "b"], joiner.capture())
         deleteResult = joiner.value(asType: DeleteResult.self)
         XCTAssertEqual(2, deleteResult?.deletedCount)
 

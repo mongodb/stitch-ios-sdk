@@ -53,35 +53,4 @@ class DataSynchronizerUnitTests: XCMongoMobileTestCase {
 
         XCTAssertFalse(dataSynchronizer.isRunning)
     }
-
-    // TODO: STITCH-2215: This is an integration test and
-    // should be moved upstream to `Sync` within RemoteMongoClientIntTests.
-    // This will be possible after configuration is configured.
-    func testDeleteMany() throws {
-        dataSynchronizer.configure(namespace: namespace,
-                                   conflictHandler: TestConflictHandler(),
-                                   changeEventListener: TestEventListener(),
-                                   errorListener: TestErrorListener())
-        XCTAssertEqual(0, try dataSynchronizer.count(in: namespace))
-
-
-        let doc1 = ["hello": "world", "a": "b"] as Document
-        let doc2 = ["goodbye": "world", "a": "b"] as Document
-
-        _ = try dataSynchronizer.insertMany(documents: [doc1, doc2],
-                                            in: namespace)
-
-        XCTAssertEqual(2, try dataSynchronizer.count(in: namespace))
-
-        var deleteResult = try dataSynchronizer.deleteMany(filter: ["a": "c"], options: nil, in: namespace)
-        XCTAssertEqual(0, deleteResult?.deletedCount)
-
-        XCTAssertEqual(2, try dataSynchronizer.count(in: namespace))
-
-
-        deleteResult = try dataSynchronizer.deleteMany(filter: ["a": "b"], options: nil, in: namespace)
-        XCTAssertEqual(2, deleteResult?.deletedCount)
-
-        XCTAssertEqual(0, try dataSynchronizer.count(in: namespace))
-    }
 }
