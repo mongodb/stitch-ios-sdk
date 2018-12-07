@@ -64,6 +64,7 @@ open class CoreLocalMongoDBService {
     
     public func close() {
         initialized = false
+        _localInstances.removeAll()
         try? MongoMobile.close()
     }
 }

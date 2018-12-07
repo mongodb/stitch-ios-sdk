@@ -66,7 +66,7 @@ class TestErrorListener: ErrorListener {
     }
 }
 
-class TestEventListener: ChangeEventListener {
+class TestEventDelegate: ChangeEventDelegate {
     typealias DocumentT = Document
     func onEvent(documentId: BSONValue,
                  event: ChangeEvent<Document>) {

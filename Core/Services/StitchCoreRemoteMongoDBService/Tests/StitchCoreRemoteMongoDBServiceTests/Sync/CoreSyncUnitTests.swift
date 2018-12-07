@@ -16,7 +16,7 @@ class CoreSyncUnitTests: XCMongoMobileTestCase {
     func testConfigure() {
         XCTAssertFalse(dataSynchronizer.isConfigured)
         coreSync.configure(conflictHandler: TestConflictHandler(),
-                           changeEventListener: TestEventListener(),
+                           changeEventDelegate: TestEventDelegate(),
                            errorListener: TestErrorListener())
         XCTAssertTrue(dataSynchronizer.isConfigured)
         XCTAssertTrue(dataSynchronizer.isRunning)
