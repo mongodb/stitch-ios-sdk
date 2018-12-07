@@ -27,7 +27,8 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
         let isPaused = true
         let isStale = true
         let lastKnownRemoteVersion = DocumentVersionInfo.freshVersionDocument()
-        let lastResolution: UInt32 = 42
+
+        let lastResolution: Int64 = 42
 
         let ceId = ["_id": documentId] as Document
         let ceFullDocument = ["foo": "bar"] as Document
@@ -59,8 +60,8 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
                        encodedCoreDocSync[CoreDocumentSynchronization.Config.CodingKeys.isStale.rawValue] as? Bool)
         XCTAssertEqual(lastKnownRemoteVersion,
                        encodedCoreDocSync[CoreDocumentSynchronization.Config.CodingKeys.lastKnownRemoteVersion.rawValue] as? Document)
-        XCTAssertEqual(Int(lastResolution),
-                       encodedCoreDocSync[CoreDocumentSynchronization.Config.CodingKeys.lastResolution.rawValue] as? Int)
+        XCTAssertEqual(lastResolution,
+                       encodedCoreDocSync[CoreDocumentSynchronization.Config.CodingKeys.lastResolution.rawValue] as? Int64)
         XCTAssertEqual(lastUncommittedChangeEvent,
                        try BSONDecoder().decode(ChangeEvent.self,
                                                 from: encodedCoreDocSync[CoreDocumentSynchronization.Config.CodingKeys.uncommittedChangeEvent.rawValue] as! Document))
