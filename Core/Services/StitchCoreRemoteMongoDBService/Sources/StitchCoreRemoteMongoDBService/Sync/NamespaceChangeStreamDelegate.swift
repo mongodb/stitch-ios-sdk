@@ -54,9 +54,8 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
                 ["database": namespace.databaseName,
                  "collection": namespace.collectionName,
                  "ids": idsToWatch] as Document
-            ])
-
-        self.stream?.delegate = self
+            ],
+            delegate: self)
     }
 
     func stop() {

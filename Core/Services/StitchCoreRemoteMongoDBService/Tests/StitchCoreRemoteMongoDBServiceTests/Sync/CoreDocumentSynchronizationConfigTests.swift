@@ -27,7 +27,7 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
         let isPaused = true
         let isStale = true
         let lastKnownRemoteVersion = DocumentVersionInfo.freshVersionDocument()
-        let lastResolution: UInt32 = 42
+        let lastResolution: UInt64 = 42
 
         let ceId = ["_id": documentId] as Document
         let ceFullDocument = ["foo": "bar"] as Document
