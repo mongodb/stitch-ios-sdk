@@ -10,7 +10,7 @@ import StitchCoreRemoteMongoDBService
 public class RemoteMongoCollection<T: Codable> {
     private let dispatcher: OperationDispatcher
     private let proxy: CoreRemoteMongoCollection<T>
-    private let sync: Sync<T>
+    public let sync: Sync<T>
 
     internal init(withCollection collection: CoreRemoteMongoCollection<T>,
                   withDispatcher dispatcher: OperationDispatcher) {

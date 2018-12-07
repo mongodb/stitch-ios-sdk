@@ -67,7 +67,6 @@ open class BaseStitchIntTest: XCTestCase {
         adminClient.logout()
     }
     
-    
     public func createApp(withAppName appName: String = "test-\(ObjectId().description)") throws -> (AppResponse, Apps.App) {
         let appInfo = try adminClient.apps(withGroupID: groupID).create(name: appName)
         let app = adminClient.apps(withGroupID: groupID).app(withAppID: appInfo.id)

@@ -1,6 +1,7 @@
 import XCTest
 import Foundation
 import MongoMobile
+@testable import StitchCoreLocalMongoDBService
 @testable import StitchCoreRemoteMongoDBService
 
 final class CoreRemoteMongoClientUnitTests: XCMongoMobileTestCase {
