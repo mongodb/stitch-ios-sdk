@@ -75,12 +75,12 @@ public final class FoundationHTTPTransport: Transport {
         }
 
         let sessionConfig = URLSessionConfiguration.default
-        sessionConfig.timeoutIntervalForRequest = 5000
-        sessionConfig.timeoutIntervalForResource = 5000
+        sessionConfig.timeoutIntervalForRequest = 60
+        sessionConfig.timeoutIntervalForResource = 60
         sessionConfig.requestCachePolicy = .reloadIgnoringLocalCacheData
-        let additionalheaders = ["Content-Type": "text/event-stream",
-                                 "Cache-Control": "no-cache",
-                                 "Accept": "text/event-stream"]
+        let additionalheaders = [Headers.contentType.nonCanonical(): "text/event-stream",
+                                 Headers.cacheControl.nonCanonical(): "no-cache",
+                                 Headers.accept.nonCanonical(): "text/event-stream"]
         sessionConfig.httpAdditionalHeaders = additionalheaders
         let sseStream = FoundationHTTPSSEStream(delegate)
         let session = URLSession.init(configuration: sessionConfig,

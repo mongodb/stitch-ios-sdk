@@ -28,8 +28,7 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
     }
 
     /**
-     Open the event stream
-      - returns: true if successfully opened, false if not
+     Open the event stream.
      */
     func start() throws {
         logger.i("stream START")
