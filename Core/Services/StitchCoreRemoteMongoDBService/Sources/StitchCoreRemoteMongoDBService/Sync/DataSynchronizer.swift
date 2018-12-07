@@ -575,7 +575,6 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
         let result = try localColl.deleteMany(filter, options: options)
 
-        typealias EventTuple = (BSONValue, ChangeEvent<Document>)
         let eventEmitters = try idsToDelete.compactMap { documentId -> (() -> Void)? in
             guard var docConfig = nsConfig[documentId] else {
                 return nil
