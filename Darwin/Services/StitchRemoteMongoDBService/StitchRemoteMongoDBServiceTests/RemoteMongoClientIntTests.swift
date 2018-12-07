@@ -1049,7 +1049,11 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         sync.count(joiner.capture())
 
         XCTAssertEqual(2, joiner.value())
-        // TODO: STITCH-2262 Add delete case
+
+        sync.deleteMany(filter: ["a": "b"], joiner.capture())
+        sync.count(joiner.capture())
+
+        XCTAssertEqual(0, joiner.value())
     }
 
     func testSync_Find() throws {
@@ -1306,6 +1310,103 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             XCTAssertEqual("goodbye", actualDoc["hello"] as? String)
             XCTAssertFalse(actualDoc.hasKey(DOCUMENT_VERSION_FIELD))
         }
+    }
+
+    func testSync_deleteOne() throws {
+        let coll = getTestColl()
+        let sync = coll.sync
+
+        sync.configure(conflictHandler: { _, _, rDoc in rDoc.fullDocument },
+                       changeEventDelegate: { _, _ in },
+                       errorListener: { _, _ in })
+
+        let joiner = CallbackJoiner()
+
+        // ensure that the test collection is empty
+        sync.count(joiner.capture())
+        XCTAssertEqual(0, joiner.value())
+
+        // insert some test documents
+        let doc1 = ["hello": "world", "a": "b"] as Document
+        let doc2 = ["goodbye": "world", "a": "b"] as Document
+        sync.insertMany(documents: [doc1, doc2], joiner.capture())
+
+        // ensure that the documents were inserted
+        sync.count(joiner.capture())
+        XCTAssertEqual(2, joiner.value())
+
+        // delete the { hello: "world" } document
+        sync.deleteOne(filter: ["hello": "world"], joiner.capture())
+        var deleteResult = joiner.value(asType: DeleteResult.self)
+        XCTAssertEqual(1, deleteResult?.deletedCount)
+
+        // ensure that there is only one document, and that it is the { goodbye: "world" } one
+        sync.count(joiner.capture())
+        XCTAssertEqual(1, joiner.value())
+
+        sync.count(filter: ["hello": "world"], options: nil, joiner.capture())
+        XCTAssertEqual(0, joiner.value())
+
+        // delete the remaining document with empty filter
+        sync.deleteOne(filter: [], joiner.capture())
+        deleteResult = joiner.value(asType: DeleteResult.self)
+        XCTAssertEqual(1, deleteResult?.deletedCount)
+
+        // collection should be empty
+        sync.count(joiner.capture())
+        XCTAssertEqual(0, joiner.value())
+
+        // should not be able to delete any more documents
+        sync.deleteOne(filter: [], joiner.capture())
+        deleteResult = joiner.value(asType: DeleteResult.self)
+        XCTAssertEqual(0, deleteResult?.deletedCount)
+    }
+
+    func testSync_deleteMany() throws {
+        let coll = getTestColl()
+        let sync = coll.sync
+
+        sync.configure(conflictHandler: { _, _, rDoc in rDoc.fullDocument },
+                       changeEventDelegate: { _, _ in },
+                       errorListener: { _, _ in })
+
+        let joiner = CallbackJoiner()
+
+        // ensure that the test collection is empty
+        sync.count(joiner.capture())
+        XCTAssertEqual(0, joiner.value())
+
+        // insert some test documents
+        let doc1 = ["hello": "world", "a": "b"] as Document
+        let doc2 = ["goodbye": "world", "a": "b"] as Document
+        sync.insertMany(documents: [doc1, doc2], joiner.capture())
+
+        // ensure that the documents were inserted
+        sync.count(joiner.capture())
+        XCTAssertEqual(2, joiner.value())
+
+        // delete documents with a filter for which there are no documents
+        sync.deleteMany(filter: ["a": "c"], joiner.capture())
+        var deleteResult = joiner.value(asType: DeleteResult.self)
+        XCTAssertEqual(0, deleteResult?.deletedCount)
+
+        // ensure nothing got deleted
+        sync.count(joiner.capture())
+        XCTAssertEqual(2, joiner.value())
+
+        // delete all the documents we inserted
+        sync.deleteOne(filter: ["a": "b"], joiner.capture())
+        deleteResult = joiner.value(asType: DeleteResult.self)
+        XCTAssertEqual(2, deleteResult?.deletedCount)
+
+        // collection should be empty
+        sync.count(joiner.capture())
+        XCTAssertEqual(0, joiner.value())
+
+        // should not be able to delete any more documents
+        sync.deleteMany(filter: [], joiner.capture())
+        deleteResult = joiner.value(asType: DeleteResult.self)
+        XCTAssertEqual(0, deleteResult?.deletedCount)
     }
 }
 
