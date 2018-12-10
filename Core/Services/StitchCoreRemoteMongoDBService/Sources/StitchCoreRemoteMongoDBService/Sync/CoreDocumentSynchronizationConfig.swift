@@ -36,7 +36,7 @@ internal struct CoreDocumentSynchronization: Hashable {
 
         let namespace: MongoNamespace
         let documentId: HashableBSONValue
-        fileprivate var uncommittedChangeEvent: ChangeEvent<Document>?
+        fileprivate(set) internal var uncommittedChangeEvent: ChangeEvent<Document>?
         fileprivate var lastResolution: Int64
         fileprivate var lastKnownRemoteVersion: Document?
         fileprivate var isStale: Bool

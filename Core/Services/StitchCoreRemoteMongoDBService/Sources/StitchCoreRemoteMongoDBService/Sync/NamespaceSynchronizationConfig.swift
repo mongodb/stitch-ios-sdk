@@ -19,7 +19,7 @@ internal struct NamespaceSynchronization: Sequence {
         /// the namespace for this config
         let namespace: MongoNamespace
         /// a map of documents synchronized on this namespace, keyed on their documentIds
-        fileprivate var syncedDocuments: [HashableBSONValue: CoreDocumentSynchronization.Config]
+        fileprivate(set) internal var syncedDocuments: [HashableBSONValue: CoreDocumentSynchronization.Config]
 
         init(namespace: MongoNamespace,
              syncedDocuments: [HashableBSONValue: CoreDocumentSynchronization.Config]) {

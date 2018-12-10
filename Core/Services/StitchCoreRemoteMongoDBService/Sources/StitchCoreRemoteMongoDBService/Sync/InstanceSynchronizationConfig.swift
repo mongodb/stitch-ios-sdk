@@ -13,7 +13,7 @@ import MongoSwift
 internal struct InstanceSynchronization: Sequence {
     /// The actual configuration to be persisted for this instance.
     struct Config: Codable {
-        fileprivate var namespaces: [MongoNamespace: NamespaceSynchronization.Config]
+        fileprivate(set) internal var namespaces: [MongoNamespace: NamespaceSynchronization.Config]
     }
 
     /// Allows for the iteration of the namespaces contained in this instance.
