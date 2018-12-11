@@ -3,6 +3,7 @@ import StitchCoreSDK
 import StitchCoreSDKMocks
 import XCTest
 import MongoSwift
+import mongoc
 @testable import StitchCoreRemoteMongoDBService
 
 class DataSynchronizerUnitTests: XCMongoMobileTestCase {
@@ -19,7 +20,7 @@ class DataSynchronizerUnitTests: XCMongoMobileTestCase {
 
         dataSynchronizer.configure(namespace: namespace,
                                    conflictHandler: TestConflictHandler(),
-                                   changeEventListener: TestEventListener(),
+                                   changeEventDelegate: TestEventDelegate(),
                                    errorListener: TestErrorListener())
 
         dataSynchronizer.start()
@@ -44,87 +45,12 @@ class DataSynchronizerUnitTests: XCMongoMobileTestCase {
     func testConfigure_ReloadConfig() throws {
         dataSynchronizer.configure(namespace: namespace,
                                    conflictHandler: TestConflictHandler(),
-                                   changeEventListener: TestEventListener(),
+                                   changeEventDelegate: TestEventDelegate(),
                                    errorListener: TestErrorListener())
         XCTAssertTrue(dataSynchronizer.isRunning)
 
         try dataSynchronizer.reloadConfig()
 
         XCTAssertFalse(dataSynchronizer.isRunning)
-    }
-
-    func testCount() throws {
-        dataSynchronizer.configure(namespace: namespace,
-                                   conflictHandler: TestConflictHandler(),
-                                   changeEventListener: TestEventListener(),
-                                   errorListener: TestErrorListener())
-        XCTAssertEqual(0, try dataSynchronizer.count(in: namespace))
-
-        let doc1 = ["hello": "world", "a": "b"] as Document
-        let doc2 = ["hello": "computer", "a": "b"] as Document
-
-        try collection.insertMany([doc1, doc2])
-
-        XCTAssertEqual(2, try dataSynchronizer.count(in: namespace))
-
-        try collection.deleteMany(Document())
-
-        XCTAssertEqual(0, try dataSynchronizer.count(in: namespace))
-    }
-
-    func testFind() throws {
-        dataSynchronizer.configure(namespace: namespace,
-                                   conflictHandler: TestConflictHandler(),
-                                   changeEventListener: TestEventListener(),
-                                   errorListener: TestErrorListener())
-        XCTAssertEqual(0, try dataSynchronizer.count(in: namespace))
-
-        let doc1 = ["hello": "world", "a": "b"] as Document
-        let doc2 = ["hello": "computer", "a": "b"] as Document
-        try collection.insertMany([doc1, doc2])
-
-        let cursor: MongoCursor<Document> =
-            try dataSynchronizer.find(filter: ["hello": "computer"], options: nil, in: namespace)
-
-        XCTAssertEqual(2, try dataSynchronizer.count(in: namespace))
-
-        let actualDoc = cursor.next()
-
-        XCTAssertEqual("b", actualDoc?["a"] as? String)
-        XCTAssertNotNil(actualDoc?["_id"])
-        XCTAssertEqual("computer", actualDoc?["hello"] as? String)
-
-        XCTAssertNil(cursor.next())
-    }
-
-    func testAggregate() throws {
-        dataSynchronizer.configure(namespace: namespace,
-                                   conflictHandler: TestConflictHandler(),
-                                   changeEventListener: TestEventListener(),
-                                   errorListener: TestErrorListener())
-        XCTAssertEqual(0, try dataSynchronizer.count(in: namespace))
-
-        let doc1 = ["hello": "world", "a": "b"] as Document
-        let doc2 = ["hello": "computer", "a": "b"] as Document
-
-        try collection.insertMany([doc1, doc2])
-
-        let cursor = try dataSynchronizer.aggregate(
-            pipeline: [
-                ["$project": ["_id": 0, "a": 0] as Document],
-                ["$match": ["hello": "computer"] as Document]
-            ],
-            options: nil,
-            in: namespace)
-
-        XCTAssertEqual(2, try dataSynchronizer.count(in: namespace))
-
-        let actualDoc = cursor.next()
-
-        XCTAssertNil(actualDoc?["a"])
-        XCTAssertNil(actualDoc?["_id"])
-        XCTAssertEqual("computer", actualDoc?["hello"] as? String)
-
-        XCTAssertNil(cursor.next())
     }
 }
