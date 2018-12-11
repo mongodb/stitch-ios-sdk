@@ -123,7 +123,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         }
 
         self.instanceChangeStreamDelegate = InstanceChangeStreamDelegate(
-            instanceConfig: syncConfig,
+            instanceConfig: &syncConfig,
             service: service,
             networkMonitor: networkMonitor,
             authMonitor: authMonitor)
@@ -287,6 +287,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             latestDocumentMap.keys.forEach({unseenIds.remove($0)})
             for unseenId in unseenIds {
                 guard var docConfig = nsConfig[unseenId.bsonValue.value],
+                    docConfig.lastKnownRemoteVersion != nil,
                     !docConfig.isPaused else {
                         // means we aren't actually synchronizing on this remote doc
                         continue
@@ -311,7 +312,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     private func syncRemoteChangeEventToLocal(nsConfig: NamespaceSynchronization,
                                               docConfig: inout CoreDocumentSynchronization,
                                               remoteChangeEvent: ChangeEvent<Document>) throws {
-        if (docConfig.hasUncommittedWrites && docConfig.lastResolution == logicalT) {
+        if docConfig.hasUncommittedWrites && docConfig.lastResolution == logicalT {
             logger.i(
                 "t='\(logicalT)': syncRemoteChangeEventToLocal have writes for \(docConfig.documentId) but happened at same t; "
                     + "waiting until next pass")
@@ -322,6 +323,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
         let currentRemoteVersionInfo: DocumentVersionInfo?
         do {
+            print(remoteChangeEvent.fullDocument)
             currentRemoteVersionInfo = try DocumentVersionInfo.getRemoteVersionInfo(
                 remoteDocument: remoteChangeEvent.fullDocument ?? [:])
         } catch {

@@ -13,14 +13,14 @@ class InstanceChangeStreamDelegate {
     /// A mapping of of change stream delegates keyed on namespaces
     private var namespaceToStreamDelegates = [MongoNamespace: NamespaceChangeStreamDelegate]()
     
-    init(instanceConfig: InstanceSynchronization,
+    init(instanceConfig: inout InstanceSynchronization,
          service: CoreStitchServiceClient,
          networkMonitor: NetworkMonitor,
          authMonitor: AuthMonitor) {
-        self.instanceConfig = instanceConfig;
-        self.service = service;
-        self.networkMonitor = networkMonitor;
-        self.authMonitor = authMonitor;
+        self.instanceConfig = instanceConfig
+        self.service = service
+        self.networkMonitor = networkMonitor
+        self.authMonitor = authMonitor
     }
 
     /**
@@ -30,7 +30,8 @@ class InstanceChangeStreamDelegate {
      - parameter namespace: the namespace to add a listener for
      */
     func append(namespace: MongoNamespace) {
-        guard var nsConfig = instanceConfig[namespace] else {
+        guard var nsConfig = instanceConfig[namespace],
+            namespaceToStreamDelegates[namespace] == nil else {
             return
         }
 

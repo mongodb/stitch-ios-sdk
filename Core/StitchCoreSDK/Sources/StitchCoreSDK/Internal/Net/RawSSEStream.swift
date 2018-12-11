@@ -3,7 +3,7 @@ import Foundation
 private let newlineChar = [UInt8]("\n".utf8)[0]
 
 public enum SSEStreamState {
-    case open, closed
+    case opening, open, closing, closed
 }
 
 open class SSEStreamDelegate: Hashable {
@@ -36,6 +36,7 @@ open class RawSSEStream {
             delegate?.on(stateChangedFor: state)
         }
     }
+    
     public weak var delegate: SSEStreamDelegate? = nil
     public var dataBuffer = Data()
 

@@ -14,6 +14,7 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
     private var stream: RawSSEStream? = nil
     private lazy var tag = "NSChangeStreamListener-\(namespace.description)"
     private lazy var logger = Log.init(tag: tag)
+    private lazy var eventQueueLock = ReadWriteLock()
 
     init(namespace: MongoNamespace,
          config: inout NamespaceSynchronization,
@@ -33,7 +34,17 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
      Open the event stream.
      */
     func start() throws {
+        objc_sync_enter(self)
+        defer { objc_sync_exit(self) }
+
         logger.i("stream START")
+        if let stream = stream {
+            guard stream.state != .opening else {
+                logger.i("stream END - stream is \(stream.state)")
+                return
+            }
+        }
+
         guard networkMonitor.state == .connected else {
             logger.i("stream END - Network disconnected")
             return
@@ -60,7 +71,16 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
     }
 
     func stop() {
+        objc_sync_enter(self)
+        defer { objc_sync_exit(self) }
+
         logger.i("stream STOP")
+        if let stream = stream {
+            guard stream.state != .closing, stream.state != .closed else {
+                logger.i("stream END - stream is \(stream.state)")
+                return
+            }
+        }
         self.stream?.close()
     }
 
@@ -69,13 +89,17 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
     }
 
     func on(stateChangedFor state: NetworkState) {
-        if state == .disconnected {
+        if state == .disconnected, stream?.state != .closing {
             self.stop()
         }
     }
 
     override func on(newEvent event: RawSSE) {
+        eventQueueLock.writeLock()
+        defer { eventQueueLock.unlock() }
+
         do {
+
             guard let changeEvent: ChangeEvent<Document> = try event.decodeStitchSSE(),
                 let id = changeEvent.documentKey["_id"] else {
                 return
@@ -101,7 +125,10 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
             logger.d("stream OPEN")
         case .closed:
             logger.d("stream CLOSED")
+        default:
+            logger.d("stream \(state)")
         }
+
         streamDelegates.forEach({$0.on(stateChangedFor: state)})
     }
 
@@ -110,6 +137,9 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
     }
 
     func dequeueEvents() -> [HashableBSONValue: ChangeEvent<Document>] {
+        eventQueueLock.writeLock()
+        defer { eventQueueLock.unlock() }
+
         var events = [HashableBSONValue: ChangeEvent<Document>]()
         while let (key, value) = eventsKeyedQueue.popFirst() {
             events[key] = value
@@ -118,6 +148,9 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
     }
 
     func unprocessedEvent(for documentId: BSONValue) -> ChangeEvent<Document>? {
+        eventQueueLock.writeLock()
+        defer { eventQueueLock.unlock() }
+
         return self.eventsKeyedQueue.removeValue(forKey: HashableBSONValue(documentId))
     }
 }

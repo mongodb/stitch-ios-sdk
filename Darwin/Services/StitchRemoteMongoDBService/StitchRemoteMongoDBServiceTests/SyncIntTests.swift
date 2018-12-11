@@ -12,8 +12,8 @@ private extension Document {
     func sorted() -> Document {
         return self.sorted { d1, d2 -> Bool in
             d1.key.first! < d2.key.first!
-            }.reduce(into: Document()) { (doc, pair) in
-                doc[pair.key] = pair.value
+        }.reduce(into: Document()) { (doc, pair) in
+            doc[pair.key] = pair.value
         }
     }
 }
@@ -140,7 +140,9 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         try! prepareService()
         let joiner = CallbackJoiner()
         getTestColl().deleteMany([:], joiner.capture())
-        joiner.capturedValue
+        XCTAssertNotNil(joiner.capturedValue)
+        getTestColl().sync.deleteMany(filter: [:], joiner.capture())
+        XCTAssertNotNil(joiner.capturedValue)
         CoreLocalMongoDBService.shared.localInstances.forEach { client in
             try! client.listDatabases().forEach {
                 try? client.db($0["name"] as! String).drop()
@@ -442,6 +444,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
 
         let remoteColl = getTestColl()
         let coll = remoteColl.sync
+        prepSync(coll)
 
         // configure Sync to fail this test if there is a conflict.
         // insert and sync the new document locally. sync.
@@ -453,7 +456,6 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         }) { (_, _) in
             XCTFail()
         }
-
         let insertResult = coll.insertOne(docToInsert)!
         try streamAndSync(coll, streamJoiner: streamJoiner)
 
@@ -461,7 +463,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         let doc = coll.findOne(["_id": insertResult.insertedId])!
         let doc1Id = doc["_id"]
         let doc1Filter: Document = ["_id": doc1Id]
-        let expectedDocument = doc
+        var expectedDocument = doc
         XCTAssertEqual(expectedDocument, withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
         XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter))
 
@@ -469,23 +471,26 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         // assert the document is still the same locally and remotely
         XCTAssertEqual(1, coll.deleteOne(doc1Filter)?.deletedCount)
         coll.insertOne(doc)
+        streamJoiner.wait(forState: .open)
         XCTAssertEqual(expectedDocument, withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
         XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter))
-//
-//        // update the document locally
-//        val doc1Update = Document("\$inc", Document("foo", 1))
-//        assertEquals(1, coll.updateOne(doc1Filter, doc1Update).matchedCount)
-//
-//        // assert that the document has not been updated remotely yet,
-//        // but has locally
-//        assertEquals(expectedDocument, withoutSyncVersion(remoteColl.find(doc1Filter).first()!!))
-//        expectedDocument["foo"] = 1
-//        assertEquals(expectedDocument, coll.find(doc1Filter).first()!!)
-//
-//        // sync. assert that the update has been reflected remotely and locally
-//        streamAndSync()
-//        assertEquals(expectedDocument, withoutSyncVersion(remoteColl.find(doc1Filter).first()!!))
-//        assertEquals(expectedDocument, coll.find(doc1Filter).first()!!)
+
+        // update the document locally
+        let doc1Update = ["$inc": ["foo": 1] as Document] as Document
+        XCTAssertEqual(1, coll.updateOne(filter: doc1Filter, update: doc1Update)?.matchedCount)
+
+        // assert that the document has not been updated remotely yet,
+        // but has locally
+        XCTAssertEqual(expectedDocument, withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
+        expectedDocument["foo"] = 1
+        XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter))
+
+        // sync. assert that the update has been reflected remotely and locally
+        try streamAndSync(coll, streamJoiner: streamJoiner)
+        XCTAssertEqual(expectedDocument, withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
+        XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter))
+
+        stopSync(coll, streamJoiner: streamJoiner)
     }
 
     private func appendDocumentToKey(key: String, on document: Document, documentToAppend: Document) -> Document {

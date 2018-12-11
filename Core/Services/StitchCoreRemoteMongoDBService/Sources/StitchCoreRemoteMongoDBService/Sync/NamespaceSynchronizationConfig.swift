@@ -142,6 +142,10 @@ internal struct NamespaceSynchronization: Sequence {
     }
 
     mutating func sync(id: BSONValue) -> CoreDocumentSynchronization {
+        if let existingConfig = self[id] {
+            return existingConfig
+        }
+        
         let docConfig = CoreDocumentSynchronization.init(docsColl: docsColl,
                                                          namespace: self.config.namespace,
                                                          documentId: AnyBSONValue(id),
