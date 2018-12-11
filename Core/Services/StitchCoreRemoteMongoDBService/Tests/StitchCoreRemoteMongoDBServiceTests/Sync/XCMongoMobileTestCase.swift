@@ -180,4 +180,3 @@ class XCMongoMobileTestCase: XCTestCase {
             .collection(namespace.collectionName, withType: Document.self)
     }
 }
-

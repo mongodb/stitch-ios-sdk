@@ -7,6 +7,26 @@ import XCTest
 
 let stitchBaseURLProp = "stitch.baseURL"
 
+public class TestNetworkMonitor: NetworkMonitor {
+    private var delegates = [NetworkStateDelegate]()
+
+    public var state: NetworkState = .connected
+    {
+        didSet {
+            delegates.forEach { $0.on(stateChangedFor: state) }
+        }
+    }
+
+    public func add(networkStateDelegate delegate: NetworkStateDelegate) {
+        delegates.append(delegate)
+    }
+
+    public func remove(networkStateDelegate delegate: NetworkStateDelegate) {
+        guard let index = delegates.firstIndex(where: { $0 === delegate}) else { return }
+        delegates.remove(at: index)
+    }
+}
+
 open class BaseStitchIntTestCocoaTouch: BaseStitchIntTest {
     var clients = [StitchAppClient]()
     
@@ -38,7 +58,8 @@ open class BaseStitchIntTestCocoaTouch: BaseStitchIntTest {
     override open var stitchBaseURL: String {
         return (pList?[stitchBaseURLProp] as? String) ?? "http://localhost:9090"
     }
-    
+
+    public let networkMonitor = TestNetworkMonitor()
     public func appClient(forApp app: AppResponse) throws -> StitchAppClient {
         if let appClient = try? Stitch.appClient(forAppID: app.clientAppID) {
             return appClient
@@ -48,11 +69,20 @@ open class BaseStitchIntTestCocoaTouch: BaseStitchIntTest {
             withClientAppID: app.clientAppID,
             withConfig: StitchAppClientConfigurationBuilder()
                 .with(baseURL: stitchBaseURL)
+                .with(networkMonitor: networkMonitor)
                 .build()
         )
             
         clients.append(client)
         return client
+    }
+
+    public func goOnline() {
+        networkMonitor.state = .connected
+    }
+
+    public func goOffline() {
+        networkMonitor.state = .disconnected
     }
     
     // Registers a new email/password user, and logs them in, returning the user's ID

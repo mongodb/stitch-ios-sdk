@@ -54,6 +54,10 @@ class InstanceChangeStreamDelegate {
         try self.namespaceToStreamDelegates[namespace]?.start()
     }
 
+    func stop() {
+        self.namespaceToStreamDelegates.forEach({ $0.value.stop() })
+    }
+
     func stop(namespace: MongoNamespace) {
         self.namespaceToStreamDelegates[namespace]?.stop()
     }

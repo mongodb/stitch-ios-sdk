@@ -242,7 +242,7 @@ internal struct CoreDocumentSynchronization: Hashable {
      - parameter changeEvent: the description of the write/change.
      */
     mutating func setSomePendingWrites(atTime: UInt64,
-                                       atVersion: Document,
+                                       atVersion: Document?,
                                        changeEvent: ChangeEvent<Document>) throws {
         docLock.writeLock()
         defer { docLock.unlock() }
@@ -264,7 +264,7 @@ internal struct CoreDocumentSynchronization: Hashable {
 
      - parameter atVersion: the version for which the write as completed on
      */
-    mutating func setPendingWritesComplete(atVersion: Document) throws {
+    mutating func setPendingWritesComplete(atVersion: Document?) throws {
         docLock.writeLock()
         defer { docLock.unlock() }
         self.uncommittedChangeEvent = nil
@@ -281,11 +281,11 @@ internal struct CoreDocumentSynchronization: Hashable {
      - parameter versionInfo: A version to compare against the last known remote version
      - returns: true if this config has the given committed version, false if not
      */
-    public func hasCommittedVersion(versionInfo: DocumentVersionInfo) -> Bool {
+    public func hasCommittedVersion(versionInfo: DocumentVersionInfo?) -> Bool {
         docLock.readLock()
         defer { docLock.unlock() }
-        let localVersionInfo = DocumentVersionInfo.fromVersionDoc(versionDoc: self.lastKnownRemoteVersion)
-        if let newVersion = versionInfo.version, let localVersion = localVersionInfo.version {
+        let localVersionInfo = try! DocumentVersionInfo.fromVersionDoc(versionDoc: self.lastKnownRemoteVersion)
+        if let newVersion = versionInfo?.version, let localVersion = localVersionInfo.version {
             return (newVersion.syncProtocolVersion == localVersion.syncProtocolVersion)
                 && (newVersion.instanceId == localVersion.instanceId)
                 && (newVersion.versionCounter <= localVersion.versionCounter)

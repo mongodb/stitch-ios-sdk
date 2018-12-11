@@ -1,7 +1,7 @@
 import Foundation
 
 internal class FoundationURLSessionDataDelegate: NSObject, URLSessionDataDelegate {
-    private weak var stream: FoundationHTTPSSEStream?
+    fileprivate weak var stream: FoundationHTTPSSEStream?
     fileprivate weak var session: URLSession?
 
     fileprivate init(_ stream: FoundationHTTPSSEStream) {
@@ -46,6 +46,10 @@ public class FoundationHTTPSSEStream: RawSSEStream {
     internal lazy var dataDelegate = FoundationURLSessionDataDelegate(self)
 
     public override func close() {
-        dataDelegate.session?.invalidateAndCancel()
+        if let session = dataDelegate.session {
+            session.invalidateAndCancel()
+        } else {
+            dataDelegate.stream?.state = .closed
+        }
     }
 }

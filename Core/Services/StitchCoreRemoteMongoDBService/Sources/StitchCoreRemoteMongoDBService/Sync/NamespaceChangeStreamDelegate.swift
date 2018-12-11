@@ -9,7 +9,7 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
     private let authMonitor: AuthMonitor
     private let nsConfig: NamespaceSynchronization
     private var eventsKeyedQueue = [HashableBSONValue: ChangeEvent<Document>]()
-    private var streamDelegates = [SSEStreamDelegate]()
+    private var streamDelegates = Set<SSEStreamDelegate>()
 
     private var stream: RawSSEStream? = nil
     private lazy var tag = "NSChangeStreamListener-\(namespace.description)"
@@ -25,6 +25,8 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
         self.service = service
         self.networkMonitor = networkMonitor
         self.authMonitor = authMonitor
+        super.init()
+        networkMonitor.add(networkStateDelegate: self)
     }
 
     /**
@@ -63,11 +65,13 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
     }
 
     func add(streamDelegate: SSEStreamDelegate) {
-        streamDelegates.append(streamDelegate)
+        streamDelegates.insert(streamDelegate)
     }
 
     func on(stateChangedFor state: NetworkState) {
-        self.stop()
+        if state == .disconnected {
+            self.stop()
+        }
     }
 
     override func on(newEvent event: RawSSE) {
@@ -91,6 +95,9 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
     override func on(stateChangedFor state: SSEStreamState) {
         switch state {
         case .open:
+            for var docConfig in nsConfig {
+                docConfig.isStale = true
+            }
             logger.d("stream OPEN")
         case .closed:
             logger.d("stream CLOSED")
