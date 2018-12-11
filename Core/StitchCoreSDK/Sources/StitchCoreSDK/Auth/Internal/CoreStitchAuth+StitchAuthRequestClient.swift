@@ -5,7 +5,7 @@ import MongoSwift
  * Extension functions for `CoreStitchAuth` to add conformance to `StitchAuthRequestClient`, and to support proactive
  * and non-proactive access token refresh.
  */
-private let authTokenField = "&stitch_at="
+private let authTokenQueryParam = "&stitch_at="
 extension CoreStitchAuth {
     /**
      * Performs an authenticated request to the Stitch server, using the current authentication state. Will throw when
@@ -50,7 +50,7 @@ extension CoreStitchAuth {
         do {
             return try requestClient.doStreamRequest(
                 stitchReq.builder.with(path: stitchReq.path +
-                    authTokenField +
+                    authTokenQueryParam +
                     authToken).build(), delegate: delegate)
         } catch {
             return try handleAuthFailureForStream(forError: error, withRequest: stitchReq);
@@ -133,6 +133,7 @@ extension CoreStitchAuth {
 
     private func handleAuthFailureForStream(forError error: Error,
                                             withRequest req: StitchAuthRequest) throws -> RawSSEStream {
+        // this block is to check whether the error is due to an invalid Stitch session.
         guard let sError = error as? StitchError else {
             throw error
         }

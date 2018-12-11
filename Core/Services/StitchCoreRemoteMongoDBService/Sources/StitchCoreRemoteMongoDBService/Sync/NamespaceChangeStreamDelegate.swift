@@ -83,7 +83,7 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
             self.eventsKeyedQueue[HashableBSONValue(id)] = changeEvent
 
         } catch {
-            logger.e("error occurred: err=\(error.localizedDescription)")
+            logger.e("error occured when decoding event from stream: err=\(error.localizedDescription)")
             self.stop()
         }
     }
