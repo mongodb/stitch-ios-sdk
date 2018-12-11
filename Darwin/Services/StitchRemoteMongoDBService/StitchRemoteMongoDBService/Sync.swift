@@ -245,8 +245,15 @@ public class Sync<DocumentT: Codable> {
      - parameter filter: the query filter to apply the the delete operation
      - returns: the result of the remove one operation
      */
-    func deleteOne(filter: Document) -> DeleteResult? {
-        return self.proxy.deleteOne(filter: filter)
+    func deleteOne(filter: Document,
+                   _ completionHandler: @escaping (StitchResult<DeleteResult?>) -> Void) {
+        queue.async {
+            do {
+                completionHandler(.success(result: try self.proxy.deleteOne(filter: filter)))
+            } catch {
+                completionHandler(.failure(error: .clientError(withClientErrorCode: .mongoDriverError(withError: error))))
+            }
+        }
     }
 
     /**
@@ -256,8 +263,15 @@ public class Sync<DocumentT: Codable> {
      - parameter filter: the query filter to apply the the delete operation
      - returns: the result of the remove many operation
      */
-    func deleteMany(filter: Document) -> DeleteResult? {
-        return self.proxy.deleteMany(filter: filter)
+    func deleteMany(filter: Document,
+                    _ completionHandler: @escaping (StitchResult<DeleteResult?>) -> Void) {
+        queue.async {
+            do {
+                completionHandler(.success(result: try self.proxy.deleteMany(filter: filter)))
+            } catch {
+                completionHandler(.failure(error: .clientError(withClientErrorCode: .mongoDriverError(withError: error))))
+            }
+        }
     }
 
     /**

@@ -3,7 +3,7 @@ import MongoSwift
 import MongoMobile
 import StitchCoreSDK
 
-/// Internal extension so we can initialize using
+/// Internal extensions so we can initialize using
 /// internal initializer.
 extension UpdateResult {
     init(matchedCount: Int,
@@ -14,6 +14,12 @@ extension UpdateResult {
         self.modifiedCount = modifiedCount
         self.upsertedId = upsertedId
         self.upsertedCount = upsertedCount
+    }
+}
+
+extension DeleteResult {
+    init(deletedCount: Int) {
+        self.deletedCount = deletedCount
     }
 }
 
@@ -76,7 +82,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     /// The user's error listener
     private var errorListener: ErrorListener?
     /// Current sync pass iteration
-    private var logicalT: UInt64 = 0
+    private var logicalT: Int64 = 0
     /// Whether or not the sync loop is running
     var isRunning: Bool {
         syncLock.readLock()
@@ -1428,6 +1434,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         var config = nsConfig.sync(id: documentId)
         try config.setSomePendingWrites(atTime: logicalT, changeEvent: event)
         triggerListening(to: namespace)
+
+        // TODO(STITCH-2220): when we do undo collection logic, this will happen after the lock is released
         emitEvent(documentId: documentId, event: event)
         return result
     }
@@ -1468,6 +1476,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         })
 
         triggerListening(to: namespace)
+
+        // TODO(STITCH-2220): when we do undo collection logic, this will happen after the lock is released
         eventEmitters.forEach({$0()})
         return result
     }
@@ -1482,8 +1492,48 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      - returns: the result of the remove one operation
      */
     func deleteOne(filter: Document,
-                   in namespace: MongoNamespace) -> DeleteResult? {
-        fatalError("\(#function) not implemented")
+                   options: DeleteOptions?,
+                   in namespace: MongoNamespace) throws -> DeleteResult? {
+        guard var nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
+            throw StitchError.clientError(
+                withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
+        }
+        let lock = nsConfig.nsLock
+        lock.writeLock()
+        defer { lock.unlock() }
+
+        let localColl = try localCollection(for: namespace, withType: Document.self)
+
+        guard let docToDelete = try localColl.find(filter).first(where: { _ in true}) else {
+            return DeleteResult(deletedCount: 0)
+        }
+
+        guard let documentId = docToDelete["_id"],
+              var docConfig = nsConfig[documentId] else {
+            return DeleteResult(deletedCount: 0)
+        }
+
+        let result = try localColl.deleteOne(filter)
+        let event =  ChangeEvent<Document>.changeEventForLocalDelete(
+            namespace: namespace,
+            documentId: documentId,
+            writePending: true
+        )
+
+        // this block is to trigger coalescence for a delete after insert
+        if let uncommittedEvent = docConfig.uncommittedChangeEvent,
+           uncommittedEvent.operationType == OperationType.insert {
+
+            desync(ids: [docConfig.documentId.value], in: docConfig.namespace)
+            return result
+        }
+
+        try docConfig.setSomePendingWrites(atTime: logicalT, changeEvent: event)
+
+        // TODO(STITCH-2220): when we do undo collection logic, this will happen after the lock is released
+        emitEvent(documentId: documentId, event: event)
+
+        return result
     }
 
     /**
@@ -1495,8 +1545,51 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      - returns: the result of the remove many operation
      */
     func deleteMany(filter: Document,
-                    in namespace: MongoNamespace) -> DeleteResult? {
-        fatalError("\(#function) not implemented")
+                    options: DeleteOptions?,
+                    in namespace: MongoNamespace) throws -> DeleteResult? {
+        guard var nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
+            throw StitchError.clientError(
+                withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
+        }
+        let lock = nsConfig.nsLock
+        lock.writeLock()
+        defer { lock.unlock() }
+
+        let localColl = try localCollection(for: namespace, withType: Document.self)
+
+        let idsToDelete = try localColl.find(filter).compactMap { doc -> BSONValue? in
+            return doc["_id"]
+        }
+
+        let result = try localColl.deleteMany(filter, options: options)
+
+        let eventEmitters = try idsToDelete.compactMap { documentId -> (() -> Void)? in
+            guard var docConfig = nsConfig[documentId] else {
+                return nil
+            }
+
+            let event = ChangeEvent<Document>.changeEventForLocalDelete(
+                namespace: namespace,
+                documentId: documentId,
+                writePending: true
+            )
+
+            // this block is to trigger coalescence for a delete after insert
+            if let uncommittedEvent = docConfig.uncommittedChangeEvent,
+                uncommittedEvent.operationType == OperationType.insert {
+
+                desync(ids: [docConfig.documentId.value], in: docConfig.namespace)
+                return nil
+            }
+
+            try docConfig.setSomePendingWrites(atTime: logicalT, changeEvent: event)
+            return { self.emitEvent(documentId: documentId, event: event) }
+        }
+
+        // TODO(STITCH-2220): when we do undo collection logic, this will happen after the lock is released
+        eventEmitters.forEach({$0()})
+
+        return result
     }
 
     /**
@@ -1703,6 +1796,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             triggerListening(to: namespace)
         }
 
+        // TODO(STITCH-2220): when we do undo collection logic, this will happen after the lock is released
         eventsToEmit.forEach({emitEvent(documentId: $0.documentKey, event: $0)})
         return result
     }

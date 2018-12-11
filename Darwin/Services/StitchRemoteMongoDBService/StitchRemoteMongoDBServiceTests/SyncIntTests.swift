@@ -65,6 +65,7 @@ private extension Sync {
         return joiner.value()
     }
 
+    @discardableResult
     func insertOne(_ document: DocumentT) -> InsertOneResult? {
         let joiner = CallbackJoiner()
         self.insertOne(document: document, joiner.capture())
@@ -73,7 +74,7 @@ private extension Sync {
 
     func deleteOne(_ filter: Document) -> DeleteResult? {
         let joiner = CallbackJoiner()
-        self.deleteOne(filter, joiner.capture())
+        self.deleteOne(filter: filter, joiner.capture())
         return joiner.value()
     }
 }
@@ -101,7 +102,7 @@ private class StreamJoiner: SSEStreamDelegate {
                 usleep(100)
             }
             semaphore.signal()
-            }.perform()
+        }.perform()
         semaphore.wait()
     }
 
@@ -112,7 +113,7 @@ private class StreamJoiner: SSEStreamDelegate {
                 usleep(10)
             }
             semaphore.signal()
-            }.perform()
+        }.perform()
         semaphore.wait()
     }
 

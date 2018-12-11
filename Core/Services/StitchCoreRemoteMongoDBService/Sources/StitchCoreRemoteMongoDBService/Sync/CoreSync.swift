@@ -188,8 +188,9 @@ public final class CoreSync<DocumentT: Codable> {
      - parameter filter: the query filter to apply the the delete operation
      - returns: the result of the remove one operation
      */
-    public func deleteOne(filter: Document) -> DeleteResult? {
-        return self.dataSynchronizer.deleteOne(filter: filter,
+    public func deleteOne(filter: Document) throws -> DeleteResult? {
+        return try self.dataSynchronizer.deleteOne(filter: filter,
+                                               options: nil,
                                                in: namespace)
     }
 
@@ -200,8 +201,9 @@ public final class CoreSync<DocumentT: Codable> {
      - parameter filter: the query filter to apply the the delete operation
      - returns: the result of the remove many operation
      */
-    public func deleteMany(filter: Document) -> DeleteResult? {
-        return self.dataSynchronizer.deleteMany(filter: filter,
+    public func deleteMany(filter: Document) throws -> DeleteResult? {
+        return try self.dataSynchronizer.deleteMany(filter: filter,
+                                                options: nil,
                                                 in: namespace)
     }
 
