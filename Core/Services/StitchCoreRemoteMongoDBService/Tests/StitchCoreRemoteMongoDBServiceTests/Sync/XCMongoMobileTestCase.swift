@@ -75,7 +75,6 @@ class TestEventDelegate: ChangeEventDelegate {
 
 private class TestCaseDataSynchronizer: DataSynchronizer {
     private let deinitializingInstanceKey: String
-//    let localClient: MongoClient
     private let deinitializing: Bool
 
     init(deinitializing: Bool,
@@ -84,9 +83,7 @@ private class TestCaseDataSynchronizer: DataSynchronizer {
          localClient: MongoClient) throws {
         self.deinitializing = deinitializing
         self.deinitializingInstanceKey = instanceKey
-//        self.localClient = pr
 
-        print("initializing a test case data synchronizer")
         let mockServiceClient = MockCoreStitchServiceClient.init()
         try super.init(
             instanceKey: instanceKey,
@@ -127,9 +124,13 @@ class XCMongoMobileTestCase: XCTestCase {
     private(set) var mockServiceClient: MockCoreStitchServiceClient!
     private(set) var coreRemoteMongoClient: CoreRemoteMongoClient!
 
+    var lazyLock = DispatchSemaphore(value: 1)
     private var storedDataSynchronizer: DataSynchronizer!
     var dataSynchronizer: DataSynchronizer! {
         get {
+            lazyLock.wait()
+            defer { lazyLock.signal() }
+            
             if storedDataSynchronizer == nil {
                 storedDataSynchronizer = try! TestCaseDataSynchronizer.init(
                     deinitializing: true,
@@ -140,6 +141,9 @@ class XCMongoMobileTestCase: XCTestCase {
             return storedDataSynchronizer
         }
         set {
+            lazyLock.wait()
+            defer { lazyLock.signal() }
+
             storedDataSynchronizer = newValue
         }
     }
@@ -148,19 +152,16 @@ class XCMongoMobileTestCase: XCTestCase {
         deinitializing: Bool,
         withUndoDocuments undoDocuments: [Document] = []
     ) throws {
+        // stop the existing data synchronizer for this test context
         dataSynchronizer.stop()
-        dataSynchronizer = nil
 
-        if undoDocuments.isEmpty {
-            print("replacing data synchronizer with NO undo documents")
-        } else {
-            print("replacing data synchronizer with SOME undo documents")
+        // insert some documents into the undo collection to simulate a
+        // failure case from which the data synchronizer should recover
+        if !undoDocuments.isEmpty {
+            try undoCollection().insertMany(undoDocuments)
         }
 
-        try undoDocuments.forEach { doc in
-            try undoCollection().insertOne(doc)
-        }
-
+        // initialize a new data synchronizer
         dataSynchronizer = try! TestCaseDataSynchronizer.init(
             deinitializing: deinitializing,
             instanceKey: instanceKey.oid,
@@ -176,6 +177,14 @@ class XCMongoMobileTestCase: XCTestCase {
             options: nil,
             in: namespace
         )
+    }
+
+    func setPendingWrites(forDocumentId documentId: BSONValue,
+                          event: ChangeEvent<Document>) throws {
+        let nsConfig = dataSynchronizer.syncConfig[namespace]!
+        var docConfig = nsConfig[documentId]!
+
+        try docConfig.setSomePendingWrites(atTime: dataSynchronizer.logicalT, changeEvent: event)
     }
 
     private var _instanceKey = ObjectId()

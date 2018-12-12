@@ -51,7 +51,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     /// The collection to store the configuration for this instance in
     private let instancesColl: MongoCollection<InstanceSynchronization.Config>
     /// The configuration for this sync instance
-    private var syncConfig: InstanceSynchronization
+    internal var syncConfig: InstanceSynchronization
 
     /// Whether or not the DataSynchronizer has been configured
     private(set) var isConfigured = false
@@ -80,7 +80,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     /// The user's error listener
     private var errorListener: ErrorListener?
     /// Current sync pass iteration
-    private var logicalT: Int64 = 0
+    internal var logicalT: Int64 = 0
     /// Whether or not the sync loop is running
     var isRunning: Bool {
         syncLock.readLock()
@@ -148,7 +148,6 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      * The goal is to revert to a known, good state.
      */
     private func recover(recoveryStarted: DispatchSemaphore) throws {
-        print("some recovery started")
         let nsConfigs = self.syncConfig.map { $0 }
         nsConfigs.forEach { namespaceSynchronization in
             namespaceSynchronization.nsLock.writeLock()
@@ -159,15 +158,11 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             }
         }
 
-        // TODO: the recovery started signal should happen here:
-
         recoveryStarted.signal()
 
         try nsConfigs.forEach { namespaceSynchronization in
             try recoverNamespace(withConfig: namespaceSynchronization.config)
         }
-
-        print("some recovery complete!")
     }
 
     /**
