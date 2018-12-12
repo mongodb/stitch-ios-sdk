@@ -39,7 +39,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     /// The associated service client
     private let service: CoreStitchServiceClient
     /// The associated embedded client
-    private let localClient: MongoClient
+    internal let localClient: MongoClient
     /// The associated remote client
     private let remoteClient: CoreRemoteMongoClient
     /// Network monitor that receives to network state
@@ -148,6 +148,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      * The goal is to revert to a known, good state.
      */
     private func recover(recoveryStarted: DispatchSemaphore) throws {
+        print("some recovery started")
         let nsConfigs = self.syncConfig.map { $0 }
         nsConfigs.forEach { namespaceSynchronization in
             namespaceSynchronization.nsLock.writeLock()
@@ -158,10 +159,15 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             }
         }
 
+        // TODO: the recovery started signal should happen here:
+
         recoveryStarted.signal()
+
         try nsConfigs.forEach { namespaceSynchronization in
             try recoverNamespace(withConfig: namespaceSynchronization.config)
         }
+
+        print("some recovery complete!")
     }
 
     /**
@@ -253,7 +259,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         let syncedIds = nsConfig.syncedDocuments.map { (hashableDocId, _) -> BSONValue in
             return hashableDocId.bsonValue.value
         }
-        try localColl.deleteMany(["id": ["$nin": syncedIds] as Document])
+        try localColl.deleteMany(["_id": ["$nin": syncedIds] as Document])
     }
 
     public func onNetworkStateChanged() {
@@ -1188,7 +1194,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      - returns: the undo collection representing the given namespace for recording documents that may need to be
                 reverted after a system failure.
      */
-    private func undoCollection(for namespace: MongoNamespace) throws -> MongoCollection<Document> {
+    internal func undoCollection(for namespace: MongoNamespace) throws -> MongoCollection<Document> {
         return try localClient.db(
             DataSynchronizer.localUndoDBName(
                 withInstanceKey: instanceKey,

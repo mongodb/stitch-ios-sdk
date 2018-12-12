@@ -13,7 +13,7 @@ internal func docConfigFilter(forNamespace namespace: MongoNamespace,
                               withDocumentId documentId: AnyBSONValue) -> Document {
     return [
         CoreDocumentSynchronization.Config.CodingKeys.namespace.rawValue:
-            try? BSONEncoder().encode(namespace) ?? namespace.description,
+            try! BSONEncoder().encode(namespace),
         CoreDocumentSynchronization.Config.CodingKeys.documentId.rawValue: documentId.value
     ]
 }
@@ -299,7 +299,7 @@ internal struct CoreDocumentSynchronization: Hashable {
     }
 
     internal static func filter(forNamespace namespace: MongoNamespace) -> Document {
-        return [CoreDocumentSynchronization.Config.CodingKeys.namespace.rawValue: namespace.description]
+        return [CoreDocumentSynchronization.Config.CodingKeys.namespace.rawValue: try! BSONEncoder().encode(namespace)]
     }
 
     /**

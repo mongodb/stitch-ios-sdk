@@ -10,7 +10,7 @@ import MongoMobile
  Configurations are stored both persistently and in memory, and should
  always be in sync.
  */
-internal struct NamespaceSynchronization: Sequence {
+internal class NamespaceSynchronization: Sequence {
     /// The actual configuration to be persisted for this namespace.
     class Config: Codable {
         fileprivate enum CodingKeys: CodingKey {
@@ -101,15 +101,15 @@ internal struct NamespaceSynchronization: Sequence {
         self.errorListener = errorListener
     }
 
-    init(namespacesColl: MongoCollection<NamespaceSynchronization.Config>,
-         docsColl: MongoCollection<CoreDocumentSynchronization.Config>,
-         config: inout Config,
-         errorListener: FatalErrorListener?) {
-        self.namespacesColl = namespacesColl
-        self.docsColl = docsColl
-        self.config = config
-        self.errorListener = errorListener
-    }
+//    init(namespacesColl: MongoCollection<NamespaceSynchronization.Config>,
+//         docsColl: MongoCollection<CoreDocumentSynchronization.Config>,
+//         config: /*inout*/ Config,
+//         errorListener: FatalErrorListener?) {
+//        self.namespacesColl = namespacesColl
+//        self.docsColl = docsColl
+//        self.config = config
+//        self.errorListener = errorListener
+//    }
 
     /// Make an iterator that will iterate over the associated documents.
     func makeIterator() -> NamespaceSynchronization.Iterator {
@@ -123,7 +123,10 @@ internal struct NamespaceSynchronization: Sequence {
         return self.config.syncedDocuments.count
     }
 
-    mutating func sync(id: BSONValue) -> CoreDocumentSynchronization {
+    func sync(id: BSONValue) -> CoreDocumentSynchronization {
+        if let existingConfig = self[id] {
+            return existingConfig
+        }
         let docConfig = CoreDocumentSynchronization.init(docsColl: docsColl,
                                                          namespace: self.config.namespace,
                                                          documentId: AnyBSONValue(id),
@@ -172,6 +175,7 @@ internal struct NamespaceSynchronization: Sequence {
                                             withDocumentId: documentId.bsonValue),
                     replacement: value.config,
                     options: ReplaceOptions.init(upsert: true))
+                
                 self.config.syncedDocuments[documentId] = value.config
             } catch {
                 errorListener?.on(error: error, forDocumentId: documentId.bsonValue.value, in: self.config.namespace)
@@ -187,7 +191,7 @@ internal struct NamespaceSynchronization: Sequence {
      - parameter conflictHandler: a ConflictHandler to handle conflicts on this namespace
      - parameter changeEventDelegate: a ChangeEventDelegate to listen to events on this namespace
      */
-    mutating func configure<T: ConflictHandler, V: ChangeEventDelegate>(conflictHandler: T,
+    func configure<T: ConflictHandler, V: ChangeEventDelegate>(conflictHandler: T,
                                                                         changeEventDelegate: V) {
         nsLock.writeLock()
         defer { nsLock.unlock() }

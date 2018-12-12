@@ -53,4 +53,65 @@ class DataSynchronizerUnitTests: XCMongoMobileTestCase {
 
         XCTAssertFalse(dataSynchronizer.isRunning)
     }
+
+    func testRecoverUpdateNoPendingWrite() throws {
+        try replaceDataSynchronizer(deinitializing: false)
+        dataSynchronizer.configure(namespace: namespace,
+                                   conflictHandler: TestConflictHandler(),
+                                   changeEventDelegate: TestEventDelegate(),
+                                   errorListener: TestErrorListener())
+
+        let originalTestDoc = ["count": 1] as Document
+        let insertResult = try dataSynchronizer.insertOne(document: originalTestDoc, in: namespace)
+        let insertedId = insertResult!.insertedId!
+
+        XCTAssertTrue(try isUndoCollectionEmpty())
+
+        let expectedTestDoc = [
+            "_id": insertedId,
+            "count": 1
+        ] as Document
+
+        XCTAssertEqual(
+            expectedTestDoc,
+            try localCollection().find(
+                ["_id": insertedId],
+                options: nil
+            ).next()
+        )
+
+        _ = dataSynchronizer.doSyncPass()
+        XCTAssertEqual(expectedTestDoc, try dataSynchronizer.find(in: namespace).next())
+
+        // simulate a failure case where an update started, but did not get pending writes set
+        try localCollection().updateOne(
+            filter: ["_id": insertedId],
+            update: ["$set": ["oops": true] as Document]
+        )
+
+        print("starting second data synchronizer replace")
+        try replaceDataSynchronizer(
+            deinitializing: true,
+            withUndoDocuments: [expectedTestDoc]
+        )
+
+        print("THIS SHOULD NOT BE GETTING PRINTED!!!")
+
+        dataSynchronizer.configure(namespace: namespace,
+                                   conflictHandler: TestConflictHandler(),
+                                   changeEventDelegate: TestEventDelegate(),
+                                   errorListener: TestErrorListener())
+
+        XCTAssertTrue(try isUndoCollectionEmpty())
+
+        // assert that the update got rolled back
+        XCTAssertEqual(
+            expectedTestDoc,
+            try dataSynchronizer.find(
+                filter: ["_id": insertedId],
+                options: nil,
+                in: namespace
+            ).next()
+        )
+    }
 }
