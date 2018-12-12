@@ -3,6 +3,10 @@ import MongoSwift
 import StitchCoreSDK
 
 class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
+    private enum Commands {
+        case restart
+    }
+
     private let namespace: MongoNamespace
     private let service: CoreStitchServiceClient
     private let networkMonitor: NetworkMonitor
@@ -12,9 +16,14 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
     private var streamDelegates = Set<SSEStreamDelegate>()
 
     private var stream: RawSSEStream? = nil
+    private var command: Commands? = nil
+
     private lazy var tag = "NSChangeStreamListener-\(namespace.description)"
     private lazy var logger = Log.init(tag: tag)
     private lazy var eventQueueLock = ReadWriteLock()
+    var state: SSEStreamState {
+        return stream?.state ?? .closed
+    }
 
     init(namespace: MongoNamespace,
          config: inout NamespaceSynchronization,
@@ -38,13 +47,6 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
         defer { objc_sync_exit(self) }
 
         logger.i("stream START")
-        if let stream = stream {
-            guard stream.state != .opening else {
-                logger.i("stream END - stream is \(stream.state)")
-                return
-            }
-        }
-
         guard networkMonitor.state == .connected else {
             logger.i("stream END - Network disconnected")
             return
@@ -60,14 +62,20 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
             return
         }
 
-        self.stream = try service.streamFunction(
-            withName: "watch",
-            withArgs: [
-                ["database": namespace.databaseName,
-                 "collection": namespace.collectionName,
-                 "ids": idsToWatch] as Document
-            ],
-            delegate: self)
+        if let stream = stream {
+            command = .restart
+            logger.i("stream RESTART - stream was \(stream.state)")
+            self.stop()
+        } else {
+            self.stream = try service.streamFunction(
+                withName: "watch",
+                withArgs: [
+                    ["database": namespace.databaseName,
+                     "collection": namespace.collectionName,
+                     "ids": idsToWatch] as Document
+                ],
+                delegate: self)
+        }
     }
 
     func stop() {
@@ -119,12 +127,25 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
     override func on(stateChangedFor state: SSEStreamState) {
         switch state {
         case .open:
+            // if the stream has been opened,
+            // mark all of the configs in this namespace
+            // as stale so we know to check for stale docs
+            // during a sync pass
             for var docConfig in nsConfig {
                 docConfig.isStale = true
             }
             logger.d("stream OPEN")
         case .closed:
+            // if the stream has been closed,
+            // deallocate the remaining stream
             logger.d("stream CLOSED")
+            stream = nil
+            // if a restart has been commanded,
+            // start again
+            if command == .restart {
+                try? start()
+                command = nil
+            }
         default:
             logger.d("stream \(state)")
         }

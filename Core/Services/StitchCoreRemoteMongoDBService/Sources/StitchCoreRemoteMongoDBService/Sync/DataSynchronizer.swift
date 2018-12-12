@@ -145,8 +145,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
     public func configure<CH: ConflictHandler, CED: ChangeEventDelegate>(namespace: MongoNamespace,
                                                                          conflictHandler: CH,
-                                                                         changeEventDelegate: CED,
-                                                                         errorListener: ErrorListener) {
+                                                                         changeEventDelegate: CED?,
+                                                                         errorListener: ErrorListener?) {
         self.errorListener = errorListener
 
         guard var nsConfig = self.syncConfig[namespace] else {
@@ -323,7 +323,6 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
         let currentRemoteVersionInfo: DocumentVersionInfo?
         do {
-            print(remoteChangeEvent.fullDocument)
             currentRemoteVersionInfo = try DocumentVersionInfo.getRemoteVersionInfo(
                 remoteDocument: remoteChangeEvent.fullDocument ?? [:])
         } catch {

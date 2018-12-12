@@ -210,12 +210,14 @@ internal struct NamespaceSynchronization: Sequence {
      - parameter changeEventDelegate: a ChangeEventDelegate to listen to events on this namespace
      */
     mutating func configure<T: ConflictHandler, V: ChangeEventDelegate>(conflictHandler: T,
-                                                                        changeEventDelegate: V) {
+                                                                        changeEventDelegate: V?) {
         nsLock.writeLock()
         defer { nsLock.unlock() }
         self.conflictHandler = AnyConflictHandler(conflictHandler)
-        self.changeEventDelegate = AnyChangeEventDelegate(changeEventDelegate,
-                                                          errorListener: errorListener)
+        if let changeEventDelegate = changeEventDelegate {
+            self.changeEventDelegate = AnyChangeEventDelegate(changeEventDelegate,
+                                                              errorListener: errorListener)
+        }
     }
 
     /// A set of stale ids for the sync'd documents in this namespace.

@@ -12,8 +12,8 @@ private extension Document {
     func sorted() -> Document {
         return self.sorted { d1, d2 -> Bool in
             d1.key.first! < d2.key.first!
-        }.reduce(into: Document()) { (doc, pair) in
-            doc[pair.key] = pair.value
+            }.reduce(into: Document()) { (doc, pair) in
+                doc[pair.key] = pair.value
         }
     }
 }
@@ -103,18 +103,18 @@ private class StreamJoiner: SSEStreamDelegate {
             }
             semaphore.signal()
         }.perform()
-        semaphore.wait()
+        _ = semaphore.wait(timeout: .init(uptimeNanoseconds: UInt64(1e+10)))
     }
 
     func wait(forEvents eventCount: Int) {
         let semaphore = DispatchSemaphore.init(value: 0)
         DispatchWorkItem {
             while self.events.count < eventCount {
-                usleep(10)
+                usleep(100)
             }
             semaphore.signal()
         }.perform()
-        semaphore.wait()
+        _ = semaphore.wait(timeout: .init(uptimeNanoseconds: UInt64(1e+10)))
     }
 
     func clearEvents() {
@@ -139,9 +139,9 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
 
         try! prepareService()
         let joiner = CallbackJoiner()
-        getTestColl().deleteMany([:], joiner.capture())
+        remoteCollAndSync().0.deleteMany([:], joiner.capture())
         XCTAssertNotNil(joiner.capturedValue)
-        getTestColl().sync.deleteMany(filter: [:], joiner.capture())
+        remoteCollAndSync().1.deleteMany(filter: [:], joiner.capture())
         XCTAssertNotNil(joiner.capturedValue)
         CoreLocalMongoDBService.shared.localInstances.forEach { client in
             try! client.listDatabases().forEach {
@@ -152,7 +152,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
 
     override func tearDown() {
         let joiner = CallbackJoiner()
-        getTestColl().deleteMany([:], joiner.capture())
+        remoteCollAndSync().0.deleteMany([:], joiner.capture())
         XCTAssertNotNil(joiner.capturedValue)
         CoreLocalMongoDBService.shared.localInstances.forEach { client in
             try! client.listDatabases().forEach {
@@ -196,27 +196,16 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
                                                     withName: "mongodb1")
     }
 
-    private func getTestColl() -> RemoteMongoCollection<Document> {
+    private func remoteCollAndSync() -> (RemoteMongoCollection<Document>, Sync<Document>) {
         let db = mongoClient.db(dbName.description)
         XCTAssertEqual(dbName, db.name)
         let coll = db.collection(collName)
         XCTAssertEqual(dbName, coll.databaseName)
         XCTAssertEqual(collName, coll.name)
-        return coll
-    }
-
-    private func getTestColl<T>(_ type: T.Type) -> RemoteMongoCollection<T> {
-        let db = mongoClient.db(dbName.description)
-        XCTAssertEqual(dbName, db.name)
-        let coll = db.collection(collName, withCollectionType: type)
-        XCTAssertEqual(dbName, coll.databaseName)
-        XCTAssertEqual(collName, coll.name)
-        return coll
-    }
-
-    func prepSync(_ sync: Sync<Document>) {
+        let sync = coll.sync
         sync.proxy.dataSynchronizer.isSyncThreadEnabled = false
         sync.proxy.dataSynchronizer.stop()
+        return (coll, sync)
     }
 
     private func streamAndSync(_ sync: Sync<Document>,
@@ -228,6 +217,9 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
                 .instanceChangeStreamDelegate
 
             iCSDel[MongoNamespace(databaseName: dbName, collectionName: collName)]!.add(streamDelegate: streamJoiner)
+            if iCSDel[MongoNamespace(databaseName: dbName, collectionName: collName)]?.state == .closed {
+                try iCSDel.start()
+            }
             streamJoiner.wait(forState: .open)
             streamJoiner.wait(forEvents: eventCount)
         }
@@ -252,9 +244,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
     func testSync() throws {
         let streamJoiner = StreamJoiner()
         let joiner = CallbackJoiner()
-        let remote = getTestColl()
-        let sync = remote.sync
-        prepSync(sync)
+        let (remote, sync) = remoteCollAndSync()
 
         let doc1: Document = ["hello": "world"]
         var doc2: Document = ["hello": "friend"]
@@ -282,8 +272,6 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
             } else {
                 return Document(dictionaryLiteral: ("hello", "world"))
             }
-        }, changeEventDelegate: { _, _ in }, errorListener: { err, _ in
-            fatalError(err.localizedDescription)
         })
 
         // sync on the remote document
@@ -378,14 +366,11 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
     func testUpdateConflicts() throws {
         let streamJoiner = StreamJoiner()
 
-        let remoteColl = getTestColl()
-        let coll = remoteColl.sync
-
-        prepSync(coll)
+        let (remote, coll) = remoteCollAndSync()
 
         let docToInsert: Document = ["hello": "world"]
-        remoteColl.insertOne(docToInsert)
-        let doc = remoteColl.findOne(docToInsert)!
+        remote.insertOne(docToInsert)
+        let doc = remote.findOne(docToInsert)!
         let doc1Id = doc["_id"]!
         let doc1Filter: Document = ["_id": doc1Id]
 
@@ -398,20 +383,18 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
                 merged[it.key] = it.value
             }
             return merged
-        }, changeEventDelegate: { _, _ in }, errorListener: { err, _ in
-            fatalError(err.localizedDescription)
         })
         coll.sync(ids: [doc1Id])
         try streamAndSync(coll, streamJoiner: streamJoiner)
 
         // Update remote
         let remoteUpdate = withNewSyncVersionSet(["$set": ["remote": "update"] as Document])
-        let result = remoteColl.updateOne(filter: doc1Filter, update: remoteUpdate)
+        let result = remote.updateOne(filter: doc1Filter, update: remoteUpdate)
         try watch(streamJoiner, forEvents: 1)
         XCTAssertEqual(1, result.matchedCount)
         var expectedRemoteDocument = doc
         expectedRemoteDocument["remote"] = "update"
-        XCTAssertEqual(expectedRemoteDocument, withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
+        XCTAssertEqual(expectedRemoteDocument, withoutSyncVersion(remote.findOne(doc1Filter)!))
 
         // Update local
         let localUpdate = ["$set": ["local": "updateWow"] as Document] as Document
@@ -426,7 +409,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         // first pass will invoke the conflict handler and update locally but not remotely yet
         try streamAndSync(coll, streamJoiner: streamJoiner)
 
-        XCTAssertEqual(expectedRemoteDocument, withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
+        XCTAssertEqual(expectedRemoteDocument, withoutSyncVersion(remote.findOne(doc1Filter)!))
         expectedLocalDocument["remote"] = "update"
 
 
@@ -436,15 +419,63 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         try streamAndSync(coll, streamJoiner: streamJoiner)
 
         XCTAssertEqual(expectedLocalDocument, coll.findOne(doc1Filter))
-        XCTAssertEqual(expectedLocalDocument.sorted(), withoutSyncVersion(remoteColl.findOne(doc1Filter)!.sorted()))
+        XCTAssertEqual(expectedLocalDocument.sorted(), withoutSyncVersion(remote.findOne(doc1Filter)!.sorted()))
+    }
+
+    func testUpdateRemoteWins() throws {
+        let streamJoiner = StreamJoiner()
+        let (remote, coll) = remoteCollAndSync()
+
+        // insert a new document remotely
+        var docToInsert = ["hello": "world"] as Document
+        docToInsert["foo"] = 1
+        remote.insertOne(docToInsert)
+
+        // find the document we've just inserted
+        let doc = remote.findOne(docToInsert)!
+        let doc1Id = doc["_id"]!
+        let doc1Filter = ["_id": doc1Id] as Document
+
+        // configure Sync to resolve conflicts with remote winning,
+        // synchronize the document, and stream events and do a sync pass
+        coll.configure(conflictHandler: DefaultConflictHandlers.remoteWins.resolveConflict)
+
+        coll.sync(ids: [doc1Id])
+        try streamAndSync(coll, streamJoiner: streamJoiner)
+
+        // update the document remotely while watching for an update
+        var expectedDocument = doc
+        let result = remote.updateOne(filter: doc1Filter, update: withNewSyncVersionSet(
+            ["$inc": ["foo": 2] as Document]))
+        try watch(streamJoiner, forEvents: 1)
+
+        // once the event has been stored,
+        // fetch the remote document and assert that it has properly updated
+        XCTAssertEqual(1, result.matchedCount)
+        expectedDocument["foo"] = 3
+        XCTAssertEqual(expectedDocument, withoutSyncVersion(remote.findOne(doc1Filter)!))
+
+        // update the local collection.
+        // the count field locally should be 2
+        // the count field remotely should be 3
+        let localResult = coll.updateOne(filter: doc1Filter, update: ["$inc": ["foo": 1] as Document])
+        XCTAssertEqual(1, localResult!.matchedCount)
+        expectedDocument["foo"] = 2
+        XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter))
+
+        // sync the collection. the remote document should be accepted
+        // and this resolution should be reflected locally and remotely
+        try streamAndSync(coll, streamJoiner: streamJoiner)
+        expectedDocument["foo"] = 3
+        XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter))
+        try streamAndSync(coll, streamJoiner: streamJoiner)
+        XCTAssertEqual(expectedDocument, withoutSyncVersion(remote.findOne(doc1Filter)!))
     }
 
     func testInsertThenSyncThenRemoveThenInsertThenUpdate() throws {
         let streamJoiner = StreamJoiner()
 
-        let remoteColl = getTestColl()
-        let coll = remoteColl.sync
-        prepSync(coll)
+        let (remote, coll) = remoteCollAndSync()
 
         // configure Sync to fail this test if there is a conflict.
         // insert and sync the new document locally. sync.
@@ -452,10 +483,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         coll.configure(conflictHandler: { (_, _, _) -> Document? in
             XCTFail()
             return nil
-        }, changeEventDelegate: { (_, _) in
-        }) { (_, _) in
-            XCTFail()
-        }
+        })
         let insertResult = coll.insertOne(docToInsert)!
         try streamAndSync(coll, streamJoiner: streamJoiner)
 
@@ -464,7 +492,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         let doc1Id = doc["_id"]
         let doc1Filter: Document = ["_id": doc1Id]
         var expectedDocument = doc
-        XCTAssertEqual(expectedDocument, withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
+        XCTAssertEqual(expectedDocument, withoutSyncVersion(remote.findOne(doc1Filter)!))
         XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter))
 
         // delete the doc locally, then re-insert it.
@@ -472,7 +500,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         XCTAssertEqual(1, coll.deleteOne(doc1Filter)?.deletedCount)
         coll.insertOne(doc)
         streamJoiner.wait(forState: .open)
-        XCTAssertEqual(expectedDocument, withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
+        XCTAssertEqual(expectedDocument, withoutSyncVersion(remote.findOne(doc1Filter)!))
         XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter))
 
         // update the document locally
@@ -481,13 +509,13 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
 
         // assert that the document has not been updated remotely yet,
         // but has locally
-        XCTAssertEqual(expectedDocument, withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
+        XCTAssertEqual(expectedDocument, withoutSyncVersion(remote.findOne(doc1Filter)!))
         expectedDocument["foo"] = 1
         XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter))
 
         // sync. assert that the update has been reflected remotely and locally
         try streamAndSync(coll, streamJoiner: streamJoiner)
-        XCTAssertEqual(expectedDocument, withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
+        XCTAssertEqual(expectedDocument, withoutSyncVersion(remote.findOne(doc1Filter)!))
         XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter))
 
         stopSync(coll, streamJoiner: streamJoiner)

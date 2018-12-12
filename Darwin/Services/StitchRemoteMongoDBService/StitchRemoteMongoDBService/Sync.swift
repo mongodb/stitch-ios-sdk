@@ -24,8 +24,8 @@ public class Sync<DocumentT: Codable> {
         _ documentId: BSONValue,
         _ localEvent: ChangeEvent<DocumentT>,
         _ remoteEvent: ChangeEvent<DocumentT>)  throws -> DocumentT?,
-        changeEventDelegate: @escaping (_ documentId: BSONValue, _ event: ChangeEvent<DocumentT>) -> Void,
-        errorListener:  @escaping (_ error: Error, _ documentId: BSONValue?) -> Void) {
+        changeEventDelegate: ((_ documentId: BSONValue, _ event: ChangeEvent<DocumentT>) -> Void)? = nil,
+        errorListener:  ((_ error: Error, _ documentId: BSONValue?) -> Void)? = nil) {
         self.proxy.configure(conflictHandler: conflictHandler,
                              changeEventDelegate: changeEventDelegate,
                              errorListener: errorListener)
@@ -41,8 +41,8 @@ public class Sync<DocumentT: Codable> {
      */
     func configure<CH: ConflictHandler, CED: ChangeEventDelegate>(
         conflictHandler: CH,
-        changeEventDelegate: CED,
-        errorListener: ErrorListener) where CH.DocumentT == DocumentT, CED.DocumentT == DocumentT {
+        changeEventDelegate: CED? = nil,
+        errorListener: ErrorListener? = nil) where CH.DocumentT == DocumentT, CED.DocumentT == DocumentT {
         self.proxy.configure(conflictHandler: conflictHandler,
                              changeEventDelegate: changeEventDelegate,
                              errorListener: errorListener)

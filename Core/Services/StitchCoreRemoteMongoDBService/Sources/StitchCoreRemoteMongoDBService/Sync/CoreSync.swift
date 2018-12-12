@@ -23,11 +23,13 @@ public final class CoreSync<DocumentT: Codable> {
         _ documentId: BSONValue,
         _ localEvent: ChangeEvent<DocumentT>,
         _ remoteEvent: ChangeEvent<DocumentT>) throws -> DocumentT?,
-        changeEventDelegate: @escaping (_ documentId: BSONValue, _ event: ChangeEvent<DocumentT>) -> Void,
-        errorListener: @escaping (_ error: Error, _ documentId: BSONValue?) -> Void) {
-        self.configure(conflictHandler: BlockConflictHandler(conflictHandler),
-                       changeEventDelegate: BlockChangeEventDelegate(changeEventDelegate),
-                       errorListener: BlockErrorDelegate(errorListener))
+        changeEventDelegate: ((_ documentId: BSONValue, _ event: ChangeEvent<DocumentT>) -> Void)?,
+        errorListener: ((_ error: Error, _ documentId: BSONValue?) -> Void)?) {
+        self.dataSynchronizer.configure(
+            namespace: namespace,
+            conflictHandler: BlockConflictHandler(conflictHandler),
+            changeEventDelegate: changeEventDelegate != nil ? BlockChangeEventDelegate(changeEventDelegate!) : nil,
+            errorListener: errorListener != nil ? BlockErrorDelegate(errorListener!) : nil)
     }
     
     /**
@@ -40,8 +42,8 @@ public final class CoreSync<DocumentT: Codable> {
      */
     public func configure<CH: ConflictHandler, CED: ChangeEventDelegate>(
         conflictHandler: CH,
-        changeEventDelegate: CED,
-        errorListener: ErrorListener) where CH.DocumentT == DocumentT, CED.DocumentT == DocumentT {
+        changeEventDelegate: CED?,
+        errorListener: ErrorListener?) where CH.DocumentT == DocumentT, CED.DocumentT == DocumentT {
         dataSynchronizer.configure(namespace: namespace,
                                    conflictHandler: conflictHandler,
                                    changeEventDelegate: changeEventDelegate,
