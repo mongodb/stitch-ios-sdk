@@ -71,17 +71,25 @@ class TestEventDelegate: ChangeEventDelegate {
     }
 }
 
-private class DeinitializingDataSynchronizer: DataSynchronizer {
+private class TestCaseDataSynchronizer: DataSynchronizer {
     private let deinitializingInstanceKey: String
-    private let localClient: MongoClient
+    private let deinitializing: Bool
 
-    init(instanceKey: String,
+    init(deinitializing: Bool,
+         instanceKey: String,
          coreRemoteMongoClient: CoreRemoteMongoClient,
          localClient: MongoClient) throws {
+        self.deinitializing = deinitializing
         self.deinitializingInstanceKey = instanceKey
-        self.localClient = localClient
 
         let mockServiceClient = MockCoreStitchServiceClient.init()
+        mockServiceClient.streamFunctionMock.doReturn(
+            result: RawSSEStream.init(),
+            forArg1: .any,
+            forArg2: .any,
+            forArg3: .any
+        )
+
         try super.init(
             instanceKey: instanceKey,
             service: mockServiceClient,
@@ -92,10 +100,12 @@ private class DeinitializingDataSynchronizer: DataSynchronizer {
     }
 
     deinit {
-        try? self.localClient.db(
-            DataSynchronizer
-                .localConfigDBName(withInstanceKey: deinitializingInstanceKey)
-            ).drop()
+        if deinitializing {
+            try? self.localClient.db(
+                DataSynchronizer
+                    .localConfigDBName(withInstanceKey: deinitializingInstanceKey)
+                ).drop()
+        }
     }
 }
 
@@ -118,10 +128,69 @@ class XCMongoMobileTestCase: XCTestCase {
 
     private(set) var mockServiceClient: MockCoreStitchServiceClient!
     private(set) var coreRemoteMongoClient: CoreRemoteMongoClient!
-    lazy var dataSynchronizer: DataSynchronizer =
-        try! DeinitializingDataSynchronizer.init(instanceKey: instanceKey.oid,
-                                                 coreRemoteMongoClient: self.coreRemoteMongoClient,
-                                                 localClient: localClient)
+
+    var lazyLock = DispatchSemaphore(value: 1)
+    private var storedDataSynchronizer: DataSynchronizer!
+    var dataSynchronizer: DataSynchronizer! {
+        get {
+            lazyLock.wait()
+            defer { lazyLock.signal() }
+            
+            if storedDataSynchronizer == nil {
+                storedDataSynchronizer = try! TestCaseDataSynchronizer.init(
+                    deinitializing: true,
+                    instanceKey: instanceKey.oid,
+                    coreRemoteMongoClient: self.coreRemoteMongoClient,
+                    localClient: localClient)
+            }
+            return storedDataSynchronizer
+        }
+        set {
+            lazyLock.wait()
+            defer { lazyLock.signal() }
+
+            storedDataSynchronizer = newValue
+        }
+    }
+
+    func replaceDataSynchronizer(
+        deinitializing: Bool,
+        withUndoDocuments undoDocuments: [Document] = []
+    ) throws {
+        // stop the existing data synchronizer for this test context
+        dataSynchronizer.stop()
+
+        // insert some documents into the undo collection to simulate a
+        // failure case from which the data synchronizer should recover
+        if !undoDocuments.isEmpty {
+            try undoCollection().insertMany(undoDocuments)
+        }
+
+        // initialize a new data synchronizer
+        dataSynchronizer = try! TestCaseDataSynchronizer.init(
+            deinitializing: deinitializing,
+            instanceKey: instanceKey.oid,
+            coreRemoteMongoClient: self.coreRemoteMongoClient,
+            localClient: localClient
+        )
+
+        // perform a no-op write so that we wait for the recovery pass to complete. This works
+        // since the recovery routine write-locks all namespaces until recovery is done.
+        _ = try dataSynchronizer.updateOne(
+            filter: ["_id": "nonexistent"],
+            update: ["$set": ["a": 1] as Document],
+            options: nil,
+            in: namespace
+        )
+    }
+
+    func setPendingWrites(forDocumentId documentId: BSONValue,
+                          event: ChangeEvent<Document>) throws {
+        let nsConfig = dataSynchronizer.syncConfig[namespace]!
+        var docConfig = nsConfig[documentId]!
+
+        try docConfig.setSomePendingWrites(atTime: dataSynchronizer.logicalT, changeEvent: event)
+    }
 
     private var _instanceKey = ObjectId()
     open var instanceKey: ObjectId {
@@ -169,8 +238,19 @@ class XCMongoMobileTestCase: XCTestCase {
                         withCollectionType: type)
     }
 
+    func isUndoCollectionEmpty() throws -> Bool {
+        return try undoCollection().count() == 0
+    }
+
+    func undoCollection() throws -> MongoCollection<Document> {
+        return try dataSynchronizer.undoCollection(for: namespace)
+    }
+
     func localCollection() throws -> MongoCollection<Document> {
-        return try localCollection(for: namespace)
+        return try localCollection(for: MongoNamespace.init(
+            databaseName: DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace),
+            collectionName: namespace.collectionName
+        ))
     }
 
     func localCollection(for namespace: MongoNamespace) throws -> MongoCollection<Document> {

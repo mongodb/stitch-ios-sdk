@@ -10,43 +10,52 @@ import MongoSwift
  Configurations are stored both persistently and in memory, and should
  always be in sync.
  */
-internal struct InstanceSynchronization: Sequence {
+internal class InstanceSynchronization: Sequence {
     /// The actual configuration to be persisted for this instance.
-    struct Config: Codable {
-        fileprivate var namespaces: [MongoNamespace: NamespaceSynchronization.Config]
+    class Config: Codable {
+        fileprivate(set) internal var namespaces: [MongoNamespace: NamespaceSynchronization.Config]
+
+        init(namespaces: [MongoNamespace: NamespaceSynchronization.Config]) {
+            self.namespaces = namespaces
+        }
     }
+
+    fileprivate var namespaceConfigWrappers: [MongoNamespace: NamespaceSynchronization]
 
     /// Allows for the iteration of the namespaces contained in this instance.
     struct InstanceSynchronizationIterator: IteratorProtocol {
         typealias Element = NamespaceSynchronization
-        private typealias Values = Dictionary<MongoNamespace, NamespaceSynchronization.Config>.Values
+        private typealias Values = Dictionary<MongoNamespace, NamespaceSynchronization>.Values
 
         private let namespacesColl: MongoCollection<NamespaceSynchronization.Config>
         private let docsColl: MongoCollection<CoreDocumentSynchronization.Config>
         private var values: Values
         private var indices: DefaultIndices<Values>
         private weak var errorListener: FatalErrorListener?
+        private weak var parentInstanceLock: ReadWriteLock?
 
-        init(namespacesColl: MongoCollection<NamespaceSynchronization.Config>,
+        init(instanceLock: ReadWriteLock,
+             namespacesColl: MongoCollection<NamespaceSynchronization.Config>,
              docsColl: MongoCollection<CoreDocumentSynchronization.Config>,
-             values: Dictionary<MongoNamespace, NamespaceSynchronization.Config>.Values,
+             values: Dictionary<MongoNamespace, NamespaceSynchronization>.Values,
              errorListener: FatalErrorListener?) {
             self.namespacesColl = namespacesColl
             self.docsColl = docsColl
             self.values = values
             self.indices = self.values.indices
             self.errorListener = errorListener
+            self.parentInstanceLock = instanceLock
+
+            self.parentInstanceLock?.writeLock()
         }
 
         mutating func next() -> NamespaceSynchronization? {
             guard let index = self.indices.popFirst() else {
+                self.parentInstanceLock?.unlock()
                 return nil
             }
 
-            return NamespaceSynchronization.init(namespacesColl: namespacesColl,
-                                                 docsColl: docsColl,
-                                                 config: &values[index],
-                                                 errorListener: errorListener)
+            return values[index]
         }
     }
 
@@ -72,13 +81,25 @@ internal struct InstanceSynchronization: Sequence {
                             syncedNamespaces[config.namespace] = config
                 }))
         self.errorListener = errorListener
+
+        let nsColl = namespacesColl
+        let dColl = docsColl
+        self.namespaceConfigWrappers = try self.config.namespaces.mapValues { nsConfig in
+            return try NamespaceSynchronization.init(
+                namespacesColl: nsColl,
+                docsColl: dColl,
+                namespace: nsConfig.namespace,
+                errorListener: errorListener
+            )
+        }
     }
 
     /// Make an iterator that will iterate over the associated namespaces.
     func makeIterator() -> InstanceSynchronizationIterator {
-        return InstanceSynchronizationIterator.init(namespacesColl: namespacesColl,
+        return InstanceSynchronizationIterator.init(instanceLock: instanceLock,
+                                                    namespacesColl: namespacesColl,
                                                     docsColl: docsColl,
-                                                    values: self.config.namespaces.values,
+                                                    values: namespaceConfigWrappers.values,
                                                     errorListener: errorListener)
     }
 
@@ -89,17 +110,14 @@ internal struct InstanceSynchronization: Sequence {
      - returns: a new or existing NamespaceConfiguration
      */
     subscript(namespace: MongoNamespace) -> NamespaceSynchronization? {
-        mutating get {
+        get {
             instanceLock.writeLock()
             defer {
                 instanceLock.unlock()
             }
 
-            if var config = config.namespaces[namespace] {
-                return NamespaceSynchronization.init(namespacesColl: namespacesColl,
-                                                     docsColl: docsColl,
-                                                     config: &config,
-                                                     errorListener: errorListener)
+            if let config = namespaceConfigWrappers[namespace] {
+                return config
             }
 
             do {
@@ -108,7 +126,7 @@ internal struct InstanceSynchronization: Sequence {
                                                                   namespace: namespace,
                                                                   errorListener: errorListener)
                 try namespacesColl.insertOne(newConfig.config)
-                config.namespaces[namespace] = newConfig.config
+                namespaceConfigWrappers[namespace] = newConfig
                 return newConfig
             } catch {
                 errorListener?.on(error: error, forDocumentId: nil, in: namespace)
