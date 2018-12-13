@@ -101,16 +101,6 @@ internal class NamespaceSynchronization: Sequence {
         self.errorListener = errorListener
     }
 
-//    init(namespacesColl: MongoCollection<NamespaceSynchronization.Config>,
-//         docsColl: MongoCollection<CoreDocumentSynchronization.Config>,
-//         config: /*inout*/ Config,
-//         errorListener: FatalErrorListener?) {
-//        self.namespacesColl = namespacesColl
-//        self.docsColl = docsColl
-//        self.config = config
-//        self.errorListener = errorListener
-//    }
-
     /// Make an iterator that will iterate over the associated documents.
     func makeIterator() -> NamespaceSynchronization.Iterator {
         return NamespaceSynchronizationIterator.init(docsColl: docsColl,

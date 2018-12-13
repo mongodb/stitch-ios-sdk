@@ -56,11 +56,6 @@ internal class InstanceSynchronization: Sequence {
             }
 
             return values[index]
-
-//            return NamespaceSynchronization.init(namespacesColl: namespacesColl,
-//                                                 docsColl: docsColl,
-//                                                 config: &values[index],
-//                                                 errorListener: errorListener)
         }
     }
 

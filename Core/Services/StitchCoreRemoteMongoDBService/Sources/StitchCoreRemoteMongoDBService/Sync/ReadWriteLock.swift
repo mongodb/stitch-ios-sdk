@@ -36,5 +36,3 @@ final internal class ReadWriteLock {
         return pthread_rwlock_unlock(&lock) == 0
     }
 }
-
-

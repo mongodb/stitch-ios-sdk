@@ -158,6 +158,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             }
         }
 
+        // release the semaphore, since any namespaces for which recovery will be done are locked
         recoveryStarted.signal()
 
         try nsConfigs.forEach { namespaceSynchronization in
@@ -919,11 +920,10 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         lock.writeLock()
         defer { lock.unlock() }
 
-        // fetch all of the documents that this filter will match
-        // TODO(STITCH-2220)
         let localCollection = try self.localCollection(for: namespace, withType: Document.self)
         let undoColl = try self.undoCollection(for: namespace)
 
+        // fetch all of the documents that this filter will match
         let beforeDocuments = try localCollection.find(filter)
 
         // use the matched ids from prior to create a new filter.
@@ -975,10 +975,10 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                                                             documentId: documentId,
                                                             in: localCollection)
 
-                // because we are looking up a bulk write, we may have queried documents
-                // that match the updated state, but were not actually modified.
-                // if the document before the update is the same as the updated doc,
-                // assume it was not modified and take no further action
+            // because we are looking up a bulk write, we may have queried documents
+            // that match the updated state, but were not actually modified.
+            // if the document before the update is the same as the updated doc,
+            // assume it was not modified and take no further action
             if afterDocument == beforeDocument {
                 try undoColl.deleteOne(DataSynchronizer.documentIdFilter(forId: documentId))
                 return nil
@@ -1117,8 +1117,6 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     }
 
     // MARK: Utilities
-
-
 
     private static func documentIdFilter(forId id: BSONValue) -> Document {
         return ["_id": id] as Document
