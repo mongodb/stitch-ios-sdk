@@ -92,7 +92,7 @@ open class RawSSEStream {
     }
 
     /**
-     Process and sipatch the events in a given stream.
+     Process and dispatch the events in a given stream.
      */
     internal func dispatchEvents() {
         while state == .open, let line = self.readLine() {

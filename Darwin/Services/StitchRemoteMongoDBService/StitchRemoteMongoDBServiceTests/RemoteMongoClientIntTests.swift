@@ -1077,9 +1077,9 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
         sync.find(filter: ["hello": "computer"], options: nil, joiner.capture())
         guard let cursor = joiner.value(asType: MongoCursor<Document>.self),
-            let actualDoc = cursor.next()else {
-                XCTFail("documents not found")
-                return
+            let actualDoc = cursor.next() else {
+            XCTFail("documents not found")
+            return
         }
 
         XCTAssertEqual("b", actualDoc["a"] as? String)
