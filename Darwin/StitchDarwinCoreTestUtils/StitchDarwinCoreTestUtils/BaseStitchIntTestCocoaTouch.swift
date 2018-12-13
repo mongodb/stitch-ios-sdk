@@ -77,11 +77,11 @@ open class BaseStitchIntTestCocoaTouch: BaseStitchIntTest {
         return client
     }
 
-    public func goOnline() {
+    open func goOnline() {
         networkMonitor.state = .connected
     }
 
-    public func goOffline() {
+    open func goOffline() {
         networkMonitor.state = .disconnected
     }
     

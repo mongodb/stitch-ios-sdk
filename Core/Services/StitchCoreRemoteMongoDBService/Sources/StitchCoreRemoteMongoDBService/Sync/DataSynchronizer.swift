@@ -342,7 +342,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 emitError(docConfig: &docConfig,
                           error: DataSynchronizerError("t='\(logicalT)': syncRemoteChangeEventToLocal ns=\(nsConfig.config.namespace) documentId=\(docConfig.documentId) got a remote "
                             + "document with an unsupported synchronization protocol version "
-                            + "\(currentRemoteVersionInfo?.version?.syncProtocolVersion); dropping the event, and desyncing the document"))
+                            + "\(String(describing: currentRemoteVersionInfo?.version?.syncProtocolVersion)); dropping the event, and desyncing the document"))
 
                 return;
         }
