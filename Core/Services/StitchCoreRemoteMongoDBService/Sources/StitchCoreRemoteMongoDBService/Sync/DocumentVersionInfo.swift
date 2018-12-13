@@ -70,7 +70,7 @@ final class DocumentVersionInfo {
         if let version = version {
             self.versionDoc = version
             self.version = try BSONDecoder().decode(Version.self,
-                                                     from: version)
+                                                    from: version)
         } else {
             self.versionDoc = nil
             self.version = nil

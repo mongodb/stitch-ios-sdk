@@ -281,10 +281,10 @@ internal struct CoreDocumentSynchronization: Hashable {
      - parameter versionInfo: A version to compare against the last known remote version
      - returns: true if this config has the given committed version, false if not
      */
-    public func hasCommittedVersion(versionInfo: DocumentVersionInfo?) -> Bool {
+    public func hasCommittedVersion(versionInfo: DocumentVersionInfo?) throws -> Bool {
         docLock.readLock()
         defer { docLock.unlock() }
-        let localVersionInfo = try! DocumentVersionInfo.fromVersionDoc(versionDoc: self.lastKnownRemoteVersion)
+        let localVersionInfo = try DocumentVersionInfo.fromVersionDoc(versionDoc: self.lastKnownRemoteVersion)
         if let newVersion = versionInfo?.version, let localVersion = localVersionInfo.version {
             return (newVersion.syncProtocolVersion == localVersion.syncProtocolVersion)
                 && (newVersion.instanceId == localVersion.instanceId)

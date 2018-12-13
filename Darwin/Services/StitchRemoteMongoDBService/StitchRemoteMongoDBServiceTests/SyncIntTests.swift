@@ -995,7 +995,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         // update the document remotely. assert the update is reflected remotely.
         // reload our configuration again. reconfigure Sync again.
         var expectedDocument = doc
-        var result = remoteColl.updateOne(doc1Filter, withNewSyncVersionSet(["$inc": ["foo": 2] as Document] as Document))
+        var result = remoteColl.updateOne(filter: doc1Filter, update: withNewSyncVersionSet(["$inc": ["foo": 2] as Document] as Document))
         try ctx.watch(forEvents: 1)
         XCTAssertEqual(1, result.matchedCount)
         expectedDocument["foo"] = 3
@@ -1004,8 +1004,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         coll.configure(conflictHandler: DefaultConflictHandlers.localWins.resolveConflict)
 
         // update the document locally. assert its success, after reconfiguration.
-        result = coll.updateOne(doc1Filter, ["$inc": ["foo": 1] as Document])
-        XCTAssertEqual(1, result.matchedCount)
+        let localResult = coll.updateOne(filter: doc1Filter, update: ["$inc": ["foo": 1] as Document])
+        XCTAssertEqual(1, localResult?.matchedCount)
         expectedDocument["foo"] = 2
         XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter))
 

@@ -3,7 +3,7 @@ import MongoSwift
 import StitchCoreSDK
 
 class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
-    private enum Commands {
+    private enum Command {
         case restart
     }
 
@@ -16,7 +16,7 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
     private var streamDelegates = Set<SSEStreamDelegate>()
 
     private var stream: RawSSEStream? = nil
-    private var command: Commands? = nil
+    private var command: Command? = nil
 
     private lazy var tag = "NSChangeStreamListener-\(namespace.description)"
     private lazy var logger = Log.init(tag: tag)
@@ -131,9 +131,7 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
             // mark all of the configs in this namespace
             // as stale so we know to check for stale docs
             // during a sync pass
-            for var docConfig in nsConfig {
-                docConfig.isStale = true
-            }
+            try? nsConfig.set(stale: true)
             logger.d("stream OPEN")
         case .closed:
             // if the stream has been closed,

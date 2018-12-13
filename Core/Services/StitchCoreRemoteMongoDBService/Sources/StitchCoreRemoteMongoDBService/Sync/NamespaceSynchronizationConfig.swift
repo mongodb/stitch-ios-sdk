@@ -236,6 +236,17 @@ internal struct NamespaceSynchronization: Sequence {
                 errorListener?.on(error: error, forDocumentId: nil, in: self.config.namespace)
                 return Set()
             }
+
         }
+    }
+
+    func set(stale: Bool) throws {
+        nsLock.tryWriteLock()
+        defer { nsLock.unlock() }
+        try docsColl.updateMany(
+            filter: ["namespace": config.namespace.description],
+            update: ["$set": [
+                CoreDocumentSynchronization.Config.CodingKeys.isStale.rawValue: true
+            ] as Document])
     }
 }
