@@ -175,6 +175,10 @@ private class SyncTestContext {
     func watch(forEvents count: Int) throws {
         streamJoiner.wait(forEvents: count)
     }
+
+    func powerCycleDevice() throws {
+        try remoteCollAndSync.1.proxy.dataSynchronizer.reloadConfig()
+    }
 }
 
 class SyncIntTests: BaseStitchIntTestCocoaTouch {
@@ -959,6 +963,74 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         try ctx.streamAndSync()
         XCTAssertNil(remoteColl.findOne(doc1Filter))
         XCTAssertNil(coll.findOne(doc1Filter))
+    }
+
+    func testTurnDeviceOffAndOn() throws {
+        let (remoteColl, coll) = ctx.remoteCollAndSync
+
+        // insert a document remotely
+        var docToInsert = ["hello": "world"] as Document
+        docToInsert["foo"] = 1
+        remoteColl.insertOne(docToInsert)
+
+        // find the document we just inserted
+        let doc = remoteColl.findOne(docToInsert)!
+        let doc1Id = doc["_id"]!
+        let doc1Filter = ["_id": doc1Id] as Document
+
+        // reload our configuration
+        try ctx.powerCycleDevice()
+
+        // configure Sync to resolve conflicts with a local win.
+        // sync the docId
+        coll.configure(conflictHandler: DefaultConflictHandlers.localWins.resolveConflict)
+        coll.sync(ids: [doc1Id])
+
+        // reload our configuration again.
+        // reconfigure sync and the same way. do a sync pass.
+        try ctx.powerCycleDevice()
+        coll.configure(conflictHandler: DefaultConflictHandlers.localWins.resolveConflict)
+        try ctx.streamAndSync()
+
+        // update the document remotely. assert the update is reflected remotely.
+        // reload our configuration again. reconfigure Sync again.
+        var expectedDocument = doc
+        var result = remoteColl.updateOne(doc1Filter, withNewSyncVersionSet(["$inc": ["foo": 2] as Document] as Document))
+        try ctx.watch(forEvents: 1)
+        XCTAssertEqual(1, result.matchedCount)
+        expectedDocument["foo"] = 3
+        XCTAssertEqual(expectedDocument, withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
+        try ctx.powerCycleDevice()
+        coll.configure(conflictHandler: DefaultConflictHandlers.localWins.resolveConflict)
+
+        // update the document locally. assert its success, after reconfiguration.
+        result = coll.updateOne(doc1Filter, ["$inc": ["foo": 1] as Document])
+        XCTAssertEqual(1, result.matchedCount)
+        expectedDocument["foo"] = 2
+        XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter))
+
+        // reconfigure again.
+        try ctx.powerCycleDevice()
+        coll.configure(conflictHandler: DefaultConflictHandlers.localWins.resolveConflict)
+
+        // sync.
+        try ctx.streamAndSync() // does nothing with no conflict handler
+
+        // assert we are still synced on one id.
+        // reconfigure again.
+        XCTAssertEqual(1, coll.syncedIds.count)
+        coll.configure(conflictHandler: DefaultConflictHandlers.localWins.resolveConflict)
+        try ctx.streamAndSync() // resolves the conflict
+
+        // assert the update was reflected locally. reconfigure again.
+        expectedDocument["foo"] = 2
+        XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter))
+        try ctx.powerCycleDevice()
+        coll.configure(conflictHandler: DefaultConflictHandlers.localWins.resolveConflict)
+
+        // sync. assert that the update was reflected remotely
+        try ctx.streamAndSync()
+        XCTAssertEqual(expectedDocument, withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
     }
 
     private func appendDocumentToKey(key: String, on document: Document, documentToAppend: Document) -> Document {
