@@ -1,14 +1,15 @@
 import Foundation
+import MongoSwift
 
 /**
  * A basic implementation of the `Transport` protocol using the `URLSession.dataTask` method in the Foundation library.
  */
 public final class FoundationHTTPTransport: Transport {
-
     /**
      * Empty public initializer to make initialization of this Transport available outside of this module.
      */
-    public init() { }
+    public init() {
+    }
 
     /**
      * The round trip functionality for this Transport, which uses `URLSession.dataTask`.
@@ -66,5 +67,27 @@ public final class FoundationHTTPTransport: Transport {
         }
 
         return response
+    }
+
+    public func stream(request: Request, delegate: SSEStreamDelegate? = nil) throws -> RawSSEStream {
+        guard let url = URL(string: request.url) else {
+            throw StitchError.clientError(withClientErrorCode: .missingURL)
+        }
+
+        let sessionConfig = URLSessionConfiguration.default
+        sessionConfig.timeoutIntervalForRequest = 60
+        sessionConfig.timeoutIntervalForResource = 60
+        sessionConfig.requestCachePolicy = .reloadIgnoringLocalCacheData
+        let additionalheaders = [Headers.contentType.nonCanonical(): "text/event-stream",
+                                 Headers.cacheControl.nonCanonical(): "no-cache",
+                                 Headers.accept.nonCanonical(): "text/event-stream"]
+        sessionConfig.httpAdditionalHeaders = additionalheaders
+        let sseStream = FoundationHTTPSSEStream(delegate)
+        let session = URLSession.init(configuration: sessionConfig,
+                                      delegate: sseStream.dataDelegate,
+                                      delegateQueue: nil)
+
+        session.dataTask(with: url).resume()
+        return sseStream
     }
 }

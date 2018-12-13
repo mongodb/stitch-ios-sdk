@@ -28,11 +28,9 @@ class XCMongoMobileConfiguration: NSObject, XCTestObservation {
 }
 
 class TestNetworkMonitor: NetworkMonitor {
-    var networkStateListeners = [NetworkStateDelegate]()
+    var state: NetworkState = .connected
 
-    var isConnected: Bool {
-        return true
-    }
+    var networkStateListeners = [NetworkStateDelegate]()
 
     func add(networkStateDelegate listener: NetworkStateDelegate) {
         self.networkStateListeners.append(listener)

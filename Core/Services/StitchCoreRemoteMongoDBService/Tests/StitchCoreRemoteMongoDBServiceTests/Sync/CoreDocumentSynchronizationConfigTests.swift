@@ -29,7 +29,6 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
         let lastKnownRemoteVersion = DocumentVersionInfo.freshVersionDocument()
 
         let lastResolution: Int64 = 42
-
         let ceId = ["_id": documentId] as Document
         let ceFullDocument = ["foo": "bar"] as Document
         let ceDocumentKey = ceId

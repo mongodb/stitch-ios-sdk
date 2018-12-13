@@ -20,6 +20,10 @@ internal struct NamespaceSynchronization: Sequence {
         let namespace: MongoNamespace
         /// a map of documents synchronized on this namespace, keyed on their documentIds
         fileprivate var syncedDocuments: [HashableBSONValue: CoreDocumentSynchronization.Config]
+        /// The conflict handler configured to this namespace.
+        fileprivate var conflictHandler: AnyConflictHandler?
+        /// The change event listener configured to this namespace.
+        fileprivate var changeEventDelegate: AnyChangeEventDelegate?
 
         init(namespace: MongoNamespace,
              syncedDocuments: [HashableBSONValue: CoreDocumentSynchronization.Config]) {
@@ -72,9 +76,23 @@ internal struct NamespaceSynchronization: Sequence {
     /// The configuration for this namespace.
     private(set) var config: Config
     /// The conflict handler configured to this namespace.
-    private(set) var conflictHandler: AnyConflictHandler?
+    private(set) var conflictHandler: AnyConflictHandler? {
+        get {
+            return self.config.conflictHandler
+        }
+        set {
+            self.config.conflictHandler = newValue
+        }
+    }
     /// The change event listener configured to this namespace.
-    private(set) var changeEventDelegate: AnyChangeEventDelegate?
+    private(set) var changeEventDelegate: AnyChangeEventDelegate? {
+        get {
+            return self.config.changeEventDelegate
+        }
+        set {
+            self.config.changeEventDelegate = newValue
+        }
+    }
 
     /// Whether or not this namespace has been configured.
     var isConfigured: Bool {

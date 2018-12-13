@@ -29,10 +29,10 @@ internal class DarwinNetworkMonitor: NetworkMonitor {
         }
     }
 
-    var isConnected: Bool {
+    var state: NetworkState {
         switch flags {
-        case .reachable?: return true
-        default: return false
+        case .reachable?: return .connected
+        default: return .disconnected
         }
     }
 
@@ -131,6 +131,6 @@ internal class DarwinNetworkMonitor: NetworkMonitor {
     }
 
     func reachabilityChanged() {
-        self.networkStateListeners.forEach({ $0.onNetworkStateChanged() })
+        self.networkStateListeners.forEach({ $0.on(stateChangedFor: state) })
     }
 }

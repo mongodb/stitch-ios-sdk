@@ -31,6 +31,10 @@ public final class StubStitchRequestClient: StitchRequestClient {
     public func doRequest(_ stitchReq: StitchRequest) throws -> Response {
         return Response.init(statusCode: 500, headers: [:], body: nil)
     }
+
+    public func doStreamRequest(_ stitchReq: StitchRequest, delegate: SSEStreamDelegate? = nil) throws -> RawSSEStream {
+        return FoundationHTTPSSEStream()
+    }
 }
 
 public final class MockCoreStitchAuth<TStitchUser>: CoreStitchAuth<TStitchUser> where TStitchUser: CoreStitchUser {
