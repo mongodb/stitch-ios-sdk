@@ -3,9 +3,11 @@ import Foundation
 /// HTTP Header definitions and helper methods.
 public enum Headers: String {
     case contentType = "Content-Type"
+    case accept = "Accept"
     case authorization = "Authorization"
     case bearer = "Bearer"
-
+    case cacheControl = "Cache-Control"
+    
     public func nonCanonical() -> String {
         return self.rawValue.lowercased(with: Locale.init(identifier: "en_US"))
     }

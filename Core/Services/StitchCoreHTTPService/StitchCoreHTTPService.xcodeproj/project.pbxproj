@@ -199,6 +199,7 @@
 				9E13604207FE15BB2B8E5931 /* [CP] Check Pods Manifest.lock */,
 				OBJ_184 /* Sources */,
 				OBJ_187 /* Frameworks */,
+				AC842BD45B371E334A6CDD97 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);

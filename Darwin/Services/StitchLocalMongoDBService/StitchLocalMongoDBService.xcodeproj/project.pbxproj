@@ -193,6 +193,7 @@
 				F4DA279820D1C64600852314 /* Frameworks */,
 				F4DA279920D1C64600852314 /* Resources */,
 				5BA14DA383E959AAE862137C /* Embed Frameworks */,
+				2A58F7CEB64F2C495F2458E8 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);

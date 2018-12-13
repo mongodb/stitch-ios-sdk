@@ -14,7 +14,6 @@
 		498062732185B6AF00E2A3A2 /* CoreStitchAuthUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4980625D2185B6AF00E2A3A2 /* CoreStitchAuthUnitTests.swift */; };
 		498062742185B6AF00E2A3A2 /* StoreAuthInfoUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4980625F2185B6AF00E2A3A2 /* StoreAuthInfoUnitTests.swift */; };
 		498062752185B6AF00E2A3A2 /* AccessTokenRefresherUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498062602185B6AF00E2A3A2 /* AccessTokenRefresherUnitTests.swift */; };
-		498062762185B6AF00E2A3A2 /* FoundationHTTPTransportUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498062632185B6AF00E2A3A2 /* FoundationHTTPTransportUnitTests.swift */; };
 		498062772185B6AF00E2A3A2 /* StitchRequestClientUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498062642185B6AF00E2A3A2 /* StitchRequestClientUnitTests.swift */; };
 		498062782185B6AF00E2A3A2 /* StitchAppClientInfoUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498062652185B6AF00E2A3A2 /* StitchAppClientInfoUnitTests.swift */; };
 		498062792185B6AF00E2A3A2 /* CoreStitchPushClientUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498062682185B6AF00E2A3A2 /* CoreStitchPushClientUnitTests.swift */; };
@@ -209,7 +208,6 @@
 		4980625D2185B6AF00E2A3A2 /* CoreStitchAuthUnitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreStitchAuthUnitTests.swift; sourceTree = "<group>"; };
 		4980625F2185B6AF00E2A3A2 /* StoreAuthInfoUnitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreAuthInfoUnitTests.swift; sourceTree = "<group>"; };
 		498062602185B6AF00E2A3A2 /* AccessTokenRefresherUnitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessTokenRefresherUnitTests.swift; sourceTree = "<group>"; };
-		498062632185B6AF00E2A3A2 /* FoundationHTTPTransportUnitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoundationHTTPTransportUnitTests.swift; sourceTree = "<group>"; };
 		498062642185B6AF00E2A3A2 /* StitchRequestClientUnitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchRequestClientUnitTests.swift; sourceTree = "<group>"; };
 		498062652185B6AF00E2A3A2 /* StitchAppClientInfoUnitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchAppClientInfoUnitTests.swift; sourceTree = "<group>"; };
 		498062682185B6AF00E2A3A2 /* CoreStitchPushClientUnitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreStitchPushClientUnitTests.swift; sourceTree = "<group>"; };
@@ -482,10 +480,10 @@
 				498062232185B6A100E2A3A2 /* Models */,
 				4980622B2185B6A100E2A3A2 /* StitchAuthRequestClient.swift */,
 				4980622C2185B6A100E2A3A2 /* CoreStitchAuth.swift */,
+				498062302185B6A100E2A3A2 /* CoreStitchAuth+StitchAuthRequestClient.swift */,
 				4980622D2185B6A100E2A3A2 /* StitchJWT.swift */,
 				4980622E2185B6A100E2A3A2 /* CoreStitchUser.swift */,
 				4980622F2185B6A100E2A3A2 /* AuthInfo.swift */,
-				498062302185B6A100E2A3A2 /* CoreStitchAuth+StitchAuthRequestClient.swift */,
 				498062312185B6A100E2A3A2 /* AuthStateHolder.swift */,
 			);
 			path = Internal;
@@ -518,13 +516,16 @@
 		498062372185B6A100E2A3A2 /* Net */ = {
 			isa = PBXGroup;
 			children = (
+				4980623D2185B6A100E2A3A2 /* Requests */,
 				498DF592219F7451009F1B3F /* NetworkMonitor.swift */,
-				498062382185B6A100E2A3A2 /* StitchRequestClient.swift */,
+				49AD953021B741DC002D8E05 /* RawSSE.swift */,
+				491A934A21B323AB00F60F59 /* RawSSEStream.swift */,
 				498062392185B6A100E2A3A2 /* Transport.swift */,
 				4980623A2185B6A100E2A3A2 /* FoundationHTTPTransport.swift */,
+				491A934E21B3248500F60F59 /* FoundationHTTPSSEStream.swift */,
+				498062382185B6A100E2A3A2 /* StitchRequestClient.swift */,
 				4980623B2185B6A100E2A3A2 /* Headers.swift */,
 				4980623C2185B6A100E2A3A2 /* StitchAppRoutes.swift */,
-				4980623D2185B6A100E2A3A2 /* Requests */,
 				498062432185B6A100E2A3A2 /* Method.swift */,
 				498062442185B6A100E2A3A2 /* ContentType.swift */,
 			);
@@ -675,7 +676,8 @@
 		498062622185B6AF00E2A3A2 /* Net */ = {
 			isa = PBXGroup;
 			children = (
-				498062632185B6AF00E2A3A2 /* FoundationHTTPTransportUnitTests.swift */,
+				49AD952E21B729FE002D8E05 /* FoundationHTTPTransportIntTests.swift */,
+				491A935221B334A200F60F59 /* FoundationHTTPEventStreamUnitTests.swift */,
 				498062642185B6AF00E2A3A2 /* StitchRequestClientUnitTests.swift */,
 			);
 			path = Net;
@@ -960,6 +962,11 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-StitchCoreSDKTests/Pods-StitchCoreSDKTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/MongoSwift/MongoSwift.framework",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework.dSYM",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework.dSYM",
 				"${BUILT_PRODUCTS_DIR}/JSONWebToken/JWT.framework",
 				"${BUILT_PRODUCTS_DIR}/Swifter/Swifter.framework",
 			);
@@ -967,6 +974,11 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MongoSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/bson.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/bson.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongoc.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/mongoc.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JWT.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Swifter.framework",
 			);
@@ -987,7 +999,9 @@
 				498062812185B6BC00E2A3A2 /* ProviderCapabilities.swift in Sources */,
 				498062822185B6BC00E2A3A2 /* StitchProviderType.swift in Sources */,
 				498062832185B6BC00E2A3A2 /* AnonymousCredential.swift in Sources */,
+				491A934F21B3248500F60F59 /* FoundationHTTPSSEStream.swift in Sources */,
 				498062842185B6BC00E2A3A2 /* AnonymousAuthProvider.swift in Sources */,
+				491A934B21B323AB00F60F59 /* RawSSEStream.swift in Sources */,
 				498062852185B6BC00E2A3A2 /* GoogleAuthProvider.swift in Sources */,
 				498062862185B6BC00E2A3A2 /* GoogleCredential.swift in Sources */,
 				498062872185B6BC00E2A3A2 /* CoreAuthProviderClient.swift in Sources */,
@@ -1009,6 +1023,7 @@
 				498062972185B6BC00E2A3A2 /* CoreStitchUserImpl.swift in Sources */,
 				498062982185B6BC00E2A3A2 /* AccessTokenRefresher.swift in Sources */,
 				498062992185B6BC00E2A3A2 /* StoreCoreUserProfile.swift in Sources */,
+				49AD953121B741DC002D8E05 /* RawSSE.swift in Sources */,
 				4980629A2185B6BC00E2A3A2 /* APIAccessToken.swift in Sources */,
 				4980629B2185B6BC00E2A3A2 /* StoreStitchUserIdentity.swift in Sources */,
 				4980629C2185B6BC00E2A3A2 /* APIStitchUserIdentity.swift in Sources */,
@@ -1056,14 +1071,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				491A935321B334A200F60F59 /* FoundationHTTPEventStreamUnitTests.swift in Sources */,
 				498062752185B6AF00E2A3A2 /* AccessTokenRefresherUnitTests.swift in Sources */,
 				498062712185B6AF00E2A3A2 /* CoreUserPasswordAuthProviderClientUnitTests.swift in Sources */,
-				498062762185B6AF00E2A3A2 /* FoundationHTTPTransportUnitTests.swift in Sources */,
 				498062772185B6AF00E2A3A2 /* StitchRequestClientUnitTests.swift in Sources */,
 				498062732185B6AF00E2A3A2 /* CoreStitchAuthUnitTests.swift in Sources */,
 				498062702185B6AF00E2A3A2 /* StitchUserProfileUnitTests.swift in Sources */,
 				498062792185B6AF00E2A3A2 /* CoreStitchPushClientUnitTests.swift in Sources */,
 				498062742185B6AF00E2A3A2 /* StoreAuthInfoUnitTests.swift in Sources */,
+				49AD952F21B729FF002D8E05 /* FoundationHTTPTransportIntTests.swift in Sources */,
 				4980627A2185B6AF00E2A3A2 /* StitchAppClientConfigurationUnitTests.swift in Sources */,
 				498062782185B6AF00E2A3A2 /* StitchAppClientInfoUnitTests.swift in Sources */,
 				4980627D2185B6AF00E2A3A2 /* CoreStitchServiceClientUnitTests.swift in Sources */,

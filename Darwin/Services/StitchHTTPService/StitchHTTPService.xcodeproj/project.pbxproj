@@ -204,6 +204,7 @@
 				118C33AA20C72B7B00D1DE80 /* Frameworks */,
 				118C33AB20C72B7B00D1DE80 /* Resources */,
 				6F0B4FB29F4F1E9992D9B9C1 /* Embed Frameworks */,
+				18DF5A1D40AE90365BF5291B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);

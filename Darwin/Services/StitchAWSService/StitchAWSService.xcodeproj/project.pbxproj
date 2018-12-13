@@ -183,6 +183,7 @@
 				11B54E15211248D80009E0F0 /* Sources */,
 				11B54E16211248D80009E0F0 /* Frameworks */,
 				11B54E17211248D80009E0F0 /* Resources */,
+				C1B23F6197352DBF797D2A3A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);

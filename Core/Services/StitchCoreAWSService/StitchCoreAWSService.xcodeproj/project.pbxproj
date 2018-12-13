@@ -170,6 +170,7 @@
 				498062C72185B7B700E2A3A2 /* Sources */,
 				498062C82185B7B700E2A3A2 /* Frameworks */,
 				498062C92185B7B700E2A3A2 /* Resources */,
+				1B447F2523074A72DF23C0C2 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
