@@ -28,11 +28,9 @@ class XCMongoMobileConfiguration: NSObject, XCTestObservation {
 }
 
 class TestNetworkMonitor: NetworkMonitor {
-    var networkStateListeners = [NetworkStateDelegate]()
+    var state: NetworkState = .connected
 
-    var isConnected: Bool {
-        return true
-    }
+    var networkStateListeners = [NetworkStateDelegate]()
 
     func add(networkStateDelegate listener: NetworkStateDelegate) {
         self.networkStateListeners.append(listener)
@@ -85,6 +83,13 @@ private class TestCaseDataSynchronizer: DataSynchronizer {
         self.deinitializingInstanceKey = instanceKey
 
         let mockServiceClient = MockCoreStitchServiceClient.init()
+        mockServiceClient.streamFunctionMock.doReturn(
+            result: RawSSEStream.init(),
+            forArg1: .any,
+            forArg2: .any,
+            forArg3: .any
+        )
+
         try super.init(
             instanceKey: instanceKey,
             service: mockServiceClient,

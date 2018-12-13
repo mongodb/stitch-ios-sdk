@@ -17,4 +17,9 @@ public final class MockStitchAuthRequestClient: StitchAuthRequestClient {
             fatalError("Returning incorrect type from mocked result")
         }
     }
+
+    public var openAuthenticatedStreamMock = FunctionMockUnitTwoArgs<RawSSEStream, StitchAuthRequest, SSEStreamDelegate?>()
+    public func openAuthenticatedStream(_ stitchReq: StitchAuthRequest, delegate: SSEStreamDelegate? = nil) throws -> RawSSEStream {
+        return try openAuthenticatedStreamMock.throwingRun(arg1: stitchReq, arg2: delegate)
+    }
 }

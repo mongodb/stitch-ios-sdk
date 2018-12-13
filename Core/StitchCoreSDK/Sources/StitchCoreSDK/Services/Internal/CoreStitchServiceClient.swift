@@ -11,4 +11,8 @@ public protocol CoreStitchServiceClient {
     func callFunction(withName name: String, withArgs args: [BSONValue], withRequestTimeout requestTimeout: TimeInterval?) throws
     
     func callFunction<T: Decodable>(withName name: String, withArgs args: [BSONValue], withRequestTimeout requestTimeout: TimeInterval?) throws -> T
+
+    func streamFunction(withName name: String,
+                        withArgs args: [BSONValue],
+                        delegate: SSEStreamDelegate?) throws -> RawSSEStream
 }

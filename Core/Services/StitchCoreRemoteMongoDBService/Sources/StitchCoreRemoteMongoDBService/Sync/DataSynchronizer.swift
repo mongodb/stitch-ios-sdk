@@ -55,6 +55,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     /// The configuration for this sync instance
     internal var syncConfig: InstanceSynchronization
 
+    internal let instanceChangeStreamDelegate: InstanceChangeStreamDelegate
+
     /// Whether or not the DataSynchronizer has been configured
     private(set) var isConfigured = false
     /// Whether or not the sync thread is enabled
@@ -122,6 +124,14 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                                                           errorListener: nil)
         }
 
+        self.instanceChangeStreamDelegate = InstanceChangeStreamDelegate(
+            instanceConfig: syncConfig,
+            service: service,
+            networkMonitor: networkMonitor,
+            authMonitor: authMonitor)
+        self.syncConfig.forEach {
+            self.instanceChangeStreamDelegate.append(namespace: $0.config.namespace)
+        }
         self.syncConfig.errorListener = self
         self.networkMonitor.add(networkStateDelegate: self)
 
@@ -256,11 +266,12 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         try localColl.deleteMany([idField: ["$nin": syncedIds] as Document])
     }
 
-    public func onNetworkStateChanged() {
-        if (!self.networkMonitor.isConnected) {
-            self.stop()
-        } else {
+    public func on(stateChangedFor state: NetworkState) {
+        switch state {
+        case .connected:
             self.start()
+        case .disconnected:
+            self.stop()
         }
     }
 
@@ -1104,11 +1115,13 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
             guard nsConfig.count > 0,
                 nsConfig.isConfigured else {
-                    // TODO STITCH-2217: removeNamespace
+                    instanceChangeStreamDelegate.remove(namespace: namespace)
                     return
             }
 
-            // TODO STITCH-2217: addNamespace, stop, start
+            instanceChangeStreamDelegate.append(namespace: namespace)
+            instanceChangeStreamDelegate.stop(namespace: namespace)
+            try instanceChangeStreamDelegate.start(namespace: namespace)
         } catch {
             log.e("t='\(logicalT)': triggerListeningToNamespace ns=\(namespace) exception: \(error)")
         }

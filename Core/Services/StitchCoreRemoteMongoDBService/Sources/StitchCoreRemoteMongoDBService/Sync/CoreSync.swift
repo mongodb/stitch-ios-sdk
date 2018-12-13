@@ -8,7 +8,7 @@ public final class CoreSync<DocumentT: Codable> {
     /// The namespace of the collection.
     private let namespace: MongoNamespace
     /// The dataSynchronizer from the RemoteCollection.
-    private let dataSynchronizer: DataSynchronizer
+    internal let dataSynchronizer: DataSynchronizer
     /// Lazily initialized encoder for T
     private lazy var encoder = BSONEncoder()
 
