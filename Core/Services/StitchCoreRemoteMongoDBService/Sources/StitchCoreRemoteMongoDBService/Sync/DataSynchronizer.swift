@@ -193,7 +193,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
     func doSyncPass() throws -> Bool {
         defer { syncLock.unlock() }
-        guard isConfigured, syncLock.tryReadLock() else {
+        guard isConfigured, syncLock.readLock() else {
             return false
         }
 
@@ -605,7 +605,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
                         // a. Insert document into remote database
                         do {
-                            try remoteColl.insertOne(
+                            _ = try remoteColl.insertOne(
                                 DataSynchronizer.withNewVersion(document: localChangeEvent.fullDocument!,
                                                                 newVersion: nextVersion!))
 
@@ -668,7 +668,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
                     // 3. UPDATE
                     case .update:
-                        guard let localDoc = localDoc else {
+                        guard localDoc != nil else {
                             self.emitError(
                                 docConfig: &docConfig,
                                 error: DataSynchronizerError(
@@ -1876,7 +1876,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      - parameter namespace: namespace to listen to
      */
     private func triggerListening(to namespace: MongoNamespace) {
-        syncLock.writeLock()
+        syncLock.tryWriteLock()
         defer { syncLock.unlock() }
         do {
             guard let nsConfig = self.syncConfig[namespace] else {

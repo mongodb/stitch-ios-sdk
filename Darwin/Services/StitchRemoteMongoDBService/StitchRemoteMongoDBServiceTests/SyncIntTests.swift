@@ -472,6 +472,96 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         XCTAssertEqual(expectedDocument, withoutSyncVersion(remote.findOne(doc1Filter)!))
     }
 
+    func testUpdateLocalWins() throws {
+        let streamJoiner = StreamJoiner()
+        let (remoteColl, coll) = remoteCollAndSync()
+
+        // insert a new document remotely
+        var docToInsert = ["hello": "world"] as Document
+        docToInsert["foo"] = 1
+        remoteColl.insertOne(docToInsert)
+
+        // find the document we just inserted
+        let doc = remoteColl.findOne(docToInsert)!
+        let doc1Id = doc["_id"]!
+        let doc1Filter = ["_id": doc1Id] as Document
+
+        // configure Sync to resolve conflicts with local winning,
+        // synchronize the document, and stream events and do a sync pass
+        coll.configure(conflictHandler: DefaultConflictHandlers.localWins.resolveConflict)
+        coll.sync(ids: [doc1Id])
+        try streamAndSync(coll, streamJoiner: streamJoiner)
+
+        // update the document remotely while watching for an update
+        var expectedDocument = doc
+        let result = remoteColl.updateOne(filter: doc1Filter, update: withNewSyncVersionSet(["$inc": ["foo": 2] as Document]))
+        try watch(streamJoiner, forEvents: 1)
+        // once the event has been stored,
+        // fetch the remote document and assert that it has properly updated
+        XCTAssertEqual(1, result.matchedCount)
+        expectedDocument["foo"] = 3
+        XCTAssertEqual(expectedDocument, withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
+
+        // update the local collection.
+        // the count field locally should be 2
+        // the count field remotely should be 3
+        let localResult = coll.updateOne(filter: doc1Filter, update: ["$inc": ["foo": 1] as Document ])
+        XCTAssertEqual(1, localResult?.matchedCount)
+        expectedDocument["foo"] = 2
+        XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter))
+
+        // sync the collection. the local document should be accepted
+        // and this resolution should be reflected locally and remotely
+        try streamAndSync(coll, streamJoiner: streamJoiner)
+        expectedDocument["foo"] = 2
+        XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter))
+        try streamAndSync(coll, streamJoiner: streamJoiner)
+        XCTAssertEqual(expectedDocument, withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
+    }
+
+    func testDeleteOneByIdNoConflict() throws {
+        let streamJoiner = StreamJoiner()
+        let (remoteColl, coll) = remoteCollAndSync()
+
+        // insert a document remotely
+        let docToInsert = ["hello": "world"] as Document
+        remoteColl.insertOne(docToInsert)
+
+        // find the document we just inserted
+        var doc = remoteColl.findOne(docToInsert)!
+        let doc1Id = doc["_id"]!
+        let doc1Filter = ["_id": doc1Id] as Document
+
+        // configure Sync to fail this test if a conflict occurs.
+        // sync on the id, and do a sync pass
+        coll.configure(conflictHandler: { (_, _, _) -> Document? in
+            fatalError()
+        }, changeEventDelegate: nil, errorListener: { (error, _) in
+            fatalError(error.localizedDescription)
+        })
+        coll.sync(ids: [doc1Id])
+        try streamAndSync(coll, streamJoiner: streamJoiner)
+
+        // go offline to avoid processing events.
+        // delete the document locally
+        stopSync(coll, streamJoiner: streamJoiner)
+        let result = coll.deleteOne(doc1Filter)
+        XCTAssertEqual(1, result?.deletedCount)
+
+        // assert that, while the remote document remains
+        let expectedDocument = withoutSyncVersion(doc)
+        XCTAssertEqual(expectedDocument, withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
+        XCTAssertNil(coll.findOne(doc1Filter))
+
+        // go online to begin the syncing process.
+        // when syncing, our local delete will be synced to the remote.
+        // assert that this is reflected remotely and locally
+        goOnline()
+        try streamAndSync(coll, streamJoiner: streamJoiner)
+        XCTAssertNil(remoteColl.findOne(doc1Filter))
+        XCTAssertNil(coll.findOne(doc1Filter))
+    }
+
     func testInsertThenSyncThenRemoveThenInsertThenUpdate() throws {
         let streamJoiner = StreamJoiner()
 
