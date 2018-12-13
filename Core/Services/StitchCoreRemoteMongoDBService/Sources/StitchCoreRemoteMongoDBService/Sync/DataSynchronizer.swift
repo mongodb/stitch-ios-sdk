@@ -23,6 +23,8 @@ extension DeleteResult {
     }
 }
 
+private let idField = "_id"
+
 /**
  DataSynchronizer handles the bidirectional synchronization of documents between a local MongoDB
  and a remote MongoDB (via Stitch). It also expose CRUD operations to interact with synchronized
@@ -179,12 +181,12 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         // Replace local docs with undo docs. Presence of an undo doc implies we had a system failure
         // during a write. This covers updates and deletes.
         let recoveredIdsArr: [HashableBSONValue] = try undoColl.find().compactMap { undoDoc -> HashableBSONValue? in
-            guard let documentId = undoDoc["_id"] else {
+            guard let documentId = undoDoc[idField] else {
                 // this should never happen, but we'll ignore the document if it does
                 return nil
             }
 
-            let filter = DataSynchronizer.documentIdFilter(forId: documentId)
+            let filter = [idField: documentId] as Document
 
             try localColl.findOneAndReplace(
                 filter: filter,
@@ -205,7 +207,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         // document.
         try nsConfig.syncedDocuments.forEach { (hashableDocumentId, docConfig) in
             let documentId = hashableDocumentId.bsonValue.value
-            let filter = DataSynchronizer.documentIdFilter(forId: documentId)
+            let filter = [idField: documentId] as Document
 
             guard recoveredIds.contains(hashableDocumentId) else {
                 return
@@ -216,11 +218,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             }
 
             switch pendingWrite.operationType {
-            case .insert:
-                fallthrough
-            case .replace:
-                fallthrough
-            case .update:
+            case .insert, .replace, .update:
                 guard let fullDoc = pendingWrite.fullDocument else {
                     // should not happen, but ignore the document if the event is malformed
                     break
@@ -245,7 +243,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         // their desired state, that's okay because the next recovery pass will be effectively a no-op
         // up to this point.
         try recoveredIdsArr.forEach({ hashableRecoveredId in
-            try undoColl.deleteOne(DataSynchronizer.documentIdFilter(forId: hashableRecoveredId.bsonValue.value))
+            try undoColl.deleteOne([idField: hashableRecoveredId.bsonValue.value])
         })
 
         // Find local documents for which there are no document configs and delete them. This covers
@@ -255,7 +253,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         let syncedIds = nsConfig.syncedDocuments.map { (hashableDocId, _) -> BSONValue in
             return hashableDocId.bsonValue.value
         }
-        try localColl.deleteMany(["_id": ["$nin": syncedIds] as Document])
+        try localColl.deleteMany([idField: ["$nin": syncedIds] as Document])
     }
 
     public func onNetworkStateChanged() {
@@ -672,7 +670,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             return DeleteResult(deletedCount: 0)
         }
 
-        guard let documentId = docToDelete["_id"],
+        guard let documentId = docToDelete[idField],
               var docConfig = nsConfig[documentId] else {
             return DeleteResult(deletedCount: 0)
         }
@@ -692,13 +690,13 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
            uncommittedEvent.operationType == OperationType.insert {
 
             desync(ids: [docConfig.documentId.value], in: docConfig.namespace)
-            try undoColl.deleteOne(DataSynchronizer.documentIdFilter(forId: docConfig.documentId.value))
+            try undoColl.deleteOne([idField: docConfig.documentId.value])
             return result
         }
 
         try docConfig.setSomePendingWrites(atTime: logicalT, changeEvent: event)
 
-        try undoColl.deleteOne(DataSynchronizer.documentIdFilter(forId: docConfig.documentId.value))
+        try undoColl.deleteOne([idField: docConfig.documentId.value])
 
         deferredEventEmittingBlock = {
             self.emitEvent(documentId: documentId, event: event)
@@ -735,7 +733,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
         let idsToDelete = try localColl.find(filter).compactMap { doc -> BSONValue? in
             try undoColl.insertOne(doc)
-            return doc["_id"]
+            return doc[idField]
         }
 
         let result = try localColl.deleteMany(filter, options: options)
@@ -755,12 +753,12 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             if let uncommittedEvent = docConfig.uncommittedChangeEvent,
                 uncommittedEvent.operationType == OperationType.insert {
                 desync(ids: [docConfig.documentId.value], in: docConfig.namespace)
-                try undoColl.deleteOne(DataSynchronizer.documentIdFilter(forId: documentId))
+                try undoColl.deleteOne([idField: documentId])
                 return nil
             }
 
             try docConfig.setSomePendingWrites(atTime: logicalT, changeEvent: event)
-            try undoColl.deleteOne(DataSynchronizer.documentIdFilter(forId: documentId))
+            try undoColl.deleteOne([idField: documentId])
             return { self.emitEvent(documentId: documentId, event: event) }
         }
 
@@ -827,10 +825,10 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                                                   collation: options?.collation,
                                                   returnDocument: .after,
                                                   upsert: options?.upsert)),
-            let documentId = unsanitizedDocumentAfterUpdate["_id"] else {
+            let documentId = unsanitizedDocumentAfterUpdate[idField] else {
 
-            if let documentIdBeforeUpdate = documentBeforeUpdate?["_id"] {
-                try undoColl.deleteOne(DataSynchronizer.documentIdFilter(forId: documentIdBeforeUpdate))
+            if let documentIdBeforeUpdate = documentBeforeUpdate?[idField] {
+                try undoColl.deleteOne([idField: documentIdBeforeUpdate])
             }
 
             return nil
@@ -861,7 +859,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             // so we can swallow this update
             guard let docConfig = nsConfig[documentId],
                 let documentBeforeUpdate = documentBeforeUpdate,
-                let documentId = documentAfterUpdate["_id"] else {
+                let documentId = documentAfterUpdate[idField] else {
                 return nil
             }
             config = docConfig
@@ -875,8 +873,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
         try config.setSomePendingWrites(atTime: logicalT, changeEvent: event)
 
-        if let documentIdBeforeUpdate = documentBeforeUpdate?["_id"] {
-            try undoColl.deleteOne(DataSynchronizer.documentIdFilter(forId: documentIdBeforeUpdate))
+        if let documentIdBeforeUpdate = documentBeforeUpdate?[idField] {
+            try undoColl.deleteOne([idField: documentIdBeforeUpdate])
         }
 
         deferredEventEmittingBlock = {
@@ -931,10 +929,10 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         // inserted between the prior find
         let ids = try beforeDocuments.compactMap({ (beforeDoc: Document) -> BSONValue? in
             try undoColl.insertOne(beforeDoc)
-            return beforeDoc["_id"]
+            return beforeDoc[idField]
         })
         var updatedFilter = (options?.upsert ?? false) ? filter :
-            ["_id": ["$in": ids] as Document] as Document
+            [idField: ["$in": ids] as Document] as Document
 
         // do the bulk write
         let result = try localCollection.updateMany(filter: updatedFilter,
@@ -944,7 +942,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         // if this was an upsert, create the post-update filter using
         // the upserted id.
         if let upsertedId = result?.upsertedId {
-            updatedFilter = DataSynchronizer.documentIdFilter(forId: upsertedId.value)
+            updatedFilter = [idField: upsertedId.value]
         }
 
         let upsert = options?.upsert ?? false
@@ -953,12 +951,12 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             try localCollection.find(updatedFilter).compactMap { unsanitizedAfterDocument in
             // get the id of the after-update document, and fetch the before-update
             // document from the map we created from our pre-update `find`
-            guard let documentId = unsanitizedAfterDocument["_id"] else {
+            guard let documentId = unsanitizedAfterDocument[idField] else {
                 return nil
             }
 
             let beforeDocument = beforeDocuments.first(where: {
-                bsonEquals($0["_id"], documentId)
+                bsonEquals($0[idField], documentId)
             })
 
             // if there was no before-update document and this was not an upsert,
@@ -980,7 +978,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             // if the document before the update is the same as the updated doc,
             // assume it was not modified and take no further action
             if afterDocument == beforeDocument {
-                try undoColl.deleteOne(DataSynchronizer.documentIdFilter(forId: documentId))
+                try undoColl.deleteOne([idField: documentId])
                 return nil
             }
 
@@ -1009,7 +1007,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             }
 
             try config.setSomePendingWrites(atTime: logicalT, changeEvent: event)
-            try undoColl.deleteOne(DataSynchronizer.documentIdFilter(forId: documentId))
+            try undoColl.deleteOne([idField: documentId])
             return event
         }
 
@@ -1118,10 +1116,6 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
     // MARK: Utilities
 
-    private static func documentIdFilter(forId id: BSONValue) -> Document {
-        return ["_id": id] as Document
-    }
-
     /**
      Given a BSON document, remove any forbidden fields and return the document. If no changes are
      made, the original document reference is returned. If changes are made, a cloned copy of the
@@ -1160,7 +1154,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
         let clonedDoc = sanitizeDocument(document)
 
-        try localCollection.findOneAndUpdate(filter: DataSynchronizer.documentIdFilter(forId: documentId),
+        try localCollection.findOneAndUpdate(filter: [idField: documentId],
                                              update: ["$unset": [DOCUMENT_VERSION_FIELD: 1] as Document])
         return clonedDoc
     }
