@@ -107,7 +107,6 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
         defer { eventQueueLock.unlock() }
 
         do {
-
             guard let changeEvent: ChangeEvent<Document> = try event.decodeStitchSSE(),
                 let id = changeEvent.documentKey["_id"] else {
                 return
@@ -119,7 +118,8 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
             self.eventsKeyedQueue[HashableBSONValue(id)] = changeEvent
 
         } catch {
-            logger.e("error occurred: err=\(error.localizedDescription)")
+            logger.e("error occurred when decoding event from stream: err=\(error.localizedDescription)")
+
             self.stop()
         }
     }
@@ -149,7 +149,6 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
         default:
             logger.d("stream \(state)")
         }
-
         streamDelegates.forEach({$0.on(stateChangedFor: state)})
     }
 

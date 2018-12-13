@@ -30,7 +30,7 @@ public protocol StitchRequestClient {
     func doRequest(_ stitchReq: StitchRequest) throws -> Response
 
     /**
-     Requests that a new stream be open against the StitchServer
+     Requests that a new stream be open against the Stitch server
 
      - returns: a new stream
     */

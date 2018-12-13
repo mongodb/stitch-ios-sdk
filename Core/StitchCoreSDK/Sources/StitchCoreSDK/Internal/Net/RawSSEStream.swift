@@ -36,12 +36,12 @@ open class RawSSEStream {
             delegate?.on(stateChangedFor: state)
         }
     }
-    
+
     public weak var delegate: SSEStreamDelegate? = nil
     public var dataBuffer = Data()
 
     private var stringBuffer: String = ""
-    private var eventName: String = ""
+    private var eventNameBuffer: String = ""
 
     public init(_ delegate: SSEStreamDelegate? = nil) {
         self.delegate = delegate
@@ -74,7 +74,7 @@ open class RawSSEStream {
         // If the field name is "event"
         switch (field) {
         case "event":
-            eventName = value
+            eventNameBuffer = value
             break
         // If the field name is "data"
         case "data":
@@ -101,8 +101,7 @@ open class RawSSEStream {
     }
 
     /**
-     Process the next event in a given stream.
-     - returns: the fully processed event
+     Process and dispatch the events in a given stream.
      */
     internal func dispatchEvents() {
         while state == .open, let line = self.readLine() {
@@ -111,7 +110,7 @@ open class RawSSEStream {
                 // If the data buffer is an empty string, set the data buffer and the event name buffer to
                 // the empty string and abort these steps.
                 if (stringBuffer.count == 0) {
-                    eventName = ""
+                    eventNameBuffer = ""
                     continue
                 }
 
@@ -119,13 +118,13 @@ open class RawSSEStream {
                 // set the data buffer and the event name buffer to the empty string and abort these steps.
                 // NOT IMPLEMENTED
                 do {
-                    guard let sse = try RawSSE.init(rawData: String(stringBuffer.dropLast()), eventName: eventName) else {
+                    guard let sse = try RawSSE.init(rawData: String(stringBuffer.dropLast()), eventName: eventNameBuffer) else {
                         continue
                     }
 
                     delegate?.on(newEvent: sse)
                     stringBuffer = ""
-                    eventName = ""
+                    eventNameBuffer = ""
                 } catch {
                     delegate?.on(error: error)
                     return

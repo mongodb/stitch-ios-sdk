@@ -1085,7 +1085,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
         sync.find(filter: ["hello": "computer"], options: nil, joiner.capture())
         guard let cursor = joiner.value(asType: MongoCursor<Document>.self),
-            let actualDoc = cursor.next()else {
+            let actualDoc = cursor.next() else {
             XCTFail("documents not found")
             return
         }
@@ -1124,8 +1124,8 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
         guard let cursor = joiner.value(asType: MongoCursor<Document>.self),
             let actualDoc = cursor.next() else {
-            XCTFail("docs not inserted")
-            return
+                XCTFail("docs not inserted")
+                return
         }
 
         XCTAssertNil(actualDoc["a"])
@@ -1157,8 +1157,8 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
         guard let cursor = joiner.value(asType: MongoCursor<Document>.self),
             let actualDoc = cursor.next() else {
-            XCTFail("doc was not inserted")
-            return
+                XCTFail("doc was not inserted")
+                return
         }
 
         XCTAssertEqual("b", actualDoc["a"] as? String)
@@ -1195,8 +1195,8 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
                   joiner.capture())
         guard let cursor = joiner.capturedValue as? MongoCursor<Document>,
             let actualDoc = cursor.next() else {
-            XCTFail("doc was not inserted")
-            return
+                XCTFail("doc was not inserted")
+                return
         }
 
         XCTAssertEqual("b", actualDoc["a"] as? String)
@@ -1255,8 +1255,8 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
         guard let cursor = joiner.value(asType: MongoCursor<Document>.self),
             let actualDoc = cursor.next() else {
-            XCTFail("doc was not inserted")
-            return
+                XCTFail("doc was not inserted")
+                return
         }
 
         XCTAssertEqual("b", actualDoc["a"] as? String)
@@ -1320,58 +1320,6 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         }
     }
 
-    struct FooIter: Codable {
-        var foo = 42
-    }
-
-//    func testSync_ChangeStreamDelegates() {
-//        let coll = getTestColl()
-//        let sync = coll.sync
-//        sync.configure(conflictHandler: { _, _, rDoc in rDoc.fullDocument },
-//                       changeEventDelegate: { _, _ in },
-//                       errorListener: { _, _ in })
-//
-//        let joiner = CallbackJoiner()
-//        let doc = FooIter()
-//        coll.withCollectionType(FooIter.self).insertOne(doc, joiner.capture())
-//
-//        guard let insertOneResult = joiner.value(asType: RemoteInsertOneResult.self) else {
-//            XCTFail("could not insert")
-//            return
-//        }
-//
-//        let iCSDel = sync.proxy
-//            .dataSynchronizer
-//            .instanceChangeStreamDelegate
-//
-//        let ns = MongoNamespace.init(databaseName: dbName, collectionName: collName)
-//
-//        sync.sync(ids: [insertOneResult.insertedId])
-//
-//        let nsChangeStreamDelegate = iCSDel[ns]
-//        let streamJoiner = StreamJoiner()
-//        nsChangeStreamDelegate?.add(streamDelegate: streamJoiner)
-//        streamJoiner.wait(forState: .open)
-//
-//        for i in 0 ..< 10 {
-//            coll.updateOne(filter: ["_id": insertOneResult.insertedId] as Document,
-//                           update: ["$set": ["foo": i] as Document] as Document,
-//                           options: nil,
-//                           joiner.capture())
-//
-//            guard let updateResult = joiner.value(asType: RemoteUpdateResult.self) else {
-//                XCTFail("could not update")
-//                return
-//            }
-//
-//            XCTAssertEqual(updateResult.modifiedCount, 1)
-//            streamJoiner.wait(forEvents: 1)
-//
-////            XCTAssertEqual(i, streamJoiner.events.removeFirst().fullDocument?["foo"])
-//        }
-//
-//        nsChangeStreamDelegate?.stop()
-//        streamJoiner.wait(forState: .closed)
     func testSync_deleteOne() throws {
         let coll = getTestColl()
         let sync = coll.sync

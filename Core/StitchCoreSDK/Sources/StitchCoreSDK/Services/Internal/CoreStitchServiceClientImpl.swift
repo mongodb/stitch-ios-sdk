@@ -5,7 +5,7 @@ private let nameField = "name"
 private let serviceField = "service"
 private let argumentsField = "arguments"
 
-private let stitchRequestField = "?stitch_request="
+private let stitchRequestQueryParam = "?stitch_request="
 
 open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
     private let requestClient: StitchAuthRequestClient
@@ -24,12 +24,12 @@ open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
                                                withArgs args: [BSONValue],
                                                withTimeout timeout: TimeInterval?) throws -> StitchAuthDocRequest {
         var body: Document = [
-            "name": name,
-            "arguments": args
+            nameField: name,
+            argumentsField: args
         ]
         
         if let serviceName = self.serviceName {
-            body["service"] = serviceName
+            body[serviceField] = serviceName
         }
         
         let reqBuilder =
@@ -49,19 +49,19 @@ open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
         name: String,
         args: [BSONValue]) throws -> StitchAuthRequest {
         var body = [
-            "name": name,
-            "arguments": args
+            nameField: name,
+            argumentsField: args
         ] as Document
 
         if let serviceName = self.serviceName {
-            body["service"] = serviceName
+            body[serviceField] = serviceName
         }
 
         let reqBuilder =
             StitchAuthRequestBuilder()
                 .with(method: .get)
                 .with(path: self.serviceRoutes.functionCallRoute +
-                    stitchRequestField +
+                    stitchRequestQueryParam +
                     body.extendedJSON.data(using: .utf8)!.base64EncodedString())
 
         return try reqBuilder.build()

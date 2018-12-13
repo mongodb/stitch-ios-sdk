@@ -1890,7 +1890,6 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             }
 
             instanceChangeStreamDelegate.append(namespace: namespace)
-            // TODO : Add waiting restart method
             instanceChangeStreamDelegate.stop(namespace: namespace)
             try instanceChangeStreamDelegate.start(namespace: namespace)
         } catch {
