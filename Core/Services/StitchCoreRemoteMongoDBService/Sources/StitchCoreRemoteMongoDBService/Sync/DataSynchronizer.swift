@@ -460,7 +460,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         //     fetch the latest version (this is to guard against the case where the unprocessed
         //     change event is stale).
         guard let newestRemoteDocument: Document = try self.remoteCollection(for: nsConfig.config.namespace)
-            .find(["_id", docConfig.documentId.value]).first() else {
+            .find(["_id": docConfig.documentId.value]).first() else {
                 // i. If the document is not found with a remote lookup, this means the document was
                 //    deleted remotely, so raise a conflict using a synthesized delete event as the remote
                 //    change event.
@@ -926,10 +926,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             || (remoteEvent.fullDocument != nil
                 && remoteEvent.fullDocument == resolvedDocument)
 
-        // a. If the resolved document is nil:
+        // a. If the resolved document is not nil:
         if let docForStorage = resolvedDocument {
-            // b. If the resolved document is not null:
-
             // Update the document locally which will keep the pending writes but with
             // a new version next time around.
             logger.i(
@@ -955,6 +953,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                     atVersion: remoteVersion,
                     remoteEvent: remoteEvent)
             }
+            // b. If the resolved document is not null:
         } else {
             logger.i(
                 "t='\(docConfig.documentId)': resolveConflict ns=\(namespace) documentId=\(documentId) deleting local and remote with remote "
