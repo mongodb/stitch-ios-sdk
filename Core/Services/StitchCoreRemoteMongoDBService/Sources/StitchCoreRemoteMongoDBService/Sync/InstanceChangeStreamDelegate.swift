@@ -13,7 +13,7 @@ class InstanceChangeStreamDelegate {
     /// A mapping of of change stream delegates keyed on namespaces
     private var namespaceToStreamDelegates = [MongoNamespace: NamespaceChangeStreamDelegate]()
     
-    init(instanceConfig: inout InstanceSynchronization,
+    init(instanceConfig: InstanceSynchronization,
          service: CoreStitchServiceClient,
          networkMonitor: NetworkMonitor,
          authMonitor: AuthMonitor) {
@@ -37,7 +37,7 @@ class InstanceChangeStreamDelegate {
 
         self.namespaceToStreamDelegates[namespace] = NamespaceChangeStreamDelegate(
             namespace: namespace,
-            config: &nsConfig,
+            config: nsConfig,
             service: service,
             networkMonitor: networkMonitor,
             authMonitor: authMonitor)

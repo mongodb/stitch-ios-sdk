@@ -26,7 +26,7 @@ internal func docConfigFilter(forNamespace namespace: MongoNamespace,
  Configurations are stored both persistently and in memory, and should
  always be in sync.
  */
-internal struct CoreDocumentSynchronization: Hashable {
+internal class CoreDocumentSynchronization: Hashable {
     /// The actual configuration to be persisted for this document.
     class Config: Codable, Hashable {
         enum CodingKeys: String, CodingKey {
@@ -212,8 +212,8 @@ internal struct CoreDocumentSynchronization: Hashable {
      - parameter atTime: the time at which the write occurred.
      - parameter changeEvent: the description of the write/change.
      */
-    mutating func setSomePendingWrites(atTime: Int64,
-                                       changeEvent: ChangeEvent<Document>) throws {
+    func setSomePendingWrites(atTime: Int64,
+                              changeEvent: ChangeEvent<Document>) throws {
         // if we were frozen
         if (isPaused) {
             // unfreeze the document due to the local write
@@ -241,9 +241,9 @@ internal struct CoreDocumentSynchronization: Hashable {
      - parameter atVersion:   the version for which the write occurred.
      - parameter changeEvent: the description of the write/change.
      */
-    mutating func setSomePendingWrites(atTime: Int64,
-                                       atVersion: Document?,
-                                       changeEvent: ChangeEvent<Document>) throws {
+    func setSomePendingWrites(atTime: Int64,
+                              atVersion: Document?,
+                              changeEvent: ChangeEvent<Document>) throws {
         docLock.writeLock()
         defer { docLock.unlock() }
 
@@ -264,7 +264,7 @@ internal struct CoreDocumentSynchronization: Hashable {
 
      - parameter atVersion: the version for which the write as completed on
      */
-    mutating func setPendingWritesComplete(atVersion: Document?) throws {
+    func setPendingWritesComplete(atVersion: Document?) throws {
         docLock.writeLock()
         defer { docLock.unlock() }
         self.uncommittedChangeEvent = nil

@@ -26,7 +26,7 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
     }
 
     init(namespace: MongoNamespace,
-         config: inout NamespaceSynchronization,
+         config: NamespaceSynchronization,
          service: CoreStitchServiceClient,
          networkMonitor: NetworkMonitor,
          authMonitor: AuthMonitor) {
