@@ -60,8 +60,8 @@ public class Sync<DocumentT: Codable> {
      Stops synchronizing the given document _ids. Any uncommitted writes will be lost.
      - parameter ids: the _ids of the documents to desynchronize.
      */
-    func desync(ids: [BSONValue]) {
-        self.proxy.desync(ids: ids)
+    func desync(ids: [BSONValue]) throws {
+        try self.proxy.desync(ids: ids)
     }
 
     /**

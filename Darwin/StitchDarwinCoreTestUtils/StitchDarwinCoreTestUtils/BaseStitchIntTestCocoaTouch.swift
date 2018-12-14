@@ -7,22 +7,30 @@ import XCTest
 
 let stitchBaseURLProp = "stitch.baseURL"
 
+private class WeakNetworkStateDelegate {
+    weak var weak: NetworkStateDelegate?
+
+    init(_ weak: NetworkStateDelegate?) {
+        self.weak = weak
+    }
+}
+
 public class TestNetworkMonitor: NetworkMonitor {
-    private var delegates = [NetworkStateDelegate]()
+    private var delegates = [WeakNetworkStateDelegate]()
 
     public var state: NetworkState = .connected
     {
         didSet {
-            delegates.forEach { $0.on(stateChangedFor: state) }
+            delegates.forEach { $0.weak?.on(stateChangedFor: state) }
         }
     }
 
     public func add(networkStateDelegate delegate: NetworkStateDelegate) {
-        delegates.append(delegate)
+        delegates.append(WeakNetworkStateDelegate(delegate))
     }
 
     public func remove(networkStateDelegate delegate: NetworkStateDelegate) {
-        guard let index = delegates.firstIndex(where: { $0 === delegate}) else { return }
+        guard let index = delegates.firstIndex(where: { $0.weak === delegate}) else { return }
         delegates.remove(at: index)
     }
 }

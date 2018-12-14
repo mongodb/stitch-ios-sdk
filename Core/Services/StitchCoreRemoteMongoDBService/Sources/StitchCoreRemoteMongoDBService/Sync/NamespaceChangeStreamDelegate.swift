@@ -39,6 +39,11 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
         networkMonitor.add(networkStateDelegate: self)
     }
 
+    deinit {
+        logger.i("stream DEINITIALIZED")
+        streamDelegates.forEach({$0.on(stateChangedFor: .closed)})
+    }
+
     /**
      Open the event stream.
      */

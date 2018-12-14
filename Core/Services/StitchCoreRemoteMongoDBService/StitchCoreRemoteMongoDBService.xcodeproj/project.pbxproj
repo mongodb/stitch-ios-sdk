@@ -182,10 +182,7 @@
 				498DF58A219F7392009F1B3F /* Log.swift */,
 				498DF58E219F73B4009F1B3F /* CoreSync.swift */,
 				498DF58C219F73AD009F1B3F /* DataSynchronizer.swift */,
-<<<<<<< HEAD
 				499CD19A21BDFDFC00CB4EBF /* DataSynchronizerError.swift */,
-=======
->>>>>>> 173ecbf9e306f7bbaa8d1f7a68f1cf2425fbff2e
 				491A934621B3227400F60F59 /* InstanceChangeStreamDelegate.swift */,
 				491A934821B3234D00F60F59 /* NamespaceChangeStreamDelegate.swift */,
 				4980B12C219A1AA500D6E49C /* InstanceSynchronizationConfig.swift */,

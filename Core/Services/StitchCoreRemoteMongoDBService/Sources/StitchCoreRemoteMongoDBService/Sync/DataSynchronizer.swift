@@ -53,7 +53,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     /// The configuration for this sync instance
     private var syncConfig: InstanceSynchronization
 
-    internal let instanceChangeStreamDelegate: InstanceChangeStreamDelegate
+    internal var instanceChangeStreamDelegate: InstanceChangeStreamDelegate
 
     /// Whether or not the DataSynchronizer has been configured
     private(set) var isConfigured = false
@@ -180,11 +180,15 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         syncLock.writeLock()
         defer { syncLock.unlock() }
 
-        // TODO STITCH-2217 Stop listeners
         if try instancesColl.find().next() == nil {
             throw StitchError.serviceError(withMessage: "expected to find instance configuration",
                                            withServiceErrorCode: .unknown)
         }
+
+        self.instanceChangeStreamDelegate = InstanceChangeStreamDelegate.init(instanceConfig: &syncConfig,
+                                                                              service: service,
+                                                                              networkMonitor: networkMonitor,
+                                                                              authMonitor: authMonitor)
 
         self.syncConfig = try InstanceSynchronization(configDb: configDb, errorListener: self)
         self.isConfigured = false
@@ -398,26 +402,16 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
         // iv. Otherwise, check if the version info of the incoming remote change event is different
         //     from the version of the local document.
-        let lastKnownLocalVersionInfo = try! DocumentVersionInfo.getLocalVersionInfo(docConfig: docConfig)
+        let lastKnownLocalVersionInfo = try DocumentVersionInfo.getLocalVersionInfo(docConfig: docConfig)
 
-        // 1. If both the local document version and the remote change event version are empty, drop
-        //    the event. The absence of a version is effectively a version, and the pending write will
-        //    set a version on the next L2R pass if it’s not a delete.
-        if lastKnownLocalVersionInfo.version == nil && currentRemoteVersionInfo?.version == nil {
-            logger.i(
-                "t='\(logicalT)': syncRemoteChangeEventToLocal ns=\(nsConfig.config.namespace) documentId=\(docConfig.documentId) remote and local have same "
-                    + "empty version but a write is pending; waiting for next L2R pass")
-            return
-        }
-
-        // 2. If either the local document version or the remote change event version are empty, raise
+        // 1. If either the local document version or the remote change event version are empty, raise
         //    a conflict. The absence of a version is effectively a version, and a remote change event
         //    with no version indicates a document that may have been committed by another client not
         //    adhering to the mobile sync protocol.
         if lastKnownLocalVersionInfo.version == nil || currentRemoteVersionInfo?.version == nil {
             logger.i(
                 "t='\(logicalT)': syncRemoteChangeEventToLocal ns=\(nsConfig.config.namespace) documentId=\(docConfig.documentId) remote or local have an "
-                    + "empty version but a write is pending; waiting for next L2R pass")
+                    + "empty version but a write is pending; raising conflict")
             try resolveConflict(namespace: nsConfig.config.namespace,
                                 uncommittedChangeEvent: uncommittedChangeEvent,
                                 remoteEvent: remoteChangeEvent,
@@ -425,7 +419,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             return
         }
 
-        // 3. Check if the GUID of the two versions are the same.
+        // 2. Check if the GUID of the two versions are the same.
         guard let localVersion = lastKnownLocalVersionInfo.version,
             let remoteVersion = currentRemoteVersionInfo?.version else {
                 return
@@ -480,7 +474,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         }
 
         guard let newestRemoteVersionInfo =
-            try! DocumentVersionInfo.getRemoteVersionInfo(remoteDocument: newestRemoteDocument) else {
+            try DocumentVersionInfo.getRemoteVersionInfo(remoteDocument: newestRemoteDocument) else {
                 try desyncDocumentFromRemote(namespace: nsConfig.config.namespace, documentId: docConfig.documentId.value);
                 emitError(docConfig: &docConfig,
                           error: DataSynchronizerError("t='\(logicalT)': syncRemoteChangeEventToLocal ns=\(nsConfig.config.namespace) documentId=\(docConfig.documentId) got a remote "
@@ -560,7 +554,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 var remoteDocumentFetched = false
 
                 let localVersionInfo =
-                    try! DocumentVersionInfo.getLocalVersionInfo(docConfig: docConfig)
+                    try DocumentVersionInfo.getLocalVersionInfo(docConfig: docConfig)
                 var nextVersion: Document?
 
                 // ii. Check if the internal remote change stream listener has an unprocessed event for
@@ -581,7 +575,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
                     // 1. If it does and the version info is different, record that a conflict has occurred.
                     //    Difference is determined if either the GUID is different or the version counter is
-                    //    greater than the local version counter.
+                    //    greater than the local version counter, or if both versions are empty
                     if try !docConfig.hasCommittedVersion(versionInfo: unprocessedEventVersion) {
                         isConflicted = true
                         logger.i(
@@ -908,18 +902,17 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             // would end up deleting it, unless we receive a notification in time.
             remoteVersion = nil
         } else {
-            guard let remoteVersionInfo = try DocumentVersionInfo.getRemoteVersionInfo(remoteDocument: remoteEvent.fullDocument!),
-                let versionDoc = remoteVersionInfo.versionDoc else {
-                    try desyncDocumentFromRemote(namespace: namespace, documentId: documentId)
-                    emitError(docConfig: &docConfig, error: DataSynchronizerError(
-                        "t='\(logicalT)': resolveConflict ns=\(namespace) documentId=\(documentId) got a remote "
-                            + "document that could not have its version info parsed "
-                            + "; dropping the event, and desyncing the document"
-                    ))
-                    return
+            do {
+                remoteVersion = try DocumentVersionInfo.getRemoteVersionInfo(remoteDocument: remoteEvent.fullDocument!)?.versionDoc
+            } catch {
+                try desyncDocumentFromRemote(namespace: namespace, documentId: documentId)
+                emitError(docConfig: &docConfig, error: DataSynchronizerError(
+                    "t='\(logicalT)': resolveConflict ns=\(namespace) documentId=\(documentId) got a remote "
+                        + "document that could not have its version info parsed "
+                        + "; dropping the event, and desyncing the document"
+                ))
+                return
             }
-
-            remoteVersion = versionDoc
         }
 
         let acceptRemote = (remoteEvent.fullDocument == nil && resolvedDocument == nil)
@@ -1191,8 +1184,11 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                     }
 
                     var successful = false
-                    successful = try! dataSync.doSyncPass()
-
+                    do {
+                        successful = try dataSync.doSyncPass()
+                    } catch {
+                        self?.on(error: error, forDocumentId: nil, in: nil)
+                    }
                     if (successful) {
                         sleep(DataSynchronizer.shortSleepSeconds)
                     } else {
@@ -1248,16 +1244,10 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
      - parameter ids: the _ids of the documents to desynchronize.
      */
-    func desync(ids: [BSONValue], in namespace: MongoNamespace) {
-        ids.forEach { id in
-            guard var namespace = syncConfig[namespace] else {
-                return
-            }
-
-            namespace[id] = nil
+    func desync(ids: [BSONValue], in namespace: MongoNamespace) throws {
+        try ids.forEach { id in
+            try desyncDocumentFromRemote(namespace: namespace, documentId: id)
         }
-
-        self.triggerListening(to: namespace)
     }
 
     /**
@@ -1524,7 +1514,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         if let uncommittedEvent = docConfig.uncommittedChangeEvent,
            uncommittedEvent.operationType == OperationType.insert {
 
-            desync(ids: [docConfig.documentId.value], in: docConfig.namespace)
+            try desync(ids: [docConfig.documentId.value], in: docConfig.namespace)
             return result
         }
 
@@ -1578,7 +1568,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             if let uncommittedEvent = docConfig.uncommittedChangeEvent,
                 uncommittedEvent.operationType == OperationType.insert {
 
-                desync(ids: [docConfig.documentId.value], in: docConfig.namespace)
+                try desync(ids: [docConfig.documentId.value], in: docConfig.namespace)
                 return nil
             }
 
@@ -1954,7 +1944,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      * @param <T>         the type documents in the collection.
      * @return the remote collection representing the given namespace.
      */
-    private func remoteCollection<T>(for namespace: MongoNamespace) -> CoreRemoteMongoCollection<T> {
+    private func remoteCollection<T: Codable>(for namespace: MongoNamespace,
+                                              withType type: T.Type = T.self) -> CoreRemoteMongoCollection<T> {
         return remoteClient
             .db(namespace.databaseName)
             .collection(namespace.collectionName, withCollectionType: T.self)

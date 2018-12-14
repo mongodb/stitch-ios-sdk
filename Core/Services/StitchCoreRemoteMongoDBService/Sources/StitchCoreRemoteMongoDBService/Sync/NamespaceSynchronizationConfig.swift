@@ -244,7 +244,7 @@ internal struct NamespaceSynchronization: Sequence {
         nsLock.tryWriteLock()
         defer { nsLock.unlock() }
         try docsColl.updateMany(
-            filter: ["namespace": config.namespace.description],
+            filter: ["namespace": try BSONEncoder().encode(config.namespace)],
             update: ["$set": [
                 CoreDocumentSynchronization.Config.CodingKeys.isStale.rawValue: true
             ] as Document])

@@ -62,8 +62,8 @@ public final class CoreSync<DocumentT: Codable> {
      Stops synchronizing the given document _ids. Any uncommitted writes will be lost.
      - parameter ids: the _ids of the documents to desynchronize.
      */
-    public func desync(ids: [BSONValue]) {
-        self.dataSynchronizer.desync(ids: ids, in: namespace)
+    public func desync(ids: [BSONValue]) throws {
+        try self.dataSynchronizer.desync(ids: ids, in: namespace)
     }
 
     /**

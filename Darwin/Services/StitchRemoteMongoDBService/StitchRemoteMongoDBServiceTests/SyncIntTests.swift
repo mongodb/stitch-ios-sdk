@@ -178,6 +178,9 @@ private class SyncTestContext {
 
     func powerCycleDevice() throws {
         try remoteCollAndSync.1.proxy.dataSynchronizer.reloadConfig()
+        if streamJoiner.streamState != nil {
+            streamJoiner.wait(forState: .closed)
+        }
     }
 }
 
@@ -206,11 +209,6 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         XCTAssertNotNil(joiner.capturedValue)
         ctx.remoteCollAndSync.1.deleteMany(filter: [:], joiner.capture())
         XCTAssertNotNil(joiner.capturedValue)
-        CoreLocalMongoDBService.shared.localInstances.forEach { client in
-            try! client.listDatabases().forEach {
-                try? client.db($0["name"] as! String).drop()
-            }
-        }
     }
 
     override func tearDown() {
@@ -995,7 +993,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         // update the document remotely. assert the update is reflected remotely.
         // reload our configuration again. reconfigure Sync again.
         var expectedDocument = doc
-        var result = remoteColl.updateOne(filter: doc1Filter, update: withNewSyncVersionSet(["$inc": ["foo": 2] as Document] as Document))
+        let result = remoteColl.updateOne(filter: doc1Filter, update: withNewSyncVersionSet(["$inc": ["foo": 2] as Document] as Document))
         try ctx.watch(forEvents: 1)
         XCTAssertEqual(1, result.matchedCount)
         expectedDocument["foo"] = 3
@@ -1006,6 +1004,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         // update the document locally. assert its success, after reconfiguration.
         let localResult = coll.updateOne(filter: doc1Filter, update: ["$inc": ["foo": 1] as Document])
         XCTAssertEqual(1, localResult?.matchedCount)
+
         expectedDocument["foo"] = 2
         XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter))
 
@@ -1031,6 +1030,190 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         // sync. assert that the update was reflected remotely
         try ctx.streamAndSync()
         XCTAssertEqual(expectedDocument, withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
+    }
+
+    func testDesync() throws {
+        let coll = ctx.remoteCollAndSync.1
+
+        // insert and sync a new document.
+        // configure Sync to fail this test if there is a conflict.
+        let docToInsert = ["hello": "world"] as Document
+        coll.configure(conflictHandler: failingConflictHandler)
+        let doc1Id = coll.insertOne(docToInsert)!.insertedId!
+
+        // assert the document exists locally. desync it.
+        XCTAssertEqual(docToInsert.sorted(), coll.findOne(["_id": doc1Id]))
+        try coll.desync(ids: [doc1Id])
+
+        // sync. assert that the desync'd document no longer exists locally
+        try ctx.streamAndSync()
+        XCTAssertNil(coll.findOne(["_id": doc1Id]))
+    }
+
+    func testInsertInsertConflict() throws {
+        let (remoteColl, coll) = ctx.remoteCollAndSync
+
+        // insert a new document remotely
+        var docToInsert = Document()
+        let insertOneResult = remoteColl.insertOne(docToInsert)!
+        docToInsert["_id"] = insertOneResult.insertedId
+        // configure Sync to resolve a custom document when handling a conflict
+        // insert and sync the same document locally, creating a conflict
+        coll.configure(conflictHandler: { _, _, _ in
+            return ["friend": "welcome"]
+        })
+        let doc1Id = coll.insertOne(docToInsert)!.insertedId
+        let doc1Filter = ["_id": doc1Id] as Document
+
+        // sync. assert that the resolution is reflected locally,
+        // but not yet remotely.
+        try ctx.streamAndSync()
+        var expectedDocument = doc1Filter
+        expectedDocument["friend"] = "welcome"
+        XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter))
+        XCTAssertEqual(docToInsert, withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
+
+        // sync again. assert that the resolution is reflected
+        // locally and remotely.
+        try ctx.streamAndSync()
+        XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter))
+        XCTAssertEqual(expectedDocument, withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
+    }
+
+    //// TODO: ADAM TESTS (started from bottom):
+
+    func testSyncVersionFieldNotEditable() throws {
+        let (remoteColl, coll) = ctx.remoteCollAndSync
+
+        // configure Sync to fail this test if there is a conflict.
+
+        // 0. insert with bad version
+        // insert and sync a new document locally with a bad version field, and make sure it
+        // doesn't exist after the insert
+        let badVersionDoc = ["bad": "version"] as Document
+        let docToInsert = [
+            "hello": "world",
+            "__stitch_sync_version": badVersionDoc
+        ] as Document
+        coll.configure(conflictHandler: failingConflictHandler)
+        let insertResult = coll.insertOne(docToInsert)!
+        let localDocBeforeSync0 = coll.findOne(["_id": insertResult.insertedId])!
+        XCTAssertFalse(hasVersionField(localDocBeforeSync0))
+
+        try ctx.streamAndSync()
+
+        // assert the sync'd document is found locally and remotely, and that the version
+        // doesn't exist locally, and isn't the bad version doc remotely
+        let localDocAfterSync0 = coll.findOne(["_id": insertResult.insertedId])!
+        let docId = localDocAfterSync0["_id"]
+        let docFilter = ["_id": docId] as Document
+
+        let remoteDoc0 = remoteColl.findOne(docFilter)!
+        let remoteVersion0 = versionOf(remoteDoc0)
+
+        let expectedDocument0 = localDocAfterSync0
+        XCTAssertEqual(expectedDocument0, withoutSyncVersion(remoteDoc0))
+        XCTAssertEqual(expectedDocument0, localDocAfterSync0)
+        XCTAssertNotEqual(badVersionDoc, remoteVersion0)
+        XCTAssertEqual(0, versionCounterOf(remoteDoc0))
+
+        // 1. $set bad version counter
+
+        // update the document, setting the version counter to 10, and a future version that
+        // we'll try to maliciously set but verify that before and after syncing, there is no
+        // version on the local doc, and that the version on the remote doc after syncing is
+        // correctly incremented by only one.
+        _ = coll.updateOne(
+            filter: docFilter,
+            update: ["$set": [
+                "__stitch_sync_version.v" : 10,
+                "futureVersion" : badVersionDoc
+            ] as Document]
+        )
+
+        let localDocBeforeSync1 = coll.findOne(["_id": insertResult.insertedId])!
+        XCTAssertFalse(hasVersionField(localDocBeforeSync1))
+        try ctx.streamAndSync()
+
+        let localDocAfterSync1 = coll.findOne(["_id": insertResult.insertedId])!
+        let remoteDoc1 = remoteColl.findOne(docFilter)!
+        let expectedDocument1 = localDocAfterSync1
+        XCTAssertEqual(expectedDocument1, withoutSyncVersion(remoteDoc1))
+        XCTAssertEqual(expectedDocument1, localDocAfterSync1)
+
+        // verify the version only got incremented once
+        XCTAssertEqual(1, versionCounterOf(remoteDoc1))
+
+        // 2. $rename bad version doc
+
+        // update the document, renaming our bad "futureVersion" field to
+        // "__stitch_sync_version", and assert that there is no version on the local doc, and
+        // that the version on the remote doc after syncing is correctly not incremented
+        _ = coll.updateOne(
+            filter: docFilter,
+            update: ["$rename": ["futureVersion": "__stitch_sync_version"] as Document]
+        )
+
+        let localDocBeforeSync2 = coll.findOne(["_id": insertResult.insertedId])!
+        XCTAssertFalse(hasVersionField(localDocBeforeSync2))
+        try ctx.streamAndSync()
+
+        let localDocAfterSync2 = coll.findOne(["_id": insertResult.insertedId])!
+        let remoteDoc2 = remoteColl.findOne(docFilter)!
+
+        // the expected doc is the doc without the futureVersion field (localDocAfterSync0)
+        XCTAssertEqual(localDocAfterSync0, withoutSyncVersion(remoteDoc2))
+        XCTAssertEqual(localDocAfterSync0, localDocAfterSync2)
+
+        // verify the version did get incremented
+        XCTAssertEqual(2, versionCounterOf(remoteDoc2))
+
+        // 3. unset
+
+        // update the document, unsetting "__stitch_sync_version", and assert that there is no
+        // version on the local doc, and that the version on the remote doc after syncing
+        // is correctly not incremented because is basically a noop.
+        _ = coll.updateOne(
+            filter: docFilter,
+            update: ["$unset": ["__stitch_sync_version": 1] as Document]
+        )
+
+        let localDocBeforeSync3 = coll.findOne(["_id": insertResult.insertedId])!
+        XCTAssertFalse(hasVersionField(localDocBeforeSync3))
+        try ctx.streamAndSync()
+
+        let localDocAfterSync3 = coll.findOne(["_id": insertResult.insertedId])!
+        let remoteDoc3 = remoteColl.findOne(docFilter)!
+
+        // the expected doc is the doc without the futureVersion field (localDocAfterSync0)
+        XCTAssertEqual(localDocAfterSync0, withoutSyncVersion(remoteDoc3))
+        XCTAssertEqual(localDocAfterSync0, localDocAfterSync3)
+
+        // verify the version did not get incremented, because this update was a noop
+        XCTAssertEqual(2, versionCounterOf(remoteDoc3))
+    }
+
+    func testConflictForEmptyVersionDocuments() throws {
+        // TODO: this depends on the [major] comment being addressed in the PR, so Jason you should prob do this one
+    }
+
+    // TODO: END ADAM TESTS
+
+
+    private func hasVersionField(_ document: Document) -> Bool {
+        return document["__stitch_sync_version"] != nil
+    }
+
+    private func versionOf(_ document: Document) -> Document {
+        return document["__stitch_sync_version"] as! Document
+    }
+
+    private func versionCounterOf(_ document: Document) -> Int64 {
+        return versionOf(document)["v"] as! Int64
+    }
+
+    private func instanceIdOf(_ document: Document) -> String {
+        return versionOf(document)["id"] as! String
     }
 
     private func appendDocumentToKey(key: String, on document: Document, documentToAppend: Document) -> Document {
