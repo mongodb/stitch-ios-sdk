@@ -100,6 +100,12 @@ private extension Sync {
         return joiner.value()
     }
 
+    func updateMany(filter: Document, update: Document, options: UpdateOptions? = nil) -> UpdateResult? {
+        let joiner = CallbackJoiner()
+        self.updateMany(filter: filter, update: update, options: options, joiner.capture())
+        return joiner.value()
+    }
+
     @discardableResult
     func insertOne(_ document: DocumentT) -> InsertOneResult? {
         let joiner = CallbackJoiner()
@@ -1397,42 +1403,108 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
 
     //// TODO: ADAM TESTS (started from bottom):
 
+    func testUpdateManyNoConflicts() throws {
+        let (remoteColl, coll) = ctx.remoteCollAndSync
+
+        coll.configure(conflictHandler: failingConflictHandler)
+
+        var updateResult = coll.updateMany(
+            filter: ["fish": ["one", "two", "red", "blue"]],
+            update: ["$set": ["fish": ["black", "blue", "old", "new"]] as Document]
+        )!
+
+        XCTAssertEqual(0, updateResult.modifiedCount)
+        XCTAssertEqual(0, updateResult.matchedCount)
+        XCTAssertNil(updateResult.upsertedId)
+
+        updateResult = coll.updateMany(
+            filter: ["fish": ["one", "two", "red", "blue"]],
+            update: ["$set": ["fish": ["black", "blue", "old", "new"]] as Document],
+            options: UpdateOptions(upsert: true)
+        )!
+
+        XCTAssertEqual(0, updateResult.modifiedCount)
+        XCTAssertEqual(0, updateResult.matchedCount)
+        XCTAssertNotNil(updateResult.upsertedId)
+
+        let doc1 = [
+            "hello": "world",
+            "fish": ["one", "two", "red", "blue"]
+        ] as Document
+        let doc2 = ["hello": "friend"] as Document
+        let doc3 = ["hello": "goodbye"] as Document
+
+        let insertResult = coll.insertMany([doc1, doc2, doc3])
+        XCTAssertEqual(3, insertResult?.insertedIds.count)
+
+        try ctx.streamAndSync()
+
+        XCTAssertEqual(4, remoteColl.find([:])?.count)
+
+        updateResult = coll.updateMany(
+            filter: ["fish": ["$exists": true] as Document],
+            update: ["$set": ["fish": ["trout", "mackerel", "cod", "hake"]] as Document]
+        )!
+
+        XCTAssertEqual(2, updateResult.modifiedCount)
+        XCTAssertEqual(2, updateResult.matchedCount)
+        XCTAssertNil(updateResult.upsertedId)
+
+        XCTAssertEqual(4, coll.count([:]))
+
+        var localFound = coll.find(["fish": ["$exists": true] as Document])!
+        XCTAssertEqual(2, localFound.map({ $0 }).count)
+        localFound.forEach({ doc in
+            XCTAssertEqual(["trout", "mackerel", "cod", "hake"], doc["fish"] as? [String])
+        })
+
+        try ctx.streamAndSync()
+
+        let remoteFound = remoteColl.find(["fish": ["$exists": true] as Document])!
+        localFound = coll.find(["fish": ["$exists": true] as Document])!
+
+        XCTAssertEqual(2, localFound.map({ $0 }).count)
+        XCTAssertEqual(2, remoteFound.map({ $0 }).count)
+
+        localFound.forEach({ doc in
+            XCTAssertEqual(["trout", "mackerel", "cod", "hake"], doc["fish"] as? [String])
+        })
+        remoteFound.forEach({ doc in
+            XCTAssertEqual(["trout", "mackerel", "cod", "hake"], doc["fish"] as? [String])
+        })
+    }
+
     func testDeleteManyNoConflicts() throws {
+        let (remoteColl, coll) = ctx.remoteCollAndSync
 
-        // TODO(STITCH-2221): This test currently fails because the Swift driver does not yet support concurrent
-        // use of a MongoClient. This will be fixed when MongoSwift makes MongoClient thread-safe, or when we write
-        // functionality to have the Local MongoDB service offer thread-local MongoClient objects.
+        coll.configure(conflictHandler: failingConflictHandler)
 
-//        let (remoteColl, coll) = ctx.remoteCollAndSync
-//
-//        coll.configure(conflictHandler: failingConflictHandler)
-//
-//        let doc1 = ["hello": "world"] as Document
-//        let doc2 = ["hello": "friend"] as Document
-//        let doc3 = ["hello": "goodbye"] as Document
-//
-//        let insertResult = coll.insertMany([doc1, doc2, doc3])
-//        XCTAssertEqual(3, insertResult?.insertedIds.count)
-//
-//        XCTAssertEqual(3, coll.count([:]))
-//        XCTAssertEqual(3, coll.find([:])?.compactMap({ $0 }).count)
-//        XCTAssertEqual(3, coll.aggregate(
-//            [["$match": ["_id": ["$in": insertResult?.insertedIds.map({ $1 })] as Document] as Document] as Document]
-//        )?.compactMap({ $0 }).count)
-//
-//        XCTAssertEqual(0, remoteColl.find([:])?.count)
-//        try ctx.streamAndSync()
-//
-//        XCTAssertEqual(3, remoteColl.find([:])?.count)
-//        _ = coll.deleteMany(["_id": ["$in": insertResult?.insertedIds.map({ $1 })] as Document])
-//
-//        XCTAssertEqual(3, remoteColl.find([:])?.count)
-//        XCTAssertEqual(0, coll.find([:])?.compactMap({ $0 }).count)
-//
-//        try ctx.streamAndSync()
-//
-//        XCTAssertEqual(0, remoteColl.find([:])?.count)
-//        XCTAssertEqual(0, coll.find([:])?.compactMap({ $0 }).count)
+        let doc1 = ["hello": "world"] as Document
+        let doc2 = ["hello": "friend"] as Document
+        let doc3 = ["hello": "goodbye"] as Document
+
+        let insertResult = coll.insertMany([doc1, doc2, doc3])
+        XCTAssertEqual(3, insertResult?.insertedIds.count)
+
+        XCTAssertEqual(3, coll.count([:]))
+        XCTAssertEqual(3, coll.find([:])?.compactMap({ $0 }).count)
+        XCTAssertEqual(3, coll.aggregate(
+            [["$match": ["_id": ["$in": insertResult?.insertedIds.map({ $1 })] as Document] as Document] as Document]
+        )?.compactMap({ $0 }).count)
+
+        XCTAssertEqual(0, remoteColl.find([:])?.count)
+        try ctx.streamAndSync()
+
+        XCTAssertEqual(3, remoteColl.find([:])?.count)
+        _ = coll.deleteMany(["_id": ["$in": insertResult?.insertedIds.map({ $1 })] as Document])
+
+        XCTAssertEqual(3, remoteColl.find([:])?.count)
+        XCTAssertEqual(0, coll.find([:])?.compactMap({ $0 }).count)
+
+        try ctx.streamAndSync()
+
+        XCTAssertEqual(0, remoteColl.find([:])?.count)
+        XCTAssertEqual(0, coll.find([:])?.compactMap({ $0 }).count)
     }
 
     func testSyncVersionFieldNotEditable() throws {

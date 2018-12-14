@@ -1901,12 +1901,19 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
         // fetch all of the documents that this filter will match
         let beforeDocuments = try localCollection.find(filter)
+        var idsToBeforeDocumentMap = [HashableBSONValue: Document]()
 
         // use the matched ids from prior to create a new filter.
         // this will prevent any race conditions if documents were
         // inserted between the prior find
         let ids = try beforeDocuments.compactMap({ (beforeDoc: Document) -> BSONValue? in
+            guard let documentId = beforeDoc[idField] else {
+                // this should never happen, but let's ignore the document if it does
+                return nil
+            }
+
             try undoColl.insertOne(beforeDoc)
+            idsToBeforeDocumentMap[HashableBSONValue(documentId)] = beforeDoc
             return beforeDoc[idField]
         })
         var updatedFilter = (options?.upsert ?? false) ? filter :
@@ -1933,9 +1940,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                     return nil
                 }
 
-                let beforeDocument = beforeDocuments.first(where: {
-                    bsonEquals($0[idField], documentId)
-                })
+                let beforeDocument = idsToBeforeDocumentMap[HashableBSONValue(documentId)]
 
                 // if there was no before-update document and this was not an upsert,
                 // a document that meets the filter criteria must have been
