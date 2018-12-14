@@ -1251,6 +1251,104 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         }
     }
 
+    func testStaleFetchSingle() throws {
+        let (remoteColl, coll) = ctx.remoteCollAndSync
+
+        // insert a new document
+        let doc1 = ["hello": "world"] as Document
+        remoteColl.insertOne(doc1)
+
+        // find the document we just inserted
+        let doc = remoteColl.findOne(doc1)!
+        let doc1Id = doc["_id"]!
+
+        // configure Sync with a conflict handler that will freeze a document.
+        // sync the document
+        coll.configure(conflictHandler: failingConflictHandler)
+        coll.sync(ids: [doc1Id])
+
+        // sync. assert the document has been synced.
+        try ctx.streamAndSync()
+        XCTAssertNotNil(coll.findOne(["_id": doc1Id]))
+
+        // update the document locally.
+        _ = coll.updateOne(filter: ["_id": doc1Id], update: ["$inc": ["i": 1] as Document])
+
+        // sync. assert the document still exists
+        try ctx.streamAndSync()
+        XCTAssertNotNil(coll.findOne(["_id": doc1Id]))
+
+        // sync. assert the document still exists
+        try ctx.streamAndSync()
+        XCTAssertNotNil(coll.findOne(["_id": doc1Id]))
+    }
+
+    func testStaleFetchSingleDeleted() throws {
+        let (remoteColl, coll) = ctx.remoteCollAndSync
+
+        let doc1 = ["hello": "world"] as Document
+        remoteColl.insertOne(doc1)
+
+        // get the document
+        let doc = remoteColl.findOne(doc1)!
+        let doc1Id = doc["_id"]!
+        let doc1Filter = ["_id": doc1Id] as Document
+
+        coll.configure(conflictHandler: { _, _, _ in
+            XCTFail()
+            return nil
+        })
+        coll.sync(ids: [doc1Id])
+
+        try ctx.streamAndSync()
+        XCTAssertNotNil(coll.findOne(doc1Filter))
+
+        _ = coll.updateOne(filter: doc1Filter, update: ["$inc": ["i": 1] as Document])
+        try ctx.streamAndSync()
+        XCTAssertNotNil(coll.findOne(doc1Filter))
+
+        XCTAssertEqual(1, remoteColl.deleteOne(doc1Filter)?.deletedCount)
+        try ctx.powerCycleDevice()
+        coll.configure(conflictHandler: { _, _, _ in
+            XCTFail()
+            return nil
+        })
+
+        try ctx.streamAndSync()
+        XCTAssertNil(coll.findOne(doc1Filter))
+    }
+
+    func testStaleFetchMultiple() throws {
+        let (remoteColl, coll) = ctx.remoteCollAndSync
+
+        let insertResult =
+            remoteColl.insertMany([
+                ["hello": "world"] as Document,
+                ["hello": "friend"] as Document])!
+
+        // get the document
+        let doc1Id = insertResult.insertedIds[0]!
+        let doc2Id = insertResult.insertedIds[1]!
+
+        coll.configure(conflictHandler: { _, _, _ in
+            XCTFail()
+            return nil
+        })
+        coll.sync(ids: [doc1Id])
+
+        try ctx.streamAndSync()
+        XCTAssertNotNil(coll.findOne(["_id": doc1Id]))
+
+        _ = coll.updateOne(filter: ["_id": doc1Id], update: ["$inc": ["i": 1] as Document])
+        try ctx.streamAndSync()
+        XCTAssertNotNil(coll.findOne(["_id": doc1Id]))
+
+        coll.sync(ids: [doc2Id])
+        try ctx.streamAndSync()
+        XCTAssertNotNil(coll.findOne(["_id": doc1Id]))
+        XCTAssertNotNil(coll.findOne(["_id": doc2Id]))
+    }
+
     //// TODO: ADAM TESTS (started from bottom):
 
     func testSyncVersionFieldNotEditable() throws {
