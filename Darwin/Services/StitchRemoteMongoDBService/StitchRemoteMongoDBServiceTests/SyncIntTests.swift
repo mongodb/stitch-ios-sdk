@@ -559,6 +559,14 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         coll.sync(ids: [doc1Id])
         try ctx.streamAndSync()
 
+        // update the document so it has a sync version (if we don't do this, then deleting
+        // the document will result in a conflict because a remote document with no version
+        // and a local document with no version are treated as documents with different
+        // versions)
+        _ = coll.updateOne(filter: doc1Filter, update: ["$set": ["hello": "universe"] as Document])
+        try ctx.streamAndSync()
+        doc = remoteColl.findOne(doc1Filter)!
+
         // go offline to avoid processing events.
         // delete the document locally
         goOffline()
@@ -1195,7 +1203,54 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
     }
 
     func testConflictForEmptyVersionDocuments() throws {
-        // TODO: this depends on the [major] comment being addressed in the PR, so Jason you should prob do this one
+        let (remoteColl, coll) = ctx.remoteCollAndSync
+
+        // insert a document remotely
+        let docToInsert = ["hello": "world"] as Document
+        remoteColl.insertOne(docToInsert)
+
+        // find the document we just inserted
+        var doc = remoteColl.findOne(docToInsert)!
+        let doc1Id = doc["_id"]
+        let doc1Filter = ["_id": doc1Id] as Document
+
+        // configure Sync to have local documents win conflicts
+        var conflictRaised = false
+        coll.configure(conflictHandler: {_, localEvent, _ in
+            conflictRaised = true
+            return localEvent.fullDocument
+        })
+        coll.sync(ids: [doc1Id!])
+        try ctx.streamAndSync()
+
+        // go offline to avoid processing events
+        // delete the document locally
+        goOffline()
+        let result = coll.deleteOne(doc1Filter)
+        XCTAssertEqual(1, result?.deletedCount)
+
+        // assert that the remote document remains
+        let expectedDocument = withoutSyncVersion(doc)
+        XCTAssertEqual(expectedDocument, withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
+        XCTAssertNil(coll.findOne(doc1Filter))
+
+
+        // go online to begin the syncing process. A conflict should have
+        // occurred because both the local and remote instance of this document have no version
+        // information, meaning that the sync pass was forced to raise a conflict. our local
+        // delete should be synced to the remote, because we set up the conflict handler to
+        // have local always win. assert that this is reflected remotely and locally.
+        goOnline()
+        // do one sync pass to get the local delete to happen via conflict resolution
+        try ctx.streamAndSync()
+        // do another sync pass to get the local delete resolution committed to the remote
+        try ctx.streamAndSync()
+
+        // make sure that a conflict was raised
+        XCTAssertTrue(conflictRaised)
+
+        XCTAssertNil(coll.findOne(doc1Filter))
+        XCTAssertNil(remoteColl.findOne(doc1Filter))
     }
 
     // TODO: END ADAM TESTS
