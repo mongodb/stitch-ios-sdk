@@ -19,6 +19,19 @@ private extension Document {
 }
 
 private extension RemoteMongoCollection {
+    func count(_ filter: Document) -> Int? {
+        let joiner = CallbackJoiner()
+        self.count(filter, joiner.capture())
+        return joiner.value(asType: Int.self)
+    }
+
+    func find(_ filter: Document) -> [T]? {
+        let joiner = CallbackJoiner()
+        let readOp = self.find(filter, options: nil)
+        readOp.asArray(joiner.capture())
+        return joiner.value(asType: [T].self)
+    }
+
     func findOne(_ filter: Document) -> Document? {
         let joiner = CallbackJoiner()
         self.find(filter, options: nil).first(joiner.capture())
@@ -52,7 +65,27 @@ private extension RemoteMongoCollection {
     }
 }
 
+// These extensions make the CRUD commands synchronous to simplify writing tests.
+// These extensions should not be used outside of a testing environment.
 private extension Sync {
+    func count(_ filter: Document) -> Int? {
+        let joiner = CallbackJoiner()
+        self.count(filter: filter, options: nil, joiner.capture())
+        return joiner.value(asType: Int.self)
+    }
+
+    func aggregate(_ pipeline: [Document]) -> MongoCursor<Document>? {
+        let joiner = CallbackJoiner()
+        self.aggregate(pipeline: pipeline, options: nil, joiner.capture())
+        return joiner.value(asType: MongoCursor<Document>.self)
+    }
+
+    func find(_ filter: Document) -> MongoCursor<Document>? {
+        let joiner = CallbackJoiner()
+        self.find(filter: filter, joiner.capture())
+        return joiner.value(asType: MongoCursor<Document>.self)
+    }
+
     func findOne(_ filter: Document) -> Document? {
         let joiner = CallbackJoiner()
         self.find(filter: filter, joiner.capture())
@@ -72,9 +105,22 @@ private extension Sync {
         return joiner.value()
     }
 
+    @discardableResult
+    func insertMany(_ documents: [DocumentT]) -> InsertManyResult? {
+        let joiner = CallbackJoiner()
+        self.insertMany(documents: documents, joiner.capture())
+        return joiner.value()
+    }
+
     func deleteOne(_ filter: Document) -> DeleteResult? {
         let joiner = CallbackJoiner()
         self.deleteOne(filter: filter, joiner.capture())
+        return joiner.value()
+    }
+
+    func deleteMany(_ filter: Document) -> DeleteResult? {
+        let joiner = CallbackJoiner()
+        self.deleteMany(filter: filter, joiner.capture())
         return joiner.value()
     }
 }
@@ -1090,6 +1136,44 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
     }
 
     //// TODO: ADAM TESTS (started from bottom):
+
+    func testDeleteManyNoConflicts() throws {
+
+        // TODO(STITCH-2221): This test currently fails because the Swift driver does not yet support concurrent
+        // use of a MongoClient. This will be fixed when MongoSwift makes MongoClient thread-safe, or when we write
+        // functionality to have the Local MongoDB service offer thread-local MongoClient objects.
+
+//        let (remoteColl, coll) = ctx.remoteCollAndSync
+//
+//        coll.configure(conflictHandler: failingConflictHandler)
+//
+//        let doc1 = ["hello": "world"] as Document
+//        let doc2 = ["hello": "friend"] as Document
+//        let doc3 = ["hello": "goodbye"] as Document
+//
+//        let insertResult = coll.insertMany([doc1, doc2, doc3])
+//        XCTAssertEqual(3, insertResult?.insertedIds.count)
+//
+//        XCTAssertEqual(3, coll.count([:]))
+//        XCTAssertEqual(3, coll.find([:])?.compactMap({ $0 }).count)
+//        XCTAssertEqual(3, coll.aggregate(
+//            [["$match": ["_id": ["$in": insertResult?.insertedIds.map({ $1 })] as Document] as Document] as Document]
+//        )?.compactMap({ $0 }).count)
+//
+//        XCTAssertEqual(0, remoteColl.find([:])?.count)
+//        try ctx.streamAndSync()
+//
+//        XCTAssertEqual(3, remoteColl.find([:])?.count)
+//        _ = coll.deleteMany(["_id": ["$in": insertResult?.insertedIds.map({ $1 })] as Document])
+//
+//        XCTAssertEqual(3, remoteColl.find([:])?.count)
+//        XCTAssertEqual(0, coll.find([:])?.compactMap({ $0 }).count)
+//
+//        try ctx.streamAndSync()
+//
+//        XCTAssertEqual(0, remoteColl.find([:])?.count)
+//        XCTAssertEqual(0, coll.find([:])?.compactMap({ $0 }).count)
+    }
 
     func testSyncVersionFieldNotEditable() throws {
         let (remoteColl, coll) = ctx.remoteCollAndSync
