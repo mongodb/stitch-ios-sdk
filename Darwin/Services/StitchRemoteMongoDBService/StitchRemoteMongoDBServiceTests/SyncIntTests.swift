@@ -21,6 +21,19 @@ private extension Document {
 }
 
 private extension RemoteMongoCollection {
+    func count(_ filter: Document) -> Int? {
+        let joiner = CallbackJoiner()
+        self.count(filter, joiner.capture())
+        return joiner.value(asType: Int.self)
+    }
+
+    func find(_ filter: Document) -> [T]? {
+        let joiner = CallbackJoiner()
+        let readOp = self.find(filter, options: nil)
+        readOp.asArray(joiner.capture())
+        return joiner.value(asType: [T].self)
+    }
+
     func findOne(_ filter: Document) -> Document? {
         let joiner = CallbackJoiner()
         self.find(filter, options: nil).first(joiner.capture())
@@ -54,7 +67,27 @@ private extension RemoteMongoCollection {
     }
 }
 
+// These extensions make the CRUD commands synchronous to simplify writing tests.
+// These extensions should not be used outside of a testing environment.
 private extension Sync {
+    func count(_ filter: Document) -> Int? {
+        let joiner = CallbackJoiner()
+        self.count(filter: filter, options: nil, joiner.capture())
+        return joiner.value(asType: Int.self)
+    }
+
+    func aggregate(_ pipeline: [Document]) -> MongoCursor<Document>? {
+        let joiner = CallbackJoiner()
+        self.aggregate(pipeline: pipeline, options: nil, joiner.capture())
+        return joiner.value(asType: MongoCursor<Document>.self)
+    }
+
+    func find(_ filter: Document) -> MongoCursor<Document>? {
+        let joiner = CallbackJoiner()
+        self.find(filter: filter, joiner.capture())
+        return joiner.value(asType: MongoCursor<Document>.self)
+    }
+
     func findOne(_ filter: Document) -> Document? {
         let joiner = CallbackJoiner()
         self.find(filter: filter, joiner.capture())
@@ -74,9 +107,22 @@ private extension Sync {
         return joiner.value()
     }
 
+    @discardableResult
+    func insertMany(_ documents: [DocumentT]) -> InsertManyResult? {
+        let joiner = CallbackJoiner()
+        self.insertMany(documents: documents, joiner.capture())
+        return joiner.value()
+    }
+
     func deleteOne(_ filter: Document) -> DeleteResult? {
         let joiner = CallbackJoiner()
         self.deleteOne(filter: filter, joiner.capture())
+        return joiner.value()
+    }
+
+    func deleteMany(_ filter: Document) -> DeleteResult? {
+        let joiner = CallbackJoiner()
+        self.deleteMany(filter: filter, joiner.capture())
         return joiner.value()
     }
 }
@@ -568,7 +614,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         _ = coll.updateOne(filter: doc1Filter, update: ["$set": ["hello": "universe"] as Document])
         try ctx.streamAndSync()
         doc = remoteColl.findOne(doc1Filter)!
-        
+
         // go offline to avoid processing events.
         // delete the document locally
         goOffline()
@@ -1351,6 +1397,44 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
 
     //// TODO: ADAM TESTS (started from bottom):
 
+    func testDeleteManyNoConflicts() throws {
+
+        // TODO(STITCH-2221): This test currently fails because the Swift driver does not yet support concurrent
+        // use of a MongoClient. This will be fixed when MongoSwift makes MongoClient thread-safe, or when we write
+        // functionality to have the Local MongoDB service offer thread-local MongoClient objects.
+
+//        let (remoteColl, coll) = ctx.remoteCollAndSync
+//
+//        coll.configure(conflictHandler: failingConflictHandler)
+//
+//        let doc1 = ["hello": "world"] as Document
+//        let doc2 = ["hello": "friend"] as Document
+//        let doc3 = ["hello": "goodbye"] as Document
+//
+//        let insertResult = coll.insertMany([doc1, doc2, doc3])
+//        XCTAssertEqual(3, insertResult?.insertedIds.count)
+//
+//        XCTAssertEqual(3, coll.count([:]))
+//        XCTAssertEqual(3, coll.find([:])?.compactMap({ $0 }).count)
+//        XCTAssertEqual(3, coll.aggregate(
+//            [["$match": ["_id": ["$in": insertResult?.insertedIds.map({ $1 })] as Document] as Document] as Document]
+//        )?.compactMap({ $0 }).count)
+//
+//        XCTAssertEqual(0, remoteColl.find([:])?.count)
+//        try ctx.streamAndSync()
+//
+//        XCTAssertEqual(3, remoteColl.find([:])?.count)
+//        _ = coll.deleteMany(["_id": ["$in": insertResult?.insertedIds.map({ $1 })] as Document])
+//
+//        XCTAssertEqual(3, remoteColl.find([:])?.count)
+//        XCTAssertEqual(0, coll.find([:])?.compactMap({ $0 }).count)
+//
+//        try ctx.streamAndSync()
+//
+//        XCTAssertEqual(0, remoteColl.find([:])?.count)
+//        XCTAssertEqual(0, coll.find([:])?.compactMap({ $0 }).count)
+    }
+
     func testSyncVersionFieldNotEditable() throws {
         let (remoteColl, coll) = ctx.remoteCollAndSync
 
@@ -1463,7 +1547,54 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
     }
 
     func testConflictForEmptyVersionDocuments() throws {
-        // TODO: this depends on the [major] comment being addressed in the PR, so Jason you should prob do this one
+        let (remoteColl, coll) = ctx.remoteCollAndSync
+
+        // insert a document remotely
+        let docToInsert = ["hello": "world"] as Document
+        remoteColl.insertOne(docToInsert)
+
+        // find the document we just inserted
+        var doc = remoteColl.findOne(docToInsert)!
+        let doc1Id = doc["_id"]
+        let doc1Filter = ["_id": doc1Id] as Document
+
+        // configure Sync to have local documents win conflicts
+        var conflictRaised = false
+        coll.configure(conflictHandler: {_, localEvent, _ in
+            conflictRaised = true
+            return localEvent.fullDocument
+        })
+        coll.sync(ids: [doc1Id!])
+        try ctx.streamAndSync()
+
+        // go offline to avoid processing events
+        // delete the document locally
+        goOffline()
+        let result = coll.deleteOne(doc1Filter)
+        XCTAssertEqual(1, result?.deletedCount)
+
+        // assert that the remote document remains
+        let expectedDocument = withoutSyncVersion(doc)
+        XCTAssertEqual(expectedDocument, withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
+        XCTAssertNil(coll.findOne(doc1Filter))
+
+
+        // go online to begin the syncing process. A conflict should have
+        // occurred because both the local and remote instance of this document have no version
+        // information, meaning that the sync pass was forced to raise a conflict. our local
+        // delete should be synced to the remote, because we set up the conflict handler to
+        // have local always win. assert that this is reflected remotely and locally.
+        goOnline()
+        // do one sync pass to get the local delete to happen via conflict resolution
+        try ctx.streamAndSync()
+        // do another sync pass to get the local delete resolution committed to the remote
+        try ctx.streamAndSync()
+
+        // make sure that a conflict was raised
+        XCTAssertTrue(conflictRaised)
+
+        XCTAssertNil(coll.findOne(doc1Filter))
+        XCTAssertNil(remoteColl.findOne(doc1Filter))
     }
 
     // TODO: END ADAM TESTS
