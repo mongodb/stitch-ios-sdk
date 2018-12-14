@@ -136,6 +136,7 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
             // mark all of the configs in this namespace
             // as stale so we know to check for stale docs
             // during a sync pass
+            self.command = nil
             try? nsConfig.set(stale: true)
             logger.d("stream OPEN")
         case .closed:
@@ -147,7 +148,6 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
             // start again
             if command == .restart {
                 try? start()
-                command = nil
             }
         default:
             logger.d("stream \(state)")
