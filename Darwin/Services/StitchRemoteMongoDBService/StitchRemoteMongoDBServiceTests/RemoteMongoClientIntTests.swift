@@ -61,12 +61,16 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
                 name: "mongodb1", uri: mongodbUri
             )
         )
-        
-        let rule: Document = ["read": Document(), "write": Document(), "other_fields": Document()]
-        
+                
         _ = try self.addRule(
             toService: svc.1,
-            withConfig: RuleCreator.mongoDb(namespace: "\(dbName).\(collName)", rule: rule)
+            withConfig: RuleCreator.mongoDb(
+                database: dbName,
+                collection: collName,
+                roles: [RuleCreator.Role(
+                    read: true, write: true
+                    )],
+                schema: RuleCreator.Schema())
         )
         
         let client = try self.appClient(forApp: app.0)

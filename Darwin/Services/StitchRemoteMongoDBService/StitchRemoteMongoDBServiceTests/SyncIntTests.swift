@@ -271,6 +271,9 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         CoreLocalMongoDBService.shared.close()
     }
 
+    var mdbService: Apps.App.Services.Service!
+    var mdbRule: RuleResponse!
+
     private func prepareService() throws {
         let app = try self.createApp()
         let _ = try self.addProvider(toApp: app.1, withConfig: ProviderConfigs.anon())
@@ -283,11 +286,17 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
             )
         )
 
-        let rule: Document = ["read": Document(), "write": Document(), "other_fields": Document()]
-
-        _ = try self.addRule(
-            toService: svc.1,
-            withConfig: RuleCreator.mongoDb(namespace: "\(dbName).\(collName)", rule: rule)
+        mdbService = svc.1
+        let rule = RuleCreator.mongoDb(
+            database: dbName,
+            collection: collName,
+            roles: [RuleCreator.Role(
+                read: true, write: true
+            )],
+            schema: RuleCreator.Schema())
+        mdbRule = try self.addRule(
+            toService: mdbService,
+            withConfig: rule
         )
 
         let client = try self.appClient(forApp: app.0)
@@ -1395,6 +1404,119 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         XCTAssertNotNil(coll.findOne(["_id": doc2Id]))
     }
 
+    func testShouldUpdateUsingUpdateDescription() throws {
+        let (remoteColl, coll) = ctx.remoteCollAndSync
+
+        let docToInsert = [
+            "i_am": "the walrus",
+            "they_are": "the egg men",
+            "members": [
+                "paul", "john", "george", "pete"
+            ],
+            "where_to_be": [
+                "under_the_sea": [
+                    "octopus_garden": "in the shade"
+                ] as Document,
+                "the_land_of_submarines": [
+                    "a_yellow_submarine": "a yellow submarine"
+                ] as Document
+            ] as Document,
+            "year": 1960
+        ] as Document
+        let docAfterUpdate = try Document(fromJSON: """
+        {
+        "i_am": "the egg men",
+        "they_are": "the egg men",
+        "members": [ "paul", "john", "george", "ringo" ],
+        "where_to_be": {
+        "under_the_sea": {
+        "octopus_garden": "near a cave"
+        },
+        "the_land_of_submarines": {
+        "a_yellow_submarine": "a yellow submarine"
+        }
+        }
+        }
+        """)
+        let updateDoc = try Document(fromJSON:"""
+        {
+        "$set": {
+        "i_am": "the egg men",
+        "members": [ "paul", "john", "george", "ringo" ],
+        "where_to_be.under_the_sea.octopus_garden": "near a cave"
+        },
+        "$unset": {
+        "year": true
+        }
+        }
+        """)
+
+        remoteColl.insertOne(docToInsert)
+        let doc = remoteColl.findOne(docToInsert)!
+        let doc1Id = doc["_id"]!
+        let doc1Filter = ["_id": doc1Id] as Document
+
+        let eventSemaphore = DispatchSemaphore(value: 0)
+        coll.configure(conflictHandler: failingConflictHandler, changeEventDelegate: { _, event in
+            // ensure that there is no version information in the event document.
+            self.assertNoVersionFieldsInDoc(event.fullDocument!)
+
+            if (event.operationType == .update &&
+                !event.hasUncommittedWrites) {
+                XCTAssertEqual(
+                    updateDoc["$set"] as? Document,
+                    event.updateDescription?.updatedFields)
+                XCTAssertEqual(
+                    updateDoc["$unset"] as? Document,
+                    try? event.updateDescription?.removedFields.reduce(Document(), { (doc: Document, field: String) throws -> Document in
+                        var doc = doc
+                        doc[field] = true
+                        return doc
+                    }))
+                eventSemaphore.signal()
+            }
+        }, errorListener: nil)
+        coll.sync(ids: [doc1Id])
+        try ctx.streamAndSync()
+
+        // because the "they_are" field has already been added, set
+        // a rule that prevents writing to the "they_are" field that we've added.
+        // a full replace would therefore break our rule, preventing validation.
+        // only an actual update document (with $set and $unset)
+        // can work for the rest of this test
+        try mdbService.rules.rule(withID: mdbRule.id).remove()
+        let result = coll.updateOne(filter: doc1Filter, update: updateDoc)
+        XCTAssertEqual(1, result?.matchedCount)
+        XCTAssertEqual(docAfterUpdate, withoutId(coll.findOne(doc1Filter)!))
+
+        // set they_are to unwriteable. the update should only update i_am
+        // setting i_am to false and they_are to true would fail this test
+        _ = try mdbService.rules.create(
+            data: RuleCreator.mongoDb(
+                database: dbName,
+                collection: collName,
+                roles: [
+                    RuleCreator.Role(
+                        fields: [
+                            "i_am": ["write": true] as Document,
+                            "they_are": ["write": false] as Document,
+                            "where_to_be.the_land_of_submarines": ["write": false] as Document
+                        ]
+                    )
+                ],
+                schema: RuleCreator.Schema()
+            )
+        )
+
+        try ctx.streamAndSync()
+        XCTAssertEqual(docAfterUpdate, withoutId(coll.findOne(doc1Filter)!))
+        XCTAssertEqual(docAfterUpdate, withoutId(withoutSyncVersion(remoteColl.findOne(doc1Filter)!)))
+        guard case .success = eventSemaphore.wait(timeout: DispatchTime(uptimeNanoseconds: waitTimeout)) else {
+            XCTFail()
+            return
+        }
+    }
+
     //// TODO: ADAM TESTS (started from bottom):
 
     func testDeleteManyNoConflicts() throws {
@@ -1653,5 +1775,13 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
             key: "$set",
             on: document,
             documentToAppend: [documentVersionField: freshSyncVersionDoc()])
+    }
+
+    private func withoutId(_ document: Document) -> Document {
+        return document.filter { $0.key != "_id" }
+    }
+
+    private func assertNoVersionFieldsInDoc(_ doc: Document) {
+        XCTAssertFalse(doc.contains(where: { $0.key == documentVersionField}))
     }
 }
