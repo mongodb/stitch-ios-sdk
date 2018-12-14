@@ -23,6 +23,8 @@ extension DeleteResult {
     }
 }
 
+private let idField = "_id"
+
 /**
  DataSynchronizer handles the bidirectional synchronization of documents between a local MongoDB
  and a remote MongoDB (via Stitch). It also expose CRUD operations to interact with synchronized
@@ -39,7 +41,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     /// The associated service client
     private let service: CoreStitchServiceClient
     /// The associated embedded client
-    private let localClient: MongoClient
+    internal let localClient: MongoClient
     /// The associated remote client
     private let remoteClient: CoreRemoteMongoClient
     /// Network monitor that receives to network state
@@ -51,7 +53,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     /// The collection to store the configuration for this instance in
     private let instancesColl: MongoCollection<InstanceSynchronization.Config>
     /// The configuration for this sync instance
-    private var syncConfig: InstanceSynchronization
+    internal var syncConfig: InstanceSynchronization
 
     internal var instanceChangeStreamDelegate: InstanceChangeStreamDelegate
 
@@ -82,7 +84,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     /// The user's error listener
     private var errorListener: ErrorListener?
     /// Current sync pass iteration
-    private var logicalT: Int64 = 0
+    internal var logicalT: Int64 = 0
     /// Whether or not the sync loop is running
     var isRunning: Bool {
         syncLock.readLock()
@@ -132,6 +134,136 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         }
         self.syncConfig.errorListener = self
         self.networkMonitor.add(networkStateDelegate: self)
+
+        let recoveryStarted = DispatchSemaphore(value:0)
+        syncDispatchQueue.async {
+            do {
+                try self.recover(recoveryStarted: recoveryStarted)
+            } catch {
+                // notify the fatal error listener about a fatal error with namespace recovery
+                self.on(
+                    error: StitchError.clientError(
+                        withClientErrorCode: StitchClientErrorCode.syncRecoveryError(withError: error)
+                    ),
+                    forDocumentId: nil,
+                    in: nil
+                )
+            }
+
+        }
+
+        recoveryStarted.wait()
+    }
+
+    /**
+     * Recovers the state of synchronization in case a system failure happened.
+     * The goal is to revert to a known, good state.
+     */
+    private func recover(recoveryStarted: DispatchSemaphore) throws {
+        let nsConfigs = self.syncConfig.map { $0 }
+        nsConfigs.forEach { namespaceSynchronization in
+            namespaceSynchronization.nsLock.writeLock()
+        }
+        defer {
+            nsConfigs.forEach { namespaceSynchronization in
+                namespaceSynchronization.nsLock.unlock()
+            }
+        }
+
+        // release the semaphore, since any namespaces for which recovery will be done are locked
+        recoveryStarted.signal()
+
+        try nsConfigs.forEach { namespaceSynchronization in
+            try recoverNamespace(withConfig: namespaceSynchronization.config)
+        }
+    }
+
+    /**
+     * Recovers the state of synchronization for a namespace in case a system failure happened.
+     * The goal is to revert the namespace to a known, good state. This method itself is resilient
+     * to failures, since it doesn't delete any documents from the undo collection until the
+     * collection is in the desired state with respect to those documents.
+     */
+    private func recoverNamespace(withConfig nsConfig: NamespaceSynchronization.Config) throws {
+        let undoColl: MongoCollection<Document> = try undoCollection(for: nsConfig.namespace)
+        let localColl: MongoCollection<Document> = try localCollection(for: nsConfig.namespace)
+
+        // Replace local docs with undo docs. Presence of an undo doc implies we had a system failure
+        // during a write. This covers updates and deletes.
+        let recoveredIdsArr: [HashableBSONValue] = try undoColl.find().compactMap { undoDoc -> HashableBSONValue? in
+            guard let documentId = undoDoc[idField] else {
+                // this should never happen, but we'll ignore the document if it does
+                return nil
+            }
+
+            let filter = [idField: documentId] as Document
+
+            try localColl.findOneAndReplace(
+                filter: filter,
+                replacement: undoDoc,
+                options: FindOneAndReplaceOptions.init(upsert: true)
+            )
+
+            return HashableBSONValue.init(documentId)
+        }
+        let recoveredIds: Set<HashableBSONValue> = Set(recoveredIdsArr)
+
+        // If we recovered a document, but its pending writes are set to do something else, then the
+        // failure occurred after the pending writes were set, but before the undo document was
+        // deleted. In this case, we should restore the document to the state that the pending
+        // write indicates. There is a possibility that the pending write is from before the failed
+        // operation, but in that case, the findOneAndReplace or delete is a no-op since restoring
+        // the document to the state of the change event would be the same as recovering the undo
+        // document.
+        try nsConfig.syncedDocuments.forEach { (hashableDocumentId, docConfig) in
+            let documentId = hashableDocumentId.bsonValue.value
+            let filter = [idField: documentId] as Document
+
+            guard recoveredIds.contains(hashableDocumentId) else {
+                return
+            }
+
+            guard let pendingWrite = docConfig.uncommittedChangeEvent else {
+                return
+            }
+
+            switch pendingWrite.operationType {
+            case .insert, .replace, .update:
+                guard let fullDoc = pendingWrite.fullDocument else {
+                    // should not happen, but ignore the document if the event is malformed
+                    break
+                }
+                try localColl.findOneAndReplace(
+                    filter: filter,
+                    replacement: fullDoc,
+                    options: FindOneAndReplaceOptions(upsert: true)
+                )
+                break
+            case .delete:
+                try localColl.deleteOne(filter)
+                break
+            case .unknown:
+                throw StitchError.clientError(withClientErrorCode: .unknownChangeEventType)
+            }
+        }
+
+        // Delete all of our undo documents. If we've reached this point, we've recovered the local
+        // collection to the state we want with respect to all of our undo documents. If we fail before
+        // these deletes or while carrying out the deletes, but after recovering the documents to
+        // their desired state, that's okay because the next recovery pass will be effectively a no-op
+        // up to this point.
+        try recoveredIdsArr.forEach({ hashableRecoveredId in
+            try undoColl.deleteOne([idField: hashableRecoveredId.bsonValue.value])
+        })
+
+        // Find local documents for which there are no document configs and delete them. This covers
+        // inserts, upserts, and desync deletes. This will occur on any recovery pass regardless of
+        // the documents in the undo collection, so it's fine that we do this after deleting the undo
+        // documents.
+        let syncedIds = nsConfig.syncedDocuments.map { (hashableDocId, _) -> BSONValue in
+            return hashableDocId.bsonValue.value
+        }
+        try localColl.deleteMany([idField: ["$nin": syncedIds] as Document])
     }
 
     public func on(stateChangedFor state: NetworkState) {
@@ -1394,6 +1526,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     }
 
 
+    typealias DeferredBlock = (() -> Void)
 
     /**
      Inserts the provided document. If the document is missing an identifier, the client should
@@ -1409,9 +1542,14 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             throw StitchError.clientError(
                 withClientErrorCode: .couldNotLoadSyncInfo)
         }
+
+        var deferredEventEmittingBlock: DeferredBlock? = nil
+        defer { deferredEventEmittingBlock?() }
+
         let lock = nsConfig.nsLock
         lock.writeLock()
         defer { lock.unlock() }
+
         // Remove forbidden fields from the document before inserting it into the local collection.
         let docForStorage = DataSynchronizer.sanitizeDocument(document)
         guard let result = try localCollection(for: namespace).insertOne(docForStorage),
@@ -1421,12 +1559,15 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         let event = ChangeEvent<Document>.changeEventForLocalInsert(namespace: namespace,
                                                                     document: docForStorage,
                                                                     writePending: true)
+
         var config = nsConfig.sync(id: documentId)
         try config.setSomePendingWrites(atTime: logicalT, changeEvent: event)
-        triggerListening(to: namespace)
 
-        // TODO(STITCH-2220): when we do undo collection logic, this will happen after the lock is released
-        emitEvent(documentId: documentId, event: event)
+        deferredEventEmittingBlock = {
+            self.triggerListening(to: namespace)
+            self.emitEvent(documentId: documentId, event: event)
+        }
+
         return result
     }
 
@@ -1442,6 +1583,10 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             throw StitchError.clientError(
                 withClientErrorCode: .couldNotLoadSyncInfo)
         }
+
+        var deferredEventEmittingBlock: DeferredBlock? = nil
+        defer { deferredEventEmittingBlock?() }
+
         let lock = nsConfig.nsLock
         lock.writeLock()
         defer { lock.unlock() }
@@ -1465,10 +1610,11 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             return { self.emitEvent(documentId: documentId, event: event) }
         })
 
-        triggerListening(to: namespace)
+        deferredEventEmittingBlock = {
+            self.triggerListening(to: namespace)
+            eventEmitters.forEach({$0()})
+        }
 
-        // TODO(STITCH-2220): when we do undo collection logic, this will happen after the lock is released
-        eventEmitters.forEach({$0()})
         return result
     }
 
@@ -1488,6 +1634,10 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             throw StitchError.clientError(
                 withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
         }
+
+        var deferredEventEmittingBlock: DeferredBlock? = nil
+        defer { deferredEventEmittingBlock?() }
+
         let lock = nsConfig.nsLock
         lock.writeLock()
         defer { lock.unlock() }
@@ -1498,10 +1648,13 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             return DeleteResult(deletedCount: 0)
         }
 
-        guard let documentId = docToDelete["_id"],
+        guard let documentId = docToDelete[idField],
               var docConfig = nsConfig[documentId] else {
             return DeleteResult(deletedCount: 0)
         }
+
+        let undoColl = try undoCollection(for: namespace)
+        try undoColl.insertOne(docToDelete)
 
         let result = try localColl.deleteOne(filter)
         let event =  ChangeEvent<Document>.changeEventForLocalDelete(
@@ -1515,13 +1668,18 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
            uncommittedEvent.operationType == OperationType.insert {
 
             try desync(ids: [docConfig.documentId.value], in: docConfig.namespace)
+            try undoColl.deleteOne([idField: docConfig.documentId.value])
+
             return result
         }
 
         try docConfig.setSomePendingWrites(atTime: logicalT, changeEvent: event)
 
-        // TODO(STITCH-2220): when we do undo collection logic, this will happen after the lock is released
-        emitEvent(documentId: documentId, event: event)
+        try undoColl.deleteOne([idField: docConfig.documentId.value])
+
+        deferredEventEmittingBlock = {
+            self.emitEvent(documentId: documentId, event: event)
+        }
 
         return result
     }
@@ -1541,14 +1699,20 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             throw StitchError.clientError(
                 withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
         }
+
+        var deferredEventEmittingBlock: DeferredBlock? = nil
+        defer { deferredEventEmittingBlock?() }
+
         let lock = nsConfig.nsLock
         lock.writeLock()
         defer { lock.unlock() }
 
         let localColl = try localCollection(for: namespace, withType: Document.self)
+        let undoColl = try undoCollection(for: namespace)
 
         let idsToDelete = try localColl.find(filter).compactMap { doc -> BSONValue? in
-            return doc["_id"]
+            try undoColl.insertOne(doc)
+            return doc[idField]
         }
 
         let result = try localColl.deleteMany(filter, options: options)
@@ -1569,15 +1733,18 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 uncommittedEvent.operationType == OperationType.insert {
 
                 try desync(ids: [docConfig.documentId.value], in: docConfig.namespace)
+                try undoColl.deleteOne([idField: documentId])
                 return nil
             }
 
             try docConfig.setSomePendingWrites(atTime: logicalT, changeEvent: event)
+            try undoColl.deleteOne([idField: documentId])
             return { self.emitEvent(documentId: documentId, event: event) }
         }
 
-        // TODO(STITCH-2220): when we do undo collection logic, this will happen after the lock is released
-        eventEmitters.forEach({$0()})
+        deferredEventEmittingBlock = {
+            eventEmitters.forEach({$0()})
+        }
 
         return result
     }
@@ -1586,7 +1753,6 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      Update a single document in the collection that have been synchronized with the remote
      according to the specified arguments. If the update results in an upsert,
      the newly upserted document will automatically become synchronized.
-
      - parameter filter: a document describing the query filter, which may not be null.
      - parameter update: a document describing the update, which may not be null. The update to
      apply must include only update operators.
@@ -1601,11 +1767,17 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             throw StitchError.clientError(
                 withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
         }
+
+        var deferredEventEmittingBlock: DeferredBlock? = nil
+        defer { deferredEventEmittingBlock?() }
+
         let lock = nsConfig.nsLock
         lock.writeLock()
         defer { lock.unlock() }
         // read the local collection
         let localCollection = try self.localCollection(for: namespace, withType: Document.self)
+        let undoColl = try self.undoCollection(for: namespace)
+
         let upsert = options?.upsert ?? false
 
         // fetch the document prior to updating
@@ -1615,6 +1787,10 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         // do not acknowledge the update
         if !upsert && documentBeforeUpdate == nil {
             return nil
+        }
+
+        if let backupDoc = documentBeforeUpdate {
+            try undoColl.insertOne(backupDoc)
         }
 
         // find and update the single document, returning the document post-update
@@ -1628,7 +1804,12 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                                                   collation: options?.collation,
                                                   returnDocument: .after,
                                                   upsert: options?.upsert)),
-            let documentId = unsanitizedDocumentAfterUpdate["_id"] else {
+            let documentId = unsanitizedDocumentAfterUpdate[idField] else {
+
+                if let documentIdBeforeUpdate = documentBeforeUpdate?[idField] {
+                    try undoColl.deleteOne([idField: documentIdBeforeUpdate])
+                }
+
                 return nil
         }
 
@@ -1657,7 +1838,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             // so we can swallow this update
             guard let docConfig = nsConfig[documentId],
                 let documentBeforeUpdate = documentBeforeUpdate,
-                let documentId = documentAfterUpdate["_id"] else {
+                let documentId = documentAfterUpdate[idField] else {
                     return nil
             }
             config = docConfig
@@ -1670,10 +1851,18 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         }
 
         try config.setSomePendingWrites(atTime: logicalT, changeEvent: event)
-        if triggerNamespace {
-            triggerListening(to: namespace)
+
+        if let documentIdBeforeUpdate = documentBeforeUpdate?[idField] {
+            try undoColl.deleteOne([idField: documentIdBeforeUpdate])
         }
-        self.emitEvent(documentId: documentId, event: event);
+
+        deferredEventEmittingBlock = {
+            if triggerNamespace {
+                self.triggerListening(to: namespace)
+            }
+            self.emitEvent(documentId: documentId, event: event);
+        }
+
         return UpdateResult(matchedCount: 1,
                             modifiedCount: 1,
                             upsertedId: upsert ? AnyBSONValue(documentId) : nil,
@@ -1684,7 +1873,6 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      Update all documents in the collection that have been synchronized with the remote
      according to the specified arguments. If the update results in an upsert,
      the newly upserted document will automatically become synchronized.
-
      - parameter filter: a document describing the query filter, which may not be null.
      - parameter update: a document describing the update, which may not be null. The update to
      apply must include only update operators.
@@ -1700,20 +1888,29 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             throw StitchError.clientError(
                 withClientErrorCode: .couldNotLoadSyncInfo)
         }
+
+        var deferredEventEmittingBlock: DeferredBlock? = nil
+        defer { deferredEventEmittingBlock?() }
+
         let lock = nsConfig.nsLock
         lock.writeLock()
         defer { lock.unlock() }
 
-        // fetch all of the documents that this filter will match
         let localCollection = try self.localCollection(for: namespace, withType: Document.self)
+        let undoColl = try self.undoCollection(for: namespace)
+
+        // fetch all of the documents that this filter will match
         let beforeDocuments = try localCollection.find(filter)
 
         // use the matched ids from prior to create a new filter.
         // this will prevent any race conditions if documents were
         // inserted between the prior find
-        let ids = beforeDocuments.map({$0["_id"]})
+        let ids = try beforeDocuments.compactMap({ (beforeDoc: Document) -> BSONValue? in
+            try undoColl.insertOne(beforeDoc)
+            return beforeDoc[idField]
+        })
         var updatedFilter = (options?.upsert ?? false) ? filter :
-            ["_id": ["$in": ids] as Document] as Document
+            [idField: ["$in": ids] as Document] as Document
 
         // do the bulk write
         let result = try localCollection.updateMany(filter: updatedFilter,
@@ -1723,7 +1920,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         // if this was an upsert, create the post-update filter using
         // the upserted id.
         if let upsertedId = result?.upsertedId {
-            updatedFilter = ["_id": upsertedId.value] as Document
+            updatedFilter = [idField: upsertedId.value]
         }
 
         let upsert = options?.upsert ?? false
@@ -1732,12 +1929,12 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             try localCollection.find(updatedFilter).compactMap { unsanitizedAfterDocument in
                 // get the id of the after-update document, and fetch the before-update
                 // document from the map we created from our pre-update `find`
-                guard let documentId = unsanitizedAfterDocument["_id"] else {
+                guard let documentId = unsanitizedAfterDocument[idField] else {
                     return nil
                 }
 
                 let beforeDocument = beforeDocuments.first(where: {
-                    bsonEquals($0["_id"], documentId)
+                    bsonEquals($0[idField], documentId)
                 })
 
                 // if there was no before-update document and this was not an upsert,
@@ -1753,6 +1950,15 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                     try DataSynchronizer.sanitizeCachedDocument(unsanitizedAfterDocument,
                                                                 documentId: documentId,
                                                                 in: localCollection)
+
+                // because we are looking up a bulk write, we may have queried documents
+                // that match the updated state, but were not actually modified.
+                // if the document before the update is the same as the updated doc,
+                // assume it was not modified and take no further action
+                if afterDocument == beforeDocument {
+                    try undoColl.deleteOne([idField: documentId])
+                    return nil
+                }
 
                 var config: CoreDocumentSynchronization
                 let event: ChangeEvent<Document>
@@ -1778,16 +1984,18 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                                                                             writePending: true);
                 }
 
-                try config.setSomePendingWrites(atTime: logicalT, changeEvent: event);
+                try config.setSomePendingWrites(atTime: logicalT, changeEvent: event)
+                try undoColl.deleteOne([idField: documentId])
                 return event
         }
 
-        if result?.upsertedId != nil {
-            triggerListening(to: namespace)
+        deferredEventEmittingBlock = {
+            if result?.upsertedId != nil {
+                self.triggerListening(to: namespace)
+            }
+            eventsToEmit.forEach({self.emitEvent(documentId: $0.documentKey, event: $0)})
         }
 
-        // TODO(STITCH-2220): when we do undo collection logic, this will happen after the lock is released
-        eventsToEmit.forEach({emitEvent(documentId: $0.documentKey, event: $0)})
         return result
     }
 
@@ -1893,6 +2101,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         return try self.remoteCollection(for: nsConfig.config.namespace).find(["$or": ids]).asArray()
     }
 
+    // MARK: Utilities
+
     /**
      Given a BSON document, remove any forbidden fields and return the document. If no changes are
      made, the original document reference is returned. If changes are made, a cloned copy of the
@@ -1931,7 +2141,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
         let clonedDoc = sanitizeDocument(document)
 
-        try localCollection.findOneAndUpdate(filter: ["_id": documentId],
+        try localCollection.findOneAndUpdate(filter: [idField: documentId],
                                              update: ["$unset": [documentVersionField: 1] as Document])
         return clonedDoc
     }
@@ -1954,7 +2164,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     /**
      Returns the local collection representing the given namespace.
 
-     - parameter namespace:   the namespace referring to the local collection.
+     - parameter namespace: the namespace referring to the local collection.
      - parameter type: the type of document in this collection
      - returns: the local collection representing the given namespace.
      */
@@ -1963,6 +2173,27 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         return try localClient.db(DataSynchronizer.localUserDBName(withInstanceKey: instanceKey,
                                                                    for: namespace))
             .collection(namespace.collectionName, withType: type)
+    }
+
+    /**
+     Returns the undo collection representing the given namespace for recording documents that
+     may need to be reverted after a system failure.
+
+     - parameter namespace: the namespace referring to the undo collection
+     - returns: the undo collection representing the given namespace for recording documents that may need to be
+                reverted after a system failure.
+     */
+    internal func undoCollection(for namespace: MongoNamespace) throws -> MongoCollection<Document> {
+        return try localClient.db(
+            DataSynchronizer.localUndoDBName(
+                withInstanceKey: instanceKey,
+                for: namespace)
+            ).collection(namespace.collectionName)
+    }
+
+    internal static func localUndoDBName(withInstanceKey instanceKey: String,
+                                         for namespace: MongoNamespace) -> String {
+        return "sync_undo_\(instanceKey)-\(namespace.databaseName)"
     }
 
     internal static func localConfigDBName(withInstanceKey instanceKey: String) -> String {

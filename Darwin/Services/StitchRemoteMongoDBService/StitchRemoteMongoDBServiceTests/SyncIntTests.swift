@@ -551,9 +551,10 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         // configure Sync to fail this test if a conflict occurs.
         // sync on the id, and do a sync pass
         coll.configure(conflictHandler: { (_, _, _) -> Document? in
-            fatalError()
+            XCTFail()
+            return nil
         }, changeEventDelegate: nil, errorListener: { (error, _) in
-            fatalError(error.localizedDescription)
+            XCTFail(error.localizedDescription)
         })
         coll.sync(ids: [doc1Id])
         try ctx.streamAndSync()
