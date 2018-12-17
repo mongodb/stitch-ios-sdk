@@ -72,7 +72,8 @@ private extension RemoteMongoCollection {
 private extension Sync {
     func verifyUndoCollectionEmpty() {
         guard try! self.proxy.dataSynchronizer.undoCollection(for: self.proxy.namespace).count() == 0 else {
-            fatalError("CRUD operation leaked documents in undo collection, check stack trace")
+            XCTFail("CRUD operation leaked documents in undo collection, add breakpoint here and check stack trace")
+            return
         }
     }
 

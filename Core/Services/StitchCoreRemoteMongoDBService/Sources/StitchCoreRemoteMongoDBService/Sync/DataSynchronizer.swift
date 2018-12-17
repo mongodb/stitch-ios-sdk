@@ -1325,7 +1325,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         try undoCollection.insertOne(documentToDelete)
         try localCollection.deleteOne([idField: documentId])
         try desyncDocumentFromRemote(namespace: namespace, documentId: documentId)
-        try undoCollection.deleteOne([idField: documentToDelete])
+        try undoCollection.deleteOne([idField: documentId])
 
         deferredEventEmittingBlock = {
             self.emitEvent(documentId: documentId,
