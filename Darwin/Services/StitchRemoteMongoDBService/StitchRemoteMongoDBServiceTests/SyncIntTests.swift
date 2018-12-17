@@ -70,37 +70,49 @@ private extension RemoteMongoCollection {
 // These extensions make the CRUD commands synchronous to simplify writing tests.
 // These extensions should not be used outside of a testing environment.
 private extension Sync {
+    func verifyUndoCollectionEmpty() {
+        guard try! self.proxy.dataSynchronizer.undoCollection(for: self.proxy.namespace).count() == 0 else {
+            fatalError("CRUD operation leaked documents in undo collection, check stack trace")
+        }
+    }
+
     func count(_ filter: Document) -> Int? {
+        defer { verifyUndoCollectionEmpty() }
         let joiner = CallbackJoiner()
         self.count(filter: filter, options: nil, joiner.capture())
         return joiner.value(asType: Int.self)
     }
 
     func aggregate(_ pipeline: [Document]) -> MongoCursor<Document>? {
+        defer { verifyUndoCollectionEmpty() }
         let joiner = CallbackJoiner()
         self.aggregate(pipeline: pipeline, options: nil, joiner.capture())
         return joiner.value(asType: MongoCursor<Document>.self)
     }
 
     func find(_ filter: Document) -> MongoCursor<Document>? {
+        defer { verifyUndoCollectionEmpty() }
         let joiner = CallbackJoiner()
         self.find(filter: filter, joiner.capture())
         return joiner.value(asType: MongoCursor<Document>.self)
     }
 
     func findOne(_ filter: Document) -> Document? {
+        defer { verifyUndoCollectionEmpty() }
         let joiner = CallbackJoiner()
         self.find(filter: filter, joiner.capture())
         return joiner.value(asType: MongoCursor<Document>.self)?.next()
     }
 
     func updateOne(filter: Document, update: Document) -> UpdateResult? {
+        defer { verifyUndoCollectionEmpty() }
         let joiner = CallbackJoiner()
         self.updateOne(filter: filter, update: update, options: nil, joiner.capture())
         return joiner.value()
     }
 
     func updateMany(filter: Document, update: Document, options: UpdateOptions? = nil) -> UpdateResult? {
+        defer { verifyUndoCollectionEmpty() }
         let joiner = CallbackJoiner()
         self.updateMany(filter: filter, update: update, options: options, joiner.capture())
         return joiner.value()
@@ -108,6 +120,7 @@ private extension Sync {
 
     @discardableResult
     func insertOne(_ document: DocumentT) -> InsertOneResult? {
+        defer { verifyUndoCollectionEmpty() }
         let joiner = CallbackJoiner()
         self.insertOne(document: document, joiner.capture())
         return joiner.value()
@@ -115,18 +128,21 @@ private extension Sync {
 
     @discardableResult
     func insertMany(_ documents: [DocumentT]) -> InsertManyResult? {
+        defer { verifyUndoCollectionEmpty() }
         let joiner = CallbackJoiner()
         self.insertMany(documents: documents, joiner.capture())
         return joiner.value()
     }
 
     func deleteOne(_ filter: Document) -> DeleteResult? {
+        defer { verifyUndoCollectionEmpty() }
         let joiner = CallbackJoiner()
         self.deleteOne(filter: filter, joiner.capture())
         return joiner.value()
     }
 
     func deleteMany(_ filter: Document) -> DeleteResult? {
+        defer { verifyUndoCollectionEmpty() }
         let joiner = CallbackJoiner()
         self.deleteMany(filter: filter, joiner.capture())
         return joiner.value()
