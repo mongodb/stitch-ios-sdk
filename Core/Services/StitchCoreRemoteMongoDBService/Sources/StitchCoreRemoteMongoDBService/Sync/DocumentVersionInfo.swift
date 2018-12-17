@@ -1,6 +1,6 @@
 import MongoSwift
 
-internal let DOCUMENT_VERSION_FIELD = "__stitch_sync_version"
+internal let documentVersionField = "__stitch_sync_version"
 
 /**
  Returns a query filter for the given document _id and version. The version is allowed to be
@@ -16,9 +16,9 @@ private func getVersionedFilter(documentId: BSONValue?,
                                 version: BSONValue?) -> Document {
     var filter: Document = ["_id": documentId]
     if version == nil {
-        filter[DOCUMENT_VERSION_FIELD] = ["$exists": false] as Document
+        filter[documentVersionField] = ["$exists": false] as Document
     } else {
-        filter[DOCUMENT_VERSION_FIELD] = version
+        filter[documentVersionField] = version
     }
     return filter
 }
@@ -39,10 +39,9 @@ final class DocumentVersionInfo {
      empty version.
      */
     lazy var nextVersion: Document = {
-        guard hasVersion,
-            let versionDoc = versionDoc,
-            let version = version else {
-                return DocumentVersionInfo.freshVersionDocument()
+        guard let version = version,
+            let versionDoc = versionDoc else {
+            return DocumentVersionInfo.freshVersionDocument()
         }
 
         var nextVersion = versionDoc.mapValues({$0})
@@ -50,16 +49,6 @@ final class DocumentVersionInfo {
             version.versionCounter + 1
         return nextVersion
     }()
-    /**
-     Whether this version is non-empty (i.e. a version from a document with no version).
-     The absence of a version is effectively a version, and should be treated as such by consumers
-     of this method.
-     */
-    var hasVersion: Bool {
-        get {
-            return version != nil
-        }
-    }
 
     /// The version information for a synchronized document.
     struct Version: Codable {
@@ -77,11 +66,11 @@ final class DocumentVersionInfo {
     }
 
     private init(version: Document?,
-                 documentId: BSONValue?) {
+                 documentId: BSONValue?) throws {
         if let version = version {
             self.versionDoc = version
-            self.version = try? BSONDecoder().decode(Version.self,
-                                                     from: version)
+            self.version = try BSONDecoder().decode(Version.self,
+                                                    from: version)
         } else {
             self.versionDoc = nil
             self.version = nil
@@ -100,8 +89,8 @@ final class DocumentVersionInfo {
      - parameter docConfig: the CoreDocumentSynchronizationConfig to get the version info from.
      - returns: a DocumentVersionInfo
      */
-    static func getLocalVersionInfo(docConfig: CoreDocumentSynchronization) -> DocumentVersionInfo {
-        return DocumentVersionInfo(
+    static func getLocalVersionInfo(docConfig: CoreDocumentSynchronization) throws -> DocumentVersionInfo {
+        return try DocumentVersionInfo(
             version: docConfig.lastKnownRemoteVersion,
             documentId: docConfig.documentId.value
         )
@@ -112,9 +101,11 @@ final class DocumentVersionInfo {
      - parameter remoteDocument the remote BSON document from which to extract version info
      - returns: a DocumentVersionInfo
      */
-    static func getRemoteVersionInfo(remoteDocument: Document) -> DocumentVersionInfo {
-        let version = getDocumentVersionDoc(document: remoteDocument)
-        return DocumentVersionInfo(
+    static func getRemoteVersionInfo(remoteDocument: Document) throws -> DocumentVersionInfo? {
+        guard let version = getDocumentVersionDoc(document: remoteDocument) else {
+            return nil
+        }
+        return try DocumentVersionInfo(
             version: version,
             documentId: remoteDocument["_id"]
         )
@@ -127,8 +118,8 @@ final class DocumentVersionInfo {
      - parameter versionDoc the raw version document from which to extract version info
      - returns: a DocumentVersionInfo
      */
-    static func fromVersionDoc(versionDoc: Document?) -> DocumentVersionInfo {
-        return DocumentVersionInfo(version: versionDoc, documentId: nil)
+    static func fromVersionDoc(versionDoc: Document?) throws -> DocumentVersionInfo {
+        return try DocumentVersionInfo(version: versionDoc, documentId: nil)
     }
 
     /**
@@ -151,9 +142,9 @@ final class DocumentVersionInfo {
      */
     static func getDocumentVersionDoc(document: Document?) -> Document? {
         guard let document = document,
-            document.hasKey(DOCUMENT_VERSION_FIELD) else {
+            document.hasKey(documentVersionField) else {
                 return nil
         }
-        return document[DOCUMENT_VERSION_FIELD] as? Document
+        return document[documentVersionField] as? Document
     }
 }

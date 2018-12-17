@@ -108,7 +108,7 @@ public struct ChangeEvent<DocumentT: Codable>: Codable, Hashable {
     static func transform<T: Codable>(changeEvent: ChangeEvent<Document>) throws -> ChangeEvent<T> {
         var fullDocument: T?
         if let actualFullDocument = changeEvent.fullDocument {
-            fullDocument = try BSONDecoder().decode(T.self, from: actualFullDocument)
+            fullDocument = try BSONDecoder().decode(T.self, from: DataSynchronizer.sanitizeDocument(actualFullDocument))
         }
         return ChangeEvent<T>.init(
             id: changeEvent.id,

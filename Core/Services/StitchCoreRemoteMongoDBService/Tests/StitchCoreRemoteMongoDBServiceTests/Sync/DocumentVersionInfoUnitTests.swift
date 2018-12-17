@@ -4,7 +4,7 @@ import MongoSwift
 @testable import StitchCoreRemoteMongoDBService
 
 class DocumentVersionInfoUnitTests: XCTestCase {
-    func testVersionDocument() {
+    func testVersionDocument() throws {
         var versionDocument = DocumentVersionInfo.freshVersionDocument()
 
         XCTAssertEqual(1,
@@ -13,9 +13,9 @@ class DocumentVersionInfoUnitTests: XCTestCase {
         XCTAssertEqual(Int64(0),
                        versionDocument[DocumentVersionInfo.Version.CodingKeys.versionCounter.rawValue] as? Int64)
 
-        let documentVersion = DocumentVersionInfo.fromVersionDoc(versionDoc: versionDocument)
+        let documentVersion = try DocumentVersionInfo.fromVersionDoc(versionDoc: versionDocument)
 
-        XCTAssertTrue(documentVersion.hasVersion)
+        XCTAssertTrue(documentVersion.version != nil)
         XCTAssertEqual(documentVersion.version?.syncProtocolVersion,
                        versionDocument[DocumentVersionInfo.Version.CodingKeys.syncProtocolVersion.rawValue] as? Int)
         XCTAssertEqual(documentVersion.version?.instanceId,

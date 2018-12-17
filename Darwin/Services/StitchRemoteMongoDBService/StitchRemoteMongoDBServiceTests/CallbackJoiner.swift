@@ -54,12 +54,12 @@ class CallbackJoiner {
         // coerce the latest captured value to type T,
         // returning the result. previous capturedValues
         // should always have been overwritten at this point
-        guard let result = _capturedValue as? T? else {
+        guard _capturedValue is T? else {
             fatalError(
                 "Could not unwrap captured value of type " +
                 "\(String(describing: _capturedValue.self)) as \(type)")
         }
-        return result
+        return _capturedValue as? T
     }
 
     /*

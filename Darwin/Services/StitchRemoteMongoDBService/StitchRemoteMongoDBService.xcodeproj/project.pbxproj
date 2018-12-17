@@ -146,6 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				1169217620C9D04C00930DD8 /* RemoteMongoClientIntTests.swift */,
+				499CD19C21C01D4A00CB4EBF /* SyncIntTests.swift */,
 				496BC5A621B1DC6400D68F91 /* CallbackJoiner.swift */,
 				1169217820C9D04C00930DD8 /* Info.plist */,
 			);
@@ -392,6 +393,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				496BC5A721B1DC6400D68F91 /* CallbackJoiner.swift in Sources */,
+				499CD19D21C01D4A00CB4EBF /* SyncIntTests.swift in Sources */,
 				1169217720C9D04C00930DD8 /* RemoteMongoClientIntTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

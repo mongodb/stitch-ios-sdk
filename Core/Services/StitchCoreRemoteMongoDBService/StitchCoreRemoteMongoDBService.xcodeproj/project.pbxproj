@@ -364,6 +364,7 @@
 				4943FC65219659AE00DED08C /* ReadWriteLock.swift in Sources */,
 				OBJ_173 /* RemoteCountOptions.swift in Sources */,
 				4943FC69219688FA00DED08C /* BSONValue+Hashable.swift in Sources */,
+				499CD19B21BDFDFC00CB4EBF /* DataSynchronizerError.swift in Sources */,
 				OBJ_174 /* RemoteDeleteResult.swift in Sources */,
 				4943FC5D2196508100DED08C /* MongoNamespace.swift in Sources */,
 				4943FC61219650A200DED08C /* UpdateDescription.swift in Sources */,

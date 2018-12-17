@@ -25,6 +25,14 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         super.setUp()
         
         try! prepareService()
+        let joiner = CallbackJoiner()
+        getTestColl().deleteMany([:], joiner.capture())
+        joiner.capturedValue
+        CoreLocalMongoDBService.shared.localInstances.forEach { client in
+            try! client.listDatabases().forEach {
+                try? client.db($0["name"] as! String).drop()
+            }
+        }
     }
 
     override func tearDown() {
@@ -53,12 +61,16 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
                 name: "mongodb1", uri: mongodbUri
             )
         )
-        
-        let rule: Document = ["read": Document(), "write": Document(), "other_fields": Document()]
-        
+                
         _ = try self.addRule(
             toService: svc.1,
-            withConfig: RuleCreator.mongoDb(namespace: "\(dbName).\(collName)", rule: rule)
+            withConfig: RuleCreator.mongoDb(
+                database: dbName,
+                collection: collName,
+                roles: [RuleCreator.Role(
+                    read: true, write: true
+                    )],
+                schema: RuleCreator.Schema())
         )
         
         let client = try self.appClient(forApp: app.0)
@@ -1139,7 +1151,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         sync.count(joiner.capture())
         XCTAssertEqual(0, joiner.value())
 
-        let doc1 = ["hello": "world", "a": "b", DOCUMENT_VERSION_FIELD: "naughty"] as Document
+        let doc1 = ["hello": "world", "a": "b", documentVersionField: "naughty"] as Document
 
         sync.insertOne(document: doc1, joiner.capture())
         let insertOneResult = joiner.value(asType: InsertOneResult.self)
@@ -1156,7 +1168,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         XCTAssertEqual("b", actualDoc["a"] as? String)
         XCTAssert(bsonEquals(insertOneResult?.insertedId ?? nil, actualDoc["_id"]))
         XCTAssertEqual("world", actualDoc["hello"] as? String)
-        XCTAssertFalse(actualDoc.hasKey(DOCUMENT_VERSION_FIELD))
+        XCTAssertFalse(actualDoc.hasKey(documentVersionField))
         XCTAssertNil(cursor.next())
     }
 
@@ -1194,7 +1206,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         XCTAssertEqual("b", actualDoc["a"] as? String)
         XCTAssert(bsonEquals(insertManyResult?.insertedIds[0] ?? nil, actualDoc["_id"]))
         XCTAssertEqual("world", actualDoc["hello"] as? String)
-        XCTAssertFalse(actualDoc.hasKey(DOCUMENT_VERSION_FIELD))
+        XCTAssertFalse(actualDoc.hasKey(documentVersionField))
         XCTAssertNotNil(cursor.next())
     }
 
@@ -1210,7 +1222,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         sync.count(joiner.capture())
         XCTAssertEqual(0, joiner.value())
 
-        let doc1 = ["hello": "world", "a": "b", DOCUMENT_VERSION_FIELD: "naughty"] as Document
+        let doc1 = ["hello": "world", "a": "b", documentVersionField: "naughty"] as Document
 
         sync.updateOne(filter: doc1,
                        update: doc1,
@@ -1253,7 +1265,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
         XCTAssertEqual("b", actualDoc["a"] as? String)
         XCTAssertEqual("goodbye", actualDoc["hello"] as? String)
-        XCTAssertFalse(actualDoc.hasKey(DOCUMENT_VERSION_FIELD))
+        XCTAssertFalse(actualDoc.hasKey(documentVersionField))
         XCTAssertNil(cursor.next())
     }
 
@@ -1269,7 +1281,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         sync.count(joiner.capture())
         XCTAssertEqual(0, joiner.value())
 
-        let doc1 = ["hello": "world", "a": "b", DOCUMENT_VERSION_FIELD: "naughty"] as Document
+        let doc1 = ["hello": "world", "a": "b", documentVersionField: "naughty"] as Document
         let doc2 = ["hello": "computer", "a": "b"] as Document
 
         sync.insertMany(documents: [doc1, doc2], joiner.capture())
@@ -1308,96 +1320,8 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         cursor.forEach { actualDoc in
             XCTAssertEqual("b", actualDoc["a"] as? String)
             XCTAssertEqual("goodbye", actualDoc["hello"] as? String)
-            XCTAssertFalse(actualDoc.hasKey(DOCUMENT_VERSION_FIELD))
+            XCTAssertFalse(actualDoc.hasKey(documentVersionField))
         }
-    }
-
-    struct FooIter: Codable {
-        var foo = 42
-    }
-
-    private class StreamJoiner: SSEStreamDelegate {
-        var events = [ChangeEvent<FooIter>]()
-        var streamState: SSEStreamState?
-
-        override func on(stateChangedFor state: SSEStreamState) {
-            streamState = state
-        }
-
-        override func on(newEvent event: RawSSE) {
-            guard let changeEvent: ChangeEvent<FooIter> = try! event.decodeStitchSSE() else {
-                return
-            }
-
-            events.append(changeEvent)
-        }
-
-        func wait(forState state: SSEStreamState) {
-            let semaphore = DispatchSemaphore.init(value: 0)
-            DispatchWorkItem {
-                while self.streamState != state {
-                    usleep(10)
-                }
-                semaphore.signal()
-                }.perform()
-            semaphore.wait()
-        }
-
-        func wait(forEvents eventCount: Int) {
-            let semaphore = DispatchSemaphore.init(value: 0)
-            DispatchWorkItem {
-                while self.events.count < eventCount {
-                    usleep(10)
-                }
-                semaphore.signal()
-                }.perform()
-            semaphore.wait()
-        }
-    }
-
-    func testSync_ChangeStreamDelegates() {
-        let coll = getTestColl()
-        let sync = coll.sync
-        let doc = FooIter()
-        coll.withCollectionType(FooIter.self).insertOne(doc, joiner.capture())
-
-        guard let insertOneResult = joiner.value(asType: RemoteInsertOneResult.self) else {
-            XCTFail("could not insert")
-            return
-        }
-
-        let iCSDel = sync.proxy
-            .dataSynchronizer
-            .instanceChangeStreamDelegate
-
-        let ns = MongoNamespace.init(databaseName: dbName, collectionName: collName)
-
-        sync.sync(ids: [insertOneResult.insertedId])
-
-        let nsChangeStreamDelegate = iCSDel[ns]
-        let streamJoiner = StreamJoiner()
-        nsChangeStreamDelegate?.add(streamDelegate: streamJoiner)
-        streamJoiner.wait(forState: .open)
-
-        for i in 0 ..< 10 {
-            coll.updateOne(filter: ["_id": insertOneResult.insertedId] as Document,
-                           update: ["$set": ["foo": i] as Document] as Document,
-                           options: nil,
-                           joiner.capture())
-
-            guard let updateResult = joiner.value(asType: RemoteUpdateResult.self) else {
-                XCTFail("could not update")
-                return
-            }
-
-            XCTAssertEqual(updateResult.modifiedCount, 1)
-            streamJoiner.wait(forEvents: 1)
-
-            XCTAssertEqual(i, streamJoiner.events.removeFirst().fullDocument?.foo)
-        }
-
-        nsChangeStreamDelegate?.stop()
-        streamJoiner.wait(forState: .closed)
     }
 
     func testSync_deleteOne() throws {
