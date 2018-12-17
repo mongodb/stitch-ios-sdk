@@ -461,6 +461,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         XCTAssertEqual(expectedDocument, findResult.next())
         remote.find(doc1Filter, options: nil).first(joiner.capture())
         XCTAssertEqual(expectedDocument, withoutSyncVersion(joiner.value()!))
+
+        sync.verifyUndoCollectionEmpty()
     }
 
     func testUpdateConflicts() throws {
@@ -518,6 +520,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
 
         XCTAssertEqual(expectedLocalDocument, coll.findOne(doc1Filter))
         XCTAssertEqual(expectedLocalDocument.sorted(), withoutSyncVersion(remote.findOne(doc1Filter)!.sorted()))
+        coll.verifyUndoCollectionEmpty()
     }
 
     func testUpdateRemoteWins() throws {
@@ -567,6 +570,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter))
         try ctx.streamAndSync()
         XCTAssertEqual(expectedDocument, withoutSyncVersion(remote.findOne(doc1Filter)!))
+
+        coll.verifyUndoCollectionEmpty()
     }
 
     func testUpdateLocalWins() throws {
@@ -613,6 +618,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter))
         try ctx.streamAndSync()
         XCTAssertEqual(expectedDocument, withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
+
+        coll.verifyUndoCollectionEmpty()
     }
 
     func testDeleteOneByIdNoConflict() throws {
@@ -664,6 +671,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         try ctx.streamAndSync()
         XCTAssertNil(remoteColl.findOne(doc1Filter))
         XCTAssertNil(coll.findOne(doc1Filter))
+
+        coll.verifyUndoCollectionEmpty()
     }
 
     func testDeleteOneByIdConflict() throws {
@@ -712,6 +721,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         expectedDocument = expectedDocument.filter { !($0.key == "hello" || $0.key == "foo") }
         expectedDocument["well"] = "shoot"
         XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter))
+
+        coll.verifyUndoCollectionEmpty()
     }
 
     func testInsertThenUpdateThenSync() throws {
@@ -748,6 +759,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         // assert that the local insertion reflects remotely
         XCTAssertEqual(expectedDocument, withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
         XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter))
+
+        coll.verifyUndoCollectionEmpty()
     }
 
     func testInsertThenSyncUpdateThenUpdate() throws {
@@ -788,6 +801,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         try ctx.streamAndSync()
         XCTAssertEqual(expectedDocument, withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
         XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter))
+
+        coll.verifyUndoCollectionEmpty()
     }
 
     func testInsertThenSyncThenRemoveThenInsertThenUpdate() throws {
@@ -835,6 +850,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter))
 
         goOffline()
+
+        coll.verifyUndoCollectionEmpty()
     }
 
     let failingConflictHandler = { (_: BSONValue, _: ChangeEvent<Document>, _: ChangeEvent<Document>) -> Document? in
@@ -880,6 +897,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         // assert that the remote insertion is NOT reflected locally
         XCTAssertEqual(doc, remoteColl.findOne(doc1Filter)!)
         XCTAssertNil(coll.findOne(doc1Filter))
+
+        coll.verifyUndoCollectionEmpty()
     }
 
     func testRemoteDeletesLocalConflict() throws {
@@ -924,6 +943,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         try ctx.streamAndSync()
         XCTAssertNotNil(remoteColl.findOne(doc1Filter))
         XCTAssertNotNil(coll.findOne(doc1Filter))
+
+        coll.verifyUndoCollectionEmpty()
     }
 
     func testRemoteInsertsLocalUpdates() throws {
@@ -972,6 +993,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         try ctx.streamAndSync()
         XCTAssertEqual(expectedDocument, withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
         XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter)!)
+
+        coll.verifyUndoCollectionEmpty()
     }
 
     func testRemoteInsertsWithVersionLocalUpdates() throws {
@@ -1003,6 +1026,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         expectedDocument["foo"] = 1
         XCTAssertEqual(expectedDocument, withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
         XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter))
+
+        coll.verifyUndoCollectionEmpty()
     }
 
     func testResolveConflictWithDelete() throws {
@@ -1049,6 +1074,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         try ctx.streamAndSync()
         XCTAssertNil(remoteColl.findOne(doc1Filter))
         XCTAssertNil(coll.findOne(doc1Filter))
+
+        coll.verifyUndoCollectionEmpty()
     }
 
     func testTurnDeviceOffAndOn() throws {
@@ -1118,6 +1145,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         // sync. assert that the update was reflected remotely
         try ctx.streamAndSync()
         XCTAssertEqual(expectedDocument, withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
+
+        coll.verifyUndoCollectionEmpty()
     }
 
     func testDesync() throws {
@@ -1136,6 +1165,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         // sync. assert that the desync'd document no longer exists locally
         try ctx.streamAndSync()
         XCTAssertNil(coll.findOne(["_id": doc1Id]))
+
+        coll.verifyUndoCollectionEmpty()
     }
 
     func testInsertInsertConflict() throws {
@@ -1166,6 +1197,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         try ctx.streamAndSync()
         XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter))
         XCTAssertEqual(expectedDocument, withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
+
+        coll.verifyUndoCollectionEmpty()
     }
 
     func testConfigure() throws {
@@ -1207,6 +1240,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         }
         XCTAssertTrue(hasConflictHandlerBeenInvoked)
         XCTAssertTrue(hasChangeEventListenerBeenInvoked)
+
+        coll.verifyUndoCollectionEmpty()
     }
 
     func testSyncVersioningScheme() throws {
@@ -1294,6 +1329,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
 
         XCTAssertNotEqual(instanceIdOf(secondRemoteDoc), instanceIdOf(fourthRemoteDoc))
         XCTAssertEqual(0, versionCounterOf(fourthRemoteDoc))
+
+        coll.verifyUndoCollectionEmpty()
     }
 
     func testUnsupportedSpvFails() throws {
@@ -1326,6 +1363,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
             XCTFail()
             return
         }
+
+        coll.verifyUndoCollectionEmpty()
     }
 
     func testStaleFetchSingle() throws {
@@ -1358,6 +1397,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         // sync. assert the document still exists
         try ctx.streamAndSync()
         XCTAssertNotNil(coll.findOne(["_id": doc1Id]))
+
+        coll.verifyUndoCollectionEmpty()
     }
 
     func testStaleFetchSingleDeleted() throws {
@@ -1393,6 +1434,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
 
         try ctx.streamAndSync()
         XCTAssertNil(coll.findOne(doc1Filter))
+
+        coll.verifyUndoCollectionEmpty()
     }
 
     func testStaleFetchMultiple() throws {
@@ -1424,6 +1467,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         try ctx.streamAndSync()
         XCTAssertNotNil(coll.findOne(["_id": doc1Id]))
         XCTAssertNotNil(coll.findOne(["_id": doc2Id]))
+
+        coll.verifyUndoCollectionEmpty()
     }
 
     func testShouldUpdateUsingUpdateDescription() throws {
@@ -1537,6 +1582,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
             XCTFail()
             return
         }
+
+        coll.verifyUndoCollectionEmpty()
     }
 
     func testResumeSyncForDocumentResumesSync() throws {
@@ -1616,6 +1663,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
             withoutId(lastDoc),
             withoutId(coll.findOne(["_id": result?.insertedId])!)
         )
+
+        coll.verifyUndoCollectionEmpty()
     }
 
     func testReadsBeforeAndAfterSync() throws {
@@ -1657,6 +1706,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         XCTAssertEqual(0, coll.aggregate([[
             "$match": ["_id": ["$in": insertResult?.insertedIds.map({ $1 })] as Document] as Document
             ]])?.compactMap({ $0 }).count)
+
+        coll.verifyUndoCollectionEmpty()
     }
 
     func testInsertManyNoConflicts() throws {
@@ -1684,6 +1735,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         XCTAssertEqual(doc1.sorted(), withoutSyncVersion(remoteColl.findOne(["_id": doc1["_id"]])!.sorted()))
         XCTAssertEqual(doc2.sorted(), withoutSyncVersion(remoteColl.findOne(["_id": doc2["_id"]])!.sorted()))
         XCTAssertEqual(doc3.sorted(), withoutSyncVersion(remoteColl.findOne(["_id": doc3["_id"]])!.sorted()))
+
+        coll.verifyUndoCollectionEmpty()
     }
 
     func testUpdateManyNoConflicts() throws {
@@ -1755,6 +1808,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         remoteFound.forEach({ doc in
             XCTAssertEqual(["trout", "mackerel", "cod", "hake"], doc["fish"] as? [String])
         })
+
+        coll.verifyUndoCollectionEmpty()
     }
 
     // TODO: this test is flaky, due to the fact that the MongoSwift MongoClient is not thread-safe
@@ -1901,6 +1956,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
 
         // verify the version did not get incremented, because this update was a noop
         XCTAssertEqual(2, versionCounterOf(remoteDoc3))
+
+        coll.verifyUndoCollectionEmpty()
     }
 
     func testConflictForEmptyVersionDocuments() throws {
@@ -1952,7 +2009,11 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
 
         XCTAssertNil(coll.findOne(doc1Filter))
         XCTAssertNil(remoteColl.findOne(doc1Filter))
+
+        coll.verifyUndoCollectionEmpty()
     }
+
+    // MARK: Utilities
 
     private func hasVersionField(_ document: Document) -> Bool {
         return document["__stitch_sync_version"] != nil
