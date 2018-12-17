@@ -88,6 +88,7 @@ public final class FoundationHTTPTransport: Transport {
                                       delegateQueue: nil)
 
         session.dataTask(with: url).resume()
+        sseStream.state = .opening
         return sseStream
     }
 }

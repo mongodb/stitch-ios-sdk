@@ -131,6 +131,7 @@ internal class NamespaceSynchronization: Sequence {
         return self.config.syncedDocuments.count
     }
 
+
     func sync(id: BSONValue) -> CoreDocumentSynchronization {
         if let existingConfig = self[id] {
             return existingConfig
@@ -200,12 +201,14 @@ internal class NamespaceSynchronization: Sequence {
      - parameter changeEventDelegate: a ChangeEventDelegate to listen to events on this namespace
      */
     func configure<T: ConflictHandler, V: ChangeEventDelegate>(conflictHandler: T,
-                                                                        changeEventDelegate: V) {
+                                                               changeEventDelegate: V?) {
         nsLock.writeLock()
         defer { nsLock.unlock() }
         self.conflictHandler = AnyConflictHandler(conflictHandler)
-        self.changeEventDelegate = AnyChangeEventDelegate(changeEventDelegate,
-                                                          errorListener: errorListener)
+        if let changeEventDelegate = changeEventDelegate {
+            self.changeEventDelegate = AnyChangeEventDelegate(changeEventDelegate,
+                                                              errorListener: errorListener)
+        }
     }
 
     /// A set of stale ids for the sync'd documents in this namespace.
@@ -224,6 +227,17 @@ internal class NamespaceSynchronization: Sequence {
                 errorListener?.on(error: error, forDocumentId: nil, in: self.config.namespace)
                 return Set()
             }
+
         }
+    }
+
+    func set(stale: Bool) throws {
+        nsLock.tryWriteLock()
+        defer { nsLock.unlock() }
+        try docsColl.updateMany(
+            filter: ["namespace": try BSONEncoder().encode(config.namespace)],
+            update: ["$set": [
+                CoreDocumentSynchronization.Config.CodingKeys.isStale.rawValue: true
+            ] as Document])
     }
 }

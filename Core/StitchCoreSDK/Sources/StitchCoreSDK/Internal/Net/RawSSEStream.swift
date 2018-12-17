@@ -3,10 +3,14 @@ import Foundation
 private let newlineChar = [UInt8]("\n".utf8)[0]
 
 public enum SSEStreamState {
-    case open, closed
+    case opening, open, closing, closed
 }
 
-open class SSEStreamDelegate {
+open class SSEStreamDelegate: Hashable {
+    public static func == (lhs: SSEStreamDelegate, rhs: SSEStreamDelegate) -> Bool {
+        return lhs === rhs
+    }
+
     public init() {}
     
     open func on(newEvent event: RawSSE) {
@@ -20,6 +24,10 @@ open class SSEStreamDelegate {
     open func on(error: Error) {
 
     }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(ObjectIdentifier(self))
+    }
 }
 
 open class RawSSEStream {
@@ -28,6 +36,7 @@ open class RawSSEStream {
             delegate?.on(stateChangedFor: state)
         }
     }
+
     public weak var delegate: SSEStreamDelegate? = nil
     public var dataBuffer = Data()
 

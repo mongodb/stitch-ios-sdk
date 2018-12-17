@@ -31,6 +31,7 @@
 		498DF58F219F73B4009F1B3F /* CoreSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498DF58E219F73B4009F1B3F /* CoreSync.swift */; };
 		498E55D02190A05C00A02A03 /* StitchCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E55CF2190A05C00A02A03 /* StitchCoreSDK.framework */; };
 		498E55D22190A08400A02A03 /* StitchCoreSDKMocks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E55D12190A08400A02A03 /* StitchCoreSDKMocks.framework */; };
+		499CD19B21BDFDFC00CB4EBF /* DataSynchronizerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499CD19A21BDFDFC00CB4EBF /* DataSynchronizerError.swift */; };
 		49E8957B21991C1A003C3758 /* NamespaceSynchronizationConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E8957A21991C1A003C3758 /* NamespaceSynchronizationConfig.swift */; };
 		49F40F4C21A2FFE500FAB750 /* CoreSyncUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F40F4B21A2FFE500FAB750 /* CoreSyncUnitTests.swift */; };
 		49FA277D219A605700F9E3D4 /* ConflictHandlerUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA277C219A605700F9E3D4 /* ConflictHandlerUnitTests.swift */; };
@@ -99,6 +100,7 @@
 		498DF58E219F73B4009F1B3F /* CoreSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreSync.swift; sourceTree = "<group>"; };
 		498E55CF2190A05C00A02A03 /* StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		498E55D12190A08400A02A03 /* StitchCoreSDKMocks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDKMocks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		499CD19A21BDFDFC00CB4EBF /* DataSynchronizerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSynchronizerError.swift; sourceTree = "<group>"; };
 		49E8957A21991C1A003C3758 /* NamespaceSynchronizationConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamespaceSynchronizationConfig.swift; sourceTree = "<group>"; };
 		49F40F4B21A2FFE500FAB750 /* CoreSyncUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreSyncUnitTests.swift; sourceTree = "<group>"; };
 		49FA277C219A605700F9E3D4 /* ConflictHandlerUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConflictHandlerUnitTests.swift; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 				498DF58A219F7392009F1B3F /* Log.swift */,
 				498DF58E219F73B4009F1B3F /* CoreSync.swift */,
 				498DF58C219F73AD009F1B3F /* DataSynchronizer.swift */,
+				499CD19A21BDFDFC00CB4EBF /* DataSynchronizerError.swift */,
 				491A934621B3227400F60F59 /* InstanceChangeStreamDelegate.swift */,
 				491A934821B3234D00F60F59 /* NamespaceChangeStreamDelegate.swift */,
 				4980B12C219A1AA500D6E49C /* InstanceSynchronizationConfig.swift */,
@@ -485,6 +488,7 @@
 				4943FC65219659AE00DED08C /* ReadWriteLock.swift in Sources */,
 				OBJ_173 /* RemoteCountOptions.swift in Sources */,
 				4943FC69219688FA00DED08C /* BSONValue+Hashable.swift in Sources */,
+				499CD19B21BDFDFC00CB4EBF /* DataSynchronizerError.swift in Sources */,
 				OBJ_174 /* RemoteDeleteResult.swift in Sources */,
 				4943FC5D2196508100DED08C /* MongoNamespace.swift in Sources */,
 				4943FC61219650A200DED08C /* UpdateDescription.swift in Sources */,

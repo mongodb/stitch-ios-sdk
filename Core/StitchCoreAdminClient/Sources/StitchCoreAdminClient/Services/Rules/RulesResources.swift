@@ -20,7 +20,58 @@ extension RuleActions {
 public enum RuleCreator: Encodable {
     case actions(name: String, actions: RuleActionsCreator)
     case actionsWithWhen(name: String, actions: RuleActionsCreator, when: Document)
-    case mongoDb(namespace: String, rule: Document)
+    public struct Role: Codable {
+        enum CodingKeys: String, CodingKey {
+            case name
+            case applyWhen = "apply_when"
+            case fields
+            case additionalFields = "additional_fields"
+            case read, write, insert, delete
+        }
+
+        let name: String
+        let applyWhen: Document
+        let fields: Document
+        let additionalFields: AdditionalFields
+        let read: Bool
+        let write: Bool?
+        let insert: Bool
+        let delete: Bool
+
+        public init(name: String = "default",
+             applyWhen: Document = Document(),
+             fields: Document = Document(),
+             additionalFields: AdditionalFields = AdditionalFields(),
+             read: Bool = true,
+             write: Bool? = nil,
+             insert: Bool = true,
+             delete: Bool = true) {
+            self.name = name
+            self.applyWhen = applyWhen
+            self.fields = fields
+            self.additionalFields = additionalFields
+            self.read = read
+            self.write = write
+            self.insert = insert
+            self.delete = delete
+        }
+        public struct AdditionalFields: Codable {
+            let write: Bool
+            let read: Bool
+
+            public init(write: Bool = true, read: Bool = true) {
+                self.write = write
+                self.read = read
+            }
+        }
+    }
+    public struct Schema: Codable {
+        let properties: Document
+        public init(properties: Document = ["_id": ["bsonType": "objectId"] as Document]) {
+            self.properties = properties
+        }
+    }
+    case mongoDb(database: String, collection: String, roles: [Role], schema: Schema)
     
     public func encode(to encoder: Encoder) throws {
         switch self {
@@ -28,8 +79,13 @@ public enum RuleCreator: Encodable {
             try RuleCreatorActions.init(name: name, actions: actions).encode(to: encoder)
         case .actionsWithWhen(let name, let actions, let when):
             try RuleCreatorActions.init(name: name, actions: actions, when: when).encode(to: encoder)
-        case .mongoDb(let namespace, let rule):
-            try RuleCreatorMongoDb.init(namespace: namespace, rule: rule).encode(to: encoder)
+        case .mongoDb(let database, let collection, let roles, let schema):
+            try ([
+                "database": database,
+                "collection": collection,
+                "roles": try roles.map { try BSONEncoder().encode($0) },
+                "schema": try BSONEncoder().encode(schema)
+            ] as Document).encode(to: encoder)
         }
     }
 }
@@ -145,7 +201,17 @@ public enum RuleActionsCreator: Encodable {
 }
 
 public struct RuleResponse: Codable {
-    init() {
-        fatalError("RuleView not implemented")
+    enum CodingKeys: String, CodingKey {
+        case id = "_id"
+    }
+    public let id: String
+}
+
+extension Apps.App.Services.Service.Rules {
+    /// GET a rule
+    /// - parameter id: id of the requested rule
+    public func rule(withID id: String) -> Rule {
+        return Rule.init(adminAuth: self.adminAuth,
+                            url: "\(self.url)/\(id)")
     }
 }

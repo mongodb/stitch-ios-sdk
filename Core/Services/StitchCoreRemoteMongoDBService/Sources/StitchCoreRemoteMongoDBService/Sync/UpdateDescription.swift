@@ -61,7 +61,7 @@ private func diffBetween(ourDocument: Document,
     // for each key in this document...
     ourDocument.forEach { (key, ourValue) in
         // don't worry about the _id or version field for now
-        if key == "_id" || key == DOCUMENT_VERSION_FIELD {
+        if key == "_id" || key == documentVersionField {
             return
         }
 
@@ -95,7 +95,7 @@ private func diffBetween(ourDocument: Document,
     // for each key in the other document...
     theirDocument.forEach { (key, theirValue) in
         // don't worry about the _id or version field for now
-        if key == "_id" || key == DOCUMENT_VERSION_FIELD {
+        if key == "_id" || key == documentVersionField {
             return
         }
 

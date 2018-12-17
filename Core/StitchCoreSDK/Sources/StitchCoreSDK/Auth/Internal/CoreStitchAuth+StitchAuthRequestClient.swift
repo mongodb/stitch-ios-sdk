@@ -1,11 +1,12 @@
 import Foundation
 import MongoSwift
 
+private let authTokenQueryParam = "&stitch_at="
+
 /**
  * Extension functions for `CoreStitchAuth` to add conformance to `StitchAuthRequestClient`, and to support proactive
  * and non-proactive access token refresh.
  */
-private let authTokenQueryParam = "&stitch_at="
 extension CoreStitchAuth {
     /**
      * Performs an authenticated request to the Stitch server, using the current authentication state. Will throw when

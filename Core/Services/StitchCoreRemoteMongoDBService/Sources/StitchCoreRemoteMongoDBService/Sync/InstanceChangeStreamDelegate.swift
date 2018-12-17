@@ -17,10 +17,10 @@ class InstanceChangeStreamDelegate {
          service: CoreStitchServiceClient,
          networkMonitor: NetworkMonitor,
          authMonitor: AuthMonitor) {
-        self.instanceConfig = instanceConfig;
-        self.service = service;
-        self.networkMonitor = networkMonitor;
-        self.authMonitor = authMonitor;
+        self.instanceConfig = instanceConfig
+        self.service = service
+        self.networkMonitor = networkMonitor
+        self.authMonitor = authMonitor
     }
 
     /**
@@ -30,13 +30,14 @@ class InstanceChangeStreamDelegate {
      - parameter namespace: the namespace to add a listener for
      */
     func append(namespace: MongoNamespace) {
-        guard var nsConfig = instanceConfig[namespace] else {
+        guard var nsConfig = instanceConfig[namespace],
+            namespaceToStreamDelegates[namespace] == nil else {
             return
         }
 
         self.namespaceToStreamDelegates[namespace] = NamespaceChangeStreamDelegate(
             namespace: namespace,
-            config: &nsConfig,
+            config: nsConfig,
             service: service,
             networkMonitor: networkMonitor,
             authMonitor: authMonitor)
@@ -52,6 +53,10 @@ class InstanceChangeStreamDelegate {
 
     func start(namespace: MongoNamespace) throws {
         try self.namespaceToStreamDelegates[namespace]?.start()
+    }
+
+    func stop() {
+        self.namespaceToStreamDelegates.forEach({ $0.value.stop() })
     }
 
     func stop(namespace: MongoNamespace) {
