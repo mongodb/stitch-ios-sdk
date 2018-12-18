@@ -1320,6 +1320,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = "/Users/jasonflax/Development/stitch-ios-sdk/Core/StitchCoreSDK/StitchCoreSDK.xcodeproj/StitchCoreSDK_Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1340,6 +1341,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = "/Users/jasonflax/Development/stitch-ios-sdk/Core/StitchCoreSDK/StitchCoreSDK.xcodeproj/StitchCoreSDK_Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

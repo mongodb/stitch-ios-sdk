@@ -225,6 +225,11 @@ target :StitchCoreSDK do
     end
 end
 
+target :ToDoSync do
+    project 'Darwin/Examples/ToDoSync/ToDoSync.xcodeproj'
+    pod 'MongoMobile', '= 0.0.5'
+end
+
 target :StitchSDK do
     pod 'MongoSwift', '= 0.0.7'
 
