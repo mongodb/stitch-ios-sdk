@@ -89,6 +89,8 @@ internal class CoreDocumentSynchronization: Hashable {
             return config.uncommittedChangeEvent
         }
         set(value) {
+            docLock.writeLock()
+            defer { docLock.unlock(for: .writing) }
             // the write lock should be held elsewhere
             // when setting this value
             self.config.uncommittedChangeEvent = value

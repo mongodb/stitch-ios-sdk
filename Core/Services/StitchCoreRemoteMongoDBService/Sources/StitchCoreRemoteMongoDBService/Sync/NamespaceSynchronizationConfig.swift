@@ -233,7 +233,7 @@ internal class NamespaceSynchronization: Sequence {
     }
 
     func set(stale: Bool) throws {
-        nsLock.tryLock(for: .writing)
+        nsLock.writeLock()
         defer { nsLock.unlock(for: .writing) }
         try docsColl.updateMany(
             filter: ["namespace": try BSONEncoder().encode(config.namespace)],

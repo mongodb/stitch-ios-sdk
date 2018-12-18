@@ -329,11 +329,10 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     }
 
     func doSyncPass() throws -> Bool {
-        syncLock.readLock()
-        defer { syncLock.unlock(for: .reading) }
-        guard isConfigured else {
+        guard isConfigured, syncLock.tryLock(for: .reading) else {
             return false
         }
+        defer { syncLock.unlock(for: .reading) }
 
         if logicalT == UInt64.max {
             logger.i("reached max logical time; resetting back to 0")
