@@ -8,17 +8,13 @@ public class CoreRemoteMongoClient {
 
     internal init(withService service: CoreStitchServiceClient,
                   withInstanceKey instanceKey: String,
-                  withLocalClient localClient: MongoClient,
-                  withNetworkMonitor networkMonitor: NetworkMonitor,
-                  withAuthMonitor authMonitor: AuthMonitor) throws {
+                  withAppInfo appInfo: StitchAppClientInfo) throws {
         self.service = service
         self.dataSynchronizer = try DataSynchronizer.init(
             instanceKey: instanceKey,
             service: service,
-            localClient: localClient,
             remoteClient: self,
-            networkMonitor: networkMonitor,
-            authMonitor: authMonitor)
+            appInfo: appInfo)
     }
     
     /**

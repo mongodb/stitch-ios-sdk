@@ -7,7 +7,7 @@ import mongoc
 @testable import StitchCoreRemoteMongoDBService
 
 class DataSynchronizerUnitTests: XCMongoMobileTestCase {
-    lazy var collection = try! localCollection(for: MongoNamespace.init(
+    lazy var collection = localCollection(for: MongoNamespace.init(
         databaseName: DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace),
         collectionName: namespace.collectionName))
 
@@ -33,7 +33,7 @@ class DataSynchronizerUnitTests: XCMongoMobileTestCase {
     func testSync_SyncedIds_Desync() throws {
         let ids = [ObjectId(), ObjectId()]
 
-        dataSynchronizer.sync(ids: ids, in: namespace)
+        try dataSynchronizer.sync(ids: ids, in: namespace)
         XCTAssertEqual(Set(ids.map { HashableBSONValue($0) }),
                        dataSynchronizer.syncedIds(in: namespace))
 

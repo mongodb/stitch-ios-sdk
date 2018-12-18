@@ -144,8 +144,6 @@ class FoundationHTTPTransportIntTests: StitchXCTestCase {
         wait(for: [delegate.closeExp], timeout: 10)
 
         for i in 0 ..< 4 {
-            print(delegate.events[i].rawData)
-            print(lines[i])
             XCTAssertEqual(delegate.events[i].rawData, lines[i])
         }
     }

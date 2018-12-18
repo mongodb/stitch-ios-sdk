@@ -78,7 +78,7 @@ private class TestCaseDataSynchronizer: DataSynchronizer {
     init(deinitializing: Bool,
          instanceKey: String,
          coreRemoteMongoClient: CoreRemoteMongoClient,
-         localClient: MongoClient) throws {
+         appInfo: StitchAppClientInfo) throws {
         self.deinitializing = deinitializing
         self.deinitializingInstanceKey = instanceKey
 
@@ -99,10 +99,8 @@ private class TestCaseDataSynchronizer: DataSynchronizer {
         try super.init(
             instanceKey: instanceKey,
             service: mockServiceClient,
-            localClient: localClient,
             remoteClient: coreRemoteMongoClient,
-            networkMonitor: TestNetworkMonitor(),
-            authMonitor: TestAuthMonitor())
+            appInfo: appInfo)
     }
 
     deinit {
@@ -123,7 +121,7 @@ class XCMongoMobileTestCase: XCTestCase {
                                                       localAppVersion: "1.0",
                                                       networkMonitor: TestNetworkMonitor(),
                                                       authMonitor: TestAuthMonitor())
-    lazy var localClient: MongoClient = try! CoreLocalMongoDBService.shared.client(withAppInfo: appClientInfo)
+    lazy var localClient: ThreadSafeMongoClient = try! ThreadSafeMongoClient(withAppInfo: appClientInfo)
 
 
     let routes = StitchAppRoutes.init(clientAppID: "foo").serviceRoutes
@@ -147,7 +145,7 @@ class XCMongoMobileTestCase: XCTestCase {
                     deinitializing: true,
                     instanceKey: instanceKey.oid,
                     coreRemoteMongoClient: self.coreRemoteMongoClient,
-                    localClient: localClient)
+                    appInfo: appClientInfo)
                 storedDataSynchronizer.isSyncThreadEnabled = false
             }
             return storedDataSynchronizer
@@ -178,7 +176,7 @@ class XCMongoMobileTestCase: XCTestCase {
             deinitializing: deinitializing,
             instanceKey: instanceKey.oid,
             coreRemoteMongoClient: self.coreRemoteMongoClient,
-            localClient: localClient
+            appInfo: appClientInfo
         )
         dataSynchronizer.isSyncThreadEnabled = false
 
@@ -260,7 +258,7 @@ class XCMongoMobileTestCase: XCTestCase {
         namespacesToBeTornDown.forEach {
             try? localClient.db($0.databaseName).drop()
         }
-        localClient.close()
+        try? localClient.close()
     }
 
     func remoteCollection(withSpy: Bool = false) throws -> CoreRemoteMongoCollection<Document> {
@@ -287,20 +285,20 @@ class XCMongoMobileTestCase: XCTestCase {
         return try undoCollection().count() == 0
     }
 
-    func undoCollection() throws -> MongoCollection<Document> {
-        return try dataSynchronizer.undoCollection(for: namespace)
+    func undoCollection() -> ThreadSafeMongoCollection<Document> {
+        return dataSynchronizer.undoCollection(for: namespace)
     }
 
-    func localCollection() throws -> MongoCollection<Document> {
+    func localCollection() -> ThreadSafeMongoCollection<Document> {
         return try localCollection(for: MongoNamespace.init(
             databaseName: DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace),
             collectionName: namespace.collectionName
         ))
     }
 
-    func localCollection(for namespace: MongoNamespace) throws -> MongoCollection<Document> {
+    func localCollection(for namespace: MongoNamespace) -> ThreadSafeMongoCollection<Document> {
         self.namespacesToBeTornDown.insert(namespace)
-        return try localClient
+        return localClient
             .db(namespace.databaseName)
             .collection(namespace.collectionName, withType: Document.self)
     }

@@ -36,9 +36,7 @@ public final class CoreRemoteMongoClientFactory {
         let syncClient = try CoreRemoteMongoClient.init(
             withService: service,
             withInstanceKey: instanceKey,
-            withLocalClient: try CoreLocalMongoDBService.shared.client(withAppInfo: appInfo),
-            withNetworkMonitor: appInfo.networkMonitor,
-            withAuthMonitor: appInfo.authMonitor)
+            withAppInfo: appInfo)
         syncInstances[instanceKey] = syncClient
         return syncClient
     }

@@ -54,8 +54,8 @@ public final class CoreSync<DocumentT: Codable> {
      Requests that the given document _ids be synchronized.
      - parameter ids: the document _ids to synchronize.
      */
-    public func sync(ids: [BSONValue]) {
-        self.dataSynchronizer.sync(ids: ids, in: namespace)
+    public func sync(ids: [BSONValue]) throws {
+        try self.dataSynchronizer.sync(ids: ids, in: namespace)
     }
 
     /**

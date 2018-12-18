@@ -1,190 +1,262 @@
-import Foundation
+/*******************************************************************************
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2017 Jean-David Gadina - www.xs-labs.com
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ ******************************************************************************/
+
 import XCTest
-@testable import StitchCoreRemoteMongoDBService
+import StitchCoreRemoteMongoDBService
 
-class ReadWriteLockTests: XCTestCase {
-    func testSingleReader() {
-        let l = ReadWriteLock()
+class TestThread {
+    private let _work: () -> Void
 
-        XCTAssertTrue(l.tryReadLock())
-
-        XCTAssertTrue(l.unlock())
+    init(_ work: @escaping () -> Void) {
+        self._work = work
     }
 
-    func testSingleWriter() {
-        let l = ReadWriteLock()
+    func join() {
+        let semaphore = DispatchSemaphore.init(value: 0)
+        Thread {
+            self._work()
+            semaphore.signal()
+        }.start()
+        semaphore.wait()
+    }
+}
 
-        XCTAssertTrue(l.tryWriteLock())
-
-        XCTAssertTrue(l.unlock())
+class ReadWriteLockTest: XCTestCase
+{
+    override func setUp()
+    {
+        super.setUp()
     }
 
-    func testMultipleReaders_SameThread() {
-        let l = ReadWriteLock()
-
-        XCTAssertTrue(l.tryReadLock())
-        XCTAssertTrue(l.tryReadLock())
-
-        XCTAssertTrue(l.unlock())
-        XCTAssertTrue(l.unlock())
+    override func tearDown()
+    {
+        super.tearDown()
     }
 
-    func testMultipleWriters_SameThread() {
-        let l = ReadWriteLock()
-
-        XCTAssertTrue(l.tryWriteLock())
-        XCTAssertFalse(l.tryWriteLock())
-
-        XCTAssertTrue(l.unlock())
-        XCTAssertTrue(l.unlock())
-    }
-
-    func testReadWrite_SameThread() {
-        let l = ReadWriteLock()
+    func testSingleReader()
+    {
+        let l = try? ReadWriteLock()
 
         XCTAssertNotNil( l )
-        XCTAssertTrue( l.tryReadLock() )
-        XCTAssertFalse( l.tryWriteLock() )
+        XCTAssertTrue( l!.tryLock( for: .reading ) );
 
-        XCTAssertTrue(l.unlock())
-        XCTAssertTrue(l.unlock())
+        l!.unlock( for: .reading );
     }
 
-    func testWriteRead_SameThread() {
-        let l = ReadWriteLock()
+    func testSingleWriter()
+    {
+        let l = try? ReadWriteLock()
 
         XCTAssertNotNil( l )
-        XCTAssertTrue( l.tryWriteLock() )
-        XCTAssertFalse( l.tryReadLock() )
+        XCTAssertTrue( l!.tryLock( for: .writing ) );
 
-        XCTAssertTrue(l.unlock())
-        XCTAssertTrue(l.unlock())
+        l!.unlock( for: .writing );
     }
 
-    func testMultipleReaders_DifferentThreads() {
-        let l = ReadWriteLock()
-        var b = false
+    func testMultipleReaders_SameThread()
+    {
+        let l = try? ReadWriteLock()
 
-        l.readLock()
+        XCTAssertNotNil( l )
+        XCTAssertTrue( l!.tryLock( for: .reading ) );
+        XCTAssertTrue( l!.tryLock( for: .reading ) );
 
-        let sem = DispatchSemaphore(value: 0)
-        let _ = Thread {
-            b = l.tryReadLock()
-
-            if (b) {
-                l.unlock()
-            }
-            sem.signal()
-            }.start()
-        sem.wait()
-        XCTAssertTrue(b)
-        XCTAssertTrue(l.unlock())
+        l!.unlock( for: .reading );
+        l!.unlock( for: .reading );
     }
 
-    func testMultipleWriters_DifferentThreads() {
-        let l = ReadWriteLock()
-        var b = false
+    func testMultipleWriters_SameThread()
+    {
+        let l = try? ReadWriteLock()
 
-        XCTAssertNotNil(l)
+        XCTAssertNotNil( l )
+        XCTAssertTrue( l!.tryLock( for: .writing ) );
+        XCTAssertTrue( l!.tryLock( for: .writing ) );
 
-        l.writeLock()
-
-        var sem = DispatchSemaphore(value: 0)
-        let _ = Thread {
-            b = l.tryWriteLock()
-
-            if b {
-                l.unlock()
-            }
-            sem.signal()
-            }.start()
-        sem.wait()
-
-        XCTAssertFalse(b)
-
-        l.unlock()
-
-        sem = DispatchSemaphore(value: 0)
-        let _ = Thread {
-            b = l.tryWriteLock()
-
-            if b {
-                l.unlock()
-            }
-            sem.signal()
-            }.start()
-        sem.wait()
-        XCTAssertTrue(b)
+        l!.unlock( for: .writing );
+        l!.unlock( for: .writing );
     }
 
-    func testReadWrite_DifferentThreads() {
-        let l = ReadWriteLock()
-        var b = false
+    func testReadWrite_SameThread()
+    {
+        let l = try? ReadWriteLock()
 
-        XCTAssertNotNil(l)
+        XCTAssertNotNil( l )
+        XCTAssertTrue( l!.tryLock( for: .reading ) );
+        XCTAssertTrue( l!.tryLock( for: .writing ) );
 
-        l.readLock()
-
-        var sem = DispatchSemaphore.init(value: 0)
-        let _ = Thread {
-            b = l.tryWriteLock()
-
-            if b {
-                l.unlock()
-            }
-            sem.signal()
-            }.start()
-        sem.wait()
-
-        XCTAssertFalse(b)
-
-        l.unlock()
-
-        sem = DispatchSemaphore.init(value: 0)
-        let _ = Thread {
-            b = l.tryWriteLock()
-
-            if b {
-                l.unlock()
-            }
-            sem.signal()
-            }.start()
-        sem.wait()
-        XCTAssertTrue(b)
+        l!.unlock( for: .reading );
+        l!.unlock( for: .writing );
     }
 
-    func testWriteRead_DifferentThreads() {
-        let l = ReadWriteLock()
+    func testWriteRead_SameThread()
+    {
+        let l = try? ReadWriteLock()
+
+        XCTAssertNotNil( l )
+        XCTAssertTrue( l!.tryLock( for: .writing ) );
+        XCTAssertTrue( l!.tryLock( for: .reading ) );
+
+        l!.unlock( for: .writing );
+        l!.unlock( for: .reading );
+    }
+
+    func testMultipleReaders_DifferentThreads()
+    {
+        let l = try? ReadWriteLock()
         var b = false
 
-        l.writeLock()
+        XCTAssertNotNil( l )
 
-        var sem = DispatchSemaphore.init(value: 0)
-        let _ = Thread {
-            b = l.tryReadLock()
+        l!.readLock()
 
-            if b {
-                l.unlock()
+        let _ = try? TestThread
+        {
+            b = l!.tryLock( for: .reading )
+
+            if( b )
+            {
+                l!.unlock( for: .reading )
             }
-            sem.signal()
-            }.start()
-        sem.wait()
-
-        XCTAssertFalse(b)
-
-        l.unlock()
-
-        sem = DispatchSemaphore.init(value: 0)
-        let _ = Thread {
-            b = l.tryReadLock()
-
-            if b {
-                l.unlock()
             }
-            sem.signal()
-            }.start()
-        sem.wait()
+            .join()
 
-        XCTAssertTrue(b)
+        XCTAssertTrue( b )
+        l!.unlock( for: .reading );
+    }
+
+    func testMultipleWriters_DifferentThreads()
+    {
+        let l = try? ReadWriteLock()
+        var b = false
+
+        XCTAssertNotNil( l )
+
+        l!.writeLock()
+
+        let _ = try? TestThread
+        {
+            b = l!.tryLock( for: .writing )
+
+            if( b )
+            {
+                l!.unlock( for: .writing )
+            }
+            }
+            .join()
+
+        XCTAssertFalse( b );
+
+        l!.unlock( for: .writing );
+
+        let _ = try? TestThread
+        {
+            b = l!.tryLock( for: .writing )
+
+            if( b )
+            {
+                l!.unlock( for: .writing )
+            }
+            }
+            .join()
+
+        XCTAssertTrue( b );
+    }
+
+    func testReadWrite_DifferentThreads()
+    {
+        let l = try? ReadWriteLock()
+        var b = false
+
+        XCTAssertNotNil( l )
+
+        l!.readLock()
+
+        let _ = try? TestThread
+        {
+            b = l!.tryLock( for: .writing )
+
+            if( b )
+            {
+                l!.unlock( for: .writing )
+            }
+            }
+            .join()
+
+        XCTAssertFalse( b );
+
+        l!.unlock( for: .reading );
+
+        let _ = try? TestThread
+        {
+            b = l!.tryLock( for: .writing )
+
+            if( b )
+            {
+                l!.unlock( for: .writing )
+            }
+            }
+            .join()
+
+        XCTAssertTrue( b );
+    }
+
+    func testWriteRead_DifferentThreads()
+    {
+        let l = try? ReadWriteLock()
+        var b = false
+
+        XCTAssertNotNil( l )
+
+        l!.writeLock()
+
+        let _ = try? TestThread
+        {
+            b = l!.tryLock( for: .reading )
+
+            if( b )
+            {
+                l!.unlock( for: .reading )
+            }
+            }
+            .join()
+
+        XCTAssertFalse( b );
+
+        l!.unlock( for: .writing );
+
+        let _ = try? TestThread
+        {
+            b = l!.tryLock( for: .reading )
+
+            if( b )
+            {
+                l!.unlock( for: .reading )
+            }
+            }
+            .join()
+
+        XCTAssertTrue( b );
     }
 }
