@@ -1813,40 +1813,38 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         coll.verifyUndoCollectionEmpty()
     }
 
-    // TODO: this test is flaky, due to the fact that the MongoSwift MongoClient is not thread-safe
-    //       once we store a thread-local MongoClient for the local MongoDB service this test should pass again
-//    func testDeleteManyNoConflicts() throws {
-//        let (remoteColl, coll) = ctx.remoteCollAndSync
-//
-//        coll.configure(conflictHandler: failingConflictHandler)
-//
-//        let doc1 = ["hello": "world"] as Document
-//        let doc2 = ["hello": "friend"] as Document
-//        let doc3 = ["hello": "goodbye"] as Document
-//
-//        let insertResult = coll.insertMany([doc1, doc2, doc3])
-//        XCTAssertEqual(3, insertResult?.insertedIds.count)
-//
-//        XCTAssertEqual(3, coll.count([:]))
-//        XCTAssertEqual(3, coll.find([:])?.compactMap({ $0 }).count)
-//        XCTAssertEqual(3, coll.aggregate(
-//            [["$match": ["_id": ["$in": insertResult?.insertedIds.map({ $1 })] as Document] as Document] as Document]
-//        )?.compactMap({ $0 }).count)
-//
-//        XCTAssertEqual(0, remoteColl.find([:])?.count)
-//        try ctx.streamAndSync()
-//
-//        XCTAssertEqual(3, remoteColl.find([:])?.count)
-//        _ = coll.deleteMany(["_id": ["$in": insertResult?.insertedIds.map({ $1 })] as Document])
-//
-//        XCTAssertEqual(3, remoteColl.find([:])?.count)
-//        XCTAssertEqual(0, coll.find([:])?.compactMap({ $0 }).count)
-//
-//        try ctx.streamAndSync()
-//
-//        XCTAssertEqual(0, remoteColl.find([:])?.count)
-//        XCTAssertEqual(0, coll.find([:])?.compactMap({ $0 }).count)
-//    }
+    func testDeleteManyNoConflicts() throws {
+        let (remoteColl, coll) = ctx.remoteCollAndSync
+
+        coll.configure(conflictHandler: failingConflictHandler)
+
+        let doc1 = ["hello": "world"] as Document
+        let doc2 = ["hello": "friend"] as Document
+        let doc3 = ["hello": "goodbye"] as Document
+
+        let insertResult = coll.insertMany([doc1, doc2, doc3])
+        XCTAssertEqual(3, insertResult?.insertedIds.count)
+
+        XCTAssertEqual(3, coll.count([:]))
+        XCTAssertEqual(3, coll.find([:])?.compactMap({ $0 }).count)
+        XCTAssertEqual(3, coll.aggregate(
+            [["$match": ["_id": ["$in": insertResult?.insertedIds.map({ $1 })] as Document] as Document] as Document]
+        )?.compactMap({ $0 }).count)
+
+        XCTAssertEqual(0, remoteColl.find([:])?.count)
+        try ctx.streamAndSync()
+
+        XCTAssertEqual(3, remoteColl.find([:])?.count)
+        _ = coll.deleteMany(["_id": ["$in": insertResult?.insertedIds.map({ $1 })] as Document])
+
+        XCTAssertEqual(3, remoteColl.find([:])?.count)
+        XCTAssertEqual(0, coll.find([:])?.compactMap({ $0 }).count)
+
+        try ctx.streamAndSync()
+
+        XCTAssertEqual(0, remoteColl.find([:])?.count)
+        XCTAssertEqual(0, coll.find([:])?.compactMap({ $0 }).count)
+    }
 
     func testSyncVersionFieldNotEditable() throws {
         let (remoteColl, coll) = ctx.remoteCollAndSync
