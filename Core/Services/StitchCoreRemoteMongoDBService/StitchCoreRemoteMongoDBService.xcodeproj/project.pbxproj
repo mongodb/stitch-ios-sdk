@@ -185,6 +185,7 @@
 		4943FC592196505500DED08C /* Sync */ = {
 			isa = PBXGroup;
 			children = (
+				4961566221C96A63003C7392 /* AtomicKit */,
 				498DF58A219F7392009F1B3F /* Log.swift */,
 				4961564A21C7E802003C7392 /* ThreadSafeMongoMobile.swift */,
 				498DF58E219F73B4009F1B3F /* CoreSync.swift */,
@@ -204,9 +205,6 @@
 				4943FC5C2196508100DED08C /* MongoNamespace.swift */,
 				4943FC6E219724E800DED08C /* DocumentVersionInfo.swift */,
 				4943FC68219688FA00DED08C /* BSONValue+Hashable.swift */,
-				4943FC64219659AE00DED08C /* ReadWriteLock.swift */,
-				4961564C21C7FFA5003C7392 /* RecursiveMutex.swift */,
-				4961564E21C7FFC8003C7392 /* Lockable.swift */,
 			);
 			path = Sync;
 			sourceTree = "<group>";
@@ -229,6 +227,16 @@
 				49FA277E219B1F1300F9E3D4 /* ReadWriteLockTests.swift */,
 			);
 			path = Sync;
+			sourceTree = "<group>";
+		};
+		4961566221C96A63003C7392 /* AtomicKit */ = {
+			isa = PBXGroup;
+			children = (
+				4943FC64219659AE00DED08C /* ReadWriteLock.swift */,
+				4961564C21C7FFA5003C7392 /* RecursiveMutex.swift */,
+				4961564E21C7FFC8003C7392 /* Lockable.swift */,
+			);
+			path = AtomicKit;
 			sourceTree = "<group>";
 		};
 		F6E3DD06A570C811022F7736 /* Pods */ = {
