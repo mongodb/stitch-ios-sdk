@@ -40,12 +40,12 @@ internal class NamespaceSynchronization: Sequence {
         typealias Element = CoreDocumentSynchronization
         private typealias Values = Dictionary<HashableBSONValue, CoreDocumentSynchronization.Config>.Values
 
-        private let docsColl: MongoCollection<CoreDocumentSynchronization.Config>
+        private let docsColl: SyncMongoCollection<CoreDocumentSynchronization.Config>
         private var values: Values
         private var indices: DefaultIndices<Values>
         private weak var errorListener: FatalErrorListener?
 
-        init(docsColl: MongoCollection<CoreDocumentSynchronization.Config>,
+        init(docsColl: SyncMongoCollection<CoreDocumentSynchronization.Config>,
              values: Dictionary<HashableBSONValue, CoreDocumentSynchronization.Config>.Values,
              errorListener: FatalErrorListener?) {
             self.docsColl = docsColl
@@ -59,18 +59,18 @@ internal class NamespaceSynchronization: Sequence {
                 return nil
             }
 
-            return CoreDocumentSynchronization.init(docsColl: docsColl,
-                                                    config: &values[index],
-                                                    errorListener: errorListener)
+            return try? CoreDocumentSynchronization.init(docsColl: docsColl,
+                                                         config: &values[index],
+                                                         errorListener: errorListener)
         }
     }
 
     /// Standard read-write lock.
-    let nsLock: ReadWriteLock = ReadWriteLock()
+    let nsLock: ReadWriteLock
     /// The collection we are storing namespace configs in.
-    private let namespacesColl: MongoCollection<NamespaceSynchronization.Config>
+    private let namespacesColl: SyncMongoCollection<NamespaceSynchronization.Config>
     /// The collection we are storing document configs in.
-    private let docsColl: MongoCollection<CoreDocumentSynchronization.Config>
+    private let docsColl: SyncMongoCollection<CoreDocumentSynchronization.Config>
     /// The error listener to propagate errors to.
     private weak var errorListener: FatalErrorListener?
     /// The configuration for this namespace.
@@ -101,8 +101,8 @@ internal class NamespaceSynchronization: Sequence {
         }
     }
 
-    init(namespacesColl: MongoCollection<NamespaceSynchronization.Config>,
-         docsColl: MongoCollection<CoreDocumentSynchronization.Config>,
+    init(namespacesColl: SyncMongoCollection<NamespaceSynchronization.Config>,
+         docsColl: SyncMongoCollection<CoreDocumentSynchronization.Config>,
          namespace: MongoNamespace,
          errorListener: FatalErrorListener?) throws {
         self.namespacesColl = namespacesColl
@@ -117,6 +117,7 @@ internal class NamespaceSynchronization: Sequence {
                     syncedDocuments[config.documentId] = config
                 }))
         self.errorListener = errorListener
+        self.nsLock = try ReadWriteLock()
     }
 
     /// Make an iterator that will iterate over the associated documents.
@@ -132,14 +133,14 @@ internal class NamespaceSynchronization: Sequence {
     }
 
 
-    func sync(id: BSONValue) -> CoreDocumentSynchronization {
+    func sync(id: BSONValue) throws -> CoreDocumentSynchronization {
         if let existingConfig = self[id] {
             return existingConfig
         }
-        let docConfig = CoreDocumentSynchronization.init(docsColl: docsColl,
-                                                         namespace: self.config.namespace,
-                                                         documentId: AnyBSONValue(id),
-                                                         errorListener: errorListener)
+        let docConfig = try CoreDocumentSynchronization.init(docsColl: docsColl,
+                                                             namespace: self.config.namespace,
+                                                             documentId: AnyBSONValue(id),
+                                                             errorListener: errorListener)
         self[id] = docConfig
         return docConfig
     }
@@ -155,17 +156,17 @@ internal class NamespaceSynchronization: Sequence {
     subscript(documentId: BSONValue) -> CoreDocumentSynchronization? {
         get {
             nsLock.readLock()
-            defer { nsLock.unlock() }
+            defer { nsLock.unlock(for: .reading) }
             guard var config = config.syncedDocuments[HashableBSONValue(documentId)] else {
                 return nil
             }
-            return CoreDocumentSynchronization.init(docsColl: docsColl,
-                                                    config: &config,
-                                                    errorListener: errorListener)
+            return try? CoreDocumentSynchronization.init(docsColl: docsColl,
+                                                         config: &config,
+                                                         errorListener: errorListener)
         }
         set(value) {
             nsLock.writeLock()
-            defer { nsLock.unlock() }
+            defer { nsLock.unlock(for: .writing) }
             let documentId = HashableBSONValue(documentId)
             guard let value = value else {
                 do {
@@ -203,7 +204,7 @@ internal class NamespaceSynchronization: Sequence {
     func configure<T: ConflictHandler, V: ChangeEventDelegate>(conflictHandler: T,
                                                                changeEventDelegate: V?) {
         nsLock.writeLock()
-        defer { nsLock.unlock() }
+        defer { nsLock.unlock(for: .writing) }
         self.conflictHandler = AnyConflictHandler(conflictHandler)
         if let changeEventDelegate = changeEventDelegate {
             self.changeEventDelegate = AnyChangeEventDelegate(changeEventDelegate,
@@ -215,7 +216,7 @@ internal class NamespaceSynchronization: Sequence {
     var staleDocumentIds: Set<HashableBSONValue> {
         get {
             nsLock.readLock()
-            defer { nsLock.unlock() }
+            defer { nsLock.unlock(for: .reading) }
             do {
                 return Set(
                     try self.docsColl.distinct(
@@ -232,8 +233,8 @@ internal class NamespaceSynchronization: Sequence {
     }
 
     func set(stale: Bool) throws {
-        nsLock.tryWriteLock()
-        defer { nsLock.unlock() }
+        nsLock.tryLock(for: .writing)
+        defer { nsLock.unlock(for: .writing) }
         try docsColl.updateMany(
             filter: ["namespace": try BSONEncoder().encode(config.namespace)],
             update: ["$set": [

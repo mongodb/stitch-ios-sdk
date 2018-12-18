@@ -27,18 +27,14 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         try! prepareService()
         let joiner = CallbackJoiner()
         getTestColl().deleteMany([:], joiner.capture())
-        joiner.capturedValue
-        CoreLocalMongoDBService.shared.localInstances.forEach { client in
-            try! client.listDatabases().forEach {
-                try? client.db($0["name"] as! String).drop()
-            }
-        }
+        _ = joiner.capturedValue
     }
 
     override func tearDown() {
         let joiner = CallbackJoiner()
         getTestColl().deleteMany([:], joiner.capture())
         XCTAssertNotNil(joiner.capturedValue)
+        getTestColl().sync.proxy.dataSynchronizer.stop()
         CoreLocalMongoDBService.shared.localInstances.forEach { client in
             try! client.listDatabases().forEach {
                 try? client.db($0["name"] as! String).drop()
@@ -62,17 +58,16 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             )
         )
                 
-        _ = try self.addRule(
+        let _ = try self.addRule(
             toService: svc.1,
             withConfig: RuleCreator.mongoDb(
                 database: dbName,
                 collection: collName,
                 roles: [RuleCreator.Role(
                     read: true, write: true
-                    )],
-                schema: RuleCreator.Schema())
+                )],
+                schema: RuleCreator.Schema(properties: Document()))
         )
-        
         let client = try self.appClient(forApp: app.0)
         
         let exp = expectation(description: "should login")
@@ -1022,8 +1017,8 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             switch result {
             case .success(let insertResult):
                 XCTAssertEqual(expected.id, insertResult.insertedId as? String)
-            case .failure:
-                XCTFail("unexpected error in insert")
+            case .failure(let err):
+                XCTFail("unexpected error in insert: \(err.localizedDescription)")
             }
             
             exp.fulfill()

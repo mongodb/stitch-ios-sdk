@@ -27,16 +27,16 @@ internal class InstanceSynchronization: Sequence {
         typealias Element = NamespaceSynchronization
         private typealias Values = Dictionary<MongoNamespace, NamespaceSynchronization>.Values
 
-        private let namespacesColl: MongoCollection<NamespaceSynchronization.Config>
-        private let docsColl: MongoCollection<CoreDocumentSynchronization.Config>
+        private let namespacesColl: SyncMongoCollection<NamespaceSynchronization.Config>
+        private let docsColl: SyncMongoCollection<CoreDocumentSynchronization.Config>
         private var values: Values
         private var indices: DefaultIndices<Values>
         private weak var errorListener: FatalErrorListener?
         private weak var parentInstanceLock: ReadWriteLock?
 
         init(instanceLock: ReadWriteLock,
-             namespacesColl: MongoCollection<NamespaceSynchronization.Config>,
-             docsColl: MongoCollection<CoreDocumentSynchronization.Config>,
+             namespacesColl: SyncMongoCollection<NamespaceSynchronization.Config>,
+             docsColl: SyncMongoCollection<CoreDocumentSynchronization.Config>,
              values: Dictionary<MongoNamespace, NamespaceSynchronization>.Values,
              errorListener: FatalErrorListener?) {
             self.namespacesColl = namespacesColl
@@ -51,7 +51,7 @@ internal class InstanceSynchronization: Sequence {
 
         mutating func next() -> NamespaceSynchronization? {
             guard let index = self.indices.popFirst() else {
-                self.parentInstanceLock?.unlock()
+                self.parentInstanceLock?.unlock(for: .writing)
                 return nil
             }
 
@@ -59,16 +59,17 @@ internal class InstanceSynchronization: Sequence {
         }
     }
 
-    private let namespacesColl: MongoCollection<NamespaceSynchronization.Config>
-    private let docsColl: MongoCollection<CoreDocumentSynchronization.Config>
-    private let instanceLock = ReadWriteLock()
+    private let namespacesColl: SyncMongoCollection<NamespaceSynchronization.Config>
+    private let docsColl: SyncMongoCollection<CoreDocumentSynchronization.Config>
+    private let instanceLock: ReadWriteLock
     weak var errorListener: FatalErrorListener?
 
     /// The configuration for this instance.
     private(set) var config: Config
 
-    init(configDb: MongoDatabase,
+    init(configDb: SyncMongoDatabase,
          errorListener: FatalErrorListener?) throws {
+        try self.instanceLock = ReadWriteLock()
         self.namespacesColl = try configDb
             .collection("namespaces", withType: NamespaceSynchronization.Config.self)
         self.docsColl = try configDb
@@ -113,7 +114,7 @@ internal class InstanceSynchronization: Sequence {
         get {
             instanceLock.writeLock()
             defer {
-                instanceLock.unlock()
+                instanceLock.unlock(for: .writing)
             }
 
             if let config = namespaceConfigWrappers[namespace] {

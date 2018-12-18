@@ -20,7 +20,7 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
 
     private lazy var tag = "NSChangeStreamListener-\(namespace.description)"
     private lazy var logger = Log.init(tag: tag)
-    private lazy var eventQueueLock = ReadWriteLock()
+    private let eventQueueLock: ReadWriteLock
     var state: SSEStreamState {
         return stream?.state ?? .closed
     }
@@ -29,12 +29,13 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
          config: NamespaceSynchronization,
          service: CoreStitchServiceClient,
          networkMonitor: NetworkMonitor,
-         authMonitor: AuthMonitor) {
+         authMonitor: AuthMonitor) throws {
         self.namespace = namespace
         self.nsConfig = config
         self.service = service
         self.networkMonitor = networkMonitor
         self.authMonitor = authMonitor
+        try self.eventQueueLock = ReadWriteLock()
         super.init()
         networkMonitor.add(networkStateDelegate: self)
     }
@@ -109,7 +110,7 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
 
     override func on(newEvent event: RawSSE) {
         eventQueueLock.writeLock()
-        defer { eventQueueLock.unlock() }
+        defer { eventQueueLock.unlock(for: .writing) }
 
         do {
             guard let changeEvent: ChangeEvent<Document> = try event.decodeStitchSSE(),
@@ -161,7 +162,7 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
 
     func dequeueEvents() -> [HashableBSONValue: ChangeEvent<Document>] {
         eventQueueLock.writeLock()
-        defer { eventQueueLock.unlock() }
+        defer { eventQueueLock.unlock(for: .writing) }
 
         var events = [HashableBSONValue: ChangeEvent<Document>]()
         while let (key, value) = eventsKeyedQueue.popFirst() {
@@ -172,7 +173,7 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
 
     func unprocessedEvent(for documentId: BSONValue) -> ChangeEvent<Document>? {
         eventQueueLock.writeLock()
-        defer { eventQueueLock.unlock() }
+        defer { eventQueueLock.unlock(for: .writing) }
 
         return self.eventsKeyedQueue.removeValue(forKey: HashableBSONValue(documentId))
     }

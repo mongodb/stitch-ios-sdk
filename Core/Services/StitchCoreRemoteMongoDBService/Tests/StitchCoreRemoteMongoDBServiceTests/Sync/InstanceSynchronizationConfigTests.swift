@@ -5,8 +5,8 @@ import XCTest
 @testable import StitchCoreRemoteMongoDBService
 
 class InstanceSynchronizationConfigTests: XCMongoMobileTestCase, FatalErrorListener {
-    private var namespaceColl: MongoCollection<NamespaceSynchronization.Config>!
-    private var docsColl: MongoCollection<CoreDocumentSynchronization.Config>!
+    private var namespaceColl: SyncMongoCollection<NamespaceSynchronization.Config>!
+    private var docsColl: SyncMongoCollection<CoreDocumentSynchronization.Config>!
 
     private let namespace2 = MongoNamespace.init(databaseName: ObjectId().description,
                                                  collectionName: ObjectId().description)
@@ -28,7 +28,7 @@ class InstanceSynchronizationConfigTests: XCMongoMobileTestCase, FatalErrorListe
 
     func testGet_Set_ModifyInPlace() throws {
         var instanceSync = try InstanceSynchronization.init(
-            configDb: try localClient.db(namespace.databaseName),
+            configDb: localClient.db(namespace.databaseName),
             errorListener: self)
 
         let nsConfig = try NamespaceSynchronization.init(namespacesColl: namespaceColl,
@@ -41,10 +41,10 @@ class InstanceSynchronizationConfigTests: XCMongoMobileTestCase, FatalErrorListe
 
         let documentId = ObjectId()
         var nsConfig2 = instanceSync[namespace2]
-        nsConfig2?[documentId] = CoreDocumentSynchronization.init(docsColl: docsColl,
-                                                                  namespace: namespace2,
-                                                                  documentId: AnyBSONValue(documentId),
-                                                                  errorListener: nil)
+        nsConfig2?[documentId] = try CoreDocumentSynchronization.init(docsColl: docsColl,
+                                                                      namespace: namespace2,
+                                                                      documentId: AnyBSONValue(documentId),
+                                                                      errorListener: nil)
 
         XCTAssertEqual(2, instanceSync.map { $0 }.count)
         XCTAssertEqual(documentId, instanceSync[namespace2]?[documentId]?.documentId.value as? ObjectId)

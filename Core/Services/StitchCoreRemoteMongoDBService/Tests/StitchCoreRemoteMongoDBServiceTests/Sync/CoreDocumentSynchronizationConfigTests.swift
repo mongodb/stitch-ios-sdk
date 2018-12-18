@@ -5,8 +5,8 @@ import MongoSwift
 @testable import StitchCoreRemoteMongoDBService
 
 class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
-    private var database: MongoDatabase!
-    private var docsColl: MongoCollection<CoreDocumentSynchronization.Config>!
+    private var database: SyncMongoDatabase!
+    private var docsColl: SyncMongoCollection<CoreDocumentSynchronization.Config>!
 
     override func setUp() {
         self.docsColl = try! localClient.db(namespace.databaseName)
@@ -17,10 +17,10 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
     func testRoundTrip() throws {
         let documentId = ObjectId()
 
-        var coreDocSync = CoreDocumentSynchronization.init(docsColl: docsColl,
-                                                           namespace: namespace,
-                                                           documentId: AnyBSONValue(documentId),
-                                                           errorListener: nil)
+        var coreDocSync = try CoreDocumentSynchronization.init(docsColl: docsColl,
+                                                               namespace: namespace,
+                                                               documentId: AnyBSONValue(documentId),
+                                                               errorListener: nil)
 
         try! docsColl.insertOne(coreDocSync.config)
 
@@ -52,7 +52,6 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
 
         let encodedCoreDocSync = try BSONEncoder().encode(coreDocSync.config)
 
-        print(encodedCoreDocSync)
         XCTAssertEqual(isPaused,
                        encodedCoreDocSync[CoreDocumentSynchronization.Config.CodingKeys.isPaused.rawValue] as? Bool)
         XCTAssertEqual(isStale,
@@ -67,9 +66,9 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
 
         var decodedCoreDocConfig = try BSONDecoder().decode(CoreDocumentSynchronization.Config.self,
                                                             from: encodedCoreDocSync)
-        let decodedCoreDocSync = CoreDocumentSynchronization.init(docsColl: docsColl,
-                                                                  config: &decodedCoreDocConfig,
-                                                                  errorListener: nil)
+        let decodedCoreDocSync = try CoreDocumentSynchronization.init(docsColl: docsColl,
+                                                                      config: &decodedCoreDocConfig,
+                                                                      errorListener: nil)
 
         XCTAssertEqual(isPaused, decodedCoreDocSync.isPaused)
         XCTAssertEqual(isStale, decodedCoreDocSync.isStale)
@@ -82,10 +81,10 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
     func testSomePendingWrites() throws {
         let documentId = ObjectId()
 
-        var coreDocSync = CoreDocumentSynchronization.init(docsColl: docsColl,
-                                                           namespace: namespace,
-                                                           documentId: AnyBSONValue(documentId),
-                                                           errorListener: nil)
+        var coreDocSync = try CoreDocumentSynchronization.init(docsColl: docsColl,
+                                                               namespace: namespace,
+                                                               documentId: AnyBSONValue(documentId),
+                                                               errorListener: nil)
 
         try! docsColl.insertOne(coreDocSync.config)
 

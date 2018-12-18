@@ -40,18 +40,19 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     private let instanceKey: String
     /// The associated service client
     private let service: CoreStitchServiceClient
-    /// The associated embedded client
-    internal let localClient: MongoClient
     /// The associated remote client
     private let remoteClient: CoreRemoteMongoClient
+    private let appInfo: StitchAppClientInfo
     /// Network monitor that receives to network state
     private let networkMonitor: NetworkMonitor
     /// Auth monitor that receives auth state
     private let authMonitor: AuthMonitor
+    /// Thread safe MongoClient
+    internal let localClient: SyncMongoClient
     /// Database to manage our configurations
-    private let configDb: MongoDatabase
+    private let configDb: SyncMongoDatabase
     /// The collection to store the configuration for this instance in
-    private let instancesColl: MongoCollection<InstanceSynchronization.Config>
+    private let instancesColl: SyncMongoCollection<InstanceSynchronization.Config>
     /// The configuration for this sync instance
     internal var syncConfig: InstanceSynchronization
 
@@ -63,9 +64,9 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     var isSyncThreadEnabled = true
 
     /// RW lock for the synchronizer
-    private let syncLock = ReadWriteLock()
+    private let syncLock: ReadWriteLock
     /// RW lock for the listeners
-    private let listenersLock = ReadWriteLock()
+    private let listenersLock: ReadWriteLock
     /// Dispatch queue for one-off events
     private lazy var eventDispatchQueue = DispatchQueue.init(
         label: "eventEmission-\(self.instanceKey)",
@@ -88,27 +89,27 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     /// Whether or not the sync loop is running
     var isRunning: Bool {
         syncLock.readLock()
-        defer { syncLock.unlock() }
+        defer { syncLock.unlock(for: .reading) }
         return syncWorkItem != nil && syncWorkItem?.isCancelled == false
     }
     
     public init(instanceKey: String,
                 service: CoreStitchServiceClient,
-                localClient: MongoClient,
                 remoteClient: CoreRemoteMongoClient,
-                networkMonitor: NetworkMonitor,
-                authMonitor: AuthMonitor) throws {
+                appInfo: StitchAppClientInfo) throws {
         self.instanceKey = instanceKey
         self.service = service
-        self.localClient = localClient
         self.remoteClient = remoteClient
-        self.networkMonitor = networkMonitor
-        self.authMonitor = authMonitor
+        self.appInfo = appInfo
+        self.networkMonitor = appInfo.networkMonitor
+        self.authMonitor = appInfo.authMonitor
+        self.syncLock = try ReadWriteLock()
+        self.listenersLock = try ReadWriteLock()
+        self.localClient = try SyncMongoClient(withAppInfo: appInfo)
+        self.configDb = localClient.db(DataSynchronizer.localConfigDBName(withInstanceKey: instanceKey))
 
-        self.configDb = try localClient.db(DataSynchronizer.localConfigDBName(withInstanceKey: instanceKey))
-
-        self.instancesColl = try configDb.collection("instances",
-                                                     withType: InstanceSynchronization.Config.self)
+        self.instancesColl = configDb.collection("instances",
+                                                 withType: InstanceSynchronization.Config.self)
         self.logger = Log.init(tag: "dataSynchronizer-\(instanceKey)")
 
         if try instancesColl.count() == 0 {
@@ -166,7 +167,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         }
         defer {
             nsConfigs.forEach { namespaceSynchronization in
-                namespaceSynchronization.nsLock.unlock()
+                namespaceSynchronization.nsLock.unlock(for: .writing)
             }
         }
 
@@ -185,8 +186,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      * collection is in the desired state with respect to those documents.
      */
     private func recoverNamespace(withConfig nsConfig: NamespaceSynchronization.Config) throws {
-        let undoColl: MongoCollection<Document> = try undoCollection(for: nsConfig.namespace)
-        let localColl: MongoCollection<Document> = try localCollection(for: nsConfig.namespace)
+        let undoColl = undoCollection(for: nsConfig.namespace)
+        let localColl = localCollection(for: nsConfig.namespace)
 
         // Replace local docs with undo docs. Presence of an undo doc implies we had a system failure
         // during a write. This covers updates and deletes.
@@ -286,17 +287,17 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         }
 
         syncLock.writeLock()
-        defer { syncLock.unlock() }
+        defer { syncLock.unlock(for: .writing) }
 
         nsConfig.configure(conflictHandler: conflictHandler,
                            changeEventDelegate: changeEventDelegate)
 
         if (!self.isConfigured) {
             self.isConfigured = true
-            syncLock.unlock()
+            syncLock.unlock(for: .writing)
             self.triggerListening(to: nsConfig.config.namespace)
         } else {
-            syncLock.unlock()
+            syncLock.unlock(for: .writing)
         }
 
         // now that we are configured, start syncing
@@ -310,7 +311,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      */
     public func reloadConfig() throws {
         syncLock.writeLock()
-        defer { syncLock.unlock() }
+        defer { syncLock.unlock(for: .writing) }
 
         if try instancesColl.find().next() == nil {
             throw StitchError.serviceError(withMessage: "expected to find instance configuration",
@@ -328,8 +329,9 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     }
 
     func doSyncPass() throws -> Bool {
-        defer { syncLock.unlock() }
-        guard isConfigured, syncLock.readLock() else {
+        syncLock.readLock()
+        defer { syncLock.unlock(for: .reading) }
+        guard isConfigured else {
             return false
         }
 
@@ -370,7 +372,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         // 2. Run remote to local (R2L) sync routine
         for var nsConfig in syncConfig {
             nsConfig.nsLock.writeLock()
-            defer { nsConfig.nsLock.unlock() }
+            defer { nsConfig.nsLock.unlock(for: .writing) }
             let remoteChangeEvents =
                 instanceChangeStreamDelegate[nsConfig.config.namespace]?.dequeueEvents() ?? [:]
             var unseenIds = nsConfig.staleDocumentIds
@@ -655,7 +657,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         // Search for modifications in each namespace.
         for nsConfig in syncConfig {
             nsConfig.nsLock.writeLock()
-            defer { nsConfig.nsLock.unlock() }
+            defer { nsConfig.nsLock.unlock(for: .writing) }
             let remoteColl: CoreRemoteMongoCollection<Document> = remoteCollection(for: nsConfig.config.namespace)
 
             // a. For each document that has local writes pending
@@ -834,7 +836,6 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                         if unset.count > 0 {
                             translatedUpdate["$unset"] = unset
                         }
-                        print(translatedUpdate)
                         let result: RemoteUpdateResult
                         do {
                             result = try remoteColl.updateOne(
@@ -1141,7 +1142,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         }
 
         nsConfig.nsLock.writeLock()
-        defer { nsConfig.nsLock.unlock() }
+        defer { nsConfig.nsLock.unlock(for: .writing) }
 
         nsConfig[documentId] = nil
         try self.localCollection(for: namespace,
@@ -1167,13 +1168,13 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         }
 
         lock.writeLock()
-        defer { lock.unlock() }
+        defer { lock.unlock(for: .writing) }
 
         guard var config = syncConfig[namespace]?[documentId] else {
             return
         }
 
-        let localCollection = try self.localCollection(for: namespace, withType: Document.self)
+        let localCollection = self.localCollection(for: namespace, withType: Document.self)
         // Since we are accepting the remote document as the resolution to the conflict, it may
         // contain version information. Clone the document and remove forbidden fields from it before
         // storing it in the collection.
@@ -1207,7 +1208,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         }
 
         lock.writeLock()
-        defer { lock.unlock() }
+        defer { lock.unlock(for: .writing) }
 
         guard var config = syncConfig[namespace]?[documentId] else {
             return
@@ -1267,13 +1268,13 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         }
 
         lock.writeLock()
-        defer { lock.unlock() }
+        defer { lock.unlock(for: .writing) }
 
         guard let _ = syncConfig[namespace]?[documentId] else {
             return
         }
 
-        let localCollection = try self.localCollection(for: namespace, withType: Document.self)
+        let localCollection = self.localCollection(for: namespace, withType: Document.self)
         guard let _ = try localCollection.find(["_id": documentId]).next() else {
             try desyncDocumentFromRemote(namespace: namespace, documentId: documentId)
             return
@@ -1295,13 +1296,13 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         }
 
         lock.writeLock()
-        defer { lock.unlock() }
-        guard var config = syncConfig[namespace]?[documentId] else {
+        defer { lock.unlock(for: .writing) }
+        guard let config = syncConfig[namespace]?[documentId] else {
             return
         }
 
-        let localCollection = try self.localCollection(for: namespace,
-                                                       withType: Document.self)
+        let localCollection = self.localCollection(for: namespace,
+                                                   withType: Document.self)
 
         try localCollection.deleteOne(["_id": documentId])
         let event = ChangeEvent<Document>.changeEventForLocalDelete(namespace: namespace, documentId: documentId, writePending: true);
@@ -1314,7 +1315,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      */
     public func start() {
         syncLock.writeLock()
-        defer { syncLock.unlock() }
+        defer { syncLock.unlock(for: .writing) }
         if (!self.isConfigured) {
             return
         }
@@ -1350,7 +1351,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      */
     public func stop() {
         syncLock.writeLock()
-        defer { syncLock.unlock() }
+        defer { syncLock.unlock(for: .writing) }
 
         instanceChangeStreamDelegate.stop()
         guard let syncWorkItem = syncWorkItem else {
@@ -1371,13 +1372,13 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      - parameter ids: the document _ids to synchronize.
      - parameter namespace: the namespace these documents belong to
      */
-    func sync(ids: [BSONValue], in namespace: MongoNamespace) {
-        ids.forEach { id in
-            guard var nsConfig = syncConfig[namespace] else {
+    func sync(ids: [BSONValue], in namespace: MongoNamespace) throws {
+        try ids.forEach { id in
+            guard let nsConfig = syncConfig[namespace] else {
                 return
             }
 
-            _ = nsConfig.sync(id: id)
+            _ = try nsConfig.sync(id: id)
         }
 
         self.triggerListening(to: namespace)
@@ -1476,7 +1477,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 withClientErrorCode: .couldNotLoadSyncInfo)
         }
         lock.readLock()
-        defer { lock.unlock() }
+        defer { lock.unlock(for: .reading) }
 
         return try localCollection(for: namespace, withType: Document.self)
             .count(filter, options: options)
@@ -1508,7 +1509,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 withClientErrorCode: .couldNotLoadSyncInfo)
         }
         lock.readLock()
-        defer { lock.unlock() }
+        defer { lock.unlock(for: .reading) }
 
         return try localCollection(for: namespace).find(filter, options: options)
     }
@@ -1530,7 +1531,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 withClientErrorCode: .couldNotLoadSyncInfo)
         }
         lock.readLock()
-        defer { lock.unlock() }
+        defer { lock.unlock(for: .reading) }
 
         return try localCollection(for: namespace, withType: Document.self).aggregate(
             pipeline,
@@ -1560,7 +1561,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
         let lock = nsConfig.nsLock
         lock.writeLock()
-        defer { lock.unlock() }
+        defer { lock.unlock(for: .writing) }
 
         // Remove forbidden fields from the document before inserting it into the local collection.
         let docForStorage = DataSynchronizer.sanitizeDocument(document)
@@ -1572,7 +1573,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                                                                     document: docForStorage,
                                                                     writePending: true)
 
-        var config = nsConfig.sync(id: documentId)
+        let config = try nsConfig.sync(id: documentId)
         try config.setSomePendingWrites(atTime: logicalT, changeEvent: event)
 
         deferredEventEmittingBlock = {
@@ -1601,7 +1602,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
         let lock = nsConfig.nsLock
         lock.writeLock()
-        defer { lock.unlock() }
+        defer { lock.unlock(for: .writing) }
 
         // Remove forbidden fields from the documents before inserting them into the local collection.
         let docsForStorage = documents.map { DataSynchronizer.sanitizeDocument($0) }
@@ -1617,7 +1618,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             let event = ChangeEvent<Document>.changeEventForLocalInsert(namespace: namespace,
                                                                         document: document,
                                                                         writePending: true)
-            var config = nsConfig.sync(id: documentId)
+            let config = try nsConfig.sync(id: documentId)
             try config.setSomePendingWrites(atTime: logicalT, changeEvent: event)
             return { self.emitEvent(documentId: documentId, event: event) }
         })
@@ -1652,9 +1653,9 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
         let lock = nsConfig.nsLock
         lock.writeLock()
-        defer { lock.unlock() }
+        defer { lock.unlock(for: .writing) }
 
-        let localColl = try localCollection(for: namespace, withType: Document.self)
+        let localColl = localCollection(for: namespace, withType: Document.self)
 
         guard let docToDelete = try localColl.find(filter).first(where: { _ in true}) else {
             return DeleteResult(deletedCount: 0)
@@ -1665,7 +1666,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             return DeleteResult(deletedCount: 0)
         }
 
-        let undoColl = try undoCollection(for: namespace)
+        let undoColl = undoCollection(for: namespace)
         try undoColl.insertOne(docToDelete)
 
         let result = try localColl.deleteOne(filter)
@@ -1717,10 +1718,10 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
         let lock = nsConfig.nsLock
         lock.writeLock()
-        defer { lock.unlock() }
+        defer { lock.unlock(for: .writing) }
 
-        let localColl = try localCollection(for: namespace, withType: Document.self)
-        let undoColl = try undoCollection(for: namespace)
+        let localColl = localCollection(for: namespace, withType: Document.self)
+        let undoColl = undoCollection(for: namespace)
 
         let idsToDelete = try localColl.find(filter).compactMap { doc -> BSONValue? in
             try undoColl.insertOne(doc)
@@ -1785,10 +1786,10 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
         let lock = nsConfig.nsLock
         lock.writeLock()
-        defer { lock.unlock() }
+        defer { lock.unlock(for: .writing) }
         // read the local collection
-        let localCollection = try self.localCollection(for: namespace, withType: Document.self)
-        let undoColl = try self.undoCollection(for: namespace)
+        let localCollection = self.localCollection(for: namespace, withType: Document.self)
+        let undoColl = self.undoCollection(for: namespace)
 
         let upsert = options?.upsert ?? false
 
@@ -1839,7 +1840,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         var config: CoreDocumentSynchronization
         let event: ChangeEvent<Document>
         if triggerNamespace {
-            config = nsConfig.sync(id: documentId)
+            config = try nsConfig.sync(id: documentId)
             event = ChangeEvent<Document>.changeEventForLocalInsert(
                 namespace: namespace,
                 document: documentAfterUpdate,
@@ -1906,10 +1907,10 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
         let lock = nsConfig.nsLock
         lock.writeLock()
-        defer { lock.unlock() }
+        defer { lock.unlock(for: .writing) }
 
-        let localCollection = try self.localCollection(for: namespace, withType: Document.self)
-        let undoColl = try self.undoCollection(for: namespace)
+        let localCollection = self.localCollection(for: namespace, withType: Document.self)
+        let undoColl = self.undoCollection(for: namespace)
 
         // fetch all of the documents that this filter will match
         let beforeDocuments = try localCollection.find(filter)
@@ -1995,7 +1996,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                         fullDocumentAfterUpdate: afterDocument,
                         writePending: true)
                 } else {
-                    config = nsConfig.sync(id: documentId)
+                    config = try nsConfig.sync(id: documentId)
                     event = ChangeEvent<Document>.changeEventForLocalInsert(namespace: namespace,
                                                                             document: afterDocument,
                                                                             writePending: true);
@@ -2024,7 +2025,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      */
     private func emitEvent(documentId: BSONValue, event: ChangeEvent<Document>) {
         listenersLock.readLock()
-        defer { listenersLock.unlock() }
+        defer { listenersLock.unlock(for: .reading) }
 
         let nsConfig = syncConfig[event.ns]
 
@@ -2090,8 +2091,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      - parameter namespace: namespace to listen to
      */
     private func triggerListening(to namespace: MongoNamespace) {
-        syncLock.tryWriteLock()
-        defer { syncLock.unlock() }
+        _ = syncLock.tryLock(for: .writing)
+        defer { syncLock.unlock(for: .writing) }
         do {
             guard let nsConfig = self.syncConfig[namespace] else {
                 return
@@ -2151,7 +2152,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      */
     private static func sanitizeCachedDocument(_ document: Document,
                                                documentId: BSONValue,
-                                               in localCollection: MongoCollection<Document>) throws -> Document {
+                                               in localCollection: SyncMongoCollection<Document>) throws -> Document {
         guard document[documentVersionField] != nil else {
             return document
         }
@@ -2185,9 +2186,20 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      - parameter type: the type of document in this collection
      - returns: the local collection representing the given namespace.
      */
+    private func localCollection(for namespace: MongoNamespace) -> SyncMongoCollection<Document> {
+        return localCollection(for: namespace, withType: Document.self)
+    }
+
+    /**
+     Returns the local collection representing the given namespace.
+
+     - parameter namespace: the namespace referring to the local collection.
+     - parameter type: the type of document in this collection
+     - returns: the local collection representing the given namespace.
+     */
     private func localCollection<T: Codable>(for namespace: MongoNamespace,
-                                             withType type: T.Type = T.self) throws -> MongoCollection<T> {
-        return try localClient.db(DataSynchronizer.localUserDBName(withInstanceKey: instanceKey,
+                                             withType type: T.Type = T.self) -> SyncMongoCollection<T> {
+        return localClient.db(DataSynchronizer.localUserDBName(withInstanceKey: instanceKey,
                                                                    for: namespace))
             .collection(namespace.collectionName, withType: type)
     }
@@ -2200,8 +2212,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      - returns: the undo collection representing the given namespace for recording documents that may need to be
                 reverted after a system failure.
      */
-    internal func undoCollection(for namespace: MongoNamespace) throws -> MongoCollection<Document> {
-        return try localClient.db(
+    internal func undoCollection(for namespace: MongoNamespace) -> SyncMongoCollection<Document> {
+        return localClient.db(
             DataSynchronizer.localUndoDBName(
                 withInstanceKey: instanceKey,
                 for: namespace)
