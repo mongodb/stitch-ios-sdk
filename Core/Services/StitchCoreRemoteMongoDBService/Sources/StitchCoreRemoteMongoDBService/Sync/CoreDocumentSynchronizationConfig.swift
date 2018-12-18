@@ -60,19 +60,19 @@ internal class CoreDocumentSynchronization: Hashable {
 
             self.namespace = try values.decode(MongoNamespace.self, forKey: .namespace)
 
-            if values.contains(.lastKnownRemoteVersion) {
-                self.lastKnownRemoteVersion = try values.decode(Document.self, forKey: .lastKnownRemoteVersion)
+            if let lastKnownRemoteVersion =
+                try values.decodeIfPresent(Document.self, forKey: .lastKnownRemoteVersion) {
+                self.lastKnownRemoteVersion = lastKnownRemoteVersion
             }
 
-            if values.contains(.uncommittedChangeEvent) {
-                let eventBin = try values.decode(Binary.self, forKey: .uncommittedChangeEvent)
+            if let eventBin = try values.decodeIfPresent(Binary.self, forKey: .uncommittedChangeEvent) {
                 let eventDocument = Document.init(fromBSON: eventBin.data)
 
                 self.uncommittedChangeEvent =
                     try BSONDecoder().decode(ChangeEvent.self, from: eventDocument)
             }
 
-            self.documentId = HashableBSONValue.init(try values.decode(AnyBSONValue.self, forKey: .documentId))
+            self.documentId = try values.decode(HashableBSONValue.self, forKey: .documentId)
             self.lastResolution = try values.decode(Int64.self, forKey: .lastResolution)
             self.isStale = try values.decode(Bool.self, forKey: .isStale)
             self.isPaused = try values.decode(Bool.self, forKey: .isPaused)
@@ -82,7 +82,7 @@ internal class CoreDocumentSynchronization: Hashable {
         func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
 
-            try container.encode(documentId.bsonValue, forKey: .documentId)
+            try container.encode(documentId, forKey: .documentId)
 
             // verify schema version
             try container.encode(1 as Int32, forKey: .schemaVersion)

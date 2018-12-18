@@ -63,6 +63,10 @@ class ThreadSafeMongoCollection<T: Codable> {
             .collection(name, withType: T.self)
     }
 
+    func drop() throws {
+        try underlyingCollection().drop()
+    }
+
     func aggregate(_ pipeline: [Document], options: AggregateOptions? = nil) throws -> MongoCursor<Document> {
         return try underlyingCollection().aggregate(pipeline, options: options)
     }
