@@ -69,9 +69,9 @@ internal class CoreDocumentSynchronization: Hashable {
     }
 
     /// The collection we are storing document configs in.
-    private let docsColl: MongoCollection<CoreDocumentSynchronization.Config>
+    private let docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>
     /// Standard read-write lock.
-    private let docLock: ReadWriteLock = ReadWriteLock()
+    private let docLock: ReadWriteLock
     /// The error listener to propogate errors to.
     private weak var errorListener: FatalErrorListener?
     /// The configuration for this document.
@@ -85,10 +85,12 @@ internal class CoreDocumentSynchronization: Hashable {
     var uncommittedChangeEvent: ChangeEvent<Document>? {
         get {
             docLock.readLock()
-            defer { docLock.unlock() }
+            defer { docLock.unlock(for: .reading) }
             return config.uncommittedChangeEvent
         }
         set(value) {
+            docLock.writeLock()
+            defer { docLock.unlock(for: .writing) }
             // the write lock should be held elsewhere
             // when setting this value
             self.config.uncommittedChangeEvent = value
@@ -99,12 +101,12 @@ internal class CoreDocumentSynchronization: Hashable {
     var lastResolution: Int64 {
         get {
             docLock.readLock()
-            defer { docLock.unlock() }
+            defer { docLock.unlock(for: .reading) }
             return self.config.lastResolution
         }
         set(value) {
             docLock.writeLock()
-            defer { docLock.unlock() }
+            defer { docLock.unlock(for: .writing) }
             self.config.lastResolution = value
         }
     }
@@ -113,12 +115,12 @@ internal class CoreDocumentSynchronization: Hashable {
     var lastKnownRemoteVersion: Document? {
         get {
             docLock.readLock()
-            defer { docLock.unlock() }
+            defer { docLock.unlock(for: .reading) }
             return self.config.lastKnownRemoteVersion
         }
         set(value) {
             docLock.writeLock()
-            defer { docLock.unlock() }
+            defer { docLock.unlock(for: .writing) }
             self.config.lastKnownRemoteVersion = value
         }
     }
@@ -127,7 +129,7 @@ internal class CoreDocumentSynchronization: Hashable {
     var isStale: Bool {
         get {
             docLock.readLock()
-            defer { docLock.unlock() }
+            defer { docLock.unlock(for: .reading) }
             var filter = docConfigFilter(forNamespace: namespace, withDocumentId: documentId)
             do {
                 try filter.merge([Config.CodingKeys.isStale.rawValue: true])
@@ -140,7 +142,7 @@ internal class CoreDocumentSynchronization: Hashable {
         }
         set(value) {
             docLock.writeLock()
-            defer { docLock.unlock() }
+            defer { docLock.unlock(for: .writing) }
             do {
                 try docsColl.updateOne(
                     filter: docConfigFilter(forNamespace: namespace, withDocumentId: documentId),
@@ -156,12 +158,12 @@ internal class CoreDocumentSynchronization: Hashable {
     var isPaused: Bool {
         get {
             docLock.readLock()
-            defer { docLock.unlock() }
+            defer { docLock.unlock(for: .reading) }
             return config.isPaused
         }
         set(value) {
             docLock.writeLock()
-            defer { docLock.unlock() }
+            defer { docLock.unlock(for: .writing) }
             do {
                 try docsColl.updateOne(
                     filter: docConfigFilter(forNamespace: namespace,
@@ -182,10 +184,10 @@ internal class CoreDocumentSynchronization: Hashable {
         }
     }
 
-    init(docsColl: MongoCollection<CoreDocumentSynchronization.Config>,
+    init(docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>,
          namespace: MongoNamespace,
          documentId: AnyBSONValue,
-         errorListener: FatalErrorListener?) {
+         errorListener: FatalErrorListener?) throws {
         self.docsColl = docsColl
         self.config = Config.init(namespace: namespace,
                                   documentId: HashableBSONValue.init(documentId),
@@ -195,14 +197,16 @@ internal class CoreDocumentSynchronization: Hashable {
                                   isStale: false,
                                   isPaused: false)
         self.errorListener = errorListener
+        try self.docLock = ReadWriteLock()
     }
 
-    init(docsColl: MongoCollection<CoreDocumentSynchronization.Config>,
+    init(docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>,
          config: inout Config,
-         errorListener: FatalErrorListener?) {
+         errorListener: FatalErrorListener?) throws {
         self.docsColl = docsColl
         self.config = config
         self.errorListener = errorListener
+        try self.docLock = ReadWriteLock()
     }
 
     /**
@@ -223,7 +227,7 @@ internal class CoreDocumentSynchronization: Hashable {
         }
 
         docLock.writeLock()
-        defer { docLock.unlock() }
+        defer { docLock.unlock(for: .writing) }
         self.uncommittedChangeEvent = CoreDocumentSynchronization.coalesceChangeEvents(
             lastUncommittedChangeEvent: self.uncommittedChangeEvent,
             newestChangeEvent: changeEvent)
@@ -245,7 +249,7 @@ internal class CoreDocumentSynchronization: Hashable {
                               atVersion: Document?,
                               changeEvent: ChangeEvent<Document>) throws {
         docLock.writeLock()
-        defer { docLock.unlock() }
+        defer { docLock.unlock(for: .writing) }
 
         self.uncommittedChangeEvent = changeEvent
         self.lastResolution = atTime
@@ -266,7 +270,7 @@ internal class CoreDocumentSynchronization: Hashable {
      */
     func setPendingWritesComplete(atVersion: Document?) throws {
         docLock.writeLock()
-        defer { docLock.unlock() }
+        defer { docLock.unlock(for: .writing) }
         self.uncommittedChangeEvent = nil
         self.lastKnownRemoteVersion = atVersion
 
@@ -283,7 +287,7 @@ internal class CoreDocumentSynchronization: Hashable {
      */
     public func hasCommittedVersion(versionInfo: DocumentVersionInfo?) throws -> Bool {
         docLock.readLock()
-        defer { docLock.unlock() }
+        defer { docLock.unlock(for: .reading) }
         let localVersionInfo = try DocumentVersionInfo.fromVersionDoc(versionDoc: self.lastKnownRemoteVersion)
         if let newVersion = versionInfo?.version, let localVersion = localVersionInfo.version {
             return (newVersion.syncProtocolVersion == localVersion.syncProtocolVersion)
