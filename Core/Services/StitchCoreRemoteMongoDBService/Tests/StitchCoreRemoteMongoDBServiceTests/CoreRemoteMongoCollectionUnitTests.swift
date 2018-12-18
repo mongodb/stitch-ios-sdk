@@ -101,6 +101,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         
         let docs = [doc1, doc2]
 
+        mockServiceClient.callFunctionWithDecodingMock.clearStubs()
         mockServiceClient.callFunctionWithDecodingMock.doReturn(
             result: docs, forArg1: .any, forArg2: .any, forArg3: .any
         )
@@ -177,7 +178,8 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         let doc2: Document = ["three": 4]
         
         let docs = [doc1, doc2]
-        
+
+        mockServiceClient.callFunctionWithDecodingMock.clearStubs()
         mockServiceClient.callFunctionWithDecodingMock.doReturn(
             result: docs, forArg1: .any, forArg2: .any, forArg3: .any
         )
@@ -248,7 +250,8 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         
         let id = ObjectId()
         let doc1: Document = ["_id": id, "one": 2]
-        
+
+        mockServiceClient.callFunctionWithDecodingMock.clearStubs()
         mockServiceClient.callFunctionWithDecodingMock.doReturn(
             result: RemoteInsertOneResult.init(insertedId: id),
             forArg1: .any, forArg2: .any, forArg3: .any

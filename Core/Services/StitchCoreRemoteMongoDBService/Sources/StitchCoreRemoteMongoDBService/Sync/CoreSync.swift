@@ -6,7 +6,7 @@ import MongoSwift
  */
 public final class CoreSync<DocumentT: Codable> {
     /// The namespace of the collection.
-    private let namespace: MongoNamespace
+    internal let namespace: MongoNamespace
     /// The dataSynchronizer from the RemoteCollection.
     internal let dataSynchronizer: DataSynchronizer
     /// Lazily initialized encoder for T
