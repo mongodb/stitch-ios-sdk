@@ -52,7 +52,7 @@ public class Sync<DocumentT: Codable> {
      Requests that the given document _ids be synchronized.
      - parameter ids: the document _ids to synchronize.
      */
-    public func sync(ids: [BSONValue]) {
+    public func sync(ids: [BSONValue]) throws {
         try self.proxy.sync(ids: ids)
     }
 
