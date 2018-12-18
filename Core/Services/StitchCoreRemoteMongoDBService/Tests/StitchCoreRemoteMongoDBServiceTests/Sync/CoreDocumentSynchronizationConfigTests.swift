@@ -60,9 +60,14 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
                        encodedCoreDocSync[CoreDocumentSynchronization.Config.CodingKeys.lastKnownRemoteVersion.rawValue] as? Document)
         XCTAssertEqual(lastResolution,
                        encodedCoreDocSync[CoreDocumentSynchronization.Config.CodingKeys.lastResolution.rawValue] as? Int64)
+
+        let lastUncommittedChangeEventBin =
+                       encodedCoreDocSync[CoreDocumentSynchronization.Config.CodingKeys.uncommittedChangeEvent.rawValue] as? Binary
+        let lastUncommittedChangeEventDoc = Document.init(fromBSON: lastUncommittedChangeEventBin!.data)
+
         XCTAssertEqual(lastUncommittedChangeEvent,
                        try BSONDecoder().decode(ChangeEvent.self,
-                                                from: encodedCoreDocSync[CoreDocumentSynchronization.Config.CodingKeys.uncommittedChangeEvent.rawValue] as! Document))
+                                                from: lastUncommittedChangeEventDoc))
 
         var decodedCoreDocConfig = try BSONDecoder().decode(CoreDocumentSynchronization.Config.self,
                                                             from: encodedCoreDocSync)
