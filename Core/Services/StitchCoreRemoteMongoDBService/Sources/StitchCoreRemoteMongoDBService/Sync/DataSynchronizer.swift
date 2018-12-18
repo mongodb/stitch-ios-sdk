@@ -1140,13 +1140,19 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             return
         }
 
+        var deferredEventEmittingBlock: DeferredBlock? = nil
+        defer { deferredEventEmittingBlock?() }
+
         nsConfig.nsLock.writeLock()
         defer { nsConfig.nsLock.unlock(for: .writing) }
 
         nsConfig[documentId] = nil
         try self.localCollection(for: namespace,
                                  withType: Document.self).deleteOne(["_id": documentId])
-        triggerListening(to: namespace)
+
+        deferredEventEmittingBlock = {
+            self.triggerListening(to: namespace)
+        }
     }
 
 
@@ -1166,6 +1172,9 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             return
         }
 
+        var deferredEventEmittingBlock: DeferredBlock? = nil
+        defer { deferredEventEmittingBlock?() }
+
         lock.writeLock()
         defer { lock.unlock(for: .writing) }
 
@@ -1174,19 +1183,32 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         }
 
         let localCollection = self.localCollection(for: namespace, withType: Document.self)
+        let undoCollection = self.undoCollection(for: namespace)
+
+        let documentBeforeUpdate = try localCollection.find([idField: documentId], options: nil).next()
+        if let documentBeforeUpdate = documentBeforeUpdate {
+            try undoCollection.insertOne(documentBeforeUpdate)
+        }
+
         // Since we are accepting the remote document as the resolution to the conflict, it may
         // contain version information. Clone the document and remove forbidden fields from it before
         // storing it in the collection.
         let docForStorage = DataSynchronizer.sanitizeDocument(remoteDocument)
         try localCollection.findOneAndReplace(filter: ["_id": documentId], replacement: docForStorage, options: FindOneAndReplaceOptions(upsert: true))
         try config.setPendingWritesComplete(atVersion: atVersion)
+        if documentBeforeUpdate != nil {
+            try undoCollection.deleteOne([idField: documentId])
+        }
 
         let event = ChangeEvent<Document>.changeEventForLocalReplace(namespace: namespace,
                                                                      documentId: documentId,
                                                                      document: docForStorage,
                                                                      writePending: false)
-        self.emitEvent(documentId: documentId,
-                       event: event)
+
+        deferredEventEmittingBlock = {
+            self.emitEvent(documentId: documentId,
+                           event: event)
+        }
     }
 
     /**
@@ -1206,6 +1228,9 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             return
         }
 
+        var deferredEventEmittingBlock: DeferredBlock? = nil
+        defer { deferredEventEmittingBlock?() }
+
         lock.writeLock()
         defer { lock.unlock(for: .writing) }
 
@@ -1213,7 +1238,14 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             return
         }
 
-        let localCollection = try self.localCollection(for: namespace, withType: Document.self)
+        let localCollection = self.localCollection(for: namespace, withType: Document.self)
+        let undoCollection = self.undoCollection(for: namespace)
+
+        let documentBeforeUpdate = try localCollection.find([idField: documentId], options: nil).next()
+
+        if let documentBeforeUpdate = documentBeforeUpdate {
+            try undoCollection.insertOne(documentBeforeUpdate)
+        }
 
         // Remove forbidden fields from the resolved document before it will updated/upserted in the
         // local collection.
@@ -1248,7 +1280,13 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             atTime: logicalT,
             atVersion: atVersion,
             changeEvent: event);
-        emitEvent(documentId: documentId, event: event)
+        if documentBeforeUpdate != nil {
+            try undoCollection.deleteOne([idField: documentId])
+        }
+
+        deferredEventEmittingBlock = {
+            self.emitEvent(documentId: documentId, event: event)
+        }
     }
 
     /**
@@ -1266,6 +1304,9 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             return
         }
 
+        var deferredEventEmittingBlock: DeferredBlock? = nil
+        defer { deferredEventEmittingBlock?() }
+
         lock.writeLock()
         defer { lock.unlock(for: .writing) }
 
@@ -1274,17 +1315,24 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         }
 
         let localCollection = self.localCollection(for: namespace, withType: Document.self)
-        guard let _ = try localCollection.find(["_id": documentId]).next() else {
+        let undoCollection = self.undoCollection(for: namespace)
+
+        guard let documentToDelete = try localCollection.find([idField: documentId]).next() else {
             try desyncDocumentFromRemote(namespace: namespace, documentId: documentId)
             return
         }
 
-        try localCollection.deleteOne(["_id": documentId])
+        try undoCollection.insertOne(documentToDelete)
+        try localCollection.deleteOne([idField: documentId])
         try desyncDocumentFromRemote(namespace: namespace, documentId: documentId)
-        emitEvent(documentId: documentId,
-                  event: ChangeEvent<Document>.changeEventForLocalDelete(namespace: namespace,
-                                                                         documentId: documentId,
-                                                                         writePending: false))
+        try undoCollection.deleteOne([idField: documentId])
+
+        deferredEventEmittingBlock = {
+            self.emitEvent(documentId: documentId,
+                           event: ChangeEvent<Document>.changeEventForLocalDelete(namespace: namespace,
+                                                                                  documentId: documentId,
+                                                                                  writePending: false))
+        }
     }
 
     private func deleteOneFromResolution(namespace: MongoNamespace,
@@ -1294,19 +1342,34 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             return
         }
 
+        var deferredEventEmittingBlock: DeferredBlock? = nil
+        defer { deferredEventEmittingBlock?() }
+
         lock.writeLock()
         defer { lock.unlock(for: .writing) }
         guard let config = syncConfig[namespace]?[documentId] else {
             return
         }
 
-        let localCollection = self.localCollection(for: namespace,
-                                                   withType: Document.self)
+        let localCollection = self.localCollection(for: namespace, withType: Document.self)
+        let undoCollection = self.undoCollection(for: namespace)
+
+        let documentToDelete = try localCollection.find([idField: documentId], options: nil).next()
+        if let documentToDelete = documentToDelete {
+            try undoCollection.insertOne(documentToDelete)
+        }
 
         try localCollection.deleteOne(["_id": documentId])
         let event = ChangeEvent<Document>.changeEventForLocalDelete(namespace: namespace, documentId: documentId, writePending: true);
         try config.setSomePendingWrites(atTime: logicalT, atVersion: atVersion, changeEvent: event)
-        emitEvent(documentId: documentId, event: event);
+
+        if documentToDelete != nil {
+            try undoCollection.deleteOne([idField: documentId])
+        }
+
+        deferredEventEmittingBlock = {
+            self.emitEvent(documentId: documentId, event: event)
+        }
     }
 
     /**

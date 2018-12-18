@@ -89,6 +89,12 @@ private class TestCaseDataSynchronizer: DataSynchronizer {
             forArg2: .any,
             forArg3: .any
         )
+        mockServiceClient.callFunctionWithDecodingMock.doReturn(
+            result: true,
+            forArg1: .any,
+            forArg2: .any,
+            forArg3: .any
+        )
 
         try super.init(
             instanceKey: instanceKey,
@@ -140,6 +146,7 @@ class XCMongoMobileTestCase: XCTestCase {
                     instanceKey: instanceKey.oid,
                     coreRemoteMongoClient: self.coreRemoteMongoClient,
                     appInfo: appClientInfo)
+                storedDataSynchronizer.isSyncThreadEnabled = false
             }
             return storedDataSynchronizer
         }
@@ -171,6 +178,7 @@ class XCMongoMobileTestCase: XCTestCase {
             coreRemoteMongoClient: self.coreRemoteMongoClient,
             appInfo: appClientInfo
         )
+        dataSynchronizer.isSyncThreadEnabled = false
 
         // perform a no-op write so that we wait for the recovery pass to complete. This works
         // since the recovery routine write-locks all namespaces until recovery is done.
@@ -204,6 +212,43 @@ class XCMongoMobileTestCase: XCTestCase {
 
     override func setUp() {
         mockServiceClient = MockCoreStitchServiceClient()
+        mockServiceClient.streamFunctionMock.doReturn(
+            result: RawSSEStream.init(),
+            forArg1: .any,
+            forArg2: .any,
+            forArg3: .any
+        )
+        mockServiceClient.callFunctionWithDecodingMock.doReturn(
+            result: RemoteInsertOneResult.init(insertedId: ObjectId()),
+            forArg1: .with(condition: {$0 == "insertOne"}),
+            forArg2: .any,
+            forArg3: .any
+        )
+        mockServiceClient.callFunctionWithDecodingMock.doReturn(
+            result: RemoteInsertManyResult.init(fromArray: [ObjectId()]),
+            forArg1: .with(condition: {$0 == "insertOne"}),
+            forArg2: .any,
+            forArg3: .any
+        )
+        mockServiceClient.callFunctionWithDecodingMock.doReturn(
+            result: [Document](),
+            forArg1: .with(condition: {$0 == "aggregate" || $0 == "find"}),
+            forArg2: .any,
+            forArg3: .any
+        )
+        mockServiceClient.callFunctionWithDecodingMock.doReturn(
+            result: RemoteUpdateResult.init(matchedCount: 1, modifiedCount: 1, upsertedId: nil),
+            forArg1: .with(condition: {$0 == "update"}),
+            forArg2: .any,
+            forArg3: .any
+        )
+        mockServiceClient.callFunctionWithDecodingMock.doReturn(
+            result: RemoteDeleteResult.init(deletedCount: 1),
+            forArg1: .with(condition: {$0 == "delete"}),
+            forArg2: .any,
+            forArg3: .any
+        )
+
         coreRemoteMongoClient = try! CoreRemoteMongoClientFactory.shared.client(
             withService: mockServiceClient,
             withAppInfo: appClientInfo)
