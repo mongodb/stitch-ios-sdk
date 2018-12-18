@@ -5,8 +5,8 @@ import MongoSwift
 @testable import StitchCoreRemoteMongoDBService
 
 class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
-    private var database: SyncMongoDatabase!
-    private var docsColl: SyncMongoCollection<CoreDocumentSynchronization.Config>!
+    private var database: ThreadSafeMongoDatabase!
+    private var docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>!
 
     override func setUp() {
         self.docsColl = try! localClient.db(namespace.databaseName)

@@ -5,8 +5,8 @@ import MongoSwift
 @testable import StitchCoreRemoteMongoDBService
 
 class NamespaceSynchronizationConfigTests: XCMongoMobileTestCase {
-    private var namespaceColl: SyncMongoCollection<NamespaceSynchronization.Config>!
-    private var docsColl: SyncMongoCollection<CoreDocumentSynchronization.Config>!
+    private var namespaceColl: ThreadSafeMongoCollection<NamespaceSynchronization.Config>!
+    private var docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>!
 
     override func setUp() {
         namespaceColl = localClient.db(namespace.databaseName)

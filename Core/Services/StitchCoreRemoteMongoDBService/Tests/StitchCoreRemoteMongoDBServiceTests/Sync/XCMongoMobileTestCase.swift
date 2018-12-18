@@ -115,7 +115,7 @@ class XCMongoMobileTestCase: XCTestCase {
                                                       localAppVersion: "1.0",
                                                       networkMonitor: TestNetworkMonitor(),
                                                       authMonitor: TestAuthMonitor())
-    lazy var localClient: SyncMongoClient = try! SyncMongoClient(withAppInfo: appClientInfo)
+    lazy var localClient: ThreadSafeMongoClient = try! ThreadSafeMongoClient(withAppInfo: appClientInfo)
 
 
     let routes = StitchAppRoutes.init(clientAppID: "foo").serviceRoutes
@@ -240,18 +240,18 @@ class XCMongoMobileTestCase: XCTestCase {
         return try undoCollection().count() == 0
     }
 
-    func undoCollection() -> SyncMongoCollection<Document> {
+    func undoCollection() -> ThreadSafeMongoCollection<Document> {
         return dataSynchronizer.undoCollection(for: namespace)
     }
 
-    func localCollection() -> SyncMongoCollection<Document> {
+    func localCollection() -> ThreadSafeMongoCollection<Document> {
         return try localCollection(for: MongoNamespace.init(
             databaseName: DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace),
             collectionName: namespace.collectionName
         ))
     }
 
-    func localCollection(for namespace: MongoNamespace) -> SyncMongoCollection<Document> {
+    func localCollection(for namespace: MongoNamespace) -> ThreadSafeMongoCollection<Document> {
         self.namespacesToBeTornDown.insert(namespace)
         return localClient
             .db(namespace.databaseName)

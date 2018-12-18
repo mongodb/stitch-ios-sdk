@@ -40,12 +40,12 @@ internal class NamespaceSynchronization: Sequence {
         typealias Element = CoreDocumentSynchronization
         private typealias Values = Dictionary<HashableBSONValue, CoreDocumentSynchronization.Config>.Values
 
-        private let docsColl: SyncMongoCollection<CoreDocumentSynchronization.Config>
+        private let docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>
         private var values: Values
         private var indices: DefaultIndices<Values>
         private weak var errorListener: FatalErrorListener?
 
-        init(docsColl: SyncMongoCollection<CoreDocumentSynchronization.Config>,
+        init(docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>,
              values: Dictionary<HashableBSONValue, CoreDocumentSynchronization.Config>.Values,
              errorListener: FatalErrorListener?) {
             self.docsColl = docsColl
@@ -68,9 +68,9 @@ internal class NamespaceSynchronization: Sequence {
     /// Standard read-write lock.
     let nsLock: ReadWriteLock
     /// The collection we are storing namespace configs in.
-    private let namespacesColl: SyncMongoCollection<NamespaceSynchronization.Config>
+    private let namespacesColl: ThreadSafeMongoCollection<NamespaceSynchronization.Config>
     /// The collection we are storing document configs in.
-    private let docsColl: SyncMongoCollection<CoreDocumentSynchronization.Config>
+    private let docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>
     /// The error listener to propagate errors to.
     private weak var errorListener: FatalErrorListener?
     /// The configuration for this namespace.
@@ -101,8 +101,8 @@ internal class NamespaceSynchronization: Sequence {
         }
     }
 
-    init(namespacesColl: SyncMongoCollection<NamespaceSynchronization.Config>,
-         docsColl: SyncMongoCollection<CoreDocumentSynchronization.Config>,
+    init(namespacesColl: ThreadSafeMongoCollection<NamespaceSynchronization.Config>,
+         docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>,
          namespace: MongoNamespace,
          errorListener: FatalErrorListener?) throws {
         self.namespacesColl = namespacesColl

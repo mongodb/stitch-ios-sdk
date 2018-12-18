@@ -69,7 +69,7 @@ internal class CoreDocumentSynchronization: Hashable {
     }
 
     /// The collection we are storing document configs in.
-    private let docsColl: SyncMongoCollection<CoreDocumentSynchronization.Config>
+    private let docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>
     /// Standard read-write lock.
     private let docLock: ReadWriteLock
     /// The error listener to propogate errors to.
@@ -184,7 +184,7 @@ internal class CoreDocumentSynchronization: Hashable {
         }
     }
 
-    init(docsColl: SyncMongoCollection<CoreDocumentSynchronization.Config>,
+    init(docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>,
          namespace: MongoNamespace,
          documentId: AnyBSONValue,
          errorListener: FatalErrorListener?) throws {
@@ -200,7 +200,7 @@ internal class CoreDocumentSynchronization: Hashable {
         try self.docLock = ReadWriteLock()
     }
 
-    init(docsColl: SyncMongoCollection<CoreDocumentSynchronization.Config>,
+    init(docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>,
          config: inout Config,
          errorListener: FatalErrorListener?) throws {
         self.docsColl = docsColl

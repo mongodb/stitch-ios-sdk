@@ -3,15 +3,15 @@ import StitchCoreSDK
 import StitchCoreLocalMongoDBService
 import Foundation
 
-class SyncMongoClient {
+class ThreadSafeMongoClient {
     private let appInfo: StitchAppClientInfo
 
     init(withAppInfo appInfo: StitchAppClientInfo) throws {
         self.appInfo = appInfo
     }
 
-    func db(_ name: String) -> SyncMongoDatabase {
-        return SyncMongoDatabase(appInfo, name: name)
+    func db(_ name: String) -> ThreadSafeMongoDatabase {
+        return ThreadSafeMongoDatabase(appInfo, name: name)
     }
 
     func close() throws {
@@ -22,7 +22,7 @@ class SyncMongoClient {
     }
 }
 
-class SyncMongoDatabase {
+class ThreadSafeMongoDatabase {
     private let appInfo: StitchAppClientInfo
     private let name: String
 
@@ -31,12 +31,12 @@ class SyncMongoDatabase {
         self.name = name
     }
 
-    func collection(_ name: String) -> SyncMongoCollection<Document> {
-        return SyncMongoCollection<Document>.init(appInfo, databaseName: self.name, name: name)
+    func collection(_ name: String) -> ThreadSafeMongoCollection<Document> {
+        return ThreadSafeMongoCollection<Document>.init(appInfo, databaseName: self.name, name: name)
     }
 
-    func collection<T>(_ name: String, withType type: T.Type) -> SyncMongoCollection<T> {
-        return SyncMongoCollection(appInfo, databaseName: self.name, name: name)
+    func collection<T>(_ name: String, withType type: T.Type) -> ThreadSafeMongoCollection<T> {
+        return ThreadSafeMongoCollection(appInfo, databaseName: self.name, name: name)
     }
 
     func drop() throws {
@@ -44,7 +44,7 @@ class SyncMongoDatabase {
     }
 }
 
-class SyncMongoCollection<T: Codable> {
+class ThreadSafeMongoCollection<T: Codable> {
     private let appInfo: StitchAppClientInfo
     private let databaseName: String
     private let name: String

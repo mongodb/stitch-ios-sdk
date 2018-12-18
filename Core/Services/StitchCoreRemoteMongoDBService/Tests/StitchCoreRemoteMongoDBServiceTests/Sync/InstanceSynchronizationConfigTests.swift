@@ -5,8 +5,8 @@ import XCTest
 @testable import StitchCoreRemoteMongoDBService
 
 class InstanceSynchronizationConfigTests: XCMongoMobileTestCase, FatalErrorListener {
-    private var namespaceColl: SyncMongoCollection<NamespaceSynchronization.Config>!
-    private var docsColl: SyncMongoCollection<CoreDocumentSynchronization.Config>!
+    private var namespaceColl: ThreadSafeMongoCollection<NamespaceSynchronization.Config>!
+    private var docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>!
 
     private let namespace2 = MongoNamespace.init(databaseName: ObjectId().description,
                                                  collectionName: ObjectId().description)

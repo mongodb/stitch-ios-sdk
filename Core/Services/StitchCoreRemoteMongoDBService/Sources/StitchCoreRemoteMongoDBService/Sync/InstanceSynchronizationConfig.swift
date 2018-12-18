@@ -27,16 +27,16 @@ internal class InstanceSynchronization: Sequence {
         typealias Element = NamespaceSynchronization
         private typealias Values = Dictionary<MongoNamespace, NamespaceSynchronization>.Values
 
-        private let namespacesColl: SyncMongoCollection<NamespaceSynchronization.Config>
-        private let docsColl: SyncMongoCollection<CoreDocumentSynchronization.Config>
+        private let namespacesColl: ThreadSafeMongoCollection<NamespaceSynchronization.Config>
+        private let docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>
         private var values: Values
         private var indices: DefaultIndices<Values>
         private weak var errorListener: FatalErrorListener?
         private weak var parentInstanceLock: ReadWriteLock?
 
         init(instanceLock: ReadWriteLock,
-             namespacesColl: SyncMongoCollection<NamespaceSynchronization.Config>,
-             docsColl: SyncMongoCollection<CoreDocumentSynchronization.Config>,
+             namespacesColl: ThreadSafeMongoCollection<NamespaceSynchronization.Config>,
+             docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>,
              values: Dictionary<MongoNamespace, NamespaceSynchronization>.Values,
              errorListener: FatalErrorListener?) {
             self.namespacesColl = namespacesColl
@@ -59,15 +59,15 @@ internal class InstanceSynchronization: Sequence {
         }
     }
 
-    private let namespacesColl: SyncMongoCollection<NamespaceSynchronization.Config>
-    private let docsColl: SyncMongoCollection<CoreDocumentSynchronization.Config>
+    private let namespacesColl: ThreadSafeMongoCollection<NamespaceSynchronization.Config>
+    private let docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>
     private let instanceLock: ReadWriteLock
     weak var errorListener: FatalErrorListener?
 
     /// The configuration for this instance.
     private(set) var config: Config
 
-    init(configDb: SyncMongoDatabase,
+    init(configDb: ThreadSafeMongoDatabase,
          errorListener: FatalErrorListener?) throws {
         try self.instanceLock = ReadWriteLock()
         self.namespacesColl = try configDb

@@ -4,7 +4,7 @@ import XCTest
 @testable import StitchCoreRemoteMongoDBService
 
 class UpdateDescriptionUnitTests: XCMongoMobileTestCase {
-    var collection: SyncMongoCollection<Document>!
+    var collection: ThreadSafeMongoCollection<Document>!
 
     override func setUp() {
         collection = localClient
@@ -207,7 +207,7 @@ class UpdateDescriptionUnitTests: XCMongoMobileTestCase {
         XCTAssertEqual(removedFields, (updateDoc["$unset"] as? Document)?.keys)
     }
 
-    private func testDiff(collection: SyncMongoCollection<Document>,
+    private func testDiff(collection: ThreadSafeMongoCollection<Document>,
                           beforeDocument: Document,
                           expectedUpdateDocument: Document,
                           afterDocument: Document) throws {

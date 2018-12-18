@@ -48,11 +48,11 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     /// Auth monitor that receives auth state
     private let authMonitor: AuthMonitor
     /// Thread safe MongoClient
-    internal let localClient: SyncMongoClient
+    internal let localClient: ThreadSafeMongoClient
     /// Database to manage our configurations
-    private let configDb: SyncMongoDatabase
+    private let configDb: ThreadSafeMongoDatabase
     /// The collection to store the configuration for this instance in
-    private let instancesColl: SyncMongoCollection<InstanceSynchronization.Config>
+    private let instancesColl: ThreadSafeMongoCollection<InstanceSynchronization.Config>
     /// The configuration for this sync instance
     internal var syncConfig: InstanceSynchronization
 
@@ -105,7 +105,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         self.authMonitor = appInfo.authMonitor
         self.syncLock = try ReadWriteLock()
         self.listenersLock = try ReadWriteLock()
-        self.localClient = try SyncMongoClient(withAppInfo: appInfo)
+        self.localClient = try ThreadSafeMongoClient(withAppInfo: appInfo)
         self.configDb = localClient.db(DataSynchronizer.localConfigDBName(withInstanceKey: instanceKey))
 
         self.instancesColl = configDb.collection("instances",
@@ -2151,7 +2151,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      */
     private static func sanitizeCachedDocument(_ document: Document,
                                                documentId: BSONValue,
-                                               in localCollection: SyncMongoCollection<Document>) throws -> Document {
+                                               in localCollection: ThreadSafeMongoCollection<Document>) throws -> Document {
         guard document[documentVersionField] != nil else {
             return document
         }
@@ -2185,7 +2185,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      - parameter type: the type of document in this collection
      - returns: the local collection representing the given namespace.
      */
-    private func localCollection(for namespace: MongoNamespace) -> SyncMongoCollection<Document> {
+    private func localCollection(for namespace: MongoNamespace) -> ThreadSafeMongoCollection<Document> {
         return localCollection(for: namespace, withType: Document.self)
     }
 
@@ -2197,7 +2197,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      - returns: the local collection representing the given namespace.
      */
     private func localCollection<T: Codable>(for namespace: MongoNamespace,
-                                             withType type: T.Type = T.self) -> SyncMongoCollection<T> {
+                                             withType type: T.Type = T.self) -> ThreadSafeMongoCollection<T> {
         return localClient.db(DataSynchronizer.localUserDBName(withInstanceKey: instanceKey,
                                                                    for: namespace))
             .collection(namespace.collectionName, withType: type)
@@ -2211,7 +2211,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      - returns: the undo collection representing the given namespace for recording documents that may need to be
                 reverted after a system failure.
      */
-    internal func undoCollection(for namespace: MongoNamespace) -> SyncMongoCollection<Document> {
+    internal func undoCollection(for namespace: MongoNamespace) -> ThreadSafeMongoCollection<Document> {
         return localClient.db(
             DataSynchronizer.localUndoDBName(
                 withInstanceKey: instanceKey,
