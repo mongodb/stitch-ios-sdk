@@ -7,7 +7,7 @@ import mongoc
 @testable import StitchCoreRemoteMongoDBService
 
 class DataSynchronizerUnitTests: XCMongoMobileTestCase {
-    lazy var collection = try! localCollection(for: MongoNamespace.init(
+    lazy var collection = localCollection(for: MongoNamespace.init(
         databaseName: DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace),
         collectionName: namespace.collectionName))
 
@@ -30,14 +30,14 @@ class DataSynchronizerUnitTests: XCMongoMobileTestCase {
         XCTAssertFalse(dataSynchronizer.isRunning)
     }
 
-    func testSync_SyncedIds_Desync() {
+    func testSync_SyncedIds_Desync() throws {
         let ids = [ObjectId(), ObjectId()]
 
-        dataSynchronizer.sync(ids: ids, in: namespace)
+        try dataSynchronizer.sync(ids: ids, in: namespace)
         XCTAssertEqual(Set(ids.map { HashableBSONValue($0) }),
                        dataSynchronizer.syncedIds(in: namespace))
 
-        dataSynchronizer.desync(ids: ids, in: namespace)
+        try dataSynchronizer.desync(ids: ids, in: namespace)
         XCTAssertEqual(Set(),
                        dataSynchronizer.syncedIds(in: namespace))
     }
@@ -74,7 +74,7 @@ class DataSynchronizerUnitTests: XCMongoMobileTestCase {
         XCTAssertTrue(try isUndoCollectionEmpty())
 
         // do a sync pass and make sure our document is still there
-        _ = dataSynchronizer.doSyncPass()
+        _ = try dataSynchronizer.doSyncPass()
         XCTAssertEqual(insertedDoc, try dataSynchronizer.find(in: namespace).next())
 
         // return the inserted document and its _id

@@ -5,12 +5,11 @@ import StitchCoreSDK
 
 public final class CoreLocalMongoDBService {
     public static let shared = CoreLocalMongoDBService()
-    private var handles = 0
     private var initialized = false
-    private var _localInstances = [String: MongoClient]()
+    
+    private var _localInstances = LRUCache<String, MongoClient>(capacity: 10)
     public var localInstances: [MongoClient] {
-        // should sync
-        return _localInstances.map { $0.value }
+        return _localInstances.map { $0.1 }
     }
 
 /// :nodoc:
@@ -30,6 +29,7 @@ open class CoreLocalMongoDBService {
 
     public func client(withKey key: String,
                        withDBPath dbPath: String) throws -> MongoClient {
+        let key = "\(Thread.current.hash)_\(key)"
         if let client = _localInstances[key] {
             return client
         }
@@ -52,10 +52,6 @@ open class CoreLocalMongoDBService {
     }
 
     public func client(withAppInfo appInfo: StitchAppClientInfo) throws -> MongoClient {
-        if let client = _localInstances[appInfo.clientAppID] {
-            return client
-        }
-
         let instanceKey = appInfo.clientAppID
         let dbPath = "\(FileManager().currentDirectoryPath)\(appInfo.dataDirectory.path)/local_mongodb/0/"
 

@@ -35,7 +35,7 @@ class InstanceChangeStreamDelegate {
             return
         }
 
-        self.namespaceToStreamDelegates[namespace] = NamespaceChangeStreamDelegate(
+        self.namespaceToStreamDelegates[namespace] = try? NamespaceChangeStreamDelegate(
             namespace: namespace,
             config: nsConfig,
             service: service,

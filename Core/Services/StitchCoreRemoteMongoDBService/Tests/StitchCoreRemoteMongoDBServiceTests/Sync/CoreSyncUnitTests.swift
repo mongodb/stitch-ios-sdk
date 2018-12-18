@@ -22,16 +22,16 @@ class CoreSyncUnitTests: XCMongoMobileTestCase {
         XCTAssertTrue(dataSynchronizer.isRunning)
     }
 
-    func testSync_SyncedIds_Desync() {
+    func testSync_SyncedIds_Desync() throws {
         let ids = [ObjectId(), ObjectId()]
 
-        coreSync.sync(ids: ids)
+        try coreSync.sync(ids: ids)
         XCTAssertEqual(Set(ids.map { HashableBSONValue($0) }),
                        dataSynchronizer.syncedIds(in: namespace))
         XCTAssertEqual(Set(ids.map { HashableBSONValue($0) }),
                        coreSync.syncedIds)
 
-        coreSync.desync(ids: ids)
+        try coreSync.desync(ids: ids)
         XCTAssertEqual(Set(),
                        dataSynchronizer.syncedIds(in: namespace))
         XCTAssertEqual(Set(),
