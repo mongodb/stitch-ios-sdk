@@ -22,14 +22,14 @@ public protocol ConflictHandler {
         remoteEvent: ChangeEvent<DocumentT>) throws -> DocumentT?
 }
 
-enum DefaultConflictHandlers<T: Codable>: ConflictHandler {
-    typealias DocumentT = T
+public enum DefaultConflictHandlers<T: Codable>: ConflictHandler {
+    public typealias DocumentT = T
 
     case remoteWins, localWins
 
-    func resolveConflict(documentId: BSONValue,
-                         localEvent: ChangeEvent<T>,
-                         remoteEvent: ChangeEvent<T>) throws -> T? {
+    public func resolveConflict(documentId: BSONValue,
+                                localEvent: ChangeEvent<T>,
+                                remoteEvent: ChangeEvent<T>) throws -> T? {
         switch self {
             case .remoteWins:
                 return remoteEvent.fullDocument
@@ -68,7 +68,11 @@ internal final class AnyConflictHandler: ConflictHandler {
                 documentId: documentId,
                 localEvent: try ChangeEvent<U.DocumentT>.transform(changeEvent: localEvent),
                 remoteEvent: try ChangeEvent<U.DocumentT>.transform(changeEvent: remoteEvent))
-            return try BSONEncoder().encode(documentT)
+            if documentT != nil {
+                return try BSONEncoder().encode(documentT)
+            }
+
+            return nil
         }
     }
 

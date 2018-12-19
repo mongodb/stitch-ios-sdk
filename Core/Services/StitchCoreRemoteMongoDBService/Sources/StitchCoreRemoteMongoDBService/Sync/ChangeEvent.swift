@@ -75,7 +75,15 @@ public struct ChangeEvent<DocumentT: Codable>: Codable, Hashable {
         self.fullDocument = try container.decode(DocumentT.self, forKey: .fullDocument)
         self.ns = try container.decode(MongoNamespace.self, forKey: .ns)
         self.documentKey = try container.decode(Document.self, forKey: .documentKey)
-        self.updateDescription = try container.decodeIfPresent(UpdateDescription.self, forKey: .updateDescription)
+        do {
+            if let data = try container.decodeIfPresent(Data.self, forKey: .updateDescription) {
+                self.updateDescription = UpdateDescription(from: Document.init(fromBSON: data))
+            } else {
+                self.updateDescription = nil
+            }
+        } catch {
+            self.updateDescription = try container.decodeIfPresent(UpdateDescription.self, forKey: .updateDescription)
+        }
         self.hasUncommittedWrites = try container.decodeIfPresent(Bool.self, forKey: .hasUncommittedWrites) ?? false
     }
 
@@ -87,7 +95,8 @@ public struct ChangeEvent<DocumentT: Codable>: Codable, Hashable {
         try container.encode(fullDocument, forKey: .fullDocument)
         try container.encode(ns, forKey: .ns)
         try container.encode(documentKey, forKey: .documentKey)
-        try container.encode(updateDescription, forKey: .updateDescription)
+        try container.encode(
+            updateDescription?.asUpdateDocument.rawBSON, forKey: .updateDescription)
         try container.encode(hasUncommittedWrites, forKey: .hasUncommittedWrites)
     }
 

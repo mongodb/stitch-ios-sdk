@@ -3,14 +3,8 @@ import StitchCore
 
 let stitch = try! Stitch.initializeAppClient(withClientAppID: "todo-cqenc")
 
-protocol StitchSignInDelegate: class {
-    func didSignIn(withUser user: StitchUser)
-}
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    weak var stitchSignInDelegate: StitchSignInDelegate?
-
     var window: UIWindow?
 
 

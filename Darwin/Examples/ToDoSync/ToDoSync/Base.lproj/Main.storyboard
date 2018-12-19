@@ -18,9 +18,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ptj-pa-EfZ">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ptj-pa-EfZ">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TodoTableViewCell" id="A5E-gd-HSA" customClass="TodoTableViewCell" customModule="ToDoSync" customModuleProvider="target">
@@ -50,13 +49,21 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fjm-NS-dvj">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fjm-NS-dvj">
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items/>
                             </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Fjm-NS-dvj" firstAttribute="leading" secondItem="1c6-3v-kYk" secondAttribute="leading" id="1Md-pv-7n2"/>
+                            <constraint firstItem="1c6-3v-kYk" firstAttribute="top" secondItem="Ptj-pa-EfZ" secondAttribute="top" constant="20" id="2I0-ZF-98B"/>
+                            <constraint firstItem="1c6-3v-kYk" firstAttribute="bottom" secondItem="Fjm-NS-dvj" secondAttribute="bottom" id="ACD-Z4-KJB"/>
+                            <constraint firstItem="1c6-3v-kYk" firstAttribute="trailing" secondItem="Ptj-pa-EfZ" secondAttribute="trailing" id="MP7-NN-vlh"/>
+                            <constraint firstItem="Fjm-NS-dvj" firstAttribute="top" secondItem="Ptj-pa-EfZ" secondAttribute="bottom" id="P4K-DT-fET"/>
+                            <constraint firstItem="Ptj-pa-EfZ" firstAttribute="leading" secondItem="1c6-3v-kYk" secondAttribute="leading" id="cye-CZ-wHn"/>
+                            <constraint firstItem="1c6-3v-kYk" firstAttribute="trailing" secondItem="Fjm-NS-dvj" secondAttribute="trailing" id="lZA-Qk-8dJ"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="1c6-3v-kYk"/>
                     </view>
                     <connections>

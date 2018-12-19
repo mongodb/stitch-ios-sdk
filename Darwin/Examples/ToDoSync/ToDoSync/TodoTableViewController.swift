@@ -17,11 +17,19 @@ class TodoTableViewController: UIViewController, UITableViewDataSource, UITableV
     private var todoItems = NSMutableOrderedSet()
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var toolBar: UIToolbar!
-    
+
+    func reset() {
+        self.items.deleteMany([:]) { _ in }
+        self.items.sync.deleteMany(filter: [:]) { _ in }
+        self.lists.deleteMany([:]) { _ in }
+        self.lists.sync.deleteMany(filter: [:]) { _ in }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.delegate = self
         self.tableView.dataSource = self
+
         let addButton = UIBarButtonItem(barButtonSystemItem: .add,
                                         target: self,
                                         action: #selector(addTodoItem(_:)))
@@ -31,6 +39,7 @@ class TodoTableViewController: UIViewController, UITableViewDataSource, UITableV
 
         let mongoClient = try! stitch.serviceClient(fromFactory: remoteMongoClientFactory,
                                                     withName: "mongodb-atlas")
+
 
         // Set up collections
         items = mongoClient
@@ -46,11 +55,17 @@ class TodoTableViewController: UIViewController, UITableViewDataSource, UITableV
             conflictHandler: DefaultConflictHandlers.remoteWins.resolveConflict,
             changeEventDelegate: { documentId, event in
                 if event.operationType == .delete {
-                    event.id
-//                    todoAdapter.removeItemById(event.getDocumentKey().getObjectId("_id").getValue())
-                    return
+                    let index = self.todoItems.index(ofObjectPassingTest: { (todoItem, index, bool) -> Bool in
+                        return bsonEquals((todoItem as? TodoItem)?.id, event.id.value)
+                    })
+                    guard index != NSNotFound else {
+                        return
+                    }
+                    self.todoItems.removeObject(at: index)
+                } else {
+                    self.todoItems.add(event.fullDocument!)
                 }
-                self.todoItems.add(event.fullDocument!)
+
                 DispatchQueue.main.sync {
                     self.tableView.reloadData()
                 }
@@ -63,13 +78,17 @@ class TodoTableViewController: UIViewController, UITableViewDataSource, UITableV
             conflictHandler: DefaultConflictHandlers.remoteWins.resolveConflict,
             changeEventDelegate: { documentId, event in
                 if !event.hasUncommittedWrites {
-                    try! self.items.sync.sync(
-                        ids: event.fullDocument!["todos"]! as! [BSONValue])
+                    guard let todos = event.fullDocument?["todos"] as? [BSONValue] else {
+                        return
+                    }
+                    try! self.items.sync.sync(ids: todos)
                 }
             },
             errorListener: { (error, _) in
                 print(error.localizedDescription)
         })
+
+        print(self.items.sync.syncedIds)
         self.items.sync.find { result in
             switch result {
             case .success(let todos):
@@ -99,19 +118,27 @@ class TodoTableViewController: UIViewController, UITableViewDataSource, UITableV
                                              task: task,
                                              checked: false,
                                              doneDate: nil)
-                self.lists.sync.updateOne(filter: ["_id": self.userId!],
-                                          update: ["$push": ["todos": todoItem.id] as Document],
-                                          options: nil)
-                { result in
+                self.items.sync.insertOne(document: todoItem) { result in
                     switch result {
                     case .success(_):
-                        self.todoItems.add(todoItem)
-                        DispatchQueue.main.sync {
-                            self.tableView.reloadData()
+                        self.lists.sync.updateOne(filter: ["_id": self.userId!],
+                                                  update: ["$push": ["todos": todoItem.id] as Document],
+                                                  options: nil)
+                        { result in
+                            switch result {
+                            case .success(_):
+                                self.todoItems.add(todoItem)
+                                DispatchQueue.main.sync {
+                                    self.tableView.reloadData()
+                                }
+                            case .failure(let e):
+                                print(e)
+                            }
                         }
                     case .failure(let e):
                         print(e)
                     }
+
                 }
             }
         }))
@@ -128,7 +155,10 @@ class TodoTableViewController: UIViewController, UITableViewDataSource, UITableV
 
                 if self.lists.sync.syncedIds.isEmpty {
                     self.lists.sync.insertOne(document: ["_id": self.userId]) { _ in }
+                } else {
+                    try! self.lists.sync.sync(ids: [self.userId!])
                 }
+                self.reset()
             case .failure(let e):
                 print("error logging in \(e)")
             }

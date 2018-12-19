@@ -13,6 +13,8 @@
 		4931699221C98327004C867C /* StitchCoreLocalMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4931699121C98327004C867C /* StitchCoreLocalMongoDBService.framework */; };
 		4961565521C8963E003C7392 /* TodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4961565421C8963D003C7392 /* TodoItem.swift */; };
 		4961565B21C89AF4003C7392 /* TodoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4961565A21C89AF4003C7392 /* TodoTableViewCell.swift */; };
+		497BD1BB21C9CE8200F90B1E /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 497BD1BA21C9CE8200F90B1E /* StitchCore.framework */; };
+		497BD1BD21C9CE8900F90B1E /* StitchCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 497BD1BC21C9CE8900F90B1E /* StitchCoreSDK.framework */; };
 		499CD1AB21C184F400CB4EBF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499CD1AA21C184F400CB4EBF /* AppDelegate.swift */; };
 		499CD1AD21C184F400CB4EBF /* TodoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499CD1AC21C184F400CB4EBF /* TodoTableViewController.swift */; };
 		499CD1B021C184F400CB4EBF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 499CD1AE21C184F400CB4EBF /* Main.storyboard */; };
@@ -28,6 +30,8 @@
 		4931699121C98327004C867C /* StitchCoreLocalMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreLocalMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4961565421C8963D003C7392 /* TodoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItem.swift; sourceTree = "<group>"; };
 		4961565A21C89AF4003C7392 /* TodoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoTableViewCell.swift; sourceTree = "<group>"; };
+		497BD1BA21C9CE8200F90B1E /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		497BD1BC21C9CE8900F90B1E /* StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		499CD1A721C184F400CB4EBF /* ToDoSync.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoSync.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		499CD1AA21C184F400CB4EBF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		499CD1AC21C184F400CB4EBF /* TodoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoTableViewController.swift; sourceTree = "<group>"; };
@@ -45,6 +49,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				497BD1BD21C9CE8900F90B1E /* StitchCoreSDK.framework in Frameworks */,
+				497BD1BB21C9CE8200F90B1E /* StitchCore.framework in Frameworks */,
 				4931699221C98327004C867C /* StitchCoreLocalMongoDBService.framework in Frameworks */,
 				4931699021C982D2004C867C /* StitchCoreRemoteMongoDBService.framework in Frameworks */,
 				4931698E21C982BE004C867C /* StitchRemoteMongoDBService.framework in Frameworks */,
@@ -101,6 +107,8 @@
 		499CD1BC21C1862200CB4EBF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				497BD1BC21C9CE8900F90B1E /* StitchCoreSDK.framework */,
+				497BD1BA21C9CE8200F90B1E /* StitchCore.framework */,
 				4931699121C98327004C867C /* StitchCoreLocalMongoDBService.framework */,
 				4931698F21C982D2004C867C /* StitchCoreRemoteMongoDBService.framework */,
 				4931698D21C982BE004C867C /* StitchRemoteMongoDBService.framework */,
@@ -397,6 +405,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2Z8M9MTEVV;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -419,6 +428,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2Z8M9MTEVV;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
