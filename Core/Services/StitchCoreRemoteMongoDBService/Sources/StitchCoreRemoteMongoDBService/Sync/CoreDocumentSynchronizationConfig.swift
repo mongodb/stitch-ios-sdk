@@ -30,8 +30,12 @@ internal class CoreDocumentSynchronization: Hashable {
     /// The actual configuration to be persisted for this document.
     class Config: Codable, Hashable {
         enum CodingKeys: String, CodingKey {
-            case namespace, documentId, uncommittedChangeEvent,
-            lastResolution, lastKnownRemoteVersion, isStale, isPaused
+            // These are snake_case because we are trying to keep the internal
+            // representation consistent across platforms
+            case namespace = "namespace",
+            documentId = "document_id", uncommittedChangeEvent = "last_uncommitted_change_event",
+            lastResolution = "last_resolution", lastKnownRemoteVersion = "last_known_remote_version",
+            isStale = "is_stale", isPaused = "is_paused", schemaVersion = "schema_version"
         }
 
         let namespace: MongoNamespace
@@ -42,7 +46,68 @@ internal class CoreDocumentSynchronization: Hashable {
         fileprivate var isStale: Bool
         fileprivate var isPaused: Bool
 
-        init(namespace: MongoNamespace,
+        // from BSON document
+        required init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: CodingKeys.self)
+
+            // verify schema version
+            let schemaVersion = try values.decode(Int32.self, forKey: .schemaVersion)
+            if schemaVersion != 1 {
+                throw DataSynchronizerError(
+                    "unexpected schema version \(schemaVersion) for CoreDocumentSynchronization.Config"
+                )
+            }
+
+            self.namespace = try values.decode(MongoNamespace.self, forKey: .namespace)
+
+            if let lastKnownRemoteVersion =
+                try values.decodeIfPresent(Document.self, forKey: .lastKnownRemoteVersion) {
+                self.lastKnownRemoteVersion = lastKnownRemoteVersion
+            }
+
+            if let eventBin = try values.decodeIfPresent(Binary.self, forKey: .uncommittedChangeEvent) {
+                let eventDocument = Document.init(fromBSON: eventBin.data)
+
+                self.uncommittedChangeEvent =
+                    try BSONDecoder().decode(ChangeEvent.self, from: eventDocument)
+            }
+
+            self.documentId = try values.decode(HashableBSONValue.self, forKey: .documentId)
+            self.lastResolution = try values.decode(Int64.self, forKey: .lastResolution)
+            self.isStale = try values.decode(Bool.self, forKey: .isStale)
+            self.isPaused = try values.decode(Bool.self, forKey: .isPaused)
+        }
+
+        // to BSON document
+        func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+
+            try container.encode(documentId, forKey: .documentId)
+
+            // verify schema version
+            try container.encode(1 as Int32, forKey: .schemaVersion)
+
+            try container.encode(namespace, forKey: .namespace)
+            try container.encode(lastResolution, forKey: .lastResolution)
+
+            if let lastKnownRemoteVersion = lastKnownRemoteVersion {
+                try container.encode(lastKnownRemoteVersion, forKey: .lastKnownRemoteVersion)
+            }
+
+            if let uncommittedChangeEvent = uncommittedChangeEvent {
+                let changeEventDoc = try BSONEncoder().encode(uncommittedChangeEvent)
+                // TODO: This may put the doc above the 16MiB but ignore for now.
+                try container.encode(
+                    Binary.init(data: changeEventDoc.rawBSON, subtype: Binary.Subtype.generic),
+                    forKey: .uncommittedChangeEvent
+                )
+            }
+
+            try container.encode(isStale, forKey: .isStale)
+            try container.encode(isPaused, forKey: .isPaused)
+        }
+
+        required init(namespace: MongoNamespace,
              documentId: HashableBSONValue,
              lastUncommittedChangeEvent: ChangeEvent<Document>?,
              lastResolution: Int64,
@@ -66,6 +131,8 @@ internal class CoreDocumentSynchronization: Hashable {
         func hash(into hasher: inout Hasher) {
             documentId.hash(into: &hasher)
         }
+
+
     }
 
     /// The collection we are storing document configs in.
