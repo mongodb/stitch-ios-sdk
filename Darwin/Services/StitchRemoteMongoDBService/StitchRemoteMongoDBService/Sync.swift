@@ -19,7 +19,7 @@ public class Sync<DocumentT: Codable> {
      document.
      - parameter errorListener: the error listener to invoke when an irrecoverable error occurs
      */
-    func configure(
+    public func configure(
         conflictHandler: @escaping (
         _ documentId: BSONValue,
         _ localEvent: ChangeEvent<DocumentT>,
@@ -39,7 +39,7 @@ public class Sync<DocumentT: Codable> {
      document.
      - parameter errorListener: the error listener to invoke when an irrecoverable error occurs
      */
-    func configure<CH: ConflictHandler, CED: ChangeEventDelegate>(
+    public func configure<CH: ConflictHandler, CED: ChangeEventDelegate>(
         conflictHandler: CH,
         changeEventDelegate: CED? = nil,
         errorListener: ErrorListener? = nil) where CH.DocumentT == DocumentT, CED.DocumentT == DocumentT {
@@ -52,7 +52,7 @@ public class Sync<DocumentT: Codable> {
      Requests that the given document _ids be synchronized.
      - parameter ids: the document _ids to synchronize.
      */
-    func sync(ids: [BSONValue]) throws {
+    public func sync(ids: [BSONValue]) throws {
         try self.proxy.sync(ids: ids)
     }
 
@@ -60,7 +60,7 @@ public class Sync<DocumentT: Codable> {
      Stops synchronizing the given document _ids. Any uncommitted writes will be lost.
      - parameter ids: the _ids of the documents to desynchronize.
      */
-    func desync(ids: [BSONValue]) throws {
+    public func desync(ids: [BSONValue]) throws {
         try self.proxy.desync(ids: ids)
     }
 
@@ -69,7 +69,7 @@ public class Sync<DocumentT: Codable> {
      TODO Remove custom HashableBSONValue after: https://jira.mongodb.org/browse/SWIFT-255
      - returns: the set of synchronized document ids in a namespace.
      */
-    var syncedIds: Set<HashableBSONValue> {
+    public var syncedIds: Set<HashableBSONValue> {
         return self.proxy.syncedIds
     }
 
@@ -79,7 +79,7 @@ public class Sync<DocumentT: Codable> {
 
      - returns: the set of paused document _ids in a namespace
      */
-    var pausedIds: Set<HashableBSONValue> {
+    public var pausedIds: Set<HashableBSONValue> {
         return self.proxy.pausedIds
     }
 
@@ -92,7 +92,7 @@ public class Sync<DocumentT: Codable> {
      - returns: true if successfully resumed, false if the document
      could not be found or there was an error resuming
      */
-    func resumeSync(forDocumentId documentId: BSONValue) -> Bool {
+    public func resumeSync(forDocumentId documentId: BSONValue) -> Bool {
         return self.proxy.resumeSync(forDocumentId: documentId)
     }
 
@@ -101,7 +101,7 @@ public class Sync<DocumentT: Codable> {
 
      - returns: the number of documents in the collection
      */
-    func count(_ completionHandler: @escaping (StitchResult<Int>) -> Void) {
+    public func count(_ completionHandler: @escaping (StitchResult<Int>) -> Void) {
         queue.async {
             do {
                 completionHandler(
@@ -122,7 +122,7 @@ public class Sync<DocumentT: Codable> {
      - parameter completionHandler: the callback for the count result
      - returns: the number of documents in the collection
      */
-    func count(filter: Document,
+    public func count(filter: Document,
                options: CountOptions?,
                _ completionHandler: @escaping (StitchResult<Int>) -> Void) {
         queue.async {
@@ -143,7 +143,7 @@ public class Sync<DocumentT: Codable> {
      - parameter completionHandler: the callback for the find result
      - returns: the find iterable interface
      */
-    func find(_ completionHandler: @escaping (StitchResult<MongoCursor<DocumentT>>) -> Void) {
+    public func find(_ completionHandler: @escaping (StitchResult<MongoCursor<DocumentT>>) -> Void) {
         queue.async {
             do {
                 completionHandler(
@@ -163,7 +163,7 @@ public class Sync<DocumentT: Codable> {
      - parameter completionHandler: the callback for the find result
      - returns: the find iterable interface
      */
-    func find(
+    public func find(
         filter: Document,
         options: FindOptions? = nil,
         _ completionHandler: @escaping (StitchResult<MongoCursor<DocumentT>>) -> Void) {
@@ -186,7 +186,7 @@ public class Sync<DocumentT: Codable> {
      - parameter options: the options for this aggregate op
      - returns: an iterable containing the result of the aggregation operation
      */
-    func aggregate(pipeline: [Document],
+    public func aggregate(pipeline: [Document],
                    options: AggregateOptions?,
                    _ completionHandler: @escaping (StitchResult<MongoCursor<Document>>) -> Void) {
         queue.async {
@@ -209,7 +209,7 @@ public class Sync<DocumentT: Codable> {
      - parameter document: the document to insert
      - returns: the result of the insert one operation
      */
-    func insertOne(document: DocumentT,
+    public func insertOne(document: DocumentT,
                    _ completionHandler: @escaping (StitchResult<InsertOneResult?>) -> Void) {
         queue.async {
             do {
@@ -226,7 +226,7 @@ public class Sync<DocumentT: Codable> {
      - parameter documents: the documents to insert
      - returns: the result of the insert many operation
      */
-    func insertMany(documents: [DocumentT],
+    public func insertMany(documents: [DocumentT],
                     _ completionHandler: @escaping (StitchResult<InsertManyResult?>) -> Void) {
         queue.async {
             do {
@@ -245,7 +245,7 @@ public class Sync<DocumentT: Codable> {
      - parameter filter: the query filter to apply the the delete operation
      - returns: the result of the remove one operation
      */
-    func deleteOne(filter: Document,
+    public func deleteOne(filter: Document,
                    _ completionHandler: @escaping (StitchResult<DeleteResult?>) -> Void) {
         queue.async {
             do {
@@ -263,7 +263,7 @@ public class Sync<DocumentT: Codable> {
      - parameter filter: the query filter to apply the the delete operation
      - returns: the result of the remove many operation
      */
-    func deleteMany(filter: Document,
+    public func deleteMany(filter: Document,
                     _ completionHandler: @escaping (StitchResult<DeleteResult?>) -> Void) {
         queue.async {
             do {
@@ -284,7 +284,7 @@ public class Sync<DocumentT: Codable> {
      apply must include only update operators.
      - returns: the result of the update one operation
      */
-    func updateOne(filter: Document,
+    public func updateOne(filter: Document,
                    update: Document,
                    options: UpdateOptions?,
                    _ completionHandler: @escaping (StitchResult<UpdateResult?>) -> Void) {
@@ -311,7 +311,7 @@ public class Sync<DocumentT: Codable> {
      - parameter updateOptions: the options to apply to the update operation
      - returns: the result of the update many operation
      */
-    func updateMany(filter: Document,
+    public func updateMany(filter: Document,
                     update: Document,
                     options: UpdateOptions?,
                     _ completionHandler: @escaping (StitchResult<UpdateResult?>) -> Void) {
