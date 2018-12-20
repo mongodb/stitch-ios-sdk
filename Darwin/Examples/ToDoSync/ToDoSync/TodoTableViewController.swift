@@ -1,14 +1,78 @@
 import UIKit
-import StitchCoreRemoteMongoDBService
-import StitchRemoteMongoDBService
-import StitchCore
+@testable import StitchCoreRemoteMongoDBService
+@testable import StitchRemoteMongoDBService
+@testable import StitchCore
+@testable import StitchCoreSDK
 import MongoSwift
+import Toast_Swift
 
 private let todoListsDatabase = "todo"
 private let todoItemsCollection = "items"
 private let todoListsCollection = "lists"
 
 private let tag = "todoTableViewController"
+
+private var toastStyle: ToastStyle {
+    var toastStyle = ToastStyle()
+    toastStyle.messageFont = .systemFont(ofSize: 10.0)
+    return toastStyle
+}
+
+private class ItemsStreamDelegate: SSEStreamDelegate {
+    private weak var rootView: UIView?
+    private weak var streamsLabel: UILabel?
+
+    init(rootView: UIView?, streamsLabel: UILabel?) {
+        self.rootView = rootView
+        self.streamsLabel = streamsLabel
+    }
+
+    override func on(stateChangedFor state: SSEStreamState) {
+        DispatchQueue.main.sync {
+            streamsLabel?.text = "items stream: \(state)"
+        }
+    }
+
+    override func on(newEvent event: RawSSE) {
+        guard let decoded: ChangeEvent<Document> = try! event.decodeStitchSSE() else {
+            return
+        }
+
+        DispatchQueue.main.sync {
+            let toast = try! rootView?.toastViewForMessage("\(decoded.operationType): \(decoded.documentKey)", title: "items", image: nil, style: toastStyle)
+
+            rootView?.showToast(toast!)
+        }
+    }
+}
+
+private class ListsStreamDelegate: SSEStreamDelegate {
+    private weak var rootView: UIView?
+    private weak var streamsLabel: UILabel?
+
+    init(rootView: UIView?, streamsLabel: UILabel?) {
+        self.rootView = rootView
+        self.streamsLabel = streamsLabel
+    }
+
+    override func on(stateChangedFor state: SSEStreamState) {
+        DispatchQueue.main.sync {
+            streamsLabel?.text = "lists stream: \(state)"
+        }
+    }
+
+    override func on(newEvent event: RawSSE) {
+        guard let decoded: ChangeEvent<Document> = try! event.decodeStitchSSE() else {
+            return
+        }
+
+        DispatchQueue.main.sync {
+            let toast = try! rootView?.toastViewForMessage("\(decoded.operationType): \(decoded.documentKey)", title: "lists", image: nil, style: toastStyle)
+
+            rootView?.showToast(toast!)
+        }
+    }
+}
 
 class TodoTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     private var items: RemoteMongoCollection<TodoItem>!
@@ -18,23 +82,28 @@ class TodoTableViewController: UIViewController, UITableViewDataSource, UITableV
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var toolBar: UIToolbar!
 
-    func reset() {
-        self.items.deleteMany([:]) { _ in }
-        self.items.sync.deleteMany(filter: [:]) { _ in }
-        self.lists.deleteMany([:]) { _ in }
-        self.lists.sync.deleteMany(filter: [:]) { _ in }
+    @IBOutlet weak var itemsStream: UILabel!
+    @IBOutlet weak var listsStream: UILabel!
+
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return UIStatusBarStyle.default
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        ToastManager.shared.isQueueEnabled = true
         self.tableView.delegate = self
         self.tableView.dataSource = self
 
         let addButton = UIBarButtonItem(barButtonSystemItem: .add,
                                         target: self,
                                         action: #selector(addTodoItem(_:)))
-
+        let deleteButton = UIBarButtonItem(barButtonSystemItem: .trash,
+                                           target: self,
+                                           action: #selector(removeAll(_:)))
         self.toolBar.items?.append(addButton)
+        self.toolBar.items?.append(deleteButton)
         self.toolBar.sizeToFit()
 
         let mongoClient = try! stitch.serviceClient(fromFactory: remoteMongoClientFactory,
@@ -56,7 +125,7 @@ class TodoTableViewController: UIViewController, UITableViewDataSource, UITableV
             changeEventDelegate: { documentId, event in
                 if event.operationType == .delete {
                     let index = self.todoItems.index(ofObjectPassingTest: { (todoItem, index, bool) -> Bool in
-                        return bsonEquals((todoItem as? TodoItem)?.id, event.id.value)
+                        return bsonEquals((todoItem as? TodoItem)?.id, event.documentKey["_id"])
                     })
                     guard index != NSNotFound else {
                         return
@@ -79,7 +148,12 @@ class TodoTableViewController: UIViewController, UITableViewDataSource, UITableV
             changeEventDelegate: { documentId, event in
                 if !event.hasUncommittedWrites {
                     guard let todos = event.fullDocument?["todos"] as? [BSONValue] else {
+                        try! self.items.sync.desync(ids: self.items.sync.syncedIds.map { $0.bsonValue.value })
                         return
+                    }
+                    DispatchQueue.main.sync {
+                        let toast = try! self.view.toastViewForMessage("syncing on new ids: \(todos)", title: nil, image: nil, style: toastStyle)
+                        self.view.showToast(toast)
                     }
                     try! self.items.sync.sync(ids: todos)
                 }
@@ -88,7 +162,17 @@ class TodoTableViewController: UIViewController, UITableViewDataSource, UITableV
                 print(error.localizedDescription)
         })
 
-        print(self.items.sync.syncedIds)
+        let icsd: InstanceChangeStreamDelegate = items
+            .sync
+            .proxy
+            .dataSynchronizer
+            .instanceChangeStreamDelegate
+
+        icsd[MongoNamespace(databaseName: todoListsDatabase,
+                            collectionName: todoItemsCollection)]?.add(streamDelegate: ItemsStreamDelegate(rootView: self.view, streamsLabel: self.itemsStream))
+        icsd[MongoNamespace(databaseName: todoListsDatabase,
+                            collectionName: todoListsCollection)]?.add(streamDelegate: ListsStreamDelegate(rootView: self.view, streamsLabel: self.listsStream))
+
         self.items.sync.find { result in
             switch result {
             case .success(let todos):
@@ -111,6 +195,7 @@ class TodoTableViewController: UIViewController, UITableViewDataSource, UITableV
         alertController.addTextField { (textField) in
             textField.placeholder = "ToDo item"
         }
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
             if let task = alertController.textFields?.first?.text {
                 let todoItem = TodoItem.init(id: ObjectId(),
@@ -127,6 +212,14 @@ class TodoTableViewController: UIViewController, UITableViewDataSource, UITableV
                         { result in
                             switch result {
                             case .success(_):
+                                if self.todoItems.count == 0 {
+                                    self.items
+                                        .sync
+                                        .proxy
+                                        .dataSynchronizer
+                                        .instanceChangeStreamDelegate[MongoNamespace(databaseName: todoListsDatabase,
+                                                        collectionName: todoItemsCollection)]?.add(streamDelegate: ItemsStreamDelegate(rootView: self.view, streamsLabel: self.itemsStream))
+                                }
                                 self.todoItems.add(todoItem)
                                 DispatchQueue.main.sync {
                                     self.tableView.reloadData()
@@ -136,13 +229,32 @@ class TodoTableViewController: UIViewController, UITableViewDataSource, UITableV
                             }
                         }
                     case .failure(let e):
-                        print(e)
+                        fatalError(e.localizedDescription)
                     }
 
                 }
             }
         }))
         self.present(alertController, animated: true)
+    }
+
+    @objc func removeAll(_ sender: Any) {
+        self.items.deleteMany(["owner_id": userId!]) { result in
+            switch result {
+            case .failure(let error):
+                fatalError(error.localizedDescription)
+            default: break
+            }
+        }
+        self.lists.sync.updateOne(filter: ["_id": self.userId!],
+                                  update: ["$unset": ["todos": ""] as Document],
+                                  options: nil) { result in
+            switch result {
+            case .failure(let error):
+                fatalError(error.localizedDescription)
+            default: break
+            }
+        }
     }
 
     private func doLogin() {
@@ -158,7 +270,6 @@ class TodoTableViewController: UIViewController, UITableViewDataSource, UITableV
                 } else {
                     try! self.lists.sync.sync(ids: [self.userId!])
                 }
-                self.reset()
             case .failure(let e):
                 print("error logging in \(e)")
             }

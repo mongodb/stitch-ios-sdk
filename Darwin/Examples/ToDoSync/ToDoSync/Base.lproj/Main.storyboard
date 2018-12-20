@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ptj-pa-EfZ">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="560"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TodoTableViewCell" id="A5E-gd-HSA" customClass="TodoTableViewCell" customModule="ToDoSync" customModuleProvider="target">
@@ -51,22 +51,53 @@
                             </tableView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fjm-NS-dvj">
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="dSN-Pb-2er"/>
+                                </constraints>
                                 <items/>
                             </toolbar>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cEa-2B-act">
+                                <rect key="frame" x="0.0" y="580" width="375" height="44"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="items stream: closed" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uEN-hn-u8k" userLabel="items_stream">
+                                        <rect key="frame" x="8" y="15" width="134" height="15"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" red="0.0" green="0.066989166500000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="lists stream: closed" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sYJ-6c-DLD" userLabel="lists_stream">
+                                        <rect key="frame" x="249" y="15" width="118" height="15"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" red="0.0" green="0.066989166500000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.97647982835769653" green="0.9764588475227356" blue="0.97646290063858032" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="AOX-Su-u2x"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Fjm-NS-dvj" firstAttribute="leading" secondItem="1c6-3v-kYk" secondAttribute="leading" id="1Md-pv-7n2"/>
-                            <constraint firstItem="1c6-3v-kYk" firstAttribute="top" secondItem="Ptj-pa-EfZ" secondAttribute="top" constant="20" id="2I0-ZF-98B"/>
                             <constraint firstItem="1c6-3v-kYk" firstAttribute="bottom" secondItem="Fjm-NS-dvj" secondAttribute="bottom" id="ACD-Z4-KJB"/>
                             <constraint firstItem="1c6-3v-kYk" firstAttribute="trailing" secondItem="Ptj-pa-EfZ" secondAttribute="trailing" id="MP7-NN-vlh"/>
-                            <constraint firstItem="Fjm-NS-dvj" firstAttribute="top" secondItem="Ptj-pa-EfZ" secondAttribute="bottom" id="P4K-DT-fET"/>
                             <constraint firstItem="Ptj-pa-EfZ" firstAttribute="leading" secondItem="1c6-3v-kYk" secondAttribute="leading" id="cye-CZ-wHn"/>
+                            <constraint firstItem="Fjm-NS-dvj" firstAttribute="top" secondItem="cEa-2B-act" secondAttribute="bottom" constant="-1" id="dzd-HM-4Th"/>
+                            <constraint firstItem="cEa-2B-act" firstAttribute="leading" secondItem="1c6-3v-kYk" secondAttribute="leading" id="g1P-XB-pNf"/>
                             <constraint firstItem="1c6-3v-kYk" firstAttribute="trailing" secondItem="Fjm-NS-dvj" secondAttribute="trailing" id="lZA-Qk-8dJ"/>
+                            <constraint firstItem="Ptj-pa-EfZ" firstAttribute="top" secondItem="1c6-3v-kYk" secondAttribute="top" id="njC-3f-1RS"/>
+                            <constraint firstItem="1c6-3v-kYk" firstAttribute="trailing" secondItem="cEa-2B-act" secondAttribute="trailing" id="p2l-aO-gU8"/>
+                            <constraint firstItem="cEa-2B-act" firstAttribute="top" secondItem="Ptj-pa-EfZ" secondAttribute="bottom" id="th2-GA-a5k"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="1c6-3v-kYk"/>
                     </view>
                     <connections>
+                        <outlet property="itemsStream" destination="uEN-hn-u8k" id="bJo-4v-zbL"/>
+                        <outlet property="listsStream" destination="sYJ-6c-DLD" id="BU3-Ey-2v9"/>
                         <outlet property="tableView" destination="Ptj-pa-EfZ" id="96i-M4-Q5N"/>
                         <outlet property="toolBar" destination="Fjm-NS-dvj" id="A1L-2b-d02"/>
                     </connections>

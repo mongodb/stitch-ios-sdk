@@ -53,7 +53,7 @@ extension BSONValue {
 }
 
 public struct HashableBSONValue: Codable, Hashable {
-    let bsonValue: AnyBSONValue
+    public let bsonValue: AnyBSONValue
 
     public init(_ bsonValue: BSONValue) {
         self.bsonValue = AnyBSONValue(bsonValue)

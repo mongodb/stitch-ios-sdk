@@ -30,7 +30,7 @@ class InstanceChangeStreamDelegate {
      - parameter namespace: the namespace to add a listener for
      */
     func append(namespace: MongoNamespace) {
-        guard var nsConfig = instanceConfig[namespace],
+        guard let nsConfig = instanceConfig[namespace],
             namespaceToStreamDelegates[namespace] == nil else {
             return
         }

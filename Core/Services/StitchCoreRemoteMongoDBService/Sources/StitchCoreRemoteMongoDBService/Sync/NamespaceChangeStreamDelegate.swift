@@ -49,8 +49,8 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
      Open the event stream.
      */
     func start() throws {
-        objc_sync_enter(self)
-        defer { objc_sync_exit(self) }
+        eventQueueLock.writeLock()
+        defer { eventQueueLock.unlock(for: .writing) }
 
         logger.i("stream START")
         guard networkMonitor.state == .connected else {
@@ -85,8 +85,8 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
     }
 
     func stop() {
-        objc_sync_enter(self)
-        defer { objc_sync_exit(self) }
+        eventQueueLock.writeLock()
+        defer { eventQueueLock.unlock(for: .writing) }
 
         logger.i("stream STOP")
         if let stream = stream {
@@ -115,6 +115,7 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
         do {
             guard let changeEvent: ChangeEvent<Document> = try event.decodeStitchSSE(),
                 let id = changeEvent.documentKey["_id"] else {
+                logger.e("invalid change event found!")
                 return
             }
 
@@ -132,13 +133,15 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
 
     override func on(stateChangedFor state: SSEStreamState) {
         switch state {
+        case .opening:
+            logger.d("stream OPENING")
+            try? nsConfig.set(stale: true)
         case .open:
             // if the stream has been opened,
             // mark all of the configs in this namespace
             // as stale so we know to check for stale docs
             // during a sync pass
             self.command = nil
-            try? nsConfig.set(stale: true)
             logger.d("stream OPEN")
         case .closed:
             // if the stream has been closed,

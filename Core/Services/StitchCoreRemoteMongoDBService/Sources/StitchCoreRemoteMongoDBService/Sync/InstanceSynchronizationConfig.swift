@@ -70,9 +70,9 @@ internal class InstanceSynchronization: Sequence {
     init(configDb: ThreadSafeMongoDatabase,
          errorListener: FatalErrorListener?) throws {
         try self.instanceLock = ReadWriteLock()
-        self.namespacesColl = try configDb
+        self.namespacesColl = configDb
             .collection("namespaces", withType: NamespaceSynchronization.Config.self)
-        self.docsColl = try configDb
+        self.docsColl = configDb
             .collection("documents", withType: CoreDocumentSynchronization.Config.self)
 
         self.config = Config.init(
@@ -112,15 +112,16 @@ internal class InstanceSynchronization: Sequence {
      */
     subscript(namespace: MongoNamespace) -> NamespaceSynchronization? {
         get {
-            instanceLock.writeLock()
-            defer {
-                instanceLock.unlock(for: .writing)
-            }
-
+//            instanceLock.readLock()
             if let config = namespaceConfigWrappers[namespace] {
+                defer {
+//                    instanceLock.unlock(for: .reading)
+                }
                 return config
             }
-
+            instanceLock.unlock(for: .reading)
+            instanceLock.writeLock()
+            defer { instanceLock.unlock(for: .writing) }
             do {
                 let newConfig = try NamespaceSynchronization.init(namespacesColl: namespacesColl,
                                                                   docsColl: docsColl,

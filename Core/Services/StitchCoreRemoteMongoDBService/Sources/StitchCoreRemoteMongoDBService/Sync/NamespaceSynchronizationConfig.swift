@@ -155,8 +155,8 @@ internal class NamespaceSynchronization: Sequence {
      */
     subscript(documentId: BSONValue) -> CoreDocumentSynchronization? {
         get {
-            nsLock.readLock()
-            defer { nsLock.unlock(for: .reading) }
+//            nsLock.readLock()
+//            defer { nsLock.unlock(for: .reading) }
             guard var config = config.syncedDocuments[HashableBSONValue(documentId)] else {
                 return nil
             }
@@ -170,9 +170,12 @@ internal class NamespaceSynchronization: Sequence {
             let documentId = HashableBSONValue(documentId)
             guard let value = value else {
                 do {
-                    try docsColl.deleteOne(docConfigFilter(forNamespace: config.namespace,
+                    let deleteResult = try docsColl.deleteOne(docConfigFilter(forNamespace: config.namespace,
                                                            withDocumentId: documentId.bsonValue))
-                    config.syncedDocuments[documentId] = nil
+                    if deleteResult?.deletedCount != 1 {
+//                        fatalError()
+                    }
+                    config.syncedDocuments.removeValue(forKey: documentId)
                 } catch {
                     errorListener?.on(error: error, forDocumentId: documentId.bsonValue.value, in: self.config.namespace)
                 }
@@ -221,8 +224,11 @@ internal class NamespaceSynchronization: Sequence {
                 return Set(
                     try self.docsColl.distinct(
                         fieldName: CoreDocumentSynchronization.Config.CodingKeys.documentId.rawValue,
-                        filter: [CoreDocumentSynchronization.Config.CodingKeys.isStale.rawValue: true] as Document
-                    ).compactMap({$0 == nil ? nil : HashableBSONValue($0!)})
+                        filter: [CoreDocumentSynchronization.Config.CodingKeys.isStale.rawValue: true,
+                            CoreDocumentSynchronization.Config.CodingKeys.namespace.rawValue: try BSONEncoder().encode(config.namespace)]
+                    ).compactMap({
+                        $0 == nil ? nil : HashableBSONValue($0!)
+                    })
                 )
             } catch {
                 errorListener?.on(error: error, forDocumentId: nil, in: self.config.namespace)

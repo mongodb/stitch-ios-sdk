@@ -70,9 +70,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     /// Dispatch queue for one-off events
     private lazy var eventDispatchQueue = DispatchQueue.init(
         label: "eventEmission-\(self.instanceKey)",
-        qos: .default,
-        attributes: .concurrent,
-        autoreleaseFrequency: .inherit)
+        qos: .default)
     /// Dispatch queue for long running sync loop
     private lazy var syncDispatchQueue = DispatchQueue.init(
         label: "synchronizer-\(self.instanceKey)",
@@ -388,7 +386,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             // a. For each unprocessed change event
             for (id, event) in remoteChangeEvents {
                 logger.i("t='\(logicalT)': syncRemoteToLocal consuming event of type: \(event.operationType)")
-                guard var docConfig = nsConfig[id.bsonValue.value],
+                guard let docConfig = nsConfig[id.bsonValue.value],
                     !docConfig.isPaused else {
                         continue
                 }
@@ -664,7 +662,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             let remoteColl: CoreRemoteMongoCollection<Document> = remoteCollection(for: nsConfig.config.namespace)
 
             // a. For each document that has local writes pending
-            for var docConfig in nsConfig {
+            for docConfig in nsConfig {
                 guard !docConfig.isPaused,
                     let localChangeEvent = docConfig.uncommittedChangeEvent else {
                         continue
@@ -809,9 +807,10 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                             continue
                         }
 
+                        print(localChangeEvent.updateDescription?.updatedFields)
                         guard let localUpdateDescription = localChangeEvent.updateDescription,
-                            !localUpdateDescription.removedFields.isEmpty ||
-                                !localUpdateDescription.updatedFields.isEmpty else {
+                            (!localUpdateDescription.removedFields.isEmpty ||
+                                !localUpdateDescription.updatedFields.isEmpty) else {
                                     // if the translated update is empty, then this update is a noop, and we
                                     // shouldn't update because it would improperly update the version information.
                                     logger.i("t='\(logicalT)': syncLocalToRemote ns=\(nsConfig.config.namespace) documentId=\(docConfig.documentId) local change event "
@@ -1064,9 +1063,14 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             }
         }
 
-        let acceptRemote = (remoteEvent.fullDocument == nil && resolvedDocument == nil)
-            || (remoteEvent.fullDocument != nil
-                && remoteEvent.fullDocument == resolvedDocument)
+        var sanitizedRemoteDocument: Document? = nil
+        if let remoteDocument = remoteEvent.fullDocument {
+            sanitizedRemoteDocument = DataSynchronizer.sanitizeDocument(remoteDocument)
+        }
+
+        let acceptRemote = (sanitizedRemoteDocument == nil && resolvedDocument == nil)
+            || (sanitizedRemoteDocument != nil
+                && bsonEquals(sanitizedRemoteDocument, resolvedDocument))
 
         // a. If the resolved document is not nil:
         if let docForStorage = resolvedDocument {
@@ -1183,7 +1187,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         lock.writeLock()
         defer { lock.unlock(for: .writing) }
 
-        guard var config = syncConfig[namespace]?[documentId] else {
+        guard let config = syncConfig[namespace]?[documentId] else {
             return
         }
 
@@ -1240,7 +1244,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         lock.writeLock()
         defer { lock.unlock(for: .writing) }
 
-        guard var config = syncConfig[namespace]?[documentId] else {
+        guard let config = syncConfig[namespace]?[documentId] else {
             return
         }
 
@@ -1732,7 +1736,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         }
 
         guard let documentId = docToDelete[idField],
-              var docConfig = nsConfig[documentId] else {
+              let docConfig = nsConfig[documentId] else {
             return DeleteResult(deletedCount: 0)
         }
 
@@ -1801,7 +1805,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         let result = try localColl.deleteMany(filter, options: options)
 
         let eventEmitters = try idsToDelete.compactMap { documentId -> (() -> Void)? in
-            guard var docConfig = nsConfig[documentId] else {
+            guard let docConfig = nsConfig[documentId] else {
                 return nil
             }
 
@@ -2097,8 +2101,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      - parameter event:      the change event.
      */
     private func emitEvent(documentId: BSONValue, event: ChangeEvent<Document>) {
-        listenersLock.readLock()
-        defer { listenersLock.unlock(for: .reading) }
+        listenersLock.writeLock()
+        defer { listenersLock.unlock(for: .writing) }
 
         let nsConfig = syncConfig[event.ns]
 
@@ -2164,7 +2168,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      - parameter namespace: namespace to listen to
      */
     private func triggerListening(to namespace: MongoNamespace) {
-        _ = syncLock.tryLock(for: .writing)
+        syncLock.writeLock()
         defer { syncLock.unlock(for: .writing) }
         do {
             guard let nsConfig = self.syncConfig[namespace] else {

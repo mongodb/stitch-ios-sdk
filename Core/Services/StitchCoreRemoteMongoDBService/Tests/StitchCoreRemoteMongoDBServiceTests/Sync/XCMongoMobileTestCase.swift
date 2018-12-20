@@ -146,10 +146,7 @@ class XCMongoMobileTestCase: XCTestCase {
                     instanceKey: instanceKey.oid,
                     coreRemoteMongoClient: self.coreRemoteMongoClient,
                     appInfo: appClientInfo)
-<<<<<<< HEAD
-=======
                 storedDataSynchronizer.isSyncThreadEnabled = false
->>>>>>> 6e5b732e37c17d4bb39bf076578a5b5ebeb271a9
             }
             return storedDataSynchronizer
         }
