@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		118125DA21CBF916009AAC87 /* CoreStitchAuth+ExternalRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118125D921CBF916009AAC87 /* CoreStitchAuth+ExternalRequests.swift */; };
 		3F282A0280D2DDAD143A9B4F /* Pods_StitchCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13FA6FF839A9BF0FA4286528 /* Pods_StitchCoreSDK.framework */; };
 		498062702185B6AF00E2A3A2 /* StitchUserProfileUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498062562185B6AF00E2A3A2 /* StitchUserProfileUnitTests.swift */; };
 		498062712185B6AF00E2A3A2 /* CoreUserPasswordAuthProviderClientUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498062592185B6AF00E2A3A2 /* CoreUserPasswordAuthProviderClientUnitTests.swift */; };
@@ -126,6 +127,7 @@
 
 /* Begin PBXFileReference section */
 		00721A8AA4E132139B3B0168 /* Pods-StitchCoreSDKTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreSDKTests.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreSDKTests/Pods-StitchCoreSDKTests.debug.xcconfig"; sourceTree = "<group>"; };
+		118125D921CBF916009AAC87 /* CoreStitchAuth+ExternalRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreStitchAuth+ExternalRequests.swift"; sourceTree = "<group>"; };
 		13FA6FF839A9BF0FA4286528 /* Pods_StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D988771353A1369B3BEF6E2 /* Pods-StitchCoreSDK-StitchCoreSDKMocks.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreSDK-StitchCoreSDKMocks.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreSDK-StitchCoreSDKMocks/Pods-StitchCoreSDK-StitchCoreSDKMocks.debug.xcconfig"; sourceTree = "<group>"; };
 		363D0185C367AB395C01ED51 /* Pods_StitchCoreSDKTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreSDKTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -495,6 +497,7 @@
 				4980622F2185B6A100E2A3A2 /* AuthInfo.swift */,
 				498062302185B6A100E2A3A2 /* CoreStitchAuth+StitchAuthRequestClient.swift */,
 				498062312185B6A100E2A3A2 /* AuthStateHolder.swift */,
+				118125D921CBF916009AAC87 /* CoreStitchAuth+ExternalRequests.swift */,
 			);
 			path = Internal;
 			sourceTree = "<group>";
@@ -1027,6 +1030,7 @@
 				4980628C2185B6BC00E2A3A2 /* CoreUserAPIKeyAuthProviderClient.swift in Sources */,
 				4980628D2185B6BC00E2A3A2 /* UserAPIKeyCredential.swift in Sources */,
 				4980628E2185B6BC00E2A3A2 /* FacebookAuthProvider.swift in Sources */,
+				118125DA21CBF916009AAC87 /* CoreStitchAuth+ExternalRequests.swift in Sources */,
 				4980628F2185B6BC00E2A3A2 /* FacebookCredential.swift in Sources */,
 				498062902185B6BC00E2A3A2 /* UserPasswordAuthProvider.swift in Sources */,
 				498062912185B6BC00E2A3A2 /* CoreUserPasswordAuthProviderClient.swift in Sources */,
