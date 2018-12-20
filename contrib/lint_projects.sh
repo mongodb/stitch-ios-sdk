@@ -21,9 +21,7 @@ set -e
 pushd Core
 
 pushd StitchCoreSDK
-echo "currently ignoring linter warnings in StitchCoreSDK until STITCH-2269 is completed"
-# TODO: when STITCH-2269 is completed, remove the echo and make this a "check_swiftlint"
-swiftlint
+check_swiftlint
 popd
 
 pushd StitchCoreTestUtils
