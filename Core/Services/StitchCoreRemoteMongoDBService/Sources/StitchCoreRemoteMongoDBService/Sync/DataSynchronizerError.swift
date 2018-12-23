@@ -4,4 +4,6 @@ public class DataSynchronizerError: Error, CustomStringConvertible {
     public init (_ msg: String) {
         self.description = msg
     }
+
+    public lazy var localizedDescription: String = self.description
 }

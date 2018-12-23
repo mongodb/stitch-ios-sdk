@@ -101,6 +101,7 @@
 		498DF595219F748D009F1B3F /* AuthMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498DF594219F748D009F1B3F /* AuthMonitor.swift */; };
 		49AD952F21B729FF002D8E05 /* FoundationHTTPTransportIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AD952E21B729FE002D8E05 /* FoundationHTTPTransportIntTests.swift */; };
 		49AD953121B741DC002D8E05 /* RawSSE.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AD953021B741DC002D8E05 /* RawSSE.swift */; };
+		49DA6E8621CC163B0014631F /* ReadWriteLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DA6E8521CC163B0014631F /* ReadWriteLock.swift */; };
 		50DD6C42B999287408B28A87 /* Pods_StitchCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7208856FB724F1294EEF8EEF /* Pods_StitchCoreSDK.framework */; };
 		68122848856ABD3AA0CCEAD9 /* Pods_StitchCoreSDKMocks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 392DB4A470DD46E0E6B78130 /* Pods_StitchCoreSDKMocks.framework */; };
 /* End PBXBuildFile section */
@@ -229,6 +230,7 @@
 		498DF594219F748D009F1B3F /* AuthMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthMonitor.swift; sourceTree = "<group>"; };
 		49AD952E21B729FE002D8E05 /* FoundationHTTPTransportIntTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoundationHTTPTransportIntTests.swift; sourceTree = "<group>"; };
 		49AD953021B741DC002D8E05 /* RawSSE.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawSSE.swift; sourceTree = "<group>"; };
+		49DA6E8521CC163B0014631F /* ReadWriteLock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadWriteLock.swift; sourceTree = "<group>"; };
 		56A941B0C77E12887F13038D /* Pods-StitchCoreSDKTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreSDKTests.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreSDKTests/Pods-StitchCoreSDKTests.release.xcconfig"; sourceTree = "<group>"; };
 		7208856FB724F1294EEF8EEF /* Pods_StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC64CB22BA4E530CF65F9EAF /* Pods-StitchCoreSDKMocks.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreSDKMocks.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreSDKMocks/Pods-StitchCoreSDKMocks.debug.xcconfig"; sourceTree = "<group>"; };
@@ -564,6 +566,7 @@
 				498DF594219F748D009F1B3F /* AuthMonitor.swift */,
 				498062462185B6A100E2A3A2 /* Storage.swift */,
 				498062472185B6A100E2A3A2 /* ImplFailureFatalErrors.swift */,
+				49DA6E8521CC163B0014631F /* ReadWriteLock.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1030,6 +1033,7 @@
 				498062922185B6BC00E2A3A2 /* UserPasswordCredential.swift in Sources */,
 				498062932185B6BC00E2A3A2 /* CustomAuthProvider.swift in Sources */,
 				498062942185B6BC00E2A3A2 /* CustomCredential.swift in Sources */,
+				49DA6E8621CC163B0014631F /* ReadWriteLock.swift in Sources */,
 				498062952185B6BC00E2A3A2 /* DeviceField.swift in Sources */,
 				498062962185B6BC00E2A3A2 /* StitchUserFactory.swift in Sources */,
 				498062972185B6BC00E2A3A2 /* CoreStitchUserImpl.swift in Sources */,

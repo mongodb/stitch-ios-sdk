@@ -1,9 +1,31 @@
+import StitchCoreSDK
+import MongoSwift
+import Foundation
+
 internal final class LRUCache<Key: Hashable, Value>: Sequence {
+    fileprivate struct Payload: Comparable, Hashable {
+        static func < (lhs: LRUCache<Key, Value>.Payload, rhs: LRUCache<Key, Value>.Payload) -> Bool {
+            return lhs.index < rhs.index
+        }
+
+        static func == (lhs: LRUCache<Key, Value>.Payload, rhs: LRUCache<Key, Value>.Payload) -> Bool {
+            return lhs.key == rhs.key
+        }
+
+        let key: Key
+        let value: Value
+        var index: Int
+
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(key)
+        }
+    }
+
     typealias Element = (Key, Value)
     typealias Iterator = LRUCacheIterator
-    fileprivate typealias Payload = (Key, Value, Int)
     private var list = [Payload]()
     private let capacity: UInt
+    private let lock = ReadWriteLock.init(label: "lru_\(ObjectId().oid)")
 
     struct LRUCacheIterator: IteratorProtocol {
         typealias Element = LRUCache.Element
@@ -20,8 +42,8 @@ internal final class LRUCache<Key: Hashable, Value>: Sequence {
                 return nil
             }
 
-            let (key, value, _) = values[index]
-            return (key, value)
+            let payload = values[index]
+            return (payload.key, payload.value)
         }
     }
 
@@ -31,45 +53,53 @@ internal final class LRUCache<Key: Hashable, Value>: Sequence {
 
     subscript(_ key: Key) -> Value? {
         get {
-            guard let index = list.firstIndex(where: { (payload) -> Bool in
-                payload.0 == key
-            }) else {
-                return nil
-            }
+            return lock.read {
+                guard let index = self.list.firstIndex(where: { (payload) -> Bool in
+                    payload.key == key
+                }) else {
+                    return nil
+                }
 
-            list[index].2 += 1
-            let value = list[index]
-            list.sort(by: { (payload1, payload2) -> Bool in
-                payload1.2 > payload2.2
-            })
-            return value.1
+                self.list[index].index += 1
+                let value = list[index]
+                self.list.sort()
+                return value.value
+            }
         }
         set {
-            guard let value = newValue else {
-                guard let index = list.firstIndex(where: { payload -> Bool in payload.0 == key }) else {
+            lock.write {
+                guard let value = newValue else {
+                    guard let index = list.firstIndex(where: { payload -> Bool in payload.key == key }) else {
+                        return
+                    }
+                    list.remove(at: index)
                     return
                 }
-                list.remove(at: index)
-                return
-            }
 
-            if list.count >= capacity {
-                list.removeLast()
-            }
+                if list.count >= capacity {
+                    list.removeLast()
+                }
 
-            list.insert((key, value, 0), at: 0)
+                list.insert(Payload(key: key, value: value, index: 0), at: 0)
+            }
         }
     }
 
     func removeAll() {
-        list.removeAll()
+        lock.write {
+            list.removeAll()
+        }
     }
 
     func makeIterator() -> LRUCache<Key, Value>.LRUCacheIterator {
-        return LRUCacheIterator(self.list)
+        return lock.read {
+            return LRUCacheIterator(self.list)
+        }
     }
 
     var count: Int {
-        return self.list.count
+        return lock.read {
+            return self.list.count
+        }
     }
 }

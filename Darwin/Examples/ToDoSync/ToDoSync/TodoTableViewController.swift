@@ -5,12 +5,7 @@ import UIKit
 @testable import StitchCoreSDK
 import MongoSwift
 import Toast_Swift
-
-private let todoListsDatabase = "todo"
-private let todoItemsCollection = "items"
-private let todoListsCollection = "lists"
-
-private let tag = "todoTableViewController"
+import BEMCheckBox
 
 private var toastStyle: ToastStyle {
     var toastStyle = ToastStyle()
@@ -18,76 +13,14 @@ private var toastStyle: ToastStyle {
     return toastStyle
 }
 
-private class ItemsStreamDelegate: SSEStreamDelegate {
-    private weak var rootView: UIView?
-    private weak var streamsLabel: UILabel?
+class TodoTableViewController:
+    UIViewController, UITableViewDataSource, UITableViewDelegate, ErrorListener {
 
-    init(rootView: UIView?, streamsLabel: UILabel?) {
-        self.rootView = rootView
-        self.streamsLabel = streamsLabel
-    }
-
-    override func on(stateChangedFor state: SSEStreamState) {
-        DispatchQueue.main.sync {
-            streamsLabel?.text = "items stream: \(state)"
-        }
-    }
-
-    override func on(newEvent event: RawSSE) {
-        guard let decoded: ChangeEvent<Document> = try! event.decodeStitchSSE() else {
-            return
-        }
-
-        DispatchQueue.main.sync {
-            let toast = try! rootView?.toastViewForMessage("\(decoded.operationType): \(decoded.documentKey)", title: "items", image: nil, style: toastStyle)
-
-            rootView?.showToast(toast!)
-        }
-    }
-}
-
-private class ListsStreamDelegate: SSEStreamDelegate {
-    private weak var rootView: UIView?
-    private weak var streamsLabel: UILabel?
-
-    init(rootView: UIView?, streamsLabel: UILabel?) {
-        self.rootView = rootView
-        self.streamsLabel = streamsLabel
-    }
-
-    override func on(stateChangedFor state: SSEStreamState) {
-        DispatchQueue.main.sync {
-            streamsLabel?.text = "lists stream: \(state)"
-        }
-    }
-
-    override func on(newEvent event: RawSSE) {
-        guard let decoded: ChangeEvent<Document> = try! event.decodeStitchSSE() else {
-            return
-        }
-
-        DispatchQueue.main.sync {
-            let toast = try! rootView?.toastViewForMessage("\(decoded.operationType): \(decoded.documentKey)", title: "lists", image: nil, style: toastStyle)
-
-            rootView?.showToast(toast!)
-        }
-    }
-}
-
-class TodoTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    private var items: RemoteMongoCollection<TodoItem>!
-    private var lists: RemoteMongoCollection<Document>!
-    private var userId: String?
-    private var todoItems = NSMutableOrderedSet()
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var toolBar: UIToolbar!
-
-    @IBOutlet weak var itemsStream: UILabel!
-    @IBOutlet weak var listsStream: UILabel!
-
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return UIStatusBarStyle.default
-    }
+    
+    private var userId: String?
+    private var todoItems = [TodoItem]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -95,6 +28,7 @@ class TodoTableViewController: UIViewController, UITableViewDataSource, UITableV
         ToastManager.shared.isQueueEnabled = true
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        self.tableView.isEditing = true
 
         let addButton = UIBarButtonItem(barButtonSystemItem: .add,
                                         target: self,
@@ -102,83 +36,93 @@ class TodoTableViewController: UIViewController, UITableViewDataSource, UITableV
         let deleteButton = UIBarButtonItem(barButtonSystemItem: .trash,
                                            target: self,
                                            action: #selector(removeAll(_:)))
+
         self.toolBar.items?.append(addButton)
         self.toolBar.items?.append(deleteButton)
-        self.toolBar.sizeToFit()
-
-        let mongoClient = try! stitch.serviceClient(fromFactory: remoteMongoClientFactory,
-                                                    withName: "mongodb-atlas")
 
 
-        // Set up collections
-        items = mongoClient
-            .db(todoListsDatabase)
-            .collection(todoItemsCollection, withCollectionType: TodoItem.self)
-        lists = mongoClient
-            .db(todoListsDatabase)
-            .collection(todoListsCollection)
+        self.toolBar.items?.append(UIBarButtonItem.init(customView: BEMCheckBox.init(frame: CGRect.init(x: self.view.frame.maxX - 10, y: self.toolBar.frame.maxY - 10, width: 30, height: 30))))
+
+        self.toolBar.layout
+//        self.toolBar.autoresizesSubviews = true
+//        self.toolBar.sizeToFit()
 
         // Configure sync to be remote wins on both collections meaning and conflict that occurs should
         // prefer the remote version as the resolution.
-        items.sync.configure(
+        itemsCollection.sync.configure(
             conflictHandler: DefaultConflictHandlers.remoteWins.resolveConflict,
             changeEventDelegate: { documentId, event in
+                guard let id = event.documentKey["_id"] else {
+                    return
+                }
+
                 if event.operationType == .delete {
-                    let index = self.todoItems.index(ofObjectPassingTest: { (todoItem, index, bool) -> Bool in
-                        return bsonEquals((todoItem as? TodoItem)?.id, event.documentKey["_id"])
-                    })
-                    guard index != NSNotFound else {
+                    guard let idx = self.todoItems.firstIndex(where: { bsonEquals($0.id, id) }) else {
                         return
                     }
-                    self.todoItems.removeObject(at: index)
+                    self.todoItems.remove(at: idx)
                 } else {
-                    self.todoItems.add(event.fullDocument!)
+                    if let index = self.todoItems.firstIndex(where: { bsonEquals($0.id, id) }) {
+                        self.todoItems[index] = event.fullDocument!
+                    } else {
+                        if !itemsCollection.sync.syncedIds.contains(where: { bsonEquals($0.bsonValue.value, id) }) {
+                            try! itemsCollection.sync.sync(ids: [id])
+                        }
+                        self.todoItems.append(event.fullDocument!)
+                    }
                 }
 
                 DispatchQueue.main.sync {
-                    self.tableView.reloadData()
+                    let toast = try! self.view.toastViewForMessage(
+                        "\(event.operationType) for item: '\(event.fullDocument?.task ?? "(removed)")'",
+                        title: "items",
+                        image: nil,
+                        style: toastStyle)
+                    self.view.showToast(toast)
+
+//                    if event.updateDescription?.updatedFields["index"] != nil {
+//                        let idx = self.todoItems.firstIndex(where: { bsonEquals($0.id, id) })!
+//                        if idx != event.fullDocument!.index {
+//                            self.tableView.moveRow(at: IndexPath(row: idx, section: 0), to: IndexPath(row: event.fullDocument!.index, section: 0))
+//                            self.todoItems.sort()
+//                        }
+//                    } else {
+                        self.todoItems.sort()
+                        self.tableView.reloadData()
+//                    }
                 }
             },
-            errorListener: { (error, _) in
-                print(error.localizedDescription)
-        })
+            errorListener: self.on)
 
-        lists.sync.configure(
+        listsCollection.sync.configure(
             conflictHandler: DefaultConflictHandlers.remoteWins.resolveConflict,
             changeEventDelegate: { documentId, event in
                 if !event.hasUncommittedWrites {
                     guard let todos = event.fullDocument?["todos"] as? [BSONValue] else {
-                        try! self.items.sync.desync(ids: self.items.sync.syncedIds.map { $0.bsonValue.value })
+                        self.todoItems.removeAll()
+                        DispatchQueue.main.sync {
+                            self.tableView.reloadData()
+                        }
+                        try! itemsCollection.sync.desync(ids: itemsCollection.sync.syncedIds.map { $0.bsonValue.value })
                         return
                     }
-                    DispatchQueue.main.sync {
-                        let toast = try! self.view.toastViewForMessage("syncing on new ids: \(todos)", title: nil, image: nil, style: toastStyle)
+                    DispatchQueue.main.async {
+                        let toast = try! self.view.toastViewForMessage(
+                            "syncing on new ids: \(todos)",
+                            title: "items",
+                            image: nil,
+                            style: toastStyle)
                         self.view.showToast(toast)
                     }
-                    try! self.items.sync.sync(ids: todos)
+                    try! itemsCollection.sync.sync(ids: todos)
                 }
             },
-            errorListener: { (error, _) in
-                print(error.localizedDescription)
-        })
+            errorListener: self.on)
 
-        let icsd: InstanceChangeStreamDelegate = items
-            .sync
-            .proxy
-            .dataSynchronizer
-            .instanceChangeStreamDelegate
-
-        icsd[MongoNamespace(databaseName: todoListsDatabase,
-                            collectionName: todoItemsCollection)]?.add(streamDelegate: ItemsStreamDelegate(rootView: self.view, streamsLabel: self.itemsStream))
-        icsd[MongoNamespace(databaseName: todoListsDatabase,
-                            collectionName: todoListsCollection)]?.add(streamDelegate: ListsStreamDelegate(rootView: self.view, streamsLabel: self.listsStream))
-
-        self.items.sync.find { result in
+        itemsCollection.sync.find { result in
             switch result {
             case .success(let todos):
-                _ = todos.reduce(into: self.todoItems, { (result, item) in
-                    result.add(item)
-                })
+                self.todoItems = todos.map { $0 }.sorted()
                 DispatchQueue.main.sync {
                     self.tableView.reloadData()
                 }
@@ -186,7 +130,6 @@ class TodoTableViewController: UIViewController, UITableViewDataSource, UITableV
                 print(error.localizedDescription)
             }
         }
-
         doLogin()
     }
 
@@ -201,26 +144,18 @@ class TodoTableViewController: UIViewController, UITableViewDataSource, UITableV
                 let todoItem = TodoItem.init(id: ObjectId(),
                                              ownerId: self.userId!,
                                              task: task,
-                                             checked: false,
-                                             doneDate: nil)
-                self.items.sync.insertOne(document: todoItem) { result in
+                                             doneDate: nil,
+                                             index: self.todoItems.count,
+                                             checked: false)
+                itemsCollection.sync.insertOne(document: todoItem) { result in
                     switch result {
                     case .success(_):
-                        self.lists.sync.updateOne(filter: ["_id": self.userId!],
-                                                  update: ["$push": ["todos": todoItem.id] as Document],
+                        listsCollection.sync.updateOne(filter: ["_id": self.userId!],
+                                             update: ["$push": ["todos": todoItem.id] as Document],
                                                   options: nil)
                         { result in
                             switch result {
                             case .success(_):
-                                if self.todoItems.count == 0 {
-                                    self.items
-                                        .sync
-                                        .proxy
-                                        .dataSynchronizer
-                                        .instanceChangeStreamDelegate[MongoNamespace(databaseName: todoListsDatabase,
-                                                        collectionName: todoItemsCollection)]?.add(streamDelegate: ItemsStreamDelegate(rootView: self.view, streamsLabel: self.itemsStream))
-                                }
-                                self.todoItems.add(todoItem)
                                 DispatchQueue.main.sync {
                                     self.tableView.reloadData()
                                 }
@@ -239,14 +174,14 @@ class TodoTableViewController: UIViewController, UITableViewDataSource, UITableV
     }
 
     @objc func removeAll(_ sender: Any) {
-        self.items.deleteMany(["owner_id": userId!]) { result in
+        itemsCollection.deleteMany(["owner_id": userId!]) { result in
             switch result {
             case .failure(let error):
-                fatalError(error.localizedDescription)
+                print(error.localizedDescription)
             default: break
             }
         }
-        self.lists.sync.updateOne(filter: ["_id": self.userId!],
+        listsCollection.sync.updateOne(filter: ["_id": self.userId!],
                                   update: ["$unset": ["todos": ""] as Document],
                                   options: nil) { result in
             switch result {
@@ -265,10 +200,8 @@ class TodoTableViewController: UIViewController, UITableViewDataSource, UITableV
                 self.userId = user.id
                 print("logged in")
 
-                if self.lists.sync.syncedIds.isEmpty {
-                    self.lists.sync.insertOne(document: ["_id": self.userId]) { _ in }
-                } else {
-                    try! self.lists.sync.sync(ids: [self.userId!])
+                if listsCollection.sync.syncedIds.isEmpty {
+                    listsCollection.sync.insertOne(document: ["_id": self.userId]) { _ in }
                 }
             case .failure(let e):
                 print("error logging in \(e)")
@@ -276,13 +209,46 @@ class TodoTableViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
 
+    func on(error: Error, forDocumentId documentId: BSONValue?) {
+        DispatchQueue.main.sync {
+            let toast = try! self.view.toastViewForMessage(
+                "error: \(error.localizedDescription)",
+                title: nil,
+                image: nil,
+                style: toastStyle)
+            self.view.showToast(toast)
+        }
+    }
+
+    func tableView(_ tableView: UITableView,
+                   shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+        return false
+    }
+
+    func tableView(_ tableView: UITableView,
+                   editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .none
+    }
+
+    func tableView(_ tableView: UITableView,
+                   moveRowAt sourceIndexPath: IndexPath,
+                   to destinationIndexPath: IndexPath) {
+        let itemToMove = todoItems[sourceIndexPath.row]
+        todoItems.remove(at: sourceIndexPath.row)
+        todoItems.insert(itemToMove, at: destinationIndexPath.row)
+        todoItems.indices.forEach({ todoItems[$0].index = $0 })
+        todoItems.sort()
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return todoItems.count
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TodoTableViewCell", for: indexPath) as! TodoTableViewCell
-        cell.taskLabel.text = (todoItems[indexPath.item] as! TodoItem).task
+    func tableView(_ tableView: UITableView,
+                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TodoTableViewCell",
+                                                 for: indexPath) as! TodoTableViewCell
+        cell.set(todoItem: todoItems[indexPath.item])
         return cell
     }
 }

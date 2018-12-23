@@ -1,5 +1,6 @@
 import Foundation
 import MongoSwift
+import StitchCoreSDK
 
 /**
  The synchronization class for this instance.
@@ -45,13 +46,10 @@ internal class InstanceSynchronization: Sequence {
             self.indices = self.values.indices
             self.errorListener = errorListener
             self.parentInstanceLock = instanceLock
-
-            self.parentInstanceLock?.writeLock()
         }
 
         mutating func next() -> NamespaceSynchronization? {
             guard let index = self.indices.popFirst() else {
-                self.parentInstanceLock?.unlock(for: .writing)
                 return nil
             }
 
@@ -69,7 +67,7 @@ internal class InstanceSynchronization: Sequence {
 
     init(configDb: ThreadSafeMongoDatabase,
          errorListener: FatalErrorListener?) throws {
-        try self.instanceLock = ReadWriteLock()
+        self.instanceLock = ReadWriteLock(label: "sync_instance")
         self.namespacesColl = configDb
             .collection("namespaces", withType: NamespaceSynchronization.Config.self)
         self.docsColl = configDb
@@ -112,29 +110,30 @@ internal class InstanceSynchronization: Sequence {
      */
     subscript(namespace: MongoNamespace) -> NamespaceSynchronization? {
         get {
-//            instanceLock.readLock()
-            if let config = namespaceConfigWrappers[namespace] {
-                defer {
-//                    instanceLock.unlock(for: .reading)
+            let config: NamespaceSynchronization? = instanceLock.read {
+                if let config = namespaceConfigWrappers[namespace] {
+                    return config
                 }
+                return nil
+            }
+            if config != nil {
                 return config
             }
-            instanceLock.unlock(for: .reading)
-            instanceLock.writeLock()
-            defer { instanceLock.unlock(for: .writing) }
-            do {
-                let newConfig = try NamespaceSynchronization.init(namespacesColl: namespacesColl,
-                                                                  docsColl: docsColl,
-                                                                  namespace: namespace,
-                                                                  errorListener: errorListener)
-                try namespacesColl.insertOne(newConfig.config)
-                namespaceConfigWrappers[namespace] = newConfig
-                return newConfig
-            } catch {
-                errorListener?.on(error: error, forDocumentId: nil, in: namespace)
-            }
+            return instanceLock.write {
+                do {
+                    let newConfig = try NamespaceSynchronization.init(namespacesColl: namespacesColl,
+                                                                      docsColl: docsColl,
+                                                                      namespace: namespace,
+                                                                      errorListener: errorListener)
+                    try namespacesColl.insertOne(newConfig.config)
+                    namespaceConfigWrappers[namespace] = newConfig
+                    return newConfig
+                } catch {
+                    errorListener?.on(error: error, forDocumentId: nil, in: namespace)
+                }
 
-            return nil
+                return nil
+            }
         }
     }
 }

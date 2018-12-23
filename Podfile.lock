@@ -1,4 +1,5 @@
 PODS:
+  - BEMCheckBox (1.4.1)
   - JSONWebToken (2.2.0)
   - mongo-embedded-c-driver (1.13.0-4.0.4)
   - mongo_embedded (4.0.4)
@@ -16,6 +17,7 @@ PODS:
   - Toast-Swift (4.0.0)
 
 DEPENDENCIES:
+  - BEMCheckBox
   - JSONWebToken (~> 2.2.0)
   - MongoMobile (= 0.0.5)
   - MongoSwift (= 0.0.7)
@@ -25,6 +27,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - BEMCheckBox
     - JSONWebToken
     - mongo-embedded-c-driver
     - mongo_embedded
@@ -36,6 +39,7 @@ SPEC REPOS:
     - Toast-Swift
 
 SPEC CHECKSUMS:
+  BEMCheckBox: 5ba6e37ade3d3657b36caecc35c8b75c6c2b1a4e
   JSONWebToken: 6fae32489632658d563dd6952a5c34020ea813e4
   mongo-embedded-c-driver: b46360baa15fc142baae80628822f26663220bde
   mongo_embedded: e413134eb6b60544e7278add03007f8fe384a00c
@@ -46,6 +50,6 @@ SPEC CHECKSUMS:
   SwiftLint: 088cfacb75b45970017e62b7524d506776d60148
   Toast-Swift: 594b5c5e5129f15438e410207e43287f027b3c00
 
-PODFILE CHECKSUM: 26c8c8d30a682609ab4786e6a5c06f2cdb1a7f4b
+PODFILE CHECKSUM: c6de86f6e276e98524586739d3a97c64a9e289f8
 
 COCOAPODS: 1.6.0.beta.1
