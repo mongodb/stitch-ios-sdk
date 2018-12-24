@@ -5,11 +5,13 @@ import StitchRemoteMongoDBService
 private let todoListsDatabase = "todo"
 private let todoItemsCollection = "items"
 private let todoListsCollection = "lists"
+private let todoIndexSwapsCollection = "index_swaps"
 
 let stitch = try! Stitch.initializeAppClient(withClientAppID: "todo-cqenc")
 
 var itemsCollection: RemoteMongoCollection<TodoItem>!
-var listsCollection: RemoteMongoCollection<Document>!
+var listsCollection: RemoteMongoCollection<TodoList>!
+var indexSwapsCollection: RemoteMongoCollection<IndexSwap>!
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -26,7 +28,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             .collection(todoItemsCollection, withCollectionType: TodoItem.self)
         listsCollection = mongoClient
             .db(todoListsDatabase)
-            .collection(todoListsCollection)
+            .collection(todoListsCollection, withCollectionType: TodoList.self)
+        indexSwapsCollection = mongoClient
+            .db(todoListsDatabase)
+            .collection(todoIndexSwapsCollection, withCollectionType: IndexSwap.self)
 
         return true
     }

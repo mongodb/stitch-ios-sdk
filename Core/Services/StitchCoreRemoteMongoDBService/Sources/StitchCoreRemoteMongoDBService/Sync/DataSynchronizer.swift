@@ -1190,6 +1190,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             try undoCollection.deleteOne([idField: documentId])
         }
 
+        print(documentBeforeUpdate)
+        print(docForStorage)
         let event = ChangeEvent<Document>.changeEventForLocalReplace(
             namespace: namespace,
             documentId: documentId,
@@ -1255,10 +1257,12 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                                                                     document: documentAfterUpdate,
                                                                     writePending: true)
         } else {
-            guard let remoteDocument = remoteEvent.fullDocument else {
+            guard let unsanitizedRemoteDocument = remoteEvent.fullDocument else {
                 return
             }
-
+            let remoteDocument = DataSynchronizer.sanitizeDocument(unsanitizedRemoteDocument)
+            print(remoteDocument)
+            print(documentAfterUpdate)
             event = ChangeEvent<Document>.changeEventForLocalUpdate(
                 namespace: namespace,
                 documentId: documentId,

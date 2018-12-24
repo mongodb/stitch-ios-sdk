@@ -11,6 +11,7 @@
 		4931698E21C982BE004C867C /* StitchRemoteMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4931698D21C982BE004C867C /* StitchRemoteMongoDBService.framework */; };
 		4931699021C982D2004C867C /* StitchCoreRemoteMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4931698F21C982D2004C867C /* StitchCoreRemoteMongoDBService.framework */; };
 		4931699221C98327004C867C /* StitchCoreLocalMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4931699121C98327004C867C /* StitchCoreLocalMongoDBService.framework */; };
+		493A157621D00F1900A04B6A /* TodoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493A157521D00F1900A04B6A /* TodoList.swift */; };
 		4961565521C8963E003C7392 /* TodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4961565421C8963D003C7392 /* TodoItem.swift */; };
 		4961565B21C89AF4003C7392 /* TodoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4961565A21C89AF4003C7392 /* TodoTableViewCell.swift */; };
 		497BD1BB21C9CE8200F90B1E /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 497BD1BA21C9CE8200F90B1E /* StitchCore.framework */; };
@@ -28,6 +29,7 @@
 		4931698D21C982BE004C867C /* StitchRemoteMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchRemoteMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4931698F21C982D2004C867C /* StitchCoreRemoteMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreRemoteMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4931699121C98327004C867C /* StitchCoreLocalMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreLocalMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		493A157521D00F1900A04B6A /* TodoList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoList.swift; sourceTree = "<group>"; };
 		4961565421C8963D003C7392 /* TodoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItem.swift; sourceTree = "<group>"; };
 		4961565A21C89AF4003C7392 /* TodoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoTableViewCell.swift; sourceTree = "<group>"; };
 		497BD1BA21C9CE8200F90B1E /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -95,6 +97,7 @@
 				499CD1AC21C184F400CB4EBF /* TodoTableViewController.swift */,
 				4961565A21C89AF4003C7392 /* TodoTableViewCell.swift */,
 				4961565421C8963D003C7392 /* TodoItem.swift */,
+				493A157521D00F1900A04B6A /* TodoList.swift */,
 				499CD1AE21C184F400CB4EBF /* Main.storyboard */,
 				499CD1B121C184F700CB4EBF /* Assets.xcassets */,
 				499CD1B321C184F700CB4EBF /* LaunchScreen.storyboard */,
@@ -258,6 +261,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				493A157621D00F1900A04B6A /* TodoList.swift in Sources */,
 				499CD1AD21C184F400CB4EBF /* TodoTableViewController.swift in Sources */,
 				4961565521C8963E003C7392 /* TodoItem.swift in Sources */,
 				499CD1AB21C184F400CB4EBF /* AppDelegate.swift in Sources */,

@@ -34,12 +34,12 @@ public enum StitchError: Error, CustomStringConvertible {
 
     public var localizedDescription: String {
         switch self {
-        case .serviceError(let withMessage, let withServiceErrorCode):
-            return withMessage
-        case .requestError(let withError, let withRequestErrorCode):
-            return withError.localizedDescription
+        case .serviceError(let withMessage, let withCode):
+            return "\(withMessage): \(withCode)"
+        case .requestError(let withError, let withCode):
+            return "\(withError): \(withCode)"
         case .clientError(let withClientErrorCode):
-            return withClientErrorCode.localizedDescription
+            return "\(withClientErrorCode)"
         }
     }
 

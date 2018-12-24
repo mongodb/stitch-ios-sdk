@@ -19,7 +19,10 @@ class TodoTableViewController:
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var toolBar: UIToolbar!
     
-    private var userId: String?
+    private var userId: String? {
+        return stitch.auth.currentUser?.id
+    }
+
     private var todoItems = [TodoItem]()
 
     override func viewDidLoad() {
@@ -30,6 +33,7 @@ class TodoTableViewController:
         self.tableView.dataSource = self
         self.tableView.isEditing = true
 
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         let addButton = UIBarButtonItem(barButtonSystemItem: .add,
                                         target: self,
                                         action: #selector(addTodoItem(_:)))
@@ -38,99 +42,16 @@ class TodoTableViewController:
                                            action: #selector(removeAll(_:)))
 
         self.toolBar.items?.append(addButton)
+        self.toolBar.items?.append(flexSpace)
         self.toolBar.items?.append(deleteButton)
-
-
+        self.toolBar.items?.append(flexSpace)
         self.toolBar.items?.append(UIBarButtonItem.init(customView: BEMCheckBox.init(frame: CGRect.init(x: self.view.frame.maxX - 10, y: self.toolBar.frame.maxY - 10, width: 30, height: 30))))
 
-        self.toolBar.layout
-//        self.toolBar.autoresizesSubviews = true
-//        self.toolBar.sizeToFit()
-
-        // Configure sync to be remote wins on both collections meaning and conflict that occurs should
-        // prefer the remote version as the resolution.
-        itemsCollection.sync.configure(
-            conflictHandler: DefaultConflictHandlers.remoteWins.resolveConflict,
-            changeEventDelegate: { documentId, event in
-                guard let id = event.documentKey["_id"] else {
-                    return
-                }
-
-                if event.operationType == .delete {
-                    guard let idx = self.todoItems.firstIndex(where: { bsonEquals($0.id, id) }) else {
-                        return
-                    }
-                    self.todoItems.remove(at: idx)
-                } else {
-                    if let index = self.todoItems.firstIndex(where: { bsonEquals($0.id, id) }) {
-                        self.todoItems[index] = event.fullDocument!
-                    } else {
-                        if !itemsCollection.sync.syncedIds.contains(where: { bsonEquals($0.bsonValue.value, id) }) {
-                            try! itemsCollection.sync.sync(ids: [id])
-                        }
-                        self.todoItems.append(event.fullDocument!)
-                    }
-                }
-
-                DispatchQueue.main.sync {
-                    let toast = try! self.view.toastViewForMessage(
-                        "\(event.operationType) for item: '\(event.fullDocument?.task ?? "(removed)")'",
-                        title: "items",
-                        image: nil,
-                        style: toastStyle)
-                    self.view.showToast(toast)
-
-//                    if event.updateDescription?.updatedFields["index"] != nil {
-//                        let idx = self.todoItems.firstIndex(where: { bsonEquals($0.id, id) })!
-//                        if idx != event.fullDocument!.index {
-//                            self.tableView.moveRow(at: IndexPath(row: idx, section: 0), to: IndexPath(row: event.fullDocument!.index, section: 0))
-//                            self.todoItems.sort()
-//                        }
-//                    } else {
-                        self.todoItems.sort()
-                        self.tableView.reloadData()
-//                    }
-                }
-            },
-            errorListener: self.on)
-
-        listsCollection.sync.configure(
-            conflictHandler: DefaultConflictHandlers.remoteWins.resolveConflict,
-            changeEventDelegate: { documentId, event in
-                if !event.hasUncommittedWrites {
-                    guard let todos = event.fullDocument?["todos"] as? [BSONValue] else {
-                        self.todoItems.removeAll()
-                        DispatchQueue.main.sync {
-                            self.tableView.reloadData()
-                        }
-                        try! itemsCollection.sync.desync(ids: itemsCollection.sync.syncedIds.map { $0.bsonValue.value })
-                        return
-                    }
-                    DispatchQueue.main.async {
-                        let toast = try! self.view.toastViewForMessage(
-                            "syncing on new ids: \(todos)",
-                            title: "items",
-                            image: nil,
-                            style: toastStyle)
-                        self.view.showToast(toast)
-                    }
-                    try! itemsCollection.sync.sync(ids: todos)
-                }
-            },
-            errorListener: self.on)
-
-        itemsCollection.sync.find { result in
-            switch result {
-            case .success(let todos):
-                self.todoItems = todos.map { $0 }.sorted()
-                DispatchQueue.main.sync {
-                    self.tableView.reloadData()
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
+        if stitch.auth.isLoggedIn {
+            loggedIn()
+        } else {
+            doLogin()
         }
-        doLogin()
     }
 
     @objc func addTodoItem(_ sender: Any) {
@@ -181,6 +102,7 @@ class TodoTableViewController:
             default: break
             }
         }
+        
         listsCollection.sync.updateOne(filter: ["_id": self.userId!],
                                   update: ["$unset": ["todos": ""] as Document],
                                   options: nil) { result in
@@ -192,17 +114,115 @@ class TodoTableViewController:
         }
     }
 
+    private func loggedIn() {
+        // Configure sync to be remote wins on both collections meaning and conflict that occurs should
+        // prefer the remote version as the resolution.
+        itemsCollection.sync.configure(
+            conflictHandler: DefaultConflictHandlers.remoteWins.resolveConflict,
+            changeEventDelegate: { documentId, event in
+                guard let id = event.documentKey["_id"] else {
+                    return
+                }
+
+                if event.operationType == .delete {
+                    guard let idx = self.todoItems.firstIndex(where: { bsonEquals($0.id, id) }) else {
+                        return
+                    }
+                    self.todoItems.remove(at: idx)
+                } else {
+                    if let index = self.todoItems.firstIndex(where: { bsonEquals($0.id, id) }) {
+                        self.todoItems[index] = event.fullDocument!
+                    } else {
+                        if !itemsCollection.sync.syncedIds.contains(where: { bsonEquals($0.bsonValue.value, id) }) {
+                            try! itemsCollection.sync.sync(ids: [id])
+                        }
+                        self.todoItems.append(event.fullDocument!)
+                    }
+                }
+
+                DispatchQueue.main.sync {
+                    let toast = try! self.view.toastViewForMessage(
+                        "\(event.operationType) for item: '\(event.fullDocument?.task ?? "(removed)")'",
+                        title: "items",
+                        image: nil,
+                        style: toastStyle)
+                    self.view.showToast(toast)
+
+                    self.todoItems.sort()
+
+                    // if it's a change to the index, it will be handled elsewhere
+                    if event.updateDescription?.updatedFields["index"] == nil {
+                        self.tableView.reloadData()
+                    }
+                }
+        }, errorListener: self.on)
+
+        listsCollection.sync.configure(
+            conflictHandler: DefaultConflictHandlers.remoteWins.resolveConflict,
+            changeEventDelegate: { documentId, event in
+                if !event.hasUncommittedWrites {
+                    guard let todos = event.fullDocument?.todos else {
+                        self.todoItems.removeAll()
+                        DispatchQueue.main.sync {
+                            self.tableView.reloadData()
+                        }
+                        try! itemsCollection.sync.desync(ids: itemsCollection.sync.syncedIds.map { $0.bsonValue.value })
+                        return
+                    }
+                    try! itemsCollection.sync.sync(ids: todos)
+                }
+        }, errorListener: self.on)
+
+        indexSwapsCollection.sync.configure(
+            conflictHandler: DefaultConflictHandlers.remoteWins.resolveConflict,
+            changeEventDelegate: { documentId, event in
+                guard !event.hasUncommittedWrites,
+                    let fromIndex = event.fullDocument?.fromIndex,
+                    let toIndex = event.fullDocument?.toIndex,
+                    event.fullDocument?.generatedBy != IndexSwap.sessionId else {
+                        return
+                }
+
+                DispatchQueue.main.sync {
+//                    let toast = try! self.view.toastViewForMessage(
+//                        "swapping indices: \(fromIndex) -> \(toIndex)",
+//                        title: "indexSwaps",
+//                        image: nil,
+//                        style: toastStyle)
+//                    self.view.showToast(toast)
+                    self.tableView.moveRow(at: IndexPath(row: fromIndex, section: 0),
+                                           to: IndexPath(row: toIndex, section: 0))
+                }
+        },
+            errorListener: self.on)
+
+        itemsCollection.sync.find { result in
+            switch result {
+            case .success(let todos):
+                self.todoItems = todos.map { $0 }.sorted()
+                DispatchQueue.main.sync {
+                    self.tableView.reloadData()
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
     private func doLogin() {
         stitch.auth.login(withCredential:
         ServerAPIKeyCredential(withKey: "CWQMnJNbgekCq62zWMZAabeQtpRWpHDCKLtef7WLqoyHGvNC5Unn65AXloil1HOx")) {
             switch $0 {
             case .success(let user):
-                self.userId = user.id
                 print("logged in")
 
                 if listsCollection.sync.syncedIds.isEmpty {
-                    listsCollection.sync.insertOne(document: ["_id": self.userId]) { _ in }
+                    listsCollection.sync.insertOne(document: TodoList(id: user.id)) { _ in }
                 }
+                if indexSwapsCollection.sync.syncedIds.isEmpty {
+                    indexSwapsCollection.sync.insertOne(document: IndexSwap(id: user.id)) { _ in }
+                }
+
+                self.loggedIn()
             case .failure(let e):
                 print("error logging in \(e)")
             }
@@ -212,7 +232,7 @@ class TodoTableViewController:
     func on(error: Error, forDocumentId documentId: BSONValue?) {
         DispatchQueue.main.sync {
             let toast = try! self.view.toastViewForMessage(
-                "error: \(error.localizedDescription)",
+                "\(error)",
                 title: nil,
                 image: nil,
                 style: toastStyle)
@@ -236,8 +256,16 @@ class TodoTableViewController:
         let itemToMove = todoItems[sourceIndexPath.row]
         todoItems.remove(at: sourceIndexPath.row)
         todoItems.insert(itemToMove, at: destinationIndexPath.row)
-        todoItems.indices.forEach({ todoItems[$0].index = $0 })
+        todoItems.indices.forEach({ index in
+            if todoItems[index].index != index {
+                todoItems[index].index = index
+            }
+        })
         todoItems.sort()
+        indexSwapsCollection.sync.updateOne(
+            filter: ["_id": self.userId],
+            update: try! BSONEncoder().encode(
+                IndexSwap(id: self.userId!, todoId: itemToMove.id, fromIndex: sourceIndexPath.row, toIndex: destinationIndexPath.row)), options: nil) { _ in }
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

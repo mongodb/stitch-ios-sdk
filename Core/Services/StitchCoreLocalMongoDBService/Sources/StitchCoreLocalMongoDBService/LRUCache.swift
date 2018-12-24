@@ -53,16 +53,16 @@ internal final class LRUCache<Key: Hashable, Value>: Sequence {
 
     subscript(_ key: Key) -> Value? {
         get {
-            return lock.read {
-                guard let index = self.list.firstIndex(where: { (payload) -> Bool in
+            return lock.write { [weak self] in
+                guard let index = self?.list.firstIndex(where: { (payload) -> Bool in
                     payload.key == key
                 }) else {
                     return nil
                 }
 
-                self.list[index].index += 1
+                self?.list[index].index += 1
                 let value = list[index]
-                self.list.sort()
+                self?.list.sort()
                 return value.value
             }
         }
