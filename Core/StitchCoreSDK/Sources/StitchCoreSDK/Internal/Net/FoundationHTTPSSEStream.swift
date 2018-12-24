@@ -22,11 +22,6 @@ internal class FoundationURLSessionDataDelegate: NSObject, URLSessionDataDelegat
         stream?.state = .closed
     }
 
-    func urlSession(_ session: URLSession, taskIsWaitingForConnectivity task: URLSessionTask) {
-        print("uh")
-    }
-
-
     public func urlSession(_ session: URLSession,
                            dataTask: URLSessionDataTask,
                            didReceive response: URLResponse,

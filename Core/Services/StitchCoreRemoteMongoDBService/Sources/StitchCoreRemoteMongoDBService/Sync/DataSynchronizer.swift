@@ -101,8 +101,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         self.appInfo = appInfo
         self.networkMonitor = appInfo.networkMonitor
         self.authMonitor = appInfo.authMonitor
-        self.syncLock = ReadWriteLock(label: "sync_\(service.serviceName!)")
-        self.listenersLock = ReadWriteLock(label: "listeners_\(service.serviceName!)")
+        self.syncLock = ReadWriteLock(label: "sync_\(service.serviceName ?? "mongodb-atlas")")
+        self.listenersLock = ReadWriteLock(label: "listeners_\(service.serviceName ?? "mongodb-atlas")")
         self.localClient = try ThreadSafeMongoClient(withAppInfo: appInfo)
         self.configDb = localClient.db(DataSynchronizer.localConfigDBName(withInstanceKey: instanceKey))
 
@@ -661,7 +661,6 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                     logger.i(
                         "t='\(logicalT)': syncLocalToRemote ns=\(nsConfig.config.namespace) documentId=\(docConfig.documentId) processing operation='\(localChangeEvent.operationType)'")
 
-                    print(localChangeEvent.fullDocument)
                     let localDoc = localChangeEvent.fullDocument
                     let docFilter = ["_id": docConfig.documentId.value] as Document
 
@@ -790,7 +789,6 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                                 continue
                             }
 
-                            print(localChangeEvent.updateDescription?.updatedFields)
                             guard let localUpdateDescription = localChangeEvent.updateDescription,
                                 (!localUpdateDescription.removedFields.isEmpty ||
                                     !localUpdateDescription.updatedFields.isEmpty) else {
@@ -1190,8 +1188,6 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             try undoCollection.deleteOne([idField: documentId])
         }
 
-        print(documentBeforeUpdate)
-        print(docForStorage)
         let event = ChangeEvent<Document>.changeEventForLocalReplace(
             namespace: namespace,
             documentId: documentId,
@@ -1260,13 +1256,12 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             guard let unsanitizedRemoteDocument = remoteEvent.fullDocument else {
                 return
             }
+
             let remoteDocument = DataSynchronizer.sanitizeDocument(unsanitizedRemoteDocument)
-            print(remoteDocument)
-            print(documentAfterUpdate)
             event = ChangeEvent<Document>.changeEventForLocalUpdate(
                 namespace: namespace,
                 documentId: documentId,
-                update: DataSynchronizer.sanitizeDocument(remoteDocument).diff(otherDocument: documentAfterUpdate),
+                update: remoteDocument.diff(otherDocument: documentAfterUpdate),
                 fullDocumentAfterUpdate: docForStorage,
                 writePending: true)
         }
@@ -1922,11 +1917,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                     fullDocumentAfterUpdate: documentAfterUpdate,
                     writePending: true)
             }
-
-            print(documentBeforeUpdate)
-            print(documentAfterUpdate)
-            print(event.updateDescription?.updatedFields)
-            print(event.updateDescription?.removedFields)
+            
             try config.setSomePendingWrites(atTime: logicalT, changeEvent: event)
 
             if let documentIdBeforeUpdate = documentBeforeUpdate?[idField] {

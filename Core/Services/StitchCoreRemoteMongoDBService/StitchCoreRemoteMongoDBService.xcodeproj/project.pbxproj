@@ -39,7 +39,6 @@
 		49E8957B21991C1A003C3758 /* NamespaceSynchronizationConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E8957A21991C1A003C3758 /* NamespaceSynchronizationConfig.swift */; };
 		49F40F4C21A2FFE500FAB750 /* CoreSyncUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F40F4B21A2FFE500FAB750 /* CoreSyncUnitTests.swift */; };
 		49FA277D219A605700F9E3D4 /* ConflictHandlerUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA277C219A605700F9E3D4 /* ConflictHandlerUnitTests.swift */; };
-		49FA277F219B1F1300F9E3D4 /* ReadWriteLockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA277E219B1F1300F9E3D4 /* ReadWriteLockTests.swift */; };
 		49FA2781219B2A8900F9E3D4 /* NamespaceSynchronizationConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA2780219B2A8900F9E3D4 /* NamespaceSynchronizationConfigTests.swift */; };
 		49FA2783219B373B00F9E3D4 /* XCMongoMobileTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA2782219B373B00F9E3D4 /* XCMongoMobileTestCase.swift */; };
 		49FA2785219B656000F9E3D4 /* ChangeEventUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA2784219B656000F9E3D4 /* ChangeEventUnitTests.swift */; };
@@ -112,7 +111,6 @@
 		49E8957A21991C1A003C3758 /* NamespaceSynchronizationConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamespaceSynchronizationConfig.swift; sourceTree = "<group>"; };
 		49F40F4B21A2FFE500FAB750 /* CoreSyncUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreSyncUnitTests.swift; sourceTree = "<group>"; };
 		49FA277C219A605700F9E3D4 /* ConflictHandlerUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConflictHandlerUnitTests.swift; sourceTree = "<group>"; };
-		49FA277E219B1F1300F9E3D4 /* ReadWriteLockTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadWriteLockTests.swift; sourceTree = "<group>"; };
 		49FA2780219B2A8900F9E3D4 /* NamespaceSynchronizationConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamespaceSynchronizationConfigTests.swift; sourceTree = "<group>"; };
 		49FA2782219B373B00F9E3D4 /* XCMongoMobileTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCMongoMobileTestCase.swift; sourceTree = "<group>"; };
 		49FA2784219B656000F9E3D4 /* ChangeEventUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeEventUnitTests.swift; sourceTree = "<group>"; };
@@ -227,7 +225,6 @@
 				49FA277C219A605700F9E3D4 /* ConflictHandlerUnitTests.swift */,
 				49FA278A219B839F00F9E3D4 /* ChangeEventListenerUnitTests.swift */,
 				49FA278C219B84F400F9E3D4 /* DocumentVersionInfoUnitTests.swift */,
-				49FA277E219B1F1300F9E3D4 /* ReadWriteLockTests.swift */,
 			);
 			path = Sync;
 			sourceTree = "<group>";
@@ -535,7 +532,6 @@
 			files = (
 				497473CD21AC9EB10011BA1C /* CoreRemoteMongoClientFactoryUnitTests.swift in Sources */,
 				4943FC6D21968B6D00DED08C /* CoreDocumentSynchronizationConfigTests.swift in Sources */,
-				49FA277F219B1F1300F9E3D4 /* ReadWriteLockTests.swift in Sources */,
 				49FA2787219B6DE500F9E3D4 /* InstanceSynchronizationConfigTests.swift in Sources */,
 				49FA2783219B373B00F9E3D4 /* XCMongoMobileTestCase.swift in Sources */,
 				OBJ_200 /* CoreRemoteMongoClientUnitTests.swift in Sources */,
