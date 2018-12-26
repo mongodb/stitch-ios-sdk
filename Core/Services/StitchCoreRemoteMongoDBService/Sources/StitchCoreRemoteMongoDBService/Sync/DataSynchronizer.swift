@@ -161,14 +161,13 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     private func recover(recoveryStarted: DispatchSemaphore) throws {
         let nsConfigs = self.syncConfig.map { $0 }
 
-        // release the semaphore, since any namespaces for which recovery will be done are locked
-        recoveryStarted.signal()
-
         try nsConfigs.forEach { namespaceSynchronization in
             try namespaceSynchronization.nsLock.write {
                 try recoverNamespace(withConfig: namespaceSynchronization.config)
             }
         }
+
+        recoveryStarted.signal()
     }
 
     /**
@@ -1618,7 +1617,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      - returns: the result of the insert many operation
      */
     func insertMany(documents: [Document], in namespace: MongoNamespace) throws -> InsertManyResult? {
-        guard var nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
+        guard let nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
             throw StitchError.clientError(
                 withClientErrorCode: .couldNotLoadSyncInfo)
         }
