@@ -14,7 +14,7 @@ private var toastStyle: ToastStyle {
 }
 
 class TodoTableViewController:
-    UIViewController, UITableViewDataSource, UITableViewDelegate, ErrorListener {
+    UIViewController, UITableViewDataSource, UITableViewDelegate, ErrorListener, BEMCheckBoxDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var toolBar: UIToolbar!
@@ -24,6 +24,7 @@ class TodoTableViewController:
     }
 
     private var todoItems = [TodoItem]()
+    private var checkBoxAll: BEMCheckBox!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,12 +41,14 @@ class TodoTableViewController:
         let deleteButton = UIBarButtonItem(barButtonSystemItem: .trash,
                                            target: self,
                                            action: #selector(removeAll(_:)))
+        self.checkBoxAll = BEMCheckBox.init(frame: CGRect.init(x: self.view.frame.maxX - 10, y: self.toolBar.frame.maxY - 10, width: 30, height: 30))
 
+        checkBoxAll.delegate = self
         self.toolBar.items?.append(addButton)
         self.toolBar.items?.append(flexSpace)
         self.toolBar.items?.append(deleteButton)
         self.toolBar.items?.append(flexSpace)
-        self.toolBar.items?.append(UIBarButtonItem.init(customView: BEMCheckBox.init(frame: CGRect.init(x: self.view.frame.maxX - 10, y: self.toolBar.frame.maxY - 10, width: 30, height: 30))))
+        self.toolBar.items?.append(UIBarButtonItem.init(customView: checkBoxAll))
 
         if stitch.auth.isLoggedIn {
             loggedIn()
@@ -71,9 +74,10 @@ class TodoTableViewController:
                 itemsCollection.sync.insertOne(document: todoItem) { result in
                     switch result {
                     case .success(_):
-                        listsCollection.sync.updateOne(filter: ["_id": self.userId!],
-                                             update: ["$push": ["todos": todoItem.id] as Document],
-                                                  options: nil)
+                        listsCollection.sync.updateOne(
+                            filter: ["_id": self.userId!],
+                            update: ["$push": ["todos": todoItem.id] as Document],
+                            options: nil)
                         { result in
                             switch result {
                             case .success(_):
@@ -94,22 +98,27 @@ class TodoTableViewController:
         self.present(alertController, animated: true)
     }
 
+    func didTap(_ checkBox: BEMCheckBox) {
+        for var todoItem in todoItems {
+            todoItem.checked = checkBox.on
+        }
+        tableView.reloadData()
+    }
+
     @objc func removeAll(_ sender: Any) {
-        itemsCollection.deleteMany(["owner_id": userId!]) { result in
+        itemsCollection.deleteMany(["owner_id": userId!,
+                                    "checked": true]) { result in
             switch result {
             case .failure(let error):
                 print(error.localizedDescription)
-            default: break
-            }
-        }
-        
-        listsCollection.sync.updateOne(filter: ["_id": self.userId!],
-                                  update: ["$unset": ["todos": ""] as Document],
-                                  options: nil) { result in
-            switch result {
-            case .failure(let error):
-                fatalError(error.localizedDescription)
-            default: break
+            case .success(_):
+                listsCollection.sync.updateOne(
+                    filter: ["_id": self.userId],
+                    update: ["$set": ["todos": self.todoItems.compactMap({ !$0.checked ? $0.id : nil })] as Document], options: nil) { _ in
+                    DispatchQueue.main.sync {
+                        self.checkBoxAll.on = false
+                    }
+                }
             }
         }
     }
@@ -184,12 +193,6 @@ class TodoTableViewController:
                 }
 
                 DispatchQueue.main.sync {
-//                    let toast = try! self.view.toastViewForMessage(
-//                        "swapping indices: \(fromIndex) -> \(toIndex)",
-//                        title: "indexSwaps",
-//                        image: nil,
-//                        style: toastStyle)
-//                    self.view.showToast(toast)
                     self.tableView.moveRow(at: IndexPath(row: fromIndex, section: 0),
                                            to: IndexPath(row: toIndex, section: 0))
                 }
