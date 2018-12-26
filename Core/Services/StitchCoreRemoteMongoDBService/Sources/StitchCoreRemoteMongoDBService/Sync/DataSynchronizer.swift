@@ -1131,17 +1131,13 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                                          documentId: BSONValue) throws {
         nsConfig.nsLock.assertWriteLocked()
 
-        var deferredEventEmittingBlock: DeferredBlock? = nil
-        defer { deferredEventEmittingBlock?() }
 
         nsConfig[documentId] = nil
         try self.localCollection(for: nsConfig.config.namespace,
                                  withType: Document.self).deleteOne(["_id": documentId])
 
 
-        deferredEventEmittingBlock = {
-            self.triggerListening(to: nsConfig.config.namespace)
-        }
+        self.triggerListening(to: nsConfig.config.namespace)
     }
 
 
@@ -1160,9 +1156,6 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         guard let lock = syncConfig[namespace]?.nsLock else {
             return
         }
-
-        var deferredEventEmittingBlock: DeferredBlock? = nil
-        defer { deferredEventEmittingBlock?() }
 
         lock.assertWriteLocked()
         guard let config = syncConfig[namespace]?[documentId] else {
@@ -1197,10 +1190,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             updateDescription: documentBeforeUpdate?.diff(otherDocument: docForStorage),
             writePending: false)
 
-        deferredEventEmittingBlock = {
-            self.emitEvent(documentId: documentId,
-                           event: event)
-        }
+        self.emitEvent(documentId: documentId, event: event)
     }
 
     /**
@@ -1219,9 +1209,6 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         guard let lock = syncConfig[namespace]?.nsLock else {
             return
         }
-
-        var deferredEventEmittingBlock: DeferredBlock? = nil
-        defer { deferredEventEmittingBlock?() }
 
         lock.assertWriteLocked()
         guard let config = syncConfig[namespace]?[documentId] else {
@@ -1276,9 +1263,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             try undoCollection.deleteOne([idField: documentId])
         }
 
-        deferredEventEmittingBlock = {
-            self.emitEvent(documentId: documentId, event: event)
-        }
+        self.emitEvent(documentId: documentId, event: event)
     }
 
     /**
@@ -1292,9 +1277,6 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         guard let nsConfig = syncConfig[namespace] else {
             return
         }
-
-        var deferredEventEmittingBlock: DeferredBlock? = nil
-        defer { deferredEventEmittingBlock?() }
 
         nsConfig.nsLock.assertWriteLocked()
 
@@ -1316,12 +1298,11 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         try desyncDocumentFromRemote(nsConfig: nsConfig, documentId: documentId)
         try undoCollection.deleteOne([idField: documentId])
 
-        deferredEventEmittingBlock = {
-            self.emitEvent(documentId: documentId,
-                           event: ChangeEvent<Document>.changeEventForLocalDelete(namespace: namespace,
-                                                                                  documentId: documentId,
-                                                                                  writePending: false))
-        }
+        self.emitEvent(documentId: documentId,
+                       event: ChangeEvent<Document>.changeEventForLocalDelete(
+                        namespace: namespace,
+                        documentId: documentId,
+                        writePending: false))
     }
 
     private func deleteOneFromResolution(namespace: MongoNamespace,
@@ -1331,15 +1312,11 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             return
         }
 
-        var deferredEventEmittingBlock: DeferredBlock? = nil
-        defer { deferredEventEmittingBlock?() }
-
         lock.assertWriteLocked()
         
         guard let config = syncConfig[namespace]?[documentId] else {
             return
         }
-
 
         let localCollection = self.localCollection(for: namespace, withType: Document.self)
         let undoCollection = self.undoCollection(for: namespace)
@@ -1357,21 +1334,19 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             try undoCollection.deleteOne([idField: documentId])
         }
 
-        deferredEventEmittingBlock = {
-            self.emitEvent(documentId: documentId, event: event)
-        }
+        self.emitEvent(documentId: documentId, event: event)
     }
 
     /**
      Starts data synchronization in a background thread.
      */
     public func start() {
-        try? syncLock.write {
-            if (!self.isConfigured) {
+        syncLock.write {
+            if !self.isConfigured {
                 return
             }
 
-            try instanceChangeStreamDelegate.start()
+            instanceChangeStreamDelegate.start()
             if isSyncThreadEnabled {
                 self.syncWorkItem = DispatchWorkItem { [weak self] in
                     repeat {
@@ -1595,9 +1570,6 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         }
     }
 
-
-    typealias DeferredBlock = (() -> Void)
-
     /**
      Inserts the provided document. If the document is missing an identifier, the client should
      generate one. Syncs the newly inserted document against the remote.
@@ -1608,13 +1580,10 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      */
     func insertOne(document: Document,
                    in namespace: MongoNamespace) throws -> InsertOneResult? {
-        guard var nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
+        guard let nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
             throw StitchError.clientError(
                 withClientErrorCode: .couldNotLoadSyncInfo)
         }
-
-        var deferredEventEmittingBlock: DeferredBlock? = nil
-        defer { deferredEventEmittingBlock?() }
 
         guard let (docForStorage, result): (Document, InsertOneResult) = try nsConfig.nsLock.write({
             // Remove forbidden fields from the document before inserting it into the local collection.
@@ -1635,10 +1604,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         let config = try nsConfig.sync(id: result.insertedId!)
         try config.setSomePendingWrites(atTime: logicalT, changeEvent: event)
 
-        deferredEventEmittingBlock = {
-            self.triggerListening(to: namespace)
-            self.emitEvent(documentId: result.insertedId!, event: event)
-        }
+        self.triggerListening(to: namespace)
+        self.emitEvent(documentId: result.insertedId!, event: event)
 
         return result
     }
@@ -1656,37 +1623,33 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 withClientErrorCode: .couldNotLoadSyncInfo)
         }
 
-        var deferredEventEmittingBlock: DeferredBlock? = nil
-        defer { deferredEventEmittingBlock?() }
-
         let lock = nsConfig.nsLock
         return try lock.write {
 
-        // Remove forbidden fields from the documents before inserting them into the local collection.
-        let docsForStorage = documents.map { DataSynchronizer.sanitizeDocument($0) }
-        guard let result = try localCollection(for: namespace).insertMany(docsForStorage) else {
-            return nil
-        }
-
-        let eventEmitters = try result.insertedIds.compactMap({ (kv) -> (() -> Void)? in
-            guard let documentId = kv.value else {
+            // Remove forbidden fields from the documents before inserting them into the local collection.
+            let docsForStorage = documents.map { DataSynchronizer.sanitizeDocument($0) }
+            guard let result = try localCollection(for: namespace).insertMany(docsForStorage) else {
                 return nil
             }
-            let document = docsForStorage[kv.key]
-            let event = ChangeEvent<Document>.changeEventForLocalInsert(namespace: namespace,
-                                                                        document: document,
-                                                                        writePending: true)
-            let config = try nsConfig.sync(id: documentId)
-            try config.setSomePendingWrites(atTime: logicalT, changeEvent: event)
-            return { self.emitEvent(documentId: documentId, event: event) }
-        })
 
-        deferredEventEmittingBlock = {
+            let eventEmitters = try result.insertedIds.compactMap({ (kv) -> (() -> Void)? in
+                guard let documentId = kv.value else {
+                    return nil
+                }
+                let document = docsForStorage[kv.key]
+                let event = ChangeEvent<Document>.changeEventForLocalInsert(namespace: namespace,
+                                                                            document: document,
+                                                                            writePending: true)
+                let config = try nsConfig.sync(id: documentId)
+                try config.setSomePendingWrites(atTime: logicalT, changeEvent: event)
+                return { self.emitEvent(documentId: documentId, event: event) }
+            })
+
             self.triggerListening(to: namespace)
             eventEmitters.forEach({$0()})
-        }
 
-        return result
+
+            return result
         }
     }
 
@@ -1849,9 +1812,6 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
         }
 
-        var deferredEventEmittingBlock: DeferredBlock? = nil
-        defer { deferredEventEmittingBlock?() }
-
         let lock = nsConfig.nsLock
         return try lock.write {
         // read the local collection
@@ -1936,12 +1896,10 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 try undoColl.deleteOne([idField: documentIdBeforeUpdate])
             }
 
-            deferredEventEmittingBlock = {
-                if triggerNamespace {
-                    self.triggerListening(to: namespace)
-                }
-                self.emitEvent(documentId: documentId, event: event);
+            if triggerNamespace {
+                self.triggerListening(to: namespace)
             }
+            self.emitEvent(documentId: documentId, event: event);
 
             return UpdateResult(matchedCount: 1,
                                 modifiedCount: 1,
@@ -1965,7 +1923,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                     update: Document,
                     options: UpdateOptions?,
                     in namespace: MongoNamespace) throws -> UpdateResult? {
-        guard var nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
+        guard let nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
             throw StitchError.clientError(
                 withClientErrorCode: .couldNotLoadSyncInfo)
         }
