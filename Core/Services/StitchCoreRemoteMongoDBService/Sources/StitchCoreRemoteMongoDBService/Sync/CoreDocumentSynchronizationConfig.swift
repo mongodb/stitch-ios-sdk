@@ -139,7 +139,7 @@ internal class CoreDocumentSynchronization: Hashable {
     /// The collection we are storing document configs in.
     private let docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>
     /// Standard read-write lock.
-    internal lazy var docLock = ReadWriteLock(label: "document_lock_\(namespace)_\(documentId.value)")
+    private lazy var docLock = ReadWriteLock(label: "document_lock_\(namespace)_\(documentId.value)")
     /// The error listener to propogate errors to.
     private weak var errorListener: FatalErrorListener?
     /// The configuration for this document.
