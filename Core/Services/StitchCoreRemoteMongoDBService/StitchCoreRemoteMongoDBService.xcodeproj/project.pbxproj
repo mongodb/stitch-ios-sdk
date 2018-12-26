@@ -17,13 +17,10 @@
 		4943FC5D2196508100DED08C /* MongoNamespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4943FC5C2196508100DED08C /* MongoNamespace.swift */; };
 		4943FC61219650A200DED08C /* UpdateDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4943FC60219650A200DED08C /* UpdateDescription.swift */; };
 		4943FC632196591F00DED08C /* CoreDocumentSynchronizationConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4943FC622196591F00DED08C /* CoreDocumentSynchronizationConfig.swift */; };
-		4943FC65219659AE00DED08C /* ReadWriteLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4943FC64219659AE00DED08C /* ReadWriteLock.swift */; };
 		4943FC69219688FA00DED08C /* BSONValue+Hashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4943FC68219688FA00DED08C /* BSONValue+Hashable.swift */; };
 		4943FC6D21968B6D00DED08C /* CoreDocumentSynchronizationConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4943FC6B21968A0900DED08C /* CoreDocumentSynchronizationConfigTests.swift */; };
 		4943FC6F219724E800DED08C /* DocumentVersionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4943FC6E219724E800DED08C /* DocumentVersionInfo.swift */; };
 		4961564B21C7E802003C7392 /* ThreadSafeMongoMobile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4961564A21C7E802003C7392 /* ThreadSafeMongoMobile.swift */; };
-		4961564D21C7FFA5003C7392 /* RecursiveMutex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4961564C21C7FFA5003C7392 /* RecursiveMutex.swift */; };
-		4961564F21C7FFC8003C7392 /* Lockable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4961564E21C7FFC8003C7392 /* Lockable.swift */; };
 		497473CD21AC9EB10011BA1C /* CoreRemoteMongoClientFactoryUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497473CB21AC9E060011BA1C /* CoreRemoteMongoClientFactoryUnitTests.swift */; };
 		497473D321B0418D0011BA1C /* DataSynchronizerUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497473D221B0418D0011BA1C /* DataSynchronizerUnitTests.swift */; };
 		4980B1292199E7E000D6E49C /* ConflictHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4980B1282199E7E000D6E49C /* ConflictHandler.swift */; };
@@ -89,13 +86,10 @@
 		4943FC5C2196508100DED08C /* MongoNamespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MongoNamespace.swift; sourceTree = "<group>"; };
 		4943FC60219650A200DED08C /* UpdateDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateDescription.swift; sourceTree = "<group>"; };
 		4943FC622196591F00DED08C /* CoreDocumentSynchronizationConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDocumentSynchronizationConfig.swift; sourceTree = "<group>"; };
-		4943FC64219659AE00DED08C /* ReadWriteLock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadWriteLock.swift; sourceTree = "<group>"; };
 		4943FC68219688FA00DED08C /* BSONValue+Hashable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BSONValue+Hashable.swift"; sourceTree = "<group>"; };
 		4943FC6B21968A0900DED08C /* CoreDocumentSynchronizationConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDocumentSynchronizationConfigTests.swift; sourceTree = "<group>"; };
 		4943FC6E219724E800DED08C /* DocumentVersionInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentVersionInfo.swift; sourceTree = "<group>"; };
 		4961564A21C7E802003C7392 /* ThreadSafeMongoMobile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadSafeMongoMobile.swift; sourceTree = "<group>"; };
-		4961564C21C7FFA5003C7392 /* RecursiveMutex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecursiveMutex.swift; sourceTree = "<group>"; };
-		4961564E21C7FFC8003C7392 /* Lockable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lockable.swift; sourceTree = "<group>"; };
 		497473CB21AC9E060011BA1C /* CoreRemoteMongoClientFactoryUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreRemoteMongoClientFactoryUnitTests.swift; sourceTree = "<group>"; };
 		497473D221B0418D0011BA1C /* DataSynchronizerUnitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSynchronizerUnitTests.swift; sourceTree = "<group>"; };
 		4980B1282199E7E000D6E49C /* ConflictHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConflictHandler.swift; sourceTree = "<group>"; };
@@ -185,7 +179,6 @@
 		4943FC592196505500DED08C /* Sync */ = {
 			isa = PBXGroup;
 			children = (
-				4961566221C96A63003C7392 /* AtomicKit */,
 				498DF58A219F7392009F1B3F /* Log.swift */,
 				49D3044821CA99C50069632C /* BSONFixes.swift */,
 				4961564A21C7E802003C7392 /* ThreadSafeMongoMobile.swift */,
@@ -227,16 +220,6 @@
 				49FA278C219B84F400F9E3D4 /* DocumentVersionInfoUnitTests.swift */,
 			);
 			path = Sync;
-			sourceTree = "<group>";
-		};
-		4961566221C96A63003C7392 /* AtomicKit */ = {
-			isa = PBXGroup;
-			children = (
-				4943FC64219659AE00DED08C /* ReadWriteLock.swift */,
-				4961564C21C7FFA5003C7392 /* RecursiveMutex.swift */,
-				4961564E21C7FFC8003C7392 /* Lockable.swift */,
-			);
-			path = AtomicKit;
 			sourceTree = "<group>";
 		};
 		F6E3DD06A570C811022F7736 /* Pods */ = {
@@ -498,13 +481,10 @@
 				49037A44219E0ECD0066E109 /* ErrorListener.swift in Sources */,
 				498DF58B219F7393009F1B3F /* Log.swift in Sources */,
 				OBJ_170 /* CoreRemoteMongoCursor.swift in Sources */,
-				4961564F21C7FFC8003C7392 /* Lockable.swift in Sources */,
 				OBJ_171 /* CoreRemoteMongoDatabase.swift in Sources */,
 				OBJ_172 /* CoreRemoteMongoReadOperation.swift in Sources */,
-				4943FC65219659AE00DED08C /* ReadWriteLock.swift in Sources */,
 				OBJ_173 /* RemoteCountOptions.swift in Sources */,
 				4943FC69219688FA00DED08C /* BSONValue+Hashable.swift in Sources */,
-				4961564D21C7FFA5003C7392 /* RecursiveMutex.swift in Sources */,
 				499CD19B21BDFDFC00CB4EBF /* DataSynchronizerError.swift in Sources */,
 				OBJ_174 /* RemoteDeleteResult.swift in Sources */,
 				4943FC5D2196508100DED08C /* MongoNamespace.swift in Sources */,
