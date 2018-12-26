@@ -33,10 +33,8 @@ internal class InstanceSynchronization: Sequence {
         private var values: Values
         private var indices: DefaultIndices<Values>
         private weak var errorListener: FatalErrorListener?
-        private weak var parentInstanceLock: ReadWriteLock?
 
-        init(instanceLock: ReadWriteLock,
-             namespacesColl: ThreadSafeMongoCollection<NamespaceSynchronization.Config>,
+        init(namespacesColl: ThreadSafeMongoCollection<NamespaceSynchronization.Config>,
              docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>,
              values: Dictionary<MongoNamespace, NamespaceSynchronization>.Values,
              errorListener: FatalErrorListener?) {
@@ -45,7 +43,6 @@ internal class InstanceSynchronization: Sequence {
             self.values = values
             self.indices = self.values.indices
             self.errorListener = errorListener
-            self.parentInstanceLock = instanceLock
         }
 
         mutating func next() -> NamespaceSynchronization? {
@@ -95,8 +92,7 @@ internal class InstanceSynchronization: Sequence {
 
     /// Make an iterator that will iterate over the associated namespaces.
     func makeIterator() -> InstanceSynchronizationIterator {
-        return InstanceSynchronizationIterator.init(instanceLock: instanceLock,
-                                                    namespacesColl: namespacesColl,
+        return InstanceSynchronizationIterator.init(namespacesColl: namespacesColl,
                                                     docsColl: docsColl,
                                                     values: namespaceConfigWrappers.values,
                                                     errorListener: errorListener)

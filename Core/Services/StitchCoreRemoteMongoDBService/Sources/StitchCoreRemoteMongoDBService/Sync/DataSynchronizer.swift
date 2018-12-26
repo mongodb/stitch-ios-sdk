@@ -462,14 +462,14 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
         if let version = currentRemoteVersionInfo?.version,
             version.syncProtocolVersion != 1 {
-                try desyncDocumentFromRemote(nsConfig: nsConfig, documentId: docConfig.documentId.value)
+            try desyncDocumentFromRemote(nsConfig: nsConfig, documentId: docConfig.documentId.value)
 
-                emitError(docConfig: docConfig,
-                          error: DataSynchronizerError("t='\(logicalT)': syncRemoteChangeEventToLocal ns=\(nsConfig.config.namespace) documentId=\(docConfig.documentId) got a remote "
-                            + "document with an unsupported synchronization protocol version "
-                            + "\(String(describing: currentRemoteVersionInfo?.version?.syncProtocolVersion)); dropping the event, and desyncing the document"))
+            emitError(docConfig: docConfig,
+                      error: DataSynchronizerError("t='\(logicalT)': syncRemoteChangeEventToLocal ns=\(nsConfig.config.namespace) documentId=\(docConfig.documentId) got a remote "
+                        + "document with an unsupported synchronization protocol version "
+                        + "\(String(describing: currentRemoteVersionInfo?.version?.syncProtocolVersion)); dropping the event, and desyncing the document"))
 
-                return;
+            return;
         }
 
         // ii. If the version info for the unprocessed change event has the same GUID as the local
@@ -1128,7 +1128,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      * @param documentId the _id of the document.
      */
     internal func desyncDocumentFromRemote(nsConfig: NamespaceSynchronization,
-                                         documentId: BSONValue) throws {
+                                           documentId: BSONValue) throws {
         nsConfig.nsLock.assertWriteLocked()
 
 
@@ -1510,8 +1510,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         }
         return try lock.read {
 
-        return try localCollection(for: namespace, withType: Document.self)
-            .count(filter, options: options)
+            return try localCollection(for: namespace, withType: Document.self)
+                .count(filter, options: options)
         }
     }
 
@@ -1542,7 +1542,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         }
         return try lock.read {
 
-        return try localCollection(for: namespace).find(filter, options: options)
+            return try localCollection(for: namespace).find(filter, options: options)
         }
     }
 
@@ -1564,9 +1564,9 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         }
         return try lock.read {
 
-        return try localCollection(for: namespace, withType: Document.self).aggregate(
-            pipeline,
-            options: options)
+            return try localCollection(for: namespace, withType: Document.self).aggregate(
+                pipeline,
+                options: options)
         }
     }
 
@@ -1807,14 +1807,14 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                    update: Document,
                    options: UpdateOptions?,
                    in namespace: MongoNamespace) throws -> UpdateResult? {
-        guard var nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
+        guard let nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
             throw StitchError.clientError(
                 withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
         }
 
         let lock = nsConfig.nsLock
         return try lock.write {
-        // read the local collection
+            // read the local collection
             let localCollection = self.localCollection(for: namespace, withType: Document.self)
             let undoColl = self.undoCollection(for: namespace)
 
@@ -1905,7 +1905,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                                 modifiedCount: 1,
                                 upsertedId: upsert ? AnyBSONValue(documentId) : nil,
                                 upsertedCount: upsert ? 1 : 0)
-            }
+        }
     }
 
     /**
@@ -2215,7 +2215,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     private func localCollection<T: Codable>(for namespace: MongoNamespace,
                                              withType type: T.Type = T.self) -> ThreadSafeMongoCollection<T> {
         return localClient.db(DataSynchronizer.localUserDBName(withInstanceKey: instanceKey,
-                                                                   for: namespace))
+                                                               for: namespace))
             .collection(namespace.collectionName, withType: type)
     }
 
@@ -2225,7 +2225,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
      - parameter namespace: the namespace referring to the undo collection
      - returns: the undo collection representing the given namespace for recording documents that may need to be
-                reverted after a system failure.
+     reverted after a system failure.
      */
     internal func undoCollection(for namespace: MongoNamespace) -> ThreadSafeMongoCollection<Document> {
         return localClient.db(
