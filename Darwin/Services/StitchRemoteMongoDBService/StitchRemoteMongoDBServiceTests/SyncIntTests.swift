@@ -222,7 +222,7 @@ private class SyncTestContext {
         self.dbName = dbName
         self.collName = collName
     }
-
+    
     func streamAndSync() throws {
         let (_, coll) = remoteCollAndSync
         if networkMonitor.state == .connected {
@@ -232,8 +232,9 @@ private class SyncTestContext {
 
             if let nsConfig = iCSDel[MongoNamespace(databaseName: dbName, collectionName: collName)] {
                 nsConfig.add(streamDelegate: streamJoiner)
+                streamJoiner.streamState = nsConfig.state
                 if nsConfig.state == .closed {
-                    try iCSDel.start()
+                    iCSDel.start()
                 }
 
                 streamJoiner.wait(forState: .open)
@@ -252,6 +253,13 @@ private class SyncTestContext {
         if streamJoiner.streamState != nil {
             streamJoiner.wait(forState: .closed)
         }
+    }
+
+    func teardown() {
+        let (_, coll) = remoteCollAndSync
+        coll.proxy
+            .dataSynchronizer
+            .instanceChangeStreamDelegate.stop()
     }
 }
 
@@ -283,15 +291,12 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
     }
 
     override func tearDown() {
+        ctx.teardown()
         CoreLocalMongoDBService.shared.localInstances.forEach { client in
             try! client.listDatabases().forEach {
                 try? client.db($0["name"] as! String).drop()
             }
         }
-    }
-
-    override class func tearDown() {
-        CoreLocalMongoDBService.shared.close()
     }
 
     var mdbService: Apps.App.Services.Service!

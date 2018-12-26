@@ -298,8 +298,9 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     public func reloadConfig() throws {
         try syncLock.write {
             if try instancesColl.find().next() == nil {
-                throw StitchError.serviceError(withMessage: "expected to find instance configuration",
-                                               withServiceErrorCode: .unknown)
+                throw StitchError.serviceError(
+                    withMessage: "expected to find instance configuration",
+                    withServiceErrorCode: .unknown)
             }
 
             self.instanceChangeStreamDelegate = InstanceChangeStreamDelegate(
@@ -308,7 +309,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 networkMonitor: networkMonitor,
                 authMonitor: authMonitor)
 
-            self.syncConfig = try InstanceSynchronization(configDb: configDb, errorListener: self)
+            self.syncConfig = try InstanceSynchronization(configDb: configDb,
+                                                          errorListener: self)
             self.isConfigured = false
         }
 
@@ -1443,6 +1445,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             guard let nsConfig = syncConfig[namespace] else {
                 return
             }
+
             try nsConfig.nsLock.write {
                 try desyncDocumentFromRemote(nsConfig: nsConfig, documentId: id)
             }
@@ -1704,52 +1707,57 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
         }
 
-        var deferredEventEmittingBlock: DeferredBlock? = nil
-        defer { deferredEventEmittingBlock?() }
+        var desyncBlock: (() throws -> ())? = nil
+        defer {
+            do {
+                try desyncBlock?()
+            } catch {
+                errorListener?.on(error: error, forDocumentId: nil)
+            }
+        }
 
         let lock = nsConfig.nsLock
         return try lock.write {
 
-        let localColl = localCollection(for: namespace, withType: Document.self)
+            let localColl = localCollection(for: namespace, withType: Document.self)
 
-        guard let docToDelete = try localColl.find(filter).first(where: { _ in true}) else {
-            return DeleteResult(deletedCount: 0)
-        }
+            guard let docToDelete = try localColl.find(filter).first(where: { _ in true}) else {
+                return DeleteResult(deletedCount: 0)
+            }
 
-        guard let documentId = docToDelete[idField],
-              let docConfig = nsConfig[documentId] else {
-            return DeleteResult(deletedCount: 0)
-        }
+            guard let documentId = docToDelete[idField],
+                let docConfig = nsConfig[documentId] else {
+                    return DeleteResult(deletedCount: 0)
+            }
 
-        let undoColl = undoCollection(for: namespace)
-        try undoColl.insertOne(docToDelete)
+            let undoColl = undoCollection(for: namespace)
+            try undoColl.insertOne(docToDelete)
 
-        let result = try localColl.deleteOne(filter)
-        let event =  ChangeEvent<Document>.changeEventForLocalDelete(
-            namespace: namespace,
-            documentId: documentId,
-            writePending: true
-        )
+            let result = try localColl.deleteOne(filter)
+            let event =  ChangeEvent<Document>.changeEventForLocalDelete(
+                namespace: namespace,
+                documentId: documentId,
+                writePending: true
+            )
 
-        // this block is to trigger coalescence for a delete after insert
-        if let uncommittedEvent = docConfig.uncommittedChangeEvent,
-           uncommittedEvent.operationType == OperationType.insert {
+            // this block is to trigger coalescence for a delete after insert
+            if let uncommittedEvent = docConfig.uncommittedChangeEvent,
+                uncommittedEvent.operationType == OperationType.insert {
 
-            try desync(ids: [docConfig.documentId.value], in: docConfig.namespace)
+                desyncBlock = {
+                    try self.desync(ids: [docConfig.documentId.value], in: docConfig.namespace)
+                    try undoColl.deleteOne([idField: docConfig.documentId.value])
+                }
+                return result
+            }
+
+            try docConfig.setSomePendingWrites(atTime: logicalT, changeEvent: event)
+
             try undoColl.deleteOne([idField: docConfig.documentId.value])
 
-            return result
-        }
-
-        try docConfig.setSomePendingWrites(atTime: logicalT, changeEvent: event)
-
-        try undoColl.deleteOne([idField: docConfig.documentId.value])
-
-        deferredEventEmittingBlock = {
             self.emitEvent(documentId: documentId, event: event)
-        }
 
-        return result
+            return result
         }
     }
 
@@ -1769,52 +1777,56 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
         }
 
-        var deferredEventEmittingBlock: DeferredBlock? = nil
-        defer { deferredEventEmittingBlock?() }
+        var desyncBlocks = [(() throws -> ())]()
+        defer {
+            do {
+                try desyncBlocks.forEach({try $0()})
+            } catch {
+                errorListener?.on(error: error, forDocumentId: nil)
+            }
+        }
 
         let lock = nsConfig.nsLock
         return try lock.write {
+            let localColl = localCollection(for: namespace, withType: Document.self)
+            let undoColl = undoCollection(for: namespace)
 
-        let localColl = localCollection(for: namespace, withType: Document.self)
-        let undoColl = undoCollection(for: namespace)
-
-        let idsToDelete = try localColl.find(filter).compactMap { doc -> BSONValue? in
-            try undoColl.insertOne(doc)
-            return doc[idField]
-        }
-
-        let result = try localColl.deleteMany(filter, options: options)
-
-        let eventEmitters = try idsToDelete.compactMap { documentId -> (() -> Void)? in
-            guard let docConfig = nsConfig[documentId] else {
-                return nil
+            let idsToDelete = try localColl.find(filter).compactMap { doc -> BSONValue? in
+                try undoColl.insertOne(doc)
+                return doc[idField]
             }
 
-            let event = ChangeEvent<Document>.changeEventForLocalDelete(
-                namespace: namespace,
-                documentId: documentId,
-                writePending: true
-            )
+            let result = try localColl.deleteMany(filter, options: options)
 
-            // this block is to trigger coalescence for a delete after insert
-            if let uncommittedEvent = docConfig.uncommittedChangeEvent,
-                uncommittedEvent.operationType == OperationType.insert {
+            try idsToDelete.forEach { documentId in
+                guard let docConfig = nsConfig[documentId] else {
+                    return
+                }
 
-                try desync(ids: [docConfig.documentId.value], in: docConfig.namespace)
+                let event = ChangeEvent<Document>.changeEventForLocalDelete(
+                    namespace: namespace,
+                    documentId: documentId,
+                    writePending: true
+                )
+
+                // this block is to trigger coalescence for a delete after insert
+                if let uncommittedEvent = docConfig.uncommittedChangeEvent,
+                    uncommittedEvent.operationType == OperationType.insert {
+
+                    desyncBlocks.append {
+                        try self.desync(ids: [docConfig.documentId.value],
+                                        in: docConfig.namespace)
+                        try undoColl.deleteOne([idField: documentId])
+                    }
+                    return
+                }
+
+                try docConfig.setSomePendingWrites(atTime: logicalT, changeEvent: event)
                 try undoColl.deleteOne([idField: documentId])
-                return nil
+                self.emitEvent(documentId: documentId, event: event)
             }
 
-            try docConfig.setSomePendingWrites(atTime: logicalT, changeEvent: event)
-            try undoColl.deleteOne([idField: documentId])
-            return { self.emitEvent(documentId: documentId, event: event) }
-        }
-
-        deferredEventEmittingBlock = {
-            eventEmitters.forEach({$0()})
-        }
-
-        return result
+            return result
         }
     }
 
@@ -1958,54 +1970,49 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 withClientErrorCode: .couldNotLoadSyncInfo)
         }
 
-        var deferredEventEmittingBlock: DeferredBlock? = nil
-        defer { deferredEventEmittingBlock?() }
-
         let lock = nsConfig.nsLock
         return try lock.write {
+            let localCollection = self.localCollection(for: namespace, withType: Document.self)
+            let undoColl = self.undoCollection(for: namespace)
 
-        let localCollection = self.localCollection(for: namespace, withType: Document.self)
-        let undoColl = self.undoCollection(for: namespace)
+            // fetch all of the documents that this filter will match
+            let beforeDocuments = try localCollection.find(filter)
+            var idsToBeforeDocumentMap = [HashableBSONValue: Document]()
 
-        // fetch all of the documents that this filter will match
-        let beforeDocuments = try localCollection.find(filter)
-        var idsToBeforeDocumentMap = [HashableBSONValue: Document]()
+            // use the matched ids from prior to create a new filter.
+            // this will prevent any race conditions if documents were
+            // inserted between the prior find
+            let ids = try beforeDocuments.compactMap({ (beforeDoc: Document) -> BSONValue? in
+                guard let documentId = beforeDoc[idField] else {
+                    // this should never happen, but let's ignore the document if it does
+                    return nil
+                }
 
-        // use the matched ids from prior to create a new filter.
-        // this will prevent any race conditions if documents were
-        // inserted between the prior find
-        let ids = try beforeDocuments.compactMap({ (beforeDoc: Document) -> BSONValue? in
-            guard let documentId = beforeDoc[idField] else {
-                // this should never happen, but let's ignore the document if it does
-                return nil
+                try undoColl.insertOne(beforeDoc)
+                idsToBeforeDocumentMap[HashableBSONValue(documentId)] = beforeDoc
+                return beforeDoc[idField]
+            })
+            var updatedFilter = (options?.upsert ?? false) ? filter :
+                [idField: ["$in": ids] as Document] as Document
+
+            // do the bulk write
+            let result = try localCollection.updateMany(filter: updatedFilter,
+                                                        update: update,
+                                                        options: options)
+
+            // if this was an upsert, create the post-update filter using
+            // the upserted id.
+            if let upsertedId = result?.upsertedId {
+                updatedFilter = [idField: upsertedId.value]
             }
 
-            try undoColl.insertOne(beforeDoc)
-            idsToBeforeDocumentMap[HashableBSONValue(documentId)] = beforeDoc
-            return beforeDoc[idField]
-        })
-        var updatedFilter = (options?.upsert ?? false) ? filter :
-            [idField: ["$in": ids] as Document] as Document
-
-        // do the bulk write
-        let result = try localCollection.updateMany(filter: updatedFilter,
-                                                    update: update,
-                                                    options: options)
-
-        // if this was an upsert, create the post-update filter using
-        // the upserted id.
-        if let upsertedId = result?.upsertedId {
-            updatedFilter = [idField: upsertedId.value]
-        }
-
-        let upsert = options?.upsert ?? false
-        // iterate over the after-update docs using the updated filter
-        let eventsToEmit: [ChangeEvent<Document>] =
-            try localCollection.find(updatedFilter).compactMap { unsanitizedAfterDocument in
+            let upsert = options?.upsert ?? false
+            // iterate over the after-update docs using the updated filter
+            try localCollection.find(updatedFilter).forEach { unsanitizedAfterDocument in
                 // get the id of the after-update document, and fetch the before-update
                 // document from the map we created from our pre-update `find`
                 guard let documentId = unsanitizedAfterDocument[idField] else {
-                    return nil
+                    return
                 }
 
                 let beforeDocument = idsToBeforeDocumentMap[HashableBSONValue(documentId)]
@@ -2014,7 +2021,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 // a document that meets the filter criteria must have been
                 // inserted or upserted asynchronously between this find and the update.
                 if beforeDocument == nil && !upsert {
-                    return nil
+                    return
                 }
 
                 // Ensure that the update didn't add any forbidden fields to the document, and remove
@@ -2030,7 +2037,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 // assume it was not modified and take no further action
                 if afterDocument == beforeDocument {
                     try undoColl.deleteOne([idField: documentId])
-                    return nil
+                    return
                 }
 
                 var config: CoreDocumentSynchronization
@@ -2041,7 +2048,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 // else treat it as a standard update
                 if let beforeDocument = beforeDocument {
                     guard let docConfig = nsConfig[documentId] else {
-                        return nil
+                        return
                     }
                     config = docConfig
                     event = ChangeEvent<Document>.changeEventForLocalUpdate(
@@ -2052,24 +2059,22 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                         writePending: true)
                 } else {
                     config = try nsConfig.sync(id: documentId)
-                    event = ChangeEvent<Document>.changeEventForLocalInsert(namespace: namespace,
-                                                                            document: afterDocument,
-                                                                            writePending: true);
+                    event = ChangeEvent<Document>.changeEventForLocalInsert(
+                        namespace: namespace,
+                        document: afterDocument,
+                        writePending: true)
                 }
 
+                self.emitEvent(documentId: documentId, event: event)
                 try config.setSomePendingWrites(atTime: logicalT, changeEvent: event)
                 try undoColl.deleteOne([idField: documentId])
-                return event
-        }
+            }
 
-        deferredEventEmittingBlock = {
             if result?.upsertedId != nil {
                 self.triggerListening(to: namespace)
             }
-            eventsToEmit.forEach({self.emitEvent(documentId: $0.documentKey, event: $0)})
-        }
 
-        return result
+            return result
         }
     }
 
@@ -2080,15 +2085,14 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      - parameter event:      the change event.
      */
     private func emitEvent(documentId: BSONValue, event: ChangeEvent<Document>) {
-//        listenersLock.write {
-
+        listenersLock.write {
             let nsConfig = syncConfig[event.ns]
 
             eventDispatchQueue.async {
                 nsConfig?.changeEventDelegate?.onEvent(documentId: documentId,
                                                        event: event)
             }
-//        }
+        }
     }
 
     /// Potentially pass along useful error information to the user.
@@ -2107,7 +2111,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             return
         }
 
-        guard var config = syncConfig[unwrappedNamespace]?[unwrappedDocumentId] else {
+        guard let config = syncConfig[unwrappedNamespace]?[unwrappedDocumentId] else {
             logger.e(error.localizedDescription)
             logger.e("Fatal error occured in namespace \(unwrappedNamespace) " +
                 "for documentId \(unwrappedDocumentId): \(error.localizedDescription)")
@@ -2148,7 +2152,6 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      */
     private func triggerListening(to namespace: MongoNamespace) {
         syncLock.write {
-        do {
             guard let nsConfig = self.syncConfig[namespace] else {
                 return
             }
@@ -2161,10 +2164,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
             instanceChangeStreamDelegate.append(namespace: namespace)
             instanceChangeStreamDelegate.stop(namespace: namespace)
-            try instanceChangeStreamDelegate.start(namespace: namespace)
-        } catch {
-            logger.e("t='\(logicalT)': triggerListeningToNamespace ns=\(namespace) exception: \(error)")
-        }
+            instanceChangeStreamDelegate.start(namespace: namespace)
         }
     }
 

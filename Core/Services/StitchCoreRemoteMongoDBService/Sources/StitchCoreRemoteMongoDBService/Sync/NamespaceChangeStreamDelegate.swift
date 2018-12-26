@@ -43,14 +43,15 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
 
     deinit {
         logger.i("stream DEINITIALIZED")
+        self.stop()
         streamDelegates.forEach({$0.on(stateChangedFor: .closed)})
     }
 
     func start() {
-        if stream != nil, let streamWorkItem = streamWorkItem {
+        if stream != nil {
             self.stop()
-            streamWorkItem.cancel()
         }
+        
         self.streamWorkItem = DispatchWorkItem { [weak self] in
             repeat {
                 guard let self = self else {
@@ -71,7 +72,7 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
                     self.holdingSemaphore.wait()
                 }
             } while self?.networkMonitor.state == .connected &&
-                !(self?.streamWorkItem?.isCancelled ?? true)
+                self?.streamWorkItem?.isCancelled == false
         }
         queue.async(execute: self.streamWorkItem!)
     }
@@ -119,7 +120,10 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
                     return
                 }
             }
+
             self.stream?.close()
+            self.streamWorkItem?.cancel()
+            holdingSemaphore.signal()
         }
     }
 

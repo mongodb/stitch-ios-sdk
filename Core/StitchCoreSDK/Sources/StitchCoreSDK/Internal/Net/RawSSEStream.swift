@@ -108,7 +108,7 @@ open class RawSSEStream {
      Process and dispatch the events in a given stream.
      */
     internal func dispatchEvents() {
-        while state == .opening || state == .open, let line = self.readLine() {
+        while state == .open, let line = self.readLine() {
             // If the line is empty (a blank line), Dispatch the event, as defined below.
             if line.isEmpty {
                 // If the data buffer is an empty string, set the data buffer and the event name buffer to

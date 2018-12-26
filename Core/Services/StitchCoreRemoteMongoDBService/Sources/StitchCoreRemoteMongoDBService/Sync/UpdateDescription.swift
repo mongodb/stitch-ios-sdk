@@ -8,16 +8,6 @@ public class UpdateDescription: Codable {
     public let updatedFields: Document
     public let removedFields: [String]
 
-    internal init?(from document: Document) {
-        guard let updatedFields = document["$set"] as? Document,
-            let removedFields = document["$unset"] as? Document else {
-            return nil
-        }
-
-        self.updatedFields = updatedFields
-        self.removedFields = removedFields.keys
-    }
-
     internal init(updatedFields: Document,
                   removedFields: [String]) {
         self.updatedFields = updatedFields
@@ -90,10 +80,6 @@ private func diffBetween(ourDocument: Document,
                             onKey: actualKey,
                             updatedFields: &updatedFields,
                             removedFields: &removedFields)
-            } else if ourValue is [BSONValue] && theirValue is [BSONValue] {
-                if (ourValue as! [BSONValue]).count != (theirValue as! [BSONValue]).count {
-                    updatedFields[actualKey] = theirValue
-                }
             } else if !bsonEquals(ourValue, theirValue) {
                 updatedFields[actualKey] = theirValue
             }

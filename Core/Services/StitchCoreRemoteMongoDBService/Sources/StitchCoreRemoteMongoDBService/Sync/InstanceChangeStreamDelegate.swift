@@ -23,6 +23,10 @@ class InstanceChangeStreamDelegate {
         self.authMonitor = authMonitor
     }
 
+    deinit {
+        self.stop()
+    }
+    
     /**
      Append a namespace to this instance, initing a NamespaceChangeStreamDelegate
      in the process.
@@ -47,12 +51,12 @@ class InstanceChangeStreamDelegate {
         self.namespaceToStreamDelegates.removeValue(forKey: namespace)
     }
 
-    func start() throws {
-        try self.namespaceToStreamDelegates.forEach({try $0.value.start()})
+    func start() {
+        self.namespaceToStreamDelegates.forEach({$0.value.start()})
     }
 
-    func start(namespace: MongoNamespace) throws {
-        try self.namespaceToStreamDelegates[namespace]?.start()
+    func start(namespace: MongoNamespace) {
+        self.namespaceToStreamDelegates[namespace]?.start()
     }
 
     func stop() {
