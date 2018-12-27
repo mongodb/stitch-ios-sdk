@@ -179,6 +179,7 @@ public struct ChangeEvent<DocumentT: Codable>: Codable, Hashable {
     static func changeEventForLocalReplace(namespace: MongoNamespace,
                                            documentId: BSONValue,
                                            document: Document,
+                                           updateDescription: UpdateDescription? = nil,
                                            writePending: Bool) -> ChangeEvent<Document> {
         return ChangeEvent<Document>(
             id: AnyBSONValue(Document()),
@@ -186,7 +187,7 @@ public struct ChangeEvent<DocumentT: Codable>: Codable, Hashable {
             fullDocument: document,
             ns: namespace,
             documentKey: ["_id": documentId],
-            updateDescription: nil,
+            updateDescription: updateDescription,
             hasUncommittedWrites: writePending)
     }
 

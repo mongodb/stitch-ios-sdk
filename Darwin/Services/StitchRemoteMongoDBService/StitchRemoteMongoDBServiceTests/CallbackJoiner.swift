@@ -1,26 +1,27 @@
 import Foundation
+import StitchCoreSDK
 import StitchCore
 import XCTest
 import MongoSwift
 @testable import StitchCoreRemoteMongoDBService
 
 private class SynchronizedDispatchDeque {
-    private let rwLock = try! ReadWriteLock()
+    private let rwLock = ReadWriteLock(label: "sync_test_\(ObjectId().oid)")
     private var workItems = [DispatchWorkItem]()
     var count: Int {
         return workItems.count
     }
     
     func append(_ workItem: DispatchWorkItem) {
-        rwLock.writeLock()
-        defer { rwLock.unlock(for: .writing) }
-        workItems.append(workItem)
+        rwLock.write {
+            workItems.append(workItem)
+        }
     }
 
     func removeFirst() -> DispatchWorkItem {
-        rwLock.writeLock()
-        defer { rwLock.unlock(for: .writing) }
-        return workItems.removeFirst()
+        return rwLock.write {
+            return workItems.removeFirst()
+        }
     }
 }
 

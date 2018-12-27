@@ -2,25 +2,28 @@ import Foundation
 import MongoSwift
 import StitchCoreSDK
 
-class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
-    private enum Command {
-        case restart
-    }
+let retrySleepSeconds: UInt32 = 5
 
+class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
     private let namespace: MongoNamespace
     private let service: CoreStitchServiceClient
     private let networkMonitor: NetworkMonitor
     private let authMonitor: AuthMonitor
     private let nsConfig: NamespaceSynchronization
+    private let holdingSemaphore = DispatchSemaphore(value: 0)
+
     private var eventsKeyedQueue = [HashableBSONValue: ChangeEvent<Document>]()
     private var streamDelegates = Set<SSEStreamDelegate>()
 
     private var stream: RawSSEStream? = nil
-    private var command: Command? = nil
+    private var streamWorkItem: DispatchWorkItem? = nil
 
-    private lazy var tag = "NSChangeStreamListener-\(namespace.description)"
+    private lazy var tag = "ns_changestream_listener_\(namespace)"
     private lazy var logger = Log.init(tag: tag)
-    private let eventQueueLock: ReadWriteLock
+    private lazy var queue = DispatchQueue(label: self.tag)
+
+    internal lazy var eventQueueLock = ReadWriteLock.init(label: tag)
+    
     var state: SSEStreamState {
         return stream?.state ?? .closed
     }
@@ -35,44 +38,71 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
         self.service = service
         self.networkMonitor = networkMonitor
         self.authMonitor = authMonitor
-        try self.eventQueueLock = ReadWriteLock()
         super.init()
         networkMonitor.add(networkStateDelegate: self)
     }
 
     deinit {
         logger.i("stream DEINITIALIZED")
+        eventQueueLock.write { self.stop() }
         streamDelegates.forEach({$0.on(stateChangedFor: .closed)})
+    }
+
+    func start() {
+        if stream != nil {
+            eventQueueLock.write { self.stop() }
+        }
+        
+        self.streamWorkItem = DispatchWorkItem { [weak self] in
+            repeat {
+                guard let self = self else {
+                    return
+                }
+
+                if self.state != .open && self.state != .opening {
+                    do {
+                        let isOpening = try self.openStream()
+                        if !isOpening {
+                            sleep(retrySleepSeconds)
+                        }
+                    } catch {
+                        self.logger.e("NamespaceChangeStreamRunner::run error happened while opening stream: \(error)");
+                        return
+                    }
+                } else {
+                    // This semaphore will be holding until the stream
+                    // is eventually closed. We do this so that the
+                    // stream will automatically attempt to reopen
+                    // when it gets closed and we're still connected.
+                    self.holdingSemaphore.wait()
+                }
+            } while self?.networkMonitor.state == .connected &&
+                self?.streamWorkItem?.isCancelled == false
+        }
+        queue.async(execute: self.streamWorkItem!)
     }
 
     /**
      Open the event stream.
      */
-    func start() throws {
-        objc_sync_enter(self)
-        defer { objc_sync_exit(self) }
+    private func openStream() throws -> Bool {
+        return try eventQueueLock.write {
+            logger.i("stream START")
+            guard networkMonitor.state == .connected else {
+                logger.i("stream END - Network disconnected")
+                return false
+            }
+            guard authMonitor.isLoggedIn else {
+                logger.i("stream END - Logged out")
+                return false
+            }
 
-        logger.i("stream START")
-        guard networkMonitor.state == .connected else {
-            logger.i("stream END - Network disconnected")
-            return
-        }
-        guard authMonitor.isLoggedIn else {
-            logger.i("stream END - Logged out")
-            return
-        }
+            let idsToWatch = nsConfig.map({ $0.documentId.value })
+            guard !idsToWatch.isEmpty else {
+                logger.i("stream END - No synchronized documents")
+                return false
+            }
 
-        let idsToWatch = nsConfig.map({ $0.documentId.value })
-        guard !idsToWatch.isEmpty else {
-            logger.i("stream END - No synchronized documents")
-            return
-        }
-
-        if let stream = stream {
-            command = .restart
-            logger.i("stream RESTART - stream was \(stream.state)")
-            self.stop()
-        } else {
             self.stream = try service.streamFunction(
                 withName: "watch",
                 withArgs: [
@@ -81,13 +111,13 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
                      "ids": idsToWatch] as Document
                 ],
                 delegate: self)
+
+            return true
         }
     }
 
     func stop() {
-        objc_sync_enter(self)
-        defer { objc_sync_exit(self) }
-
+        eventQueueLock.assertWriteLocked()
         logger.i("stream STOP")
         if let stream = stream {
             guard stream.state != .closing, stream.state != .closed else {
@@ -95,7 +125,10 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
                 return
             }
         }
+
         self.stream?.close()
+        self.streamWorkItem?.cancel()
+        holdingSemaphore.signal()
     }
 
     func add(streamDelegate: SSEStreamDelegate) {
@@ -104,29 +137,27 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
 
     func on(stateChangedFor state: NetworkState) {
         if state == .disconnected, stream?.state != .closing {
-            self.stop()
+            eventQueueLock.write { self.stop() }
         }
     }
 
     override func on(newEvent event: RawSSE) {
-        eventQueueLock.writeLock()
-        defer { eventQueueLock.unlock(for: .writing) }
+        eventQueueLock.write {
+            do {
+                guard let changeEvent: ChangeEvent<Document> = try event.decodeStitchSSE(),
+                    let id = changeEvent.documentKey["_id"] else {
+                        logger.e("invalid change event found!")
+                        return
+                }
 
-        do {
-            guard let changeEvent: ChangeEvent<Document> = try event.decodeStitchSSE(),
-                let id = changeEvent.documentKey["_id"] else {
-                return
+                logger.d("event found: op=\(changeEvent.operationType) id=\(id)")
+
+                streamDelegates.forEach({$0.on(newEvent: event)})
+                self.eventsKeyedQueue[HashableBSONValue(id)] = changeEvent
+            } catch {
+                logger.e("error occurred when decoding event from stream: err=\(error.localizedDescription)")
+                self.stop()
             }
-
-            logger.d("event found: op=\(changeEvent.operationType) id=\(id)")
-
-            streamDelegates.forEach({$0.on(newEvent: event)})
-            self.eventsKeyedQueue[HashableBSONValue(id)] = changeEvent
-
-        } catch {
-            logger.e("error occurred when decoding event from stream: err=\(error.localizedDescription)")
-
-            self.stop()
         }
     }
 
@@ -137,22 +168,20 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
             // mark all of the configs in this namespace
             // as stale so we know to check for stale docs
             // during a sync pass
-            self.command = nil
-            try? nsConfig.set(stale: true)
             logger.d("stream OPEN")
+            try? nsConfig.set(stale: true)
         case .closed:
             // if the stream has been closed,
             // deallocate the remaining stream
             logger.d("stream CLOSED")
             stream = nil
+            holdingSemaphore.signal()
             // if a restart has been commanded,
             // start again
-            if command == .restart {
-                try? start()
-            }
         default:
             logger.d("stream \(state)")
         }
+        
         streamDelegates.forEach({$0.on(stateChangedFor: state)})
     }
 
@@ -161,20 +190,18 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
     }
 
     func dequeueEvents() -> [HashableBSONValue: ChangeEvent<Document>] {
-        eventQueueLock.writeLock()
-        defer { eventQueueLock.unlock(for: .writing) }
-
-        var events = [HashableBSONValue: ChangeEvent<Document>]()
-        while let (key, value) = eventsKeyedQueue.popFirst() {
-            events[key] = value
+        return eventQueueLock.write {
+            var events = [HashableBSONValue: ChangeEvent<Document>]()
+            while let (key, value) = eventsKeyedQueue.popFirst() {
+                events[key] = value
+            }
+            return events
         }
-        return events
     }
 
     func unprocessedEvent(for documentId: BSONValue) -> ChangeEvent<Document>? {
-        eventQueueLock.writeLock()
-        defer { eventQueueLock.unlock(for: .writing) }
-
-        return self.eventsKeyedQueue.removeValue(forKey: HashableBSONValue(documentId))
+        return eventQueueLock.write {
+            return self.eventsKeyedQueue.removeValue(forKey: HashableBSONValue(documentId))
+        }
     }
 }
