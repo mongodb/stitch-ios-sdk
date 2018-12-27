@@ -63,6 +63,14 @@ extension StitchRequestClient {
         return try inspectResponse(response: response)
     }
 
+    public func doStreamRequest(_ stitchReq: StitchRequest, url: String, delegate: SSEStreamDelegate? = nil) throws -> RawSSEStream {
+        do {
+            return try transport.stream(request: buildRequest(stitchReq, url: url), delegate: delegate)
+        } catch  {
+            throw StitchError.requestError(withError: error, withRequestErrorCode: .transportError)
+        }
+    }
+
     /**
      * Builds a plain HTTP request out of the provided `StitchRequest` object.
      */
@@ -141,11 +149,8 @@ public class StitchAppRequestClientImpl: StitchRequestClient {
     }
 
     public func doStreamRequest(_ stitchReq: StitchRequest, delegate: SSEStreamDelegate? = nil) throws -> RawSSEStream {
-        do {
-            return try transport.stream(request: buildRequest(stitchReq), delegate: delegate)
-        } catch  {
-            throw StitchError.requestError(withError: error, withRequestErrorCode: .transportError)
-        }
+        try self.initAppMetadata()
+        return try doStreamRequest(stitchReq, url: self.appMetadata!.hostname, delegate: delegate)
     }
 
     func initAppMetadata() throws {
@@ -212,5 +217,9 @@ public class StitchRequestClientImpl: StitchRequestClient {
      */
     public func doRequest(_ stitchReq: StitchRequest) throws -> Response {
         return try doRequest(stitchReq, url: self.baseURL)
+    }
+
+    public func doStreamRequest(_ stitchReq: StitchRequest, delegate: SSEStreamDelegate?) throws -> RawSSEStream {
+        return try doStreamRequest(stitchReq, url: self.baseURL)
     }
 }

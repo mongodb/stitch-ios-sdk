@@ -73,7 +73,7 @@ internal class DarwinNetworkMonitor: NetworkMonitor {
         context.info = UnsafeMutableRawPointer(Unmanaged<DarwinNetworkMonitor>.passUnretained(self).toOpaque())
 
         let callbackClosure: SCNetworkReachabilityCallBack? = {
-            (reachability:SCNetworkReachability, flags: SCNetworkReachabilityFlags, info: UnsafeMutableRawPointer?) in
+            (reachability: SCNetworkReachability, flags: SCNetworkReachabilityFlags, info: UnsafeMutableRawPointer?) in
             guard let info = info else { return }
 
             // Gets the `Handler` object from the context info

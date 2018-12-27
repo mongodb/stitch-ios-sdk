@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		116D8C8821D583D300ECA1AB /* AppMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116D8C8721D583D200ECA1AB /* AppMetadata.swift */; };
 		18980E2F2DF84C7B1FA84115 /* Pods_StitchCoreSDKTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1ED2D854F92DE372FFC12A79 /* Pods_StitchCoreSDKTests.framework */; };
 		491A934B21B323AB00F60F59 /* RawSSEStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A934A21B323AB00F60F59 /* RawSSEStream.swift */; };
 		491A934F21B3248500F60F59 /* FoundationHTTPSSEStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A934E21B3248500F60F59 /* FoundationHTTPSSEStream.swift */; };
@@ -131,6 +132,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		116D8C8721D583D200ECA1AB /* AppMetadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppMetadata.swift; path = Net/AppMetadata.swift; sourceTree = "<group>"; };
 		1ED2D854F92DE372FFC12A79 /* Pods_StitchCoreSDKTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreSDKTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		217AC60BDD132F8479D605E7 /* Pods-StitchCoreSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreSDK.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreSDK/Pods-StitchCoreSDK.debug.xcconfig"; sourceTree = "<group>"; };
 		392DB4A470DD46E0E6B78130 /* Pods_StitchCoreSDKMocks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreSDKMocks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -522,6 +524,7 @@
 		498062362185B6A100E2A3A2 /* Internal */ = {
 			isa = PBXGroup;
 			children = (
+				116D8C8721D583D200ECA1AB /* AppMetadata.swift */,
 				498062372185B6A100E2A3A2 /* Net */,
 				498062452185B6A100E2A3A2 /* Common */,
 				498062482185B6A100E2A3A2 /* CoreStitchAppClient.swift */,
@@ -1071,6 +1074,7 @@
 				498DF593219F7451009F1B3F /* NetworkMonitor.swift in Sources */,
 				498062B62185B6BC00E2A3A2 /* ContentType.swift in Sources */,
 				498062B72185B6BC00E2A3A2 /* Storage.swift in Sources */,
+				116D8C8821D583D300ECA1AB /* AppMetadata.swift in Sources */,
 				498062B82185B6BC00E2A3A2 /* ImplFailureFatalErrors.swift in Sources */,
 				498062B92185B6BC00E2A3A2 /* CoreStitchAppClient.swift in Sources */,
 				498062BA2185B6BC00E2A3A2 /* CoreStitchPushClient.swift in Sources */,
@@ -1323,7 +1327,6 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = "/Users/jasonflax/Development/stitch-ios-sdk/Core/StitchCoreSDK/StitchCoreSDK.xcodeproj/StitchCoreSDK_Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1344,7 +1347,6 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = "/Users/jasonflax/Development/stitch-ios-sdk/Core/StitchCoreSDK/StitchCoreSDK.xcodeproj/StitchCoreSDK_Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

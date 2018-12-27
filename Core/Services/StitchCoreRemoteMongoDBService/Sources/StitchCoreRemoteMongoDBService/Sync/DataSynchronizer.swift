@@ -2176,7 +2176,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         let ids = staleIds.map { ["_id": $0.bsonValue.value ] as Document }
         guard ids.count > 0 else { return [] }
         return try self.remoteCollection(for: nsConfig.config.namespace)
-            .find(["$or": ids]).asArray()
+            .find(["$or": ids]).toArray()
     }
 
     // MARK: Utilities

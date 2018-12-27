@@ -30,7 +30,7 @@ private extension RemoteMongoCollection {
     func find(_ filter: Document) -> [T]? {
         let joiner = CallbackJoiner()
         let readOp = self.find(filter, options: nil)
-        readOp.asArray(joiner.capture())
+        readOp.toArray(joiner.capture())
         return joiner.value(asType: [T].self)
     }
 
