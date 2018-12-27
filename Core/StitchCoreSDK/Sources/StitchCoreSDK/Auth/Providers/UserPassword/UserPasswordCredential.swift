@@ -6,7 +6,7 @@ import MongoSwift
  */
 public struct UserPasswordCredential: StitchCredential {
     // MARK: Initializer
-    
+
     /**
      * Initializes this credential with the name of the provider, the username of the user, and the password of the
      * user.
@@ -18,9 +18,9 @@ public struct UserPasswordCredential: StitchCredential {
         self.username = username
         self.password = password
     }
-    
+
     // MARK: Properties
-    
+
     /**
      * The name of the provider for this credential.
      */

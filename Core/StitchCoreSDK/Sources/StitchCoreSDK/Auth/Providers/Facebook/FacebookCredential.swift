@@ -6,7 +6,7 @@ import MongoSwift
  */
 public struct FacebookCredential: StitchCredential {
     // MARK: Initializer
-    
+
     /**
      * Initializes this credential with the name of the provider, and a Facebook OAuth2 access token.
      */
@@ -17,7 +17,7 @@ public struct FacebookCredential: StitchCredential {
     }
 
     // MARK: Properties
-    
+
     /**
      * The name of the provider for this credential.
      */

@@ -50,12 +50,12 @@ public struct APIExtendedUserProfileImpl: Codable, ExtendedStitchUserProfile {
     /**
      * The minimum age of the user.
      */
-    public let minAge: Int?
+    public let minAge: String?
 
     /**
      * The maximum age of the user.
      */
-    public let maxAge: Int?
+    public let maxAge: String?
 
     /**
      * Initializes the user profile object with each of its properties as optional parameters.
@@ -67,8 +67,8 @@ public struct APIExtendedUserProfileImpl: Codable, ExtendedStitchUserProfile {
                   lastName: String? = nil,
                   gender: String? = nil,
                   birthday: String? = nil,
-                  minAge: Int? = nil,
-                  maxAge: Int? = nil) {
+                  minAge: String? = nil,
+                  maxAge: String? = nil) {
         self.name = name
         self.email = email
         self.pictureURL = pictureURL

@@ -1,3 +1,5 @@
+// swiftlint:disable function_body_length
+// swiftlint:disable cyclomatic_complexity
 import XCTest
 import MongoSwift
 import StitchCoreSDK
@@ -17,14 +19,15 @@ class AWSS3ServiceClientIntTests: BaseStitchIntTestCocoaTouch {
 
         guard !(testAWSAccessKeyID?.isEmpty ?? true),
             !(testAWSSecretAccessKey?.isEmpty ?? true) else {
-                XCTFail("No AWS_ACCESS_KEY_ID or AWS_SECRET_ACCESS_KEY in preprocessor macros; failing test. See README for more details.")
+                XCTFail("No AWS_ACCESS_KEY_ID or AWS_SECRET_ACCESS_KEY in preprocessor macros; "
+                        + "failing test. See README for more details.")
                 return
         }
     }
 
     func testPutObject() throws {
         let app = try self.createApp()
-        let _ = try self.addProvider(toApp: app.1, withConfig: ProviderConfigs.anon())
+        _ = try self.addProvider(toApp: app.1, withConfig: ProviderConfigs.anon())
         let svc = try self.addService(
             toApp: app.1,
             withType: "aws-s3",
@@ -40,24 +43,24 @@ class AWSS3ServiceClientIntTests: BaseStitchIntTestCocoaTouch {
                              withConfig: RuleCreator.actions(name: "rule",
                                                              actions: RuleActionsCreator.awsS3(put: true,
                                                                                                signPolicy: true)))
-        
+
         let client = try self.appClient(forApp: app.0)
-        
+
         let exp0 = expectation(description: "should login")
         client.auth.login(withCredential: AnonymousCredential()) { _ in
             exp0.fulfill()
         }
         wait(for: [exp0], timeout: 5.0)
-        
+
         let awsS3 = client.serviceClient(fromFactory: awsS3ServiceClientFactory, withName: "aws-s31")
-        
+
         // Putting to an bad bucket should fail
         let bucket = "notmystuff"
         let key = ObjectId.init().description
         let acl = "public-read"
         let contentType = "plain/text"
         let body = "hello again friend; did you miss me"
-        
+
         let exp1 = expectation(description: "should not put object")
         awsS3.putObject(bucket: bucket, key: key, acl: acl, contentType: contentType, body: body) { result in
             switch result {
@@ -75,12 +78,12 @@ class AWSS3ServiceClientIntTests: BaseStitchIntTestCocoaTouch {
             exp1.fulfill()
         }
         wait(for: [exp1], timeout: 5.0)
-        
+
         // Putting with all good params for S3 should work
         let bucketGood = "stitch-test-sdkfiles"
         let expectedLocation = "https://stitch-test-sdkfiles.s3.amazonaws.com/\(key)"
         let transport = FoundationHTTPTransport()
-        
+
         let exp2 = expectation(description: "should put BSON binary")
         awsS3.putObject(bucket: bucketGood, key: key, acl: acl, contentType: contentType, body: body) { result in
             switch result {
@@ -89,23 +92,23 @@ class AWSS3ServiceClientIntTests: BaseStitchIntTestCocoaTouch {
             case .failure:
                 XCTFail("unexpected error")
             }
-  
+
             exp2.fulfill()
         }
         wait(for: [exp2], timeout: 5.0)
-        
+
         var httpResult = try transport.roundTrip(request: RequestBuilder()
             .with(method: .get)
             .with(url: expectedLocation)
             .with(timeout: 1.5)
             .build()
         )
-        
+
         XCTAssertEqual(body, String.init(data: httpResult.body!, encoding: .utf8))
-        
+
         // ...with BSON binary parameter
         let bodyBin = try Binary(data: body.data(using: .utf8)!, subtype: .binaryDeprecated)
-        
+
         let exp3 = expectation(description: "should put string")
         awsS3.putObject(bucket: bucketGood, key: key, acl: acl, contentType: contentType, body: bodyBin) { result in
             switch result {
@@ -118,19 +121,19 @@ class AWSS3ServiceClientIntTests: BaseStitchIntTestCocoaTouch {
             exp3.fulfill()
         }
         wait(for: [exp3], timeout: 5.0)
-        
+
         httpResult = try transport.roundTrip(request: RequestBuilder()
             .with(method: .get)
             .with(url: expectedLocation)
             .with(timeout: 1.5)
             .build()
         )
-        
+
         XCTAssertEqual(bodyBin.data, httpResult.body!)
-        
+
         // ...with Foundation Data parameter
         let bodyData = body.data(using: .utf8)!
-        
+
         let exp4 = expectation(description: "should put Foundation Data")
         awsS3.putObject(bucket: bucketGood, key: key, acl: acl, contentType: contentType, body: bodyData) { result in
             switch result {
@@ -139,20 +142,20 @@ class AWSS3ServiceClientIntTests: BaseStitchIntTestCocoaTouch {
             case .failure:
                 XCTFail("unexpected error")
             }
-            
+
             exp4.fulfill()
         }
         wait(for: [exp4], timeout: 5.0)
-        
+
         httpResult = try transport.roundTrip(request: RequestBuilder()
             .with(method: .get)
             .with(url: expectedLocation)
             .with(timeout: 1.5)
             .build()
         )
-        
+
         XCTAssertEqual(bodyData, httpResult.body!)
-        
+
         // Excluding any required parameters should fail
         let exp5 = expectation(description: "should not put object")
         awsS3.putObject(bucket: "", key: key, acl: acl, contentType: contentType, body: body) { result in
@@ -172,10 +175,10 @@ class AWSS3ServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         }
         wait(for: [exp5], timeout: 5.0)
     }
-    
+
     func testSignPolicy() throws {
         let app = try self.createApp()
-        let _ = try self.addProvider(toApp: app.1, withConfig: ProviderConfigs.anon())
+        _ = try self.addProvider(toApp: app.1, withConfig: ProviderConfigs.anon())
         let svc = try self.addService(
             toApp: app.1,
             withType: "aws-s3",
@@ -191,24 +194,23 @@ class AWSS3ServiceClientIntTests: BaseStitchIntTestCocoaTouch {
                              withConfig: RuleCreator.actions(name: "rule",
                                                              actions: RuleActionsCreator.awsS3(put: true,
                                                                                                signPolicy: true)))
-        
-        
+
         let client = try self.appClient(forApp: app.0)
-        
+
         let exp0 = expectation(description: "should login")
         client.auth.login(withCredential: AnonymousCredential()) { _  in
             exp0.fulfill()
         }
         wait(for: [exp0], timeout: 5.0)
-        
+
         let awsS3 = client.serviceClient(fromFactory: awsS3ServiceClientFactory, withName: "aws-s31")
-        
+
         // Including all parameters should succeed
         let bucket = "notmystuff"
         let key = ObjectId.init().description
         let acl = "public-read"
         let contentType = "plain/text"
-        
+
         let exp1 = expectation(description: "should sign policy")
         awsS3.signPolicy(bucket: bucket, key: key, acl: acl, contentType: contentType) { result in
             switch result {
@@ -221,11 +223,11 @@ class AWSS3ServiceClientIntTests: BaseStitchIntTestCocoaTouch {
             case .failure:
                 XCTFail("unexpected error")
             }
-            
+
             exp1.fulfill()
         }
         wait(for: [exp1], timeout: 5.0)
-        
+
         // Excluding any required parameters should fail
         let exp2 = expectation(description: "should not sign policy")
         awsS3.signPolicy(bucket: "", key: key, acl: acl, contentType: contentType) { result in
@@ -244,5 +246,5 @@ class AWSS3ServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         }
         wait(for: [exp2], timeout: 5.0)
     }
-    
+
 }

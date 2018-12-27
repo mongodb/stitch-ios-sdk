@@ -11,7 +11,7 @@ public protocol StitchAuthRequestClient {
      * - returns: The response to the request as a `Response`.
      */
     func doAuthenticatedRequest(_ stitchReq: StitchAuthRequest) throws -> Response
-    
+
     /**
      * Performs an authenticated request to the Stitch server, using the current authentication state, and should
      * throw when not currently authenticated. Decodes the response body into a `Decodable` type based on the

@@ -3,6 +3,7 @@
 @_exported import MongoMobile
 import StitchCoreSDK
 
+/// :nodoc:
 public final class CoreLocalMongoDBService {
     public static let shared = CoreLocalMongoDBService()
     private var initialized = false
@@ -55,7 +56,7 @@ public final class CoreLocalMongoDBService {
 
         return try client(withKey: instanceKey, withDBPath: dbPath)
     }
-    
+
     public func close() {
         initialized = false
         _localInstances.removeAll()

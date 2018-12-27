@@ -16,7 +16,7 @@ public class CoreRemoteMongoClient {
             remoteClient: self,
             appInfo: appInfo)
     }
-    
+
     /**
      * Gets a `CoreRemoteMongoDatabase` instance for the given database name.
      *

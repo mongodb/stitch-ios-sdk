@@ -64,12 +64,12 @@ public protocol ExtendedStitchUserProfile {
     /**
      * The minimum age of the user.
      */
-    var minAge: Int? { get }
+    var minAge: String? { get }
 
     /**
      * The maximum age of the user.
      */
-    var maxAge: Int? { get }
+    var maxAge: String? { get }
 }
 
 /**
@@ -81,13 +81,13 @@ public protocol StitchUserProfile: ExtendedStitchUserProfile {
      * A string describing the type of this user. (Either `server` or `normal`)
      */
     var userType: String { get }
-    
+
     /**
      * An array of `StitchUserIdentity` objects representing the identities linked
      * to this user which can be used to log in as this user.
      */
     var identities: [StitchUserIdentity] { get }
-    
+
     /// :nodoc:
     var data: APIExtendedUserProfileImpl { get }
 }
@@ -141,12 +141,12 @@ internal final class StitchUserProfileImpl: StitchUserProfile {
     /**
      * The minimum age of the user.
      */
-    public lazy var minAge: Int? = self.data.minAge
+    public lazy var minAge: String? = self.data.minAge
 
     /**
      * The maximum age of the user.
      */
-    public lazy var maxAge: Int? = self.data.maxAge
+    public lazy var maxAge: String? = self.data.maxAge
 
     /**
      * An object containing extra metadata about the user as supplied by the authentication provider. This need not

@@ -16,13 +16,13 @@ public final class SpyCoreStitchServiceClient: CoreStitchServiceClientImpl {
         callFunctionSpy.run(arg1: name, arg2: args, arg3: requestTimeout)
         return try super.callFunction(withName: name, withArgs: args, withRequestTimeout: requestTimeout)
     }
-    
+
     public var callFunctionWithDecodingSpy =
         FunctionSpyUnitThreeArgs<String, [BSONValue], TimeInterval?>()
     public override func callFunction<T>(withName name: String,
                                          withArgs args: [BSONValue],
                                          withRequestTimeout requestTimeout: TimeInterval?)
-        throws -> T where T : Decodable {
+        throws -> T where T: Decodable {
         callFunctionWithDecodingSpy.run(arg1: name, arg2: args, arg3: requestTimeout)
         return try super.callFunction(withName: name, withArgs: args, withRequestTimeout: requestTimeout)
     }

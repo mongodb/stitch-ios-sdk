@@ -33,7 +33,7 @@ public class AnyStitchUserFactory<T: CoreStitchUser> {
     public init<U: StitchUserFactory>(stitchUserFactory: U) where U.UserType == T {
         self.makeUserBlock = stitchUserFactory.makeUser
     }
-    
+
     /**
      * Initializes this `AnyStitchUserFactory` with an arbitrary closure.
      */

@@ -21,7 +21,7 @@ extension CoreStitchAuth {
             return try handleAuthFailure(forError: err, withRequest: stitchReq)
         }
     }
-    
+
     public func doAuthenticatedRequest<T: Decodable>(_ stitchReq: StitchAuthRequest) throws -> T {
         let response = try self.doAuthenticatedRequest(stitchReq)
         do {
@@ -65,15 +65,15 @@ extension CoreStitchAuth {
     private func prepareAuthRequest(_ stitchReq: StitchAuthRequest) throws -> StitchRequest {
         objc_sync_enter(authStateLock)
         defer { objc_sync_exit(authStateLock) }
-        
+
         guard self.isLoggedIn,
             let refreshToken = self.authStateHolder.refreshToken,
             let accessToken = self.authStateHolder.accessToken else {
                 throw StitchError.clientError(withClientErrorCode: .mustAuthenticateFirst)
         }
-        
+
         let reqBuilder = StitchRequestBuilder()
-        
+
         var newHeaders = stitchReq.headers
         if stitchReq.useRefreshToken {
             newHeaders[Headers.authorization.rawValue] =
@@ -82,20 +82,20 @@ extension CoreStitchAuth {
             newHeaders[Headers.authorization.rawValue] =
                 Headers.authorizationBearer(forValue: accessToken)
         }
-        
+
         reqBuilder
             .with(headers: newHeaders)
             .with(path: stitchReq.path)
             .with(method: stitchReq.method)
-            
+
         if let body = stitchReq.body {
             reqBuilder.with(body: body)
         }
-        
+
         if let timeout = stitchReq.timeout {
             reqBuilder.with(timeout: timeout)
         }
-        
+
         return try reqBuilder.build()
     }
 

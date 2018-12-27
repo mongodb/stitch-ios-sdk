@@ -6,16 +6,16 @@ import MongoSwift
  */
 public struct AnonymousCredential: StitchCredential {
     // MARK: Initializer
-    
+
     /**
      * Initializes this credential with the name of the provider.
      */
     public init(withProviderName providerName: String = providerType.name) {
         self.providerName = providerName
     }
-    
+
     // MARK: Properties
-    
+
     /**
      * The name of the provider for this credential.
      */

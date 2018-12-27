@@ -1,5 +1,5 @@
 import XCTest
 @testable import StitchDarwinCoreTestUtils
 
-class StitchCoreTestUtils_iOSTests: XCTestCase {
+class StitchDarwinCoreTestUtils: XCTestCase {
 }

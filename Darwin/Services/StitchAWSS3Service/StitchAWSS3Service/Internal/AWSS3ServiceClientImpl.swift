@@ -8,13 +8,17 @@ import StitchCoreAWSS3Service
 public final class AWSS3ServiceClientImpl: AWSS3ServiceClient {
     private let proxy: CoreAWSS3ServiceClient
     private let dispatcher: OperationDispatcher
-    
+
     internal init(withClient client: CoreAWSS3ServiceClient,
                   withDispatcher dispatcher: OperationDispatcher) {
         self.proxy = client
         self.dispatcher = dispatcher
     }
-    
+
+    // We are disabling this because this is a deprecated library, and the new AWS service has the more reasonable
+    // approach of an AWSRequest object as a parameter.
+    // swiftlint:disable function_parameter_count
+
     public func putObject(bucket: String,
                           key: String,
                           acl: String,
@@ -31,7 +35,7 @@ public final class AWSS3ServiceClientImpl: AWSS3ServiceClient {
             )
         }
     }
-    
+
     public func putObject(bucket: String,
                           key: String,
                           acl: String,
@@ -48,7 +52,7 @@ public final class AWSS3ServiceClientImpl: AWSS3ServiceClient {
             )
         }
     }
-    
+
     public func putObject(bucket: String,
                           key: String,
                           acl: String,
@@ -65,7 +69,7 @@ public final class AWSS3ServiceClientImpl: AWSS3ServiceClient {
             )
         }
     }
-    
+
     public func signPolicy(bucket: String,
                            key: String,
                            acl: String,

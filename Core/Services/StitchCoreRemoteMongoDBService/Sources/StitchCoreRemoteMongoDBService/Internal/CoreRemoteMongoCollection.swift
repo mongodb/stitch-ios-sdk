@@ -14,22 +14,22 @@ public class CoreRemoteMongoCollection<T: Codable> {
      * from this same type.
      */
     public typealias CollectionType = T
-    
+
     /**
      * The name of this collection.
      */
     public let name: String
-    
+
     /**
      * The name of the database containing this collection.
      */
     public let databaseName: String
-    
+
     private lazy var baseOperationArgs: Document = [
         "database": self.databaseName,
         "collection": self.name
     ]
-    
+
     private let service: CoreStitchServiceClient
     private let dataSynchronizer: DataSynchronizer
 
@@ -47,7 +47,7 @@ public class CoreRemoteMongoCollection<T: Codable> {
                                                                  collectionName: name),
                                   dataSynchronizer: dataSynchronizer)
     }
-    
+
     /**
      * Creates a collection using the same datatabase name and collection name, but with a new `Codable` type with
      * which to encode and decode documents retrieved from and inserted into the collection.
@@ -60,7 +60,7 @@ public class CoreRemoteMongoCollection<T: Codable> {
             withDataSynchronizer: self.dataSynchronizer
         )
     }
-    
+
     private enum RemoteFindOptionsKeys: String {
         case limit, projection = "project", sort
     }
@@ -81,9 +81,9 @@ public class CoreRemoteMongoCollection<T: Codable> {
     public func find(_ filter: Document = [:],
                      options: RemoteFindOptions? = nil) -> CoreRemoteMongoReadOperation<CollectionType> {
         var args = baseOperationArgs
-        
+
         args["query"] = filter
-        
+
         if let options = options {
             if let limit = options.limit {
                 args[RemoteFindOptionsKeys.limit.rawValue] = limit
@@ -95,10 +95,10 @@ public class CoreRemoteMongoCollection<T: Codable> {
                 args[RemoteFindOptionsKeys.sort.rawValue] = sort
             }
         }
-        
+
         return CoreRemoteMongoReadOperation<CollectionType>.init(command: "find", args: args, service: self.service)
     }
-    
+
     /**
      * Runs an aggregation framework pipeline against this collection.
      *
@@ -106,23 +106,25 @@ public class CoreRemoteMongoCollection<T: Codable> {
      *   - pipeline: An `[Document]` containing the pipeline of aggregation operations to perform.
      *
      * - important: Invoking this method by itself does not perform any network requests. You must call one of the
-     *              methods on the resulting `CoreRemoteMongoReadOperation` instance to trigger the operation against the
-     *              database.
+     *              methods on the resulting `CoreRemoteMongoReadOperation` instance to trigger the operation against
+     *              the database.
      *
      * - returns: A `CoreRemoteMongoReadOperation` that allows retrieval of the resulting documents.
      */
     public func aggregate(_ pipeline: [Document]) -> CoreRemoteMongoReadOperation<CollectionType> {
         var args = baseOperationArgs
-        
+
         args["pipeline"] = pipeline
-        
-        return CoreRemoteMongoReadOperation<CollectionType>.init(command: "aggregate", args: args, service: self.service)
+
+        return CoreRemoteMongoReadOperation<CollectionType>.init(
+            command: "aggregate", args: args, service: self.service
+        )
     }
-    
+
     private enum RemoteCountOptionsKeys: String {
         case limit
     }
-    
+
     /**
      * Counts the number of documents in this collection matching the provided filter.
      *
@@ -136,18 +138,18 @@ public class CoreRemoteMongoCollection<T: Codable> {
                       options: RemoteCountOptions? = nil) throws -> Int {
         var args = baseOperationArgs
         args["query"] = filter
-        
+
         if let options = options, let limit = options.limit {
             args[RemoteCountOptionsKeys.limit.rawValue] = limit
         }
-        
+
         return try service.callFunction(
             withName: "count",
             withArgs: [args],
             withRequestTimeout: nil
         )
     }
-    
+
     /// Returns a version of the provided document with an ObjectId
     private func generateObjectIdIfMissing(_ document: Document) -> Document {
         if document["_id"] == nil {
@@ -157,7 +159,7 @@ public class CoreRemoteMongoCollection<T: Codable> {
         }
         return document
     }
-    
+
     /**
      * Encodes the provided value to BSON and inserts it. If the value is missing an identifier, one will be
      * generated for it.
@@ -169,16 +171,16 @@ public class CoreRemoteMongoCollection<T: Codable> {
      */
     public func insertOne(_ value: CollectionType) throws -> RemoteInsertOneResult {
         var args = baseOperationArgs
-        
+
         args["document"] = generateObjectIdIfMissing(try BSONEncoder().encode(value))
-        
+
         return try service.callFunction(
             withName: "insertOne",
             withArgs: [args],
             withRequestTimeout: nil
         )
     }
-    
+
     /**
      * Encodes the provided values to BSON and inserts them. If any values are missing identifiers,
      * they will be generated.
@@ -190,10 +192,10 @@ public class CoreRemoteMongoCollection<T: Codable> {
      */
     public func insertMany(_ documents: [CollectionType]) throws -> RemoteInsertManyResult {
         var args = baseOperationArgs
-        
+
         let encoder = BSONEncoder()
         args["documents"] = try documents.map { generateObjectIdIfMissing(try encoder.encode($0)) }
-        
+
         return try service.callFunction(
             withName: "insertMany",
             withArgs: [args],
@@ -212,8 +214,7 @@ public class CoreRemoteMongoCollection<T: Codable> {
     public func deleteOne(_ filter: Document) throws -> RemoteDeleteResult {
         return try executeDelete(filter, multi: false)
     }
-    
-    
+
     /**
      * Deletes multiple documents
      *
@@ -225,19 +226,19 @@ public class CoreRemoteMongoCollection<T: Codable> {
     public func deleteMany(_ filter: Document) throws -> RemoteDeleteResult {
         return try executeDelete(filter, multi: true)
     }
-    
+
     private func executeDelete(_ filter: Document,
                                multi: Bool) throws -> RemoteDeleteResult {
         var args = baseOperationArgs
         args["query"] = filter
-        
+
         return try service.callFunction(
             withName: multi ? "deleteMany" : "deleteOne",
             withArgs: [args],
             withRequestTimeout: nil
         )
     }
-    
+
     /**
      * Updates a single document matching the provided filter in this collection.
      *
@@ -256,7 +257,7 @@ public class CoreRemoteMongoCollection<T: Codable> {
                                  options: options,
                                  multi: false)
     }
-    
+
     /**
      * Updates multiple documents matching the provided filter in this collection.
      *
@@ -275,24 +276,24 @@ public class CoreRemoteMongoCollection<T: Codable> {
                                  options: options,
                                  multi: true)
     }
-    
+
     private enum RemoteUpdateOptionsKeys: String {
         case upsert
     }
-    
+
     private func executeUpdate(filter: Document,
                                update: Document,
                                options: RemoteUpdateOptions?,
                                multi: Bool) throws -> RemoteUpdateResult {
         var args = baseOperationArgs
-        
+
         args["query"] = filter
         args["update"] = update
-        
+
         if let options = options, let upsert = options.upsert {
             args[RemoteUpdateOptionsKeys.upsert.rawValue] = upsert
         }
-        
+
         return try service.callFunction(
             withName: multi ? "updateMany" : "updateOne",
             withArgs: [args],

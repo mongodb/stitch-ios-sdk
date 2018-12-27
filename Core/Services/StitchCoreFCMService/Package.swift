@@ -8,7 +8,7 @@ let package = Package(
     products: [
         .library(
             name: "StitchCoreFCMService",
-            targets: ["StitchCoreFCMService"]),
+            targets: ["StitchCoreFCMService"])
     ],
     dependencies: [
         .package(url: "../../StitchCoreSDK", .branch("master"))
@@ -19,6 +19,6 @@ let package = Package(
             dependencies: ["StitchCoreSDK"]),
         .testTarget(
             name: "StitchCoreFCMServiceTests",
-            dependencies: ["StitchCoreFCMService", "StitchCoreSDKMocks"]),
+            dependencies: ["StitchCoreFCMService", "StitchCoreSDKMocks"])
     ]
 )
