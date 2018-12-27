@@ -20,9 +20,10 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
 
     private lazy var tag = "ns_changestream_listener_\(namespace)"
     private lazy var logger = Log.init(tag: tag)
-    private lazy var eventQueueLock = ReadWriteLock.init(label: tag)
     private lazy var queue = DispatchQueue(label: self.tag)
 
+    internal lazy var eventQueueLock = ReadWriteLock.init(label: tag)
+    
     var state: SSEStreamState {
         return stream?.state ?? .closed
     }
@@ -43,13 +44,13 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
 
     deinit {
         logger.i("stream DEINITIALIZED")
-        self.stop()
+        eventQueueLock.write { self.stop() }
         streamDelegates.forEach({$0.on(stateChangedFor: .closed)})
     }
 
     func start() {
         if stream != nil {
-            self.stop()
+            eventQueueLock.write { self.stop() }
         }
         
         self.streamWorkItem = DispatchWorkItem { [weak self] in
@@ -116,19 +117,18 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
     }
 
     func stop() {
-        eventQueueLock.write {
-            logger.i("stream STOP")
-            if let stream = stream {
-                guard stream.state != .closing, stream.state != .closed else {
-                    logger.i("stream END - stream is \(stream.state)")
-                    return
-                }
+        eventQueueLock.assertWriteLocked()
+        logger.i("stream STOP")
+        if let stream = stream {
+            guard stream.state != .closing, stream.state != .closed else {
+                logger.i("stream END - stream is \(stream.state)")
+                return
             }
-
-            self.stream?.close()
-            self.streamWorkItem?.cancel()
-            holdingSemaphore.signal()
         }
+
+        self.stream?.close()
+        self.streamWorkItem?.cancel()
+        holdingSemaphore.signal()
     }
 
     func add(streamDelegate: SSEStreamDelegate) {
@@ -137,13 +137,13 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
 
     func on(stateChangedFor state: NetworkState) {
         if state == .disconnected, stream?.state != .closing {
-            self.stop()
+            eventQueueLock.write { self.stop() }
         }
     }
 
     override func on(newEvent event: RawSSE) {
-        do {
-            try eventQueueLock.write {
+        eventQueueLock.write {
+            do {
                 guard let changeEvent: ChangeEvent<Document> = try event.decodeStitchSSE(),
                     let id = changeEvent.documentKey["_id"] else {
                         logger.e("invalid change event found!")
@@ -154,11 +154,10 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
 
                 streamDelegates.forEach({$0.on(newEvent: event)})
                 self.eventsKeyedQueue[HashableBSONValue(id)] = changeEvent
+            } catch {
+                logger.e("error occurred when decoding event from stream: err=\(error.localizedDescription)")
+                self.stop()
             }
-        } catch {
-            logger.e("error occurred when decoding event from stream: err=\(error.localizedDescription)")
-
-            self.stop()
         }
     }
 
