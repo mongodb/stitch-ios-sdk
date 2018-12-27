@@ -17,7 +17,6 @@
 		4943FC5D2196508100DED08C /* MongoNamespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4943FC5C2196508100DED08C /* MongoNamespace.swift */; };
 		4943FC61219650A200DED08C /* UpdateDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4943FC60219650A200DED08C /* UpdateDescription.swift */; };
 		4943FC632196591F00DED08C /* CoreDocumentSynchronizationConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4943FC622196591F00DED08C /* CoreDocumentSynchronizationConfig.swift */; };
-		4943FC69219688FA00DED08C /* BSONValue+Hashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4943FC68219688FA00DED08C /* BSONValue+Hashable.swift */; };
 		4943FC6D21968B6D00DED08C /* CoreDocumentSynchronizationConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4943FC6B21968A0900DED08C /* CoreDocumentSynchronizationConfigTests.swift */; };
 		4943FC6F219724E800DED08C /* DocumentVersionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4943FC6E219724E800DED08C /* DocumentVersionInfo.swift */; };
 		4961564B21C7E802003C7392 /* ThreadSafeMongoMobile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4961564A21C7E802003C7392 /* ThreadSafeMongoMobile.swift */; };
@@ -86,7 +85,6 @@
 		4943FC5C2196508100DED08C /* MongoNamespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MongoNamespace.swift; sourceTree = "<group>"; };
 		4943FC60219650A200DED08C /* UpdateDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateDescription.swift; sourceTree = "<group>"; };
 		4943FC622196591F00DED08C /* CoreDocumentSynchronizationConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDocumentSynchronizationConfig.swift; sourceTree = "<group>"; };
-		4943FC68219688FA00DED08C /* BSONValue+Hashable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BSONValue+Hashable.swift"; sourceTree = "<group>"; };
 		4943FC6B21968A0900DED08C /* CoreDocumentSynchronizationConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDocumentSynchronizationConfigTests.swift; sourceTree = "<group>"; };
 		4943FC6E219724E800DED08C /* DocumentVersionInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentVersionInfo.swift; sourceTree = "<group>"; };
 		4961564A21C7E802003C7392 /* ThreadSafeMongoMobile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadSafeMongoMobile.swift; sourceTree = "<group>"; };
@@ -198,7 +196,6 @@
 				4980B12A2199EBE100D6E49C /* ChangeEventDelegate.swift */,
 				4943FC5C2196508100DED08C /* MongoNamespace.swift */,
 				4943FC6E219724E800DED08C /* DocumentVersionInfo.swift */,
-				4943FC68219688FA00DED08C /* BSONValue+Hashable.swift */,
 			);
 			path = Sync;
 			sourceTree = "<group>";
@@ -484,7 +481,6 @@
 				OBJ_171 /* CoreRemoteMongoDatabase.swift in Sources */,
 				OBJ_172 /* CoreRemoteMongoReadOperation.swift in Sources */,
 				OBJ_173 /* RemoteCountOptions.swift in Sources */,
-				4943FC69219688FA00DED08C /* BSONValue+Hashable.swift in Sources */,
 				499CD19B21BDFDFC00CB4EBF /* DataSynchronizerError.swift in Sources */,
 				OBJ_174 /* RemoteDeleteResult.swift in Sources */,
 				4943FC5D2196508100DED08C /* MongoNamespace.swift in Sources */,

@@ -26,22 +26,24 @@ class NamespaceSynchronizationConfigTests: XCMongoMobileTestCase {
                                                          namespace: namespace,
                                                          errorListener: nil)
 
-        var docConfig = nsConfig[documentId]
+        try nsConfig.nsLock.write {
+            var docConfig = nsConfig[documentId]
 
-        XCTAssertNil(docConfig)
+            XCTAssertNil(docConfig)
 
-        docConfig = try CoreDocumentSynchronization.init(docsColl: docsColl,
-                                                         namespace: namespace,
-                                                         documentId: AnyBSONValue(documentId),
-                                                         errorListener: nil)
+            docConfig = try CoreDocumentSynchronization.init(docsColl: docsColl,
+                                                             namespace: namespace,
+                                                             documentId: AnyBSONValue(documentId),
+                                                             errorListener: nil)
 
-        nsConfig[documentId] = docConfig
+            nsConfig[documentId] = docConfig
 
-        XCTAssertEqual(docConfig, nsConfig[documentId])
+            XCTAssertEqual(docConfig, nsConfig[documentId])
 
-        nsConfig[documentId] = nil
+            nsConfig[documentId] = nil
 
-        XCTAssertEqual(nil, nsConfig[documentId])
+            XCTAssertEqual(nil, nsConfig[documentId])
+        }
     }
 
     func testStaleDocumentIds() throws {
@@ -66,7 +68,7 @@ class NamespaceSynchronizationConfigTests: XCMongoMobileTestCase {
                                                          namespace: namespace,
                                                          errorListener: errorListener)
 
-        var docConfigs = try [
+        var docConfigs = [
             try CoreDocumentSynchronization.init(docsColl: docsColl,
                                              namespace: namespace,
                                              documentId: documentIds[0].bsonValue,
@@ -81,12 +83,19 @@ class NamespaceSynchronizationConfigTests: XCMongoMobileTestCase {
                                              errorListener: errorListener)
         ]
 
-        docConfigs.forEach { nsConfig[$0.documentId.value] = $0 }
+
+        docConfigs.forEach { docConfig in
+            nsConfig.nsLock.write {
+                nsConfig[docConfig.documentId.value] = docConfig
+            }
+        }
 
         docConfigs[1].isStale = true
 
-        XCTAssertEqual(1, nsConfig.staleDocumentIds.count)
-        XCTAssertEqual(documentIds[1], nsConfig.staleDocumentIds.first)
-        XCTAssertEqual(3, nsConfig.map { $0 }.count)
+        nsConfig.nsLock.read {
+            XCTAssertEqual(1, nsConfig.staleDocumentIds.count)
+            XCTAssertEqual(documentIds[1], nsConfig.staleDocumentIds.first)
+            XCTAssertEqual(3, nsConfig.map { $0 }.count)
+        }
     }
 }

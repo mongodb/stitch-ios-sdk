@@ -69,6 +69,10 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
                         return
                     }
                 } else {
+                    // This semaphore will be holding until the stream
+                    // is eventually closed. We do this so that the
+                    // stream will automatically attempt to reopen
+                    // when it gets closed and we're still connected.
                     self.holdingSemaphore.wait()
                 }
             } while self?.networkMonitor.state == .connected &&

@@ -134,6 +134,7 @@ internal class NamespaceSynchronization: Sequence {
 
 
     func sync(id: BSONValue) throws -> CoreDocumentSynchronization {
+        nsLock.assertWriteLocked()
         if let existingConfig = self[id] {
             return existingConfig
         }
@@ -155,14 +156,16 @@ internal class NamespaceSynchronization: Sequence {
      */
     subscript(documentId: BSONValue) -> CoreDocumentSynchronization? {
         get {
-            guard var config = config.syncedDocuments[HashableBSONValue(documentId)] else {
-                return nil
-            }
-            return try? CoreDocumentSynchronization.init(docsColl: docsColl,
-                                                         config: &config,
-                                                         errorListener: errorListener)
+            nsLock.assertLocked()
+                guard var config = config.syncedDocuments[HashableBSONValue(documentId)] else {
+                    return nil
+                }
+                return try? CoreDocumentSynchronization.init(docsColl: docsColl,
+                                                             config: &config,
+                                                             errorListener: errorListener)
         }
         set(value) {
+            nsLock.assertWriteLocked()
             let documentId = HashableBSONValue(documentId)
             guard let value = value else {
                 do {
@@ -212,6 +215,7 @@ internal class NamespaceSynchronization: Sequence {
     /// A set of stale ids for the sync'd documents in this namespace.
     var staleDocumentIds: Set<HashableBSONValue> {
         get {
+            nsLock.assertLocked()
             do {
                 return Set(
                     try self.docsColl.distinct(

@@ -8,7 +8,6 @@ public class ReadWriteLock {
     public init(label: String) {
         self.queue = DispatchQueue(label: label, attributes: .concurrent)
         queue.setSpecific(key: preconditionKey, value: ObjectIdentifier(self))
-
     }
 
     public func read<T>(_ closure: () -> T) -> T {
@@ -26,12 +25,11 @@ public class ReadWriteLock {
     public func write<T>(_ closure: () throws -> T) rethrows -> T {
         return try self.queue.sync(flags: .barrier, execute: closure)
     }
-
+    
     public func assertLocked() {
         if #available(macOS 10.12, iOS 10.0, tvOS 10.0, watchOS 3.0, *) {
             dispatchPrecondition(condition: .onQueue(queue))
-        }
-        else {
+        } else {
             precondition(DispatchQueue.getSpecific(key: preconditionKey) == ObjectIdentifier(self))
         }
     }
@@ -39,8 +37,7 @@ public class ReadWriteLock {
     public func assertWriteLocked() {
         if #available(macOS 10.12, iOS 10.0, tvOS 10.0, watchOS 3.0, *) {
             dispatchPrecondition(condition: .onQueueAsBarrier(queue))
-        }
-        else {
+        } else {
             precondition(DispatchQueue.getSpecific(key: preconditionKey) == ObjectIdentifier(self))
         }
     }
@@ -48,8 +45,7 @@ public class ReadWriteLock {
     public func assertUnlocked() {
         if #available(macOS 10.12, iOS 10.0, tvOS 10.0, watchOS 3.0, *) {
             dispatchPrecondition(condition: .notOnQueue(queue))
-        }
-        else {
+        } else {
             precondition(DispatchQueue.getSpecific(key: preconditionKey) != ObjectIdentifier(self))
         }
     }
