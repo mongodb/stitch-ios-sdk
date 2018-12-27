@@ -17,13 +17,13 @@ PODS:
   - Toast-Swift (4.0.0)
 
 DEPENDENCIES:
-  - BEMCheckBox
+  - BEMCheckBox (= 1.4.1)
   - JSONWebToken (~> 2.2.0)
   - MongoMobile (= 0.0.5)
   - MongoSwift (= 0.0.7)
   - Swifter (~> 1.4.5)
   - SwiftLint
-  - Toast-Swift (~> 4.0.0)
+  - Toast-Swift (= 4.0.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -50,6 +50,6 @@ SPEC CHECKSUMS:
   SwiftLint: 088cfacb75b45970017e62b7524d506776d60148
   Toast-Swift: 594b5c5e5129f15438e410207e43287f027b3c00
 
-PODFILE CHECKSUM: c6de86f6e276e98524586739d3a97c64a9e289f8
+PODFILE CHECKSUM: 4234ce7dc9c02bc1eaff563d4d54cee3b5031664
 
 COCOAPODS: 1.6.0.beta.1
