@@ -5,7 +5,7 @@ import Foundation
 internal final class LRUCache<Key: Hashable, Value>: Sequence {
     fileprivate struct Payload: Comparable, Hashable {
         static func < (lhs: LRUCache<Key, Value>.Payload, rhs: LRUCache<Key, Value>.Payload) -> Bool {
-            return lhs.index < rhs.index
+            return lhs.used > rhs.used
         }
 
         static func == (lhs: LRUCache<Key, Value>.Payload, rhs: LRUCache<Key, Value>.Payload) -> Bool {
@@ -14,7 +14,7 @@ internal final class LRUCache<Key: Hashable, Value>: Sequence {
 
         let key: Key
         let value: Value
-        var index: Int
+        var used: Int
 
         func hash(into hasher: inout Hasher) {
             hasher.combine(key)
@@ -60,7 +60,7 @@ internal final class LRUCache<Key: Hashable, Value>: Sequence {
                     return nil
                 }
 
-                self?.list[index].index += 1
+                self?.list[index].used += 1
                 let value = list[index]
                 self?.list.sort()
                 return value.value
@@ -80,7 +80,7 @@ internal final class LRUCache<Key: Hashable, Value>: Sequence {
                     list.removeLast()
                 }
 
-                list.insert(Payload(key: key, value: value, index: 0), at: 0)
+                list.append(Payload(key: key, value: value, used: 0))
             }
         }
     }

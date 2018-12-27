@@ -18,21 +18,23 @@ class LRUCacheUnitTests: XCTestCase {
         lruCache["four"] = 4
         XCTAssertEqual(lruCache.count, 3)
 
+        // three will have gotten booted since it's
+        // the least used
         XCTAssertNotNil(lruCache["four"])
-        XCTAssertNotNil(lruCache["three"])
         XCTAssertNotNil(lruCache["two"])
-        XCTAssertNil(lruCache["one"])
+        XCTAssertNotNil(lruCache["one"])
 
         // up the usage count
-        _ = lruCache["three"]
         _ = lruCache["two"]
+        _ = lruCache["two"]
+        _ = lruCache["one"]
 
         var iterator = lruCache.makeIterator()
-        XCTAssertEqual(iterator.next()?.1, 3)
         XCTAssertEqual(iterator.next()?.1, 2)
+        XCTAssertEqual(iterator.next()?.1, 1)
         XCTAssertEqual(iterator.next()?.1, 4)
 
-        lruCache["one"] = 1
+        lruCache["three"] = 3
 
         XCTAssertNil(lruCache["four"])
         XCTAssertNotNil(lruCache["three"])
