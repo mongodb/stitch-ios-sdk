@@ -69,15 +69,22 @@ public final class FoundationHTTPTransport: Transport {
         return response
     }
 
+    private lazy var opQueue: OperationQueue = {
+        let opQueue = OperationQueue()
+        opQueue.underlyingQueue = underlyingQueue
+        return opQueue
+    }()
+
+    private let underlyingQueue = DispatchQueue.init(label: "change-streams", qos: .userInitiated)
+
     public func stream(request: Request, delegate: SSEStreamDelegate? = nil) throws -> RawSSEStream {
         guard let url = URL(string: request.url) else {
             throw StitchError.clientError(withClientErrorCode: .missingURL)
         }
 
         let sessionConfig = URLSessionConfiguration.default
-        sessionConfig.timeoutIntervalForRequest = 60
-        sessionConfig.timeoutIntervalForResource = 60
-        sessionConfig.requestCachePolicy = .reloadIgnoringLocalCacheData
+        sessionConfig.timeoutIntervalForRequest = TimeInterval(INT_MAX)
+        sessionConfig.timeoutIntervalForResource = TimeInterval(INT_MAX)
         let additionalheaders = [Headers.contentType.nonCanonical(): "text/event-stream",
                                  Headers.cacheControl.nonCanonical(): "no-cache",
                                  Headers.accept.nonCanonical(): "text/event-stream"]
@@ -85,7 +92,7 @@ public final class FoundationHTTPTransport: Transport {
         let sseStream = FoundationHTTPSSEStream(delegate)
         let session = URLSession.init(configuration: sessionConfig,
                                       delegate: sseStream.dataDelegate,
-                                      delegateQueue: nil)
+                                      delegateQueue: opQueue)
 
         session.dataTask(with: url).resume()
         sseStream.state = .opening

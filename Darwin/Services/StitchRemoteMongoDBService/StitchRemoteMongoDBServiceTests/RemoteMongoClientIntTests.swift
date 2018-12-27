@@ -8,6 +8,26 @@ import StitchDarwinCoreTestUtils
 import StitchCoreLocalMongoDBService
 @testable import StitchRemoteMongoDBService
 
+class XCMongoMobileConfiguration: NSObject, XCTestObservation {
+    // This init is called first thing as the test bundle starts up and before any test
+    // initialization happens
+    override init() {
+        super.init()
+        // We don't need to do any real work, other than register for callbacks
+        // when the test suite progresses.
+        // XCTestObservation keeps a strong reference to observers
+        XCTestObservationCenter.shared.addTestObserver(self)
+    }
+
+    func testBundleWillStart(_ testBundle: Bundle) {
+        try? CoreLocalMongoDBService.shared.initialize()
+    }
+
+    func testBundleDidFinish(_ testBundle: Bundle) {
+        CoreLocalMongoDBService.shared.close()
+    }
+}
+
 class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
     
     private let mongodbUriProp = "test.stitch.mongodbURI"
@@ -40,10 +60,6 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
                 try? client.db($0["name"] as! String).drop()
             }
         }
-    }
-
-    override class func tearDown() {
-        CoreLocalMongoDBService.shared.close()
     }
 
     private func prepareService() throws {

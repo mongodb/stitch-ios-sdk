@@ -1,6 +1,7 @@
 import Foundation
 import MongoMobile
 import MongoSwift
+import StitchCoreSDK
 
 /**
  Returns a query filter for a document with a given
@@ -138,7 +139,7 @@ internal class CoreDocumentSynchronization: Hashable {
     /// The collection we are storing document configs in.
     private let docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>
     /// Standard read-write lock.
-    private let docLock: ReadWriteLock
+    private lazy var docLock = ReadWriteLock(label: "document_lock_\(namespace)_\(documentId.value)")
     /// The error listener to propogate errors to.
     private weak var errorListener: FatalErrorListener?
     /// The configuration for this document.
@@ -151,96 +152,94 @@ internal class CoreDocumentSynchronization: Hashable {
     /// The most recent pending change event
     var uncommittedChangeEvent: ChangeEvent<Document>? {
         get {
-            docLock.readLock()
-            defer { docLock.unlock(for: .reading) }
-            return config.uncommittedChangeEvent
+            return docLock.read {
+                return config.uncommittedChangeEvent
+            }
         }
         set(value) {
-            docLock.writeLock()
-            defer { docLock.unlock(for: .writing) }
-            // the write lock should be held elsewhere
-            // when setting this value
-            self.config.uncommittedChangeEvent = value
+            docLock.write {
+                self.config.uncommittedChangeEvent = value
+            }
         }
     }
 
     /// The last time a pending write has been triggered.
     var lastResolution: Int64 {
         get {
-            docLock.readLock()
-            defer { docLock.unlock(for: .reading) }
-            return self.config.lastResolution
+            return docLock.read {
+                return self.config.lastResolution
+            }
         }
         set(value) {
-            docLock.writeLock()
-            defer { docLock.unlock(for: .writing) }
-            self.config.lastResolution = value
+            docLock.write {
+                self.config.lastResolution = value
+            }
         }
     }
 
     /// The last known remote version.
     var lastKnownRemoteVersion: Document? {
         get {
-            docLock.readLock()
-            defer { docLock.unlock(for: .reading) }
-            return self.config.lastKnownRemoteVersion
+            return docLock.read {
+                return self.config.lastKnownRemoteVersion
+            }
         }
         set(value) {
-            docLock.writeLock()
-            defer { docLock.unlock(for: .writing) }
-            self.config.lastKnownRemoteVersion = value
+            docLock.write {
+                self.config.lastKnownRemoteVersion = value
+            }
         }
     }
 
     /// Whether or not this document has gone stale.
     var isStale: Bool {
         get {
-            docLock.readLock()
-            defer { docLock.unlock(for: .reading) }
-            var filter = docConfigFilter(forNamespace: namespace, withDocumentId: documentId)
-            do {
-                try filter.merge([Config.CodingKeys.isStale.rawValue: true])
-                let count = try docsColl.count(filter)
-                return count == 1
-            } catch {
-                errorListener?.on(error: error, forDocumentId: documentId.value, in: namespace)
-                return self.config.isStale
+            return docLock.read {
+                var filter = docConfigFilter(forNamespace: namespace, withDocumentId: documentId)
+                do {
+                    try filter.merge([Config.CodingKeys.isStale.rawValue: true])
+                    let count = try docsColl.count(filter)
+                    return count == 1
+                } catch {
+                    errorListener?.on(error: error, forDocumentId: documentId.value, in: namespace)
+                    return self.config.isStale
+                }
             }
         }
         set(value) {
-            docLock.writeLock()
-            defer { docLock.unlock(for: .writing) }
-            do {
-                try docsColl.updateOne(
-                    filter: docConfigFilter(forNamespace: namespace, withDocumentId: documentId),
-                    update: ["$set": [Config.CodingKeys.isStale.rawValue: value] as Document])
-            } catch {
-                errorListener?.on(error: error, forDocumentId: documentId.value, in: namespace)
+            docLock.write {
+                do {
+                    try docsColl.updateOne(
+                        filter: docConfigFilter(forNamespace: namespace, withDocumentId: documentId),
+                        update: ["$set": [Config.CodingKeys.isStale.rawValue: value] as Document])
+                } catch {
+                    errorListener?.on(error: error, forDocumentId: documentId.value, in: namespace)
+                }
+                self.config.isStale = value
             }
-            self.config.isStale = value
         }
     }
 
     /// Whether or not this document has been paused due to an error.
     var isPaused: Bool {
         get {
-            docLock.readLock()
-            defer { docLock.unlock(for: .reading) }
-            return config.isPaused
+            return docLock.read {
+                return config.isPaused
+            }
         }
         set(value) {
-            docLock.writeLock()
-            defer { docLock.unlock(for: .writing) }
-            do {
-                try docsColl.updateOne(
-                    filter: docConfigFilter(forNamespace: namespace,
-                                            withDocumentId: documentId),
-                    update: [ "$set": [ Config.CodingKeys.isPaused.rawValue : value ] as Document
-                    ])
-            } catch {
-                errorListener?.on(error: error, forDocumentId: documentId.value, in: namespace)
+            docLock.write {
+                do {
+                    try docsColl.updateOne(
+                        filter: docConfigFilter(forNamespace: namespace,
+                                                withDocumentId: documentId),
+                        update: [ "$set": [ Config.CodingKeys.isPaused.rawValue : value ] as Document
+                        ])
+                } catch {
+                    errorListener?.on(error: error, forDocumentId: documentId.value, in: namespace)
+                }
+                config.isPaused = value
             }
-            config.isPaused = value
         }
     }
 
@@ -264,7 +263,6 @@ internal class CoreDocumentSynchronization: Hashable {
                                   isStale: false,
                                   isPaused: false)
         self.errorListener = errorListener
-        try self.docLock = ReadWriteLock()
     }
 
     init(docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>,
@@ -273,7 +271,6 @@ internal class CoreDocumentSynchronization: Hashable {
         self.docsColl = docsColl
         self.config = config
         self.errorListener = errorListener
-        try self.docLock = ReadWriteLock()
     }
 
     /**
@@ -286,15 +283,13 @@ internal class CoreDocumentSynchronization: Hashable {
     func setSomePendingWrites(atTime: Int64,
                               changeEvent: ChangeEvent<Document>) throws {
         // if we were frozen
-        if (isPaused) {
+        if isPaused {
             // unfreeze the document due to the local write
             isPaused = false
             // and now the unfrozen document is now stale
             isStale = true
         }
 
-        docLock.writeLock()
-        defer { docLock.unlock(for: .writing) }
         self.uncommittedChangeEvent = CoreDocumentSynchronization.coalesceChangeEvents(
             lastUncommittedChangeEvent: self.uncommittedChangeEvent,
             newestChangeEvent: changeEvent)
@@ -315,9 +310,6 @@ internal class CoreDocumentSynchronization: Hashable {
     func setSomePendingWrites(atTime: Int64,
                               atVersion: Document?,
                               changeEvent: ChangeEvent<Document>) throws {
-        docLock.writeLock()
-        defer { docLock.unlock(for: .writing) }
-
         self.uncommittedChangeEvent = changeEvent
         self.lastResolution = atTime
         self.lastKnownRemoteVersion = atVersion
@@ -336,8 +328,6 @@ internal class CoreDocumentSynchronization: Hashable {
      - parameter atVersion: the version for which the write as completed on
      */
     func setPendingWritesComplete(atVersion: Document?) throws {
-        docLock.writeLock()
-        defer { docLock.unlock(for: .writing) }
         self.uncommittedChangeEvent = nil
         self.lastKnownRemoteVersion = atVersion
 
@@ -353,16 +343,16 @@ internal class CoreDocumentSynchronization: Hashable {
      - returns: true if this config has the given committed version, false if not
      */
     public func hasCommittedVersion(versionInfo: DocumentVersionInfo?) throws -> Bool {
-        docLock.readLock()
-        defer { docLock.unlock(for: .reading) }
-        let localVersionInfo = try DocumentVersionInfo.fromVersionDoc(versionDoc: self.lastKnownRemoteVersion)
-        if let newVersion = versionInfo?.version, let localVersion = localVersionInfo.version {
-            return (newVersion.syncProtocolVersion == localVersion.syncProtocolVersion)
-                && (newVersion.instanceId == localVersion.instanceId)
-                && (newVersion.versionCounter <= localVersion.versionCounter)
-        }
+        return try docLock.read {
+            let localVersionInfo = try DocumentVersionInfo.fromVersionDoc(versionDoc: self.lastKnownRemoteVersion)
+            if let newVersion = versionInfo?.version, let localVersion = localVersionInfo.version {
+                return (newVersion.syncProtocolVersion == localVersion.syncProtocolVersion)
+                    && (newVersion.instanceId == localVersion.instanceId)
+                    && (newVersion.versionCounter <= localVersion.versionCounter)
+            }
 
-        return false
+            return false
+        }
     }
 
     func hash(into hasher: inout Hasher) {

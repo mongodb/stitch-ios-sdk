@@ -193,9 +193,11 @@ class XCMongoMobileTestCase: XCTestCase {
     func setPendingWrites(forDocumentId documentId: BSONValue,
                           event: ChangeEvent<Document>) throws {
         let nsConfig = dataSynchronizer.syncConfig[namespace]!
-        var docConfig = nsConfig[documentId]!
+        try nsConfig.nsLock.read {
+            let docConfig = nsConfig[documentId]!
 
-        try docConfig.setSomePendingWrites(atTime: dataSynchronizer.logicalT, changeEvent: event)
+            try docConfig.setSomePendingWrites(atTime: dataSynchronizer.logicalT, changeEvent: event)
+        }
     }
 
     private var _instanceKey = ObjectId()

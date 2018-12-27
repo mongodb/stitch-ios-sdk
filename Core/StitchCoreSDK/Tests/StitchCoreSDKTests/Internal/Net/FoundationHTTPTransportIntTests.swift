@@ -82,9 +82,12 @@ class FoundationHTTPTransportIntTests: StitchXCTestCase {
     func testStream() throws {
         var lines = [
             "'And oh, what a terrible country it is!",
-            "Nothing but thick jungles infested by the most dangerous beasts in the entire world –",
-            "hornswogglers and snozzwangers and those terrible wicked whangdoodles.",
-            "A whangdoodle would eat ten Oompa-Loompas for breakfast and come galloping back for a second helping.'"
+            "Nothing but thick jungles infested by the most" +
+            "dangerous beasts in the entire world –",
+            "hornswogglers and snozzwangers and those terrible" +
+            "wicked whangdoodles.",
+            "A whangdoodle would eat ten Oompa-Loompas for " +
+            "breakfast and come galloping back for a second helping.'"
         ]
 
         self.server[self.streamEndpoint] = { req -> HttpResponse in

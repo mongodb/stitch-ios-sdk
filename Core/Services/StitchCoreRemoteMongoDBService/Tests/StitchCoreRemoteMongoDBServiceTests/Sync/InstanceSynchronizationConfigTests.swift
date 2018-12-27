@@ -40,13 +40,15 @@ class InstanceSynchronizationConfigTests: XCMongoMobileTestCase, FatalErrorListe
         XCTAssertEqual(instanceSync[namespace]?.config.namespace, nsConfig.config.namespace)
 
         let documentId = ObjectId()
-        var nsConfig2 = instanceSync[namespace2]
-        nsConfig2?[documentId] = try CoreDocumentSynchronization.init(docsColl: docsColl,
-                                                                      namespace: namespace2,
-                                                                      documentId: AnyBSONValue(documentId),
-                                                                      errorListener: nil)
+        let nsConfig2 = instanceSync[namespace2]
+        try nsConfig2?.nsLock.write {
+            nsConfig2?[documentId] = try CoreDocumentSynchronization.init(docsColl: docsColl,
+                                                                          namespace: namespace2,
+                                                                          documentId: AnyBSONValue(documentId),
+                                                                          errorListener: nil)
 
-        XCTAssertEqual(2, instanceSync.map { $0 }.count)
-        XCTAssertEqual(documentId, instanceSync[namespace2]?[documentId]?.documentId.value as? ObjectId)
+            XCTAssertEqual(2, instanceSync.map { $0 }.count)
+            XCTAssertEqual(documentId, instanceSync[namespace2]?[documentId]?.documentId.value as? ObjectId)
+        }
     }
 }

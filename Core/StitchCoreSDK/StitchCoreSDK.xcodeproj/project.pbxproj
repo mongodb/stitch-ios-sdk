@@ -550,6 +550,7 @@
 				498DF594219F748D009F1B3F /* AuthMonitor.swift */,
 				498062462185B6A100E2A3A2 /* Storage.swift */,
 				498062472185B6A100E2A3A2 /* ImplFailureFatalErrors.swift */,
+				49DA6E8521CC163B0014631F /* ReadWriteLock.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1018,6 +1019,7 @@
 				498062922185B6BC00E2A3A2 /* UserPasswordCredential.swift in Sources */,
 				498062932185B6BC00E2A3A2 /* CustomAuthProvider.swift in Sources */,
 				498062942185B6BC00E2A3A2 /* CustomCredential.swift in Sources */,
+				49DA6E8621CC163B0014631F /* ReadWriteLock.swift in Sources */,
 				498062952185B6BC00E2A3A2 /* DeviceField.swift in Sources */,
 				498062962185B6BC00E2A3A2 /* StitchUserFactory.swift in Sources */,
 				498062972185B6BC00E2A3A2 /* CoreStitchUserImpl.swift in Sources */,
@@ -1179,7 +1181,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1308,6 +1309,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = "/Users/jasonflax/Development/stitch-ios-sdk/Core/StitchCoreSDK/StitchCoreSDK.xcodeproj/StitchCoreSDK_Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1328,6 +1330,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = "/Users/jasonflax/Development/stitch-ios-sdk/Core/StitchCoreSDK/StitchCoreSDK.xcodeproj/StitchCoreSDK_Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -23,6 +23,10 @@ class InstanceChangeStreamDelegate {
         self.authMonitor = authMonitor
     }
 
+    deinit {
+        self.stop()
+    }
+
     /**
      Append a namespace to this instance, initing a NamespaceChangeStreamDelegate
      in the process.
@@ -30,7 +34,7 @@ class InstanceChangeStreamDelegate {
      - parameter namespace: the namespace to add a listener for
      */
     func append(namespace: MongoNamespace) {
-        guard var nsConfig = instanceConfig[namespace],
+        guard let nsConfig = instanceConfig[namespace],
             namespaceToStreamDelegates[namespace] == nil else {
             return
         }
@@ -47,20 +51,27 @@ class InstanceChangeStreamDelegate {
         self.namespaceToStreamDelegates.removeValue(forKey: namespace)
     }
 
-    func start() throws {
-        try self.namespaceToStreamDelegates.forEach({try $0.value.start()})
+    func start() {
+        self.namespaceToStreamDelegates.forEach({$0.value.start()})
     }
 
-    func start(namespace: MongoNamespace) throws {
-        try self.namespaceToStreamDelegates[namespace]?.start()
+    func start(namespace: MongoNamespace) {
+        self.namespaceToStreamDelegates[namespace]?.start()
     }
 
     func stop() {
-        self.namespaceToStreamDelegates.forEach({ $0.value.stop() })
+        self.namespaceToStreamDelegates.forEach {
+            let (_, nsDel) = $0
+            nsDel.eventQueueLock.write { nsDel.stop() }
+        }
     }
 
     func stop(namespace: MongoNamespace) {
-        self.namespaceToStreamDelegates[namespace]?.stop()
+        guard let nsDel = self.namespaceToStreamDelegates[namespace] else {
+            return
+        }
+
+        nsDel.eventQueueLock.write { nsDel.stop() }
     }
 
     subscript(namespace: MongoNamespace) -> NamespaceChangeStreamDelegate? {

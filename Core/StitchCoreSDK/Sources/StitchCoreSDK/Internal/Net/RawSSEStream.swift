@@ -1,4 +1,5 @@
 import Foundation
+import MongoSwift
 
 private let newlineChar = [UInt8]("\n".utf8)[0]
 
@@ -31,9 +32,12 @@ open class SSEStreamDelegate: Hashable {
 }
 
 open class RawSSEStream {
+    private let queue = DispatchQueue.init(label: "sse-\(ObjectId().oid)")
     open var state: SSEStreamState = .closed {
         didSet {
-            delegate?.on(stateChangedFor: state)
+            queue.async {
+                self.delegate?.on(stateChangedFor: self.state)
+            }
         }
     }
 
@@ -122,7 +126,9 @@ open class RawSSEStream {
                         continue
                     }
 
-                    delegate?.on(newEvent: sse)
+                    queue.async {
+                        self.delegate?.on(newEvent: sse)
+                    }
                     stringBuffer = ""
                     eventNameBuffer = ""
                 } catch {
