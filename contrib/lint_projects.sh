@@ -115,12 +115,6 @@ check_swiftlint
 popd
 
 pushd StitchRemoteMongoDBService
-echo "currently ignoring linter warnings in StitchRemoteMongoDBService until STITCH-2327 is completed"
-# TODO: when STITCH-2327 is completed, remove the echo and make this a "check_swiftlint"
-swiftlint
-popd
-
-pushd StitchRemoteMongoDBService
 check_swiftlint
 popd
 

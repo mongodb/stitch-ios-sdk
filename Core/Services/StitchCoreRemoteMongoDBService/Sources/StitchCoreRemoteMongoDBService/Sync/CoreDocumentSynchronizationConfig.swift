@@ -12,7 +12,7 @@ import StitchCoreSDK
  */
 internal func docConfigFilter(forNamespace namespace: MongoNamespace,
                               withDocumentId documentId: AnyBSONValue) -> Document {
-    // TODO: this linter exception needs to eventually go away
+    // TODO(STITCH-2329): this linter exception needs to eventually go away
     // swiftlint:disable force_try
     return [
         CoreDocumentSynchronization.Config.CodingKeys.namespace.rawValue:
@@ -359,7 +359,7 @@ internal class CoreDocumentSynchronization: Hashable {
         self.config.hash(into: &hasher)
     }
 
-    // TODO: this linter exception needs to eventually go away
+    // TODO(STITCH-2329): this linter exception needs to eventually go away
     // swiftlint:disable force_try
     internal static func filter(forNamespace namespace: MongoNamespace) -> Document {
         return [CoreDocumentSynchronization.Config.CodingKeys.namespace.rawValue: try! BSONEncoder().encode(namespace)]

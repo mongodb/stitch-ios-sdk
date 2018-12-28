@@ -108,7 +108,7 @@ public struct HashableBSONValue: Codable, Hashable {
         self.bsonValue = anyBSONValue
     }
 
-    // TODO: These swiftlint disables should go away because we should not be force trying
+    // TODO(STITCH-2329): These swiftlint disables should go away because we should not be force trying
     // swiftlint:disable force_try
     public init(from decoder: Decoder) {
         bsonValue = try! AnyBSONValue.init(from: decoder)
