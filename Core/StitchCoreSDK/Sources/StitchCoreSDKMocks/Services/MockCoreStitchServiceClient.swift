@@ -4,7 +4,7 @@ import MockUtils
 @testable import StitchCoreSDK
 
 public final class MockCoreStitchServiceClient: CoreStitchServiceClient {
-    public var serviceName: String? = nil
+    public var serviceName: String?
 
     public init() { }
     public var callFunctionMock = FunctionMockUnitThreeArgs<Void, String, [BSONValue], TimeInterval?>()
@@ -29,7 +29,11 @@ public final class MockCoreStitchServiceClient: CoreStitchServiceClient {
     }
     public var streamFunctionMock =
         FunctionMockUnitThreeArgs<RawSSEStream, String, [BSONValue], SSEStreamDelegate?>()
-    public func streamFunction(withName name: String, withArgs args: [BSONValue], delegate: SSEStreamDelegate? = nil) throws -> RawSSEStream {
+    public func streamFunction(
+        withName name: String,
+        withArgs args: [BSONValue],
+        delegate: SSEStreamDelegate? = nil
+    ) throws -> RawSSEStream {
         return try streamFunctionMock.throwingRun(arg1: name, arg2: args, arg3: delegate)
     }
 }

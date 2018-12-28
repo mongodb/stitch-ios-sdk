@@ -1,3 +1,4 @@
+// swiftlint:disable nesting
 import Foundation
 import XCTest
 @testable import StitchCoreSDK
@@ -5,7 +6,7 @@ import XCTest
 public class RawSSEStreamUnitTests: XCTestCase {
     func testDispatchEvents() throws {
         class PartialDelegate: SSEStreamDelegate {
-            var lastEvent: RawSSE? = nil
+            var lastEvent: RawSSE?
             var semaphore = DispatchSemaphore(value: 0)
 
             override func on(newEvent event: RawSSE) {

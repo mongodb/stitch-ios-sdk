@@ -20,8 +20,12 @@ public final class MockStitchAuthRequestClient: StitchAuthRequestClient {
         }
     }
 
-    public var openAuthenticatedStreamMock = FunctionMockUnitTwoArgs<RawSSEStream, StitchAuthRequest, SSEStreamDelegate?>()
-    public func openAuthenticatedStream(_ stitchReq: StitchAuthRequest, delegate: SSEStreamDelegate? = nil) throws -> RawSSEStream {
+    public var openAuthenticatedStreamMock =
+        FunctionMockUnitTwoArgs<RawSSEStream, StitchAuthRequest, SSEStreamDelegate?>()
+    public func openAuthenticatedStream(
+        _ stitchReq: StitchAuthRequest,
+        delegate: SSEStreamDelegate? = nil
+    ) throws -> RawSSEStream {
         return try openAuthenticatedStreamMock.throwingRun(arg1: stitchReq, arg2: delegate)
     }
 }

@@ -21,6 +21,5 @@ public protocol StitchAuthRequestClient {
      */
     func doAuthenticatedRequest<T: Decodable>(_ stitchReq: StitchAuthRequest) throws -> T
 
-
     func openAuthenticatedStream(_ stitchReq: StitchAuthRequest, delegate: SSEStreamDelegate?) throws -> RawSSEStream
 }
