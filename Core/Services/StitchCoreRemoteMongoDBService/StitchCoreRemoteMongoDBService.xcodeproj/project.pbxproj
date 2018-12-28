@@ -142,8 +142,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
-				491F9C2D21A45E9400802A4D /* StitchCoreLocalMongoDBService.framework in Frameworks */,
 				498E55D02190A05C00A02A03 /* StitchCoreSDK.framework in Frameworks */,
+				491F9C2D21A45E9400802A4D /* StitchCoreLocalMongoDBService.framework in Frameworks */,
 				D6D7930046A12C074CD77BDD /* Pods_StitchCoreRemoteMongoDBService.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

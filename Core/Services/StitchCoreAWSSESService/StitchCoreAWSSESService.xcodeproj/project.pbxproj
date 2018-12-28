@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		110E02E121D6A7E5000B770F /* StitchCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 110E02E021D6A7E5000B770F /* StitchCoreSDK.framework */; };
 		24DB2FBAD657CCB3D38857A0 /* Pods_StitchCoreAWSSESService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E2B2669587C0C7B66B58C14 /* Pods_StitchCoreAWSSESService.framework */; };
 		494335A821912F20005B170D /* StitchCoreSDKMocks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494335A721912F20005B170D /* StitchCoreSDKMocks.framework */; };
 		AFFE7DF4CB6ACC314B01A594 /* Pods_StitchCoreAWSSESServiceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 485291E239DD4A2FD676A789 /* Pods_StitchCoreAWSSESServiceTests.framework */; };
@@ -26,6 +27,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		110E02E021D6A7E5000B770F /* StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E2B2669587C0C7B66B58C14 /* Pods_StitchCoreAWSSESService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreAWSSESService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F296AF09CEC981096A15585 /* Pods-StitchCoreAWSSESService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAWSSESService.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreAWSSESService/Pods-StitchCoreAWSSESService.release.xcconfig"; sourceTree = "<group>"; };
 		485291E239DD4A2FD676A789 /* Pods_StitchCoreAWSSESServiceTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreAWSSESServiceTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -46,6 +48,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
+				110E02E121D6A7E5000B770F /* StitchCoreSDK.framework in Frameworks */,
 				24DB2FBAD657CCB3D38857A0 /* Pods_StitchCoreAWSSESService.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -77,6 +80,7 @@
 		9B25F58B92526C832B51B405 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				110E02E021D6A7E5000B770F /* StitchCoreSDK.framework */,
 				494335A721912F20005B170D /* StitchCoreSDKMocks.framework */,
 				2E2B2669587C0C7B66B58C14 /* Pods_StitchCoreAWSSESService.framework */,
 				485291E239DD4A2FD676A789 /* Pods_StitchCoreAWSSESServiceTests.framework */,

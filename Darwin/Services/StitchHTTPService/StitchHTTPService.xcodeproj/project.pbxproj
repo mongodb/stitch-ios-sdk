@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		110E02E921D6A96F000B770F /* StitchDarwinCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 110E02E821D6A96F000B770F /* StitchDarwinCoreTestUtils.framework */; };
+		110E02EB21D6A983000B770F /* StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 110E02EA21D6A983000B770F /* StitchCoreAdminClient.framework */; };
 		1159637620D028FF00B0179B /* StitchHTTPServiceExports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1159637520D028FF00B0179B /* StitchHTTPServiceExports.swift */; };
 		118C33B320C72B7B00D1DE80 /* HTTPServiceClientIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118C33B220C72B7B00D1DE80 /* HTTPServiceClientIntTests.swift */; };
 		118C33C920C72DE300D1DE80 /* HTTPServiceClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118C33C820C72DE300D1DE80 /* HTTPServiceClientImpl.swift */; };
@@ -52,6 +54,8 @@
 
 /* Begin PBXFileReference section */
 		06606F6DE00C89086610AF08 /* Pods-StitchHTTPServiceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchHTTPServiceTests.release.xcconfig"; path = "Target Support Files/Pods-StitchHTTPServiceTests/Pods-StitchHTTPServiceTests.release.xcconfig"; sourceTree = "<group>"; };
+		110E02E821D6A96F000B770F /* StitchDarwinCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchDarwinCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		110E02EA21D6A983000B770F /* StitchCoreAdminClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAdminClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1159637520D028FF00B0179B /* StitchHTTPServiceExports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchHTTPServiceExports.swift; sourceTree = "<group>"; };
 		118C33A420C72B7B00D1DE80 /* StitchHTTPService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StitchHTTPService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		118C33A820C72B7B00D1DE80 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -75,8 +79,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				498E55EA2190B90600A02A03 /* StitchCoreHTTPService.framework in Frameworks */,
 				498E55D42190B7B100A02A03 /* StitchCore.framework in Frameworks */,
+				498E55EA2190B90600A02A03 /* StitchCoreHTTPService.framework in Frameworks */,
 				3EC9678FF48A1C7B1264DCC4 /* Pods_StitchHTTPService.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -85,6 +89,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				110E02EB21D6A983000B770F /* StitchCoreAdminClient.framework in Frameworks */,
+				110E02E921D6A96F000B770F /* StitchDarwinCoreTestUtils.framework in Frameworks */,
 				24B1B4B7370EE06F045D1A93 /* Pods_StitchHTTPServiceTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -135,6 +141,8 @@
 		118C33BE20C72B9500D1DE80 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				110E02EA21D6A983000B770F /* StitchCoreAdminClient.framework */,
+				110E02E821D6A96F000B770F /* StitchDarwinCoreTestUtils.framework */,
 				494335AF219235F6005B170D /* StitchDarwinCoreTestUtils.framework */,
 				498E55E92190B90600A02A03 /* StitchCoreHTTPService.framework */,
 				498E55D32190B7B100A02A03 /* StitchCore.framework */,
