@@ -40,7 +40,10 @@ extension CoreStitchAuth {
         }
     }
 
-    public func openAuthenticatedStream(_ stitchReq: StitchAuthRequest, delegate: SSEStreamDelegate? = nil) throws -> RawSSEStream {
+    public func openAuthenticatedStream(
+        _ stitchReq: StitchAuthRequest,
+        delegate: SSEStreamDelegate? = nil
+    ) throws -> RawSSEStream {
         guard isLoggedIn,
             let authInfo = self.authInfo,
             let authToken = stitchReq.useRefreshToken
@@ -54,7 +57,7 @@ extension CoreStitchAuth {
                     authTokenQueryParam +
                     authToken).build(), delegate: delegate)
         } catch {
-            return try handleAuthFailureForStream(forError: error, withRequest: stitchReq);
+            return try handleAuthFailureForStream(forError: error, withRequest: stitchReq)
         }
     }
 

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		113DE14421D68F6200CC7595 /* CoreStitchAuth+ExternalRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113DE14321D68F6200CC7595 /* CoreStitchAuth+ExternalRequests.swift */; };
 		116D8C8821D583D300ECA1AB /* AppMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116D8C8721D583D200ECA1AB /* AppMetadata.swift */; };
 		18980E2F2DF84C7B1FA84115 /* Pods_StitchCoreSDKTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1ED2D854F92DE372FFC12A79 /* Pods_StitchCoreSDKTests.framework */; };
 		491A934B21B323AB00F60F59 /* RawSSEStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A934A21B323AB00F60F59 /* RawSSEStream.swift */; };
@@ -132,6 +133,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		113DE14321D68F6200CC7595 /* CoreStitchAuth+ExternalRequests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CoreStitchAuth+ExternalRequests.swift"; path = "Auth/Internal/CoreStitchAuth+ExternalRequests.swift"; sourceTree = "<group>"; };
 		116D8C8721D583D200ECA1AB /* AppMetadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppMetadata.swift; path = Net/AppMetadata.swift; sourceTree = "<group>"; };
 		1ED2D854F92DE372FFC12A79 /* Pods_StitchCoreSDKTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreSDKTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		217AC60BDD132F8479D605E7 /* Pods-StitchCoreSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreSDK.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreSDK/Pods-StitchCoreSDK.debug.xcconfig"; sourceTree = "<group>"; };
@@ -365,6 +367,7 @@
 		498061FC2185B6A100E2A3A2 /* StitchCoreSDK */ = {
 			isa = PBXGroup;
 			children = (
+				113DE14321D68F6200CC7595 /* CoreStitchAuth+ExternalRequests.swift */,
 				498061FD2185B6A100E2A3A2 /* StitchAppClientConfiguration.swift */,
 				498061FE2185B6A100E2A3A2 /* StitchAppClientInfo.swift */,
 				498061FF2185B6A100E2A3A2 /* Auth */,
@@ -1085,6 +1088,7 @@
 				498062AF2185B6BC00E2A3A2 /* StitchAppRoutes.swift in Sources */,
 				498062B02185B6BC00E2A3A2 /* StitchAuthDocRequest.swift in Sources */,
 				498062B12185B6BC00E2A3A2 /* StitchRequest.swift in Sources */,
+				113DE14421D68F6200CC7595 /* CoreStitchAuth+ExternalRequests.swift in Sources */,
 				498062B22185B6BC00E2A3A2 /* StitchDocRequest.swift in Sources */,
 				498062B32185B6BC00E2A3A2 /* Request.swift in Sources */,
 				498062B42185B6BC00E2A3A2 /* StitchAuthRequest.swift in Sources */,

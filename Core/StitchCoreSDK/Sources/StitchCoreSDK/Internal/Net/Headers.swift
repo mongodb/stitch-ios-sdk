@@ -7,7 +7,7 @@ public enum Headers: String {
     case authorization = "Authorization"
     case bearer = "Bearer"
     case cacheControl = "Cache-Control"
-    
+
     public func nonCanonical() -> String {
         return self.rawValue.lowercased(with: Locale.init(identifier: "en_US"))
     }

@@ -1,3 +1,5 @@
+// swiftlint:disable force_cast
+// swiftlint:disable nesting
 import Foundation
 import XCTest
 import MongoMobile

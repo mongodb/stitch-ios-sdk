@@ -72,8 +72,7 @@ internal class InstanceSynchronization: Sequence {
 
         self.config = Config.init(
             namespaces: try self.namespacesColl.find()
-                .reduce(into: [MongoNamespace: NamespaceSynchronization.Config](),
-                        { (syncedNamespaces, config) in
+                .reduce(into: [MongoNamespace: NamespaceSynchronization.Config](), { (syncedNamespaces, config) in
                             syncedNamespaces[config.namespace] = config
                 }))
         self.errorListener = errorListener
@@ -105,31 +104,29 @@ internal class InstanceSynchronization: Sequence {
      - returns: a new or existing NamespaceConfiguration
      */
     subscript(namespace: MongoNamespace) -> NamespaceSynchronization? {
-        get {
-            let config: NamespaceSynchronization? = instanceLock.read {
-                if let config = namespaceConfigWrappers[namespace] {
-                    return config
-                }
-                return nil
-            }
-            if config != nil {
+        let config: NamespaceSynchronization? = instanceLock.read {
+            if let config = namespaceConfigWrappers[namespace] {
                 return config
             }
-            return instanceLock.write {
-                do {
-                    let newConfig = try NamespaceSynchronization.init(namespacesColl: namespacesColl,
-                                                                      docsColl: docsColl,
-                                                                      namespace: namespace,
-                                                                      errorListener: errorListener)
-                    try namespacesColl.insertOne(newConfig.config)
-                    namespaceConfigWrappers[namespace] = newConfig
-                    return newConfig
-                } catch {
-                    errorListener?.on(error: error, forDocumentId: nil, in: namespace)
-                }
-
-                return nil
+            return nil
+        }
+        if config != nil {
+            return config
+        }
+        return instanceLock.write {
+            do {
+                let newConfig = try NamespaceSynchronization.init(namespacesColl: namespacesColl,
+                                                                  docsColl: docsColl,
+                                                                  namespace: namespace,
+                                                                  errorListener: errorListener)
+                try namespacesColl.insertOne(newConfig.config)
+                namespaceConfigWrappers[namespace] = newConfig
+                return newConfig
+            } catch {
+                errorListener?.on(error: error, forDocumentId: nil, in: namespace)
             }
+
+            return nil
         }
     }
 }

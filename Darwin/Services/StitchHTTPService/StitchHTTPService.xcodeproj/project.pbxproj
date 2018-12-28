@@ -13,7 +13,6 @@
 		118C33CB20C72DF400D1DE80 /* HTTPServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118C33CA20C72DF400D1DE80 /* HTTPServiceClient.swift */; };
 		24B1B4B7370EE06F045D1A93 /* Pods_StitchHTTPServiceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C4E0F14E42BE66A3E072A63 /* Pods_StitchHTTPServiceTests.framework */; };
 		3EC9678FF48A1C7B1264DCC4 /* Pods_StitchHTTPService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0A0F1040474AD25AE6CA3A /* Pods_StitchHTTPService.framework */; };
-		494335B0219235F6005B170D /* StitchDarwinCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494335AF219235F6005B170D /* StitchDarwinCoreTestUtils.framework */; };
 		498E55D42190B7B100A02A03 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E55D32190B7B100A02A03 /* StitchCore.framework */; };
 		498E55EA2190B90600A02A03 /* StitchCoreHTTPService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E55E92190B90600A02A03 /* StitchCoreHTTPService.framework */; };
 /* End PBXBuildFile section */
@@ -76,7 +75,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				494335B0219235F6005B170D /* StitchDarwinCoreTestUtils.framework in Frameworks */,
 				498E55EA2190B90600A02A03 /* StitchCoreHTTPService.framework in Frameworks */,
 				498E55D42190B7B100A02A03 /* StitchCore.framework in Frameworks */,
 				3EC9678FF48A1C7B1264DCC4 /* Pods_StitchHTTPService.framework in Frameworks */,

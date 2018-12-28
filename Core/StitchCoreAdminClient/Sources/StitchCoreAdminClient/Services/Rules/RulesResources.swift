@@ -20,7 +20,8 @@ extension RuleActions {
 public enum RuleCreator: Encodable {
     case actions(name: String, actions: RuleActionsCreator)
     case actionsWithWhen(name: String, actions: RuleActionsCreator, when: Document)
-    
+
+    //swiftlint:disable nesting
     public struct Role: Codable {
         enum CodingKeys: String, CodingKey {
             case name
@@ -40,13 +41,13 @@ public enum RuleCreator: Encodable {
         let delete: Bool
 
         public init(name: String = "default",
-             applyWhen: Document = Document(),
-             fields: Document = Document(),
-             additionalFields: AdditionalFields = AdditionalFields(),
-             read: Bool = true,
-             write: Bool? = nil,
-             insert: Bool = true,
-             delete: Bool = true) {
+                    applyWhen: Document = Document(),
+                    fields: Document = Document(),
+                    additionalFields: AdditionalFields = AdditionalFields(),
+                    read: Bool = true,
+                    write: Bool? = nil,
+                    insert: Bool = true,
+                    delete: Bool = true) {
             self.name = name
             self.applyWhen = applyWhen
             self.fields = fields
@@ -66,6 +67,7 @@ public enum RuleCreator: Encodable {
             }
         }
     }
+    //swiftlint:enable nesting
     public struct Schema: Codable {
         let properties: Document
         public init(properties: Document = ["_id": ["bsonType": "objectId"] as Document]) {

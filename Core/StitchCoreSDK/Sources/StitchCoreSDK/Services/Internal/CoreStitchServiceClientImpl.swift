@@ -12,7 +12,7 @@ open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
     private let serviceRoutes: StitchServiceRoutes
 
     public let serviceName: String?
-    
+
     public init(requestClient: StitchAuthRequestClient,
                 routes: StitchServiceRoutes,
                 serviceName: String?) {

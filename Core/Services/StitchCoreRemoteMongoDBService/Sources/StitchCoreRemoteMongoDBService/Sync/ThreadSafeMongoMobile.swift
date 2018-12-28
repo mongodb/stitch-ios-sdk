@@ -96,7 +96,7 @@ class ThreadSafeMongoCollection<T: Codable> {
     func findOneAndReplace(filter: Document, replacement: T, options: FindOneAndReplaceOptions? = nil) throws -> T? {
         return try underlyingCollection().findOneAndReplace(filter: filter, replacement: replacement, options: options)
     }
-    
+
     @discardableResult
     func insertOne(_ value: T) throws -> InsertOneResult? {
         return try underlyingCollection().insertOne(value)

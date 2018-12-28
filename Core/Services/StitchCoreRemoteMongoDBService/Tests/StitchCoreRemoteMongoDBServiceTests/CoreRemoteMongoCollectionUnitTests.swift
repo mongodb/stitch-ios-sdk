@@ -15,20 +15,20 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         let coll1 = try remoteCollection()
         XCTAssertEqual(namespace.databaseName, coll1.databaseName)
         XCTAssertEqual(namespace.collectionName, coll1.name)
-        
+
         let coll2 = try remoteCollection(for: namespace2)
         XCTAssertEqual(namespace2.databaseName, coll2.databaseName)
         XCTAssertEqual(namespace2.collectionName, coll2.name)
     }
-    
+
     func testCollectionType() throws {
         let coll1 = try remoteCollection()
         XCTAssertTrue(Document.self == type(of: coll1).CollectionType.self)
-        
+
         let coll2 = try remoteCollection(for: namespace2, withType: Int.self)
         XCTAssertTrue(Int.self == type(of: coll2).CollectionType.self)
     }
-    
+
     func testWithCollectionType() throws {
         let coll1 = try remoteCollection()
         let coll2 = coll1.withCollectionType(Int.self)
@@ -37,14 +37,14 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
 
     func testCount() throws {
         let coll = try remoteCollection()
-        
+
         mockServiceClient.callFunctionWithDecodingMock.doReturn(
             result: 42, forArg1: .any, forArg2: .any, forArg3: .any
         )
 
         // without filter or options
         XCTAssertEqual(42, try coll.count())
-        
+
         var (funcNameArg, funcArgsArg, _) = mockServiceClient.callFunctionWithDecodingMock.capturedInvocations.last!
 
         XCTAssertEqual("count", funcNameArg)
@@ -53,7 +53,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         var expectedArgs: Document = [
             "database": namespace.databaseName,
             "collection": namespace.collectionName,
-            "query": Document.init(),
+            "query": Document.init()
         ]
 
         XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
@@ -61,11 +61,11 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         // with filter and options
         let expectedFilter: Document = ["one": Int32(23)]
         XCTAssertEqual(42, try coll.count(expectedFilter, options: RemoteCountOptions.init(limit: 5)))
-        
+
         XCTAssertTrue(mockServiceClient.callFunctionWithDecodingMock
             .verify(numberOfInvocations: 2, forArg1: .any, forArg2: .any, forArg3: .any)
         )
-        
+
         (funcNameArg, funcArgsArg, _) = mockServiceClient.callFunctionWithDecodingMock.capturedInvocations.last!
         XCTAssertEqual("count", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
@@ -109,10 +109,10 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         )
 
         // without filter or options
-        var resultDocs = try coll.find().asArray()
+        var resultDocs = try coll.find().toArray()
 
         XCTAssertEqual(docs, resultDocs)
-        
+
         var (funcNameArg, funcArgsArg, _) = mockServiceClient.callFunctionWithDecodingMock.capturedInvocations.last!
 
         XCTAssertEqual("find", funcNameArg)
@@ -134,16 +134,16 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         resultDocs = try coll.find(expectedFilter, options: RemoteFindOptions.init(
             projection: expectedProject,
             sort: expectedSort
-        )).asArray()
+        )).toArray()
 
         XCTAssertEqual(docs, resultDocs)
-        
+
         XCTAssertTrue(mockServiceClient.callFunctionWithDecodingMock
             .verify(numberOfInvocations: 2, forArg1: .any, forArg2: .any, forArg3: .any)
         )
-        
+
         (funcNameArg, funcArgsArg, _) = mockServiceClient.callFunctionWithDecodingMock.capturedInvocations.last!
-        
+
         XCTAssertEqual("find", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
 
@@ -187,12 +187,12 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         )
 
         // with empty pipeline
-        var resultDocs = try coll.aggregate([]).asArray()
+        var resultDocs = try coll.aggregate([]).toArray()
 
         XCTAssertEqual(docs, resultDocs)
-        
+
         var (funcNameArg, funcArgsArg, _) = mockServiceClient.callFunctionWithDecodingMock.capturedInvocations.last!
-        
+
         XCTAssertEqual("aggregate", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
 
@@ -205,7 +205,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
 
         // with pipeline
-        resultDocs = try coll.aggregate([["$match": 1], ["sort": 2]]).asArray()
+        resultDocs = try coll.aggregate([["$match": 1], ["sort": 2]]).toArray()
 
         let expectedPipeline: [Document] = [
             ["$match": Int32(1)],
@@ -213,13 +213,13 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         ]
 
         XCTAssertEqual(docs, resultDocs)
-        
+
         XCTAssertTrue(mockServiceClient.callFunctionWithDecodingMock
             .verify(numberOfInvocations: 2, forArg1: .any, forArg2: .any, forArg3: .any)
         )
-        
+
         (funcNameArg, funcArgsArg, _) = mockServiceClient.callFunctionWithDecodingMock.capturedInvocations.last!
-        
+
         XCTAssertEqual("aggregate", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
 
@@ -249,7 +249,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
 
     func testInsertOne() throws {
         let coll = try remoteCollection()
-        
+
         let id = ObjectId()
         let doc1: Document = ["_id": id, "one": 2]
 
@@ -263,7 +263,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
 
         XCTAssertEqual(id, result.insertedId as? ObjectId)
         XCTAssertEqual(id, doc1["_id"] as? ObjectId)
-        
+
         var (funcNameArg, funcArgsArg, _) = mockServiceClient.callFunctionWithDecodingMock.capturedInvocations.last!
 
         XCTAssertEqual("insertOne", funcNameArg)
@@ -300,7 +300,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
 
     func testInsertMany() throws {
         let coll = try remoteCollection()
-        
+
         let id1 = ObjectId()
         let id2 = ObjectId()
 
@@ -308,7 +308,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         let doc2: Document = ["_id": id2, "three": 4]
 
         let ids: [Int64: BSONValue] = [Int64(0): id1, Int64(1): id2]
-        
+
         mockServiceClient.callFunctionWithDecodingMock.doReturn(
             result: RemoteInsertManyResult.init(fromArray: [id1, id2]),
             forArg1: .any, forArg2: .any, forArg3: .any
@@ -321,7 +321,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
 
         XCTAssertEqual(result.insertedIds[Int64(0)] as? ObjectId, doc1["_id"] as? ObjectId)
         XCTAssertEqual(result.insertedIds[Int64(1)] as? ObjectId, doc2["_id"] as? ObjectId)
-        
+
         var (funcNameArg, funcArgsArg, _) = mockServiceClient.callFunctionWithDecodingMock.capturedInvocations.last!
 
         XCTAssertEqual("insertMany", funcNameArg)
@@ -359,7 +359,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
 
     func testDeleteOne() throws {
         let coll = try remoteCollection()
-        
+
         mockServiceClient.callFunctionWithDecodingMock.doReturn(
             result: RemoteDeleteResult.init(deletedCount: 1),
             forArg1: .any, forArg2: .any, forArg3: .any
@@ -369,7 +369,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
 
         let result = try coll.deleteOne(expectedFilter)
         XCTAssertEqual(1, result.deletedCount)
-        
+
         let (funcNameArg, funcArgsArg, _) = mockServiceClient.callFunctionWithDecodingMock.capturedInvocations.last!
 
         XCTAssertEqual("deleteOne", funcNameArg)
@@ -401,7 +401,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
 
     func testDeleteMany() throws {
         let coll = try remoteCollection()
-        
+
         mockServiceClient.callFunctionWithDecodingMock.doReturn(
             result: RemoteDeleteResult.init(deletedCount: 1),
             forArg1: .any, forArg2: .any, forArg3: .any
@@ -411,7 +411,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
 
         let result = try coll.deleteMany(expectedFilter)
         XCTAssertEqual(1, result.deletedCount)
-        
+
         let (funcNameArg, funcArgsArg, _) = mockServiceClient.callFunctionWithDecodingMock.capturedInvocations.last!
 
         XCTAssertEqual("deleteMany", funcNameArg)
@@ -443,9 +443,9 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
 
     func testUpdateOne() throws {
         let coll = try remoteCollection()
-        
+
         let id = ObjectId()
-        
+
         mockServiceClient.callFunctionWithDecodingMock.doReturn(
             result: RemoteUpdateResult.init(matchedCount: 1, modifiedCount: 1, upsertedId: id),
             forArg1: .any, forArg2: .any, forArg3: .any
@@ -460,7 +460,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         XCTAssertEqual(1, result.matchedCount)
         XCTAssertEqual(1, result.modifiedCount)
         XCTAssertEqual(id, result.upsertedId as? ObjectId)
-        
+
         var (funcNameArg, funcArgsArg, _) = mockServiceClient.callFunctionWithDecodingMock.capturedInvocations.last!
         XCTAssertEqual("updateOne", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
@@ -484,13 +484,13 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         XCTAssertEqual(1, result.matchedCount)
         XCTAssertEqual(1, result.modifiedCount)
         XCTAssertEqual(id, result.upsertedId as? ObjectId)
-        
+
         XCTAssertTrue(mockServiceClient.callFunctionWithDecodingMock
             .verify(numberOfInvocations: 2, forArg1: .any, forArg2: .any, forArg3: .any)
         )
-        
+
         (funcNameArg, funcArgsArg, _) = mockServiceClient.callFunctionWithDecodingMock.capturedInvocations.last!
-        
+
         XCTAssertEqual("updateOne", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
 
@@ -522,9 +522,9 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
 
     func testUpdateMany() throws {
         let coll = try remoteCollection()
-        
+
         let id = ObjectId()
-        
+
         mockServiceClient.callFunctionWithDecodingMock.doReturn(
             result: RemoteUpdateResult.init(matchedCount: 1, modifiedCount: 1, upsertedId: id),
             forArg1: .any, forArg2: .any, forArg3: .any
@@ -539,7 +539,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         XCTAssertEqual(1, result.matchedCount)
         XCTAssertEqual(1, result.modifiedCount)
         XCTAssertEqual(id, result.upsertedId as? ObjectId)
-        
+
         var (funcNameArg, funcArgsArg, _) = mockServiceClient.callFunctionWithDecodingMock.capturedInvocations.last!
 
         XCTAssertEqual("updateMany", funcNameArg)
@@ -564,13 +564,13 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         XCTAssertEqual(1, result.matchedCount)
         XCTAssertEqual(1, result.modifiedCount)
         XCTAssertEqual(id, result.upsertedId as? ObjectId)
-        
+
         XCTAssertTrue(mockServiceClient.callFunctionWithDecodingMock
             .verify(numberOfInvocations: 2, forArg1: .any, forArg2: .any, forArg3: .any)
         )
-        
+
         (funcNameArg, funcArgsArg, _) = mockServiceClient.callFunctionWithDecodingMock.capturedInvocations.last!
-        
+
         XCTAssertEqual("updateMany", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
 

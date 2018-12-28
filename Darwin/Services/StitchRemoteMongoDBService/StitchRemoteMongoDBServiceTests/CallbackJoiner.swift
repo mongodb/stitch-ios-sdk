@@ -11,7 +11,7 @@ private class SynchronizedDispatchDeque {
     var count: Int {
         return workItems.count
     }
-    
+
     func append(_ workItem: DispatchWorkItem) {
         rwLock.write {
             workItems.append(workItem)

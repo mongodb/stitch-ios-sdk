@@ -44,7 +44,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
     private let dbName = "dbName"
     private let collName = "collName"
-    
+
     private var mongoClient: RemoteMongoClient!
 
     override func setUp() {
@@ -98,7 +98,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         self.mongoClient = try client.serviceClient(fromFactory: remoteMongoClientFactory,
                                                     withName: "mongodb1")
     }
@@ -1204,7 +1204,6 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         let doc1 = ["hello": "world", "a": "b"] as Document
         let doc2 = ["hello": "computer", "a": "b"] as Document
 
-        
         sync.insertMany(documents: [doc1, doc2], joiner.capture())
         let insertManyResult = joiner.value(asType: InsertManyResult.self)
 
@@ -1251,7 +1250,6 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             return
         }
 
-
         sync.updateOne(filter: ["_id": insertedId.value],
                        update: ["$set": ["hello": "goodbye"] as Document],
                        options: nil,
@@ -1272,7 +1270,6 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         sync.find(filter: ["_id": insertedId.value],
                   options: nil,
                   joiner.capture())
-
 
         guard let cursor = joiner.value(asType: MongoCursor<Document>.self),
             let actualDoc = cursor.next() else {

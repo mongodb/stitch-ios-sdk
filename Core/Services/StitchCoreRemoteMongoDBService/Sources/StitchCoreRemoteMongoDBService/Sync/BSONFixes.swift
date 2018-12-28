@@ -13,6 +13,8 @@ func validateBSONTypes(_ lhs: BSONValue, _ rhs: BSONValue) {
     }
 }
 
+// swiftlint:disable identifier_name
+// swiftlint:disable cyclomatic_complexity
 func bsonEquals(_ lhs: BSONValue, _ rhs: BSONValue) -> Bool {
     validateBSONTypes(lhs, rhs)
 
@@ -40,13 +42,14 @@ func bsonEquals(_ lhs: BSONValue, _ rhs: BSONValue) -> Bool {
     default: return false
     }
 }
+// swiftlint:enable identifier_name
 
 /**
  TODO: Remove this class entirely once the Swift Driver
  conforms to Hashable/Equatable
  */
 private func _hash(into hasher: inout Hasher, bsonValue: BSONValue?) {
-    switch (bsonValue) {
+    switch bsonValue {
     case (let value as Int):
         hasher.combine(value)
     case (let value as Int32):
@@ -86,6 +89,7 @@ private func _hash(into hasher: inout Hasher, bsonValue: BSONValue?) {
     default: break
     }
 }
+// swiftlint:enable cyclomatic_complexity
 
 extension BSONValue {
     func hash(into hasher: inout Hasher) {
@@ -104,6 +108,8 @@ public struct HashableBSONValue: Codable, Hashable {
         self.bsonValue = anyBSONValue
     }
 
+    // TODO: These swiftlint disables should go away because we should not be force trying
+    // swiftlint:disable force_try
     public init(from decoder: Decoder) {
         bsonValue = try! AnyBSONValue.init(from: decoder)
     }
@@ -111,6 +117,7 @@ public struct HashableBSONValue: Codable, Hashable {
     public func encode(to encoder: Encoder) {
         try! bsonValue.encode(to: encoder)
     }
+    // swiftlint:enable force_try
 
     public static func == (lhs: HashableBSONValue, rhs: HashableBSONValue) -> Bool {
         return bsonEquals(lhs.bsonValue.value, rhs.bsonValue.value)

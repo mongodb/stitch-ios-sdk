@@ -18,8 +18,7 @@ private class WeakNetworkStateDelegate {
 public class TestNetworkMonitor: NetworkMonitor {
     private var delegates = [WeakNetworkStateDelegate]()
 
-    public var state: NetworkState = .connected
-    {
+    public var state: NetworkState = .connected {
         didSet {
             delegates.forEach { $0.weak?.on(stateChangedFor: state) }
         }
@@ -93,7 +92,7 @@ open class BaseStitchIntTestCocoaTouch: BaseStitchIntTest {
     open func goOffline() {
         networkMonitor.state = .disconnected
     }
-    
+
     // Registers a new email/password user, and logs them in, returning the user's ID
     public func registerAndLoginWithUserPass(
         app: Apps.App,

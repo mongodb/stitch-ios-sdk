@@ -38,7 +38,6 @@ class DataSynchronizerUnitTests: XCMongoMobileTestCase {
         let insertedId = insertResult!.insertedId!
         let insertedDoc: Document = try dataSynchronizer.find(in: namespace).next()!
 
-
         // ensure that our insert did not leak anything to the undo collection
         XCTAssertTrue(try isUndoCollectionEmpty())
 

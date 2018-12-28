@@ -1,3 +1,4 @@
+// swiftlint:disable nesting
 import Foundation
 import XCTest
 import MongoMobile
@@ -82,7 +83,6 @@ class NamespaceSynchronizationConfigTests: XCMongoMobileTestCase {
                                              documentId: documentIds[2].bsonValue,
                                              errorListener: errorListener)
         ]
-
 
         docConfigs.forEach { docConfig in
             nsConfig.nsLock.write {

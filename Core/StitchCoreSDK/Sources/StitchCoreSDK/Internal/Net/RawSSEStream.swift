@@ -13,7 +13,7 @@ open class SSEStreamDelegate: Hashable {
     }
 
     public init() {}
-    
+
     open func on(newEvent event: RawSSE) {
 
     }
@@ -41,7 +41,7 @@ open class RawSSEStream {
         }
     }
 
-    public weak var delegate: SSEStreamDelegate? = nil
+    public weak var delegate: SSEStreamDelegate?
     public var dataBuffer = Data()
 
     private var stringBuffer: String = ""
@@ -76,10 +76,9 @@ open class RawSSEStream {
     private func process(value: String,
                          forField field: String) {
         // If the field name is "event"
-        switch (field) {
+        switch field {
         case "event":
             eventNameBuffer = value
-            break
         // If the field name is "data"
         case "data":
             // If the data buffer is not the empty string, then append a single U+000A LINE FEED
@@ -88,7 +87,6 @@ open class RawSSEStream {
             if dataBuffer.count != 0 {
                 stringBuffer += "\n"
             }
-            break
         // If the field name is "id"
         case "id":
             // NOT IMPLEMENTED
@@ -113,7 +111,7 @@ open class RawSSEStream {
             if line.isEmpty {
                 // If the data buffer is an empty string, set the data buffer and the event name buffer to
                 // the empty string and abort these steps.
-                if (stringBuffer.count == 0) {
+                if stringBuffer.count == 0 {
                     eventNameBuffer = ""
                     continue
                 }
@@ -122,7 +120,9 @@ open class RawSSEStream {
                 // set the data buffer and the event name buffer to the empty string and abort these steps.
                 // NOT IMPLEMENTED
                 do {
-                    guard let sse = try RawSSE.init(rawData: String(stringBuffer.dropLast()), eventName: eventNameBuffer) else {
+                    guard let sse = try RawSSE.init(
+                        rawData: String(stringBuffer.dropLast()), eventName: eventNameBuffer
+                    ) else {
                         continue
                     }
 

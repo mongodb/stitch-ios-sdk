@@ -74,9 +74,10 @@ private func diffBetween(ourDocument: Document,
         // properties.
         // else if the key does not exist, the key has been removed.
         if let theirValue = theirDocument[key] {
-            if ourValue is Document && theirValue is Document {
-                diffBetween(ourDocument: ourValue as! Document,
-                            theirDocument: theirValue as! Document,
+            if let ourValueDocument = ourValue as? Document,
+               let theirValueDocument = theirValue as? Document {
+                diffBetween(ourDocument: ourValueDocument,
+                            theirDocument: theirValueDocument,
                             onKey: actualKey,
                             updatedFields: &updatedFields,
                             removedFields: &removedFields)
@@ -104,7 +105,7 @@ private func diffBetween(ourDocument: Document,
         // updatedFields will included keys that must
         // be newly created.
         let actualKey = onKey == nil ? key : "\(onKey!).\(key)"
-        guard let _ = ourDocument[key] else {
+        guard ourDocument[key] != nil else {
             updatedFields[actualKey] = theirValue
             return
         }

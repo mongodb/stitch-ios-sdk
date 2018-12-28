@@ -7,7 +7,7 @@ import StitchCoreSDK
 public final class CoreLocalMongoDBService {
     public static let shared = CoreLocalMongoDBService()
     private var initialized = false
-    
+
     private var _localInstances = LRUCache<String, MongoClient>(capacity: 10)
     public var localInstances: [MongoClient] {
         return _localInstances.map { $0.1 }
@@ -20,7 +20,7 @@ public final class CoreLocalMongoDBService {
     }
 
     public func initialize() throws {
-        if (!initialized) {
+        if !initialized {
             try MongoMobile.initialize()
             initialized = true
         }
@@ -38,7 +38,7 @@ public final class CoreLocalMongoDBService {
 
         try initialize()
 
-        var isDir : ObjCBool = true
+        var isDir: ObjCBool = true
         if !FileManager().fileExists(atPath: dbPath, isDirectory: &isDir) {
             try FileManager().createDirectory(atPath: dbPath, withIntermediateDirectories: true)
         }

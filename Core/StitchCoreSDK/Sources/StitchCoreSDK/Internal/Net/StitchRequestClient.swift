@@ -63,10 +63,14 @@ extension StitchRequestClient {
         return try inspectResponse(response: response)
     }
 
-    public func doStreamRequest(_ stitchReq: StitchRequest, url: String, delegate: SSEStreamDelegate? = nil) throws -> RawSSEStream {
+    public func doStreamRequest(
+        _ stitchReq: StitchRequest,
+        url: String,
+        delegate: SSEStreamDelegate? = nil
+    ) throws -> RawSSEStream {
         do {
             return try transport.stream(request: buildRequest(stitchReq, url: url), delegate: delegate)
-        } catch  {
+        } catch {
             throw StitchError.requestError(withError: error, withRequestErrorCode: .transportError)
         }
     }

@@ -15,15 +15,15 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
     private var eventsKeyedQueue = [HashableBSONValue: ChangeEvent<Document>]()
     private var streamDelegates = Set<SSEStreamDelegate>()
 
-    private var stream: RawSSEStream? = nil
-    private var streamWorkItem: DispatchWorkItem? = nil
+    private var stream: RawSSEStream?
+    private var streamWorkItem: DispatchWorkItem?
 
     private lazy var tag = "ns_changestream_listener_\(namespace)"
     private lazy var logger = Log.init(tag: tag)
     private lazy var queue = DispatchQueue(label: self.tag)
 
     internal lazy var eventQueueLock = ReadWriteLock.init(label: tag)
-    
+
     var state: SSEStreamState {
         return stream?.state ?? .closed
     }
@@ -57,7 +57,7 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
             }
             join.wait()
         }
-        
+
         self.streamWorkItem = DispatchWorkItem { [weak self] in
             repeat {
                 guard let self = self else {
@@ -71,7 +71,7 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
                             sleep(retrySleepSeconds)
                         }
                     } catch {
-                        self.logger.e("NamespaceChangeStreamRunner::run error happened while opening stream: \(error)");
+                        self.logger.e("NamespaceChangeStreamRunner::run error happened while opening stream: \(error)")
                         return
                     }
                 } else if self.state == .open {
@@ -186,7 +186,7 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
         default:
             logger.d("stream \(state)")
         }
-        
+
         streamDelegates.forEach({$0.on(stateChangedFor: state)})
     }
 
