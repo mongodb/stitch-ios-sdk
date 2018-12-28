@@ -220,6 +220,6 @@ public class StitchRequestClientImpl: StitchRequestClient {
     }
 
     public func doStreamRequest(_ stitchReq: StitchRequest, delegate: SSEStreamDelegate?) throws -> RawSSEStream {
-        return try doStreamRequest(stitchReq, url: self.baseURL)
+        return try doStreamRequest(stitchReq, url: self.baseURL, delegate: delegate)
     }
 }

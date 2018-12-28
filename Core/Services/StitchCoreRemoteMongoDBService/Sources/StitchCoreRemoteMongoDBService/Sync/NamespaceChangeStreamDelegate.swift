@@ -49,8 +49,13 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
     }
 
     func start() {
-        if stream != nil {
+        if streamWorkItem != nil {
             eventQueueLock.write { self.stop() }
+            let join = DispatchSemaphore.init(value: 0)
+            streamWorkItem?.notify(queue: queue) {
+                join.signal()
+            }
+            join.wait()
         }
         
         self.streamWorkItem = DispatchWorkItem { [weak self] in
@@ -69,7 +74,7 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
                         self.logger.e("NamespaceChangeStreamRunner::run error happened while opening stream: \(error)");
                         return
                     }
-                } else {
+                } else if self.state == .open {
                     // This semaphore will be holding until the stream
                     // is eventually closed. We do this so that the
                     // stream will automatically attempt to reopen

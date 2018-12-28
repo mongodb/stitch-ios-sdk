@@ -1388,18 +1388,18 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     public func stop() {
         syncLock.write {
             instanceChangeStreamDelegate.stop()
-            guard let syncWorkItem = syncWorkItem else {
-                return
-            }
-            syncWorkItem.cancel()
-
-            let join = DispatchSemaphore.init(value: 0)
-            syncWorkItem.notify(queue: syncDispatchQueue) {
-                join.signal()
-            }
-            join.wait()
-            self.syncWorkItem = nil
         }
+
+        guard let syncWorkItem = syncWorkItem else {
+            return
+        }
+        syncWorkItem.cancel()
+        let join = DispatchSemaphore.init(value: 0)
+        syncWorkItem.notify(queue: syncDispatchQueue) {
+            join.signal()
+        }
+        join.wait()
+        self.syncWorkItem = nil
     }
 
     /**
