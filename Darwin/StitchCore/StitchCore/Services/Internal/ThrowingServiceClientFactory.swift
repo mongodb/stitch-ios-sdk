@@ -51,11 +51,15 @@ public protocol NamedThrowingServiceClientFactory {
      */
     associatedtype ClientType
 
+    // swiftlint:disable line_length
+
     /**
      * Returns a client of type `ClientType`, with the provided `CoreStitchServiceClient` and `StitchAppClientInfo`
      * objects.
      */
     func client(withServiceClient serviceClient: CoreStitchServiceClient, withClientInfo clientInfo: StitchAppClientInfo) throws -> ClientType
+
+    // swiftlint:enable line_length
 }
 
 /**

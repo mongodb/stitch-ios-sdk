@@ -8,22 +8,22 @@ public class StitchAppClientConfiguration: StitchClientConfiguration {
      * The name of the local application.
      */
     public let localAppName: String?
-    
+
     /**
      * The current version of the local application.
      */
     public let localAppVersion: String?
-    
+
     /// assign to avoid force cast
     private var _builder: StitchAppClientConfigurationBuilder
     override public var builder: StitchAppClientConfigurationBuilder {
         return _builder
     }
-    
+
     internal init(builder: StitchAppClientConfigurationBuilder) {
         self.localAppName = builder.localAppName
         self.localAppVersion = builder.localAppVersion
-        
+
         self._builder = builder
         super.init(builder: builder)
     }
@@ -36,10 +36,10 @@ public class StitchAppClientConfiguration: StitchClientConfiguration {
 public class StitchAppClientConfigurationBuilder: StitchClientConfigurationBuilder {
     public internal(set) var localAppName: String?
     public internal(set) var localAppVersion: String?
-    
+
     // The `with` functions from the inherited builder are explicitly included and overriden here
     // for the sake of API documentation completeness.
-    
+
     /**
      * Sets the base URL of the Stitch server that the client will communicate with.
      */
@@ -48,7 +48,7 @@ public class StitchAppClientConfigurationBuilder: StitchClientConfigurationBuild
         self.baseURL = baseURL
         return self
     }
-    
+
     /**
      * Sets the local directory in which Stitch can store any data (e.g. embedded MongoDB data directory).
      */
@@ -57,7 +57,7 @@ public class StitchAppClientConfigurationBuilder: StitchClientConfigurationBuild
         self.dataDirectory = dataDirectory
         return self
     }
-    
+
     /**
      * Sets the underlying storage for authentication info.
      */
@@ -66,7 +66,7 @@ public class StitchAppClientConfigurationBuilder: StitchClientConfigurationBuild
         self.storage = storage
         return self
     }
-    
+
     /**
      * Sets the `Transport` that the client will use to make HTTP round trips to the Stitch server.
      */
@@ -75,10 +75,10 @@ public class StitchAppClientConfigurationBuilder: StitchClientConfigurationBuild
         self.transport = transport
         return self
     }
-    
+
     /**
-     * Sets the number of seconds that a `Transport` should spend by default on an HTTP round trip before failing with an
-     * error.
+     * Sets the number of seconds that a `Transport` should spend by default on an HTTP round trip before failing with
+     * an error.
      *
      * - important: If a request timeout was specified for a specific operation, for example in a function call, that
      *              timeout will override this one.
@@ -88,7 +88,7 @@ public class StitchAppClientConfigurationBuilder: StitchClientConfigurationBuild
         self.defaultRequestTimeout = defaultRequestTimeout
         return self
     }
-    
+
     /**
      * Sets the name of the local application.
      */
@@ -97,7 +97,7 @@ public class StitchAppClientConfigurationBuilder: StitchClientConfigurationBuild
         self.localAppName = localAppName
         return self
     }
-    
+
     /**
      * Sets he current version of the local application.
      */
@@ -106,7 +106,7 @@ public class StitchAppClientConfigurationBuilder: StitchClientConfigurationBuild
         self.localAppVersion = localAppVersion
         return self
     }
-    
+
     /**
      * Builds a `StitchAppClientConfiguration` with the builder's specified settings.
      *
@@ -119,13 +119,13 @@ public class StitchAppClientConfigurationBuilder: StitchClientConfigurationBuild
         } else {
             self.localAppName = "unkown app name"
         }
-        
+
         if let appVersion = self.localAppVersion {
             self.localAppVersion = appVersion
         } else {
             self.localAppVersion = "unknown app version"
         }
-        
+
         return StitchAppClientConfiguration.init(
             builder: self
         )

@@ -5,7 +5,7 @@ import StitchCoreAWSService
 
 private final class AWSNamedServiceClientFactory: NamedServiceClientFactory {
     typealias ClientType = AWSServiceClient
-    
+
     func client(withServiceClient serviceClient: CoreStitchServiceClient,
                 withClientInfo clientInfo: StitchAppClientInfo) -> AWSServiceClient {
         return AWSServiceClientImpl(
@@ -26,7 +26,10 @@ public let awsServiceClientFactory =
  * The AWS service client, which can be used to interact with AWS via MongoDB Stitch.
  */
 public protocol AWSServiceClient {
-    
+
+    // Disabled line length rule due to https://github.com/realm/jazzy/issues/896
+    // swiftlint:disable line_length
+
     /**
      * Executes the AWS request.
      *
@@ -37,7 +40,7 @@ public protocol AWSServiceClient {
      *                          successful, the result will be ignored.
      */
     func execute(request: AWSRequest, _ completionHandler: @escaping (StitchResult<Void>) -> Void)
-    
+
     /**
      * Executes the AWS request. Also accepts a timeout. Use this for functions that may run longer than the
      * client-wide default timeout (15 seconds by default).
@@ -51,7 +54,7 @@ public protocol AWSServiceClient {
      *                          successful, the result will be ignored.
      */
     func execute(request: AWSRequest, withRequestTimeout requestTimeout: TimeInterval, _ completionHandler: @escaping (StitchResult<Void>) -> Void)
-    
+
     /**
      * Executes the AWS request, and decodes the result into an instance of the type parameter T.
      *
@@ -62,7 +65,7 @@ public protocol AWSServiceClient {
      *                          successful, the result will decoded into the type T and will be included in the result.
      */
     func execute<T: Decodable>(request: AWSRequest, _ completionHandler: @escaping (StitchResult<T>) -> Void)
-    
+
     /**
      * Executes the AWS request, and decodes the result into an instance of the type parameter T. Also accepts a
      * timeout. Use this for functions that may run longer than the client-wide default timeout (15 seconds by
@@ -77,5 +80,5 @@ public protocol AWSServiceClient {
      *                          successful, the result will decoded into the type T and will be included in the result.
      */
     func execute<T: Decodable>(request: AWSRequest, withRequestTimeout requestTimeout: TimeInterval, _ completionHandler: @escaping (StitchResult<T>) -> Void)
-    
+
 }

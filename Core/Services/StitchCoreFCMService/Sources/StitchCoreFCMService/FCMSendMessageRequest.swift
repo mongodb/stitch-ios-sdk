@@ -9,34 +9,34 @@ public struct FCMSendMessageRequest: Encodable {
      * The priority of the message.
      */
     public let priority: FCMSendMessagePriority
-    
+
     /**
      * The group of messages that can be collapsed.
      */
     public let collapseKey: String?
-    
+
     /**
      * Whether or not to indicate to the client that content is available in order
      * to wake the device. Note: for messages to iOS devices only.
      */
     public let contentAvailable: Bool?
-    
+
     /**
      * Whether or not the content in the message can be mutated. Note: for messages to
      * iOS devices only.
      */
     public let mutableContent: Bool?
-    
+
     /**
      * How long (in seconds) the message should be kept in FCM storage if the device is offline.
      */
     public let timeToLive: Int64?
-    
+
     /**
      * The custom data to send in the payload.
      */
     public let data: Document?
-    
+
     /**
      * The predefined, user-visible key-value pairs of the notification payload.
      */
@@ -54,7 +54,7 @@ public class FCMSendMessageRequestBuilder {
     internal var timeToLive: Int64?
     internal var data: Document?
     internal var notification: FCMSendMessageNotification?
-    
+
     /**
      * Sets the priority of the message.
      */
@@ -63,7 +63,7 @@ public class FCMSendMessageRequestBuilder {
         self.priority = priority
         return self
     }
-    
+
     /**
      * Sets the group of messages that can be collapsed.
      */
@@ -72,7 +72,7 @@ public class FCMSendMessageRequestBuilder {
         self.collapseKey = collapseKey
         return self
     }
-    
+
     /**
      * Sets whether or not to indicate to the client that content is available in order
      * to wake the device. Note: for messages to iOS devices only.
@@ -82,7 +82,7 @@ public class FCMSendMessageRequestBuilder {
         self.contentAvailable = contentAvailable
         return self
     }
-    
+
     /**
      * Sets whether or not the content in the message can be mutated. Note: for messages to
      * iOS devices only.
@@ -92,7 +92,7 @@ public class FCMSendMessageRequestBuilder {
         self.mutableContent = mutableContent
         return self
     }
-    
+
     /**
      * Sets how long (in seconds) the message should be kept in FCM storage if the device is offline.
      */
@@ -101,7 +101,7 @@ public class FCMSendMessageRequestBuilder {
         self.timeToLive = timeToLive
         return self
     }
-    
+
     /**
      * Sets the custom data to send in the payload.
      */
@@ -110,7 +110,7 @@ public class FCMSendMessageRequestBuilder {
         self.data = data
         return self
     }
-    
+
     /**
      * Sets the predefined, user-visible key-value pairs of the notification payload.
      */
@@ -119,12 +119,12 @@ public class FCMSendMessageRequestBuilder {
         self.notification = notification
         return self
     }
-    
+
     /**
      * Initializes a new builder for an FCM send message request.
      */
     public init() { }
-    
+
     /**
      * Builds, validates, and returns the `FCMSendMessageRequest`.
      *
@@ -142,4 +142,3 @@ public class FCMSendMessageRequestBuilder {
         )
     }
 }
-

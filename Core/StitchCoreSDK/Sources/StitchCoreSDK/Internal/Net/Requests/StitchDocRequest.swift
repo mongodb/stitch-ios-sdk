@@ -13,14 +13,14 @@ public enum StitchDocRequestBuilderError: Error {
  */
 public final class StitchDocRequestBuilder: StitchRequestBuilder {
     internal var document: Document?
-    
+
     public override init() { super.init() }
-    
+
     init(request: StitchDocRequest) {
         super.init(request: request)
         self.document = request.document
     }
-    
+
     /**
      * Sets the BSON document that will become the body of the request to be built.
      */
@@ -29,7 +29,7 @@ public final class StitchDocRequestBuilder: StitchRequestBuilder {
         self.document = document
         return self
     }
-    
+
     /**
      * Builds the `StitchDocRequest`.
      */
@@ -37,9 +37,9 @@ public final class StitchDocRequestBuilder: StitchRequestBuilder {
         guard let document = self.document else {
             throw StitchDocRequestBuilderError.missingDocument
         }
-        
+
         let docString = document.canonicalExtendedJSON
-        
+
         // computed properties can't throw errors, so `document.canonicalExtendedJSON`
         // returns an empty string if it could not encode the document
         if docString == "" {
@@ -48,12 +48,12 @@ public final class StitchDocRequestBuilder: StitchRequestBuilder {
                 withRequestErrorCode: .encodingError
             )
         }
-        
+
         self.body = docString.data(using: .utf8)
-        
+
         self.headers = self.headers ?? [:]
         self.headers![Headers.contentType.rawValue] = ContentTypes.applicationJSON.rawValue
-        
+
         return try StitchDocRequest.init(stitchRequest: super.build(), document: document)
     }
 }
@@ -68,18 +68,18 @@ public final class StitchDocRequest: StitchRequest {
     public override var builder: StitchDocRequestBuilder {
         return StitchDocRequestBuilder.init(request: self)
     }
-    
+
     /**
      * The BSON document that will become the body of the request when it is performed.
      */
     public let document: Document
-    
+
     internal init(stitchRequest: StitchRequest, document: Document) {
         self.document = document
         super.init(request: stitchRequest)
     }
-    
-    public static func ==(lhs: StitchDocRequest, rhs: StitchDocRequest) -> Bool {
+
+    public static func == (lhs: StitchDocRequest, rhs: StitchDocRequest) -> Bool {
         return lhs as StitchRequest == rhs as StitchRequest && lhs.document == rhs.document
     }
 }

@@ -49,7 +49,7 @@ open class RawSSE {
                                                     break
                 }
                 let code = data[startIndex ..< endIndex]
-                switch (code) {
+                switch code {
                 case "25":
                     decodedData += "%"
                     indices.removeFirst(2)

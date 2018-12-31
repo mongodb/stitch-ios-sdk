@@ -20,6 +20,8 @@ extension RuleActions {
 public enum RuleCreator: Encodable {
     case actions(name: String, actions: RuleActionsCreator)
     case actionsWithWhen(name: String, actions: RuleActionsCreator, when: Document)
+
+    //swiftlint:disable nesting
     public struct Role: Codable {
         enum CodingKeys: String, CodingKey {
             case name
@@ -39,13 +41,13 @@ public enum RuleCreator: Encodable {
         let delete: Bool
 
         public init(name: String = "default",
-             applyWhen: Document = Document(),
-             fields: Document = Document(),
-             additionalFields: AdditionalFields = AdditionalFields(),
-             read: Bool = true,
-             write: Bool? = nil,
-             insert: Bool = true,
-             delete: Bool = true) {
+                    applyWhen: Document = Document(),
+                    fields: Document = Document(),
+                    additionalFields: AdditionalFields = AdditionalFields(),
+                    read: Bool = true,
+                    write: Bool? = nil,
+                    insert: Bool = true,
+                    delete: Bool = true) {
             self.name = name
             self.applyWhen = applyWhen
             self.fields = fields
@@ -65,6 +67,7 @@ public enum RuleCreator: Encodable {
             }
         }
     }
+    //swiftlint:enable nesting
     public struct Schema: Codable {
         let properties: Document
         public init(properties: Document = ["_id": ["bsonType": "objectId"] as Document]) {
@@ -72,7 +75,7 @@ public enum RuleCreator: Encodable {
         }
     }
     case mongoDb(database: String, collection: String, roles: [Role], schema: Schema)
-    
+
     public func encode(to encoder: Encoder) throws {
         switch self {
         case .actions(let name, let actions):
@@ -107,12 +110,12 @@ public struct RuleCreatorActions: Encodable {
 public class RuleCreatorMongoDb: Encodable {
     let namespace: String
     let rule: Document
-    
+
     public init(namespace: String, rule: Document) {
         self.namespace = namespace
         self.rule = rule
     }
-    
+
     public func encode(to encoder: Encoder) throws {
         var creator = rule
         creator["namespace"] = namespace
@@ -123,7 +126,7 @@ public class RuleCreatorMongoDb: Encodable {
 // Allowed actions for an AWS service rule
 private struct AWSRuleActions: Encodable {
     let actions: [String]
-    
+
     func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
         for action in actions {

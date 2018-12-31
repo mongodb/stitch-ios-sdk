@@ -14,11 +14,11 @@ public class CoreRemoteMongoReadOperation<T: Codable> {
      * from this same type.
      */
     public typealias CollectionType = T
-    
+
     private let command: String
     private let args: Document
     private let service: CoreStitchServiceClient
-    
+
     internal init(command: String,
                   args: Document,
                   service: CoreStitchServiceClient) {
@@ -26,19 +26,24 @@ public class CoreRemoteMongoReadOperation<T: Codable> {
         self.args = args
         self.service = service
     }
-    
+
     public func iterator() throws -> CoreRemoteMongoCursor<T> { // -> CoreRemoteMongoIterator {
         return try CoreRemoteMongoCursor<CollectionType>.init(documents: executeRead().makeIterator())
     }
-    
+
     public func first() throws -> T? {
         return try executeRead().first
     }
-    
-    public func asArray() throws -> [T] {
+
+    public func toArray() throws -> [T] {
         return try executeRead()
     }
-    
+
+    @available(*, deprecated, message: "use toArray instead")
+    public func asArray() throws -> [T] {
+        return try self.toArray()
+    }
+
     private func executeRead() throws -> [T] {
         return try service.callFunction(
             withName: self.command,

@@ -130,7 +130,7 @@ open class CoreUserPasswordAuthProviderClient: CoreAuthProviderClient<StitchRequ
      *     - toEmail: The email address of the user to re-send a confirmation for.
      */
     public func resendConfirmation(toEmail email: String) throws -> Response {
-        
+
         return try self.requestClient.doRequest(
             StitchDocRequestBuilder()
                 .with(method: .post)

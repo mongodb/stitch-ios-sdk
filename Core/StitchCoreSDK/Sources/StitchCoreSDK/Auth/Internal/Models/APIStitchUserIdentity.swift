@@ -13,7 +13,7 @@ public struct APIStitchUserIdentity: StitchUserIdentity, Hashable {
     /**
      * An overload of `==` to compare two `APIStitchUserIdentity` objects by id.
      */
-    public static func ==(lhs: APIStitchUserIdentity, rhs: APIStitchUserIdentity) -> Bool {
+    public static func == (lhs: APIStitchUserIdentity, rhs: APIStitchUserIdentity) -> Bool {
         return lhs.id == rhs.id
     }
 

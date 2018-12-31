@@ -78,7 +78,7 @@ final class DocumentVersionInfo {
 
         if documentId != nil {
             self.filter = getVersionedFilter(documentId: documentId,
-                                             version: version);
+                                             version: version)
         } else {
             self.filter = nil
         }

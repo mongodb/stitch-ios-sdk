@@ -4,6 +4,7 @@
 internal final class StitchAppRouteParts {
     static let baseRoute = "/api/client/v2.0"
     static let appRoute = baseRoute + "/app/%@"
+    static let appMetadataRoute = appRoute + "/location"
     static let functionCallRoute = appRoute + "/functions/call"
     static let baseAuthRoute = baseRoute + "/auth"
     static let baseAppAuthRoute = appRoute + "/auth"
@@ -66,6 +67,12 @@ public final class StitchServiceRoutes {
     fileprivate init(clientAppID: String) {
         self.clientAppID = clientAppID
     }
+
+    /**
+     * Returns the route on the server for discovering application metadata.
+     */
+    public lazy var appMetadataRoute = String.init(format: StitchAppRouteParts.appMetadataRoute,
+                                              self.clientAppID)
 
     /**
      * Returns the route on the server for executing a function.
@@ -147,7 +154,7 @@ public final class StitchAppRoutes {
      * Returns the service routes for the current app.
      */
     public let serviceRoutes: StitchServiceRoutes
-    
+
     /**
      * Returns the push routes for the current app.
      */

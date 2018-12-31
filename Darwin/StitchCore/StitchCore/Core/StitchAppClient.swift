@@ -10,7 +10,6 @@ import Foundation
  * the `Stitch` utility class.
  */
 public protocol StitchAppClient {
-
     // MARK: Authentication
 
     /**
@@ -81,6 +80,8 @@ public protocol StitchAppClient {
      */
     func serviceClient<T>(fromFactory factory: AnyThrowingServiceClientFactory<T>) throws -> T
 
+    // swiftlint:disable line_length
+
     /**
      * Retrieves the service client for the Stitch service associated with the specified name and factory.
      *
@@ -98,7 +99,7 @@ public protocol StitchAppClient {
 
     // MARK: Functions
 
-    // swiftlint:disable line_length
+    // Disabled line length rule due to https://github.com/realm/jazzy/issues/896
 
     /**
      * Calls the MongoDB Stitch function with the provided name and arguments, and decodes the result of the function

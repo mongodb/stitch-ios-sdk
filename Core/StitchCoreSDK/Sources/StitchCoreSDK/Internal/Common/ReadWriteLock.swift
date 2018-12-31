@@ -25,7 +25,7 @@ public class ReadWriteLock {
     public func write<T>(_ closure: () throws -> T) rethrows -> T {
         return try self.queue.sync(flags: .barrier, execute: closure)
     }
-    
+
     public func assertLocked() {
         if #available(macOS 10.12, iOS 10.0, tvOS 10.0, watchOS 3.0, *) {
             dispatchPrecondition(condition: .onQueue(queue))

@@ -3,7 +3,7 @@ import MockUtils
 @testable import StitchCoreSDK
 
 public final class MockTransport: Transport {
-    public init() { } 
+    public init() { }
     public var mockRoundTrip = FunctionMockUnitOneArg<Response, Request>()
     public var mockStream = FunctionMockUnitTwoArgs<RawSSEStream, Request, SSEStreamDelegate?>()
     public func roundTrip(request: Request) throws -> Response {

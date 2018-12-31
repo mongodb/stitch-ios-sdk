@@ -22,7 +22,7 @@ struct MockStitchUser: CoreStitchUser {
 
     var identities: [StitchUserIdentity] = []
 
-    static func ==(lhs: MockStitchUser,
+    static func == (lhs: MockStitchUser,
                     rhs: MockStitchUser) -> Bool {
         return lhs.id == rhs.id
     }
@@ -56,6 +56,12 @@ public final class AtomicPort {
         objc_sync_enter(self)
         defer { objc_sync_exit(self) }
         _value += 1
+
+        // don't accidentally conflict with Prometheus port on locally running test server
+        if _value == 8100 {
+            _value += 1
+        }
+
         return _value
     }
 }

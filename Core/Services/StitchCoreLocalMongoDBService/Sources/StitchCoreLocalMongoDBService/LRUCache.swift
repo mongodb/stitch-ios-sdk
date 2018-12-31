@@ -28,7 +28,11 @@ internal final class LRUCache<Key: Hashable, Value>: Sequence {
     private let lock = ReadWriteLock.init(label: "lru_\(ObjectId().oid)")
 
     struct LRUCacheIterator: IteratorProtocol {
+        // Since this is only going to be a temporary class (will go away when Swift driver is thread-safe),
+        // we can make this linter exception.
+        // swiftlint:disable nesting
         typealias Element = LRUCache.Element
+        // swiftlint:enable nesting
         private var values: [Payload]
         private var indices: Range<Int>
 

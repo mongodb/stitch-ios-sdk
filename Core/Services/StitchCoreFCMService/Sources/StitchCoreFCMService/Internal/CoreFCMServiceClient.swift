@@ -4,11 +4,11 @@ import StitchCoreSDK
 
 public class CoreFCMServiceClient {
     private let service: CoreStitchServiceClient
-    
+
     public init(withServiceClient serviceClient: CoreStitchServiceClient) {
         self.service = serviceClient
     }
-    
+
     public func sendMessage(to target: String,
                             withRequest request: FCMSendMessageRequest) throws -> FCMSendMessageResult {
         return try sendMessageInternal(
@@ -17,7 +17,7 @@ public class CoreFCMServiceClient {
             targetTypeValue: target
         )
     }
-    
+
     public func sendMessage(toUserIDs userIDs: [String],
                             withRequest request: FCMSendMessageRequest) throws -> FCMSendMessageResult {
         return try sendMessageInternal(
@@ -26,7 +26,7 @@ public class CoreFCMServiceClient {
             targetTypeValue: userIDs
         )
     }
-    
+
     public func sendMessage(toRegistrationTokens registrationTokens: [String],
                             withRequest request: FCMSendMessageRequest) throws -> FCMSendMessageResult {
         return try sendMessageInternal(
@@ -35,10 +35,10 @@ public class CoreFCMServiceClient {
             targetTypeValue: registrationTokens
         )
     }
-    
+
     private func sendMessageInternal<T: BSONValue>(request: FCMSendMessageRequest,
-                                     targetTypeKey: SendField,
-                                     targetTypeValue: T) throws -> FCMSendMessageResult {
+                                                   targetTypeKey: SendField,
+                                                   targetTypeValue: T) throws -> FCMSendMessageResult {
         var args = try BSONEncoder().encode(request)
         args[targetTypeKey.rawValue] = targetTypeValue
         return try self.service.callFunction(
@@ -47,9 +47,9 @@ public class CoreFCMServiceClient {
             withRequestTimeout: nil
         )
     }
-    
+
     private static let sendAction = "send"
-    
+
     private enum SendField: String {
         // Target types
         case userIDs = "userIds"

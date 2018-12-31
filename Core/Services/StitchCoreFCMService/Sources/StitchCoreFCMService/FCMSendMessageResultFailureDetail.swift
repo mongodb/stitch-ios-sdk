@@ -12,12 +12,12 @@ public struct FCMSendMessageResultFailureDetail: Decodable {
      * The error that occurred.
      */
     public let error: String
-    
+
     /**
      * The user ID that could not be sent a message to, if applicable.
      */
     public let userID: String?
-    
+
     internal enum CodingKeys: String, CodingKey {
         case index, error, userID = "userId"
     }

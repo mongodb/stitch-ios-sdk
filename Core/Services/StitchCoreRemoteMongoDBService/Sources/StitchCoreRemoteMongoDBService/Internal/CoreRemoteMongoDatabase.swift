@@ -7,7 +7,7 @@ public class CoreRemoteMongoDatabase {
      * The name of this database.
      */
     public let name: String
-    
+
     private let service: CoreStitchServiceClient
     private let dataSynchronizer: DataSynchronizer
 
@@ -18,7 +18,7 @@ public class CoreRemoteMongoDatabase {
         self.service = service
         self.dataSynchronizer = dataSynchronizer
     }
-    
+
     /**
      * Gets a collection.
      *
@@ -28,7 +28,7 @@ public class CoreRemoteMongoDatabase {
     public func collection(_ collectionName: String) -> CoreRemoteMongoCollection<Document> {
         return self.collection(collectionName, withCollectionType: Document.self)
     }
-    
+
     /**
      * Gets a collection with a specific default document type.
      *
@@ -36,7 +36,10 @@ public class CoreRemoteMongoDatabase {
      * - parameter withCollectionType: the default class to cast any documents returned from the database into.
      * - returns: the collection
      */
-    public func collection<T: Codable>(_ collectionName: String, withCollectionType type: T.Type) -> CoreRemoteMongoCollection<T> {
+    public func collection<T: Codable>(
+        _ collectionName: String,
+        withCollectionType type: T.Type
+    ) -> CoreRemoteMongoCollection<T> {
         return CoreRemoteMongoCollection<T>.init(
             withName: collectionName,
             withDatabaseName: self.name,

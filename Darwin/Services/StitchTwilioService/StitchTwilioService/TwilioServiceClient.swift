@@ -5,7 +5,7 @@ import StitchCoreSDK
 
 private final class TwilioNamedServiceClientFactory: NamedServiceClientFactory {
     typealias ClientType = TwilioServiceClient
-    
+
     func client(withServiceClient service: CoreStitchServiceClient,
                 withClientInfo client: StitchAppClientInfo) -> TwilioServiceClient {
         return TwilioServiceClientImpl(
@@ -26,6 +26,10 @@ public let twilioServiceClientFactory =
  * The Twilio service client, which can be used to send text messages with Twilio via MongoDB Stitch.
  */
 public protocol TwilioServiceClient {
+
+    // Disabled line length rule due to https://github.com/realm/jazzy/issues/896
+    // swiftlint:disable line_length
+
     /**
      * Sends an SMS/MMS message.
      *

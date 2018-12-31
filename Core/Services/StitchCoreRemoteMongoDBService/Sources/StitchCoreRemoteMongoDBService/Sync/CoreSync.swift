@@ -31,7 +31,7 @@ public final class CoreSync<DocumentT: Codable> {
             changeEventDelegate: changeEventDelegate != nil ? BlockChangeEventDelegate(changeEventDelegate!) : nil,
             errorListener: errorListener != nil ? BlockErrorDelegate(errorListener!) : nil)
     }
-    
+
     /**
      Set the conflict resolver and and change event listener on this collection.
      - parameter conflictHandler: the conflict resolver to invoke when a conflict happens between local
@@ -158,7 +158,7 @@ public final class CoreSync<DocumentT: Codable> {
                                                    options: options,
                                                    in: namespace)
     }
-    
+
     /**
      Inserts the provided document. If the document is missing an identifier, the client should
      generate one. Syncs the newly inserted document against the remote.

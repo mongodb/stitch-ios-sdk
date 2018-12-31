@@ -99,7 +99,7 @@ internal struct StoreAuthInfo: Codable, AuthInfo {
         self.loggedInProviderName = authInfo.loggedInProviderName
         self.userProfile = authInfo.userProfile
     }
-    
+
     /**
      * Memberwise initializer for `StoreAuthInfo`.
      */

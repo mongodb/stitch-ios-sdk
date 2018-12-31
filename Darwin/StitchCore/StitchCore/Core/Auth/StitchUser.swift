@@ -40,6 +40,7 @@ public protocol StitchUser: CoreStitchUser {
 
     // MARK: Methods
 
+    // Disabled line length rule due to https://github.com/realm/jazzy/issues/896
     // swiftlint:disable line_length
 
     /**

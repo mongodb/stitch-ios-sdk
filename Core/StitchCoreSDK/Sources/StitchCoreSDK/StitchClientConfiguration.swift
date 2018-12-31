@@ -10,7 +10,7 @@ protocol Buildee {
  */
 public class StitchClientConfiguration: Buildee {
     public typealias Builder = StitchClientConfigurationBuilder
-    
+
     /**
      * The base URL of the Stitch server that the client will communicate with.
      */
@@ -45,14 +45,13 @@ public class StitchClientConfiguration: Buildee {
      */
     public let networkMonitor: NetworkMonitor?
 
-
     /**
      * Builder object for this configuration
     */
     public var builder: Builder {
         return StitchClientConfigurationBuilder.init(clientConfiguration: self)
     }
-    
+
     init(builder: StitchClientConfigurationBuilder) {
         self.baseURL = builder.baseURL
         self.dataDirectory = builder.dataDirectory
@@ -82,6 +81,7 @@ public class StitchClientConfigurationBuilder {
     public internal(set) var transport: Transport?
     public internal(set) var defaultRequestTimeout: TimeInterval?
     public internal(set) var networkMonitor: NetworkMonitor?
+
     /**
      * Sets the base URL of the Stitch server that the client will communicate with.
      */
@@ -119,8 +119,8 @@ public class StitchClientConfigurationBuilder {
     }
 
     /**
-     * Sets the number of seconds that a `Transport` should spend by default on an HTTP round trip before failing with an
-     * error.
+     * Sets the number of seconds that a `Transport` should spend by default on an HTTP round trip before failing with
+     * an error.
      *
      * - important: If a request timeout was specified for a specific operation, for example in a function call, that
      *              timeout will override this one.
@@ -141,7 +141,7 @@ public class StitchClientConfigurationBuilder {
     }
 
     public init() { }
-    
+
     fileprivate init(clientConfiguration: StitchClientConfiguration) {
         self.baseURL = clientConfiguration.baseURL
         self.dataDirectory = clientConfiguration.dataDirectory
@@ -149,7 +149,7 @@ public class StitchClientConfigurationBuilder {
         self.transport = clientConfiguration.transport
         self.defaultRequestTimeout = clientConfiguration.defaultRequestTimeout
     }
-    
+
     public func build() -> StitchClientConfiguration {
         return StitchClientConfiguration.init(builder: self)
     }

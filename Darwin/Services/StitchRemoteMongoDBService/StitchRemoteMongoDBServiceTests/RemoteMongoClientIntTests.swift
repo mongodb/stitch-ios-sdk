@@ -1,3 +1,9 @@
+// swiftlint:disable cyclomatic_complexity
+// swiftlint:disable file_length
+// swiftlint:disable force_cast
+// swiftlint:disable force_try
+// swiftlint:disable function_body_length
+// swiftlint:disable type_body_length
 import XCTest
 import MongoSwift
 import StitchCore
@@ -29,21 +35,21 @@ class XCMongoMobileConfiguration: NSObject, XCTestObservation {
 }
 
 class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
-    
+
     private let mongodbUriProp = "test.stitch.mongodbURI"
-    
+
     private lazy var pList: [String: Any]? = fetchPlist(type(of: self))
-    
+
     private lazy var mongodbUri: String = pList?[mongodbUriProp] as? String ?? "mongodb://localhost:26000"
 
     private let dbName = "dbName"
     private let collName = "collName"
-    
+
     private var mongoClient: RemoteMongoClient!
-    
+
     override func setUp() {
         super.setUp()
-        
+
         try! prepareService()
         let joiner = CallbackJoiner()
         getTestColl().deleteMany([:], joiner.capture())
@@ -64,7 +70,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
     private func prepareService() throws {
         let app = try self.createApp()
-        let _ = try self.addProvider(toApp: app.1, withConfig: ProviderConfigs.anon())
+        _ = try self.addProvider(toApp: app.1, withConfig: ProviderConfigs.anon())
         let svc = try self.addService(
             toApp: app.1,
             withType: "mongodb",
@@ -73,8 +79,8 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
                 name: "mongodb1", uri: mongodbUri
             )
         )
-                
-        let _ = try self.addRule(
+
+        _ = try self.addRule(
             toService: svc.1,
             withConfig: RuleCreator.mongoDb(
                 database: dbName,
@@ -84,18 +90,19 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
                 )],
                 schema: RuleCreator.Schema(properties: Document()))
         )
+
         let client = try self.appClient(forApp: app.0)
-        
+
         let exp = expectation(description: "should login")
         client.auth.login(withCredential: AnonymousCredential()) { _  in
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         self.mongoClient = try client.serviceClient(fromFactory: remoteMongoClientFactory,
                                                     withName: "mongodb1")
     }
-    
+
     private func getTestColl() -> RemoteMongoCollection<Document> {
         let db = mongoClient.db(dbName.description)
         XCTAssertEqual(dbName, db.name)
@@ -104,7 +111,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         XCTAssertEqual(collName, coll.name)
         return coll
     }
-    
+
     private func getTestColl<T>(_ type: T.Type) -> RemoteMongoCollection<T> {
         let db = mongoClient.db(dbName.description)
         XCTAssertEqual(dbName, db.name)
@@ -113,10 +120,10 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         XCTAssertEqual(collName, coll.name)
         return coll
     }
-    
+
     func testCount() {
         let coll = getTestColl()
-        
+
         var exp = expectation(description: "should count empty collection")
         coll.count { result in
             switch result {
@@ -128,15 +135,15 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         let rawDoc: Document = ["hello": "world"]
         let doc1 = rawDoc
         let doc2 = rawDoc
-        
+
         exp = expectation(description: "document should be inserted")
         coll.insertOne(doc1) { (_) in exp.fulfill() }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "should count collection with one document")
         coll.count { result in
             switch result {
@@ -148,11 +155,11 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "document should be inserted")
         coll.insertOne(doc2) { (_) in exp.fulfill() }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "should count collection with two document")
         coll.count { result in
             switch result {
@@ -164,7 +171,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "should find two documents with original document as filter")
         coll.count(rawDoc) { result in
             switch result {
@@ -188,7 +195,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "should find one document when limiting result")
         coll.count(rawDoc, options: RemoteCountOptions.init(limit: 1)) { result in
             switch result {
@@ -200,7 +207,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "should error with invalid filter")
         coll.count(["$who": 1]) { result in
             switch result {
@@ -214,12 +221,12 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
                     XCTFail("unexpected error code")
                 }
             }
-            
+
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
     }
-    
+
     private func withoutId(_ document: Document) -> Document {
         var newDoc = Document()
         document.filter { $0.0 != "_id" }.forEach { (key, value) in
@@ -227,7 +234,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         }
         return newDoc
     }
-    
+
     private func withoutIds(_ documents: [Document]) -> [Document] {
         var list: [Document] = []
         documents.forEach { (doc) in
@@ -235,11 +242,11 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         }
         return list
     }
-    
+
     func testFind() {
         let coll = getTestColl()
         var exp = expectation(description: "should not find any documents in empty collection")
-        coll.find().asArray { result in
+        coll.find().toArray { result in
             switch result {
             case .success(let docs):
                 XCTAssertEqual([], docs)
@@ -249,16 +256,16 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         let doc1: Document = ["hello": "world"]
         let doc2: Document = ["hello": "friend", "proj": "field"]
 
         exp = expectation(description: "should insert two documents")
         coll.insertMany([doc1, doc2]) { _ in exp.fulfill() }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "should find the inserted documents")
-        coll.find().asArray { result in
+        coll.find().toArray { result in
             switch result {
             case .success(let resultDocs):
                 XCTAssertEqual(self.withoutId(doc1), self.withoutId(resultDocs[0]))
@@ -269,7 +276,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "should find the second document when applying it as a filter")
         coll.find(doc2).first { result in
             switch result {
@@ -281,7 +288,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "should project the result when a projection is specified")
         coll.find(doc2, options: RemoteFindOptions.init(projection: ["proj": 1])).first { result in
             switch result {
@@ -293,10 +300,10 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "async iterator should work")
         var cursor: RemoteMongoCursor<Document>!
-        
+
         coll.find().iterator { result in
             switch result {
             case .success(let foundCursor):
@@ -304,11 +311,11 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             case .failure:
                 XCTFail("unexpected failure in find")
             }
-            
+
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "iterator should find first document")
         cursor.next({ result in
             switch result {
@@ -317,11 +324,11 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             case .failure:
                 XCTFail("unexpected failure in cursor next")
             }
-            
+
             exp.fulfill()
         })
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "iterator should find second document")
         cursor.next({ result in
             switch result {
@@ -333,7 +340,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         })
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "iterator should find no more documents")
         cursor.next({ result in
             switch result {
@@ -345,7 +352,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         })
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "should error with invalid filter")
         coll.find(["$who": 1]).first { result in
             switch result {
@@ -364,11 +371,11 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         }
         wait(for: [exp], timeout: 5.0)
     }
-    
+
     func testAggregate() {
         let coll = getTestColl()
         var exp = expectation(description: "should not find any documents in empty collection")
-        coll.aggregate([]).asArray { result in
+        coll.aggregate([]).toArray { result in
             switch result {
             case .success(let docs):
                 XCTAssertEqual([], docs)
@@ -378,16 +385,16 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         let doc1: Document = ["hello": "world"]
         let doc2: Document = ["hello": "friend"]
-        
+
         exp = expectation(description: "should insert two documents")
         coll.insertMany([doc1, doc2]) { _ in exp.fulfill() }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "should find the inserted documents")
-        coll.aggregate([]).asArray { result in
+        coll.aggregate([]).toArray { result in
             switch result {
             case .success(let docs):
                 XCTAssertEqual(self.withoutId(doc1), self.withoutId(docs[0]))
@@ -398,11 +405,11 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(
             description: "should find the second document when sorting by descending object id, and limiting to 1"
         )
-        coll.aggregate([["$sort": ["_id": -1] as Document], ["$limit": 1]]).asArray { result in
+        coll.aggregate([["$sort": ["_id": -1] as Document], ["$limit": 1]]).toArray { result in
             switch result {
             case .success(let docs):
                 XCTAssertEqual(1, docs.count)
@@ -413,9 +420,9 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "should find first document when matching for it")
-        coll.aggregate([["$match": doc1]]).asArray { result in
+        coll.aggregate([["$match": doc1]]).toArray { result in
             switch result {
             case .success(let docs):
                 XCTAssertEqual(1, docs.count)
@@ -426,7 +433,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "should error with invalid pipeline")
         coll.aggregate([["$who": 1]]).first { result in
             switch result {
@@ -444,11 +451,11 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         }
         wait(for: [exp], timeout: 5.0)
     }
-    
+
     func testInsertOne() {
         let coll = getTestColl()
         let doc: Document = ["_id": ObjectId(), "hello": "world"]
-        
+
         var exp = expectation(description: "document should be successfully inserted")
         coll.insertOne(doc) { result in
             switch result {
@@ -460,7 +467,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "document should not be inserted again because it would be a duplicate")
         coll.insertOne(doc) { result in
             switch result {
@@ -479,7 +486,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "document should be successfully inserted with a differento object ID")
         coll.insertOne(["hello": "world"]) { result in
             switch result {
@@ -492,11 +499,11 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         }
         wait(for: [exp], timeout: 5.0)
     }
-    
+
     func testInsertMany() {
         let coll = getTestColl()
         let doc1: Document = ["_id": ObjectId(), "hello": "world"]
-        
+
         var exp = expectation(description: "single document should be successfully inserted")
         coll.insertMany([doc1]) { result in
             switch result {
@@ -509,7 +516,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "document should not be inserted again because it would be a duplicate")
         coll.insertMany([doc1]) { result in
             switch result {
@@ -527,7 +534,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         let doc2: Document = ["hello": "world"]
         exp = expectation(description: "document should be successfully inserted with a different object ID")
         coll.insertMany([doc2]) { result in
@@ -537,14 +544,14 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             case .failure:
                 XCTFail("unexpected error in insert")
             }
-            
+
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         let doc3: Document = ["one": "two"]
         let doc4: Document = ["three": 4]
-        
+
         exp = expectation(description: "multiple documents should be successfully inserted")
         coll.insertMany([doc3, doc4]) { result in
             switch result {
@@ -556,9 +563,9 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "all inserted documents should be findable")
-        coll.find().asArray { result in
+        coll.find().toArray { result in
             switch result {
             case .success(let documents):
                 XCTAssertEqual(self.withoutIds([doc1, doc2, doc3, doc4]), self.withoutIds(documents))
@@ -569,11 +576,10 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         }
         wait(for: [exp], timeout: 5.0)
     }
-    
-    
+
     func testDeleteOne() {
         let coll = getTestColl()
-        
+
         var exp = expectation(description: "delete on an empty collection should result in no deletions")
         coll.deleteOne([:]) { result in
             switch result {
@@ -585,7 +591,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "delete on an empty collection should result in no deletions")
         coll.deleteOne(["hello": "world"]) { result in
             switch result {
@@ -597,14 +603,14 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         let doc1: Document = ["hello": "world"]
         let doc2: Document = ["hello": "friend"]
-        
+
         exp = expectation(description: "multiple documents should be inserted")
         coll.insertMany([doc1, doc2]) { _ in exp.fulfill() }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "deleting in a non-empty collection should work")
         coll.deleteOne([:]) { result in
             switch result {
@@ -616,7 +622,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "deleting in a non-empty collection should work")
         coll.deleteOne([:]) { result in
             switch result {
@@ -628,7 +634,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "no more items in collection should result in no deletes")
         coll.deleteOne([:]) { result in
             switch result {
@@ -640,11 +646,11 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "multiple documents should be inserted")
         coll.insertMany([doc1, doc2]) { _ in exp.fulfill() }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "deleting an item by filter work")
         coll.deleteOne(doc1) { result in
             switch result {
@@ -656,7 +662,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(
             description: "once the item is deleted, the delete with the filter should no longer delete anything"
         )
@@ -670,7 +676,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "there should be one document left in the collection")
         coll.count { result in
             switch result {
@@ -682,7 +688,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "there should be no documents left matching the filter")
         coll.count(doc1) { result in
             switch result {
@@ -694,7 +700,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "should error with invalid filter")
         coll.deleteOne(["$who": 1]) { result in
             switch result {
@@ -712,10 +718,10 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         }
         wait(for: [exp], timeout: 5.0)
     }
-    
+
     func testDeleteMany() {
         let coll = getTestColl()
-        
+
         var exp = expectation(description: "delete on an empty collection should result in no deletions")
         coll.deleteMany([:]) { result in
             switch result {
@@ -727,7 +733,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "delete on an empty collection should result in no deletions")
         coll.deleteMany(["hello": "world"]) { result in
             switch result {
@@ -739,14 +745,14 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         let doc1: Document = ["hello": "world"]
         let doc2: Document = ["hello": "friend"]
-        
+
         exp = expectation(description: "multiple documents should be inserted")
         coll.insertMany([doc1, doc2]) { _ in exp.fulfill() }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "deleting in a non-empty collection should work")
         coll.deleteMany([:]) { result in
             switch result {
@@ -758,7 +764,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "no more items in collection should result in no deletes")
         coll.deleteMany([:]) { result in
             switch result {
@@ -770,11 +776,11 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "multiple documents should be inserted")
         coll.insertMany([doc1, doc2]) { _ in exp.fulfill() }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "deleting an item by filter work")
         coll.deleteMany(doc1) { result in
             switch result {
@@ -786,7 +792,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(
             description: "once the item is deleted, the delete with the filter should no longer delete anything"
         )
@@ -800,7 +806,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "there should be one document left in the collection")
         coll.count { result in
             switch result {
@@ -812,7 +818,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "there should be no documents left matching the filter")
         coll.count(doc1) { result in
             switch result {
@@ -824,7 +830,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "should error with invalid filter")
         coll.deleteMany(["$who": 1]) { result in
             switch result {
@@ -842,11 +848,11 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         }
         wait(for: [exp], timeout: 5.0)
     }
-    
+
     func testUpdateOne() {
         let coll = getTestColl()
         let doc1: Document = ["hello": "world"]
-        
+
         var exp = expectation(description: "updating a document in an empty collection should result in no update")
         coll.updateOne(filter: [:], update: doc1) { result in
             switch result {
@@ -860,7 +866,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "upsert should be successful")
         coll.updateOne(filter: [:], update: doc1, options: RemoteUpdateOptions.init(upsert: true)) { result in
             switch result {
@@ -874,7 +880,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "updating an existing document should work")
         coll.updateOne(filter: [:], update: ["$set": ["woof": "meow"] as Document]) { result in
             switch result {
@@ -888,9 +894,9 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         let expectedDoc: Document = ["hello": "world", "woof": "meow"]
-        
+
         exp = expectation(description: "should find the updated document in the collection")
         coll.find().first { result in
             switch result {
@@ -899,11 +905,11 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             case .failure:
                 XCTFail("unexpected error in find")
             }
-            
+
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "should error with invalid filter")
         coll.updateOne(filter: ["$who": 1], update: [:]) { result in
             switch result {
@@ -921,11 +927,11 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         }
         wait(for: [exp], timeout: 5.0)
     }
-    
+
     func testUpdateMany() {
         let coll = getTestColl()
         let doc1: Document = ["hello": "world"]
-        
+
         var exp = expectation(description: "updating a document in an empty collection should result in no updates")
         coll.updateMany(filter: [:], update: doc1) { result in
             switch result {
@@ -939,7 +945,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "upsert should be successful")
         coll.updateMany(filter: [:], update: doc1, options: RemoteUpdateOptions.init(upsert: true)) { result in
             switch result {
@@ -953,7 +959,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "updating an existing document should work")
         coll.updateMany(filter: [:], update: ["$set": ["woof": "meow"] as Document]) { result in
             switch result {
@@ -968,13 +974,13 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "should insert a document")
         coll.insertOne([:]) { _ in
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "updating multiple existing documents should work")
         coll.updateMany(filter: [:], update: ["$set": ["woof": "meow"] as Document]) { result in
             switch result {
@@ -988,12 +994,12 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         let expectedDoc1: Document = ["hello": "world", "woof": "meow"]
         let expectedDoc2: Document = ["woof": "meow"]
-        
+
         exp = expectation(description: "should find the updated documents in the collection")
-        coll.find().asArray { result in
+        coll.find().toArray { result in
             switch result {
             case .success(let documents):
                 XCTAssertEqual([expectedDoc1, expectedDoc2], self.withoutIds(documents))
@@ -1003,7 +1009,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "should error with invalid filter")
         coll.updateMany(filter: ["$who": 1], update: [:]) { result in
             switch result {
@@ -1021,13 +1027,13 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         }
         wait(for: [exp], timeout: 5.0)
     }
-    
+
     func testWithCollectionType() {
         let coll = getTestColl().withCollectionType(CustomType.self)
         XCTAssertTrue(type(of: coll).CollectionType.self == CustomType.self)
-        
+
         let expected = CustomType.init(id: "my_string_id", intValue: 42)
-        
+
         var exp = expectation(description: "type should be able to be inserted")
         coll.insertOne(expected) { result in
             switch result {
@@ -1036,11 +1042,11 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             case .failure(let err):
                 XCTFail("unexpected error in insert: \(err.localizedDescription)")
             }
-            
+
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "should be able to retrieve what was inserted")
         coll.find().first { result in
             switch result {
@@ -1198,7 +1204,6 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         let doc1 = ["hello": "world", "a": "b"] as Document
         let doc2 = ["hello": "computer", "a": "b"] as Document
 
-        
         sync.insertMany(documents: [doc1, doc2], joiner.capture())
         let insertManyResult = joiner.value(asType: InsertManyResult.self)
 
@@ -1245,7 +1250,6 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             return
         }
 
-
         sync.updateOne(filter: ["_id": insertedId.value],
                        update: ["$set": ["hello": "goodbye"] as Document],
                        options: nil,
@@ -1266,7 +1270,6 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         sync.find(filter: ["_id": insertedId.value],
                   options: nil,
                   joiner.capture())
-
 
         guard let cursor = joiner.value(asType: MongoCursor<Document>.self),
             let actualDoc = cursor.next() else {
@@ -1436,7 +1439,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 public struct CustomType: Codable {
     public let id: String
     public let intValue: Int
-    
+
     public enum CodingKeys: String, CodingKey {
         case id = "_id", intValue
     }

@@ -18,8 +18,7 @@ private class WeakNetworkStateDelegate {
 public class TestNetworkMonitor: NetworkMonitor {
     private var delegates = [WeakNetworkStateDelegate]()
 
-    public var state: NetworkState = .connected
-    {
+    public var state: NetworkState = .connected {
         didSet {
             delegates.forEach { $0.weak?.on(stateChangedFor: state) }
         }
@@ -37,37 +36,38 @@ public class TestNetworkMonitor: NetworkMonitor {
 
 open class BaseStitchIntTestCocoaTouch: BaseStitchIntTest {
     var clients = [StitchAppClient]()
-    
+
     public func fetchPlist<T: BaseStitchIntTestCocoaTouch>(_ this: T.Type) -> [String: Any]? {
         let testBundle = Bundle(for: this)
         guard let url = testBundle.url(forResource: "Info", withExtension: "plist"),
-            let myDict = NSDictionary(contentsOf: url) as? [String:Any] else {
+            let myDict = NSDictionary(contentsOf: url) as? [String: Any] else {
                 return nil
         }
-        
+
         return myDict
     }
-    
+
     private lazy var pList: [String: Any]? = {
         let testBundle = Bundle(for: BaseStitchIntTestCocoaTouch.self)
         guard let url = testBundle.url(forResource: "Info", withExtension: "plist"),
-            let myDict = NSDictionary(contentsOf: url) as? [String:Any] else {
+            let myDict = NSDictionary(contentsOf: url) as? [String: Any] else {
                 return nil
         }
-        
+
         return myDict
     }()
-    
+
     override open func tearDown() {
         super.tearDown()
         clients.forEach { $0.auth.logout { _ in } }
     }
-    
+
     override open var stitchBaseURL: String {
         return (pList?[stitchBaseURLProp] as? String) ?? "http://localhost:9090"
     }
 
     public let networkMonitor = TestNetworkMonitor()
+
     public func appClient(forApp app: AppResponse) throws -> StitchAppClient {
         if let appClient = try? Stitch.appClient(forAppID: app.clientAppID) {
             return appClient
@@ -80,7 +80,7 @@ open class BaseStitchIntTestCocoaTouch: BaseStitchIntTest {
                 .with(networkMonitor: networkMonitor)
                 .build()
         )
-            
+
         clients.append(client)
         return client
     }
@@ -92,7 +92,7 @@ open class BaseStitchIntTestCocoaTouch: BaseStitchIntTest {
     open func goOffline() {
         networkMonitor.state = .disconnected
     }
-    
+
     // Registers a new email/password user, and logs them in, returning the user's ID
     public func registerAndLoginWithUserPass(
         app: Apps.App,
@@ -103,22 +103,21 @@ open class BaseStitchIntTestCocoaTouch: BaseStitchIntTest {
         let emailPassClient = client.auth.providerClient(fromFactory:
             userPasswordClientFactory
         )
-        
+
         let exp0 = expectation(description: "should register")
         emailPassClient.register(withEmail: email, withPassword: pass) { _ in
             exp0.fulfill()
         }
         wait(for: [exp0], timeout: 5.0)
-        
-        
+
         let conf = try app.userRegistrations.sendConfirmation(toEmail: email)
-        
+
         let exp1 = expectation(description: "should confirm user")
         emailPassClient.confirmUser(withToken: conf.token, withTokenID: conf.tokenID) { _ in
             exp1.fulfill()
         }
         wait(for: [exp1], timeout: 5.0)
-        
+
         let exp2 = expectation(description: "should login")
         var user: StitchUser!
         client.auth.login(withCredential: UserPasswordCredential(withUsername: email, withPassword: pass)) { result in
@@ -126,12 +125,12 @@ open class BaseStitchIntTestCocoaTouch: BaseStitchIntTest {
             case .success(let stitchUser):
                 user = stitchUser
             case .failure:
-                XCTFail()
+                XCTFail("login failed when registering and logging in new test user")
             }
             exp2.fulfill()
         }
         wait(for: [exp2], timeout: 5.0)
-        
+
         return user.id
     }
 }
