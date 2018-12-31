@@ -7,13 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		110E02E721D6A8C9000B770F /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 110E02E621D6A8C9000B770F /* StitchCore.framework */; };
+		110E02F121D6A9AB000B770F /* StitchDarwinCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 110E02F021D6A9AB000B770F /* StitchDarwinCoreTestUtils.framework */; };
+		110E02F321D6A9B0000B770F /* StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 110E02F221D6A9B0000B770F /* StitchCoreAdminClient.framework */; };
 		11B54E1A211248D80009E0F0 /* StitchAWSService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11B54E10211248D80009E0F0 /* StitchAWSService.framework */; };
 		11B54E1F211248D80009E0F0 /* AWSServiceClientIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B54E1E211248D80009E0F0 /* AWSServiceClientIntTests.swift */; };
 		11FCDC33211263E200894377 /* AWSServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11FCDC32211263E200894377 /* AWSServiceClient.swift */; };
 		11FCDC352112640400894377 /* AWSServiceClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11FCDC342112640400894377 /* AWSServiceClientImpl.swift */; };
 		11FCDC372112643600894377 /* StitchAWSServiceExports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11FCDC362112643600894377 /* StitchAWSServiceExports.swift */; };
-		494335B821923626005B170D /* StitchDarwinCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494335B721923626005B170D /* StitchDarwinCoreTestUtils.framework */; };
-		494335BA2192362A005B170D /* StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494335B92192362A005B170D /* StitchCoreAdminClient.framework */; };
 		498E55E82190B8B200A02A03 /* StitchCoreAWSService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E55E72190B8B200A02A03 /* StitchCoreAWSService.framework */; };
 		8403B94CB432EA5C777A272F /* Pods_StitchAWSServiceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36B9E754694C772C6EA03D63 /* Pods_StitchAWSServiceTests.framework */; };
 		CBC42A59637EB86CCD9E7EFC /* Pods_StitchAWSService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 220B73C0893330D5D9255B73 /* Pods_StitchAWSService.framework */; };
@@ -31,6 +32,9 @@
 
 /* Begin PBXFileReference section */
 		03A052F628F5337035122010 /* Pods-StitchAWSService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchAWSService.debug.xcconfig"; path = "Target Support Files/Pods-StitchAWSService/Pods-StitchAWSService.debug.xcconfig"; sourceTree = "<group>"; };
+		110E02E621D6A8C9000B770F /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		110E02F021D6A9AB000B770F /* StitchDarwinCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchDarwinCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		110E02F221D6A9B0000B770F /* StitchCoreAdminClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAdminClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		11B54E10211248D80009E0F0 /* StitchAWSService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StitchAWSService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		11B54E14211248D80009E0F0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		11B54E19211248D80009E0F0 /* StitchAWSServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StitchAWSServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -55,8 +59,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				494335BA2192362A005B170D /* StitchCoreAdminClient.framework in Frameworks */,
-				494335B821923626005B170D /* StitchDarwinCoreTestUtils.framework in Frameworks */,
+				110E02F321D6A9B0000B770F /* StitchCoreAdminClient.framework in Frameworks */,
+				110E02F121D6A9AB000B770F /* StitchDarwinCoreTestUtils.framework in Frameworks */,
+				110E02E721D6A8C9000B770F /* StitchCore.framework in Frameworks */,
 				498E55E82190B8B200A02A03 /* StitchCoreAWSService.framework in Frameworks */,
 				CBC42A59637EB86CCD9E7EFC /* Pods_StitchAWSService.framework in Frameworks */,
 			);
@@ -118,6 +123,9 @@
 		11FCDBD62112566100894377 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				110E02F221D6A9B0000B770F /* StitchCoreAdminClient.framework */,
+				110E02F021D6A9AB000B770F /* StitchDarwinCoreTestUtils.framework */,
+				110E02E621D6A8C9000B770F /* StitchCore.framework */,
 				494335B92192362A005B170D /* StitchCoreAdminClient.framework */,
 				494335B721923626005B170D /* StitchDarwinCoreTestUtils.framework */,
 				498E55E72190B8B200A02A03 /* StitchCoreAWSService.framework */,
@@ -169,6 +177,7 @@
 				11B54E0C211248D80009E0F0 /* Frameworks */,
 				11B54E0D211248D80009E0F0 /* Headers */,
 				11B54E0E211248D80009E0F0 /* Resources */,
+				11D465EB21D68B5600F0718F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -254,6 +263,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		11D465EB21D68B5600F0718F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
+		};
 		502F9C32285A19CF09FE6B63 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -560,7 +586,14 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "\"$(SRCROOT)/../../../Frameworks/macos\" $(inherited) @executable_path/Frameworks @loader_path/Frameworks $(inherited) @executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"\"$(SRCROOT)/../../../Frameworks/macos\"",
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchAWSServiceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";

@@ -1,3 +1,4 @@
+// swiftlint:disable force_try
 import Foundation
 import MongoSwift
 import MockUtils
@@ -5,29 +6,37 @@ import MockUtils
 
 public struct StubAuthRoutes: StitchAuthRoutes {
     public var sessionRoute: String = ""
-    
+
     public var profileRoute: String = ""
-    
+
     public var baseAuthRoute: String = ""
-    
+
     public func authProviderRoute(withProviderName providerName: String) -> String {
         return ""
     }
-    
+
     public func authProviderLoginRoute(withProviderName providerName: String) -> String {
         return ""
     }
-    
+
     public func authProviderLinkRoute(withProviderName providerName: String) -> String {
         return ""
     }
 }
 
 public final class StubStitchRequestClient: StitchRequestClient {
-    public init() { }
-    
-    public init(baseURL: String, transport: Transport, defaultRequestTimeout: TimeInterval) { }
-    
+    public let baseURL: String
+
+    public let transport: Transport
+
+    public let defaultRequestTimeout: TimeInterval
+
+    public init() {
+        baseURL = ""
+        transport = MockTransport()
+        defaultRequestTimeout = 0
+    }
+
     public func doRequest(_ stitchReq: StitchRequest) throws -> Response {
         return Response.init(statusCode: 500, headers: [:], body: nil)
     }
@@ -49,18 +58,18 @@ public final class MockCoreStitchAuth<TStitchUser>: CoreStitchAuth<TStitchUser> 
         self.getAuthInfoMock.clearStubs()
         self.getAuthInfoMock.clearInvocations()
     }
-    
+
     public var isLoggedInMock = FunctionMockUnit<Bool>()
     public override var isLoggedIn: Bool {
         return isLoggedInMock.run()
     }
-    
+
     public var getAuthInfoMock = FunctionMockUnit<AuthInfo?>()
     public override var authInfo: AuthInfo? {
         get { return getAuthInfoMock.run() }
         set { }
     }
-    
+
     public var refreshAccessTokenMock = FunctionMockUnit<Void>()
     public override func refreshAccessToken() {
         return refreshAccessTokenMock.run()

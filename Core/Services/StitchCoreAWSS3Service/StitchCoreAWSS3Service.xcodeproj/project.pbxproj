@@ -43,8 +43,8 @@
 		OBJ_14 /* CoreAWSS3ServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAWSS3ServiceClient.swift; sourceTree = "<group>"; };
 		OBJ_17 /* CoreAWSS3ServiceClientUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAWSS3ServiceClientUnitTests.swift; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
-		StitchCoreAWSS3Service::StitchCoreAWSS3Service::Product /* StitchCoreAWSS3Service.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAWSS3Service.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		StitchCoreAWSS3Service::StitchCoreAWSS3ServiceTests::Product /* StitchCoreAWSS3ServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = StitchCoreAWSS3ServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StitchCoreAWSS3Service::StitchCoreAWSS3Service::Product" /* StitchCoreAWSS3Service.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAWSS3Service.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StitchCoreAWSS3Service::StitchCoreAWSS3ServiceTests::Product" /* StitchCoreAWSS3ServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = StitchCoreAWSS3ServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,8 +108,8 @@
 		OBJ_129 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				StitchCoreAWSS3Service::StitchCoreAWSS3ServiceTests::Product /* StitchCoreAWSS3ServiceTests.xctest */,
-				StitchCoreAWSS3Service::StitchCoreAWSS3Service::Product /* StitchCoreAWSS3Service.framework */,
+				"StitchCoreAWSS3Service::StitchCoreAWSS3ServiceTests::Product" /* StitchCoreAWSS3ServiceTests.xctest */,
+				"StitchCoreAWSS3Service::StitchCoreAWSS3Service::Product" /* StitchCoreAWSS3Service.framework */,
 			);
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -162,13 +162,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		StitchCoreAWSS3Service::StitchCoreAWSS3Service /* StitchCoreAWSS3Service */ = {
+		"StitchCoreAWSS3Service::StitchCoreAWSS3Service" /* StitchCoreAWSS3Service */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_152 /* Build configuration list for PBXNativeTarget "StitchCoreAWSS3Service" */;
 			buildPhases = (
 				AB8DC98D6A85B4154F4D1752 /* [CP] Check Pods Manifest.lock */,
 				OBJ_155 /* Sources */,
 				OBJ_159 /* Frameworks */,
+				11D465DD21D68AE100F0718F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -176,10 +177,10 @@
 			);
 			name = StitchCoreAWSS3Service;
 			productName = StitchCoreAWSS3Service;
-			productReference = StitchCoreAWSS3Service::StitchCoreAWSS3Service::Product /* StitchCoreAWSS3Service.framework */;
+			productReference = "StitchCoreAWSS3Service::StitchCoreAWSS3Service::Product" /* StitchCoreAWSS3Service.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		StitchCoreAWSS3Service::StitchCoreAWSS3ServiceTests /* StitchCoreAWSS3ServiceTests */ = {
+		"StitchCoreAWSS3Service::StitchCoreAWSS3ServiceTests" /* StitchCoreAWSS3ServiceTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_175 /* Build configuration list for PBXNativeTarget "StitchCoreAWSS3ServiceTests" */;
 			buildPhases = (
@@ -195,7 +196,7 @@
 			);
 			name = StitchCoreAWSS3ServiceTests;
 			productName = StitchCoreAWSS3ServiceTests;
-			productReference = StitchCoreAWSS3Service::StitchCoreAWSS3ServiceTests::Product /* StitchCoreAWSS3ServiceTests.xctest */;
+			productReference = "StitchCoreAWSS3Service::StitchCoreAWSS3ServiceTests::Product" /* StitchCoreAWSS3ServiceTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -218,13 +219,30 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				StitchCoreAWSS3Service::StitchCoreAWSS3Service /* StitchCoreAWSS3Service */,
-				StitchCoreAWSS3Service::StitchCoreAWSS3ServiceTests /* StitchCoreAWSS3ServiceTests */,
+				"StitchCoreAWSS3Service::StitchCoreAWSS3Service" /* StitchCoreAWSS3Service */,
+				"StitchCoreAWSS3Service::StitchCoreAWSS3ServiceTests" /* StitchCoreAWSS3ServiceTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		11D465DD21D68AE100F0718F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
+		};
 		70B470A852863EFBA2875388 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -325,7 +343,7 @@
 /* Begin PBXTargetDependency section */
 		492FA7312190934D001DFD53 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = StitchCoreAWSS3Service::StitchCoreAWSS3Service /* StitchCoreAWSS3Service */;
+			target = "StitchCoreAWSS3Service::StitchCoreAWSS3Service" /* StitchCoreAWSS3Service */;
 			targetProxy = 492FA7302190934D001DFD53 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */

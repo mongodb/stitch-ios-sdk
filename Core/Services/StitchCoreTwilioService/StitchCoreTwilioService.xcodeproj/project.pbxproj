@@ -37,8 +37,8 @@
 		OBJ_11 /* CoreTwilioServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreTwilioServiceClient.swift; sourceTree = "<group>"; };
 		OBJ_14 /* CoreTwilioServiceClientUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreTwilioServiceClientUnitTests.swift; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
-		StitchCoreTwilioService::StitchCoreTwilioService::Product /* StitchCoreTwilioService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTwilioService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		StitchCoreTwilioService::StitchCoreTwilioServiceTests::Product /* StitchCoreTwilioServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = StitchCoreTwilioServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StitchCoreTwilioService::StitchCoreTwilioService::Product" /* StitchCoreTwilioService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTwilioService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"StitchCoreTwilioService::StitchCoreTwilioServiceTests::Product" /* StitchCoreTwilioServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = StitchCoreTwilioServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,8 +106,8 @@
 		OBJ_126 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				StitchCoreTwilioService::StitchCoreTwilioServiceTests::Product /* StitchCoreTwilioServiceTests.xctest */,
-				StitchCoreTwilioService::StitchCoreTwilioService::Product /* StitchCoreTwilioService.framework */,
+				"StitchCoreTwilioService::StitchCoreTwilioServiceTests::Product" /* StitchCoreTwilioServiceTests.xctest */,
+				"StitchCoreTwilioService::StitchCoreTwilioService::Product" /* StitchCoreTwilioService.framework */,
 			);
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -144,13 +144,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		StitchCoreTwilioService::StitchCoreTwilioService /* StitchCoreTwilioService */ = {
+		"StitchCoreTwilioService::StitchCoreTwilioService" /* StitchCoreTwilioService */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_243 /* Build configuration list for PBXNativeTarget "StitchCoreTwilioService" */;
 			buildPhases = (
 				83894BE37CEFE3B3AF9DA71C /* [CP] Check Pods Manifest.lock */,
 				OBJ_246 /* Sources */,
 				OBJ_248 /* Frameworks */,
+				11D465D721D68AAE00F0718F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -158,10 +159,10 @@
 			);
 			name = StitchCoreTwilioService;
 			productName = StitchCoreTwilioService;
-			productReference = StitchCoreTwilioService::StitchCoreTwilioService::Product /* StitchCoreTwilioService.framework */;
+			productReference = "StitchCoreTwilioService::StitchCoreTwilioService::Product" /* StitchCoreTwilioService.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		StitchCoreTwilioService::StitchCoreTwilioServiceTests /* StitchCoreTwilioServiceTests */ = {
+		"StitchCoreTwilioService::StitchCoreTwilioServiceTests" /* StitchCoreTwilioServiceTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_263 /* Build configuration list for PBXNativeTarget "StitchCoreTwilioServiceTests" */;
 			buildPhases = (
@@ -177,7 +178,7 @@
 			);
 			name = StitchCoreTwilioServiceTests;
 			productName = StitchCoreTwilioServiceTests;
-			productReference = StitchCoreTwilioService::StitchCoreTwilioServiceTests::Product /* StitchCoreTwilioServiceTests.xctest */;
+			productReference = "StitchCoreTwilioService::StitchCoreTwilioServiceTests::Product" /* StitchCoreTwilioServiceTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -200,13 +201,30 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				StitchCoreTwilioService::StitchCoreTwilioService /* StitchCoreTwilioService */,
-				StitchCoreTwilioService::StitchCoreTwilioServiceTests /* StitchCoreTwilioServiceTests */,
+				"StitchCoreTwilioService::StitchCoreTwilioService" /* StitchCoreTwilioService */,
+				"StitchCoreTwilioService::StitchCoreTwilioServiceTests" /* StitchCoreTwilioServiceTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		11D465D721D68AAE00F0718F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
+		};
 		83894BE37CEFE3B3AF9DA71C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -305,7 +323,7 @@
 /* Begin PBXTargetDependency section */
 		OBJ_275 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = StitchCoreTwilioService::StitchCoreTwilioService /* StitchCoreTwilioService */;
+			target = "StitchCoreTwilioService::StitchCoreTwilioService" /* StitchCoreTwilioService */;
 			targetProxy = 498060362184CF4300E2A3A2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */

@@ -1,3 +1,7 @@
+// swiftlint:disable force_try
+// swiftlint:disable function_body_length
+// swiftlint:disable function_length
+// swiftlint:disable nesting
 import XCTest
 @testable import Swifter
 @testable import StitchCoreSDK
@@ -94,13 +98,13 @@ class FoundationHTTPTransportIntTests: StitchXCTestCase {
             return HttpResponse.raw(
                 200,
                 "OK", [
-                "Content-Type" : "text/event-stream",
-                "Cache-Control" : "no-cache",
-                "Connection" : "keep-alive"
+                "Content-Type": "text/event-stream",
+                "Cache-Control": "no-cache",
+                "Connection": "keep-alive"
             ]) { writer in
-                var _lines = Array(lines)
-                while !_lines.isEmpty {
-                    try! writer.write("data: \(_lines.removeFirst())\n\n".data(using: .utf8)!)
+                var linesArr = Array(lines)
+                while !linesArr.isEmpty {
+                    try! writer.write("data: \(linesArr.removeFirst())\n\n".data(using: .utf8)!)
                 }
             }
         }
@@ -143,11 +147,11 @@ class FoundationHTTPTransportIntTests: StitchXCTestCase {
         wait(for: [delegate.lineExp], timeout: 10)
 
         eventStream.close()
-        
+
         wait(for: [delegate.closeExp], timeout: 10)
 
-        for i in 0 ..< 4 {
-            XCTAssertEqual(delegate.events[i].rawData, lines[i])
+        for inc in 0 ..< 4 {
+            XCTAssertEqual(delegate.events[inc].rawData, lines[inc])
         }
     }
 }

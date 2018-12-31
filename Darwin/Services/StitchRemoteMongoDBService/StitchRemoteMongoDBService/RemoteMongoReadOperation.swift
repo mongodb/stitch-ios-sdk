@@ -10,7 +10,7 @@ import StitchCoreRemoteMongoDBService
 public class RemoteMongoReadOperation<T: Codable> {
     private let proxy: CoreRemoteMongoReadOperation<T>
     private let dispatcher: OperationDispatcher
-    
+
     internal init(withOperations operations: CoreRemoteMongoReadOperation<T>,
                   withDispatcher dispatcher: OperationDispatcher) {
         self.proxy = operations
@@ -31,7 +31,7 @@ public class RemoteMongoReadOperation<T: Codable> {
             return try self.proxy.first()
         }
     }
-    
+
     /**
      * Executes the operation and returns the result as an array.
      *
@@ -40,12 +40,25 @@ public class RemoteMongoReadOperation<T: Codable> {
      *                        This handler is executed on a non-main global `DispatchQueue`. If the operation is
      *                        successful, the result will contain the documents in the result as an array.
      */
-    public func asArray(_ completionHandler: @escaping (StitchResult<[T]>) -> Void) {
+    public func toArray(_ completionHandler: @escaping (StitchResult<[T]>) -> Void) {
         self.dispatcher.run(withCompletionHandler: completionHandler) {
-            return try self.proxy.asArray()
+            return try self.proxy.toArray()
         }
     }
-    
+
+    /**
+     * Executes the operation and returns the result as an array. Deprecated in favor of toArray.
+     *
+     * - parameters:
+     *   - completionHandler: The completion handler to call when the operation is completed or if the operation fails.
+     *                        This handler is executed on a non-main global `DispatchQueue`. If the operation is
+     *                        successful, the result will contain the documents in the result as an array.
+     */
+    @available(*, deprecated, message: "use toArray instead")
+    public func asArray(_ completionHandler: @escaping (StitchResult<[T]>) -> Void) {
+        self.toArray(completionHandler)
+    }
+
     /**
      * Executes the operation and returns a cursor to its resulting documents.
      *

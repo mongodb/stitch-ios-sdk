@@ -27,6 +27,8 @@ public let userPasswordClientFactory = UserPasswordClientFactory()
  * A protocol defining methods for interacting with username/password authentication provider in Stitch.
  */
 public protocol UserPasswordAuthProviderClient {
+
+    // Disabled line length rule due to https://github.com/realm/jazzy/issues/896
     // swiftlint:disable line_length
 
     /**
@@ -50,8 +52,6 @@ public protocol UserPasswordAuthProviderClient {
      */
     func confirmUser(withToken token: String, withTokenID tokenID: String, completionHandler: @escaping (StitchResult<Void>) -> Void)
 
-    // swiftlint:enable line_length
-
     /**
      * Re-sends a confirmation email to a user that has registered but not yet confirmed their email address.
      *
@@ -69,8 +69,6 @@ public protocol UserPasswordAuthProviderClient {
      *     - completionHandler: The handler to be executed when the request is complete.
      */
     func sendResetPasswordEmail(toEmail email: String, completionHandler: @escaping (StitchResult<Void>) -> Void)
-
-    // swiftlint:disable line_length
 
     /**
      * Resets the password of an email identity using the password reset token emailed to a user.

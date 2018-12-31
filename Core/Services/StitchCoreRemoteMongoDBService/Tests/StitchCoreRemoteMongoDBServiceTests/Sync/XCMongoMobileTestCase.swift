@@ -1,3 +1,4 @@
+// swiftlint:disable force_try
 import Foundation
 import XCTest
 import MongoMobile
@@ -123,7 +124,6 @@ class XCMongoMobileTestCase: XCTestCase {
                                                       authMonitor: TestAuthMonitor())
     lazy var localClient: ThreadSafeMongoClient = try! ThreadSafeMongoClient(withAppInfo: appClientInfo)
 
-
     let routes = StitchAppRoutes.init(clientAppID: "foo").serviceRoutes
     let requestClient = MockStitchAuthRequestClient()
     final lazy var spyServiceClient = SpyCoreStitchServiceClient.init(requestClient: requestClient,
@@ -139,7 +139,7 @@ class XCMongoMobileTestCase: XCTestCase {
         get {
             lazyLock.wait()
             defer { lazyLock.signal() }
-            
+
             if storedDataSynchronizer == nil {
                 storedDataSynchronizer = try! TestCaseDataSynchronizer.init(
                     deinitializing: true,
@@ -267,11 +267,17 @@ class XCMongoMobileTestCase: XCTestCase {
         return try self.remoteCollection(withSpy: withSpy, withType: Document.self)
     }
 
-    func remoteCollection<T: Codable>(withSpy: Bool = false, withType type: T.Type) throws -> CoreRemoteMongoCollection<T> {
+    func remoteCollection<T: Codable>(
+        withSpy: Bool = false,
+        withType type: T.Type
+    ) throws -> CoreRemoteMongoCollection<T> {
         return try self.remoteCollection(withSpy: withSpy, for: namespace, withType: type)
     }
 
-    func remoteCollection(withSpy: Bool = false, for namespace: MongoNamespace) throws -> CoreRemoteMongoCollection<Document> {
+    func remoteCollection(
+        withSpy: Bool = false,
+        for namespace: MongoNamespace
+    ) throws -> CoreRemoteMongoCollection<Document> {
         return try remoteCollection(withSpy: withSpy, for: namespace, withType: Document.self)
     }
 

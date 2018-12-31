@@ -5,7 +5,7 @@ import StitchCoreFCMService
 
 private final class FCMNamedServiceClientFactory: NamedServiceClientFactory {
     typealias ClientType = FCMServiceClient
-    
+
     func client(withServiceClient serviceClient: CoreStitchServiceClient,
                 withClientInfo clientInfo: StitchAppClientInfo) -> FCMServiceClient {
         return FCMServiceClientImpl.init(
@@ -26,7 +26,10 @@ public let fcmServiceClientFactory =
  * The FCM service client, which can be used to send push notifications to other users via MongoDB Stitch.
  */
 public protocol FCMServiceClient {
-    
+
+    // Disabled line length rule due to https://github.com/realm/jazzy/issues/896
+    // swiftlint:disable line_length
+
     /**
      * Sends an FCM message to the given target with the given request payload.
      *
@@ -39,7 +42,7 @@ public protocol FCMServiceClient {
      *                          `FCMSendMessageRequest`.
      */
     func sendMessage(to target: String, withRequest request: FCMSendMessageRequest, _ completionHandler: @escaping (StitchResult<FCMSendMessageResult>) -> Void)
-    
+
     /**
      * Sends an FCM message to the given set of Stitch users with the given request payload.
      *
@@ -52,7 +55,7 @@ public protocol FCMServiceClient {
      *                          `FCMSendMessageRequest`.
      */
     func sendMessage(toUserIDs userIDs: [String], withRequest request: FCMSendMessageRequest, _ completionHandler: @escaping (StitchResult<FCMSendMessageResult>) -> Void)
-    
+
     /**
      * Sends an FCM message to the given set of registration tokens with the given request payload.
      *

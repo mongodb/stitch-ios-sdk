@@ -8,9 +8,11 @@ public final class MockStitchAuthRequestClient: StitchAuthRequestClient {
     public func doAuthenticatedRequest(_ stitchReq: StitchAuthRequest) throws -> Response {
         return try doAuthenticatedRequestMock.throwingRun(arg1: stitchReq)
     }
-    
+
     public var doAuthenticatedRequestWithDecodingMock = FunctionMockUnitOneArg<Any, StitchAuthRequest>()
-    public func doAuthenticatedRequest<DecodedT>(_ stitchReq: StitchAuthRequest) throws -> DecodedT where DecodedT : Decodable {
+    public func doAuthenticatedRequest<DecodedT>(
+        _ stitchReq: StitchAuthRequest
+    ) throws -> DecodedT where DecodedT: Decodable {
         if let result = try doAuthenticatedRequestWithDecodingMock.throwingRun(arg1: stitchReq) as? DecodedT {
             return result
         } else {
@@ -18,8 +20,12 @@ public final class MockStitchAuthRequestClient: StitchAuthRequestClient {
         }
     }
 
-    public var openAuthenticatedStreamMock = FunctionMockUnitTwoArgs<RawSSEStream, StitchAuthRequest, SSEStreamDelegate?>()
-    public func openAuthenticatedStream(_ stitchReq: StitchAuthRequest, delegate: SSEStreamDelegate? = nil) throws -> RawSSEStream {
+    public var openAuthenticatedStreamMock =
+        FunctionMockUnitTwoArgs<RawSSEStream, StitchAuthRequest, SSEStreamDelegate?>()
+    public func openAuthenticatedStream(
+        _ stitchReq: StitchAuthRequest,
+        delegate: SSEStreamDelegate? = nil
+    ) throws -> RawSSEStream {
         return try openAuthenticatedStreamMock.throwingRun(arg1: stitchReq, arg2: delegate)
     }
 }

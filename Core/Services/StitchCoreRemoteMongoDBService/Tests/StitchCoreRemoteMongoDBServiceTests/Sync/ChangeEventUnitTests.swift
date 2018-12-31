@@ -1,3 +1,5 @@
+// swiftlint:disable function_body_length
+// swiftlint:disable nesting
 import Foundation
 import XCTest
 import MongoSwift
@@ -79,7 +81,9 @@ class ChangeEventUnitTests: XCTestCase {
             updateDescription: nil,
             hasUncommittedWrites: writePending)
 
-        let actualLocalReplaceEvent = ChangeEvent<Document>.changeEventForLocalReplace(namespace: namespace, documentId: docId, document: document, writePending: writePending)
+        let actualLocalReplaceEvent = ChangeEvent<Document>.changeEventForLocalReplace(
+            namespace: namespace, documentId: docId, document: document, writePending: writePending
+        )
 
         try compare(expectedChangeEvent: expectedLocalReplaceEvent, to: actualLocalReplaceEvent)
     }

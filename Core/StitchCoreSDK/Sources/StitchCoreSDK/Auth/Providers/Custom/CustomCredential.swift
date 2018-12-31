@@ -6,7 +6,7 @@ import MongoSwift
  */
 public struct CustomCredential: StitchCredential {
     // MARK: Initializer
-    
+
     /**
      * Initializes this credential with the name of the provider, and a JWT.
      */
@@ -16,7 +16,7 @@ public struct CustomCredential: StitchCredential {
     }
 
     // MARK: Properties
-    
+
     /**
      * The name of the provider for this credential.
      */

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		110E02E321D6A886000B770F /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 110E02E221D6A886000B770F /* StitchCore.framework */; };
 		11405A7E20C5A01E0041105B /* StitchAWSS3Service.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11405A7420C5A01E0041105B /* StitchAWSS3Service.framework */; };
 		11405A8320C5A01E0041105B /* AWSS3ServiceClientIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11405A8220C5A01E0041105B /* AWSS3ServiceClientIntTests.swift */; };
 		11405A9820C5AF080041105B /* AWSS3ServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11405A9720C5AF080041105B /* AWSS3ServiceClient.swift */; };
@@ -53,6 +54,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		110E02E221D6A886000B770F /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1119EE035BCACE7DD6FAD2DC /* Pods_StitchAWSS3ServiceTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchAWSS3ServiceTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		11405A7420C5A01E0041105B /* StitchAWSS3Service.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StitchAWSS3Service.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		11405A7820C5A01E0041105B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				110E02E321D6A886000B770F /* StitchCore.framework in Frameworks */,
 				498E55E62190B8A600A02A03 /* StitchCoreAWSS3Service.framework in Frameworks */,
 				645BDA888A8D976A4CC0F7FE /* Pods_StitchAWSS3Service.framework in Frameworks */,
 			);
@@ -141,6 +144,7 @@
 		11405A8E20C5A0AC0041105B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				110E02E221D6A886000B770F /* StitchCore.framework */,
 				494335B521923621005B170D /* StitchCoreAdminClient.framework */,
 				494335A52190FD02005B170D /* StitchDarwinCoreTestUtils.framework */,
 				498E55E52190B8A600A02A03 /* StitchCoreAWSS3Service.framework */,
@@ -193,6 +197,7 @@
 				11405A7120C5A01E0041105B /* Headers */,
 				11405A7220C5A01E0041105B /* Resources */,
 				8B77457A99ADA57E483B9A34 /* Embed Frameworks */,
+				11D465EA21D68B5000F0718F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -300,6 +305,23 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		11D465EA21D68B5000F0718F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
 		};
 		8400BAC6319431BA5E8E6145 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -583,7 +605,14 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "\"$(SRCROOT)/../../../Frameworks/macos\" $(inherited) @executable_path/Frameworks @loader_path/Frameworks $(inherited) @executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"\"$(SRCROOT)/../../../Frameworks/macos\"",
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchAWSS3ServiceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";

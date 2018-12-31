@@ -12,11 +12,14 @@ import StitchCoreSDK
  */
 internal func docConfigFilter(forNamespace namespace: MongoNamespace,
                               withDocumentId documentId: AnyBSONValue) -> Document {
+    // TODO(STITCH-2329): this linter exception needs to eventually go away
+    // swiftlint:disable force_try
     return [
         CoreDocumentSynchronization.Config.CodingKeys.namespace.rawValue:
             try! BSONEncoder().encode(namespace),
         CoreDocumentSynchronization.Config.CodingKeys.documentId.rawValue: documentId.value
     ]
+    // swiftlint:enable force_try
 }
 
 /**
@@ -109,12 +112,12 @@ internal class CoreDocumentSynchronization: Hashable {
         }
 
         required init(namespace: MongoNamespace,
-             documentId: HashableBSONValue,
-             lastUncommittedChangeEvent: ChangeEvent<Document>?,
-             lastResolution: Int64,
-             lastKnownRemoteVersion: Document?,
-             isStale: Bool,
-             isPaused: Bool) {
+                      documentId: HashableBSONValue,
+                      lastUncommittedChangeEvent: ChangeEvent<Document>?,
+                      lastResolution: Int64,
+                      lastKnownRemoteVersion: Document?,
+                      isStale: Bool,
+                      isPaused: Bool) {
             self.namespace = namespace
             self.documentId = documentId
             self.uncommittedChangeEvent = lastUncommittedChangeEvent
@@ -123,7 +126,7 @@ internal class CoreDocumentSynchronization: Hashable {
             self.isStale = isStale
             self.isPaused = isPaused
         }
-        
+
         static func == (lhs: CoreDocumentSynchronization.Config,
                         rhs: CoreDocumentSynchronization.Config) -> Bool {
             return lhs.documentId == rhs.documentId
@@ -132,7 +135,6 @@ internal class CoreDocumentSynchronization: Hashable {
         func hash(into hasher: inout Hasher) {
             documentId.hash(into: &hasher)
         }
-
 
     }
 
@@ -145,9 +147,9 @@ internal class CoreDocumentSynchronization: Hashable {
     /// The configuration for this document.
     private(set) var config: Config
     /// The namespace this document is stored in.
-    var namespace: MongoNamespace { get { return config.namespace } }
+    var namespace: MongoNamespace { return config.namespace }
     /// The id of this document.
-    var documentId: AnyBSONValue { get { return config.documentId.bsonValue } }
+    var documentId: AnyBSONValue { return config.documentId.bsonValue }
 
     /// The most recent pending change event
     var uncommittedChangeEvent: ChangeEvent<Document>? {
@@ -233,7 +235,7 @@ internal class CoreDocumentSynchronization: Hashable {
                     try docsColl.updateOne(
                         filter: docConfigFilter(forNamespace: namespace,
                                                 withDocumentId: documentId),
-                        update: [ "$set": [ Config.CodingKeys.isPaused.rawValue : value ] as Document
+                        update: [ "$set": [ Config.CodingKeys.isPaused.rawValue: value ] as Document
                         ])
                 } catch {
                     errorListener?.on(error: error, forDocumentId: documentId.value, in: namespace)
@@ -245,9 +247,7 @@ internal class CoreDocumentSynchronization: Hashable {
 
     /// Whether or not there is a pending write for this document.
     var hasUncommittedWrites: Bool {
-        get {
-            return uncommittedChangeEvent != nil
-        }
+        return uncommittedChangeEvent != nil
     }
 
     init(docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>,
@@ -359,9 +359,12 @@ internal class CoreDocumentSynchronization: Hashable {
         self.config.hash(into: &hasher)
     }
 
+    // TODO(STITCH-2329): this linter exception needs to eventually go away
+    // swiftlint:disable force_try
     internal static func filter(forNamespace namespace: MongoNamespace) -> Document {
         return [CoreDocumentSynchronization.Config.CodingKeys.namespace.rawValue: try! BSONEncoder().encode(namespace)]
     }
+    // swiftlint:disable force_try
 
     /**
      Possibly coalesces the newest change event to match the user's original intent. For example,
@@ -394,7 +397,6 @@ internal class CoreDocumentSynchronization: Hashable {
                     hasUncommittedWrites: newestChangeEvent.hasUncommittedWrites)
             default: break
             }
-            break
         case .delete:
             switch newestChangeEvent.operationType {
             // Coalesce inserts to replaces since we believe at some point a document existed
@@ -412,7 +414,6 @@ internal class CoreDocumentSynchronization: Hashable {
             default:
                 break
             }
-            break
         default:
             break
         }

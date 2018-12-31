@@ -5,7 +5,7 @@ open class CoreStitchPushClientImpl: CoreStitchPushClient {
     private let requestClient: StitchAuthRequestClient
     private let pushRoutes: StitchPushRoutes
     private let serviceName: String
-    
+
     public init(requestClient: StitchAuthRequestClient,
                 routes: StitchPushRoutes,
                 serviceName: String) {
@@ -13,7 +13,7 @@ open class CoreStitchPushClientImpl: CoreStitchPushClient {
         self.pushRoutes = routes
         self.serviceName = serviceName
     }
-    
+
     public func registerInternal(withRegistrationInfo registrationInfo: Document) throws {
         let req = try StitchAuthDocRequestBuilder()
             .with(method: .put)
@@ -23,7 +23,7 @@ open class CoreStitchPushClientImpl: CoreStitchPushClient {
         // Coerce the `Response` return type so response decoding is never attempted.
         let _: Response = try requestClient.doAuthenticatedRequest(req)
     }
-    
+
     public func deregisterInternal() throws {
         let req = try StitchAuthRequestBuilder()
             .with(method: .delete)

@@ -11,7 +11,7 @@ internal final class StitchServiceClientImpl: StitchServiceClient {
      * The operation dispatcher used to dispatch asynchronous operations made by this service.
      */
     private let dispatcher: OperationDispatcher
-    
+
     private let proxy: CoreStitchServiceClient
 
     /**
@@ -23,7 +23,7 @@ internal final class StitchServiceClientImpl: StitchServiceClient {
         self.proxy = proxy
         self.dispatcher = dispatcher
     }
-    
+
     func callFunction(withName name: String,
                       withArgs args: [BSONValue],
                       _ completionHandler: @escaping (StitchResult<Void>) -> Void) {
@@ -40,7 +40,7 @@ internal final class StitchServiceClientImpl: StitchServiceClient {
             try self.proxy.callFunction(withName: name, withArgs: args, withRequestTimeout: requestTimeout)
         }
     }
-    
+
     public func callFunction<T: Decodable>(withName name: String,
                                            withArgs args: [BSONValue],
                                            _ completionHandler: @escaping (StitchResult<T>) -> Void) {

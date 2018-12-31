@@ -1,5 +1,5 @@
+// swiftlint:disable function_body_length
 import XCTest
-
 import StitchCoreSDK
 import StitchCoreAdminClient
 import StitchDarwinCoreTestUtils
@@ -14,17 +14,18 @@ let testAWSSecretAccessKey = TEST_AWS_SECRET_ACCESS_KEY.isEmpty ?
 class AWSSESServiceClientIntTests: BaseStitchIntTestCocoaTouch {
     override func setUp() {
         super.setUp()
-        
+
         guard !(testAWSAccessKeyID?.isEmpty ?? true),
             !(testAWSSecretAccessKey?.isEmpty ?? true) else {
-                XCTFail("No AWS_ACCESS_KEY_ID or AWS_SECRET_ACCESS_KEY in preprocessor macros; failing test. See README for more details.")
+                XCTFail("No AWS_ACCESS_KEY_ID or AWS_SECRET_ACCESS_KEY in preprocessor macros; "
+                        + "failing test. See README for more details.")
                 return
         }
     }
-    
+
     func testSendEmail() throws {
         let app = try self.createApp()
-        let _ = try self.addProvider(toApp: app.1, withConfig: ProviderConfigs.anon())
+        _ = try self.addProvider(toApp: app.1, withConfig: ProviderConfigs.anon())
         let svc = try self.addService(
             toApp: app.1,
             withType: "aws-ses",
@@ -66,10 +67,10 @@ class AWSSESServiceClientIntTests: BaseStitchIntTestCocoaTouch {
                 case .serviceError(_, let withServiceErrorCode):
                     XCTAssertEqual(StitchServiceErrorCode.awsError, withServiceErrorCode)
                 default:
-                    XCTFail()
+                    XCTFail("expected error to be a .serviceError")
                 }
             }
-            
+
             exp1.fulfill()
         }
         wait(for: [exp1], timeout: 5.0)
@@ -100,7 +101,7 @@ class AWSSESServiceClientIntTests: BaseStitchIntTestCocoaTouch {
                 case .serviceError(_, let withServiceErrorCode):
                     XCTAssertEqual(StitchServiceErrorCode.invalidParameter, withServiceErrorCode)
                 default:
-                    XCTFail()
+                    XCTFail("expected error to be a .serviceError")
                 }
             }
             exp3.fulfill()

@@ -12,9 +12,9 @@ class InstanceSynchronizationConfigTests: XCMongoMobileTestCase, FatalErrorListe
                                                  collectionName: ObjectId().description)
 
     override func setUp() {
-        namespaceColl = try! localClient.db(namespace.databaseName)
+        namespaceColl = localClient.db(namespace.databaseName)
             .collection("namespaces", withType: NamespaceSynchronization.Config.self)
-        docsColl = try! localClient.db(namespace.databaseName)
+        docsColl = localClient.db(namespace.databaseName)
             .collection("documents", withType: CoreDocumentSynchronization.Config.self)
     }
 
@@ -27,7 +27,7 @@ class InstanceSynchronizationConfigTests: XCMongoMobileTestCase, FatalErrorListe
     }
 
     func testGet_Set_ModifyInPlace() throws {
-        var instanceSync = try InstanceSynchronization.init(
+        let instanceSync = try InstanceSynchronization.init(
             configDb: localClient.db(namespace.databaseName),
             errorListener: self)
 

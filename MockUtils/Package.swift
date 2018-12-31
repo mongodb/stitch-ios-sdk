@@ -7,7 +7,7 @@ let package = Package(
     products: [
         .library(
             name: "MockUtils",
-            targets: ["MockUtils"]),
+            targets: ["MockUtils"])
     ],
     dependencies: [ ],
     targets: [
@@ -16,6 +16,6 @@ let package = Package(
             dependencies: []),
         .testTarget(
             name: "MockUtilsTests",
-            dependencies: ["MockUtils"]),
+            dependencies: ["MockUtils"])
     ]
 )

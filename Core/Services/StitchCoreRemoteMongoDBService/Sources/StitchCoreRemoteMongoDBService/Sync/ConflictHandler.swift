@@ -31,10 +31,10 @@ public enum DefaultConflictHandlers<T: Codable>: ConflictHandler {
                                 localEvent: ChangeEvent<T>,
                                 remoteEvent: ChangeEvent<T>) throws -> T? {
         switch self {
-            case .remoteWins:
-                return remoteEvent.fullDocument
-            case .localWins:
-                return localEvent.fullDocument
+        case .remoteWins:
+            return remoteEvent.fullDocument
+        case .localWins:
+            return localEvent.fullDocument
         }
     }
 }
@@ -54,7 +54,11 @@ internal final class BlockConflictHandler<T: Codable>: ConflictHandler {
         self.resolveConflictBlock = resolveConflictBlock
     }
 
-    public func resolveConflict(documentId: BSONValue, localEvent: ChangeEvent<BlockConflictHandler.DocumentT>, remoteEvent: ChangeEvent<BlockConflictHandler.DocumentT>) throws -> BlockConflictHandler.DocumentT? {
+    public func resolveConflict(
+        documentId: BSONValue,
+        localEvent: ChangeEvent<BlockConflictHandler.DocumentT>,
+        remoteEvent: ChangeEvent<BlockConflictHandler.DocumentT>
+    ) throws -> BlockConflictHandler.DocumentT? {
         return try self.resolveConflictBlock(documentId, localEvent, remoteEvent)
     }
 }

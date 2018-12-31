@@ -1,3 +1,4 @@
+// swiftlint:disable nesting
 import Foundation
 import XCTest
 @testable import StitchCoreSDK
@@ -5,10 +6,12 @@ import XCTest
 public class RawSSEStreamUnitTests: XCTestCase {
     func testDispatchEvents() throws {
         class PartialDelegate: SSEStreamDelegate {
-            var lastEvent: RawSSE? = nil
+            var lastEvent: RawSSE?
+            var semaphore = DispatchSemaphore(value: 0)
 
             override func on(newEvent event: RawSSE) {
                 lastEvent = event
+                semaphore.signal()
             }
         }
 
@@ -22,7 +25,9 @@ public class RawSSEStreamUnitTests: XCTestCase {
         stream.dispatchEvents()
         XCTAssertNil(partialDelegate.lastEvent)
         stream.dataBuffer.append("data: \(partialLine2)\n\n".data(using: .utf8)!)
+
         stream.dispatchEvents()
+        partialDelegate.semaphore.wait()
         XCTAssertEqual(partialDelegate.lastEvent?.rawData, partialLine1 + partialLine2)
 
         let partialLine3 = "And hand in hand, on the edge of the sand,"
@@ -30,6 +35,7 @@ public class RawSSEStreamUnitTests: XCTestCase {
 
         stream.dataBuffer.append("data: \(partialLine3)\ndata:\(partialLine4)\n\n".data(using: .utf8)!)
         stream.dispatchEvents()
+        partialDelegate.semaphore.wait()
         XCTAssertEqual(partialDelegate.lastEvent?.rawData.split(separator: "\n"),
                        [Substring(partialLine3), Substring(partialLine4)])
     }

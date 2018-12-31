@@ -1,3 +1,5 @@
+// swiftlint:disable force_cast
+// swiftlint:disable nesting
 import Foundation
 import XCTest
 import MongoMobile
@@ -14,9 +16,11 @@ class ConflictHandlerUnitTests: XCTestCase {
     private class TestCodableConflictHandler: ConflictHandler {
         typealias DocumentT = TestCodable
 
-        func resolveConflict(documentId: BSONValue,
-                             localEvent: ChangeEvent<ConflictHandlerUnitTests.TestCodable>,
-                             remoteEvent: ChangeEvent<ConflictHandlerUnitTests.TestCodable>) -> ConflictHandlerUnitTests.TestCodable? {
+        func resolveConflict(
+            documentId: BSONValue,
+            localEvent: ChangeEvent<ConflictHandlerUnitTests.TestCodable>,
+            remoteEvent: ChangeEvent<ConflictHandlerUnitTests.TestCodable>
+        ) -> ConflictHandlerUnitTests.TestCodable? {
             XCTAssertEqual(ConflictHandlerUnitTests.documentId, documentId as! ObjectId)
             XCTAssertTrue(bsonEquals(expectedLocalEvent.id.value, localEvent.id.value))
             XCTAssertEqual(expectedLocalEvent.operationType, localEvent.operationType)

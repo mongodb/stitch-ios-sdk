@@ -1,3 +1,6 @@
+// swiftlint:disable type_body_length
+// swiftlint:disable force_try
+// swiftlint:disable function_body_length
 import Foundation
 import XCTest
 import MongoMobile
@@ -23,7 +26,7 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
     func testRoundTrip() throws {
         let documentId = ObjectId()
 
-        var coreDocSync = try CoreDocumentSynchronization.init(docsColl: docsColl,
+        let coreDocSync = try CoreDocumentSynchronization.init(docsColl: docsColl,
                                                                namespace: namespace,
                                                                documentId: AnyBSONValue(documentId),
                                                                errorListener: nil)
@@ -62,13 +65,20 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
                        encodedCoreDocSync[CoreDocumentSynchronization.Config.CodingKeys.isPaused.rawValue] as? Bool)
         XCTAssertEqual(isStale,
                        encodedCoreDocSync[CoreDocumentSynchronization.Config.CodingKeys.isStale.rawValue] as? Bool)
-        XCTAssertEqual(lastKnownRemoteVersion,
-                       encodedCoreDocSync[CoreDocumentSynchronization.Config.CodingKeys.lastKnownRemoteVersion.rawValue] as? Document)
-        XCTAssertEqual(lastResolution,
-                       encodedCoreDocSync[CoreDocumentSynchronization.Config.CodingKeys.lastResolution.rawValue] as? Int64)
+        XCTAssertEqual(
+            lastKnownRemoteVersion,
+            encodedCoreDocSync[
+                CoreDocumentSynchronization.Config.CodingKeys.lastKnownRemoteVersion.rawValue
+            ] as? Document
+        )
+        XCTAssertEqual(
+            lastResolution,
+            encodedCoreDocSync[CoreDocumentSynchronization.Config.CodingKeys.lastResolution.rawValue] as? Int64)
 
         let lastUncommittedChangeEventBin =
-                       encodedCoreDocSync[CoreDocumentSynchronization.Config.CodingKeys.uncommittedChangeEvent.rawValue] as? Binary
+            encodedCoreDocSync[
+                CoreDocumentSynchronization.Config.CodingKeys.uncommittedChangeEvent.rawValue
+            ] as? Binary
         let lastUncommittedChangeEventDoc = Document.init(fromBSON: lastUncommittedChangeEventBin!.data)
 
         XCTAssertEqual(lastUncommittedChangeEvent,
@@ -142,7 +152,7 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
 
     func testCoalesceChangeEvents() {
         let documentId = ObjectId()
-        var lastUncomittedChangeEvent: ChangeEvent<Document>? = nil
+        var lastUncomittedChangeEvent: ChangeEvent<Document>?
         var newestChangeEvent = ChangeEvent<Document>.changeEventForLocalUpdate(
             namespace: namespace,
             documentId: documentId,

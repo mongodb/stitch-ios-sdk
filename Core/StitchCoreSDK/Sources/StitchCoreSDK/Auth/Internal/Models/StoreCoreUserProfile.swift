@@ -47,12 +47,12 @@ internal final class StoreCoreUserProfile: Codable, StitchUserProfile {
     /**
      * The minimum age of the user.
      */
-    lazy var minAge: Int? = self.data.minAge
+    lazy var minAge: String? = self.data.minAge
 
     /**
      * The maximum age of the user.
      */
-    lazy var maxAge: Int? = self.data.maxAge
+    lazy var maxAge: String? = self.data.maxAge
 
     /**
      * A string describing the type of this user. (Either `server` or `normal`)

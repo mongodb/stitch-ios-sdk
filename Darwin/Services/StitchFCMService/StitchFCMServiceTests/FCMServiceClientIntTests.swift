@@ -1,3 +1,4 @@
+// swiftlint:disable function_body_length
 import Foundation
 import XCTest
 import MongoSwift
@@ -9,17 +10,18 @@ import StitchFCMService
 class FCMServiceClientIntTests: BaseStitchIntTestCocoaTouch {
     override func setUp() {
         super.setUp()
-        
+
         guard !(testFCMSenderID?.isEmpty ?? true),
             !(testFCMAPIKey?.isEmpty ?? true) else {
-                XCTFail("No FCM_SENDER_ID or FCM_API_KEY in preprocessor macros; failing test. See README for more details.")
+                XCTFail("No FCM_SENDER_ID or FCM_API_KEY in preprocessor macros; "
+                        + "failing test. See README for more details.")
                 return
         }
     }
-    
+
     func testSendMessage() throws {
         let app = try self.createApp()
-        let _ = try self.addProvider(toApp: app.1, withConfig: ProviderConfigs.anon())
+        _ = try self.addProvider(toApp: app.1, withConfig: ProviderConfigs.anon())
         let svc = try self.addService(
             toApp: app.1,
             withType: "gcm",
@@ -29,22 +31,22 @@ class FCMServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         _ = try self.addRule(toService: svc.1,
                              withConfig: RuleCreator.actions(name: "rule",
                                                              actions: RuleActionsCreator.fcm(send: true)))
-        
+
         let client = try self.appClient(forApp: app.0)
-        
+
         var exp = expectation(description: "should login")
         client.auth.login(withCredential: AnonymousCredential()) { _  in
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         let fcm = client.serviceClient(fromFactory: fcmServiceClientFactory, withName: "gcm")
-        
+
         let collapseKey = "one"
         let contentAvailable = true
         let data: Document = ["hello": "world"]
         let mutableContent = true
-        
+
         let badge = "myBadge"
         let body = "hellllo"
         let bodyLocArgs = "woo"
@@ -57,7 +59,7 @@ class FCMServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         let title = "my"
         let titleLocArgs = "good"
         let titleLocKey = "friend"
-        
+
         let notification = FCMSendMessageNotificationBuilder()
             .with(badge: badge)
             .with(body: body)
@@ -72,10 +74,10 @@ class FCMServiceClientIntTests: BaseStitchIntTestCocoaTouch {
             .with(titleLocArgs: titleLocArgs)
             .with(titleLocKey: titleLocKey)
             .build()
-        
+
         let priority = FCMSendMessagePriority.high
         let timeToLive: Int64 = 2419200
-        
+
         let fullRequest = FCMSendMessageRequestBuilder()
             .with(collapseKey: collapseKey)
             .with(contentAvailable: contentAvailable)
@@ -86,10 +88,10 @@ class FCMServiceClientIntTests: BaseStitchIntTestCocoaTouch {
             .with(timeToLive: timeToLive)
             .build()
 
-        let to = "who"
-        
+        let toTarget = "who"
+
         exp = expectation(description: "sending to an invalid registration should fail")
-        fcm.sendMessage(to: to, withRequest: fullRequest) { result in
+        fcm.sendMessage(to: toTarget, withRequest: fullRequest) { result in
             switch result {
             case .success(let fcmResult):
                 XCTAssertEqual(0, fcmResult.successes)
@@ -104,7 +106,7 @@ class FCMServiceClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "sending to a topic should work")
         let topic = "/topics/what"
         fcm.sendMessage(to: topic, withRequest: fullRequest) { result in
@@ -119,7 +121,7 @@ class FCMServiceClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "sending to invalid registration tokens should fail")
         fcm.sendMessage(toRegistrationTokens: ["one", "two"], withRequest: fullRequest) { result in
             switch result {
@@ -139,12 +141,12 @@ class FCMServiceClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
-        
+
         exp = expectation(description: "any invalid parameters should fail")
         let badRequest = FCMSendMessageRequestBuilder()
             .with(timeToLive: 100000000000000)
             .build()
-        
+
         fcm.sendMessage(to: "to", withRequest: badRequest) { result in
             switch result {
             case .success:

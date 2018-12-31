@@ -95,7 +95,6 @@
 @_exported import protocol StitchFCMService.FCMServiceClient
 @_exported import let StitchFCMService.fcmServiceClientFactory
 
-
 ///////////////////////
 // StitchHTTPService //
 ///////////////////////

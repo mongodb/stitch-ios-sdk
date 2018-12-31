@@ -97,9 +97,7 @@ internal class NamespaceSynchronization: Sequence {
 
     /// Whether or not this namespace has been configured.
     var isConfigured: Bool {
-        get {
-            return self.conflictHandler != nil
-        }
+        return self.conflictHandler != nil
     }
 
     init(namespacesColl: ThreadSafeMongoCollection<NamespaceSynchronization.Config>,
@@ -131,7 +129,6 @@ internal class NamespaceSynchronization: Sequence {
     var count: Int {
         return self.config.syncedDocuments.count
     }
-
 
     func sync(id: BSONValue) throws -> CoreDocumentSynchronization {
         nsLock.assertWriteLocked()
@@ -174,7 +171,11 @@ internal class NamespaceSynchronization: Sequence {
                                         withDocumentId: documentId.bsonValue))
                     config.syncedDocuments.removeValue(forKey: documentId)
                 } catch {
-                    errorListener?.on(error: error, forDocumentId: documentId.bsonValue.value, in: self.config.namespace)
+                    errorListener?.on(
+                        error: error,
+                        forDocumentId: documentId.bsonValue.value,
+                        in: self.config.namespace
+                    )
                 }
                 return
             }
@@ -214,22 +215,22 @@ internal class NamespaceSynchronization: Sequence {
 
     /// A set of stale ids for the sync'd documents in this namespace.
     var staleDocumentIds: Set<HashableBSONValue> {
-        get {
-            nsLock.assertLocked()
-            do {
-                return Set(
-                    try self.docsColl.distinct(
-                        fieldName: CoreDocumentSynchronization.Config.CodingKeys.documentId.rawValue,
-                        filter: [CoreDocumentSynchronization.Config.CodingKeys.isStale.rawValue: true,
-                                 CoreDocumentSynchronization.Config.CodingKeys.namespace.rawValue: try BSONEncoder().encode(config.namespace)]
-                        ).compactMap({
-                            $0 == nil ? nil : HashableBSONValue($0!)
-                        })
-                )
-            } catch {
-                errorListener?.on(error: error, forDocumentId: nil, in: self.config.namespace)
-                return Set()
-            }
+        nsLock.assertLocked()
+        do {
+            return Set(
+                try self.docsColl.distinct(
+                    fieldName: CoreDocumentSynchronization.Config.CodingKeys.documentId.rawValue,
+                    filter: [
+                        CoreDocumentSynchronization.Config.CodingKeys.isStale.rawValue: true,
+                        CoreDocumentSynchronization.Config.CodingKeys.namespace.rawValue:
+                            try BSONEncoder().encode(config.namespace)
+                    ]).compactMap({
+                        $0 == nil ? nil : HashableBSONValue($0!)
+                    })
+            )
+        } catch {
+            errorListener?.on(error: error, forDocumentId: nil, in: self.config.namespace)
+            return Set()
         }
     }
 

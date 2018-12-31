@@ -8,7 +8,7 @@ let package = Package(
     products: [
         .library(
             name: "StitchCoreLocalMongoDBService",
-            targets: ["StitchCoreLocalMongoDBService"]),
+            targets: ["StitchCoreLocalMongoDBService"])
     ],
     dependencies: [
         .package(url: "../../StitchCoreSDK", .branch("master"))
@@ -19,6 +19,6 @@ let package = Package(
             dependencies: ["StitchCoreSDK"]),
         .testTarget(
             name: "StitchCoreLocalMongoDBServiceTests",
-            dependencies: ["StitchCoreLocalMongoDBService"]),
+            dependencies: ["StitchCoreLocalMongoDBService"])
     ]
 )

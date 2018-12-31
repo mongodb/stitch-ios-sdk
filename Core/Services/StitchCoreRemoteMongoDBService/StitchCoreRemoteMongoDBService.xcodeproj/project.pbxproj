@@ -142,8 +142,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
-				491F9C2D21A45E9400802A4D /* StitchCoreLocalMongoDBService.framework in Frameworks */,
 				498E55D02190A05C00A02A03 /* StitchCoreSDK.framework in Frameworks */,
+				491F9C2D21A45E9400802A4D /* StitchCoreLocalMongoDBService.framework in Frameworks */,
 				D6D7930046A12C074CD77BDD /* Pods_StitchCoreRemoteMongoDBService.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -323,6 +323,7 @@
 				1398972BA2F3D005EE9E1C58 /* [CP] Check Pods Manifest.lock */,
 				OBJ_167 /* Sources */,
 				OBJ_180 /* Frameworks */,
+				11D465D821D68AB800F0718F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -379,6 +380,23 @@
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		11D465D821D68AB800F0718F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
+		};
 		1398972BA2F3D005EE9E1C58 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -439,6 +457,7 @@
 				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework.dSYM",
 				"${BUILT_PRODUCTS_DIR}/MongoMobile/MongoMobile.framework",
 				"${PODS_ROOT}/mongo_embedded/iPhoneOS/Frameworks/mongo_embedded.framework",
+				"${PODS_ROOT}/mongo_embedded/iPhoneOS/Frameworks/mongo_embedded.framework.dSYM",
 				"${PODS_ROOT}/mongoc_embedded/iPhoneOS/Frameworks/mongoc_embedded.framework",
 				"${PODS_ROOT}/mongoc_embedded/iPhoneOS/Frameworks/mongoc_embedded.framework.dSYM",
 			);
@@ -453,6 +472,7 @@
 				"${DWARF_DSYM_FOLDER_PATH}/mongoc.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MongoMobile.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongo_embedded.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/mongo_embedded.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongoc_embedded.framework",
 				"${DWARF_DSYM_FOLDER_PATH}/mongoc_embedded.framework.dSYM",
 			);
