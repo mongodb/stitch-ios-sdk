@@ -1172,9 +1172,12 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         // contain version information. Clone the document and remove forbidden fields from it before
         // storing it in the collection.
         let docForStorage = DataSynchronizer.sanitizeDocument(remoteDocument)
+
         try localCollection.findOneAndReplace(filter: ["_id": documentId],
-                                              replacement: docForStorage, options: FindOneAndReplaceOptions(upsert: true))
+                                              replacement: docForStorage,
+                                              options: FindOneAndReplaceOptions(upsert: true))
         try config.setPendingWritesComplete(atVersion: atVersion)
+
         if documentBeforeUpdate != nil {
             try undoCollection.deleteOne([idField: documentId])
         }
@@ -1350,8 +1353,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 return
             }
 
-            instanceChangeStreamDelegate.start()
             if isSyncThreadEnabled {
+                instanceChangeStreamDelegate.start()
                 self.syncWorkItem = DispatchWorkItem { [weak self] in
                     repeat {
                         guard let dataSync = self else {
@@ -1904,6 +1907,9 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                         return nil
                 }
                 config = docConfig
+                print(documentBeforeUpdate)
+                print(documentAfterUpdate)
+                print(documentBeforeUpdate.diff(otherDocument: documentAfterUpdate).asUpdateDocument)
                 event = ChangeEvent<Document>.changeEventForLocalUpdate(
                     namespace: namespace,
                     documentId: documentId,

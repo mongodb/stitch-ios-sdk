@@ -15,7 +15,19 @@ func validateBSONTypes(_ lhs: BSONValue, _ rhs: BSONValue) {
 
 // swiftlint:disable identifier_name
 // swiftlint:disable cyclomatic_complexity
-func bsonEquals(_ lhs: BSONValue, _ rhs: BSONValue) -> Bool {
+func sBsonEquals(_ lhs: BSONValue?, _ rhs: BSONValue?) -> Bool {
+    if lhs == nil && rhs == nil {
+        return true
+    }
+
+    if (lhs != nil && rhs == nil) || (rhs != nil && lhs == nil) {
+        return false
+    }
+
+    guard let lhs = lhs, let rhs = rhs else {
+        return false
+    }
+
     validateBSONTypes(lhs, rhs)
 
     switch (lhs, rhs) {

@@ -344,6 +344,11 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
                                                     withName: "mongodb1")
     }
 
+    override func goOnline() {
+        super.goOnline()
+//        ctx.streamJoiner.wait(forState: .open)
+    }
+
     override func goOffline() {
         super.goOffline()
         ctx.streamJoiner.wait(forState: .closed)
@@ -1217,7 +1222,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         // locally and remotely.
         try ctx.streamAndSync()
         XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter))
-        XCTAssertEqual(expectedDocument, withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
+        precondition(expectedDocument == withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
 
         coll.verifyUndoCollectionEmpty()
     }
@@ -2026,7 +2031,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         XCTAssertTrue(conflictRaised)
 
         XCTAssertNil(coll.findOne(doc1Filter))
-        XCTAssertNil(remoteColl.findOne(doc1Filter))
+        precondition(remoteColl.findOne(doc1Filter) == nil)
 
         coll.verifyUndoCollectionEmpty()
     }
