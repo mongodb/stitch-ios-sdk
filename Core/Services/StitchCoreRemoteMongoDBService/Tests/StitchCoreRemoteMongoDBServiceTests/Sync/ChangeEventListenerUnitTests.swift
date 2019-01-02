@@ -18,7 +18,7 @@ class ChangeEventDelegateUnitTests: XCTestCase {
 
         func onEvent(documentId: BSONValue, event: ChangeEvent<ChangeEventDelegateUnitTests.TestCodable>) {
             XCTAssertEqual(ChangeEventDelegateUnitTests.documentId, documentId as! ObjectId)
-            XCTAssertTrue(bsonEquals(expectedChangeEvent.id.value, event.id.value))
+            XCTAssertTrue(bsonEqualsOverride(expectedChangeEvent.id.value, event.id.value))
             XCTAssertEqual(expectedChangeEvent.operationType, event.operationType)
             XCTAssertEqual(expectedChangeEvent.fullDocument?["foo"] as? Int, event.fullDocument?.foo)
             XCTAssertEqual(expectedChangeEvent.fullDocument?["bar"] as? String, event.fullDocument?.bar)

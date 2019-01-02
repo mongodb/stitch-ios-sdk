@@ -379,7 +379,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
             XCTAssertNil(localEvent.fullDocument![documentVersionField])
             XCTAssertNil(remoteEvent.fullDocument![documentVersionField])
 
-            if bsonEquals(id, doc1Id) {
+            if bsonEqualsOverride(id, doc1Id) {
                 let merged = localEvent.fullDocument!["foo"] as! Int +
                     (remoteEvent.fullDocument!["foo"] as! Int)
                 var newDocument = remoteEvent.fullDocument!
@@ -1222,7 +1222,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         // locally and remotely.
         try ctx.streamAndSync()
         XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter))
-        precondition(expectedDocument == withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
+        XCTAssertEqual(expectedDocument, withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
 
         coll.verifyUndoCollectionEmpty()
     }
@@ -2031,7 +2031,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         XCTAssertTrue(conflictRaised)
 
         XCTAssertNil(coll.findOne(doc1Filter))
-        precondition(remoteColl.findOne(doc1Filter) == nil)
+        XCTAssertNil(remoteColl.findOne(doc1Filter))
 
         coll.verifyUndoCollectionEmpty()
     }

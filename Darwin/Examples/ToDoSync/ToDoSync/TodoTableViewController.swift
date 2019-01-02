@@ -149,15 +149,15 @@ class TodoTableViewController:
                 }
 
                 if event.operationType == .delete {
-                    guard let idx = self.todoItems.firstIndex(where: { bsonEquals($0.id, id) }) else {
+                    guard let idx = self.todoItems.firstIndex(where: { bsonEqualsOverride($0.id, id) }) else {
                         return
                     }
                     self.todoItems.remove(at: idx)
                 } else {
-                    if let index = self.todoItems.firstIndex(where: { bsonEquals($0.id, id) }) {
+                    if let index = self.todoItems.firstIndex(where: { bsonEqualsOverride($0.id, id) }) {
                         self.todoItems[index] = event.fullDocument!
                     } else {
-                        if !itemsCollection.sync.syncedIds.contains(where: { bsonEquals($0.bsonValue.value, id) }) {
+                        if !itemsCollection.sync.syncedIds.contains(where: { bsonEqualsOverride($0.bsonValue.value, id) }) {
                             try! itemsCollection.sync.sync(ids: [id])
                         }
                         self.todoItems.append(event.fullDocument!)

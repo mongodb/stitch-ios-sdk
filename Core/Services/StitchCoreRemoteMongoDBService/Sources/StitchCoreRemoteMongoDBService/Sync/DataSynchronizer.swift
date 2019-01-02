@@ -1052,7 +1052,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
         let acceptRemote = (sanitizedRemoteDocument == nil && resolvedDocument == nil)
             || (sanitizedRemoteDocument != nil
-                && bsonEquals(sanitizedRemoteDocument, resolvedDocument))
+                && bsonEqualsOverride(sanitizedRemoteDocument, resolvedDocument))
 
         // a. If the resolved document is not nil:
         if let docForStorage = resolvedDocument {
@@ -1907,9 +1907,6 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                         return nil
                 }
                 config = docConfig
-                print(documentBeforeUpdate)
-                print(documentAfterUpdate)
-                print(documentBeforeUpdate.diff(otherDocument: documentAfterUpdate).asUpdateDocument)
                 event = ChangeEvent<Document>.changeEventForLocalUpdate(
                     namespace: namespace,
                     documentId: documentId,

@@ -1183,7 +1183,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         }
 
         XCTAssertEqual("b", actualDoc["a"] as? String)
-        XCTAssert(bsonEquals(insertOneResult?.insertedId ?? nil, actualDoc["_id"]))
+        XCTAssert(bsonEqualsOverride(insertOneResult?.insertedId ?? nil, actualDoc["_id"]))
         XCTAssertEqual("world", actualDoc["hello"] as? String)
         XCTAssertFalse(actualDoc.hasKey(documentVersionField))
         XCTAssertNil(cursor.next())
@@ -1220,7 +1220,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         }
 
         XCTAssertEqual("b", actualDoc["a"] as? String)
-        XCTAssert(bsonEquals(insertManyResult?.insertedIds[0] ?? nil, actualDoc["_id"]))
+        XCTAssert(bsonEqualsOverride(insertManyResult?.insertedIds[0] ?? nil, actualDoc["_id"]))
         XCTAssertEqual("world", actualDoc["hello"] as? String)
         XCTAssertFalse(actualDoc.hasKey(documentVersionField))
         XCTAssertNotNil(cursor.next())

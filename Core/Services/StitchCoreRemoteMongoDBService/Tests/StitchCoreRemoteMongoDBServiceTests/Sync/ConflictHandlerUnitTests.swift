@@ -22,7 +22,7 @@ class ConflictHandlerUnitTests: XCTestCase {
             remoteEvent: ChangeEvent<ConflictHandlerUnitTests.TestCodable>
         ) -> ConflictHandlerUnitTests.TestCodable? {
             XCTAssertEqual(ConflictHandlerUnitTests.documentId, documentId as! ObjectId)
-            XCTAssertTrue(bsonEquals(expectedLocalEvent.id.value, localEvent.id.value))
+            XCTAssertTrue(bsonEqualsOverride(expectedLocalEvent.id.value, localEvent.id.value))
             XCTAssertEqual(expectedLocalEvent.operationType, localEvent.operationType)
             XCTAssertEqual(expectedLocalEvent.fullDocument?["foo"] as? Int, localEvent.fullDocument?.foo)
             XCTAssertEqual(expectedLocalEvent.fullDocument?["bar"] as? String, localEvent.fullDocument?.bar)
@@ -32,7 +32,7 @@ class ConflictHandlerUnitTests: XCTestCase {
             XCTAssertNil(localEvent.updateDescription)
             XCTAssertEqual(expectedLocalEvent.hasUncommittedWrites, localEvent.hasUncommittedWrites)
 
-            XCTAssertTrue(bsonEquals(expectedRemoteEvent.id.value, remoteEvent.id.value))
+            XCTAssertTrue(bsonEqualsOverride(expectedRemoteEvent.id.value, remoteEvent.id.value))
             XCTAssertEqual(expectedRemoteEvent.operationType, remoteEvent.operationType)
             XCTAssertEqual(expectedRemoteEvent.fullDocument?["foo"] as? Int, remoteEvent.fullDocument?.foo)
             XCTAssertEqual(expectedRemoteEvent.fullDocument?["bar"] as? String, remoteEvent.fullDocument?.bar)
