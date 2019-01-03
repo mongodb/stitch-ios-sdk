@@ -1171,7 +1171,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         let doc1 = ["hello": "world", "a": "b", documentVersionField: "naughty"] as Document
 
         sync.insertOne(document: doc1, joiner.capture())
-        let insertOneResult = joiner.value(asType: InsertOneResult.self)
+        let insertOneResult = joiner.value(asType: SyncInsertOneResult.self)
         sync.count(joiner.capture())
         XCTAssertEqual(1, joiner.value())
         sync.find(filter: ["_id": insertOneResult?.insertedId], options: nil, joiner.capture())
@@ -1205,7 +1205,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         let doc2 = ["hello": "computer", "a": "b"] as Document
 
         sync.insertMany(documents: [doc1, doc2], joiner.capture())
-        let insertManyResult = joiner.value(asType: InsertManyResult.self)
+        let insertManyResult = joiner.value(asType: SyncInsertManyResult.self)
 
         sync.count(joiner.capture())
         XCTAssertEqual(2, joiner.value())
@@ -1242,32 +1242,31 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
         sync.updateOne(filter: doc1,
                        update: doc1,
-                       options: UpdateOptions(upsert: true),
+                       options: SyncUpdateOptions(upsert: true),
                        joiner.capture())
 
-        guard let insertedId = (joiner.capturedValue as? UpdateResult)?.upsertedId else {
+        guard let insertedId = (joiner.capturedValue as? SyncUpdateResult)?.upsertedId else {
             XCTFail("doc not upserted")
             return
         }
 
-        sync.updateOne(filter: ["_id": insertedId.value],
+        sync.updateOne(filter: ["_id": insertedId],
                        update: ["$set": ["hello": "goodbye"] as Document],
                        options: nil,
                        joiner.capture())
 
-        guard let updateResult = joiner.capturedValue as? UpdateResult else {
+        guard let updateResult = joiner.capturedValue as? SyncUpdateResult else {
             XCTFail("failed to update doc")
             return
         }
         XCTAssertEqual(updateResult.matchedCount, 1)
         XCTAssertEqual(updateResult.modifiedCount, 1)
-        XCTAssertEqual(updateResult.upsertedCount, 0)
         XCTAssertNil(updateResult.upsertedId)
 
         sync.count(joiner.capture())
         XCTAssertEqual(1, joiner.value())
 
-        sync.find(filter: ["_id": insertedId.value],
+        sync.find(filter: ["_id": insertedId],
                   options: nil,
                   joiner.capture())
 
@@ -1300,7 +1299,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
         sync.insertMany(documents: [doc1, doc2], joiner.capture())
 
-        guard let insertManyResult = (joiner.capturedValue as? InsertManyResult) else {
+        guard let insertManyResult = (joiner.capturedValue as? SyncInsertManyResult) else {
             XCTFail("insert failed")
             return
         }
@@ -1310,14 +1309,13 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
                         update: ["$set": ["hello": "goodbye"] as Document],
                         options: nil,
                         joiner.capture())
-        guard let updateResult = joiner.capturedValue as? UpdateResult else {
+        guard let updateResult = joiner.capturedValue as? SyncUpdateResult else {
             XCTFail("update failed")
             return
         }
 
         XCTAssertEqual(updateResult.matchedCount, 2)
         XCTAssertEqual(updateResult.modifiedCount, 2)
-        XCTAssertEqual(updateResult.upsertedCount, 0)
         XCTAssertNil(updateResult.upsertedId)
 
         sync.count(joiner.capture())
@@ -1363,7 +1361,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
         // delete the { hello: "world" } document
         sync.deleteOne(filter: ["hello": "world"], joiner.capture())
-        var deleteResult = joiner.value(asType: DeleteResult.self)
+        var deleteResult = joiner.value(asType: SyncDeleteResult.self)
         XCTAssertEqual(1, deleteResult?.deletedCount)
 
         // ensure that there is only one document, and that it is the { goodbye: "world" } one
@@ -1375,7 +1373,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
         // delete the remaining document with empty filter
         sync.deleteOne(filter: [], joiner.capture())
-        deleteResult = joiner.value(asType: DeleteResult.self)
+        deleteResult = joiner.value(asType: SyncDeleteResult.self)
         XCTAssertEqual(1, deleteResult?.deletedCount)
 
         // collection should be empty
@@ -1384,7 +1382,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
         // should not be able to delete any more documents
         sync.deleteOne(filter: [], joiner.capture())
-        deleteResult = joiner.value(asType: DeleteResult.self)
+        deleteResult = joiner.value(asType: SyncDeleteResult.self)
         XCTAssertEqual(0, deleteResult?.deletedCount)
     }
 
@@ -1413,7 +1411,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
         // delete documents with a filter for which there are no documents
         sync.deleteMany(filter: ["a": "c"], joiner.capture())
-        var deleteResult = joiner.value(asType: DeleteResult.self)
+        var deleteResult = joiner.value(asType: SyncDeleteResult.self)
         XCTAssertEqual(0, deleteResult?.deletedCount)
 
         // ensure nothing got deleted
@@ -1422,7 +1420,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
         // delete all the documents we inserted
         sync.deleteMany(filter: ["a": "b"], joiner.capture())
-        deleteResult = joiner.value(asType: DeleteResult.self)
+        deleteResult = joiner.value(asType: SyncDeleteResult.self)
         XCTAssertEqual(2, deleteResult?.deletedCount)
 
         // collection should be empty
@@ -1431,7 +1429,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
         // should not be able to delete any more documents
         sync.deleteMany(filter: [], joiner.capture())
-        deleteResult = joiner.value(asType: DeleteResult.self)
+        deleteResult = joiner.value(asType: SyncDeleteResult.self)
         XCTAssertEqual(0, deleteResult?.deletedCount)
     }
 }

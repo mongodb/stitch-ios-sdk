@@ -123,7 +123,7 @@ public class Sync<DocumentT: Codable> {
      - returns: the number of documents in the collection
      */
     public func count(filter: Document,
-                      options: CountOptions?,
+                      options: SyncCountOptions?,
                       _ completionHandler: @escaping (StitchResult<Int>) -> Void) {
         queue.async {
             do {
@@ -165,7 +165,7 @@ public class Sync<DocumentT: Codable> {
      */
     public func find(
         filter: Document,
-        options: FindOptions? = nil,
+        options: SyncFindOptions? = nil,
         _ completionHandler: @escaping (StitchResult<MongoCursor<DocumentT>>) -> Void) {
         queue.async {
             do {
@@ -208,14 +208,14 @@ public class Sync<DocumentT: Codable> {
      - returns: the result of the insert one operation
      */
     public func insertOne(document: DocumentT,
-                          _ completionHandler: @escaping (StitchResult<InsertOneResult?>) -> Void) {
+                          _ completionHandler: @escaping (StitchResult<SyncInsertOneResult?>) -> Void) {
         queue.async {
             do {
                 completionHandler(.success(result: try self.proxy.insertOne(document: document)))
             } catch {
                 completionHandler(.failure(
                     error: .clientError(withClientErrorCode: .mongoDriverError(withError: error))
-                ))
+                    ))
             }
         }
     }
@@ -227,14 +227,14 @@ public class Sync<DocumentT: Codable> {
      - returns: the result of the insert many operation
      */
     public func insertMany(documents: [DocumentT],
-                           _ completionHandler: @escaping (StitchResult<InsertManyResult?>) -> Void) {
+                           _ completionHandler: @escaping (StitchResult<SyncInsertManyResult?>) -> Void) {
         queue.async {
             do {
                 completionHandler(.success(result: try self.proxy.insertMany(documents: documents)))
             } catch {
                 completionHandler(.failure(
                     error: .clientError(withClientErrorCode: .mongoDriverError(withError: error))
-                ))
+                    ))
             }
         }
     }
@@ -248,14 +248,14 @@ public class Sync<DocumentT: Codable> {
      - returns: the result of the remove one operation
      */
     public func deleteOne(filter: Document,
-                          _ completionHandler: @escaping (StitchResult<DeleteResult?>) -> Void) {
+                          _ completionHandler: @escaping (StitchResult<SyncDeleteResult?>) -> Void) {
         queue.async {
             do {
                 completionHandler(.success(result: try self.proxy.deleteOne(filter: filter)))
             } catch {
                 completionHandler(.failure(
                     error: .clientError(withClientErrorCode: .mongoDriverError(withError: error))
-                ))
+                    ))
             }
         }
     }
@@ -268,14 +268,14 @@ public class Sync<DocumentT: Codable> {
      - returns: the result of the remove many operation
      */
     public func deleteMany(filter: Document,
-                           _ completionHandler: @escaping (StitchResult<DeleteResult?>) -> Void) {
+                           _ completionHandler: @escaping (StitchResult<SyncDeleteResult?>) -> Void) {
         queue.async {
             do {
                 completionHandler(.success(result: try self.proxy.deleteMany(filter: filter)))
             } catch {
                 completionHandler(.failure(
                     error: .clientError(withClientErrorCode: .mongoDriverError(withError: error))
-                ))
+                    ))
             }
         }
     }
@@ -292,8 +292,8 @@ public class Sync<DocumentT: Codable> {
      */
     public func updateOne(filter: Document,
                           update: Document,
-                          options: UpdateOptions?,
-                          _ completionHandler: @escaping (StitchResult<UpdateResult?>) -> Void) {
+                          options: SyncUpdateOptions?,
+                          _ completionHandler: @escaping (StitchResult<SyncUpdateResult?>) -> Void) {
         queue.async {
             do {
                 completionHandler(.success(
@@ -303,11 +303,11 @@ public class Sync<DocumentT: Codable> {
             } catch {
                 completionHandler(.failure(
                     error: .clientError(withClientErrorCode: .mongoDriverError(withError: error))
-                ))
+                    ))
             }
         }
     }
-
+    
     /**
      Update all documents in the collection that have been synchronized with the remote
      according to the specified arguments. If the update results in an upsert,
@@ -321,8 +321,8 @@ public class Sync<DocumentT: Codable> {
      */
     public func updateMany(filter: Document,
                            update: Document,
-                           options: UpdateOptions?,
-                           _ completionHandler: @escaping (StitchResult<UpdateResult?>) -> Void) {
+                           options: SyncUpdateOptions?,
+                           _ completionHandler: @escaping (StitchResult<SyncUpdateResult?>) -> Void) {
         queue.async {
             do {
                 completionHandler(.success(
@@ -332,7 +332,7 @@ public class Sync<DocumentT: Codable> {
             } catch {
                 completionHandler(.failure(
                     error: .clientError(withClientErrorCode: .mongoDriverError(withError: error))
-                ))
+                    ))
             }
         }
     }

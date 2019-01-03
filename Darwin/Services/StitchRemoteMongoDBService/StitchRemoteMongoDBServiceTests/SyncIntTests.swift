@@ -110,14 +110,14 @@ private extension Sync {
         return joiner.value(asType: MongoCursor<Document>.self)?.next()
     }
 
-    func updateOne(filter: Document, update: Document) -> UpdateResult? {
+    func updateOne(filter: Document, update: Document) -> SyncUpdateResult? {
         defer { verifyUndoCollectionEmpty() }
         let joiner = CallbackJoiner()
         self.updateOne(filter: filter, update: update, options: nil, joiner.capture())
         return joiner.value()
     }
 
-    func updateMany(filter: Document, update: Document, options: UpdateOptions? = nil) -> UpdateResult? {
+    func updateMany(filter: Document, update: Document, options: SyncUpdateOptions? = nil) -> SyncUpdateResult? {
         defer { verifyUndoCollectionEmpty() }
         let joiner = CallbackJoiner()
         self.updateMany(filter: filter, update: update, options: options, joiner.capture())
@@ -125,7 +125,7 @@ private extension Sync {
     }
 
     @discardableResult
-    func insertOne(_ document: DocumentT) -> InsertOneResult? {
+    func insertOne(_ document: DocumentT) -> SyncInsertOneResult? {
         defer { verifyUndoCollectionEmpty() }
         let joiner = CallbackJoiner()
         self.insertOne(document: document, joiner.capture())
@@ -133,21 +133,21 @@ private extension Sync {
     }
 
     @discardableResult
-    func insertMany(_ documents: [DocumentT]) -> InsertManyResult? {
+    func insertMany(_ documents: [DocumentT]) -> SyncInsertManyResult? {
         defer { verifyUndoCollectionEmpty() }
         let joiner = CallbackJoiner()
         self.insertMany(documents: documents, joiner.capture())
         return joiner.value()
     }
 
-    func deleteOne(_ filter: Document) -> DeleteResult? {
+    func deleteOne(_ filter: Document) -> SyncDeleteResult? {
         defer { verifyUndoCollectionEmpty() }
         let joiner = CallbackJoiner()
         self.deleteOne(filter: filter, joiner.capture())
         return joiner.value()
     }
 
-    func deleteMany(_ filter: Document) -> DeleteResult? {
+    func deleteMany(_ filter: Document) -> SyncDeleteResult? {
         defer { verifyUndoCollectionEmpty() }
         let joiner = CallbackJoiner()
         self.deleteMany(filter: filter, joiner.capture())
@@ -415,7 +415,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         goOffline()
         let doc3: Document = ["so": "syncy"]
         sync.insertOne(document: doc3, joiner.capture())
-        let insResult = joiner.value(asType: InsertOneResult.self)!
+        let insResult = joiner.value(asType: SyncInsertOneResult.self)!
         sync.find(filter: ["_id": insResult.insertedId], joiner.capture())
         var findResult = joiner.value(asType: MongoCursor<Document>.self)!
         XCTAssertEqual(["_id": insResult.insertedId, "so": "syncy"], findResult.next())
@@ -448,7 +448,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
             update: doc1Update,
             options: nil,
             joiner.capture())
-        let result3 = joiner.value(asType: UpdateResult.self)
+        let result3 = joiner.value(asType: SyncUpdateResult.self)
         XCTAssertEqual(1, result3?.matchedCount)
         expectedDocument["foo"] = 2
         sync.find(filter: ["_id": doc1Id], joiner.capture())
@@ -1777,7 +1777,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         updateResult = coll.updateMany(
             filter: ["fish": ["one", "two", "red", "blue"]],
             update: ["$set": ["fish": ["black", "blue", "old", "new"]] as Document],
-            options: UpdateOptions(upsert: true)
+            options: SyncUpdateOptions(upsert: true)
         )!
 
         XCTAssertEqual(0, updateResult.modifiedCount)
