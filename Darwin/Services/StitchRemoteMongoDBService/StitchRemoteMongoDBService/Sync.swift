@@ -123,7 +123,7 @@ public class Sync<DocumentT: Codable> {
      - returns: the number of documents in the collection
      */
     func count(filter: Document,
-               options: CountOptions?,
+               options: SyncCountOptions?,
                _ completionHandler: @escaping (StitchResult<Int>) -> Void) {
         queue.async {
             do {
@@ -165,7 +165,7 @@ public class Sync<DocumentT: Codable> {
      */
     func find(
         filter: Document,
-        options: FindOptions? = nil,
+        options: SyncFindOptions? = nil,
         _ completionHandler: @escaping (StitchResult<MongoCursor<DocumentT>>) -> Void) {
         queue.async {
             do {
@@ -210,7 +210,7 @@ public class Sync<DocumentT: Codable> {
      - returns: the result of the insert one operation
      */
     func insertOne(document: DocumentT,
-                   _ completionHandler: @escaping (StitchResult<InsertOneResult?>) -> Void) {
+                   _ completionHandler: @escaping (StitchResult<SyncInsertOneResult?>) -> Void) {
         queue.async {
             do {
                 completionHandler(.success(result: try self.proxy.insertOne(document: document)))
@@ -227,7 +227,7 @@ public class Sync<DocumentT: Codable> {
      - returns: the result of the insert many operation
      */
     func insertMany(documents: [DocumentT],
-                    _ completionHandler: @escaping (StitchResult<InsertManyResult?>) -> Void) {
+                    _ completionHandler: @escaping (StitchResult<SyncInsertManyResult?>) -> Void) {
         queue.async {
             do {
                 completionHandler(.success(result: try self.proxy.insertMany(documents: documents)))
@@ -246,7 +246,7 @@ public class Sync<DocumentT: Codable> {
      - returns: the result of the remove one operation
      */
     func deleteOne(filter: Document,
-                   _ completionHandler: @escaping (StitchResult<DeleteResult?>) -> Void) {
+                   _ completionHandler: @escaping (StitchResult<SyncDeleteResult?>) -> Void) {
         queue.async {
             do {
                 completionHandler(.success(result: try self.proxy.deleteOne(filter: filter)))
@@ -264,7 +264,7 @@ public class Sync<DocumentT: Codable> {
      - returns: the result of the remove many operation
      */
     func deleteMany(filter: Document,
-                    _ completionHandler: @escaping (StitchResult<DeleteResult?>) -> Void) {
+                    _ completionHandler: @escaping (StitchResult<SyncDeleteResult?>) -> Void) {
         queue.async {
             do {
                 completionHandler(.success(result: try self.proxy.deleteMany(filter: filter)))
@@ -286,8 +286,8 @@ public class Sync<DocumentT: Codable> {
      */
     func updateOne(filter: Document,
                    update: Document,
-                   options: UpdateOptions?,
-                   _ completionHandler: @escaping (StitchResult<UpdateResult?>) -> Void) {
+                   options: SyncUpdateOptions?,
+                   _ completionHandler: @escaping (StitchResult<SyncUpdateResult?>) -> Void) {
         queue.async {
             do {
                 completionHandler(.success(
@@ -313,8 +313,8 @@ public class Sync<DocumentT: Codable> {
      */
     func updateMany(filter: Document,
                     update: Document,
-                    options: UpdateOptions?,
-                    _ completionHandler: @escaping (StitchResult<UpdateResult?>) -> Void) {
+                    options: SyncUpdateOptions?,
+                    _ completionHandler: @escaping (StitchResult<SyncUpdateResult?>) -> Void) {
         queue.async {
             do {
                 completionHandler(.success(
