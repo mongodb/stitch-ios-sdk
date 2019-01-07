@@ -344,6 +344,11 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
                                                     withName: "mongodb1")
     }
 
+    override func goOnline() {
+        super.goOnline()
+//        ctx.streamJoiner.wait(forState: .open)
+    }
+
     override func goOffline() {
         super.goOffline()
         ctx.streamJoiner.wait(forState: .closed)
@@ -374,7 +379,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
             XCTAssertNil(localEvent.fullDocument![documentVersionField])
             XCTAssertNil(remoteEvent.fullDocument![documentVersionField])
 
-            if bsonEquals(id, doc1Id) {
+            if bsonEqualsOverride(id, doc1Id) {
                 let merged = localEvent.fullDocument!["foo"] as! Int +
                     (remoteEvent.fullDocument!["foo"] as! Int)
                 var newDocument = remoteEvent.fullDocument!

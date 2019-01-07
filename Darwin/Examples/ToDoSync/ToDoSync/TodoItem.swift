@@ -7,7 +7,7 @@ struct TodoItem: Codable, Hashable, Comparable {
     }
 
     static func == (lhs: TodoItem, rhs: TodoItem) -> Bool {
-        return bsonEquals(lhs.id, rhs.id)
+        return bsonEqualsOverride(lhs.id, rhs.id)
     }
 
     private enum CodingKeys: String, CodingKey {

@@ -124,6 +124,21 @@ class TodoTableViewController:
     }
 
     private func loggedIn() {
+        if listsCollection.sync.syncedIds.isEmpty {
+            listsCollection.sync.insertOne(document: TodoList(id: userId!)) { _ in }
+        }
+        if indexSwapsCollection.sync.syncedIds.isEmpty {
+            indexSwapsCollection.sync.insertOne(document: IndexSwap(id: userId!)) { _ in }
+        }
+        if itemsCollection.sync.syncedIds.isEmpty {
+            listsCollection.find().first { result in
+                guard case let .success(todos) = result else {
+                    fatalError()
+                }
+
+                try? itemsCollection.sync.sync(ids: todos?.todos ?? [])
+            }
+        }
         // Configure sync to be remote wins on both collections meaning and conflict that occurs should
         // prefer the remote version as the resolution.
         itemsCollection.sync.configure(
@@ -134,15 +149,15 @@ class TodoTableViewController:
                 }
 
                 if event.operationType == .delete {
-                    guard let idx = self.todoItems.firstIndex(where: { bsonEquals($0.id, id) }) else {
+                    guard let idx = self.todoItems.firstIndex(where: { bsonEqualsOverride($0.id, id) }) else {
                         return
                     }
                     self.todoItems.remove(at: idx)
                 } else {
-                    if let index = self.todoItems.firstIndex(where: { bsonEquals($0.id, id) }) {
+                    if let index = self.todoItems.firstIndex(where: { bsonEqualsOverride($0.id, id) }) {
                         self.todoItems[index] = event.fullDocument!
                     } else {
-                        if !itemsCollection.sync.syncedIds.contains(where: { bsonEquals($0.bsonValue.value, id) }) {
+                        if !itemsCollection.sync.syncedIds.contains(where: { bsonEqualsOverride($0.bsonValue.value, id) }) {
                             try! itemsCollection.sync.sync(ids: [id])
                         }
                         self.todoItems.append(event.fullDocument!)
@@ -217,13 +232,6 @@ class TodoTableViewController:
             switch $0 {
             case .success(let user):
                 print("logged in")
-
-                if listsCollection.sync.syncedIds.isEmpty {
-                    listsCollection.sync.insertOne(document: TodoList(id: user.id)) { _ in }
-                }
-                if indexSwapsCollection.sync.syncedIds.isEmpty {
-                    indexSwapsCollection.sync.insertOne(document: IndexSwap(id: user.id)) { _ in }
-                }
 
                 self.loggedIn()
             case .failure(let e):

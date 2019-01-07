@@ -3,6 +3,7 @@ import MongoSwift
 import StitchCoreSDK
 
 let retrySleepSeconds: UInt32 = 5
+let longRetry: UInt32 = 10
 
 class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
     private let namespace: MongoNamespace
@@ -10,15 +11,14 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
     private let networkMonitor: NetworkMonitor
     private let authMonitor: AuthMonitor
     private let nsConfig: NamespaceSynchronization
-    private let holdingSemaphore = DispatchSemaphore(value: 0)
+    private var holdingSemaphore = DispatchSemaphore(value: 0)
 
     private var eventsKeyedQueue = [HashableBSONValue: ChangeEvent<Document>]()
     private var streamDelegates = Set<SSEStreamDelegate>()
 
     private var stream: RawSSEStream?
-    private var streamWorkItem: DispatchWorkItem?
 
-    private lazy var tag = "ns_changestream_listener_\(namespace)"
+    private lazy var tag = "ns_changestream_listener_\(namespace)_\(ObjectId())"
     private lazy var logger = Log.init(tag: tag)
     private lazy var queue = DispatchQueue(label: self.tag)
 
@@ -49,91 +49,83 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
     }
 
     func start() {
-        if streamWorkItem != nil {
-            eventQueueLock.write { self.stop() }
-            let join = DispatchSemaphore.init(value: 0)
-            streamWorkItem?.notify(queue: queue) {
-                join.signal()
-            }
-            join.wait()
-        }
+        eventQueueLock.write {
+            self.stop()
 
-        self.streamWorkItem = DispatchWorkItem { [weak self] in
-            repeat {
-                guard let self = self else {
-                    return
-                }
-
-                if self.state != .open && self.state != .opening {
-                    do {
-                        let isOpening = try self.openStream()
-                        if !isOpening {
-                            sleep(retrySleepSeconds)
-                        }
-                    } catch {
-                        self.logger.e("NamespaceChangeStreamRunner::run error happened while opening stream: \(error)")
+            queue.async { [weak self] in
+                repeat {
+                    guard self != nil, self?.state != .open else {
                         return
                     }
-                } else if self.state == .open {
-                    // This semaphore will be holding until the stream
-                    // is eventually closed. We do this so that the
-                    // stream will automatically attempt to reopen
-                    // when it gets closed and we're still connected.
-                    self.holdingSemaphore.wait()
-                }
-            } while self?.networkMonitor.state == .connected &&
-                self?.streamWorkItem?.isCancelled == false
+
+                    if self?.state != .open && self?.state != .opening  && self?.state != .closing {
+                        do {
+                            let isOpening = try self?.openStream() ?? true
+                            if !isOpening {
+                                sleep(retrySleepSeconds)
+                            } else {
+                                return
+                            }
+                        } catch {
+                            self?.logger.e("error happened while opening stream: \(error)")
+                            return
+                        }
+                    }
+                } while self?.networkMonitor.state == .connected
+
+                self?.logger.d("stream WORK DONE")
+            }
         }
-        queue.async(execute: self.streamWorkItem!)
     }
 
     /**
      Open the event stream.
      */
     private func openStream() throws -> Bool {
-        return try eventQueueLock.write {
-            logger.i("stream START")
-            guard networkMonitor.state == .connected else {
-                logger.i("stream END - Network disconnected")
-                return false
-            }
-            guard authMonitor.isLoggedIn else {
-                logger.i("stream END - Logged out")
-                return false
-            }
-
-            let idsToWatch = nsConfig.map({ $0.documentId.value })
-            guard !idsToWatch.isEmpty else {
-                logger.i("stream END - No synchronized documents")
-                return false
-            }
-
-            self.stream = try service.streamFunction(
-                withName: "watch",
-                withArgs: [
-                    ["database": namespace.databaseName,
-                     "collection": namespace.collectionName,
-                     "ids": idsToWatch] as Document
-                ],
-                delegate: self)
-
-            return true
+        logger.i("stream START")
+        guard networkMonitor.state == .connected else {
+            logger.i("stream END - Network disconnected")
+            return false
         }
+        guard authMonitor.isLoggedIn else {
+            logger.i("stream END - Logged out")
+            return false
+        }
+
+        guard state != .opening else {
+            logger.i("stream END - Already opening")
+            return false
+        }
+
+        let idsToWatch = nsConfig.map({ $0.documentId.value })
+        guard !idsToWatch.isEmpty else {
+            logger.i("stream END - No synchronized documents")
+            return false
+        }
+
+        self.stream = try service.streamFunction(
+            withName: "watch",
+            withArgs: [
+                ["database": namespace.databaseName,
+                 "collection": namespace.collectionName,
+                 "ids": idsToWatch] as Document
+            ],
+            delegate: self)
+
+        return true
     }
 
     func stop() {
         eventQueueLock.assertWriteLocked()
         logger.i("stream STOP")
-        if let stream = stream {
-            guard stream.state != .closing, stream.state != .closed else {
-                logger.i("stream END - stream is \(stream.state)")
-                return
-            }
+
+        guard let stream = stream,
+            stream.state != .closing, stream.state != .closed else {
+            logger.i("stream END - stream is closed")
+            return
         }
 
-        self.stream?.close()
-        self.streamWorkItem?.cancel()
-        holdingSemaphore.signal()
+        stream.close()
     }
 
     func add(streamDelegate: SSEStreamDelegate) {
@@ -141,7 +133,7 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
     }
 
     func on(stateChangedFor state: NetworkState) {
-        if state == .disconnected, stream?.state != .closing {
+        if state == .disconnected && stream?.state != .closing {
             eventQueueLock.write { self.stop() }
         }
     }
@@ -180,9 +172,6 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
             // deallocate the remaining stream
             logger.d("stream CLOSED")
             stream = nil
-            holdingSemaphore.signal()
-            // if a restart has been commanded,
-            // start again
         default:
             logger.d("stream \(state)")
         }

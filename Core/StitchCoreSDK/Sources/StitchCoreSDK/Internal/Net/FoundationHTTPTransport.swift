@@ -20,7 +20,7 @@ public final class FoundationHTTPTransport: Transport {
         }
 
         let sessionConfig = URLSessionConfiguration.default
-        sessionConfig.timeoutIntervalForResource = request.timeout
+        sessionConfig.timeoutIntervalForRequest = request.timeout
 
         let session = URLSession(configuration: sessionConfig)
 
@@ -34,13 +34,14 @@ public final class FoundationHTTPTransport: Transport {
             urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         }
 
-        let sema = DispatchSemaphore(value: 0)
+        let group = DispatchGroup()
 
         var finalResponse: Response?
         var error: Error?
 
+        group.enter()
         session.dataTask(with: urlRequest) { data, response, err in
-            defer { sema.signal() }
+            defer { group.leave() }
             guard let urlResponse = response as? HTTPURLResponse,
                 let headers = urlResponse.allHeaderFields as? [String: String]
                 else {
@@ -53,9 +54,8 @@ public final class FoundationHTTPTransport: Transport {
                                           body: data)
         }.resume()
 
-        sema.wait()
-
-        guard let response = finalResponse else {
+        guard case .success = group.wait(timeout: .now() + request.timeout),
+            let response = finalResponse else {
             guard let err = error else {
                 throw StitchError.serviceError(
                     withMessage: "no response from server",
@@ -83,7 +83,7 @@ public final class FoundationHTTPTransport: Transport {
         }
 
         let sessionConfig = URLSessionConfiguration.default
-        sessionConfig.timeoutIntervalForRequest = TimeInterval(INT_MAX)
+        sessionConfig.timeoutIntervalForRequest = TimeInterval(30)
         sessionConfig.timeoutIntervalForResource = TimeInterval(INT_MAX)
         let additionalheaders = [Headers.contentType.nonCanonical(): "text/event-stream",
                                  Headers.cacheControl.nonCanonical(): "no-cache",

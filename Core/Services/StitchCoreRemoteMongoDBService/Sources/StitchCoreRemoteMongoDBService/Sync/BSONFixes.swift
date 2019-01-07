@@ -15,7 +15,19 @@ func validateBSONTypes(_ lhs: BSONValue, _ rhs: BSONValue) {
 
 // swiftlint:disable identifier_name
 // swiftlint:disable cyclomatic_complexity
-func bsonEquals(_ lhs: BSONValue, _ rhs: BSONValue) -> Bool {
+func bsonEqualsOverride(_ lhs: BSONValue?, _ rhs: BSONValue?) -> Bool {
+    if lhs == nil && rhs == nil {
+        return true
+    }
+
+    if (lhs != nil && rhs == nil) || (rhs != nil && lhs == nil) {
+        return false
+    }
+
+    guard let lhs = lhs, let rhs = rhs else {
+        return false
+    }
+
     validateBSONTypes(lhs, rhs)
 
     switch (lhs, rhs) {
@@ -37,7 +49,7 @@ func bsonEquals(_ lhs: BSONValue, _ rhs: BSONValue) -> Bool {
     case (let l as Document, let r as Document):
         return l == r
     case (let l as [BSONValue?], let r as [BSONValue?]):
-        return l.count == r.count && zip(l, r).reduce(true, {prev, next in bsonEquals(next.0, next.1) && prev})
+        return l.count == r.count && zip(l, r).reduce(true, {prev, next in bsonEqualsOverride(next.0, next.1) && prev})
     case (_ as [Any], _ as [Any]): return false
     default: return false
     }
@@ -120,7 +132,7 @@ public struct HashableBSONValue: Codable, Hashable {
     // swiftlint:enable force_try
 
     public static func == (lhs: HashableBSONValue, rhs: HashableBSONValue) -> Bool {
-        return bsonEquals(lhs.bsonValue.value, rhs.bsonValue.value)
+        return bsonEqualsOverride(lhs.bsonValue.value, rhs.bsonValue.value)
     }
 
     public func hash(into hasher: inout Hasher) {
