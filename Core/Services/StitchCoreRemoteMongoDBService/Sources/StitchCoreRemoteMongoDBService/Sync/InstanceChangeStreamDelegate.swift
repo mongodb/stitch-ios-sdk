@@ -1,4 +1,5 @@
 import Foundation
+import MongoSwift
 import StitchCoreSDK
 
 class InstanceChangeStreamDelegate {
@@ -12,6 +13,7 @@ class InstanceChangeStreamDelegate {
     private let authMonitor: AuthMonitor
     /// A mapping of of change stream delegates keyed on namespaces
     private var namespaceToStreamDelegates = [MongoNamespace: NamespaceChangeStreamDelegate]()
+    private let instanceLock = ReadWriteLock(label: "instance_\(ObjectId())")
 
     init(instanceConfig: InstanceSynchronization,
          service: CoreStitchServiceClient,
@@ -34,47 +36,61 @@ class InstanceChangeStreamDelegate {
      - parameter namespace: the namespace to add a listener for
      */
     func append(namespace: MongoNamespace) {
-        guard let nsConfig = instanceConfig[namespace],
-            namespaceToStreamDelegates[namespace] == nil else {
-            return
-        }
+        instanceLock.write {
+            guard let nsConfig = instanceConfig[namespace],
+                namespaceToStreamDelegates[namespace] == nil else {
+                return
+            }
 
-        self.namespaceToStreamDelegates[namespace] = try? NamespaceChangeStreamDelegate(
-            namespace: namespace,
-            config: nsConfig,
-            service: service,
-            networkMonitor: networkMonitor,
-            authMonitor: authMonitor)
+            self.namespaceToStreamDelegates[namespace] = try? NamespaceChangeStreamDelegate(
+                namespace: namespace,
+                config: nsConfig,
+                service: service,
+                networkMonitor: networkMonitor,
+                authMonitor: authMonitor)
+        }
     }
 
     func remove(namespace: MongoNamespace) {
-        self.namespaceToStreamDelegates.removeValue(forKey: namespace)
+        _ = instanceLock.write {
+            self.namespaceToStreamDelegates.removeValue(forKey: namespace)
+        }
     }
 
     func start() {
-        self.namespaceToStreamDelegates.forEach({$0.value.start()})
+        instanceLock.write {
+            self.namespaceToStreamDelegates.forEach({$0.value.start()})
+        }
     }
 
     func start(namespace: MongoNamespace) {
-        self.namespaceToStreamDelegates[namespace]?.start()
+        instanceLock.write {
+            self.namespaceToStreamDelegates[namespace]?.start()
+        }
     }
 
     func stop() {
-        self.namespaceToStreamDelegates.forEach {
-            let (_, nsDel) = $0
-            nsDel.eventQueueLock.write { nsDel.stop() }
+        instanceLock.write {
+            self.namespaceToStreamDelegates.forEach {
+                let (_, nsDel) = $0
+                nsDel.eventQueueLock.write { nsDel.stop() }
+            }
         }
     }
 
     func stop(namespace: MongoNamespace) {
-        guard let nsDel = self.namespaceToStreamDelegates[namespace] else {
-            return
-        }
+        instanceLock.write {
+            guard let nsDel = self.namespaceToStreamDelegates[namespace] else {
+                return
+            }
 
-        nsDel.eventQueueLock.write { nsDel.stop() }
+            nsDel.eventQueueLock.write { nsDel.stop() }
+        }
     }
 
     subscript(namespace: MongoNamespace) -> NamespaceChangeStreamDelegate? {
-        return namespaceToStreamDelegates[namespace]
+        return instanceLock.read {
+            return namespaceToStreamDelegates[namespace]
+        }
     }
 }

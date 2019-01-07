@@ -1052,7 +1052,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
         let acceptRemote = (sanitizedRemoteDocument == nil && resolvedDocument == nil)
             || (sanitizedRemoteDocument != nil
-                && bsonEquals(sanitizedRemoteDocument, resolvedDocument))
+                && bsonEqualsOverride(sanitizedRemoteDocument, resolvedDocument))
 
         // a. If the resolved document is not nil:
         if let docForStorage = resolvedDocument {
@@ -1172,9 +1172,12 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         // contain version information. Clone the document and remove forbidden fields from it before
         // storing it in the collection.
         let docForStorage = DataSynchronizer.sanitizeDocument(remoteDocument)
+
         try localCollection.findOneAndReplace(filter: ["_id": documentId],
-                                              replacement: docForStorage, options: FindOneAndReplaceOptions(upsert: true))
+                                              replacement: docForStorage,
+                                              options: FindOneAndReplaceOptions(upsert: true))
         try config.setPendingWritesComplete(atVersion: atVersion)
+
         if documentBeforeUpdate != nil {
             try undoCollection.deleteOne([idField: documentId])
         }
@@ -1350,8 +1353,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 return
             }
 
-            instanceChangeStreamDelegate.start()
             if isSyncThreadEnabled {
+                instanceChangeStreamDelegate.start()
                 self.syncWorkItem = DispatchWorkItem { [weak self] in
                     repeat {
                         guard let dataSync = self else {

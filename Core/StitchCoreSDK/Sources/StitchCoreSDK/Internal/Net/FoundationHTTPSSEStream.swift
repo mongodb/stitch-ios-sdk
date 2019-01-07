@@ -22,6 +22,10 @@ internal class FoundationURLSessionDataDelegate: NSObject, URLSessionDataDelegat
         stream?.state = .closed
     }
 
+    func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
+        fatalError()
+    }
+
     public func urlSession(_ session: URLSession,
                            dataTask: URLSessionDataTask,
                            didReceive response: URLResponse,
@@ -30,7 +34,6 @@ internal class FoundationURLSessionDataDelegate: NSObject, URLSessionDataDelegat
         guard let httpResponse = response as? HTTPURLResponse,
             !fulfillClose else {
             fulfillClose = false
-            stream?.state = .closed
             return
         }
 
@@ -47,16 +50,17 @@ internal class FoundationURLSessionDataDelegate: NSObject, URLSessionDataDelegat
 }
 
 public class FoundationHTTPSSEStream: RawSSEStream {
-    internal lazy var dataDelegate = FoundationURLSessionDataDelegate(self)
+    internal lazy var dataDelegate: FoundationURLSessionDataDelegate? = FoundationURLSessionDataDelegate(self)
 
     public override func close() {
-        dataDelegate.stream?.state = .closing
-        if let session = dataDelegate.session {
+        dataDelegate?.stream?.state = .closing
+        if let session = dataDelegate?.session {
             session.invalidateAndCancel()
-        } else {
-            // the session may not have begun yet.
-            // we must still fulfill a close if called
-            dataDelegate.fulfillClose = true
         }
+
+        // the session may not have begun yet.
+        // we must still fulfill a close if called
+        dataDelegate?.stream?.state = .closed
+        dataDelegate = nil
     }
 }

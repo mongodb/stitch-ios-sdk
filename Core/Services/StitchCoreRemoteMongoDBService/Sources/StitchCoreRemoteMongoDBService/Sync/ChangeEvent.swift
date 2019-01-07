@@ -92,7 +92,7 @@ public struct ChangeEvent<DocumentT: Codable>: Codable, Hashable {
     }
 
     public static func == (lhs: ChangeEvent<DocumentT>, rhs: ChangeEvent<DocumentT>) -> Bool {
-        return bsonEquals(lhs.id.value, rhs.id.value)
+        return bsonEqualsOverride(lhs.id.value, rhs.id.value)
     }
 
     public func hash(into hasher: inout Hasher) {
