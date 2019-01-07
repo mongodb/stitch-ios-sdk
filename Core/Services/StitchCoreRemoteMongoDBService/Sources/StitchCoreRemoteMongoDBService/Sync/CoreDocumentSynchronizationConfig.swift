@@ -57,7 +57,7 @@ internal class CoreDocumentSynchronization: Hashable {
             // verify schema version
             let schemaVersion = try values.decode(Int32.self, forKey: .schemaVersion)
             if schemaVersion != 1 {
-                throw DataSynchronizerError(
+                throw DataSynchronizerError.decodingError(
                     "unexpected schema version \(schemaVersion) for CoreDocumentSynchronization.Config"
                 )
             }

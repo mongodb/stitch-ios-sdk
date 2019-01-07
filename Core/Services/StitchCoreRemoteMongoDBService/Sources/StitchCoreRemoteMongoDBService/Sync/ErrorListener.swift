@@ -10,16 +10,16 @@ public protocol ErrorListener {
      - parameter error: the error.
      - parameter documentId: the _id of the document related to the error.
      */
-    func on(error: Error, forDocumentId documentId: BSONValue?)
+    func on(error: DataSynchronizerError, forDocumentId documentId: BSONValue?)
 }
 
 internal class BlockErrorDelegate: ErrorListener {
-    private let onErrorBlock: (_ error: Error, _ documentId: BSONValue?) -> Void
-    public init(_ onErrorBlock: @escaping (_ error: Error, _ documentId: BSONValue?) -> Void) {
+    private let onErrorBlock: (_ error: DataSynchronizerError, _ documentId: BSONValue?) -> Void
+    public init(_ onErrorBlock: @escaping (_ error: DataSynchronizerError, _ documentId: BSONValue?) -> Void) {
         self.onErrorBlock = onErrorBlock
     }
 
-    public func on(error: Error, forDocumentId documentId: BSONValue?) {
+    public func on(error: DataSynchronizerError, forDocumentId documentId: BSONValue?) {
         self.onErrorBlock(error, documentId)
     }
 }

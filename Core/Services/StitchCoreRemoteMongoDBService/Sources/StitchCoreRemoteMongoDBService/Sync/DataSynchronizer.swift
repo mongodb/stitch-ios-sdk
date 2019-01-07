@@ -458,7 +458,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         } catch {
             try desyncDocumentFromRemote(nsConfig: nsConfig, documentId: docConfig.documentId.value)
             emitError(docConfig: docConfig,
-                      error: DataSynchronizerError("t='\(logicalT)': syncRemoteChangeEventToLocal ns=\(nsConfig.config.namespace) documentId=\(docConfig.documentId) got a remote "
+                      error: DataSynchronizerError.decodingError("t='\(logicalT)': syncRemoteChangeEventToLocal ns=\(nsConfig.config.namespace) documentId=\(docConfig.documentId) got a remote "
                         + "document that could not have its version info parsed "
                         + "; dropping the event, and desyncing the document"))
             return
@@ -469,7 +469,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             try desyncDocumentFromRemote(nsConfig: nsConfig, documentId: docConfig.documentId.value)
 
             emitError(docConfig: docConfig,
-                      error: DataSynchronizerError("t='\(logicalT)': syncRemoteChangeEventToLocal ns=\(nsConfig.config.namespace) documentId=\(docConfig.documentId) got a remote "
+                      error: DataSynchronizerError.unsupportedProtocolVersion("t='\(logicalT)': syncRemoteChangeEventToLocal ns=\(nsConfig.config.namespace) documentId=\(docConfig.documentId) got a remote "
                         + "document with an unsupported synchronization protocol version "
                         + "\(String(describing: currentRemoteVersionInfo?.version?.syncProtocolVersion)); dropping the event, and desyncing the document"))
 
@@ -493,7 +493,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             switch remoteChangeEvent.operationType {
             case .replace, .update, .insert:
                 guard let remoteDocument = remoteChangeEvent.fullDocument else {
-                    emitError(docConfig: docConfig, error: DataSynchronizerError("t='\(logicalT)': syncRemoteChangeEventToLocal ns=\(nsConfig.config.namespace) documentId=\(docConfig.documentId) got no remote document"))
+                    emitError(docConfig: docConfig, error: DataSynchronizerError.documentDoesNotExist("t='\(logicalT)': syncRemoteChangeEventToLocal ns=\(nsConfig.config.namespace) documentId=\(docConfig.documentId) got no remote document"))
                     return
                 }
                 logger.i(
@@ -514,7 +514,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                     documentId: docConfig.documentId.value)
             default:
                 emitError(docConfig: docConfig,
-                          error: DataSynchronizerError("t='\(logicalT)': syncRemoteChangeEventToLocal ns=\(nsConfig.config.namespace) documentId=\(docConfig.documentId) unknown operation type "
+                          error: DataSynchronizerError.decodingError("t='\(logicalT)': syncRemoteChangeEventToLocal ns=\(nsConfig.config.namespace) documentId=\(docConfig.documentId) unknown operation type "
                             + "occurred on the document: \(remoteChangeEvent.operationType); dropping the event"))
             }
 
@@ -602,7 +602,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             try DocumentVersionInfo.getRemoteVersionInfo(remoteDocument: newestRemoteDocument) else {
                 try desyncDocumentFromRemote(nsConfig: nsConfig, documentId: docConfig.documentId.value)
                 emitError(docConfig: docConfig,
-                          error: DataSynchronizerError("t='\(logicalT)': syncRemoteChangeEventToLocal ns=\(nsConfig.config.namespace) documentId=\(docConfig.documentId) got a remote "
+                          error: DataSynchronizerError.decodingError("t='\(logicalT)': syncRemoteChangeEventToLocal ns=\(nsConfig.config.namespace) documentId=\(docConfig.documentId) got a remote "
                             + "document that could not have its version info parsed "
                             + "; dropping the event, and desyncing the document"))
                 return
@@ -691,7 +691,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                         } catch {
                             try self.desyncDocumentFromRemote(nsConfig: nsConfig, documentId: docConfig.documentId.value)
                             self.emitError(docConfig: docConfig,
-                                      error: DataSynchronizerError("t='\(logicalT)': syncLocalToRemote ns=\(nsConfig.config.namespace) documentId=\(docConfig.documentId) got a remote "
+                                      error: DataSynchronizerError.decodingError("t='\(logicalT)': syncLocalToRemote ns=\(nsConfig.config.namespace) documentId=\(docConfig.documentId) got a remote "
                                         + "document that could not have its version info parsed "
                                         + "; dropping the event, and desyncing the document"))
                             continue
@@ -735,8 +735,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                                 guard let err = error as? StitchError,
                                     case .serviceError(let msg, let code) = err,
                                     code == .mongoDBError, msg.contains("E11000") else {
-                                        self.emitError(docConfig: docConfig, error: DataSynchronizerError(
-                                            "t='\(logicalT)': syncLocalToRemote ns=\(nsConfig.config.namespace) documentId=\(docConfig.documentId) exception inserting: \(error)"))
+                                        self.emitError(docConfig: docConfig, error: DataSynchronizerError.mongoDBError(
+                                            "t='\(logicalT)': syncLocalToRemote ns=\(nsConfig.config.namespace) documentId=\(docConfig.documentId) exception inserting: \(error)", error))
                                         continue
                                 }
 
@@ -751,7 +751,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                             guard let localDoc = localDoc else {
                                 self.emitError(
                                     docConfig: docConfig,
-                                    error: DataSynchronizerError(
+                                    error: DataSynchronizerError.documentDoesNotExist(
                                         "expected document to exist for local replace change event: %s")
                                 )
                                 continue
@@ -771,8 +771,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                                 // b. If an error happens, report an error to the error listener.
                                 self.emitError(
                                     docConfig: docConfig,
-                                    error: DataSynchronizerError("t='\(logicalT)': syncLocalToRemote ns=\(nsConfig.config.namespace) documentId=\(docConfig.documentId) exception "
-                                        + "replacing: %s"))
+                                    error: DataSynchronizerError.mongoDBError("t='\(logicalT)': syncLocalToRemote ns=\(nsConfig.config.namespace) documentId=\(docConfig.documentId) exception "
+                                        + "replacing", error))
                                 continue
                             }
                             // c. If no documents are matched, record that a conflict has occurred.
@@ -788,7 +788,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                             guard localDoc != nil else {
                                 self.emitError(
                                     docConfig: docConfig,
-                                    error: DataSynchronizerError(
+                                    error: DataSynchronizerError.documentDoesNotExist(
                                         "expected document to exist for local update change event")
                                 )
                                 continue
@@ -833,9 +833,9 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                                 // b. If an error happens, report an error to the error listener.
                                 emitError(
                                     docConfig: docConfig,
-                                    error: DataSynchronizerError(
+                                    error: DataSynchronizerError.mongoDBError(
                                         "t='\(logicalT)': syncLocalToRemote ns=\(nsConfig.config.namespace) documentId=\(docConfig.documentId) exception "
-                                            + "updating: \(error.localizedDescription)"))
+                                            + "updating)", error))
                                 continue
                             }
                             if result.matchedCount == 0 {
@@ -856,8 +856,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                                 // b. If an error happens, report an error to the error listener.
                                 self.emitError(
                                     docConfig: docConfig,
-                                    error: DataSynchronizerError("t='\(logicalT)': syncLocalToRemote ns=\(nsConfig.config.namespace) documentId=\(docConfig.documentId) exception "
-                                        + " deleting: \(error)"))
+                                    error: DataSynchronizerError.mongoDBError("t='\(logicalT)': syncLocalToRemote ns=\(nsConfig.config.namespace) documentId=\(docConfig.documentId) exception "
+                                        + " deleting", error))
                                 continue
                             }
                             // c. If no documents are matched, record that a conflict has occurred.
@@ -880,7 +880,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                         default:
                             self.emitError(
                                 docConfig: docConfig,
-                                error: DataSynchronizerError(
+                                error: DataSynchronizerError.decodingError(
                                     "t='\(logicalT)': syncLocalToRemote ns=\(nsConfig.config.namespace) documentId=\(docConfig.documentId) unknown operation "
                                         + "type occurred on the document: \(localChangeEvent.operationType); dropping the event")
                             )
@@ -1021,7 +1021,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             let errorString = "t='\(logicalT)': resolveConflict ns=\(namespace) documentId=\(documentId) resolution "
                 + "exception: \(error.localizedDescription))"
             logger.e(errorString)
-            emitError(docConfig: docConfig, error: error)
+            emitError(docConfig: docConfig, error: .resolutionError(error))
             return
         }
 
@@ -1036,7 +1036,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 remoteVersion = try DocumentVersionInfo.getRemoteVersionInfo(remoteDocument: remoteEvent.fullDocument!)?.versionDoc
             } catch {
                 try desyncDocumentFromRemote(nsConfig: nsConfig, documentId: documentId)
-                emitError(docConfig: docConfig, error: DataSynchronizerError(
+                emitError(docConfig: docConfig, error: .decodingError(
                     "t='\(logicalT)': resolveConflict ns=\(namespace) documentId=\(documentId) got a remote "
                         + "document that could not have its version info parsed "
                         + "; dropping the event, and desyncing the document"
@@ -1694,7 +1694,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             do {
                 try desyncBlock?()
             } catch {
-                errorListener?.on(error: error, forDocumentId: nil)
+                errorListener?.on(error: .fatalError(error), forDocumentId: nil)
             }
         }
 
@@ -1765,7 +1765,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 do {
                     try $0()
                 } catch {
-                    errorListener?.on(error: error, forDocumentId: nil)
+                    errorListener?.on(error: .fatalError(error), forDocumentId: nil)
                 }
             })
         }
@@ -1961,7 +1961,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 do {
                     try $0()
                 } catch {
-                    errorListener?.on(error: error, forDocumentId: nil)
+                    errorListener?.on(error: .fatalError(error), forDocumentId: nil)
                 }
             })
         }
@@ -2104,7 +2104,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             logger.e(error.localizedDescription)
             logger.e("Fatal error occured: \(error.localizedDescription)")
             self.eventDispatchQueue.async {
-                errorListener.on(error: error, forDocumentId: documentId)
+                errorListener.on(error: .fatalError(error), forDocumentId: documentId)
             }
             return
         }
@@ -2114,12 +2114,12 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             logger.e("Fatal error occured in namespace \(unwrappedNamespace) " +
                 "for documentId \(unwrappedDocumentId): \(error.localizedDescription)")
             self.eventDispatchQueue.async {
-                errorListener.on(error: error, forDocumentId: documentId)
+                errorListener.on(error: .fatalError(error), forDocumentId: documentId)
             }
             return
         }
 
-        emitError(docConfig: config, error: error)
+        emitError(docConfig: config, error: .fatalError(error))
     }
 
     /**
@@ -2129,7 +2129,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      - parameter error: the error that occured
      */
     private func emitError(docConfig: CoreDocumentSynchronization,
-                           error: Error) {
+                           error: DataSynchronizerError) {
         let documentId = docConfig.documentId.value
         docConfig.isPaused = true
         logger.e(error.localizedDescription)
