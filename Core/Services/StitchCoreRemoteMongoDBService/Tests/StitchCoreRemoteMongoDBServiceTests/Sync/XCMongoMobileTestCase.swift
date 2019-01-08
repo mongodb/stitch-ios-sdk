@@ -60,7 +60,7 @@ class TestConflictHandler: ConflictHandler {
 }
 
 class TestErrorListener: ErrorListener {
-    func on(error: Error, forDocumentId documentId: BSONValue?) {
+    func on(error: DataSynchronizerError, forDocumentId documentId: BSONValue?) {
         XCTFail(error.localizedDescription)
     }
 }
