@@ -75,7 +75,23 @@
             "RemoteInsertManyResult",
             "RemoteInsertOneResult",
             "RemoteUpdateOptions",
-            "RemoteUpdateResult"
+            "RemoteUpdateResult",
+	    "Sync",
+	    "DataSynchonizerError",
+	    "ChangeEvent",
+	    "UpdateDescription",
+	    "OperationType",
+	    "ErrorListener",
+	    "ConflictHandler",
+	    "DefaultConflictHandlers",
+	    "ChangeEventDelegate",
+	    "SyncCountOptions",
+	    "SyncDeleteResult",
+	    "SyncFindOptions",
+	    "SyncInsertOneResult",
+	    "SyncInsertManyResult",
+	    "SyncUpdateOptions",
+	    "SyncUpdateResult"
         ]
     },
     {
