@@ -116,7 +116,7 @@ public final class CoreSync<DocumentT: Codable> {
      - parameter options: the options describing the count
      - returns: the number of documents in the collection
      */
-    public func count(filter: Document, options: CountOptions? = nil) throws -> Int {
+    public func count(filter: Document, options: SyncCountOptions? = nil) throws -> Int {
         return try self.dataSynchronizer.count(filter: filter,
                                                options: options,
                                                in: namespace)
@@ -138,7 +138,7 @@ public final class CoreSync<DocumentT: Codable> {
      - parameter options: the options for this findo p
      - returns: the find iterable interface
      */
-    public func find(filter: Document, options: FindOptions? = nil) throws -> MongoCursor<DocumentT> {
+    public func find(filter: Document, options: SyncFindOptions? = nil) throws -> MongoCursor<DocumentT> {
         return try self.dataSynchronizer.find(filter: filter,
                                               options: options,
                                               in: namespace)
@@ -166,7 +166,7 @@ public final class CoreSync<DocumentT: Codable> {
      - parameter document: the document to insert
      - returns: the result of the insert one operation
      */
-    public func insertOne(document: DocumentT) throws -> InsertOneResult? {
+    public func insertOne(document: DocumentT) throws -> SyncInsertOneResult? {
         return try self.dataSynchronizer.insertOne(document: encoder.encode(document),
                                                    in: namespace)
     }
@@ -177,7 +177,7 @@ public final class CoreSync<DocumentT: Codable> {
      - parameter documents: the documents to insert
      - returns: the result of the insert many operation
      */
-    public func insertMany(documents: [DocumentT]) throws -> InsertManyResult? {
+    public func insertMany(documents: [DocumentT]) throws -> SyncInsertManyResult? {
         return try self.dataSynchronizer.insertMany(documents: try documents.map { try encoder.encode($0) },
                                                     in: namespace)
     }
@@ -190,10 +190,10 @@ public final class CoreSync<DocumentT: Codable> {
      - parameter filter: the query filter to apply the the delete operation
      - returns: the result of the remove one operation
      */
-    public func deleteOne(filter: Document) throws -> DeleteResult? {
+    public func deleteOne(filter: Document) throws -> SyncDeleteResult? {
         return try self.dataSynchronizer.deleteOne(filter: filter,
-                                               options: nil,
-                                               in: namespace)
+                                                   options: nil,
+                                                   in: namespace)
     }
 
     /**
@@ -203,10 +203,10 @@ public final class CoreSync<DocumentT: Codable> {
      - parameter filter: the query filter to apply the the delete operation
      - returns: the result of the remove many operation
      */
-    public func deleteMany(filter: Document) throws -> DeleteResult? {
+    public func deleteMany(filter: Document) throws -> SyncDeleteResult? {
         return try self.dataSynchronizer.deleteMany(filter: filter,
-                                                options: nil,
-                                                in: namespace)
+                                                    options: nil,
+                                                    in: namespace)
     }
 
     /**
@@ -221,7 +221,7 @@ public final class CoreSync<DocumentT: Codable> {
      */
     public func updateOne(filter: Document,
                           update: Document,
-                          options: UpdateOptions?) throws -> UpdateResult? {
+                          options: SyncUpdateOptions?) throws -> SyncUpdateResult? {
         return try self.dataSynchronizer.updateOne(filter: filter,
                                                    update: update,
                                                    options: options,
@@ -241,7 +241,7 @@ public final class CoreSync<DocumentT: Codable> {
      */
     public func updateMany(filter: Document,
                            update: Document,
-                           options: UpdateOptions?) throws -> UpdateResult? {
+                           options: SyncUpdateOptions?) throws -> SyncUpdateResult? {
         return try self.dataSynchronizer.updateMany(filter: filter,
                                                     update: update,
                                                     options: options,
