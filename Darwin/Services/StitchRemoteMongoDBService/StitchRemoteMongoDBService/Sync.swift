@@ -1,8 +1,11 @@
 import Foundation
-import StitchCoreRemoteMongoDBService
 import MongoSwift
 import StitchCore
+import StitchCoreRemoteMongoDBService
 
+/**
+ * A set of synchronization related operations for a collection.
+ */
 public class Sync<DocumentT: Codable> {
     internal let proxy: CoreSync<DocumentT>
     private let queue = DispatchQueue.init(label: "sync", qos: .userInitiated)
