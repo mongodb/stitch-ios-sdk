@@ -25,3 +25,17 @@ public struct RemoteInsertOneResult: Decodable {
         case insertedId
     }
 }
+
+public struct SyncInsertOneResult {
+    public let insertedId: BSONValue?
+
+    internal init(insertedId: BSONValue?) {
+        self.insertedId = insertedId
+    }
+}
+
+extension InsertOneResult {
+    var toSyncInsertOneResult: SyncInsertOneResult {
+        return SyncInsertOneResult(insertedId: self.insertedId)
+    }
+}

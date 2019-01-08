@@ -35,3 +35,28 @@ public struct RemoteUpdateResult: Decodable {
         case matchedCount, modifiedCount, upsertedId
     }
 }
+
+public struct SyncUpdateResult {
+    /// The number of documents that matched the filter.
+    public let matchedCount: Int
+
+    /// The number of documents modified.
+    public let modifiedCount: Int
+
+    /// The identifier of the inserted document if an upsert took place.
+    public let upsertedId: BSONValue?
+
+    internal init(matchedCount: Int, modifiedCount: Int, upsertedId: BSONValue?) {
+        self.matchedCount = matchedCount
+        self.modifiedCount = modifiedCount
+        self.upsertedId = upsertedId
+    }
+}
+
+extension UpdateResult {
+    var toSyncUpdateResult: SyncUpdateResult {
+        return SyncUpdateResult(matchedCount: self.matchedCount,
+                                modifiedCount: self.modifiedCount,
+                                upsertedId: self.upsertedId?.value)
+    }
+}

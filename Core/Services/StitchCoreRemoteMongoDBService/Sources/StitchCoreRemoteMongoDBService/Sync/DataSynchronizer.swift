@@ -9,26 +9,6 @@ import MongoSwift
 import MongoMobile
 import StitchCoreSDK
 
-/// Internal extensions so we can initialize using
-/// internal initializer.
-extension UpdateResult {
-    init(matchedCount: Int,
-         modifiedCount: Int,
-         upsertedId: AnyBSONValue?,
-         upsertedCount: Int) {
-        self.matchedCount = matchedCount
-        self.modifiedCount = modifiedCount
-        self.upsertedId = upsertedId
-        self.upsertedCount = upsertedCount
-    }
-}
-
-extension DeleteResult {
-    init(deletedCount: Int) {
-        self.deletedCount = deletedCount
-    }
-}
-
 private let idField = "_id"
 
 /**
@@ -1515,16 +1495,15 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      - returns: the number of documents in the collection
      */
     func count(filter: Document,
-               options: CountOptions?,
+               options: SyncCountOptions?,
                in namespace: MongoNamespace) throws -> Int {
         guard let lock = self.syncConfig[namespace]?.nsLock else {
             throw StitchError.clientError(
                 withClientErrorCode: .couldNotLoadSyncInfo)
         }
         return try lock.read {
-
             return try localCollection(for: namespace, withType: Document.self)
-                .count(filter, options: options)
+                .count(filter, options: options?.toCountOptions)
         }
     }
 
@@ -1547,15 +1526,14 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      - returns: the find iterable interface
      */
     func find<DocumentT: Codable>(filter: Document,
-                                  options: FindOptions?,
+                                  options: SyncFindOptions?,
                                   in namespace: MongoNamespace) throws -> MongoCursor<DocumentT> {
         guard let lock = self.syncConfig[namespace]?.nsLock else {
             throw StitchError.clientError(
                 withClientErrorCode: .couldNotLoadSyncInfo)
         }
         return try lock.read {
-
-            return try localCollection(for: namespace).find(filter, options: options)
+            return try localCollection(for: namespace).find(filter, options: options?.toFindOptions)
         }
     }
 
@@ -1592,7 +1570,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      - returns: the result of the insert one operation
      */
     func insertOne(document: Document,
-                   in namespace: MongoNamespace) throws -> InsertOneResult? {
+                   in namespace: MongoNamespace) throws -> SyncInsertOneResult? {
         guard let nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
             throw StitchError.clientError(
                 withClientErrorCode: .couldNotLoadSyncInfo)
@@ -1622,7 +1600,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         }
 
         self.emitEvent(documentId: result.insertedId!, event: event)
-        return result
+        return result.toSyncInsertOneResult
     }
 
     /**
@@ -1632,7 +1610,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      - parameter namespace: the namespace to conduct this op
      - returns: the result of the insert many operation
      */
-    func insertMany(documents: [Document], in namespace: MongoNamespace) throws -> InsertManyResult? {
+    func insertMany(documents: [Document], in namespace: MongoNamespace) throws -> SyncInsertManyResult? {
         guard let nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
             throw StitchError.clientError(
                 withClientErrorCode: .couldNotLoadSyncInfo)
@@ -1670,7 +1648,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         }
 
         eventEmitters.forEach({$0()})
-        return result
+        return result?.toSyncInsertManyResult
     }
 
     /**
@@ -1684,7 +1662,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      */
     func deleteOne(filter: Document,
                    options: DeleteOptions?,
-                   in namespace: MongoNamespace) throws -> DeleteResult? {
+                   in namespace: MongoNamespace) throws -> SyncDeleteResult? {
         guard var nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
             throw StitchError.clientError(
                 withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
@@ -1707,12 +1685,12 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             let localColl = localCollection(for: namespace, withType: Document.self)
 
             guard let docToDelete = try localColl.find(filter).first(where: { _ in true}) else {
-                return DeleteResult(deletedCount: 0)
+                return SyncDeleteResult(deletedCount: 0)
             }
 
             guard let documentId = docToDelete[idField],
                 let docConfig = nsConfig[documentId] else {
-                    return DeleteResult(deletedCount: 0)
+                    return SyncDeleteResult(deletedCount: 0)
             }
 
             let undoColl = undoCollection(for: namespace)
@@ -1733,7 +1711,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                     try self.desync(ids: [docConfig.documentId.value], in: docConfig.namespace)
                     try undoColl.deleteOne([idField: docConfig.documentId.value])
                 }
-                return result
+                return result?.toSyncDeleteResult
             }
 
             try docConfig.setSomePendingWrites(atTime: logicalT, changeEvent: event)
@@ -1742,7 +1720,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
             emitEvent = { self.emitEvent(documentId: documentId, event: event) }
 
-            return result
+            return result?.toSyncDeleteResult
         }
     }
 
@@ -1756,7 +1734,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      */
     func deleteMany(filter: Document,
                     options: DeleteOptions?,
-                    in namespace: MongoNamespace) throws -> DeleteResult? {
+                    in namespace: MongoNamespace) throws -> SyncDeleteResult? {
         guard var nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
             throw StitchError.clientError(
                 withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
@@ -1812,7 +1790,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 deferredBlocks.append { self.emitEvent(documentId: documentId, event: event) }
             }
 
-            return result
+            return result?.toSyncDeleteResult
         }
     }
 
@@ -1828,8 +1806,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      */
     func updateOne(filter: Document,
                    update: Document,
-                   options: UpdateOptions?,
-                   in namespace: MongoNamespace) throws -> UpdateResult? {
+                   options: SyncUpdateOptions?,
+                   in namespace: MongoNamespace) throws -> SyncUpdateResult? {
         guard let nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
             throw StitchError.clientError(
                 withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
@@ -1838,7 +1816,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         var triggerNamespace = false
         var emitEvent: (() -> Void)?
         defer { emitEvent?() }
-        let updateResult: UpdateResult? = try nsConfig.nsLock.write {
+        let updateResult: SyncUpdateResult? = try nsConfig.nsLock.write {
             // read the local collection
             let localCollection = self.localCollection(for: namespace, withType: Document.self)
             let undoColl = self.undoCollection(for: namespace)
@@ -1864,10 +1842,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             guard let unsanitizedDocumentAfterUpdate = try localCollection.findOneAndUpdate(
                 filter: filter,
                 update: update,
-                options: FindOneAndUpdateOptions.init(arrayFilters: options?.arrayFilters,
-                                                      bypassDocumentValidation: options?.bypassDocumentValidation,
-                                                      collation: options?.collation,
-                                                      returnDocument: .after,
+                options: FindOneAndUpdateOptions.init(returnDocument: .after,
                                                       upsert: options?.upsert)),
                 let documentId = unsanitizedDocumentAfterUpdate[idField] else {
 
@@ -1923,10 +1898,9 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
             emitEvent = { self.emitEvent(documentId: documentId, event: event) }
 
-            return UpdateResult(matchedCount: 1,
-                                modifiedCount: 1,
-                                upsertedId: upsert ? AnyBSONValue(documentId) : nil,
-                                upsertedCount: upsert ? 1 : 0)
+            return SyncUpdateResult(matchedCount: 1,
+                                    modifiedCount: 1,
+                                    upsertedId: upsert ? documentId : nil)
         }
 
         if triggerNamespace {
@@ -1951,8 +1925,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      */
     func updateMany(filter: Document,
                     update: Document,
-                    options: UpdateOptions?,
-                    in namespace: MongoNamespace) throws -> UpdateResult? {
+                    options: SyncUpdateOptions?,
+                    in namespace: MongoNamespace) throws -> SyncUpdateResult? {
         guard let nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
             throw StitchError.clientError(
                 withClientErrorCode: .couldNotLoadSyncInfo)
@@ -1995,7 +1969,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             // do the bulk write
             let result = try localCollection.updateMany(filter: updatedFilter,
                                                         update: update,
-                                                        options: options)
+                                                        options: options?.toUpdateOptions)
 
             // if this was an upsert, create the post-update filter using
             // the upserted id.
@@ -2076,7 +2050,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             }
         }
 
-        return result
+        return result?.toSyncUpdateResult
     }
 
     /**
