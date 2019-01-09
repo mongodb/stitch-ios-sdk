@@ -11,7 +11,7 @@ The official [MongoDB Stitch](https://stitch.mongodb.com/) SDK for iOS/Swift.
 - [Example Usage](#example-usage)
 
 ## Documentation
-* [API/Jazzy Documentation](https://s3.amazonaws.com/stitch-sdks/swift/docs/4.1.2/index.html)
+* [API/Jazzy Documentation](https://docs.mongodb.com/stitch-sdks/swift/4.1.2/index.html)
 * [MongoDB Stitch Documentation](https://docs.mongodb.com/stitch/)
 
 ## Discussion
