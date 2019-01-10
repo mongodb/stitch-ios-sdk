@@ -15,6 +15,7 @@ public struct RemoteCountOptions {
     public let limit: Int64?
 }
 
+/// Options to use when executing a `count` command on a local sync collection.
 public struct SyncCountOptions {
     // MARK: Properties
 

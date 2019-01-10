@@ -174,9 +174,10 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		4943FC592196505500DED08C /* Sync */ = {
+		4928D53721E51A140040BB8D /* Internal */ = {
 			isa = PBXGroup;
 			children = (
+				4943FC6E219724E800DED08C /* DocumentVersionInfo.swift */,
 				498DF58A219F7392009F1B3F /* Log.swift */,
 				49D3044821CA99C50069632C /* BSONFixes.swift */,
 				4961564A21C7E802003C7392 /* ThreadSafeMongoMobile.swift */,
@@ -189,13 +190,20 @@
 				49E8957A21991C1A003C3758 /* NamespaceSynchronizationConfig.swift */,
 				4943FC622196591F00DED08C /* CoreDocumentSynchronizationConfig.swift */,
 				491F9B4F21A372B500802A4D /* CoreRemoteMongoClientFactory.swift */,
+			);
+			path = Internal;
+			sourceTree = "<group>";
+		};
+		4943FC592196505500DED08C /* Sync */ = {
+			isa = PBXGroup;
+			children = (
+				4928D53721E51A140040BB8D /* Internal */,
 				4943FC5A2196506300DED08C /* ChangeEvent.swift */,
 				49037A43219E0ECD0066E109 /* ErrorListener.swift */,
 				4943FC60219650A200DED08C /* UpdateDescription.swift */,
 				4980B1282199E7E000D6E49C /* ConflictHandler.swift */,
 				4980B12A2199EBE100D6E49C /* ChangeEventDelegate.swift */,
 				4943FC5C2196508100DED08C /* MongoNamespace.swift */,
-				4943FC6E219724E800DED08C /* DocumentVersionInfo.swift */,
 			);
 			path = Sync;
 			sourceTree = "<group>";
