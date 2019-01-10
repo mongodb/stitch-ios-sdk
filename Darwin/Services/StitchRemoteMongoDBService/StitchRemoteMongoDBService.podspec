@@ -18,7 +18,7 @@ Pod::Spec.new do |spec|
     spec.platform = :ios, "11.0"
 
     spec.ios.deployment_target = "11.0"
-    
+    spec.swift_version = "4"
     spec.source_files = "Darwin/Services/#{spec.name}/#{spec.name}/**/*.swift"
 
     spec.dependency 'StitchCore', '= 5.0.0-alpha.0'

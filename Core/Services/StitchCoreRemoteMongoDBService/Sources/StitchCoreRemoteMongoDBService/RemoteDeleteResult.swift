@@ -24,4 +24,3 @@ extension DeleteResult {
         return SyncDeleteResult(deletedCount: self.deletedCount)
     }
 }
-
