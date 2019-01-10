@@ -21,6 +21,6 @@ Pod::Spec.new do |spec|
   
     spec.source_files = "Darwin/Services/#{spec.name}/#{spec.name}/**/*.swift"
 
-    spec.dependency 'StitchCore', '= 4.1.2'
-    spec.dependency 'StitchCoreAWSS3Service', '= 4.1.2'
+    spec.dependency 'StitchCore', '= 5.0.0-alpha.0'
+    spec.dependency 'StitchCoreAWSS3Service', '= 5.0.0-alpha.0'
 end
