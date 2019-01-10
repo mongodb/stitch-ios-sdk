@@ -20,7 +20,7 @@ Pod::Spec.new do |spec|
     spec.ios.deployment_target = "11.0"
   
     spec.source_files = "Core/Services/#{spec.name}/Sources/#{spec.name}/**/*.swift"
-
+    spec.swift_version = "4"
     spec.dependency 'StitchCoreSDK', '= 5.0.0-alpha.0'
     spec.dependency 'StitchCoreLocalMongoDBService', '= 5.0.0-alpha.0'
 end
