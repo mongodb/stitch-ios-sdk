@@ -22,4 +22,5 @@ Pod::Spec.new do |spec|
     spec.source_files = "Core/Services/#{spec.name}/Sources/#{spec.name}/**/*.swift"
 
     spec.dependency 'StitchCoreSDK', '= 5.0.0-alpha.0'
+    spec.dependency 'StitchCoreLocalMongoDBService', '= 5.0.0-alpha.0'
 end
