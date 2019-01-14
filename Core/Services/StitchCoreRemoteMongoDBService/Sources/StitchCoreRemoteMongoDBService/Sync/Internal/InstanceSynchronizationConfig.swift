@@ -29,13 +29,13 @@ internal class InstanceSynchronization: Sequence {
         private typealias Values = Dictionary<MongoNamespace, NamespaceSynchronization>.Values
 
         private let namespacesColl: ThreadSafeMongoCollection<NamespaceSynchronization.Config>
-        private let docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>
+        private let docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization>
         private var values: Values
         private var indices: DefaultIndices<Values>
         private weak var errorListener: FatalErrorListener?
 
         init(namespacesColl: ThreadSafeMongoCollection<NamespaceSynchronization.Config>,
-             docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>,
+             docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization>,
              values: Dictionary<MongoNamespace, NamespaceSynchronization>.Values,
              errorListener: FatalErrorListener?) {
             self.namespacesColl = namespacesColl
@@ -55,7 +55,7 @@ internal class InstanceSynchronization: Sequence {
     }
 
     private let namespacesColl: ThreadSafeMongoCollection<NamespaceSynchronization.Config>
-    private let docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>
+    private let docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization>
     private let instanceLock: ReadWriteLock
     weak var errorListener: FatalErrorListener?
 
@@ -68,7 +68,7 @@ internal class InstanceSynchronization: Sequence {
         self.namespacesColl = configDb
             .collection("namespaces", withType: NamespaceSynchronization.Config.self)
         self.docsColl = configDb
-            .collection("documents", withType: CoreDocumentSynchronization.Config.self)
+            .collection("documents", withType: CoreDocumentSynchronization.self)
 
         self.config = Config.init(
             namespaces: try self.namespacesColl.find()

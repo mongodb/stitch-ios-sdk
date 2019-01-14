@@ -44,13 +44,15 @@ class ThreadSafeMongoDatabase {
     }
 }
 
-class ThreadSafeMongoCollection<T: Codable> {
-    private let appInfo: StitchAppClientInfo
+class ThreadSafeMongoCollection<T: Codable>: Codable {
+    private let clientAppID: String
+    private let dataDirectory: URL
     private let databaseName: String
     private let name: String
 
     fileprivate init(_ appInfo: StitchAppClientInfo, databaseName: String, name: String) {
-        self.appInfo = appInfo
+        self.clientAppID = appInfo.clientAppID
+        self.dataDirectory = appInfo.dataDirectory
         self.databaseName = databaseName
         self.name = name
     }
@@ -58,7 +60,7 @@ class ThreadSafeMongoCollection<T: Codable> {
     fileprivate func underlyingCollection() throws -> MongoCollection<T> {
         return try CoreLocalMongoDBService
             .shared
-            .client(withAppInfo: appInfo)
+            .client(withClientAppID: clientAppID, withDataDirectory: dataDirectory)
             .db(databaseName)
             .collection(name, withType: T.self)
     }

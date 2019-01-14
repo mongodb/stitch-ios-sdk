@@ -20,14 +20,14 @@ internal class NamespaceSynchronization: Sequence {
         /// the namespace for this config
         let namespace: MongoNamespace
         /// a map of documents synchronized on this namespace, keyed on their documentIds
-        fileprivate(set) internal var syncedDocuments: [HashableBSONValue: CoreDocumentSynchronization.Config]
+        fileprivate(set) internal var syncedDocuments: [HashableBSONValue: CoreDocumentSynchronization]
         /// The conflict handler configured to this namespace.
         fileprivate var conflictHandler: AnyConflictHandler?
         /// The change event listener configured to this namespace.
         fileprivate var changeEventDelegate: AnyChangeEventDelegate?
 
         init(namespace: MongoNamespace,
-             syncedDocuments: [HashableBSONValue: CoreDocumentSynchronization.Config]) {
+             syncedDocuments: [HashableBSONValue: CoreDocumentSynchronization]) {
             self.namespace = namespace
             self.syncedDocuments = syncedDocuments
         }
@@ -39,15 +39,15 @@ internal class NamespaceSynchronization: Sequence {
     /// Allows for the iteration of the document configs contained in this instance.
     struct NamespaceSynchronizationIterator: IteratorProtocol {
         typealias Element = CoreDocumentSynchronization
-        private typealias Values = Dictionary<HashableBSONValue, CoreDocumentSynchronization.Config>.Values
+        private typealias Values = Dictionary<HashableBSONValue, CoreDocumentSynchronization>.Values
 
-        private let docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>
+        private let docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization>
         private var values: Values
         private var indices: DefaultIndices<Values>
         private weak var errorListener: FatalErrorListener?
 
-        init(docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>,
-             values: Dictionary<HashableBSONValue, CoreDocumentSynchronization.Config>.Values,
+        init(docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization>,
+             values: Dictionary<HashableBSONValue, CoreDocumentSynchronization>.Values,
              errorListener: FatalErrorListener?) {
             self.docsColl = docsColl
             self.values = values
@@ -60,9 +60,7 @@ internal class NamespaceSynchronization: Sequence {
                 return nil
             }
 
-            return try? CoreDocumentSynchronization.init(docsColl: docsColl,
-                                                         config: &values[index],
-                                                         errorListener: errorListener)
+            return values[index]
         }
     }
 
@@ -71,7 +69,7 @@ internal class NamespaceSynchronization: Sequence {
     /// The collection we are storing namespace configs in.
     private let namespacesColl: ThreadSafeMongoCollection<NamespaceSynchronization.Config>
     /// The collection we are storing document configs in.
-    private let docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>
+    private let docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization>
     /// The error listener to propagate errors to.
     private weak var errorListener: FatalErrorListener?
     /// The configuration for this namespace.
@@ -101,7 +99,7 @@ internal class NamespaceSynchronization: Sequence {
     }
 
     init(namespacesColl: ThreadSafeMongoCollection<NamespaceSynchronization.Config>,
-         docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>,
+         docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization>,
          namespace: MongoNamespace,
          errorListener: FatalErrorListener?) throws {
         self.namespacesColl = namespacesColl
@@ -112,7 +110,7 @@ internal class NamespaceSynchronization: Sequence {
             namespace: namespace,
             syncedDocuments: try docsColl
                 .find(CoreDocumentSynchronization.filter(forNamespace: namespace))
-                .reduce(into: [HashableBSONValue: CoreDocumentSynchronization.Config](), { (syncedDocuments, config) in
+                .reduce(into: [HashableBSONValue: CoreDocumentSynchronization](), { (syncedDocuments, config) in
                     syncedDocuments[config.documentId] = config
                 }))
         self.errorListener = errorListener
@@ -154,12 +152,12 @@ internal class NamespaceSynchronization: Sequence {
     subscript(documentId: BSONValue) -> CoreDocumentSynchronization? {
         get {
             nsLock.assertLocked()
-                guard var config = config.syncedDocuments[HashableBSONValue(documentId)] else {
-                    return nil
-                }
-                return try? CoreDocumentSynchronization.init(docsColl: docsColl,
-                                                             config: &config,
-                                                             errorListener: errorListener)
+            do {
+                return try docsColl.find(docConfigFilter(forNamespace: config.namespace,
+                                                         withDocumentId: AnyBSONValue(documentId))).next()
+            } catch {
+                return config.syncedDocuments[HashableBSONValue(documentId)]
+            }
         }
         set(value) {
             nsLock.assertWriteLocked()
@@ -184,10 +182,10 @@ internal class NamespaceSynchronization: Sequence {
                 try docsColl.replaceOne(
                     filter: docConfigFilter(forNamespace: self.config.namespace,
                                             withDocumentId: documentId.bsonValue),
-                    replacement: value.config,
+                    replacement: value,
                     options: ReplaceOptions.init(upsert: true))
 
-                self.config.syncedDocuments[documentId] = value.config
+                self.config.syncedDocuments[documentId] = value
             } catch {
                 errorListener?.on(error: error, forDocumentId: documentId.bsonValue.value, in: self.config.namespace)
             }
@@ -219,10 +217,10 @@ internal class NamespaceSynchronization: Sequence {
         do {
             return Set(
                 try self.docsColl.distinct(
-                    fieldName: CoreDocumentSynchronization.Config.CodingKeys.documentId.rawValue,
+                    fieldName: CoreDocumentSynchronization.CodingKeys.documentId.rawValue,
                     filter: [
-                        CoreDocumentSynchronization.Config.CodingKeys.isStale.rawValue: true,
-                        CoreDocumentSynchronization.Config.CodingKeys.namespace.rawValue:
+                        CoreDocumentSynchronization.CodingKeys.isStale.rawValue: true,
+                        CoreDocumentSynchronization.CodingKeys.namespace.rawValue:
                             try BSONEncoder().encode(config.namespace)
                     ]).compactMap({
                         $0 == nil ? nil : HashableBSONValue($0!)
@@ -239,7 +237,7 @@ internal class NamespaceSynchronization: Sequence {
             try docsColl.updateMany(
                 filter: ["namespace": try BSONEncoder().encode(config.namespace)],
                 update: ["$set": [
-                    CoreDocumentSynchronization.Config.CodingKeys.isStale.rawValue: true
+                    CoreDocumentSynchronization.CodingKeys.isStale.rawValue: true
                 ] as Document])
         }
     }

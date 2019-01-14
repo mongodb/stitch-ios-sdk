@@ -72,6 +72,10 @@ private extension RemoteMongoCollection {
     }
 }
 
+extension String: LocalizedError {
+    public var errorDescription: String? { return self }
+}
+
 // These extensions make the CRUD commands synchronous to simplify writing tests.
 // These extensions should not be used outside of a testing environment.
 private extension Sync {
@@ -1622,7 +1626,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
             if conflictCounter == 0 {
                 conflictCounter += 1
                 errorEmitted = true
-                throw DataSynchronizerError("ouch")
+                throw "ouch"
             }
             return remoteEvent.fullDocument
         })

@@ -6,7 +6,7 @@ import XCTest
 
 class InstanceSynchronizationConfigTests: XCMongoMobileTestCase, FatalErrorListener {
     private var namespaceColl: ThreadSafeMongoCollection<NamespaceSynchronization.Config>!
-    private var docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>!
+    private var docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization>!
 
     private let namespace2 = MongoNamespace.init(databaseName: ObjectId().description,
                                                  collectionName: ObjectId().description)
@@ -15,7 +15,7 @@ class InstanceSynchronizationConfigTests: XCMongoMobileTestCase, FatalErrorListe
         namespaceColl = localClient.db(namespace.databaseName)
             .collection("namespaces", withType: NamespaceSynchronization.Config.self)
         docsColl = localClient.db(namespace.databaseName)
-            .collection("documents", withType: CoreDocumentSynchronization.Config.self)
+            .collection("documents", withType: CoreDocumentSynchronization.self)
     }
 
     override func tearDown() {
