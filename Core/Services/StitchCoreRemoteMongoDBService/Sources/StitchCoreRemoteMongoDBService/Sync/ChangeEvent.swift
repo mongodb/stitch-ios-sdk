@@ -72,7 +72,7 @@ public struct ChangeEvent<DocumentT: Codable>: Codable, Hashable {
         self.operationType = OperationType.init(
             rawValue: try container.decode(String.self, forKey: .operationType)
         ) ?? .unknown
-        self.fullDocument = try container.decode(DocumentT.self, forKey: .fullDocument)
+        self.fullDocument = try container.decodeIfPresent(DocumentT.self, forKey: .fullDocument)
         self.ns = try container.decode(MongoNamespace.self, forKey: .ns)
         self.documentKey = try container.decode(Document.self, forKey: .documentKey)
         self.updateDescription = try container.decodeIfPresent(UpdateDescription.self, forKey: .updateDescription)
