@@ -114,7 +114,7 @@ final class CoreDocumentSynchronization: Codable, Hashable {
     init(docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization>,
          namespace: MongoNamespace,
          documentId: AnyBSONValue,
-         errorListener: FatalErrorListener?) throws {
+         errorListener: FatalErrorListener?) {
         self.docsColl = docsColl
         self.namespace = namespace
         self.documentId = HashableBSONValue.init(documentId)

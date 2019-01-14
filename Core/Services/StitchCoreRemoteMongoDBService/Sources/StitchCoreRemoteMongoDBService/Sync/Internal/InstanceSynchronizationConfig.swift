@@ -80,9 +80,9 @@ final class InstanceSynchronization: Sequence, Codable {
 
         return instanceLock.write {
             do {
-                let newConfig = try NamespaceSynchronization.init(docsColl: docsColl,
-                                                                  namespace: namespace,
-                                                                  errorListener: errorListener)
+                let newConfig = NamespaceSynchronization.init(docsColl: docsColl,
+                                                              namespace: namespace,
+                                                              errorListener: errorListener)
                 try namespacesColl.insertOne(newConfig)
                 namespaceConfigs[namespace] = newConfig
                 return newConfig

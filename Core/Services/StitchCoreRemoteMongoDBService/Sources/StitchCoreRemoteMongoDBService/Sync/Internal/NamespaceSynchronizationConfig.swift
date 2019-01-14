@@ -59,7 +59,7 @@ final class NamespaceSynchronization: Sequence, Codable {
 
     init(docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization>,
          namespace: MongoNamespace,
-         errorListener: FatalErrorListener?) throws {
+         errorListener: FatalErrorListener?) {
         self.docsColl = docsColl
         self.namespace = namespace
         self.errorListener = errorListener
@@ -84,10 +84,10 @@ final class NamespaceSynchronization: Sequence, Codable {
         if let existingConfig = self[id] {
             return existingConfig
         }
-        let docConfig = try CoreDocumentSynchronization.init(docsColl: docsColl,
-                                                             namespace: self.namespace,
-                                                             documentId: AnyBSONValue(id),
-                                                             errorListener: errorListener)
+        let docConfig = CoreDocumentSynchronization.init(docsColl: docsColl,
+                                                         namespace: self.namespace,
+                                                         documentId: AnyBSONValue(id),
+                                                         errorListener: errorListener)
         self[id] = docConfig
         return docConfig
     }
@@ -133,6 +133,7 @@ final class NamespaceSynchronization: Sequence, Codable {
                         in: self.namespace
                     )
                 }
+                docs[documentId] = nil
                 return
             }
 

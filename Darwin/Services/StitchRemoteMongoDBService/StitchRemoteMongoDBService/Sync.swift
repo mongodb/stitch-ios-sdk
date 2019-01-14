@@ -310,7 +310,7 @@ public class Sync<DocumentT: Codable> {
             }
         }
     }
-    
+
     /**
      Update all documents in the collection that have been synchronized with the remote
      according to the specified arguments. If the update results in an upsert,

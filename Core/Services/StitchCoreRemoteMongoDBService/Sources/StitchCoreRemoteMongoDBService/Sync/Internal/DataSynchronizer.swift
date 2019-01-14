@@ -630,7 +630,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 let remoteColl: CoreRemoteMongoCollection<Document> = remoteCollection(for: nsConfig.namespace)
 
                 // a. For each document that has local writes pending
-                for var docConfig in nsConfig {
+                for docConfig in nsConfig {
                     guard !docConfig.isPaused,
                         let localChangeEvent = docConfig.uncommittedChangeEvent else {
                             continue
@@ -2084,7 +2084,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             return
         }
 
-        guard var config = syncConfig[unwrappedNamespace]?[unwrappedDocumentId] else {
+        guard let config = syncConfig[unwrappedNamespace]?[unwrappedDocumentId] else {
             logger.e(error.localizedDescription)
             logger.e("Fatal error occured in namespace \(unwrappedNamespace) " +
                 "for documentId \(unwrappedDocumentId): \(error.localizedDescription)")
