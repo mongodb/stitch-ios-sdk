@@ -26,7 +26,7 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
     func testRoundTrip() throws {
         let documentId = ObjectId()
 
-        let coreDocSync = try CoreDocumentSynchronization.init(docsColl: docsColl,
+        let coreDocSync = CoreDocumentSynchronization.init(docsColl: docsColl,
                                                                namespace: namespace,
                                                                documentId: AnyBSONValue(documentId),
                                                                errorListener: nil)
@@ -87,22 +87,19 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
 
         let decodedCoreDocConfig = try BSONDecoder().decode(CoreDocumentSynchronization.self,
                                                             from: encodedCoreDocSync)
-        let decodedCoreDocSync = try CoreDocumentSynchronization.init(docsColl: docsColl,
-                                                                      config: decodedCoreDocConfig,
-                                                                      errorListener: nil)
 
-        XCTAssertEqual(isPaused, decodedCoreDocSync.isPaused)
-        XCTAssertEqual(isStale, decodedCoreDocSync.isStale)
-        XCTAssertEqual(lastKnownRemoteVersion, decodedCoreDocSync.lastKnownRemoteVersion)
-        XCTAssertEqual(lastResolution, decodedCoreDocSync.lastResolution)
-        XCTAssertEqual(lastUncommittedChangeEvent, decodedCoreDocSync.uncommittedChangeEvent)
-        XCTAssertEqual(coreDocSync, decodedCoreDocSync)
+        XCTAssertEqual(isPaused, decodedCoreDocConfig.isPaused)
+        XCTAssertEqual(isStale, decodedCoreDocConfig.isStale)
+        XCTAssertEqual(lastKnownRemoteVersion, decodedCoreDocConfig.lastKnownRemoteVersion)
+        XCTAssertEqual(lastResolution, decodedCoreDocConfig.lastResolution)
+        XCTAssertEqual(lastUncommittedChangeEvent, decodedCoreDocConfig.uncommittedChangeEvent)
+        XCTAssertEqual(coreDocSync, decodedCoreDocConfig)
     }
 
     func testSomePendingWrites() throws {
         let documentId = ObjectId()
 
-        let coreDocSync = try CoreDocumentSynchronization.init(docsColl: docsColl,
+        let coreDocSync = CoreDocumentSynchronization.init(docsColl: docsColl,
                                                                namespace: namespace,
                                                                documentId: AnyBSONValue(documentId),
                                                                errorListener: nil)

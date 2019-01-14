@@ -49,7 +49,6 @@ final class CoreDocumentSynchronization: Codable, Hashable {
 
     /// The most recent pending change event
     var uncommittedChangeEvent: ChangeEvent<Document>?
-
     /// The last time a pending write has been triggered.
     var lastResolution: Int64
     /// The last known remote version.
@@ -182,8 +181,8 @@ final class CoreDocumentSynchronization: Codable, Hashable {
             )
         }
 
-        try container.encode(isStale, forKey: .isStale)
-        try container.encode(isPaused, forKey: .isPaused)
+        try container.encode(_isStale, forKey: .isStale)
+        try container.encode(_isPaused, forKey: .isPaused)
         try container.encode(docsColl, forKey: .docsColl)
     }
 
@@ -204,13 +203,15 @@ final class CoreDocumentSynchronization: Codable, Hashable {
             self.isStale = true
         }
 
-        self.uncommittedChangeEvent = CoreDocumentSynchronization.coalesceChangeEvents(
-            lastUncommittedChangeEvent: self.uncommittedChangeEvent,
-            newestChangeEvent: changeEvent)
-        self.lastResolution = atTime
-        try docsColl.replaceOne(filter: docConfigFilter(forNamespace: namespace,
-                                                        withDocumentId: documentId.bsonValue),
-                                replacement: self)
+        try docLock.write {
+            self.uncommittedChangeEvent = CoreDocumentSynchronization.coalesceChangeEvents(
+                lastUncommittedChangeEvent: self.uncommittedChangeEvent,
+                newestChangeEvent: changeEvent)
+            self.lastResolution = atTime
+            try docsColl.replaceOne(filter: docConfigFilter(forNamespace: namespace,
+                                                            withDocumentId: documentId.bsonValue),
+                                    replacement: self)
+        }
     }
 
     /**
@@ -224,13 +225,15 @@ final class CoreDocumentSynchronization: Codable, Hashable {
     func setSomePendingWrites(atTime: Int64,
                               atVersion: Document?,
                               changeEvent: ChangeEvent<Document>) throws {
-        self.uncommittedChangeEvent = changeEvent
-        self.lastResolution = atTime
-        self.lastKnownRemoteVersion = atVersion
+        try docLock.write {
+            self.uncommittedChangeEvent = changeEvent
+            self.lastResolution = atTime
+            self.lastKnownRemoteVersion = atVersion
 
-        try docsColl.replaceOne(filter: docConfigFilter(forNamespace: namespace,
-                                                        withDocumentId: documentId.bsonValue),
-                                replacement: self)
+            try docsColl.replaceOne(filter: docConfigFilter(forNamespace: namespace,
+                                                            withDocumentId: documentId.bsonValue),
+                                    replacement: self)
+        }
     }
 
     /**
@@ -241,12 +244,14 @@ final class CoreDocumentSynchronization: Codable, Hashable {
      - parameter atVersion: the version for which the write as completed on
      */
     func setPendingWritesComplete(atVersion: Document?) throws {
-        self.uncommittedChangeEvent = nil
-        self.lastKnownRemoteVersion = atVersion
+        try docLock.write {
+            self.uncommittedChangeEvent = nil
+            self.lastKnownRemoteVersion = atVersion
 
-        try docsColl.replaceOne(filter: docConfigFilter(forNamespace: namespace,
-                                                        withDocumentId: documentId.bsonValue),
-                                replacement: self)
+            try docsColl.replaceOne(filter: docConfigFilter(forNamespace: namespace,
+                                                            withDocumentId: documentId.bsonValue),
+                                    replacement: self)
+        }
     }
 
     /**
