@@ -2,23 +2,6 @@ import Foundation
 import MongoSwift
 import StitchCoreSDK
 
-/// Allows for the iteration of the namespaces contained in this instance.
-struct InstanceSynchronizationIterator<T: IteratorProtocol>: IteratorProtocol
-    where T.Element == NamespaceSynchronization {
-    typealias Element = NamespaceSynchronization
-    private typealias Values = Dictionary<MongoNamespace, NamespaceSynchronization>.Values
-
-    private var cursor: T?
-
-    init(cursor: T?) {
-        self.cursor = cursor
-    }
-
-    mutating func next() -> NamespaceSynchronization? {
-        return cursor?.next()
-    }
-}
-
 /**
  The synchronization class for this instance.
 
@@ -109,5 +92,9 @@ final class InstanceSynchronization: Sequence, Codable {
                                               forKey: .namespacesColl)
         docsColl = try container.decode(ThreadSafeMongoCollection<CoreDocumentSynchronization>.self,
                                         forKey: .docsColl)
+
+        try namespacesColl.find().forEach { config in
+            namespaceConfigs[config.namespace] = config
+        }
     }
 }

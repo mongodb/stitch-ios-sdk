@@ -3,22 +3,6 @@ import MongoSwift
 import MongoMobile
 import StitchCoreSDK
 
-/// Allows for the iteration of the document configs contained in this instance.
-struct NamespaceSynchronizationIterator: IteratorProtocol {
-    typealias Element = CoreDocumentSynchronization
-    private typealias Values = Dictionary<HashableBSONValue, CoreDocumentSynchronization>.Values
-
-    private let docs: MongoCursor<CoreDocumentSynchronization>?
-
-    init(docs: MongoCursor<CoreDocumentSynchronization>?) {
-        self.docs = docs
-    }
-
-    mutating func next() -> CoreDocumentSynchronization? {
-        return docs?.next()
-    }
-}
-
 /**
  The synchronization class for this namespace.
 

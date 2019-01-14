@@ -26,7 +26,7 @@ class NamespaceSynchronizationConfigTests: XCMongoMobileTestCase {
                                                          namespace: namespace,
                                                          errorListener: nil)
 
-        try nsConfig.nsLock.write {
+        nsConfig.nsLock.write {
             var docConfig = nsConfig[documentId]
 
             XCTAssertNil(docConfig)

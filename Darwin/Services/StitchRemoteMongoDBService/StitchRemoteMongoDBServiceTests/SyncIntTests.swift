@@ -1105,7 +1105,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         coll.verifyUndoCollectionEmpty()
     }
 
-    func testTurnDeviceOffAndOn() {
+    func testTurnDeviceOffAndOn() throws {
         let (remoteColl, coll) = ctx.remoteCollAndSync
 
         // insert a document remotely
@@ -1119,18 +1119,18 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         let doc1Filter = ["_id": doc1Id] as Document
 
         // reload our configuration
-        try! ctx.powerCycleDevice()
+        try ctx.powerCycleDevice()
 
         // configure Sync to resolve conflicts with a local win.
         // sync the docId
         coll.configure(conflictHandler: DefaultConflictHandlers.localWins.resolveConflict)
-        try! coll.sync(ids: [doc1Id])
+        try coll.sync(ids: [doc1Id])
 
         // reload our configuration again.
         // reconfigure sync and the same way. do a sync pass.
-        try! ctx.powerCycleDevice()
+        try ctx.powerCycleDevice()
         coll.configure(conflictHandler: DefaultConflictHandlers.localWins.resolveConflict)
-        try! ctx.streamAndSync()
+        try ctx.streamAndSync()
 
         // update the document remotely. assert the update is reflected remotely.
         // reload our configuration again. reconfigure Sync again.
@@ -1139,11 +1139,11 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
             filter: doc1Filter,
             update: withNewSyncVersionSet(["$inc": ["foo": 2] as Document] as Document)
         )
-        try! ctx.watch(forEvents: 1)
+        try ctx.watch(forEvents: 1)
         XCTAssertEqual(1, result.matchedCount)
         expectedDocument["foo"] = 3
         XCTAssertEqual(expectedDocument, withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
-        try! ctx.powerCycleDevice()
+        try ctx.powerCycleDevice()
         coll.configure(conflictHandler: DefaultConflictHandlers.localWins.resolveConflict)
 
         // update the document locally. assert its success, after reconfiguration.
@@ -1154,26 +1154,26 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter))
 
         // reconfigure again.
-        try! ctx.powerCycleDevice()
+        try ctx.powerCycleDevice()
         coll.configure(conflictHandler: DefaultConflictHandlers.localWins.resolveConflict)
 
         // sync.
-        try! ctx.streamAndSync() // does nothing with no conflict handler
+        try ctx.streamAndSync() // does nothing with no conflict handler
 
         // assert we are still synced on one id.
         // reconfigure again.
         XCTAssertEqual(1, coll.syncedIds.count)
         coll.configure(conflictHandler: DefaultConflictHandlers.localWins.resolveConflict)
-        try! ctx.streamAndSync() // resolves the conflict
+        try ctx.streamAndSync() // resolves the conflict
 
         // assert the update was reflected locally. reconfigure again.
         expectedDocument["foo"] = 2
         XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter))
-        try! ctx.powerCycleDevice()
+        try ctx.powerCycleDevice()
         coll.configure(conflictHandler: DefaultConflictHandlers.localWins.resolveConflict)
 
         // sync. assert that the update was reflected remotely
-        try! ctx.streamAndSync()
+        try ctx.streamAndSync()
         XCTAssertEqual(expectedDocument, withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
 
         coll.verifyUndoCollectionEmpty()

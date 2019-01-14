@@ -101,12 +101,12 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                                                           errorListener: nil)
             try instancesColl.insertOne(self.syncConfig)
         } else {
-            if try instancesColl.find().next() == nil {
+            guard let config = try instancesColl.find().next() else {
                 throw StitchError.clientError(
                     withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
             }
-            self.syncConfig = try InstanceSynchronization(configDb: configDb,
-                                                          errorListener: nil)
+
+            self.syncConfig = config
         }
 
         self.instanceChangeStreamDelegate = InstanceChangeStreamDelegate(
