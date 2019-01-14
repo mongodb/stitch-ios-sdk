@@ -13,7 +13,7 @@ import StitchCoreSDK
 internal func docConfigFilter(forNamespace namespace: MongoNamespace,
                               withDocumentId documentId: AnyBSONValue) -> Document {
     return [CoreDocumentSynchronization.CodingKeys.namespace.rawValue:
-        try? BSONEncoder().encode(namespace) ?? namespace.description,
+        try? BSONEncoder().encode(namespace),
             CoreDocumentSynchronization.CodingKeys.documentId.rawValue: documentId.value]
 }
 
@@ -47,90 +47,13 @@ final class CoreDocumentSynchronization: Codable, Hashable {
     /// The id of this document.
     let documentId: HashableBSONValue
 
-    private var _uncommittedChangeEvent: ChangeEvent<Document>?
     /// The most recent pending change event
-    var uncommittedChangeEvent: ChangeEvent<Document>? {
-        get {
-            return docLock.read {
-                let filter = docConfigFilter(forNamespace: namespace, withDocumentId: documentId.bsonValue)
-                do {
-                    return try docsColl.find(filter).next()?._uncommittedChangeEvent
-                } catch {
-                    errorListener?.on(error: error, forDocumentId: documentId.value, in: namespace)
-                }
-                return self._uncommittedChangeEvent
-            }
-        }
-        set(value) {
-            docLock.write {
-                do {
-                    try docsColl.updateOne(
-                        filter: docConfigFilter(forNamespace: namespace, withDocumentId: documentId.bsonValue),
-                        update: ["$set": [
-                            CodingKeys.uncommittedChangeEvent.rawValue: try BSONEncoder().encode(value)] as Document])
-                } catch {
-                    errorListener?.on(error: error, forDocumentId: documentId.value, in: namespace)
-                }
-                self._uncommittedChangeEvent = value
-            }
-        }
-    }
+    var uncommittedChangeEvent: ChangeEvent<Document>?
 
-    private var _lastResolution: Int64
     /// The last time a pending write has been triggered.
-    var lastResolution: Int64 {
-        get {
-            return docLock.read {
-                let filter = docConfigFilter(forNamespace: namespace, withDocumentId: documentId.bsonValue)
-                do {
-                    return try docsColl.find(filter).next()?._lastResolution ?? 0
-                } catch {
-                    errorListener?.on(error: error, forDocumentId: documentId.value, in: namespace)
-                }
-                return self._lastResolution
-            }
-        }
-        set(value) {
-            docLock.write {
-                do {
-                    try docsColl.updateOne(
-                        filter: docConfigFilter(forNamespace: namespace, withDocumentId: documentId.bsonValue),
-                        update: ["$set": [CodingKeys.lastResolution.rawValue: value] as Document])
-                } catch {
-                    errorListener?.on(error: error, forDocumentId: documentId.value, in: namespace)
-                }
-                self._lastResolution = value
-            }
-        }
-    }
-
-    private var _lastKnownRemoteVersion: Document?
+    var lastResolution: Int64
     /// The last known remote version.
-    var lastKnownRemoteVersion: Document? {
-        get {
-            return docLock.read {
-                let filter = docConfigFilter(forNamespace: namespace, withDocumentId: documentId.bsonValue)
-                do {
-                    return try docsColl.find(filter).next()?._lastKnownRemoteVersion
-                } catch {
-                    errorListener?.on(error: error, forDocumentId: documentId.value, in: namespace)
-                }
-                return self._lastKnownRemoteVersion
-            }
-        }
-        set(value) {
-            docLock.write {
-                do {
-                    try docsColl.updateOne(
-                        filter: docConfigFilter(forNamespace: namespace, withDocumentId: documentId.bsonValue),
-                        update: ["$set": [CodingKeys.lastKnownRemoteVersion.rawValue: value] as Document])
-                } catch {
-                    errorListener?.on(error: error, forDocumentId: documentId.value, in: namespace)
-                }
-                self._lastKnownRemoteVersion = value
-            }
-        }
-    }
+    var lastKnownRemoteVersion: Document?
 
     private var _isStale: Bool
     /// Whether or not this document has gone stale.
@@ -195,9 +118,9 @@ final class CoreDocumentSynchronization: Codable, Hashable {
         self.docsColl = docsColl
         self.namespace = namespace
         self.documentId = HashableBSONValue.init(documentId)
-        self._uncommittedChangeEvent = nil
-        self._lastResolution = 0
-        self._lastKnownRemoteVersion = nil
+        self.uncommittedChangeEvent = nil
+        self.lastResolution = 0
+        self.lastKnownRemoteVersion = nil
         self._isStale = false
         self._isPaused = false
         self.errorListener = errorListener
@@ -218,18 +141,18 @@ final class CoreDocumentSynchronization: Codable, Hashable {
 
         if let lastKnownRemoteVersion =
             try values.decodeIfPresent(Document.self, forKey: .lastKnownRemoteVersion) {
-            self._lastKnownRemoteVersion = lastKnownRemoteVersion
+            self.lastKnownRemoteVersion = lastKnownRemoteVersion
         }
 
         if let eventBin = try values.decodeIfPresent(Binary.self, forKey: .uncommittedChangeEvent) {
             let eventDocument = Document.init(fromBSON: eventBin.data)
 
-            self._uncommittedChangeEvent =
+            self.uncommittedChangeEvent =
                 try BSONDecoder().decode(ChangeEvent.self, from: eventDocument)
         }
 
         self.documentId = try values.decode(HashableBSONValue.self, forKey: .documentId)
-        self._lastResolution = try values.decode(Int64.self, forKey: .lastResolution)
+        self.lastResolution = try values.decode(Int64.self, forKey: .lastResolution)
         self._isStale = try values.decode(Bool.self, forKey: .isStale)
         self._isPaused = try values.decode(Bool.self, forKey: .isPaused)
         self.docsColl = try values.decode(ThreadSafeMongoCollection.self, forKey: .docsColl)
