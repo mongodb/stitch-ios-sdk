@@ -24,7 +24,7 @@ public final class CoreSync<DocumentT: Codable> {
         _ localEvent: ChangeEvent<DocumentT>,
         _ remoteEvent: ChangeEvent<DocumentT>) throws -> DocumentT?,
         changeEventDelegate: ((_ documentId: BSONValue, _ event: ChangeEvent<DocumentT>) -> Void)?,
-        errorListener: ((_ error: Error, _ documentId: BSONValue?) -> Void)?) {
+        errorListener: ((_ error: DataSynchronizerError, _ documentId: BSONValue?) -> Void)?) {
         self.dataSynchronizer.configure(
             namespace: namespace,
             conflictHandler: BlockConflictHandler(conflictHandler),

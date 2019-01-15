@@ -28,7 +28,7 @@ public class Sync<DocumentT: Codable> {
         _ localEvent: ChangeEvent<DocumentT>,
         _ remoteEvent: ChangeEvent<DocumentT>)  throws -> DocumentT?,
         changeEventDelegate: ((_ documentId: BSONValue, _ event: ChangeEvent<DocumentT>) -> Void)? = nil,
-        errorListener:  ((_ error: Error, _ documentId: BSONValue?) -> Void)? = nil) {
+        errorListener:  ((_ error: DataSynchronizerError, _ documentId: BSONValue?) -> Void)? = nil) {
         self.proxy.configure(conflictHandler: conflictHandler,
                              changeEventDelegate: changeEventDelegate,
                              errorListener: errorListener)
