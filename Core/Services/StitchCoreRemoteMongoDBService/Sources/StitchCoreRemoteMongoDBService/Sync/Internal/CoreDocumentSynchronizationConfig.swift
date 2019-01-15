@@ -38,21 +38,48 @@ final class CoreDocumentSynchronization: Codable, Hashable {
 
     /// The collection we are storing document configs in.
     private let docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization>
-    /// Standard read-write lock.
-    private let docLock: ReadWriteLock
     /// The error listener to propogate errors to.
     private weak var errorListener: FatalErrorListener?
+    /// Standard read-write lock.
+    lazy var docLock: ReadWriteLock = ReadWriteLock(label: "document_lock_\(namespace)_\(documentId.value)")
     /// The namespace this document is stored in.
     let namespace: MongoNamespace
     /// The id of this document.
     let documentId: HashableBSONValue
 
+    private var _uncommittedChangeEvent: ChangeEvent<Document>?
     /// The most recent pending change event
-    var uncommittedChangeEvent: ChangeEvent<Document>?
+    private(set) var uncommittedChangeEvent: ChangeEvent<Document>? {
+        get {
+            return docLock.read { _uncommittedChangeEvent }
+        }
+        set {
+            docLock.assertWriteLocked()
+            _uncommittedChangeEvent = newValue
+        }
+    }
+    private var _lastResolution: Int64
     /// The last time a pending write has been triggered.
-    var lastResolution: Int64
+    private(set) var lastResolution: Int64 {
+        get {
+            return docLock.read { _lastResolution }
+        }
+        set {
+            docLock.assertWriteLocked()
+            _lastResolution = newValue
+        }
+    }
+    private var _lastKnownRemoteVersion: Document?
     /// The last known remote version.
-    var lastKnownRemoteVersion: Document?
+    private(set) var lastKnownRemoteVersion: Document? {
+        get {
+            return docLock.read { _lastKnownRemoteVersion }
+        }
+        set {
+            docLock.assertWriteLocked()
+            _lastKnownRemoteVersion = newValue
+        }
+    }
 
     private var _isStale: Bool
     /// Whether or not this document has gone stale.
@@ -117,13 +144,12 @@ final class CoreDocumentSynchronization: Codable, Hashable {
         self.docsColl = docsColl
         self.namespace = namespace
         self.documentId = HashableBSONValue.init(documentId)
-        self.uncommittedChangeEvent = nil
-        self.lastResolution = 0
-        self.lastKnownRemoteVersion = nil
+        self._uncommittedChangeEvent = nil
+        self._lastResolution = 0
+        self._lastKnownRemoteVersion = nil
         self._isStale = false
         self._isPaused = false
         self.errorListener = errorListener
-        self.docLock = ReadWriteLock(label: "document_lock_\(namespace)_\(documentId.value)")
     }
 
     init(from decoder: Decoder) throws {
@@ -140,25 +166,25 @@ final class CoreDocumentSynchronization: Codable, Hashable {
 
         if let lastKnownRemoteVersion =
             try values.decodeIfPresent(Document.self, forKey: .lastKnownRemoteVersion) {
-            self.lastKnownRemoteVersion = lastKnownRemoteVersion
+            self._lastKnownRemoteVersion = lastKnownRemoteVersion
         }
 
         if let eventBin = try values.decodeIfPresent(Binary.self, forKey: .uncommittedChangeEvent) {
             let eventDocument = Document.init(fromBSON: eventBin.data)
 
-            self.uncommittedChangeEvent =
+            self._uncommittedChangeEvent =
                 try BSONDecoder().decode(ChangeEvent.self, from: eventDocument)
         }
 
         self.documentId = try values.decode(HashableBSONValue.self, forKey: .documentId)
-        self.lastResolution = try values.decode(Int64.self, forKey: .lastResolution)
+        self._lastResolution = try values.decode(Int64.self, forKey: .lastResolution)
         self._isStale = try values.decode(Bool.self, forKey: .isStale)
         self._isPaused = try values.decode(Bool.self, forKey: .isPaused)
         self.docsColl = try values.decode(ThreadSafeMongoCollection.self, forKey: .docsColl)
-        self.docLock = ReadWriteLock(label: "document_lock_\(namespace)_\(documentId.value)")
     }
 
     func encode(to encoder: Encoder) throws {
+        docLock.assertLocked()
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(documentId, forKey: .documentId)
@@ -167,13 +193,13 @@ final class CoreDocumentSynchronization: Codable, Hashable {
         try container.encode(1 as Int32, forKey: .schemaVersion)
 
         try container.encode(namespace, forKey: .namespace)
-        try container.encode(lastResolution, forKey: .lastResolution)
+        try container.encode(_lastResolution, forKey: .lastResolution)
 
-        if let lastKnownRemoteVersion = lastKnownRemoteVersion {
+        if let lastKnownRemoteVersion = _lastKnownRemoteVersion {
             try container.encode(lastKnownRemoteVersion, forKey: .lastKnownRemoteVersion)
         }
 
-        if let uncommittedChangeEvent = uncommittedChangeEvent {
+        if let uncommittedChangeEvent = _uncommittedChangeEvent {
             let changeEventDoc = try BSONEncoder().encode(uncommittedChangeEvent)
             try container.encode(
                 Binary.init(data: changeEventDoc.rawBSON, subtype: Binary.Subtype.generic),
@@ -205,7 +231,7 @@ final class CoreDocumentSynchronization: Codable, Hashable {
 
         try docLock.write {
             self.uncommittedChangeEvent = CoreDocumentSynchronization.coalesceChangeEvents(
-                lastUncommittedChangeEvent: self.uncommittedChangeEvent,
+                lastUncommittedChangeEvent: self._uncommittedChangeEvent,
                 newestChangeEvent: changeEvent)
             self.lastResolution = atTime
             try docsColl.replaceOne(filter: docConfigFilter(forNamespace: namespace,
@@ -273,7 +299,7 @@ final class CoreDocumentSynchronization: Codable, Hashable {
     }
 
     internal static func filter(forNamespace namespace: MongoNamespace) -> Document {
-        return [CodingKeys.namespace.rawValue: try? BSONEncoder().encode(namespace) ?? namespace.description]
+        return [CodingKeys.namespace.rawValue: try? BSONEncoder().encode(namespace)]
     }
 
     /**
@@ -308,8 +334,8 @@ final class CoreDocumentSynchronization: Codable, Hashable {
             }
         case .delete:
             switch newestChangeEvent.operationType {
-                // Coalesce inserts to replaces since we believe at some point a document existed
-                // remotely and that this insert should really be an replace if we are still in an
+            // Coalesce inserts to replaces since we believe at some point a document existed
+            // remotely and that this insert should really be an replace if we are still in an
             // uncommitted state.
             case .insert:
                 return ChangeEvent(id: newestChangeEvent.id,

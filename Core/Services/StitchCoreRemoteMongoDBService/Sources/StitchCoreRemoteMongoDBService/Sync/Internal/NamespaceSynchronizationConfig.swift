@@ -122,11 +122,13 @@ final class NamespaceSynchronization: Sequence, Codable {
             }
 
             do {
-                try docsColl.replaceOne(
-                    filter: docConfigFilter(forNamespace: self.namespace,
-                                            withDocumentId: documentId.bsonValue),
-                    replacement: value,
-                    options: ReplaceOptions.init(upsert: true))
+                _ = try value.docLock.read {
+                    try docsColl.replaceOne(
+                        filter: docConfigFilter(forNamespace: self.namespace,
+                                                withDocumentId: documentId.bsonValue),
+                        replacement: value,
+                        options: ReplaceOptions.init(upsert: true))
+                }
             } catch {
                 errorListener?.on(error: error, forDocumentId: documentId.bsonValue.value, in: self.namespace)
             }
@@ -186,11 +188,13 @@ final class NamespaceSynchronization: Sequence, Codable {
     }
 
     func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        try nsLock.read {
+            var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(namespace, forKey: .namespace)
-        try container.encode(1, forKey: .schemaVersion)
-        try container.encode(docsColl, forKey: .docsColl)
+            try container.encode(namespace, forKey: .namespace)
+            try container.encode(1, forKey: .schemaVersion)
+            try container.encode(docsColl, forKey: .docsColl)
+        }
     }
 
     init(from decoder: Decoder) throws {

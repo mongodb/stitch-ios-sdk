@@ -356,21 +356,21 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 // a. For each unprocessed change event
                 for (id, event) in remoteChangeEvents {
                     logger.i("t='\(logicalT)': syncRemoteToLocal consuming event of type: \(event.operationType)")
-                    guard var docConfig = nsConfig[id.bsonValue.value],
+                    guard let docConfig = nsConfig[id.bsonValue.value],
                         !docConfig.isPaused else {
                             continue
                     }
 
                     unseenIds.remove(id)
                     latestDocumentMap.removeValue(forKey: id)
-                    try syncRemoteChangeEventToLocal(nsConfig: nsConfig, docConfig: &docConfig, remoteChangeEvent: event)
+                    try syncRemoteChangeEventToLocal(nsConfig: nsConfig, docConfig: docConfig, remoteChangeEvent: event)
                 }
 
                 // For synchronized documents that had no unprocessed change event, but were marked as
                 // stale, synthesize a remote replace event to replace the local stale document with the
                 // latest remote copy.
                 for id in unseenIds {
-                    guard var docConfig = nsConfig[id.bsonValue.value],
+                    guard let docConfig = nsConfig[id.bsonValue.value],
                         !docConfig.isPaused,
                         let doc = latestDocumentMap[id] else {
                             // means we aren't actually synchronizing on this remote doc
@@ -379,7 +379,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
                     try syncRemoteChangeEventToLocal(
                         nsConfig: nsConfig,
-                        docConfig: &docConfig,
+                        docConfig: docConfig,
                         remoteChangeEvent: ChangeEvent<Document>.changeEventForLocalReplace(
                             namespace: nsConfig.namespace,
                             documentId: id.bsonValue.value,
@@ -394,7 +394,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 // delete the local document.
                 latestDocumentMap.keys.forEach({unseenIds.remove($0)})
                 for unseenId in unseenIds {
-                    guard var docConfig = nsConfig[unseenId.bsonValue.value],
+                    guard let docConfig = nsConfig[unseenId.bsonValue.value],
                         docConfig.lastKnownRemoteVersion != nil,
                         !docConfig.isPaused else {
                             // means we aren't actually synchronizing on this remote doc
@@ -403,7 +403,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
                     try syncRemoteChangeEventToLocal(
                         nsConfig: nsConfig,
-                        docConfig: &docConfig,
+                        docConfig: docConfig,
                         remoteChangeEvent: ChangeEvent<Document>.changeEventForLocalDelete(
                             namespace: nsConfig.namespace,
                             documentId: unseenId.bsonValue.value,
@@ -419,7 +419,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     }
 
     private func syncRemoteChangeEventToLocal(nsConfig: NamespaceSynchronization,
-                                              docConfig: inout CoreDocumentSynchronization,
+                                              docConfig: CoreDocumentSynchronization,
                                               remoteChangeEvent: ChangeEvent<Document>) throws {
         if docConfig.hasUncommittedWrites && docConfig.lastResolution == logicalT {
             logger.i(

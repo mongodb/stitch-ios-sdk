@@ -78,11 +78,13 @@ final class InstanceSynchronization: Sequence, Codable {
     }
 
     func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        try instanceLock.read {
+            var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(1, forKey: .schemaVersion)
-        try container.encode(namespacesColl, forKey: .namespacesColl)
-        try container.encode(docsColl, forKey: .docsColl)
+            try container.encode(1, forKey: .schemaVersion)
+            try container.encode(namespacesColl, forKey: .namespacesColl)
+            try container.encode(docsColl, forKey: .docsColl)
+        }
     }
 
     required init(from decoder: Decoder) throws {

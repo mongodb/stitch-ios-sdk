@@ -711,10 +711,10 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
 
         // configure Sync to resolve a custom document on conflict.
         // sync on the id, and do a sync pass
-        try coll.sync(ids: [doc1Id])
         coll.configure(conflictHandler: { _, _, _ in
             ["well": "shoot"]
         }, changeEventDelegate: nil, errorListener: { err, _ in fatalError(err.localizedDescription) })
+        try coll.sync(ids: [doc1Id])
         try ctx.streamAndSync()
 
         // update the document remotely

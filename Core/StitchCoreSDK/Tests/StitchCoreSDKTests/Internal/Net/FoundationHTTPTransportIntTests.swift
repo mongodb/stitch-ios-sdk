@@ -125,7 +125,6 @@ class FoundationHTTPTransportIntTests: StitchXCTestCase {
             init(_ xcTestCase: XCTestCase) {
                 lineExp = xcTestCase.expectation(description: "lines should be equal")
                 closeExp = xcTestCase.expectation(description: "stream should close")
-                closeExp.assertForOverFulfill = false
             }
 
             override func on(newEvent event: RawSSE) {

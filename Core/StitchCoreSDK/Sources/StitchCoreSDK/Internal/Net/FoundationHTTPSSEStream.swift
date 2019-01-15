@@ -14,14 +14,6 @@ internal class FoundationURLSessionDataDelegate: NSObject, URLSessionDataDelegat
         stream?.dispatchEvents()
     }
 
-    public func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
-        stream?.state = .closed
-    }
-
-    private func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        stream?.state = .closed
-    }
-
     func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
         fatalError()
     }

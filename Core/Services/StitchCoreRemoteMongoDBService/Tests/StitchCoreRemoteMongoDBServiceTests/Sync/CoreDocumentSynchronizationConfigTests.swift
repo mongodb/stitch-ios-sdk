@@ -30,9 +30,9 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
                                                                namespace: namespace,
                                                                documentId: AnyBSONValue(documentId),
                                                                errorListener: nil)
-
-        try! docsColl.insertOne(coreDocSync)
-
+        _ = try coreDocSync.docLock.read {
+            try docsColl.insertOne(coreDocSync)
+        }
         let isPaused = true
         let isStale = true
         let lastKnownRemoteVersion = DocumentVersionInfo.freshVersionDocument()
@@ -55,11 +55,11 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
 
         coreDocSync.isPaused = isPaused
         coreDocSync.isStale = isStale
-        coreDocSync.lastKnownRemoteVersion = lastKnownRemoteVersion
-        coreDocSync.lastResolution = lastResolution
-        coreDocSync.uncommittedChangeEvent = lastUncommittedChangeEvent
+        try coreDocSync.setSomePendingWrites(atTime: lastResolution,
+                                             atVersion: lastKnownRemoteVersion,
+                                             changeEvent: lastUncommittedChangeEvent)
 
-        let encodedCoreDocSync = try BSONEncoder().encode(coreDocSync)
+        let encodedCoreDocSync = try coreDocSync.docLock.read { try BSONEncoder().encode(coreDocSync) }
 
         XCTAssertEqual(isPaused,
                        encodedCoreDocSync[CoreDocumentSynchronization.CodingKeys.isPaused.rawValue] as? Bool)
@@ -104,7 +104,7 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
                                                                documentId: AnyBSONValue(documentId),
                                                                errorListener: nil)
 
-        try! docsColl.insertOne(coreDocSync)
+        _ = try coreDocSync.docLock.read { try docsColl.insertOne(coreDocSync) }
 
         let ceId = ["_id": documentId] as Document
         let ceFullDocument = ["foo": "bar"] as Document
