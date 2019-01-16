@@ -18,12 +18,12 @@ fi
 
 if [ -z "$VERSION_QUALIFIER" ]; then
 	# Publish to MAJOR, MAJOR.MINOR
-	aws s3 cp docs s3://stitch-sdks/swift/docs/$VERSION_MAJOR --recursive --acl public-read
-	aws s3 cp docs s3://stitch-sdks/swift/docs/$VERSION_MAJOR.$VERSION_MINOR --recursive --acl public-read
+	aws s3 cp docs s3://stitch-sdks/stitch-sdks/swift/$VERSION_MAJOR --recursive --acl public-read
+	aws s3 cp docs s3://stitch-sdks/stitch-sdks/swift/$VERSION_MAJOR.$VERSION_MINOR --recursive --acl public-read
 fi
 
 # Publish to full version
-aws s3 cp docs s3://stitch-sdks/swift/docs/$VERSION --recursive --acl public-read
+aws s3 cp docs s3://stitch-sdks/stitch-sdks/swift/$VERSION --recursive --acl public-read
 
 BRANCH_NAME=`git branch | grep -e "^*" | cut -d' ' -f 2`
-aws s3 cp docs s3://stitch-sdks/swift/docs/branch/$BRANCH_NAME --recursive --acl public-read
+aws s3 cp docs s3://stitch-sdks/stitch-sdks/swift/branch/$BRANCH_NAME --recursive --acl public-read
