@@ -11,90 +11,31 @@ import StitchCoreSDK
  Configurations are stored both persistently and in memory, and should
  always be in sync.
  */
-internal class InstanceSynchronization: Sequence {
-    /// The actual configuration to be persisted for this instance.
-    class Config: Codable {
-        fileprivate(set) internal var namespaces: [MongoNamespace: NamespaceSynchronization.Config]
-
-        init(namespaces: [MongoNamespace: NamespaceSynchronization.Config]) {
-            self.namespaces = namespaces
-        }
+final class InstanceSynchronization: Sequence, Codable {
+    enum CodingKeys: String, CodingKey {
+        case schemaVersion = "schema_version",
+        namespacesColl = "namespaces_coll",
+        docsColl = "docs_coll"
     }
 
-    fileprivate var namespaceConfigWrappers: [MongoNamespace: NamespaceSynchronization]
-
-    /// Allows for the iteration of the namespaces contained in this instance.
-    struct InstanceSynchronizationIterator: IteratorProtocol {
-        typealias Element = NamespaceSynchronization
-        private typealias Values = Dictionary<MongoNamespace, NamespaceSynchronization>.Values
-
-        private let namespacesColl: ThreadSafeMongoCollection<NamespaceSynchronization.Config>
-        private let docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>
-        private var values: Values
-        private var indices: DefaultIndices<Values>
-        private weak var errorListener: FatalErrorListener?
-
-        init(namespacesColl: ThreadSafeMongoCollection<NamespaceSynchronization.Config>,
-             docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>,
-             values: Dictionary<MongoNamespace, NamespaceSynchronization>.Values,
-             errorListener: FatalErrorListener?) {
-            self.namespacesColl = namespacesColl
-            self.docsColl = docsColl
-            self.values = values
-            self.indices = self.values.indices
-            self.errorListener = errorListener
-        }
-
-        mutating func next() -> NamespaceSynchronization? {
-            guard let index = self.indices.popFirst() else {
-                return nil
-            }
-
-            return values[index]
-        }
-    }
-
-    private let namespacesColl: ThreadSafeMongoCollection<NamespaceSynchronization.Config>
-    private let docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>
-    private let instanceLock: ReadWriteLock
+    private let namespacesColl: ThreadSafeMongoCollection<NamespaceSynchronization>
+    private let docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization>
+    private lazy var instanceLock: ReadWriteLock = ReadWriteLock(label: "sync_instance")
     weak var errorListener: FatalErrorListener?
-
-    /// The configuration for this instance.
-    private(set) var config: Config
+    private var namespaceConfigs: [MongoNamespace: NamespaceSynchronization] = [:]
 
     init(configDb: ThreadSafeMongoDatabase,
          errorListener: FatalErrorListener?) throws {
-        self.instanceLock = ReadWriteLock(label: "sync_instance")
         self.namespacesColl = configDb
-            .collection("namespaces", withType: NamespaceSynchronization.Config.self)
+            .collection("namespaces", withType: NamespaceSynchronization.self)
         self.docsColl = configDb
-            .collection("documents", withType: CoreDocumentSynchronization.Config.self)
-
-        self.config = Config.init(
-            namespaces: try self.namespacesColl.find()
-                .reduce(into: [MongoNamespace: NamespaceSynchronization.Config](), { (syncedNamespaces, config) in
-                            syncedNamespaces[config.namespace] = config
-                }))
+            .collection("documents", withType: CoreDocumentSynchronization.self)
         self.errorListener = errorListener
-
-        let nsColl = namespacesColl
-        let dColl = docsColl
-        self.namespaceConfigWrappers = try self.config.namespaces.mapValues { nsConfig in
-            return try NamespaceSynchronization.init(
-                namespacesColl: nsColl,
-                docsColl: dColl,
-                namespace: nsConfig.namespace,
-                errorListener: errorListener
-            )
-        }
     }
 
     /// Make an iterator that will iterate over the associated namespaces.
-    func makeIterator() -> InstanceSynchronizationIterator {
-        return InstanceSynchronizationIterator.init(namespacesColl: namespacesColl,
-                                                    docsColl: docsColl,
-                                                    values: namespaceConfigWrappers.values,
-                                                    errorListener: errorListener)
+    func makeIterator() -> IndexingIterator<Dictionary<MongoNamespace, NamespaceSynchronization>.Values> {
+        return namespaceConfigs.values.makeIterator()
     }
 
     /**
@@ -104,29 +45,58 @@ internal class InstanceSynchronization: Sequence {
      - returns: a new or existing NamespaceConfiguration
      */
     subscript(namespace: MongoNamespace) -> NamespaceSynchronization? {
-        let config: NamespaceSynchronization? = instanceLock.read {
-            if let config = namespaceConfigWrappers[namespace] {
+        if let config: NamespaceSynchronization = instanceLock.read({
+            if let config = self.namespaceConfigs[namespace] {
                 return config
             }
+
+            if let cursor = try? namespacesColl.find(NamespaceSynchronization.filter(namespace: namespace)) {
+                let config = cursor.next()
+                namespaceConfigs[namespace] = config
+                return config
+            }
+
             return nil
-        }
-        if config != nil {
+        }) {
             return config
         }
+
         return instanceLock.write {
             do {
-                let newConfig = try NamespaceSynchronization.init(namespacesColl: namespacesColl,
-                                                                  docsColl: docsColl,
-                                                                  namespace: namespace,
-                                                                  errorListener: errorListener)
-                try namespacesColl.insertOne(newConfig.config)
-                namespaceConfigWrappers[namespace] = newConfig
+                let newConfig = NamespaceSynchronization.init(docsColl: docsColl,
+                                                              namespace: namespace,
+                                                              errorListener: errorListener)
+                try namespacesColl.insertOne(newConfig)
+                namespaceConfigs[namespace] = newConfig
                 return newConfig
             } catch {
                 errorListener?.on(error: error, forDocumentId: nil, in: namespace)
             }
 
             return nil
+        }
+    }
+
+    func encode(to encoder: Encoder) throws {
+        try instanceLock.read {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+
+            try container.encode(1, forKey: .schemaVersion)
+            try container.encode(namespacesColl, forKey: .namespacesColl)
+            try container.encode(docsColl, forKey: .docsColl)
+        }
+    }
+
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        namespacesColl = try container.decode(ThreadSafeMongoCollection<NamespaceSynchronization>.self,
+                                              forKey: .namespacesColl)
+        docsColl = try container.decode(ThreadSafeMongoCollection<CoreDocumentSynchronization>.self,
+                                        forKey: .docsColl)
+
+        try namespacesColl.find().forEach { config in
+            namespaceConfigs[config.namespace] = config
         }
     }
 }

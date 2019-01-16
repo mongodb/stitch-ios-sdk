@@ -14,14 +14,6 @@ internal class FoundationURLSessionDataDelegate: NSObject, URLSessionDataDelegat
         stream?.dispatchEvents()
     }
 
-    public func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
-        stream?.state = .closed
-    }
-
-    private func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        stream?.state = .closed
-    }
-
     func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
         fatalError()
     }
@@ -50,6 +42,12 @@ internal class FoundationURLSessionDataDelegate: NSObject, URLSessionDataDelegat
 }
 
 public class FoundationHTTPSSEStream: RawSSEStream {
+    // The reason we are disabling `weak_delegate` here is because
+    // this isn't a typical delegate pattern. There's no risk of
+    // a reference cycle as we want to retain this delegate as long
+    // as the stream is retained. When the stream is deallocated,
+    // the delegate will also be.
+    // swiftlint:disable:next weak_delegate
     internal lazy var dataDelegate: FoundationURLSessionDataDelegate? = FoundationURLSessionDataDelegate(self)
 
     public override func close() {

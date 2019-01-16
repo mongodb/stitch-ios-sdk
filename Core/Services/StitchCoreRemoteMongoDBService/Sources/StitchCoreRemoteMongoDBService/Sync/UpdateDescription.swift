@@ -4,14 +4,25 @@ import MongoSwift
  The update description for changed fields in a
  $changeStream operation.
 */
-public class UpdateDescription: Codable {
+public final class UpdateDescription: Codable {
+    enum CodingKeys: CodingKey {
+        case updatedFields, removedFields
+    }
+
     public let updatedFields: Document
     public let removedFields: [String]
 
-    internal init(updatedFields: Document,
-                  removedFields: [String]) {
+    init(updatedFields: Document,
+         removedFields: [String]) {
         self.updatedFields = updatedFields
         self.removedFields = removedFields
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        self.updatedFields = try container.decodeIfPresent(Document.self, forKey: .updatedFields) ?? Document()
+        self.removedFields = try container.decodeIfPresent([String].self, forKey: .removedFields) ?? []
     }
 
     /**

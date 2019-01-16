@@ -22,24 +22,48 @@ public protocol ConflictHandler {
         remoteEvent: ChangeEvent<DocumentT>) throws -> DocumentT?
 }
 
-public enum DefaultConflictHandlers<T: Codable>: ConflictHandler {
+public final class DefaultConflictHandler<T: Codable>: ConflictHandler {
     public typealias DocumentT = T
+    private let remoteShouldWin: Bool
 
-    case remoteWins, localWins
+    private init(remoteShouldWin: Bool) {
+        self.remoteShouldWin = remoteShouldWin
+    }
 
     public func resolveConflict(documentId: BSONValue,
                                 localEvent: ChangeEvent<T>,
                                 remoteEvent: ChangeEvent<T>) throws -> T? {
-        switch self {
-        case .remoteWins:
+        if remoteShouldWin {
             return remoteEvent.fullDocument
-        case .localWins:
-            return localEvent.fullDocument
         }
+
+        return localEvent.fullDocument
+    }
+
+    public static func remoteWins<T>() -> DefaultConflictHandler<T> {
+        return DefaultConflictHandler<T>(remoteShouldWin: true)
+    }
+
+    public static func remoteWins<T: Codable>() -> (
+        BSONValue,
+        ChangeEvent<T>,
+        ChangeEvent<T>) throws -> T? {
+        return DefaultConflictHandler<T>(remoteShouldWin: true).resolveConflict
+    }
+
+    public static func localWins<T>() -> DefaultConflictHandler<T> {
+        return DefaultConflictHandler<T>(remoteShouldWin: false)
+    }
+
+    public static func localWins<T: Codable>() -> (
+        BSONValue,
+        ChangeEvent<T>,
+        ChangeEvent<T>) throws -> T? {
+            return DefaultConflictHandler<T>(remoteShouldWin: false).resolveConflict
     }
 }
 
-internal final class BlockConflictHandler<T: Codable>: ConflictHandler {
+internal class BlockConflictHandler<T: Codable>: ConflictHandler {
     public typealias DocumentT = T
 
     private let resolveConflictBlock: (
@@ -47,7 +71,7 @@ internal final class BlockConflictHandler<T: Codable>: ConflictHandler {
     _ localEvent: ChangeEvent<DocumentT>,
     _ remoteEvent: ChangeEvent<DocumentT>) throws -> DocumentT?
 
-    public init(_ resolveConflictBlock: @escaping (
+    init(_ resolveConflictBlock: @escaping (
         _ documentId: BSONValue,
         _ localEvent: ChangeEvent<DocumentT>,
         _ remoteEvent: ChangeEvent<DocumentT>) throws -> DocumentT?) {

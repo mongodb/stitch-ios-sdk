@@ -13,18 +13,69 @@ private var toastStyle: ToastStyle {
     return toastStyle
 }
 
+private class ItemsCollectionDelegate: ChangeEventDelegate {
+    typealias DocumentT = TodoItem
+
+    private weak var vc: TodoTableViewController?
+    init(_ vc: TodoTableViewController) {
+        self.vc = vc
+    }
+
+    func onEvent(documentId: BSONValue, event: ChangeEvent<TodoItem>) {
+        guard let vc = self.vc else {
+            return
+        }
+
+        guard let id = event.documentKey["_id"] else {
+            return
+        }
+
+        if event.operationType == .delete {
+            guard let idx = vc.todoItems.firstIndex(where: { bsonEqualsOverride($0.id, id) }) else {
+                return
+            }
+            vc.todoItems.remove(at: idx)
+        } else {
+            if let index = vc.todoItems.firstIndex(where: { bsonEqualsOverride($0.id, id) }) {
+                vc.todoItems[index] = event.fullDocument!
+            } else {
+                if !itemsCollection.sync.syncedIds.contains(where: { bsonEqualsOverride($0.bsonValue.value, id) }) {
+                    try! itemsCollection.sync.sync(ids: [id])
+                }
+                vc.todoItems.append(event.fullDocument!)
+            }
+        }
+
+        DispatchQueue.main.sync {
+            let toast = try! vc.view.toastViewForMessage(
+                "\(event.operationType) for item: '\(event.fullDocument?.task ?? "(removed)")'",
+                title: "items",
+                image: nil,
+                style: toastStyle)
+            vc.view.showToast(toast)
+
+            vc.todoItems.sort()
+
+            // if it's a change to the index, it will be handled elsewhere
+            if event.updateDescription?.updatedFields["index"] == nil {
+                vc.tableView.reloadData()
+            }
+        }
+    }
+}
+
 class TodoTableViewController:
     UIViewController, UITableViewDataSource, UITableViewDelegate, ErrorListener, BEMCheckBoxDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var toolBar: UIToolbar!
-    
+
     private var userId: String? {
         return stitch.auth.currentUser?.id
     }
 
-    private var todoItems = [TodoItem]()
-    private var checkBoxAll: BEMCheckBox!
+    fileprivate var todoItems = [TodoItem]()
+    fileprivate var checkBoxAll: BEMCheckBox!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -142,47 +193,12 @@ class TodoTableViewController:
         // Configure sync to be remote wins on both collections meaning and conflict that occurs should
         // prefer the remote version as the resolution.
         itemsCollection.sync.configure(
-            conflictHandler: DefaultConflictHandlers.remoteWins.resolveConflict,
-            changeEventDelegate: { documentId, event in
-                guard let id = event.documentKey["_id"] else {
-                    return
-                }
-
-                if event.operationType == .delete {
-                    guard let idx = self.todoItems.firstIndex(where: { bsonEqualsOverride($0.id, id) }) else {
-                        return
-                    }
-                    self.todoItems.remove(at: idx)
-                } else {
-                    if let index = self.todoItems.firstIndex(where: { bsonEqualsOverride($0.id, id) }) {
-                        self.todoItems[index] = event.fullDocument!
-                    } else {
-                        if !itemsCollection.sync.syncedIds.contains(where: { bsonEqualsOverride($0.bsonValue.value, id) }) {
-                            try! itemsCollection.sync.sync(ids: [id])
-                        }
-                        self.todoItems.append(event.fullDocument!)
-                    }
-                }
-
-                DispatchQueue.main.sync {
-                    let toast = try! self.view.toastViewForMessage(
-                        "\(event.operationType) for item: '\(event.fullDocument?.task ?? "(removed)")'",
-                        title: "items",
-                        image: nil,
-                        style: toastStyle)
-                    self.view.showToast(toast)
-
-                    self.todoItems.sort()
-
-                    // if it's a change to the index, it will be handled elsewhere
-                    if event.updateDescription?.updatedFields["index"] == nil {
-                        self.tableView.reloadData()
-                    }
-                }
-        }, errorListener: self.on)
+            conflictHandler: DefaultConflictHandler<TodoItem>.remoteWins(),
+            changeEventDelegate: ItemsCollectionDelegate(self),
+            errorListener: self)
 
         listsCollection.sync.configure(
-            conflictHandler: DefaultConflictHandlers.remoteWins.resolveConflict,
+            conflictHandler: DefaultConflictHandler<TodoList>.remoteWins(),
             changeEventDelegate: { documentId, event in
                 if !event.hasUncommittedWrites {
                     guard let todos = event.fullDocument?.todos else {
@@ -198,7 +214,7 @@ class TodoTableViewController:
         }, errorListener: self.on)
 
         indexSwapsCollection.sync.configure(
-            conflictHandler: DefaultConflictHandlers.remoteWins.resolveConflict,
+            conflictHandler: DefaultConflictHandler<IndexSwap>.remoteWins(),
             changeEventDelegate: { documentId, event in
                 guard !event.hasUncommittedWrites,
                     let fromIndex = event.fullDocument?.fromIndex,
@@ -230,9 +246,7 @@ class TodoTableViewController:
         stitch.auth.login(withCredential:
         ServerAPIKeyCredential(withKey: "CWQMnJNbgekCq62zWMZAabeQtpRWpHDCKLtef7WLqoyHGvNC5Unn65AXloil1HOx")) {
             switch $0 {
-            case .success(let user):
-                print("logged in")
-
+            case .success(_):
                 self.loggedIn()
             case .failure(let e):
                 print("error logging in \(e)")
@@ -240,7 +254,7 @@ class TodoTableViewController:
         }
     }
 
-    func on(error: Error, forDocumentId documentId: BSONValue?) {
+    func on(error: DataSynchronizerError, forDocumentId documentId: BSONValue?) {
         DispatchQueue.main.sync {
             let toast = try! self.view.toastViewForMessage(
                 "\(error)",

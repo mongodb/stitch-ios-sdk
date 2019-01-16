@@ -41,8 +41,9 @@ open class CoreLocalMongoDBService {
         try initialize()
 
         var isDir: ObjCBool = true
-        if !FileManager().fileExists(atPath: dbPath, isDirectory: &isDir) {
-            try FileManager().createDirectory(atPath: dbPath, withIntermediateDirectories: true)
+        let fileManager = FileManager()
+        if !fileManager.fileExists(atPath: dbPath, isDirectory: &isDir) {
+            try fileManager.createDirectory(atPath: dbPath, withIntermediateDirectories: true)
         }
 
         let settings = MongoClientSettings(dbPath: dbPath)
@@ -52,11 +53,15 @@ open class CoreLocalMongoDBService {
         return client
     }
 
-    public func client(withAppInfo appInfo: StitchAppClientInfo) throws -> MongoClient {
-        let instanceKey = appInfo.clientAppID
-        let dbPath = "\(FileManager().currentDirectoryPath)\(appInfo.dataDirectory.path)/local_mongodb/0/"
+    public func client(withClientAppID clientAppID: String,
+                       withDataDirectory dataDirectory: URL) throws -> MongoClient {
+        let instanceKey = clientAppID
+        let dbPath = "\(FileManager().currentDirectoryPath)\(dataDirectory.path)/local_mongodb/0/"
+        return try self.client(withKey: instanceKey, withDBPath: dbPath)
+    }
 
-        return try client(withKey: instanceKey, withDBPath: dbPath)
+    public func client(withAppInfo appInfo: StitchAppClientInfo) throws -> MongoClient {
+        return try self.client(withClientAppID: appInfo.clientAppID, withDataDirectory: appInfo.dataDirectory)
     }
 
     public func close() {

@@ -34,6 +34,7 @@ open class RawSSE {
 
      - returns: the data decoded as type T
      */
+    // swiftlint:disable:next cyclomatic_complexity
     public final func decodeStitchSSE<T: Decodable>() throws -> T? {
         let data = rawData
         var indices = data.indices
