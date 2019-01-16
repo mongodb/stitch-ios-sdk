@@ -9,12 +9,12 @@ import MongoSwift
 
 class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
     private var database: ThreadSafeMongoDatabase!
-    private var docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>!
+    private var docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization>!
 
     override func setUp() {
         self.docsColl = localClient.db(namespace.databaseName)
             .collection("documents",
-                        withType: CoreDocumentSynchronization.Config.self)
+                        withType: CoreDocumentSynchronization.self)
         super.setUp()
     }
 
@@ -26,13 +26,13 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
     func testRoundTrip() throws {
         let documentId = ObjectId()
 
-        let coreDocSync = try CoreDocumentSynchronization.init(docsColl: docsColl,
+        let coreDocSync = CoreDocumentSynchronization.init(docsColl: docsColl,
                                                                namespace: namespace,
                                                                documentId: AnyBSONValue(documentId),
                                                                errorListener: nil)
-
-        try! docsColl.insertOne(coreDocSync.config)
-
+        _ = try coreDocSync.docLock.read {
+            try docsColl.insertOne(coreDocSync)
+        }
         let isPaused = true
         let isStale = true
         let lastKnownRemoteVersion = DocumentVersionInfo.freshVersionDocument()
@@ -55,29 +55,29 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
 
         coreDocSync.isPaused = isPaused
         coreDocSync.isStale = isStale
-        coreDocSync.lastKnownRemoteVersion = lastKnownRemoteVersion
-        coreDocSync.lastResolution = lastResolution
-        coreDocSync.uncommittedChangeEvent = lastUncommittedChangeEvent
+        try coreDocSync.setSomePendingWrites(atTime: lastResolution,
+                                             atVersion: lastKnownRemoteVersion,
+                                             changeEvent: lastUncommittedChangeEvent)
 
-        let encodedCoreDocSync = try BSONEncoder().encode(coreDocSync.config)
+        let encodedCoreDocSync = try coreDocSync.docLock.read { try BSONEncoder().encode(coreDocSync) }
 
         XCTAssertEqual(isPaused,
-                       encodedCoreDocSync[CoreDocumentSynchronization.Config.CodingKeys.isPaused.rawValue] as? Bool)
+                       encodedCoreDocSync[CoreDocumentSynchronization.CodingKeys.isPaused.rawValue] as? Bool)
         XCTAssertEqual(isStale,
-                       encodedCoreDocSync[CoreDocumentSynchronization.Config.CodingKeys.isStale.rawValue] as? Bool)
+                       encodedCoreDocSync[CoreDocumentSynchronization.CodingKeys.isStale.rawValue] as? Bool)
         XCTAssertEqual(
             lastKnownRemoteVersion,
             encodedCoreDocSync[
-                CoreDocumentSynchronization.Config.CodingKeys.lastKnownRemoteVersion.rawValue
+                CoreDocumentSynchronization.CodingKeys.lastKnownRemoteVersion.rawValue
             ] as? Document
         )
         XCTAssertEqual(
             lastResolution,
-            encodedCoreDocSync[CoreDocumentSynchronization.Config.CodingKeys.lastResolution.rawValue] as? Int64)
+            encodedCoreDocSync[CoreDocumentSynchronization.CodingKeys.lastResolution.rawValue] as? Int64)
 
         let lastUncommittedChangeEventBin =
             encodedCoreDocSync[
-                CoreDocumentSynchronization.Config.CodingKeys.uncommittedChangeEvent.rawValue
+                CoreDocumentSynchronization.CodingKeys.uncommittedChangeEvent.rawValue
             ] as? Binary
         let lastUncommittedChangeEventDoc = Document.init(fromBSON: lastUncommittedChangeEventBin!.data)
 
@@ -85,29 +85,26 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
                        try BSONDecoder().decode(ChangeEvent.self,
                                                 from: lastUncommittedChangeEventDoc))
 
-        var decodedCoreDocConfig = try BSONDecoder().decode(CoreDocumentSynchronization.Config.self,
+        let decodedCoreDocConfig = try BSONDecoder().decode(CoreDocumentSynchronization.self,
                                                             from: encodedCoreDocSync)
-        let decodedCoreDocSync = try CoreDocumentSynchronization.init(docsColl: docsColl,
-                                                                      config: &decodedCoreDocConfig,
-                                                                      errorListener: nil)
 
-        XCTAssertEqual(isPaused, decodedCoreDocSync.isPaused)
-        XCTAssertEqual(isStale, decodedCoreDocSync.isStale)
-        XCTAssertEqual(lastKnownRemoteVersion, decodedCoreDocSync.lastKnownRemoteVersion)
-        XCTAssertEqual(lastResolution, decodedCoreDocSync.lastResolution)
-        XCTAssertEqual(lastUncommittedChangeEvent, decodedCoreDocSync.uncommittedChangeEvent)
-        XCTAssertEqual(coreDocSync, decodedCoreDocSync)
+        XCTAssertEqual(isPaused, decodedCoreDocConfig.isPaused)
+        XCTAssertEqual(isStale, decodedCoreDocConfig.isStale)
+        XCTAssertEqual(lastKnownRemoteVersion, decodedCoreDocConfig.lastKnownRemoteVersion)
+        XCTAssertEqual(lastResolution, decodedCoreDocConfig.lastResolution)
+        XCTAssertEqual(lastUncommittedChangeEvent, decodedCoreDocConfig.uncommittedChangeEvent)
+        XCTAssertEqual(coreDocSync, decodedCoreDocConfig)
     }
 
     func testSomePendingWrites() throws {
         let documentId = ObjectId()
 
-        let coreDocSync = try CoreDocumentSynchronization.init(docsColl: docsColl,
+        let coreDocSync = CoreDocumentSynchronization.init(docsColl: docsColl,
                                                                namespace: namespace,
                                                                documentId: AnyBSONValue(documentId),
                                                                errorListener: nil)
 
-        try! docsColl.insertOne(coreDocSync.config)
+        _ = try coreDocSync.docLock.read { try docsColl.insertOne(coreDocSync) }
 
         let ceId = ["_id": documentId] as Document
         let ceFullDocument = ["foo": "bar"] as Document
@@ -131,7 +128,7 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
         XCTAssertEqual(true, coreDocSync.isStale)
         XCTAssertEqual(changeEvent, coreDocSync.uncommittedChangeEvent)
         XCTAssertEqual(100, coreDocSync.lastResolution)
-        XCTAssertEqual(coreDocSync.config, try docsColl.find(["document_id": documentId]).next())
+        XCTAssertEqual(coreDocSync, try docsColl.find(["document_id": documentId]).next())
 
         let atVersion = DocumentVersionInfo.freshVersionDocument()
         try coreDocSync.setSomePendingWrites(atTime: 101,
@@ -141,13 +138,13 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
         XCTAssertEqual(changeEvent, coreDocSync.uncommittedChangeEvent)
         XCTAssertEqual(101, coreDocSync.lastResolution)
         XCTAssertEqual(atVersion, coreDocSync.lastKnownRemoteVersion)
-        XCTAssertEqual(coreDocSync.config, try docsColl.find(["document_id": documentId]).next())
+        XCTAssertEqual(coreDocSync, try docsColl.find(["document_id": documentId]).next())
 
         try coreDocSync.setPendingWritesComplete(atVersion: atVersion)
         XCTAssertNil(coreDocSync.uncommittedChangeEvent)
         XCTAssertEqual(atVersion, coreDocSync.lastKnownRemoteVersion)
         XCTAssertEqual(101, coreDocSync.lastResolution)
-        XCTAssertEqual(coreDocSync.config, try docsColl.find(["document_id": documentId]).next())
+        XCTAssertEqual(coreDocSync, try docsColl.find(["document_id": documentId]).next())
     }
 
     func testCoalesceChangeEvents() {

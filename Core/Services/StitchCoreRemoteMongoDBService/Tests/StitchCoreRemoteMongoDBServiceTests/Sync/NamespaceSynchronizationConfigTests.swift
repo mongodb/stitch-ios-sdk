@@ -6,14 +6,14 @@ import MongoSwift
 @testable import StitchCoreRemoteMongoDBService
 
 class NamespaceSynchronizationConfigTests: XCMongoMobileTestCase {
-    private var namespaceColl: ThreadSafeMongoCollection<NamespaceSynchronization.Config>!
-    private var docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>!
+    private var namespaceColl: ThreadSafeMongoCollection<NamespaceSynchronization>!
+    private var docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization>!
 
     override func setUp() {
         namespaceColl = localClient.db(namespace.databaseName)
-            .collection("namespaces", withType: NamespaceSynchronization.Config.self)
+            .collection("namespaces", withType: NamespaceSynchronization.self)
         docsColl = localClient.db(namespace.databaseName)
-            .collection("documents", withType: CoreDocumentSynchronization.Config.self)
+            .collection("documents", withType: CoreDocumentSynchronization.self)
     }
 
     override func tearDown() {
@@ -22,17 +22,16 @@ class NamespaceSynchronizationConfigTests: XCMongoMobileTestCase {
 
     func testSet() throws {
         let documentId = ObjectId()
-        let nsConfig = try NamespaceSynchronization.init(namespacesColl: namespaceColl,
-                                                         docsColl: docsColl,
+        let nsConfig = NamespaceSynchronization.init(docsColl: docsColl,
                                                          namespace: namespace,
                                                          errorListener: nil)
 
-        try nsConfig.nsLock.write {
+        nsConfig.nsLock.write {
             var docConfig = nsConfig[documentId]
 
             XCTAssertNil(docConfig)
 
-            docConfig = try CoreDocumentSynchronization.init(docsColl: docsColl,
+            docConfig = CoreDocumentSynchronization.init(docsColl: docsColl,
                                                              namespace: namespace,
                                                              documentId: AnyBSONValue(documentId),
                                                              errorListener: nil)
@@ -64,21 +63,20 @@ class NamespaceSynchronizationConfigTests: XCMongoMobileTestCase {
             HashableBSONValue(ObjectId())
         ]
 
-        let nsConfig = try NamespaceSynchronization.init(namespacesColl: namespaceColl,
-                                                         docsColl: docsColl,
+        let nsConfig = NamespaceSynchronization.init(docsColl: docsColl,
                                                          namespace: namespace,
                                                          errorListener: errorListener)
 
         var docConfigs = [
-            try CoreDocumentSynchronization.init(docsColl: docsColl,
+            CoreDocumentSynchronization.init(docsColl: docsColl,
                                              namespace: namespace,
                                              documentId: documentIds[0].bsonValue,
                                              errorListener: errorListener),
-            try CoreDocumentSynchronization.init(docsColl: docsColl,
+            CoreDocumentSynchronization.init(docsColl: docsColl,
                                              namespace: namespace,
                                              documentId: documentIds[1].bsonValue,
                                              errorListener: errorListener),
-            try CoreDocumentSynchronization.init(docsColl: docsColl,
+            CoreDocumentSynchronization.init(docsColl: docsColl,
                                              namespace: namespace,
                                              documentId: documentIds[2].bsonValue,
                                              errorListener: errorListener)

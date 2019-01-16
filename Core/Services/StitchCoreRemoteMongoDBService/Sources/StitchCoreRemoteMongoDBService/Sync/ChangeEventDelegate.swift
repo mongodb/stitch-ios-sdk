@@ -3,7 +3,7 @@ import MongoSwift
 /**
  ChangeEventDelegate receives change event notifications.
  */
-public protocol ChangeEventDelegate {
+public protocol ChangeEventDelegate: class {
     /// The type of class represented by the document in the change event.
     associatedtype DocumentT: Codable
     /**

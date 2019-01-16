@@ -6,6 +6,7 @@ public struct APIStitchUserIdentity: StitchUserIdentity, Hashable {
     /**
      * The hash value of the id to provide conformance to `Hashable`.
      */
+    // swiftlint:disable:next legacy_hashing
     public var hashValue: Int {
         return self.id.hashValue
     }

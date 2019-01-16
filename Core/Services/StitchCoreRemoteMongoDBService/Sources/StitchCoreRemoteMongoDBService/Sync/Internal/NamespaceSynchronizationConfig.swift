@@ -11,123 +11,56 @@ import StitchCoreSDK
  Configurations are stored both persistently and in memory, and should
  always be in sync.
  */
-internal class NamespaceSynchronization: Sequence {
-    /// The actual configuration to be persisted for this namespace.
-    class Config: Codable {
-        fileprivate enum CodingKeys: CodingKey {
-            case syncedDocuments, namespace
-        }
-        /// the namespace for this config
-        let namespace: MongoNamespace
-        /// a map of documents synchronized on this namespace, keyed on their documentIds
-        fileprivate(set) internal var syncedDocuments: [HashableBSONValue: CoreDocumentSynchronization.Config]
-        /// The conflict handler configured to this namespace.
-        fileprivate var conflictHandler: AnyConflictHandler?
-        /// The change event listener configured to this namespace.
-        fileprivate var changeEventDelegate: AnyChangeEventDelegate?
+final class NamespaceSynchronization: Sequence, Codable {
+    static func filter(namespace: MongoNamespace) -> Document {
+        return ["namespace": try? BSONEncoder().encode(namespace)]
+    }
 
-        init(namespace: MongoNamespace,
-             syncedDocuments: [HashableBSONValue: CoreDocumentSynchronization.Config]) {
-            self.namespace = namespace
-            self.syncedDocuments = syncedDocuments
-        }
+    enum CodingKeys: String, CodingKey {
+        case namespace = "namespace", schemaVersion = "schema_version", docsColl = "docs_coll"
     }
 
     typealias Element = CoreDocumentSynchronization
-    typealias Iterator = NamespaceSynchronizationIterator
-
-    /// Allows for the iteration of the document configs contained in this instance.
-    struct NamespaceSynchronizationIterator: IteratorProtocol {
-        typealias Element = CoreDocumentSynchronization
-        private typealias Values = Dictionary<HashableBSONValue, CoreDocumentSynchronization.Config>.Values
-
-        private let docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>
-        private var values: Values
-        private var indices: DefaultIndices<Values>
-        private weak var errorListener: FatalErrorListener?
-
-        init(docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>,
-             values: Dictionary<HashableBSONValue, CoreDocumentSynchronization.Config>.Values,
-             errorListener: FatalErrorListener?) {
-            self.docsColl = docsColl
-            self.values = values
-            self.indices = self.values.indices
-            self.errorListener = errorListener
-        }
-
-        mutating func next() -> CoreDocumentSynchronization? {
-            guard let index = self.indices.popFirst() else {
-                return nil
-            }
-
-            return try? CoreDocumentSynchronization.init(docsColl: docsColl,
-                                                         config: &values[index],
-                                                         errorListener: errorListener)
-        }
-    }
 
     /// Standard read-write lock.
-    lazy var nsLock: ReadWriteLock = ReadWriteLock(label: "namespace_lock_\(config.namespace)")
-    /// The collection we are storing namespace configs in.
-    private let namespacesColl: ThreadSafeMongoCollection<NamespaceSynchronization.Config>
+    lazy var nsLock: ReadWriteLock = ReadWriteLock(label: "namespace_lock_\(namespace)")
     /// The collection we are storing document configs in.
-    private let docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>
+    private let docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization>
     /// The error listener to propagate errors to.
     private weak var errorListener: FatalErrorListener?
-    /// The configuration for this namespace.
-    private(set) var config: Config
     /// The conflict handler configured to this namespace.
-    private(set) var conflictHandler: AnyConflictHandler? {
-        get {
-            return self.config.conflictHandler
-        }
-        set {
-            self.config.conflictHandler = newValue
-        }
-    }
+    private(set) var conflictHandler: AnyConflictHandler?
     /// The change event listener configured to this namespace.
-    private(set) var changeEventDelegate: AnyChangeEventDelegate? {
-        get {
-            return self.config.changeEventDelegate
-        }
-        set {
-            self.config.changeEventDelegate = newValue
-        }
-    }
+    private(set) var changeEventDelegate: AnyChangeEventDelegate?
+
+    var docs = [HashableBSONValue: CoreDocumentSynchronization]()
+    let namespace: MongoNamespace
 
     /// Whether or not this namespace has been configured.
     var isConfigured: Bool {
         return self.conflictHandler != nil
     }
 
-    init(namespacesColl: ThreadSafeMongoCollection<NamespaceSynchronization.Config>,
-         docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization.Config>,
+    init(docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization>,
          namespace: MongoNamespace,
-         errorListener: FatalErrorListener?) throws {
-        self.namespacesColl = namespacesColl
+         errorListener: FatalErrorListener?) {
         self.docsColl = docsColl
-        // read the sync'd document configs from the local collection,
-        // and map them into this nsConfig, keyed on their id
-        self.config = Config.init(
-            namespace: namespace,
-            syncedDocuments: try docsColl
-                .find(CoreDocumentSynchronization.filter(forNamespace: namespace))
-                .reduce(into: [HashableBSONValue: CoreDocumentSynchronization.Config](), { (syncedDocuments, config) in
-                    syncedDocuments[config.documentId] = config
-                }))
+        self.namespace = namespace
         self.errorListener = errorListener
     }
 
     /// Make an iterator that will iterate over the associated documents.
-    func makeIterator() -> NamespaceSynchronization.Iterator {
-        return NamespaceSynchronizationIterator.init(docsColl: docsColl,
-                                                     values: config.syncedDocuments.values,
-                                                     errorListener: errorListener)
+    func makeIterator() -> IndexingIterator<Dictionary<HashableBSONValue, CoreDocumentSynchronization>.Values> {
+        return docs.values.makeIterator()
     }
 
     /// The number of documents synced on this namespace
     var count: Int {
-        return self.config.syncedDocuments.count
+        do {
+            return try docsColl.count(CoreDocumentSynchronization.filter(forNamespace: namespace))
+        } catch {
+            return 0
+        }
     }
 
     func sync(id: BSONValue) throws -> CoreDocumentSynchronization {
@@ -135,10 +68,10 @@ internal class NamespaceSynchronization: Sequence {
         if let existingConfig = self[id] {
             return existingConfig
         }
-        let docConfig = try CoreDocumentSynchronization.init(docsColl: docsColl,
-                                                             namespace: self.config.namespace,
-                                                             documentId: AnyBSONValue(id),
-                                                             errorListener: errorListener)
+        let docConfig = CoreDocumentSynchronization.init(docsColl: docsColl,
+                                                         namespace: self.namespace,
+                                                         documentId: AnyBSONValue(id),
+                                                         errorListener: errorListener)
         self[id] = docConfig
         return docConfig
     }
@@ -154,12 +87,20 @@ internal class NamespaceSynchronization: Sequence {
     subscript(documentId: BSONValue) -> CoreDocumentSynchronization? {
         get {
             nsLock.assertLocked()
-                guard var config = config.syncedDocuments[HashableBSONValue(documentId)] else {
-                    return nil
+            do {
+                if let config = docs[HashableBSONValue(documentId)] {
+                    return config
+                } else if let config = try docsColl.find(
+                    docConfigFilter(forNamespace: namespace,
+                                    withDocumentId: AnyBSONValue(documentId))).next() {
+                    docs[HashableBSONValue(documentId)] = config
+                    return config
                 }
-                return try? CoreDocumentSynchronization.init(docsColl: docsColl,
-                                                             config: &config,
-                                                             errorListener: errorListener)
+
+                return nil
+            } catch {
+                return nil
+            }
         }
         set(value) {
             nsLock.assertWriteLocked()
@@ -167,30 +108,32 @@ internal class NamespaceSynchronization: Sequence {
             guard let value = value else {
                 do {
                     try docsColl.deleteOne(
-                        docConfigFilter(forNamespace: config.namespace,
+                        docConfigFilter(forNamespace: namespace,
                                         withDocumentId: documentId.bsonValue))
-                    config.syncedDocuments.removeValue(forKey: documentId)
                 } catch {
                     errorListener?.on(
                         error: error,
                         forDocumentId: documentId.bsonValue.value,
-                        in: self.config.namespace
+                        in: self.namespace
                     )
                 }
+                docs[documentId] = nil
                 return
             }
 
             do {
-                try docsColl.replaceOne(
-                    filter: docConfigFilter(forNamespace: self.config.namespace,
-                                            withDocumentId: documentId.bsonValue),
-                    replacement: value.config,
-                    options: ReplaceOptions.init(upsert: true))
-
-                self.config.syncedDocuments[documentId] = value.config
+                _ = try value.docLock.read {
+                    try docsColl.replaceOne(
+                        filter: docConfigFilter(forNamespace: self.namespace,
+                                                withDocumentId: documentId.bsonValue),
+                        replacement: value,
+                        options: ReplaceOptions.init(upsert: true))
+                }
             } catch {
-                errorListener?.on(error: error, forDocumentId: documentId.bsonValue.value, in: self.config.namespace)
+                errorListener?.on(error: error, forDocumentId: documentId.bsonValue.value, in: self.namespace)
             }
+
+            docs[documentId] = value
         }
     }
 
@@ -219,17 +162,17 @@ internal class NamespaceSynchronization: Sequence {
         do {
             return Set(
                 try self.docsColl.distinct(
-                    fieldName: CoreDocumentSynchronization.Config.CodingKeys.documentId.rawValue,
+                    fieldName: CoreDocumentSynchronization.CodingKeys.documentId.rawValue,
                     filter: [
-                        CoreDocumentSynchronization.Config.CodingKeys.isStale.rawValue: true,
-                        CoreDocumentSynchronization.Config.CodingKeys.namespace.rawValue:
-                            try BSONEncoder().encode(config.namespace)
+                        CoreDocumentSynchronization.CodingKeys.isStale.rawValue: true,
+                        CoreDocumentSynchronization.CodingKeys.namespace.rawValue:
+                            try BSONEncoder().encode(namespace)
                     ]).compactMap({
                         $0 == nil ? nil : HashableBSONValue($0!)
                     })
             )
         } catch {
-            errorListener?.on(error: error, forDocumentId: nil, in: self.config.namespace)
+            errorListener?.on(error: error, forDocumentId: nil, in: self.namespace)
             return Set()
         }
     }
@@ -237,10 +180,32 @@ internal class NamespaceSynchronization: Sequence {
     func set(stale: Bool) throws {
         _ = try nsLock.write {
             try docsColl.updateMany(
-                filter: ["namespace": try BSONEncoder().encode(config.namespace)],
+                filter: ["namespace": try BSONEncoder().encode(namespace)],
                 update: ["$set": [
-                    CoreDocumentSynchronization.Config.CodingKeys.isStale.rawValue: true
+                    CoreDocumentSynchronization.CodingKeys.isStale.rawValue: true
                 ] as Document])
+        }
+    }
+
+    func encode(to encoder: Encoder) throws {
+        try nsLock.read {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+
+            try container.encode(namespace, forKey: .namespace)
+            try container.encode(1, forKey: .schemaVersion)
+            try container.encode(docsColl, forKey: .docsColl)
+        }
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        self.namespace = try container.decode(MongoNamespace.self,
+                                              forKey: .namespace)
+        self.docsColl = try container.decode(ThreadSafeMongoCollection<CoreDocumentSynchronization>.self,
+                                             forKey: .docsColl)
+        try docsColl.find(CoreDocumentSynchronization.filter(forNamespace: namespace)).forEach { config in
+            docs[config.documentId] = config
         }
     }
 }

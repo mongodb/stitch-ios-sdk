@@ -72,6 +72,10 @@ private extension RemoteMongoCollection {
     }
 }
 
+extension String: LocalizedError {
+    public var errorDescription: String? { return self }
+}
+
 // These extensions make the CRUD commands synchronous to simplify writing tests.
 // These extensions should not be used outside of a testing environment.
 private extension Sync {
@@ -553,7 +557,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
 
         // configure Sync to resolve conflicts with remote winning,
         // synchronize the document, and stream events and do a sync pass
-        coll.configure(conflictHandler: DefaultConflictHandlers.remoteWins.resolveConflict)
+        coll.configure(conflictHandler: DefaultConflictHandler<Document>.remoteWins())
 
         try coll.sync(ids: [doc1Id])
         try ctx.streamAndSync()
@@ -604,7 +608,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
 
         // configure Sync to resolve conflicts with local winning,
         // synchronize the document, and stream events and do a sync pass
-        coll.configure(conflictHandler: DefaultConflictHandlers.localWins.resolveConflict)
+        coll.configure(conflictHandler: DefaultConflictHandler<Document>.localWins())
         try coll.sync(ids: [doc1Id])
         try ctx.streamAndSync()
 
@@ -1119,13 +1123,13 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
 
         // configure Sync to resolve conflicts with a local win.
         // sync the docId
-        coll.configure(conflictHandler: DefaultConflictHandlers.localWins.resolveConflict)
+        coll.configure(conflictHandler: DefaultConflictHandler<Document>.localWins())
         try coll.sync(ids: [doc1Id])
 
         // reload our configuration again.
         // reconfigure sync and the same way. do a sync pass.
         try ctx.powerCycleDevice()
-        coll.configure(conflictHandler: DefaultConflictHandlers.localWins.resolveConflict)
+        coll.configure(conflictHandler: DefaultConflictHandler<Document>.localWins())
         try ctx.streamAndSync()
 
         // update the document remotely. assert the update is reflected remotely.
@@ -1140,7 +1144,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         expectedDocument["foo"] = 3
         XCTAssertEqual(expectedDocument, withoutSyncVersion(remoteColl.findOne(doc1Filter)!))
         try ctx.powerCycleDevice()
-        coll.configure(conflictHandler: DefaultConflictHandlers.localWins.resolveConflict)
+        coll.configure(conflictHandler: DefaultConflictHandler<Document>.localWins())
 
         // update the document locally. assert its success, after reconfiguration.
         let localResult = coll.updateOne(filter: doc1Filter, update: ["$inc": ["foo": 1] as Document])
@@ -1151,7 +1155,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
 
         // reconfigure again.
         try ctx.powerCycleDevice()
-        coll.configure(conflictHandler: DefaultConflictHandlers.localWins.resolveConflict)
+        coll.configure(conflictHandler: DefaultConflictHandler<Document>.localWins())
 
         // sync.
         try ctx.streamAndSync() // does nothing with no conflict handler
@@ -1159,14 +1163,14 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         // assert we are still synced on one id.
         // reconfigure again.
         XCTAssertEqual(1, coll.syncedIds.count)
-        coll.configure(conflictHandler: DefaultConflictHandlers.localWins.resolveConflict)
+        coll.configure(conflictHandler: DefaultConflictHandler<Document>.localWins())
         try ctx.streamAndSync() // resolves the conflict
 
         // assert the update was reflected locally. reconfigure again.
         expectedDocument["foo"] = 2
         XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter))
         try ctx.powerCycleDevice()
-        coll.configure(conflictHandler: DefaultConflictHandlers.localWins.resolveConflict)
+        coll.configure(conflictHandler: DefaultConflictHandler<Document>.localWins())
 
         // sync. assert that the update was reflected remotely
         try ctx.streamAndSync()
@@ -1622,7 +1626,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
             if conflictCounter == 0 {
                 conflictCounter += 1
                 errorEmitted = true
-                throw DataSynchronizerError("ouch")
+                throw "ouch"
             }
             return remoteEvent.fullDocument
         })

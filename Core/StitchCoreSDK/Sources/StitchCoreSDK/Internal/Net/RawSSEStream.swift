@@ -35,9 +35,7 @@ open class RawSSEStream {
     private let queue = DispatchQueue.init(label: "sse-\(ObjectId().oid)")
     open var state: SSEStreamState = .closed {
         didSet {
-            queue.async {
-                self.delegate?.on(stateChangedFor: self.state)
-            }
+            self.delegate?.on(stateChangedFor: self.state)
         }
     }
 

@@ -109,9 +109,20 @@ extension BSONValue {
     }
 }
 
+extension AnyBSONValue: Hashable {
+    public static func == (lhs: AnyBSONValue, rhs: AnyBSONValue) -> Bool {
+        return bsonEquals(lhs.value, rhs.value)
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        _hash(into: &hasher, bsonValue: self.value)
+    }
+}
 public struct HashableBSONValue: Codable, Hashable {
     public let bsonValue: AnyBSONValue
-
+    var value: BSONValue {
+        return bsonValue.value
+    }
     public init(_ bsonValue: BSONValue) {
         self.bsonValue = AnyBSONValue(bsonValue)
     }
