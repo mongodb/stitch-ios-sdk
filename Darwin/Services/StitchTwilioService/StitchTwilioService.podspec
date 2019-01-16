@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
     spec.name       = File.basename(__FILE__, '.podspec')
-    spec.version    = "5.0.0-alpha.0"
+    spec.version    = "5.0.0-alpha.1"
     spec.summary    = "#{__FILE__} Module"
     spec.homepage   = "https://github.com/mongodb/stitch-ios-sdk"
     spec.license    = "Apache2"
@@ -21,6 +21,6 @@ Pod::Spec.new do |spec|
 
     spec.source_files = "Darwin/Services/#{spec.name}/#{spec.name}/**/*.swift"
 
-    spec.dependency 'StitchCore', '= 5.0.0-alpha.0'
-    spec.dependency 'StitchCoreTwilioService', '= 5.0.0-alpha.0'
+    spec.dependency 'StitchCore', '= 5.0.0-alpha.1'
+    spec.dependency 'StitchCoreTwilioService', '= 5.0.0-alpha.1'
 end
