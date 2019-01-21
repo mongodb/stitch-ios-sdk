@@ -13,7 +13,10 @@ import StitchCoreSDK
  */
 final class NamespaceSynchronization: Sequence, Codable {
     static func filter(namespace: MongoNamespace) -> Document {
-        return ["namespace": try? BSONEncoder().encode(namespace)]
+        guard let namespaceDoc = try? BSONEncoder().encode(namespace) else {
+            return ["namespace": BSONNull()]
+        }
+        return ["namespace": namespaceDoc]
     }
 
     enum CodingKeys: String, CodingKey {
@@ -33,7 +36,7 @@ final class NamespaceSynchronization: Sequence, Codable {
     /// The change event listener configured to this namespace.
     private(set) var changeEventDelegate: AnyChangeEventDelegate?
 
-    var docs = [HashableBSONValue: CoreDocumentSynchronization]()
+    var docs = [AnyBSONValue: CoreDocumentSynchronization]()
     let namespace: MongoNamespace
 
     /// Whether or not this namespace has been configured.
@@ -50,7 +53,7 @@ final class NamespaceSynchronization: Sequence, Codable {
     }
 
     /// Make an iterator that will iterate over the associated documents.
-    func makeIterator() -> IndexingIterator<Dictionary<HashableBSONValue, CoreDocumentSynchronization>.Values> {
+    func makeIterator() -> IndexingIterator<Dictionary<AnyBSONValue, CoreDocumentSynchronization>.Values> {
         return docs.values.makeIterator()
     }
 
@@ -88,12 +91,12 @@ final class NamespaceSynchronization: Sequence, Codable {
         get {
             nsLock.assertLocked()
             do {
-                if let config = docs[HashableBSONValue(documentId)] {
+                if let config = docs[AnyBSONValue(documentId)] {
                     return config
                 } else if let config = try docsColl.find(
                     docConfigFilter(forNamespace: namespace,
                                     withDocumentId: AnyBSONValue(documentId))).next() {
-                    docs[HashableBSONValue(documentId)] = config
+                    docs[AnyBSONValue(documentId)] = config
                     return config
                 }
 
@@ -104,16 +107,16 @@ final class NamespaceSynchronization: Sequence, Codable {
         }
         set(value) {
             nsLock.assertWriteLocked()
-            let documentId = HashableBSONValue(documentId)
+            let documentId = AnyBSONValue(documentId)
             guard let value = value else {
                 do {
                     try docsColl.deleteOne(
                         docConfigFilter(forNamespace: namespace,
-                                        withDocumentId: documentId.bsonValue))
+                                        withDocumentId: documentId))
                 } catch {
                     errorListener?.on(
                         error: error,
-                        forDocumentId: documentId.bsonValue.value,
+                        forDocumentId: documentId.value,
                         in: self.namespace
                     )
                 }
@@ -125,12 +128,12 @@ final class NamespaceSynchronization: Sequence, Codable {
                 _ = try value.docLock.read {
                     try docsColl.replaceOne(
                         filter: docConfigFilter(forNamespace: self.namespace,
-                                                withDocumentId: documentId.bsonValue),
+                                                withDocumentId: documentId),
                         replacement: value,
                         options: ReplaceOptions.init(upsert: true))
                 }
             } catch {
-                errorListener?.on(error: error, forDocumentId: documentId.bsonValue.value, in: self.namespace)
+                errorListener?.on(error: error, forDocumentId: documentId.value, in: self.namespace)
             }
 
             docs[documentId] = value
@@ -157,7 +160,7 @@ final class NamespaceSynchronization: Sequence, Codable {
     }
 
     /// A set of stale ids for the sync'd documents in this namespace.
-    var staleDocumentIds: Set<HashableBSONValue> {
+    var staleDocumentIds: Set<AnyBSONValue> {
         nsLock.assertLocked()
         do {
             return Set(
@@ -168,7 +171,7 @@ final class NamespaceSynchronization: Sequence, Codable {
                         CoreDocumentSynchronization.CodingKeys.namespace.rawValue:
                             try BSONEncoder().encode(namespace)
                     ]).compactMap({
-                        $0 == nil ? nil : HashableBSONValue($0!)
+                        $0 == nil ? nil : AnyBSONValue($0!)
                     })
             )
         } catch {

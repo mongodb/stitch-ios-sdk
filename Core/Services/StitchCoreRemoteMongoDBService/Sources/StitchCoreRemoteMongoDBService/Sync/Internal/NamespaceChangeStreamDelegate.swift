@@ -13,7 +13,7 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
     private let nsConfig: NamespaceSynchronization
     private var holdingSemaphore = DispatchSemaphore(value: 0)
 
-    private var eventsKeyedQueue = [HashableBSONValue: ChangeEvent<Document>]()
+    private var eventsKeyedQueue = [AnyBSONValue: ChangeEvent<Document>]()
     private var streamDelegates = Set<SSEStreamDelegate>()
 
     private var stream: RawSSEStream?
@@ -150,7 +150,7 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
                 logger.d("event found: op=\(changeEvent.operationType) id=\(id)")
 
                 streamDelegates.forEach({$0.on(newEvent: event)})
-                self.eventsKeyedQueue[HashableBSONValue(id)] = changeEvent
+                self.eventsKeyedQueue[AnyBSONValue(id)] = changeEvent
             } catch {
                 logger.e("error occurred when decoding event from stream: err=\(error.localizedDescription)")
                 self.stop()
@@ -183,9 +183,9 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
         logger.e(error.localizedDescription)
     }
 
-    func dequeueEvents() -> [HashableBSONValue: ChangeEvent<Document>] {
+    func dequeueEvents() -> [AnyBSONValue: ChangeEvent<Document>] {
         return eventQueueLock.write {
-            var events = [HashableBSONValue: ChangeEvent<Document>]()
+            var events = [AnyBSONValue: ChangeEvent<Document>]()
             while let (key, value) = eventsKeyedQueue.popFirst() {
                 events[key] = value
             }
@@ -195,7 +195,7 @@ class NamespaceChangeStreamDelegate: SSEStreamDelegate, NetworkStateDelegate {
 
     func unprocessedEvent(for documentId: BSONValue) -> ChangeEvent<Document>? {
         return eventQueueLock.write {
-            return self.eventsKeyedQueue.removeValue(forKey: HashableBSONValue(documentId))
+            return self.eventsKeyedQueue.removeValue(forKey: AnyBSONValue(documentId))
         }
     }
 }

@@ -1,5 +1,4 @@
 // swiftlint:disable type_body_length
-// swiftlint:disable force_try
 // swiftlint:disable function_body_length
 import Foundation
 import XCTest

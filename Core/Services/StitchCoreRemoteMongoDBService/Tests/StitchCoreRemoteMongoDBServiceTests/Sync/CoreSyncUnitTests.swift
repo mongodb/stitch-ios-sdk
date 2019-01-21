@@ -17,9 +17,9 @@ class CoreSyncUnitTests: XCMongoMobileTestCase {
         let ids = [ObjectId(), ObjectId()]
 
         try coreSync.sync(ids: ids)
-        XCTAssertEqual(Set(ids.map { HashableBSONValue($0) }),
+        XCTAssertEqual(Set(ids.map { AnyBSONValue($0) }),
                        dataSynchronizer.syncedIds(in: namespace))
-        XCTAssertEqual(Set(ids.map { HashableBSONValue($0) }),
+        XCTAssertEqual(Set(ids.map { AnyBSONValue($0) }),
                        coreSync.syncedIds)
 
         try coreSync.desync(ids: ids)

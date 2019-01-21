@@ -6,21 +6,21 @@ PODS:
   - mongoc_embedded (4.0.4):
     - mongo-embedded-c-driver (~> 1.13.0-4.0.4)
     - mongo_embedded (~> 4.0.4)
-  - MongoMobile (0.0.5):
+  - MongoMobile (0.0.6):
     - mongo_embedded (~> 4.0.4)
     - mongoc_embedded (~> 4.0.4)
-    - MongoSwift (~> 0.0.7)
-  - MongoSwift (0.0.7):
+    - MongoSwift (~> 0.0.8)
+  - MongoSwift (0.0.8):
     - mongo-embedded-c-driver (~> 1.13.0-4.0.0)
   - Swifter (1.4.5)
-  - SwiftLint (0.29.2)
+  - SwiftLint (0.29.4)
   - Toast-Swift (4.0.0)
 
 DEPENDENCIES:
   - BEMCheckBox (= 1.4.1)
   - JSONWebToken (~> 2.2.0)
-  - MongoMobile (= 0.0.5)
-  - MongoSwift (= 0.0.7)
+  - MongoMobile (= 0.0.6)
+  - MongoSwift (= 0.0.8)
   - Swifter (~> 1.4.5)
   - SwiftLint
   - Toast-Swift (= 4.0.0)
@@ -44,12 +44,12 @@ SPEC CHECKSUMS:
   mongo-embedded-c-driver: b46360baa15fc142baae80628822f26663220bde
   mongo_embedded: e413134eb6b60544e7278add03007f8fe384a00c
   mongoc_embedded: 41aadbb756b07070d6f0471192a84750cb42c580
-  MongoMobile: 2fc916b194dc19b9a6b8d948d42441b0b37812e7
-  MongoSwift: de22baca5a59aef44de44e07ee9adb8c4f59c5ee
+  MongoMobile: d0a23d31da50ea1df946698eeee37728ff0003e4
+  MongoSwift: 57c2ae92978ec1d83a242b3599c99ba3d34779d9
   Swifter: eb2bc1d192a1c09169c7fefd01971565fa940521
-  SwiftLint: 47df60bdea6e7e902b193b6596db8683aafd86a3
+  SwiftLint: 73f2ecfd0f6d812c8cb9a73c00fe809bc2504585
   Toast-Swift: 594b5c5e5129f15438e410207e43287f027b3c00
 
-PODFILE CHECKSUM: 4234ce7dc9c02bc1eaff563d4d54cee3b5031664
+PODFILE CHECKSUM: 3eb283ecde3c3860a3a44243e9c1860a78efaa10
 
 COCOAPODS: 1.6.0.beta.2

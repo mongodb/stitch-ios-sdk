@@ -1174,7 +1174,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         let insertOneResult = joiner.value(asType: SyncInsertOneResult.self)
         sync.count(joiner.capture())
         XCTAssertEqual(1, joiner.value())
-        sync.find(filter: ["_id": insertOneResult?.insertedId], options: nil, joiner.capture())
+        sync.find(filter: ["_id": insertOneResult?.insertedId ?? BSONNull()], options: nil, joiner.capture())
 
         guard let cursor = joiner.value(asType: MongoCursor<Document>.self),
             let actualDoc = cursor.next() else {
@@ -1183,7 +1183,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         }
 
         XCTAssertEqual("b", actualDoc["a"] as? String)
-        XCTAssert(bsonEqualsOverride(insertOneResult?.insertedId ?? nil, actualDoc["_id"]))
+        XCTAssert(bsonEquals(insertOneResult?.insertedId ?? nil, actualDoc["_id"]))
         XCTAssertEqual("world", actualDoc["hello"] as? String)
         XCTAssertFalse(actualDoc.hasKey(documentVersionField))
         XCTAssertNil(cursor.next())
@@ -1211,7 +1211,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         XCTAssertEqual(2, joiner.value())
 
         sync.find(filter: [
-            "_id": ["$in": insertManyResult?.insertedIds.values.map { $0 } ] as Document],
+            "_id": ["$in": insertManyResult?.insertedIds.values.compactMap { $0 } ?? BSONNull() ] as Document],
                   joiner.capture())
         guard let cursor = joiner.capturedValue as? MongoCursor<Document>,
             let actualDoc = cursor.next() else {
@@ -1220,7 +1220,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         }
 
         XCTAssertEqual("b", actualDoc["a"] as? String)
-        XCTAssert(bsonEqualsOverride(insertManyResult?.insertedIds[0] ?? nil, actualDoc["_id"]))
+        XCTAssert(bsonEquals(insertManyResult?.insertedIds[0] ?? nil, actualDoc["_id"]))
         XCTAssertEqual("world", actualDoc["hello"] as? String)
         XCTAssertFalse(actualDoc.hasKey(documentVersionField))
         XCTAssertNotNil(cursor.next())

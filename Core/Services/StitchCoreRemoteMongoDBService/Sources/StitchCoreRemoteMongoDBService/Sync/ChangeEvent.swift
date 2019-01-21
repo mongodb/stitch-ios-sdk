@@ -92,11 +92,11 @@ public struct ChangeEvent<DocumentT: Codable>: Codable, Hashable {
     }
 
     public static func == (lhs: ChangeEvent<DocumentT>, rhs: ChangeEvent<DocumentT>) -> Bool {
-        return bsonEqualsOverride(lhs.id.value, rhs.id.value)
+        return bsonEquals(lhs.id.value, rhs.id.value)
     }
 
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(HashableBSONValue(id))
+        hasher.combine(id)
     }
 
     /**
@@ -136,7 +136,7 @@ public struct ChangeEvent<DocumentT: Codable>: Codable, Hashable {
             operationType: .insert,
             fullDocument: document,
             ns: namespace,
-            documentKey: ["_id": docId],
+            documentKey: ["_id": docId ?? BSONNull()],
             updateDescription: nil,
             hasUncommittedWrites: writePending)
     }

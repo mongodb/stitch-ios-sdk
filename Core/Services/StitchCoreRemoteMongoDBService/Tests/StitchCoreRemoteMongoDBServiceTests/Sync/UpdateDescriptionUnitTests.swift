@@ -168,7 +168,7 @@ class UpdateDescriptionUnitTests: XCMongoMobileTestCase {
 
         // 3. test doc to empty doc
         beforeDocument = afterDocument
-        afterDocument = ["_id": beforeDocument["_id"]]
+        afterDocument = ["_id": beforeDocument["_id"] ?? BSONNull()]
         try testDiff(
             collection: collection,
             beforeDocument: beforeDocument,
@@ -220,7 +220,7 @@ class UpdateDescriptionUnitTests: XCMongoMobileTestCase {
 
         // create an update document from the update description.
         // update the original document with the update document
-        try collection.updateOne(filter: ["_id": beforeDocument["_id"]],
+        try collection.updateOne(filter: ["_id": beforeDocument["_id"] ?? BSONNull()],
                                  update: updateDescription.asUpdateDocument)
 
         // assert that our newly updated document reflects our expectations
