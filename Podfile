@@ -10,7 +10,7 @@ target :MockUtils do
 end
 
 def shared_pods
-    pod 'MongoSwift', '= 0.0.8'
+    pod 'MongoSwift', '= 0.0.9'
 end
 
 target :StitchCoreSDK do
@@ -56,23 +56,23 @@ target :StitchCoreSDK do
 
     target :StitchCoreRemoteMongoDBService do
         project 'Core/Services/StitchCoreRemoteMongoDBService/StitchCoreRemoteMongoDBService.xcodeproj'
-        pod 'MongoMobile', '= 0.0.6'
+        pod 'MongoMobile', '= 0.0.7'
 
         inherit! :search_paths
         target :StitchCoreRemoteMongoDBServiceTests do
-            pod 'MongoMobile', '= 0.0.6'
+            pod 'MongoMobile', '= 0.0.7'
             inherit! :search_paths
         end
     end
 
     target :StitchCoreLocalMongoDBService do
         project 'Core/Services/StitchCoreLocalMongoDBService/StitchCoreLocalMongoDBService.xcodeproj'
-        pod 'MongoMobile', '= 0.0.6'
+        pod 'MongoMobile', '= 0.0.7'
 
         inherit! :search_paths
         target :StitchCoreLocalMongoDBServiceTests do
             shared_pods
-            pod 'MongoMobile', '= 0.0.6'
+            pod 'MongoMobile', '= 0.0.7'
             inherit! :search_paths
         end
     end
@@ -153,17 +153,17 @@ target :StitchCoreSDK do
         inherit! :search_paths
 
         target :StitchRemoteMongoDBServiceTests do
-            pod 'MongoMobile', '= 0.0.6'
+            pod 'MongoMobile', '= 0.0.7'
             inherit! :search_paths
         end
     end
 
     target :StitchLocalMongoDBService do
         project 'Darwin/Services/StitchLocalMongoDBService/StitchLocalMongoDBService.xcodeproj'
-        pod 'MongoMobile', '= 0.0.6'
+        pod 'MongoMobile', '= 0.0.7'
 
         target :StitchLocalMongoDBServiceTests do
-            pod 'MongoMobile', '= 0.0.6'
+            pod 'MongoMobile', '= 0.0.7'
             inherit! :search_paths
         end
     end
@@ -227,13 +227,13 @@ end
 
 target :ToDoSync do
     project 'Darwin/Examples/ToDoSync/ToDoSync.xcodeproj'
-    pod 'MongoMobile', '= 0.0.6'
+    pod 'MongoMobile', '= 0.0.7'
     pod 'Toast-Swift', '= 4.0.0'
     pod 'BEMCheckBox', '= 1.4.1'
 end
 
 target :StitchSDK do
-    pod 'MongoSwift', '= 0.0.8'
+    pod 'MongoSwift', '= 0.0.9'
 
     project 'Darwin/StitchSDK/StitchSDK.xcodeproj'
 end

@@ -129,14 +129,14 @@ public struct ChangeEvent<DocumentT: Codable>: Codable, Hashable {
      */
     static func changeEventForLocalInsert(namespace: MongoNamespace,
                                           document: Document,
+                                          documentId: BSONValue,
                                           writePending: Bool) -> ChangeEvent<Document> {
-        let docId = document["_id"]
         return ChangeEvent<Document>.init(
             id: AnyBSONValue(Document()),
             operationType: .insert,
             fullDocument: document,
             ns: namespace,
-            documentKey: ["_id": docId ?? BSONNull()],
+            documentKey: ["_id": documentId],
             updateDescription: nil,
             hasUncommittedWrites: writePending)
     }

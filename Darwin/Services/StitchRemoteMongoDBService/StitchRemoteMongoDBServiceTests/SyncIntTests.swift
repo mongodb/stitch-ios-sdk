@@ -17,12 +17,7 @@ private let waitTimeout = UInt64(1e+10)
 
 private extension Document {
     func sorted() -> Document {
-        print(self)
-        print(self.count)
-        let arr = self.map { $0 }
-        print(arr.count)
-        print(arr)
-        return arr.sorted { (doc1, doc2) -> Bool in
+        return self.sorted { (doc1, doc2) -> Bool in
             doc1.key < doc2.key
         }.reduce(into: Document()) { (doc, kvp) in
             doc[kvp.key] = kvp.value
@@ -83,7 +78,7 @@ extension String: LocalizedError {
 
 // These extensions make the CRUD commands synchronous to simplify writing tests.
 // These extensions should not be used outside of a testing environment.
-private extension Sync {
+private extension Sync where DocumentT == Document {
     func verifyUndoCollectionEmpty() {
         guard try! self.proxy.dataSynchronizer.undoCollection(for: self.proxy.namespace).count() == 0 else {
             XCTFail("CRUD operation leaked documents in undo collection, add breakpoint here and check stack trace")
@@ -134,19 +129,32 @@ private extension Sync {
     }
 
     @discardableResult
-    func insertOne(_ document: DocumentT) -> SyncInsertOneResult? {
+    func insertOne(_ document: inout DocumentT) -> SyncInsertOneResult? {
         defer { verifyUndoCollectionEmpty() }
         let joiner = CallbackJoiner()
         self.insertOne(document: document, joiner.capture())
-        return joiner.value()
+        guard let result: SyncInsertOneResult = joiner.value() else {
+            return nil
+        }
+
+        document["_id"] = result.insertedId
+        return result
     }
 
     @discardableResult
-    func insertMany(_ documents: [DocumentT]) -> SyncInsertManyResult? {
+    func insertMany(_ documents: inout [DocumentT]) -> SyncInsertManyResult? {
         defer { verifyUndoCollectionEmpty() }
         let joiner = CallbackJoiner()
         self.insertMany(documents: documents, joiner.capture())
-        return joiner.value()
+        guard let result: SyncInsertManyResult = joiner.value() else {
+            return nil
+        }
+
+        result.insertedIds.forEach {
+            documents[$0.key]["_id"] = $0.value
+        }
+
+        return result
     }
 
     func deleteOne(_ filter: Document) -> SyncDeleteResult? {
@@ -758,12 +766,12 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
 
         // configure Sync to fail this test if there is a conflict.
         // insert and sync the new document locally
-        let docToInsert = ["hello": "world"] as Document
+        var docToInsert = ["hello": "world"] as Document
         coll.configure(conflictHandler: { (_, _, _) -> Document? in
             XCTFail("did not expect a conflict")
             return nil
         })
-        let insertResult = coll.insertOne(docToInsert)!
+        let insertResult = coll.insertOne(&docToInsert)!
 
         // find the local document we just inserted
         let doc = coll.findOne(["_id": insertResult.insertedId ?? BSONNull()])!
@@ -796,12 +804,12 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
 
         // configure Sync to fail this test if there is a conflict.
         // insert and sync the new document locally
-        let docToInsert = ["hello": "world"] as Document
+        var docToInsert = ["hello": "world"] as Document
         coll.configure(conflictHandler: { _, _, _ in
             XCTFail("did not expect a conflict")
             return nil
         })
-        let insertResult = coll.insertOne(docToInsert)!
+        let insertResult = coll.insertOne(&docToInsert)!
 
         // find the document we just inserted
         let doc = coll.findOne(["_id": insertResult.insertedId ?? BSONNull()])!
@@ -838,16 +846,16 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
 
         // configure Sync to fail this test if there is a conflict.
         // insert and sync the new document locally. sync.
-        let docToInsert: Document = ["hello": "world"]
+        var docToInsert: Document = ["hello": "world"]
         coll.configure(conflictHandler: { (_, _, _) -> Document? in
             XCTFail("did not expect a conflict")
             return nil
         })
-        let insertResult = coll.insertOne(docToInsert)!
+        let insertResult = coll.insertOne(&docToInsert)!
         try ctx.streamAndSync()
 
         // assert the sync'd document is found locally and remotely
-        let doc = coll.findOne(["_id": insertResult.insertedId ?? BSONNull()])!
+        var doc = coll.findOne(["_id": insertResult.insertedId ?? BSONNull()])!
         let doc1Id = doc["_id"]
         let doc1Filter: Document = ["_id": doc1Id ?? BSONNull()]
         var expectedDocument = doc
@@ -857,7 +865,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         // delete the doc locally, then re-insert it.
         // assert the document is still the same locally and remotely
         XCTAssertEqual(1, coll.deleteOne(doc1Filter)?.deletedCount)
-        coll.insertOne(doc)
+        coll.insertOne(&doc)
         ctx.streamJoiner.wait(forState: .open)
         XCTAssertEqual(expectedDocument, withoutSyncVersion(remote.findOne(doc1Filter)!))
         XCTAssertEqual(expectedDocument, coll.findOne(doc1Filter))
@@ -1190,9 +1198,9 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
 
         // insert and sync a new document.
         // configure Sync to fail this test if there is a conflict.
-        let docToInsert = ["hello": "world"] as Document
+        var docToInsert = ["hello": "world"] as Document
         coll.configure(conflictHandler: failingConflictHandler)
-        let doc1Id = coll.insertOne(docToInsert)!.insertedId!
+        let doc1Id = coll.insertOne(&docToInsert)!.insertedId!
 
         // assert the document exists locally. desync it.
         XCTAssertEqual(docToInsert.sorted(), coll.findOne(["_id": doc1Id]))
@@ -1217,7 +1225,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         coll.configure(conflictHandler: { _, _, _ in
             return ["friend": "welcome"]
         })
-        let doc1Id = coll.insertOne(docToInsert)!.insertedId
+        let doc1Id = coll.insertOne(&docToInsert)!.insertedId
         let doc1Filter = ["_id": doc1Id ?? BSONNull()] as Document
 
         // sync. assert that the resolution is reflected locally,
@@ -1241,8 +1249,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         let (remoteColl, coll) = ctx.remoteCollAndSync
 
         // insert a document locally
-        let docToInsert = ["hello": "world"] as Document
-        let insertedId = coll.insertOne(docToInsert)!.insertedId
+        var docToInsert = ["hello": "world"] as Document
+        let insertedId = coll.insertOne(&docToInsert)!.insertedId
 
         var hasConflictHandlerBeenInvoked = false
         var hasChangeEventListenerBeenInvoked = false
@@ -1283,12 +1291,12 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
     func testSyncVersioningScheme() throws {
         let (remoteColl, coll) = ctx.remoteCollAndSync
 
-        let docToInsert = ["hello": "world"] as Document
+        var docToInsert = ["hello": "world"] as Document
 
         coll.configure(conflictHandler: failingConflictHandler)
-        let insertResult = coll.insertOne(docToInsert)!
+        let insertResult = coll.insertOne(&docToInsert)!
 
-        let doc = coll.findOne(["_id": insertResult.insertedId ?? BSONNull()])!
+        var doc = coll.findOne(["_id": insertResult.insertedId ?? BSONNull()])!
         let doc1Id = doc["_id"]
         let doc1Filter = ["_id": doc1Id ?? BSONNull()] as Document
 
@@ -1331,7 +1339,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         // the remote document after a local delete and local insert, but before a sync pass,
         // should have the same version as the previous document
         XCTAssertEqual(1, coll.deleteOne(doc1Filter)!.deletedCount)
-        coll.insertOne(doc)
+        coll.insertOne(&doc)
 
         let thirdRemoteDocBeforeSyncPass = remoteColl.findOne(doc1Filter)!
         XCTAssertEqual(expectedDocument, withoutSyncVersion(thirdRemoteDocBeforeSyncPass))
@@ -1356,7 +1364,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         // since the change events are not coalesced
         XCTAssertEqual(1, coll.deleteOne(doc1Filter)?.deletedCount)
         try ctx.streamAndSync()
-        coll.insertOne(doc)
+        coll.insertOne(&doc)
         try ctx.streamAndSync()
 
         let fourthRemoteDoc = remoteColl.findOne(doc1Filter)!
@@ -1638,8 +1646,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         })
 
         // insert an initial doc
-        let testDoc = ["hello": "world"] as Document
-        let result = coll.insertOne(testDoc)
+        var testDoc = ["hello": "world"] as Document
+        let result = coll.insertOne(&testDoc)
 
         // do a sync pass, synchronizing the doc
         try ctx.streamAndSync()
@@ -1752,11 +1760,12 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
 
         coll.configure(conflictHandler: failingConflictHandler)
 
-        let doc1 = ["hello": "world"] as Document
-        let doc2 = ["hello": "friend"] as Document
-        let doc3 = ["hello": "goodbye"] as Document
+        var docs: [Document] = [["hello": "world"], ["hello": "friend"], ["hello": "goodbye"]]
+        let insertResult = coll.insertMany(&docs)
+        let doc1 = docs[0]
+        let doc2 = docs[1]
+        let doc3 = docs[2]
 
-        let insertResult = coll.insertMany([doc1, doc2, doc3])
         XCTAssertEqual(3, insertResult?.insertedIds.count)
 
         XCTAssertEqual(3, coll.count([:]))
@@ -1770,8 +1779,9 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         try ctx.streamAndSync()
 
         XCTAssertEqual(3, remoteColl.find([:])?.count)
+
         XCTAssertEqual(doc1.sorted(),
-                       withoutSyncVersion(remoteColl.findOne(["_id": doc1["_id"] ?? BSONNull()])!.sorted()))
+                       withoutSyncVersion(remoteColl.findOne(["_id": doc1["_id"]!])!.sorted()))
         XCTAssertEqual(doc2.sorted(),
                        withoutSyncVersion(remoteColl.findOne(["_id": doc2["_id"] ?? BSONNull()])!.sorted()))
         XCTAssertEqual(doc3.sorted(),
@@ -1811,7 +1821,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         let doc2 = ["hello": "friend"] as Document
         let doc3 = ["hello": "goodbye"] as Document
 
-        let insertResult = coll.insertMany([doc1, doc2, doc3])
+        var docs = [doc1, doc2, doc3]
+        let insertResult = coll.insertMany(&docs)
         XCTAssertEqual(3, insertResult?.insertedIds.count)
 
         try ctx.streamAndSync()
@@ -1858,11 +1869,9 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
 
         coll.configure(conflictHandler: failingConflictHandler)
 
-        let doc1 = ["hello": "world"] as Document
-        let doc2 = ["hello": "friend"] as Document
-        let doc3 = ["hello": "goodbye"] as Document
+        var docs: [Document] = [["hello": "world"], ["hello": "friend"], ["hello": "goodbye"]]
+        let insertResult = coll.insertMany(&docs)
 
-        let insertResult = coll.insertMany([doc1, doc2, doc3])
         XCTAssertEqual(3, insertResult?.insertedIds.count)
 
         XCTAssertEqual(3, coll.count([:]))
@@ -1898,12 +1907,12 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         // insert and sync a new document locally with a bad version field, and make sure it
         // doesn't exist after the insert
         let badVersionDoc = ["bad": "version"] as Document
-        let docToInsert = [
+        var docToInsert = [
             "hello": "world",
             "__stitch_sync_version": badVersionDoc
         ] as Document
         coll.configure(conflictHandler: failingConflictHandler)
-        let insertResult = coll.insertOne(docToInsert)!
+        let insertResult = coll.insertOne(&docToInsert)!
         let localDocBeforeSync0 = coll.findOne(["_id": insertResult.insertedId ?? BSONNull()])!
         XCTAssertFalse(hasVersionField(localDocBeforeSync0))
 

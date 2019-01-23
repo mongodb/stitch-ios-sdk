@@ -134,3 +134,29 @@ class ThreadSafeMongoCollection<T: Codable>: Codable {
         return try underlyingCollection().deleteMany(filter, options: options)
     }
 }
+
+extension ThreadSafeMongoCollection where T == Document {
+    @discardableResult
+    func insertOne(_ value: inout T) throws -> InsertOneResult? {
+        guard let result = try underlyingCollection().insertOne(value) else {
+            return nil
+        }
+
+        value["_id"] = result.insertedId
+
+        return result
+    }
+
+    @discardableResult
+    func insertMany(_ values: inout [T]) throws -> InsertManyResult? {
+        guard let result = try underlyingCollection().insertMany(values) else {
+            return nil
+        }
+
+        result.insertedIds.forEach {
+            values[$0.key]["_id"] = $0.value
+        }
+
+        return result
+    }
+}
