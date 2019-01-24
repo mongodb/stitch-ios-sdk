@@ -92,11 +92,11 @@ public struct ChangeEvent<DocumentT: Codable>: Codable, Hashable {
     }
 
     public static func == (lhs: ChangeEvent<DocumentT>, rhs: ChangeEvent<DocumentT>) -> Bool {
-        return bsonEqualsOverride(lhs.id.value, rhs.id.value)
+        return bsonEquals(lhs.id.value, rhs.id.value)
     }
 
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(HashableBSONValue(id))
+        hasher.combine(id)
     }
 
     /**
@@ -129,14 +129,14 @@ public struct ChangeEvent<DocumentT: Codable>: Codable, Hashable {
      */
     static func changeEventForLocalInsert(namespace: MongoNamespace,
                                           document: Document,
+                                          documentId: BSONValue,
                                           writePending: Bool) -> ChangeEvent<Document> {
-        let docId = document["_id"]
         return ChangeEvent<Document>.init(
             id: AnyBSONValue(Document()),
             operationType: .insert,
             fullDocument: document,
             ns: namespace,
-            documentKey: ["_id": docId],
+            documentKey: ["_id": documentId],
             updateDescription: nil,
             hasUncommittedWrites: writePending)
     }
