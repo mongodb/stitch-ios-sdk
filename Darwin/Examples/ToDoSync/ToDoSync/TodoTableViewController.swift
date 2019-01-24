@@ -31,15 +31,15 @@ private class ItemsCollectionDelegate: ChangeEventDelegate {
         }
 
         if event.operationType == .delete {
-            guard let idx = vc.todoItems.firstIndex(where: { bsonEqualsOverride($0.id, id) }) else {
+            guard let idx = vc.todoItems.firstIndex(where: { bsonEquals($0.id, id) }) else {
                 return
             }
             vc.todoItems.remove(at: idx)
         } else {
-            if let index = vc.todoItems.firstIndex(where: { bsonEqualsOverride($0.id, id) }) {
+            if let index = vc.todoItems.firstIndex(where: { bsonEquals($0.id, id) }) {
                 vc.todoItems[index] = event.fullDocument!
             } else {
-                if !itemsCollection.sync.syncedIds.contains(where: { bsonEqualsOverride($0.bsonValue.value, id) }) {
+                if !itemsCollection.sync.syncedIds.contains(where: { bsonEquals($0.value, id) }) {
                     try! itemsCollection.sync.sync(ids: [id])
                 }
                 vc.todoItems.append(event.fullDocument!)
@@ -164,7 +164,7 @@ class TodoTableViewController:
                 print(error.localizedDescription)
             case .success(_):
                 listsCollection.sync.updateOne(
-                    filter: ["_id": self.userId],
+                    filter: ["_id": self.userId ?? BSONNull()],
                     update: ["$set": ["todos": self.todoItems.compactMap({ !$0.checked ? $0.id : nil })] as Document], options: nil) { _ in
                     DispatchQueue.main.sync {
                         self.checkBoxAll.on = false
@@ -206,7 +206,7 @@ class TodoTableViewController:
                         DispatchQueue.main.sync {
                             self.tableView.reloadData()
                         }
-                        try! itemsCollection.sync.desync(ids: itemsCollection.sync.syncedIds.map { $0.bsonValue.value })
+                        try! itemsCollection.sync.desync(ids: itemsCollection.sync.syncedIds.map { $0.value })
                         return
                     }
                     try! itemsCollection.sync.sync(ids: todos)
@@ -288,7 +288,7 @@ class TodoTableViewController:
         })
         todoItems.sort()
         indexSwapsCollection.sync.updateOne(
-            filter: ["_id": self.userId],
+            filter: ["_id": self.userId ?? BSONNull()],
             update: try! BSONEncoder().encode(
                 IndexSwap(id: self.userId!, todoId: itemToMove.id, fromIndex: sourceIndexPath.row, toIndex: destinationIndexPath.row)), options: nil) { _ in }
     }

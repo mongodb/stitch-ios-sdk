@@ -15,8 +15,10 @@
 		1169219020C9D28E00930DD8 /* RemoteMongoCursor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1169218F20C9D28E00930DD8 /* RemoteMongoCursor.swift */; };
 		1169219220C9D2A100930DD8 /* RemoteMongoDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1169219120C9D2A100930DD8 /* RemoteMongoDatabase.swift */; };
 		1169219620C9FE3500930DD8 /* RemoteMongoReadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1169219520C9FE3500930DD8 /* RemoteMongoReadOperation.swift */; };
-		491F9B4C21A3545500802A4D /* Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491F9B4B21A3545500802A4D /* Sync.swift */; };
-		491F9B4E21A3568800802A4D /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 491F9B4D21A3568800802A4D /* StitchCore.framework */; };
+		491F9B4C21A3545500802A4D /* (null) in Sources */ = {isa = PBXBuildFile; };
+		491F9B4E21A3568800802A4D /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		493B2F6321F9EE5B0042E0CD /* Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493B2F6221F9EE5B0042E0CD /* Sync.swift */; };
+		493B2F6521F9EE690042E0CD /* SyncIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493B2F6421F9EE690042E0CD /* SyncIntTests.swift */; };
 		494335A42190FC99005B170D /* StitchDarwinCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494335A32190FC99005B170D /* StitchDarwinCoreTestUtils.framework */; };
 		494335B22192360A005B170D /* StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494335B12192360A005B170D /* StitchCoreAdminClient.framework */; };
 		496BC5A721B1DC6400D68F91 /* CallbackJoiner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496BC5A621B1DC6400D68F91 /* CallbackJoiner.swift */; };
@@ -72,6 +74,8 @@
 		1169219120C9D2A100930DD8 /* RemoteMongoDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteMongoDatabase.swift; sourceTree = "<group>"; };
 		1169219520C9FE3500930DD8 /* RemoteMongoReadOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteMongoReadOperation.swift; sourceTree = "<group>"; };
 		48EE91D6BE7EE67624553D31 /* Pods-StitchRemoteMongoDBService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchRemoteMongoDBService.debug.xcconfig"; path = "Target Support Files/Pods-StitchRemoteMongoDBService/Pods-StitchRemoteMongoDBService.debug.xcconfig"; sourceTree = "<group>"; };
+		493B2F6221F9EE5B0042E0CD /* Sync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sync.swift; sourceTree = "<group>"; };
+		493B2F6421F9EE690042E0CD /* SyncIntTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncIntTests.swift; sourceTree = "<group>"; };
 		494335A32190FC99005B170D /* StitchDarwinCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchDarwinCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		494335B12192360A005B170D /* StitchCoreAdminClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAdminClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		496BC5A621B1DC6400D68F91 /* CallbackJoiner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallbackJoiner.swift; sourceTree = "<group>"; };
@@ -87,7 +91,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				491F9B4E21A3568800802A4D /* StitchCore.framework in Frameworks */,
+				491F9B4E21A3568800802A4D /* (null) in Frameworks */,
 				498E55DE2190B86100A02A03 /* StitchCoreRemoteMongoDBService.framework in Frameworks */,
 				D29F1FB319D03E510D922DD3 /* Pods_StitchRemoteMongoDBService.framework in Frameworks */,
 			);
@@ -135,8 +139,8 @@
 				1169218F20C9D28E00930DD8 /* RemoteMongoCursor.swift */,
 				1169219120C9D2A100930DD8 /* RemoteMongoDatabase.swift */,
 				1169219520C9FE3500930DD8 /* RemoteMongoReadOperation.swift */,
-				491F9B4B21A3545500802A4D /* Sync.swift */,
 				1159637720D029EA00B0179B /* StitchRemoteMongoDBServiceExports.swift */,
+				493B2F6221F9EE5B0042E0CD /* Sync.swift */,
 				1169216C20C9D04C00930DD8 /* Info.plist */,
 			);
 			path = StitchRemoteMongoDBService;
@@ -145,8 +149,8 @@
 		1169217520C9D04C00930DD8 /* StitchRemoteMongoDBServiceTests */ = {
 			isa = PBXGroup;
 			children = (
+				493B2F6421F9EE690042E0CD /* SyncIntTests.swift */,
 				1169217620C9D04C00930DD8 /* RemoteMongoClientIntTests.swift */,
-				499CD19C21C01D4A00CB4EBF /* SyncIntTests.swift */,
 				496BC5A621B1DC6400D68F91 /* CallbackJoiner.swift */,
 				1169217820C9D04C00930DD8 /* Info.plist */,
 			);
@@ -156,7 +160,6 @@
 		1169218220C9D09300930DD8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				491F9B4D21A3568800802A4D /* StitchCore.framework */,
 				494335B12192360A005B170D /* StitchCoreAdminClient.framework */,
 				494335A32190FC99005B170D /* StitchDarwinCoreTestUtils.framework */,
 				498E55DD2190B86100A02A03 /* StitchCoreRemoteMongoDBService.framework */,
@@ -347,6 +350,7 @@
 				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework.dSYM",
 				"${BUILT_PRODUCTS_DIR}/MongoMobile/MongoMobile.framework",
 				"${PODS_ROOT}/mongo_embedded/iPhoneOS/Frameworks/mongo_embedded.framework",
+				"${PODS_ROOT}/mongo_embedded/iPhoneOS/Frameworks/mongo_embedded.framework.dSYM",
 				"${PODS_ROOT}/mongoc_embedded/iPhoneOS/Frameworks/mongoc_embedded.framework",
 				"${PODS_ROOT}/mongoc_embedded/iPhoneOS/Frameworks/mongoc_embedded.framework.dSYM",
 			);
@@ -361,6 +365,7 @@
 				"${DWARF_DSYM_FOLDER_PATH}/mongoc.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MongoMobile.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongo_embedded.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/mongo_embedded.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongoc_embedded.framework",
 				"${DWARF_DSYM_FOLDER_PATH}/mongoc_embedded.framework.dSYM",
 			);
@@ -378,10 +383,11 @@
 			files = (
 				1169218E20C9D28200930DD8 /* RemoteMongoCollection.swift in Sources */,
 				1169219220C9D2A100930DD8 /* RemoteMongoDatabase.swift in Sources */,
+				493B2F6321F9EE5B0042E0CD /* Sync.swift in Sources */,
 				1169219020C9D28E00930DD8 /* RemoteMongoCursor.swift in Sources */,
 				1169218C20C9D27100930DD8 /* RemoteMongoClient.swift in Sources */,
 				1169219620C9FE3500930DD8 /* RemoteMongoReadOperation.swift in Sources */,
-				491F9B4C21A3545500802A4D /* Sync.swift in Sources */,
+				491F9B4C21A3545500802A4D /* (null) in Sources */,
 				1159637820D029EA00B0179B /* StitchRemoteMongoDBServiceExports.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -391,7 +397,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				496BC5A721B1DC6400D68F91 /* CallbackJoiner.swift in Sources */,
-				499CD19D21C01D4A00CB4EBF /* SyncIntTests.swift in Sources */,
+				493B2F6521F9EE690042E0CD /* SyncIntTests.swift in Sources */,
 				1169217720C9D04C00930DD8 /* RemoteMongoClientIntTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

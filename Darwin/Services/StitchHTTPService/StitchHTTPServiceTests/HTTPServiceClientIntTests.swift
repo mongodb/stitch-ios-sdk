@@ -34,7 +34,7 @@ class HTTPServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         let httpClient = client.serviceClient(fromFactory: httpServiceClientFactory, withName: "http1")
 
         // Specifying a request with a form AND body should fail.
-        var badURL = "http://aol.com"
+        var badURL = "http:/aol.com"
         let method = HTTPMethod.delete
         let body = "hello world".data(using: .utf8)!
         let cookies = ["bob": "barker"]
@@ -58,7 +58,7 @@ class HTTPServiceClientIntTests: BaseStitchIntTestCocoaTouch {
             case .failure(let error):
                 switch error {
                 case .serviceError(_, let withServiceErrorCode):
-                    XCTAssertEqual(StitchServiceErrorCode.invalidParameter, withServiceErrorCode)
+                    XCTAssertEqual(StitchServiceErrorCode.httpError, withServiceErrorCode)
                 default:
                     XCTFail("unexpected error code")
                 }

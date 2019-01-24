@@ -12,11 +12,7 @@ public final class CoreLocalMongoDBService {
     public var localInstances: [MongoClient] {
         return _localInstances.map { $0.1 }
     }
-
-/// :nodoc:
-open class CoreLocalMongoDBService {
-    private static var _localInstances: Dictionary<String, MongoClient> = [String: MongoClient]()
-
+    
     deinit {
         self.close()
     }

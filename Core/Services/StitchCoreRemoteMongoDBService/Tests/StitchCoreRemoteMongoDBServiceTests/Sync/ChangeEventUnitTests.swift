@@ -65,9 +65,10 @@ class ChangeEventUnitTests: XCTestCase {
             updateDescription: nil,
             hasUncommittedWrites: writePending)
 
-        let actualLocalInsertEvent = ChangeEvent<Document>.changeEventForLocalInsert(namespace: namespace,
-                                                                                     document: document,
-                                                                                     writePending: writePending)
+        let actualLocalInsertEvent = ChangeEvent<Document>.changeEventForLocalInsert(
+            namespace: namespace,
+            document: document, documentId: docId,
+            writePending: writePending)
         try compare(expectedChangeEvent: expectedLocalInsertEvent, to: actualLocalInsertEvent)
     }
 
