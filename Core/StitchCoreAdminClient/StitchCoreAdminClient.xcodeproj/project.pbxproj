@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		11258B5621B0BC100082EC1A /* StitchCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11258B5521B0BC100082EC1A /* StitchCoreSDK.framework */; };
-		2274C1EC997E50432B04E3B1 /* Pods_StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 556876301D03D0E7D08AFB0E /* Pods_StitchCoreAdminClient.framework */; };
+		11EFC3C021D6AE9300534B75 /* StitchCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11EFC3BF21D6AE9300534B75 /* StitchCoreSDK.framework */; };
+		6F44C3A1F98117E6135DAB88 /* Pods_StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57E934963209E87724FCAA7F /* Pods_StitchCoreAdminClient.framework */; };
 		OBJ_136 /* AppsResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* AppsResources.swift */; };
 		OBJ_137 /* AuthProvidersResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* AuthProvidersResources.swift */; };
 		OBJ_138 /* ProviderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* ProviderConfig.swift */; };
@@ -39,10 +39,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		11258B5521B0BC100082EC1A /* StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		556876301D03D0E7D08AFB0E /* Pods_StitchCoreAdminClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreAdminClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		ADDD9FA5AAA27745F6688D3B /* Pods-StitchCoreAdminClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAdminClient.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreAdminClient/Pods-StitchCoreAdminClient.release.xcconfig"; sourceTree = "<group>"; };
-		EAB8767D86690BB92F55AF50 /* Pods-StitchCoreAdminClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAdminClient.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreAdminClient/Pods-StitchCoreAdminClient.debug.xcconfig"; sourceTree = "<group>"; };
+		11EFC3BF21D6AE9300534B75 /* StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		57E934963209E87724FCAA7F /* Pods_StitchCoreAdminClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreAdminClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		65FC41B502423600D49F3CA2 /* Pods-StitchCoreAdminClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAdminClient.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreAdminClient/Pods-StitchCoreAdminClient.debug.xcconfig"; sourceTree = "<group>"; };
+		7AD5A4D72F022D5EBCB76FCC /* Pods-StitchCoreAdminClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreAdminClient.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreAdminClient/Pods-StitchCoreAdminClient.release.xcconfig"; sourceTree = "<group>"; };
 		OBJ_12 /* AppsResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsResources.swift; sourceTree = "<group>"; };
 		OBJ_14 /* AuthProvidersResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthProvidersResources.swift; sourceTree = "<group>"; };
 		OBJ_15 /* ProviderConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderConfig.swift; sourceTree = "<group>"; };
@@ -69,8 +69,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
-				11258B5621B0BC100082EC1A /* StitchCoreSDK.framework in Frameworks */,
-				2274C1EC997E50432B04E3B1 /* Pods_StitchCoreAdminClient.framework in Frameworks */,
+				11EFC3C021D6AE9300534B75 /* StitchCoreSDK.framework in Frameworks */,
+				6F44C3A1F98117E6135DAB88 /* Pods_StitchCoreAdminClient.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,23 +85,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		76D2637C84F22B7787F2A8DA /* Frameworks */ = {
+		B9915F95C20E8B963B8D1224 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				11258B5521B0BC100082EC1A /* StitchCoreSDK.framework */,
-				556876301D03D0E7D08AFB0E /* Pods_StitchCoreAdminClient.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		FC8979FA62ECCDD2D99AAEBC /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				EAB8767D86690BB92F55AF50 /* Pods-StitchCoreAdminClient.debug.xcconfig */,
-				ADDD9FA5AAA27745F6688D3B /* Pods-StitchCoreAdminClient.release.xcconfig */,
+				65FC41B502423600D49F3CA2 /* Pods-StitchCoreAdminClient.debug.xcconfig */,
+				7AD5A4D72F022D5EBCB76FCC /* Pods-StitchCoreAdminClient.release.xcconfig */,
 			);
 			name = Pods;
 			path = ../../Pods;
+			sourceTree = "<group>";
+		};
+		D3A4C1E019A67B92360ECBDF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				11EFC3BF21D6AE9300534B75 /* StitchCoreSDK.framework */,
+				57E934963209E87724FCAA7F /* Pods_StitchCoreAdminClient.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		OBJ_10 /* StitchCoreAdminClient */ = {
@@ -216,8 +216,8 @@
 				OBJ_9 /* Sources */,
 				OBJ_33 /* Tests */,
 				OBJ_127 /* Products */,
-				FC8979FA62ECCDD2D99AAEBC /* Pods */,
-				76D2637C84F22B7787F2A8DA /* Frameworks */,
+				B9915F95C20E8B963B8D1224 /* Pods */,
+				D3A4C1E019A67B92360ECBDF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -236,10 +236,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_132 /* Build configuration list for PBXNativeTarget "StitchCoreAdminClient" */;
 			buildPhases = (
-				762B3C01462E7C7205DACC1A /* [CP] Check Pods Manifest.lock */,
+				834B460D4ABDA425F6BFABBE /* [CP] Check Pods Manifest.lock */,
 				OBJ_135 /* Sources */,
 				OBJ_151 /* Frameworks */,
-				11FED8A121AF45E700CFFDCF /* ShellScript */,
+				11D465E021D68AF800F0718F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -273,7 +273,7 @@
 		OBJ_1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 9999;
+				LastUpgradeCheck = 1010;
 			};
 			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "StitchCoreAdminClient" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -294,7 +294,7 @@
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		11FED8A121AF45E700CFFDCF /* ShellScript */ = {
+		11D465E021D68AF800F0718F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -309,9 +309,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
+			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
 		};
-		762B3C01462E7C7205DACC1A /* [CP] Check Pods Manifest.lock */ = {
+		834B460D4ABDA425F6BFABBE /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -379,7 +379,7 @@
 /* Begin XCBuildConfiguration section */
 		OBJ_133 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EAB8767D86690BB92F55AF50 /* Pods-StitchCoreAdminClient.debug.xcconfig */;
+			baseConfigurationReference = 65FC41B502423600D49F3CA2 /* Pods-StitchCoreAdminClient.debug.xcconfig */;
 			buildSettings = {
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -405,7 +405,7 @@
 		};
 		OBJ_134 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = ADDD9FA5AAA27745F6688D3B /* Pods-StitchCoreAdminClient.release.xcconfig */;
+			baseConfigurationReference = 7AD5A4D72F022D5EBCB76FCC /* Pods-StitchCoreAdminClient.release.xcconfig */;
 			buildSettings = {
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -432,8 +432,8 @@
 		OBJ_168 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
@@ -453,8 +453,8 @@
 		OBJ_169 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
@@ -475,16 +475,42 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_SWIFT_FLAGS = "-DXcode";
@@ -501,11 +527,36 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_SWIFT_FLAGS = "-DXcode";
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -31,13 +31,21 @@ public class CoreRemoteMongoCollection<T: Codable> {
     ]
 
     private let service: CoreStitchServiceClient
+    private let dataSynchronizer: DataSynchronizer
 
-    public init(withName name: String,
-                withDatabaseName dbName: String,
-                withService service: CoreStitchServiceClient) {
+    public let sync: CoreSync<T>
+
+    internal init(withName name: String,
+                  withDatabaseName dbName: String,
+                  withService service: CoreStitchServiceClient,
+                  withDataSynchronizer dataSynchronizer: DataSynchronizer) {
         self.name = name
         self.databaseName = dbName
         self.service = service
+        self.dataSynchronizer = dataSynchronizer
+        self.sync = CoreSync.init(namespace: MongoNamespace.init(databaseName: databaseName,
+                                                                 collectionName: name),
+                                  dataSynchronizer: dataSynchronizer)
     }
 
     /**
@@ -48,7 +56,8 @@ public class CoreRemoteMongoCollection<T: Codable> {
         return CoreRemoteMongoCollection<U>.init(
             withName: self.name,
             withDatabaseName: self.databaseName,
-            withService: self.service
+            withService: self.service,
+            withDataSynchronizer: self.dataSynchronizer
         )
     }
 

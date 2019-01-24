@@ -20,9 +20,10 @@ public final class CoreStitchAppClient {
      * Initializes the app client with the provided `StitchAuthRequestClient` and `StitchAppRoutes`.
      */
     public init(authRequestClient: StitchAuthRequestClient, routes: StitchAppRoutes) {
-        self.functionService = CoreStitchServiceClientImpl.init(requestClient: authRequestClient,
-                                                          routes: routes.serviceRoutes,
-                                                          serviceName: nil)
+        self.functionService = CoreStitchServiceClientImpl.init(
+            requestClient: authRequestClient,
+            routes: routes.serviceRoutes,
+            serviceName: nil)
     }
 
     // MARK: Methods

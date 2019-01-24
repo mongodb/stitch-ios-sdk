@@ -5,10 +5,12 @@ import Foundation
  */
 public protocol Transport {
     /**
-     * Performs an HTTP round trip, blocking the current thread until it is completed.
-     *
-     * - parameter request: The HTTP request to be made.
-     * - returns: The response to the request.
+     Performs an HTTP round trip, blocking the current thread until it is completed.
+
+     - parameter request: The HTTP request to be made.
+     - returns: The response to the request.
      */
     func roundTrip(request: Request) throws -> Response
+
+    func stream(request: Request, delegate: SSEStreamDelegate?) throws -> RawSSEStream
 }

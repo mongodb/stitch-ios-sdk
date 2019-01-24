@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		11258B5421B0BA720082EC1A /* StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11258B5321B0BA720082EC1A /* StitchCoreAdminClient.framework */; };
-		114DB72D21B0B61900BBDC81 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 114DB72C21B0B61900BBDC81 /* StitchCore.framework */; };
+		1B9066C22EBFB9B117CB5679 /* Pods_StitchTwilioService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DA3CF9805A1C5C60AFD8366 /* Pods_StitchTwilioService.framework */; };
+		498E55D62190B7DB00A02A03 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E55D52190B7DB00A02A03 /* StitchCore.framework */; };
 		498E55D82190B80400A02A03 /* StitchCoreTwilioService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E55D72190B80400A02A03 /* StitchCoreTwilioService.framework */; };
+		498E55DA2190B81900A02A03 /* StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E55D92190B81900A02A03 /* StitchCoreAdminClient.framework */; };
 		498E55DC2190B82600A02A03 /* StitchDarwinCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E55DB2190B82600A02A03 /* StitchDarwinCoreTestUtils.framework */; };
-		8165F952AB041B4028807DDC /* Pods_StitchTwilioService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12A444BA749976EB461B5983 /* Pods_StitchTwilioService.framework */; };
-		DF208B3FCC60C798DAC42301 /* Pods_StitchTwilioServiceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 854120D6A623AE667B8A8907 /* Pods_StitchTwilioServiceTests.framework */; };
+		A501529F8DEC334718E98A46 /* Pods_StitchTwilioServiceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BEDC793D095955F1D4F552D /* Pods_StitchTwilioServiceTests.framework */; };
 		F4D7CCE920AA0DC1003AA921 /* TwilioServiceClientIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D7CCE820AA0DC1003AA921 /* TwilioServiceClientIntTests.swift */; };
 		F4D7CCF520AA0DCC003AA921 /* TwilioServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D7CCF420AA0DCC003AA921 /* TwilioServiceClient.swift */; };
 		F4D7CCF820AA0E1E003AA921 /* TwilioServiceClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D7CCF720AA0E1E003AA921 /* TwilioServiceClientImpl.swift */; };
@@ -52,18 +52,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		11258B5321B0BA720082EC1A /* StitchCoreAdminClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAdminClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		114DB72C21B0B61900BBDC81 /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		12A444BA749976EB461B5983 /* Pods_StitchTwilioService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchTwilioService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		1A14B990A666CE9B43622084 /* Pods-StitchTwilioService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchTwilioService.debug.xcconfig"; path = "Target Support Files/Pods-StitchTwilioService/Pods-StitchTwilioService.debug.xcconfig"; sourceTree = "<group>"; };
-		2A7D1D0D4C83628D50CA932A /* Pods-StitchTwilioServiceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchTwilioServiceTests.release.xcconfig"; path = "Target Support Files/Pods-StitchTwilioServiceTests/Pods-StitchTwilioServiceTests.release.xcconfig"; sourceTree = "<group>"; };
-		49780AE6BB4592BC13E8390B /* Pods-StitchTwilioServiceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchTwilioServiceTests.debug.xcconfig"; path = "Target Support Files/Pods-StitchTwilioServiceTests/Pods-StitchTwilioServiceTests.debug.xcconfig"; sourceTree = "<group>"; };
+		022E0064F49A7708E4DBC6F6 /* Pods-StitchTwilioServiceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchTwilioServiceTests.debug.xcconfig"; path = "Target Support Files/Pods-StitchTwilioServiceTests/Pods-StitchTwilioServiceTests.debug.xcconfig"; sourceTree = "<group>"; };
+		26DAF406120568CA4E2CC465 /* Pods-StitchTwilioServiceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchTwilioServiceTests.release.xcconfig"; path = "Target Support Files/Pods-StitchTwilioServiceTests/Pods-StitchTwilioServiceTests.release.xcconfig"; sourceTree = "<group>"; };
+		345EB62AF44152DE45836233 /* Pods-StitchTwilioService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchTwilioService.debug.xcconfig"; path = "Target Support Files/Pods-StitchTwilioService/Pods-StitchTwilioService.debug.xcconfig"; sourceTree = "<group>"; };
+		3DA3CF9805A1C5C60AFD8366 /* Pods_StitchTwilioService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchTwilioService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		498E55D52190B7DB00A02A03 /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		498E55D72190B80400A02A03 /* StitchCoreTwilioService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTwilioService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		498E55D92190B81900A02A03 /* StitchCoreAdminClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAdminClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		498E55DB2190B82600A02A03 /* StitchDarwinCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchDarwinCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		854120D6A623AE667B8A8907 /* Pods_StitchTwilioServiceTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchTwilioServiceTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C14A72F30D58F099CE4C87D5 /* Pods-StitchTwilioService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchTwilioService.release.xcconfig"; path = "Target Support Files/Pods-StitchTwilioService/Pods-StitchTwilioService.release.xcconfig"; sourceTree = "<group>"; };
+		5EA1E8214050551772B8147D /* Pods-StitchTwilioService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchTwilioService.release.xcconfig"; path = "Target Support Files/Pods-StitchTwilioService/Pods-StitchTwilioService.release.xcconfig"; sourceTree = "<group>"; };
+		8BEDC793D095955F1D4F552D /* Pods_StitchTwilioServiceTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchTwilioServiceTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4D7CCDA20AA0DC1003AA921 /* StitchTwilioService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StitchTwilioService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4D7CCDE20AA0DC1003AA921 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F4D7CCE320AA0DC1003AA921 /* StitchTwilioServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StitchTwilioServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -79,9 +77,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				114DB72D21B0B61900BBDC81 /* StitchCore.framework in Frameworks */,
+				498E55D62190B7DB00A02A03 /* StitchCore.framework in Frameworks */,
 				498E55D82190B80400A02A03 /* StitchCoreTwilioService.framework in Frameworks */,
-				8165F952AB041B4028807DDC /* Pods_StitchTwilioService.framework in Frameworks */,
+				1B9066C22EBFB9B117CB5679 /* Pods_StitchTwilioService.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,15 +87,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				11258B5421B0BA720082EC1A /* StitchCoreAdminClient.framework in Frameworks */,
 				498E55DC2190B82600A02A03 /* StitchDarwinCoreTestUtils.framework in Frameworks */,
-				DF208B3FCC60C798DAC42301 /* Pods_StitchTwilioServiceTests.framework in Frameworks */,
+				498E55DA2190B81900A02A03 /* StitchCoreAdminClient.framework in Frameworks */,
+				A501529F8DEC334718E98A46 /* Pods_StitchTwilioServiceTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EB1A96DCC326627FEB729B45 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				345EB62AF44152DE45836233 /* Pods-StitchTwilioService.debug.xcconfig */,
+				5EA1E8214050551772B8147D /* Pods-StitchTwilioService.release.xcconfig */,
+				022E0064F49A7708E4DBC6F6 /* Pods-StitchTwilioServiceTests.debug.xcconfig */,
+				26DAF406120568CA4E2CC465 /* Pods-StitchTwilioServiceTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../../../Pods;
+			sourceTree = "<group>";
+		};
 		F4D7CCD020AA0DC0003AA921 = {
 			isa = PBXGroup;
 			children = (
@@ -105,7 +115,7 @@
 				F4D7CCE720AA0DC1003AA921 /* StitchTwilioServiceTests */,
 				F4D7CCDB20AA0DC1003AA921 /* Products */,
 				F4D7CCFB20AA0F64003AA921 /* Frameworks */,
-				F51D0B67A2708EC5829126C1 /* Pods */,
+				EB1A96DCC326627FEB729B45 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -149,28 +159,14 @@
 		F4D7CCFB20AA0F64003AA921 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				11258B5321B0BA720082EC1A /* StitchCoreAdminClient.framework */,
-				114DB72C21B0B61900BBDC81 /* StitchCore.framework */,
 				498E55DB2190B82600A02A03 /* StitchDarwinCoreTestUtils.framework */,
 				498E55D92190B81900A02A03 /* StitchCoreAdminClient.framework */,
 				498E55D72190B80400A02A03 /* StitchCoreTwilioService.framework */,
 				498E55D52190B7DB00A02A03 /* StitchCore.framework */,
-				12A444BA749976EB461B5983 /* Pods_StitchTwilioService.framework */,
-				854120D6A623AE667B8A8907 /* Pods_StitchTwilioServiceTests.framework */,
+				3DA3CF9805A1C5C60AFD8366 /* Pods_StitchTwilioService.framework */,
+				8BEDC793D095955F1D4F552D /* Pods_StitchTwilioServiceTests.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		F51D0B67A2708EC5829126C1 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				1A14B990A666CE9B43622084 /* Pods-StitchTwilioService.debug.xcconfig */,
-				C14A72F30D58F099CE4C87D5 /* Pods-StitchTwilioService.release.xcconfig */,
-				49780AE6BB4592BC13E8390B /* Pods-StitchTwilioServiceTests.debug.xcconfig */,
-				2A7D1D0D4C83628D50CA932A /* Pods-StitchTwilioServiceTests.release.xcconfig */,
-			);
-			name = Pods;
-			path = ../../../Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -190,13 +186,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F4D7CCEE20AA0DC1003AA921 /* Build configuration list for PBXNativeTarget "StitchTwilioService" */;
 			buildPhases = (
-				7DD31000DCABFA30B9C0A090 /* [CP] Check Pods Manifest.lock */,
+				718ED0A4404967923B91D577 /* [CP] Check Pods Manifest.lock */,
 				F4D7CCD520AA0DC1003AA921 /* Sources */,
 				F4D7CCD620AA0DC1003AA921 /* Frameworks */,
 				F4D7CCD720AA0DC1003AA921 /* Headers */,
 				F4D7CCD820AA0DC1003AA921 /* Resources */,
 				FAF84DB89CAC803B867D8293 /* Embed Frameworks */,
-				11FED8AF21AF477B00CFFDCF /* ShellScript */,
+				11D465E421D68B2000F0718F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -211,12 +207,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F4D7CCF120AA0DC1003AA921 /* Build configuration list for PBXNativeTarget "StitchTwilioServiceTests" */;
 			buildPhases = (
-				DBCA5E90581FBDBE10478DB3 /* [CP] Check Pods Manifest.lock */,
+				2AACF5D2D13FA59AF93BC0BA /* [CP] Check Pods Manifest.lock */,
 				F4D7CCDF20AA0DC1003AA921 /* Sources */,
 				F4D7CCE020AA0DC1003AA921 /* Frameworks */,
 				F4D7CCE120AA0DC1003AA921 /* Resources */,
 				A8174971BBE7D32E4B461D00 /* Embed Frameworks */,
-				79236B401019CCD2A80307AD /* [CP] Embed Pods Frameworks */,
+				9EAD05095126FDDCB0CDEEF1 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -285,7 +281,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		11FED8AF21AF477B00CFFDCF /* ShellScript */ = {
+		11D465E421D68B2000F0718F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -300,9 +296,53 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
+			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
 		};
-		79236B401019CCD2A80307AD /* [CP] Embed Pods Frameworks */ = {
+		2AACF5D2D13FA59AF93BC0BA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-StitchTwilioServiceTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		718ED0A4404967923B91D577 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-StitchTwilioService-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9EAD05095126FDDCB0CDEEF1 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -330,50 +370,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-StitchTwilioServiceTests/Pods-StitchTwilioServiceTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7DD31000DCABFA30B9C0A090 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-StitchTwilioService-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DBCA5E90581FBDBE10478DB3 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-StitchTwilioServiceTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -526,7 +522,7 @@
 		};
 		F4D7CCEF20AA0DC1003AA921 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1A14B990A666CE9B43622084 /* Pods-StitchTwilioService.debug.xcconfig */;
+			baseConfigurationReference = 345EB62AF44152DE45836233 /* Pods-StitchTwilioService.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -538,7 +534,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = StitchTwilioService/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/StitchTwilioService/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib $(inherited) @executable_path/Frameworks";
@@ -547,7 +543,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -556,7 +551,7 @@
 		};
 		F4D7CCF020AA0DC1003AA921 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C14A72F30D58F099CE4C87D5 /* Pods-StitchTwilioService.release.xcconfig */;
+			baseConfigurationReference = 5EA1E8214050551772B8147D /* Pods-StitchTwilioService.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -568,7 +563,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = StitchTwilioService/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/StitchTwilioService/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(SRCROOT)/../../../vendor/MobileSDKs/iphoneos/lib $(inherited) @executable_path/Frameworks";
@@ -577,7 +572,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -585,7 +579,7 @@
 		};
 		F4D7CCF220AA0DC1003AA921 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 49780AE6BB4592BC13E8390B /* Pods-StitchTwilioServiceTests.debug.xcconfig */;
+			baseConfigurationReference = 022E0064F49A7708E4DBC6F6 /* Pods-StitchTwilioServiceTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -602,7 +596,7 @@
 		};
 		F4D7CCF320AA0DC1003AA921 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2A7D1D0D4C83628D50CA932A /* Pods-StitchTwilioServiceTests.release.xcconfig */;
+			baseConfigurationReference = 26DAF406120568CA4E2CC465 /* Pods-StitchTwilioServiceTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

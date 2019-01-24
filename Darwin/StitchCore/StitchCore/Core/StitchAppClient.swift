@@ -10,7 +10,6 @@ import Foundation
  * the `Stitch` utility class.
  */
 public protocol StitchAppClient {
-
     // MARK: Authentication
 
     /**
@@ -80,6 +79,23 @@ public protocol StitchAppClient {
      *            `AnyThrowingServiceClientFactory` passed in the `fromFactory` parameter.
      */
     func serviceClient<T>(fromFactory factory: AnyThrowingServiceClientFactory<T>) throws -> T
+
+    // swiftlint:disable line_length
+
+    /**
+     * Retrieves the service client for the Stitch service associated with the specified name and factory.
+     *
+     * - parameters:
+     *     - fromFactory: An `AnyNamedThrowingServiceClientFactory` object which contains a
+     *                    `NamedThrowingServiceClientFactory`
+     *                    class which will provide the client for this service. Each available service
+     *                    has a static factory which can be used for this method.
+     *
+     *     - withName: The name of the service as defined in the MongoDB Stitch application.
+     * - returns: a service client whose type is determined by the `T` type parameter of the
+     *            `AnyNamedServiceClientFactory` passed in the `fromFactory` parameter.
+     */
+    func serviceClient<T>(fromFactory factory: AnyNamedThrowingServiceClientFactory<T>, withName serviceName: String) throws -> T
 
     // MARK: Functions
 

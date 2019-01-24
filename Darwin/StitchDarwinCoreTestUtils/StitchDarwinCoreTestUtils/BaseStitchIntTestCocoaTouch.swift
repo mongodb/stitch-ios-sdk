@@ -7,6 +7,33 @@ import XCTest
 
 let stitchBaseURLProp = "stitch.baseURL"
 
+private class WeakNetworkStateDelegate {
+    weak var weak: NetworkStateDelegate?
+
+    init(_ weak: NetworkStateDelegate?) {
+        self.weak = weak
+    }
+}
+
+public class TestNetworkMonitor: NetworkMonitor {
+    private var delegates = [WeakNetworkStateDelegate]()
+
+    public var state: NetworkState = .connected {
+        didSet {
+            delegates.forEach { $0.weak?.on(stateChangedFor: state) }
+        }
+    }
+
+    public func add(networkStateDelegate delegate: NetworkStateDelegate) {
+        delegates.append(WeakNetworkStateDelegate(delegate))
+    }
+
+    public func remove(networkStateDelegate delegate: NetworkStateDelegate) {
+        guard let index = delegates.firstIndex(where: { $0.weak === delegate}) else { return }
+        delegates.remove(at: index)
+    }
+}
+
 open class BaseStitchIntTestCocoaTouch: BaseStitchIntTest {
     var clients = [StitchAppClient]()
 
@@ -39,6 +66,8 @@ open class BaseStitchIntTestCocoaTouch: BaseStitchIntTest {
         return (pList?[stitchBaseURLProp] as? String) ?? "http://localhost:9090"
     }
 
+    public let networkMonitor = TestNetworkMonitor()
+
     public func appClient(forApp app: AppResponse) throws -> StitchAppClient {
         if let appClient = try? Stitch.appClient(forAppID: app.clientAppID) {
             return appClient
@@ -48,11 +77,20 @@ open class BaseStitchIntTestCocoaTouch: BaseStitchIntTest {
             withClientAppID: app.clientAppID,
             withConfig: StitchAppClientConfigurationBuilder()
                 .with(baseURL: stitchBaseURL)
+                .with(networkMonitor: networkMonitor)
                 .build()
         )
 
         clients.append(client)
         return client
+    }
+
+    open func goOnline() {
+        networkMonitor.state = .connected
+    }
+
+    open func goOffline() {
+        networkMonitor.state = .disconnected
     }
 
     // Registers a new email/password user, and logs them in, returning the user's ID

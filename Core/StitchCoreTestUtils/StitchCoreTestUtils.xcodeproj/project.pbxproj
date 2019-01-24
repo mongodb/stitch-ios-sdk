@@ -10,18 +10,18 @@
 		498062ED2185BA7B00E2A3A2 /* BaseStitchIntTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498062EC2185BA7B00E2A3A2 /* BaseStitchIntTest.swift */; };
 		498062F22185BB2600E2A3A2 /* StitchCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498062F12185BB2600E2A3A2 /* StitchCoreSDK.framework */; };
 		498062F42185BBA500E2A3A2 /* StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498062F32185BBA500E2A3A2 /* StitchCoreAdminClient.framework */; };
-		E59402B5A07899D12CCA922A /* Pods_StitchCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE92A075A575D62363C0D3D3 /* Pods_StitchCoreTestUtils.framework */; };
+		6196E23B4381C6188B56F0D2 /* Pods_StitchCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E5FE1975CF3949B7B426942 /* Pods_StitchCoreTestUtils.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		31AD9A08F231F414872ED10A /* Pods-StitchCoreTestUtils.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreTestUtils.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreTestUtils/Pods-StitchCoreTestUtils.release.xcconfig"; sourceTree = "<group>"; };
 		498062DF2185BA6200E2A3A2 /* StitchCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StitchCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		498062EC2185BA7B00E2A3A2 /* BaseStitchIntTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseStitchIntTest.swift; sourceTree = "<group>"; };
 		498062EF2185BAB400E2A3A2 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		498062F12185BB2600E2A3A2 /* StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		498062F32185BBA500E2A3A2 /* StitchCoreAdminClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAdminClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		AE92A075A575D62363C0D3D3 /* Pods_StitchCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B3B80F46D40AA876C17B259D /* Pods-StitchCoreTestUtils.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreTestUtils.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreTestUtils/Pods-StitchCoreTestUtils.debug.xcconfig"; sourceTree = "<group>"; };
+		4E5FE1975CF3949B7B426942 /* Pods_StitchCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DAA1C313718D7ABE5716E04C /* Pods-StitchCoreTestUtils.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreTestUtils.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreTestUtils/Pods-StitchCoreTestUtils.release.xcconfig"; sourceTree = "<group>"; };
+		E5E68F3BF85CAD1FF08807D0 /* Pods-StitchCoreTestUtils.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreTestUtils.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreTestUtils/Pods-StitchCoreTestUtils.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,30 +31,20 @@
 			files = (
 				498062F42185BBA500E2A3A2 /* StitchCoreAdminClient.framework in Frameworks */,
 				498062F22185BB2600E2A3A2 /* StitchCoreSDK.framework in Frameworks */,
-				E59402B5A07899D12CCA922A /* Pods_StitchCoreTestUtils.framework in Frameworks */,
+				6196E23B4381C6188B56F0D2 /* Pods_StitchCoreTestUtils.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		02A8E4B90D586F89CBD50B4C /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				B3B80F46D40AA876C17B259D /* Pods-StitchCoreTestUtils.debug.xcconfig */,
-				31AD9A08F231F414872ED10A /* Pods-StitchCoreTestUtils.release.xcconfig */,
-			);
-			name = Pods;
-			path = ../../Pods;
-			sourceTree = "<group>";
-		};
 		498062D52185BA6200E2A3A2 = {
 			isa = PBXGroup;
 			children = (
 				498062EA2185BA7B00E2A3A2 /* Sources */,
 				498062E02185BA6200E2A3A2 /* Products */,
 				498062EE2185BAB300E2A3A2 /* Frameworks */,
-				02A8E4B90D586F89CBD50B4C /* Pods */,
+				4C3180602273F6A4CE9079CE /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -88,9 +78,19 @@
 				498062F32185BBA500E2A3A2 /* StitchCoreAdminClient.framework */,
 				498062F12185BB2600E2A3A2 /* StitchCoreSDK.framework */,
 				498062EF2185BAB400E2A3A2 /* XCTest.framework */,
-				AE92A075A575D62363C0D3D3 /* Pods_StitchCoreTestUtils.framework */,
+				4E5FE1975CF3949B7B426942 /* Pods_StitchCoreTestUtils.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4C3180602273F6A4CE9079CE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E5E68F3BF85CAD1FF08807D0 /* Pods-StitchCoreTestUtils.debug.xcconfig */,
+				DAA1C313718D7ABE5716E04C /* Pods-StitchCoreTestUtils.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../../Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -110,12 +110,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 498062E72185BA6200E2A3A2 /* Build configuration list for PBXNativeTarget "StitchCoreTestUtils" */;
 			buildPhases = (
-				ABBBADAD2FE6A2B3D2F44CEC /* [CP] Check Pods Manifest.lock */,
+				E9E29606E97C676BE7909BA3 /* [CP] Check Pods Manifest.lock */,
 				498062DA2185BA6200E2A3A2 /* Headers */,
 				498062DB2185BA6200E2A3A2 /* Sources */,
 				498062DC2185BA6200E2A3A2 /* Frameworks */,
 				498062DD2185BA6200E2A3A2 /* Resources */,
-				11FED8A221AF46E500CFFDCF /* ShellScript */,
+				11D465DF21D68AF100F0718F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -168,7 +168,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		11FED8A221AF46E500CFFDCF /* ShellScript */ = {
+		11D465DF21D68AF100F0718F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -183,9 +183,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
+			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
 		};
-		ABBBADAD2FE6A2B3D2F44CEC /* [CP] Check Pods Manifest.lock */ = {
+		E9E29606E97C676BE7909BA3 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -345,7 +345,7 @@
 		};
 		498062E82185BA6200E2A3A2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B3B80F46D40AA876C17B259D /* Pods-StitchCoreTestUtils.debug.xcconfig */;
+			baseConfigurationReference = E5E68F3BF85CAD1FF08807D0 /* Pods-StitchCoreTestUtils.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -353,6 +353,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
@@ -381,7 +382,7 @@
 		};
 		498062E92185BA6200E2A3A2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 31AD9A08F231F414872ED10A /* Pods-StitchCoreTestUtils.release.xcconfig */;
+			baseConfigurationReference = DAA1C313718D7ABE5716E04C /* Pods-StitchCoreTestUtils.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -389,6 +390,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",

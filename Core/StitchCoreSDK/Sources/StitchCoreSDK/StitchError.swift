@@ -3,7 +3,7 @@ import Foundation
 /**
  * An enumeration representing the types of errors that may be thrown by the Stitch SDK.
  */
-public enum StitchError: Error {
+public enum StitchError: Error, CustomStringConvertible {
     /**
      * Indicates that an error came from the Stitch server after a request was completed, with an error message and an
      * error defined in the `StitchServiceErrorCode` enum.
@@ -41,6 +41,21 @@ public enum StitchError: Error {
      * An error code indicating the reason for the error is included.
      */
     case clientError(withClientErrorCode: StitchClientErrorCode)
+
+    public var localizedDescription: String {
+        switch self {
+        case .serviceError(let withMessage, let withCode):
+            return "\(withMessage): \(withCode)"
+        case .requestError(let withError, let withCode):
+            return "\(withError): \(withCode)"
+        case .clientError(let withClientErrorCode):
+            return "\(withClientErrorCode)"
+        }
+    }
+
+    public var description: String {
+        return localizedDescription
+    }
 }
 
 /**
@@ -113,13 +128,17 @@ public enum StitchRequestErrorCode {
  * An enumeration indicating the types of errors that may occur when using a Stitch client, typically before a
  * request is made.
  */
-public enum StitchClientErrorCode {
+public enum StitchClientErrorCode: Error {
     case loggedOutDuringRequest
     case missingURL
     case mustAuthenticateFirst
     case userNoLongerValid
     case couldNotLoadPersistedAuthInfo
     case couldNotPersistAuthInfo
+    case couldNotLoadSyncInfo
+    case mongoDriverError(withError: Error)
+    case syncRecoveryError(withError: Error)
+    case unknownChangeEventType
 }
 
 /**

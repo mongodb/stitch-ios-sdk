@@ -6,11 +6,33 @@
 // swiftlint:disable type_body_length
 import XCTest
 import MongoSwift
+import StitchCore
 import StitchCoreSDK
 import StitchCoreAdminClient
 import StitchDarwinCoreTestUtils
-import StitchCoreRemoteMongoDBService
+@testable import StitchCoreRemoteMongoDBService
+import StitchCoreLocalMongoDBService
 @testable import StitchRemoteMongoDBService
+
+class XCMongoMobileConfiguration: NSObject, XCTestObservation {
+    // This init is called first thing as the test bundle starts up and before any test
+    // initialization happens
+    override init() {
+        super.init()
+        // We don't need to do any real work, other than register for callbacks
+        // when the test suite progresses.
+        // XCTestObservation keeps a strong reference to observers
+        XCTestObservationCenter.shared.addTestObserver(self)
+    }
+
+    func testBundleWillStart(_ testBundle: Bundle) {
+        try? CoreLocalMongoDBService.shared.initialize()
+    }
+
+    func testBundleDidFinish(_ testBundle: Bundle) {
+        CoreLocalMongoDBService.shared.close()
+    }
+}
 
 class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
@@ -20,8 +42,8 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
     private lazy var mongodbUri: String = pList?[mongodbUriProp] as? String ?? "mongodb://localhost:26000"
 
-    private let dbName = ObjectId().description
-    private let collName = ObjectId().description
+    private let dbName = "dbName"
+    private let collName = "collName"
 
     private var mongoClient: RemoteMongoClient!
 
@@ -29,6 +51,21 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         super.setUp()
 
         try! prepareService()
+        let joiner = CallbackJoiner()
+        getTestColl().deleteMany([:], joiner.capture())
+        _ = joiner.capturedValue
+    }
+
+    override func tearDown() {
+        let joiner = CallbackJoiner()
+        getTestColl().deleteMany([:], joiner.capture())
+        XCTAssertNotNil(joiner.capturedValue)
+        getTestColl().sync.proxy.dataSynchronizer.stop()
+        CoreLocalMongoDBService.shared.localInstances.forEach { client in
+            try! client.listDatabases().forEach {
+                try? client.db($0["name"] as! String).drop()
+            }
+        }
     }
 
     private func prepareService() throws {
@@ -43,11 +80,15 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             )
         )
 
-        let rule: Document = ["read": Document(), "write": Document(), "other_fields": Document()]
-
         _ = try self.addRule(
             toService: svc.1,
-            withConfig: RuleCreator.mongoDb(namespace: "\(dbName).\(collName)", rule: rule)
+            withConfig: RuleCreator.mongoDb(
+                database: dbName,
+                collection: collName,
+                roles: [RuleCreator.Role(
+                    read: true, write: true
+                )],
+                schema: RuleCreator.Schema(properties: Document()))
         )
 
         let client = try self.appClient(forApp: app.0)
@@ -58,7 +99,8 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         }
         wait(for: [exp], timeout: 5.0)
 
-        self.mongoClient = client.serviceClient(fromFactory: remoteMongoClientFactory, withName: "mongodb1")
+        self.mongoClient = try client.serviceClient(fromFactory: remoteMongoClientFactory,
+                                                    withName: "mongodb1")
     }
 
     private func getTestColl() -> RemoteMongoCollection<Document> {
@@ -997,8 +1039,8 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             switch result {
             case .success(let insertResult):
                 XCTAssertEqual(expected.id, insertResult.insertedId as? String)
-            case .failure:
-                XCTFail("unexpected error in insert")
+            case .failure(let err):
+                XCTFail("unexpected error in insert: \(err.localizedDescription)")
             }
 
             exp.fulfill()
@@ -1016,6 +1058,379 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 5.0)
+    }
+
+    func testSync_Count() throws {
+        let coll = getTestColl()
+        let sync = coll.sync
+        sync.configure(conflictHandler: { _, _, rDoc in rDoc.fullDocument },
+                       changeEventDelegate: { _, _ in },
+                       errorListener: { _, _ in })
+
+        let joiner = CallbackJoiner()
+
+        sync.count(joiner.capture())
+        XCTAssertEqual(0, joiner.value())
+
+        let doc1 = ["hello": "world", "a": "b"] as Document
+        let doc2 = ["hello": "computer", "a": "b"] as Document
+        sync.insertMany(documents: [doc1, doc2], joiner.capture())
+        sync.count(joiner.capture())
+
+        XCTAssertEqual(2, joiner.value())
+
+        sync.deleteMany(filter: ["a": "b"], joiner.capture())
+        sync.count(joiner.capture())
+
+        XCTAssertEqual(0, joiner.value())
+    }
+
+    func testSync_Find() throws {
+        let coll = getTestColl()
+        let sync = coll.sync
+        sync.configure(conflictHandler: { _, _, rDoc in rDoc.fullDocument },
+                       changeEventDelegate: { _, _ in },
+                       errorListener: { _, _ in })
+
+        let joiner = CallbackJoiner()
+
+        sync.count(joiner.capture())
+        XCTAssertEqual(0, joiner.value())
+
+        let doc1 = ["hello": "world", "a": "b"] as Document
+        let doc2 = ["hello": "computer", "a": "b"] as Document
+        sync.insertMany(documents: [doc1, doc2], joiner.capture())
+
+        sync.count(joiner.capture())
+        XCTAssertEqual(2, joiner.value())
+
+        sync.find(filter: ["hello": "computer"], options: nil, joiner.capture())
+        guard let cursor = joiner.value(asType: MongoCursor<Document>.self),
+            let actualDoc = cursor.next() else {
+            XCTFail("documents not found")
+            return
+        }
+
+        XCTAssertEqual("b", actualDoc["a"] as? String)
+        XCTAssertNotNil(actualDoc["_id"])
+        XCTAssertEqual("computer", actualDoc["hello"] as? String)
+
+        XCTAssertNil(cursor.next())
+    }
+
+    func testSync_Aggregate() throws {
+        let coll = getTestColl()
+        let sync = coll.sync
+        sync.configure(conflictHandler: { _, _, rDoc in rDoc.fullDocument },
+                       changeEventDelegate: { _, _ in },
+                       errorListener: { _, _ in })
+        let joiner = CallbackJoiner()
+        sync.count(joiner.capture())
+        XCTAssertEqual(0, joiner.value())
+
+        let doc1 = ["hello": "world", "a": "b"] as Document
+        let doc2 = ["hello": "computer", "a": "b"] as Document
+
+        sync.insertMany(documents: [doc1, doc2], joiner.capture())
+        sync.count(joiner.capture())
+        XCTAssertEqual(2, joiner.value())
+
+        sync.aggregate(
+            pipeline: [
+                ["$project": ["_id": 0, "a": 0] as Document],
+                ["$match": ["hello": "computer"] as Document]
+            ],
+            options: nil,
+            joiner.capture())
+
+        guard let cursor = joiner.value(asType: MongoCursor<Document>.self),
+            let actualDoc = cursor.next() else {
+                XCTFail("docs not inserted")
+                return
+        }
+
+        XCTAssertNil(actualDoc["a"])
+        XCTAssertNil(actualDoc["_id"])
+        XCTAssertEqual("computer", actualDoc["hello"] as? String)
+
+        XCTAssertNil(cursor.next())
+    }
+
+    func testSync_InsertOne() throws {
+        let coll = getTestColl()
+        let sync = coll.sync
+        sync.configure(conflictHandler: { _, _, rDoc in rDoc.fullDocument },
+                       changeEventDelegate: { _, _ in },
+                       errorListener: { _, _ in })
+
+        let joiner = CallbackJoiner()
+
+        sync.count(joiner.capture())
+        XCTAssertEqual(0, joiner.value())
+
+        let doc1 = ["hello": "world", "a": "b", documentVersionField: "naughty"] as Document
+
+        sync.insertOne(document: doc1, joiner.capture())
+        let insertOneResult = joiner.value(asType: SyncInsertOneResult.self)
+        sync.count(joiner.capture())
+        XCTAssertEqual(1, joiner.value())
+        sync.find(filter: ["_id": insertOneResult?.insertedId ?? BSONNull()], options: nil, joiner.capture())
+
+        guard let cursor = joiner.value(asType: MongoCursor<Document>.self),
+            let actualDoc = cursor.next() else {
+                XCTFail("doc was not inserted")
+                return
+        }
+
+        XCTAssertEqual("b", actualDoc["a"] as? String)
+        XCTAssert(bsonEquals(insertOneResult?.insertedId ?? nil, actualDoc["_id"]))
+        XCTAssertEqual("world", actualDoc["hello"] as? String)
+        XCTAssertFalse(actualDoc.hasKey(documentVersionField))
+        XCTAssertNil(cursor.next())
+    }
+
+    func testSync_InsertMany() throws {
+        let coll = getTestColl()
+        let sync = coll.sync
+        sync.configure(conflictHandler: { _, _, rDoc in rDoc.fullDocument },
+                       changeEventDelegate: { _, _ in },
+                       errorListener: { _, _ in })
+
+        let joiner = CallbackJoiner()
+
+        sync.count(joiner.capture())
+        XCTAssertEqual(0, joiner.value())
+
+        let doc1 = ["hello": "world", "a": "b"] as Document
+        let doc2 = ["hello": "computer", "a": "b"] as Document
+
+        sync.insertMany(documents: [doc1, doc2], joiner.capture())
+        let insertManyResult = joiner.value(asType: SyncInsertManyResult.self)
+
+        sync.count(joiner.capture())
+        XCTAssertEqual(2, joiner.value())
+
+        sync.find(filter: [
+            "_id": ["$in": insertManyResult?.insertedIds.values.compactMap { $0 } ?? BSONNull() ] as Document],
+                  joiner.capture())
+        guard let cursor = joiner.capturedValue as? MongoCursor<Document>,
+            let actualDoc = cursor.next() else {
+                XCTFail("doc was not inserted")
+                return
+        }
+
+        XCTAssertEqual("b", actualDoc["a"] as? String)
+        XCTAssert(bsonEquals(insertManyResult?.insertedIds[0] ?? nil, actualDoc["_id"]))
+        XCTAssertEqual("world", actualDoc["hello"] as? String)
+        XCTAssertFalse(actualDoc.hasKey(documentVersionField))
+        XCTAssertNotNil(cursor.next())
+    }
+
+    func testSync_UpdateOne() throws {
+        let coll = getTestColl()
+        let sync = coll.sync
+        sync.configure(conflictHandler: { _, _, rDoc in rDoc.fullDocument },
+                       changeEventDelegate: { _, _ in },
+                       errorListener: { _, _ in })
+
+        let joiner = CallbackJoiner()
+
+        sync.count(joiner.capture())
+        XCTAssertEqual(0, joiner.value())
+
+        let doc1 = ["hello": "world", "a": "b", documentVersionField: "naughty"] as Document
+
+        sync.updateOne(filter: doc1,
+                       update: doc1,
+                       options: SyncUpdateOptions(upsert: true),
+                       joiner.capture())
+
+        guard let insertedId = (joiner.capturedValue as? SyncUpdateResult)?.upsertedId else {
+            XCTFail("doc not upserted")
+            return
+        }
+
+        sync.updateOne(filter: ["_id": insertedId],
+                       update: ["$set": ["hello": "goodbye"] as Document],
+                       options: nil,
+                       joiner.capture())
+
+        guard let updateResult = joiner.capturedValue as? SyncUpdateResult else {
+            XCTFail("failed to update doc")
+            return
+        }
+        XCTAssertEqual(updateResult.matchedCount, 1)
+        XCTAssertEqual(updateResult.modifiedCount, 1)
+        XCTAssertNil(updateResult.upsertedId)
+
+        sync.count(joiner.capture())
+        XCTAssertEqual(1, joiner.value())
+
+        sync.find(filter: ["_id": insertedId],
+                  options: nil,
+                  joiner.capture())
+
+        guard let cursor = joiner.value(asType: MongoCursor<Document>.self),
+            let actualDoc = cursor.next() else {
+                XCTFail("doc was not inserted")
+                return
+        }
+
+        XCTAssertEqual("b", actualDoc["a"] as? String)
+        XCTAssertEqual("goodbye", actualDoc["hello"] as? String)
+        XCTAssertFalse(actualDoc.hasKey(documentVersionField))
+        XCTAssertNil(cursor.next())
+    }
+
+    func testSync_UpdateMany() throws {
+        let coll = getTestColl()
+        let sync = coll.sync
+        sync.configure(conflictHandler: { _, _, rDoc in rDoc.fullDocument },
+                       changeEventDelegate: { _, _ in },
+                       errorListener: { _, _ in })
+
+        let joiner = CallbackJoiner()
+
+        sync.count(joiner.capture())
+        XCTAssertEqual(0, joiner.value())
+
+        let doc1 = ["hello": "world", "a": "b", documentVersionField: "naughty"] as Document
+        let doc2 = ["hello": "computer", "a": "b"] as Document
+
+        sync.insertMany(documents: [doc1, doc2], joiner.capture())
+
+        guard let insertManyResult = (joiner.capturedValue as? SyncInsertManyResult) else {
+            XCTFail("insert failed")
+            return
+        }
+
+        let insertedIds = insertManyResult.insertedIds.compactMap({ $0.value })
+        sync.updateMany(filter: ["_id": ["$in": insertedIds] as Document],
+                        update: ["$set": ["hello": "goodbye"] as Document],
+                        options: nil,
+                        joiner.capture())
+        guard let updateResult = joiner.capturedValue as? SyncUpdateResult else {
+            XCTFail("update failed")
+            return
+        }
+
+        XCTAssertEqual(updateResult.matchedCount, 2)
+        XCTAssertEqual(updateResult.modifiedCount, 2)
+        XCTAssertNil(updateResult.upsertedId)
+
+        sync.count(joiner.capture())
+        XCTAssertEqual(2, joiner.value())
+
+        sync.find(filter: ["_id": ["$in": insertedIds] as Document],
+                  options: nil,
+                  joiner.capture())
+        guard let cursor = joiner.value(asType: MongoCursor<Document>.self) else {
+            XCTFail("could not find documents")
+            return
+        }
+
+        cursor.forEach { actualDoc in
+            XCTAssertEqual("b", actualDoc["a"] as? String)
+            XCTAssertEqual("goodbye", actualDoc["hello"] as? String)
+            XCTAssertFalse(actualDoc.hasKey(documentVersionField))
+        }
+    }
+
+    func testSync_deleteOne() throws {
+        let coll = getTestColl()
+        let sync = coll.sync
+
+        sync.configure(conflictHandler: { _, _, rDoc in rDoc.fullDocument },
+                       changeEventDelegate: { _, _ in },
+                       errorListener: { _, _ in })
+
+        let joiner = CallbackJoiner()
+
+        // ensure that the test collection is empty
+        sync.count(joiner.capture())
+        XCTAssertEqual(0, joiner.value())
+
+        // insert some test documents
+        let doc1 = ["hello": "world", "a": "b"] as Document
+        let doc2 = ["goodbye": "world", "a": "b"] as Document
+        sync.insertMany(documents: [doc1, doc2], joiner.capture())
+
+        // ensure that the documents were inserted
+        sync.count(joiner.capture())
+        XCTAssertEqual(2, joiner.value())
+
+        // delete the { hello: "world" } document
+        sync.deleteOne(filter: ["hello": "world"], joiner.capture())
+        var deleteResult = joiner.value(asType: SyncDeleteResult.self)
+        XCTAssertEqual(1, deleteResult?.deletedCount)
+
+        // ensure that there is only one document, and that it is the { goodbye: "world" } one
+        sync.count(joiner.capture())
+        XCTAssertEqual(1, joiner.value())
+
+        sync.count(filter: ["hello": "world"], options: nil, joiner.capture())
+        XCTAssertEqual(0, joiner.value())
+
+        // delete the remaining document with empty filter
+        sync.deleteOne(filter: [], joiner.capture())
+        deleteResult = joiner.value(asType: SyncDeleteResult.self)
+        XCTAssertEqual(1, deleteResult?.deletedCount)
+
+        // collection should be empty
+        sync.count(joiner.capture())
+        XCTAssertEqual(0, joiner.value())
+
+        // should not be able to delete any more documents
+        sync.deleteOne(filter: [], joiner.capture())
+        deleteResult = joiner.value(asType: SyncDeleteResult.self)
+        XCTAssertEqual(0, deleteResult?.deletedCount)
+    }
+
+    func testSync_deleteMany() throws {
+        let coll = getTestColl()
+        let sync = coll.sync
+
+        sync.configure(conflictHandler: { _, _, rDoc in rDoc.fullDocument },
+                       changeEventDelegate: { _, _ in },
+                       errorListener: { _, _ in })
+
+        let joiner = CallbackJoiner()
+
+        // ensure that the test collection is empty
+        sync.count(joiner.capture())
+        XCTAssertEqual(0, joiner.value())
+
+        // insert some test documents
+        let doc1 = ["hello": "world", "a": "b"] as Document
+        let doc2 = ["goodbye": "world", "a": "b"] as Document
+        sync.insertMany(documents: [doc1, doc2], joiner.capture())
+
+        // ensure that the documents were inserted
+        sync.count(joiner.capture())
+        XCTAssertEqual(2, joiner.value())
+
+        // delete documents with a filter for which there are no documents
+        sync.deleteMany(filter: ["a": "c"], joiner.capture())
+        var deleteResult = joiner.value(asType: SyncDeleteResult.self)
+        XCTAssertEqual(0, deleteResult?.deletedCount)
+
+        // ensure nothing got deleted
+        sync.count(joiner.capture())
+        XCTAssertEqual(2, joiner.value())
+
+        // delete all the documents we inserted
+        sync.deleteMany(filter: ["a": "b"], joiner.capture())
+        deleteResult = joiner.value(asType: SyncDeleteResult.self)
+        XCTAssertEqual(2, deleteResult?.deletedCount)
+
+        // collection should be empty
+        sync.count(joiner.capture())
+        XCTAssertEqual(0, joiner.value())
+
+        // should not be able to delete any more documents
+        sync.deleteMany(filter: [], joiner.capture())
+        deleteResult = joiner.value(asType: SyncDeleteResult.self)
+        XCTAssertEqual(0, deleteResult?.deletedCount)
     }
 }
 

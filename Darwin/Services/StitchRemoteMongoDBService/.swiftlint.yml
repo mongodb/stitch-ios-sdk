@@ -1,4 +1,7 @@
+excluded:
+    - ../../../Pods/
 identifier_name:
   excluded: # excluded via string array
     - db
     - id
+    - it

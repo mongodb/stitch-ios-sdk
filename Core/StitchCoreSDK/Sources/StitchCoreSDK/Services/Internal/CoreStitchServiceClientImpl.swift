@@ -1,10 +1,17 @@
 import MongoSwift
 import Foundation
 
+private let nameField = "name"
+private let serviceField = "service"
+private let argumentsField = "arguments"
+
+private let stitchRequestQueryParam = "?stitch_request="
+
 open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
     private let requestClient: StitchAuthRequestClient
     private let serviceRoutes: StitchServiceRoutes
-    private let serviceName: String?
+
+    public let serviceName: String?
 
     public init(requestClient: StitchAuthRequestClient,
                 routes: StitchServiceRoutes,
@@ -18,12 +25,12 @@ open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
                                                withArgs args: [BSONValue],
                                                withTimeout timeout: TimeInterval?) throws -> StitchAuthDocRequest {
         var body: Document = [
-            "name": name,
-            "arguments": args
+            nameField: name,
+            argumentsField: args
         ]
 
-        if let serviceName = serviceName {
-            body["service"] = serviceName
+        if let serviceName = self.serviceName {
+            body[serviceField] = serviceName
         }
 
         let reqBuilder =
@@ -35,6 +42,28 @@ open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
         if let timeout = timeout {
             reqBuilder.with(timeout: timeout)
         }
+
+        return try reqBuilder.build()
+    }
+
+    private func getStreamServiceFunctionRequest(
+        name: String,
+        args: [BSONValue]) throws -> StitchAuthRequest {
+        var body = [
+            nameField: name,
+            argumentsField: args
+        ] as Document
+
+        if let serviceName = self.serviceName {
+            body[serviceField] = serviceName
+        }
+
+        let reqBuilder =
+            StitchAuthRequestBuilder()
+                .with(method: .get)
+                .with(path: self.serviceRoutes.functionCallRoute +
+                    stitchRequestQueryParam +
+                    body.extendedJSON.data(using: .utf8)!.base64EncodedString())
 
         return try reqBuilder.build()
     }
@@ -56,5 +85,13 @@ open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
             getCallServiceFunctionRequest(withName: name,
                                           withArgs: args,
                                           withTimeout: timeout))
+    }
+
+    public func streamFunction(withName name: String,
+                               withArgs args: [BSONValue],
+                               delegate: SSEStreamDelegate? = nil) throws -> RawSSEStream {
+        return try requestClient.openAuthenticatedStream(
+            getStreamServiceFunctionRequest(name: name, args: args), delegate: delegate
+        )
     }
 }

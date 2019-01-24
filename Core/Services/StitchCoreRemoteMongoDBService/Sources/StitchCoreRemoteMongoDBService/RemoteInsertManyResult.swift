@@ -29,3 +29,19 @@ public struct RemoteInsertManyResult: Decodable {
         case insertedIds
     }
 }
+
+public class SyncInsertManyResult {
+    /// Map of the index of the inserted document to the id of the inserted document.
+    public let insertedIds: [Int: BSONValue?]
+
+    /// Given an ordered array of insertedIds, creates a corresponding `RemoteInsertManyResult`.
+    internal init(insertedIds: [Int: BSONValue?]) {
+        self.insertedIds = insertedIds
+    }
+}
+
+extension InsertManyResult {
+    var toSyncInsertManyResult: SyncInsertManyResult {
+        return SyncInsertManyResult(insertedIds: self.insertedIds)
+    }
+}

@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		18BE78A6D26855A7B1C52AD9 /* Pods_MockUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDAF059548651D827901B637 /* Pods_MockUtils.framework */; };
 		49E3C1C52182461A007E270D /* MockUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49E3C1B1218245CA007E270D /* MockUtils.framework */; };
 		49E3C1D12182462F007E270D /* SpyUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E3C1CD2182462E007E270D /* SpyUtils.swift */; };
 		49E3C1D22182462F007E270D /* Matcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E3C1CE2182462E007E270D /* Matcher.swift */; };
 		49E3C1D32182462F007E270D /* Collection+count.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E3C1CF2182462E007E270D /* Collection+count.swift */; };
 		49E3C1D42182462F007E270D /* MockUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E3C1D02182462E007E270D /* MockUtils.swift */; };
 		49E3C1D821824639007E270D /* MockUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E3C1D721824639007E270D /* MockUtilsTests.swift */; };
+		C041946499BAC663BB3ECB85 /* Pods_MockUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3AC2F55C53AFE665EF5EF72 /* Pods_MockUtils.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,8 +36,8 @@
 		49E3C1D02182462E007E270D /* MockUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockUtils.swift; sourceTree = "<group>"; };
 		49E3C1D721824639007E270D /* MockUtilsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockUtilsTests.swift; sourceTree = "<group>"; };
 		8CA37DADA6D4191B2AF98C54 /* Pods-MockUtils.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MockUtils.release.xcconfig"; path = "Target Support Files/Pods-MockUtils/Pods-MockUtils.release.xcconfig"; sourceTree = "<group>"; };
+		E3AC2F55C53AFE665EF5EF72 /* Pods_MockUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MockUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F37F96B4943CA964F83EB5D6 /* libPods-StitchCoreSDK-MockUtils.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StitchCoreSDK-MockUtils.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		FDAF059548651D827901B637 /* Pods_MockUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MockUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,7 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				18BE78A6D26855A7B1C52AD9 /* Pods_MockUtils.framework in Frameworks */,
+				C041946499BAC663BB3ECB85 /* Pods_MockUtils.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,7 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				F37F96B4943CA964F83EB5D6 /* libPods-StitchCoreSDK-MockUtils.a */,
-				FDAF059548651D827901B637 /* Pods_MockUtils.framework */,
+				E3AC2F55C53AFE665EF5EF72 /* Pods_MockUtils.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -156,7 +156,7 @@
 				49E3C1AD218245CA007E270D /* Sources */,
 				49E3C1AE218245CA007E270D /* Frameworks */,
 				49E3C1AF218245CA007E270D /* Resources */,
-				11FED8AD21AF475800CFFDCF /* ShellScript */,
+				11D465D621D68AA300F0718F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -239,7 +239,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		11FED8AD21AF475800CFFDCF /* ShellScript */ = {
+		11D465D621D68AA300F0718F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -254,7 +254,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
+			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
 		};
 		3AD84AC7811893D3CD489D8D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

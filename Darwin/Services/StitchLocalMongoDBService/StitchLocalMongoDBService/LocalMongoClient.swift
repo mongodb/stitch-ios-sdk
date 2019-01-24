@@ -30,7 +30,7 @@ private enum TrimMemoryCommand: String {
 private let adminDatabaseName = "admin"
 
 /// Local MongoDB Service Provider
-private final class MobileMongoDBClientFactory: CoreLocalMongoDBService, ThrowingServiceClientFactory {
+private final class MobileMongoDBClientFactory: ThrowingServiceClientFactory {
     typealias ClientType = MongoClient
 
     /// Current battery level of this device between 0-100
@@ -46,9 +46,7 @@ private final class MobileMongoDBClientFactory: CoreLocalMongoDBService, Throwin
 
     private var lastBatteryState: BatteryState = .unknown
 
-    fileprivate override init() {
-        super.init()
-
+    fileprivate init() {
         #if os(iOS)
         UIDevice.current.isBatteryMonitoringEnabled = true
         if UIDevice.current.batteryLevel < 30 {
@@ -112,7 +110,7 @@ private final class MobileMongoDBClientFactory: CoreLocalMongoDBService, Throwin
 
     func client(withServiceClient serviceClient: CoreStitchServiceClient,
                 withClientInfo clientInfo: StitchAppClientInfo) throws -> MongoClient {
-        return try CoreLocalMongoDBService.client(withAppInfo: clientInfo)
+        return try CoreLocalMongoDBService.shared.client(withAppInfo: clientInfo)
     }
 
     /// Private log func due to API level
@@ -127,7 +125,7 @@ private final class MobileMongoDBClientFactory: CoreLocalMongoDBService, Throwin
 
     @objc private func applicationWillTerminate(_ notification: Notification) {
         // close all mongo instances/clients/colls
-        self.close()
+        CoreLocalMongoDBService.shared.close()
     }
 
     /// Observer for UIDeviceBatteryLevelDidChange notification
@@ -143,7 +141,7 @@ private final class MobileMongoDBClientFactory: CoreLocalMongoDBService, Throwin
                 // Fallback on earlier versions
             }
             self.lastBatteryState = .low
-            CoreLocalMongoDBService.localInstances.forEach { (client) in
+            CoreLocalMongoDBService.shared.localInstances.forEach { (client) in
                 do {
                     _ = try client.db(adminDatabaseName)
                         .runCommand([
@@ -162,7 +160,7 @@ private final class MobileMongoDBClientFactory: CoreLocalMongoDBService, Throwin
             // Battery level is normal.
             log("Notifying embedded MongoDB of normal host battery level")
             self.lastBatteryState = .normal
-            CoreLocalMongoDBService.localInstances.forEach { (client) in
+            CoreLocalMongoDBService.shared.localInstances.forEach { (client) in
                 do {
                     _ = try client.db(adminDatabaseName)
                         .runCommand([
@@ -186,7 +184,7 @@ private final class MobileMongoDBClientFactory: CoreLocalMongoDBService, Throwin
         defer { objc_sync_exit(self) }
 
         log("Notifying embedded MongoDB of low memory condition on host")
-        CoreLocalMongoDBService.localInstances.forEach { (client) in
+        CoreLocalMongoDBService.shared.localInstances.forEach { (client) in
             do {
                 _ = try client.db(adminDatabaseName)
                     .runCommand([

@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scheme
+   LastUpgradeVersion = "1010"
+   version = "1.3">
+   <BuildAction
+      parallelizeBuildables = "YES"
+      buildImplicitDependencies = "YES">
+      <BuildActionEntries>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "49E3C1B0218245CA007E270D"
+               BuildableName = "MockUtils.framework"
+               BlueprintName = "MockUtils"
+               ReferencedContainer = "container:MockUtils/MockUtils.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "11405A7320C5A01E0041105B"
+               BuildableName = "StitchAWSS3Service.framework"
+               BlueprintName = "StitchAWSS3Service"
+               ReferencedContainer = "container:Darwin/Services/StitchAWSS3Service/StitchAWSS3Service.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F4D7CCD920AA0DC1003AA921"
+               BuildableName = "StitchTwilioService.framework"
+               BlueprintName = "StitchTwilioService"
+               ReferencedContainer = "container:Darwin/Services/StitchTwilioService/StitchTwilioService.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "1169216720C9D04C00930DD8"
+               BuildableName = "StitchRemoteMongoDBService.framework"
+               BlueprintName = "StitchRemoteMongoDBService"
+               ReferencedContainer = "container:Darwin/Services/StitchRemoteMongoDBService/StitchRemoteMongoDBService.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F4DA279120D1C64600852314"
+               BuildableName = "StitchLocalMongoDBService.framework"
+               BlueprintName = "StitchLocalMongoDBService"
+               ReferencedContainer = "container:Darwin/Services/StitchLocalMongoDBService/StitchLocalMongoDBService.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "118C33A320C72B7B00D1DE80"
+               BuildableName = "StitchHTTPService.framework"
+               BlueprintName = "StitchHTTPService"
+               ReferencedContainer = "container:Darwin/Services/StitchHTTPService/StitchHTTPService.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "119F124020D218D6009B1CF5"
+               BuildableName = "StitchFCMService.framework"
+               BlueprintName = "StitchFCMService"
+               ReferencedContainer = "container:Darwin/Services/StitchFCMService/StitchFCMService.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F4D04C9320ADDA6F004CCCD7"
+               BuildableName = "StitchDarwinCoreTestUtils.framework"
+               BlueprintName = "StitchDarwinCoreTestUtils"
+               ReferencedContainer = "container:Darwin/StitchDarwinCoreTestUtils/StitchDarwinCoreTestUtils.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "StitchCoreTwilioService::StitchCoreTwilioService"
+               BuildableName = "StitchCoreTwilioService.framework"
+               BlueprintName = "StitchCoreTwilioService"
+               ReferencedContainer = "container:Core/Services/StitchCoreTwilioService/StitchCoreTwilioService.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "498062DE2185BA6200E2A3A2"
+               BuildableName = "StitchCoreTestUtils.framework"
+               BlueprintName = "StitchCoreTestUtils"
+               ReferencedContainer = "container:Core/StitchCoreTestUtils/StitchCoreTestUtils.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "498060EB2185B57C00E2A3A2"
+               BuildableName = "StitchCoreSDK.framework"
+               BlueprintName = "StitchCoreSDK"
+               ReferencedContainer = "container:Core/StitchCoreSDK/StitchCoreSDK.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4980618D2185B5D500E2A3A2"
+               BuildableName = "StitchCoreSDKMocks.framework"
+               BlueprintName = "StitchCoreSDKMocks"
+               ReferencedContainer = "container:Core/StitchCoreSDK/StitchCoreSDK.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "StitchCoreLocalMongoDBService::StitchCoreLocalMongoDBService"
+               BuildableName = "StitchCoreLocalMongoDBService.framework"
+               BlueprintName = "StitchCoreLocalMongoDBService"
+               ReferencedContainer = "container:Core/Services/StitchCoreLocalMongoDBService/StitchCoreLocalMongoDBService.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "StitchCoreRemoteMongoDBService::StitchCoreRemoteMongoDBService"
+               BuildableName = "StitchCoreRemoteMongoDBService.framework"
+               BlueprintName = "StitchCoreRemoteMongoDBService"
+               ReferencedContainer = "container:Core/Services/StitchCoreRemoteMongoDBService/StitchCoreRemoteMongoDBService.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "StitchCoreHTTPService::StitchCoreHTTPService"
+               BuildableName = "StitchCoreHTTPService.framework"
+               BlueprintName = "StitchCoreHTTPService"
+               ReferencedContainer = "container:Core/Services/StitchCoreHTTPService/StitchCoreHTTPService.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "110188A820C1E2B700C4C119"
+               BuildableName = "StitchAWSSESService.framework"
+               BlueprintName = "StitchAWSSESService"
+               ReferencedContainer = "container:Darwin/Services/StitchAWSSESService/StitchAWSSESService.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4902C677205006C800E53674"
+               BuildableName = "StitchCore.framework"
+               BlueprintName = "StitchCore"
+               ReferencedContainer = "container:Darwin/StitchCore/StitchCore.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "StitchCoreAWSS3Service::StitchCoreAWSS3Service"
+               BuildableName = "StitchCoreAWSS3Service.framework"
+               BlueprintName = "StitchCoreAWSS3Service"
+               ReferencedContainer = "container:Core/Services/StitchCoreAWSS3Service/StitchCoreAWSS3Service.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "11B54E0F211248D80009E0F0"
+               BuildableName = "StitchAWSService.framework"
+               BlueprintName = "StitchAWSService"
+               ReferencedContainer = "container:Darwin/Services/StitchAWSService/StitchAWSService.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "StitchCoreAWSSESService::StitchCoreAWSSESService"
+               BuildableName = "StitchCoreAWSSESService.framework"
+               BlueprintName = "StitchCoreAWSSESService"
+               ReferencedContainer = "container:Core/Services/StitchCoreAWSSESService/StitchCoreAWSSESService.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "StitchCoreAWSService::StitchCoreAWSService"
+               BuildableName = "StitchCoreAWSService.framework"
+               BlueprintName = "StitchCoreAWSService"
+               ReferencedContainer = "container:Core/Services/StitchCoreAWSService/StitchCoreAWSService.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "StitchCoreAdminClient::StitchCoreAdminClient"
+               BuildableName = "StitchCoreAdminClient.framework"
+               BlueprintName = "StitchCoreAdminClient"
+               ReferencedContainer = "container:Core/StitchCoreAdminClient/StitchCoreAdminClient.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "StitchCoreFCMService::StitchCoreFCMService"
+               BuildableName = "StitchCoreFCMService.framework"
+               BlueprintName = "StitchCoreFCMService"
+               ReferencedContainer = "container:Core/Services/StitchCoreFCMService/StitchCoreFCMService.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+      </BuildActionEntries>
+   </BuildAction>
+   <TestAction
+      buildConfiguration = "Debug"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      shouldUseLaunchSchemeArgsEnv = "YES">
+      <Testables>
+      </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "49E3C1B0218245CA007E270D"
+            BuildableName = "MockUtils.framework"
+            BlueprintName = "MockUtils"
+            ReferencedContainer = "container:MockUtils/MockUtils.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+      <AdditionalOptions>
+      </AdditionalOptions>
+   </TestAction>
+   <LaunchAction
+      buildConfiguration = "Debug"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      launchStyle = "0"
+      useCustomWorkingDirectory = "NO"
+      ignoresPersistentStateOnLaunch = "NO"
+      debugDocumentVersioning = "YES"
+      debugServiceExtension = "internal"
+      allowLocationSimulation = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "49E3C1B0218245CA007E270D"
+            BuildableName = "MockUtils.framework"
+            BlueprintName = "MockUtils"
+            ReferencedContainer = "container:MockUtils/MockUtils.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+      <AdditionalOptions>
+      </AdditionalOptions>
+   </LaunchAction>
+   <ProfileAction
+      buildConfiguration = "Release"
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      savedToolIdentifier = ""
+      useCustomWorkingDirectory = "NO"
+      debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "49E3C1B0218245CA007E270D"
+            BuildableName = "MockUtils.framework"
+            BlueprintName = "MockUtils"
+            ReferencedContainer = "container:MockUtils/MockUtils.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+   </ProfileAction>
+   <AnalyzeAction
+      buildConfiguration = "Debug">
+   </AnalyzeAction>
+   <ArchiveAction
+      buildConfiguration = "Release"
+      revealArchiveInOrganizer = "YES">
+   </ArchiveAction>
+</Scheme>
