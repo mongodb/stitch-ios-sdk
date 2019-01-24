@@ -68,10 +68,9 @@ public final class CoreSync<DocumentT: Codable> {
 
     /**
      Returns the set of synchronized document ids in a namespace.
-     TODO Remove custom HashableBSONValue after: https://jira.mongodb.org/browse/SWIFT-255
      - returns: the set of synchronized document ids in a namespace.
      */
-    public var syncedIds: Set<HashableBSONValue> {
+    public var syncedIds: Set<AnyBSONValue> {
         return self.dataSynchronizer.syncedIds(in: namespace)
     }
 
@@ -81,7 +80,7 @@ public final class CoreSync<DocumentT: Codable> {
 
      - returns: the set of paused document _ids in a namespace
      */
-    public var pausedIds: Set<HashableBSONValue> {
+    public var pausedIds: Set<AnyBSONValue> {
         return self.dataSynchronizer.pausedIds(in: namespace)
     }
 

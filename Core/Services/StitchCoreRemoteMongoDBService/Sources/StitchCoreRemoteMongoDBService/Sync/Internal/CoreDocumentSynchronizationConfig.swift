@@ -12,8 +12,11 @@ import StitchCoreSDK
  */
 internal func docConfigFilter(forNamespace namespace: MongoNamespace,
                               withDocumentId documentId: AnyBSONValue) -> Document {
-    return [CoreDocumentSynchronization.CodingKeys.namespace.rawValue:
-        try? BSONEncoder().encode(namespace),
+    guard let namespaceDoc = try? BSONEncoder().encode(namespace) else {
+        return [CoreDocumentSynchronization.CodingKeys.namespace.rawValue: BSONNull(),
+         CoreDocumentSynchronization.CodingKeys.documentId.rawValue: documentId.value]
+    }
+    return [CoreDocumentSynchronization.CodingKeys.namespace.rawValue: namespaceDoc,
             CoreDocumentSynchronization.CodingKeys.documentId.rawValue: documentId.value]
 }
 
@@ -45,7 +48,7 @@ final class CoreDocumentSynchronization: Codable, Hashable {
     /// The namespace this document is stored in.
     let namespace: MongoNamespace
     /// The id of this document.
-    let documentId: HashableBSONValue
+    let documentId: AnyBSONValue
 
     private var _uncommittedChangeEvent: ChangeEvent<Document>?
     /// The most recent pending change event
@@ -86,10 +89,15 @@ final class CoreDocumentSynchronization: Codable, Hashable {
     var isStale: Bool {
         get {
             return docLock.read {
-                var filter = docConfigFilter(forNamespace: namespace, withDocumentId: documentId.bsonValue)
+                var filter = docConfigFilter(forNamespace: namespace, withDocumentId: documentId).map {
+                    ($0.key, $0.value)
+                }
+                filter.append((CodingKeys.isStale.rawValue, true))
+                let filterDoc = filter.reduce(into: Document(), { (doc, kvp) in
+                    doc[kvp.0] = kvp.1
+                })
                 do {
-                    try filter.merge([CodingKeys.isStale.rawValue: true])
-                    let count = try docsColl.count(filter)
+                    let count = try docsColl.count(filterDoc)
                     return count == 1
                 } catch {
                     errorListener?.on(error: error, forDocumentId: documentId.value, in: namespace)
@@ -101,7 +109,7 @@ final class CoreDocumentSynchronization: Codable, Hashable {
             docLock.write {
                 do {
                     try docsColl.updateOne(
-                        filter: docConfigFilter(forNamespace: namespace, withDocumentId: documentId.bsonValue),
+                        filter: docConfigFilter(forNamespace: namespace, withDocumentId: documentId),
                         update: ["$set": [CodingKeys.isStale.rawValue: value] as Document])
                 } catch {
                     errorListener?.on(error: error, forDocumentId: documentId.value, in: namespace)
@@ -122,7 +130,7 @@ final class CoreDocumentSynchronization: Codable, Hashable {
                 do {
                     try docsColl.updateOne(
                         filter: docConfigFilter(forNamespace: namespace,
-                                                withDocumentId: documentId.bsonValue),
+                                                withDocumentId: documentId),
                         update: ["$set": [ CodingKeys.isPaused.rawValue: value ] as Document])
                 } catch {
                     errorListener?.on(error: error, forDocumentId: documentId.value, in: namespace)
@@ -143,7 +151,7 @@ final class CoreDocumentSynchronization: Codable, Hashable {
          errorListener: FatalErrorListener?) {
         self.docsColl = docsColl
         self.namespace = namespace
-        self.documentId = HashableBSONValue.init(documentId)
+        self.documentId = documentId
         self._uncommittedChangeEvent = nil
         self._lastResolution = 0
         self._lastKnownRemoteVersion = nil
@@ -176,7 +184,7 @@ final class CoreDocumentSynchronization: Codable, Hashable {
                 try BSONDecoder().decode(ChangeEvent.self, from: eventDocument)
         }
 
-        self.documentId = try values.decode(HashableBSONValue.self, forKey: .documentId)
+        self.documentId = try values.decode(AnyBSONValue.self, forKey: .documentId)
         self._lastResolution = try values.decode(Int64.self, forKey: .lastResolution)
         self._isStale = try values.decode(Bool.self, forKey: .isStale)
         self._isPaused = try values.decode(Bool.self, forKey: .isPaused)
@@ -235,7 +243,7 @@ final class CoreDocumentSynchronization: Codable, Hashable {
                 newestChangeEvent: changeEvent)
             self.lastResolution = atTime
             try docsColl.replaceOne(filter: docConfigFilter(forNamespace: namespace,
-                                                            withDocumentId: documentId.bsonValue),
+                                                            withDocumentId: documentId),
                                     replacement: self)
         }
     }
@@ -257,7 +265,7 @@ final class CoreDocumentSynchronization: Codable, Hashable {
             self.lastKnownRemoteVersion = atVersion
 
             try docsColl.replaceOne(filter: docConfigFilter(forNamespace: namespace,
-                                                            withDocumentId: documentId.bsonValue),
+                                                            withDocumentId: documentId),
                                     replacement: self)
         }
     }
@@ -275,7 +283,7 @@ final class CoreDocumentSynchronization: Codable, Hashable {
             self.lastKnownRemoteVersion = atVersion
 
             try docsColl.replaceOne(filter: docConfigFilter(forNamespace: namespace,
-                                                            withDocumentId: documentId.bsonValue),
+                                                            withDocumentId: documentId),
                                     replacement: self)
         }
     }
@@ -299,7 +307,10 @@ final class CoreDocumentSynchronization: Codable, Hashable {
     }
 
     internal static func filter(forNamespace namespace: MongoNamespace) -> Document {
-        return [CodingKeys.namespace.rawValue: try? BSONEncoder().encode(namespace)]
+        guard let namespaceDoc = try? BSONEncoder().encode(namespace) else {
+            return [CodingKeys.namespace.rawValue: BSONNull()]
+        }
+        return [CodingKeys.namespace.rawValue: namespaceDoc]
     }
 
     /**

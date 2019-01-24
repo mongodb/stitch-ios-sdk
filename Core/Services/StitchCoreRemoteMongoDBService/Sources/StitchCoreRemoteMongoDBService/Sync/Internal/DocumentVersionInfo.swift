@@ -14,7 +14,7 @@ internal let documentVersionField = "__stitch_sync_version"
  */
 private func getVersionedFilter(documentId: BSONValue?,
                                 version: BSONValue?) -> Document {
-    var filter: Document = ["_id": documentId]
+    var filter: Document = ["_id": documentId ?? BSONNull()]
     if version == nil {
         filter[documentVersionField] = ["$exists": false] as Document
     } else {

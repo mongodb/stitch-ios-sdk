@@ -16,7 +16,7 @@ class ChangeEventUnitTests: XCTestCase {
 
     private func compare<T: Codable>(expectedChangeEvent: ChangeEvent<T>,
                                      to actualChangeEvent: ChangeEvent<T>) throws {
-        XCTAssertTrue(bsonEqualsOverride(expectedChangeEvent.id.value, actualChangeEvent.id.value))
+        XCTAssertTrue(bsonEquals(expectedChangeEvent.id.value, actualChangeEvent.id.value))
         XCTAssertEqual(expectedChangeEvent.operationType, actualChangeEvent.operationType)
         XCTAssertEqual(try BSONEncoder().encode(expectedChangeEvent.fullDocument),
                        try BSONEncoder().encode(actualChangeEvent.fullDocument))
@@ -44,7 +44,7 @@ class ChangeEventUnitTests: XCTestCase {
         let transformedChangeEvent: ChangeEvent<TestTransform> =
             try ChangeEvent<TestTransform>.transform(changeEvent: originalChangeEvent)
 
-        XCTAssertTrue(bsonEqualsOverride(originalChangeEvent.id.value, transformedChangeEvent.id.value))
+        XCTAssertTrue(bsonEquals(originalChangeEvent.id.value, transformedChangeEvent.id.value))
         XCTAssertEqual(originalChangeEvent.operationType, transformedChangeEvent.operationType)
         XCTAssertEqual(originalChangeEvent.fullDocument?["foo"] as? Int, transformedChangeEvent.fullDocument?.foo)
         XCTAssertEqual(originalChangeEvent.fullDocument?["bar"] as? String, transformedChangeEvent.fullDocument?.bar)

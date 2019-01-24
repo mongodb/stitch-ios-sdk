@@ -58,9 +58,9 @@ class NamespaceSynchronizationConfigTests: XCMongoMobileTestCase {
         let errorListener = TestErrorListener()
 
         let documentIds = [
-            HashableBSONValue(ObjectId()),
-            HashableBSONValue(ObjectId()),
-            HashableBSONValue(ObjectId())
+            AnyBSONValue(ObjectId()),
+            AnyBSONValue(ObjectId()),
+            AnyBSONValue(ObjectId())
         ]
 
         let nsConfig = NamespaceSynchronization.init(docsColl: docsColl,
@@ -70,15 +70,15 @@ class NamespaceSynchronizationConfigTests: XCMongoMobileTestCase {
         var docConfigs = [
             CoreDocumentSynchronization.init(docsColl: docsColl,
                                              namespace: namespace,
-                                             documentId: documentIds[0].bsonValue,
+                                             documentId: documentIds[0],
                                              errorListener: errorListener),
             CoreDocumentSynchronization.init(docsColl: docsColl,
                                              namespace: namespace,
-                                             documentId: documentIds[1].bsonValue,
+                                             documentId: documentIds[1],
                                              errorListener: errorListener),
             CoreDocumentSynchronization.init(docsColl: docsColl,
                                              namespace: namespace,
-                                             documentId: documentIds[2].bsonValue,
+                                             documentId: documentIds[2],
                                              errorListener: errorListener)
         ]
 

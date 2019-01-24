@@ -168,7 +168,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
         // Replace local docs with undo docs. Presence of an undo doc implies we had a system failure
         // during a write. This covers updates and deletes.
-        let recoveredIdsArr: [HashableBSONValue] = try undoColl.find().compactMap { undoDoc -> HashableBSONValue? in
+        let recoveredIdsArr: [AnyBSONValue] = try undoColl.find().compactMap { undoDoc -> AnyBSONValue? in
             guard let documentId = undoDoc[idField] else {
                 // this should never happen, but we'll ignore the document if it does
                 return nil
@@ -182,9 +182,9 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 options: FindOneAndReplaceOptions.init(upsert: true)
             )
 
-            return HashableBSONValue.init(documentId)
+            return AnyBSONValue.init(documentId)
         }
-        let recoveredIds: Set<HashableBSONValue> = Set(recoveredIdsArr)
+        let recoveredIds: Set<AnyBSONValue> = Set(recoveredIdsArr)
 
         // If we recovered a document, but its pending writes are set to do something else, then the
         // failure occurred after the pending writes were set, but before the undo document was
@@ -229,7 +229,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         // their desired state, that's okay because the next recovery pass will be effectively a no-op
         // up to this point.
         try recoveredIdsArr.forEach({ hashableRecoveredId in
-            try undoColl.deleteOne([idField: hashableRecoveredId.bsonValue.value])
+            try undoColl.deleteOne([idField: hashableRecoveredId.value])
         })
 
         // Find local documents for which there are no document configs and delete them. This covers
@@ -348,15 +348,15 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 var unseenIds = nsConfig.staleDocumentIds
                 var latestDocumentMap =
                     try latestStaleDocumentsFromRemote(nsConfig: nsConfig, staleIds: unseenIds)
-                        .reduce(into: [HashableBSONValue: Document](), { (result, document) in
+                        .reduce(into: [AnyBSONValue: Document](), { (result, document) in
                             guard let id = document["_id"] else { return }
-                            result[HashableBSONValue(id)] = document
+                            result[AnyBSONValue(id)] = document
                         })
 
                 // a. For each unprocessed change event
                 for (id, event) in remoteChangeEvents {
                     logger.i("t='\(logicalT)': syncRemoteToLocal consuming event of type: \(event.operationType)")
-                    guard let docConfig = nsConfig[id.bsonValue.value],
+                    guard let docConfig = nsConfig[id.value],
                         !docConfig.isPaused else {
                             continue
                     }
@@ -370,7 +370,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 // stale, synthesize a remote replace event to replace the local stale document with the
                 // latest remote copy.
                 for id in unseenIds {
-                    guard let docConfig = nsConfig[id.bsonValue.value],
+                    guard let docConfig = nsConfig[id.value],
                         !docConfig.isPaused,
                         let doc = latestDocumentMap[id] else {
                             // means we aren't actually synchronizing on this remote doc
@@ -382,7 +382,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                         docConfig: docConfig,
                         remoteChangeEvent: ChangeEvent<Document>.changeEventForLocalReplace(
                             namespace: nsConfig.namespace,
-                            documentId: id.bsonValue.value,
+                            documentId: id.value,
                             document: doc,
                             writePending: false)
                     )
@@ -394,7 +394,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 // delete the local document.
                 latestDocumentMap.keys.forEach({unseenIds.remove($0)})
                 for unseenId in unseenIds {
-                    guard let docConfig = nsConfig[unseenId.bsonValue.value],
+                    guard let docConfig = nsConfig[unseenId.value],
                         docConfig.lastKnownRemoteVersion != nil,
                         !docConfig.isPaused else {
                             // means we aren't actually synchronizing on this remote doc
@@ -406,7 +406,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                         docConfig: docConfig,
                         remoteChangeEvent: ChangeEvent<Document>.changeEventForLocalDelete(
                             namespace: nsConfig.namespace,
-                            documentId: unseenId.bsonValue.value,
+                            documentId: unseenId.value,
                             writePending: docConfig.hasUncommittedWrites
                     ))
 
@@ -1030,7 +1030,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
         let acceptRemote = (sanitizedRemoteDocument == nil && resolvedDocument == nil)
             || (sanitizedRemoteDocument != nil
-                && bsonEqualsOverride(sanitizedRemoteDocument, resolvedDocument))
+                && bsonEquals(sanitizedRemoteDocument, resolvedDocument))
 
         // a. If the resolved document is not nil:
         if let docForStorage = resolvedDocument {
@@ -1142,8 +1142,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
         let documentBeforeUpdate = try localCollection.find([idField: documentId],
                                                             options: nil).next()
-        if let documentBeforeUpdate = documentBeforeUpdate {
-            try undoCollection.insertOne(documentBeforeUpdate)
+        if var documentBeforeUpdate = documentBeforeUpdate {
+            try undoCollection.insertOne(&documentBeforeUpdate)
         }
 
         // Since we are accepting the remote document as the resolution to the conflict, it may
@@ -1205,8 +1205,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
         let documentBeforeUpdate = try localCollection.find([idField: documentId], options: nil).next()
 
-        if let documentBeforeUpdate = documentBeforeUpdate {
-            try undoCollection.insertOne(documentBeforeUpdate)
+        if var documentBeforeUpdate = documentBeforeUpdate {
+            try undoCollection.insertOne(&documentBeforeUpdate)
         }
 
         // Remove forbidden fields from the resolved document before it will updated/upserted in the
@@ -1225,6 +1225,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         if remoteEvent.operationType == .delete {
             event = ChangeEvent<Document>.changeEventForLocalInsert(namespace: namespace,
                                                                     document: documentAfterUpdate,
+                                                                    documentId: documentId,
                                                                     writePending: true)
         } else {
             guard let unsanitizedRemoteDocument = remoteEvent.fullDocument else {
@@ -1273,12 +1274,12 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
         let undoCollection = self.undoCollection(for: namespace)
 
-        guard let documentToDelete = try localCollection.find([idField: documentId]).next() else {
+        guard var documentToDelete = try localCollection.find([idField: documentId]).next() else {
             try desyncDocumentFromRemote(nsConfig: nsConfig, documentId: documentId)
             return
         }
 
-        try undoCollection.insertOne(documentToDelete)
+        try undoCollection.insertOne(&documentToDelete)
         try localCollection.deleteOne([idField: documentId])
         try desyncDocumentFromRemote(nsConfig: nsConfig, documentId: documentId)
         try undoCollection.deleteOne([idField: documentId])
@@ -1307,8 +1308,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         let undoCollection = self.undoCollection(for: namespace)
 
         let documentToDelete = try localCollection.find([idField: documentId], options: nil).next()
-        if let documentToDelete = documentToDelete {
-            try undoCollection.insertOne(documentToDelete)
+        if var documentToDelete = documentToDelete {
+            try undoCollection.insertOne(&documentToDelete)
         }
 
         try localCollection.deleteOne(["_id": documentId])
@@ -1421,10 +1422,9 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     /**
      Returns the set of synchronized document ids in a namespace.
 
-     TODO Remove custom HashableBSONValue after: https://jira.mongodb.org/browse/SWIFT-255
      - returns: the set of synchronized document ids in a namespace.
      */
-    func syncedIds(in namespace: MongoNamespace) -> Set<HashableBSONValue> {
+    func syncedIds(in namespace: MongoNamespace) -> Set<AnyBSONValue> {
         guard let nsConfig = syncConfig[namespace] else {
             return Set()
         }
@@ -1438,7 +1438,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
      - returns: the set of paused document _ids in a namespace
      */
-    func pausedIds(in namespace: MongoNamespace) -> Set<HashableBSONValue> {
+    func pausedIds(in namespace: MongoNamespace) -> Set<AnyBSONValue> {
         guard let nsConfig = syncConfig[namespace] else {
             return Set()
         }
@@ -1576,16 +1576,16 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
         guard let (event, result): (ChangeEvent<Document>, InsertOneResult) = try nsConfig.nsLock.write({
             // Remove forbidden fields from the document before inserting it into the local collection.
-            let docForStorage = DataSynchronizer.sanitizeDocument(document)
-            guard let result = try localCollection(for: namespace).insertOne(docForStorage),
-                result.insertedId != nil else {
-                    return nil
+            var docForStorage = DataSynchronizer.sanitizeDocument(document)
+            guard let result = try localCollection(for: namespace).insertOne(&docForStorage) else {
+                return nil
             }
 
-            let config = try nsConfig.sync(id: result.insertedId!)
+            let config = try nsConfig.sync(id: result.insertedId)
             let event = ChangeEvent<Document>.changeEventForLocalInsert(
                 namespace: namespace,
                 document: docForStorage,
+                documentId: result.insertedId,
                 writePending: true)
             try config.setSomePendingWrites(atTime: logicalT, changeEvent: event)
             return (event, result)
@@ -1597,7 +1597,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             self.triggerListening(to: namespace)
         }
 
-        self.emitEvent(documentId: result.insertedId!, event: event)
+        self.emitEvent(documentId: result.insertedId, event: event)
         return result.toSyncInsertOneResult
     }
 
@@ -1618,18 +1618,20 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         let (eventEmitters, result): ([() -> Void], InsertManyResult?) = try lock.write {
 
             // Remove forbidden fields from the documents before inserting them into the local collection.
-            let docsForStorage = documents.map { DataSynchronizer.sanitizeDocument($0) }
-            guard let result = try localCollection(for: namespace).insertMany(docsForStorage) else {
+            var docsForStorage = documents.map { DataSynchronizer.sanitizeDocument($0) }
+            guard let result = try localCollection(for: namespace).insertMany(&docsForStorage) else {
                 return ([], nil)
             }
 
             let eventEmitters = try result.insertedIds.compactMap({ (kv) -> (() -> Void)? in
-                guard let documentId = kv.value else {
+                guard !(kv.value is BSONNull) else {
                     return nil
                 }
+                let documentId = kv.value
                 let document = docsForStorage[kv.key]
                 let event = ChangeEvent<Document>.changeEventForLocalInsert(namespace: namespace,
                                                                             document: document,
+                                                                            documentId: documentId,
                                                                             writePending: true)
                 let config = try nsConfig.sync(id: documentId)
                 try config.setSomePendingWrites(atTime: logicalT, changeEvent: event)
@@ -1682,7 +1684,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
             let localColl = localCollection(for: namespace, withType: Document.self)
 
-            guard let docToDelete = try localColl.find(filter).first(where: { _ in true}) else {
+            guard var docToDelete = try localColl.find(filter).first(where: { _ in true}) else {
                 return SyncDeleteResult(deletedCount: 0)
             }
 
@@ -1692,7 +1694,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             }
 
             let undoColl = undoCollection(for: namespace)
-            try undoColl.insertOne(docToDelete)
+            try undoColl.insertOne(&docToDelete)
 
             let result = try localColl.deleteOne(filter)
             let event =  ChangeEvent<Document>.changeEventForLocalDelete(
@@ -1754,7 +1756,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             let undoColl = undoCollection(for: namespace)
 
             let idsToDelete = try localColl.find(filter).compactMap { doc -> BSONValue? in
-                try undoColl.insertOne(doc)
+                var doc = doc
+                try undoColl.insertOne(&doc)
                 return doc[idField]
             }
 
@@ -1830,8 +1833,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 return nil
             }
 
-            if let backupDoc = documentBeforeUpdate {
-                try undoColl.insertOne(backupDoc)
+            if var backupDoc = documentBeforeUpdate {
+                try undoColl.insertOne(&backupDoc)
             }
 
             // find and update the single document, returning the document post-update
@@ -1869,6 +1872,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 event = ChangeEvent<Document>.changeEventForLocalInsert(
                     namespace: namespace,
                     document: documentAfterUpdate,
+                    documentId: documentId,
                     writePending: true)
             } else {
                 // if the document config has been removed from the namespace
@@ -1946,7 +1950,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
             // fetch all of the documents that this filter will match
             let beforeDocuments = try localCollection.find(filter)
-            var idsToBeforeDocumentMap = [HashableBSONValue: Document]()
+            var idsToBeforeDocumentMap = [AnyBSONValue: Document]()
 
             // use the matched ids from prior to create a new filter.
             // this will prevent any race conditions if documents were
@@ -1957,8 +1961,9 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                     return nil
                 }
 
-                try undoColl.insertOne(beforeDoc)
-                idsToBeforeDocumentMap[HashableBSONValue(documentId)] = beforeDoc
+                var beforeDoc = beforeDoc
+                try undoColl.insertOne(&beforeDoc)
+                idsToBeforeDocumentMap[AnyBSONValue(documentId)] = beforeDoc
                 return beforeDoc[idField]
             })
             var updatedFilter = (options?.upsert ?? false) ? filter :
@@ -1984,7 +1989,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                     return
                 }
 
-                let beforeDocument = idsToBeforeDocumentMap[HashableBSONValue(documentId)]
+                let beforeDocument = idsToBeforeDocumentMap[AnyBSONValue(documentId)]
 
                 // if there was no before-update document and this was not an upsert,
                 // a document that meets the filter criteria must have been
@@ -2031,6 +2036,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                     event = ChangeEvent<Document>.changeEventForLocalInsert(
                         namespace: namespace,
                         document: afterDocument,
+                        documentId: documentId,
                         writePending: true)
                 }
 
@@ -2141,8 +2147,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     }
 
     private func latestStaleDocumentsFromRemote(nsConfig: NamespaceSynchronization,
-                                                staleIds: Set<HashableBSONValue>) throws -> [Document] {
-        let ids = staleIds.map { ["_id": $0.bsonValue.value ] as Document }
+                                                staleIds: Set<AnyBSONValue>) throws -> [Document] {
+        let ids = staleIds.map { ["_id": $0.value ] as Document }
         guard ids.count > 0 else { return [] }
         return try self.remoteCollection(for: nsConfig.namespace)
             .find(["$or": ids]).toArray()
