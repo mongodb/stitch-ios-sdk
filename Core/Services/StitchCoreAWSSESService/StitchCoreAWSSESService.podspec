@@ -13,11 +13,11 @@ Pod::Spec.new do |spec|
       :git => "https://github.com/mongodb/stitch-ios-sdk.git",
       :branch => "master", :tag => "5.0.0-beta.2"
     }
-  
+
     spec.platform = :ios, "11.0"
-    
+
     spec.ios.deployment_target = "11.0"
-  
+
     spec.source_files = "Core/Services/#{spec.name}/Sources/#{spec.name}/**/*.swift"
 
     spec.dependency 'StitchCoreSDK', '= 5.0.0-beta.2'
