@@ -10,6 +10,7 @@ public protocol CoreStitchServiceClient {
 
     // Disabled line length rule due to https://github.com/realm/jazzy/issues/896
     // swiftlint:disable line_length
+
     func callFunction(withName name: String, withArgs args: [BSONValue], withRequestTimeout requestTimeout: TimeInterval?) throws
 
     func callFunction<T: Decodable>(withName name: String, withArgs args: [BSONValue], withRequestTimeout requestTimeout: TimeInterval?) throws -> T

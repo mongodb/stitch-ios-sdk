@@ -462,6 +462,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         XCTAssertEqual(id, result.upsertedId as? ObjectId)
 
         var (funcNameArg, funcArgsArg, _) = mockServiceClient.callFunctionWithDecodingMock.capturedInvocations.last!
+
         XCTAssertEqual("updateOne", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
 

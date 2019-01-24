@@ -21,9 +21,7 @@ set -e
 pushd Core
 
 pushd StitchCoreSDK
-echo "currently ignoring linter warnings in StitchCoreSDK until STITCH-2327 is completed"
-# TODO: when STITCH-2327 is completed, remove the echo and make this a "check_swiftlint"
-swiftlint
+check_swiftlint
 popd
 
 pushd StitchCoreTestUtils
@@ -61,9 +59,7 @@ check_swiftlint
 popd
 
 pushd StitchCoreRemoteMongoDBService
-echo "currently ignoring linter warnings in StitchCoreRemoteMongoDBService until STITCH-2327 is completed"
-# TODO: when STITCH-2327 is completed, remove the echo and make this a "check_swiftlint"
-swiftlint
+check_swiftlint
 popd
 
 pushd StitchCoreTwilioService

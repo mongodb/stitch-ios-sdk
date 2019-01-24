@@ -11,7 +11,7 @@ Pod::Spec.new do |spec|
     }
     spec.source     = {
       :git => "https://github.com/mongodb/stitch-ios-sdk.git",
-      :branch => "sync" 
+      :branch => "master", :tag => "5.0.0-alpha.1"
       
     }
   
@@ -21,6 +21,6 @@ Pod::Spec.new do |spec|
   
     spec.source_files = "Core/Services/#{spec.name}/Sources/#{spec.name}/**/*.swift"
 
-    spec.dependency 'MongoMobile', '= 0.0.5'
+    spec.dependency 'MongoMobile', '= 0.0.7'
     spec.dependency 'StitchCoreSDK', '= 5.0.0-alpha.1'
 end

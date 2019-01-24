@@ -20,8 +20,7 @@ sourcekitten doc --module-name StitchAWSS3Service -- -workspace ./Stitch.xcworks
 sourcekitten doc --module-name StitchAWSSESService -- -workspace ./Stitch.xcworkspace -scheme StitchAWSSESService -sdk iphoneos >> .raw_docs.json
 sourcekitten doc --module-name StitchFCMService -- -workspace ./Stitch.xcworkspace -scheme StitchFCMService -sdk iphoneos >> .raw_docs.json
 sourcekitten doc --module-name StitchHTTPService -- -workspace ./Stitch.xcworkspace -scheme StitchHTTPService -sdk iphoneos >> .raw_docs.json
-# uncomment when STITCH-2328 is done
-# sourcekitten doc --module-name StitchLocalMongoDBService -- -workspace ./Stitch.xcworkspace -scheme StitchLocalMongoDBService -sdk iphoneos >> .raw_docs.json
+sourcekitten doc --module-name StitchLocalMongoDBService -- -workspace ./Stitch.xcworkspace -scheme StitchLocalMongoDBService -sdk iphoneos >> .raw_docs.json
 sourcekitten doc --module-name StitchRemoteMongoDBService -- -workspace ./Stitch.xcworkspace -scheme StitchRemoteMongoDBService -sdk iphoneos >> .raw_docs.json
 sourcekitten doc --module-name StitchTwilioService -- -workspace ./Stitch.xcworkspace -scheme StitchTwilioService -sdk iphoneos >> .raw_docs.json
 

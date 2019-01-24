@@ -100,6 +100,7 @@ public protocol StitchAppClient {
     // MARK: Functions
 
     // Disabled line length rule due to https://github.com/realm/jazzy/issues/896
+    // swiftlint:disable line_length
 
     /**
      * Calls the MongoDB Stitch function with the provided name and arguments, and decodes the result of the function

@@ -46,7 +46,7 @@ SPEC CHECKSUMS:
   mongoc_embedded: 41aadbb756b07070d6f0471192a84750cb42c580
   MongoMobile: 6059b76325afe5fbb1072ae0fe47addc122591c6
   MongoSwift: c7420b38a7e223439667f8c50aefada29c270df8
-  Swifter: eb2bc1d192a1c09169c7fefd01971565fa940521
+  Swifter: eb2bc1d192a1c09169c7fefd01971565fa940521 d
   SwiftLint: 73f2ecfd0f6d812c8cb9a73c00fe809bc2504585
   Toast-Swift: 594b5c5e5129f15438e410207e43287f027b3c00
 
