@@ -23,7 +23,6 @@ private func getVersionedFilter(documentId: BSONValue?,
     return filter
 }
 
-// TODO: Wiring to DataSynchronizer
 final class DocumentVersionInfo {
     let version: Version?
     let versionDoc: Document?
@@ -52,11 +51,14 @@ final class DocumentVersionInfo {
 
     /// The version information for a synchronized document.
     struct Version: Codable {
+        // swiftlint:disable nesting
         enum CodingKeys: String, CodingKey {
             case syncProtocolVersion = "spv"
             case instanceId = "id"
             case versionCounter = "v"
         }
+        // swiftlint:enable nesting
+
         /// the synchronization protocol version of this version
         let syncProtocolVersion: Int
         /// the GUID instance id of this version

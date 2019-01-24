@@ -165,6 +165,7 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
 
         lastUncomittedChangeEvent = ChangeEvent<Document>.changeEventForLocalInsert(namespace: namespace,
                                                                                     document: ["foo": "qux"],
+                                                                                    documentId: documentId,
                                                                                     writePending: true)
 
         // insert -> update should equal insert
@@ -212,6 +213,7 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
         newestChangeEvent = ChangeEvent<Document>.changeEventForLocalInsert(
             namespace: namespace,
             document: ["foo": "bar"] as Document,
+            documentId: newestChangeEvent.documentKey["_id"] ?? BSONNull(),
             writePending: false)
 
         // insert -> insert should default to the newestChangeEvent

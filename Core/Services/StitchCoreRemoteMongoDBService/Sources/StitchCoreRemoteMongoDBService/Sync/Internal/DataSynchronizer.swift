@@ -1,4 +1,4 @@
-// TODO(STITCH-2329): These linter exceptions need to eventually go away
+// These linter exceptions should eventually go away, but they would require major refactoring.
 // swiftlint:disable function_body_length
 // swiftlint:disable type_body_length
 // swiftlint:disable file_length
@@ -42,7 +42,10 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     /// The configuration for this sync instance
     internal var syncConfig: InstanceSynchronization
 
+    // this is not a normal delegate pattern, so this is okay
+    // swiftlint:disable weak_delegate
     internal var instanceChangeStreamDelegate: InstanceChangeStreamDelegate
+    // swiftlint:enable weak_delegate
 
     /// Whether or not the DataSynchronizer has been configured
     private(set) var isConfigured = false

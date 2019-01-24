@@ -52,8 +52,8 @@ class FCMServicePushClientIntTests: BaseStitchIntTestCocoaTouch {
             switch result {
             case .success:
                 break
-            case .failure:
-                XCTFail("unexpected error")
+            case .failure(let error):
+                XCTFail("unexpected error: \(error)")
             }
             exp.fulfill()
         }
@@ -64,8 +64,8 @@ class FCMServicePushClientIntTests: BaseStitchIntTestCocoaTouch {
             switch result {
             case .success:
                 break
-            case .failure:
-                XCTFail("unexpected error")
+            case .failure(let error):
+                XCTFail("unexpected error: \(error)")
             }
             exp.fulfill()
         }
@@ -76,8 +76,8 @@ class FCMServicePushClientIntTests: BaseStitchIntTestCocoaTouch {
             switch result {
             case .success:
                 break
-            case .failure:
-                XCTFail("unexpected error")
+            case .failure(let error):
+                XCTFail("unexpected error: \(error)")
             }
             exp.fulfill()
         }
@@ -88,8 +88,8 @@ class FCMServicePushClientIntTests: BaseStitchIntTestCocoaTouch {
             switch result {
             case .success:
                 break
-            case .failure:
-                XCTFail("unexpected error")
+            case .failure(let error):
+                XCTFail("unexpected error: \(error)")
             }
             exp.fulfill()
         }

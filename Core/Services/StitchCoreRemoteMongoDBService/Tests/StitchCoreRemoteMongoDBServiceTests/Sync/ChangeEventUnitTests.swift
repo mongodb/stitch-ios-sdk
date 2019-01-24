@@ -67,6 +67,7 @@ class ChangeEventUnitTests: XCTestCase {
 
         let actualLocalInsertEvent = ChangeEvent<Document>.changeEventForLocalInsert(namespace: namespace,
                                                                                      document: document,
+                                                                                     documentId: docId,
                                                                                      writePending: writePending)
         try compare(expectedChangeEvent: expectedLocalInsertEvent, to: actualLocalInsertEvent)
     }

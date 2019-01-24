@@ -90,33 +90,6 @@ extension StitchRequestClient {
     }
 }
 
-extension StitchRequestClient {
-    func doRequest(_ stitchReq: StitchRequest, url: String) throws -> Response {
-        var response: Response!
-        do {
-            response = try self.transport.roundTrip(request: self.buildRequest(stitchReq, url: url))
-        } catch {
-            // Wrap the error from the transport in a `StitchError.requestError`
-            throw StitchError.requestError(withError: error, withRequestErrorCode: .transportError)
-        }
-        return try inspectResponse(response: response)
-    }
-
-    /**
-     * Builds a plain HTTP request out of the provided `StitchRequest` object.
-     */
-    private func buildRequest(_ stitchReq: StitchRequest, url: String) throws -> Request {
-        let reqBuilder = RequestBuilder()
-            .with(method: stitchReq.method)
-            .with(url: "\(url)\(stitchReq.path)")
-            .with(timeout: stitchReq.timeout ?? self.defaultRequestTimeout)
-            .with(headers: stitchReq.headers)
-            .with(body: stitchReq.body)
-
-        return try reqBuilder.build()
-    }
-}
-
 /**
  * An implementation of `StitchRequestClient` that builds on `StitchRequestClientImpl` to
  * add the ability to use a client application ID to target location-specific endpoints.

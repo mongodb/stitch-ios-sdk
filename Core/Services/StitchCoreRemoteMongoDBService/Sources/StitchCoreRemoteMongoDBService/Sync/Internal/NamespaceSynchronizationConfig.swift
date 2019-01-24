@@ -33,8 +33,12 @@ final class NamespaceSynchronization: Sequence, Codable {
     private weak var errorListener: FatalErrorListener?
     /// The conflict handler configured to this namespace.
     private(set) var conflictHandler: AnyConflictHandler?
+
+    // this is not a normal delegate pattern, so this is okay
+    // swiftlint:disable weak_delegate
     /// The change event listener configured to this namespace.
     private(set) var changeEventDelegate: AnyChangeEventDelegate?
+    // swiftlint:enable weak_delegate
 
     var docs = [AnyBSONValue: CoreDocumentSynchronization]()
     let namespace: MongoNamespace
