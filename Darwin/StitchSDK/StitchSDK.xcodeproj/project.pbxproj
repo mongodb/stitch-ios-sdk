@@ -16,7 +16,7 @@
 		1159639820D02B8F00B0179B /* StitchHTTPService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1159639720D02B8F00B0179B /* StitchHTTPService.framework */; };
 		1159639A20D02B8F00B0179B /* StitchRemoteMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1159639920D02B8F00B0179B /* StitchRemoteMongoDBService.framework */; };
 		1159639C20D02B8F00B0179B /* StitchTwilioService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1159639B20D02B8F00B0179B /* StitchTwilioService.framework */; };
-		D0C400D42B38F5A323C85730 /* Pods_StitchSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50F4CFD902D8FB3205A2198B /* Pods_StitchSDK.framework */; };
+		2A9E855E66AF9049F92F2149 /* Pods_StitchSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9846DE94B32440F6EF2FEB5 /* Pods_StitchSDK.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,7 +31,7 @@
 		1159639720D02B8F00B0179B /* StitchHTTPService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchHTTPService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1159639920D02B8F00B0179B /* StitchRemoteMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchRemoteMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1159639B20D02B8F00B0179B /* StitchTwilioService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchTwilioService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		50F4CFD902D8FB3205A2198B /* Pods_StitchSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B9846DE94B32440F6EF2FEB5 /* Pods_StitchSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C46681A06B721BFC1B8CCEFF /* Pods-StitchSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchSDK.debug.xcconfig"; path = "Target Support Files/Pods-StitchSDK/Pods-StitchSDK.debug.xcconfig"; sourceTree = "<group>"; };
 		E49C146702F863D7D6DDFB73 /* Pods-StitchSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchSDK.release.xcconfig"; path = "Target Support Files/Pods-StitchSDK/Pods-StitchSDK.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -48,7 +48,7 @@
 				1159639820D02B8F00B0179B /* StitchHTTPService.framework in Frameworks */,
 				1159639A20D02B8F00B0179B /* StitchRemoteMongoDBService.framework in Frameworks */,
 				1159639C20D02B8F00B0179B /* StitchTwilioService.framework in Frameworks */,
-				D0C400D42B38F5A323C85730 /* Pods_StitchSDK.framework in Frameworks */,
+				2A9E855E66AF9049F92F2149 /* Pods_StitchSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,7 +93,7 @@
 				1159639720D02B8F00B0179B /* StitchHTTPService.framework */,
 				1159639920D02B8F00B0179B /* StitchRemoteMongoDBService.framework */,
 				1159639B20D02B8F00B0179B /* StitchTwilioService.framework */,
-				50F4CFD902D8FB3205A2198B /* Pods_StitchSDK.framework */,
+				B9846DE94B32440F6EF2FEB5 /* Pods_StitchSDK.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -131,6 +131,7 @@
 				1159637F20D02B0800B0179B /* Frameworks */,
 				1159638020D02B0800B0179B /* Headers */,
 				1159638120D02B0800B0179B /* Resources */,
+				11D465E221D68B0C00F0718F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -184,6 +185,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		11D465E221D68B0C00F0718F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
+		};
 		18964B468B24C079EEFD1D1A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

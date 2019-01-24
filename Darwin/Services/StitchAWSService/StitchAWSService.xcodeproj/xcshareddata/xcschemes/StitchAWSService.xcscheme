@@ -28,7 +28,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "11B54E18211248D80009E0F0"
+               BuildableName = "StitchAWSServiceTests.xctest"
+               BlueprintName = "StitchAWSServiceTests"
+               ReferencedContainer = "container:StitchAWSService.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "11B54E0F211248D80009E0F0"
+            BuildableName = "StitchAWSService.framework"
+            BlueprintName = "StitchAWSService"
+            ReferencedContainer = "container:StitchAWSService.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
