@@ -782,6 +782,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                                         // shouldn't update because it would improperly update the version information.
                                         logger.i("t='\(logicalT)': syncLocalToRemote ns=\(nsConfig.namespace) documentId=\(docConfig.documentId) local change event "
                                             + "update description is empty for UPDATE; dropping the event")
+                                        try docConfig.setPendingWritesComplete(atVersion: localVersionInfo.nextVersion)
                                         continue
                             }
 
