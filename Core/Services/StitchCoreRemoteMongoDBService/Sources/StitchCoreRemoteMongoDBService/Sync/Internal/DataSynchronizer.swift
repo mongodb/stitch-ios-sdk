@@ -778,10 +778,11 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                             guard let localUpdateDescription = localChangeEvent.updateDescription,
                                 (!localUpdateDescription.removedFields.isEmpty ||
                                     !localUpdateDescription.updatedFields.isEmpty) else {
-                                        // if the translated update is empty, then this update is a noop, and we
-                                        // shouldn't update because it would improperly update the version information.
+                                        // if the translated update is empty, then this update is a noop, but
+                                        // we should still increment the version information.
                                         logger.i("t='\(logicalT)': syncLocalToRemote ns=\(nsConfig.namespace) documentId=\(docConfig.documentId) local change event "
                                             + "update description is empty for UPDATE; dropping the event")
+                                        try docConfig.setPendingWritesComplete(atVersion: localVersionInfo.nextVersion)
                                         continue
                             }
 
