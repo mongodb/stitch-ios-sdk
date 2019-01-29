@@ -35,9 +35,6 @@ public final class CoreLocalMongoDBService {
                 return client
             }
 
-            objc_sync_enter(self)
-            defer { objc_sync_exit(self) }
-
             try initialize()
 
             var isDir: ObjCBool = true
