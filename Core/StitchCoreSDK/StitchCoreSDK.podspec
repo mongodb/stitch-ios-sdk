@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
     spec.name       = File.basename(__FILE__, '.podspec')
-    spec.version    = "5.0.0-beta.3"
+    spec.version    = "5.0.0"
     spec.summary    = "#{__FILE__} Module"
     spec.homepage   = "https://github.com/mongodb/stitch-ios-sdk"
     spec.license    = "Apache2"
@@ -12,7 +12,7 @@ Pod::Spec.new do |spec|
 
     spec.source = {
       :git => "https://github.com/mongodb/stitch-ios-sdk.git",
-      :branch => "master", :tag => "5.0.0-beta.3"
+      :branch => "master", :tag => "5.0.0"
     }
 
     spec.platform = :ios, "11.0"
