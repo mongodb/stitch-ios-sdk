@@ -13,6 +13,10 @@ public final class CoreLocalMongoDBService {
     public var localInstances: [MongoClient] {
         return _localInstances.map { $0.1 }
     }
+    /// This exists as a mechanism to clear clients
+    /// if the dbPath changes, due to the multiple
+    /// handles issue.
+    private var activeDbPath = ""
 
     private init() {}
 
@@ -34,6 +38,12 @@ public final class CoreLocalMongoDBService {
             if let client = _localInstances[key] {
                 return client
             }
+
+            if activeDbPath != dbPath {
+                _localInstances.removeAll()
+            }
+
+            activeDbPath = dbPath
 
             try initialize()
 

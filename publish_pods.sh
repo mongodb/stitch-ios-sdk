@@ -1,8 +1,6 @@
 pod trunk push Core/StitchCoreSDK/StitchCoreSDK.podspec --allow-warnings --verbose
 
-pod trunk push Core/Services/StitchCoreAWSS3Service/StitchCoreAWSS3Service.podspec --allow-warnings --verbose
 pod trunk push Core/Services/StitchCoreAWSService/StitchCoreAWSService.podspec --allow-warnings --verbose
-pod trunk push Core/Services/StitchCoreAWSSESService/StitchCoreAWSSESService.podspec --allow-warnings --verbose
 pod trunk push Core/Services/StitchCoreFCMService/StitchCoreFCMService.podspec --allow-warnings --verbose
 pod trunk push Core/Services/StitchCoreLocalMongoDBService/StitchCoreLocalMongoDBService.podspec --allow-warnings --verbose
 pod trunk push Core/Services/StitchCoreRemoteMongoDBService/StitchCoreRemoteMongoDBService.podspec --allow-warnings --verbose
@@ -11,9 +9,7 @@ pod trunk push Core/Services/StitchCoreHTTPService/StitchCoreHTTPService.podspec
 
 pod trunk push Darwin/StitchCore/StitchCore.podspec --allow-warnings --verbose
 
-pod trunk push Darwin/Services/StitchAWSS3Service/StitchAWSS3Service.podspec --allow-warnings --verbose
 pod trunk push Darwin/Services/StitchAWSService/StitchAWSService.podspec --allow-warnings --verbose
-pod trunk push Darwin/Services/StitchAWSSESService/StitchAWSSESService.podspec --allow-warnings --verbose
 pod trunk push Darwin/Services/StitchFCMService/StitchFCMService.podspec --allow-warnings --verbose
 pod trunk push Darwin/Services/StitchLocalMongoDBService/StitchLocalMongoDBService.podspec --allow-warnings --verbose
 pod trunk push Darwin/Services/StitchRemoteMongoDBService/StitchRemoteMongoDBService.podspec --allow-warnings --verbose

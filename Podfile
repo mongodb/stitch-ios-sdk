@@ -87,26 +87,6 @@ target :StitchCoreSDK do
         end
     end
 
-    target :StitchCoreAWSSESService do
-        project 'Core/Services/StitchCoreAWSSESService/StitchCoreAWSSESService.xcodeproj'
-        inherit! :search_paths
-
-        target :StitchCoreAWSSESServiceTests do
-            shared_pods
-            inherit! :search_paths
-        end
-    end
-
-    target :StitchCoreAWSS3Service do
-        project 'Core/Services/StitchCoreAWSS3Service/StitchCoreAWSS3Service.xcodeproj'
-        inherit! :search_paths
-
-        target :StitchCoreAWSS3ServiceTests do
-            shared_pods
-            inherit! :search_paths
-        end
-    end
-
     target :StitchCoreAWSService do
         project 'Core/Services/StitchCoreAWSService/StitchCoreAWSService.xcodeproj'
         inherit! :search_paths
@@ -183,26 +163,6 @@ target :StitchCoreSDK do
         inherit! :search_paths
 
         target :StitchFCMServiceTests do
-            shared_pods
-            inherit! :search_paths
-        end
-    end
-
-    target :StitchAWSSESService do
-        project 'Darwin/Services/StitchAWSSESService/StitchAWSSESService.xcodeproj'
-        inherit! :search_paths
-
-        target :StitchAWSSESServiceTests do
-            shared_pods
-            inherit! :search_paths
-        end
-    end
-
-    target :StitchAWSS3Service do
-        project 'Darwin/Services/StitchAWSS3Service/StitchAWSS3Service.xcodeproj'
-        inherit! :search_paths
-
-        target :StitchAWSS3ServiceTests do
             shared_pods
             inherit! :search_paths
         end

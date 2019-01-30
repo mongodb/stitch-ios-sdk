@@ -34,15 +34,7 @@ popd
 
 pushd Services
 
-pushd StitchCoreAWSS3Service
-check_swiftlint
-popd
-
 pushd StitchCoreAWSService
-check_swiftlint
-popd
-
-pushd StitchCoreAWSSESService
 check_swiftlint
 popd
 
@@ -86,15 +78,7 @@ popd
 
 pushd Services
 
-pushd StitchAWSS3Service
-check_swiftlint
-popd
-
 pushd StitchAWSService
-check_swiftlint
-popd
-
-pushd StitchAWSSESService
 check_swiftlint
 popd
 

@@ -15,26 +15,6 @@ import StitchCoreSDK
 import StitchCoreRemoteMongoDBService
 ```
 
-## StitchSDK/StitchAWSS3Service
-
-```swift
-// OKAY 
-import StitchAWSS3Service // AWS S3 service features
-
-// DO NOT IMPORT - INTERNAL AND UNSTABLE
-import StitchCoreAWSS3Service
-```
-
-## StitchSDK/StitchAWSSESService
-
-```swift
-// OKAY 
-import StitchAWSSESService // AWS SES service features
-
-// DO NOT IMPORT - INTERNAL AND UNSTABLE
-import StitchCoreAWSSESService
-```
-
 ## StitchSDK/StitchFCMService
 
 ```swift

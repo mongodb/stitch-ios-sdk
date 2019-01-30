@@ -16,30 +16,10 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "StitchCoreAWSS3Service::StitchCoreAWSS3ServiceTests"
-               BuildableName = "StitchCoreAWSS3ServiceTests.xctest"
-               BlueprintName = "StitchCoreAWSS3ServiceTests"
-               ReferencedContainer = "container:Core/Services/StitchCoreAWSS3Service/StitchCoreAWSS3Service.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "498062CA2185B7B700E2A3A2"
                BuildableName = "StitchCoreAWSServiceTests.xctest"
                BlueprintName = "StitchCoreAWSServiceTests"
                ReferencedContainer = "container:Core/Services/StitchCoreAWSService/StitchCoreAWSService.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "StitchCoreAWSSESService::StitchCoreAWSSESServiceTests"
-               BuildableName = "StitchCoreAWSSESServiceTests.xctest"
-               BlueprintName = "StitchCoreAWSSESServiceTests"
-               ReferencedContainer = "container:Core/Services/StitchCoreAWSSESService/StitchCoreAWSSESService.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
