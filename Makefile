@@ -7,8 +7,6 @@ all:
 	$(MAKE) -C Core/StitchCoreAdminClient prepare
 	$(MAKE) -C Core/StitchCoreTestUtils prepare
 	$(MAKE) -C Core/Services/StitchCoreAWSService prepare
-	$(MAKE) -C Core/Services/StitchCoreAWSS3Service prepare
-	$(MAKE) -C Core/Services/StitchCoreAWSSESService prepare
 	$(MAKE) -C Core/Services/StitchCoreFCMService prepare
 	$(MAKE) -C Core/Services/StitchCoreHTTPService prepare
 	$(MAKE) -C Core/Services/StitchCoreLocalMongoDBService prepare
@@ -24,8 +22,6 @@ clean:
 	$(MAKE) -C Core/StitchCoreAdminClient clean
 	$(MAKE) -C Core/StitchCoreTestUtils clean
 	$(MAKE) -C Core/Services/StitchCoreAWSService clean
-	$(MAKE) -C Core/Services/StitchCoreAWSS3Service clean
-	$(MAKE) -C Core/Services/StitchCoreAWSSESService clean
 	$(MAKE) -C Core/Services/StitchCoreFCMService clean
 	$(MAKE) -C Core/Services/StitchCoreHTTPService clean
 	$(MAKE) -C Core/Services/StitchCoreLocalMongoDBService clean

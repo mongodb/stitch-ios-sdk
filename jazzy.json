@@ -109,22 +109,6 @@
             "AWSRequestBuilder",
             "AWSRequestBuilderError"
         ]
-    },
-    {
-        "name": "AWS S3 Service (deprecated)",
-        "children": [
-            "awsS3ServiceClientFactory",
-            "AWSS3ServiceClient",
-            "AWSS3PutObjectResult",
-            "AWSS3SignPolicyResult"
-        ]
-    }, {
-        "name": "AWS SES Service (deprecated)",
-        "children": [
-            "awsSESServiceClientFactory",
-            "AWSSESServiceClient",
-            "AWSSESSendResult"
-        ]
     }, {
         "name": "FCM Service",
         "children": [

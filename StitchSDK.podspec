@@ -31,16 +31,6 @@ Pod::Spec.new do |spec|
         core_aws_service.dependency 'StitchCoreAWSService', '= 5.0.0-beta.3'
     end
 
-    # pod "StitchSDK/StitchCoreAWSS3Service", "~> 4.0"
-    spec.subspec "StitchCoreAWSS3Service" do |core_aws_s3_service|
-        core_aws_s3_service.dependency 'StitchCoreAWSS3Service', '= 5.0.0-beta.3'
-    end
-
-    # pod "StitchSDK/StitchCoreAWSSESService", "~> 4.0"
-    spec.subspec "StitchCoreAWSSESService" do |core_aws_ses_service|    
-        core_aws_ses_service.dependency 'StitchCoreAWSSESService', '= 5.0.0-beta.3'
-    end
-
     # pod "StitchSDK/StitchCoreHTTPService", "~> 4.0"
     spec.subspec "StitchCoreHTTPService" do |core_http_service|
         core_http_service.dependency 'StitchCoreHTTPService', '= 5.0.0-beta.3'
@@ -64,16 +54,6 @@ Pod::Spec.new do |spec|
     # pod "StitchSDK/StitchAWSService", "~> 4.0"
     spec.subspec "StitchAWSService" do |aws_service|
         aws_service.dependency 'StitchAWSService', '= 5.0.0-beta.3'
-    end
-
-    # pod "StitchSDK/StitchAWSS3Service", "~> 4.0"
-    spec.subspec "StitchAWSS3Service" do |aws_s3_service|
-        aws_s3_service.dependency 'StitchAWSS3Service', '= 5.0.0-beta.3'
-    end
-
-    # pod "StitchSDK/StitchAWSSESService", "~> 4.0"
-    spec.subspec "StitchAWSSESService" do |aws_ses_service|
-        aws_ses_service.dependency 'StitchAWSSESService', '= 5.0.0-beta.3'
     end
 
     # pod "StitchSDK/StitchHTTPService", "~> 4.0"

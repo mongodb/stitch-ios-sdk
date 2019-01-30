@@ -32,30 +32,10 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "11405A7C20C5A01E0041105B"
-               BuildableName = "StitchAWSS3ServiceTests.xctest"
-               BlueprintName = "StitchAWSS3ServiceTests"
-               ReferencedContainer = "container:Darwin/Services/StitchAWSS3Service/StitchAWSS3Service.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "11B54E18211248D80009E0F0"
                BuildableName = "StitchAWSServiceTests.xctest"
                BlueprintName = "StitchAWSServiceTests"
                ReferencedContainer = "container:Darwin/Services/StitchAWSService/StitchAWSService.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "110188B120C1E2B700C4C119"
-               BuildableName = "StitchAWSSESServiceTests.xctest"
-               BlueprintName = "StitchAWSSESServiceTests"
-               ReferencedContainer = "container:Darwin/Services/StitchAWSSESService/StitchAWSSESService.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
