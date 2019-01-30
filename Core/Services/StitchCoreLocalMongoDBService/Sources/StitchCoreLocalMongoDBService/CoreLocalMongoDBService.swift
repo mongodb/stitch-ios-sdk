@@ -44,6 +44,7 @@ public final class CoreLocalMongoDBService {
             }
 
             activeDbPath = dbPath
+
             try initialize()
 
             var isDir: ObjCBool = true
