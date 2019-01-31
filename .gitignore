@@ -70,16 +70,6 @@ Core/Services/StitchCoreAWSService/Package.pins
 Core/Services/StitchCoreAWSService/Package.resolved
 Core/Services/StitchCoreAWSService/.build/
 
-Core/Services/StitchCoreAWSS3Service/Packages/
-Core/Services/StitchCoreAWSS3Service/Package.pins
-Core/Services/StitchCoreAWSS3Service/Package.resolved
-Core/Services/StitchCoreAWSS3Service/.build/
-
-Core/Services/StitchCoreAWSSESService/Packages/
-Core/Services/StitchCoreAWSSESService/Package.pins
-Core/Services/StitchCoreAWSSESService/Package.resolved
-Core/Services/StitchCoreAWSSESService/.build/
-
 Core/Services/StitchCoreFCMService/Packages/
 Core/Services/StitchCoreFCMService/Package.pins
 Core/Services/StitchCoreFCMService/Package.resolved
