@@ -3,7 +3,7 @@ import Foundation
 /**
  * A struct describing the structure of how authentication information is stored in persisted `Storage`.
  */
-internal struct StoreAuthInfo: Codable, AuthInfo {
+internal struct StoreAuthInfo: Codable {
     enum CodingKeys: String, CodingKey {
         case userID = "userId", deviceID = "deviceId", accessToken
         case refreshToken, loggedInProviderType, loggedInProviderName
@@ -23,7 +23,7 @@ internal struct StoreAuthInfo: Codable, AuthInfo {
     /**
      * The temporary access token for the user.
      */
-    let accessToken: String
+    let accessToken: String?
 
     /**
      * The permanent (though potentially invalidated) refresh token for the user.
@@ -44,6 +44,13 @@ internal struct StoreAuthInfo: Codable, AuthInfo {
      * The profile of the currently authenticated user as a `StitchUserProfile`.
      */
     let userProfile: StitchUserProfile
+
+    /**
+     * isLoggedIn is a computed property determined by the existance of an accessToken and refreshToken
+     */
+    var isLoggedIn: Bool {
+        return accessToken != nil && refreshToken != nil
+    }
 
     /**
      * Initializes the `StoreAuthInfo` with an `APIAuthInfo` and `ExtendedAuthInfo`.
@@ -87,6 +94,42 @@ internal struct StoreAuthInfo: Codable, AuthInfo {
     }
 
     /**
+     * Initializes the `StoreAuthInfo` with a plain `AuthInfo` but removes the
+     * access token and refresh token if withLogout is true.
+     */
+    init(withAuthInfo authInfo: AuthInfo, withLogout logout: Bool) {
+        self.userID = authInfo.userID
+        self.deviceID = authInfo.deviceID
+        self.loggedInProviderType = authInfo.loggedInProviderType
+        self.loggedInProviderName = authInfo.loggedInProviderName
+        self.userProfile = authInfo.userProfile
+
+        if logout {
+            self.refreshToken = nil
+            self.accessToken = nil
+        } else {
+            self.accessToken = authInfo.accessToken
+            self.refreshToken = authInfo.refreshToken
+        }
+    }
+
+    /**
+     * Initializes the `StoreAuthInfo` with a plain `AuthInfo` but changes the provider
+     * name and type
+     */
+    init(withAuthInfo authInfo: AuthInfo,
+         withProviderType loggedInProviderType: StitchProviderType,
+         withProviderName loggedInProviderName: String) {
+        self.userID = authInfo.userID
+        self.deviceID = authInfo.deviceID
+        self.loggedInProviderType = loggedInProviderType
+        self.loggedInProviderName = loggedInProviderName
+        self.userProfile = authInfo.userProfile
+        self.refreshToken = authInfo.refreshToken
+        self.accessToken =  authInfo.accessToken
+    }
+
+    /**
      * Initializes the `StoreAuthInfo`, and an `APIAccessToken` containing a new access token that will
      * overwrite the `AuthInfo`'s acccess token.
      */
@@ -105,7 +148,7 @@ internal struct StoreAuthInfo: Codable, AuthInfo {
      */
     init(userID: String,
          deviceID: String?,
-         accessToken: String,
+         accessToken: String?,
          refreshToken: String?,
          loggedInProviderType: StitchProviderType,
          loggedInProviderName: String,
@@ -124,11 +167,10 @@ internal struct StoreAuthInfo: Codable, AuthInfo {
      */
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-
         self.userID = try container.decode(String.self, forKey: .userID)
         self.deviceID = try container.decode(String.self, forKey: .deviceID)
-        self.accessToken = try container.decode(String.self, forKey: .accessToken)
-        self.refreshToken = try container.decode(String.self, forKey: .refreshToken)
+        self.accessToken = try? container.decode(String.self, forKey: .accessToken)
+        self.refreshToken = try? container.decode(String.self, forKey: .refreshToken)
         self.loggedInProviderType = try container.decode(StitchProviderType.self, forKey: .loggedInProviderType)
         self.loggedInProviderName = try container.decode(String.self, forKey: .loggedInProviderName)
         self.userProfile = try container.decode(StoreCoreUserProfile.self, forKey: .userProfile)
@@ -148,5 +190,15 @@ internal struct StoreAuthInfo: Codable, AuthInfo {
         try container.encode(self.loggedInProviderName, forKey: .loggedInProviderName)
         try container.encode(StoreCoreUserProfile.init(withUserProfile: self.userProfile),
                              forKey: .userProfile)
+    }
+
+    public var toAuthInfo: AuthInfo {
+        return AuthInfo.init(userID: userID,
+                             deviceID: deviceID,
+                             accessToken: accessToken,
+                             refreshToken: refreshToken,
+                             loggedInProviderType: loggedInProviderType,
+                             loggedInProviderName: loggedInProviderName,
+                             userProfile: userProfile)
     }
 }

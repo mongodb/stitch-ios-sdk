@@ -22,20 +22,22 @@ internal final class StitchUserImpl: CoreStitchUserImpl, StitchUser {
          withProviderType providerType: StitchProviderType,
          withProviderName providerName: String,
          withUserProfile userProfile: StitchUserProfile,
-         withAuth auth: StitchAuthImpl) {
+         withAuth auth: StitchAuthImpl,
+         withIsLoggedIn isLoggedIn: Bool) {
         self.auth = auth
         super.init(id: id,
                    loggedInProviderType: providerType,
                    loggedInProviderName: providerName,
-                   profile: userProfile)
+                   profile: userProfile,
+                   isLoggedIn: isLoggedIn)
     }
 
     // MARK: Methods
-
+    
     /**
-     * Links this `StitchUser` with a new identity, where the identity is defined by the credential specified as a
-     * parameter. This will only be successful if this `StitchUser` is the currently authenticated `StitchUser` for the
-     * client from which it was created.
+     * Links the currently authenticated `StitchUser` with a new identity, where the identity is defined by the credential
+     * specified as a parameter. This will only be successful if this `StitchUser` is the currently authenticated
+     * `StitchUser` for the client from which it was created.
      *
      * - parameters:
      *     - withCredential: The `StitchCore.StitchCredential` used to link the user to a new
@@ -48,7 +50,10 @@ internal final class StitchUserImpl: CoreStitchUserImpl, StitchUser {
      *                          logged in user.
      */
     public func link(withCredential credential: StitchCredential,
-                     _ completionHandler: @escaping (StitchResult<StitchUser>) -> Void) {
-        self.auth.link(withCredential: credential, withUser: self, completionHandler)
+                       withUser user: StitchUserImpl,
+                       _ completionHandler: @escaping (StitchResult<StitchUser>) -> Void) {
+        dispatcher.run(withCompletionHandler: completionHandler) {
+            return try self.auth.linkUserWithCredentialInternal(withUser: user, withCredential: credential)
+        }
     }
 }

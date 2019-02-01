@@ -109,6 +109,7 @@ public enum StitchServiceErrorCode: String, Codable {
     notCallable = "FunctionNotCallable",
     userAlreadyConfirmed = "UserAlreadyConfirmed",
     userNotFound = "UserNotFound",
+    userNotLoggedIn = "UserNotLoggedIn",
     userDisabled = "UserDisabled",
     unknown = "Unknown"
 }

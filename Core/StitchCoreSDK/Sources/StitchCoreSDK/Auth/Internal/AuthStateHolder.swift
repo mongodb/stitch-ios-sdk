@@ -23,7 +23,10 @@ internal struct AuthStateHolder {
      * Whether or not a user is currently logged in.
      */
     var isLoggedIn: Bool {
-        return apiAuthInfo != nil || authInfo != nil
+        if apiAuthInfo?.accessToken != nil &&  apiAuthInfo?.refreshToken != nil {
+            return true
+        }
+        return authInfo?.isLoggedIn ?? false
     }
 
     /**

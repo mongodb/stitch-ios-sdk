@@ -33,6 +33,8 @@ final class StubUser: CoreStitchUser {
         StitchUserProfileImpl.init(userType: "", identities: [], data: APIExtendedUserProfileImpl.init())
 
     var identities: [StitchUserIdentity] = []
+
+    var isLoggedIn: Bool = false
 }
 
 class AccessTokenRefresherUnitTests: XCTestCase {
@@ -50,7 +52,7 @@ class AccessTokenRefresherUnitTests: XCTestCase {
             loggedInProviderName: "",
             userProfile: StitchUserProfileImpl.init(userType: "",
                                                     identities: [],
-                                                    data: APIExtendedUserProfileImpl.init()))
+                                                    data: APIExtendedUserProfileImpl.init())).toAuthInfo
 
         auth.isLoggedInMock.doReturn(result: true)
         auth.getAuthInfoMock.doReturn(result: freshAuthInfo)
@@ -71,7 +73,8 @@ class AccessTokenRefresherUnitTests: XCTestCase {
             loggedInProviderName: "",
             userProfile: StitchUserProfileImpl.init(userType: "",
                                                     identities: [],
-                                                    data: APIExtendedUserProfileImpl.init()))
+                                                    data: APIExtendedUserProfileImpl.init())).toAuthInfo
+
         auth.getAuthInfoMock.doReturn(result: expiredAuthInfo)
 
         XCTAssertTrue(accessTokenRefresher.checkRefresh())

@@ -18,6 +18,13 @@ public protocol CoreStitchUser {
     var loggedInProviderName: String { get }
 
     /**
+     * A Bool indicating whether this user is logged in (meaning whether or not there is auth info
+     * available for this user). If a user is logged in, it means that they can be switched to
+     * without re-authenticating with the server.
+     */
+    var isLoggedIn: Bool { get }
+
+    /**
      * A string describing the type of this user. (Either `server` or `normal`)
      */
     var userType: String { get }

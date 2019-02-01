@@ -53,7 +53,7 @@ public class StitchAdminClient {
         return try adminAuth.loginWithCredentialInternal(withCredential: credential)
     }
 
-    public func logout() {
-        return adminAuth.logoutInternal()
+    public func logout() throws {
+        return try adminAuth.logoutInternal(withUserId: nil)
     }
 }

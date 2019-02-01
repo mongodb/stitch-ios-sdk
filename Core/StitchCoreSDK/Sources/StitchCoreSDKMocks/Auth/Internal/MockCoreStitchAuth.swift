@@ -65,7 +65,7 @@ public final class MockCoreStitchAuth<TStitchUser>: CoreStitchAuth<TStitchUser> 
     }
 
     public var getAuthInfoMock = FunctionMockUnit<AuthInfo?>()
-    public override var authInfo: AuthInfo? {
+    public override var activeUserAuthInfo: AuthInfo? {
         get { return getAuthInfoMock.run() }
         set { }
     }

@@ -3,7 +3,7 @@ import Foundation
 /**
  * A struct containing the fields returned by the Stitch client API in an authentication request.
  */
-public struct APIAuthInfoImpl: APIAuthInfo {
+public struct APIAuthInfoImpl: APIAuthInfo, Codable {
     enum CodingKeys: String, CodingKey {
         case userID = "user_id"
         case deviceID = "device_id"
@@ -24,7 +24,7 @@ public struct APIAuthInfoImpl: APIAuthInfo {
     /**
      * The temporary access token for the newly authenticated user.
      */
-    public let accessToken: String
+    public let accessToken: String?
 
     /**
      * The permanent (though potentially invalidated) access token for the newly authenticated user. This will be `nil`

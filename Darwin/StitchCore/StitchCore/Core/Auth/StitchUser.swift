@@ -58,7 +58,24 @@ public protocol StitchUser: CoreStitchUser {
      *                          successful, the result will contain a `StitchUser` object representing the currently
      *                          logged in user.
      */
-    func link(withCredential credential: StitchCredential, _ completionHandler: @escaping (StitchResult<StitchUser>) -> Void)
+    func link(withCredential credential: StitchCredential, _ completionHandler
+    
+    /**
+     * Links the currently authenticated `StitchUser` with a new identity, where the identity is defined by the credential
+     * specified as a parameter. This will only be successful if this `StitchUser` is the currently authenticated
+     * `StitchUser` for the client from which it was created.
+     *
+     * - parameters:
+     *     - withCredential: The `StitchCore.StitchCredential` used to link the user to a new
+     *                       identity. Credentials can be retrieved from an
+     *                       authentication provider client, which is retrieved
+     *                       using the `getProviderClient` method on `StitchAuth`.
+     *     - completionHandler: The completion handler to call when the linking is complete.
+     *                          This handler is executed on a non-main global `DispatchQueue`. If the operation is
+     *                          successful, the result will contain a `StitchUser` object representing the currently
+     *                          logged in user.
+     */
+    func link(withCredential credential: StitchCredential, withUser user: StitchUserImpl, _ completionHandler: @escaping (StitchResult<StitchUser>) -> Void)
 
     // swiftlint:enable line_length
 }

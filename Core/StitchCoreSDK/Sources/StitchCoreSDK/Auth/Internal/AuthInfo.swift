@@ -3,7 +3,7 @@ import Foundation
 /**
  * A protocol representing the fields returned by the Stitch client API in an authentication request.
  */
-public protocol APIAuthInfo: Codable {
+public protocol APIAuthInfo {
     /**
      * The id of the Stitch user.
      */
@@ -17,7 +17,7 @@ public protocol APIAuthInfo: Codable {
     /**
      * The temporary access token for the user.
      */
-    var accessToken: String { get }
+    var accessToken: String? { get }
 
     /**
      * The permanent (though potentially invalidated) refresh token for the user. `nil` in a link request
@@ -47,10 +47,37 @@ public protocol ExtendedAuthInfo {
 }
 
 /**
- * A protocol representing the combined information represented by `APIAuthInfo` and `ExtendedAuthInfo`
+ * A struct representing the combined information represented by `APIAuthInfo` and `ExtendedAuthInfo`
  */
-public protocol AuthInfo: APIAuthInfo, ExtendedAuthInfo {
+public struct AuthInfo: APIAuthInfo, ExtendedAuthInfo, Hashable {
+    public static func == (lhs: AuthInfo, rhs: AuthInfo) -> Bool {
+        return lhs.userID == rhs.userID
+    }
 
+    public var userID: String
+
+    public var deviceID: String?
+
+    public var accessToken: String?
+
+    public var refreshToken: String?
+
+    public var loggedInProviderType: StitchProviderType
+
+    public var loggedInProviderName: String
+
+    public var userProfile: StitchUserProfile
+
+    /**
+     * isLoggedIn is a computed property determined by the existance of an accessToken and refreshToken
+     */
+    var isLoggedIn: Bool {
+        return accessToken != nil && refreshToken != nil
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(userID)
+    }
 }
 
 /**
@@ -58,47 +85,6 @@ public protocol AuthInfo: APIAuthInfo, ExtendedAuthInfo {
  * the underlying access token, and merging a new `APIAuthInfo` with an existing `AuthInfo`.
  */
 extension AuthInfo {
-
-    /**
-     * Reads an `AuthInfo` from some underlying storage.
-     *
-     * - parameters:
-     *     - fromStorage: The `Storage` from which to read the `AuthInfo`.
-     * - throws: if the auth information in the underlying storage is corrupted or missing.
-     * - returns: An `AuthInfo` containing the stored authentication information.
-     */
-    public static func read(fromStorage storage: Storage) throws -> AuthInfo? {
-        let authInfoAny = storage.value(forKey: "auth_info")
-
-        guard let authData = authInfoAny as? Data else {
-            return nil
-        }
-
-        return try JSONDecoder().decode(StoreAuthInfo.self, from: authData)
-    }
-
-    /**
-     * Writes an `AuthInfo` struct into some underlying storage.
-     *
-     * - parameters:
-     *     - toStorage: The `Storage` to which to write the `AuthInfo`.
-     * - throws: if the `AuthInfo` could not be encoded into JSON.
-     */
-    public func write(toStorage storage: inout Storage) throws {
-        storage.set(try JSONEncoder().encode(StoreAuthInfo.init(withAuthInfo: self)),
-                    forKey: "auth_info")
-    }
-
-    /**
-     * Clears the authentication information from some underlying storage.
-     *
-     * - parameters:
-     *     - storage: The `Storage` which should be cleared of any authentication information.
-     */
-    public static func clear(storage: inout Storage) {
-        storage.set(nil, forKey: "auth_info")
-    }
-
     /**
      * Merges a new `APIAuthInfo` into some existing `AuthInfo`.
      *
@@ -108,8 +94,7 @@ extension AuthInfo {
      * - returns: The new `AuthInfo` resulting from the merged parameters.
      */
     func merge(withPartialInfo partialInfo: APIAuthInfo, fromOldInfo oldInfo: AuthInfo) -> AuthInfo {
-        return StoreAuthInfo.init(withAPIAuthInfo: partialInfo,
-                                  withOldInfo: oldInfo)
+        return StoreAuthInfo.init(withAPIAuthInfo: partialInfo, withOldInfo: oldInfo).toAuthInfo
     }
 
     /**
@@ -121,6 +106,6 @@ extension AuthInfo {
      * - returns: The `AuthInfo` that results from updating the access token.
      */
     func refresh(withNewAccessToken newAccessToken: APIAccessToken) -> AuthInfo {
-        return StoreAuthInfo.init(withAuthInfo: self, withNewAPIAccessToken: newAccessToken)
+        return StoreAuthInfo.init(withAuthInfo: self, withNewAPIAccessToken: newAccessToken).toAuthInfo
     }
 }

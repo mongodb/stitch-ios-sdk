@@ -61,7 +61,7 @@ class AccessTokenRefresher<T> where T: CoreStitchUser {
     internal func checkRefresh() -> Bool {
         guard let auth = authRef else { return false }
         guard auth.isLoggedIn else { return true }
-        guard let accessToken = auth.authInfo?.accessToken else { return true }
+        guard let accessToken = auth.activeUserAuthInfo?.accessToken else { return true }
 
         guard let expires = (try? StitchJWT.init(fromEncodedJWT: accessToken))?.expires else {
             return true

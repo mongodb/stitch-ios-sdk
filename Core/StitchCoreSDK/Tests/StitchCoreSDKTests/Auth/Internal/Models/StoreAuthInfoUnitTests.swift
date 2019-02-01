@@ -79,23 +79,6 @@ class StoreAuthInfoUnitTests: XCTestCase {
         let decodedAuthInfo = try JSONDecoder().decode(StoreAuthInfo.self,
                                                        from: JSONEncoder().encode(storeAuthInfo))
 
-        self.assert(storeAuthInfo: storeAuthInfo, isEqualTo: decodedAuthInfo as APIAuthInfo)
-        self.assert(storeAuthInfo: storeAuthInfo, isEqualTo: decodedAuthInfo as ExtendedAuthInfo)
         self.assert(userProfile: storeAuthInfo.userProfile, isEqualTo: decodedAuthInfo.userProfile)
-    }
-
-    func testWrite() throws {
-        var storage: Storage = MemoryStorage()
-
-        let storeAuthInfo = StoreAuthInfo.init(withAPIAuthInfo: apiAuthInfo,
-                                               withExtendedAuthInfo: extendedAuthInfo)
-
-        XCTAssertNoThrow(try storeAuthInfo.write(toStorage: &storage))
-
-        let readAuthInfo = try StoreAuthInfo.read(fromStorage: storage)!
-
-        self.assert(storeAuthInfo: storeAuthInfo, isEqualTo: readAuthInfo as APIAuthInfo)
-        self.assert(storeAuthInfo: storeAuthInfo, isEqualTo: readAuthInfo as ExtendedAuthInfo)
-        self.assert(userProfile: storeAuthInfo.userProfile, isEqualTo: readAuthInfo.userProfile)
     }
 }

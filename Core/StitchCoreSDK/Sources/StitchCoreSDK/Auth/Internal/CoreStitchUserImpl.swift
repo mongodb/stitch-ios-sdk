@@ -17,14 +17,18 @@ open class CoreStitchUserImpl: CoreStitchUser {
         return self.profile.identities
     }
 
+    public let isLoggedIn: Bool
+
     public init(id: String,
                 loggedInProviderType: StitchProviderType,
                 loggedInProviderName: String,
-                profile: StitchUserProfile
+                profile: StitchUserProfile,
+                isLoggedIn: Bool
     ) {
         self.id = id
         self.loggedInProviderType = loggedInProviderType
         self.loggedInProviderName = loggedInProviderName
         self.profile = profile
+        self.isLoggedIn = isLoggedIn
     }
 }
