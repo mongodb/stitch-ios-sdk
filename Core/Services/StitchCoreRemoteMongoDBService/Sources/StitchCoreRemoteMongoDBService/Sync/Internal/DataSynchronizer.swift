@@ -397,11 +397,13 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 // delete the local document.
                 latestDocumentMap.keys.forEach({unseenIds.remove($0)})
                 for unseenId in unseenIds {
-                    guard let docConfig = nsConfig[unseenId.value],
-                        docConfig.lastKnownRemoteVersion != nil,
-                        !docConfig.isPaused else {
-                            // means we aren't actually synchronizing on this remote doc
-                            continue
+                    guard let docConfig = nsConfig[unseenId.value] else {
+                        // means we aren't actually synchronizing on this remote doc
+                        continue
+                    }
+                    guard docConfig.lastKnownRemoteVersion != nil || !docConfig.isPaused else {
+                        docConfig.isStale = false
+                        continue
                     }
 
                     try syncRemoteChangeEventToLocal(
