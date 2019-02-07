@@ -32,14 +32,6 @@ private let testRefreshToken = encode(Algorithm.hs256("foobar".data(using: .utf8
 /**
  * Gets a login response for testing that is always the same.
  */
-//func makeIncrementer(forIncrement amount: Int) -> () -> Int {
-//    var runningTotal = 0
-//    func incrementer() -> Int {
-//        runningTotal += amount
-//        return runningTotal
-//    }
-//    return incrementer
-//}
 private var lastUserId: Int = 0
 private var lastDeviceId: Int = 0
 private func getTestLoginResponse() -> Response {
@@ -138,9 +130,9 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
             )
         }
 
-        // swiftlint:disable line_length
         public final override var userFactory: AnyStitchUserFactory<CoreStitchUserImpl> {
-            return AnyStitchUserFactory.init {(id, providerType, providerName, prof, loggedIn, lastAuthActivity) -> CoreStitchUserImpl in
+            return AnyStitchUserFactory.init {(id, providerType, providerName, prof, loggedIn, lastAuthActivity)
+                -> CoreStitchUserImpl in
                 return CoreStitchUserImpl.init(
                     id: id,
                     loggedInProviderType: providerType,
@@ -397,11 +389,11 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
             let stitchError = error as? StitchError
             XCTAssertNotNil(error as? StitchError)
             if let err = stitchError {
-                guard case .serviceError(_, let errorCode) = err else {
+                guard case .clientError(_) = err else {
                     XCTFail("logoutInternal returned an incorrect error type")
                     return
                 }
-                XCTAssertEqual(errorCode, .userNotFound)
+                XCTAssertEqual("userNotFound", err.description)
             }
         }
 
@@ -464,11 +456,11 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
             let stitchError = error as? StitchError
             XCTAssertNotNil(error as? StitchError)
             if let err = stitchError {
-                guard case .serviceError(_, let errorCode) = err else {
-                    XCTFail("switchToUserInternal returned an incorrect error type")
+                guard case .clientError(_) = err else {
+                    XCTFail("logoutInternal returned an incorrect error type")
                     return
                 }
-                XCTAssertEqual(errorCode, .userNotFound)
+                XCTAssertEqual("userNotFound", err.description)
                 XCTAssertTrue(auth.isLoggedIn)
                 XCTAssertEqual(auth.listUsersInternal().count, 2)
                 XCTAssertEqual(auth.activeUserAuthInfo?.userID, user2.id)
@@ -476,7 +468,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
             }
         }
 
-        // Switch to existing user that is not logged in should
+        // Switch to existing user that is not logged in should throw
         do {
             _ = try auth.switchToUserInternal(withId: user1.id)
             XCTFail("Error was not thrown where it was expected")
@@ -484,11 +476,11 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
             let stitchError = error as? StitchError
             XCTAssertNotNil(error as? StitchError)
             if let err = stitchError {
-                guard case .serviceError(_, let errorCode) = err else {
-                    XCTFail("switchToUserInternal returned an incorrect error type")
+                guard case .clientError(_) = err else {
+                    XCTFail("logoutInternal returned an incorrect error type")
                     return
                 }
-                XCTAssertEqual(errorCode, .userNotLoggedIn)
+                XCTAssertEqual("userNoLongerValid", err.description)
                 XCTAssertTrue(auth.isLoggedIn)
                 XCTAssertEqual(auth.listUsersInternal().count, 2)
                 XCTAssertEqual(auth.activeUserAuthInfo?.userID, user2.id)
@@ -527,7 +519,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         XCTAssertEqual(auth.listUsersInternal()[0].id, user1.id)
         XCTAssertEqual(auth.listUsersInternal()[1].id, user2.id)
 
-        // Removing a non-existant user id should throw and leave the auth state un-changed
+        // Removing a non-existent user id should throw and leave the auth state un-changed
         do {
             try auth.removeUserInternal(withId: "not-a-real-user-id")
             XCTFail("Error was not thrown where it was expected")
@@ -535,11 +527,11 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
             let stitchError = error as? StitchError
             XCTAssertNotNil(error as? StitchError)
             if let err = stitchError {
-                guard case .serviceError(_, let errorCode) = err else {
-                    XCTFail("removeUserInternal returned an incorrect error type")
+                guard case .clientError(_) = err else {
+                    XCTFail("logoutInternal returned an incorrect error type")
                     return
                 }
-                XCTAssertEqual(errorCode, .userNotFound)
+                XCTAssertEqual("userNotFound", err.description)
                 XCTAssertFalse(auth.isLoggedIn)
                 XCTAssertEqual(auth.listUsersInternal().count, 2)
                 XCTAssertTrue(requestClient.doRequestMock.verify(numberOfInvocations: 7, forArg: .any))
@@ -562,7 +554,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         XCTAssertEqual(auth.listUsersInternal().count, 1)
     }
 
-    func testAuthPersistance() throws {
+    func testAuthPersistence() throws {
         let requestClient = getMockedRequestClient()
         let routes = StitchAppRoutes.init(clientAppID: "my_app-12345").authRoutes
         let storage = MemoryStorage.init()
@@ -906,12 +898,12 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         XCTAssertEqual(auth.activeUserAuthInfo?.loggedInProviderName, UserPasswordAuthProvider.defaultName)
     }
 
-    func testDeviceIdPersistance() throws {
+    func testDeviceIdPersistence() throws {
         let requestClient = getMockedRequestClient()
         let routes = StitchAppRoutes.init(clientAppID: "my_app-12345").authRoutes
         let storage = MemoryStorage.init()
 
-        let auth = try StitchAuth.init(
+        var auth = try StitchAuth.init(
             requestClient: requestClient,
             authRoutes: routes,
             storage: storage
@@ -937,6 +929,13 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         // After remove, device id should still exist
         try auth.removeUserInternal(withId: nil)
         XCTAssertNotNil(auth.deviceID)
+        print(auth.deviceID)
+        auth = try StitchAuth.init(
+            requestClient: requestClient,
+            authRoutes: routes,
+            storage: storage
+        )
+        print(auth.deviceID)
     }
 
     func testLastAuthEvent() throws {

@@ -109,7 +109,6 @@ public enum StitchServiceErrorCode: String, Codable {
     notCallable = "FunctionNotCallable",
     userAlreadyConfirmed = "UserAlreadyConfirmed",
     userNotFound = "UserNotFound",
-    userNotLoggedIn = "UserNotLoggedIn",
     userDisabled = "UserDisabled",
     unknown = "Unknown"
 }
@@ -139,6 +138,8 @@ public enum StitchClientErrorCode: Error {
     case couldNotLoadSyncInfo
     case mongoDriverError(withError: Error)
     case syncRecoveryError(withError: Error)
+    case userNotFound
+    case couldNotFindActiveUser
     case unknownChangeEventType
 }
 

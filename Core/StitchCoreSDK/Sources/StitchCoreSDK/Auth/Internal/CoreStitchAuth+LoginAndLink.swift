@@ -15,7 +15,7 @@ extension CoreStitchAuth {
 
         // Iterate over all logged in user to see if we can re-login
         if credential.providerCapabilities.reusesExistingSession {
-            for user in loggedInUsersAuthInfo {
+            for user in allUsersAuthInfo {
                 if type(of: credential).providerType == user.loggedInProviderType {
                     // Switch to this user --> it will persist auth changes
                     return try switchToUserInternal(withId: user.userID)
@@ -101,6 +101,7 @@ extension CoreStitchAuth {
             )
         }
 
+        // Decode the response
         var decodedInfo: APIAuthInfoImpl!
         do {
             decodedInfo = try JSONDecoder().decode(APIAuthInfoImpl.self, from: body)
@@ -132,29 +133,19 @@ extension CoreStitchAuth {
             // and reset any created user. This will keep the currently logged in user logged in if
             // the profile request failed, and in this particular edge case the user is linked,
             // but they are logged in with their older credentials.
-            if asLinkRequest {
-                self.activeUserAuthInfo = nil
-                self.activeUser = nil
-
-                if let authInfo = oldAuthInfo {
-                    self.activeUserAuthInfo = StoreAuthInfo.init(
-                        withAuthInfo: authInfo,
-                        withProviderType: type(of: credential).providerType,
-                        withProviderName: credential.providerName).toAuthInfo
-
-                    self.activeUser = self.userFactory.makeUser(
-                        withID: authInfo.userID,
-                        withLoggedInProviderType: type(of: credential).providerType,
-                        withLoggedInProviderName: credential.providerName,
-                        withUserProfile: authInfo.userProfile,
-                        withIsLoggedIn: authInfo.isLoggedIn,
-                        withLastAuthActivity: authInfo.lastAuthActivity ?? 0.0)
-                }
-            } else if !self.loggedInUsersAuthInfo.isEmpty {
+            if asLinkRequest || oldAuthInfo != nil {
                 self.activeUserAuthInfo = oldAuthInfo
                 self.activeUser = oldUser
+
+                if asLinkRequest, let oldAuthInfo = oldAuthInfo {
+                    let newAuthInfo = StoreAuthInfo.init(
+                        withAuthInfo: oldAuthInfo,
+                        withProviderType: type(of: credential).providerType,
+                        withProviderName: credential.providerName).toAuthInfo
+                    try? updateActiveAuthInfo(withNewAuthInfo: newAuthInfo)
+                }
             } else {
-                clearAllAuth()
+                try? updateActiveAuthInfo(withNewAuthInfo: nil)
             }
 
             throw err
@@ -162,9 +153,10 @@ extension CoreStitchAuth {
 
         // Update the lastAuthActivity of the old active user
         if let oldAuthInfo = oldAuthInfo {
-            if let oldIndex = loggedInUsersAuthInfo.firstIndex(where: {$0.userID == oldAuthInfo.userID}) {
-                let oldAuthInfo = StoreAuthInfo.init(withAuthInfo: oldAuthInfo, withNewTime: true).toAuthInfo
-                loggedInUsersAuthInfo[oldIndex] = oldAuthInfo
+            if let oldIndex = allUsersAuthInfo.firstIndex(where: {$0.userID == oldAuthInfo.userID}) {
+                let oldAuthInfo = StoreAuthInfo.init(withAuthInfo: oldAuthInfo,
+                                                     withOptions: [.updateLastAuthActivity]).toAuthInfo
+                allUsersAuthInfo[oldIndex] = oldAuthInfo
             }
         }
 
@@ -174,61 +166,49 @@ extension CoreStitchAuth {
             withExtendedAuthInfo: ExtendedAuthInfoImpl.init(loggedInProviderType: type(of: credential).providerType,
                                                             loggedInProviderName: credential.providerName,
                                                             userProfile: profile)).toAuthInfo
-        newAuthInfo = StoreAuthInfo.init(withAuthInfo: newAuthInfo, withNewTime: true).toAuthInfo
+
+        newAuthInfo = StoreAuthInfo.init(withAuthInfo: newAuthInfo,
+                                         withOptions: [.updateLastAuthActivity]).toAuthInfo
 
         let newUser = self.userFactory.makeUser(withID: newAuthInfo.userID,
                                                 withLoggedInProviderType: newAuthInfo.loggedInProviderType,
                                                 withLoggedInProviderName: newAuthInfo.loggedInProviderName,
                                                 withUserProfile: newAuthInfo.userProfile,
                                                 withIsLoggedIn: newAuthInfo.isLoggedIn,
-                                                withLastAuthActivity: newAuthInfo.lastAuthActivity ?? 0.0)
-
-        // Persist auth info to storage, and return the resulting StitchUser
-        do {
-            try writeActiveUserAuthInfoToStorage(activeAuthInfo: newAuthInfo, toStorage: storage)
-        } catch {
-            // Back out of setting authInfo
-            self.activeUserAuthInfo = oldAuthInfo
-            self.activeUser = oldUser
-
-            throw StitchError.clientError(withClientErrorCode: .couldNotPersistAuthInfo)
-        }
+                                                withLastAuthActivity: newAuthInfo.lastAuthActivity
+                                                    ?? Date.init().timeIntervalSince1970)
 
         // If the user already exists update it, otherwise append it to the list
         var index: Int = -1
         var oldAuthInfoForNewUser: AuthInfo?
-        if let oldIndex = loggedInUsersAuthInfo.firstIndex(where: {$0.userID == newAuthInfo.userID}) {
+        if let oldIndex = allUsersAuthInfo.firstIndex(where: {$0.userID == newAuthInfo.userID}) {
             index = oldIndex
-            oldAuthInfoForNewUser = loggedInUsersAuthInfo[index]
-            loggedInUsersAuthInfo[index] = newAuthInfo
+            oldAuthInfoForNewUser = allUsersAuthInfo[index]
+            allUsersAuthInfo[index] = newAuthInfo
         } else {
-            index = loggedInUsersAuthInfo.count
-            loggedInUsersAuthInfo.append(newAuthInfo)
+            index = allUsersAuthInfo.count
+            allUsersAuthInfo.append(newAuthInfo)
         }
 
-        // Persist the changes
+        // Persist auth info to storage, and return the resulting StitchUser
         do {
-            try writeCurrentUsersAuthInfoToStorage(
-                currentUsersAuthInfo: loggedInUsersAuthInfo,
-                toStorage: storage)
+            try writeActiveUserAuthInfoToStorage(activeAuthInfo: newAuthInfo)
+            try writeCurrentUsersAuthInfoToStorage()
         } catch {
-            // Back out of setting auth info
+            // Back out of setting authInfo
             self.activeUserAuthInfo = oldAuthInfo
             self.activeUser = oldUser
+            if let info = oldAuthInfo {
+                try? writeActiveUserAuthInfoToStorage(activeAuthInfo: info)
+            }
 
             if let oldAuthInfoForNewUser = oldAuthInfoForNewUser {
-                loggedInUsersAuthInfo[index] = oldAuthInfoForNewUser
+                allUsersAuthInfo[index] = oldAuthInfoForNewUser
             } else {
-                loggedInUsersAuthInfo.removeLast()
+                allUsersAuthInfo.removeLast()
             }
+            try? writeCurrentUsersAuthInfoToStorage()
 
-            do {
-                if let info = oldAuthInfo {
-                    try writeActiveUserAuthInfoToStorage(activeAuthInfo: info, toStorage: storage)
-                }
-            } catch {
-                // Do nothing
-            }
             throw StitchError.clientError(withClientErrorCode: .couldNotPersistAuthInfo)
         }
 

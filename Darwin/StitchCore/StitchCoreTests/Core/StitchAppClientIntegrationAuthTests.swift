@@ -65,7 +65,6 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
 
     func testUserProfile() throws {
         let exp = expectation(description: "verified profile information")
-
         stitchAppClient.auth.login(withCredential: AnonymousCredential()) { result in
             switch result {
             case .success(let user):
@@ -372,7 +371,7 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
             switch result {
             case .success(let linkedUser):
                 XCTAssertEqual(anonUser.id, linkedUser.id)
-                // self.verifyBasicAuthStorageInfo(loggedIn: true, expectedProviderType: StitchProviderType.userPassword)
+                self.verifyBasicAuthInfo(loggedInList: [false, true], loggedIn: true, expectedProviderType: .userPassword, expectedUserIndex: 1)
                 XCTAssertEqual(linkedUser.profile.identities.count, 2)
                 exp4.fulfill()
             case .failure:

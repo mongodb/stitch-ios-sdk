@@ -11,12 +11,10 @@ extension CoreStitchAuth {
     /**
      * Reads an `AuthInfo` from some underlying storage.
      *
-     * - parameters:
-     *     - fromStorage: The `Storage` from which to read the `AuthInfo`.
      * - throws: if the auth information in the underlying storage is corrupted or missing.
      * - returns: An `AuthInfo` containing the stored authentication information.
      */
-    internal func readActiveUserAuthInfoFromStorage(fromStorage storage: Storage) throws -> AuthInfo? {
+    internal func readActiveUserAuthInfoFromStorage() throws -> AuthInfo? {
         let authInfoAny = storage.value(forKey: activeUserStorageKey)
 
         guard let authData = authInfoAny as? Data else {
@@ -30,11 +28,9 @@ extension CoreStitchAuth {
      *
      * - parameters:
      *     - activeAuthInfo: The `AuthInfo` to write to `Storage`
-     *     - toStorage: The `Storage` to which to write the `AuthInfo`.
      * - throws: if the `AuthInfo` could not be encoded into JSON.
      */
-    internal func writeActiveUserAuthInfoToStorage(activeAuthInfo authInfo: AuthInfo,
-                                                   toStorage storage: Storage) throws {
+    internal func writeActiveUserAuthInfoToStorage(activeAuthInfo authInfo: AuthInfo) throws {
         storage.set(try JSONEncoder().encode(StoreAuthInfo.init(withAuthInfo: authInfo)),
                     forKey: activeUserStorageKey)
     }
@@ -42,12 +38,10 @@ extension CoreStitchAuth {
     /**
      * Reads an Array of `AuthInfo` from some underlying storage.
      *
-     * - parameters:
-     *     - fromStorage: The `Storage` from which to read the `AuthInfo` array.
      * - throws: if the auth information in the underlying storage is corrupted or missing.
      * - returns: A List of [`AuthInfo`] classes.
      */
-    internal func readCurrentUsersAuthInfoFromStorage(fromStorage storage: Storage) throws -> [AuthInfo] {
+    internal func readCurrentUsersAuthInfoFromStorage() throws -> [AuthInfo] {
         var authInfos: [AuthInfo] = []
         let authInfoAny = storage.value(forKey: allCurrentUsersStorageKey)
 
@@ -65,75 +59,63 @@ extension CoreStitchAuth {
     /**
      * Writes a list of `AuthInfo` structs into some underlying storage.
      *
-     * - parameters:
-     *     - currentUsersAuthInfo: An array of `AuthInfo` structs to write to `Storage`
-     *     - toStorage: The `Storage` to which to write the `AuthInfo`.
      * - throws: if the `AuthInfo` could not be encoded into JSON.
      */
-    internal func writeCurrentUsersAuthInfoToStorage(currentUsersAuthInfo currentUsers: [AuthInfo],
-                                                     toStorage storage: Storage) throws {
+    internal func writeCurrentUsersAuthInfoToStorage() throws {
         var currentUsersStore: [StoreAuthInfo] = []
-        for user in currentUsers {
+        for user in allUsersAuthInfo {
             currentUsersStore.append(StoreAuthInfo.init(withAuthInfo: user))
         }
 
         storage.set(try JSONEncoder().encode(currentUsersStore), forKey: allCurrentUsersStorageKey)
     }
 
-    /**
-     * Clears the authentication information for the user with the given id.
-     *
-     * - parameters:
-     *     - storage: The `Storage` which should be cleared of any authentication information.
+    /*
+     * Helper function to update the activeUserAuthInfo and activeUser and persist the changes
      */
-    internal func clearUser(storage: Storage, withUserId userId: String) throws {
+    internal func updateActiveAuthInfo(withNewAuthInfo authInfo: AuthInfo?) throws {
+        guard let authInfo = authInfo else {
+            // TODO
+            authStateHolder.clearState()
+            activeUser = nil
+            storage.set(activeUserAuthInfo, forKey: activeUserStorageKey)
+            return
+        }
+
+        activeUserAuthInfo = authInfo
+        activeUser = userFactory.makeUser(
+            withID: authInfo.userID,
+            withLoggedInProviderType: authInfo.loggedInProviderType,
+            withLoggedInProviderName: authInfo.loggedInProviderName,
+            withUserProfile: authInfo.userProfile,
+            withIsLoggedIn: authInfo.isLoggedIn,
+            withLastAuthActivity: authInfo.lastAuthActivity ?? Date.init().timeIntervalSince1970)
+        try writeActiveUserAuthInfoToStorage(activeAuthInfo: authInfo)
+    }
+
+    /*
+     * Helper function to logout a user with the given id and persist necessary changes
+     */
+    internal func clearUserAuthToken(forUserId userId: String) throws {
         objc_sync_enter(authStateLock)
         defer { objc_sync_exit(authStateLock) }
 
         // Get the user objects if it exists --> otherwise throw
-        guard let index = loggedInUsersAuthInfo.firstIndex(where: {$0.userID == userId}) else {
-            throw StitchError.serviceError(
-                withMessage: "User with id: \(userId) not found",
-                withServiceErrorCode: .userNotFound)
+        guard let index = allUsersAuthInfo.firstIndex(where: {$0.userID == userId}) else {
+            throw StitchError.clientError(withClientErrorCode: .userNotFound)
         }
+        let authInfo = allUsersAuthInfo[index]
 
-        // Otherwise remove the user and persist the list
-        loggedInUsersAuthInfo.remove(at: index)
-        try writeCurrentUsersAuthInfoToStorage(
-            currentUsersAuthInfo: loggedInUsersAuthInfo,
-            toStorage: storage)
+        // Otherwise, update the AuthInfo to remove the tokens and update the lastAuthActivity
+        let newAuthInfo = StoreAuthInfo.init(
+            withAuthInfo: authInfo,
+            withOptions: [.updateLastAuthActivity, .removeAuthTokens]).toAuthInfo
+        allUsersAuthInfo[index] = newAuthInfo
+        try writeCurrentUsersAuthInfoToStorage()
 
-        // If it was the active user --> remove
+        // If this is the active user, update the active authInfo and and user
         if userId == activeUserAuthInfo?.userID {
-            clearActiveAuthInfo(storage: storage)
+            try updateActiveAuthInfo(withNewAuthInfo: nil)
         }
-    }
-
-    internal func clearActiveAuthInfo(storage: Storage) {
-        storage.set(nil, forKey: activeUserStorageKey)
-        self.authStateHolder.clearState()
-        self.activeUser = nil
-        onAuthEvent()
-    }
-
-    /**
-     * Clears the authentication information for the currently active user.
-     *
-     * - parameters:
-     *     - storage: The `Storage` which should be cleared of any authentication information.
-     */
-
-    /**
-     * Clears the `CoreStitchAuth`'s entire authentication state, as well as associated authentication
-     * state in underlying storage.
-     */
-    internal func clearAllAuth() {
-        objc_sync_enter(authStateLock)
-        defer { objc_sync_exit(authStateLock) }
-
-        self.authStateHolder.clearState()
-        self.activeUser = nil
-        storage.set(nil, forKey: allCurrentUsersStorageKey)
-        storage.set(nil, forKey: activeUserStorageKey)
     }
 }

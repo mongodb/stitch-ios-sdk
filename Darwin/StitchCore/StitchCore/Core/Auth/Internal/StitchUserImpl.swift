@@ -34,10 +34,10 @@ internal final class StitchUserImpl: CoreStitchUserImpl, StitchUser {
     }
 
     // MARK: Methods
-    // swiftlint:disable line_length
     /**
-     * Links the currently authenticated `StitchUser` with a new identity, where the identity is defined by the credential
-     * specified as a parameter. This will only be successful if this `StitchUser` is the currently authenticated
+     * Links the currently authenticated `StitchUser` with a new identity, where the identity is defined
+     * by the credential specified as a parameter. This will only be successful if this `StitchUser` is
+     * the currently authenticated
      * `StitchUser` for the client from which it was created.
      *
      * - parameters:
@@ -50,8 +50,8 @@ internal final class StitchUserImpl: CoreStitchUserImpl, StitchUser {
      *                          successful, the result will contain a `StitchUser` object representing the currently
      *                          logged in user.
      */
-    public func link(withCredential credential: StitchCredential, _ completionHandler: @escaping (StitchResult<StitchUser>) -> Void) {
+    public func link(withCredential credential: StitchCredential,
+                     _ completionHandler: @escaping (StitchResult<StitchUser>) -> Void) {
         self.auth.link(withCredential: credential, withUser: self, completionHandler)
     }
 }
-// swiftlint:enable line_length

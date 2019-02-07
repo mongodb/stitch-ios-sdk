@@ -48,7 +48,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
     /**
      * A Dictionary of `TStitchUser` objects mapped by by their `userID`.
      */
-    internal var loggedInUsersAuthInfo: [AuthInfo]
+    internal var allUsersAuthInfo: [AuthInfo]
 
     /**
      * The getter and setter for authentication state, as represented by an `AuthInfo` object.
@@ -88,14 +88,14 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
         self.requestClient = requestClient
         self.authRoutes = authRoutes
         self.storage = storage
-        self.loggedInUsersAuthInfo = []
+        self.allUsersAuthInfo = []
 
         // Retrieve all logged in users from storage
         do {
-            let authInfos = try readCurrentUsersAuthInfoFromStorage(fromStorage: storage)
+            let authInfos = try readCurrentUsersAuthInfoFromStorage()
 
             for authInfo in authInfos {
-                loggedInUsersAuthInfo.append(authInfo)
+                allUsersAuthInfo.append(authInfo)
             }
         } catch {
             throw StitchError.clientError(withClientErrorCode: .couldNotLoadPersistedAuthInfo)
@@ -103,7 +103,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
 
         // Retrieve the active user from storage
         do {
-            self.authStateHolder.authInfo = try readActiveUserAuthInfoFromStorage(fromStorage: storage)
+            self.authStateHolder.authInfo = try readActiveUserAuthInfoFromStorage()
             if self.authStateHolder.authInfo == nil {
                 self.authStateHolder.clearState()
             }
@@ -234,7 +234,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
 
         do {
             if let authInfo = self.activeUserAuthInfo {
-                try writeActiveUserAuthInfoToStorage(activeAuthInfo: authInfo, toStorage: storage)
+                try writeActiveUserAuthInfoToStorage(activeAuthInfo: authInfo)
             }
         } catch {
             throw StitchError.clientError(withClientErrorCode: .couldNotPersistAuthInfo)

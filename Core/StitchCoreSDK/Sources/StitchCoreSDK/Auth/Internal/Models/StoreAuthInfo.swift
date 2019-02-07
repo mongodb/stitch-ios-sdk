@@ -10,6 +10,10 @@ internal struct StoreAuthInfo: Codable {
         case userProfile, lastAuthActivity
     }
 
+    enum StoreAuthInfoInitOptions {
+        case removeAuthTokens, updateLastAuthActivity
+    }
+
     /**
      * The id of the Stitch user.
      */
@@ -104,47 +108,27 @@ internal struct StoreAuthInfo: Codable {
 
     /**
      * Initializes the `StoreAuthInfo` with a plain `AuthInfo` and
-     * if withNewTime is true then updates the lastAuthActivity
+     * and array of enums acting as options
      */
-    init(withAuthInfo authInfo: AuthInfo, withNewTime: Bool? = nil) {
-        self.userID = authInfo.userID
-        self.deviceID = authInfo.deviceID
-        self.accessToken = authInfo.accessToken
-        self.refreshToken = authInfo.refreshToken
-        self.loggedInProviderType = authInfo.loggedInProviderType
-        self.loggedInProviderName = authInfo.loggedInProviderName
-        self.userProfile = authInfo.userProfile
-
-        if let withNewTime = withNewTime {
-            if withNewTime {
-                self.lastAuthActivity = Date.init().timeIntervalSince1970
-            } else {
-                self.lastAuthActivity = authInfo.lastAuthActivity
-            }
-        } else {
-             self.lastAuthActivity = authInfo.lastAuthActivity
-        }
-    }
-
-    /**
-     * Initializes the `StoreAuthInfo` with a plain `AuthInfo` but removes the
-     * access token and refresh token if withLogout is true.
-     */
-    init(withAuthInfo authInfo: AuthInfo, withLogout logout: Bool) {
+    init(withAuthInfo authInfo: AuthInfo, withOptions options: [StoreAuthInfoInitOptions]) {
         self.userID = authInfo.userID
         self.deviceID = authInfo.deviceID
         self.loggedInProviderType = authInfo.loggedInProviderType
         self.loggedInProviderName = authInfo.loggedInProviderName
         self.userProfile = authInfo.userProfile
 
-        if logout {
+        if options.contains(.removeAuthTokens) {
             self.refreshToken = nil
             self.accessToken = nil
-            self.lastAuthActivity = Date.init().timeIntervalSince1970
         } else {
             self.accessToken = authInfo.accessToken
             self.refreshToken = authInfo.refreshToken
-            self.lastAuthActivity = authInfo.lastAuthActivity
+        }
+
+        if options.contains(.updateLastAuthActivity) {
+            self.lastAuthActivity = Date.init().timeIntervalSince1970
+        } else {
+           self.lastAuthActivity = authInfo.lastAuthActivity
         }
     }
 

@@ -17,39 +17,24 @@ extension CoreStitchAuth {
         }
 
         // Get the user objects if it exists --> otherwise throw
-        guard let index = loggedInUsersAuthInfo.firstIndex(where: {$0.userID == userId}) else {
-            throw StitchError.serviceError(
-                withMessage: "User with id: \(userId) not found",
-                withServiceErrorCode: .userNotFound)
+        guard let index = allUsersAuthInfo.firstIndex(where: {$0.userID == userId}) else {
+            throw StitchError.clientError(withClientErrorCode: .userNotFound)
         }
-        let authInfo = loggedInUsersAuthInfo[index]
+        let authInfo = allUsersAuthInfo[index]
 
         // If the user is not logged in --> return
-        guard authInfo.isLoggedIn else { return }
+        guard allUsersAuthInfo[index].isLoggedIn else { return }
 
-        // If it is an AnonymousUser remove the user altogether from the list
-        // Otherwise set the authInfo to have no access token or refresh token
-        var newAuthInfo = StoreAuthInfo.init(withAuthInfo: authInfo, withLogout: true).toAuthInfo
-        newAuthInfo = StoreAuthInfo.init(withAuthInfo: newAuthInfo, withNewTime: true).toAuthInfo
-
+        // If this is an anonymous user --> remove it (will perform logout)
         if authInfo.loggedInProviderType == .anonymous {
-            loggedInUsersAuthInfo.remove(at: index)
-        } else {
-            loggedInUsersAuthInfo[index] = newAuthInfo
-        }
-
-        try writeCurrentUsersAuthInfoToStorage(
-            currentUsersAuthInfo: loggedInUsersAuthInfo,
-            toStorage: storage)
-
-        // If this was the active user then set the activeUser to nil and clear its authState
-        if userId == activeUserAuthInfo?.userID {
-            // This will call onAuthEvent
-            clearActiveAuthInfo(storage: storage)
+            return try removeUserInternal(withId: userId)
         }
 
         // Issue the logout request
         _ = try? self.doLogout(authInfo)
+
+        // Update the AuthInfo to remove the tokens and update the lastAuthActivity
+        try clearUserAuthToken(forUserId: userId)
     }
 
     /**
@@ -60,51 +45,44 @@ extension CoreStitchAuth {
         defer { objc_sync_exit(authOperationLock) }
 
         // Get the user objects if it exists --> otherwise throw
-        guard let index = loggedInUsersAuthInfo.firstIndex(where: {$0.userID == userId}) else {
-            throw StitchError.serviceError(
-                withMessage: "User with id: \(userId) not found",
-                withServiceErrorCode: .userNotFound)
+        guard let index = allUsersAuthInfo.firstIndex(where: {$0.userID == userId}) else {
+            throw StitchError.clientError(withClientErrorCode: .userNotFound)
         }
-        let authInfo = loggedInUsersAuthInfo[index]
+        let authInfo = allUsersAuthInfo[index]
 
+        // If the user is not logged in, throw a userNoLongerValid ClientError
         if !authInfo.isLoggedIn {
-            throw StitchError.serviceError(
-                withMessage: "User with id: \(userId) not logged in",
-                withServiceErrorCode: .userNotLoggedIn)
+            throw StitchError.clientError(withClientErrorCode: .userNoLongerValid)
         }
-
-        // Trigger Auth Event
-        defer { onAuthEvent() }
 
         // Update the lastAuthActivity of the old and new active user and persist
         if let oldActiveAuthInfo = activeUserAuthInfo {
-            if let oldIndex = loggedInUsersAuthInfo.firstIndex(where: {$0.userID == oldActiveAuthInfo.userID}) {
-                let oldAuthInfo = StoreAuthInfo.init(withAuthInfo: oldActiveAuthInfo, withNewTime: true).toAuthInfo
-                loggedInUsersAuthInfo[oldIndex] = oldAuthInfo
+            if let oldIndex = allUsersAuthInfo.firstIndex(where: {$0.userID == oldActiveAuthInfo.userID}) {
+                allUsersAuthInfo[oldIndex] = StoreAuthInfo.init(withAuthInfo: oldActiveAuthInfo,
+                                                                withOptions: [.updateLastAuthActivity]).toAuthInfo
             }
         }
-        let newAuthInfo = StoreAuthInfo.init(withAuthInfo: authInfo, withNewTime: true).toAuthInfo
-        loggedInUsersAuthInfo[index] = newAuthInfo
-        do {
-            try writeCurrentUsersAuthInfoToStorage(currentUsersAuthInfo: loggedInUsersAuthInfo, toStorage: storage)
-        } catch {
-            // Do nothing, would prefer not to fail here 
+
+        // Update the time of the new auth info
+        let newAuthInfo = StoreAuthInfo.init(withAuthInfo: authInfo, withOptions: [.updateLastAuthActivity]).toAuthInfo
+        allUsersAuthInfo[index] = newAuthInfo
+
+        // Persist the list of users
+        try writeCurrentUsersAuthInfoToStorage()
+
+        // Update the active user
+        try updateActiveAuthInfo(withNewAuthInfo: newAuthInfo)
+
+        // This should never happen because it is set right abovr in updateActiveAuthInfo
+        // but throw an error if there is no activeUser
+        guard let user = activeUser else {
+            throw StitchError.clientError(withClientErrorCode: .couldNotFindActiveUser)
         }
 
-        // Set the active user and persist
-        self.activeUserAuthInfo = authInfo
-        let tmpUser = self.userFactory.makeUser(
-            withID: authInfo.userID,
-            withLoggedInProviderType: authInfo.loggedInProviderType,
-            withLoggedInProviderName: authInfo.loggedInProviderName,
-            withUserProfile: authInfo.userProfile,
-            withIsLoggedIn: authInfo.isLoggedIn,
-            withLastAuthActivity: authInfo.lastAuthActivity ?? 0.0)
+        // Trigger auth events
+        onAuthEvent()
 
-        self.activeUser = tmpUser
-        try writeActiveUserAuthInfoToStorage(activeAuthInfo: authInfo, toStorage: storage)
-
-        return tmpUser
+        return user
     }
 
     /**
@@ -122,20 +100,23 @@ extension CoreStitchAuth {
         }
 
         // Get the user objects if it exists --> otherwise throw
-        guard let index = loggedInUsersAuthInfo.firstIndex(where: {$0.userID == userId}) else {
-            throw StitchError.serviceError(
-                withMessage: "User with id: \(userId) not found",
-                withServiceErrorCode: .userNotFound)
+        guard let index = allUsersAuthInfo.firstIndex(where: {$0.userID == userId}) else {
+            throw StitchError.clientError(withClientErrorCode: .userNotFound)
         }
-        let authInfo = loggedInUsersAuthInfo[index]
+        let authInfo = allUsersAuthInfo[index]
 
-        // remove user from the list of users and persist
-        // this will call onAuthEvent() if it is the activeUser
-        try clearUser(storage: storage, withUserId: userId)
-
-        // If the user is logged in --> issue a request to logout
+        // If the user is logged in --> logout
         if authInfo.isLoggedIn {
-            try doLogout(authInfo)
+            _ = try? doLogout(authInfo)
+        }
+
+        // Remove the user from allUsersAuthInfo and persist
+        allUsersAuthInfo.remove(at: index)
+        try writeCurrentUsersAuthInfoToStorage()
+
+        // If this is the active user --> remove
+        if userId == activeUserAuthInfo?.userID {
+            try updateActiveAuthInfo(withNewAuthInfo: nil)
         }
     }
 
@@ -144,7 +125,7 @@ extension CoreStitchAuth {
      */
     public func listUsersInternal() -> [TStitchUser] {
         var list: [TStitchUser] = []
-        for userInfo in self.loggedInUsersAuthInfo {
+        for userInfo in self.allUsersAuthInfo {
             list.append(self.userFactory.makeUser(
                 withID: userInfo.userID,
                 withLoggedInProviderType: userInfo.loggedInProviderType,
@@ -172,6 +153,7 @@ extension CoreStitchAuth {
             stitchRequest: prepareAuthRequest(withAuthRequest: request, withAuthInfo: userInfo),
             useRefreshToken: false)
 
+        onAuthEvent()
         return try doAuthenticatedRequest(request)
     }
 }

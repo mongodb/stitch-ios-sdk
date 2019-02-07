@@ -74,9 +74,6 @@ open class BaseStitchIntTest: XCTestCase {
     public func createApp(
         withAppName appName: String = "test-\(ObjectId().description)"
     ) throws -> (AppResponse, Apps.App) {
-        print(groupID)
-        print(appName)
-        try print(adminClient.adminProfile().identities.count)
         let appInfo = try adminClient.apps(withGroupID: groupID).create(name: appName)
         let app = adminClient.apps(withGroupID: groupID).app(withAppID: appInfo.id)
         apps.append(app)

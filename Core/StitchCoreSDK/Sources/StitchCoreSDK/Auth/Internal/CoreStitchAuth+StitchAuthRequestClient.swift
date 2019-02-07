@@ -131,7 +131,7 @@ extension CoreStitchAuth {
         // notify
         if req.useRefreshToken || !req.shouldRefreshOnFailure {
             do {
-                try self.clearUser(storage: storage, withUserId: activeUserAuthInfo?.userID ?? "")
+                try self.clearUserAuthToken(forUserId: activeUserAuthInfo?.userID ?? "")
             } catch {
                 // Do nothing
             }
@@ -163,7 +163,7 @@ extension CoreStitchAuth {
         // notify
         if req.useRefreshToken || !req.shouldRefreshOnFailure {
             do {
-                try self.clearUser(storage: storage, withUserId: activeUserAuthInfo?.userID ?? "")
+                try self.clearUserAuthToken(forUserId: activeUserAuthInfo?.userID ?? "")
             } catch {
                 // Do nothing
             }
