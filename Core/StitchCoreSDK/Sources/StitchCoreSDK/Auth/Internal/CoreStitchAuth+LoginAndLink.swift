@@ -9,7 +9,7 @@ extension CoreStitchAuth {
      * Authenticates the `CoreStitchAuth` using the provided `StitchCredential. Blocks the current thread until the
      * request is completed.
      */
-    public func loginWithCredentialInternal(withCredential credential: StitchCredential) throws -> TStitchUser {
+    public func loginInternal(withCredential credential: StitchCredential) throws -> TStitchUser {
         objc_sync_enter(authOperationLock)
         defer { objc_sync_exit(authOperationLock) }
 
@@ -18,7 +18,7 @@ extension CoreStitchAuth {
             for user in loggedInUsersAuthInfo {
                 if type(of: credential).providerType == user.loggedInProviderType {
                     // Switch to this user --> it will persist auth changes
-                    return try switchToUserWithIdInternal(user.userID)
+                    return try switchToUserInternal(withId: user.userID)
                 }
             }
         }
@@ -26,20 +26,20 @@ extension CoreStitchAuth {
         // Otherwise, doLogin() will change the auth data structures and persist them
         return try doLogin(withCredential: credential, asLinkRequest: false)
     }
-    
+
     /**
      * Links the currently logged in user with a new identity represented by the provided `StitchCredential. Blocks the
      * current thread until the request is completed.
      */
-    public func linkUserWithCredentialInternal(withUser user: TStitchUser,
-                                               withCredential credential: StitchCredential) throws -> TStitchUser {
+    public func linkUserInternal(withUser user: TStitchUser,
+                                 withCredential credential: StitchCredential) throws -> TStitchUser {
         objc_sync_enter(authOperationLock)
         defer { objc_sync_exit(authOperationLock) }
+
         guard let activeUser = self.activeUser,
             user == activeUser else {
                 throw StitchError.clientError(withClientErrorCode: .userNoLongerValid)
         }
-        
         return try self.doLogin(withCredential: credential, asLinkRequest: true)
     }
 
@@ -90,6 +90,7 @@ extension CoreStitchAuth {
      * Processes the response of the login/link request, setting the authentication state if appropriate, and
      * requesting the user profile in a separate request.
      */
+    // swiftlint:disable function_body_length
     internal func processLoginResponse(withCredential credential: StitchCredential,
                                        forResponse response: Response,
                                        asLinkRequest: Bool) throws -> TStitchUser {
@@ -146,7 +147,8 @@ extension CoreStitchAuth {
                         withLoggedInProviderType: type(of: credential).providerType,
                         withLoggedInProviderName: credential.providerName,
                         withUserProfile: authInfo.userProfile,
-                        withIsLoggedIn: authInfo.isLoggedIn)
+                        withIsLoggedIn: authInfo.isLoggedIn,
+                        withLastAuthActivity: authInfo.lastAuthActivity ?? 0.0)
                 }
             } else if !self.loggedInUsersAuthInfo.isEmpty {
                 self.activeUserAuthInfo = oldAuthInfo
@@ -158,18 +160,28 @@ extension CoreStitchAuth {
             throw err
         }
 
+        // Update the lastAuthActivity of the old active user
+        if let oldAuthInfo = oldAuthInfo {
+            if let oldIndex = loggedInUsersAuthInfo.firstIndex(where: {$0.userID == oldAuthInfo.userID}) {
+                let oldAuthInfo = StoreAuthInfo.init(withAuthInfo: oldAuthInfo, withNewTime: true).toAuthInfo
+                loggedInUsersAuthInfo[oldIndex] = oldAuthInfo
+            }
+        }
+
         // Finally set the info and user
-        let newAuthInfo = StoreAuthInfo.init(
+        var newAuthInfo = StoreAuthInfo.init(
             withAPIAuthInfo: newAPIAuthInfo,
             withExtendedAuthInfo: ExtendedAuthInfoImpl.init(loggedInProviderType: type(of: credential).providerType,
                                                             loggedInProviderName: credential.providerName,
                                                             userProfile: profile)).toAuthInfo
+        newAuthInfo = StoreAuthInfo.init(withAuthInfo: newAuthInfo, withNewTime: true).toAuthInfo
 
         let newUser = self.userFactory.makeUser(withID: newAuthInfo.userID,
                                                 withLoggedInProviderType: newAuthInfo.loggedInProviderType,
                                                 withLoggedInProviderName: newAuthInfo.loggedInProviderName,
                                                 withUserProfile: newAuthInfo.userProfile,
-                                                withIsLoggedIn: newAuthInfo.isLoggedIn)
+                                                withIsLoggedIn: newAuthInfo.isLoggedIn,
+                                                withLastAuthActivity: newAuthInfo.lastAuthActivity ?? 0.0)
 
         // Persist auth info to storage, and return the resulting StitchUser
         do {
@@ -185,13 +197,11 @@ extension CoreStitchAuth {
         // If the user already exists update it, otherwise append it to the list
         var index: Int = -1
         var oldAuthInfoForNewUser: AuthInfo?
-
-        do {
-            let (oldIndex, oldInfo) = try getUserAndIndexOrThrow(withId: newAuthInfo.userID)
+        if let oldIndex = loggedInUsersAuthInfo.firstIndex(where: {$0.userID == newAuthInfo.userID}) {
             index = oldIndex
-            oldAuthInfoForNewUser = oldInfo
+            oldAuthInfoForNewUser = loggedInUsersAuthInfo[index]
             loggedInUsersAuthInfo[index] = newAuthInfo
-        } catch {
+        } else {
             index = loggedInUsersAuthInfo.count
             loggedInUsersAuthInfo.append(newAuthInfo)
         }
@@ -226,6 +236,7 @@ extension CoreStitchAuth {
         self.activeUser = newUser
         return newUser
     }
+    // swiftlint:enable function_body_length
 
     /**
      * Enum representing the keys for additional auth options that may be attached to the body of the authentication

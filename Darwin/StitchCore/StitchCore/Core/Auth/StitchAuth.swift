@@ -82,7 +82,7 @@ public protocol StitchAuth {
      *                          the client is now authenticated as.
      */
     func login(withCredential credential: StitchCredential, _ completionHandler: @escaping (StitchResult<StitchUser>) -> Void)
-    
+
     /**
      * Logs out the currently authenticated user, and clears any persisted authentication information.
      *
@@ -91,7 +91,7 @@ public protocol StitchAuth {
      *                          This handler is executed on a non-main global `DispatchQueue`.
      */
     func logout(_ completionHandler: @escaping (StitchResult<Void>) -> Void)
-    
+
     /**
      * Logs out of the user with the given userId. The user must exist in the list of all
      * users who have logged into this application otherwise this will throw a StitchServiveError.
@@ -101,8 +101,8 @@ public protocol StitchAuth {
      *     - completionHandler: The completion handler to call when the switch is complete.
      *                          This handler is executed on a non-main global `DispatchQueue`.
      */
-    func logoutUserWithId(userId userId: String, _ completionHandler: @escaping (StitchResult<Void>) -> Void)
-    
+    func logoutUser(withId userId: String, _ completionHandler: @escaping (StitchResult<Void>) -> Void)
+
     /**
      * Switches the active user to the user with the specified id. The user must
      * exist in the list of all users who have logged into this application, and
@@ -115,7 +115,7 @@ public protocol StitchAuth {
      *                          This handler is executed on a non-main global `DispatchQueue`.
      *                          This will contain the `StitchUser` on success.
      */
-    func switchToUserWithId(_ userId: String,  _ completionHandler: @escaping (StitchResult<StitchUser>) -> Void)
+    func switchToUser(withId userId: String, _ completionHandler: @escaping (StitchResult<StitchUser>) -> Void)
 
     /**
      * Removes the current active user from the list of all users
@@ -128,7 +128,7 @@ public protocol StitchAuth {
      *                          This handler is executed on a non-main global `DispatchQueue`.
      */
     func removeUser(_ completionHandler: @escaping (StitchResult<Void>) -> Void)
-    
+
     /**
      * Removes the user with the provided id from the list of all users
      * associated with this application. If the user was logged in, the user will
@@ -141,8 +141,8 @@ public protocol StitchAuth {
      *     - completionHandler: The completion handler to call when the switch is complete.
      *                          This handler is executed on a non-main global `DispatchQueue`.
      */
-    func removeUserWithId(userId userId: String, _ completionHandler: @escaping (StitchResult<Void>) -> Void)
-    
+    func removeUser(withId userId: String, _ completionHandler: @escaping (StitchResult<Void>) -> Void)
+
     /**
      * Returns a list of all users who have logged into this application, with the exception of
      * those that have been removed manually and anonymous users who have logged
@@ -153,7 +153,7 @@ public protocol StitchAuth {
      *     - completionHandler: The completion handler to call when the switch is complete.
      *                          This handler is executed on a non-main global `DispatchQueue`.
      */
-    func listUsers(_ completionHandler: @escaping (StitchResult<[StitchUserImpl]>) -> Void)
+    func listUsers() -> [StitchUser]
 
     // MARK: Delegate Registration
 

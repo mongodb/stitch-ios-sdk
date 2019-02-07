@@ -50,10 +50,10 @@ public class StitchAdminClient {
     }
 
     public func loginWithCredential(credential: StitchCredential) throws -> StitchAdminUser {
-        return try adminAuth.loginWithCredentialInternal(withCredential: credential)
+        return try adminAuth.loginInternal(withCredential: credential)
     }
 
     public func logout() throws {
-        return try adminAuth.logoutInternal(withUserId: nil)
+        return try adminAuth.logoutInternal(withId: nil)
     }
 }

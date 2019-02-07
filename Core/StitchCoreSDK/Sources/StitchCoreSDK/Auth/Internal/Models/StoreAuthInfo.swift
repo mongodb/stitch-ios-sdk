@@ -7,7 +7,7 @@ internal struct StoreAuthInfo: Codable {
     enum CodingKeys: String, CodingKey {
         case userID = "userId", deviceID = "deviceId", accessToken
         case refreshToken, loggedInProviderType, loggedInProviderName
-        case userProfile
+        case userProfile, lastAuthActivity
     }
 
     /**
@@ -46,6 +46,12 @@ internal struct StoreAuthInfo: Codable {
     let userProfile: StitchUserProfile
 
     /**
+     * A Double or TimeInterval (alias) representing the time in milliseconds since epoch UTC of the last
+     * auth activity for this user on this device
+     */
+    let lastAuthActivity: Double?
+
+    /**
      * isLoggedIn is a computed property determined by the existance of an accessToken and refreshToken
      */
     var isLoggedIn: Bool {
@@ -64,6 +70,7 @@ internal struct StoreAuthInfo: Codable {
         self.loggedInProviderType = oldAuthInfo.loggedInProviderType
         self.loggedInProviderName = oldAuthInfo.loggedInProviderName
         self.userProfile = oldAuthInfo.userProfile
+        self.lastAuthActivity = oldAuthInfo.lastAuthActivity
     }
 
     /**
@@ -78,6 +85,7 @@ internal struct StoreAuthInfo: Codable {
         self.loggedInProviderType = extendedAuthInfo.loggedInProviderType
         self.loggedInProviderName = extendedAuthInfo.loggedInProviderName
         self.userProfile = extendedAuthInfo.userProfile
+        self.lastAuthActivity = nil
     }
 
     /**
@@ -91,6 +99,31 @@ internal struct StoreAuthInfo: Codable {
         self.loggedInProviderType = authInfo.loggedInProviderType
         self.loggedInProviderName = authInfo.loggedInProviderName
         self.userProfile = authInfo.userProfile
+        self.lastAuthActivity = authInfo.lastAuthActivity
+    }
+
+    /**
+     * Initializes the `StoreAuthInfo` with a plain `AuthInfo` and
+     * if withNewTime is true then updates the lastAuthActivity
+     */
+    init(withAuthInfo authInfo: AuthInfo, withNewTime: Bool? = nil) {
+        self.userID = authInfo.userID
+        self.deviceID = authInfo.deviceID
+        self.accessToken = authInfo.accessToken
+        self.refreshToken = authInfo.refreshToken
+        self.loggedInProviderType = authInfo.loggedInProviderType
+        self.loggedInProviderName = authInfo.loggedInProviderName
+        self.userProfile = authInfo.userProfile
+
+        if let withNewTime = withNewTime {
+            if withNewTime {
+                self.lastAuthActivity = Date.init().timeIntervalSince1970
+            } else {
+                self.lastAuthActivity = authInfo.lastAuthActivity
+            }
+        } else {
+             self.lastAuthActivity = authInfo.lastAuthActivity
+        }
     }
 
     /**
@@ -107,9 +140,11 @@ internal struct StoreAuthInfo: Codable {
         if logout {
             self.refreshToken = nil
             self.accessToken = nil
+            self.lastAuthActivity = Date.init().timeIntervalSince1970
         } else {
             self.accessToken = authInfo.accessToken
             self.refreshToken = authInfo.refreshToken
+            self.lastAuthActivity = authInfo.lastAuthActivity
         }
     }
 
@@ -127,6 +162,7 @@ internal struct StoreAuthInfo: Codable {
         self.userProfile = authInfo.userProfile
         self.refreshToken = authInfo.refreshToken
         self.accessToken =  authInfo.accessToken
+        self.lastAuthActivity = authInfo.lastAuthActivity
     }
 
     /**
@@ -141,6 +177,7 @@ internal struct StoreAuthInfo: Codable {
         self.loggedInProviderType = authInfo.loggedInProviderType
         self.loggedInProviderName = authInfo.loggedInProviderName
         self.userProfile = authInfo.userProfile
+        self.lastAuthActivity = authInfo.lastAuthActivity
     }
 
     /**
@@ -152,7 +189,8 @@ internal struct StoreAuthInfo: Codable {
          refreshToken: String?,
          loggedInProviderType: StitchProviderType,
          loggedInProviderName: String,
-         userProfile: StitchUserProfileImpl) {
+         userProfile: StitchUserProfileImpl,
+         lastAuthActivity: Double?) {
         self.userID = userID
         self.deviceID = deviceID
         self.accessToken = accessToken
@@ -160,6 +198,7 @@ internal struct StoreAuthInfo: Codable {
         self.loggedInProviderType = loggedInProviderType
         self.loggedInProviderName = loggedInProviderName
         self.userProfile = userProfile
+        self.lastAuthActivity = lastAuthActivity
     }
 
     /**
@@ -174,6 +213,7 @@ internal struct StoreAuthInfo: Codable {
         self.loggedInProviderType = try container.decode(StitchProviderType.self, forKey: .loggedInProviderType)
         self.loggedInProviderName = try container.decode(String.self, forKey: .loggedInProviderName)
         self.userProfile = try container.decode(StoreCoreUserProfile.self, forKey: .userProfile)
+        self.lastAuthActivity = try? container.decode(Double.self, forKey: .lastAuthActivity)
     }
 
     /**
@@ -190,6 +230,7 @@ internal struct StoreAuthInfo: Codable {
         try container.encode(self.loggedInProviderName, forKey: .loggedInProviderName)
         try container.encode(StoreCoreUserProfile.init(withUserProfile: self.userProfile),
                              forKey: .userProfile)
+        try container.encode(self.lastAuthActivity, forKey: .lastAuthActivity)
     }
 
     public var toAuthInfo: AuthInfo {
@@ -199,6 +240,7 @@ internal struct StoreAuthInfo: Codable {
                              refreshToken: refreshToken,
                              loggedInProviderType: loggedInProviderType,
                              loggedInProviderName: loggedInProviderName,
-                             userProfile: userProfile)
+                             userProfile: userProfile,
+                             lastAuthActivity: lastAuthActivity)
     }
 }

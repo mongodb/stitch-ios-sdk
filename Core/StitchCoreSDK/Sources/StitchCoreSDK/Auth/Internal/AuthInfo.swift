@@ -47,9 +47,16 @@ public protocol ExtendedAuthInfo {
 }
 
 /**
+ * A protocol representing device related auth information
+ */
+public protocol DeviceAuthInfo {
+    var deviceID: String? { get }
+}
+
+/**
  * A struct representing the combined information represented by `APIAuthInfo` and `ExtendedAuthInfo`
  */
-public struct AuthInfo: APIAuthInfo, ExtendedAuthInfo, Hashable {
+public struct AuthInfo: APIAuthInfo, ExtendedAuthInfo, DeviceAuthInfo, Hashable {
     public static func == (lhs: AuthInfo, rhs: AuthInfo) -> Bool {
         return lhs.userID == rhs.userID
     }
@@ -67,6 +74,8 @@ public struct AuthInfo: APIAuthInfo, ExtendedAuthInfo, Hashable {
     public var loggedInProviderName: String
 
     public var userProfile: StitchUserProfile
+
+    public var lastAuthActivity: Double?
 
     /**
      * isLoggedIn is a computed property determined by the existance of an accessToken and refreshToken

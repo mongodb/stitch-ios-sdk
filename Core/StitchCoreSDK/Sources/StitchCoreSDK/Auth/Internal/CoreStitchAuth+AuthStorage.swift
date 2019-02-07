@@ -86,17 +86,16 @@ extension CoreStitchAuth {
      * - parameters:
      *     - storage: The `Storage` which should be cleared of any authentication information.
      */
-    internal func clearUser(storage: Storage, withUserId userId: String?) throws {
+    internal func clearUser(storage: Storage, withUserId userId: String) throws {
         objc_sync_enter(authStateLock)
         defer { objc_sync_exit(authStateLock) }
 
-        // Unwrap the userId and set it to the given id or that of the active user
-        guard let userId = userId != nil ? userId : activeUserAuthInfo?.userID else {
-            return
-        }
-
         // Get the user objects if it exists --> otherwise throw
-        let (index, _) = try getUserAndIndexOrThrow(withId: userId)
+        guard let index = loggedInUsersAuthInfo.firstIndex(where: {$0.userID == userId}) else {
+            throw StitchError.serviceError(
+                withMessage: "User with id: \(userId) not found",
+                withServiceErrorCode: .userNotFound)
+        }
 
         // Otherwise remove the user and persist the list
         loggedInUsersAuthInfo.remove(at: index)
@@ -106,18 +105,15 @@ extension CoreStitchAuth {
 
         // If it was the active user --> remove
         if userId == activeUserAuthInfo?.userID {
-            clearActiveUser(storage: storage)
+            clearActiveAuthInfo(storage: storage)
         }
-
-        // TODO Delete mobile SYNC data
     }
 
-    internal func clearActiveUser(storage: Storage) {
+    internal func clearActiveAuthInfo(storage: Storage) {
         storage.set(nil, forKey: activeUserStorageKey)
         self.authStateHolder.clearState()
         self.activeUser = nil
         onAuthEvent()
-
     }
 
     /**
@@ -134,9 +130,6 @@ extension CoreStitchAuth {
     internal func clearAllAuth() {
         objc_sync_enter(authStateLock)
         defer { objc_sync_exit(authStateLock) }
-
-        // Do we want this?
-//        guard self.isLoggedIn else { return }
 
         self.authStateHolder.clearState()
         self.activeUser = nil

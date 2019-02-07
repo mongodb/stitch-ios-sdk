@@ -5,7 +5,6 @@ import StitchCoreSDK
  * An implementation of `StitchUser`.
  */
 internal final class StitchUserImpl: CoreStitchUserImpl, StitchUser {
-
     // MARK: Private Properties
 
     /**
@@ -23,17 +22,19 @@ internal final class StitchUserImpl: CoreStitchUserImpl, StitchUser {
          withProviderName providerName: String,
          withUserProfile userProfile: StitchUserProfile,
          withAuth auth: StitchAuthImpl,
-         withIsLoggedIn isLoggedIn: Bool) {
+         withIsLoggedIn isLoggedIn: Bool,
+         withLastAuthActivity lastAuthActivity: Double) {
         self.auth = auth
         super.init(id: id,
                    loggedInProviderType: providerType,
                    loggedInProviderName: providerName,
                    profile: userProfile,
-                   isLoggedIn: isLoggedIn)
+                   isLoggedIn: isLoggedIn,
+                   lastAuthActivity: lastAuthActivity)
     }
 
     // MARK: Methods
-    
+    // swiftlint:disable line_length
     /**
      * Links the currently authenticated `StitchUser` with a new identity, where the identity is defined by the credential
      * specified as a parameter. This will only be successful if this `StitchUser` is the currently authenticated
@@ -49,11 +50,8 @@ internal final class StitchUserImpl: CoreStitchUserImpl, StitchUser {
      *                          successful, the result will contain a `StitchUser` object representing the currently
      *                          logged in user.
      */
-    public func link(withCredential credential: StitchCredential,
-                       withUser user: StitchUserImpl,
-                       _ completionHandler: @escaping (StitchResult<StitchUser>) -> Void) {
-        dispatcher.run(withCompletionHandler: completionHandler) {
-            return try self.auth.linkUserWithCredentialInternal(withUser: user, withCredential: credential)
-        }
+    public func link(withCredential credential: StitchCredential, _ completionHandler: @escaping (StitchResult<StitchUser>) -> Void) {
+        self.auth.link(withCredential: credential, withUser: self, completionHandler)
     }
 }
+// swiftlint:enable line_length

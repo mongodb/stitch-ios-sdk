@@ -1,6 +1,6 @@
 import Foundation
 import StitchCoreSDK
-
+//swiftlint:disable function_parameter_count
 /**
  * An implementation of `StitchCore.StitchUserFactory`, capable of producing `StitchUserImpl` objects.
  */
@@ -12,13 +12,17 @@ internal final class StitchUserFactoryImpl: StitchUserFactory {
     func makeUser(withID id: String,
                   withLoggedInProviderType loggedInProviderType: StitchProviderType,
                   withLoggedInProviderName loggedInProviderName: String,
-                  withUserProfile userProfile: StitchUserProfile
+                  withUserProfile userProfile: StitchUserProfile,
+                  withIsLoggedIn isLoggedIn: Bool,
+                  withLastAuthActivity lastAuthActivity: Double
         ) -> StitchUserImpl {
         return StitchUserImpl.init(withID: id,
                                    withProviderType: loggedInProviderType,
                                    withProviderName: loggedInProviderName,
                                    withUserProfile: userProfile,
-                                   withAuth: self.auth)
+                                   withAuth: self.auth,
+                                   withIsLoggedIn: isLoggedIn,
+                                   withLastAuthActivity: lastAuthActivity)
     }
 
     /**

@@ -7,6 +7,8 @@ open class CoreStitchUserImpl: CoreStitchUser {
 
     public let loggedInProviderName: String
 
+    public let lastAuthActivity: Double
+
     public let profile: StitchUserProfile
 
     public var userType: String {
@@ -23,12 +25,14 @@ open class CoreStitchUserImpl: CoreStitchUser {
                 loggedInProviderType: StitchProviderType,
                 loggedInProviderName: String,
                 profile: StitchUserProfile,
-                isLoggedIn: Bool
+                isLoggedIn: Bool,
+                lastAuthActivity: Double
     ) {
         self.id = id
         self.loggedInProviderType = loggedInProviderType
         self.loggedInProviderName = loggedInProviderName
         self.profile = profile
         self.isLoggedIn = isLoggedIn
+        self.lastAuthActivity = lastAuthActivity
     }
 }

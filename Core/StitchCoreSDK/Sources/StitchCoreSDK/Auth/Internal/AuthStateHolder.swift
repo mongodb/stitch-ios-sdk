@@ -15,6 +15,11 @@ internal struct AuthStateHolder {
     var extendedAuthInfo: ExtendedAuthInfo?
 
     /**
+     * Device-related auth info
+     */
+    var deviceAuthInfo: DeviceAuthInfo?
+
+    /**
      * The combination of `apiAuthInfo` and `extendedAuthInfo`.
      */
     var authInfo: AuthInfo?
@@ -23,10 +28,10 @@ internal struct AuthStateHolder {
      * Whether or not a user is currently logged in.
      */
     var isLoggedIn: Bool {
-        if apiAuthInfo?.accessToken != nil &&  apiAuthInfo?.refreshToken != nil {
-            return true
+        guard apiAuthInfo?.accessToken != nil && apiAuthInfo?.refreshToken != nil else {
+            return authInfo?.isLoggedIn ?? false
         }
-        return authInfo?.isLoggedIn ?? false
+        return true
     }
 
     /**
@@ -48,6 +53,13 @@ internal struct AuthStateHolder {
      */
     var userID: String? {
         return apiAuthInfo?.userID ?? authInfo?.userID
+    }
+
+    /**
+     * The device id currently
+     */
+    var deviceId: String? {
+        return deviceAuthInfo?.deviceID ?? authInfo?.deviceID ?? apiAuthInfo?.deviceID
     }
 
     /**

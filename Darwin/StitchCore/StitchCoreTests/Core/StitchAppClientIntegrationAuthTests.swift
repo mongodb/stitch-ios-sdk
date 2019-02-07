@@ -1,4 +1,9 @@
 // swiftlint:disable function_body_length
+// swiftlint:disable type_body_length
+// swiftlint:disable empty_parentheses_with_trailing_closure
+// swiftlint:disable cyclomatic_complexity
+// swiftlint:disable line_length
+
 import Foundation
 import XCTest
 import JWT
@@ -7,17 +12,18 @@ import MongoSwift
 @testable import StitchCore
 
 class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
-    private func logoutAndCheckStorage() {
-        let exp = expectation(description: "logged out")
-        self.stitchAppClient.auth.logout { _ in
-            self.verifyBasicAuthStorageInfo(loggedIn: false)
-            exp.fulfill()
+    private func verifyBasicAuthInfo(loggedInList: [Bool],
+                                     loggedIn: Bool,
+                                     expectedProviderType: StitchProviderType? = nil,
+                                     expectedUserIndex: Int? = nil) {
+        var ids: [String] = []
+        let users = self.stitchAppClient.auth.listUsers()
+        XCTAssertEqual(users.count, loggedInList.count)
+        for (i, user) in users.enumerated() {
+            XCTAssertEqual(user.isLoggedIn, loggedInList[i])
+            ids.append(user.id)
         }
-        wait(for: [exp], timeout: defaultTimeoutSeconds)
-    }
 
-    private func verifyBasicAuthStorageInfo(loggedIn: Bool,
-                                            expectedProviderType: StitchProviderType? = nil) {
         XCTAssertEqual(self.stitchAppClient.auth.isLoggedIn, loggedIn)
         if loggedIn {
             guard
@@ -26,7 +32,12 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
                     XCTFail("must provide expected provider type to verify storage")
                     return
             }
+            guard let userIdIndex = expectedUserIndex else {
+                XCTFail("must provide expected user id index to verify storage")
+                return
+            }
             XCTAssertEqual(user.loggedInProviderType, providerType)
+            XCTAssertEqual(user.id, ids[userIdIndex])
         } else {
             XCTAssertNil(self.stitchAppClient.auth.currentUser)
         }
@@ -38,7 +49,11 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
         stitchAppClient.auth.login(withCredential: AnonymousCredential()) { result in
             switch result {
             case .success:
-                self.verifyBasicAuthStorageInfo(loggedIn: true, expectedProviderType: StitchProviderType.anonymous)
+                self.verifyBasicAuthInfo(
+                    loggedInList: [false, true],
+                    loggedIn: true,
+                    expectedProviderType: StitchProviderType.anonymous,
+                    expectedUserIndex: 1)
                 exp.fulfill()
             case .failure:
                 XCTFail("unexpected error")
@@ -56,6 +71,12 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
             case .success(let user):
                 XCTAssertEqual(user.profile.userType, "normal")
                 XCTAssertEqual(user.profile.identities[0].providerType, "anon-user")
+                self.verifyBasicAuthInfo(
+                    loggedInList: [false, true],
+                    loggedIn: true,
+                    expectedProviderType: StitchProviderType.anonymous,
+                    expectedUserIndex: 1)
+                XCTAssertNotNil(user.lastAuthActivity)
                 exp.fulfill()
             case .failure:
                 XCTFail("unexpected error")
@@ -98,6 +119,12 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
                 XCTAssertEqual(profile.name, "Joe Bloggs")
                 XCTAssertEqual(profile.pictureURL, "https://goo.gl/xqR6Jd")
 
+                self.verifyBasicAuthInfo(
+                    loggedInList: [false, true],
+                    loggedIn: true,
+                    expectedProviderType: StitchProviderType.custom,
+                    expectedUserIndex: 1)
+
                 exp1.fulfill()
             case .failure:
                 XCTFail("unexpected error")
@@ -114,6 +141,13 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
                 case .success(let user):
                     // Ensure that the same user logs in if the token has the same unique user ID.
                     XCTAssertEqual(userID, user.id)
+
+                    self.verifyBasicAuthInfo(
+                        loggedInList: [false, true],
+                        loggedIn: true,
+                        expectedProviderType: StitchProviderType.custom,
+                        expectedUserIndex: 1)
+
                     exp2.fulfill()
                 case .failure:
                     XCTFail("unexpected error")
@@ -125,7 +159,7 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
 
     func testMultipleLoginSemantics() throws {
         // check storage
-        verifyBasicAuthStorageInfo(loggedIn: false)
+        self.verifyBasicAuthInfo(loggedInList: [false], loggedIn: false)
 
         // login anonymously
         let exp1 = expectation(description: "log in anonymously")
@@ -136,7 +170,13 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
             switch result {
             case .success(let user):
                 anonUserID = user.id
-                self.verifyBasicAuthStorageInfo(loggedIn: true, expectedProviderType: StitchProviderType.anonymous)
+
+                self.verifyBasicAuthInfo(
+                    loggedInList: [false, true],
+                    loggedIn: true,
+                    expectedProviderType: StitchProviderType.anonymous,
+                    expectedUserIndex: 1)
+
                 exp1.fulfill()
             case .failure:
                 XCTFail("unexpected error")
@@ -146,7 +186,6 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
 
         // login anonymously again
         let exp2 = expectation(description: "log in anonymously again")
-
         self.stitchAppClient.auth.login(
             withCredential: AnonymousCredential()
         ) { result in
@@ -155,7 +194,12 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
                 // make sure user ID is the name
                 XCTAssertEqual(anonUserID, user.id)
 
-                self.verifyBasicAuthStorageInfo(loggedIn: true, expectedProviderType: StitchProviderType.anonymous)
+                self.verifyBasicAuthInfo(
+                    loggedInList: [false, true],
+                    loggedIn: true,
+                    expectedProviderType: StitchProviderType.anonymous,
+                    expectedUserIndex: 1)
+
                 exp2.fulfill()
 
             case .failure:
@@ -171,22 +215,97 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
             XCTAssertNotEqual(anonUserID, nextUserID)
             emailUserID = nextUserID
 
-            self.verifyBasicAuthStorageInfo(loggedIn: true, expectedProviderType: StitchProviderType.userPassword)
+            self.verifyBasicAuthInfo(
+                loggedInList: [false, true, true],
+                loggedIn: true,
+                expectedProviderType: StitchProviderType.userPassword,
+                expectedUserIndex: 2)
+
             exp3.fulfill()
         }
         wait(for: [exp3], timeout: defaultTimeoutSeconds)
 
-        let exp4 = expectation(description: "logged in as second email/password user")
-        self.registerAndLogin(email: "test2@10gen.com", password: "hunter2") { user in
-            let nextUserID = user.id
-            XCTAssertNotEqual(emailUserID, nextUserID)
+        let exp4 = expectation(description: "switching to previous user should work properly")
+        self.stitchAppClient.auth.switchToUser(withId: anonUserID) {result in
+            switch result {
+            case .success:
+                self.verifyBasicAuthInfo(
+                    loggedInList: [false, true, true],
+                    loggedIn: true,
+                    expectedProviderType: StitchProviderType.anonymous,
+                    expectedUserIndex: 1)
 
-            self.verifyBasicAuthStorageInfo(loggedIn: true, expectedProviderType: StitchProviderType.userPassword)
-            exp4.fulfill()
+                exp4.fulfill()
+            case .failure:
+                XCTFail("Failed switching to user \(anonUserID!)")
+            }
         }
         wait(for: [exp4], timeout: defaultTimeoutSeconds)
 
-        logoutAndCheckStorage()
+        // Calling logout should delete the anonymous user that is active and leave the auth state empty
+        let exp5 = expectation(description: "logging out of active anon user should delete it")
+        self.stitchAppClient.auth.logout() { result in
+            switch result {
+            case .success:
+                self.verifyBasicAuthInfo(loggedInList: [false, true], loggedIn: false)
+                exp5.fulfill()
+            case .failure:
+                XCTFail("Failed logging out")
+            }
+        }
+        wait(for: [exp5], timeout: defaultTimeoutSeconds)
+
+        // Calling logout on userPassword credentials will log it out but it will remain in listUsers()
+        let exp6 = expectation(description: "logging out of active anon user should delete it")
+        self.stitchAppClient.auth.logoutUser(withId: emailUserID) { result in
+            switch result {
+            case .success:
+                self.verifyBasicAuthInfo(loggedInList: [false, false], loggedIn: false)
+                exp6.fulfill()
+            case .failure:
+                XCTFail("Failed logging out")
+            }
+        }
+        wait(for: [exp6], timeout: defaultTimeoutSeconds)
+
+        // add new user
+        let exp7 = expectation(description: "logged in as email/password user")
+        self.registerAndLogin(email: "test12@10gen.com", password: "hunter2") { _ in
+            self.verifyBasicAuthInfo(
+                loggedInList: [false, false, true],
+                loggedIn: true,
+                expectedProviderType: StitchProviderType.userPassword,
+                expectedUserIndex: 2)
+
+            exp7.fulfill()
+        }
+        wait(for: [exp7], timeout: defaultTimeoutSeconds)
+
+        // removing active user
+        let exp8 = expectation(description: "removing active user")
+        self.stitchAppClient.auth.removeUser() { result in
+            switch result {
+            case .success:
+                self.verifyBasicAuthInfo(loggedInList: [false, false], loggedIn: false)
+                exp8.fulfill()
+            case .failure:
+                XCTFail("Failed logging out")
+            }
+        }
+        wait(for: [exp8], timeout: defaultTimeoutSeconds)
+
+        // removing other user
+        let exp9 = expectation(description: "removing active user")
+        self.stitchAppClient.auth.removeUser(withId: emailUserID) { result in
+            switch result {
+            case .success:
+                self.verifyBasicAuthInfo(loggedInList: [false], loggedIn: false)
+                exp9.fulfill()
+            case .failure:
+                XCTFail("Failed logging out")
+            }
+        }
+        wait(for: [exp9], timeout: defaultTimeoutSeconds)
     }
 
     func testIdentityLinking() throws {
@@ -197,7 +316,13 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
         ) { result in
             switch result {
             case .success(let user):
-                self.verifyBasicAuthStorageInfo(loggedIn: true, expectedProviderType: StitchProviderType.anonymous)
+
+                self.verifyBasicAuthInfo(
+                    loggedInList: [false, true],
+                    loggedIn: true,
+                    expectedProviderType: StitchProviderType.anonymous,
+                    expectedUserIndex: 1)
+
                 anonUser = user
                 exp1.fulfill()
             case .failure:
@@ -243,13 +368,11 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
         wait(for: [exp3], timeout: defaultTimeoutSeconds)
 
         let exp4 = expectation(description: "original account linked with new email/password identity")
-        anonUser.link(
-            withCredential: UserPasswordCredential(withUsername: "stitch@10gen.com", withPassword: "password")
-        ) { result in
+        anonUser.link(withCredential: UserPasswordCredential(withUsername: "stitch@10gen.com", withPassword: "password")) {result in
             switch result {
             case .success(let linkedUser):
                 XCTAssertEqual(anonUser.id, linkedUser.id)
-                self.verifyBasicAuthStorageInfo(loggedIn: true, expectedProviderType: StitchProviderType.userPassword)
+                // self.verifyBasicAuthStorageInfo(loggedIn: true, expectedProviderType: StitchProviderType.userPassword)
                 XCTAssertEqual(linkedUser.profile.identities.count, 2)
                 exp4.fulfill()
             case .failure:
@@ -257,7 +380,5 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
             }
         }
         wait(for: [exp4], timeout: defaultTimeoutSeconds)
-
-        logoutAndCheckStorage()
     }
 }

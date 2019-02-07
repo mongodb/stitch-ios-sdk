@@ -64,6 +64,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
             authStateHolder.authInfo = newValue
             authStateHolder.apiAuthInfo = newValue
             authStateHolder.extendedAuthInfo = newValue
+            authStateHolder.deviceAuthInfo = newValue
         }
     }
 
@@ -117,7 +118,8 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
                 withLoggedInProviderType: activeUserAuthInfo.loggedInProviderType,
                 withLoggedInProviderName: activeUserAuthInfo.loggedInProviderName,
                 withUserProfile: activeUserAuthInfo.userProfile,
-                withIsLoggedIn: activeUserAuthInfo.isLoggedIn)
+                withIsLoggedIn: activeUserAuthInfo.isLoggedIn,
+                withLastAuthActivity: activeUserAuthInfo.lastAuthActivity ?? 0.0)
         }
 
         if startRefresherThread {
@@ -200,10 +202,9 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
     public var hasDeviceID: Bool {
         objc_sync_enter(authStateLock)
         defer { objc_sync_exit(authStateLock) }
-
-        return activeUserAuthInfo?.deviceID != nil
-            && activeUserAuthInfo?.deviceID != ""
-            && activeUserAuthInfo?.deviceID != "000000000000000000000000"
+        return authStateHolder.deviceId != nil
+            && authStateHolder.deviceId != ""
+            && authStateHolder.deviceId != "000000000000000000000000"
     }
 
     /**
@@ -214,7 +215,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
         objc_sync_enter(authStateLock)
         defer { objc_sync_exit(authStateLock) }
 
-        return activeUserAuthInfo?.deviceID
+        return authStateHolder.deviceId
     }
 
     // MARK: Refresh Access Token
@@ -286,20 +287,5 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
         }
 
         return newAccessToken
-    }
-
-    // MARK: Internal Methods
-    /*
-     * Internal method to check the list of AuthInfo objects in the list for a user with the
-     * given userId or throws if it is not found
-     */
-    internal func getUserAndIndexOrThrow(withId userId: String) throws -> (Int, AuthInfo) {
-        for (index, user) in loggedInUsersAuthInfo.enumerated() {
-            if user.userID == userId {return (index, user)}
-        }
-
-        throw StitchError.serviceError(
-            withMessage: "User with id: \(userId) not found",
-            withServiceErrorCode: .userNotFound)
     }
 }

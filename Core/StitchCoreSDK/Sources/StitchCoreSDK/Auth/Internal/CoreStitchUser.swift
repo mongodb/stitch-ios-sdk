@@ -39,6 +39,11 @@ public protocol CoreStitchUser {
      * to this user which can be used to log in as this user.
      */
     var identities: [StitchUserIdentity] { get }
+
+    /**
+     * The last time that this user was logged into, switched to, or switched from
+     */
+    var lastAuthActivity: Double { get }
 }
 
 /**

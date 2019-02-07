@@ -138,21 +138,24 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
             )
         }
 
+        // swiftlint:disable line_length
         public final override var userFactory: AnyStitchUserFactory<CoreStitchUserImpl> {
-            return AnyStitchUserFactory.init {(id, providerType, providerName, prof, loggedIn) -> CoreStitchUserImpl in
+            return AnyStitchUserFactory.init {(id, providerType, providerName, prof, loggedIn, lastAuthActivity) -> CoreStitchUserImpl in
                 return CoreStitchUserImpl.init(
                     id: id,
                     loggedInProviderType: providerType,
                     loggedInProviderName: providerName,
                     profile: prof,
-                    isLoggedIn: loggedIn)
+                    isLoggedIn: loggedIn,
+                    lastAuthActivity: lastAuthActivity)
             }
         }
+        // swiftlint:enable line_length
 
         public final override func onAuthEvent() { }
     }
 
-    func testLoginWithCredentialInternal() throws {
+    func testLoginInternal() throws {
         let requestClient = getMockedRequestClient()
         let routes = StitchAppRoutes.init(clientAppID: "my_app-12345").authRoutes
         let auth = try StitchAuth.init(
@@ -161,7 +164,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
             storage: MemoryStorage.init()
         )
 
-        let user = try auth.loginWithCredentialInternal(withCredential: AnonymousCredential())
+        let user = try auth.loginInternal(withCredential: AnonymousCredential())
         let profile = testUserProfile
 
         XCTAssertEqual("userid-\(lastUserId)", user.id)
@@ -201,7 +204,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         )
 
         XCTAssertFalse(auth.isLoggedIn)
-        _ = try auth.loginWithCredentialInternal(withCredential: AnonymousCredential())
+        _ = try auth.loginInternal(withCredential: AnonymousCredential())
         XCTAssertTrue(auth.isLoggedIn)
     }
 
@@ -216,7 +219,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
 
         XCTAssertFalse(auth.hasDeviceID)
 
-        _ = try auth.loginWithCredentialInternal(withCredential: AnonymousCredential())
+        _ = try auth.loginInternal(withCredential: AnonymousCredential())
         XCTAssertTrue(auth.hasDeviceID)
     }
 
@@ -234,7 +237,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         XCTAssertFalse(auth.isLoggedIn)
 
         // After login, there whould be 1 user and it should also be the active user
-        let user1 = try auth.loginWithCredentialInternal(withCredential: AnonymousCredential())
+        let user1 = try auth.loginInternal(withCredential: AnonymousCredential())
         XCTAssertTrue(auth.isLoggedIn)
         XCTAssertEqual(auth.listUsersInternal().count, 1)
         XCTAssertEqual(user1.id, "userid-\(lastUserId)")
@@ -248,7 +251,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         // Insert another user and there must now be 2 users returned by listUsersInternal() and the
         // new user is guaranteed to be the last user in the list
         let currNumUsers = lastUserId
-        let user2 = try auth.loginWithCredentialInternal(withCredential:
+        let user2 = try auth.loginInternal(withCredential:
             UserPasswordCredential(withUsername: "foo@bar.com", withPassword: "foobar"))
         XCTAssertTrue(auth.isLoggedIn)
         XCTAssertEqual(auth.listUsersInternal().count, 2)
@@ -262,7 +265,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         // If we login with the exact same credentials then there should still be 2 users in listUsersInternal()
         lastUserId = currNumUsers // have to fake the response to give the same userId
         lastDeviceId = currNumUsers
-        let user3 = try auth.loginWithCredentialInternal(withCredential:
+        let user3 = try auth.loginInternal(withCredential:
             UserPasswordCredential(withUsername: "foo@bar.com", withPassword: "foobar"))
         XCTAssertTrue(auth.isLoggedIn)
         XCTAssertEqual(auth.listUsersInternal().count, 2)
@@ -273,7 +276,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
 
         // If we login again with anonymous credentials then we should reuse the existing session and not create
         // a new user
-        let user4 = try auth.loginWithCredentialInternal(withCredential: AnonymousCredential())
+        let user4 = try auth.loginInternal(withCredential: AnonymousCredential())
         XCTAssertTrue(auth.isLoggedIn)
         XCTAssertEqual(auth.listUsersInternal().count, 2)
         XCTAssertEqual(user4.id, "userid-\(currNumUsers)")
@@ -282,7 +285,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         XCTAssertEqual(auth.activeUser?.loggedInProviderType, StitchProviderType.anonymous)
 
         // Logging in with a new set of credentials should increase the number of users to 3
-        let user5 = try auth.loginWithCredentialInternal(withCredential:
+        let user5 = try auth.loginInternal(withCredential:
             UserPasswordCredential(withUsername: "foo2@bar.com", withPassword: "foobar"))
         XCTAssertTrue(auth.isLoggedIn)
         XCTAssertEqual(auth.listUsersInternal().count, 3)
@@ -296,7 +299,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         XCTAssertTrue(requestClient.doRequestMock.verify(numberOfInvocations: 8, forArg: .any))
     }
 
-    func testLinkUserWithCredentialInternal() throws {
+    func testLinkUserInternal() throws {
         let requestClient = getMockedRequestClient()
         let routes = StitchAppRoutes.init(clientAppID: "my_app-12345").authRoutes
         let auth = try StitchAuth.init(
@@ -305,10 +308,10 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
             storage: MemoryStorage.init()
         )
 
-        let user = try auth.loginWithCredentialInternal(withCredential: AnonymousCredential())
+        let user = try auth.loginInternal(withCredential: AnonymousCredential())
         XCTAssertTrue(requestClient.doRequestMock.verify(numberOfInvocations: 2, forArg: .any))
 
-        let linkedUser = try auth.linkUserWithCredentialInternal(
+        let linkedUser = try auth.linkUserInternal(
             withUser: user,
             withCredential: UserPasswordCredential(withUsername: "foo@bar.com", withPassword: "foobar")
         )
@@ -347,12 +350,12 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         )
 
         // Create and login with 3 users
-        let user1 = try auth.loginWithCredentialInternal(withCredential:
+        let user1 = try auth.loginInternal(withCredential:
             UserPasswordCredential(withUsername: "foo@bar.com", withPassword: "foobar"))
-        let user2 = try auth.loginWithCredentialInternal(withCredential: AnonymousCredential())
-        _ = try auth.loginWithCredentialInternal(withCredential:
+        let user2 = try auth.loginInternal(withCredential: AnonymousCredential())
+        _ = try auth.loginInternal(withCredential:
             UserPasswordCredential(withUsername: "bar@biz", withPassword: "fizzbuzz"))
-        let user4 = try auth.loginWithCredentialInternal(withCredential:
+        let user4 = try auth.loginInternal(withCredential:
             UserPasswordCredential(withUsername: "bar@bar", withPassword: "fizzbuzz"))
 
         // Verify current auth state has 3 users with user 3as the active user
@@ -361,34 +364,34 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         XCTAssertEqual(auth.activeUserAuthInfo?.userID, user4.id)
 
         // Logout the current user
-        XCTAssertNoThrow(try auth.logoutInternal(withUserId: nil))
+        XCTAssertNoThrow(try auth.logoutInternal(withId: nil))
         XCTAssertFalse(auth.isLoggedIn)
         XCTAssertEqual(auth.listUsersInternal().count, 4)
         XCTAssertFalse(auth.listUsersInternal()[3].isLoggedIn)
         XCTAssertTrue(requestClient.doRequestMock.verify(numberOfInvocations: 9, forArg: .any))
 
         // Logout a specific user
-        XCTAssertNoThrow(try auth.logoutInternal(withUserId: user1.id))
+        XCTAssertNoThrow(try auth.logoutInternal(withId: user1.id))
         XCTAssertFalse(auth.isLoggedIn)
         XCTAssertEqual(auth.listUsersInternal().count, 4)
         XCTAssertFalse(auth.listUsersInternal()[0].isLoggedIn)
         XCTAssertTrue(requestClient.doRequestMock.verify(numberOfInvocations: 10, forArg: .any))
 
         // Logging out of the active user when there is no active user should still pass
-        XCTAssertNoThrow(try auth.logoutInternal(withUserId: nil))
+        XCTAssertNoThrow(try auth.logoutInternal(withId: nil))
         XCTAssertFalse(auth.isLoggedIn)
         XCTAssertEqual(auth.listUsersInternal().count, 4)
         XCTAssertTrue(requestClient.doRequestMock.verify(numberOfInvocations: 10, forArg: .any))
 
         // Logout of an existing but not logged in user should pass and not change anything
-        XCTAssertNoThrow(try auth.logoutInternal(withUserId: user1.id))
+        XCTAssertNoThrow(try auth.logoutInternal(withId: user1.id))
         XCTAssertFalse(auth.isLoggedIn)
         XCTAssertEqual(auth.listUsersInternal().count, 4)
         XCTAssertTrue(requestClient.doRequestMock.verify(numberOfInvocations: 10, forArg: .any))
 
         // Logout of a user with a nonexistant userId should throw UserNotFound
         do {
-            try auth.logoutInternal(withUserId: "not-a-real-user-id")
+            try auth.logoutInternal(withId: "not-a-real-user-id")
             XCTFail("Error was not thrown where it was expected")
         } catch let error {
             let stitchError = error as? StitchError
@@ -403,7 +406,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         }
 
         // Logging out of an anonymous user should delete the user record
-        XCTAssertNoThrow(try auth.logoutInternal(withUserId: user2.id))
+        XCTAssertNoThrow(try auth.logoutInternal(withId: user2.id))
         XCTAssertFalse(auth.isLoggedIn)
         XCTAssertEqual(auth.listUsersInternal().count, 3)
 
@@ -414,7 +417,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         XCTAssertEqual(try expectedRequest.build(), requestClient.doRequestMock.capturedInvocations[8])
     }
 
-    func testSwitchToUserWithId() throws {
+    func testSwitchToUser() throws {
         let requestClient = getMockedRequestClient()
         let routes = StitchAppRoutes.init(clientAppID: "my_app-12345").authRoutes
         let auth = try StitchAuth.init(
@@ -424,9 +427,9 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         )
 
         // Create and login with 3 users
-        let user1 = try auth.loginWithCredentialInternal(withCredential:
+        let user1 = try auth.loginInternal(withCredential:
             UserPasswordCredential(withUsername: "foo@bar.com", withPassword: "foobar"))
-        let user2 = try auth.loginWithCredentialInternal(withCredential: AnonymousCredential())
+        let user2 = try auth.loginInternal(withCredential: AnonymousCredential())
 
         // Verify current auth state has 2 users with user2 as the active user
         XCTAssertTrue(auth.isLoggedIn)
@@ -434,7 +437,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         XCTAssertEqual(auth.activeUserAuthInfo?.userID, user2.id)
 
         // Switch to user1 should succeed
-        let newUser = try auth.switchToUserWithIdInternal(user1.id)
+        let newUser = try auth.switchToUserInternal(withId: user1.id)
         XCTAssertTrue(auth.isLoggedIn)
         XCTAssertEqual(auth.listUsersInternal().count, 2)
         XCTAssertEqual(auth.activeUserAuthInfo?.userID, user1.id)
@@ -442,11 +445,11 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         XCTAssertEqual(newUser.id, user1.id)
 
         // Logout of active user
-        try auth.logoutInternal(withUserId: nil)
+        try auth.logoutInternal(withId: nil)
         XCTAssertFalse(auth.isLoggedIn)
 
         // Switch to user 2 should succeed
-        let newUser2 = try auth.switchToUserWithIdInternal(user2.id)
+        let newUser2 = try auth.switchToUserInternal(withId: user2.id)
         XCTAssertTrue(auth.isLoggedIn)
         XCTAssertEqual(auth.listUsersInternal().count, 2)
         XCTAssertEqual(auth.activeUserAuthInfo?.userID, user2.id)
@@ -455,14 +458,14 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
 
         // Switch to a non-existant user should fail and leave the auth state unchanged
         do {
-            _ = try auth.switchToUserWithIdInternal("not-a-real-user-id")
+            _ = try auth.switchToUserInternal(withId: "not-a-real-user-id")
             XCTFail("Error was not thrown where it was expected")
         } catch let error {
             let stitchError = error as? StitchError
             XCTAssertNotNil(error as? StitchError)
             if let err = stitchError {
                 guard case .serviceError(_, let errorCode) = err else {
-                    XCTFail("switchToUserWithIdInternal returned an incorrect error type")
+                    XCTFail("switchToUserInternal returned an incorrect error type")
                     return
                 }
                 XCTAssertEqual(errorCode, .userNotFound)
@@ -475,14 +478,14 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
 
         // Switch to existing user that is not logged in should
         do {
-            _ = try auth.switchToUserWithIdInternal(user1.id)
+            _ = try auth.switchToUserInternal(withId: user1.id)
             XCTFail("Error was not thrown where it was expected")
         } catch let error {
             let stitchError = error as? StitchError
             XCTAssertNotNil(error as? StitchError)
             if let err = stitchError {
                 guard case .serviceError(_, let errorCode) = err else {
-                    XCTFail("switchToUserWithIdInternal returned an incorrect error type")
+                    XCTFail("switchToUserInternal returned an incorrect error type")
                     return
                 }
                 XCTAssertEqual(errorCode, .userNotLoggedIn)
@@ -505,10 +508,10 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         )
 
         // Create and login with 2 users
-        let user1 = try auth.loginWithCredentialInternal(withCredential:
+        let user1 = try auth.loginInternal(withCredential:
             UserPasswordCredential(withUsername: "foo@bar.com", withPassword: "foobar"))
-        let user2 = try auth.loginWithCredentialInternal(withCredential: AnonymousCredential())
-        let user3 = try auth.loginWithCredentialInternal(withCredential:
+        let user2 = try auth.loginInternal(withCredential: AnonymousCredential())
+        let user3 = try auth.loginInternal(withCredential:
             UserPasswordCredential(withUsername: "foo@bizbar.co", withPassword: "foobar"))
 
         // Verify current auth state has 2 users with user2 as the active user
@@ -518,7 +521,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         XCTAssertTrue(requestClient.doRequestMock.verify(numberOfInvocations: 6, forArg: .any))
 
         // Remove the current user
-        try auth.removeUserInternal(withUserId: nil)
+        try auth.removeUserInternal(withId: nil)
         XCTAssertFalse(auth.isLoggedIn)
         XCTAssertEqual(auth.listUsersInternal().count, 2)
         XCTAssertEqual(auth.listUsersInternal()[0].id, user1.id)
@@ -526,14 +529,14 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
 
         // Removing a non-existant user id should throw and leave the auth state un-changed
         do {
-            try auth.removeUserInternal(withUserId: "not-a-real-user-id")
+            try auth.removeUserInternal(withId: "not-a-real-user-id")
             XCTFail("Error was not thrown where it was expected")
         } catch let error {
             let stitchError = error as? StitchError
             XCTAssertNotNil(error as? StitchError)
             if let err = stitchError {
                 guard case .serviceError(_, let errorCode) = err else {
-                    XCTFail("switchToUserWithIdInternal returned an incorrect error type")
+                    XCTFail("removeUserInternal returned an incorrect error type")
                     return
                 }
                 XCTAssertEqual(errorCode, .userNotFound)
@@ -544,18 +547,18 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         }
 
         // Logout user 1
-        XCTAssertNoThrow(try auth.logoutInternal(withUserId: user1.id))
+        XCTAssertNoThrow(try auth.logoutInternal(withId: user1.id))
         XCTAssertEqual(auth.listUsersInternal().count, 2)
         XCTAssertTrue(requestClient.doRequestMock.verify(numberOfInvocations: 8, forArg: .any))
 
         // Removing a user that is logged out should not send logout request to server
-        XCTAssertNoThrow(try auth.removeUserInternal(withUserId: user1.id))
+        XCTAssertNoThrow(try auth.removeUserInternal(withId: user1.id))
         XCTAssertEqual(auth.listUsersInternal().count, 1)
         XCTAssertEqual(auth.listUsersInternal()[0].id, user2.id)
         XCTAssertTrue(requestClient.doRequestMock.verify(numberOfInvocations: 8, forArg: .any))
 
         // Removing active user when there is no active user should not change anything
-        XCTAssertNoThrow(try auth.removeUserInternal(withUserId: nil))
+        XCTAssertNoThrow(try auth.removeUserInternal(withId: nil))
         XCTAssertEqual(auth.listUsersInternal().count, 1)
     }
 
@@ -571,12 +574,12 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         )
 
         // Create and login with 3 users
-        let user1 = try auth.loginWithCredentialInternal(withCredential:
+        let user1 = try auth.loginInternal(withCredential:
             UserPasswordCredential(withUsername: "foo@bar.com", withPassword: "foobar"))
-        let user2 = try auth.loginWithCredentialInternal(withCredential: AnonymousCredential())
-        let user3 = try auth.loginWithCredentialInternal(withCredential:
+        let user2 = try auth.loginInternal(withCredential: AnonymousCredential())
+        let user3 = try auth.loginInternal(withCredential:
             UserPasswordCredential(withUsername: "bar@biz", withPassword: "fizzbuzz"))
-        let user4 = try auth.loginWithCredentialInternal(withCredential:
+        let user4 = try auth.loginInternal(withCredential:
             UserPasswordCredential(withUsername: "bar@bar", withPassword: "fizzbuzz"))
 
         // Verify current auth state has 3 users with user 3as the active user
@@ -585,7 +588,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         XCTAssertEqual(auth.activeUserAuthInfo?.userID, user4.id)
 
         // Logout the third user
-        XCTAssertNoThrow(try auth.logoutInternal(withUserId: user3.id))
+        XCTAssertNoThrow(try auth.logoutInternal(withId: user3.id))
         XCTAssertTrue(auth.isLoggedIn)
         XCTAssertEqual(auth.listUsersInternal().count, 4)
         XCTAssertFalse(auth.listUsersInternal()[2].isLoggedIn)
@@ -627,7 +630,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
             storage: MemoryStorage.init()
         )
 
-        let user = try auth.loginWithCredentialInternal(withCredential: AnonymousCredential())
+        let user = try auth.loginInternal(withCredential: AnonymousCredential())
 
         let refreshedToken = encode(Algorithm.hs256("refreshedJWT".data(using: .utf8)!)) {
             let date = Date()
@@ -669,7 +672,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
             })
         )
 
-        let linkedUser = try auth.linkUserWithCredentialInternal(
+        let linkedUser = try auth.linkUserInternal(
             withUser: user,
             withCredential: UserPasswordCredential(withUsername: "foo@bar.com", withPassword: "foobar")
         )
@@ -706,7 +709,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         )
 
         do {
-            _ = try auth.linkUserWithCredentialInternal(
+            _ = try auth.linkUserInternal(
                 withUser: linkedUser,
                 withCredential: UserPasswordCredential(withUsername: "foo2@bar.com", withPassword: "foo2bar")
             )
@@ -716,7 +719,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
             XCTAssertNotNil(error as? StitchError)
             if let err = stitchError {
                 guard case .serviceError(_, let errorCode) = err else {
-                    XCTFail("linkUserWithCredentialInternal returned an incorrect error type")
+                    XCTFail("linkUserInternal returned an incorrect error type")
                     return
                 }
                 XCTAssertEqual(errorCode, .invalidSession)
@@ -744,7 +747,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
             storage: MemoryStorage.init()
         )
 
-        _ = try auth.loginWithCredentialInternal(withCredential: AnonymousCredential())
+        _ = try auth.loginInternal(withCredential: AnonymousCredential())
 
         let reqBuilder = StitchAuthDocRequestBuilder()
             .with(path: "giveMeData")
@@ -848,7 +851,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         //                                -> user is logged out
 
         do {
-            _ = try auth.loginWithCredentialInternal(withCredential: AnonymousCredential())
+            _ = try auth.loginInternal(withCredential: AnonymousCredential())
             XCTFail("expected login to fail because of profile request")
         } catch {
             // do nothing
@@ -861,12 +864,12 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         // Scenario 2: User is logged in -> attempts login into other account -> initial login succeeds
         //                               -> profile request fails -> original user is logged out
         profileRequestShouldFail = false
-        let user1 = try auth.loginWithCredentialInternal(withCredential: AnonymousCredential())
+        let user1 = try auth.loginInternal(withCredential: AnonymousCredential())
         XCTAssertNotNil(user1)
 
         profileRequestShouldFail = true
         do {
-            _ = try auth.loginWithCredentialInternal(
+            _ = try auth.loginInternal(
                 withCredential: UserPasswordCredential.init(withUsername: "foo", withPassword: "bar")
             )
             XCTFail("expected subsequent login to fail because of profile request")
@@ -883,11 +886,11 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         //                               -> edge case: in this case the auth provider type should be user/password
 
         profileRequestShouldFail = false
-        let userToBeLinked = try auth.loginWithCredentialInternal(withCredential: AnonymousCredential())
+        let userToBeLinked = try auth.loginInternal(withCredential: AnonymousCredential())
 
         profileRequestShouldFail = true
         do {
-            _ = try auth.linkUserWithCredentialInternal(
+            _ = try auth.linkUserInternal(
                 withUser: auth.activeUser!,
                 withCredential: UserPasswordCredential.init(withUsername: "hello", withPassword: "friend")
             )
@@ -901,5 +904,75 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         XCTAssertEqual(userToBeLinked.id, auth.user!.id)
         XCTAssertEqual(auth.activeUserAuthInfo?.loggedInProviderType, StitchProviderType.userPassword)
         XCTAssertEqual(auth.activeUserAuthInfo?.loggedInProviderName, UserPasswordAuthProvider.defaultName)
+    }
+
+    func testDeviceIdPersistance() throws {
+        let requestClient = getMockedRequestClient()
+        let routes = StitchAppRoutes.init(clientAppID: "my_app-12345").authRoutes
+        let storage = MemoryStorage.init()
+
+        let auth = try StitchAuth.init(
+            requestClient: requestClient,
+            authRoutes: routes,
+            storage: storage
+        )
+
+        // Should not be a device id yet
+        XCTAssertNil(auth.deviceID)
+
+        // Create and login with 3 users
+        _ = try auth.loginInternal(withCredential:
+            UserPasswordCredential(withUsername: "foo@bar.com", withPassword: "foobar"))
+
+        // Device id should not be null
+        XCTAssertNotNil(auth.deviceID)
+
+        // After logout device id should still exist
+        try auth.logoutInternal(withId: nil)
+        XCTAssertNotNil(auth.deviceID)
+
+        _ = try auth.loginInternal(withCredential:
+            UserPasswordCredential(withUsername: "foo@bar.com", withPassword: "foobar"))
+
+        // After remove, device id should still exist
+        try auth.removeUserInternal(withId: nil)
+        XCTAssertNotNil(auth.deviceID)
+    }
+
+    func testLastAuthEvent() throws {
+        let requestClient = getMockedRequestClient()
+        let routes = StitchAppRoutes.init(clientAppID: "my_app-12345").authRoutes
+        let storage = MemoryStorage.init()
+
+        let auth = try StitchAuth.init(
+            requestClient: requestClient,
+            authRoutes: routes,
+            storage: storage
+        )
+
+        let time1 = Date.init().timeIntervalSince1970
+
+        // Create and login with users
+        let user1 = try auth.loginInternal(withCredential:
+            UserPasswordCredential(withUsername: "foo@bar.com", withPassword: "foobar"))
+
+        let time2 = Date.init().timeIntervalSince1970
+        XCTAssertGreaterThanOrEqual(user1.lastAuthActivity, time1)
+        XCTAssertLessThanOrEqual(user1.lastAuthActivity, time2)
+
+        // Create and login with users
+        let user2 = try auth.loginInternal(withCredential:
+            UserPasswordCredential(withUsername: "foo2@bar.com", withPassword: "foobar2"))
+
+        let time3 = Date.init().timeIntervalSince1970
+        XCTAssertGreaterThanOrEqual(user2.lastAuthActivity, time2)
+        XCTAssertLessThanOrEqual(user2.lastAuthActivity, time3)
+
+        var users = auth.listUsersInternal()
+        XCTAssertGreaterThanOrEqual(users[1].lastAuthActivity, users[0].lastAuthActivity)
+
+        _ = try auth.switchToUserInternal(withId: user1.id)
+        users = auth.listUsersInternal()
+        XCTAssertGreaterThanOrEqual(users[0].lastAuthActivity, users[1].lastAuthActivity)
     }
 }

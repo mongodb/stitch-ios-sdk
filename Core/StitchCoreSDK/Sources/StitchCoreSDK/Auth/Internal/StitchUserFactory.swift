@@ -1,3 +1,4 @@
+// swiftlint:disable function_parameter_count
 /**
  * A protocol describing a factory that produces a generic Stitch user object conforming to `CoreStitchUser`.
  */
@@ -15,7 +16,8 @@ public protocol StitchUserFactory {
                   withLoggedInProviderType loggedInProviderType: StitchProviderType,
                   withLoggedInProviderName loggedInProviderName: String,
                   withUserProfile userProfile: StitchUserProfile,
-                  withIsLoggedIn isLoggedIn: Bool) -> UserType
+                  withIsLoggedIn isLoggedIn: Bool,
+                  withLastAuthActivity lastAuthActivity: Double) -> UserType
 }
 
 /**
@@ -26,7 +28,7 @@ public class AnyStitchUserFactory<T: CoreStitchUser> {
     /**
      * A property containing the function that produces a Stitch user object.
      */
-    private let makeUserBlock: (String, StitchProviderType, String, StitchUserProfile, Bool) -> T
+    private let makeUserBlock: (String, StitchProviderType, String, StitchUserProfile, Bool, Double) -> T
 
     /**
      * Initializes this `AnyStitchUserFactory` with an arbitrary `StitchUserFactory`.
@@ -38,7 +40,7 @@ public class AnyStitchUserFactory<T: CoreStitchUser> {
     /**
      * Initializes this `AnyStitchUserFactory` with an arbitrary closure.
      */
-    public init(makeUserBlock: @escaping (String, StitchProviderType, String, StitchUserProfile, Bool) -> T) {
+    public init(makeUserBlock: @escaping (String, StitchProviderType, String, StitchUserProfile, Bool, Double) -> T) {
         self.makeUserBlock = makeUserBlock
     }
 
@@ -49,7 +51,15 @@ public class AnyStitchUserFactory<T: CoreStitchUser> {
                   withLoggedInProviderType loggedInProviderType: StitchProviderType,
                   withLoggedInProviderName loggedInProviderName: String,
                   withUserProfile userProfile: StitchUserProfile,
-                  withIsLoggedIn isLoggedIn: Bool) -> T {
-        return self.makeUserBlock(id, loggedInProviderType, loggedInProviderName, userProfile, isLoggedIn)
+                  withIsLoggedIn isLoggedIn: Bool,
+                  withLastAuthActivity lastAuthActivity: Double) -> T {
+
+        return self.makeUserBlock(id,
+                                  loggedInProviderType,
+                                  loggedInProviderName,
+                                  userProfile,
+                                  isLoggedIn,
+                                  lastAuthActivity)
     }
 }
+// swiftlint:enable function_parameter_count

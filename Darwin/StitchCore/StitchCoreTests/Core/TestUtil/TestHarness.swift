@@ -92,7 +92,7 @@ final class TestHarness {
         return self.testApp!
     }
 
-    func createUser(email: String = "test_user@domain.com",
+    func createUser(email: String = "test_users@domain.com",
                     password: String = "password") -> UserResponse {
 
         self.userCredentials = (username: email, password: password)

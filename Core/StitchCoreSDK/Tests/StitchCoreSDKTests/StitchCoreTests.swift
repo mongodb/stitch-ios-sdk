@@ -24,6 +24,8 @@ struct MockStitchUser: CoreStitchUser {
 
     var isLoggedIn: Bool = false
 
+    var lastAuthActivity: Double = 0.0
+
     static func == (lhs: MockStitchUser,
                     rhs: MockStitchUser) -> Bool {
         return lhs.id == rhs.id

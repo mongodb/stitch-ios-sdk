@@ -16,7 +16,7 @@ extension CoreStitchAuth {
      */
     public func doAuthenticatedRequest(_ stitchReq: StitchAuthRequest) throws -> Response {
         do {
-            if stitchReq.headers.index(forKey: Headers.authorization.rawValue) == nil {
+            guard stitchReq.headers.index(forKey: Headers.authorization.rawValue) != nil else {
                 return try requestClient.doRequest(prepareAuthRequest(withAuthRequest: stitchReq,
                                                                       withAuthInfo: nil))
             }
@@ -131,7 +131,7 @@ extension CoreStitchAuth {
         // notify
         if req.useRefreshToken || !req.shouldRefreshOnFailure {
             do {
-                try self.clearUser(storage: storage, withUserId: nil)
+                try self.clearUser(storage: storage, withUserId: activeUserAuthInfo?.userID ?? "")
             } catch {
                 // Do nothing
             }
@@ -163,7 +163,7 @@ extension CoreStitchAuth {
         // notify
         if req.useRefreshToken || !req.shouldRefreshOnFailure {
             do {
-                try self.clearUser(storage: storage, withUserId: nil)
+                try self.clearUser(storage: storage, withUserId: activeUserAuthInfo?.userID ?? "")
             } catch {
                 // Do nothing
             }
