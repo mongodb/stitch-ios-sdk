@@ -891,7 +891,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
     }
 
     let failingConflictHandler = { (_: BSONValue, _: ChangeEvent<Document>, _: ChangeEvent<Document>) -> Document? in
-        fatalError()
+        XCTFail("Conflict should not have occurred")
+        return nil
     }
 
     func testRemoteDeletesLocalNoConflict() throws {
