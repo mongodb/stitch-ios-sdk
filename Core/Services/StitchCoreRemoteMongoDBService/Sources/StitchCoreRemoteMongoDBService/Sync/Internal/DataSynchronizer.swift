@@ -401,7 +401,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                         // means we aren't actually synchronizing on this remote doc
                         continue
                     }
-                    guard docConfig.lastKnownRemoteVersion != nil || !docConfig.isPaused else {
+                    guard docConfig.lastKnownRemoteVersion != nil, !docConfig.isPaused else {
                         docConfig.isStale = false
                         continue
                     }
