@@ -3,14 +3,14 @@ import MongoSwift
 import JWT
 @testable import StitchCoreSDK
 
-let apiAuthInfo = APIAuthInfoImpl.init(
+let apiAuthInfoExample = APIAuthInfoImpl.init(
     userID: "foo",
     deviceID: "bar",
     accessToken: "baz",
     refreshToken: "qux"
 )
 
-private let stitchUserProfile = StitchUserProfileImpl.init(
+private let stitchUserProfileExample = StitchUserProfileImpl.init(
     userType: "grault",
     identities: [APIStitchUserIdentity.init(id: "garply",
                                             providerType: "waldo")],
@@ -25,60 +25,103 @@ private let stitchUserProfile = StitchUserProfileImpl.init(
                                           maxAge: "84")
 )
 
-private let extendedAuthInfo = ExtendedAuthInfoImpl.init(loggedInProviderType: .anonymous,
-                                                         loggedInProviderName: "corge",
-                                                         userProfile: stitchUserProfile)
+private let authInfoExample1 = AuthInfo.init(
+    userId: "oldId",
+    deviceId: "oldDevice",
+    accessToken: "oldAccessToken",
+    refreshToken: "oldRefreshToken",
+    loggedInProviderType: .anonymous,
+    loggedInProviderName: "oldProviderName",
+    userProfile: stitchUserProfileExample,
+    lastAuthActivity: 10.0)
+private let storeAuthInfoExample1 = StoreAuthInfo.init(withAuthInfo: authInfoExample1)
+
+private let authInfoExample2 = AuthInfo.init(
+    userId: "foo",
+    deviceId: "bar",
+    accessToken: "baz",
+    refreshToken: "qux",
+    loggedInProviderType: .anonymous,
+    loggedInProviderName: "oldProviderName",
+    userProfile: stitchUserProfileExample,
+    lastAuthActivity: 10.0)
+private let storeAuthInfoExample2 = StoreAuthInfo.init(withAuthInfo: authInfoExample2)
 
 class StoreAuthInfoUnitTests: XCTestCase {
-    private func assert(storeAuthInfo: StoreAuthInfo,
-                        isEqualTo apiAuthInfo: APIAuthInfo) {
-        XCTAssertEqual(storeAuthInfo.userID, apiAuthInfo.userID)
-        XCTAssertEqual(storeAuthInfo.deviceID, apiAuthInfo.deviceID)
-        XCTAssertEqual(storeAuthInfo.accessToken, apiAuthInfo.accessToken)
-        XCTAssertEqual(storeAuthInfo.refreshToken, apiAuthInfo.refreshToken)
+    private func assert(storeAuthInfo: StoreAuthInfo, isEqualTo authInfo: AuthInfo) {
+        XCTAssertEqual(storeAuthInfo.userId, authInfo.userId)
+        XCTAssertEqual(storeAuthInfo.deviceId, authInfo.deviceId)
+        XCTAssertEqual(storeAuthInfo.loggedInProviderType, authInfo.loggedInProviderType)
+        XCTAssertEqual(storeAuthInfo.loggedInProviderName, authInfo.loggedInProviderName)
+        XCTAssertEqual(storeAuthInfo.refreshToken, authInfo.refreshToken)
+        XCTAssertEqual(storeAuthInfo.accessToken, authInfo.accessToken)
+        XCTAssertEqual(storeAuthInfo.lastAuthActivity, authInfo.lastAuthActivity)
+        assert(userProfile: storeAuthInfo.userProfile, isEqualTo: authInfo.userProfile)
     }
 
-    private func assert(storeAuthInfo: StoreAuthInfo,
-                        isEqualTo extendedAuthInfo: ExtendedAuthInfo) {
-        XCTAssertEqual(storeAuthInfo.loggedInProviderName, extendedAuthInfo.loggedInProviderName)
-        XCTAssertEqual(storeAuthInfo.loggedInProviderType, extendedAuthInfo.loggedInProviderType)
+    private func assert(oldAuthInfo: AuthInfo, isEqualTo authInfo: AuthInfo) {
+        XCTAssertEqual(oldAuthInfo.userId, authInfo.userId)
+        XCTAssertEqual(oldAuthInfo.deviceId, authInfo.deviceId)
+        XCTAssertEqual(oldAuthInfo.loggedInProviderType, authInfo.loggedInProviderType)
+        XCTAssertEqual(oldAuthInfo.loggedInProviderName, authInfo.loggedInProviderName)
+        XCTAssertEqual(oldAuthInfo.refreshToken, authInfo.refreshToken)
+        XCTAssertEqual(oldAuthInfo.accessToken, authInfo.accessToken)
+        XCTAssertEqual(oldAuthInfo.lastAuthActivity, authInfo.lastAuthActivity)
+        assert(userProfile: oldAuthInfo.userProfile, isEqualTo: authInfo.userProfile)
     }
 
-    private func assert(userProfile: StitchUserProfile,
-                        isEqualTo otherUserProfile: StitchUserProfile) {
-        XCTAssertEqual(userProfile.userType, otherUserProfile.userType)
-        XCTAssertEqual(userProfile.identities.first!.id,
-                       otherUserProfile.identities.first!.id)
-        XCTAssertEqual(userProfile.identities.first!.providerType,
-                       otherUserProfile.identities.first!.providerType)
-
-        XCTAssertEqual(userProfile.name, otherUserProfile.name)
-        XCTAssertEqual(userProfile.email, otherUserProfile.email)
-        XCTAssertEqual(userProfile.pictureURL, otherUserProfile.pictureURL)
-        XCTAssertEqual(userProfile.firstName, otherUserProfile.firstName)
-        XCTAssertEqual(userProfile.lastName, otherUserProfile.lastName)
-        XCTAssertEqual(userProfile.gender, otherUserProfile.gender)
-        XCTAssertEqual(userProfile.birthday, otherUserProfile.birthday)
-        XCTAssertEqual(userProfile.minAge, otherUserProfile.minAge)
-        XCTAssertEqual(userProfile.maxAge, otherUserProfile.maxAge)
+    private func assert(userProfile: StitchUserProfile?, isEqualTo otherUserProfile: StitchUserProfile?) {
+        guard let userProf = userProfile, let otherUserProf = otherUserProfile else {
+            XCTAssertNil(userProfile)
+            XCTAssertNil(otherUserProfile)
+            return
+        }
+        XCTAssertEqual(userProf.userType, otherUserProf.userType)
+        XCTAssertEqual(userProf.identities.first!.id,
+                       otherUserProf.identities.first!.id)
+        XCTAssertEqual(userProf.identities.first!.providerType,
+                       otherUserProf.identities.first!.providerType)
+        XCTAssertEqual(userProf.name, otherUserProf.name)
+        XCTAssertEqual(userProf.email, otherUserProf.email)
+        XCTAssertEqual(userProf.pictureURL, otherUserProf.pictureURL)
+        XCTAssertEqual(userProf.firstName, otherUserProf.firstName)
+        XCTAssertEqual(userProf.lastName, otherUserProf.lastName)
+        XCTAssertEqual(userProf.gender, otherUserProf.gender)
+        XCTAssertEqual(userProf.birthday, otherUserProf.birthday)
+        XCTAssertEqual(userProf.minAge, otherUserProf.minAge)
+        XCTAssertEqual(userProf.maxAge, otherUserProf.maxAge)
     }
 
     func testInit() throws {
-        let storeAuthInfo = StoreAuthInfo.init(withAPIAuthInfo: apiAuthInfo,
-                                               withExtendedAuthInfo: extendedAuthInfo)
+        assert(storeAuthInfo: storeAuthInfoExample1, isEqualTo: authInfoExample1)
+        assert(storeAuthInfo: storeAuthInfoExample2, isEqualTo: authInfoExample2)
 
-        self.assert(storeAuthInfo: storeAuthInfo, isEqualTo: apiAuthInfo)
-        self.assert(storeAuthInfo: storeAuthInfo, isEqualTo: extendedAuthInfo)
-        self.assert(userProfile: storeAuthInfo.userProfile, isEqualTo: stitchUserProfile)
+        let apiAuthInfo = AuthInfo.init(
+            userId: apiAuthInfoExample.userID,
+            deviceId: apiAuthInfoExample.deviceID,
+            accessToken: apiAuthInfoExample.accessToken,
+            refreshToken: apiAuthInfoExample.refreshToken)
+        let mergedAuthInfo = authInfoExample1.update(withNewAuthInfo: apiAuthInfo)
+        assert(oldAuthInfo: mergedAuthInfo, isEqualTo: authInfoExample2)
+
+        let newAuthInfo = mergedAuthInfo.withNewAuthActivity
+        XCTAssertGreaterThan(newAuthInfo.lastAuthActivity ?? 0, 10)
+
+        let loggedOutAuthInfo = mergedAuthInfo.loggedOut
+        XCTAssertNil(loggedOutAuthInfo.accessToken)
+        XCTAssertNil(loggedOutAuthInfo.refreshToken)
+        XCTAssertFalse(loggedOutAuthInfo.isLoggedIn)
+
+        let emptiedAuthInfo = mergedAuthInfo.emptiedOut
+        XCTAssertNil(emptiedAuthInfo.userId)
+        XCTAssertEqual(emptiedAuthInfo.deviceId, apiAuthInfoExample.deviceID)
     }
 
     func testCodable() throws {
-        let storeAuthInfo = StoreAuthInfo.init(withAPIAuthInfo: apiAuthInfo,
-                                               withExtendedAuthInfo: extendedAuthInfo)
-
+        let storeAuthInfo = StoreAuthInfo.init(withAuthInfo: authInfoExample1)
         let decodedAuthInfo = try JSONDecoder().decode(StoreAuthInfo.self,
                                                        from: JSONEncoder().encode(storeAuthInfo))
 
-        self.assert(userProfile: storeAuthInfo.userProfile, isEqualTo: decodedAuthInfo.userProfile)
+        assert(storeAuthInfo: decodedAuthInfo, isEqualTo: authInfoExample1)
     }
 }

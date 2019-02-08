@@ -12,12 +12,12 @@ extension CoreStitchAuth {
         defer { objc_sync_exit(authOperationLock) }
 
         // Unwrap the userId or use the active user
-        guard let userId = userId != nil ? userId : activeUserAuthInfo?.userID else {
+        guard let userId = userId != nil ? userId : activeUserAuthInfo?.userId else {
             return
         }
 
         // Get the user objects if it exists --> otherwise throw
-        guard let index = allUsersAuthInfo.firstIndex(where: {$0.userID == userId}) else {
+        guard let index = allUsersAuthInfo.firstIndex(where: {$0.userId == userId}) else {
             throw StitchError.clientError(withClientErrorCode: .userNotFound)
         }
         let authInfo = allUsersAuthInfo[index]
@@ -45,7 +45,7 @@ extension CoreStitchAuth {
         defer { objc_sync_exit(authOperationLock) }
 
         // Get the user objects if it exists --> otherwise throw
-        guard let index = allUsersAuthInfo.firstIndex(where: {$0.userID == userId}) else {
+        guard let index = allUsersAuthInfo.firstIndex(where: {$0.userId == userId}) else {
             throw StitchError.clientError(withClientErrorCode: .userNotFound)
         }
         let authInfo = allUsersAuthInfo[index]
@@ -57,14 +57,13 @@ extension CoreStitchAuth {
 
         // Update the lastAuthActivity of the old and new active user and persist
         if let oldActiveAuthInfo = activeUserAuthInfo {
-            if let oldIndex = allUsersAuthInfo.firstIndex(where: {$0.userID == oldActiveAuthInfo.userID}) {
-                allUsersAuthInfo[oldIndex] = StoreAuthInfo.init(withAuthInfo: oldActiveAuthInfo,
-                                                                withOptions: [.updateLastAuthActivity]).toAuthInfo
+            if let oldIndex = allUsersAuthInfo.firstIndex(where: {$0.userId == oldActiveAuthInfo.userId}) {
+                allUsersAuthInfo[oldIndex] = oldActiveAuthInfo.withNewAuthActivity
             }
         }
 
         // Update the time of the new auth info
-        let newAuthInfo = StoreAuthInfo.init(withAuthInfo: authInfo, withOptions: [.updateLastAuthActivity]).toAuthInfo
+        let newAuthInfo = authInfo.withNewAuthActivity
         allUsersAuthInfo[index] = newAuthInfo
 
         // Persist the list of users
@@ -73,7 +72,7 @@ extension CoreStitchAuth {
         // Update the active user
         try updateActiveAuthInfo(withNewAuthInfo: newAuthInfo)
 
-        // This should never happen because it is set right abovr in updateActiveAuthInfo
+        // This should never happen because it is set right above in updateActiveAuthInfo
         // but throw an error if there is no activeUser
         guard let user = activeUser else {
             throw StitchError.clientError(withClientErrorCode: .couldNotFindActiveUser)
@@ -95,12 +94,12 @@ extension CoreStitchAuth {
         defer { objc_sync_exit(authOperationLock) }
 
         // Unwrap the userId or use the active user
-        guard let userId = userId != nil ? userId : activeUserAuthInfo?.userID else {
+        guard let userId = userId != nil ? userId : activeUserAuthInfo?.userId else {
             return
         }
 
         // Get the user objects if it exists --> otherwise throw
-        guard let index = allUsersAuthInfo.firstIndex(where: {$0.userID == userId}) else {
+        guard let index = allUsersAuthInfo.firstIndex(where: {$0.userId == userId}) else {
             throw StitchError.clientError(withClientErrorCode: .userNotFound)
         }
         let authInfo = allUsersAuthInfo[index]
@@ -115,7 +114,7 @@ extension CoreStitchAuth {
         try writeCurrentUsersAuthInfoToStorage()
 
         // If this is the active user --> remove
-        if userId == activeUserAuthInfo?.userID {
+        if userId == activeUserAuthInfo?.userId {
             try updateActiveAuthInfo(withNewAuthInfo: nil)
         }
     }
@@ -126,13 +125,9 @@ extension CoreStitchAuth {
     public func listUsersInternal() -> [TStitchUser] {
         var list: [TStitchUser] = []
         for userInfo in self.allUsersAuthInfo {
-            list.append(self.userFactory.makeUser(
-                withID: userInfo.userID,
-                withLoggedInProviderType: userInfo.loggedInProviderType,
-                withLoggedInProviderName: userInfo.loggedInProviderName,
-                withUserProfile: userInfo.userProfile,
-                withIsLoggedIn: userInfo.isLoggedIn,
-                withLastAuthActivity: userInfo.lastAuthActivity ?? 0.0))
+            if let newUser = makeStitchUser(withAuthInfo: userInfo) {
+                list.append(newUser)
+            }
         }
 
         return list

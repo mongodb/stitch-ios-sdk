@@ -1,81 +1,24 @@
 import Foundation
 
 /**
- * A protocol representing the fields returned by the Stitch client API in an authentication request.
- */
-public protocol APIAuthInfo {
-    /**
-     * The id of the Stitch user.
-     */
-    var userID: String { get }
-
-    /**
-     * The device id. `nil` in a link request
-     */
-    var deviceID: String? { get }
-
-    /**
-     * The temporary access token for the user.
-     */
-    var accessToken: String? { get }
-
-    /**
-     * The permanent (though potentially invalidated) refresh token for the user. `nil` in a link request
-     */
-    var refreshToken: String? { get }
-}
-
-/**
- * A protocol representing authenticaftion information not returned immediately by the Stitch client API in an
- * authentication request.
- */
-public protocol ExtendedAuthInfo {
-    /**
-     * The type of authentication provider used to log into the current session.
-     */
-    var loggedInProviderType: StitchProviderType { get }
-
-    /**
-     * A string indicating the name of authentication provider used to log into the current session.
-     */
-    var loggedInProviderName: String { get }
-
-    /**
-     * The profile of the currently authenticated user as a `StitchUserProfile`.
-     */
-    var userProfile: StitchUserProfile { get }
-}
-
-/**
- * A protocol representing device related auth information
- */
-public protocol DeviceAuthInfo {
-    var deviceID: String? { get }
-}
-
-/**
  * A struct representing the combined information represented by `APIAuthInfo` and `ExtendedAuthInfo`
  */
-public struct AuthInfo: APIAuthInfo, ExtendedAuthInfo, DeviceAuthInfo, Hashable {
-    public static func == (lhs: AuthInfo, rhs: AuthInfo) -> Bool {
-        return lhs.userID == rhs.userID
-    }
+public struct AuthInfo: Hashable, Equatable {
+    public let userId: String?
 
-    public var userID: String
+    public let deviceId: String?
 
-    public var deviceID: String?
+    public let accessToken: String?
 
-    public var accessToken: String?
+    public let refreshToken: String?
 
-    public var refreshToken: String?
+    public let loggedInProviderType: StitchProviderType?
 
-    public var loggedInProviderType: StitchProviderType
+    public let loggedInProviderName: String?
 
-    public var loggedInProviderName: String
+    public let userProfile: StitchUserProfile?
 
-    public var userProfile: StitchUserProfile
-
-    public var lastAuthActivity: Double?
+    public let lastAuthActivity: Double?
 
     /**
      * isLoggedIn is a computed property determined by the existance of an accessToken and refreshToken
@@ -84,37 +27,114 @@ public struct AuthInfo: APIAuthInfo, ExtendedAuthInfo, DeviceAuthInfo, Hashable 
         return accessToken != nil && refreshToken != nil
     }
 
+    /**
+     * Whether or not this auth info is associated with a user.
+     */
+    var hasUser: Bool {
+        return self.userId != nil
+    }
+
+    /**
+     * An empty auth info is an auth info associated with no device ID.
+     */
+    var isEmpty: Bool {
+        return self.deviceId == nil
+    }
+
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(userID)
-    }
-}
-
-/**
- * Extension functions for `AuthInfo` which provide mechanisms for reading from and writing to a `Storage`, updating
- * the underlying access token, and merging a new `APIAuthInfo` with an existing `AuthInfo`.
- */
-extension AuthInfo {
-    /**
-     * Merges a new `APIAuthInfo` into some existing `AuthInfo`.
-     *
-     * - parameters:
-     *     - withPartialInfo: The new `APIAuthInfo` to merge with the existing auth info.
-     *     - fromOldInfo: The existing `AuthInfo` into which to merge the new `APIAuthInfo`.
-     * - returns: The new `AuthInfo` resulting from the merged parameters.
-     */
-    func merge(withPartialInfo partialInfo: APIAuthInfo, fromOldInfo oldInfo: AuthInfo) -> AuthInfo {
-        return StoreAuthInfo.init(withAPIAuthInfo: partialInfo, withOldInfo: oldInfo).toAuthInfo
+        hasher.combine(userId)
     }
 
+    public static func == (lhs: AuthInfo, rhs: AuthInfo) -> Bool {
+        return lhs.userId == rhs.userId
+    }
+
+    var loggedOut: AuthInfo {
+        return AuthInfo.init(
+            userId: self.userId,
+            deviceId: self.deviceId,
+            loggedInProviderType: self.loggedInProviderType,
+            loggedInProviderName: self.loggedInProviderName,
+            userProfile: self.userProfile,
+            lastAuthActivity: Date.init().timeIntervalSince1970)
+    }
+
+    var emptiedOut: AuthInfo {
+        return AuthInfo.init(deviceId: self.deviceId)
+    }
+
+    var withNewAuthActivity: AuthInfo {
+        return AuthInfo.init(
+            userId: self.userId,
+            deviceId: self.deviceId,
+            accessToken: self.accessToken,
+            refreshToken: self.refreshToken,
+            loggedInProviderType: self.loggedInProviderType,
+            loggedInProviderName: self.loggedInProviderName,
+            userProfile: self.userProfile,
+            lastAuthActivity: Date.init().timeIntervalSince1970)
+    }
+
+    public func mergeWithNewAPIAuthInfo(withUserId newUserId: String, withAccessToken newAccessToken: String,
+                                        withRefreshToken newRefreshToken: String?,
+                                        withDeviceId newDeviceId: String?) -> AuthInfo {
+        return AuthInfo.init(
+            userId: newUserId,
+            deviceId: newDeviceId ?? self.deviceId,
+            accessToken: newAccessToken,
+            refreshToken: newRefreshToken ?? self.refreshToken,
+            loggedInProviderType: self.loggedInProviderType,
+            loggedInProviderName: self.loggedInProviderName,
+            userProfile: self.userProfile,
+            lastAuthActivity: self.lastAuthActivity
+        )
+    }
+
+    public func update(withUserId newUserId: String? = nil,
+                       withDeviceId newDeviceId: String? = nil,
+                       withAccessToken newAccessToken: String? = nil,
+                       withRefreshToken newRefreshToken: String? = nil,
+                       withLoggedInProviderType newLoggedInProviderType: StitchProviderType? = nil,
+                       withLoggedInProviderName newLoggedInProviderName: String? = nil,
+                       withUserProfile newUserProfile: StitchUserProfile? = nil,
+                       withLastAuthActivity newLastAuthActivity: Double? = nil) -> AuthInfo {
+        return AuthInfo.init(
+            userId: newUserId ?? self.userId,
+            deviceId: newDeviceId ?? self.deviceId,
+            accessToken: newAccessToken ?? self.accessToken,
+            refreshToken: newRefreshToken ?? self.refreshToken,
+            loggedInProviderType: newLoggedInProviderType ?? self.loggedInProviderType,
+            loggedInProviderName: newLoggedInProviderName ?? self.loggedInProviderName,
+            userProfile: newUserProfile ?? self.userProfile,
+            lastAuthActivity: newLastAuthActivity ?? self.lastAuthActivity
+        )
+    }
+
+    public func update(withNewAuthInfo authInfo: AuthInfo) -> AuthInfo {
+        return AuthInfo.init(
+            userId: authInfo.userId ?? self.userId,
+            deviceId: authInfo.deviceId ?? self.deviceId,
+            accessToken: authInfo.accessToken ?? self.accessToken,
+            refreshToken: authInfo.refreshToken ?? self.refreshToken,
+            loggedInProviderType: authInfo.loggedInProviderType ?? self.loggedInProviderType,
+            loggedInProviderName: authInfo.loggedInProviderName ?? self.loggedInProviderName,
+            userProfile: authInfo.userProfile ?? self.userProfile,
+            lastAuthActivity: authInfo.lastAuthActivity ?? self.lastAuthActivity)
+    }
+
     /**
-     * Returns a new `AuthInfo` representing the current `AuthInfo` but with a new access token.
-     *
-     * - important: This is not a mutating function. Only the return value will have the new access token.
-     * - parameters:
-     *     - withNewAccessToken: The `APIAccessToken` representing the new access token to put into this `AuthInfo`.
-     * - returns: The `AuthInfo` that results from updating the access token.
+     * Initializers
      */
-    func refresh(withNewAccessToken newAccessToken: APIAccessToken) -> AuthInfo {
-        return StoreAuthInfo.init(withAuthInfo: self, withNewAPIAccessToken: newAccessToken).toAuthInfo
+    init(userId: String? = nil, deviceId: String? = nil, accessToken: String? = nil, refreshToken: String? = nil,
+         loggedInProviderType: StitchProviderType? = nil, loggedInProviderName: String? = nil,
+         userProfile: StitchUserProfile? = nil, lastAuthActivity: Double? = nil) {
+        self.userId = userId
+        self.deviceId = deviceId
+        self.accessToken = accessToken
+        self.refreshToken = refreshToken
+        self.loggedInProviderType = loggedInProviderType
+        self.loggedInProviderName = loggedInProviderName
+        self.userProfile = userProfile
+        self.lastAuthActivity = lastAuthActivity
     }
 }

@@ -75,8 +75,8 @@ extension CoreStitchAuth {
         defer { objc_sync_exit(authStateLock) }
 
         guard let loggedIn = authInfo != nil ?  authInfo?.isLoggedIn : self.isLoggedIn, loggedIn,
-            let refreshToken = authInfo != nil ? authInfo?.refreshToken : authStateHolder.refreshToken,
-            let accessToken = authInfo != nil ? authInfo?.accessToken : authStateHolder.accessToken else {
+            let refreshToken = authInfo != nil ? authInfo?.refreshToken : activeUserAuthInfo?.refreshToken,
+            let accessToken = authInfo != nil ? authInfo?.accessToken : activeUserAuthInfo?.accessToken else {
                 throw StitchError.clientError(withClientErrorCode: .mustAuthenticateFirst)
         }
 
@@ -130,11 +130,7 @@ extension CoreStitchAuth {
         // using a refresh token implies we cannot refresh anything, so clear auth and
         // notify
         if req.useRefreshToken || !req.shouldRefreshOnFailure {
-            do {
-                try self.clearUserAuthToken(forUserId: activeUserAuthInfo?.userID ?? "")
-            } catch {
-                // Do nothing
-            }
+            try? self.clearUserAuthToken(forUserId: activeUserAuthInfo?.userId ?? "")
             throw error
         }
 
@@ -162,11 +158,7 @@ extension CoreStitchAuth {
         // using a refresh token implies we cannot refresh anything, so clear auth and
         // notify
         if req.useRefreshToken || !req.shouldRefreshOnFailure {
-            do {
-                try self.clearUserAuthToken(forUserId: activeUserAuthInfo?.userID ?? "")
-            } catch {
-                // Do nothing
-            }
+            try? self.clearUserAuthToken(forUserId: activeUserAuthInfo?.userId ?? "")
             throw error
         }
 

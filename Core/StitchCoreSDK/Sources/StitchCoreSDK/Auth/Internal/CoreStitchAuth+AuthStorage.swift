@@ -31,8 +31,12 @@ extension CoreStitchAuth {
      * - throws: if the `AuthInfo` could not be encoded into JSON.
      */
     internal func writeActiveUserAuthInfoToStorage(activeAuthInfo authInfo: AuthInfo) throws {
-        storage.set(try JSONEncoder().encode(StoreAuthInfo.init(withAuthInfo: authInfo)),
-                    forKey: activeUserStorageKey)
+        do {
+            storage.set(try JSONEncoder().encode(StoreAuthInfo.init(withAuthInfo: authInfo)),
+                        forKey: activeUserStorageKey)
+        } catch {
+            throw StitchError.clientError(withClientErrorCode: .couldNotPersistAuthInfo)
+        }
     }
 
     /**
@@ -67,29 +71,35 @@ extension CoreStitchAuth {
             currentUsersStore.append(StoreAuthInfo.init(withAuthInfo: user))
         }
 
-        storage.set(try JSONEncoder().encode(currentUsersStore), forKey: allCurrentUsersStorageKey)
+        do {
+            storage.set(try JSONEncoder().encode(currentUsersStore), forKey: allCurrentUsersStorageKey)
+        } catch {
+            throw StitchError.clientError(withClientErrorCode: .couldNotPersistAuthInfo)
+        }
     }
 
     /*
      * Helper function to update the activeUserAuthInfo and activeUser and persist the changes
      */
     internal func updateActiveAuthInfo(withNewAuthInfo authInfo: AuthInfo?) throws {
+        // If passed in nil --> clear active auth state
         guard let authInfo = authInfo else {
-            // TODO
             authStateHolder.clearState()
             activeUser = nil
-            storage.set(activeUserAuthInfo, forKey: activeUserStorageKey)
+            if let newAuthInfo = activeUserAuthInfo {
+                try writeActiveUserAuthInfoToStorage(activeAuthInfo: newAuthInfo)
+            }
             return
         }
 
+        // Otherwise make the user, if makeStitchUser() fails then something is very wrong
+        guard let user = makeStitchUser(withAuthInfo: authInfo) else {
+            throw StitchError.clientError(withClientErrorCode: .userNotValid)
+        }
+
+        // Set activeUser, activeUserAuthInfo, and persist
         activeUserAuthInfo = authInfo
-        activeUser = userFactory.makeUser(
-            withID: authInfo.userID,
-            withLoggedInProviderType: authInfo.loggedInProviderType,
-            withLoggedInProviderName: authInfo.loggedInProviderName,
-            withUserProfile: authInfo.userProfile,
-            withIsLoggedIn: authInfo.isLoggedIn,
-            withLastAuthActivity: authInfo.lastAuthActivity ?? Date.init().timeIntervalSince1970)
+        activeUser = user
         try writeActiveUserAuthInfoToStorage(activeAuthInfo: authInfo)
     }
 
@@ -101,20 +111,18 @@ extension CoreStitchAuth {
         defer { objc_sync_exit(authStateLock) }
 
         // Get the user objects if it exists --> otherwise throw
-        guard let index = allUsersAuthInfo.firstIndex(where: {$0.userID == userId}) else {
+        guard let index = allUsersAuthInfo.firstIndex(where: {$0.userId == userId}) else {
             throw StitchError.clientError(withClientErrorCode: .userNotFound)
         }
         let authInfo = allUsersAuthInfo[index]
 
-        // Otherwise, update the AuthInfo to remove the tokens and update the lastAuthActivity
-        let newAuthInfo = StoreAuthInfo.init(
-            withAuthInfo: authInfo,
-            withOptions: [.updateLastAuthActivity, .removeAuthTokens]).toAuthInfo
+        // Remove the auth tokens from the user and persist the list of users
+        let newAuthInfo = authInfo.loggedOut
         allUsersAuthInfo[index] = newAuthInfo
         try writeCurrentUsersAuthInfoToStorage()
 
         // If this is the active user, update the active authInfo and and user
-        if userId == activeUserAuthInfo?.userID {
+        if userId == activeUserAuthInfo?.userId {
             try updateActiveAuthInfo(withNewAuthInfo: nil)
         }
     }

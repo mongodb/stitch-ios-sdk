@@ -284,7 +284,7 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
     public final override var deviceInfo: Document {
         var info = Document.init()
 
-        if self.hasDeviceID, let deviceID = self.deviceID {
+        if self.hasDeviceId, let deviceID = self.deviceId {
             info[DeviceField.deviceID.rawValue] = deviceID
         }
 

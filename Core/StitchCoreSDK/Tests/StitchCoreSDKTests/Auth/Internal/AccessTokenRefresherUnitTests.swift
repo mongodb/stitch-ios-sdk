@@ -45,9 +45,9 @@ class AccessTokenRefresherUnitTests: XCTestCase {
         let accessTokenRefresher = AccessTokenRefresher<StubUser>.init(authRef: auth)
 
         // Auth starts out logged in and with a fresh token
-        let freshAuthInfo: AuthInfo = StoreAuthInfo.init(
-            userID: "",
-            deviceID: nil,
+        let freshAuthInfo: AuthInfo = AuthInfo.init(
+            userId: "",
+            deviceId: nil,
             accessToken: freshJWT,
             refreshToken: freshJWT,
             loggedInProviderType: .anonymous,
@@ -55,7 +55,7 @@ class AccessTokenRefresherUnitTests: XCTestCase {
             userProfile: StitchUserProfileImpl.init(userType: "",
                                                     identities: [],
                                                     data: APIExtendedUserProfileImpl.init()),
-            lastAuthActivity: 0.0).toAuthInfo
+            lastAuthActivity: 0.0)
 
         auth.isLoggedInMock.doReturn(result: true)
         auth.getAuthInfoMock.doReturn(result: freshAuthInfo)
@@ -67,9 +67,9 @@ class AccessTokenRefresherUnitTests: XCTestCase {
         XCTAssertTrue(auth.getAuthInfoMock.verify(numberOfInvocations: 1))
 
         // Auth info is now expired
-        let expiredAuthInfo: AuthInfo = StoreAuthInfo.init(
-            userID: "",
-            deviceID: nil,
+        let expiredAuthInfo: AuthInfo = AuthInfo.init(
+            userId: "",
+            deviceId: nil,
             accessToken: expiredJWT,
             refreshToken: expiredJWT,
             loggedInProviderType: .anonymous,
@@ -77,7 +77,7 @@ class AccessTokenRefresherUnitTests: XCTestCase {
             userProfile: StitchUserProfileImpl.init(userType: "",
                                                     identities: [],
                                                     data: APIExtendedUserProfileImpl.init()),
-            lastAuthActivity: 0.0).toAuthInfo
+            lastAuthActivity: 0.0)
 
         auth.getAuthInfoMock.doReturn(result: expiredAuthInfo)
 

@@ -18,7 +18,10 @@ extension CoreStitchAuth {
             for user in allUsersAuthInfo {
                 if type(of: credential).providerType == user.loggedInProviderType {
                     // Switch to this user --> it will persist auth changes
-                    return try switchToUserInternal(withId: user.userID)
+                    guard let userId = user.userId else {
+                        throw StitchError.clientError(withClientErrorCode: .userNotValid)
+                    }
+                    return try switchToUserInternal(withId: userId)
                 }
             }
         }
@@ -36,8 +39,7 @@ extension CoreStitchAuth {
         objc_sync_enter(authOperationLock)
         defer { objc_sync_exit(authOperationLock) }
 
-        guard let activeUser = self.activeUser,
-            user == activeUser else {
+        guard let activeUser = self.activeUser, user == activeUser else {
                 throw StitchError.clientError(withClientErrorCode: .userNoLongerValid)
         }
         return try self.doLogin(withCredential: credential, asLinkRequest: true)
@@ -94,94 +96,52 @@ extension CoreStitchAuth {
     internal func processLoginResponse(withCredential credential: StitchCredential,
                                        forResponse response: Response,
                                        asLinkRequest: Bool) throws -> TStitchUser {
-        guard let body = response.body else {
-            throw StitchError.serviceError(
-                withMessage: StitchErrorCodable.genericErrorMessage(withStatusCode: response.statusCode),
-                withServiceErrorCode: .unknown
-            )
-        }
-
-        // Decode the response
-        var decodedInfo: APIAuthInfoImpl!
-        do {
-            decodedInfo = try JSONDecoder().decode(APIAuthInfoImpl.self, from: body)
-        } catch {
-            throw StitchError.requestError(withError: error, withRequestErrorCode: .decodingError)
-        }
+        let decodedInfo = try decodeLoginResponse(response: response)
 
         // Preserve old auth info in case of profile request failure
         let oldAuthInfo = self.activeUserAuthInfo
         let oldUser = self.activeUser
 
         // Provisionally set auth info so we can make a profile request
-        var newAPIAuthInfo: APIAuthInfo!
+        var apiAuthInfo = AuthInfo.init(
+                userId: decodedInfo.userID,
+                deviceId: decodedInfo.deviceID,
+                accessToken: decodedInfo.accessToken,
+                refreshToken: decodedInfo.refreshToken,
+                loggedInProviderType: type(of: credential).providerType,
+                loggedInProviderName: credential.providerName,
+                lastAuthActivity: Date.init().timeIntervalSince1970)
+
         if let oldAuthInfo = oldAuthInfo {
-            let newAuthInfo = oldAuthInfo.merge(withPartialInfo: decodedInfo, fromOldInfo: oldAuthInfo)
-            newAPIAuthInfo = newAuthInfo
-            activeUserAuthInfo = newAuthInfo
-        } else {
-            newAPIAuthInfo = decodedInfo
-            authStateHolder.apiAuthInfo = decodedInfo
+            apiAuthInfo = oldAuthInfo.update(withNewAuthInfo: apiAuthInfo)
         }
+        activeUserAuthInfo = apiAuthInfo
 
         // Get User Profile
-        var profile: StitchUserProfile!
-        do {
-            profile = try doGetUserProfile()
-        } catch let err {
-            // If this was a link request or another user is logged in, back out of setting authInfo
-            // and reset any created user. This will keep the currently logged in user logged in if
-            // the profile request failed, and in this particular edge case the user is linked,
-            // but they are logged in with their older credentials.
-            if asLinkRequest || oldAuthInfo != nil {
-                self.activeUserAuthInfo = oldAuthInfo
-                self.activeUser = oldUser
-
-                if asLinkRequest, let oldAuthInfo = oldAuthInfo {
-                    let newAuthInfo = StoreAuthInfo.init(
-                        withAuthInfo: oldAuthInfo,
-                        withProviderType: type(of: credential).providerType,
-                        withProviderName: credential.providerName).toAuthInfo
-                    try? updateActiveAuthInfo(withNewAuthInfo: newAuthInfo)
-                }
-            } else {
-                try? updateActiveAuthInfo(withNewAuthInfo: nil)
-            }
-
-            throw err
-        }
+        let profile = try getUserProfileOrProperlyFail(withCredential: credential,
+                                         withOldAuthInfo: oldAuthInfo,
+                                         withOldUser: oldUser,
+                                         asLinkRequest: asLinkRequest)
 
         // Update the lastAuthActivity of the old active user
         if let oldAuthInfo = oldAuthInfo {
-            if let oldIndex = allUsersAuthInfo.firstIndex(where: {$0.userID == oldAuthInfo.userID}) {
-                let oldAuthInfo = StoreAuthInfo.init(withAuthInfo: oldAuthInfo,
-                                                     withOptions: [.updateLastAuthActivity]).toAuthInfo
-                allUsersAuthInfo[oldIndex] = oldAuthInfo
+            if let oldIndex = allUsersAuthInfo.firstIndex(where: {$0.userId == oldAuthInfo.userId}) {
+                allUsersAuthInfo[oldIndex] = oldAuthInfo.withNewAuthActivity
             }
         }
 
-        // Finally set the info and user
-        var newAuthInfo = StoreAuthInfo.init(
-            withAPIAuthInfo: newAPIAuthInfo,
-            withExtendedAuthInfo: ExtendedAuthInfoImpl.init(loggedInProviderType: type(of: credential).providerType,
-                                                            loggedInProviderName: credential.providerName,
-                                                            userProfile: profile)).toAuthInfo
+        // Finally make the new authInfo and user
+        let newAuthInfo = apiAuthInfo.update(withUserProfile: profile,
+                                             withLastAuthActivity: Date.init().timeIntervalSince1970)
 
-        newAuthInfo = StoreAuthInfo.init(withAuthInfo: newAuthInfo,
-                                         withOptions: [.updateLastAuthActivity]).toAuthInfo
-
-        let newUser = self.userFactory.makeUser(withID: newAuthInfo.userID,
-                                                withLoggedInProviderType: newAuthInfo.loggedInProviderType,
-                                                withLoggedInProviderName: newAuthInfo.loggedInProviderName,
-                                                withUserProfile: newAuthInfo.userProfile,
-                                                withIsLoggedIn: newAuthInfo.isLoggedIn,
-                                                withLastAuthActivity: newAuthInfo.lastAuthActivity
-                                                    ?? Date.init().timeIntervalSince1970)
+        guard let newUser = makeStitchUser(withAuthInfo: newAuthInfo) else {
+            throw StitchError.clientError(withClientErrorCode: .userNotValid)
+        }
 
         // If the user already exists update it, otherwise append it to the list
         var index: Int = -1
         var oldAuthInfoForNewUser: AuthInfo?
-        if let oldIndex = allUsersAuthInfo.firstIndex(where: {$0.userID == newAuthInfo.userID}) {
+        if let oldIndex = allUsersAuthInfo.firstIndex(where: {$0.userId == newAuthInfo.userId}) {
             index = oldIndex
             oldAuthInfoForNewUser = allUsersAuthInfo[index]
             allUsersAuthInfo[index] = newAuthInfo
@@ -233,6 +193,66 @@ extension CoreStitchAuth {
      */
     private func attachAuthOptions(authBody: inout Document) {
         authBody[AuthKey.options.rawValue] = [AuthKey.device.rawValue: deviceInfo] as Document
+    }
+
+    /*
+     * PRocesses the logijn response and outputs the relevant information
+     * Attempt to shorten processLoginResponseFunction
+     */
+    internal func decodeLoginResponse(response: Response) throws -> APIAuthInfoImpl {
+        guard let body = response.body else {
+            throw StitchError.serviceError(
+                withMessage: StitchErrorCodable.genericErrorMessage(withStatusCode: response.statusCode),
+                withServiceErrorCode: .unknown
+            )
+        }
+
+        do {
+            return try JSONDecoder().decode(APIAuthInfoImpl.self, from: body)
+        } catch {
+            throw StitchError.requestError(withError: error, withRequestErrorCode: .decodingError)
+        }
+    }
+
+    /*
+     * Calls doGetUserProfile() or propery fails
+     * Attempt to shorten processLoginResponseFunction
+     */
+    internal func getUserProfileOrProperlyFail(withCredential credential: StitchCredential,
+                                               withOldAuthInfo oldAuthInfo: AuthInfo?,
+                                               withOldUser oldUser: TStitchUser?,
+                                               asLinkRequest: Bool) throws -> StitchUserProfile {
+        do {
+            let profile = try doGetUserProfile()
+            return profile
+        } catch let err {
+            // If this was a link request or another user is logged in, back out of setting authInfo
+            // and reset any created user. This will keep the currently logged in user logged in if
+            // the profile request failed, and in this particular edge case the user is linked,
+            // but they are logged in with their older credentials.
+            if asLinkRequest || oldAuthInfo != nil {
+                self.activeUserAuthInfo = oldAuthInfo
+                self.activeUser = oldUser
+
+                if asLinkRequest, let oldAuthInfo = oldAuthInfo, oldAuthInfo.hasUser {
+                    let newAuthInfo = AuthInfo.init(
+                        userId: oldAuthInfo.userId,
+                        deviceId: oldAuthInfo.deviceId,
+                        accessToken: oldAuthInfo.accessToken,
+                        refreshToken: oldAuthInfo.refreshToken,
+                        loggedInProviderType: type(of: credential).providerType,
+                        loggedInProviderName: credential.providerName,
+                        userProfile: oldAuthInfo.userProfile,
+                        lastAuthActivity: oldAuthInfo.lastAuthActivity)
+
+                    try? updateActiveAuthInfo(withNewAuthInfo: newAuthInfo)
+                }
+            } else {
+                try? updateActiveAuthInfo(withNewAuthInfo: nil)
+            }
+
+            throw err
+        }
     }
 
     /**

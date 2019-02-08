@@ -140,6 +140,7 @@ public enum StitchClientErrorCode: Error {
     case syncRecoveryError(withError: Error)
     case userNotFound
     case couldNotFindActiveUser
+    case userNotValid
     case unknownChangeEventType
 }
 

@@ -12,6 +12,8 @@
 		18980E2F2DF84C7B1FA84115 /* Pods_StitchCoreSDKTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1ED2D854F92DE372FFC12A79 /* Pods_StitchCoreSDKTests.framework */; };
 		1E0FAFF4220A064800C201CC /* CoreStitchAuth+LoginAndLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0FAFF3220A064800C201CC /* CoreStitchAuth+LoginAndLink.swift */; };
 		1E524A552202418D009D818D /* CoreStitchAuth+AuthStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E524A542202418D009D818D /* CoreStitchAuth+AuthStorage.swift */; };
+		1E7F2AB4220DF49E005F93A2 /* StoreAuthInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7F2AB3220DF49E005F93A2 /* StoreAuthInfo.swift */; };
+		1E7F2AB6220E2EA0005F93A2 /* AuthStateHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7F2AB5220E2EA0005F93A2 /* AuthStateHolder.swift */; };
 		491A934B21B323AB00F60F59 /* RawSSEStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A934A21B323AB00F60F59 /* RawSSEStream.swift */; };
 		491A934F21B3248500F60F59 /* FoundationHTTPSSEStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A934E21B3248500F60F59 /* FoundationHTTPSSEStream.swift */; };
 		491A935321B334A200F60F59 /* FoundationHTTPEventStreamUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A935221B334A200F60F59 /* FoundationHTTPEventStreamUnitTests.swift */; };
@@ -58,7 +60,6 @@
 		4980629A2185B6BC00E2A3A2 /* APIAccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498062252185B6A100E2A3A2 /* APIAccessToken.swift */; };
 		4980629B2185B6BC00E2A3A2 /* StoreStitchUserIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498062262185B6A100E2A3A2 /* StoreStitchUserIdentity.swift */; };
 		4980629C2185B6BC00E2A3A2 /* APIStitchUserIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498062272185B6A100E2A3A2 /* APIStitchUserIdentity.swift */; };
-		4980629D2185B6BC00E2A3A2 /* StoreAuthInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498062282185B6A100E2A3A2 /* StoreAuthInfo.swift */; };
 		4980629E2185B6BC00E2A3A2 /* APIAuthInfoImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498062292185B6A100E2A3A2 /* APIAuthInfoImpl.swift */; };
 		4980629F2185B6BC00E2A3A2 /* APICoreUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4980622A2185B6A100E2A3A2 /* APICoreUserProfile.swift */; };
 		498062A02185B6BC00E2A3A2 /* StitchAuthRequestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4980622B2185B6A100E2A3A2 /* StitchAuthRequestClient.swift */; };
@@ -67,7 +68,6 @@
 		498062A32185B6BC00E2A3A2 /* CoreStitchUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4980622E2185B6A100E2A3A2 /* CoreStitchUser.swift */; };
 		498062A42185B6BC00E2A3A2 /* AuthInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4980622F2185B6A100E2A3A2 /* AuthInfo.swift */; };
 		498062A52185B6BC00E2A3A2 /* CoreStitchAuth+StitchAuthRequestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498062302185B6A100E2A3A2 /* CoreStitchAuth+StitchAuthRequestClient.swift */; };
-		498062A62185B6BC00E2A3A2 /* AuthStateHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498062312185B6A100E2A3A2 /* AuthStateHolder.swift */; };
 		498062A72185B6BC00E2A3A2 /* StitchUserIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498062322185B6A100E2A3A2 /* StitchUserIdentity.swift */; };
 		498062A82185B6BC00E2A3A2 /* StitchCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498062332185B6A100E2A3A2 /* StitchCredential.swift */; };
 		498062A92185B6BC00E2A3A2 /* StitchUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498062342185B6A100E2A3A2 /* StitchUserProfile.swift */; };
@@ -139,6 +139,8 @@
 		116D8C8721D583D200ECA1AB /* AppMetadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppMetadata.swift; path = Net/AppMetadata.swift; sourceTree = "<group>"; };
 		1E0FAFF3220A064800C201CC /* CoreStitchAuth+LoginAndLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreStitchAuth+LoginAndLink.swift"; sourceTree = "<group>"; };
 		1E524A542202418D009D818D /* CoreStitchAuth+AuthStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreStitchAuth+AuthStorage.swift"; sourceTree = "<group>"; };
+		1E7F2AB3220DF49E005F93A2 /* StoreAuthInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreAuthInfo.swift; sourceTree = "<group>"; };
+		1E7F2AB5220E2EA0005F93A2 /* AuthStateHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthStateHolder.swift; sourceTree = "<group>"; };
 		1ED2D854F92DE372FFC12A79 /* Pods_StitchCoreSDKTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreSDKTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		217AC60BDD132F8479D605E7 /* Pods-StitchCoreSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreSDK.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreSDK/Pods-StitchCoreSDK.debug.xcconfig"; sourceTree = "<group>"; };
 		392DB4A470DD46E0E6B78130 /* Pods_StitchCoreSDKMocks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreSDKMocks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -185,7 +187,6 @@
 		498062252185B6A100E2A3A2 /* APIAccessToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIAccessToken.swift; sourceTree = "<group>"; };
 		498062262185B6A100E2A3A2 /* StoreStitchUserIdentity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreStitchUserIdentity.swift; sourceTree = "<group>"; };
 		498062272185B6A100E2A3A2 /* APIStitchUserIdentity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIStitchUserIdentity.swift; sourceTree = "<group>"; };
-		498062282185B6A100E2A3A2 /* StoreAuthInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreAuthInfo.swift; sourceTree = "<group>"; };
 		498062292185B6A100E2A3A2 /* APIAuthInfoImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIAuthInfoImpl.swift; sourceTree = "<group>"; };
 		4980622A2185B6A100E2A3A2 /* APICoreUserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICoreUserProfile.swift; sourceTree = "<group>"; };
 		4980622B2185B6A100E2A3A2 /* StitchAuthRequestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAuthRequestClient.swift; sourceTree = "<group>"; };
@@ -194,7 +195,6 @@
 		4980622E2185B6A100E2A3A2 /* CoreStitchUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreStitchUser.swift; sourceTree = "<group>"; };
 		4980622F2185B6A100E2A3A2 /* AuthInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInfo.swift; sourceTree = "<group>"; };
 		498062302185B6A100E2A3A2 /* CoreStitchAuth+StitchAuthRequestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreStitchAuth+StitchAuthRequestClient.swift"; sourceTree = "<group>"; };
-		498062312185B6A100E2A3A2 /* AuthStateHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthStateHolder.swift; sourceTree = "<group>"; };
 		498062322185B6A100E2A3A2 /* StitchUserIdentity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchUserIdentity.swift; sourceTree = "<group>"; };
 		498062332185B6A100E2A3A2 /* StitchCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchCredential.swift; sourceTree = "<group>"; };
 		498062342185B6A100E2A3A2 /* StitchUserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchUserProfile.swift; sourceTree = "<group>"; };
@@ -511,7 +511,7 @@
 				4980622D2185B6A100E2A3A2 /* StitchJWT.swift */,
 				4980622E2185B6A100E2A3A2 /* CoreStitchUser.swift */,
 				4980622F2185B6A100E2A3A2 /* AuthInfo.swift */,
-				498062312185B6A100E2A3A2 /* AuthStateHolder.swift */,
+				1E7F2AB5220E2EA0005F93A2 /* AuthStateHolder.swift */,
 			);
 			path = Internal;
 			sourceTree = "<group>";
@@ -519,11 +519,11 @@
 		498062232185B6A100E2A3A2 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				1E7F2AB3220DF49E005F93A2 /* StoreAuthInfo.swift */,
 				498062242185B6A100E2A3A2 /* StoreCoreUserProfile.swift */,
 				498062252185B6A100E2A3A2 /* APIAccessToken.swift */,
 				498062262185B6A100E2A3A2 /* StoreStitchUserIdentity.swift */,
 				498062272185B6A100E2A3A2 /* APIStitchUserIdentity.swift */,
-				498062282185B6A100E2A3A2 /* StoreAuthInfo.swift */,
 				498062292185B6A100E2A3A2 /* APIAuthInfoImpl.swift */,
 				4980622A2185B6A100E2A3A2 /* APICoreUserProfile.swift */,
 			);
@@ -1048,6 +1048,7 @@
 				491A934F21B3248500F60F59 /* FoundationHTTPSSEStream.swift in Sources */,
 				498062842185B6BC00E2A3A2 /* AnonymousAuthProvider.swift in Sources */,
 				491A934B21B323AB00F60F59 /* RawSSEStream.swift in Sources */,
+				1E7F2AB4220DF49E005F93A2 /* StoreAuthInfo.swift in Sources */,
 				498062852185B6BC00E2A3A2 /* GoogleAuthProvider.swift in Sources */,
 				498062862185B6BC00E2A3A2 /* GoogleCredential.swift in Sources */,
 				498062872185B6BC00E2A3A2 /* CoreAuthProviderClient.swift in Sources */,
@@ -1074,7 +1075,6 @@
 				4980629A2185B6BC00E2A3A2 /* APIAccessToken.swift in Sources */,
 				4980629B2185B6BC00E2A3A2 /* StoreStitchUserIdentity.swift in Sources */,
 				4980629C2185B6BC00E2A3A2 /* APIStitchUserIdentity.swift in Sources */,
-				4980629D2185B6BC00E2A3A2 /* StoreAuthInfo.swift in Sources */,
 				4980629E2185B6BC00E2A3A2 /* APIAuthInfoImpl.swift in Sources */,
 				4980629F2185B6BC00E2A3A2 /* APICoreUserProfile.swift in Sources */,
 				498062A02185B6BC00E2A3A2 /* StitchAuthRequestClient.swift in Sources */,
@@ -1083,12 +1083,12 @@
 				498062A32185B6BC00E2A3A2 /* CoreStitchUser.swift in Sources */,
 				498062A42185B6BC00E2A3A2 /* AuthInfo.swift in Sources */,
 				498062A52185B6BC00E2A3A2 /* CoreStitchAuth+StitchAuthRequestClient.swift in Sources */,
-				498062A62185B6BC00E2A3A2 /* AuthStateHolder.swift in Sources */,
 				498062A72185B6BC00E2A3A2 /* StitchUserIdentity.swift in Sources */,
 				498062A82185B6BC00E2A3A2 /* StitchCredential.swift in Sources */,
 				498062A92185B6BC00E2A3A2 /* StitchUserProfile.swift in Sources */,
 				498062AA2185B6BC00E2A3A2 /* StitchClientConfiguration.swift in Sources */,
 				498062AB2185B6BC00E2A3A2 /* StitchRequestClient.swift in Sources */,
+				1E7F2AB6220E2EA0005F93A2 /* AuthStateHolder.swift in Sources */,
 				498062AC2185B6BC00E2A3A2 /* Transport.swift in Sources */,
 				498062AD2185B6BC00E2A3A2 /* FoundationHTTPTransport.swift in Sources */,
 				498062AE2185B6BC00E2A3A2 /* Headers.swift in Sources */,
