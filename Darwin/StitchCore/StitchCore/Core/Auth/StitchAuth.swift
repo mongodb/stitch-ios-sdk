@@ -111,11 +111,8 @@ public protocol StitchAuth {
      *
      * - parameters:
      *     - userId: A String specifying the desired `userId`
-     *     - completionHandler: The completion handler to call when the switch is complete.
-     *                          This handler is executed on a non-main global `DispatchQueue`.
-     *                          This will contain the `StitchUser` on success.
      */
-    func switchToUser(withId userId: String, _ completionHandler: @escaping (StitchResult<StitchUser>) -> Void)
+    func switchToUser(withId userId: String) throws -> StitchUser
 
     /**
      * Removes the current active user from the list of all users

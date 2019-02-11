@@ -18,7 +18,7 @@ public struct AuthInfo: Hashable, Equatable {
 
     public let userProfile: StitchUserProfile?
 
-    public let lastAuthActivity: Double?
+    public let lastAuthActivity: TimeInterval?
 
     /**
      * isLoggedIn is a computed property determined by the existance of an accessToken and refreshToken
@@ -97,7 +97,7 @@ public struct AuthInfo: Hashable, Equatable {
                        withLoggedInProviderType newLoggedInProviderType: StitchProviderType? = nil,
                        withLoggedInProviderName newLoggedInProviderName: String? = nil,
                        withUserProfile newUserProfile: StitchUserProfile? = nil,
-                       withLastAuthActivity newLastAuthActivity: Double? = nil) -> AuthInfo {
+                       withLastAuthActivity newLastAuthActivity: TimeInterval? = nil) -> AuthInfo {
         return AuthInfo.init(
             userId: newUserId ?? self.userId,
             deviceId: newDeviceId ?? self.deviceId,
@@ -127,7 +127,7 @@ public struct AuthInfo: Hashable, Equatable {
      */
     init(userId: String? = nil, deviceId: String? = nil, accessToken: String? = nil, refreshToken: String? = nil,
          loggedInProviderType: StitchProviderType? = nil, loggedInProviderName: String? = nil,
-         userProfile: StitchUserProfile? = nil, lastAuthActivity: Double? = nil) {
+         userProfile: StitchUserProfile? = nil, lastAuthActivity: TimeInterval? = nil) {
         self.userId = userId
         self.deviceId = deviceId
         self.accessToken = accessToken

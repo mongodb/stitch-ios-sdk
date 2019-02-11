@@ -23,7 +23,7 @@ internal struct StoreAuthInfo: Codable {
 
     let userProfile: StitchUserProfile?
 
-    let lastAuthActivity: Double?
+    let lastAuthActivity: TimeInterval?
 
     var isLoggedIn: Bool {
         return accessToken != nil && refreshToken != nil
@@ -67,7 +67,7 @@ internal struct StoreAuthInfo: Codable {
         self.loggedInProviderType = try? container.decode(StitchProviderType.self, forKey: .loggedInProviderType)
         self.loggedInProviderName = try? container.decode(String.self, forKey: .loggedInProviderName)
         self.userProfile = try? container.decode(StoreCoreUserProfile.self, forKey: .userProfile)
-        self.lastAuthActivity = try? container.decode(Double.self, forKey: .lastAuthActivity)
+        self.lastAuthActivity = try? container.decode(TimeInterval.self, forKey: .lastAuthActivity)
     }
 
     /**

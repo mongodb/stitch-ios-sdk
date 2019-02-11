@@ -36,7 +36,7 @@ final class StubUser: CoreStitchUser {
 
     var isLoggedIn: Bool = false
 
-    var lastAuthActivity: Double = 0.0
+    var lastAuthActivity: TimeInterval = Date.init().timeIntervalSince1970
 }
 
 class AccessTokenRefresherUnitTests: XCTestCase {

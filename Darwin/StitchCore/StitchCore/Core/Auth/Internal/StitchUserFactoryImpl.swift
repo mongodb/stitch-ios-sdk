@@ -14,7 +14,7 @@ internal final class StitchUserFactoryImpl: StitchUserFactory {
                   withLoggedInProviderName loggedInProviderName: String,
                   withUserProfile userProfile: StitchUserProfile,
                   withIsLoggedIn isLoggedIn: Bool,
-                  withLastAuthActivity lastAuthActivity: Double
+                  withLastAuthActivity lastAuthActivity: TimeInterval
         ) -> StitchUserImpl {
         return StitchUserImpl.init(withID: id,
                                    withProviderType: loggedInProviderType,

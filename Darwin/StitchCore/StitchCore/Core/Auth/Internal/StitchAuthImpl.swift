@@ -176,15 +176,9 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
      *
      * - parameters:
      *     - userId: A String specifying the desired `userId`
-     *     - completionHandler: The completion handler to call when the switch is complete.
-     *                          This handler is executed on a non-main global `DispatchQueue`.
-     *                          This will contain the `StitchUser` on success.
      */
-    public func switchToUser(withId userId: String,
-                             _ completionHandler: @escaping (StitchResult<StitchUser>) -> Void) {
-        dispatcher.run(withCompletionHandler: completionHandler) {
-            return try self.switchToUserInternal(withId: userId)
-        }
+    public func switchToUser(withId userId: String) throws -> StitchUser {
+        return try self.switchToUserInternal(withId: userId)
     }
 
     /**

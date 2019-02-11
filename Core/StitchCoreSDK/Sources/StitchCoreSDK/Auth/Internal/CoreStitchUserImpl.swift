@@ -7,7 +7,7 @@ open class CoreStitchUserImpl: CoreStitchUser {
 
     public let loggedInProviderName: String
 
-    public let lastAuthActivity: Double
+    public let lastAuthActivity: TimeInterval
 
     public let profile: StitchUserProfile
 
@@ -26,7 +26,7 @@ open class CoreStitchUserImpl: CoreStitchUser {
                 loggedInProviderName: String,
                 profile: StitchUserProfile,
                 isLoggedIn: Bool,
-                lastAuthActivity: Double
+                lastAuthActivity: TimeInterval
     ) {
         self.id = id
         self.loggedInProviderType = loggedInProviderType

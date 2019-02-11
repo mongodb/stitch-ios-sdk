@@ -1,3 +1,5 @@
+import Foundation
+
 /**
  * The set of properties that describe an authenticated Stitch user.
  */
@@ -43,7 +45,7 @@ public protocol CoreStitchUser {
     /**
      * The last time that this user was logged into, switched to, or switched from
      */
-    var lastAuthActivity: Double { get }
+    var lastAuthActivity: TimeInterval { get }
 }
 
 /**

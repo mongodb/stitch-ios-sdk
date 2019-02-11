@@ -23,7 +23,7 @@ internal final class StitchUserImpl: CoreStitchUserImpl, StitchUser {
          withUserProfile userProfile: StitchUserProfile,
          withAuth auth: StitchAuthImpl,
          withIsLoggedIn isLoggedIn: Bool,
-         withLastAuthActivity lastAuthActivity: Double) {
+         withLastAuthActivity lastAuthActivity: TimeInterval) {
         self.auth = auth
         super.init(id: id,
                    loggedInProviderType: providerType,

@@ -1,8 +1,6 @@
 // swiftlint:disable function_body_length
 // swiftlint:disable type_body_length
-// swiftlint:disable empty_parentheses_with_trailing_closure
 // swiftlint:disable cyclomatic_complexity
-// swiftlint:disable line_length
 
 import Foundation
 import XCTest
@@ -225,25 +223,19 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
         wait(for: [exp3], timeout: defaultTimeoutSeconds)
 
         let exp4 = expectation(description: "switching to previous user should work properly")
-        self.stitchAppClient.auth.switchToUser(withId: anonUserID) {result in
-            switch result {
-            case .success:
-                self.verifyBasicAuthInfo(
-                    loggedInList: [false, true, true],
-                    loggedIn: true,
-                    expectedProviderType: StitchProviderType.anonymous,
-                    expectedUserIndex: 1)
-
-                exp4.fulfill()
-            case .failure:
-                XCTFail("Failed switching to user \(anonUserID!)")
-            }
-        }
+        let newUser = try self.stitchAppClient.auth.switchToUser(withId: anonUserID)
+        XCTAssertNotNil(newUser)
+        self.verifyBasicAuthInfo(
+            loggedInList: [false, true, true],
+            loggedIn: true,
+            expectedProviderType: StitchProviderType.anonymous,
+            expectedUserIndex: 1)
+        exp4.fulfill()
         wait(for: [exp4], timeout: defaultTimeoutSeconds)
 
         // Calling logout should delete the anonymous user that is active and leave the auth state empty
         let exp5 = expectation(description: "logging out of active anon user should delete it")
-        self.stitchAppClient.auth.logout() { result in
+        self.stitchAppClient.auth.logout { result in
             switch result {
             case .success:
                 self.verifyBasicAuthInfo(loggedInList: [false, true], loggedIn: false)
@@ -282,7 +274,7 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
 
         // removing active user
         let exp8 = expectation(description: "removing active user")
-        self.stitchAppClient.auth.removeUser() { result in
+        self.stitchAppClient.auth.removeUser { result in
             switch result {
             case .success:
                 self.verifyBasicAuthInfo(loggedInList: [false, false], loggedIn: false)
@@ -367,11 +359,17 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
         wait(for: [exp3], timeout: defaultTimeoutSeconds)
 
         let exp4 = expectation(description: "original account linked with new email/password identity")
-        anonUser.link(withCredential: UserPasswordCredential(withUsername: "stitch@10gen.com", withPassword: "password")) {result in
+        anonUser.link(withCredential:
+            UserPasswordCredential(withUsername: "stitch@10gen.com", withPassword: "password")) {result in
             switch result {
             case .success(let linkedUser):
                 XCTAssertEqual(anonUser.id, linkedUser.id)
-                self.verifyBasicAuthInfo(loggedInList: [false, true], loggedIn: true, expectedProviderType: .userPassword, expectedUserIndex: 1)
+                self.verifyBasicAuthInfo(
+                    loggedInList: [false, true],
+                    loggedIn: true,
+                    expectedProviderType: .userPassword,
+                    expectedUserIndex: 1)
+
                 XCTAssertEqual(linkedUser.profile.identities.count, 2)
                 exp4.fulfill()
             case .failure:

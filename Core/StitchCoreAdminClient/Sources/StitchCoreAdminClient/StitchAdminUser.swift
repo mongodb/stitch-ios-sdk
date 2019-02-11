@@ -1,5 +1,6 @@
 //swiftlint:disable function_parameter_count
 import StitchCoreSDK
+import Foundation
 
 public final class StitchAdminUser: CoreStitchUser {
 
@@ -11,7 +12,7 @@ public final class StitchAdminUser: CoreStitchUser {
          withProviderName providerName: String,
          withUserProfile userProfile: StitchUserProfile,
          withIsLoggedIn isLoggedIn: Bool,
-         withLastAuthActivity lastAuthActivity: Double) {
+         withLastAuthActivity lastAuthActivity: TimeInterval) {
         self.id = id
         self.loggedInProviderType = providerType
         self.loggedInProviderName = providerName
@@ -53,10 +54,10 @@ public final class StitchAdminUser: CoreStitchUser {
     public private(set) var isLoggedIn: Bool
 
     /**
-     * A Double determining the last time that the user logged in, was logged out
+     * A TimeInterval determining the last time that the user logged in, was logged out
      * switched to, or switched from
      */
-    public private(set) var lastAuthActivity: Double
+    public private(set) var lastAuthActivity: TimeInterval
 
     /**
      * An array of `StitchCore.StitchUserIdentity` objects representing the identities linked
@@ -78,7 +79,7 @@ public final class StitchAdminUserFactory: StitchUserFactory {
                          withLoggedInProviderName loggedInProviderName: String,
                          withUserProfile userProfile: StitchUserProfile,
                          withIsLoggedIn isLoggedIn: Bool,
-                         withLastAuthActivity lastAuthActivity: Double
+                         withLastAuthActivity lastAuthActivity: TimeInterval
         ) -> StitchAdminUser {
         return StitchAdminUser.init(withID: id,
                                     withProviderType: loggedInProviderType,

@@ -1,3 +1,4 @@
+import Foundation
 import StitchCoreSDK
 
 /**
@@ -46,7 +47,7 @@ public protocol StitchUser: CoreStitchUser {
     /**
      * The last time this user was logged into, logged out of, switched to, or switched from
      */
-    var lastAuthActivity: Double { get }
+    var lastAuthActivity: TimeInterval { get }
 
     // MARK: Methods
 
