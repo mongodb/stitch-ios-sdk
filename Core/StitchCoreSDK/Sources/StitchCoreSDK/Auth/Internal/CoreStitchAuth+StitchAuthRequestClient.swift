@@ -16,7 +16,11 @@ extension CoreStitchAuth {
      */
     public func doAuthenticatedRequest(_ stitchReq: StitchAuthRequest) throws -> Response {
         do {
-            return try requestClient.doRequest(prepareAuthRequest(stitchReq))
+            guard stitchReq.headers.index(forKey: Headers.authorization.rawValue) != nil else {
+                return try requestClient.doRequest(prepareAuthRequest(withAuthRequest: stitchReq,
+                                                                      withAuthInfo: nil))
+            }
+            return try requestClient.doRequest(stitchReq)
         } catch let err {
             return try handleAuthFailure(forError: err, withRequest: stitchReq)
         }
@@ -45,7 +49,7 @@ extension CoreStitchAuth {
         delegate: SSEStreamDelegate? = nil
     ) throws -> RawSSEStream {
         guard isLoggedIn,
-            let authInfo = self.authInfo,
+            let authInfo = self.activeUserAuthInfo,
             let authToken = stitchReq.useRefreshToken
                 ? authInfo.refreshToken : authInfo.accessToken else {
             throw StitchError.clientError(withClientErrorCode: .mustAuthenticateFirst)
@@ -65,18 +69,18 @@ extension CoreStitchAuth {
      * Prepares an authenticated Stitch request by attaching the `CoreStitchAuth`'s current access or refresh token
      * (depending on the type of request) to the request's `"Authorization"` header.
      */
-    private func prepareAuthRequest(_ stitchReq: StitchAuthRequest) throws -> StitchRequest {
+    public func prepareAuthRequest(withAuthRequest stitchReq: StitchAuthRequest,
+                                   withAuthInfo authInfo: AuthInfo?) throws -> StitchRequest {
         objc_sync_enter(authStateLock)
         defer { objc_sync_exit(authStateLock) }
 
-        guard self.isLoggedIn,
-            let refreshToken = self.authStateHolder.refreshToken,
-            let accessToken = self.authStateHolder.accessToken else {
+        guard let loggedIn = authInfo != nil ?  authInfo?.isLoggedIn : self.isLoggedIn, loggedIn,
+            let refreshToken = authInfo != nil ? authInfo?.refreshToken : activeUserAuthInfo?.refreshToken,
+            let accessToken = authInfo != nil ? authInfo?.accessToken : activeUserAuthInfo?.accessToken else {
                 throw StitchError.clientError(withClientErrorCode: .mustAuthenticateFirst)
         }
 
         let reqBuilder = StitchRequestBuilder()
-
         var newHeaders = stitchReq.headers
         if stitchReq.useRefreshToken {
             newHeaders[Headers.authorization.rawValue] =
@@ -126,7 +130,7 @@ extension CoreStitchAuth {
         // using a refresh token implies we cannot refresh anything, so clear auth and
         // notify
         if req.useRefreshToken || !req.shouldRefreshOnFailure {
-            self.clearAuth()
+            try? self.clearUserAuthToken(forUserID: activeUserAuthInfo?.userID ?? "")
             throw error
         }
 
@@ -154,7 +158,7 @@ extension CoreStitchAuth {
         // using a refresh token implies we cannot refresh anything, so clear auth and
         // notify
         if req.useRefreshToken || !req.shouldRefreshOnFailure {
-            self.clearAuth()
+            try? self.clearUserAuthToken(forUserID: activeUserAuthInfo?.userID ?? "")
             throw error
         }
 

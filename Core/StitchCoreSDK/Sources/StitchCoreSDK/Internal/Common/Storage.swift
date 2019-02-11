@@ -3,7 +3,7 @@ import Foundation
 /// Storage allows us to store arbitrary key-value
 /// data via an arbitrary source. The protocol is modeled
 /// after Foundation.UserDefaults.
-public protocol Storage {
+public protocol Storage: class {
     /// Read value for key
     /// - parameter forKey key: key to read from
     /// - returns: value for key
@@ -12,11 +12,11 @@ public protocol Storage {
     /// Set value for key
     /// - parameter value: value to save
     /// - parameter forKey key: key to save value for
-    mutating func set(_ value: Any?, forKey key: String)
+    func set(_ value: Any?, forKey key: String)
 
     /// Remove object for key
     /// - parameter forKey key: key to remove value for
-    mutating func removeObject(forKey key: String)
+    func removeObject(forKey key: String)
 }
 
 /// An extension to the Storage protocol allowing for subscripted
@@ -39,7 +39,7 @@ extension Storage {
 /// Failover implementation of the Storage protocol
 /// in the event that no other storage unit can
 /// be found.
-public struct MemoryStorage: Storage {
+public class MemoryStorage: Storage {
     public init() { }
 
     /// Internal storage unit
@@ -49,11 +49,11 @@ public struct MemoryStorage: Storage {
         return self.storage[key]
     }
 
-    public mutating func set(_ value: Any?, forKey key: String) {
+    public func set(_ value: Any?, forKey key: String) {
         self.storage[key] = value
     }
 
-    public mutating func removeObject(forKey key: String) {
+    public func removeObject(forKey key: String) {
         self.storage.removeValue(forKey: key)
     }
 }

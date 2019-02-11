@@ -64,7 +64,11 @@ open class BaseStitchIntTest: XCTestCase {
         }
 
         apps.forEach { try? $0.remove() }
-        adminClient.logout()
+        do {
+            try adminClient.logout()
+        } catch {
+
+        }
     }
 
     public func createApp(

@@ -120,6 +120,7 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
 
     /**
      * Authenticates the client as a MongoDB Stitch user using the provided `StitchCredential`.
+     * On success, this user will become the active user.
      *
      * - parameters:
      *     - withCredential: The `StitchCredential` used to authenticate the
@@ -134,8 +135,99 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
     public func login(withCredential credential: StitchCredential,
                       _ completionHandler: @escaping (StitchResult<StitchUser>) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
-            return try self.loginWithCredentialInternal(withCredential: credential)
+            return try self.loginInternal(withCredential: credential)
         }
+    }
+
+    /**
+     * Logs out the currently authenticated user, and clears any persisted authentication information.
+     *
+     * - parameters:
+     *     - completionHandler: The completion handler to call when the logout is complete.
+     *                          This handler is executed on a non-main global `DispatchQueue`.
+     */
+    public func logout(_ completionHandler: @escaping (StitchResult<Void>) -> Void) {
+        dispatcher.run(withCompletionHandler: completionHandler) {
+            return try self.logoutInternal(withID: nil)
+        }
+    }
+
+    /**
+     * Logs out of the user with the given userId. The user must exist in the list of all
+     * users who have logged into this application otherwise this will throw a StitchServiveError.
+     *
+     * - parameters:
+     *     - userId: A String specifying the desired `userId`
+     *     - completionHandler: The completion handler to call when the switch is complete.
+     *                          This handler is executed on a non-main global `DispatchQueue`.
+     */
+    public func logoutUser(withId userId: String,
+                           _ completionHandler: @escaping (StitchResult<Void>) -> Void) {
+        dispatcher.run(withCompletionHandler: completionHandler) {
+            return try self.logoutInternal(withID: userId)
+        }
+    }
+
+    /**
+     * Switches the active user to the user with the specified id. The user must
+     * exist in the list of all users who have logged into this application, and
+     * the user must be currently logged in, otherwise this will throw a
+     * StitchServiveError.
+     *
+     * - parameters:
+     *     - userId: A String specifying the desired `userId`
+     */
+    public func switchToUser(withId userId: String) throws -> StitchUser {
+        return try self.switchToUserInternal(withID: userId)
+    }
+
+    /**
+     * Removes the current active user from the list of all users
+     * associated with this application. If there is no currently active user, then the
+     * function will return with success.
+     * Additionally, this method will clear all user data including any synchronized databases.
+     *
+     * - parameters:
+     *     - completionHandler: The completion handler to call when the switch is complete.
+     *                          This handler is executed on a non-main global `DispatchQueue`.
+     */
+    public func removeUser(_ completionHandler: @escaping (StitchResult<Void>) -> Void) {
+        dispatcher.run(withCompletionHandler: completionHandler) {
+            return try self.removeUserInternal(withID: nil)
+        }
+    }
+
+    /**
+     * Removes the user with the provided id from the list of all users
+     * associated with this application. If the user was logged in, the user will
+     * be logged out before being removed. The user must exist in the list of all
+     * users who have logged into this application otherwise this will throw a StitchServiveError.
+     * Additionally, this method will clear all user data including any synchronized databases.
+     *
+     * - parameters:
+     *     - userId: A String specifying the desired `userId`
+     *     - completionHandler: The completion handler to call when the switch is complete.
+     *                          This handler is executed on a non-main global `DispatchQueue`.
+     */
+    public func removeUser(withId userId: String,
+                           _ completionHandler: @escaping (StitchResult<Void>) -> Void) {
+        dispatcher.run(withCompletionHandler: completionHandler) {
+            return try self.removeUserInternal(withID: userId)
+        }
+    }
+
+    /**
+     * Returns a list of all users who have logged into this application, with the exception of
+     * those that have been removed manually and anonymous users who have logged
+     * out. This list is guaranteed to be in the order that the users were added
+     * to the application.
+     *
+     * - parameters:
+     *     - completionHandler: The completion handler to call when the switch is complete.
+     *                          This handler is executed on a non-main global `DispatchQueue`.
+     */
+    public func listUsers() -> [StitchUser] {
+        return self.listUsersInternal()
     }
 
     /**
@@ -157,20 +249,7 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
                        withUser user: StitchUserImpl,
                        _ completionHandler: @escaping (StitchResult<StitchUser>) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
-            return try self.linkUserWithCredentialInternal(withUser: user, withCredential: credential)
-        }
-    }
-
-    /**
-     * Logs out the currently authenticated user, and clears any persisted authentication information.
-     *
-     * - parameters:
-     *     - completionHandler: The completion handler to call when the logout is complete.
-     *                          This handler is executed on a non-main global `DispatchQueue`.
-     */
-    public func logout(_ completionHandler: @escaping (StitchResult<Void>) -> Void) {
-        dispatcher.run(withCompletionHandler: completionHandler) {
-            self.logoutInternal()
+            return try self.linkUserInternal(withUser: user, withCredential: credential)
         }
     }
 

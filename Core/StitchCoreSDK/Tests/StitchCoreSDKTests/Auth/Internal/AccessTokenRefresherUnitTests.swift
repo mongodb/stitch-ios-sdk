@@ -33,6 +33,10 @@ final class StubUser: CoreStitchUser {
         StitchUserProfileImpl.init(userType: "", identities: [], data: APIExtendedUserProfileImpl.init())
 
     var identities: [StitchUserIdentity] = []
+
+    var isLoggedIn: Bool = false
+
+    var lastAuthActivity: TimeInterval = Date.init().timeIntervalSince1970
 }
 
 class AccessTokenRefresherUnitTests: XCTestCase {
@@ -41,7 +45,7 @@ class AccessTokenRefresherUnitTests: XCTestCase {
         let accessTokenRefresher = AccessTokenRefresher<StubUser>.init(authRef: auth)
 
         // Auth starts out logged in and with a fresh token
-        let freshAuthInfo: AuthInfo = StoreAuthInfo.init(
+        let freshAuthInfo: AuthInfo = AuthInfo.init(
             userID: "",
             deviceID: nil,
             accessToken: freshJWT,
@@ -50,7 +54,8 @@ class AccessTokenRefresherUnitTests: XCTestCase {
             loggedInProviderName: "",
             userProfile: StitchUserProfileImpl.init(userType: "",
                                                     identities: [],
-                                                    data: APIExtendedUserProfileImpl.init()))
+                                                    data: APIExtendedUserProfileImpl.init()),
+            lastAuthActivity: 0.0)
 
         auth.isLoggedInMock.doReturn(result: true)
         auth.getAuthInfoMock.doReturn(result: freshAuthInfo)
@@ -62,7 +67,7 @@ class AccessTokenRefresherUnitTests: XCTestCase {
         XCTAssertTrue(auth.getAuthInfoMock.verify(numberOfInvocations: 1))
 
         // Auth info is now expired
-        let expiredAuthInfo: AuthInfo = StoreAuthInfo.init(
+        let expiredAuthInfo: AuthInfo = AuthInfo.init(
             userID: "",
             deviceID: nil,
             accessToken: expiredJWT,
@@ -71,7 +76,9 @@ class AccessTokenRefresherUnitTests: XCTestCase {
             loggedInProviderName: "",
             userProfile: StitchUserProfileImpl.init(userType: "",
                                                     identities: [],
-                                                    data: APIExtendedUserProfileImpl.init()))
+                                                    data: APIExtendedUserProfileImpl.init()),
+            lastAuthActivity: 0.0)
+
         auth.getAuthInfoMock.doReturn(result: expiredAuthInfo)
 
         XCTAssertTrue(accessTokenRefresher.checkRefresh())

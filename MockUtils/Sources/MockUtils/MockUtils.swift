@@ -6,6 +6,7 @@ import Foundation
 public class FunctionMockUnit<ReturnType> { // takes no args
     var mockedResult: ReturnType?
     var mockedResultSequence: [ReturnType]?
+    var mockedResultFunc: (() -> ReturnType)?
     var thrownError: Error?
 
     public init() { }
@@ -14,18 +15,28 @@ public class FunctionMockUnit<ReturnType> { // takes no args
 
     public func doReturn(result: ReturnType) {
         self.mockedResult = result
+        self.mockedResultFunc = nil
         self.mockedResultSequence = nil
         self.thrownError = nil
     }
 
     public func doReturn(resultSequence: [ReturnType]) {
         self.mockedResult = nil
+        self.mockedResultFunc = nil
         self.mockedResultSequence = resultSequence.reversed()
+        self.thrownError = nil
+    }
+
+    public func doReturn(resultFunc: @escaping(() -> ReturnType)) {
+        self.mockedResult = nil
+        self.mockedResultFunc = resultFunc
+        self.mockedResultSequence = nil
         self.thrownError = nil
     }
 
     public func doThrow(error: Error) {
         self.mockedResult = nil
+        self.mockedResultFunc = nil
         self.mockedResultSequence = nil
         self.thrownError = error
     }
@@ -56,12 +67,15 @@ public class FunctionMockUnit<ReturnType> { // takes no args
         } else if self.mockedResultSequence != nil &&
             !self.mockedResultSequence!.isEmpty {
             return mockedResultSequence!.popLast()!
+        } else if let mockFunc = self.mockedResultFunc {
+            return mockFunc()
         }
         fatalError("nothing to return from mocked function")
     }
 
     public func clearStubs() {
         self.mockedResult = nil
+        self.mockedResultFunc = nil
         self.mockedResultSequence = nil
         self.thrownError = nil
     }
@@ -73,6 +87,7 @@ public class FunctionMockUnit<ReturnType> { // takes no args
 
 public class FunctionMockUnitOneArg<ReturnType, Arg1T> { // takes one arg
     var mockedResultMatchers: [(Matcher<Arg1T>, ReturnType)] = []
+    var mockedResultFuncMatchers: [(Matcher<Arg1T>, () -> ReturnType)] = []
     var throwingMatchers: [(Matcher<Arg1T>, Error)] = []
 
     public init() { }
@@ -81,6 +96,10 @@ public class FunctionMockUnitOneArg<ReturnType, Arg1T> { // takes one arg
 
     public func doReturn(result: ReturnType, forArg matcher: Matcher<Arg1T>) {
         self.mockedResultMatchers.append((matcher, result))
+    }
+
+    public func doReturn(resultFunc: @escaping () -> ReturnType, forArg matcher: Matcher<Arg1T>) {
+        self.mockedResultFuncMatchers.append((matcher, resultFunc))
     }
 
     public func doThrow(error: Error, forArg matcher: Matcher<Arg1T>) {
@@ -141,6 +160,19 @@ public class FunctionMockUnitOneArg<ReturnType, Arg1T> { // takes one arg
             }
         }
 
+        for resultFuncMatcher in self.mockedResultFuncMatchers {
+            let matcher = resultFuncMatcher.0
+            let mockResultFunc = resultFuncMatcher.1
+
+            switch matcher {
+            case .any:
+                return mockResultFunc()
+            case .with(let condition):
+                if condition(arg1) {
+                    return mockResultFunc()
+                }
+            }
+        }
         fatalError("could not find a match to return a value from mocked function")
     }
 

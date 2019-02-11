@@ -1,4 +1,5 @@
 import StitchCoreSDK
+import Foundation
 
 public final class StitchAdminUser: CoreStitchUser {
 
@@ -8,11 +9,15 @@ public final class StitchAdminUser: CoreStitchUser {
     init(withID id: String,
          withProviderType providerType: StitchProviderType,
          withProviderName providerName: String,
-         withUserProfile userProfile: StitchUserProfile) {
+         withUserProfile userProfile: StitchUserProfile,
+         withIsLoggedIn isLoggedIn: Bool,
+         withLastAuthActivity lastAuthActivity: TimeInterval) {
         self.id = id
         self.loggedInProviderType = providerType
         self.loggedInProviderName = providerName
         self.profile = userProfile
+        self.isLoggedIn = isLoggedIn
+        self.lastAuthActivity = lastAuthActivity
     }
 
     /**
@@ -43,6 +48,17 @@ public final class StitchAdminUser: CoreStitchUser {
     public private(set) var profile: StitchUserProfile
 
     /**
+     * A Bool describing if the user is logged in
+     */
+    public private(set) var isLoggedIn: Bool
+
+    /**
+     * A TimeInterval determining the last time that the user logged in, was logged out
+     * switched to, or switched from
+     */
+    public private(set) var lastAuthActivity: TimeInterval
+
+    /**
      * An array of `StitchCore.StitchUserIdentity` objects representing the identities linked
      * to this user which can be used to log in as this user.
      */
@@ -52,20 +68,27 @@ public final class StitchAdminUser: CoreStitchUser {
 }
 
 public final class StitchAdminUserFactory: StitchUserFactory {
+
     /**
      * The factory function which can produce a `StitchAdminUser` with the provided id, logged in provider type/name,
      * and a user profile.
      */
+    //swiftlint:disable function_parameter_count
     public func makeUser(withID id: String,
                          withLoggedInProviderType loggedInProviderType: StitchProviderType,
                          withLoggedInProviderName loggedInProviderName: String,
-                         withUserProfile userProfile: StitchUserProfile
+                         withUserProfile userProfile: StitchUserProfile,
+                         withIsLoggedIn isLoggedIn: Bool,
+                         withLastAuthActivity lastAuthActivity: TimeInterval
         ) -> StitchAdminUser {
         return StitchAdminUser.init(withID: id,
                                     withProviderType: loggedInProviderType,
                                     withProviderName: loggedInProviderName,
-                                    withUserProfile: userProfile)
+                                    withUserProfile: userProfile,
+                                    withIsLoggedIn: isLoggedIn,
+                                    withLastAuthActivity: lastAuthActivity)
     }
+    //swiftlint:enable function_parameter_count
 
     /**
      * The user type that this `StitchUserFactory` can produce.

@@ -5,7 +5,6 @@ import StitchCoreSDK
  * An implementation of `StitchUser`.
  */
 internal final class StitchUserImpl: CoreStitchUserImpl, StitchUser {
-
     // MARK: Private Properties
 
     /**
@@ -22,20 +21,24 @@ internal final class StitchUserImpl: CoreStitchUserImpl, StitchUser {
          withProviderType providerType: StitchProviderType,
          withProviderName providerName: String,
          withUserProfile userProfile: StitchUserProfile,
-         withAuth auth: StitchAuthImpl) {
+         withAuth auth: StitchAuthImpl,
+         withIsLoggedIn isLoggedIn: Bool,
+         withLastAuthActivity lastAuthActivity: TimeInterval) {
         self.auth = auth
         super.init(id: id,
                    loggedInProviderType: providerType,
                    loggedInProviderName: providerName,
-                   profile: userProfile)
+                   profile: userProfile,
+                   isLoggedIn: isLoggedIn,
+                   lastAuthActivity: lastAuthActivity)
     }
 
     // MARK: Methods
-
     /**
-     * Links this `StitchUser` with a new identity, where the identity is defined by the credential specified as a
-     * parameter. This will only be successful if this `StitchUser` is the currently authenticated `StitchUser` for the
-     * client from which it was created.
+     * Links the currently authenticated `StitchUser` with a new identity, where the identity is defined
+     * by the credential specified as a parameter. This will only be successful if this `StitchUser` is
+     * the currently authenticated
+     * `StitchUser` for the client from which it was created.
      *
      * - parameters:
      *     - withCredential: The `StitchCore.StitchCredential` used to link the user to a new
