@@ -46,7 +46,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
     internal var activeUser: TStitchUser?
 
     /**
-     * A Dictionary of `TStitchUser` objects mapped by by their `userId`.
+     * A Dictionary of `TStitchUser` objects mapped by by their `userID`.
      */
     internal var allUsersAuthInfo: [AuthInfo]
 
@@ -157,8 +157,8 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
      */
     open var deviceInfo: Document {
         var info = Document()
-        if hasDeviceId {
-            info[DeviceField.deviceID.rawValue] = self.deviceId
+        if hasDeviceID {
+            info[DeviceField.deviceID.rawValue] = self.deviceID
         }
         return info
     }
@@ -188,24 +188,24 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
     /**
      * Returns whether or not the current authentication state has a meaningful device id.
      */
-    public var hasDeviceId: Bool {
+    public var hasDeviceID: Bool {
         objc_sync_enter(authStateLock)
         defer { objc_sync_exit(authStateLock) }
 
-        return activeUserAuthInfo?.deviceId != nil
-            && activeUserAuthInfo?.deviceId != ""
-            && activeUserAuthInfo?.deviceId != "000000000000000000000000"
+        return activeUserAuthInfo?.deviceID != nil
+            && activeUserAuthInfo?.deviceID != ""
+            && activeUserAuthInfo?.deviceID != "000000000000000000000000"
     }
 
     /**
      * Returns the currently authenticated user's device id, or `nil` is no user is currently authenticated, or if the
      * device id does not exist.
      */
-    public var deviceId: String? {
+    public var deviceID: String? {
         objc_sync_enter(authStateLock)
         defer { objc_sync_exit(authStateLock) }
 
-        return activeUserAuthInfo?.deviceId
+        return activeUserAuthInfo?.deviceID
     }
 
     // MARK: Refresh Access Token
@@ -222,9 +222,9 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
         let newAccessToken = try doRefreshAccessToken()
         activeUserAuthInfo = activeUserAuthInfo?.update(withAccessToken: newAccessToken.accessToken)
 
-        if let authInfo = self.activeUserAuthInfo, let userId = authInfo.userId {
+        if let authInfo = self.activeUserAuthInfo, let userID = authInfo.userID {
             // Update the user in the list of all users
-            if let index = allUsersAuthInfo.firstIndex(where: {$0.userId == userId}) {
+            if let index = allUsersAuthInfo.firstIndex(where: {$0.userID == userID}) {
                 allUsersAuthInfo[index] = authInfo
                 try? writeCurrentUsersAuthInfoToStorage()
             }
@@ -288,13 +288,13 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
         guard let authInfo = authInfo else { return nil}
 
         // Only return user if it has the required properties
-        guard let userId = authInfo.userId,
+        guard let userID = authInfo.userID,
             let loggedInProviderType = authInfo.loggedInProviderType,
             let loggedInProviderName = authInfo.loggedInProviderName,
             let userProfile = authInfo.userProfile,
             let lastAuthActivity = authInfo.lastAuthActivity else { return nil }
 
-        return self.userFactory.makeUser(withID: userId,
+        return self.userFactory.makeUser(withID: userID,
                                          withLoggedInProviderType: loggedInProviderType,
                                          withLoggedInProviderName: loggedInProviderName,
                                          withUserProfile: userProfile,

@@ -106,12 +106,12 @@ extension CoreStitchAuth {
     /*
      * Helper function to logout a user with the given id and persist necessary changes
      */
-    internal func clearUserAuthToken(forUserId userId: String) throws {
+    internal func clearUserAuthToken(forUserID userID: String) throws {
         objc_sync_enter(authStateLock)
         defer { objc_sync_exit(authStateLock) }
 
         // Get the user objects if it exists --> otherwise throw
-        guard let index = allUsersAuthInfo.firstIndex(where: {$0.userId == userId}) else {
+        guard let index = allUsersAuthInfo.firstIndex(where: {$0.userID == userID}) else {
             throw StitchError.clientError(withClientErrorCode: .userNotFound)
         }
         let authInfo = allUsersAuthInfo[index]
@@ -122,7 +122,7 @@ extension CoreStitchAuth {
         try writeCurrentUsersAuthInfoToStorage()
 
         // If this is the active user, update the active authInfo and and user
-        if userId == activeUserAuthInfo?.userId {
+        if userID == activeUserAuthInfo?.userID {
             try updateActiveAuthInfo(withNewAuthInfo: nil)
         }
     }

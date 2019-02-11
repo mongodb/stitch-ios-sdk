@@ -18,10 +18,10 @@ extension CoreStitchAuth {
             for user in allUsersAuthInfo {
                 if type(of: credential).providerType == user.loggedInProviderType {
                     // Switch to this user --> it will persist auth changes
-                    guard let userId = user.userId else {
+                    guard let userID = user.userID else {
                         throw StitchError.clientError(withClientErrorCode: .userNotValid)
                     }
-                    return try switchToUserInternal(withId: userId)
+                    return try switchToUserInternal(withID: userID)
                 }
             }
         }
@@ -104,8 +104,8 @@ extension CoreStitchAuth {
 
         // Provisionally set auth info so we can make a profile request
         var apiAuthInfo = AuthInfo.init(
-                userId: decodedInfo.userID,
-                deviceId: decodedInfo.deviceID,
+                userID: decodedInfo.userID,
+                deviceID: decodedInfo.deviceID,
                 accessToken: decodedInfo.accessToken,
                 refreshToken: decodedInfo.refreshToken,
                 loggedInProviderType: type(of: credential).providerType,
@@ -125,7 +125,7 @@ extension CoreStitchAuth {
 
         // Update the lastAuthActivity of the old active user
         if let oldAuthInfo = oldAuthInfo {
-            if let oldIndex = allUsersAuthInfo.firstIndex(where: {$0.userId == oldAuthInfo.userId}) {
+            if let oldIndex = allUsersAuthInfo.firstIndex(where: {$0.userID == oldAuthInfo.userID}) {
                 allUsersAuthInfo[oldIndex] = oldAuthInfo.withNewAuthActivity
             }
         }
@@ -141,7 +141,7 @@ extension CoreStitchAuth {
         // If the user already exists update it, otherwise append it to the list
         var index: Int = -1
         var oldAuthInfoForNewUser: AuthInfo?
-        if let oldIndex = allUsersAuthInfo.firstIndex(where: {$0.userId == newAuthInfo.userId}) {
+        if let oldIndex = allUsersAuthInfo.firstIndex(where: {$0.userID == newAuthInfo.userID}) {
             index = oldIndex
             oldAuthInfoForNewUser = allUsersAuthInfo[index]
             allUsersAuthInfo[index] = newAuthInfo
@@ -236,8 +236,8 @@ extension CoreStitchAuth {
 
                 if asLinkRequest, let oldAuthInfo = oldAuthInfo, oldAuthInfo.hasUser {
                     let newAuthInfo = AuthInfo.init(
-                        userId: oldAuthInfo.userId,
-                        deviceId: oldAuthInfo.deviceId,
+                        userID: oldAuthInfo.userID,
+                        deviceID: oldAuthInfo.deviceID,
                         accessToken: oldAuthInfo.accessToken,
                         refreshToken: oldAuthInfo.refreshToken,
                         loggedInProviderType: type(of: credential).providerType,

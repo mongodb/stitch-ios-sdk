@@ -7,17 +7,17 @@ extension CoreStitchAuth {
      * storage. Blocks the current thread until the request is completed. If the logout request fails, this method will
      * still clear local authentication state.
      */
-    public func logoutInternal(withId userId: String?) throws {
+    public func logoutInternal(withID userID: String?) throws {
         objc_sync_enter(authOperationLock)
         defer { objc_sync_exit(authOperationLock) }
 
-        // Unwrap the userId or use the active user
-        guard let userId = userId != nil ? userId : activeUserAuthInfo?.userId else {
+        // Unwrap the userID or use the active user
+        guard let userID = userID != nil ? userID : activeUserAuthInfo?.userID else {
             return
         }
 
         // Get the user objects if it exists --> otherwise throw
-        guard let index = allUsersAuthInfo.firstIndex(where: {$0.userId == userId}) else {
+        guard let index = allUsersAuthInfo.firstIndex(where: {$0.userID == userID}) else {
             throw StitchError.clientError(withClientErrorCode: .userNotFound)
         }
         let authInfo = allUsersAuthInfo[index]
@@ -27,25 +27,25 @@ extension CoreStitchAuth {
 
         // If this is an anonymous user --> remove it (will perform logout)
         if authInfo.loggedInProviderType == .anonymous {
-            return try removeUserInternal(withId: userId)
+            return try removeUserInternal(withID: userID)
         }
 
         // Issue the logout request
         _ = try? self.doLogout(authInfo)
 
         // Update the AuthInfo to remove the tokens and update the lastAuthActivity
-        try clearUserAuthToken(forUserId: userId)
+        try clearUserAuthToken(forUserID: userID)
     }
 
     /**
      * Leaves the active user as logged in but makes the user with the given id the active user
      */
-    public func switchToUserInternal(withId userId: String) throws -> TStitchUser {
+    public func switchToUserInternal(withID userID: String) throws -> TStitchUser {
         objc_sync_enter(authOperationLock)
         defer { objc_sync_exit(authOperationLock) }
 
         // Get the user objects if it exists --> otherwise throw
-        guard let index = allUsersAuthInfo.firstIndex(where: {$0.userId == userId}) else {
+        guard let index = allUsersAuthInfo.firstIndex(where: {$0.userID == userID}) else {
             throw StitchError.clientError(withClientErrorCode: .userNotFound)
         }
         let authInfo = allUsersAuthInfo[index]
@@ -57,7 +57,7 @@ extension CoreStitchAuth {
 
         // Update the lastAuthActivity of the old and new active user and persist
         if let oldActiveAuthInfo = activeUserAuthInfo {
-            if let oldIndex = allUsersAuthInfo.firstIndex(where: {$0.userId == oldActiveAuthInfo.userId}) {
+            if let oldIndex = allUsersAuthInfo.firstIndex(where: {$0.userID == oldActiveAuthInfo.userID}) {
                 allUsersAuthInfo[oldIndex] = oldActiveAuthInfo.withNewAuthActivity
             }
         }
@@ -87,19 +87,19 @@ extension CoreStitchAuth {
     /**
      * Logs out and removes the a user with the provided id.
      * Throws an exception if the user was not found.
-     * If no userId is given, then it removes the active user
+     * If no userID is given, then it removes the active user
      */
-    public func removeUserInternal(withId userId: String?) throws {
+    public func removeUserInternal(withID userID: String?) throws {
         objc_sync_enter(authOperationLock)
         defer { objc_sync_exit(authOperationLock) }
 
-        // Unwrap the userId or use the active user
-        guard let userId = userId != nil ? userId : activeUserAuthInfo?.userId else {
+        // Unwrap the userID or use the active user
+        guard let userID = userID != nil ? userID : activeUserAuthInfo?.userID else {
             return
         }
 
         // Get the user objects if it exists --> otherwise throw
-        guard let index = allUsersAuthInfo.firstIndex(where: {$0.userId == userId}) else {
+        guard let index = allUsersAuthInfo.firstIndex(where: {$0.userID == userID}) else {
             throw StitchError.clientError(withClientErrorCode: .userNotFound)
         }
         let authInfo = allUsersAuthInfo[index]
@@ -114,7 +114,7 @@ extension CoreStitchAuth {
         try writeCurrentUsersAuthInfoToStorage()
 
         // If this is the active user --> remove
-        if userId == activeUserAuthInfo?.userId {
+        if userID == activeUserAuthInfo?.userID {
             try updateActiveAuthInfo(withNewAuthInfo: nil)
         }
     }

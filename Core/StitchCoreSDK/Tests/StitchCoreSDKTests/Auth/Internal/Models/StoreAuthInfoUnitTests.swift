@@ -26,8 +26,8 @@ private let stitchUserProfileExample = StitchUserProfileImpl.init(
 )
 
 private let authInfoExample1 = AuthInfo.init(
-    userId: "oldId",
-    deviceId: "oldDevice",
+    userID: "oldID",
+    deviceID: "oldDevice",
     accessToken: "oldAccessToken",
     refreshToken: "oldRefreshToken",
     loggedInProviderType: .anonymous,
@@ -37,8 +37,8 @@ private let authInfoExample1 = AuthInfo.init(
 private let storeAuthInfoExample1 = StoreAuthInfo.init(withAuthInfo: authInfoExample1)
 
 private let authInfoExample2 = AuthInfo.init(
-    userId: "foo",
-    deviceId: "bar",
+    userID: "foo",
+    deviceID: "bar",
     accessToken: "baz",
     refreshToken: "qux",
     loggedInProviderType: .anonymous,
@@ -49,8 +49,8 @@ private let storeAuthInfoExample2 = StoreAuthInfo.init(withAuthInfo: authInfoExa
 
 class StoreAuthInfoUnitTests: XCTestCase {
     private func assert(storeAuthInfo: StoreAuthInfo, isEqualTo authInfo: AuthInfo) {
-        XCTAssertEqual(storeAuthInfo.userId, authInfo.userId)
-        XCTAssertEqual(storeAuthInfo.deviceId, authInfo.deviceId)
+        XCTAssertEqual(storeAuthInfo.userID, authInfo.userID)
+        XCTAssertEqual(storeAuthInfo.deviceID, authInfo.deviceID)
         XCTAssertEqual(storeAuthInfo.loggedInProviderType, authInfo.loggedInProviderType)
         XCTAssertEqual(storeAuthInfo.loggedInProviderName, authInfo.loggedInProviderName)
         XCTAssertEqual(storeAuthInfo.refreshToken, authInfo.refreshToken)
@@ -60,8 +60,8 @@ class StoreAuthInfoUnitTests: XCTestCase {
     }
 
     private func assert(oldAuthInfo: AuthInfo, isEqualTo authInfo: AuthInfo) {
-        XCTAssertEqual(oldAuthInfo.userId, authInfo.userId)
-        XCTAssertEqual(oldAuthInfo.deviceId, authInfo.deviceId)
+        XCTAssertEqual(oldAuthInfo.userID, authInfo.userID)
+        XCTAssertEqual(oldAuthInfo.deviceID, authInfo.deviceID)
         XCTAssertEqual(oldAuthInfo.loggedInProviderType, authInfo.loggedInProviderType)
         XCTAssertEqual(oldAuthInfo.loggedInProviderName, authInfo.loggedInProviderName)
         XCTAssertEqual(oldAuthInfo.refreshToken, authInfo.refreshToken)
@@ -97,8 +97,8 @@ class StoreAuthInfoUnitTests: XCTestCase {
         assert(storeAuthInfo: storeAuthInfoExample2, isEqualTo: authInfoExample2)
 
         let apiAuthInfo = AuthInfo.init(
-            userId: apiAuthInfoExample.userID,
-            deviceId: apiAuthInfoExample.deviceID,
+            userID: apiAuthInfoExample.userID,
+            deviceID: apiAuthInfoExample.deviceID,
             accessToken: apiAuthInfoExample.accessToken,
             refreshToken: apiAuthInfoExample.refreshToken)
         let mergedAuthInfo = authInfoExample1.update(withNewAuthInfo: apiAuthInfo)
@@ -113,8 +113,8 @@ class StoreAuthInfoUnitTests: XCTestCase {
         XCTAssertFalse(loggedOutAuthInfo.isLoggedIn)
 
         let emptiedAuthInfo = mergedAuthInfo.emptiedOut
-        XCTAssertNil(emptiedAuthInfo.userId)
-        XCTAssertEqual(emptiedAuthInfo.deviceId, apiAuthInfoExample.deviceID)
+        XCTAssertNil(emptiedAuthInfo.userID)
+        XCTAssertEqual(emptiedAuthInfo.deviceID, apiAuthInfoExample.deviceID)
     }
 
     func testCodable() throws {

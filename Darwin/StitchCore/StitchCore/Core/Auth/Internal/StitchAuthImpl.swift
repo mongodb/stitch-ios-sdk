@@ -148,7 +148,7 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
      */
     public func logout(_ completionHandler: @escaping (StitchResult<Void>) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
-            return try self.logoutInternal(withId: nil)
+            return try self.logoutInternal(withID: nil)
         }
     }
 
@@ -164,7 +164,7 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
     public func logoutUser(withId userId: String,
                            _ completionHandler: @escaping (StitchResult<Void>) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
-            return try self.logoutInternal(withId: userId)
+            return try self.logoutInternal(withID: userId)
         }
     }
 
@@ -178,7 +178,7 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
      *     - userId: A String specifying the desired `userId`
      */
     public func switchToUser(withId userId: String) throws -> StitchUser {
-        return try self.switchToUserInternal(withId: userId)
+        return try self.switchToUserInternal(withID: userId)
     }
 
     /**
@@ -193,7 +193,7 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
      */
     public func removeUser(_ completionHandler: @escaping (StitchResult<Void>) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
-            return try self.removeUserInternal(withId: nil)
+            return try self.removeUserInternal(withID: nil)
         }
     }
 
@@ -212,7 +212,7 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
     public func removeUser(withId userId: String,
                            _ completionHandler: @escaping (StitchResult<Void>) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
-            return try self.removeUserInternal(withId: userId)
+            return try self.removeUserInternal(withID: userId)
         }
     }
 
@@ -278,7 +278,7 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
     public final override var deviceInfo: Document {
         var info = Document.init()
 
-        if self.hasDeviceId, let deviceID = self.deviceId {
+        if self.hasDeviceID, let deviceID = self.deviceID {
             info[DeviceField.deviceID.rawValue] = deviceID
         }
 

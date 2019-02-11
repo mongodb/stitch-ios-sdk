@@ -46,6 +46,7 @@ public protocol StitchUser: CoreStitchUser {
 
     /**
      * The last time this user was logged into, logged out of, switched to, or switched from
+     * This is stored as the TimeInterval (seconds) since the Unix Epoch
      */
     var lastAuthActivity: TimeInterval { get }
 

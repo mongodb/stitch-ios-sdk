@@ -46,8 +46,8 @@ class AccessTokenRefresherUnitTests: XCTestCase {
 
         // Auth starts out logged in and with a fresh token
         let freshAuthInfo: AuthInfo = AuthInfo.init(
-            userId: "",
-            deviceId: nil,
+            userID: "",
+            deviceID: nil,
             accessToken: freshJWT,
             refreshToken: freshJWT,
             loggedInProviderType: .anonymous,
@@ -68,8 +68,8 @@ class AccessTokenRefresherUnitTests: XCTestCase {
 
         // Auth info is now expired
         let expiredAuthInfo: AuthInfo = AuthInfo.init(
-            userId: "",
-            deviceId: nil,
+            userID: "",
+            deviceID: nil,
             accessToken: expiredJWT,
             refreshToken: expiredJWT,
             loggedInProviderType: .anonymous,

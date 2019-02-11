@@ -130,7 +130,7 @@ extension CoreStitchAuth {
         // using a refresh token implies we cannot refresh anything, so clear auth and
         // notify
         if req.useRefreshToken || !req.shouldRefreshOnFailure {
-            try? self.clearUserAuthToken(forUserId: activeUserAuthInfo?.userId ?? "")
+            try? self.clearUserAuthToken(forUserID: activeUserAuthInfo?.userID ?? "")
             throw error
         }
 
@@ -158,7 +158,7 @@ extension CoreStitchAuth {
         // using a refresh token implies we cannot refresh anything, so clear auth and
         // notify
         if req.useRefreshToken || !req.shouldRefreshOnFailure {
-            try? self.clearUserAuthToken(forUserId: activeUserAuthInfo?.userId ?? "")
+            try? self.clearUserAuthToken(forUserID: activeUserAuthInfo?.userID ?? "")
             throw error
         }
 

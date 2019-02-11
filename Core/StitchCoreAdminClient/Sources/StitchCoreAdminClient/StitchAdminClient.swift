@@ -54,6 +54,6 @@ public class StitchAdminClient {
     }
 
     public func logout() throws {
-        return try adminAuth.logoutInternal(withId: nil)
+        return try adminAuth.logoutInternal(withID: nil)
     }
 }
