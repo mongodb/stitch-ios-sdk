@@ -196,7 +196,7 @@ extension CoreStitchAuth {
     }
 
     /*
-     * PRocesses the logijn response and outputs the relevant information
+     * Processes the login response and outputs the relevant information
      * Attempt to shorten processLoginResponseFunction
      */
     internal func decodeLoginResponse(response: Response) throws -> APIAuthInfoImpl {

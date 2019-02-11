@@ -16,7 +16,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
     /**
      * The underlying authentication state of this `CoreStitchAuth`
      */
-    internal var authStateHolder: AuthStateHolder = AuthStateHolder()
+    internal var activeAuthStateHolder: AuthStateHolder = AuthStateHolder()
 
     /**
      * The `Storage` object indicating where authentication information should be persisted.
@@ -58,12 +58,12 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
             objc_sync_enter(authStateLock)
             defer { objc_sync_exit(authStateLock) }
 
-            return authStateHolder.authInfo
+            return activeAuthStateHolder.authInfo
         }
         set {
             objc_sync_enter(authStateLock)
             defer { objc_sync_exit(authStateLock) }
-            authStateHolder.authInfo = newValue
+            activeAuthStateHolder.authInfo = newValue
         }
     }
 

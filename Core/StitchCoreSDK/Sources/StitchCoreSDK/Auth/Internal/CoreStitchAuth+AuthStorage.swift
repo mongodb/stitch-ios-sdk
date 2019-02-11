@@ -84,7 +84,7 @@ extension CoreStitchAuth {
     internal func updateActiveAuthInfo(withNewAuthInfo authInfo: AuthInfo?) throws {
         // If passed in nil --> clear active auth state
         guard let authInfo = authInfo else {
-            authStateHolder.clearState()
+            activeAuthStateHolder.clearState()
             activeUser = nil
             if let newAuthInfo = activeUserAuthInfo {
                 try writeActiveUserAuthInfoToStorage(activeAuthInfo: newAuthInfo)

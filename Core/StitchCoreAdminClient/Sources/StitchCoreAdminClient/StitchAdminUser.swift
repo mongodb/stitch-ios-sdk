@@ -1,4 +1,3 @@
-//swiftlint:disable function_parameter_count
 import StitchCoreSDK
 import Foundation
 
@@ -74,6 +73,7 @@ public final class StitchAdminUserFactory: StitchUserFactory {
      * The factory function which can produce a `StitchAdminUser` with the provided id, logged in provider type/name,
      * and a user profile.
      */
+    //swiftlint:disable function_parameter_count
     public func makeUser(withID id: String,
                          withLoggedInProviderType loggedInProviderType: StitchProviderType,
                          withLoggedInProviderName loggedInProviderName: String,
@@ -88,6 +88,7 @@ public final class StitchAdminUserFactory: StitchUserFactory {
                                     withIsLoggedIn: isLoggedIn,
                                     withLastAuthActivity: lastAuthActivity)
     }
+    //swiftlint:enable function_parameter_count
 
     /**
      * The user type that this `StitchUserFactory` can produce.

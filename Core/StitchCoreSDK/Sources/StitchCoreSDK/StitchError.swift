@@ -129,19 +129,19 @@ public enum StitchRequestErrorCode {
  * request is made.
  */
 public enum StitchClientErrorCode: Error {
+    case couldNotFindActiveUser
+    case couldNotLoadPersistedAuthInfo
+    case couldNotLoadSyncInfo
+    case couldNotPersistAuthInfo
     case loggedOutDuringRequest
     case missingURL
-    case mustAuthenticateFirst
-    case userNoLongerValid
-    case couldNotLoadPersistedAuthInfo
-    case couldNotPersistAuthInfo
-    case couldNotLoadSyncInfo
     case mongoDriverError(withError: Error)
+    case mustAuthenticateFirst
     case syncRecoveryError(withError: Error)
-    case userNotFound
-    case couldNotFindActiveUser
-    case userNotValid
     case unknownChangeEventType
+    case userNoLongerValid
+    case userNotFound
+    case userNotValid
 }
 
 /**
