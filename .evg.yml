@@ -51,6 +51,12 @@ functions:
           curl --silent -O "https://s3.amazonaws.com/stitch-artifacts/stitch-mongo-libs/stitch_mongo_libs_osx_patch_cbcbfd8ebefcca439ff2e4d99b022aedb0d61041_59e2b7ab2a60ed5647001827_17_10_15_01_19_39/assisted_agg"
           chmod +x update_doc
           chmod +x assisted_agg
+
+          mkdir -p src/github.com/10gen/stitch/etc/dylib
+          cd src/github.com/10gen/stitch/etc/dylib
+          curl -s "${server_stitch_lib_url}" | tar xvfz - --strip-components=1
+          cd -
+
           echo "building transpiler"
           cd src/github.com/10gen/stitch/etc/transpiler
           curl -O "https://nodejs.org/dist/v8.11.2/node-v8.11.2-darwin-x64.tar.gz"
@@ -72,6 +78,7 @@ functions:
           export GOPATH=`pwd`
           export STITCH_PATH=$GOPATH/src/github.com/10gen/stitch
           export PATH="$PATH:$STITCH_PATH/etc/transpiler/bin"
+          export LD_LIBRARY_PATH="$STITCH_PATH/etc/dylib/lib"
           echo "running stitch"
           # TODO: Probably better to get an API key added to mimic cloud
           go run $STITCH_PATH/cmd/auth/user.go addUser -domainID 000000000000000000000000 -mongoURI mongodb://localhost:26000 -salt 'DQOWene1723baqD!_@#' -id "unique_user@domain.com" -password "password"
@@ -149,6 +156,8 @@ buildvariants:
   expansions:
     mongodb_url: http://fastdl.mongodb.org/osx/mongodb-osx-ssl-x86_64-4.0.2.tgz
     transpiler_target: node8-macos
+    server_stitch_lib_url: 'https://s3.amazonaws.com/mciuploads/mongodb-mongo-master/stitch-support/osx-1010/80f9a13324fc36b2deb400e5a185968f6fa8f64a/stitch-support-4.1.7-319-g80f9a13324.tgz'
+
   tasks:
     - name: run_tests
     - name: lint
