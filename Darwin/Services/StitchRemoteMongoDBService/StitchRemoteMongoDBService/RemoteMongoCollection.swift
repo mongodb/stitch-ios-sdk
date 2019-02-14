@@ -254,4 +254,28 @@ public class RemoteMongoCollection<T: Codable> {
             return try self.proxy.updateMany(filter: filter, update: update, options: options)
         }
     }
+
+    /**
+     * Opens a MongoDB change stream against the collection to watch for changes
+     * made to specific documents. The documents to watch must be explicitly
+     * specified by their _id.
+     *
+     * - This method does not support opening change streams on an entire collection
+     *        or a specific query.
+     *
+     * - Parameters:
+     *   - ids: The list of _ids in the collection to watch.
+     *   - delegate: The delegate that will react to events and errors from the resulting change stream.
+     *
+     * - Returns: A reference to the change stream opened by this method.
+     */
+    public func watch(ids: [BSONValue],
+                      delegate: ChangeStreamDelegate) throws -> ChangeStreamSession {
+        let internalDelegate = ChangeStreamSessionImpl<T>.init(publicDelegate: delegate)
+
+        let rawStream = try self.proxy.watch(ids: ids, delegate: internalDelegate)
+        internalDelegate.rawStream = rawStream
+
+        return internalDelegate
+    }
 }
