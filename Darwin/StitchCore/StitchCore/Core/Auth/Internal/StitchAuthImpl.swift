@@ -25,20 +25,11 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
     private let appInfo: StitchAppClientInfo
 
     /**
-     * A struct for holding weak references to `StitchAuthDelegate`.
+     A list of weak references to [StitchAuthDelegate](x-source-tag://StitchAuthDelegate),
+     each of which will be notified when authentication events
+     occur.
      */
-    private struct DelegateWeakRef {
-        weak var value: StitchAuthDelegate?
-        init(value: StitchAuthDelegate) {
-            self.value = value
-        }
-    }
-
-    /**
-     * A list of weak references to `StitchAuthDelegate`, each of which will be notified when authentication events
-     * occur.
-     */
-    private var delegates: [DelegateWeakRef] = []
+    private var delegates: [AnyStitchAuthDelegate] = []
 
     /**
      * Initializes this `StitchAuthImpl` with a request client, authentication API routes, a `Storage` for persisting
@@ -316,7 +307,7 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
      */
     public func add(authDelegate: StitchAuthDelegate) {
         objc_sync_enter(self)
-        self.delegates.append(DelegateWeakRef(value: authDelegate))
+        self.delegates.append(AnyStitchAuthDelegate(authDelegate))
         objc_sync_exit(self)
 
         // Trigger the onUserLoggedIn event in case some event happens and
@@ -326,20 +317,57 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
         }
     }
 
+    private func makeUser(_ user: CoreStitchUser) -> StitchUser {
+        return userFactory.makeUser(withID: user.id,
+                                    withLoggedInProviderType: user.loggedInProviderType,
+                                    withLoggedInProviderName: user.loggedInProviderName,
+                                    withUserProfile: user.profile,
+                                    withIsLoggedIn: user.isLoggedIn,
+                                    withLastAuthActivity: user.lastAuthActivity)
+    }
     /**
-     * Calls the `onAuthEvent` method of each registered `StitchAuthDelegate`.
+     * Dispatches the appropriate auth event method of each registered `StitchAuthDelegate`.
      *
      * - important: This is not meant to be invoked directly in this class. The `CoreStitchAuth` from which this
      *              class inherits will call this method when appropraite.
      */
-    public final override func onAuthEvent() {
-        self.delegates.enumerated().reversed().forEach { idx, delegateRef in
-            guard let delegate = delegateRef.value else {
+    public final override func dispatchAuthEvent(_ authEvent: AuthRebindEvent) {
+        for (idx, delegateRef) in self.delegates.enumerated().reversed() {
+            guard let delegate = delegateRef.reference else {
                 self.delegates.remove(at: idx)
                 return
             }
 
-            dispatcher.queue.async {
+            // TODO: Unowned here could actually be weak, and StitchAuth should be optional
+            // in the delegate
+            dispatcher.queue.async { [unowned self] in
+                switch authEvent {
+                case .userLoggedIn(let loggedInUser):
+                    delegate.onUserLoggedIn(auth: self, loggedInUser: self.makeUser(loggedInUser))
+                case .userLoggedOut(let loggedOutUser):
+                    delegate.onUserLoggedOut(auth: self, loggedOutUser: self.makeUser(loggedOutUser))
+                case .userLinked(let linkedUser):
+                    delegate.onUserLinked(auth: self, linkedUser: self.makeUser(linkedUser))
+                case .activeUserChanged(let currentActiveUser, let previousActiveUser):
+                    var currentActiveStitchUser: StitchUser?
+                    var previousActiveStitchUser: StitchUser?
+
+                    if let currentActiveUser = currentActiveUser {
+                        currentActiveStitchUser = self.makeUser(currentActiveUser)
+                    }
+                    if let previousActiveUser = previousActiveUser {
+                        previousActiveStitchUser = self.makeUser(previousActiveUser)
+                    }
+                    delegate.onActiveUserChanged(
+                        auth: self,
+                        currentActiveUser: currentActiveStitchUser,
+                        previousActiveUser: previousActiveStitchUser)
+                case .userRemoved(let removedUser):
+                    delegate.onUserRemoved(auth: self, removedUser: self.makeUser(removedUser))
+                case .userAdded(let addedUser):
+                    delegate.onUserAdded(auth: self, addedUser: self.makeUser(addedUser))
+                }
+
                 delegate.onAuthEvent(fromAuth: self)
             }
         }

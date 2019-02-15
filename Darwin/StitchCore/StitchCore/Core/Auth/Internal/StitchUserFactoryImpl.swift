@@ -10,8 +10,8 @@ internal final class StitchUserFactoryImpl: StitchUserFactory {
      */
     //swiftlint:disable function_parameter_count
     func makeUser(withID id: String,
-                  withLoggedInProviderType loggedInProviderType: StitchProviderType,
-                  withLoggedInProviderName loggedInProviderName: String,
+                  withLoggedInProviderType loggedInProviderType: StitchProviderType?,
+                  withLoggedInProviderName loggedInProviderName: String?,
                   withUserProfile userProfile: StitchUserProfile,
                   withIsLoggedIn isLoggedIn: Bool,
                   withLastAuthActivity lastAuthActivity: TimeInterval

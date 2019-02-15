@@ -2,10 +2,12 @@ import MongoSwift
 import Foundation
 
 /**
- * A class providing the core functionality necessary to make authenticated function call requests for a particular
- * Stitch service.
+  A class providing the core functionality necessary to make authenticated function call requests for a particular
+  Stitch service.
+
+  - Tag: CoreStitchServiceClient
  */
-public protocol CoreStitchServiceClient {
+public protocol CoreStitchServiceClient: StitchServiceBinder {
     var serviceName: String? { get }
 
     // Disabled line length rule due to https://github.com/realm/jazzy/issues/896
@@ -18,4 +20,13 @@ public protocol CoreStitchServiceClient {
     func streamFunction(withName name: String,
                         withArgs args: [BSONValue],
                         delegate: SSEStreamDelegate?) throws -> RawSSEStream
+
+    /**
+      Bind a given service to this service client.
+
+      - parameter binder: the service binder that links the service to this client
+
+      - Tag: CoreStitchServiceClient#bind
+     */
+    func bind(binder: StitchServiceBinder)
 }

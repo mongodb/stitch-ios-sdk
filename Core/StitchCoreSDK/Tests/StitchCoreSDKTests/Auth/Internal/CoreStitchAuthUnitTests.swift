@@ -144,7 +144,9 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         }
         // swiftlint:enable line_length
 
-        public final override func onAuthEvent() { }
+        public final override func dispatchAuthEvent(_ authEvent: AuthRebindEvent<CoreStitchUserImpl>) {
+
+        }
     }
 
     func testLoginInternal() throws {

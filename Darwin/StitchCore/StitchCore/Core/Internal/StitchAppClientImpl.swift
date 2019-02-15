@@ -175,4 +175,8 @@ internal final class StitchAppClientImpl: StitchAppClient, AuthMonitor {
     var isLoggedIn: Bool {
         return auth.isLoggedIn
     }
+
+    var activeUserId: String? {
+        return auth.currentUser?.id
+    }
 }

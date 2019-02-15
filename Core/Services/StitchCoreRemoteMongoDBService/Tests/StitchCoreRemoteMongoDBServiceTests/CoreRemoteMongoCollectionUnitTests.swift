@@ -10,7 +10,7 @@ import StitchCoreSDKMocks
 
 final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
     private let namespace2 = MongoNamespace.init(databaseName: "db2", collectionName: "coll2")
-
+    
     func testGetName() throws {
         let coll1 = try remoteCollection()
         XCTAssertEqual(namespace.databaseName, coll1.databaseName)

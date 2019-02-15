@@ -93,13 +93,16 @@ extension CoreStitchAuth {
         }
 
         // Otherwise make the user, if makeStitchUser() fails then something is very wrong
-        guard let user = makeStitchUser(withAuthInfo: authInfo) else {
-            throw StitchError.clientError(withClientErrorCode: .userNotValid)
-        }
+        let user = try makeStitchUser(withAuthInfo: authInfo)
 
         // Set activeUser, activeUserAuthInfo, and persist
         activeUserAuthInfo = authInfo
+        let previousUser = activeUser
         activeUser = user
+
+        // Trigger auth events
+        dispatchAuthEvent(.activeUserChanged(currentActiveUser: user,
+                                             previousActiveUser: previousUser))
         try writeActiveUserAuthInfoToStorage(activeAuthInfo: authInfo)
     }
 

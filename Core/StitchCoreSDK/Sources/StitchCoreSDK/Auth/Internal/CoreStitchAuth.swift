@@ -107,8 +107,8 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
             throw StitchError.clientError(withClientErrorCode: .couldNotLoadPersistedAuthInfo)
         }
 
-        if let user = makeStitchUser(withAuthInfo: activeUserAuthInfo) {
-            self.activeUser = user
+        if let activeUserAuthInfo = activeUserAuthInfo {
+            self.activeUser = try makeStitchUser(withAuthInfo: activeUserAuthInfo)
         }
 
         if startRefresherThread {
@@ -148,7 +148,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
     /**
      * A method that will be called whenever an authentication event (logging in, logging out, linking) occurs.
      */
-    open func onAuthEvent() {
+    open func dispatchAuthEvent(_ authEvent: AuthRebindEvent) {
         fatalError("not implemented")
     }
 
@@ -284,22 +284,19 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
     /**
      * Helper function to make a TStitchUser if possible otherwise return nil
      */
-    internal func makeStitchUser(withAuthInfo authInfo: AuthInfo?) -> TStitchUser? {
-        guard let authInfo = authInfo else { return nil}
-
+    internal func makeStitchUser(withAuthInfo authInfo: AuthInfo) throws -> TStitchUser {
         // Only return user if it has the required properties
         guard let userID = authInfo.userID,
-            let loggedInProviderType = authInfo.loggedInProviderType,
-            let loggedInProviderName = authInfo.loggedInProviderName,
             let userProfile = authInfo.userProfile,
-            let lastAuthActivity = authInfo.lastAuthActivity else { return nil }
+            let lastAuthActivity = authInfo.lastAuthActivity else {
+            throw StitchError.clientError(withClientErrorCode: .userNotValid)
+        }
 
         return self.userFactory.makeUser(withID: userID,
-                                         withLoggedInProviderType: loggedInProviderType,
-                                         withLoggedInProviderName: loggedInProviderName,
+                                         withLoggedInProviderType: authInfo.loggedInProviderType,
+                                         withLoggedInProviderName: authInfo.loggedInProviderName,
                                          withUserProfile: userProfile,
                                          withIsLoggedIn: authInfo.isLoggedIn,
                                          withLastAuthActivity: lastAuthActivity)
     }
-
 }

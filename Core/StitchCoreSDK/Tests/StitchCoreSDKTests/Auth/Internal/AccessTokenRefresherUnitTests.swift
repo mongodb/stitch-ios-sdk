@@ -23,9 +23,9 @@ let expiredJWT = encode(Algorithm.hs256("secret".data(using: .utf8)!), closure: 
 final class StubUser: CoreStitchUser {
     var id: String = ""
 
-    var loggedInProviderType: StitchProviderType = .anonymous
+    var loggedInProviderType: StitchProviderType? = .anonymous
 
-    var loggedInProviderName: String = ""
+    var loggedInProviderName: String? = ""
 
     var userType: String = ""
 

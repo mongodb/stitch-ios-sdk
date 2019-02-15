@@ -18,8 +18,8 @@ internal final class StitchUserImpl: CoreStitchUserImpl, StitchUser {
      * Initializes this user with its basic properties.
      */
     init(withID id: String,
-         withProviderType providerType: StitchProviderType,
-         withProviderName providerName: String,
+         withProviderType providerType: StitchProviderType?,
+         withProviderName providerName: String?,
          withUserProfile userProfile: StitchUserProfile,
          withAuth auth: StitchAuthImpl,
          withIsLoggedIn isLoggedIn: Bool,

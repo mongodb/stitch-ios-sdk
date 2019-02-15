@@ -48,6 +48,10 @@ class TestAuthMonitor: AuthMonitor {
     var isLoggedIn: Bool {
         return true
     }
+
+    var activeUserId: String? {
+        return nil
+    }
 }
 
 class TestConflictHandler: ConflictHandler {

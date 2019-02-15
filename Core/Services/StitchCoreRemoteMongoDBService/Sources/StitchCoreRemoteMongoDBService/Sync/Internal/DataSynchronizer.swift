@@ -23,28 +23,28 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     fileprivate static let longSleepSeconds: UInt32 = 5
 
     /// The unique instance key for this DataSynchronizer
-    private let instanceKey: String
+    private let instanceKey: String!
     /// The associated service client
     private let service: CoreStitchServiceClient
     /// The associated remote client
     private let remoteClient: CoreRemoteMongoClient
-    private let appInfo: StitchAppClientInfo
+    private var appInfo: StitchAppClientInfo!
     /// Network monitor that receives to network state
-    private let networkMonitor: NetworkMonitor
+    private var networkMonitor: NetworkMonitor!
     /// Auth monitor that receives auth state
-    private let authMonitor: AuthMonitor
+    private var authMonitor: AuthMonitor!
     /// Thread safe MongoClient
-    internal let localClient: ThreadSafeMongoClient
+    internal var localClient: ThreadSafeMongoClient!
     /// Database to manage our configurations
-    private let configDb: ThreadSafeMongoDatabase
+    private var configDb: ThreadSafeMongoDatabase!
     /// The collection to store the configuration for this instance in
-    private let instancesColl: ThreadSafeMongoCollection<InstanceSynchronization>
+    private var instancesColl: ThreadSafeMongoCollection<InstanceSynchronization>!
     /// The configuration for this sync instance
-    internal var syncConfig: InstanceSynchronization
+    internal var syncConfig: InstanceSynchronization!
 
     // this is not a normal delegate pattern, so this is okay
     // swiftlint:disable weak_delegate
-    internal var instanceChangeStreamDelegate: InstanceChangeStreamDelegate
+    internal var instanceChangeStreamDelegate: InstanceChangeStreamDelegate!
     // swiftlint:enable weak_delegate
 
     /// Whether or not the DataSynchronizer has been configured
@@ -66,7 +66,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         qos: .background,
         autoreleaseFrequency: .inherit)
     /// Local logger
-    private let logger: Log
+    private var logger: Log!
     /// The current work item running the sync loop
     private var syncWorkItem: DispatchWorkItem?
     /// The user's error listener
@@ -80,6 +80,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         }
     }
 
+    private let operationsGroup = DispatchGroup()
+    
     public init(instanceKey: String,
                 service: CoreStitchServiceClient,
                 remoteClient: CoreRemoteMongoClient,
@@ -87,11 +89,25 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         self.instanceKey = instanceKey
         self.service = service
         self.remoteClient = remoteClient
+        self.syncLock = ReadWriteLock(label: "sync_\(service.serviceName ?? "mongodb-atlas")")
+        self.listenersLock = ReadWriteLock(label: "listeners_\(service.serviceName ?? "mongodb-atlas")")
+        operationsGroup.enter()
+        syncDispatchQueue.async {
+            do {
+                try self.initialize(appInfo: appInfo)
+            } catch {
+
+            }
+            self.operationsGroup.leave()
+            self.operationsGroup.notify(queue: .main, execute: {})
+        }
+    }
+
+    private func initialize(appInfo: StitchAppClientInfo) throws {
         self.appInfo = appInfo
         self.networkMonitor = appInfo.networkMonitor
         self.authMonitor = appInfo.authMonitor
-        self.syncLock = ReadWriteLock(label: "sync_\(service.serviceName ?? "mongodb-atlas")")
-        self.listenersLock = ReadWriteLock(label: "listeners_\(service.serviceName ?? "mongodb-atlas")")
+
         self.localClient = try ThreadSafeMongoClient(withAppInfo: appInfo)
         self.configDb = localClient.db(DataSynchronizer.localConfigDBName(withInstanceKey: instanceKey))
 
@@ -123,40 +139,32 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         self.syncConfig.errorListener = self
         self.networkMonitor.add(networkStateDelegate: self)
 
-        let recoveryStarted = DispatchSemaphore(value: 0)
-        syncDispatchQueue.async {
-            do {
-                try self.recover(recoveryStarted: recoveryStarted)
-            } catch {
-                // notify the fatal error listener about a fatal error with namespace recovery
-                self.on(
-                    error: StitchError.clientError(
-                        withClientErrorCode: StitchClientErrorCode.syncRecoveryError(withError: error)
-                    ),
-                    forDocumentId: nil,
-                    in: nil
-                )
-            }
-
+        do {
+            try self.recover()
+        } catch {
+            // notify the fatal error listener about a fatal error with namespace recovery
+            self.on(
+                error: StitchError.clientError(
+                    withClientErrorCode: StitchClientErrorCode.syncRecoveryError(withError: error)
+                ),
+                forDocumentId: nil,
+                in: nil
+            )
         }
-
-        recoveryStarted.wait()
     }
 
     /**
      * Recovers the state of synchronization in case a system failure happened.
      * The goal is to revert to a known, good state.
      */
-    private func recover(recoveryStarted: DispatchSemaphore) throws {
-        let nsConfigs = self.syncConfig.map { $0 }
+    private func recover() throws {
+        let nsConfigs = self.syncConfig.compactMap { $0 }
 
         try nsConfigs.forEach { namespaceSynchronization in
             try namespaceSynchronization.nsLock.write {
                 try recoverNamespace(withConfig: namespaceSynchronization)
             }
         }
-
-        recoveryStarted.signal()
     }
 
     /**
@@ -245,6 +253,18 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         try localColl.deleteMany([idField: ["$nin": syncedIds] as Document])
     }
 
+    func reinitialize(appInfo: StitchAppClientInfo) {
+        operationsGroup.enter()
+        syncDispatchQueue.async {
+            do {
+                try self.initialize(appInfo: appInfo)
+            } catch {
+
+            }
+            self.operationsGroup.leave()
+        }
+    }
+
     public func on(stateChangedFor state: NetworkState) {
         switch state {
         case .connected:
@@ -258,6 +278,9 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                                                                          conflictHandler: CH,
                                                                          changeEventDelegate: CED?,
                                                                          errorListener: ErrorListener?) {
+        operationsGroup.wait()
+        operationsGroup.enter()
+
         self.errorListener = errorListener
 
         guard let nsConfig = self.syncConfig[namespace] else {
@@ -273,7 +296,10 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
         // now that we are configured, start syncing
         if !isRunning {
+            operationsGroup.leave()
             self.start()
+        } else {
+            operationsGroup.leave()
         }
     }
 
@@ -1333,6 +1359,11 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      Starts data synchronization in a background thread.
      */
     public func start() {
+        operationsGroup.wait()
+        operationsGroup.enter()
+        defer {
+            operationsGroup.leave()
+        }
         syncLock.write {
             if !self.isConfigured {
                 return
@@ -1369,6 +1400,11 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      Stops the background data synchronization thread.
      */
     public func stop() {
+        operationsGroup.wait()
+        operationsGroup.enter()
+        defer {
+            operationsGroup.leave()
+        }
         syncLock.write {
             instanceChangeStreamDelegate.stop()
         }
@@ -1391,6 +1427,11 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      - parameter namespace: the namespace these documents belong to
      */
     func sync(ids: [BSONValue], in namespace: MongoNamespace) throws {
+        operationsGroup.wait()
+        operationsGroup.enter()
+        defer {
+            operationsGroup.leave()
+        }
         try ids.forEach { id in
             guard let nsConfig = syncConfig[namespace] else {
                 return
@@ -1412,6 +1453,11 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      - parameter ids: the _ids of the documents to desynchronize.
      */
     func desync(ids: [BSONValue], in namespace: MongoNamespace) throws {
+        operationsGroup.wait()
+        operationsGroup.enter()
+        defer {
+            operationsGroup.leave()
+        }
         try ids.forEach { id in
             guard let nsConfig = syncConfig[namespace] else {
                 return
@@ -1575,6 +1621,11 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      */
     func insertOne(document: Document,
                    in namespace: MongoNamespace) throws -> SyncInsertOneResult? {
+        operationsGroup.wait()
+        operationsGroup.enter()
+        defer {
+            operationsGroup.leave()
+        }
         guard let nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
             throw StitchError.clientError(
                 withClientErrorCode: .couldNotLoadSyncInfo)
@@ -1615,6 +1666,11 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      - returns: the result of the insert many operation
      */
     func insertMany(documents: [Document], in namespace: MongoNamespace) throws -> SyncInsertManyResult? {
+        operationsGroup.wait()
+        operationsGroup.enter()
+        defer {
+            operationsGroup.leave()
+        }
         guard let nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
             throw StitchError.clientError(
                 withClientErrorCode: .couldNotLoadSyncInfo)
@@ -1669,6 +1725,11 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     func deleteOne(filter: Document,
                    options: DeleteOptions?,
                    in namespace: MongoNamespace) throws -> SyncDeleteResult? {
+        operationsGroup.wait()
+        operationsGroup.enter()
+        defer {
+            operationsGroup.leave()
+        }
         guard var nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
             throw StitchError.clientError(
                 withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
@@ -1741,6 +1802,12 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     func deleteMany(filter: Document,
                     options: DeleteOptions?,
                     in namespace: MongoNamespace) throws -> SyncDeleteResult? {
+        operationsGroup.wait()
+        operationsGroup.enter()
+        defer {
+            operationsGroup.leave()
+        }
+
         guard var nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
             throw StitchError.clientError(
                 withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
@@ -1815,6 +1882,11 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                    update: Document,
                    options: SyncUpdateOptions?,
                    in namespace: MongoNamespace) throws -> SyncUpdateResult? {
+        operationsGroup.wait()
+        operationsGroup.enter()
+        defer {
+            operationsGroup.leave()
+        }
         guard let nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
             throw StitchError.clientError(
                 withClientErrorCode: StitchClientErrorCode.couldNotLoadSyncInfo)
@@ -1935,6 +2007,11 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                     update: Document,
                     options: SyncUpdateOptions?,
                     in namespace: MongoNamespace) throws -> SyncUpdateResult? {
+        operationsGroup.wait()
+        operationsGroup.enter()
+        defer {
+            operationsGroup.leave()
+        }
         guard let nsConfig: NamespaceSynchronization = self.syncConfig[namespace] else {
             throw StitchError.clientError(
                 withClientErrorCode: .couldNotLoadSyncInfo)
@@ -2269,7 +2346,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     }
 
     internal static func localConfigDBName(withInstanceKey instanceKey: String) -> String {
-        return "sync_config_\(instanceKey)"
+        return instanceKey.replacingOccurrences(of: "/", with: "_")
     }
 
     internal static func localUserDBName(withInstanceKey instanceKey: String,

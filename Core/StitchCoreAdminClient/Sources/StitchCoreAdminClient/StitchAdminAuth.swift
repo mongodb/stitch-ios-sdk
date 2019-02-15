@@ -22,7 +22,7 @@ public final class StitchAdminAuth: CoreStitchAuth<StitchAdminUser> {
         return info
     }
 
-    public final override func onAuthEvent() {
-        // do nothing
+    public final override func dispatchAuthEvent(_ authEvent: AuthRebindEvent) {
+
     }
 }

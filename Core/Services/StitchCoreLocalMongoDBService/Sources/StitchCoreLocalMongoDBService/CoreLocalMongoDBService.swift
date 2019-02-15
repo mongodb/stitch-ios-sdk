@@ -31,6 +31,34 @@ public final class CoreLocalMongoDBService {
         }
     }
 
+    public func deleteDatabase(withKey key: String,
+                               withDBPath dbPath: String) throws {
+        try cLock.write {
+            let key = "\(Thread.current.hash)_\(key)"
+            var client = _localInstances[key]
+            if client == nil {
+                client = try self.client(withKey: key, withDBPath: dbPath)
+            }
+
+            try client?.listDatabases().forEach {
+                guard let name = $0["name"] as? String else {
+                    return
+                }
+
+                try client?.db(name).drop()
+            }
+
+            var isDir: ObjCBool = true
+            let fileManager = FileManager()
+            if fileManager.fileExists(atPath: dbPath, isDirectory: &isDir) {
+                try fileManager.removeItem(atPath: dbPath)
+            }
+
+            client?.close()
+            _localInstances[key] = nil
+        }
+    }
+
     public func client(withKey key: String,
                        withDBPath dbPath: String) throws -> MongoClient {
         return try cLock.write {
@@ -61,15 +89,16 @@ public final class CoreLocalMongoDBService {
         }
     }
 
-    public func client(withClientAppID clientAppID: String,
+    public func client(withInstanceKey instanceKey: String,
                        withDataDirectory dataDirectory: URL) throws -> MongoClient {
-        let instanceKey = clientAppID
-        let dbPath = "\(dataDirectory.path)/local_mongodb/0/"
+        let dbPath = "\(dataDirectory.path)/local_mongodb/0/\(instanceKey)"
         return try self.client(withKey: instanceKey, withDBPath: dbPath)
     }
 
     public func client(withAppInfo appInfo: StitchAppClientInfo) throws -> MongoClient {
-        return try self.client(withClientAppID: appInfo.clientAppID, withDataDirectory: appInfo.dataDirectory)
+        return try self.client(withInstanceKey: appInfo.clientAppID +
+            "/\(appInfo.authMonitor.activeUserId ?? "unbound")",
+            withDataDirectory: appInfo.dataDirectory)
     }
 
     public func close() {

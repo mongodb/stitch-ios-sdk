@@ -53,10 +53,17 @@ extension CoreStitchAuth {
      */
     internal func doLogin(withCredential credential: StitchCredential, asLinkRequest: Bool) throws -> TStitchUser {
         let response = try self.doLoginRequest(withCredential: credential, asLinkRequest: asLinkRequest)
+        let previousUser = activeUser
         let user = try self.processLoginResponse(withCredential: credential,
                                                  forResponse: response,
                                                  asLinkRequest: asLinkRequest)
-        onAuthEvent()
+        if asLinkRequest {
+            dispatchAuthEvent(.userLinked(linkedUser: user))
+        } else {
+            dispatchAuthEvent(.userLoggedIn(loggedInUser: user))
+            dispatchAuthEvent(.activeUserChanged(currentActiveUser: activeUser,
+                                                 previousActiveUser: previousUser))
+        }
         return user
     }
 
@@ -134,9 +141,8 @@ extension CoreStitchAuth {
         let newAuthInfo = apiAuthInfo.update(withUserProfile: profile,
                                              withLastAuthActivity: Date.init().timeIntervalSince1970)
 
-        guard let newUser = makeStitchUser(withAuthInfo: newAuthInfo) else {
-            throw StitchError.clientError(withClientErrorCode: .userNotValid)
-        }
+        let newUserAdded = !self.allUsersAuthInfo.contains(newAuthInfo)
+        let newUser = try makeStitchUser(withAuthInfo: newAuthInfo)
 
         // If the user already exists update it, otherwise append it to the list
         var index: Int = -1
@@ -174,6 +180,11 @@ extension CoreStitchAuth {
 
         self.activeUserAuthInfo = newAuthInfo
         self.activeUser = newUser
+
+        if newUserAdded {
+            dispatchAuthEvent(.userAdded(addedUser: newUser))
+        }
+
         return newUser
     }
     // swiftlint:enable function_body_length
