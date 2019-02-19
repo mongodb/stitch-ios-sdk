@@ -600,4 +600,44 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
             // do nothing
         }
     }
+
+    class UnitTestWatchDelegate: SSEStreamDelegate { }
+
+    func testWatch() throws {
+        let coll = try remoteCollection()
+
+        mockServiceClient.streamFunctionMock.doReturn(
+            result: RawSSEStream.init(), forArg1: .any, forArg2: .any, forArg3: .any
+        )
+
+        _ = try coll.watch(ids: ["blah"], delegate: UnitTestWatchDelegate.init())
+
+        var (funcNameArg, funcArgsArg, _) = mockServiceClient.streamFunctionMock.capturedInvocations.last!
+
+        XCTAssertEqual("watch", funcNameArg)
+        XCTAssertEqual(1, funcArgsArg.count)
+
+        let expectedArgs: Document = [
+            "database": namespace.databaseName,
+            "collection": namespace.collectionName,
+            "ids": ["blah"]
+        ]
+
+        XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
+
+        // should pass along errors
+        mockServiceClient.streamFunctionMock.doThrow(
+            error: StitchError.serviceError(withMessage: "whoops", withServiceErrorCode: .unknown),
+            forArg1: .any,
+            forArg2: .any,
+            forArg3: .any
+        )
+
+        do {
+            _ = try coll.watch(ids: ["blahblah"], delegate: UnitTestWatchDelegate.init())
+            XCTFail("function did not fail where expected")
+        } catch {
+            // do nothing
+        }
+    }
 }

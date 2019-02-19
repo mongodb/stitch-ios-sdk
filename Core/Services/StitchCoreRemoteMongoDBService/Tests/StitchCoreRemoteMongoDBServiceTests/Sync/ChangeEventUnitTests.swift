@@ -42,7 +42,7 @@ class ChangeEventUnitTests: XCTestCase {
             updateDescription: nil,
             hasUncommittedWrites: writePending)
         let transformedChangeEvent: ChangeEvent<TestTransform> =
-            try ChangeEvent<TestTransform>.transform(changeEvent: originalChangeEvent)
+            try ChangeEvents.transform(changeEvent: originalChangeEvent)
 
         XCTAssertTrue(bsonEquals(originalChangeEvent.id.value, transformedChangeEvent.id.value))
         XCTAssertEqual(originalChangeEvent.operationType, transformedChangeEvent.operationType)
@@ -65,7 +65,7 @@ class ChangeEventUnitTests: XCTestCase {
             updateDescription: nil,
             hasUncommittedWrites: writePending)
 
-        let actualLocalInsertEvent = ChangeEvent<Document>.changeEventForLocalInsert(namespace: namespace,
+        let actualLocalInsertEvent = ChangeEvents.changeEventForLocalInsert(namespace: namespace,
                                                                                      document: document,
                                                                                      documentId: docId,
                                                                                      writePending: writePending)
@@ -82,7 +82,7 @@ class ChangeEventUnitTests: XCTestCase {
             updateDescription: nil,
             hasUncommittedWrites: writePending)
 
-        let actualLocalReplaceEvent = ChangeEvent<Document>.changeEventForLocalReplace(
+        let actualLocalReplaceEvent = ChangeEvents.changeEventForLocalReplace(
             namespace: namespace, documentId: docId, document: document, writePending: writePending
         )
 
@@ -101,7 +101,7 @@ class ChangeEventUnitTests: XCTestCase {
                                                       removedFields: []),
             hasUncommittedWrites: writePending)
 
-        let actualLocalUpdateEvent = ChangeEvent<Document>.changeEventForLocalUpdate(
+        let actualLocalUpdateEvent = ChangeEvents.changeEventForLocalUpdate(
             namespace: namespace,
             documentId: docId,
             update: UpdateDescription.init(updatedFields: ["foo": 42, "bar": "baz"], removedFields: []),
@@ -122,7 +122,7 @@ class ChangeEventUnitTests: XCTestCase {
             updateDescription: nil,
             hasUncommittedWrites: writePending)
 
-        let actualLocalDeleteEvent = ChangeEvent<Document>.changeEventForLocalDelete(namespace: namespace,
+        let actualLocalDeleteEvent = ChangeEvents.changeEventForLocalDelete(namespace: namespace,
                                                                                      documentId: docId,
                                                                                      writePending: writePending)
 
