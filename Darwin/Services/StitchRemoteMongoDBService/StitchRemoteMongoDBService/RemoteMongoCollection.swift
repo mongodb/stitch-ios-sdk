@@ -101,6 +101,23 @@ public class RemoteMongoCollection<T: Codable> {
     }
 
     /**
+     * Finds a document in this collection which matches the provided filter.
+     *
+     * - parameters:
+     *   - filter: A `Document` that should match the query.
+     *   - options: Optional `RemoteFindOptions` to use when executing the command.
+
+     * - returns: A the resulting `Document` or nil if no such document exists
+     */
+    public func findOne(_ filter: Document = [:],
+                        options: RemoteFindOptions? = nil,
+                        _ completionHandler: @escaping (StitchResult<CollectionType?>) -> Void) {
+        self.dispatcher.run(withCompletionHandler: completionHandler) {
+            return try self.proxy.findOne(filter, options: options)
+        }
+    }
+
+    /**
      * Counts the number of documents in this collection matching the provided filter.
      *
      * - parameters:

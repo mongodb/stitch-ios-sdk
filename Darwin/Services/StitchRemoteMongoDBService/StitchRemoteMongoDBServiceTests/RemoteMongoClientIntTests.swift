@@ -243,6 +243,87 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         return list
     }
 
+    func testFindOne() {
+        let coll = getTestColl()
+        var exp = expectation(description: "should not find any documents in empty collection")
+        coll.findOne { result in
+            switch result {
+            case .success(let doc):
+                XCTAssertNil(doc)
+            case .failure(let err):
+                XCTFail("unexpected failure in findOne \(err)")
+            }
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 5.0)
+
+        let doc1: Document = ["hello": "world"]
+        let doc2: Document = ["hello": "friend", "proj": "field"]
+
+        exp = expectation(description: "should insert one document")
+        coll.insertOne(doc1) { _ in exp.fulfill() }
+        wait(for: [exp], timeout: 5.0)
+
+        exp = expectation(description: "should find the inserted documents")
+        coll.findOne { result in
+            switch result {
+            case .success(let resultDoc):
+                XCTAssertNotNil(resultDoc)
+                XCTAssertEqual(self.withoutId(doc1), self.withoutId(resultDoc!))
+            case .failure(let err):
+                XCTFail("unexpected failure in findOne \(err)")
+            }
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 5.0)
+
+        exp = expectation(description: "should insert one document")
+        coll.insertOne(doc2) { _ in exp.fulfill() }
+        wait(for: [exp], timeout: 5.0)
+
+        exp = expectation(description: "should find the inserted documents when applying filter")
+        coll.findOne(doc2, options: RemoteFindOptions.init(projection: ["proj": 1])) { result in
+            switch result {
+            case .success(let resultDoc):
+                XCTAssertNotNil(resultDoc)
+                XCTAssertEqual(["proj": "field"], self.withoutId(resultDoc!))
+            case .failure(let err):
+                XCTFail("unexpected failure in findOne \(err)")
+            }
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 5.0)
+
+        exp = expectation(description: "find with filter should return nil if no documents match")
+        coll.findOne(["noAField": 1]) {result in
+            switch result {
+            case .success(let resultDoc):
+                XCTAssertNil(resultDoc)
+            case .failure(let err):
+                XCTFail("unexpected failure in findOne \(err)")
+            }
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 5.0)
+
+        exp = expectation(description: "should error with invalid filter")
+        coll.findOne(["$who": 1]) { result in
+            switch result {
+            case .success:
+                XCTFail("expected an error")
+            case .failure(let error):
+                switch error {
+                case .serviceError(_, let withServiceErrorCode):
+                    XCTAssertEqual(StitchServiceErrorCode.mongoDBError, withServiceErrorCode)
+                default:
+                    XCTFail("unexpected error code")
+                }
+            }
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 5.0)
+    }
+
     func testFind() {
         let coll = getTestColl()
         var exp = expectation(description: "should not find any documents in empty collection")
