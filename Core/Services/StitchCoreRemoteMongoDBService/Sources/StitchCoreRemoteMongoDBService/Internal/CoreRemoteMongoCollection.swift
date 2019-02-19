@@ -105,11 +105,7 @@ public class CoreRemoteMongoCollection<T: Codable> {
      *   - filter: A `Document` that should match the query.
      *   - options: Optional `RemoteFindOptions` to use when executing the command.
      *
-     * - important: Invoking this method by itself does not perform any network requests. You must call one of the
-     *              methods on the resulting `CoreRemoteMongoReadOperation` instance to trigger the operation against
-     *              the database.
-     *
-     * - returns: A `CoreRemoteMongoReadOperation` that allows retrieval of the resulting documents.
+     * - returns: The resulting `Document` or nil if no such document exists
      */
     public func findOne(_ filter: Document = [:], options: RemoteFindOptions? = nil) throws -> T? {
         var args = baseOperationArgs

@@ -148,7 +148,7 @@ public final class CoreSync<DocumentT: Codable> {
      
      - parameter filter: the query filter for this find op
      - parameter options: the options for this findo p
-     - returns: the find iterable interface
+     - returns:  The resulting `Document` or nil if no such document exists
      */
     public func findOne(filter: Document, options: SyncFindOptions? = nil) throws -> DocumentT? {
         return try self.dataSynchronizer.findOne(filter: filter, options: options, in: namespace)

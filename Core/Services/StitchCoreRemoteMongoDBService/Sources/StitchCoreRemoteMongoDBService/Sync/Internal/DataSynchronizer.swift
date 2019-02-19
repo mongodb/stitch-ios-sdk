@@ -1547,7 +1547,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      - parameter filter: the query filter for this find op
      - parameter options: the options for this find op
      - parameter namespace: the namespace to conduct this op
-     - returns: the find iterable interface
+     - returns:  The resulting `Document` or nil if no such document exists
      */
     func findOne<DocumentT: Codable>(filter: Document,
                                      options: SyncFindOptions?,
