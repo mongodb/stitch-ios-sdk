@@ -24,7 +24,7 @@ internal class InternalChangeStreamDelegate<PublicDelegateT: ChangeStreamDelegat
         default:
             rawStream.close()
         }
-        
+
         // remove the reference to the underlying stream so the FoundationDataDelegate in the
         // FoundationHTTPSSEStream is deallocated
         self.rawStream = nil

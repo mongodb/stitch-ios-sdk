@@ -118,5 +118,4 @@ internal class ChangeEvents {
             updateDescription: nil,
             hasUncommittedWrites: writePending)
     }
-
 }
