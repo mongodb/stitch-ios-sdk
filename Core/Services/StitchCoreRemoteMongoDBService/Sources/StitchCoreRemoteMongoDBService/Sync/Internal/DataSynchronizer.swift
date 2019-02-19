@@ -1542,6 +1542,26 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     }
 
     /**
+     Finds one document in the collection that has been synchronized with the remote.
+     
+     - parameter filter: the query filter for this find op
+     - parameter options: the options for this find op
+     - parameter namespace: the namespace to conduct this op
+     - returns: the find iterable interface
+     */
+    func findOne<DocumentT: Codable>(filter: Document,
+                                     options: SyncFindOptions?,
+                                     in namespace: MongoNamespace) throws -> DocumentT? {
+        guard let lock = self.syncConfig[namespace]?.nsLock else {
+            throw StitchError.clientError(
+                withClientErrorCode: .couldNotLoadSyncInfo)
+        }
+        return try lock.read {
+            return try localCollection(for: namespace).findOne(filter, options: options?.toFindOptions)
+        }
+    }
+
+    /**
      Aggregates documents that have been synchronized with the remote
      according to the specified aggregation pipeline.
 

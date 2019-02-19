@@ -1451,6 +1451,45 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         XCTAssertNil(cursor.next())
     }
 
+    func testSync_FindOne() throws {
+        let coll = getTestColl()
+        let sync = coll.sync
+        sync.configure(conflictHandler: { _, _, rDoc in rDoc.fullDocument },
+                       changeEventDelegate: { _, _ in },
+                       errorListener: { _, _ in })
+
+        let joiner = CallbackJoiner()
+
+        sync.count(joiner.capture())
+        XCTAssertEqual(0, joiner.value())
+
+        let doc1 = ["hello": "world", "a": "b"] as Document
+        sync.insertMany(documents: [doc1], joiner.capture())
+
+        sync.count(joiner.capture())
+        XCTAssertEqual(1, joiner.value())
+
+        sync.findOne(joiner.capture())
+        guard let doc = joiner.value(asType: Document.self) else {
+            XCTFail("document not found")
+            return
+        }
+        XCTAssertEqual("world", doc["hello"] as? String)
+        XCTAssertEqual("b", doc["a"] as? String)
+
+        sync.findOne(filter: ["hello": "world"], options: nil, joiner.capture())
+        guard let doc2 = joiner.value(asType: Document.self) else {
+            XCTFail("document not found")
+            return
+        }
+        XCTAssertEqual("world", doc2["hello"] as? String)
+        XCTAssertEqual("b", doc2["a"] as? String)
+
+        sync.findOne(filter: ["hello": "worldsss"], options: nil, joiner.capture())
+        let doc3: Document? = joiner.value()
+        XCTAssertNil(doc3)
+    }
+
     func testSync_Aggregate() throws {
         let coll = getTestColl()
         let sync = coll.sync

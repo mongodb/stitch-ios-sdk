@@ -144,6 +144,17 @@ public final class CoreSync<DocumentT: Codable> {
     }
 
     /**
+     Finds one document in the collection that has been synchronized with the remote.
+     
+     - parameter filter: the query filter for this find op
+     - parameter options: the options for this findo p
+     - returns: the find iterable interface
+     */
+    public func findOne(filter: Document, options: SyncFindOptions? = nil) throws -> DocumentT? {
+        return try self.dataSynchronizer.findOne(filter: filter, options: options, in: namespace)
+    }
+
+    /**
      Aggregates documents that have been synchronized with the remote
      according to the specified aggregation pipeline.
 
