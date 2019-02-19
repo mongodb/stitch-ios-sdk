@@ -1028,12 +1028,12 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         wait(for: [exp], timeout: 5.0)
     }
 
-    class WatchTestDelegate: ChangeStreamDelegate {
+    class WatchTestDelegate<DocumentT: Codable>: ChangeStreamDelegate {
         public init() {
             self.previousAssertionCalled = true
             self.expectedEventType = .streamOpened
         }
-        
+
         // swiftlint:disable nesting
         enum EventType {
             case eventReceived
@@ -1047,7 +1047,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         private var previousAssertionCalled: Bool
 
         private var assertion: (() -> Void)?
-        private var eventAssertion: ((_ event: ChangeEvent<Document>) -> Void)?
+        private var eventAssertion: ((_ event: ChangeEvent<DocumentT>) -> Void)?
 
         func expect(eventType: EventType, _ testAssertion: @escaping () -> Void) {
             guard previousAssertionCalled else {
@@ -1060,7 +1060,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             self.eventAssertion = nil
         }
 
-        func expectEvent(_ assertion: @escaping (_ event: ChangeEvent<Document>) -> Void) {
+        func expectEvent(_ assertion: @escaping (_ event: ChangeEvent<DocumentT>) -> Void) {
             guard previousAssertionCalled else {
                 fatalError("the previous assertion for the expected event was not called")
             }
@@ -1071,7 +1071,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             self.eventAssertion = assertion
         }
 
-        func didReceive<DocumentT>(event: ChangeEvent<DocumentT>) where DocumentT: Decodable, DocumentT: Encodable {
+        func didReceive(event: ChangeEvent<DocumentT>) {
             print("got public delegate receieve event")
             switch expectedEventType {
             case .eventReceived:
@@ -1083,7 +1083,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
                     assertion()
                     previousAssertionCalled = true
                 } else if let eventAssertion = eventAssertion {
-                    eventAssertion(event as! ChangeEvent<Document>)
+                    eventAssertion(event)
                     previousAssertionCalled = true
                 }
             default:
@@ -1140,7 +1140,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
     func testWatch() throws {
         let coll = getTestColl()
 
-        let testDelegate = WatchTestDelegate.init()
+        let testDelegate = WatchTestDelegate<Document>.init()
         let doc1: Document = [
             "_id": ObjectId.init(),
             "hello": "universe"
@@ -1240,8 +1240,44 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         wait(for: [exp], timeout: 5.0)
     }
 
-    func testWatchWithCustomDocType() {
+    func testWatchWithCustomDocType() throws {
+        let coll = getTestColl().withCollectionType(CustomType.self)
+        let doc1 = CustomType.init(id: "my_string_id", intValue: 42)
 
+        let testDelegate = WatchTestDelegate<CustomType>.init()
+        let joiner = CallbackJoiner.init()
+
+        var exp = expectation(description: "notifies on stream open")
+        testDelegate.expect(eventType: .streamOpened) {
+            exp.fulfill()
+        }
+
+        let stream = try coll.watch(ids: ["my_string_id"], delegate: testDelegate)
+        wait(for: [exp], timeout: 5.0)
+
+        // If this code is uncommented, the test should not compile, since you shouldn't be able to use a
+        // Document-based test delegate with a CustomType-based collection.
+        //
+        //        let incorrectlyTypedTestDelegate = WatchTestDelegate<Document>.init()
+        //        try coll.watch(ids: ["my_string_id"], delegate: incorrectlyTypedTestDelegate)
+
+        exp = expectation(description: "notifies on document insert")
+        testDelegate.expectEvent { event in
+            XCTAssertTrue(bsonEquals(event.documentKey["_id"], doc1.id))
+            XCTAssertEqual(event.fullDocument, doc1)
+            XCTAssertEqual(event.operationType, OperationType.insert)
+
+            exp.fulfill()
+        }
+        coll.insertOne(doc1, joiner.capture())
+        wait(for: [exp], timeout: 5.0)
+
+        exp = expectation(description: "notifies on stream close")
+        testDelegate.expect(eventType: .streamClosed) {
+            exp.fulfill()
+        }
+        stream.close()
+        wait(for: [exp], timeout: 5.0)
     }
 
     func testWithCollectionType() {

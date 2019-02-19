@@ -3,28 +3,31 @@ import StitchCoreSDK
 import StitchCoreRemoteMongoDBService
 
 /**
- * A MongoDB Change Stream session
+ * Internal class which serves as an intermediary between an internal RawSSEStream and a change stream as exposed
+ * by the remote MongoDB service.
  */
-public protocol ChangeStreamSession {
-    var delegate: ChangeStreamDelegate? { get set }
-    func close()
-}
-
-internal class ChangeStreamSessionImpl<DocumentT: Codable>: SSEStreamDelegate, ChangeStreamSession {
+internal class InternalChangeStreamDelegate<PublicDelegateT: ChangeStreamDelegate>: SSEStreamDelegate {
+    public weak var delegate: PublicDelegateT?
     internal var rawStream: RawSSEStream?
 
-    /**
-     * The delegate for this `ChangeStreamSession`. This is the class that will react to incoming events. A delegate is
-     * set at the time the `watch` function is called, but a new delegate may also be set here.
+    public init(delegate: PublicDelegateT) {
+        self.delegate = delegate
+    }
 
-     * - warning the delegate is held by the change stream as a weak reference. If the delegate becomes
-     *           deallocated, the stream will automatically close the next time an event is received. If you are
-     *           setting a new delegate, make sure you do so before the previous delegate is deallocated.
-     */
-    public weak var delegate: ChangeStreamDelegate?
-
-    internal init(publicDelegate: ChangeStreamDelegate) {
-        self.delegate = publicDelegate
+    public func close() {
+        guard let rawStream = rawStream else {
+            return
+        }
+        switch rawStream.state {
+        case SSEStreamState.closed, SSEStreamState.closing:
+            break
+        default:
+            rawStream.close()
+        }
+        
+        // remove the reference to the underlying stream so the FoundationDataDelegate in the
+        // FoundationHTTPSSEStream is deallocated
+        self.rawStream = nil
     }
 
     override final public func on(newEvent event: RawSSE) {
@@ -34,7 +37,7 @@ internal class ChangeStreamSessionImpl<DocumentT: Codable>: SSEStreamDelegate, C
         }
 
         do {
-            let changeEvent: ChangeEvent<DocumentT>? = try event.decodeStitchSSE()
+            let changeEvent: ChangeEvent<PublicDelegateT.DocumentT>? = try event.decodeStitchSSE()
             guard let concreteChangeEvent = changeEvent else {
                 self.on(error: StitchError.requestError(withMessage: "invalid event received from stream",
                                                         withRequestErrorCode: .decodingError))
@@ -74,21 +77,6 @@ internal class ChangeStreamSessionImpl<DocumentT: Codable>: SSEStreamDelegate, C
             break
         case .closed:
             delegate.didClose()
-        }
-    }
-
-    public func close() {
-        guard let rawStream = rawStream else {
-            return
-        }
-        switch rawStream.state {
-        case SSEStreamState.closed, SSEStreamState.closing:
-            // remove the reference to the underlying stream so the FoundationDataDelegate in the
-            // FoundationHTTPSSEStream is deallocated
-            self.rawStream = nil
-            return
-        default:
-            rawStream.close()
         }
     }
 }

@@ -260,8 +260,17 @@ public class RemoteMongoCollection<T: Codable> {
      * made to specific documents. The documents to watch must be explicitly
      * specified by their _id.
      *
+     * - This method has a generic type parameter of DelegateT, which is the type of the delegate that will react to
+     *   events on the stream. This can be any type as long as it conforms to the `ChangeStreamDelegate` protocol, and
+     *   the `DocumentT` type parameter on the delegate matches the `T` parameter of this collection.
+     *
      * - This method does not support opening change streams on an entire collection
-     *        or a specific query.
+     *   or a specific query.
+     *
+     * - When this method returns the `ChangeStreamSession`, the change stream may not yet be open. The stream is
+     *   not open until the `didOpen` method is called on the provided delegate. This means that events that happen
+     *   after this method returns will not necessarily be received by this stream until the `didOpen` method is
+     *   called.
      *
      * - Parameters:
      *   - ids: The list of _ids in the collection to watch.
@@ -269,13 +278,15 @@ public class RemoteMongoCollection<T: Codable> {
      *
      * - Returns: A reference to the change stream opened by this method.
      */
-    public func watch(ids: [BSONValue],
-                      delegate: ChangeStreamDelegate) throws -> ChangeStreamSession {
-        let internalDelegate = ChangeStreamSessionImpl<T>.init(publicDelegate: delegate)
+    public func watch<DelegateT: ChangeStreamDelegate>(
+        ids: [BSONValue],
+        delegate: DelegateT
+    ) throws -> ChangeStreamSession<DelegateT> where DelegateT.DocumentT == T {
+        let session = ChangeStreamSession<DelegateT>.init(publicDelegate: delegate)
 
-        let rawStream = try self.proxy.watch(ids: ids, delegate: internalDelegate)
-        internalDelegate.rawStream = rawStream
+        let rawStream = try self.proxy.watch(ids: ids, delegate: session.internalDelegate)
+        session.rawStream = rawStream
 
-        return internalDelegate
+        return session
     }
 }
