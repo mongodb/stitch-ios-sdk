@@ -59,68 +59,22 @@ internal class ChangeStreamSessionImpl<DocumentT: Codable>: SSEStreamDelegate, C
         delegate.didReceive(streamError: error)
     }
 
-    public func close() {
-        guard let rawStream = rawStream else {
-            return
-        }
-        switch rawStream.state {
-        case SSEStreamState.closed, SSEStreamState.closing:
-            // remove the reference to the underlying stream so the FoundationDataDelegate in the
-            // FoundationHTTPSSEStream is deallocated
-            self.rawStream = nil
-            return
-        default:
-            rawStream.close()
-        }
-    }
-}
-
-///**
-// * :nodoc:
-// * Internal class serving as the delegate for the raw change stream.
-// *
-// */
-internal final class RawChangeStreamDelegate<DocumentT: Codable>: SSEStreamDelegate {
-    // A reference to the raw SSE stream that this delegate is for. Used to close the underlying stream if the
-    // user-provided delegate is deallocated.
-    internal var rawStream: RawSSEStream? = nil
-
-    internal weak var publicDelegate: ChangeStreamDelegate?
-
-    init(publicDelegate: ChangeStreamDelegate) {
-        self.publicDelegate = publicDelegate
-    }
-
-    override final public func on(newEvent event: RawSSE) {
-        guard let delegate = publicDelegate else {
+    override final public func on(stateChangedFor state: SSEStreamState) {
+        guard let delegate = delegate else {
             self.close()
             return
         }
 
-        do {
-            let changeEvent: ChangeEvent<DocumentT>? = try event.decodeStitchSSE()
-            guard let concreteChangeEvent = changeEvent else {
-                self.on(error: StitchError.requestError(withMessage: "invalid event received from stream",
-                                                        withRequestErrorCode: .decodingError))
-                return
-            }
-
-            // Dispatch change event to user stream
-            delegate.didReceive(event: concreteChangeEvent)
-
-        } catch let err {
-            self.on(error: StitchError.requestError(withError: err, withRequestErrorCode: .decodingError))
+        switch state {
+        case .opening:
+            break
+        case .open:
+            delegate.didOpen()
+        case .closing:
+            break
+        case .closed:
+            delegate.didClose()
         }
-    }
-
-    override final public func on(error: Error) {
-        guard let delegate = publicDelegate else {
-            self.close()
-            return
-        }
-
-        // Dispatch error to user stream
-        delegate.didReceive(streamError: error)
     }
 
     public func close() {

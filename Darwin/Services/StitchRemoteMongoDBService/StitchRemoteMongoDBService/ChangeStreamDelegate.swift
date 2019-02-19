@@ -23,7 +23,14 @@ public protocol ChangeStreamDelegate: class {
      */
     func didReceive(streamError: Error)
 
-    func didClose()
-
+    /**
+     * Called when the initial opening of the stream is complete, meaning that the stream will receive future events
+     * that the user is able to see via rules, until the stream is closed.
+     */
     func didOpen()
+
+    /**
+     * Called when the stream is closed, meaning there will be no more incoming events.
+     */
+    func didClose()
 }
