@@ -39,7 +39,7 @@ class HTTPServiceClientIntTests: BaseStitchIntTestCocoaTouch {
         let body = "hello world".data(using: .utf8)!
         let cookies = ["bob": "barker"]
         let form: [String: String] = ["beep": "boop"]
-        let headers = ["myHeader": ["value1", "value2"]]
+        let headers = ["Myheader": ["value1", "value2"], "Accept-Encoding": ["none"]]
 
         var badRequest = try HTTPRequestBuilder()
             .with(url: badURL)
