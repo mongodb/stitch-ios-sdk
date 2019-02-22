@@ -9,7 +9,7 @@ public final class MockCoreStitchServiceClient: CoreStitchServiceClient {
     }
 
     public func onRebindEvent(_ rebindEvent: RebindEvent) {
-        
+
     }
 
     public var serviceName: String?

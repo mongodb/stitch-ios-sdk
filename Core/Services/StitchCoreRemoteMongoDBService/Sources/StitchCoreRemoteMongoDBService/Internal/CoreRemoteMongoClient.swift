@@ -42,7 +42,7 @@ public class CoreRemoteMongoClient: StitchServiceBinder {
             try? CoreLocalMongoDBService.shared.deleteDatabase(
                 withKey: key,
                 withDBPath: "\(appInfo.dataDirectory.path)/local_mongodb/0/\(key)")
-        case .activeUserChanged(let currentActiveUser, let previousActiveUser):
+        case .activeUserChanged(let currentActiveUser, _):
             if lastActiveUserId != appInfo.authMonitor.activeUserId {
                 self.lastActiveUserId = appInfo.authMonitor.activeUserId
                 if currentActiveUser != nil {

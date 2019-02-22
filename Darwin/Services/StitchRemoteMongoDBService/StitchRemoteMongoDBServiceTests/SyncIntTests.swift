@@ -248,11 +248,10 @@ private class SyncTestContext {
     func streamAndSync() throws {
         let (_, coll) = remoteCollAndSync
         if networkMonitor.state == .connected {
-            let iCSDel = coll.proxy
+            if let iCSDel = coll.proxy
                 .dataSynchronizer
-                .instanceChangeStreamDelegate
-
-            if let nsConfig = iCSDel[MongoNamespace(databaseName: dbName, collectionName: collName)] {
+                .instanceChangeStreamDelegate,
+               let nsConfig = iCSDel[MongoNamespace(databaseName: dbName, collectionName: collName)] {
                 nsConfig.add(streamDelegate: streamJoiner)
                 streamJoiner.streamState = nsConfig.state
                 if nsConfig.state == .closed {
