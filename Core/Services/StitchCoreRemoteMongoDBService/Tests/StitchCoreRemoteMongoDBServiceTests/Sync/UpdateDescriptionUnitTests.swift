@@ -11,6 +11,7 @@ class UpdateDescriptionUnitTests: XCMongoMobileTestCase {
         collection = localClient
             .db("dublin")
             .collection("restaurants\(ObjectId().oid)")
+        super.setUp()
     }
 
     func testUpdateDescriptionDiff() throws {

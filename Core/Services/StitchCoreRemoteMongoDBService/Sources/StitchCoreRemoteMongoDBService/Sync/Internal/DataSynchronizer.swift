@@ -153,6 +153,9 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     }
 
     func reinitialize(appInfo: StitchAppClientInfo) {
+        // can't reinitialize until we're done initializing in the first place
+        self.waitUntilInitialized()
+
         operationsGroup.blockAndWait()
         self.initWorkItem = DispatchWorkItem {
             do {
@@ -1534,7 +1537,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     func resumeSync(for documentId: BSONValue,
                     in namespace: MongoNamespace) -> Bool {
         self.waitUntilInitialized()
-        
+
         guard let nsConfig = syncConfig[namespace],
             let docConfig = nsConfig.nsLock.read({ return nsConfig[documentId] }) else {
                 return false
@@ -2266,7 +2269,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      * Blocks until the initialization of the DataSynchronizer is complete. This can be triggered by the initial
      * initialization, or a reinitialization.
      */
-    private func waitUntilInitialized() {
+    internal func waitUntilInitialized() {
         if let initWorkItem = self.initWorkItem {
             initWorkItem.wait()
             self.initWorkItem = nil

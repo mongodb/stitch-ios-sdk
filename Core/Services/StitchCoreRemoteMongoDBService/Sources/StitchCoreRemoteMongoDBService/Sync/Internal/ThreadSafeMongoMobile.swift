@@ -3,6 +3,9 @@ import StitchCoreSDK
 import StitchCoreLocalMongoDBService
 import Foundation
 
+// static global lock for all threads
+private let lock = ReadWriteLock(label: "local_mdb_lock")
+
 class ThreadSafeMongoClient {
     private let appInfo: StitchAppClientInfo
 
@@ -53,7 +56,6 @@ class ThreadSafeMongoCollection<T: Codable>: Codable {
     private let dataDirectory: URL
     private let databaseName: String
     private let name: String
-    private let lock = ReadWriteLock(label: "lock")
 
     fileprivate init(_ appInfo: StitchAppClientInfo, databaseName: String, name: String) {
         self.databaseKey = appInfo.clientAppID + "/\(appInfo.authMonitor.activeUserId ?? "unbound")"

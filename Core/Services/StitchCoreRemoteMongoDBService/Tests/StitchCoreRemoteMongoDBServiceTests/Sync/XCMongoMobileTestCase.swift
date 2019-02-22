@@ -106,9 +106,12 @@ private class TestCaseDataSynchronizer: DataSynchronizer {
             service: mockServiceClient,
             remoteClient: coreRemoteMongoClient,
             appInfo: appInfo)
+
+        self.waitUntilInitialized()
     }
 
     deinit {
+        self.waitUntilInitialized()
         if deinitializing {
             try? self.localClient.db(
                 DataSynchronizer
@@ -261,6 +264,7 @@ class XCMongoMobileTestCase: XCTestCase {
     }
 
     override func tearDown() {
+        self.dataSynchronizer.waitUntilInitialized()
         namespacesToBeTornDown.forEach {
             try? localClient.db($0.databaseName).drop()
         }

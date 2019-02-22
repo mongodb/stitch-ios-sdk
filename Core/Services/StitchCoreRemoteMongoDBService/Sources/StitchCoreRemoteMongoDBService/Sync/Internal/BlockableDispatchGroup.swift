@@ -1,5 +1,9 @@
 import Foundation
 
+/**
+ * A slightly enhanced version of the Foundation `DispatchGroup`, with the added ability to
+ * prevent entering the group when someone is waiting on the group.
+ */
 internal class BlockableDispatchGroup {
     public init() {
         isBlocked = false
