@@ -1309,7 +1309,6 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         guard let config = syncConfig[namespace]?[documentId] else {
             return
         }
-
         let localCollection = self.localCollection(for: namespace, withType: Document.self)
         let undoCollection = self.undoCollection(for: namespace)
 

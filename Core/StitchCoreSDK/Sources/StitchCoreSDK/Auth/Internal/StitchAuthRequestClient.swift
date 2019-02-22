@@ -20,6 +20,7 @@ public protocol StitchAuthRequestClient {
      * - returns: The decoded body of the response.
      */
     func doAuthenticatedRequest<T: Decodable>(_ stitchReq: StitchAuthRequest) throws -> T
+    func doAuthenticatedRequestOptional<T: Decodable>(_ stitchReq: StitchAuthRequest) throws -> T?
 
     func openAuthenticatedStream(_ stitchReq: StitchAuthRequest, delegate: SSEStreamDelegate?) throws -> RawSSEStream
 }

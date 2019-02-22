@@ -27,6 +27,7 @@ extension CoreStitchAuth {
     }
 
     public func doAuthenticatedRequest<T: Decodable>(_ stitchReq: StitchAuthRequest) throws -> T {
+        print("TK: Calling Old doAuthenticatedRequest()")
         let response = try self.doAuthenticatedRequest(stitchReq)
         do {
             guard let responseBody = response.body,
@@ -40,6 +41,25 @@ extension CoreStitchAuth {
                 return try BSONDecoder().decode(T.self, from: responseString)
             } catch let err {
                 throw StitchError.requestError(withError: err, withRequestErrorCode: .decodingError)
+            }
+        }
+    }
+
+    public func doAuthenticatedRequestOptional<T: Decodable>(_ stitchReq: StitchAuthRequest) throws -> T? {
+        print("TK: Calling New doAuthenticatedRequest()")
+        let response = try self.doAuthenticatedRequest(stitchReq)
+        do {
+            guard let responseBody = response.body,
+                let responseString = String.init(data: responseBody, encoding: .utf8) else {
+                    throw StitchError.serviceError(
+                        withMessage: StitchErrorCodable.genericErrorMessage(withStatusCode: response.statusCode),
+                        withServiceErrorCode: .unknown)
+            }
+
+            do {
+                return try BSONDecoder().decode(T.self, from: responseString)
+            } catch {
+                return nil
             }
         }
     }

@@ -120,16 +120,9 @@ public class CoreRemoteMongoCollection<T: Codable> {
             }
         }
 
-        do {
-            return try self.service.callFunction(withName: "findOne",
-                                                 withArgs: [args],
-                                                 withRequestTimeout: nil)
-        } catch let err {
-            if String(describing: err).contains("decodingErr") {
-                return nil
-            }
-            throw err
-        }
+        return try self.service.callFunctionOptional(withName: "findOne",
+                                                     withArgs: [args],
+                                                     withRequestTimeout: nil)
     }
 
     /**
