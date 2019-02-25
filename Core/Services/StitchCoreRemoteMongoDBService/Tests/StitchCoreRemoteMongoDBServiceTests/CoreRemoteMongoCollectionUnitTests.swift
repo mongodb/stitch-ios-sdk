@@ -241,7 +241,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
 
         resultDoc = try coll.findOne()
         XCTAssertNil(resultDoc)
-
+        
         // should pass along errors
         mockServiceClient.callFunctionOptionalWithDecodingMock.doThrow(
             error: StitchError.serviceError(withMessage: "whoops", withServiceErrorCode: .unknown),
