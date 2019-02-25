@@ -81,18 +81,16 @@ open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
     public func callFunction<T: Decodable>(withName name: String,
                                            withArgs args: [BSONValue],
                                            withRequestTimeout timeout: TimeInterval? = nil) throws -> T {
-        print("TK: Calling Old CallFunction()")
         return try requestClient.doAuthenticatedRequest(
             getCallServiceFunctionRequest(withName: name,
                                           withArgs: args,
                                           withTimeout: timeout))
     }
 
-    public func callFunctionOptional<T: Decodable>(withName name: String,
-                                                   withArgs args: [BSONValue],
-                                                   withRequestTimeout timeout: TimeInterval? = nil) throws -> T? {
-        print("TK: Calling New CallFunction()")
-        return try requestClient.doAuthenticatedRequestOptional(
+    public func callFunctionOptionalResult<T: Decodable>(withName name: String,
+                                                         withArgs args: [BSONValue],
+                                                         withRequestTimeout timeout: TimeInterval? = nil) throws -> T? {
+        return try requestClient.doAuthenticatedRequestOptionalResult(
             getCallServiceFunctionRequest(withName: name,
                                           withArgs: args,
                                           withTimeout: timeout))

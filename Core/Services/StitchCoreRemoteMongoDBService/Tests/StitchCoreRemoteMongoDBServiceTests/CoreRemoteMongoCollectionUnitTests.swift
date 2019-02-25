@@ -178,8 +178,8 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
 
         let doc1: Document = ["hello": "world"]
 
-        mockServiceClient.callFunctionWithDecodingMock.clearStubs()
-        mockServiceClient.callFunctionWithDecodingMock.doReturn(
+        mockServiceClient.callFunctionOptionalWithDecodingMock.clearStubs()
+        mockServiceClient.callFunctionOptionalWithDecodingMock.doReturn(
             result: doc1, forArg1: .any, forArg2: .any, forArg3: .any
         )
 
@@ -188,7 +188,8 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         XCTAssertNotNil(resultDoc)
         XCTAssertEqual(resultDoc, doc1)
 
-        var (funcNameArg, funcArgsArg, _) = mockServiceClient.callFunctionWithDecodingMock.capturedInvocations.last!
+        var (funcNameArg, funcArgsArg, _) =
+            mockServiceClient.callFunctionOptionalWithDecodingMock.capturedInvocations.last!
 
         XCTAssertEqual("findOne", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
@@ -212,11 +213,12 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         XCTAssertNotNil(resultDoc)
         XCTAssertEqual(resultDoc, doc1)
 
-        XCTAssertTrue(mockServiceClient.callFunctionWithDecodingMock
+        XCTAssertTrue(mockServiceClient.callFunctionOptionalWithDecodingMock
             .verify(numberOfInvocations: 2, forArg1: .any, forArg2: .any, forArg3: .any)
         )
 
-        (funcNameArg, funcArgsArg, _) = mockServiceClient.callFunctionWithDecodingMock.capturedInvocations.last!
+        (funcNameArg, funcArgsArg, _) =
+            mockServiceClient.callFunctionOptionalWithDecodingMock.capturedInvocations.last!
 
         XCTAssertEqual("findOne", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
@@ -231,8 +233,17 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
 
         XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
 
+        // passing nil should be fine
+        mockServiceClient.callFunctionOptionalWithDecodingMock.clearStubs()
+        mockServiceClient.callFunctionOptionalWithDecodingMock.doReturn(
+            result: nil, forArg1: .any, forArg2: .any, forArg3: .any
+        )
+
+        resultDoc = try coll.findOne()
+        XCTAssertNil(resultDoc)
+
         // should pass along errors
-        mockServiceClient.callFunctionWithDecodingMock.doThrow(
+        mockServiceClient.callFunctionOptionalWithDecodingMock.doThrow(
             error: StitchError.serviceError(withMessage: "whoops", withServiceErrorCode: .unknown),
             forArg1: .any,
             forArg2: .any,

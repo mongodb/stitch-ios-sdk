@@ -27,7 +27,6 @@ extension CoreStitchAuth {
     }
 
     public func doAuthenticatedRequest<T: Decodable>(_ stitchReq: StitchAuthRequest) throws -> T {
-        print("TK: Calling Old doAuthenticatedRequest()")
         let response = try self.doAuthenticatedRequest(stitchReq)
         do {
             guard let responseBody = response.body,
@@ -45,8 +44,7 @@ extension CoreStitchAuth {
         }
     }
 
-    public func doAuthenticatedRequestOptional<T: Decodable>(_ stitchReq: StitchAuthRequest) throws -> T? {
-        print("TK: Calling New doAuthenticatedRequest()")
+    public func doAuthenticatedRequestOptionalResult<T: Decodable>(_ stitchReq: StitchAuthRequest) throws -> T? {
         let response = try self.doAuthenticatedRequest(stitchReq)
         do {
             guard let responseBody = response.body,

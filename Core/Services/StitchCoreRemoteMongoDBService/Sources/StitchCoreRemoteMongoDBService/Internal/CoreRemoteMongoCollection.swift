@@ -120,9 +120,9 @@ public class CoreRemoteMongoCollection<T: Codable> {
             }
         }
 
-        return try self.service.callFunctionOptional(withName: "findOne",
-                                                     withArgs: [args],
-                                                     withRequestTimeout: nil)
+        return try self.service.callFunctionOptionalResult(withName: "findOne",
+                                                           withArgs: [args],
+                                                           withRequestTimeout: nil)
     }
 
     /**
