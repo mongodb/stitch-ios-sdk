@@ -21,6 +21,7 @@
 		116168B6208A6B1000967A7E /* StitchAppClientIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116168B5208A6B1000967A7E /* StitchAppClientIntegrationTests.swift */; };
 		116168B9208A6B3200967A7E /* TestHarness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116168B8208A6B3200967A7E /* TestHarness.swift */; };
 		1163C6F120D045540038CD11 /* StitchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1163C6F020D045540038CD11 /* StitchResult.swift */; };
+		116A128822247A0500F83FEE /* WeakReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116A128722247A0500F83FEE /* WeakReference.swift */; };
 		11981A112061B9D50074BB11 /* OperationDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11981A102061B9D50074BB11 /* OperationDispatcher.swift */; };
 		11981A242062C4B60074BB11 /* OperationDispatcherUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11981A132062C12D0074BB11 /* OperationDispatcherUnitTests.swift */; };
 		11B1840520A37ECA00B62ABB /* StitchAppClientIntegrationAuthTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B1840420A37ECA00B62ABB /* StitchAppClientIntegrationAuthTests.swift */; };
@@ -91,6 +92,7 @@
 		116168B5208A6B1000967A7E /* StitchAppClientIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAppClientIntegrationTests.swift; sourceTree = "<group>"; };
 		116168B8208A6B3200967A7E /* TestHarness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHarness.swift; sourceTree = "<group>"; };
 		1163C6F020D045540038CD11 /* StitchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchResult.swift; sourceTree = "<group>"; };
+		116A128722247A0500F83FEE /* WeakReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakReference.swift; sourceTree = "<group>"; };
 		11981A102061B9D50074BB11 /* OperationDispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationDispatcher.swift; sourceTree = "<group>"; };
 		11981A132062C12D0074BB11 /* OperationDispatcherUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationDispatcherUnitTests.swift; sourceTree = "<group>"; };
 		11981A192062C4AA0074BB11 /* StitchCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StitchCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -414,6 +416,7 @@
 				11981A0F2061B9AC0074BB11 /* Common */,
 				49368D6C2052F350006153D3 /* StitchAppClientImpl.swift */,
 				F40E66D520DD6D8800105FE6 /* ImmutableStitchAppClientConfiguration.swift */,
+				116A128722247A0500F83FEE /* WeakReference.swift */,
 			);
 			path = Internal;
 			sourceTree = "<group>";
@@ -681,6 +684,7 @@
 				49368D702052F35B006153D3 /* StitchAuthImpl.swift in Sources */,
 				11C587EF2058445200B34DD1 /* StitchUserFactoryImpl.swift in Sources */,
 				49368D6D2052F350006153D3 /* StitchAppClientImpl.swift in Sources */,
+				116A128822247A0500F83FEE /* WeakReference.swift in Sources */,
 				4902C6C9205174A100E53674 /* NamedServiceClientFactory.swift in Sources */,
 				113AA79320D1BF0F00CF4E70 /* NamedPushClientFactory.swift in Sources */,
 				F40E66D620DD6D8800105FE6 /* ImmutableStitchAppClientConfiguration.swift in Sources */,

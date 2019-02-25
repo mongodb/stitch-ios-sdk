@@ -39,7 +39,8 @@ public class CoreRemoteMongoClient: StitchServiceBinder {
         case .userRemoved(let removedUser):
             let userId = removedUser.id
             let key = appInfo.clientAppID + "/\(userId)"
-            try? CoreLocalMongoDBService.shared.deleteDatabase(
+            //swiftlint:disable force_try
+            try! CoreLocalMongoDBService.shared.deleteDatabase(
                 withKey: key,
                 withDBPath: "\(appInfo.dataDirectory.path)/local_mongodb/0/\(key)")
         case .activeUserChanged(let currentActiveUser, _):

@@ -2358,8 +2358,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      */
     private func localCollection<T: Codable>(for namespace: MongoNamespace,
                                              withType type: T.Type = T.self) -> ThreadSafeMongoCollection<T> {
-        return localClient.db(DataSynchronizer.localUserDBName(withInstanceKey: instanceKey,
-                                                               for: namespace))
+        return localClient.db(DataSynchronizer.localUserDBName(for: namespace))
             .collection(namespace.collectionName, withType: type)
     }
 
@@ -2373,24 +2372,19 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
      */
     internal func undoCollection(for namespace: MongoNamespace) -> ThreadSafeMongoCollection<Document> {
         return localClient.db(
-            DataSynchronizer.localUndoDBName(
-                withInstanceKey: instanceKey,
-                for: namespace)
-            ).collection(namespace.collectionName)
+            DataSynchronizer.localUndoDBName(for: namespace)).collection(namespace.collectionName)
     }
 
-    internal static func localUndoDBName(withInstanceKey instanceKey: String,
-                                         for namespace: MongoNamespace) -> String {
-        return "sync_undo_\(instanceKey)-\(namespace.databaseName)"
+    internal static func localUndoDBName(for namespace: MongoNamespace) -> String {
+        return "sync_undo_\(namespace.databaseName)"
     }
 
     internal static func localConfigDBName(withInstanceKey instanceKey: String) -> String {
-        return instanceKey.replacingOccurrences(of: "/", with: "_")
+        return "sync_config_\(instanceKey.replacingOccurrences(of: "/", with: "_"))"
     }
 
-    internal static func localUserDBName(withInstanceKey instanceKey: String,
-                                         for namespace: MongoNamespace) -> String {
-        return "sync_user_\(instanceKey)-\(namespace.databaseName)"
+    internal static func localUserDBName(for namespace: MongoNamespace) -> String {
+        return "sync_user_\(namespace.databaseName)"
     }
 
     /**

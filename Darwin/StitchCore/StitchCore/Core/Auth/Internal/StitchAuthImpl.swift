@@ -25,11 +25,18 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
     private let appInfo: StitchAppClientInfo
 
     /**
-     A list of weak references to [StitchAuthDelegate](x-source-tag://StitchAuthDelegate),
-     each of which will be notified when authentication events
+     A list of weak references to `StitchAuthDelegate`,
+     each of which will be notified asynchr when authentication events
      occur.
      */
     private var delegates: [AnyStitchAuthDelegate] = []
+
+    /**
+     A list of weak references to `StitchAuthDelegate`
+     each of which will be notified syncronously when authentication events
+     occur.
+     */
+    private var synchronousDelegates: [AnyStitchAuthDelegate] = []
 
     /**
      * Initializes this `StitchAuthImpl` with a request client, authentication API routes, a `Storage` for persisting
@@ -310,11 +317,21 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
         self.delegates.append(AnyStitchAuthDelegate(authDelegate))
         objc_sync_exit(self)
 
-        // Trigger the onUserLoggedIn event in case some event happens and
-        // this caller would miss out on this event other wise.
+        // Trigger the deprecated event in case some event happens and
+        // this caller would miss out on this event otherwise.
         dispatcher.queue.async {
             authDelegate.onAuthEvent(fromAuth: self)
         }
+    }
+
+    public func add(synchronousAuthDelegate: StitchAuthDelegate) {
+        objc_sync_enter(self)
+        self.synchronousDelegates.append(AnyStitchAuthDelegate(synchronousAuthDelegate))
+        objc_sync_exit(self)
+
+        // Trigger the deprecated event in case some event happens and
+        // this caller would miss out on this event otherwise.
+        synchronousAuthDelegate.onAuthEvent(fromAuth: self)
     }
 
     private func makeUser(_ user: CoreStitchUser) -> StitchUser {
@@ -332,6 +349,42 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
      *              class inherits will call this method when appropraite.
      */
     public final override func dispatchAuthEvent(_ authEvent: AuthRebindEvent) {
+        for (idx, delegateRef) in self.synchronousDelegates.enumerated().reversed() {
+            guard let delegate = delegateRef.reference else {
+                self.delegates.remove(at: idx)
+                return
+            }
+
+            switch authEvent {
+            case .userLoggedIn(let loggedInUser):
+                delegate.onUserLoggedIn(auth: self, loggedInUser: self.makeUser(loggedInUser))
+            case .userLoggedOut(let loggedOutUser):
+                delegate.onUserLoggedOut(auth: self, loggedOutUser: self.makeUser(loggedOutUser))
+            case .userLinked(let linkedUser):
+                delegate.onUserLinked(auth: self, linkedUser: self.makeUser(linkedUser))
+            case .activeUserChanged(let currentActiveUser, let previousActiveUser):
+                var currentActiveStitchUser: StitchUser?
+                var previousActiveStitchUser: StitchUser?
+
+                if let currentActiveUser = currentActiveUser {
+                    currentActiveStitchUser = self.makeUser(currentActiveUser)
+                }
+                if let previousActiveUser = previousActiveUser {
+                    previousActiveStitchUser = self.makeUser(previousActiveUser)
+                }
+                delegate.onActiveUserChanged(
+                    auth: self,
+                    currentActiveUser: currentActiveStitchUser,
+                    previousActiveUser: previousActiveStitchUser)
+            case .userRemoved(let removedUser):
+                delegate.onUserRemoved(auth: self, removedUser: self.makeUser(removedUser))
+            case .userAdded(let addedUser):
+                delegate.onUserAdded(auth: self, addedUser: self.makeUser(addedUser))
+            }
+
+            delegate.onAuthEvent(fromAuth: self)
+        }
+
         for (idx, delegateRef) in self.delegates.enumerated().reversed() {
             guard let delegate = delegateRef.reference else {
                 self.delegates.remove(at: idx)

@@ -41,7 +41,7 @@ public final class CoreLocalMongoDBService {
             }
 
             try client?.listDatabases().forEach {
-                guard let name = $0["name"] as? String else {
+                guard let name = $0["name"] as? String, name != "admin" else {
                     return
                 }
 
