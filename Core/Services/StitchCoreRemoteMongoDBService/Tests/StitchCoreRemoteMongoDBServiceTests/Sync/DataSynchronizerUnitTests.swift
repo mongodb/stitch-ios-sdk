@@ -92,7 +92,7 @@ class DataSynchronizerUnitTests: XCMongoMobileTestCase {
 
         try setPendingWrites(
             forDocumentId: insertedId,
-            event: ChangeEvent<Document>.changeEventForLocalUpdate(
+            event: ChangeEvents.changeEventForLocalUpdate(
                 namespace: namespace,
                 documentId: insertedId,
                 update: expectedNewDoc.diff(otherDocument: insertedDoc),
@@ -147,7 +147,7 @@ class DataSynchronizerUnitTests: XCMongoMobileTestCase {
 
         try setPendingWrites(
             forDocumentId: insertedId,
-            event: ChangeEvent<Document>.changeEventForLocalDelete(
+            event: ChangeEvents.changeEventForLocalDelete(
                 namespace: namespace,
                 documentId: insertedId,
                 writePending: true

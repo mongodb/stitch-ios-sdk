@@ -287,9 +287,9 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
     internal func makeStitchUser(withAuthInfo authInfo: AuthInfo) throws -> TStitchUser {
         // Only return user if it has the required properties
         guard let userID = authInfo.userID,
-            let userProfile = authInfo.userProfile,
-            let lastAuthActivity = authInfo.lastAuthActivity else {
-            throw StitchError.clientError(withClientErrorCode: .userNotValid)
+              let userProfile = authInfo.userProfile,
+              let lastAuthActivity = authInfo.lastAuthActivity else {
+                throw StitchError.clientError(withClientErrorCode: .userNotValid)
         }
 
         return self.userFactory.makeUser(withID: userID,

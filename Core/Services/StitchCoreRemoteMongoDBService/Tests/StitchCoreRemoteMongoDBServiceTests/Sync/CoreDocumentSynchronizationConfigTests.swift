@@ -149,7 +149,7 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
     func testCoalesceChangeEvents() {
         let documentId = ObjectId()
         var lastUncomittedChangeEvent: ChangeEvent<Document>?
-        var newestChangeEvent = ChangeEvent<Document>.changeEventForLocalUpdate(
+        var newestChangeEvent = ChangeEvents.changeEventForLocalUpdate(
             namespace: namespace,
             documentId: documentId,
             update: UpdateDescription.init(updatedFields: ["foo": "bar"] as Document,
@@ -163,7 +163,7 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
             newestChangeEvent: newestChangeEvent)
         XCTAssertEqual(newestChangeEvent, coalesceResult)
 
-        lastUncomittedChangeEvent = ChangeEvent<Document>.changeEventForLocalInsert(namespace: namespace,
+        lastUncomittedChangeEvent = ChangeEvents.changeEventForLocalInsert(namespace: namespace,
                                                                                     document: ["foo": "qux"],
                                                                                     documentId: documentId,
                                                                                     writePending: true)
@@ -181,7 +181,7 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
             updateDescription: nil,
             hasUncommittedWrites: newestChangeEvent.hasUncommittedWrites), coalesceResult)
 
-        newestChangeEvent = ChangeEvent<Document>.changeEventForLocalReplace(
+        newestChangeEvent = ChangeEvents.changeEventForLocalReplace(
             namespace: namespace,
             documentId: documentId,
             document: ["foo": "bar"],
@@ -200,7 +200,7 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
             updateDescription: nil,
             hasUncommittedWrites: newestChangeEvent.hasUncommittedWrites), coalesceResult)
 
-        newestChangeEvent = ChangeEvent<Document>.changeEventForLocalDelete(namespace: namespace,
+        newestChangeEvent = ChangeEvents.changeEventForLocalDelete(namespace: namespace,
                                                                             documentId: documentId,
                                                                             writePending: false)
 
@@ -210,7 +210,7 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
             newestChangeEvent: newestChangeEvent)
         XCTAssertEqual(newestChangeEvent, coalesceResult)
 
-        newestChangeEvent = ChangeEvent<Document>.changeEventForLocalInsert(
+        newestChangeEvent = ChangeEvents.changeEventForLocalInsert(
             namespace: namespace,
             document: ["foo": "bar"] as Document,
             documentId: newestChangeEvent.documentKey["_id"] ?? BSONNull(),
@@ -222,7 +222,7 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
             newestChangeEvent: newestChangeEvent)
         XCTAssertEqual(newestChangeEvent, coalesceResult)
 
-        lastUncomittedChangeEvent = ChangeEvent<Document>.changeEventForLocalDelete(
+        lastUncomittedChangeEvent = ChangeEvents.changeEventForLocalDelete(
             namespace: namespace,
             documentId: documentId,
             writePending: false)
@@ -240,7 +240,7 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
             updateDescription: nil,
             hasUncommittedWrites: newestChangeEvent.hasUncommittedWrites), coalesceResult)
 
-        newestChangeEvent = ChangeEvent<Document>.changeEventForLocalUpdate(
+        newestChangeEvent = ChangeEvents.changeEventForLocalUpdate(
             namespace: namespace,
             documentId: documentId,
             update: UpdateDescription.init(updatedFields: ["foo": "bar"] as Document,
@@ -254,7 +254,7 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
             newestChangeEvent: newestChangeEvent)
         XCTAssertEqual(newestChangeEvent, coalesceResult)
 
-        newestChangeEvent = ChangeEvent<Document>.changeEventForLocalDelete(
+        newestChangeEvent = ChangeEvents.changeEventForLocalDelete(
             namespace: namespace,
             documentId: documentId,
             writePending: false)
@@ -265,7 +265,7 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
             newestChangeEvent: newestChangeEvent)
         XCTAssertEqual(newestChangeEvent, coalesceResult)
 
-        newestChangeEvent = ChangeEvent<Document>.changeEventForLocalReplace(
+        newestChangeEvent = ChangeEvents.changeEventForLocalReplace(
             namespace: namespace,
             documentId: documentId,
             document: ["foo": "bar"],

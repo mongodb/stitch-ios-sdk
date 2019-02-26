@@ -42,13 +42,10 @@ class StitchAuthDelegateIntTests: BaseStitchIntTestCocoaTouch {
     func testOnUserAddedDispatched() throws {
         class TestAuthDelegate: StitchAuthDelegate {
             let work = DispatchGroup()
-            var assertion: ((StitchUser) -> Void)?
             var numCalls = 0
 
             func onUserAdded(auth: StitchAuth, addedUser: StitchUser) {
-                if let assertion = assertion {
-                    assertion(addedUser)
-                }
+                XCTAssertNotNil(addedUser.id)
                 numCalls += 1
                 work.leave()
             }
@@ -60,20 +57,12 @@ class StitchAuthDelegateIntTests: BaseStitchIntTestCocoaTouch {
         XCTAssertFalse(client.auth.isLoggedIn)
         XCTAssertNil(client.auth.currentUser)
 
-        del.work.enter()
-        del.assertion = { addedUser in
-            XCTAssertNotNil(addedUser.id)
-        }
-
         // this should trigger the user being added
+        del.work.enter()
         _ = try self.registerAndLoginWithUserPass(
             app: self.app.1, client: client, email: "test@10gen.com", pass: "hunter1"
         )
-
-        guard del.work.wait(timeout: .now() + 10) == .success else {
-            XCTFail("onUserAdded not called")
-            return
-        }
+        waitForDelegate(work: del.work)
 
         // this should not trigger the user added event because the user already exists
         var exp = expectation(description: "should not trigger any event")
@@ -96,11 +85,7 @@ class StitchAuthDelegateIntTests: BaseStitchIntTestCocoaTouch {
                 XCTFail("unexpected error: \(error.description)")
             }
         }
-
-        guard del.work.wait(timeout: .now() + 10) == .success else {
-            XCTFail("onUserAdded not called")
-            return
-        }
+        waitForDelegate(work: del.work)
 
         // logging out of the anon user and logging back in should trigger an added user event
         // because logging out of an anon user removes the user
@@ -119,10 +104,7 @@ class StitchAuthDelegateIntTests: BaseStitchIntTestCocoaTouch {
             }
         }
 
-        guard del.work.wait(timeout: .now() + 10) == .success else {
-            XCTFail("onUserAdded not called")
-            return
-        }
+        waitForDelegate(work: del.work)
 
         XCTAssertNotEqual(anonUser1Id, anonUser2Id)
 
@@ -133,13 +115,11 @@ class StitchAuthDelegateIntTests: BaseStitchIntTestCocoaTouch {
     func testOnUserLoggedInDispatched() throws {
         class TestAuthDelegate: StitchAuthDelegate {
             let work = DispatchGroup()
-            var assertion: ((StitchUser) -> Void)?
             var numCalls = 0
 
             func onUserLoggedIn(auth: StitchAuth, loggedInUser: StitchUser) {
-                if let assertion = assertion {
-                    assertion(loggedInUser)
-                }
+                XCTAssertNotNil(loggedInUser.id)
+                XCTAssertTrue(loggedInUser.isLoggedIn)
                 numCalls += 1
                 work.leave()
             }
@@ -153,18 +133,10 @@ class StitchAuthDelegateIntTests: BaseStitchIntTestCocoaTouch {
 
         // this should trigger the user being logged in
         del.work.enter()
-        del.assertion = { user in
-            XCTAssertNotNil(user.id)
-            XCTAssertTrue(user.isLoggedIn)
-        }
         _ = try self.registerAndLoginWithUserPass(
             app: self.app.1, client: client, email: "test@10gen.com", pass: "hunter1"
         )
-
-        guard del.work.wait(timeout: .now() + 10) == .success else {
-            XCTFail("onUserLoggedIn not called")
-            return
-        }
+        waitForDelegate(work: del.work)
 
         // this should also trigger the user logging in
         var exp = expectation(description: "user should log out")
@@ -183,11 +155,7 @@ class StitchAuthDelegateIntTests: BaseStitchIntTestCocoaTouch {
                     XCTFail("unexpected error: \(error.description)")
                 }
         }
-
-        guard del.work.wait(timeout: .now() + 10) == .success else {
-            XCTFail("onUserLoggedIn not called")
-            return
-        }
+        waitForDelegate(work: del.work)
 
         // this should trigger yet another user logged in event
         del.work.enter()
@@ -200,11 +168,7 @@ class StitchAuthDelegateIntTests: BaseStitchIntTestCocoaTouch {
                     XCTFail("unexpected error: \(error.description)")
                 }
         }
-
-        guard del.work.wait(timeout: .now() + 10) == .success else {
-            XCTFail("onUserLoggedIn not called")
-            return
-        }
+        waitForDelegate(work: del.work)
 
         // logging into the anonymous user again, even when not the active user,
         // should not trigger a login event, since under the hood it is simply
@@ -227,13 +191,11 @@ class StitchAuthDelegateIntTests: BaseStitchIntTestCocoaTouch {
     func testOnUserLoggedOutDispatched() throws {
         class TestAuthDelegate: StitchAuthDelegate {
             let work = DispatchGroup()
-            var assertion: ((StitchUser) -> Void)?
             var numCalls = 0
 
             func onUserLoggedOut(auth: StitchAuth, loggedOutUser: StitchUser) {
-                if let assertion = assertion {
-                    assertion(loggedOutUser)
-                }
+                XCTAssertNotNil(loggedOutUser.id)
+                XCTAssertFalse(loggedOutUser.isLoggedIn)
                 numCalls += 1
                 work.leave()
             }

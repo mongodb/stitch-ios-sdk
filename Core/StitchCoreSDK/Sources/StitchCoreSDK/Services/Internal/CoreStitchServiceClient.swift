@@ -17,6 +17,8 @@ public protocol CoreStitchServiceClient: StitchServiceBinder {
 
     func callFunction<T: Decodable>(withName name: String, withArgs args: [BSONValue], withRequestTimeout requestTimeout: TimeInterval?) throws -> T
 
+    // NOTE: this function should not block the main thread, as it does not directly do any I/O. Any request errors
+    //       should be passed down via the SSEStreamDelegate
     func streamFunction(withName name: String,
                         withArgs args: [BSONValue],
                         delegate: SSEStreamDelegate?) throws -> RawSSEStream

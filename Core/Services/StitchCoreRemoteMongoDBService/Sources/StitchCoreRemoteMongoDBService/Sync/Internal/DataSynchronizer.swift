@@ -417,7 +417,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                     try syncRemoteChangeEventToLocal(
                         nsConfig: nsConfig,
                         docConfig: docConfig,
-                        remoteChangeEvent: ChangeEvent<Document>.changeEventForLocalReplace(
+                        remoteChangeEvent: ChangeEvents.changeEventForLocalReplace(
                             namespace: nsConfig.namespace,
                             documentId: id.value,
                             document: doc,
@@ -443,7 +443,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                     try syncRemoteChangeEventToLocal(
                         nsConfig: nsConfig,
                         docConfig: docConfig,
-                        remoteChangeEvent: ChangeEvent<Document>.changeEventForLocalDelete(
+                        remoteChangeEvent: ChangeEvents.changeEventForLocalDelete(
                             namespace: nsConfig.namespace,
                             documentId: unseenId.value,
                             writePending: docConfig.hasUncommittedWrites
@@ -608,7 +608,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 try resolveConflict(
                     namespace: nsConfig.namespace,
                     uncommittedChangeEvent: uncommittedChangeEvent,
-                    remoteEvent: ChangeEvent<Document>.changeEventForLocalDelete(
+                    remoteEvent: ChangeEvents.changeEventForLocalDelete(
                         namespace: nsConfig.namespace,
                         documentId: docConfig.documentId.value,
                         writePending: docConfig.hasUncommittedWrites),
@@ -650,7 +650,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         try resolveConflict(
             namespace: nsConfig.namespace,
             uncommittedChangeEvent: uncommittedChangeEvent,
-            remoteEvent: ChangeEvent<Document>.changeEventForLocalReplace(
+            remoteEvent: ChangeEvents.changeEventForLocalReplace(
                 namespace: nsConfig.namespace,
                 documentId: docConfig.documentId.value,
                 document: newestRemoteDocument,
@@ -990,10 +990,10 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         // a. When the document is looked up, if it cannot be found the synthesized change event is a
         // DELETE, otherwise it's a REPLACE.
         if let document = document {
-            return ChangeEvent<Document>.changeEventForLocalReplace(namespace: namespace, documentId: documentId, document: document, writePending: false)
+            return ChangeEvents.changeEventForLocalReplace(namespace: namespace, documentId: documentId, document: document, writePending: false)
 
         } else {
-            return ChangeEvent<Document>.changeEventForLocalDelete(namespace: namespace, documentId: documentId, writePending: false)
+            return ChangeEvents.changeEventForLocalDelete(namespace: namespace, documentId: documentId, writePending: false)
         }
 
     }
@@ -1213,13 +1213,13 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
         var event: ChangeEvent<Document>
         if coalescedOperationType == .update, let documentBeforeUpdate = documentBeforeUpdate {
-            event = ChangeEvent<Document>.changeEventForLocalUpdate(namespace: namespace,
+            event = ChangeEvents.changeEventForLocalUpdate(namespace: namespace,
                                                                     documentId: documentId,
                                                                     update: documentBeforeUpdate.diff(otherDocument: docForStorage),
                                                                     fullDocumentAfterUpdate: docForStorage,
                                                                     writePending: false)
         } else {
-            event = ChangeEvent<Document>.changeEventForLocalReplace(
+            event = ChangeEvents.changeEventForLocalReplace(
                 namespace: namespace,
                 documentId: documentId,
                 document: docForStorage,
@@ -1274,7 +1274,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
         let event: ChangeEvent<Document>
         if remoteEvent.operationType == .delete {
-            event = ChangeEvent<Document>.changeEventForLocalInsert(namespace: namespace,
+            event = ChangeEvents.changeEventForLocalInsert(namespace: namespace,
                                                                     document: documentAfterUpdate,
                                                                     documentId: documentId,
                                                                     writePending: true)
@@ -1284,7 +1284,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             }
 
             let remoteDocument = DataSynchronizer.sanitizeDocument(unsanitizedRemoteDocument)
-            event = ChangeEvent<Document>.changeEventForLocalUpdate(
+            event = ChangeEvents.changeEventForLocalUpdate(
                 namespace: namespace,
                 documentId: documentId,
                 update: remoteDocument.diff(otherDocument: documentAfterUpdate),
@@ -1336,7 +1336,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         try undoCollection.deleteOne([idField: documentId])
 
         self.emitEvent(documentId: documentId,
-                       event: ChangeEvent<Document>.changeEventForLocalDelete(
+                       event: ChangeEvents.changeEventForLocalDelete(
                         namespace: namespace,
                         documentId: documentId,
                         writePending: false))
@@ -1364,7 +1364,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         }
 
         try localCollection.deleteOne(["_id": documentId])
-        let event = ChangeEvent<Document>.changeEventForLocalDelete(namespace: namespace, documentId: documentId, writePending: true)
+        let event = ChangeEvents.changeEventForLocalDelete(namespace: namespace, documentId: documentId, writePending: true)
         try config.setSomePendingWrites(atTime: logicalT, atVersion: atVersion, changeEvent: event)
 
         if documentToDelete != nil {
@@ -1673,7 +1673,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             }
 
             let config = try nsConfig.sync(id: result.insertedId)
-            let event = ChangeEvent<Document>.changeEventForLocalInsert(
+            let event = ChangeEvents.changeEventForLocalInsert(
                 namespace: namespace,
                 document: docForStorage,
                 documentId: result.insertedId,
@@ -1724,7 +1724,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 }
                 let documentId = kv.value
                 let document = docsForStorage[kv.key]
-                let event = ChangeEvent<Document>.changeEventForLocalInsert(namespace: namespace,
+                let event = ChangeEvents.changeEventForLocalInsert(namespace: namespace,
                                                                             document: document,
                                                                             documentId: documentId,
                                                                             writePending: true)
@@ -1796,7 +1796,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             try undoColl.insertOne(&docToDelete)
 
             let result = try localColl.deleteOne(filter)
-            let event =  ChangeEvent<Document>.changeEventForLocalDelete(
+            let event =  ChangeEvents.changeEventForLocalDelete(
                 namespace: namespace,
                 documentId: documentId,
                 writePending: true
@@ -1871,7 +1871,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                     return
                 }
 
-                let event = ChangeEvent<Document>.changeEventForLocalDelete(
+                let event = ChangeEvents.changeEventForLocalDelete(
                     namespace: namespace,
                     documentId: documentId,
                     writePending: true
@@ -1976,7 +1976,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             let event: ChangeEvent<Document>
             if triggerNamespace {
                 config = try nsConfig.sync(id: documentId)
-                event = ChangeEvent<Document>.changeEventForLocalInsert(
+                event = ChangeEvents.changeEventForLocalInsert(
                     namespace: namespace,
                     document: documentAfterUpdate,
                     documentId: documentId,
@@ -1991,7 +1991,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                         return nil
                 }
                 config = docConfig
-                event = ChangeEvent<Document>.changeEventForLocalUpdate(
+                event = ChangeEvents.changeEventForLocalUpdate(
                     namespace: namespace,
                     documentId: documentId,
                     update: documentBeforeUpdate.diff(otherDocument: documentAfterUpdate),
@@ -2136,7 +2136,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                         return
                     }
                     config = docConfig
-                    event = ChangeEvent<Document>.changeEventForLocalUpdate(
+                    event = ChangeEvents.changeEventForLocalUpdate(
                         namespace: namespace,
                         documentId: documentId,
                         update: beforeDocument.diff(otherDocument: afterDocument),
@@ -2144,7 +2144,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                         writePending: true)
                 } else {
                     config = try nsConfig.sync(id: documentId)
-                    event = ChangeEvent<Document>.changeEventForLocalInsert(
+                    event = ChangeEvents.changeEventForLocalInsert(
                         namespace: namespace,
                         document: afterDocument,
                         documentId: documentId,
