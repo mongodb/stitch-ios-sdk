@@ -7,3 +7,7 @@
 @_exported import struct StitchCoreRemoteMongoDBService.RemoteInsertOneResult
 @_exported import struct StitchCoreRemoteMongoDBService.RemoteUpdateOptions
 @_exported import struct StitchCoreRemoteMongoDBService.RemoteUpdateResult
+
+@_exported import struct StitchCoreRemoteMongoDBService.ChangeEvent
+@_exported import class StitchCoreRemoteMongoDBService.UpdateDescription
+@_exported import enum StitchCoreRemoteMongoDBService.OperationType

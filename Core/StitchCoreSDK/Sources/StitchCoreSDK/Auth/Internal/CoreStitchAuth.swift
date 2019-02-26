@@ -285,7 +285,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
      * Helper function to make a TStitchUser if possible otherwise return nil
      */
     internal func makeStitchUser(withAuthInfo authInfo: AuthInfo?) -> TStitchUser? {
-        guard let authInfo = authInfo else { return nil}
+        guard let authInfo = authInfo else { return nil }
 
         // Only return user if it has the required properties
         guard let userID = authInfo.userID,

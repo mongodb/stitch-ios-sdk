@@ -277,6 +277,31 @@ public class CoreRemoteMongoCollection<T: Codable> {
                                  multi: true)
     }
 
+    /**
+     * Opens a MongoDB change stream against the collection to watch for changes
+     * made to specific documents. The documents to watch must be explicitly
+     * specified by their _id.
+     *
+     * - This method does not support opening change streams on an entire collection
+     *        or a specific query.
+     *
+     * - Parameters:
+     *   - ids: The list of _ids in the collection to watch.
+     *   - delegate: The delegate that will react to events and errors from the resulting change stream.
+     *
+     * - Returns: A reference to the change stream opened by this method.
+     */
+    public func watch(
+        ids: [BSONValue],
+        delegate: SSEStreamDelegate
+    ) throws -> RawSSEStream {
+        var args = baseOperationArgs
+
+        args["ids"] = ids
+
+        return try service.streamFunction(withName: "watch", withArgs: [args], delegate: delegate)
+    }
+
     private enum RemoteUpdateOptionsKeys: String {
         case upsert
     }

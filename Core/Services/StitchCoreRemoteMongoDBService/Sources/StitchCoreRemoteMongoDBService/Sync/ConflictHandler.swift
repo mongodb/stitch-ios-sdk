@@ -94,8 +94,8 @@ internal final class AnyConflictHandler: ConflictHandler {
         self._resolver = { (documentId, localEvent, remoteEvent) in
             let documentT = try conflictHandler.resolveConflict(
                 documentId: documentId,
-                localEvent: try ChangeEvent<U.DocumentT>.transform(changeEvent: localEvent),
-                remoteEvent: try ChangeEvent<U.DocumentT>.transform(changeEvent: remoteEvent))
+                localEvent: try ChangeEvents.transform(changeEvent: localEvent),
+                remoteEvent: try ChangeEvents.transform(changeEvent: remoteEvent))
             if documentT != nil {
                 return try BSONEncoder().encode(documentT)
             }

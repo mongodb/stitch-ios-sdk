@@ -36,7 +36,7 @@ internal final class AnyChangeEventDelegate: ChangeEventDelegate {
         self._onEvent = { documentId, event in
             do {
                 changeEventDelegate.onEvent(documentId: documentId,
-                                            event: try ChangeEvent<U.DocumentT>.transform(changeEvent: event))
+                                            event: try ChangeEvents.transform(changeEvent: event))
             } catch {
                 errorListener?.on(error: error, forDocumentId: documentId, in: event.ns)
             }
