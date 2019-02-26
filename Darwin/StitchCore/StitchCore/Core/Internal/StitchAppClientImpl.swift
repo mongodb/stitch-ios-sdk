@@ -202,7 +202,7 @@ internal final class StitchAppClientImpl: StitchAppClient, AuthMonitor, StitchAu
 
     private func onRebindEvent(event: RebindEvent) {
         for (idx, serviceClientRef) in self.serviceClients.enumerated().reversed() {
-            guard let serviceClient = serviceClientRef.value else {
+            guard let serviceClient = serviceClientRef.reference else {
                 self.serviceClients.remove(at: idx)
                 return
             }
