@@ -393,8 +393,12 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         client.auth.login(withCredential: AnonymousCredential(), joiner.capture())
         userId3 = joiner.value(asType: StitchUser.self)!.id
 
-        userId2 = try registerAndLoginWithUserPass(app: app.1, client: client, email: "test1@10gen.com", pass: "hunter2")
-        userId1 = try registerAndLoginWithUserPass(app: app.1, client: client, email: "test2@10gen.com", pass: "hunter2")
+        userId2 = try registerAndLoginWithUserPass(
+            app: app.1, client: client, email: "test1@10gen.com", pass: "hunter2"
+        )
+        userId1 = try registerAndLoginWithUserPass(
+            app: app.1, client: client, email: "test2@10gen.com", pass: "hunter2"
+        )
 
         self.stitchClient = client
         self.mongoClient = try client.serviceClient(fromFactory: remoteMongoClientFactory,

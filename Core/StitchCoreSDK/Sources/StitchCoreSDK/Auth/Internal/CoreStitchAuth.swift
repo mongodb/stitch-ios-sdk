@@ -107,7 +107,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
             throw StitchError.clientError(withClientErrorCode: .couldNotLoadPersistedAuthInfo)
         }
 
-        if let activeUserAuthInfo = activeUserAuthInfo {
+        if let activeUserAuthInfo = activeUserAuthInfo, activeUserAuthInfo.hasUser {
             self.activeUser = try makeStitchUser(withAuthInfo: activeUserAuthInfo)
         }
 

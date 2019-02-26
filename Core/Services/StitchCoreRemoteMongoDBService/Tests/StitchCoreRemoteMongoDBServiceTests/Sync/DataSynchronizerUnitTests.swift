@@ -8,7 +8,7 @@ import mongoc
 
 class DataSynchronizerUnitTests: XCMongoMobileTestCase {
     lazy var collection = localCollection(for: MongoNamespace.init(
-        databaseName: DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace),
+        databaseName: DataSynchronizer.localUserDBName(for: namespace),
         collectionName: namespace.collectionName))
 
     func testSync_SyncedIds_Desync() throws {

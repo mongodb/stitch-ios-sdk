@@ -307,7 +307,7 @@ class XCMongoMobileTestCase: XCTestCase {
 
     func localCollection() -> ThreadSafeMongoCollection<Document> {
         return localCollection(for: MongoNamespace.init(
-            databaseName: DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace),
+            databaseName: DataSynchronizer.localUserDBName(for: namespace),
             collectionName: namespace.collectionName
         ))
     }
