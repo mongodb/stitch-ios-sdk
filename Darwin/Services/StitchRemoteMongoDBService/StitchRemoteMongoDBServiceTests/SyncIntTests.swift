@@ -41,7 +41,7 @@ private extension RemoteMongoCollection {
 
     func findOne(_ filter: Document) -> Document? {
         let joiner = CallbackJoiner()
-        self.find(filter, options: nil).first(joiner.capture())
+        self.findOne(filter, options: nil, joiner.capture())
         return joiner.value()
     }
 
