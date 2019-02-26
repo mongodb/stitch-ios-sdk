@@ -98,7 +98,7 @@ extension CoreStitchAuth {
             return
         }
 
-        // Otherwise make the user, if makeStitchUser() fails then something is very wrong
+        // Otherwise make the user
         let user = try makeStitchUser(withAuthInfo: authInfo)
 
         // Set activeUser, activeUserAuthInfo, and persist
