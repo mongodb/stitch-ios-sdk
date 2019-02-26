@@ -16,12 +16,12 @@ public protocol StitchUser: CoreStitchUser {
     /**
      * The type of authentication provider used to log in as this user.
      */
-    var loggedInProviderType: StitchProviderType? { get }
+    var loggedInProviderType: StitchProviderType { get }
 
     /**
      * The name of the authentication provider used to log in as this user.
      */
-    var loggedInProviderName: String? { get }
+    var loggedInProviderName: String { get }
 
     /**
      * A string describing the type of this user. (Either `server` or `normal`)

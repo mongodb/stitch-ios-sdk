@@ -7,8 +7,8 @@ public final class StitchAdminUser: CoreStitchUser {
      * Initializes this user with its basic properties.
      */
     init(withID id: String,
-         withProviderType providerType: StitchProviderType?,
-         withProviderName providerName: String?,
+         withProviderType providerType: StitchProviderType,
+         withProviderName providerName: String,
          withUserProfile userProfile: StitchUserProfile,
          withIsLoggedIn isLoggedIn: Bool,
          withLastAuthActivity lastAuthActivity: TimeInterval) {
@@ -28,12 +28,12 @@ public final class StitchAdminUser: CoreStitchUser {
     /**
      * A string describing the type of authentication provider used to log in as this user.
      */
-    public private(set) var loggedInProviderType: StitchProviderType?
+    public private(set) var loggedInProviderType: StitchProviderType
 
     /**
      * The name of the authentication provider used to log in as this user.
      */
-    public private(set) var loggedInProviderName: String?
+    public private(set) var loggedInProviderName: String
 
     /**
      * A string describing the type of this user. (Either `server` or `normal`)
@@ -75,8 +75,8 @@ public final class StitchAdminUserFactory: StitchUserFactory {
      */
     //swiftlint:disable function_parameter_count
     public func makeUser(withID id: String,
-                         withLoggedInProviderType loggedInProviderType: StitchProviderType?,
-                         withLoggedInProviderName loggedInProviderName: String?,
+                         withLoggedInProviderType loggedInProviderType: StitchProviderType,
+                         withLoggedInProviderName loggedInProviderName: String,
                          withUserProfile userProfile: StitchUserProfile,
                          withIsLoggedIn isLoggedIn: Bool,
                          withLastAuthActivity lastAuthActivity: TimeInterval

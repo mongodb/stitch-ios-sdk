@@ -6,9 +6,9 @@ import Swifter
 struct MockStitchUser: CoreStitchUser {
     var id: String = ""
 
-    var loggedInProviderType: StitchProviderType? = .anonymous
+    var loggedInProviderType: StitchProviderType = .anonymous
 
-    var loggedInProviderName: String? = ""
+    var loggedInProviderName: String = ""
 
     var userType: String = ""
 

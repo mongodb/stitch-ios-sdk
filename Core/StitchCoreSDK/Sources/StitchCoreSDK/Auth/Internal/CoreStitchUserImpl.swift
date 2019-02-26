@@ -3,9 +3,9 @@ import Foundation
 open class CoreStitchUserImpl: CoreStitchUser {
     public let id: String
 
-    public let loggedInProviderType: StitchProviderType?
+    public let loggedInProviderType: StitchProviderType
 
-    public let loggedInProviderName: String?
+    public let loggedInProviderName: String
 
     public let lastAuthActivity: TimeInterval
 
@@ -22,8 +22,8 @@ open class CoreStitchUserImpl: CoreStitchUser {
     public let isLoggedIn: Bool
 
     public init(id: String,
-                loggedInProviderType: StitchProviderType?,
-                loggedInProviderName: String?,
+                loggedInProviderType: StitchProviderType,
+                loggedInProviderName: String,
                 profile: StitchUserProfile,
                 isLoggedIn: Bool,
                 lastAuthActivity: TimeInterval
