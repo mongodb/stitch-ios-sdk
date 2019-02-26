@@ -5,6 +5,14 @@ import StitchCoreSDK
   authentication event. An instance of a `StitchAuthDelegate` must be registered with a `StitchAuth` for this to work
   correctly.
 
+  - Note:
+     This protocol uses an extension to provide default implementations. This is for your convenience, so you do not
+     have to implement every method here to satisfy the protocol requirements. This however does mean that if you plan
+     on subclassing your implementation of `StitchAuthDelegate`, you may run into unexpected issues where the empty
+     default implementation is called instead of your subclass implementation. If this does happen in your code, see
+     [this article](https://team.goodeggs.com/overriding-swift-protocol-extension-default-implementations-d005a4428bda)
+     for more context and potential workarounds, or open an issue in our GitHub repository.
+
     - Tag: StitchAuthDelegate
  */
 public protocol StitchAuthDelegate: class {
