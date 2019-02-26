@@ -110,12 +110,14 @@ extension CoreStitchAuth {
         allUsersAuthInfo.remove(at: index)
         try writeCurrentUsersAuthInfoToStorage()
 
-        dispatchAuthEvent(
-            .userRemoved(removedUser: try makeStitchUser(withAuthInfo: authInfo)))
         // If this is the active user --> remove
         if userID == activeUserAuthInfo?.userID {
             try updateActiveAuthInfo(withNewAuthInfo: nil)
         }
+
+        // Dispatch an event indicating that a user was removed
+        dispatchAuthEvent(
+            .userRemoved(removedUser: try makeStitchUser(withAuthInfo: authInfo.loggedOut)))
     }
 
     /**

@@ -5,6 +5,7 @@ public enum AuthRebindEvent: RebindEvent {
         return .authEvent
     }
 
+    case delegateRegistered
     case userLoggedIn(loggedInUser: CoreStitchUser)
     case userLoggedOut(loggedOutUser: CoreStitchUser)
     case userLinked(linkedUser: CoreStitchUser)
