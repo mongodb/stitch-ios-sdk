@@ -1338,8 +1338,9 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 return
             }
 
+            instanceChangeStreamDelegate.start()
+
             if isSyncThreadEnabled {
-                instanceChangeStreamDelegate.start()
                 self.syncWorkItem = DispatchWorkItem { [weak self] in
                     repeat {
                         guard let dataSync = self else {
@@ -2158,6 +2159,12 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         guard ids.count > 0 else { return [] }
         return try self.remoteCollection(for: nsConfig.namespace)
             .find(["$or": ids]).toArray()
+    }
+
+    public var allStreamsAreOpen: Bool {
+        return syncLock.write {
+            return self.instanceChangeStreamDelegate.allStreamsAreOpen
+        }
     }
 
     // MARK: Utilities

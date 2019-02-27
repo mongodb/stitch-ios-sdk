@@ -88,6 +88,15 @@ class InstanceChangeStreamDelegate {
         }
     }
 
+    var allStreamsAreOpen: Bool {
+        return instanceLock.write {
+            for (_, streamer) in self.namespaceToStreamDelegates where streamer.state != .open {
+                return false
+            }
+            return true
+        }
+    }
+
     subscript(namespace: MongoNamespace) -> NamespaceChangeStreamDelegate? {
         return instanceLock.read {
             return namespaceToStreamDelegates[namespace]
