@@ -374,7 +374,6 @@ public class CoreRemoteMongoCollection<T: Codable> {
             }
         }
 
-        //return try self.service.callFunctionOptionalResult(withName: "findOneAndDelete",'
         return try self.service.callFunctionOptionalResult(withName: "findOneAndDelete",
                                                            withArgs: [args],
                                                            withRequestTimeout: nil)
@@ -437,8 +436,8 @@ public class CoreRemoteMongoCollection<T: Codable> {
         }
 
         return try self.service.callFunctionOptionalResult(withName: funcName,
-                                             withArgs: [args],
-                                             withRequestTimeout: nil)
+                                                           withArgs: [args],
+                                                           withRequestTimeout: nil)
     }
 
     private func executeUpdate(filter: Document,
