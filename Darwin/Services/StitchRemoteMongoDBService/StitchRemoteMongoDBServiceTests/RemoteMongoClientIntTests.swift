@@ -1315,7 +1315,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         }
         XCTAssertEqual(["hello": "world2", "num": 2], withoutId(result2))
 
-        // Call findOneAndUpdate() again but get the new document
+        // Call findOneAndReplace() again but get the new document
         coll.findOneAndReplace(
             filter: [:],
             replacement: ["hello": "world3", "num": 3],
