@@ -44,6 +44,24 @@ extension CoreStitchAuth {
         }
     }
 
+    public func doAuthenticatedRequestOptionalResult<T: Decodable>(_ stitchReq: StitchAuthRequest) throws -> T? {
+        let response = try self.doAuthenticatedRequest(stitchReq)
+        do {
+            guard let responseBody = response.body,
+                let responseString = String.init(data: responseBody, encoding: .utf8) else {
+                    throw StitchError.serviceError(
+                        withMessage: StitchErrorCodable.genericErrorMessage(withStatusCode: response.statusCode),
+                        withServiceErrorCode: .unknown)
+            }
+
+            do {
+                return try BSONDecoder().decode(T.self, from: responseString)
+            } catch {
+                return nil
+            }
+        }
+    }
+
     public func openAuthenticatedStream(
         _ stitchReq: StitchAuthRequest,
         delegate: SSEStreamDelegate? = nil

@@ -125,6 +125,36 @@ class ThreadSafeMongoCollection<T: Codable>: Codable {
         }
     }
 
+    func findOne(_ filter: Document, options: FindOptions? = nil) throws -> T? {
+        let opts: FindOptions!
+        if let options = options {
+            opts = FindOptions.init(
+                allowPartialResults: options.allowPartialResults,
+                batchSize: options.batchSize,
+                collation: options.collation,
+                comment: options.comment,
+                cursorType: options.cursorType,
+                hint: options.hint,
+                limit: 1,
+                max: options.max,
+                maxAwaitTimeMS: options.maxAwaitTimeMS,
+                maxScan: options.maxScan,
+                maxTimeMS: options.maxTimeMS,
+                min: options.min,
+                noCursorTimeout: options.noCursorTimeout,
+                projection: options.projection,
+                readConcern: options.readConcern,
+                readPreference: options.readPreference,
+                returnKey: options.returnKey,
+                showRecordId: options.showRecordId,
+                skip: options.skip,
+                sort: options.sort)
+        } else {
+            opts = FindOptions.init(limit: 1)
+        }
+        return try underlyingCollection().find(filter, options: opts).next()
+    }
+
     @discardableResult
     func findOneAndUpdate(filter: Document, update: Document, options: FindOneAndUpdateOptions? = nil) throws -> T? {
         return try lock.write {

@@ -35,6 +35,22 @@ public final class MockCoreStitchServiceClient: CoreStitchServiceClient {
             fatalError("Returning incorrect type from mocked result")
         }
     }
+
+    public var callFunctionOptionalWithDecodingMock =
+        FunctionMockUnitThreeArgs<Decodable?, String, [BSONValue], TimeInterval?>()
+    public func callFunctionOptionalResult<T>(
+          withName name: String,
+          withArgs args: [BSONValue],
+          withRequestTimeout requestTimeout: TimeInterval?) throws -> T where T: Decodable {
+        if let result = try callFunctionOptionalWithDecodingMock.throwingRun(
+            arg1: name, arg2: args, arg3: requestTimeout
+            ) as? T {
+            return result
+        } else {
+            fatalError("Returning incorrect type from mocked result")
+        }
+    }
+
     public var streamFunctionMock =
         FunctionMockUnitThreeArgs<RawSSEStream, String, [BSONValue], SSEStreamDelegate?>()
     public func streamFunction(

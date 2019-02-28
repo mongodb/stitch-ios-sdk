@@ -173,6 +173,91 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         }
     }
 
+    func testFindOne() throws {
+        let coll = try remoteCollection()
+
+        let doc1: Document = ["hello": "world"]
+
+        mockServiceClient.callFunctionOptionalWithDecodingMock.clearStubs()
+        mockServiceClient.callFunctionOptionalWithDecodingMock.doReturn(
+            result: doc1, forArg1: .any, forArg2: .any, forArg3: .any
+        )
+
+        // Test findOne() without filter or options
+        var resultDoc = try coll.findOne()
+        XCTAssertNotNil(resultDoc)
+        XCTAssertEqual(resultDoc, doc1)
+
+        var (funcNameArg, funcArgsArg, _) =
+            mockServiceClient.callFunctionOptionalWithDecodingMock.capturedInvocations.last!
+
+        XCTAssertEqual("findOne", funcNameArg)
+        XCTAssertEqual(1, funcArgsArg.count)
+
+        var expectedArgs: Document = [
+            "database": namespace.databaseName,
+            "collection": namespace.collectionName,
+            "query": Document.init()
+        ]
+
+        XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
+
+        // test findOne() with filter and options
+        let expectedFilter: Document = ["one": Int32(23)]
+        let expectedProject: Document = ["two": "four"]
+        let expectedSort: Document = ["_id": Int64(-1)]
+
+        resultDoc = try coll.findOne(expectedFilter, options: RemoteFindOptions.init(
+            projection: expectedProject,
+            sort: expectedSort))
+        XCTAssertNotNil(resultDoc)
+        XCTAssertEqual(resultDoc, doc1)
+
+        XCTAssertTrue(mockServiceClient.callFunctionOptionalWithDecodingMock
+            .verify(numberOfInvocations: 2, forArg1: .any, forArg2: .any, forArg3: .any)
+        )
+
+        (funcNameArg, funcArgsArg, _) =
+            mockServiceClient.callFunctionOptionalWithDecodingMock.capturedInvocations.last!
+
+        XCTAssertEqual("findOne", funcNameArg)
+        XCTAssertEqual(1, funcArgsArg.count)
+
+        expectedArgs = [
+            "database": namespace.databaseName,
+            "collection": namespace.collectionName,
+            "query": expectedFilter,
+            "project": expectedProject,
+            "sort": expectedSort
+        ]
+
+        XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
+
+        // passing nil should be fine
+        mockServiceClient.callFunctionOptionalWithDecodingMock.clearStubs()
+        mockServiceClient.callFunctionOptionalWithDecodingMock.doReturn(
+            result: nil, forArg1: .any, forArg2: .any, forArg3: .any
+        )
+
+        resultDoc = try coll.findOne()
+        XCTAssertNil(resultDoc)
+
+        // should pass along errors
+        mockServiceClient.callFunctionOptionalWithDecodingMock.doThrow(
+            error: StitchError.serviceError(withMessage: "whoops", withServiceErrorCode: .unknown),
+            forArg1: .any,
+            forArg2: .any,
+            forArg3: .any
+        )
+
+        do {
+            _ = try coll.findOne()
+            XCTFail("function did not fail where expected")
+        } catch {
+            // do nothing
+        }
+    }
+
     func testAggregate() throws {
         let coll = try remoteCollection()
 
