@@ -246,7 +246,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
     func testFindOne() {
         let coll = getTestColl()
         var exp = expectation(description: "should not find any documents in empty collection")
-        print("Calling FindOne()")
+
         coll.findOne { result in
             switch result {
             case .success(let doc):
