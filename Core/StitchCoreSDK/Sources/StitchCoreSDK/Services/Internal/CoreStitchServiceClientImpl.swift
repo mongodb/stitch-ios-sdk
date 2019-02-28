@@ -87,6 +87,15 @@ open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
                                           withTimeout: timeout))
     }
 
+    public func callFunctionOptionalResult<T: Decodable>(withName name: String,
+                                                         withArgs args: [BSONValue],
+                                                         withRequestTimeout timeout: TimeInterval? = nil) throws -> T? {
+        return try requestClient.doAuthenticatedRequestOptionalResult(
+            getCallServiceFunctionRequest(withName: name,
+                                          withArgs: args,
+                                          withTimeout: timeout))
+    }
+
     public func streamFunction(withName name: String,
                                withArgs args: [BSONValue],
                                delegate: SSEStreamDelegate? = nil) throws -> RawSSEStream {

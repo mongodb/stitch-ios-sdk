@@ -20,6 +20,16 @@ public final class MockStitchAuthRequestClient: StitchAuthRequestClient {
         }
     }
 
+    public func doAuthenticatedRequestOptionalResult<DecodedT>(
+        _ stitchReq: StitchAuthRequest
+        ) throws -> DecodedT? where DecodedT: Decodable {
+        if let result = try doAuthenticatedRequestWithDecodingMock.throwingRun(arg1: stitchReq) as? DecodedT {
+            return result
+        } else {
+            return nil
+        }
+    }
+
     public var openAuthenticatedStreamMock =
         FunctionMockUnitTwoArgs<RawSSEStream, StitchAuthRequest, SSEStreamDelegate?>()
     public func openAuthenticatedStream(

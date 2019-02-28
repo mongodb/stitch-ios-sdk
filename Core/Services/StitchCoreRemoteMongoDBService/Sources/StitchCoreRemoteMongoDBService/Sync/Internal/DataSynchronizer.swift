@@ -1309,7 +1309,6 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         guard let config = syncConfig[namespace]?[documentId] else {
             return
         }
-
         let localCollection = self.localCollection(for: namespace, withType: Document.self)
         let undoCollection = self.undoCollection(for: namespace)
 
@@ -1538,6 +1537,26 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         }
         return try lock.read {
             return try localCollection(for: namespace).find(filter, options: options?.toFindOptions)
+        }
+    }
+
+    /**
+     Finds one document in the collection that has been synchronized with the remote.
+     
+     - parameter filter: the query filter for this find op
+     - parameter options: the options for this find op
+     - parameter namespace: the namespace to conduct this op
+     - returns:  The resulting `Document` or nil if no such document exists
+     */
+    func findOne<DocumentT: Codable>(filter: Document,
+                                     options: SyncFindOptions?,
+                                     in namespace: MongoNamespace) throws -> DocumentT? {
+        guard let lock = self.syncConfig[namespace]?.nsLock else {
+            throw StitchError.clientError(
+                withClientErrorCode: .couldNotLoadSyncInfo)
+        }
+        return try lock.read {
+            return try localCollection(for: namespace).findOne(filter, options: options?.toFindOptions)
         }
     }
 
