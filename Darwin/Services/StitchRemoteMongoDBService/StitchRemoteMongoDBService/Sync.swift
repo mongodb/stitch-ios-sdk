@@ -182,6 +182,31 @@ public class Sync<DocumentT: Codable> {
     }
 
     /**
+     Finds a document in the collection that has been synchronized with the remote.
+     
+     - parameter filter: the query filter for this find op
+     - parameter options: the options for this find op
+     - parameter completionHandler: the callback for the find result
+     - returns: the document or nil if no such document existss
+     */
+    public func findOne(
+        filter: Document? = nil,
+        options: SyncFindOptions? = nil,
+        _ completionHandler: @escaping (StitchResult<DocumentT?>) -> Void) {
+        queue.async {
+            do {
+                let newFilter: Document!
+                if let filter = filter { newFilter = filter} else {newFilter = Document.init()}
+                completionHandler(
+                    .success(result: try self.proxy.findOne(filter: newFilter, options: options)))
+            } catch {
+                completionHandler(
+                    .failure(error: .clientError(withClientErrorCode: .mongoDriverError(withError: error))))
+            }
+        }
+    }
+
+    /**
      Aggregates documents that have been synchronized with the remote
      according to the specified aggregation pipeline.
 

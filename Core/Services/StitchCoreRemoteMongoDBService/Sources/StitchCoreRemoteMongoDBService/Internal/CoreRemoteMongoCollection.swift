@@ -83,7 +83,6 @@ public class CoreRemoteMongoCollection<T: Codable> {
         var args = baseOperationArgs
 
         args["query"] = filter
-
         if let options = options {
             if let limit = options.limit {
                 args[RemoteFindOptionsKeys.limit.rawValue] = limit
@@ -97,6 +96,33 @@ public class CoreRemoteMongoCollection<T: Codable> {
         }
 
         return CoreRemoteMongoReadOperation<CollectionType>.init(command: "find", args: args, service: self.service)
+    }
+
+    /**
+     * Finds a document in this collection which matches the provided filter.
+     *
+     * - parameters:
+     *   - filter: A `Document` that should match the query.
+     *   - options: Optional `RemoteFindOptions` to use when executing the command.
+     *
+     * - returns: The resulting `Document` or nil if no such document exists
+     */
+    public func findOne(_ filter: Document = [:], options: RemoteFindOptions? = nil) throws -> T? {
+        var args = baseOperationArgs
+
+        args["query"] = filter
+        if let options = options {
+            if let projection = options.projection {
+                args[RemoteFindOptionsKeys.projection.rawValue] = projection
+            }
+            if let sort = options.sort {
+                args[RemoteFindOptionsKeys.sort.rawValue] = sort
+            }
+        }
+
+        return try self.service.callFunctionOptionalResult(withName: "findOne",
+                                                           withArgs: [args],
+                                                           withRequestTimeout: nil)
     }
 
     /**
