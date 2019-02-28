@@ -710,7 +710,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         var expectedArgs: Document = [
             "database": namespace.databaseName,
             "collection": namespace.collectionName,
-            "query": Document.init(),
+            "filter": Document.init(),
             "update": Document.init()
         ]
 
@@ -747,7 +747,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         expectedArgs = [
             "database": namespace.databaseName,
             "collection": namespace.collectionName,
-            "query": expectedFilter,
+            "filter": expectedFilter,
             "update": expectedUpdate,
             "project": expectedProject,
             "sort": expectedSort,
@@ -781,7 +781,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         expectedArgs = [
             "database": namespace.databaseName,
             "collection": namespace.collectionName,
-            "query": expectedFilter,
+            "filter": expectedFilter,
             "update": expectedUpdate,
             "project": expectedProject
         ]
@@ -836,7 +836,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         var expectedArgs: Document = [
             "database": namespace.databaseName,
             "collection": namespace.collectionName,
-            "query": Document.init(),
+            "filter": Document.init(),
             "update": Document.init()
         ]
 
@@ -873,7 +873,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         expectedArgs = [
             "database": namespace.databaseName,
             "collection": namespace.collectionName,
-            "query": expectedFilter,
+            "filter": expectedFilter,
             "update": expectedUpdate,
             "project": expectedProject,
             "sort": expectedSort,
@@ -907,7 +907,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         expectedArgs = [
             "database": namespace.databaseName,
             "collection": namespace.collectionName,
-            "query": expectedFilter,
+            "filter": expectedFilter,
             "update": expectedUpdate,
             "project": expectedProject
         ]
@@ -962,7 +962,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         var expectedArgs: Document = [
             "database": namespace.databaseName,
             "collection": namespace.collectionName,
-            "query": Document.init()
+            "filter": Document.init()
         ]
         XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
 
@@ -993,7 +993,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         expectedArgs = [
             "database": namespace.databaseName,
             "collection": namespace.collectionName,
-            "query": expectedFilter,
+            "filter": expectedFilter,
             "project": expectedProject,
             "sort": expectedSort
         ]
@@ -1024,7 +1024,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         expectedArgs = [
             "database": namespace.databaseName,
             "collection": namespace.collectionName,
-            "query": expectedFilter,
+            "filter": expectedFilter,
             "project": expectedProject
         ]
 

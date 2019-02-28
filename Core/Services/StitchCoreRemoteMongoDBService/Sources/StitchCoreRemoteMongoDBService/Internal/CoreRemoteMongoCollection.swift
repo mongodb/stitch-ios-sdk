@@ -306,7 +306,7 @@ public class CoreRemoteMongoCollection<T: Codable> {
     }
 
     private enum RemoteFindOneAndModifyOptionsKeys: String {
-        case limit, projection = "project", upsert, returnNewDocument
+        case sort, projection, upsert, returnNewDocument
     }
 
     /**
@@ -364,7 +364,7 @@ public class CoreRemoteMongoCollection<T: Codable> {
                                  options: RemoteFindOneAndModifyOptions? = nil) throws -> T? {
         var args = baseOperationArgs
 
-        args["query"] = filter
+        args["filter"] = filter
         if let options = options {
             if let projection = options.projection {
                 args[RemoteFindOptionsKeys.projection.rawValue] = projection
@@ -414,14 +414,14 @@ public class CoreRemoteMongoCollection<T: Codable> {
                                          options: RemoteFindOneAndModifyOptions?) throws -> T? {
         var args = baseOperationArgs
 
-        args["query"] = filter
+        args["filter"] = filter
         args["update"] = update
         if let options = options {
             if let projection = options.projection {
-                args[RemoteFindOptionsKeys.projection.rawValue] = projection
+                args[RemoteFindOneAndModifyOptionsKeys.projection.rawValue] = projection
             }
             if let sort = options.sort {
-                args[RemoteFindOptionsKeys.sort.rawValue] = sort
+                args[RemoteFindOneAndModifyOptionsKeys.sort.rawValue] = sort
             }
             if let upsert = options.upsert {
                 if upsert {

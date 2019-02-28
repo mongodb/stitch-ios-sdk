@@ -273,6 +273,82 @@ public class RemoteMongoCollection<T: Codable> {
     }
 
     /**
+     * Finds a document in this collection which matches the provided filter and
+     * performs the given update on that document.
+     *
+     * - parameters:
+     *   - filter: A `Document` that should match the query.
+     *   - options: A `Document` describing the update.
+     *   - options: Optional `RemoteFindOneAndModifyOptions` to use when executing the command.
+     *   - completionHandler: The completion handler to call when the update is completed or if the operation fails.
+     *                        This handler is executed on a non-main global `DispatchQueue`. If the operation is
+     *                        successful, the result will contain the result of attempting to update multiple
+     *                        documents, as a `Document` or nil if the query matched no documents.
+     *
+     * - important: If the update failed due to a request timeout, it does not necessarily indicate that the update
+     *              failed on the database. Application code should handle timeout errors with the assumption that
+     *              documents may or may not have been updated.
+     */
+    public func findOneAndUpdate(filter: Document,
+                                 update: Document,
+                                 options: RemoteFindOneAndModifyOptions? = nil,
+                                 _ completionHandler: @escaping (StitchResult<CollectionType?>) -> Void) {
+        self.dispatcher.run(withCompletionHandler: completionHandler) {
+            return try self.proxy.findOneAndUpdate(filter: filter, update: update, options: options)
+        }
+    }
+
+    /**
+     * Finds a document in this collection which matches the provided filter and
+     * replaces that document with the given document.
+     *
+     * - parameters:
+     *   - filter: A `Document` that should match the query.
+     *   - replacement: A `Document` to replace the matched document with.
+     *   - options: Optional `RemoteFindOneAndModifyOptions` to use when executing the command.
+     *   - completionHandler: The completion handler to call when the update is completed or if the operation fails.
+     *                        This handler is executed on a non-main global `DispatchQueue`. If the operation is
+     *                        successful, the result will contain the result of attempting to update multiple
+     *                        documents, as a `Document` or nil if the query matched no documents.
+     *
+     * - important: If the update failed due to a request timeout, it does not necessarily indicate that the update
+     *              failed on the database. Application code should handle timeout errors with the assumption that
+     *              documents may or may not have been updated.
+     */
+    public func findOneAndReplace(filter: Document,
+                                  replacement: Document,
+                                  options: RemoteFindOneAndModifyOptions? = nil,
+                                  _ completionHandler: @escaping (StitchResult<CollectionType?>) -> Void) {
+        self.dispatcher.run(withCompletionHandler: completionHandler) {
+            return try self.proxy.findOneAndReplace(filter: filter, replacement: replacement, options: options)
+        }
+    }
+
+    /**
+     * Finds a document in this collection which matches the provided filter and delete the document.
+     *
+     * - parameters:
+     *   - filter: A `Document` that should match the query.
+     *   - options: Optional `RemoteFindOneAndModifyOptions` to use when executing the command.
+     *                        Note: findOneAndDelete() only accepts the sort and projection options
+     *   - completionHandler: The completion handler to call when the update is completed or if the operation fails.
+     *                        This handler is executed on a non-main global `DispatchQueue`. If the operation is
+     *                        successful, the result will contain the result of attempting to update multiple
+     *                        documents, as a `Document` or nil if the query matched no documents.
+     *
+     * - important: If the update failed due to a request timeout, it does not necessarily indicate that the update
+     *              failed on the database. Application code should handle timeout errors with the assumption that
+     *              documents may or may not have been updated.
+     */
+    public func findOneAndDelete(filter: Document,
+                                 options: RemoteFindOneAndModifyOptions? = nil,
+                                 _ completionHandler: @escaping (StitchResult<CollectionType?>) -> Void) {
+        self.dispatcher.run(withCompletionHandler: completionHandler) {
+            return try self.proxy.findOneAndDelete(filter: filter, options: options)
+        }
+    }
+
+    /**
      * Opens a MongoDB change stream against the collection to watch for changes
      * made to specific documents. The documents to watch must be explicitly
      * specified by their _id.
