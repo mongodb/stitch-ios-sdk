@@ -10,6 +10,7 @@
 		10EFC004FFFF7C19813FAD43 /* Pods_StitchCoreRemoteMongoDBServiceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 709AA19060D3B86D29BEB64E /* Pods_StitchCoreRemoteMongoDBServiceTests.framework */; };
 		116A1286221F5CBD00F83FEE /* BlockableDispatchGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116A1285221F5CBD00F83FEE /* BlockableDispatchGroup.swift */; };
 		11C4E8D72224C6190020A922 /* ChangeEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C4E8D62224C6190020A922 /* ChangeEvents.swift */; };
+		1E56167B222D8F600047927C /* RemoteFindOneAndModifyOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E56167A222D8F600047927C /* RemoteFindOneAndModifyOptions.swift */; };
 		49037A44219E0ECD0066E109 /* ErrorListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49037A43219E0ECD0066E109 /* ErrorListener.swift */; };
 		491A934721B3227400F60F59 /* InstanceChangeStreamDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A934621B3227400F60F59 /* InstanceChangeStreamDelegate.swift */; };
 		491A934921B3234D00F60F59 /* NamespaceChangeStreamDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A934821B3234D00F60F59 /* NamespaceChangeStreamDelegate.swift */; };
@@ -75,6 +76,7 @@
 		0CE26FA34612A18974F693CE /* Pods_StitchCoreSDK_StitchCoreRemoteMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreSDK_StitchCoreRemoteMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		116A1285221F5CBD00F83FEE /* BlockableDispatchGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockableDispatchGroup.swift; sourceTree = "<group>"; };
 		11C4E8D62224C6190020A922 /* ChangeEvents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeEvents.swift; sourceTree = "<group>"; };
+		1E56167A222D8F600047927C /* RemoteFindOneAndModifyOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteFindOneAndModifyOptions.swift; sourceTree = "<group>"; };
 		25FFBB5452FFCDAE99EEE4F5 /* Pods-StitchCoreRemoteMongoDBServiceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreRemoteMongoDBServiceTests.debug.xcconfig"; path = "Target Support Files/Pods-StitchCoreRemoteMongoDBServiceTests/Pods-StitchCoreRemoteMongoDBServiceTests.debug.xcconfig"; sourceTree = "<group>"; };
 		3681B7A8CFE56F721C7015E5 /* Pods_StitchCoreSDK_StitchCoreRemoteMongoDBService_StitchCoreRemoteMongoDBServiceTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreSDK_StitchCoreRemoteMongoDBService_StitchCoreRemoteMongoDBServiceTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3933F08FF5BAED636C28203E /* Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService/Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService.release.xcconfig"; sourceTree = "<group>"; };
@@ -253,6 +255,7 @@
 				OBJ_17 /* RemoteCountOptions.swift */,
 				OBJ_18 /* RemoteDeleteResult.swift */,
 				OBJ_19 /* RemoteFindOptions.swift */,
+				1E56167A222D8F600047927C /* RemoteFindOneAndModifyOptions.swift */,
 				OBJ_20 /* RemoteInsertManyResult.swift */,
 				OBJ_21 /* RemoteInsertOneResult.swift */,
 				OBJ_22 /* RemoteUpdateOptions.swift */,
@@ -518,6 +521,7 @@
 				OBJ_174 /* RemoteDeleteResult.swift in Sources */,
 				4943FC5D2196508100DED08C /* MongoNamespace.swift in Sources */,
 				4943FC61219650A200DED08C /* UpdateDescription.swift in Sources */,
+				1E56167B222D8F600047927C /* RemoteFindOneAndModifyOptions.swift in Sources */,
 				OBJ_175 /* RemoteFindOptions.swift in Sources */,
 				498DF58F219F73B4009F1B3F /* CoreSync.swift in Sources */,
 				491A934721B3227400F60F59 /* InstanceChangeStreamDelegate.swift in Sources */,

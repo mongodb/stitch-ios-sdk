@@ -1,3 +1,5 @@
+// swiftlint:disable file_length
+
 import Foundation
 import MongoSwift
 import StitchCoreSDK
@@ -303,6 +305,81 @@ public class CoreRemoteMongoCollection<T: Codable> {
                                  multi: true)
     }
 
+    private enum RemoteFindOneAndModifyOptionsKeys: String {
+        case limit, projection = "project", upsert, returnNewDocument
+    }
+
+    /**
+     * Finds a document in this collection which matches the provided filter and
+     * performs the given update on that document.
+     *
+     * - parameters:
+     *   - filter: A `Document` that should match the query.
+     *   - options: A `Document` describing the update.
+     *   - options: Optional `RemoteFindOptions` to use when executing the command.
+     *
+     * - returns: The resulting `Document` or nil if no such document exists
+     */
+    public func findOneAndUpdate(filter: Document,
+                                 update: Document,
+                                 options: RemoteFindOneAndModifyOptions? = nil) throws -> T? {
+        return try executeFindOneAndModify(funcName: "findOneAndUpdate",
+                                           filter: filter,
+                                           update: update,
+                                           options: options)
+    }
+
+    /**
+     * Finds a document in this collection which matches the provided filter and
+     * performs the given update on that document.
+     *
+     * - parameters:
+     *   - filter: A `Document` that should match the query.
+     *   - options: A `Document` describing the update.
+     *   - options: Optional `RemoteFindOptions` to use when executing the command.
+     *
+     * - returns: The resulting `Document` or nil if no such document exists
+     */
+    public func findOneAndReplace(filter: Document,
+                                  replacement: Document,
+                                  options: RemoteFindOneAndModifyOptions? = nil) throws -> T? {
+        return try executeFindOneAndModify(funcName: "findOneAndReplace",
+                                          filter: filter,
+                                          update: replacement,
+                                          options: options)
+    }
+
+    /**
+     * Finds a document in this collection which matches the provided filter and
+     * performs the given update on that document.
+     *
+     * - parameters:
+     *   - filter: A `Document` that should match the query.
+     *   - options: A `Document` describing the update.
+     *   - options: Optional `RemoteFindOptions` to use when executing the command.
+     *
+     * - returns: The resulting `Document` or nil if no such document exists
+     */
+    public func findOneAndDelete(filter: Document,
+                                 options: RemoteFindOneAndModifyOptions? = nil) throws -> T? {
+        var args = baseOperationArgs
+
+        args["query"] = filter
+        if let options = options {
+            if let projection = options.projection {
+                args[RemoteFindOptionsKeys.projection.rawValue] = projection
+            }
+            if let sort = options.sort {
+                args[RemoteFindOptionsKeys.sort.rawValue] = sort
+            }
+        }
+
+        //return try self.service.callFunctionOptionalResult(withName: "findOneAndDelete",'
+        return try self.service.callFunctionOptionalResult(withName: "findOneAndDelete",
+                                                           withArgs: [args],
+                                                           withRequestTimeout: nil)
+    }
+
     /**
      * Opens a MongoDB change stream against the collection to watch for changes
      * made to specific documents. The documents to watch must be explicitly
@@ -330,6 +407,38 @@ public class CoreRemoteMongoCollection<T: Codable> {
 
     private enum RemoteUpdateOptionsKeys: String {
         case upsert
+    }
+
+    private func executeFindOneAndModify(funcName: String,
+                                         filter: Document,
+                                         update: Document,
+                                         options: RemoteFindOneAndModifyOptions?) throws -> T? {
+        var args = baseOperationArgs
+
+        args["query"] = filter
+        args["update"] = update
+        if let options = options {
+            if let projection = options.projection {
+                args[RemoteFindOptionsKeys.projection.rawValue] = projection
+            }
+            if let sort = options.sort {
+                args[RemoteFindOptionsKeys.sort.rawValue] = sort
+            }
+            if let upsert = options.upsert {
+                if upsert {
+                    args[RemoteFindOneAndModifyOptionsKeys.upsert.rawValue] = true
+                }
+            }
+            if let returnNewDocument = options.returnNewDocument {
+                if returnNewDocument {
+                    args[RemoteFindOneAndModifyOptionsKeys.returnNewDocument.rawValue] = true
+                }
+            }
+        }
+
+        return try self.service.callFunctionOptionalResult(withName: funcName,
+                                             withArgs: [args],
+                                             withRequestTimeout: nil)
     }
 
     private func executeUpdate(filter: Document,
