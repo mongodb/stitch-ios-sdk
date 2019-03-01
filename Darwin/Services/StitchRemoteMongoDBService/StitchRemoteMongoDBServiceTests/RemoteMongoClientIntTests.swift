@@ -1530,7 +1530,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             XCTFail("document not found")
             return
         }
-        XCTAssertEqual(["hello": "world3", "num": 3], withoutId(result3))
+        XCTAssertEqual(["hello": "world3"], withoutId(result3))
 
         coll.findOneAndDelete(
             filter: [:],
@@ -1542,7 +1542,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             XCTFail("document not found")
             return
         }
-        XCTAssertEqual(["hello": "world1", "num": 1], withoutId(result4))
+        XCTAssertEqual(["hello": "world1"], withoutId(result4))
     }
 
     class WatchTestDelegate<DocumentT: Codable>: ChangeStreamDelegate {
