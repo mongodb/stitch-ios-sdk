@@ -749,7 +749,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
             "collection": namespace.collectionName,
             "filter": expectedFilter,
             "update": expectedUpdate,
-            "project": expectedProject,
+            "projection": expectedProject,
             "sort": expectedSort,
             "upsert": true,
             "returnNewDocument": true
@@ -783,7 +783,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
             "collection": namespace.collectionName,
             "filter": expectedFilter,
             "update": expectedUpdate,
-            "project": expectedProject
+            "projection": expectedProject
         ]
 
         XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
@@ -875,7 +875,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
             "collection": namespace.collectionName,
             "filter": expectedFilter,
             "update": expectedUpdate,
-            "project": expectedProject,
+            "projection": expectedProject,
             "sort": expectedSort,
             "upsert": true,
             "returnNewDocument": true
@@ -909,7 +909,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
             "collection": namespace.collectionName,
             "filter": expectedFilter,
             "update": expectedUpdate,
-            "project": expectedProject
+            "projection": expectedProject
         ]
 
         XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
@@ -994,7 +994,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
             "database": namespace.databaseName,
             "collection": namespace.collectionName,
             "filter": expectedFilter,
-            "project": expectedProject,
+            "projection": expectedProject,
             "sort": expectedSort
         ]
 
@@ -1025,7 +1025,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
             "database": namespace.databaseName,
             "collection": namespace.collectionName,
             "filter": expectedFilter,
-            "project": expectedProject
+            "projection": expectedProject
         ]
 
         XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)

@@ -367,10 +367,10 @@ public class CoreRemoteMongoCollection<T: Codable> {
         args["filter"] = filter
         if let options = options {
             if let projection = options.projection {
-                args[RemoteFindOptionsKeys.projection.rawValue] = projection
+                args[RemoteFindOneAndModifyOptionsKeys.projection.rawValue] = projection
             }
             if let sort = options.sort {
-                args[RemoteFindOptionsKeys.sort.rawValue] = sort
+                args[RemoteFindOneAndModifyOptionsKeys.sort.rawValue] = sort
             }
         }
 
