@@ -48,6 +48,10 @@ class TestAuthMonitor: AuthMonitor {
     var isLoggedIn: Bool {
         return true
     }
+
+    var activeUserId: String? {
+        return nil
+    }
 }
 
 class TestConflictHandler: ConflictHandler {
@@ -102,9 +106,12 @@ private class TestCaseDataSynchronizer: DataSynchronizer {
             service: mockServiceClient,
             remoteClient: coreRemoteMongoClient,
             appInfo: appInfo)
+
+        self.waitUntilInitialized()
     }
 
     deinit {
+        self.waitUntilInitialized()
         if deinitializing {
             try? self.localClient.db(
                 DataSynchronizer
@@ -257,6 +264,7 @@ class XCMongoMobileTestCase: XCTestCase {
     }
 
     override func tearDown() {
+        self.dataSynchronizer.waitUntilInitialized()
         namespacesToBeTornDown.forEach {
             try? localClient.db($0.databaseName).drop()
         }
@@ -299,7 +307,7 @@ class XCMongoMobileTestCase: XCTestCase {
 
     func localCollection() -> ThreadSafeMongoCollection<Document> {
         return localCollection(for: MongoNamespace.init(
-            databaseName: DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace),
+            databaseName: DataSynchronizer.localUserDBName(for: namespace),
             collectionName: namespace.collectionName
         ))
     }

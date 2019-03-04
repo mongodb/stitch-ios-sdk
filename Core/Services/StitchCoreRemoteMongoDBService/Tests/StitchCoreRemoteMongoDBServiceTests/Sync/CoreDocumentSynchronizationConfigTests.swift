@@ -26,9 +26,9 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
         let documentId = ObjectId()
 
         let coreDocSync = CoreDocumentSynchronization.init(docsColl: docsColl,
-                                                               namespace: namespace,
-                                                               documentId: AnyBSONValue(documentId),
-                                                               errorListener: nil)
+                                                           namespace: namespace,
+                                                           documentId: AnyBSONValue(documentId),
+                                                           errorListener: nil)
         _ = try coreDocSync.docLock.read {
             try docsColl.insertOne(coreDocSync)
         }

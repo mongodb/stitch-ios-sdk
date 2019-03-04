@@ -144,7 +144,9 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         }
         // swiftlint:enable line_length
 
-        public final override func onAuthEvent() { }
+        public final override func dispatchAuthEvent(_ authEvent: AuthRebindEvent) {
+
+        }
     }
 
     func testLoginInternal() throws {
@@ -947,7 +949,6 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
             storage: storage
         )
         XCTAssertNotNil(auth.deviceID)
-
     }
 
     func testLastAuthEvent() throws {

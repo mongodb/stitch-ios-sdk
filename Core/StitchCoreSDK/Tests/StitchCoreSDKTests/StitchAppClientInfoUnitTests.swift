@@ -9,6 +9,8 @@ class StitchAppClientInfoUnitTests: XCTestCase, NetworkMonitor, AuthMonitor {
 
     var isConnected: Bool = true
 
+    var activeUserId: String?
+
     func add(networkStateDelegate delegate: NetworkStateDelegate) {
 
     }

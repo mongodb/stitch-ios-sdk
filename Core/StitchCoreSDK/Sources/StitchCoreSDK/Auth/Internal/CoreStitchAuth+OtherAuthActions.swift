@@ -78,9 +78,6 @@ extension CoreStitchAuth {
             throw StitchError.clientError(withClientErrorCode: .couldNotFindActiveUser)
         }
 
-        // Trigger auth events
-        onAuthEvent()
-
         return user
     }
 
@@ -117,20 +114,19 @@ extension CoreStitchAuth {
         if userID == activeUserAuthInfo?.userID {
             try updateActiveAuthInfo(withNewAuthInfo: nil)
         }
+
+        // Dispatch an event indicating that a user was removed
+        dispatchAuthEvent(
+            .userRemoved(removedUser: try makeStitchUser(withAuthInfo: authInfo.loggedOut)))
     }
 
     /**
      * Returns the list of logged on users or an empty list if nothing is found in storage
      */
     public func listUsersInternal() -> [TStitchUser] {
-        var list: [TStitchUser] = []
-        for userInfo in self.allUsersAuthInfo {
-            if let newUser = makeStitchUser(withAuthInfo: userInfo) {
-                list.append(newUser)
-            }
-        }
-
-        return list
+        return self.allUsersAuthInfo.compactMap({
+            try? makeStitchUser(withAuthInfo: $0)
+        })
     }
 
     /**
@@ -148,7 +144,7 @@ extension CoreStitchAuth {
             stitchRequest: prepareAuthRequest(withAuthRequest: request, withAuthInfo: userInfo),
             useRefreshToken: false)
 
-        onAuthEvent()
+        dispatchAuthEvent(.userLoggedOut(loggedOutUser: try makeStitchUser(withAuthInfo: userInfo.loggedOut)))
         return try doAuthenticatedRequest(request)
     }
 }

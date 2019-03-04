@@ -50,13 +50,12 @@ public class AnyStitchUserFactory<T: CoreStitchUser> {
     /**
      * Produces a new Stitch user with the stored `makeUserBlock`.
      */
-    func makeUser(withID id: String,
-                  withLoggedInProviderType loggedInProviderType: StitchProviderType,
-                  withLoggedInProviderName loggedInProviderName: String,
-                  withUserProfile userProfile: StitchUserProfile,
-                  withIsLoggedIn isLoggedIn: Bool,
-                  withLastAuthActivity lastAuthActivity: TimeInterval) -> T {
-
+    public func makeUser(withID id: String,
+                         withLoggedInProviderType loggedInProviderType: StitchProviderType,
+                         withLoggedInProviderName loggedInProviderName: String,
+                         withUserProfile userProfile: StitchUserProfile,
+                         withIsLoggedIn isLoggedIn: Bool,
+                         withLastAuthActivity lastAuthActivity: TimeInterval) -> T {
         return self.makeUserBlock(id,
                                   loggedInProviderType,
                                   loggedInProviderName,

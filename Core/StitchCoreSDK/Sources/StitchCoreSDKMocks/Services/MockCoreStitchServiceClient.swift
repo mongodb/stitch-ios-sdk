@@ -4,6 +4,14 @@ import MockUtils
 @testable import StitchCoreSDK
 
 public final class MockCoreStitchServiceClient: CoreStitchServiceClient {
+    public func bind(binder: StitchServiceBinder) {
+
+    }
+
+    public func onRebindEvent(_ rebindEvent: RebindEvent) {
+
+    }
+
     public var serviceName: String?
 
     public init() { }

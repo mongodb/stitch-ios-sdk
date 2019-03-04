@@ -42,8 +42,8 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
     private lazy var mongodbUri: String = pList?[mongodbUriProp] as? String ?? "mongodb://localhost:26000"
 
-    private let dbName = "dbName"
-    private let collName = "collName"
+    private let dbName = ObjectId().oid
+    private let collName = ObjectId().oid
 
     private var mongoClient: RemoteMongoClient!
 

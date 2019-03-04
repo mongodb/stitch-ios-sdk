@@ -103,6 +103,9 @@
 		498062F82185C53A00E2A3A2 /* MockUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498062F72185C53A00E2A3A2 /* MockUtils.framework */; };
 		498DF593219F7451009F1B3F /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498DF592219F7451009F1B3F /* NetworkMonitor.swift */; };
 		498DF595219F748D009F1B3F /* AuthMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498DF594219F748D009F1B3F /* AuthMonitor.swift */; };
+		4999DEDA22142A240081D742 /* StitchServiceBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4999DED922142A240081D742 /* StitchServiceBinder.swift */; };
+		4999DEDC22142CA60081D742 /* WeakReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4999DEDB22142CA60081D742 /* WeakReference.swift */; };
+		4999DEDE22142FC80081D742 /* AuthRebindEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4999DEDD22142FC80081D742 /* AuthRebindEvent.swift */; };
 		49AD952F21B729FF002D8E05 /* FoundationHTTPTransportIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AD952E21B729FE002D8E05 /* FoundationHTTPTransportIntTests.swift */; };
 		49AD953121B741DC002D8E05 /* RawSSE.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AD953021B741DC002D8E05 /* RawSSE.swift */; };
 		49DA6E8621CC163B0014631F /* ReadWriteLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DA6E8521CC163B0014631F /* ReadWriteLock.swift */; };
@@ -236,6 +239,9 @@
 		498062F72185C53A00E2A3A2 /* MockUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MockUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		498DF592219F7451009F1B3F /* NetworkMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		498DF594219F748D009F1B3F /* AuthMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthMonitor.swift; sourceTree = "<group>"; };
+		4999DED922142A240081D742 /* StitchServiceBinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchServiceBinder.swift; sourceTree = "<group>"; };
+		4999DEDB22142CA60081D742 /* WeakReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakReference.swift; sourceTree = "<group>"; };
+		4999DEDD22142FC80081D742 /* AuthRebindEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRebindEvent.swift; sourceTree = "<group>"; };
 		49AD952E21B729FE002D8E05 /* FoundationHTTPTransportIntTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoundationHTTPTransportIntTests.swift; sourceTree = "<group>"; };
 		49AD953021B741DC002D8E05 /* RawSSE.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawSSE.swift; sourceTree = "<group>"; };
 		49DA6E8521CC163B0014631F /* ReadWriteLock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadWriteLock.swift; sourceTree = "<group>"; };
@@ -577,6 +583,7 @@
 			children = (
 				498DF594219F748D009F1B3F /* AuthMonitor.swift */,
 				498062462185B6A100E2A3A2 /* Storage.swift */,
+				4999DEDB22142CA60081D742 /* WeakReference.swift */,
 				498062472185B6A100E2A3A2 /* ImplFailureFatalErrors.swift */,
 				49DA6E8521CC163B0014631F /* ReadWriteLock.swift */,
 			);
@@ -613,6 +620,8 @@
 			isa = PBXGroup;
 			children = (
 				498062512185B6A100E2A3A2 /* CoreStitchServiceClientImpl.swift */,
+				4999DEDD22142FC80081D742 /* AuthRebindEvent.swift */,
+				4999DED922142A240081D742 /* StitchServiceBinder.swift */,
 				498062522185B6A100E2A3A2 /* CoreStitchServiceClient.swift */,
 			);
 			path = Internal;
@@ -1048,6 +1057,7 @@
 				491A934F21B3248500F60F59 /* FoundationHTTPSSEStream.swift in Sources */,
 				498062842185B6BC00E2A3A2 /* AnonymousAuthProvider.swift in Sources */,
 				491A934B21B323AB00F60F59 /* RawSSEStream.swift in Sources */,
+				4999DEDC22142CA60081D742 /* WeakReference.swift in Sources */,
 				1E7F2AB4220DF49E005F93A2 /* StoreAuthInfo.swift in Sources */,
 				498062852185B6BC00E2A3A2 /* GoogleAuthProvider.swift in Sources */,
 				498062862185B6BC00E2A3A2 /* GoogleCredential.swift in Sources */,
@@ -1080,6 +1090,7 @@
 				498062A02185B6BC00E2A3A2 /* StitchAuthRequestClient.swift in Sources */,
 				498062A12185B6BC00E2A3A2 /* CoreStitchAuth.swift in Sources */,
 				498062A22185B6BC00E2A3A2 /* StitchJWT.swift in Sources */,
+				4999DEDE22142FC80081D742 /* AuthRebindEvent.swift in Sources */,
 				498062A32185B6BC00E2A3A2 /* CoreStitchUser.swift in Sources */,
 				498062A42185B6BC00E2A3A2 /* AuthInfo.swift in Sources */,
 				498062A52185B6BC00E2A3A2 /* CoreStitchAuth+StitchAuthRequestClient.swift in Sources */,
@@ -1103,6 +1114,7 @@
 				498062B52185B6BC00E2A3A2 /* Method.swift in Sources */,
 				498DF593219F7451009F1B3F /* NetworkMonitor.swift in Sources */,
 				498062B62185B6BC00E2A3A2 /* ContentType.swift in Sources */,
+				4999DEDA22142A240081D742 /* StitchServiceBinder.swift in Sources */,
 				498062B72185B6BC00E2A3A2 /* Storage.swift in Sources */,
 				116D8C8821D583D300ECA1AB /* AppMetadata.swift in Sources */,
 				498062B82185B6BC00E2A3A2 /* ImplFailureFatalErrors.swift in Sources */,

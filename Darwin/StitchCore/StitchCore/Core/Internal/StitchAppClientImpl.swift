@@ -5,7 +5,7 @@ import Foundation
 /**
  * The implementation of the `StitchAppClient` protocol.
  */
-internal final class StitchAppClientImpl: StitchAppClient, AuthMonitor {
+internal final class StitchAppClientImpl: StitchAppClient, AuthMonitor, StitchAuthDelegate {
     // MARK: Properties
 
     /**
@@ -50,6 +50,12 @@ internal final class StitchAppClientImpl: StitchAppClient, AuthMonitor {
      */
     private let routes: StitchAppRoutes
 
+    /**
+     * A list of weak references to any service client created
+     * by a user.
+     */
+    private var serviceClients: [WeakReference<CoreStitchServiceClientImpl>]
+
     // MARK: Initializer
 
     /**
@@ -77,7 +83,9 @@ internal final class StitchAppClientImpl: StitchAppClient, AuthMonitor {
             dispatcher: self.dispatcher,
             appInfo: self.info)
         self.coreClient = CoreStitchAppClient.init(authRequestClient: self._auth, routes: routes)
+        self.serviceClients = []
         self.info.authMonitor = self
+        self._auth.add(synchronousAuthDelegate: self)
     }
 
     // MARK: Services
@@ -95,38 +103,46 @@ internal final class StitchAppClientImpl: StitchAppClient, AuthMonitor {
 
     public func serviceClient<T>(fromFactory factory: AnyNamedServiceClientFactory<T>,
                                  withName serviceName: String) -> T {
+        let client = CoreStitchServiceClientImpl.init(requestClient: self._auth,
+                                                      routes: self.routes.serviceRoutes,
+                                                      serviceName: serviceName)
+        self.bindServiceClient(coreStitchServiceClient: client)
         return factory.client(
-            forService: CoreStitchServiceClientImpl.init(requestClient: self._auth,
-                                                         routes: self.routes.serviceRoutes,
-                                                         serviceName: serviceName),
+            forService: client,
             withClientInfo: self.info
         )
     }
 
     public func serviceClient<T>(fromFactory factory: AnyNamedServiceClientFactory<T>) -> T {
+        let client = CoreStitchServiceClientImpl.init(requestClient: self._auth,
+                                                      routes: self.routes.serviceRoutes,
+                                                      serviceName: nil)
+        self.bindServiceClient(coreStitchServiceClient: client)
         return factory.client(
-            forService: CoreStitchServiceClientImpl.init(requestClient: self._auth,
-                                                     routes: self.routes.serviceRoutes,
-                                                     serviceName: nil),
+            forService: client,
             withClientInfo: self.info
         )
     }
 
     public func serviceClient<T>(fromFactory factory: AnyThrowingServiceClientFactory<T>) throws -> T {
+        let client = CoreStitchServiceClientImpl.init(requestClient: self._auth,
+                                                      routes: self.routes.serviceRoutes,
+                                                      serviceName: nil)
+        self.bindServiceClient(coreStitchServiceClient: client)
         return try factory.client(
-            forService: CoreStitchServiceClientImpl.init(requestClient: self._auth,
-                                                         routes: self.routes.serviceRoutes,
-                                                         serviceName: nil),
+            forService: client,
             withClientInfo: self.info
         )
     }
 
     func serviceClient<T>(fromFactory factory: AnyNamedThrowingServiceClientFactory<T>,
                           withName serviceName: String) throws -> T {
+        let client = CoreStitchServiceClientImpl.init(requestClient: self._auth,
+                                                      routes: self.routes.serviceRoutes,
+                                                      serviceName: serviceName)
+        self.bindServiceClient(coreStitchServiceClient: client)
         return try factory.client(
-            forService: CoreStitchServiceClientImpl.init(requestClient: self._auth,
-                                                         routes: self.routes.serviceRoutes,
-                                                         serviceName: serviceName),
+            forService: client,
             withClientInfo: self.info
         )
     }
@@ -174,5 +190,42 @@ internal final class StitchAppClientImpl: StitchAppClient, AuthMonitor {
 
     var isLoggedIn: Bool {
         return auth.isLoggedIn
+    }
+
+    var activeUserId: String? {
+        return auth.currentUser?.id
+    }
+
+    private func bindServiceClient(coreStitchServiceClient: CoreStitchServiceClientImpl) {
+        self.serviceClients.append(WeakReference(coreStitchServiceClient))
+    }
+
+    private func onRebindEvent(event: RebindEvent) {
+        for (idx, serviceClientRef) in self.serviceClients.enumerated().reversed() {
+            guard let serviceClient = serviceClientRef.reference else {
+                self.serviceClients.remove(at: idx)
+                return
+            }
+
+            serviceClient.onRebindEvent(event)
+        }
+    }
+
+    func onUserLoggedIn(auth: StitchAuth, loggedInUser: StitchUser) {
+        self.onRebindEvent(event: AuthRebindEvent.userLoggedIn(loggedInUser: loggedInUser))
+    }
+
+    func onUserLoggedOut(auth: StitchAuth, loggedOutUser: StitchUser) {
+        self.onRebindEvent(event: AuthRebindEvent.userLoggedOut(loggedOutUser: loggedOutUser))
+    }
+
+    func onActiveUserChanged(auth: StitchAuth, currentActiveUser: StitchUser?, previousActiveUser: StitchUser?) {
+        self.onRebindEvent(event: AuthRebindEvent.activeUserChanged(
+            currentActiveUser: currentActiveUser, previousActiveUser: previousActiveUser)
+        )
+    }
+
+    func onUserRemoved(auth: StitchAuth, removedUser: StitchUser) {
+        self.onRebindEvent(event: AuthRebindEvent.userRemoved(removedUser: removedUser))
     }
 }
