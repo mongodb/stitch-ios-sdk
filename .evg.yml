@@ -100,11 +100,6 @@ functions:
         script: |
           rm -rf /Users/mci/Library/Developer/Xcode/DerivedData/
           rm -rf /Users/mci/Library/Caches/go-build
-          ls -lah ~/
-          du -sh ~/*/
-          du -sh ~/Library/*/
-          du -sh ~/Library/Developer/*/
-          du -sh ~/Library/Caches/*/
 tasks:
   - name: lint
     commands:
