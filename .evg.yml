@@ -94,7 +94,17 @@ functions:
             if [ $counter -gt 100 ]; then
               exit 1
             fi
-          done
+  "clear_disk_space":
+    - command: shell.exec
+      params:
+        script: |
+          rm -rf /Users/mci/Library/Developer/Xcode/DerivedData/
+          rm -rf /Users/mci/Library/Caches/go-build
+          ls -lah ~/
+          du -sh ~/*/
+          du -sh ~/Library/*/
+          du -sh ~/Library/Developer/*/
+          du -sh ~/Library/Caches/*/
 tasks:
   - name: lint
     commands:
@@ -109,6 +119,7 @@ tasks:
             popd
             cd stitch-ios-sdk
             contrib/lint_projects.sh
+      - func: "clear_disk_space"
   - name: run_tests
     commands:
       - func: "fetch_source"
@@ -148,6 +159,7 @@ tasks:
             echo "...testing Darwin"
             xcodebuild test -verbose -workspace Stitch.xcworkspace/ -scheme "All Darwin Tests" -destination 'platform=iOS Simulator,name=iPhone 8,OS=12.0' \
               GCC_PREPROCESSOR_DEFINITIONS='FCM_SENDER_ID=$FCM_SENDER_ID FCM_API_KEY=$FCM_API_KEY TWILIO_SID=$TWILIO_SID TWILIO_AUTH_TOKEN=$TWILIO_AUTH_TOKEN AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY'
+      - func: "clear_disk_space"
 buildvariants:
 - name: macos-1014-stitch
   display_name: MacOS 10.14
