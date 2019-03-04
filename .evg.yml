@@ -114,7 +114,6 @@ tasks:
             popd
             cd stitch-ios-sdk
             contrib/lint_projects.sh
-      - func: "clear_disk_space"
   - name: run_tests
     commands:
       - func: "fetch_source"
