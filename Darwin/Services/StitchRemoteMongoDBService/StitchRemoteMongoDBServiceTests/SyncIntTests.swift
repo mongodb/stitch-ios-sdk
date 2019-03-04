@@ -218,6 +218,7 @@ private class StreamJoiner: SSEStreamDelegate {
 private class SyncTestContext {
     let streamJoiner = StreamJoiner()
     let networkMonitor: NetworkMonitor
+    let stitchClient: StitchAppClient
     let mongoClient: RemoteMongoClient
 
     lazy var remoteCollAndSync = { () -> (RemoteMongoCollection<Document>, Sync<Document>) in
@@ -235,24 +236,48 @@ private class SyncTestContext {
     private let dbName: String
     private let collName: String
 
-    init(mongoClient: RemoteMongoClient,
+    init(stitchClient: StitchAppClient,
+         mongoClient: RemoteMongoClient,
          networkMonitor: NetworkMonitor,
          dbName: String,
          collName: String) {
+        self.stitchClient = stitchClient
         self.mongoClient = mongoClient
         self.networkMonitor = networkMonitor
         self.dbName = dbName
         self.collName = collName
     }
 
+    func switchToUser(withId userId: String) throws {
+        _ = try stitchClient.auth.switchToUser(withId: userId)
+    }
+
+    func removeUser(withId userId: String) throws {
+        let joiner = CallbackJoiner.init()
+        stitchClient.auth.removeUser(withId: userId, joiner.capture())
+
+        // await the completion of the user removal
+        let _: Any? = joiner.value()
+    }
+
+    func reloginUser2() throws {
+        let joiner = CallbackJoiner.init()
+        stitchClient.auth.login(
+            withCredential: UserPasswordCredential(withUsername: "test1@10gen.com", withPassword: "hunter2"),
+            joiner.capture()
+        )
+
+        // await the completion of the user login
+        let _: Any? = joiner.value()
+    }
+
     func streamAndSync() throws {
         let (_, coll) = remoteCollAndSync
         if networkMonitor.state == .connected {
-            let iCSDel = coll.proxy
+            if let iCSDel = coll.proxy
                 .dataSynchronizer
-                .instanceChangeStreamDelegate
-
-            if let nsConfig = iCSDel[MongoNamespace(databaseName: dbName, collectionName: collName)] {
+                .instanceChangeStreamDelegate,
+               let nsConfig = iCSDel[MongoNamespace(databaseName: dbName, collectionName: collName)] {
                 nsConfig.add(streamDelegate: streamJoiner)
                 streamJoiner.streamState = nsConfig.state
                 if nsConfig.state == .closed {
@@ -292,14 +317,20 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
 
     private lazy var mongodbUri: String = pList?[mongodbUriProp] as? String ?? "mongodb://localhost:26000"
 
-    private let dbName = "dbName"
-    private let collName = "collName"
+    private let dbName = ObjectId().oid
+    private let collName = ObjectId().oid
 
+    private var stitchClient: StitchAppClient!
     private var mongoClient: RemoteMongoClient!
-    private lazy var ctx = SyncTestContext.init(mongoClient: self.mongoClient,
+    private lazy var ctx = SyncTestContext.init(stitchClient: self.stitchClient,
+                                                mongoClient: self.mongoClient,
                                                 networkMonitor: self.networkMonitor,
                                                 dbName: self.dbName,
                                                 collName: self.collName)
+
+    private var userId1: String!
+    private var userId2: String!
+    private var userId3: String!
 
     override func setUp() {
         super.setUp()
@@ -327,6 +358,12 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
     private func prepareService() throws {
         let app = try self.createApp()
         _ = try self.addProvider(toApp: app.1, withConfig: ProviderConfigs.anon())
+        _ = try self.addProvider(toApp: app.1, withConfig: ProviderConfigs.userpass(
+            emailConfirmationURL: "http://emailConfirmURL.com",
+            resetPasswordURL: "http://resetPasswordURL.com",
+            confirmEmailSubject: "email subject",
+            resetPasswordSubject: "reset password subject")
+        )
         let svc = try self.addService(
             toApp: app.1,
             withType: "mongodb",
@@ -351,12 +388,19 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
 
         let client = try self.appClient(forApp: app.0)
 
-        let exp = expectation(description: "should login")
-        client.auth.login(withCredential: AnonymousCredential()) { _  in
-            exp.fulfill()
-        }
-        wait(for: [exp], timeout: 5.0)
+        let joiner = CallbackJoiner()
 
+        client.auth.login(withCredential: AnonymousCredential(), joiner.capture())
+        userId3 = joiner.value(asType: StitchUser.self)!.id
+
+        userId2 = try registerAndLoginWithUserPass(
+            app: app.1, client: client, email: "test1@10gen.com", pass: "hunter2"
+        )
+        userId1 = try registerAndLoginWithUserPass(
+            app: app.1, client: client, email: "test2@10gen.com", pass: "hunter2"
+        )
+
+        self.stitchClient = client
         self.mongoClient = try client.serviceClient(fromFactory: remoteMongoClientFactory,
                                                     withName: "mongodb1")
     }
@@ -2064,6 +2108,101 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         coll.verifyUndoCollectionEmpty()
     }
 
+    func testMultiUserSupport() throws {
+        let (remoteColl, coll) = ctx.remoteCollAndSync
+
+        var docToInsertUser1 = ["hello": "world"] as Document
+        var docToInsertUser2 = ["hola": "mundo"] as Document
+        var docToInsertUser3 = ["hallo": "welt"] as Document
+
+        // configure Sync
+        coll.configure(conflictHandler: failingConflictHandler)
+
+        let doc1Id = coll.insertOne(&docToInsertUser1)!.insertedId!
+        let doc1Filter = ["_id": doc1Id] as Document
+
+        // assert that the resolution is reflected locally, but not yet remotely
+        var expectedDocument = docToInsertUser1
+        XCTAssertEqual(expectedDocument.sorted(), coll.findOne(doc1Filter)!.sorted())
+
+        // sync. assert that the resolution is reflected locally and remotely.
+        try ctx.streamAndSync()
+
+        XCTAssertEqual(expectedDocument.sorted(), coll.findOne(doc1Filter)!.sorted())
+        XCTAssertEqual(docToInsertUser1.sorted(), withoutSyncVersion(remoteColl.findOne(doc1Filter)!.sorted()))
+        self.assertNoVersionFieldsInLocalColl(coll: coll)
+
+        // switch to the other user. assert that there is no locally stored docToInsertUser1
+        try ctx.switchToUser(withId: userId2)
+        XCTAssertNil(coll.findOne(doc1Filter))
+
+        // sync again. since the configurations have been reset, nothing should exist locally
+        try ctx.streamAndSync()
+        XCTAssertNil(coll.findOne(doc1Filter))
+
+        // assert nothing has changed remotely
+        XCTAssertEqual(docToInsertUser1.sorted(), withoutSyncVersion(remoteColl.findOne(doc1Filter)!.sorted()))
+        self.assertNoVersionFieldsInLocalColl(coll: coll)
+
+        // insert a document as the second user
+        let doc2Id = coll.insertOne(&docToInsertUser2)!.insertedId!
+        let doc2Filter = ["_id": doc2Id] as Document
+
+        try ctx.streamAndSync()
+
+        expectedDocument = docToInsertUser2
+
+        XCTAssertEqual(expectedDocument.sorted(), coll.findOne(doc2Filter)!.sorted())
+        XCTAssertEqual(docToInsertUser2.sorted(), withoutSyncVersion(remoteColl.findOne(doc2Filter)!.sorted()))
+
+        self.assertNoVersionFieldsInLocalColl(coll: coll)
+
+        // switch to a third user, and assert that the local collection is now empty, both before and after syncing
+        try ctx.switchToUser(withId: userId3)
+        XCTAssertNil(coll.findOne(doc1Filter))
+        XCTAssertNil(coll.findOne(doc2Filter))
+
+        try ctx.streamAndSync()
+        XCTAssertNil(coll.findOne(doc1Filter))
+        XCTAssertNil(coll.findOne(doc2Filter))
+
+        // assert nothing has changed remotely
+        XCTAssertEqual(docToInsertUser1.sorted(), withoutSyncVersion(remoteColl.findOne(doc1Filter)!.sorted()))
+        XCTAssertEqual(docToInsertUser2.sorted(), withoutSyncVersion(remoteColl.findOne(doc2Filter)!.sorted()))
+
+        // insert a document as the third user
+        let doc3Id = coll.insertOne(&docToInsertUser3)!.insertedId!
+        let doc3Filter = ["_id": doc3Id] as Document
+
+        try ctx.streamAndSync()
+
+        expectedDocument = docToInsertUser3
+
+        XCTAssertEqual(expectedDocument.sorted(), coll.findOne(doc3Filter)!.sorted())
+        XCTAssertEqual(docToInsertUser3.sorted(), withoutSyncVersion(remoteColl.findOne(doc3Filter)!.sorted()))
+
+        self.assertNoVersionFieldsInLocalColl(coll: coll)
+
+        // switch back to the other users and assert that the docs are still intact
+        try ctx.switchToUser(withId: userId1)
+        XCTAssertEqual(docToInsertUser1.sorted(), coll.findOne(doc1Filter)!.sorted())
+        XCTAssertNil(coll.findOne(doc2Filter))
+        XCTAssertNil(coll.findOne(doc3Filter))
+
+        try ctx.switchToUser(withId: userId2)
+        XCTAssertNil(coll.findOne(doc1Filter))
+        XCTAssertEqual(docToInsertUser2.sorted(), coll.findOne(doc2Filter)!.sorted())
+        XCTAssertNil(coll.findOne(doc3Filter))
+
+        // remove user 2 and log back in, asserting that removing the user destroyed the local collection
+        try ctx.removeUser(withId: userId2)
+        try ctx.reloginUser2()
+
+        XCTAssertNil(coll.findOne(doc1Filter))
+        XCTAssertNil(coll.findOne(doc2Filter))
+        XCTAssertNil(coll.findOne(doc3Filter))
+    }
+
     // MARK: Utilities
 
     private func hasVersionField(_ document: Document) -> Bool {
@@ -2130,5 +2269,12 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
 
     private func assertNoVersionFieldsInDoc(_ doc: Document) {
         XCTAssertFalse(doc.contains(where: { $0.key == documentVersionField}))
+    }
+
+    private func assertNoVersionFieldsInLocalColl(coll: Sync<Document>) {
+        let cursor = coll.find([:])!
+        cursor.forEach { doc in
+            XCTAssertNil(doc[documentVersionField])
+        }
     }
 }

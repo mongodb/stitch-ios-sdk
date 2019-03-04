@@ -10,6 +10,7 @@ private let stitchRequestQueryParam = "?stitch_request="
 open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
     private let requestClient: StitchAuthRequestClient
     private let serviceRoutes: StitchServiceRoutes
+    private var serviceBinders: [AnyStitchServiceBinder]
 
     public let serviceName: String?
 
@@ -19,6 +20,7 @@ open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
         self.requestClient = requestClient
         self.serviceRoutes = routes
         self.serviceName = serviceName
+        self.serviceBinders = []
     }
 
     private func getCallServiceFunctionRequest(withName name: String,
@@ -102,5 +104,20 @@ open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
         return try requestClient.openAuthenticatedStream(
             getStreamServiceFunctionRequest(name: name, args: args), delegate: delegate
         )
+    }
+
+    public func bind(binder: StitchServiceBinder) {
+        self.serviceBinders.append(AnyStitchServiceBinder(binder))
+    }
+
+    public func onRebindEvent(_ rebindEvent: RebindEvent) {
+        for (index, element) in self.serviceBinders.enumerated() {
+            guard let binder = element.reference else {
+                self.serviceBinders.remove(at: index)
+                continue
+            }
+
+            binder.onRebindEvent(rebindEvent)
+        }
     }
 }

@@ -138,6 +138,7 @@ public enum StitchClientErrorCode: Error {
     case mongoDriverError(withError: Error)
     case mustAuthenticateFirst
     case syncRecoveryError(withError: Error)
+    case syncInitializationError(withError: Error)
     case unknownChangeEventType
     case userNoLongerValid
     case userNotFound

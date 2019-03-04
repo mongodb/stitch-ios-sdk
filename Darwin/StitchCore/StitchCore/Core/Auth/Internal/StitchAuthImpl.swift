@@ -17,7 +17,7 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
      * The operation dispatcher used to dispatch asynchronous operations made by this client and its underlying
      * objects.
      */
-    private let dispatcher: OperationDispatcher
+    internal let dispatcher: OperationDispatcher
 
     /**
      * A `StitchAppClientInfo` describing the basic properties of the app client holding this `StitchAuthImpl.
@@ -25,20 +25,18 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
     private let appInfo: StitchAppClientInfo
 
     /**
-     * A struct for holding weak references to `StitchAuthDelegate`.
+     A list of weak references to `StitchAuthDelegate`,
+     each of which will be notified asynchr when authentication events
+     occur.
      */
-    private struct DelegateWeakRef {
-        weak var value: StitchAuthDelegate?
-        init(value: StitchAuthDelegate) {
-            self.value = value
-        }
-    }
+    internal var delegates: [AnyStitchAuthDelegate] = []
 
     /**
-     * A list of weak references to `StitchAuthDelegate`, each of which will be notified when authentication events
-     * occur.
+     A list of weak references to `StitchAuthDelegate`
+     each of which will be notified syncronously when authentication events
+     occur.
      */
-    private var delegates: [DelegateWeakRef] = []
+    internal var synchronousDelegates: [AnyStitchAuthDelegate] = []
 
     /**
      * Initializes this `StitchAuthImpl` with a request client, authentication API routes, a `Storage` for persisting
@@ -303,44 +301,35 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
     // MARK: Observer Delegates
 
     /**
-     * Registers a `StitchAuthDelegate` with the client. The `StitchAuthDelegate`'s `onAuthEvent(:fromAuth)`
-     * method will be called with this `StitchAuth` as the argument whenever this client is authenticated
-     * or is logged out.
-     *
-     * - important: StitchAuthDelegates registered here are stored as `weak` references, meaning that if there are no
-     *              more strong references to a provided delegate, its `onAuthEvent(:fromAuth)` method will no longer
-     *              be called on authentication events.
-     * - parameters:
-     *     - authDelegate: A class conforming to `StitchAuthDelegate`, whose `onAuthEvent(:fromAuth)` method should be
-     *                     called whenever this client experiences an authentication event.
-     */
-    public func add(authDelegate: StitchAuthDelegate) {
-        objc_sync_enter(self)
-        self.delegates.append(DelegateWeakRef(value: authDelegate))
-        objc_sync_exit(self)
-
-        // Trigger the onUserLoggedIn event in case some event happens and
-        // this caller would miss out on this event other wise.
-        dispatcher.queue.async {
-            authDelegate.onAuthEvent(fromAuth: self)
-        }
-    }
-
-    /**
-     * Calls the `onAuthEvent` method of each registered `StitchAuthDelegate`.
+     * Dispatches the appropriate auth event method of each registered `StitchAuthDelegate`.
      *
      * - important: This is not meant to be invoked directly in this class. The `CoreStitchAuth` from which this
      *              class inherits will call this method when appropraite.
      */
-    public final override func onAuthEvent() {
-        self.delegates.enumerated().reversed().forEach { idx, delegateRef in
-            guard let delegate = delegateRef.value else {
+    public final override func dispatchAuthEvent(_ authEvent: AuthRebindEvent) {
+        // NOTE: this function is in this file rather than the +Delegation file because Swift does not support
+        //       overriding functions in extensions
+        for (idx, delegateRef) in self.synchronousDelegates.enumerated().reversed() {
+            guard let delegate = delegateRef.reference else {
                 self.delegates.remove(at: idx)
                 return
             }
 
-            dispatcher.queue.async {
-                delegate.onAuthEvent(fromAuth: self)
+            self.dispatch(authEvent: authEvent, toDelegate: delegate)
+        }
+
+        for (idx, delegateRef) in self.delegates.enumerated().reversed() {
+            guard let delegate = delegateRef.reference else {
+                self.delegates.remove(at: idx)
+                return
+            }
+
+            // If this StitchAuth was deallocated, then this event should not be dispatched
+            dispatcher.queue.async { [weak self] in
+                guard let self = self else {
+                    return
+                }
+                self.dispatch(authEvent: authEvent, toDelegate: delegate)
             }
         }
     }

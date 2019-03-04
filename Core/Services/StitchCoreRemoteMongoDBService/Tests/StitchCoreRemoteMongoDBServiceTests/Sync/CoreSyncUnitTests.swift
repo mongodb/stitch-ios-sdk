@@ -6,7 +6,7 @@ class CoreSyncUnitTests: XCMongoMobileTestCase {
     private lazy var coreSync = CoreSync<Document>.init(namespace: namespace,
                                                         dataSynchronizer: dataSynchronizer)
     lazy var collection = localCollection(for: MongoNamespace.init(
-        databaseName: DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace),
+        databaseName: DataSynchronizer.localUserDBName(for: namespace),
         collectionName: namespace.collectionName))
 
     override func tearDown() {
@@ -35,12 +35,12 @@ class CoreSyncUnitTests: XCMongoMobileTestCase {
         let doc1 = ["hello": "world", "a": "b"] as Document
         let doc2 = ["hello": "computer", "a": "b"] as Document
 
-        try localClient.db(DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace))
+        try localClient.db(DataSynchronizer.localUserDBName(for: namespace))
             .collection(namespace.collectionName, withType: Document.self).insertMany([doc1, doc2])
 
         XCTAssertEqual(2, try coreSync.count())
 
-        try localClient.db(DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace))
+        try localClient.db(DataSynchronizer.localUserDBName(for: namespace))
             .collection(namespace.collectionName, withType: Document.self).deleteMany(Document())
 
         XCTAssertEqual(0, try coreSync.count())
@@ -52,7 +52,7 @@ class CoreSyncUnitTests: XCMongoMobileTestCase {
         let doc1 = ["hello": "world", "a": "b"] as Document
         let doc2 = ["hello": "computer", "a": "b"] as Document
 
-        try localClient.db(DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace))
+        try localClient.db(DataSynchronizer.localUserDBName(for: namespace))
             .collection(namespace.collectionName, withType: Document.self).insertMany([doc1, doc2])
 
         let cursor: MongoCursor<Document> =
@@ -75,7 +75,7 @@ class CoreSyncUnitTests: XCMongoMobileTestCase {
         let doc1 = ["hello": "world", "a": "b"] as Document
         let doc2 = ["hello": "computer", "a": "b"] as Document
 
-        try localClient.db(DataSynchronizer.localUserDBName(withInstanceKey: instanceKey.oid, for: namespace))
+        try localClient.db(DataSynchronizer.localUserDBName(for: namespace))
             .collection(namespace.collectionName, withType: Document.self).insertMany([doc1, doc2])
 
         let cursor = try coreSync.aggregate(

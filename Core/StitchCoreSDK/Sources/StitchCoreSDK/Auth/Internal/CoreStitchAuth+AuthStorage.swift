@@ -82,25 +82,33 @@ extension CoreStitchAuth {
      * Helper function to update the activeUserAuthInfo and activeUser and persist the changes
      */
     internal func updateActiveAuthInfo(withNewAuthInfo authInfo: AuthInfo?) throws {
+        let previousUser = activeUser
+
         // If passed in nil --> clear active auth state
         guard let authInfo = authInfo else {
             activeAuthStateHolder.clearState()
+
             activeUser = nil
             if let newAuthInfo = activeUserAuthInfo {
                 try writeActiveUserAuthInfoToStorage(activeAuthInfo: newAuthInfo)
             }
+            dispatchAuthEvent(.activeUserChanged(currentActiveUser: nil,
+                                                 previousActiveUser: previousUser))
+
             return
         }
 
-        // Otherwise make the user, if makeStitchUser() fails then something is very wrong
-        guard let user = makeStitchUser(withAuthInfo: authInfo) else {
-            throw StitchError.clientError(withClientErrorCode: .userNotValid)
-        }
+        // Otherwise make the user
+        let user = try makeStitchUser(withAuthInfo: authInfo)
 
         // Set activeUser, activeUserAuthInfo, and persist
         activeUserAuthInfo = authInfo
         activeUser = user
+
+        // Trigger auth events
         try writeActiveUserAuthInfoToStorage(activeAuthInfo: authInfo)
+        dispatchAuthEvent(.activeUserChanged(currentActiveUser: user,
+                                             previousActiveUser: previousUser))
     }
 
     /*
