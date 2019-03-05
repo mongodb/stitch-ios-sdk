@@ -5,7 +5,7 @@ import MongoSwift
 // or `findOneAndDelete` command on a `RemoteMongoCollection`.
 public struct RemoteFindOneAndModifyOptions {
     // MARK: Initializer
-    
+
     // Convenience initializer allowing any/all parameters to be optional
     public init(
         projection: Document? = nil,
