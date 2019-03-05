@@ -94,6 +94,13 @@ functions:
             if [ $counter -gt 100 ]; then
               exit 1
             fi
+          done
+  "clear_disk_space":
+    - command: shell.exec
+      params:
+        script: |
+          rm -rf /Users/mci/Library/Developer/Xcode/DerivedData/
+          rm -rf /Users/mci/Library/Caches/go-build
 tasks:
   - name: lint
     commands:
