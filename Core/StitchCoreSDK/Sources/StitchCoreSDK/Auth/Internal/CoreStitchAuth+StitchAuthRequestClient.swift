@@ -46,12 +46,6 @@ extension CoreStitchAuth {
 
     public func doAuthenticatedRequestOptionalResult<T: Decodable>(_ stitchReq: StitchAuthRequest) throws -> T? {
         let response = try self.doAuthenticatedRequest(stitchReq)
-        print("")
-        print("")
-        let req  = String(decoding: stitchReq.body!, as: UTF8.self)
-        print("Request: \(req)")
-        let resp  = String(decoding: response.body!, as: UTF8.self)
-        print("Response: \(resp)")
         do {
             guard let responseBody = response.body,
                 let responseString = String.init(data: responseBody, encoding: .utf8) else {

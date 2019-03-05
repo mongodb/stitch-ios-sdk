@@ -315,8 +315,8 @@ public class CoreRemoteMongoCollection<T: Codable> {
      *
      * - parameters:
      *   - filter: A `Document` that should match the query.
-     *   - options: A `Document` describing the update.
-     *   - options: Optional `RemoteFindOptions` to use when executing the command.
+     *   - update: A `Document` describing the update.
+     *   - options: Optional `RemoteFindOneAndModifyOptions` to use when executing the command.
      *
      * - returns: The resulting `Document` or nil if no such document exists
      */
@@ -331,12 +331,12 @@ public class CoreRemoteMongoCollection<T: Codable> {
 
     /**
      * Finds a document in this collection which matches the provided filter and
-     * performs the given update on that document.
+     * replaces it with the given document.
      *
      * - parameters:
      *   - filter: A `Document` that should match the query.
-     *   - options: A `Document` describing the update.
-     *   - options: Optional `RemoteFindOptions` to use when executing the command.
+     *   - replacement: A `Document` describing the update.
+     *   - options: Optional `RemoteFindOneAndModifyOptions` to use when executing the command.
      *
      * - returns: The resulting `Document` or nil if no such document exists
      */
@@ -351,12 +351,11 @@ public class CoreRemoteMongoCollection<T: Codable> {
 
     /**
      * Finds a document in this collection which matches the provided filter and
-     * performs the given update on that document.
+     * deletes that document.
      *
      * - parameters:
      *   - filter: A `Document` that should match the query.
-     *   - options: A `Document` describing the update.
-     *   - options: Optional `RemoteFindOptions` to use when executing the command.
+     *   - options: Optional `RemoteFindOneAndModifyOptions` to use when executing the command.
      *
      * - returns: The resulting `Document` or nil if no such document exists
      */
@@ -423,15 +422,11 @@ public class CoreRemoteMongoCollection<T: Codable> {
             if let sort = options.sort {
                 args[RemoteFindOneAndModifyOptionsKeys.sort.rawValue] = sort
             }
-            if let upsert = options.upsert {
-                if upsert {
-                    args[RemoteFindOneAndModifyOptionsKeys.upsert.rawValue] = true
-                }
+            if options.upsert ?? false {
+                args[RemoteFindOneAndModifyOptionsKeys.upsert.rawValue] = true
             }
-            if let returnNewDocument = options.returnNewDocument {
-                if returnNewDocument {
-                    args[RemoteFindOneAndModifyOptionsKeys.returnNewDocument.rawValue] = true
-                }
+            if options.returnNewDocument ?? false {
+                args[RemoteFindOneAndModifyOptionsKeys.returnNewDocument.rawValue] = true
             }
         }
 

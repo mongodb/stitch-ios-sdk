@@ -278,12 +278,12 @@ public class RemoteMongoCollection<T: Codable> {
      *
      * - parameters:
      *   - filter: A `Document` that should match the query.
-     *   - options: A `Document` describing the update.
+     *   - update: A `Document` describing the update.
      *   - options: Optional `RemoteFindOneAndModifyOptions` to use when executing the command.
      *   - completionHandler: The completion handler to call when the update is completed or if the operation fails.
      *                        This handler is executed on a non-main global `DispatchQueue`. If the operation is
-     *                        successful, the result will contain the result of attempting to update multiple
-     *                        documents, as a `Document` or nil if the query matched no documents.
+     *                        successful, the result will contain the resulting document or nil if the query
+     *                        matched no documents.
      *
      * - important: If the update failed due to a request timeout, it does not necessarily indicate that the update
      *              failed on the database. Application code should handle timeout errors with the assumption that
@@ -308,8 +308,8 @@ public class RemoteMongoCollection<T: Codable> {
      *   - options: Optional `RemoteFindOneAndModifyOptions` to use when executing the command.
      *   - completionHandler: The completion handler to call when the update is completed or if the operation fails.
      *                        This handler is executed on a non-main global `DispatchQueue`. If the operation is
-     *                        successful, the result will contain the result of attempting to update multiple
-     *                        documents, as a `Document` or nil if the query matched no documents.
+     *                        successful, the result will contain the resulting document or nil if the query
+     *                        matched no documents.
      *
      * - important: If the update failed due to a request timeout, it does not necessarily indicate that the update
      *              failed on the database. Application code should handle timeout errors with the assumption that
@@ -333,8 +333,8 @@ public class RemoteMongoCollection<T: Codable> {
      *                        Note: findOneAndDelete() only accepts the sort and projection options
      *   - completionHandler: The completion handler to call when the update is completed or if the operation fails.
      *                        This handler is executed on a non-main global `DispatchQueue`. If the operation is
-     *                        successful, the result will contain the result of attempting to update multiple
-     *                        documents, as a `Document` or nil if the query matched no documents.
+     *                        successful, the result will contain the resulting document or nil if the query
+     *                        matched no documents.
      *
      * - important: If the update failed due to a request timeout, it does not necessarily indicate that the update
      *              failed on the database. Application code should handle timeout errors with the assumption that

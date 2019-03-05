@@ -1,10 +1,11 @@
 import Foundation
 import MongoSwift
 
-// Options to use when executing a `find` command on a `RemoteMongoCollection`.
+// Options to use when executing a `findOneAndUpdate`, `findOneAndReplace`,
+// or `findOneAndDelete` command on a `RemoteMongoCollection`.
 public struct RemoteFindOneAndModifyOptions {
     // MARK: Initializer
-
+    
     // Convenience initializer allowing any/all parameters to be optional
     public init(
         projection: Document? = nil,
