@@ -86,6 +86,73 @@ private extension Sync where DocumentT == Document {
         }
     }
 
+    func configure(
+        conflictHandler: @escaping (
+        _ documentId: BSONValue,
+        _ localEvent: ChangeEvent<DocumentT>,
+        _ remoteEvent: ChangeEvent<DocumentT>)  throws -> DocumentT?,
+        changeEventDelegate: ((_ documentId: BSONValue, _ event: ChangeEvent<DocumentT>) -> Void)? = nil,
+        errorListener:  ((_ error: DataSynchronizerError, _ documentId: BSONValue?) -> Void)? = nil) {
+        let joiner = CallbackJoiner()
+        self.configure(
+            conflictHandler: conflictHandler,
+            changeEventDelegate: changeEventDelegate,
+            errorListener: errorListener, joiner.capture()
+        )
+
+        _ = joiner.value(asType: Void.self)
+    }
+
+    func configure<CH: ConflictHandler, CED: ChangeEventDelegate>(
+        conflictHandler: CH,
+        changeEventDelegate: CED? = nil,
+        errorListener: ErrorListener? = nil
+    ) where CH.DocumentT == DocumentT, CED.DocumentT == DocumentT {
+        let joiner = CallbackJoiner()
+        self.configure(
+            conflictHandler: conflictHandler,
+            changeEventDelegate: changeEventDelegate,
+            errorListener: errorListener,
+            joiner.capture()
+        )
+        _ = joiner.value(asType: Void.self)
+    }
+
+    func sync(ids: [BSONValue]) {
+        defer { verifyUndoCollectionEmpty() }
+        let joiner = CallbackJoiner()
+        self.sync(ids: ids, joiner.capture())
+        return joiner.value(asType: Void.self)!
+    }
+
+    func desync(ids: [BSONValue]) {
+        defer { verifyUndoCollectionEmpty() }
+        let joiner = CallbackJoiner()
+        self.desync(ids: ids, joiner.capture())
+        return joiner.value(asType: Void.self)!
+    }
+
+    func syncedIds() -> Set<AnyBSONValue> {
+        defer { verifyUndoCollectionEmpty() }
+        let joiner = CallbackJoiner()
+        self.syncedIds(joiner.capture())
+        return joiner.value(asType: Set<AnyBSONValue>.self)!
+    }
+
+    func pausedIds() -> Set<AnyBSONValue> {
+        defer { verifyUndoCollectionEmpty() }
+        let joiner = CallbackJoiner()
+        self.pausedIds(joiner.capture())
+        return joiner.value(asType: Set<AnyBSONValue>.self)!
+    }
+
+    func resumeSync(forDocumentId documentId: BSONValue) -> Bool {
+        defer { verifyUndoCollectionEmpty() }
+        let joiner = CallbackJoiner()
+        self.resumeSync(forDocumentId: documentId, joiner.capture())
+        return joiner.value(asType: Bool.self)!
+    }
+
     func count(_ filter: Document) -> Int? {
         defer { verifyUndoCollectionEmpty() }
         let joiner = CallbackJoiner()
@@ -460,7 +527,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         })
 
         // sync on the remote document
-        try sync.sync(ids: [doc1Id])
+        sync.sync(ids: [doc1Id])
         try ctx.streamAndSync()
 
         // 1. updating a document remotely should not be reflected until coming back online.
@@ -570,7 +637,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
             }
             return merged
         })
-        try coll.sync(ids: [doc1Id])
+        coll.sync(ids: [doc1Id])
         try ctx.streamAndSync()
 
         // Update remote
@@ -625,7 +692,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         // synchronize the document, and stream events and do a sync pass
         coll.configure(conflictHandler: DefaultConflictHandler<Document>.remoteWins())
 
-        try coll.sync(ids: [doc1Id])
+        coll.sync(ids: [doc1Id])
         try ctx.streamAndSync()
 
         // update the document remotely while watching for an update
@@ -675,7 +742,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         // configure Sync to resolve conflicts with local winning,
         // synchronize the document, and stream events and do a sync pass
         coll.configure(conflictHandler: DefaultConflictHandler<Document>.localWins())
-        try coll.sync(ids: [doc1Id])
+        coll.sync(ids: [doc1Id])
         try ctx.streamAndSync()
 
         // update the document remotely while watching for an update
@@ -730,7 +797,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         }, changeEventDelegate: nil, errorListener: { (error, _) in
             XCTFail(error.localizedDescription)
         })
-        try coll.sync(ids: [doc1Id])
+        coll.sync(ids: [doc1Id])
         try ctx.streamAndSync()
 
         // update the document so it has a sync version (if we don't do this, then deleting
@@ -780,7 +847,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         coll.configure(conflictHandler: { _, _, _ in
             ["well": "shoot"]
         }, changeEventDelegate: nil, errorListener: { err, _ in fatalError(err.localizedDescription) })
-        try coll.sync(ids: [doc1Id])
+        coll.sync(ids: [doc1Id])
         try ctx.streamAndSync()
 
         // update the document remotely
@@ -961,9 +1028,9 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         // configure Sync with a conflict handler that fails this test
         // in the event of conflict. sync the document, and sync.
         coll.configure(conflictHandler: failingConflictHandler)
-        try coll.sync(ids: [doc1Id])
+        coll.sync(ids: [doc1Id])
         try ctx.streamAndSync()
-        XCTAssertEqual(coll.syncedIds.count, 1)
+        XCTAssertEqual(coll.syncedIds().count, 1)
 
         // do a remote delete. wait for the event to be stored. sync.
         _ = remoteColl.deleteOne(doc1Filter)
@@ -1007,7 +1074,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         coll.configure(conflictHandler: { _, _, _ in
             ["hello": "world"]
         })
-        try coll.sync(ids: [doc1Id])
+        coll.sync(ids: [doc1Id])
         try ctx.streamAndSync()
         XCTAssertEqual(doc, coll.findOne(doc1Filter))
         XCTAssertNotNil(coll.findOne(doc1Filter))
@@ -1053,7 +1120,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         coll.configure(conflictHandler: { _, _, _ in
             ["hello": "again"]
         })
-        try coll.sync(ids: [doc1Id])
+        coll.sync(ids: [doc1Id])
         try ctx.streamAndSync()
         XCTAssertEqual(doc, coll.findOne(doc1Filter))
         XCTAssertNotNil(coll.findOne(doc1Filter))
@@ -1101,7 +1168,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         // sync the document, and do a sync pass.
         // assert the remote insertion is reflected locally.
         coll.configure(conflictHandler: failingConflictHandler)
-        try coll.sync(ids: [doc1Id])
+        coll.sync(ids: [doc1Id])
         try ctx.streamAndSync()
         XCTAssertEqual(withoutSyncVersion(doc), coll.findOne(doc1Filter))
 
@@ -1138,7 +1205,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         // sync the docId, and do a sync pass.
         // assert the remote insert is reflected locally
         coll.configure(conflictHandler: { _, _, _ in nil })
-        try coll.sync(ids: [doc1Id])
+        coll.sync(ids: [doc1Id])
         try ctx.streamAndSync()
         XCTAssertEqual(withoutSyncVersion(doc), coll.findOne(doc1Filter))
         XCTAssertNotNil(coll.findOne(doc1Filter))
@@ -1190,7 +1257,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         // configure Sync to resolve conflicts with a local win.
         // sync the docId
         coll.configure(conflictHandler: DefaultConflictHandler<Document>.localWins())
-        try coll.sync(ids: [doc1Id])
+        coll.sync(ids: [doc1Id])
 
         // reload our configuration again.
         // reconfigure sync and the same way. do a sync pass.
@@ -1228,7 +1295,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
 
         // assert we are still synced on one id.
         // reconfigure again.
-        XCTAssertEqual(1, coll.syncedIds.count)
+        XCTAssertEqual(1, coll.syncedIds().count)
         coll.configure(conflictHandler: DefaultConflictHandler<Document>.localWins())
         try ctx.streamAndSync() // resolves the conflict
 
@@ -1256,7 +1323,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
 
         // assert the document exists locally. desync it.
         XCTAssertEqual(docToInsert.sorted(), coll.findOne(["_id": doc1Id]))
-        try coll.desync(ids: [doc1Id])
+        coll.desync(ids: [doc1Id])
 
         // sync. assert that the desync'd document no longer exists locally
         try ctx.streamAndSync()
@@ -1345,7 +1412,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
 
         var docToInsert = ["hello": "world"] as Document
 
-        coll.configure(conflictHandler: failingConflictHandler)
+        coll.configure(conflictHandler: failingConflictHandler) { _ in }
         let insertResult = coll.insertOne(&docToInsert)!
 
         var doc = coll.findOne(["_id": insertResult.insertedId ?? BSONNull()])!
@@ -1444,15 +1511,15 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
 
         let doc = remoteColl.findOne(docToInsert)!
         let doc1Id = doc["_id"]!
-        try coll.sync(ids: [doc1Id])
+        coll.sync(ids: [doc1Id])
 
-        XCTAssertTrue(coll.syncedIds.contains(AnyBSONValue(doc1Id)))
+        XCTAssertTrue(coll.syncedIds().contains(AnyBSONValue(doc1Id)))
 
         // syncing on this document with an unsupported spv should cause the document to desync
         goOnline()
         try ctx.streamAndSync()
 
-        XCTAssertFalse(coll.syncedIds.contains(AnyBSONValue(doc1Id)))
+        XCTAssertFalse(coll.syncedIds().contains(AnyBSONValue(doc1Id)))
 
         // an error should also have been emitted
         guard case .success = errorEmittedSem.wait(timeout: DispatchTime(uptimeNanoseconds: waitTimeout)) else {
@@ -1477,7 +1544,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         // configure Sync with a conflict handler that will freeze a document.
         // sync the document
         coll.configure(conflictHandler: failingConflictHandler)
-        try coll.sync(ids: [doc1Id])
+        coll.sync(ids: [doc1Id])
 
         // sync. assert the document has been synced.
         try ctx.streamAndSync()
@@ -1512,7 +1579,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
             XCTFail("did not expect a conflict")
             return nil
         })
-        try coll.sync(ids: [doc1Id])
+        coll.sync(ids: [doc1Id])
 
         try ctx.streamAndSync()
         XCTAssertNotNil(coll.findOne(doc1Filter))
@@ -1550,7 +1617,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
             XCTFail("did not expect a conflict")
             return nil
         })
-        try coll.sync(ids: [doc1Id])
+        coll.sync(ids: [doc1Id])
 
         try ctx.streamAndSync()
         XCTAssertNotNil(coll.findOne(["_id": doc1Id]))
@@ -1559,7 +1626,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         try ctx.streamAndSync()
         XCTAssertNotNil(coll.findOne(["_id": doc1Id]))
 
-        try coll.sync(ids: [doc2Id])
+        coll.sync(ids: [doc2Id])
         try ctx.streamAndSync()
         XCTAssertNotNil(coll.findOne(["_id": doc1Id]))
         XCTAssertNotNil(coll.findOne(["_id": doc2Id]))
@@ -1639,7 +1706,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
                 eventSemaphore.signal()
             }
         }, errorListener: nil)
-        try coll.sync(ids: [doc1Id])
+        coll.sync(ids: [doc1Id])
         try ctx.streamAndSync()
 
         // because the "they_are" field has already been added, set
@@ -1722,8 +1789,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         try ctx.streamAndSync()
         ctx.streamJoiner.clearEvents()
         XCTAssertTrue(errorEmitted)
-        XCTAssertEqual(1, coll.pausedIds.count)
-        XCTAssertTrue(coll.pausedIds.contains(AnyBSONValue(result!.insertedId!)))
+        XCTAssertEqual(1, coll.pausedIds().count)
+        XCTAssertTrue(coll.pausedIds().contains(AnyBSONValue(result!.insertedId!)))
 
         // update the doc remotely
         let nextDoc = ["hello": "friend"] as Document
@@ -1754,7 +1821,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         try ctx.streamAndSync()
         ctx.streamJoiner.clearEvents()
 
-        XCTAssertTrue(coll.pausedIds.isEmpty)
+        XCTAssertTrue(coll.pausedIds().isEmpty)
         XCTAssertEqual(
             withoutId(lastDoc),
             withoutId(coll.findOne(["_id": result?.insertedId ?? BSONNull()])!)
@@ -1782,8 +1849,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
                 ["$in": insertResult?.insertedIds.compactMap({ $1 }) ?? BSONNull()] as Document] as Document
             ]])?.compactMap({ $0 }).count)
 
-        try insertResult?.insertedIds.forEach({
-            try coll.sync(ids: [$1])
+        insertResult?.insertedIds.forEach({
+            coll.sync(ids: [$1])
         })
         try ctx.streamAndSync()
 
@@ -1793,8 +1860,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
             "$match": ["_id": ["$in": insertResult?.insertedIds.map({ $1 }) ?? BSONNull()] as Document] as Document
             ]])?.compactMap({ $0 }).count)
 
-        try insertResult?.insertedIds.forEach({
-            try coll.desync(ids: [$1])
+        insertResult?.insertedIds.forEach({
+            coll.desync(ids: [$1])
         })
         try ctx.streamAndSync()
 
@@ -2081,7 +2148,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
             conflictRaised = true
             return localEvent.fullDocument
         })
-        try coll.sync(ids: [doc1Id!])
+        coll.sync(ids: [doc1Id!])
         try ctx.streamAndSync()
 
         // go offline to avoid processing events

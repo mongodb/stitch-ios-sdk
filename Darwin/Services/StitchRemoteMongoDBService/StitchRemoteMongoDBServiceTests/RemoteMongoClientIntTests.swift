@@ -1399,7 +1399,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         let sync = coll.sync
         sync.configure(conflictHandler: { _, _, rDoc in rDoc.fullDocument },
                        changeEventDelegate: { _, _ in },
-                       errorListener: { _, _ in })
+                       errorListener: { _, _ in }, { _ in })
 
         let joiner = CallbackJoiner()
 
@@ -1424,7 +1424,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         let sync = coll.sync
         sync.configure(conflictHandler: { _, _, rDoc in rDoc.fullDocument },
                        changeEventDelegate: { _, _ in },
-                       errorListener: { _, _ in })
+                       errorListener: { _, _ in }, { _ in })
 
         let joiner = CallbackJoiner()
 
@@ -1457,7 +1457,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         let sync = coll.sync
         sync.configure(conflictHandler: { _, _, rDoc in rDoc.fullDocument },
                        changeEventDelegate: { _, _ in },
-                       errorListener: { _, _ in })
+                       errorListener: { _, _ in }, { _ in })
 
         let joiner = CallbackJoiner()
 
@@ -1496,7 +1496,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         let sync = coll.sync
         sync.configure(conflictHandler: { _, _, rDoc in rDoc.fullDocument },
                        changeEventDelegate: { _, _ in },
-                       errorListener: { _, _ in })
+                       errorListener: { _, _ in }, { _ in })
         let joiner = CallbackJoiner()
         sync.count(joiner.capture())
         XCTAssertEqual(0, joiner.value())
@@ -1534,7 +1534,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         let sync = coll.sync
         sync.configure(conflictHandler: { _, _, rDoc in rDoc.fullDocument },
                        changeEventDelegate: { _, _ in },
-                       errorListener: { _, _ in })
+                       errorListener: { _, _ in }, { _ in })
 
         let joiner = CallbackJoiner()
 
@@ -1567,7 +1567,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         let sync = coll.sync
         sync.configure(conflictHandler: { _, _, rDoc in rDoc.fullDocument },
                        changeEventDelegate: { _, _ in },
-                       errorListener: { _, _ in })
+                       errorListener: { _, _ in }, { _ in })
 
         let joiner = CallbackJoiner()
 
@@ -1604,7 +1604,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         let sync = coll.sync
         sync.configure(conflictHandler: { _, _, rDoc in rDoc.fullDocument },
                        changeEventDelegate: { _, _ in },
-                       errorListener: { _, _ in })
+                       errorListener: { _, _ in }, { _ in })
 
         let joiner = CallbackJoiner()
 
@@ -1660,7 +1660,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         let sync = coll.sync
         sync.configure(conflictHandler: { _, _, rDoc in rDoc.fullDocument },
                        changeEventDelegate: { _, _ in },
-                       errorListener: { _, _ in })
+                       errorListener: { _, _ in }, { _ in })
 
         let joiner = CallbackJoiner()
 
@@ -1715,7 +1715,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
         sync.configure(conflictHandler: { _, _, rDoc in rDoc.fullDocument },
                        changeEventDelegate: { _, _ in },
-                       errorListener: { _, _ in })
+                       errorListener: { _, _ in }, { _ in })
 
         let joiner = CallbackJoiner()
 
@@ -1765,7 +1765,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
         sync.configure(conflictHandler: { _, _, rDoc in rDoc.fullDocument },
                        changeEventDelegate: { _, _ in },
-                       errorListener: { _, _ in })
+                       errorListener: { _, _ in }, { _ in })
 
         let joiner = CallbackJoiner()
 
