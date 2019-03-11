@@ -1412,7 +1412,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
 
         var docToInsert = ["hello": "world"] as Document
 
-        coll.configure(conflictHandler: failingConflictHandler) { _ in }
+        coll.configure(conflictHandler: failingConflictHandler)
         let insertResult = coll.insertOne(&docToInsert)!
 
         var doc = coll.findOne(["_id": insertResult.insertedId ?? BSONNull()])!

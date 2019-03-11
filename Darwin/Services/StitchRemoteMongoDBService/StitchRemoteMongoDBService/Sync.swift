@@ -30,11 +30,11 @@ public class Sync<DocumentT: Codable> {
         _ remoteEvent: ChangeEvent<DocumentT>)  throws -> DocumentT?,
         changeEventDelegate: ((_ documentId: BSONValue, _ event: ChangeEvent<DocumentT>) -> Void)? = nil,
         errorListener:  ((_ error: DataSynchronizerError, _ documentId: BSONValue?) -> Void)? = nil,
-        _ completionHandler: ((StitchResult<Void>) -> Void)) {
+        _ completionHandler: @escaping (StitchResult<Void>) -> Void) {
         queue.async {
-            self.proxy.configure(conflictHandler: conflictHandler,
-                                 changeEventDelegate: changeEventDelegate,
-                                 errorListener: errorListener)
+            completionHandler(.success(result: self.proxy.configure(conflictHandler: conflictHandler,
+                                                                    changeEventDelegate: changeEventDelegate,
+                                                                    errorListener: errorListener)))
         }
     }
 
@@ -51,13 +51,12 @@ public class Sync<DocumentT: Codable> {
         conflictHandler: CH,
         changeEventDelegate: CED? = nil,
         errorListener: ErrorListener? = nil,
-        _ completionHandler: ((StitchResult<Void>) -> Void)
+        _ completionHandler: @escaping (StitchResult<Void>) -> Void
     ) where CH.DocumentT == DocumentT, CED.DocumentT == DocumentT {
-
         queue.async {
-            self.proxy.configure(conflictHandler: conflictHandler,
-                                 changeEventDelegate: changeEventDelegate,
-                                 errorListener: errorListener)
+            completionHandler(.success(result: self.proxy.configure(conflictHandler: conflictHandler,
+                                                                    changeEventDelegate: changeEventDelegate,
+                                                                    errorListener: errorListener)))
         }
     }
 
