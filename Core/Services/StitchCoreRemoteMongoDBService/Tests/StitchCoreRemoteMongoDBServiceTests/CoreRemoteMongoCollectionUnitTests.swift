@@ -686,6 +686,374 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         }
     }
 
+    func testFindOneAndUpdate() throws {
+        let coll = try remoteCollection()
+
+        let doc1: Document = ["hello": "world"]
+
+        mockServiceClient.callFunctionOptionalWithDecodingMock.clearStubs()
+        mockServiceClient.callFunctionOptionalWithDecodingMock.doReturn(
+            result: doc1, forArg1: .any, forArg2: .any, forArg3: .any
+        )
+
+        // Test findOneAndUpdate() without filter or options
+        var resultDoc = try coll.findOneAndUpdate(filter: [:], update: [:])
+        XCTAssertNotNil(resultDoc)
+        XCTAssertEqual(resultDoc, doc1)
+
+        var (funcNameArg, funcArgsArg, _) =
+            mockServiceClient.callFunctionOptionalWithDecodingMock.capturedInvocations.last!
+
+        XCTAssertEqual("findOneAndUpdate", funcNameArg)
+        XCTAssertEqual(1, funcArgsArg.count)
+
+        var expectedArgs: Document = [
+            "database": namespace.databaseName,
+            "collection": namespace.collectionName,
+            "filter": Document.init(),
+            "update": Document.init()
+        ]
+
+        XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
+
+        // test findOneAndUpdate() with filter and all options
+        let expectedFilter: Document = ["one": Int32(23)]
+        let expectedUpdate: Document = ["two": Int32(43)]
+        let expectedProject: Document = ["two": "four"]
+        let expectedSort: Document = ["_id": Int64(-1)]
+
+        resultDoc = try coll.findOneAndUpdate(
+            filter: expectedFilter,
+            update: expectedUpdate,
+            options: RemoteFindOneAndModifyOptions.init(
+                projection: expectedProject,
+                sort: expectedSort,
+                upsert: true,
+                returnNewDocument: true)
+        )
+        XCTAssertNotNil(resultDoc)
+        XCTAssertEqual(resultDoc, doc1)
+
+        XCTAssertTrue(mockServiceClient.callFunctionOptionalWithDecodingMock
+            .verify(numberOfInvocations: 2, forArg1: .any, forArg2: .any, forArg3: .any)
+        )
+
+        (funcNameArg, funcArgsArg, _) =
+            mockServiceClient.callFunctionOptionalWithDecodingMock.capturedInvocations.last!
+
+        XCTAssertEqual("findOneAndUpdate", funcNameArg)
+        XCTAssertEqual(1, funcArgsArg.count)
+
+        expectedArgs = [
+            "database": namespace.databaseName,
+            "collection": namespace.collectionName,
+            "filter": expectedFilter,
+            "update": expectedUpdate,
+            "projection": expectedProject,
+            "sort": expectedSort,
+            "upsert": true,
+            "returnNewDocument": true
+        ]
+
+        XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
+
+        // Test findOneAndUpdate to make sure request doesnt send unecessary options
+        resultDoc = try coll.findOneAndUpdate(
+            filter: expectedFilter,
+            update: expectedUpdate,
+            options: RemoteFindOneAndModifyOptions.init(
+                projection: expectedProject,
+                returnNewDocument: false)
+        )
+        XCTAssertNotNil(resultDoc)
+        XCTAssertEqual(resultDoc, doc1)
+
+        XCTAssertTrue(mockServiceClient.callFunctionOptionalWithDecodingMock
+            .verify(numberOfInvocations: 3, forArg1: .any, forArg2: .any, forArg3: .any)
+        )
+
+        (funcNameArg, funcArgsArg, _) =
+            mockServiceClient.callFunctionOptionalWithDecodingMock.capturedInvocations.last!
+
+        XCTAssertEqual("findOneAndUpdate", funcNameArg)
+        XCTAssertEqual(1, funcArgsArg.count)
+
+        expectedArgs = [
+            "database": namespace.databaseName,
+            "collection": namespace.collectionName,
+            "filter": expectedFilter,
+            "update": expectedUpdate,
+            "projection": expectedProject
+        ]
+
+        XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
+
+        // passing nil should be fine
+        mockServiceClient.callFunctionOptionalWithDecodingMock.clearStubs()
+        mockServiceClient.callFunctionOptionalWithDecodingMock.doReturn(
+            result: nil, forArg1: .any, forArg2: .any, forArg3: .any
+        )
+        resultDoc = try coll.findOneAndUpdate(filter: [:], update: [:])
+        XCTAssertNil(resultDoc)
+
+        // should pass along errors
+        mockServiceClient.callFunctionOptionalWithDecodingMock.doThrow(
+            error: StitchError.serviceError(withMessage: "whoops", withServiceErrorCode: .unknown),
+            forArg1: .any,
+            forArg2: .any,
+            forArg3: .any
+        )
+
+        do {
+            _ = try coll.findOneAndUpdate(filter: [:], update: [:])
+            XCTFail("function did not fail where expected")
+        } catch {
+            // do nothing
+        }
+    }
+
+    func testFindOneAndReplace() throws {
+        let coll = try remoteCollection()
+
+        let doc1: Document = ["hello": "world"]
+
+        mockServiceClient.callFunctionOptionalWithDecodingMock.clearStubs()
+        mockServiceClient.callFunctionOptionalWithDecodingMock.doReturn(
+            result: doc1, forArg1: .any, forArg2: .any, forArg3: .any
+        )
+
+        // Test findOneAndReplace() without filter or options
+        var resultDoc = try coll.findOneAndReplace(filter: [:], replacement: [:])
+        XCTAssertNotNil(resultDoc)
+        XCTAssertEqual(resultDoc, doc1)
+
+        var (funcNameArg, funcArgsArg, _) =
+            mockServiceClient.callFunctionOptionalWithDecodingMock.capturedInvocations.last!
+
+        XCTAssertEqual("findOneAndReplace", funcNameArg)
+        XCTAssertEqual(1, funcArgsArg.count)
+
+        var expectedArgs: Document = [
+            "database": namespace.databaseName,
+            "collection": namespace.collectionName,
+            "filter": Document.init(),
+            "update": Document.init()
+        ]
+
+        XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
+
+        // test findOneAndReplace() with filter and all options
+        let expectedFilter: Document = ["one": Int32(23)]
+        let expectedUpdate: Document = ["two": Int32(43)]
+        let expectedProject: Document = ["two": "four"]
+        let expectedSort: Document = ["_id": Int64(-1)]
+
+        resultDoc = try coll.findOneAndReplace(
+            filter: expectedFilter,
+            replacement: expectedUpdate,
+            options: RemoteFindOneAndModifyOptions.init(
+                projection: expectedProject,
+                sort: expectedSort,
+                upsert: true,
+                returnNewDocument: true)
+        )
+        XCTAssertNotNil(resultDoc)
+        XCTAssertEqual(resultDoc, doc1)
+
+        XCTAssertTrue(mockServiceClient.callFunctionOptionalWithDecodingMock
+            .verify(numberOfInvocations: 2, forArg1: .any, forArg2: .any, forArg3: .any)
+        )
+
+        (funcNameArg, funcArgsArg, _) =
+            mockServiceClient.callFunctionOptionalWithDecodingMock.capturedInvocations.last!
+
+        XCTAssertEqual("findOneAndReplace", funcNameArg)
+        XCTAssertEqual(1, funcArgsArg.count)
+
+        expectedArgs = [
+            "database": namespace.databaseName,
+            "collection": namespace.collectionName,
+            "filter": expectedFilter,
+            "update": expectedUpdate,
+            "projection": expectedProject,
+            "sort": expectedSort,
+            "upsert": true,
+            "returnNewDocument": true
+        ]
+
+        XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
+
+        // Test findOneAndReplace to make sure request doesnt send unecessary options
+        resultDoc = try coll.findOneAndReplace(
+            filter: expectedFilter,
+            replacement: expectedUpdate,
+            options: RemoteFindOneAndModifyOptions.init(
+                projection: expectedProject,
+                returnNewDocument: false)
+        )
+        XCTAssertNotNil(resultDoc)
+        XCTAssertEqual(resultDoc, doc1)
+
+        XCTAssertTrue(mockServiceClient.callFunctionOptionalWithDecodingMock
+            .verify(numberOfInvocations: 3, forArg1: .any, forArg2: .any, forArg3: .any)
+        )
+
+        (funcNameArg, funcArgsArg, _) =
+            mockServiceClient.callFunctionOptionalWithDecodingMock.capturedInvocations.last!
+
+        XCTAssertEqual("findOneAndReplace", funcNameArg)
+        XCTAssertEqual(1, funcArgsArg.count)
+
+        expectedArgs = [
+            "database": namespace.databaseName,
+            "collection": namespace.collectionName,
+            "filter": expectedFilter,
+            "update": expectedUpdate,
+            "projection": expectedProject
+        ]
+
+        XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
+
+        // passing nil should be fine
+        mockServiceClient.callFunctionOptionalWithDecodingMock.clearStubs()
+        mockServiceClient.callFunctionOptionalWithDecodingMock.doReturn(
+            result: nil, forArg1: .any, forArg2: .any, forArg3: .any
+        )
+        resultDoc = try coll.findOneAndReplace(filter: [:], replacement: [:])
+        XCTAssertNil(resultDoc)
+
+        // should pass along errors
+        mockServiceClient.callFunctionOptionalWithDecodingMock.doThrow(
+            error: StitchError.serviceError(withMessage: "whoops", withServiceErrorCode: .unknown),
+            forArg1: .any,
+            forArg2: .any,
+            forArg3: .any
+        )
+
+        do {
+            _ = try coll.findOneAndReplace(filter: [:], replacement: [:])
+            XCTFail("function did not fail where expected")
+        } catch {
+            // do nothing
+        }
+    }
+
+    func testFindOneAndDelete() throws {
+        let coll = try remoteCollection()
+
+        let doc1: Document = ["hello": "world"]
+
+        mockServiceClient.callFunctionOptionalWithDecodingMock.clearStubs()
+        mockServiceClient.callFunctionOptionalWithDecodingMock.doReturn(
+            result: doc1, forArg1: .any, forArg2: .any, forArg3: .any
+        )
+
+        // Test findOneAndDelete() without filter or options
+        var resultDoc = try coll.findOneAndDelete(filter: [:])
+        XCTAssertNotNil(resultDoc)
+        XCTAssertEqual(resultDoc, doc1)
+
+        var (funcNameArg, funcArgsArg, _) =
+            mockServiceClient.callFunctionOptionalWithDecodingMock.capturedInvocations.last!
+
+        XCTAssertEqual("findOneAndDelete", funcNameArg)
+        XCTAssertEqual(1, funcArgsArg.count)
+
+        var expectedArgs: Document = [
+            "database": namespace.databaseName,
+            "collection": namespace.collectionName,
+            "filter": Document.init()
+        ]
+        XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
+
+        // test findOneAndDelete() with filter and all options
+        let expectedFilter: Document = ["one": Int32(23)]
+        let expectedProject: Document = ["two": "four"]
+        let expectedSort: Document = ["_id": Int64(-1)]
+
+        resultDoc = try coll.findOneAndDelete(
+            filter: expectedFilter,
+            options: RemoteFindOneAndModifyOptions.init(
+                projection: expectedProject,
+                sort: expectedSort)
+        )
+        XCTAssertNotNil(resultDoc)
+        XCTAssertEqual(resultDoc, doc1)
+
+        XCTAssertTrue(mockServiceClient.callFunctionOptionalWithDecodingMock
+            .verify(numberOfInvocations: 2, forArg1: .any, forArg2: .any, forArg3: .any)
+        )
+
+        (funcNameArg, funcArgsArg, _) =
+            mockServiceClient.callFunctionOptionalWithDecodingMock.capturedInvocations.last!
+
+        XCTAssertEqual("findOneAndDelete", funcNameArg)
+        XCTAssertEqual(1, funcArgsArg.count)
+
+        expectedArgs = [
+            "database": namespace.databaseName,
+            "collection": namespace.collectionName,
+            "filter": expectedFilter,
+            "projection": expectedProject,
+            "sort": expectedSort
+        ]
+
+        XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
+
+        // Test to make sure request doesnt send unecessary options
+        resultDoc = try coll.findOneAndDelete(
+            filter: expectedFilter,
+            options: RemoteFindOneAndModifyOptions.init(
+                projection: expectedProject,
+                upsert: true,
+                returnNewDocument: true)
+        )
+        XCTAssertNotNil(resultDoc)
+        XCTAssertEqual(resultDoc, doc1)
+
+        XCTAssertTrue(mockServiceClient.callFunctionOptionalWithDecodingMock
+            .verify(numberOfInvocations: 3, forArg1: .any, forArg2: .any, forArg3: .any)
+        )
+
+        (funcNameArg, funcArgsArg, _) =
+            mockServiceClient.callFunctionOptionalWithDecodingMock.capturedInvocations.last!
+
+        XCTAssertEqual("findOneAndDelete", funcNameArg)
+        XCTAssertEqual(1, funcArgsArg.count)
+
+        expectedArgs = [
+            "database": namespace.databaseName,
+            "collection": namespace.collectionName,
+            "filter": expectedFilter,
+            "projection": expectedProject
+        ]
+
+        XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
+
+        // passing nil should be fine
+        mockServiceClient.callFunctionOptionalWithDecodingMock.clearStubs()
+        mockServiceClient.callFunctionOptionalWithDecodingMock.doReturn(
+            result: nil, forArg1: .any, forArg2: .any, forArg3: .any
+        )
+        resultDoc = try coll.findOneAndDelete(filter: [:])
+        XCTAssertNil(resultDoc)
+
+        // should pass along errors
+        mockServiceClient.callFunctionOptionalWithDecodingMock.doThrow(
+            error: StitchError.serviceError(withMessage: "whoops", withServiceErrorCode: .unknown),
+            forArg1: .any,
+            forArg2: .any,
+            forArg3: .any
+        )
+
+        do {
+            _ = try coll.findOneAndDelete(filter: [:])
+            XCTFail("function did not fail where expected")
+        } catch {
+            // do nothing
+        }
+    }
+
     class UnitTestWatchDelegate: SSEStreamDelegate { }
 
     func testWatch() throws {

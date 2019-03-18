@@ -1110,6 +1110,441 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         wait(for: [exp], timeout: 5.0)
     }
 
+    func testFindOneAndUpdate() {
+        let coll = getTestColl()
+        let joiner = CallbackJoiner()
+
+        // Collection should start out empty
+        // This also tests the null return format
+        coll.findOneAndUpdate(filter: [:], update: [:], joiner.capture())
+        if let resErr = joiner.value(asType: Document.self) {
+            XCTFail("Found Document Where It Shouldnt Be \(resErr)")
+            return
+        }
+
+        // Insert a sample Document
+        coll.insertOne(["hello": "world1", "num": 2], joiner.capture())
+        _ = joiner.capturedValue
+
+        coll.count([:], joiner.capture())
+        XCTAssertEqual(1, joiner.value(asType: Int.self))
+
+        // Sample call to findOneAndUpdate() where we get the previous document back
+        coll.findOneAndUpdate(
+            filter: ["hello": "world1"],
+            update: ["$inc": ["num": 1] as Document, "$set": ["hello": "hellothere"] as Document],
+            joiner.capture())
+        guard let result1 = joiner.value(asType: Document.self) else {
+            XCTFail("document not found")
+            return
+        }
+        XCTAssertEqual(["hello": "world1", "num": 2], withoutId(result1))
+        coll.count([:], joiner.capture())
+        XCTAssertEqual(1, joiner.value(asType: Int.self))
+
+        // Make sure the update took place
+        coll.findOne([:], joiner.capture())
+        guard let result2 = joiner.value(asType: Document.self) else {
+            XCTFail("document not found")
+            return
+        }
+        XCTAssertEqual(["hello": "hellothere", "num": 3], withoutId(result2))
+
+        // Call findOneAndUpdate() again but get the new document
+        coll.findOneAndUpdate(
+            filter: ["hello": "hellothere"],
+            update: ["$inc": ["num": 1] as Document],
+            options: RemoteFindOneAndModifyOptions(returnNewDocument: true),
+            joiner.capture())
+        guard let result3 = joiner.value(asType: Document.self) else {
+            XCTFail("document not found")
+            return
+        }
+        XCTAssertEqual(["hello": "hellothere", "num": 4], withoutId(result3))
+        coll.count([:], joiner.capture())
+        XCTAssertEqual(1, joiner.value(asType: Int.self))
+
+        // Make sure that was the new document
+        coll.findOne([:], joiner.capture())
+        guard let result4 = joiner.value(asType: Document.self) else {
+            XCTFail("document not found")
+            return
+        }
+        XCTAssertEqual(["hello": "hellothere", "num": 4], withoutId(result4))
+
+        // Test null behaviour again with a filter that should not match any documents
+        coll.findOneAndUpdate(filter: ["helloa": "thisisnotreal"], update: ["hi": "there"], joiner.capture())
+        if let resErr = joiner.value(asType: Document.self) {
+            XCTFail("Found Document Where It Shouldnt Be \(resErr)")
+            return
+        }
+
+        // Test the upsert option where it should not actually be invoked
+        coll.findOneAndUpdate(
+            filter: ["hello": "hellothere"],
+            update: ["$set": ["hello": "world1", "num": 1] as Document],
+            options: RemoteFindOneAndModifyOptions(upsert: true, returnNewDocument: true),
+            joiner.capture())
+        guard let result5 = joiner.value(asType: Document.self) else {
+            XCTFail("document not found")
+            return
+        }
+        XCTAssertEqual(["hello": "world1", "num": 1], withoutId(result5))
+
+        // There should still only be one documnt in the collection
+        coll.count([:], joiner.capture())
+        XCTAssertEqual(1, joiner.value(asType: Int.self))
+
+        // Test the upsert option where the server should perform upsert and return new document
+        coll.findOneAndUpdate(
+            filter: ["hello": "hello"],
+            update: ["$set": ["hello": "world2", "num": 2] as Document],
+            options: RemoteFindOneAndModifyOptions(upsert: true, returnNewDocument: true),
+            joiner.capture())
+        guard let result6 = joiner.value(asType: Document.self) else {
+            XCTFail("document not found")
+            return
+        }
+        XCTAssertEqual(["hello": "world2", "num": 2], withoutId(result6))
+
+        // There should now be 2 documents in the collection
+        coll.count([:], joiner.capture())
+        XCTAssertEqual(2, joiner.value(asType: Int.self))
+
+        // Test the upsert option where the server should perform upsert and return old document
+        // The old document should be empty
+        coll.findOneAndUpdate(
+            filter: ["hello": "hello"],
+            update: ["$set": ["hello": "world3", "num": 3] as Document],
+            options: RemoteFindOneAndModifyOptions(upsert: true),
+            joiner.capture())
+        if let resErr = joiner.value(asType: Document.self) {
+            XCTFail("Found Document Where It Shouldnt Be \(resErr)")
+            return
+        }
+
+        // There should now be three documents in the collection
+        coll.count([:], joiner.capture())
+        XCTAssertEqual(3, joiner.value(asType: Int.self))
+
+        // Test sort and project
+        coll.findOneAndUpdate(
+            filter: [:],
+            update: ["$inc": ["num": 1] as Document],
+            options: RemoteFindOneAndModifyOptions(
+                projection: ["hello": 1, "_id": 0],
+                sort: ["num": -1]
+            ),
+            joiner.capture())
+        guard let result7 = joiner.value(asType: Document.self) else {
+            XCTFail("document not found")
+            return
+        }
+        XCTAssertEqual(["hello": "world3"], result7)
+
+        coll.findOneAndUpdate(
+            filter: [:],
+            update: ["$inc": ["num": 1] as Document],
+            options: RemoteFindOneAndModifyOptions(
+                projection: ["hello": 1, "_id": 0],
+                sort: ["num": 1]
+            ),
+            joiner.capture())
+        guard let result8 = joiner.value(asType: Document.self) else {
+            XCTFail("document not found")
+            return
+        }
+        XCTAssertEqual(["hello": "world1"], result8)
+
+        // Test proper failure
+        let exp = expectation(description: "should error with invalid filter")
+        coll.findOneAndUpdate(filter: [:], update: ["$who": 1]) { result in
+            switch result {
+            case .success:
+                XCTFail("expected an error")
+            case .failure(let error):
+                switch error {
+                case .serviceError(_, let withServiceErrorCode):
+                    XCTAssertEqual(StitchServiceErrorCode.mongoDBError, withServiceErrorCode)
+                default:
+                    XCTFail("unexpected error code")
+                }
+            }
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 5.0)
+    }
+
+    func testFindOneAndReplace() {
+        let coll = getTestColl()
+        let joiner = CallbackJoiner()
+
+        // Collection should start out empty
+        // This also tests the null return format
+        coll.findOneAndReplace(filter: [:], replacement: [:], joiner.capture())
+        if let resErr = joiner.value(asType: Document.self) {
+            XCTFail("Found Document Where It Shouldnt Be \(resErr)")
+            return
+        }
+
+        // Insert a sample Document
+        coll.insertOne(["hello": "world1", "num": 1], joiner.capture())
+        _ = joiner.capturedValue
+
+        coll.count([:], joiner.capture())
+        XCTAssertEqual(1, joiner.value(asType: Int.self))
+
+        // Sample call to findOneAndReplace() where we get the previous document back
+        coll.findOneAndReplace(
+            filter: ["hello": "world1"],
+            replacement: ["hello": "world2", "num": 2],
+            joiner.capture())
+        guard let result1 = joiner.value(asType: Document.self) else {
+            XCTFail("document not found")
+            return
+        }
+        XCTAssertEqual(["hello": "world1", "num": 1], withoutId(result1))
+        coll.count([:], joiner.capture())
+        XCTAssertEqual(1, joiner.value(asType: Int.self))
+
+        // Make sure the update took place
+        coll.findOne([:], joiner.capture())
+        guard let result2 = joiner.value(asType: Document.self) else {
+            XCTFail("document not found")
+            return
+        }
+        XCTAssertEqual(["hello": "world2", "num": 2], withoutId(result2))
+
+        // Call findOneAndReplace() again but get the new document
+        coll.findOneAndReplace(
+            filter: [:],
+            replacement: ["hello": "world3", "num": 3],
+            options: RemoteFindOneAndModifyOptions(returnNewDocument: true),
+            joiner.capture())
+        guard let result3 = joiner.value(asType: Document.self) else {
+            XCTFail("document not found")
+            return
+        }
+        XCTAssertEqual(["hello": "world3", "num": 3], withoutId(result3))
+        coll.count([:], joiner.capture())
+        XCTAssertEqual(1, joiner.value(asType: Int.self))
+
+        // Make sure that was the new document
+        coll.findOne([:], joiner.capture())
+        guard let result4 = joiner.value(asType: Document.self) else {
+            XCTFail("document not found")
+            return
+        }
+        XCTAssertEqual(["hello": "world3", "num": 3], withoutId(result4))
+
+        // Test null behaviour again with a filter that should not match any documents
+        coll.findOneAndReplace(filter: ["helloa": "t"], replacement: ["hi": "there"], joiner.capture())
+        if let resErr = joiner.value(asType: Document.self) {
+            XCTFail("Found Document Where It Shouldnt Be \(resErr)")
+            return
+        }
+
+        // Test the upsert option where it should not actually be invoked
+        coll.findOneAndReplace(
+            filter: ["hello": "world3"],
+            replacement: ["hello": "world4", "num": 4],
+            options: RemoteFindOneAndModifyOptions(upsert: true, returnNewDocument: true),
+            joiner.capture())
+        guard let result5 = joiner.value(asType: Document.self) else {
+            XCTFail("document not found")
+            return
+        }
+        XCTAssertEqual(["hello": "world4", "num": 4], withoutId(result5))
+
+        // There should still only be one documnt in the collection
+        coll.count([:], joiner.capture())
+        XCTAssertEqual(1, joiner.value(asType: Int.self))
+
+        // Test the upsert option where the server should perform upsert and return new document
+        coll.findOneAndReplace(
+            filter: ["hello": "world3"],
+            replacement: ["hello": "world5", "num": 5],
+            options: RemoteFindOneAndModifyOptions(upsert: true, returnNewDocument: true),
+            joiner.capture())
+        guard let result6 = joiner.value(asType: Document.self) else {
+            XCTFail("document not found")
+            return
+        }
+        XCTAssertEqual(["hello": "world5", "num": 5], withoutId(result6))
+
+        // There should now be 2 documents in the collection
+        coll.count([:], joiner.capture())
+        XCTAssertEqual(2, joiner.value(asType: Int.self))
+
+        // Test the upsert option where the server should perform upsert and return old document
+        // The old document should be empty
+        coll.findOneAndReplace(
+            filter: ["hello": "world3"],
+            replacement: ["hello": "world6", "num": 6],
+            options: RemoteFindOneAndModifyOptions(upsert: true),
+            joiner.capture())
+        if let resErr = joiner.value(asType: Document.self) {
+            XCTFail("Found Document Where It Shouldnt Be \(resErr)")
+            return
+        }
+
+        // There should now be three documents in the collection
+        coll.count([:], joiner.capture())
+        XCTAssertEqual(3, joiner.value(asType: Int.self))
+
+        // Test sort and project
+        coll.findOneAndReplace(
+            filter: [:],
+            replacement: ["hello": "blah", "num": 100],
+            options: RemoteFindOneAndModifyOptions(
+                projection: ["hello": 1, "_id": 0],
+                sort: ["num": -1]
+            ),
+            joiner.capture())
+        guard let result7 = joiner.value(asType: Document.self) else {
+            XCTFail("document not found")
+            return
+        }
+        XCTAssertEqual(["hello": "world6"], result7)
+
+        coll.findOneAndReplace(
+            filter: [:],
+            replacement: ["hello": "blahblah", "num": 200],
+            options: RemoteFindOneAndModifyOptions(
+                projection: ["hello": 1, "_id": 0],
+                sort: ["num": 1]
+            ),
+            joiner.capture())
+        guard let result8 = joiner.value(asType: Document.self) else {
+            XCTFail("document not found")
+            return
+        }
+        XCTAssertEqual(["hello": "world4"], result8)
+
+        // Test proper failure
+        let exp = expectation(description: "should error with invalid filter")
+        coll.findOneAndReplace(filter: [:], replacement: ["$who": 1]) { result in
+            switch result {
+            case .success:
+                XCTFail("expected an error")
+            case .failure(let error):
+                switch error {
+                case .serviceError(_, let withServiceErrorCode):
+                    XCTAssertEqual(StitchServiceErrorCode.invalidParameter, withServiceErrorCode)
+                default:
+                    XCTFail("unexpected error code")
+                }
+            }
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 5.0)
+    }
+
+    func testFindOneAndDelete() {
+        let coll = getTestColl()
+        let joiner = CallbackJoiner()
+
+        // Collection should start out empty
+        // This also tests the null return format
+        coll.findOneAndDelete(filter: [:], joiner.capture())
+        if let resErr = joiner.value(asType: Document.self) {
+            XCTFail("Found Document Where It Shouldnt Be \(resErr)")
+            return
+        }
+
+        // Insert a sample Document
+        coll.insertOne(["hello": "world1", "num": 1], joiner.capture())
+        _ = joiner.capturedValue
+        coll.count([:], joiner.capture())
+        XCTAssertEqual(1, joiner.value(asType: Int.self))
+
+        // Simple call to findOneAndDelete() where we delete the only document in the collection
+        coll.findOneAndDelete(
+            filter: [:],
+            joiner.capture())
+        guard let result1 = joiner.value(asType: Document.self) else {
+            XCTFail("document not found")
+            return
+        }
+        XCTAssertEqual(["hello": "world1", "num": 1], withoutId(result1))
+
+        // There should be no documents in the collection
+        coll.count([:], joiner.capture())
+        XCTAssertEqual(0, joiner.value(asType: Int.self))
+
+        // Insert a sample Document
+        coll.insertOne(["hello": "world1", "num": 1], joiner.capture())
+        _ = joiner.capturedValue
+        coll.count([:], joiner.capture())
+        XCTAssertEqual(1, joiner.value(asType: Int.self))
+
+        // Call findOneAndDelete() again but this time wijth a filter
+        coll.findOneAndDelete(
+            filter: ["hello": "world1"],
+            joiner.capture())
+        guard let result2 = joiner.value(asType: Document.self) else {
+            XCTFail("document not found")
+            return
+        }
+        XCTAssertEqual(["hello": "world1", "num": 1], withoutId(result2))
+
+        // There should be no documents in the collection
+        coll.count([:], joiner.capture())
+        XCTAssertEqual(0, joiner.value(asType: Int.self))
+
+        // Insert a sample Document
+        coll.insertOne(["hello": "world1", "num": 1], joiner.capture())
+        _ = joiner.capturedValue
+        coll.count([:], joiner.capture())
+        XCTAssertEqual(1, joiner.value(asType: Int.self))
+
+        // Call findOneAndDelete() again but give it filter that does not match any documents
+        coll.findOneAndDelete(
+            filter: ["hello": "world10"],
+            joiner.capture())
+        if let resErr = joiner.value(asType: Document.self) {
+            XCTFail("Found Document Where It Shouldnt Be \(resErr)")
+            return
+        }
+
+        // Put in more documents
+        let docs: [Document] = [
+            ["hello": "world2", "num": 2] as Document,
+            ["hello": "world3", "num": 3] as Document
+        ]
+        coll.insertMany(docs, joiner.capture())
+        _ = joiner.capturedValue
+
+        // There should be three doc
+        coll.count([:], joiner.capture())
+        XCTAssertEqual(3, joiner.value(asType: Int.self))
+
+        // Test project and sort
+        coll.findOneAndDelete(
+            filter: [:],
+            options: RemoteFindOneAndModifyOptions(
+                projection: ["hello": 1, "_id": 0],
+                sort: ["num": -1]),
+            joiner.capture())
+        guard let result3 = joiner.value(asType: Document.self) else {
+            XCTFail("document not found")
+            return
+        }
+        XCTAssertEqual(["hello": "world3"], withoutId(result3))
+
+        coll.findOneAndDelete(
+            filter: [:],
+            options: RemoteFindOneAndModifyOptions(
+                projection: ["hello": 1, "_id": 0],
+                sort: ["num": 1]),
+            joiner.capture())
+        guard let result4 = joiner.value(asType: Document.self) else {
+            XCTFail("document not found")
+            return
+        }
+        XCTAssertEqual(["hello": "world1"], withoutId(result4))
+    }
+
     class WatchTestDelegate<DocumentT: Codable>: ChangeStreamDelegate {
         public init() {
             self.previousAssertionCalled = true
