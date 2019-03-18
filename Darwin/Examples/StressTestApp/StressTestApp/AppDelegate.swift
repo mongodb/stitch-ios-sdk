@@ -7,15 +7,26 @@
 //
 
 import UIKit
+import StitchCore
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+//    let jasonAppName: String = "stitch-tests-js-sdk-jntlj";
+    let appName: String = "stitchdocsexamples-pqwyr"
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        do {
+            if (Stitch.defaultAppClient == nil) {
+                let _ = try Stitch.initializeDefaultAppClient(withClientAppID: appName)
+            }
+           let _ = try Stitch.initializeDefaultAppClient(withClientAppID: appName)
+        } catch (let error) {
+            print("Failed to inialize app client with error: \(error)")
+        }
         return true
     }
 

@@ -103,6 +103,24 @@ SPEC CHECKSUMS:
   SwiftLint: 7a0227733d786395817373b2d0ca799fd0093ff3
   Toast-Swift: 594b5c5e5129f15438e410207e43287f027b3c00
 
+<<<<<<< HEAD
 PODFILE CHECKSUM: b5221f9ef87819ece198657744baa29bc3c79140
+||||||| merged common ancestors
+PODFILE CHECKSUM: 0d2080ca091bd9af8067b4d5ecd18fac490d080f
+=======
+<<<<<<< HEAD
+PODFILE CHECKSUM: 0d2080ca091bd9af8067b4d5ecd18fac490d080f
+||||||| merged common ancestors
+PODFILE CHECKSUM: 0d0a955393ce7fef459fce3c303b3c37f6bdf759
+=======
+<<<<<<< HEAD
+PODFILE CHECKSUM: 0d0a955393ce7fef459fce3c303b3c37f6bdf759
+||||||| merged common ancestors
+PODFILE CHECKSUM: 69fa1b1c041915013903bb7cceaa04f2e4862fb5
+=======
+PODFILE CHECKSUM: 9ce8bd9e12ac920b0f41f14e1de6bc685dfaf514
+>>>>>>> StressTest init
+>>>>>>> StressTest init
+>>>>>>> StressTest init
 
 COCOAPODS: 1.7.0.beta.3

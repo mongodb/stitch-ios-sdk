@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E9E8FBB2240276000B1FC64 /* StitchLocalMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E9E8FBA2240276000B1FC64 /* StitchLocalMongoDBService.framework */; };
 		1EB84F7E223AFC2100B441BF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB84F7D223AFC2100B441BF /* AppDelegate.swift */; };
 		1EB84F80223AFC2100B441BF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB84F7F223AFC2100B441BF /* ViewController.swift */; };
 		1EB84F83223AFC2100B441BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1EB84F81223AFC2100B441BF /* Main.storyboard */; };
@@ -14,6 +15,12 @@
 		1EB84F88223AFC2300B441BF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1EB84F86223AFC2300B441BF /* LaunchScreen.storyboard */; };
 		1EB84F93223AFC2300B441BF /* StressTestAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB84F92223AFC2300B441BF /* StressTestAppTests.swift */; };
 		1EB84F9E223AFC2300B441BF /* StressTestAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB84F9D223AFC2300B441BF /* StressTestAppUITests.swift */; };
+		1ED260A4223C438B001DBC53 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1ED260A3223C438B001DBC53 /* StitchCore.framework */; };
+		1ED260AE223C438B001DBC53 /* StitchCoreLocalMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1ED260AD223C438B001DBC53 /* StitchCoreLocalMongoDBService.framework */; };
+		1ED260B0223C438B001DBC53 /* StitchCoreRemoteMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1ED260AF223C438B001DBC53 /* StitchCoreRemoteMongoDBService.framework */; };
+		1ED260B2223C438B001DBC53 /* StitchCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1ED260B1223C438B001DBC53 /* StitchCoreSDK.framework */; };
+		1ED260C2223C438C001DBC53 /* StitchRemoteMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1ED260C1223C438C001DBC53 /* StitchRemoteMongoDBService.framework */; };
+		C66C31A209BDC9122111EA54 /* Pods_StressTestApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8163A346C8DE23DC2F7B2F5 /* Pods_StressTestApp.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +41,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		10B441E17854A7FD8343BA45 /* Pods-StressTestApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StressTestApp.release.xcconfig"; path = "Target Support Files/Pods-StressTestApp/Pods-StressTestApp.release.xcconfig"; sourceTree = "<group>"; };
+		1E9E8FBA2240276000B1FC64 /* StitchLocalMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchLocalMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EB84F7A223AFC2100B441BF /* StressTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StressTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EB84F7D223AFC2100B441BF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1EB84F7F223AFC2100B441BF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -47,6 +56,37 @@
 		1EB84F99223AFC2300B441BF /* StressTestAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StressTestAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EB84F9D223AFC2300B441BF /* StressTestAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StressTestAppUITests.swift; sourceTree = "<group>"; };
 		1EB84F9F223AFC2300B441BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1EB84FAC223B187B00B441BF /* Pods_StitchAWSService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_StitchAWSService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1EB84FAE223B188900B441BF /* Pods_StitchCoreRemoteMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_StitchCoreRemoteMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1EB84FB0223B188D00B441BF /* Pods_StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ED26093223C4264001DBC53 /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ED26095223C4274001DBC53 /* StitchCoreLocalMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreLocalMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ED26097223C427C001DBC53 /* StitchCoreRemoteMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreRemoteMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ED26099223C4285001DBC53 /* StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ED2609B223C4295001DBC53 /* StitchLocalMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchLocalMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ED2609D223C42A0001DBC53 /* StitchSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ED2609F223C42AE001DBC53 /* StitchRemoteMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchRemoteMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ED260A1223C438B001DBC53 /* StitchAWSService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchAWSService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ED260A3223C438B001DBC53 /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ED260A5223C438B001DBC53 /* StitchCoreAdminClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAdminClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ED260A7223C438B001DBC53 /* StitchCoreAWSService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAWSService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ED260A9223C438B001DBC53 /* StitchCoreFCMService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreFCMService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ED260AB223C438B001DBC53 /* StitchCoreHTTPService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreHTTPService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ED260AD223C438B001DBC53 /* StitchCoreLocalMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreLocalMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ED260AF223C438B001DBC53 /* StitchCoreRemoteMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreRemoteMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ED260B1223C438B001DBC53 /* StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ED260B3223C438C001DBC53 /* StitchCoreSDKMocks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDKMocks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ED260B5223C438C001DBC53 /* StitchCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ED260B7223C438C001DBC53 /* StitchCoreTwilioService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTwilioService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ED260B9223C438C001DBC53 /* StitchDarwinCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchDarwinCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ED260BB223C438C001DBC53 /* StitchFCMService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchFCMService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ED260BD223C438C001DBC53 /* StitchHTTPService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchHTTPService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ED260BF223C438C001DBC53 /* StitchLocalMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchLocalMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ED260C1223C438C001DBC53 /* StitchRemoteMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchRemoteMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ED260C3223C438C001DBC53 /* StitchSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ED260C5223C438C001DBC53 /* StitchTwilioService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchTwilioService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B4EF6C8B9B1A311A378352B3 /* Pods-StressTestApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StressTestApp.debug.xcconfig"; path = "Target Support Files/Pods-StressTestApp/Pods-StressTestApp.debug.xcconfig"; sourceTree = "<group>"; };
+		E8163A346C8DE23DC2F7B2F5 /* Pods_StressTestApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StressTestApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +94,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E9E8FBB2240276000B1FC64 /* StitchLocalMongoDBService.framework in Frameworks */,
+				1ED260A4223C438B001DBC53 /* StitchCore.framework in Frameworks */,
+				1ED260AE223C438B001DBC53 /* StitchCoreLocalMongoDBService.framework in Frameworks */,
+				1ED260B0223C438B001DBC53 /* StitchCoreRemoteMongoDBService.framework in Frameworks */,
+				1ED260B2223C438B001DBC53 /* StitchCoreSDK.framework in Frameworks */,
+				1ED260C2223C438C001DBC53 /* StitchRemoteMongoDBService.framework in Frameworks */,
+				C66C31A209BDC9122111EA54 /* Pods_StressTestApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +128,8 @@
 				1EB84F91223AFC2300B441BF /* StressTestAppTests */,
 				1EB84F9C223AFC2300B441BF /* StressTestAppUITests */,
 				1EB84F7B223AFC2100B441BF /* Products */,
+				1EB84FAB223B187B00B441BF /* Frameworks */,
+				B45B9ECC202DC901C1BB559E /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -125,6 +174,54 @@
 			path = StressTestAppUITests;
 			sourceTree = "<group>";
 		};
+		1EB84FAB223B187B00B441BF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1E9E8FBA2240276000B1FC64 /* StitchLocalMongoDBService.framework */,
+				1ED260A1223C438B001DBC53 /* StitchAWSService.framework */,
+				1ED260A3223C438B001DBC53 /* StitchCore.framework */,
+				1ED260A5223C438B001DBC53 /* StitchCoreAdminClient.framework */,
+				1ED260A7223C438B001DBC53 /* StitchCoreAWSService.framework */,
+				1ED260A9223C438B001DBC53 /* StitchCoreFCMService.framework */,
+				1ED260AB223C438B001DBC53 /* StitchCoreHTTPService.framework */,
+				1ED260AD223C438B001DBC53 /* StitchCoreLocalMongoDBService.framework */,
+				1ED260AF223C438B001DBC53 /* StitchCoreRemoteMongoDBService.framework */,
+				1ED260B1223C438B001DBC53 /* StitchCoreSDK.framework */,
+				1ED260B3223C438C001DBC53 /* StitchCoreSDKMocks.framework */,
+				1ED260B5223C438C001DBC53 /* StitchCoreTestUtils.framework */,
+				1ED260B7223C438C001DBC53 /* StitchCoreTwilioService.framework */,
+				1ED260B9223C438C001DBC53 /* StitchDarwinCoreTestUtils.framework */,
+				1ED260BB223C438C001DBC53 /* StitchFCMService.framework */,
+				1ED260BD223C438C001DBC53 /* StitchHTTPService.framework */,
+				1ED260BF223C438C001DBC53 /* StitchLocalMongoDBService.framework */,
+				1ED260C1223C438C001DBC53 /* StitchRemoteMongoDBService.framework */,
+				1ED260C3223C438C001DBC53 /* StitchSDK.framework */,
+				1ED260C5223C438C001DBC53 /* StitchTwilioService.framework */,
+				1ED2609F223C42AE001DBC53 /* StitchRemoteMongoDBService.framework */,
+				1ED2609D223C42A0001DBC53 /* StitchSDK.framework */,
+				1ED2609B223C4295001DBC53 /* StitchLocalMongoDBService.framework */,
+				1ED26099223C4285001DBC53 /* StitchCoreSDK.framework */,
+				1ED26097223C427C001DBC53 /* StitchCoreRemoteMongoDBService.framework */,
+				1ED26095223C4274001DBC53 /* StitchCoreLocalMongoDBService.framework */,
+				1ED26093223C4264001DBC53 /* StitchCore.framework */,
+				1EB84FB0223B188D00B441BF /* Pods_StitchCoreSDK.framework */,
+				1EB84FAE223B188900B441BF /* Pods_StitchCoreRemoteMongoDBService.framework */,
+				1EB84FAC223B187B00B441BF /* Pods_StitchAWSService.framework */,
+				E8163A346C8DE23DC2F7B2F5 /* Pods_StressTestApp.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B45B9ECC202DC901C1BB559E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B4EF6C8B9B1A311A378352B3 /* Pods-StressTestApp.debug.xcconfig */,
+				10B441E17854A7FD8343BA45 /* Pods-StressTestApp.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../../../Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -132,9 +229,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1EB84FA2223AFC2300B441BF /* Build configuration list for PBXNativeTarget "StressTestApp" */;
 			buildPhases = (
+				201A44EAF336DA4D811E071D /* [CP] Check Pods Manifest.lock */,
 				1EB84F76223AFC2100B441BF /* Sources */,
 				1EB84F77223AFC2100B441BF /* Frameworks */,
 				1EB84F78223AFC2100B441BF /* Resources */,
+				FC2D0B97568651453A5D2645 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -250,6 +349,71 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		201A44EAF336DA4D811E071D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-StressTestApp-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FC2D0B97568651453A5D2645 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-StressTestApp/Pods-StressTestApp-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/MongoSwift/MongoSwift.framework",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework.dSYM",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework.dSYM",
+				"${BUILT_PRODUCTS_DIR}/MongoMobile/MongoMobile.framework",
+				"${PODS_ROOT}/mongo_embedded/iPhoneOS/Frameworks/mongo_embedded.framework",
+				"${PODS_ROOT}/mongo_embedded/iPhoneOS/Frameworks/mongo_embedded.framework.dSYM",
+				"${PODS_ROOT}/mongoc_embedded/iPhoneOS/Frameworks/mongoc_embedded.framework",
+				"${PODS_ROOT}/mongoc_embedded/iPhoneOS/Frameworks/mongoc_embedded.framework.dSYM",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MongoSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/bson.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/bson.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongoc.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/mongoc.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MongoMobile.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongo_embedded.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/mongo_embedded.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongoc_embedded.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/mongoc_embedded.framework.dSYM",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-StressTestApp/Pods-StressTestApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1EB84F76223AFC2100B441BF /* Sources */ = {
@@ -430,6 +594,7 @@
 		};
 		1EB84FA3223AFC2300B441BF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B4EF6C8B9B1A311A378352B3 /* Pods-StressTestApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -438,6 +603,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = stitch.mongodb.StressTestApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -447,6 +613,7 @@
 		};
 		1EB84FA4223AFC2300B441BF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 10B441E17854A7FD8343BA45 /* Pods-StressTestApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -455,6 +622,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = stitch.mongodb.StressTestApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
