@@ -9,14 +9,14 @@ public class CoreRemoteMongoDatabase {
     public let name: String
 
     private let service: CoreStitchServiceClient
-    private let dataSynchronizer: DataSynchronizer
+    private let client: CoreRemoteMongoClient
 
     public init(withName name: String,
                 withService service: CoreStitchServiceClient,
-                withDataSynchronizer dataSynchronizer: DataSynchronizer) {
+                withClient client: CoreRemoteMongoClient) {
         self.name = name
         self.service = service
-        self.dataSynchronizer = dataSynchronizer
+        self.client = client
     }
 
     /**
@@ -44,7 +44,7 @@ public class CoreRemoteMongoDatabase {
             withName: collectionName,
             withDatabaseName: self.name,
             withService: self.service,
-            withDataSynchronizer: self.dataSynchronizer
+            withClient: self.client
         )
     }
 }

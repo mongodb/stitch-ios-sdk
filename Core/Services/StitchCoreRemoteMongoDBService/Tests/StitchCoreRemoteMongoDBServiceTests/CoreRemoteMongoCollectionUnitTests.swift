@@ -4,7 +4,7 @@
 import XCTest
 import Foundation
 import MongoSwift
-import StitchCoreSDK
+@testable import StitchCoreSDK
 @testable import StitchCoreRemoteMongoDBService
 import StitchCoreSDKMocks
 
@@ -1092,5 +1092,54 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         } catch {
             // do nothing
         }
+    }
+
+    class MockStream: RawSSEStream {
+        override func close() {
+            self.state = .closed
+        }
+    }
+
+    class MockDelegate: SSEStreamDelegate {
+        let expectation: XCTestExpectation
+        init(_ expectation: XCTestExpectation) {
+            self.expectation = expectation
+        }
+
+        override func on(stateChangedFor state: SSEStreamState) {
+            if state == .closed {
+                expectation.fulfill()
+            }
+        }
+    }
+
+    func testCollectionClosedOnSwitch() throws {
+        let coll = try remoteCollection()
+
+        mockServiceClient.streamFunctionMock.clearStubs()
+        mockServiceClient.streamFunctionMock.doReturn(result: MockStream(),
+                                                      forArg1: .any,
+                                                      forArg2: .any,
+                                                      forArg3: .any)
+
+        let closeExpectation = expectation(description: "stream should close on switch")
+
+        let del = MockDelegate.init(closeExpectation)
+        let stream = try coll.watch(ids: [], delegate: del)
+        stream.delegate = del
+
+        coreRemoteMongoClient.onRebindEvent(AuthRebindEvent.activeUserChanged(
+            currentActiveUser: CoreStitchUserImpl.init(
+                id: "",
+                loggedInProviderType: .anonymous,
+                loggedInProviderName: "",
+                profile: StitchUserProfileImpl.init(userType: "",
+                                                    identities: [],
+                                                    data: APIExtendedUserProfileImpl.init()),
+                isLoggedIn: true,
+                lastAuthActivity: Date().timeIntervalSince1970),
+            previousActiveUser: nil))
+
+        wait(for: [closeExpectation], timeout: 10)
     }
 }
