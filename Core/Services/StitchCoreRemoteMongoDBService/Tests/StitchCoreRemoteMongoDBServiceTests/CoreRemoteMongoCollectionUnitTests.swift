@@ -1157,6 +1157,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         let exp = expectation(description: "stream should not close on remove")
         exp.isInverted = true
         try expectStreamToClose(expectation: exp)
+        coreRemoteMongoClient.dataSynchronizer.waitUntilInitialized()
         coreRemoteMongoClient.onRebindEvent(AuthRebindEvent.userRemoved(removedUser: testUser))
         wait(for: [exp], timeout: 0.1)
     }
