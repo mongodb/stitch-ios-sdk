@@ -59,40 +59,41 @@ public final class CoreLocalMongoDBService {
         }
     }
 
-    public func client(withKey key: String,
-                       withDBPath dbPath: String) throws -> MongoClient {
-        return try cLock.write {
-            let key = "\(Thread.current.hash)_\(key)"
-            if let client = _localInstances[key] {
-                return client
-            }
-
-            if activeDbPath != dbPath {
-                _localInstances.removeAll()
-            }
-
-            activeDbPath = dbPath
-
-            try initialize()
-
-            var isDir: ObjCBool = true
-            let fileManager = FileManager()
-            if !fileManager.fileExists(atPath: dbPath, isDirectory: &isDir) {
-                try fileManager.createDirectory(atPath: dbPath, withIntermediateDirectories: true)
-            }
-
-            let settings = MongoClientSettings(dbPath: dbPath)
-            let client = try MongoMobile.create(settings)
-
-            _localInstances[key] = client
+    private func client(withKey key: String,
+                        withDBPath dbPath: String) throws -> MongoClient {
+        cLock.assertWriteLocked()
+        let key = "\(Thread.current.hash)_\(key)"
+        if let client = _localInstances[key] {
             return client
         }
+
+        if activeDbPath != dbPath {
+            _localInstances.removeAll()
+        }
+
+        activeDbPath = dbPath
+
+        try initialize()
+
+        var isDir: ObjCBool = true
+        let fileManager = FileManager()
+        if !fileManager.fileExists(atPath: dbPath, isDirectory: &isDir) {
+            try fileManager.createDirectory(atPath: dbPath, withIntermediateDirectories: true)
+        }
+
+        let settings = MongoClientSettings(dbPath: dbPath)
+        let client = try MongoMobile.create(settings)
+
+        _localInstances[key] = client
+        return client
     }
 
     public func client(withInstanceKey instanceKey: String,
                        withDataDirectory dataDirectory: URL) throws -> MongoClient {
-        let dbPath = "\(dataDirectory.path)/local_mongodb/0/\(instanceKey)"
-        return try self.client(withKey: instanceKey, withDBPath: dbPath)
+        return try cLock.write {
+            let dbPath = "\(dataDirectory.path)/local_mongodb/0/\(instanceKey)"
+            return try self.client(withKey: instanceKey, withDBPath: dbPath)
+        }
     }
 
     public func client(withAppInfo appInfo: StitchAppClientInfo) throws -> MongoClient {
