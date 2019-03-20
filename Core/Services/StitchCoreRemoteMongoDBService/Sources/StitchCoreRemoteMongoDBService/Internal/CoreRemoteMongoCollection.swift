@@ -4,7 +4,7 @@ import Foundation
 import MongoSwift
 import StitchCoreSDK
 
-public class CoreRemoteMongoCollection<T: Codable> {
+public class CoreRemoteMongoCollection<T: Codable>: Closable {
     /**
      * A `Codable` type associated with this `MongoCollection` instance.
      * This allows `CollectionType` values to be directly inserted into and
@@ -34,20 +34,25 @@ public class CoreRemoteMongoCollection<T: Codable> {
 
     private let service: CoreStitchServiceClient
     private let dataSynchronizer: DataSynchronizer
+    private var streams: [WeakReference<RawSSEStream>] = []
+    private let client: CoreRemoteMongoClient
+    private lazy var strongSelf = AnyClosable(self)
 
     public let sync: CoreSync<T>
 
     internal init(withName name: String,
                   withDatabaseName dbName: String,
                   withService service: CoreStitchServiceClient,
-                  withDataSynchronizer dataSynchronizer: DataSynchronizer) {
+                  withClient client: CoreRemoteMongoClient) {
         self.name = name
         self.databaseName = dbName
         self.service = service
-        self.dataSynchronizer = dataSynchronizer
+        self.client = client
+        self.dataSynchronizer = client.dataSynchronizer
         self.sync = CoreSync.init(namespace: MongoNamespace.init(databaseName: databaseName,
                                                                  collectionName: name),
                                   dataSynchronizer: dataSynchronizer)
+        self.client.register(closable: strongSelf)
     }
 
     /**
@@ -59,7 +64,7 @@ public class CoreRemoteMongoCollection<T: Codable> {
             withName: self.name,
             withDatabaseName: self.databaseName,
             withService: self.service,
-            withDataSynchronizer: self.dataSynchronizer
+            withClient: self.client
         )
     }
 
@@ -400,7 +405,9 @@ public class CoreRemoteMongoCollection<T: Codable> {
 
         args["ids"] = ids
 
-        return try service.streamFunction(withName: "watch", withArgs: [args], delegate: delegate)
+        let stream = try service.streamFunction(withName: "watch", withArgs: [args], delegate: delegate)
+        self.streams.append(WeakReference(stream))
+        return stream
     }
 
     private enum RemoteUpdateOptionsKeys: String {
@@ -453,5 +460,16 @@ public class CoreRemoteMongoCollection<T: Codable> {
             withArgs: [args],
             withRequestTimeout: nil
         )
+    }
+
+    func close() {
+        self.streams.forEach { streamRef in
+            guard let stream = streamRef.reference else {
+                return
+            }
+
+            stream.close()
+        }
+        self.streams.removeAll()
     }
 }

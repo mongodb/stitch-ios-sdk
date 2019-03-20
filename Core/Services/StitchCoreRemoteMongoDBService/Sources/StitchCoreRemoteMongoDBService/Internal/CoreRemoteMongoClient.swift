@@ -4,10 +4,12 @@ import MongoSwift
 import StitchCoreLocalMongoDBService
 
 public class CoreRemoteMongoClient: StitchServiceBinder {
+    internal var dataSynchronizer: DataSynchronizer!
+
     private let appInfo: StitchAppClientInfo
     private let service: CoreStitchServiceClient
-    private var dataSynchronizer: DataSynchronizer!
     private var lastActiveUserId: String?
+    private var collections: [WeakReference<AnyClosable>] = []
 
     internal init(withService service: CoreStitchServiceClient,
                   withInstanceKey instanceKey: String,
@@ -31,7 +33,7 @@ public class CoreRemoteMongoClient: StitchServiceBinder {
     public func db(_ name: String) -> CoreRemoteMongoDatabase {
         return CoreRemoteMongoDatabase.init(withName: name,
                                             withService: service,
-                                            withDataSynchronizer: dataSynchronizer)
+                                            withClient: self)
     }
 
     private func onAuthEvent(_ authEvent: AuthRebindEvent) {
@@ -43,9 +45,16 @@ public class CoreRemoteMongoClient: StitchServiceBinder {
                 withKey: key,
                 withDBPath: "\(appInfo.dataDirectory.path)/local_mongodb/0/\(key)")
         case .activeUserChanged(let currentActiveUser, _):
-            if lastActiveUserId != appInfo.authMonitor.activeUserId {
-                self.lastActiveUserId = appInfo.authMonitor.activeUserId
+            if lastActiveUserId != currentActiveUser?.id {
+                self.lastActiveUserId = currentActiveUser?.id
                 if currentActiveUser != nil {
+                    self.collections = self.collections.compactMap {
+                        guard let ref = $0.reference else {
+                            return nil
+                        }
+                        ref.close()
+                        return $0
+                    }
                     self.dataSynchronizer.reinitialize(appInfo: appInfo)
                 } else {
                     self.dataSynchronizer.stop()
@@ -64,5 +73,9 @@ public class CoreRemoteMongoClient: StitchServiceBinder {
             }
             onAuthEvent(authEvent)
         }
+    }
+
+    internal func register(closable: AnyClosable) {
+        self.collections.append(WeakReference(closable))
     }
 }

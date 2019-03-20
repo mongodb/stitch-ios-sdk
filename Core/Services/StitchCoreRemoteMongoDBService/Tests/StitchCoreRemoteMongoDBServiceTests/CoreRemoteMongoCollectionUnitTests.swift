@@ -4,7 +4,7 @@
 import XCTest
 import Foundation
 import MongoSwift
-import StitchCoreSDK
+@testable import StitchCoreSDK
 @testable import StitchCoreRemoteMongoDBService
 import StitchCoreSDKMocks
 
@@ -1092,5 +1092,82 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         } catch {
             // do nothing
         }
+    }
+
+    class MockStream: RawSSEStream {
+        override func close() {
+            self.delegate?.on(stateChangedFor: .closed)
+        }
+    }
+
+    class MockDelegate: SSEStreamDelegate {
+        let expectation: XCTestExpectation
+        init(_ expectation: XCTestExpectation) {
+            self.expectation = expectation
+        }
+
+        override func on(stateChangedFor state: SSEStreamState) {
+            if state == .closed {
+                expectation.fulfill()
+            }
+        }
+    }
+
+    private let testUser = CoreStitchUserImpl.init(
+        id: "",
+        loggedInProviderType: .anonymous,
+        loggedInProviderName: "",
+        profile: StitchUserProfileImpl.init(userType: "",
+                                            identities: [],
+                                            data: APIExtendedUserProfileImpl.init()),
+        isLoggedIn: true,
+        lastAuthActivity: Date().timeIntervalSince1970)
+
+    private func expectStreamToClose(expectation: XCTestExpectation) throws {
+        let coll = try remoteCollection()
+
+        mockServiceClient.streamFunctionMock.clearStubs()
+        mockServiceClient.streamFunctionMock.doReturn(result: MockStream(),
+                                                      forArg1: .any,
+                                                      forArg2: .any,
+                                                      forArg3: .any)
+
+        let del = MockDelegate.init(expectation)
+        let stream = try coll.watch(ids: [], delegate: del)
+        stream.delegate = del
+    }
+
+    func testStreamDoesNotCloseOnLogin() throws {
+        let exp = expectation(description: "stream should not close on login")
+        exp.isInverted = true
+        try expectStreamToClose(expectation: exp)
+        coreRemoteMongoClient.onRebindEvent(AuthRebindEvent.userLoggedIn(loggedInUser: testUser))
+        wait(for: [exp], timeout: 0.1)
+    }
+
+    func testStreamDoesNotCloseOnLogout() throws {
+        let exp = expectation(description: "stream should not close on logout")
+        exp.isInverted = true
+        try expectStreamToClose(expectation: exp)
+        coreRemoteMongoClient.onRebindEvent(AuthRebindEvent.userLoggedOut(loggedOutUser: testUser))
+        wait(for: [exp], timeout: 0.1)
+    }
+
+    func testStreamDoesNotCloseOnRemove() throws {
+        let exp = expectation(description: "stream should not close on remove")
+        exp.isInverted = true
+        try expectStreamToClose(expectation: exp)
+        coreRemoteMongoClient.dataSynchronizer.waitUntilInitialized()
+        coreRemoteMongoClient.onRebindEvent(AuthRebindEvent.userRemoved(removedUser: testUser))
+        wait(for: [exp], timeout: 0.1)
+    }
+
+    func testStreamDoesCloseOnSwitch() throws {
+        let exp = expectation(description: "stream should close on switch")
+        try expectStreamToClose(expectation: exp)
+        coreRemoteMongoClient.onRebindEvent(AuthRebindEvent.activeUserChanged(
+            currentActiveUser: testUser,
+            previousActiveUser: nil))
+        wait(for: [exp], timeout: 10)
     }
 }
