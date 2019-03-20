@@ -1137,28 +1137,31 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         stream.delegate = del
     }
 
-    func testStreamsDoesNotCloseOnLogin() throws {
+    func testStreamDoesNotCloseOnLogin() throws {
         let exp = expectation(description: "stream should not close on login")
         exp.isInverted = true
         try expectStreamToClose(expectation: exp)
         coreRemoteMongoClient.onRebindEvent(AuthRebindEvent.userLoggedIn(loggedInUser: testUser))
+        wait(for: [exp], timeout: 0.1)
     }
 
-    func testStreamsDoesNotCloseOnLogout() throws {
+    func testStreamDoesNotCloseOnLogout() throws {
         let exp = expectation(description: "stream should not close on logout")
         exp.isInverted = true
         try expectStreamToClose(expectation: exp)
-        coreRemoteMongoClient.onRebindEvent(AuthRebindEvent.userLoggedIn(loggedInUser: testUser))
+        coreRemoteMongoClient.onRebindEvent(AuthRebindEvent.userLoggedOut(loggedOutUser: testUser))
+        wait(for: [exp], timeout: 0.1)
     }
 
-    func testStreamsDoesNotCloseOnRemove() throws {
+    func testStreamDoesNotCloseOnRemove() throws {
         let exp = expectation(description: "stream should not close on remove")
         exp.isInverted = true
         try expectStreamToClose(expectation: exp)
-        coreRemoteMongoClient.onRebindEvent(AuthRebindEvent.userLoggedIn(loggedInUser: testUser))
+        coreRemoteMongoClient.onRebindEvent(AuthRebindEvent.userRemoved(removedUser: testUser))
+        wait(for: [exp], timeout: 0.1)
     }
 
-    func testStreamsDoesCloseOnSwitch() throws {
+    func testStreamDoesCloseOnSwitch() throws {
         let exp = expectation(description: "stream should close on switch")
         try expectStreamToClose(expectation: exp)
         coreRemoteMongoClient.onRebindEvent(AuthRebindEvent.activeUserChanged(
