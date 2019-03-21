@@ -106,7 +106,10 @@ public class CoreRemoteMongoCollection<T: Codable>: Closable {
     }
 
     /**
-     * Finds a document in this collection which matches the provided filter.
+     * Returns one document from a collection or view which matches the
+     * provided filter. If multiple documents satisfy the query, this method
+     * returns the first document according to the query's sort order or natural
+     * order.
      *
      * - parameters:
      *   - filter: A `Document` that should match the query.
@@ -315,8 +318,12 @@ public class CoreRemoteMongoCollection<T: Codable>: Closable {
     }
 
     /**
-     * Finds a document in this collection which matches the provided filter and
-     * performs the given update on that document.
+     * Updates a single document in a collection based on a query filter and
+     * return the document in either its pre-update or post-update form. Unlike
+     * `updateOne`, this action allows you to atomically find, update, and
+     * return a document with the same command. This avoids the risk of other
+     * update operations changing the document between separate find and update
+     * operations.
      *
      * - parameters:
      *   - filter: A `Document` that should match the query.
@@ -335,8 +342,12 @@ public class CoreRemoteMongoCollection<T: Codable>: Closable {
     }
 
     /**
-     * Finds a document in this collection which matches the provided filter and
-     * replaces it with the given document.
+     * Overwrites a single document in a collection based on a query filter and
+     * return the document in either its pre-replacement or post-replacement
+     * form. Unlike `updateOne`, this action allows you to atomically find,
+     * replace, and return a document with the same command. This avoids the
+     * risk of other update operations changing the document between separate
+     * find and update operations.
      *
      * - parameters:
      *   - filter: A `Document` that should match the query.
@@ -355,8 +366,12 @@ public class CoreRemoteMongoCollection<T: Codable>: Closable {
     }
 
     /**
-     * Finds a document in this collection which matches the provided filter and
-     * deletes that document.
+     * Removes a single document from a collection based on a query filter and
+     * return a document with the same form as the document immediately before
+     * it was deleted. Unlike `deleteOne`, this action allows you to atomically
+     * find and delete a document with the same command. This avoids the risk of
+     * other update operations changing the document between separate find and
+     * delete operations.
      *
      * - parameters:
      *   - filter: A `Document` that should match the query.

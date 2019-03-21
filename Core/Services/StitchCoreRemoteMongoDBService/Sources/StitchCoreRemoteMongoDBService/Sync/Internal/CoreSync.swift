@@ -144,10 +144,13 @@ public final class CoreSync<DocumentT: Codable> {
     }
 
     /**
-     Finds one document in the collection that has been synchronized with the remote.
-     
+     Returns one document from a collection that has been synchronized with the
+     remote that matches the provided filter. If multiple documents satisfy the
+     query, this method returns the first document according to the query's sort
+     order or natural order.
+
      - parameter filter: the query filter for this find op
-     - parameter options: the options for this findo p
+     - parameter options: the options for this find op
      - returns:  The resulting `Document` or nil if no such document exists
      */
     public func findOne(filter: Document, options: SyncFindOptions? = nil) throws -> DocumentT? {
