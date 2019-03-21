@@ -2279,10 +2279,10 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
     private func latestStaleDocumentsFromRemote(nsConfig: NamespaceSynchronization,
                                                 staleIds: Set<AnyBSONValue>) throws -> [Document] {
-        let ids = staleIds.map { ["_id": $0.value ] as Document }
+        let ids = staleIds.map { $0.value }
         guard ids.count > 0 else { return [] }
         return try self.remoteCollection(for: nsConfig.namespace)
-            .find(["$or": ids]).toArray()
+            .find(["_id": ["$in": ids] as Document]).toArray()
     }
 
     public var allStreamsAreOpen: Bool {

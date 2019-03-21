@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		112659ED223329D800F826BA /* Sync+CRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112659EC223329D800F826BA /* Sync+CRUD.swift */; };
 		1135F7DB2215D88500300A19 /* ChangeStreamSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1135F7DA2215D88500300A19 /* ChangeStreamSession.swift */; };
 		1135F7DD2215D89000300A19 /* ChangeStreamDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1135F7DC2215D89000300A19 /* ChangeStreamDelegate.swift */; };
 		1159637820D029EA00B0179B /* StitchRemoteMongoDBServiceExports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1159637720D029EA00B0179B /* StitchRemoteMongoDBServiceExports.swift */; };
@@ -65,6 +66,7 @@
 /* Begin PBXFileReference section */
 		0A5F1FC60AEE251C61086EA4 /* Pods-StitchRemoteMongoDBService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchRemoteMongoDBService.release.xcconfig"; path = "Target Support Files/Pods-StitchRemoteMongoDBService/Pods-StitchRemoteMongoDBService.release.xcconfig"; sourceTree = "<group>"; };
 		0F05E8EDBE4F2463B891B9DD /* Pods-StitchRemoteMongoDBServiceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchRemoteMongoDBServiceTests.release.xcconfig"; path = "Target Support Files/Pods-StitchRemoteMongoDBServiceTests/Pods-StitchRemoteMongoDBServiceTests.release.xcconfig"; sourceTree = "<group>"; };
+		112659EC223329D800F826BA /* Sync+CRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sync+CRUD.swift"; sourceTree = "<group>"; };
 		1135F7DA2215D88500300A19 /* ChangeStreamSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeStreamSession.swift; sourceTree = "<group>"; };
 		1135F7DC2215D89000300A19 /* ChangeStreamDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeStreamDelegate.swift; sourceTree = "<group>"; };
 		1159637720D029EA00B0179B /* StitchRemoteMongoDBServiceExports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchRemoteMongoDBServiceExports.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				1169219120C9D2A100930DD8 /* RemoteMongoDatabase.swift */,
 				1169219520C9FE3500930DD8 /* RemoteMongoReadOperation.swift */,
 				491F9B4B21A3545500802A4D /* Sync.swift */,
+				112659EC223329D800F826BA /* Sync+CRUD.swift */,
 				1159637720D029EA00B0179B /* StitchRemoteMongoDBServiceExports.swift */,
 				1169216C20C9D04C00930DD8 /* Info.plist */,
 				1135F7DA2215D88500300A19 /* ChangeStreamSession.swift */,
@@ -425,6 +428,7 @@
 				1169219620C9FE3500930DD8 /* RemoteMongoReadOperation.swift in Sources */,
 				491F9B4C21A3545500802A4D /* Sync.swift in Sources */,
 				1135F7DB2215D88500300A19 /* ChangeStreamSession.swift in Sources */,
+				112659ED223329D800F826BA /* Sync+CRUD.swift in Sources */,
 				1159637820D029EA00B0179B /* StitchRemoteMongoDBServiceExports.swift in Sources */,
 				116ABEB0221CA01C003C1D18 /* InternalChangeStreamDelegate.swift in Sources */,
 			);

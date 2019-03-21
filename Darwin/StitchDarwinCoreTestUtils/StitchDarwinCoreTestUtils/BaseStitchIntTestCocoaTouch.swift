@@ -19,8 +19,8 @@ public class TestNetworkMonitor: NetworkMonitor {
     private var delegates = [WeakNetworkStateDelegate]()
 
     public var state: NetworkState = .connected {
-        didSet(newValue) {
-            delegates.forEach { $0.weak?.on(stateChangedFor: newValue) }
+        didSet {
+            delegates.forEach { $0.weak?.on(stateChangedFor: state) }
         }
     }
 
