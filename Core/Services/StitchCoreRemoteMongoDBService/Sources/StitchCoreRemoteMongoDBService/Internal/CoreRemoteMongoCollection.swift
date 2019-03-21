@@ -319,7 +319,7 @@ public class CoreRemoteMongoCollection<T: Codable>: Closable {
 
     /**
      * Updates a single document in a collection based on a query filter and
-     * return the document in either its pre-update or post-update form. Unlike
+     * returns the document in either its pre-update or post-update form. Unlike
      * `updateOne`, this action allows you to atomically find, update, and
      * return a document with the same command. This avoids the risk of other
      * update operations changing the document between separate find and update
@@ -343,7 +343,7 @@ public class CoreRemoteMongoCollection<T: Codable>: Closable {
 
     /**
      * Overwrites a single document in a collection based on a query filter and
-     * return the document in either its pre-replacement or post-replacement
+     * returns the document in either its pre-replacement or post-replacement
      * form. Unlike `updateOne`, this action allows you to atomically find,
      * replace, and return a document with the same command. This avoids the
      * risk of other update operations changing the document between separate
@@ -367,7 +367,7 @@ public class CoreRemoteMongoCollection<T: Codable>: Closable {
 
     /**
      * Removes a single document from a collection based on a query filter and
-     * return a document with the same form as the document immediately before
+     * returns a document with the same form as the document immediately before
      * it was deleted. Unlike `deleteOne`, this action allows you to atomically
      * find and delete a document with the same command. This avoids the risk of
      * other update operations changing the document between separate find and
