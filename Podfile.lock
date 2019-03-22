@@ -13,7 +13,7 @@ PODS:
   - MongoSwift (0.0.9):
     - mongo-embedded-c-driver (~> 1.13.0-4.0.0)
   - Swifter (1.4.5)
-  - SwiftLint (0.29.4)
+  - SwiftLint (0.31.0)
   - Toast-Swift (4.0.0)
 
 DEPENDENCIES:
@@ -47,7 +47,7 @@ SPEC CHECKSUMS:
   MongoMobile: 6059b76325afe5fbb1072ae0fe47addc122591c6
   MongoSwift: c7420b38a7e223439667f8c50aefada29c270df8
   Swifter: eb2bc1d192a1c09169c7fefd01971565fa940521
-  SwiftLint: 73f2ecfd0f6d812c8cb9a73c00fe809bc2504585
+  SwiftLint: 7a0227733d786395817373b2d0ca799fd0093ff3
   Toast-Swift: 594b5c5e5129f15438e410207e43287f027b3c00
 
 PODFILE CHECKSUM: 69fa1b1c041915013903bb7cceaa04f2e4862fb5
