@@ -1,0 +1,10 @@
+excluded:
+    - build/
+    - .build/
+    - ../../Pods/
+identifier_name:
+  excluded: # excluded via string array
+    - id
+    - key
+    - jwt
+

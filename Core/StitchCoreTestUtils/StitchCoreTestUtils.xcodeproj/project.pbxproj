@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1160C953224C1E3000BC0CDA /* MockStitchUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1160C952224C1E3000BC0CDA /* MockStitchUser.swift */; };
+		1160C955224C1E4F00BC0CDA /* StitchXCTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1160C954224C1E4F00BC0CDA /* StitchXCTestCase.swift */; };
 		498062ED2185BA7B00E2A3A2 /* BaseStitchIntTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498062EC2185BA7B00E2A3A2 /* BaseStitchIntTest.swift */; };
 		498062F22185BB2600E2A3A2 /* StitchCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498062F12185BB2600E2A3A2 /* StitchCoreSDK.framework */; };
 		498062F42185BBA500E2A3A2 /* StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498062F32185BBA500E2A3A2 /* StitchCoreAdminClient.framework */; };
@@ -14,6 +16,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1160C952224C1E3000BC0CDA /* MockStitchUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockStitchUser.swift; sourceTree = "<group>"; };
+		1160C954224C1E4F00BC0CDA /* StitchXCTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchXCTestCase.swift; sourceTree = "<group>"; };
 		498062DF2185BA6200E2A3A2 /* StitchCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StitchCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		498062EC2185BA7B00E2A3A2 /* BaseStitchIntTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseStitchIntTest.swift; sourceTree = "<group>"; };
 		498062EF2185BAB400E2A3A2 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -68,6 +72,8 @@
 			isa = PBXGroup;
 			children = (
 				498062EC2185BA7B00E2A3A2 /* BaseStitchIntTest.swift */,
+				1160C952224C1E3000BC0CDA /* MockStitchUser.swift */,
+				1160C954224C1E4F00BC0CDA /* StitchXCTestCase.swift */,
 			);
 			path = StitchCoreTestUtils;
 			sourceTree = "<group>";
@@ -215,6 +221,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				498062ED2185BA7B00E2A3A2 /* BaseStitchIntTest.swift in Sources */,
+				1160C953224C1E3000BC0CDA /* MockStitchUser.swift in Sources */,
+				1160C955224C1E4F00BC0CDA /* StitchXCTestCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

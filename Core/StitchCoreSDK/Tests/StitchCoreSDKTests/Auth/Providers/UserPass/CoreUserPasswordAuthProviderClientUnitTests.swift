@@ -2,6 +2,7 @@
 import XCTest
 @testable import StitchCoreSDK
 import StitchCoreSDKMocks
+import StitchCoreTestUtils
 
 class CoreUserPasswordAuthProviderClientUnitTests: StitchXCTestCase {
 

@@ -6,6 +6,7 @@ import MockUtils
 import MongoSwift
 @testable import StitchCoreSDK
 import StitchCoreSDKMocks
+import StitchCoreTestUtils
 
 class StitchRequestClientUnitTests: StitchXCTestCase {
 

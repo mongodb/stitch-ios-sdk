@@ -13,6 +13,10 @@ def shared_pods
     pod 'MongoSwift', '= 0.0.9'
 end
 
+def swifter_pod
+    pod 'Swifter', '~> 1.4.5'
+end
+
 target :StitchCoreSDK do
     shared_pods
     project 'Core/StitchCoreSDK/StitchCoreSDK.xcodeproj'
@@ -28,7 +32,7 @@ target :StitchCoreSDK do
 
     target :StitchCoreSDKTests do
         pod 'JSONWebToken', '~> 2.2.0'
-        pod 'Swifter', '~> 1.4.5'
+        swifter_pod
 
         shared_pods
         inherit! :search_paths
@@ -133,7 +137,9 @@ target :StitchCoreSDK do
         inherit! :search_paths
 
         target :StitchRemoteMongoDBServiceTests do
+            swifter_pod
             pod 'MongoMobile', '= 0.0.7'
+            
             inherit! :search_paths
         end
     end
@@ -180,6 +186,8 @@ target :StitchCoreSDK do
 
     target :StitchCoreTestUtils do
         project 'Core/StitchCoreTestUtils/StitchCoreTestUtils.xcodeproj'
+        swifter_pod
+
         shared_pods
         inherit! :search_paths
     end

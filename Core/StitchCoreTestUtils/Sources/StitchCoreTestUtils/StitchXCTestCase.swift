@@ -1,0 +1,59 @@
+import Foundation
+import Swifter
+import XCTest
+
+public final class AtomicPort {
+    private var _value: UInt16 {
+        didSet {
+            if _value >= UInt16.max {
+                fatalError("no ports remaining for mock server. please clean up some resources")
+            }
+        }
+    }
+
+    fileprivate init(value initialValue: UInt16 = 8079) {
+        _value = initialValue
+    }
+
+    public func incrementAndGet() -> UInt16 {
+        objc_sync_enter(self)
+        defer { objc_sync_exit(self) }
+        _value += 1
+
+        // don't accidentally conflict with Prometheus port on locally running test server
+        if _value == 8100 {
+            _value += 1
+        }
+
+        return _value
+    }
+}
+
+let atomicPort = AtomicPort()
+
+public let testDefaultRequestTimeout: TimeInterval = 15.0
+
+private func start(server: HttpServer) -> UInt16 {
+    repeat {
+        do {
+            let port = atomicPort.incrementAndGet()
+            try server.start(port)
+            return port
+        } catch _ {
+        }
+    } while true
+}
+
+open class StitchXCTestCase: XCTestCase {
+    public lazy var server = HttpServer()
+    public private(set) var baseURL: String = ""
+
+    open override func setUp() {
+        let port = start(server: self.server)
+        self.baseURL = "http://localhost:\(port)"
+    }
+
+    open override func tearDown() {
+        self.server.stop()
+    }
+}

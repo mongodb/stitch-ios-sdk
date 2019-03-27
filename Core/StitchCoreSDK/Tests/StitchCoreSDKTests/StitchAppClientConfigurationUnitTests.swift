@@ -1,5 +1,6 @@
 import XCTest
 @testable import StitchCoreSDK
+import StitchCoreTestUtils
 
 class StitchAppClientConfigurationUnitTests: XCTestCase {
     private let clientAppID = "foo"

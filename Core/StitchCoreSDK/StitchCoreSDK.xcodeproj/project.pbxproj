@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		11190E60224C266200939503 /* StitchCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11190E5F224C266200939503 /* StitchCoreTestUtils.framework */; };
 		113DE14421D68F6200CC7595 /* CoreStitchAuth+OtherAuthActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113DE14321D68F6200CC7595 /* CoreStitchAuth+OtherAuthActions.swift */; };
 		116D8C8821D583D300ECA1AB /* AppMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116D8C8721D583D200ECA1AB /* AppMetadata.swift */; };
 		18980E2F2DF84C7B1FA84115 /* Pods_StitchCoreSDKTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1ED2D854F92DE372FFC12A79 /* Pods_StitchCoreSDKTests.framework */; };
@@ -27,7 +28,6 @@
 		498062782185B6AF00E2A3A2 /* StitchAppClientInfoUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498062652185B6AF00E2A3A2 /* StitchAppClientInfoUnitTests.swift */; };
 		498062792185B6AF00E2A3A2 /* CoreStitchPushClientUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498062682185B6AF00E2A3A2 /* CoreStitchPushClientUnitTests.swift */; };
 		4980627A2185B6AF00E2A3A2 /* StitchAppClientConfigurationUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498062692185B6AF00E2A3A2 /* StitchAppClientConfigurationUnitTests.swift */; };
-		4980627B2185B6AF00E2A3A2 /* StitchCoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4980626A2185B6AF00E2A3A2 /* StitchCoreTests.swift */; };
 		4980627C2185B6AF00E2A3A2 /* StitchClientConfigurationUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4980626B2185B6AF00E2A3A2 /* StitchClientConfigurationUnitTests.swift */; };
 		4980627D2185B6AF00E2A3A2 /* CoreStitchServiceClientUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4980626E2185B6AF00E2A3A2 /* CoreStitchServiceClientUnitTests.swift */; };
 		4980627F2185B6BC00E2A3A2 /* StitchAppClientConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498061FD2185B6A100E2A3A2 /* StitchAppClientConfiguration.swift */; };
@@ -138,6 +138,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		11190E5D224C250A00939503 /* StitchCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		11190E5F224C266200939503 /* StitchCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		113DE14321D68F6200CC7595 /* CoreStitchAuth+OtherAuthActions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CoreStitchAuth+OtherAuthActions.swift"; sourceTree = "<group>"; };
 		116D8C8721D583D200ECA1AB /* AppMetadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppMetadata.swift; path = Net/AppMetadata.swift; sourceTree = "<group>"; };
 		1E0FAFF3220A064800C201CC /* CoreStitchAuth+LoginAndLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreStitchAuth+LoginAndLink.swift"; sourceTree = "<group>"; };
@@ -233,7 +235,6 @@
 		498062652185B6AF00E2A3A2 /* StitchAppClientInfoUnitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchAppClientInfoUnitTests.swift; sourceTree = "<group>"; };
 		498062682185B6AF00E2A3A2 /* CoreStitchPushClientUnitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreStitchPushClientUnitTests.swift; sourceTree = "<group>"; };
 		498062692185B6AF00E2A3A2 /* StitchAppClientConfigurationUnitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchAppClientConfigurationUnitTests.swift; sourceTree = "<group>"; };
-		4980626A2185B6AF00E2A3A2 /* StitchCoreTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchCoreTests.swift; sourceTree = "<group>"; };
 		4980626B2185B6AF00E2A3A2 /* StitchClientConfigurationUnitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchClientConfigurationUnitTests.swift; sourceTree = "<group>"; };
 		4980626E2185B6AF00E2A3A2 /* CoreStitchServiceClientUnitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreStitchServiceClientUnitTests.swift; sourceTree = "<group>"; };
 		498062F72185C53A00E2A3A2 /* MockUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MockUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -266,6 +267,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11190E60224C266200939503 /* StitchCoreTestUtils.framework in Frameworks */,
 				18980E2F2DF84C7B1FA84115 /* Pods_StitchCoreSDKTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -643,7 +645,6 @@
 				498062652185B6AF00E2A3A2 /* StitchAppClientInfoUnitTests.swift */,
 				498062662185B6AF00E2A3A2 /* Push */,
 				498062692185B6AF00E2A3A2 /* StitchAppClientConfigurationUnitTests.swift */,
-				4980626A2185B6AF00E2A3A2 /* StitchCoreTests.swift */,
 				4980626B2185B6AF00E2A3A2 /* StitchClientConfigurationUnitTests.swift */,
 				4980626C2185B6AF00E2A3A2 /* Services */,
 			);
@@ -770,6 +771,8 @@
 		DAFA2DA010EF5F54342E6629 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				11190E5F224C266200939503 /* StitchCoreTestUtils.framework */,
+				11190E5D224C250A00939503 /* StitchCoreTestUtils.framework */,
 				498062F72185C53A00E2A3A2 /* MockUtils.framework */,
 				7208856FB724F1294EEF8EEF /* Pods_StitchCoreSDK.framework */,
 				392DB4A470DD46E0E6B78130 /* Pods_StitchCoreSDKMocks.framework */,
@@ -1146,7 +1149,6 @@
 				498062782185B6AF00E2A3A2 /* StitchAppClientInfoUnitTests.swift in Sources */,
 				4980627D2185B6AF00E2A3A2 /* CoreStitchServiceClientUnitTests.swift in Sources */,
 				498062722185B6AF00E2A3A2 /* CoreUserAPIKeyAuthProviderClientUnitTests.swift in Sources */,
-				4980627B2185B6AF00E2A3A2 /* StitchCoreTests.swift in Sources */,
 				4980627C2185B6AF00E2A3A2 /* StitchClientConfigurationUnitTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
