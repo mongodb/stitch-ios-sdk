@@ -101,6 +101,7 @@
 @_exported import struct StitchRemoteMongoDBService.RemoteInsertOneResult
 @_exported import struct StitchRemoteMongoDBService.RemoteUpdateOptions
 @_exported import struct StitchRemoteMongoDBService.RemoteUpdateResult
+@_exported import struct StitchRemoteMongoDBService.RemoteFindOneAndModifyOptions
 
 // from iOS-specific module
 @_exported import class StitchRemoteMongoDBService.RemoteMongoClient
