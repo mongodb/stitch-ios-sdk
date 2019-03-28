@@ -321,6 +321,7 @@
 				"${PODS_ROOT}/mongo_embedded/iPhoneOS/Frameworks/mongo_embedded.framework.dSYM",
 				"${PODS_ROOT}/mongoc_embedded/iPhoneOS/Frameworks/mongoc_embedded.framework",
 				"${PODS_ROOT}/mongoc_embedded/iPhoneOS/Frameworks/mongoc_embedded.framework.dSYM",
+				"${BUILT_PRODUCTS_DIR}/Swifter/Swifter.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
@@ -336,6 +337,7 @@
 				"${DWARF_DSYM_FOLDER_PATH}/mongo_embedded.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongoc_embedded.framework",
 				"${DWARF_DSYM_FOLDER_PATH}/mongoc_embedded.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Swifter.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

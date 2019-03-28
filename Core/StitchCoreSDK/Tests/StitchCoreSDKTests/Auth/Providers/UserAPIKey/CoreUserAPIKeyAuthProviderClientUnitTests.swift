@@ -5,6 +5,7 @@ import MongoSwift
 import XCTest
 import StitchCoreSDKMocks
 @testable import StitchCoreSDK
+import StitchCoreTestUtils
 
 class CoreUserAPIKeyAuthProviderClientUnitTests: StitchXCTestCase {
 

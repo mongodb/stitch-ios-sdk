@@ -12,5 +12,12 @@ public protocol Transport {
      */
     func roundTrip(request: Request) throws -> Response
 
+    /**
+     Opens an HTTP SSE stream.
+
+     - parameter request: The HTTP request to open the stream.
+     - parameter delegate: The stream delegate that will react to incoming events from the stream.
+     - returns: The raw SSE stream object
+     */
     func stream(request: Request, delegate: SSEStreamDelegate?) throws -> RawSSEStream
 }

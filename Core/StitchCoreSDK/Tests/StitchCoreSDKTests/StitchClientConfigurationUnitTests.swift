@@ -1,5 +1,6 @@
 import XCTest
 @testable import StitchCoreSDK
+import StitchCoreTestUtils
 
 class StitchClientConfigurationUnitTests: XCTestCase {
     private let baseURL = "qux"

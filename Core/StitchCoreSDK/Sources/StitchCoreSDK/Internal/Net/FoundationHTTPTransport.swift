@@ -4,7 +4,7 @@ import MongoSwift
 /**
  * A basic implementation of the `Transport` protocol using the `URLSession.dataTask` method in the Foundation library.
  */
-public final class FoundationHTTPTransport: Transport {
+open class FoundationHTTPTransport: Transport {
     /**
      * Empty public initializer to make initialization of this Transport available outside of this module.
      */
@@ -14,7 +14,26 @@ public final class FoundationHTTPTransport: Transport {
     /**
      * The round trip functionality for this Transport, which uses `URLSession.dataTask`.
      */
-    public func roundTrip(request: Request) throws -> Response {
+    open func roundTrip(request: Request) throws -> Response {
+        let (response, _) = try doRoundTrip(request: request)
+        return response
+    }
+
+    /**
+     * The stream functionality for this Transport, which uses `URLSession.dataTask`.
+     */
+    open func stream(request: Request, delegate: SSEStreamDelegate? = nil) throws -> RawSSEStream {
+        let (rawStream, _) = try doStream(request: request, delegate: delegate)
+        return rawStream
+    }
+
+    /**
+     * Performs a round trip using Foundation's HTTP libraries, and returns the Response, and the URLSessionDataTask
+     * used to make the request.
+     *
+     * Note: This is intended for internal use only. Swift does not have a `protected` access modifier.
+     */
+    public final func doRoundTrip(request: Request) throws -> (Response, URLSessionDataTask) {
         guard let url = URL(string: request.url) else {
             throw StitchError.clientError(withClientErrorCode: .missingURL)
         }
@@ -40,33 +59,34 @@ public final class FoundationHTTPTransport: Transport {
         var error: Error?
 
         group.enter()
-        session.dataTask(with: urlRequest) { data, response, err in
+        let sessionTask = session.dataTask(with: urlRequest) { data, response, err in
             defer { group.leave() }
             guard let urlResponse = response as? HTTPURLResponse,
                 let headers = urlResponse.allHeaderFields as? [String: String]
                 else {
-                error = err
-                return
+                    error = err
+                    return
             }
 
             finalResponse = Response.init(statusCode: urlResponse.statusCode,
                                           headers: headers,
                                           body: data)
-        }.resume()
+        }
+        sessionTask.resume()
 
         guard case .success = group.wait(timeout: .now() + request.timeout),
             let response = finalResponse else {
-            guard let err = error else {
-                throw StitchError.serviceError(
-                    withMessage: "no response from server",
-                    withServiceErrorCode: .unknown
-                )
-            }
+                guard let err = error else {
+                    throw StitchError.serviceError(
+                        withMessage: "no response from server",
+                        withServiceErrorCode: .unknown
+                    )
+                }
 
-            throw err
+                throw err
         }
 
-        return response
+        return (response, sessionTask)
     }
 
     private lazy var opQueue: OperationQueue = {
@@ -77,7 +97,10 @@ public final class FoundationHTTPTransport: Transport {
 
     private let underlyingQueue = DispatchQueue.init(label: "change-streams", qos: .userInitiated)
 
-    public func stream(request: Request, delegate: SSEStreamDelegate? = nil) throws -> RawSSEStream {
+    public func doStream(
+        request: Request,
+        delegate: SSEStreamDelegate? = nil
+    ) throws -> (RawSSEStream, URLSessionDataTask) {
         guard let url = URL(string: request.url) else {
             throw StitchError.clientError(withClientErrorCode: .missingURL)
         }
@@ -94,8 +117,10 @@ public final class FoundationHTTPTransport: Transport {
                                       delegate: sseStream.dataDelegate,
                                       delegateQueue: opQueue)
 
-        session.dataTask(with: url).resume()
+        let sessionTask = session.dataTask(with: url)
+        sessionTask.resume()
+
         sseStream.state = .opening
-        return sseStream
+        return (sseStream, sessionTask)
     }
 }

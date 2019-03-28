@@ -1,10 +1,10 @@
 // swiftlint:disable force_try
 // swiftlint:disable function_body_length
-// swiftlint:disable function_length
 // swiftlint:disable nesting
 import XCTest
 @testable import Swifter
 @testable import StitchCoreSDK
+import StitchCoreTestUtils
 
 class FoundationHTTPTransportIntTests: StitchXCTestCase {
     let responseBody = "foo"

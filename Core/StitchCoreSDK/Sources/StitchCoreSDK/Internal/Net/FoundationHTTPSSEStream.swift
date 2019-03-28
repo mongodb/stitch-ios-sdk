@@ -38,6 +38,13 @@ internal class FoundationURLSessionDataDelegate: NSObject, URLSessionDataDelegat
         }
 
         self.session = session
+
+        // store this initial response from the server
+        self.stream?.initialResponse = Response.init(
+            statusCode: httpResponse.statusCode,
+            headers: httpResponse.allHeaderFields as? [String: String] ?? [:],
+            body: nil
+        )
     }
 }
 
@@ -49,6 +56,10 @@ public class FoundationHTTPSSEStream: RawSSEStream {
     // the delegate will also be.
     // swiftlint:disable:next weak_delegate
     internal lazy var dataDelegate: FoundationURLSessionDataDelegate? = FoundationURLSessionDataDelegate(self)
+
+    // The initial response from the Stitch server indicating whether or not the stream was successfully opened.
+    // Will be 'nil' until the request is completed.
+    internal var initialResponse: Response?
 
     public override func close() {
         dataDelegate?.stream?.state = .closing

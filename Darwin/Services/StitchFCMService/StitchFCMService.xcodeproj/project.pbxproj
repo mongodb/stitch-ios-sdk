@@ -346,6 +346,7 @@
 				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework.dSYM",
 				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework",
 				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework.dSYM",
+				"${BUILT_PRODUCTS_DIR}/Swifter/Swifter.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
@@ -356,6 +357,7 @@
 				"${DWARF_DSYM_FOLDER_PATH}/bson.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongoc.framework",
 				"${DWARF_DSYM_FOLDER_PATH}/mongoc.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Swifter.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -562,14 +564,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-					"$(inherited)",
-					"\"$(SRCROOT)/../../../Frameworks/macos\"",
-					"@executable_path/Frameworks",
-				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(inherited) \"$(SRCROOT)/../../../Frameworks/macos\" @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchFCMService;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -622,10 +617,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
 				CODE_SIGN_STYLE = Automatic;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				"FRAMEWORK_SEARCH_PATHS[sdk=macosx10.13]" = (
-					"\"$(SRCROOT)/../../../Frameworks/macos\"",
-					"$(inherited)",
-				);
+				"FRAMEWORK_SEARCH_PATHS[sdk=macosx10.13]" = "\"$(SRCROOT)/../../../Frameworks/macos\" $(inherited)";
 				INFOPLIST_FILE = StitchFCMServiceTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
