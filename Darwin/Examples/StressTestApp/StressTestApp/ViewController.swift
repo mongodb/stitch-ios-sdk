@@ -85,7 +85,13 @@ class ViewController: UIViewController {
             return;
         }
         
+        guard let syncCollection = syncCollection else {
+            self.log(" insertManyClicked: Sync must be initialized")
+            return;
+        }
+        
         timeLabel.text = "In Progress"
+        let time = Date.init()
         
         let numDocs = integer(from: numDocsToInsertInput);
         let docSize = integer(from: docSizeInput);
@@ -99,7 +105,7 @@ class ViewController: UIViewController {
                                                            subtype: Binary.Subtype.userDefined)]
                 docs.append(newDoc)
             } catch(let err) {
-                self.log("Failed to make array of couments with err: \(err.localizedDescription)")
+                self.log("Failed to make array of documents with err: \(err.localizedDescription)")
             }
         }
         
@@ -122,21 +128,17 @@ class ViewController: UIViewController {
         
         group.notify(queue: .main) {
             self.log("Finished with \(docIds.count) docs")
-            do {
-                try self.syncCollection?.sync(ids: docIds)
-            } catch (let err) {
-                self.log(" sync() failed with err \(err.localizedDescription)")
+            syncCollection.sync(ids: docIds) {result in
+                switch result {
+                case .success(result: _):
+                    self.log("Succeffully synced \(docIds.count) docs");
+                    let newTime = Date.init().msSinceEpoch - time.msSinceEpoch
+                    self.updateLabels(withTime: Int(newTime))
+                case .failure(let error):
+                     self.log("Failed to sync #\(docIds.count) docs with err: \(error.localizedDescription)")
+                }
             }
         }
-        
-       
-        
-//        DispatchQueue.main.async() {
-//            self.timeLabel.text          = "T: \(String(describing: numDocs))"
-//            self.networkLabel.text       = "N: \(String(describing: numDocs))"
-//            self.cpuLabel.text           = "C: \(String(describing: numDocs))"
-//            self.numSyncedDocsLabel.text = "S: \(String(describing: numDocs))"
-//        }
     }
     
     @IBAction func clearAllDocsClicked(_ sender: Any) {
@@ -151,12 +153,13 @@ class ViewController: UIViewController {
         }
         let syncedIds = syncCollection.syncedIds;
         if (syncedIds.count > 0) {
-            do {
-                try syncCollection.desync(ids: syncedIds.map({return $0.value}))
-                    // .getServiceClient(RemoteMongoClient.factory, "mongodb-atlas")
-                //                    as RemoteMongoClientImpl).dataSynchronizer.doSyncPass()
-            } catch (let err) {
-                self.log(" desync() failed with err \(err.localizedDescription)")
+            syncCollection.desync(ids: syncedIds.map({return $0.value})) {result in
+                switch result {
+                case .success(result: _):
+                    self.log("Succeffully de-synced \(syncedIds.count) docs");
+                case .failure(let error):
+                    self.log("Failed to de-sync #\(syncedIds.count) docs with err: \(error.localizedDescription)")
+                }
             }
         }
 
@@ -192,6 +195,15 @@ class ViewController: UIViewController {
     
     func log(_ logMsg: String) {
         print("(StressTest): \(logMsg)")
+    }
+    
+    func updateLabels(withTime time: Int = 0, withNetwork network: Double = 0.0, withCPU cpu: Double = 0.0) {
+        DispatchQueue.main.async() {
+            self.timeLabel.text          = "\(String(describing: time))"
+            self.networkLabel.text       = "\(String(describing: network))"
+            self.cpuLabel.text           = "\(String(describing: cpu))"
+            self.numSyncedDocsLabel.text = "\(String(describing: self.syncCollection?.syncedIds.count ?? 0))"
+        }
     }
 }
 

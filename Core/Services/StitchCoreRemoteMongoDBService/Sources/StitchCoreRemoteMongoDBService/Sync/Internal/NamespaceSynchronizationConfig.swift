@@ -185,6 +185,7 @@ final class NamespaceSynchronization: Sequence, Codable {
     }
 
     func set(stale: Bool) throws {
+        print("(StressTest): Setting Stale to \(stale ? "True" : "False") \(stale)")
         _ = try nsLock.write {
             try docsColl.updateMany(
                 filter: ["namespace": try BSONEncoder().encode(namespace)],
