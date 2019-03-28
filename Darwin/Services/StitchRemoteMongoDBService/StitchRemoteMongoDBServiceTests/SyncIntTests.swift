@@ -15,7 +15,7 @@ import StitchCoreLocalMongoDBService
 
 private let waitTimeout = UInt64(1e+10)
 
-private extension Document {
+internal extension Document {
     func sorted() -> Document {
         return self.sorted { (doc1, doc2) -> Bool in
             doc1.key < doc2.key
@@ -25,7 +25,7 @@ private extension Document {
     }
 }
 
-private extension RemoteMongoCollection {
+internal extension RemoteMongoCollection {
     func count(_ filter: Document) -> Int? {
         let joiner = CallbackJoiner()
         self.count(filter, joiner.capture())
@@ -78,7 +78,7 @@ extension String: LocalizedError {
 
 // These extensions make the CRUD commands synchronous to simplify writing tests.
 // These extensions should not be used outside of a testing environment.
-private extension Sync where DocumentT == Document {
+internal extension Sync where DocumentT == Document {
     func verifyUndoCollectionEmpty() {
         guard try! self.proxy.dataSynchronizer.undoCollection(for: self.proxy.namespace).count() == 0 else {
             XCTFail("CRUD operation leaked documents in undo collection, add breakpoint here and check stack trace")
@@ -239,7 +239,7 @@ private extension Sync where DocumentT == Document {
     }
 }
 
-private class StreamJoiner: SSEStreamDelegate {
+internal class StreamJoiner: SSEStreamDelegate {
     var events = [ChangeEvent<Document>]()
     var streamState: SSEStreamState?
 
@@ -282,7 +282,7 @@ private class StreamJoiner: SSEStreamDelegate {
     }
 }
 
-private class SyncTestContext {
+internal class SyncTestContext {
     let streamJoiner = StreamJoiner()
     let networkMonitor: NetworkMonitor
     let stitchClient: StitchAppClient
