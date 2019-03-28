@@ -128,6 +128,7 @@ target :StitchCoreSDK do
 
         target :StitchTwilioServiceTests do
             shared_pods
+            swifter_pod
             inherit! :search_paths
         end
     end
@@ -139,6 +140,7 @@ target :StitchCoreSDK do
         target :StitchRemoteMongoDBServiceTests do
             swifter_pod
             pod 'MongoMobile', '= 0.0.7'
+            swifter_pod
             
             inherit! :search_paths
         end
@@ -150,6 +152,7 @@ target :StitchCoreSDK do
 
         target :StitchLocalMongoDBServiceTests do
             pod 'MongoMobile', '= 0.0.7'
+            swifter_pod
             inherit! :search_paths
         end
     end
@@ -160,6 +163,7 @@ target :StitchCoreSDK do
 
         target :StitchHTTPServiceTests do
             shared_pods
+            swifter_pod
             inherit! :search_paths
         end
     end
@@ -170,6 +174,7 @@ target :StitchCoreSDK do
 
         target :StitchFCMServiceTests do
             shared_pods
+            swifter_pod
             inherit! :search_paths
         end
     end
@@ -180,6 +185,7 @@ target :StitchCoreSDK do
 
         target :StitchAWSServiceTests do
             shared_pods
+            swifter_pod
             inherit! :search_paths
         end
     end
