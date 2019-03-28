@@ -107,6 +107,7 @@ target :StitchCoreSDK do
 
         target :StitchCoreTests do
             pod 'JSONWebToken', '~> 2.2.0'
+            swifter_pod
             shared_pods
             inherit! :search_paths
         end
