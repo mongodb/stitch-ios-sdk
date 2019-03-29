@@ -64,7 +64,7 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
     func tearDownIter() {
 
     }
-    
+
     func runPerformanceTestWithParameters(testParams: TestParams, testDefinition: TestDefinition) {
         do {
             for docSize in testParams.docSizes {
@@ -78,33 +78,31 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
                     var networkReceivedData: [Double] = []
 
                     for _ in 1...testParams.numIters {
-                        var cpuDataIter: [Double] = []
-                        var memoryDataIter: [Double] = []
-                        var threadDataIter: [Double] = []
-
+                        // Get starting values for disk space and time
                         let timeBefore = Date().timeIntervalSince1970
                         var systemAttributes =
                             try FileManager.default.attributesOfFileSystem(forPath: NSHomeDirectory() as String)
                         let freeSpaceBefore =
                             (systemAttributes[FileAttributeKey.systemFreeSize] as? NSNumber)?.doubleValue ?? 0.0
-                        
-                        // Eventually move this out into a separate method / var
-                        let timeSource = DispatchSource.makeTimerSource()
-                        timeSource.schedule(deadline: .now(), repeating: 0.5)
-                        timeSource.setEventHandler(handler: { [weak self] in
-                            let (numThreads, cpuPer) = cpuUsage()
-                            threadDataIter.append(Double(numThreads))
-                            cpuDataIter.append(cpuPer)
-                            memoryDataIter.append(100.0)
-                        })
-                        timeSource.resume()
 
+                        // Start repeating task
+                        // TODO: Eventually move this out into a separate method / var
+                        let metricCollector = MetricsCollector(timeInterval: 0.5)
+                        metricCollector.resume()
+
+                        // Run function
                         testDefinition(numDoc, docSize)
 
-                        timeSource.cancel()
-                        print(cpuDataIter.count)
+                        // Stop timing and add it to timeData
+                        timeData.append(Double(Date().timeIntervalSince1970 - timeBefore))
 
-                        // add in values
+                        // Get the point-in-time measurements
+                        let (threads, cpu, memory) = metricCollector.suspend()
+                        threadData.append(threads)
+                        cpuData.append(cpu)
+                        memoryData.append(memory)
+
+                        // Append remaining values
                         timeData.append(Double(Date().timeIntervalSince1970 - timeBefore))
                         networkSentData.append(10.0)
                         networkReceivedData.append(10.90)
@@ -114,15 +112,11 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
                             (systemAttributes[FileAttributeKey.systemFreeSize] as? NSNumber)?.doubleValue ?? 0.0
                         diskData.append(freeSpaceBefore - freeSpaceAfter)
 
-                        // Add averages of point-in-time measurements
-                        cpuData.append(cpuDataIter.reduce(0.0, +) / Double(cpuDataIter.count))
-                        threadData.append(threadDataIter.reduce(0.0, +) / Double(threadDataIter.count))
-                        memoryData.append(memoryDataIter.reduce(0.0, +) / Double(memoryDataIter.count))
                     }
                 }
             }
-        } catch (let err) {
-            print(err)
+        } catch {
+            print(error.localizedDescription)
         }
     }
 
@@ -263,35 +257,52 @@ private func convertThreadInfoToThreadBasicInfo(_ threadInfo: [integer_t]) -> th
     return result
 }
 
+func getMemoryUsage() -> Double {
+    var taskInfo = mach_task_basic_info()
+    var count = mach_msg_type_number_t(MemoryLayout<mach_task_basic_info>.size)/4
+    let kerr: kern_return_t = withUnsafeMutablePointer(to: &taskInfo) {
+        $0.withMemoryRebound(to: integer_t.self, capacity: 1) {
+            task_info(mach_task_self_, task_flavor_t(MACH_TASK_BASIC_INFO), $0, &count)
+        }
+    }
+
+    if kerr == KERN_SUCCESS {
+        return Double(taskInfo.resident_size)
+    } else {
+        print("Error getting memory"
+        return 0.0
+    }
+}
+
 struct DoubleDataBlock {
     var mean: Double = 0.0
     var median: Double = 0.0
     var max: Double = 0.0
     var min: Double = 0.0
     var stdDev: Double = 0.0
-    
+
     init(data: [Double], numOutliers: Int) {
         if data.count >= numOutliers * 2 {
             let newData = data.sorted()[numOutliers ... (data.count - numOutliers - 1)]
-            
+
             max = newData[0]
             min = newData[newData.count - 1]
-            
+
             let dataSize = newData.count
             let middle = dataSize / 2
-            
+
             if (dataSize % 2 == 0) {
                 median = (newData[middle] + newData[middle - 1]) / 2
             } else {
                 median = newData[middle]
             }
-            
+
             mean = newData.reduce(0.0, +) / Double(newData.count)
             let sumOfSquared = newData.map {($0 - mean) * ($0 - mean)}.reduce(0, +)
             stdDev = sqrt(sumOfSquared / Double(newData.count))
         }
     }
-    
+
     func toBson() -> Document {
         return [
             "mean": mean,
@@ -314,7 +325,7 @@ struct RunResults {
     let memory: DoubleDataBlock
     let disk: DoubleDataBlock
     let threads: DoubleDataBlock
-    
+
     init(numDocs: Int,
          docSize: Int,
          numOutliers: Int,
@@ -338,7 +349,7 @@ struct RunResults {
         self.disk = DoubleDataBlock(data: disk, numOutliers: numOutliers)
         self.threads = DoubleDataBlock(data: threads, numOutliers: numOutliers)
     }
-    
+
     func toBson() -> Document {
         return [
             "numDocs": numDocs,
@@ -351,5 +362,37 @@ struct RunResults {
             "diskBytes": disk.toBson(),
             "threads": threads.toBson()
         ]
+    }
+}
+
+class MetricsCollector {
+    let timeSource: DispatchSourceTimer
+    private var threadData: [Double] = []
+    private var cpuData: [Double] = []
+    private var memoryData: [Double] = []
+
+    init(timeInterval: TimeInterval) {
+        timeSource = DispatchSource.makeTimerSource()
+        timeSource.schedule(deadline: .now(), repeating: timeInterval)
+        timeSource.setEventHandler(handler: { [weak self] in
+            let (numThreads, cpuPer) = cpuUsage()
+            self?.threadData.append(Double(numThreads))
+            self?.cpuData.append(cpuPer)
+            self?.memoryData.append(getMemoryUsage())
+        })
+    }
+
+    func resume() {
+        threadData = []
+        cpuData = []
+        memoryData = []
+        timeSource.resume()
+    }
+
+    func suspend() -> (Double, Double, Double) {
+        timeSource.suspend()
+        return (threadData.reduce(0.0, +) / Double(threadData.count),
+                cpuData.reduce(0.0, +) / Double(cpuData.count),
+                memoryData.reduce(0.0, +) / Double(memoryData.count)))
     }
 }
