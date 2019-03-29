@@ -64,9 +64,8 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
     func tearDownIter() {
 
     }
-
+    
     func runPerformanceTestWithParameters(testParams: TestParams, testDefinition: TestDefinition) {
-
         do {
             for docSize in testParams.docSizes {
                 for numDoc in testParams.numDocs {
@@ -88,11 +87,8 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
                             try FileManager.default.attributesOfFileSystem(forPath: NSHomeDirectory() as String)
                         let freeSpaceBefore =
                             (systemAttributes[FileAttributeKey.systemFreeSize] as? NSNumber)?.doubleValue ?? 0.0
-//
-                        let hostCPUInfo = hostCPULoadInfo()
-                        print(hostCPUInfo?.cpu_ticks)
-                        print(cpuUsage())
-
+                        
+                        // Eventually move this out into a separate method / var
                         let timeSource = DispatchSource.makeTimerSource()
                         timeSource.schedule(deadline: .now(), repeating: 0.5)
                         timeSource.setEventHandler(handler: { [weak self] in
@@ -100,19 +96,8 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
                             threadDataIter.append(Double(numThreads))
                             cpuDataIter.append(cpuPer)
                             memoryDataIter.append(100.0)
-                            print("sup fellas")
                         })
                         timeSource.resume()
-
-//                        let repeatTask = RepeatingTimer(timeInterval: 1)
-//                        repeatTask.eventHandler = {
-//                            let (numThreads, cpuPer) = cpuUsage()
-//                            threadDataIter.append(Double(numThreads))
-//                            cpuDataIter.append(cpuPer)
-//                            memoryDataIter.append(100.0)
-//                            print("sup fellas")
-//                        }
-//                        repeatTask.resume()
 
                         testDefinition(numDoc, docSize)
 
@@ -130,11 +115,9 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
                         diskData.append(freeSpaceBefore - freeSpaceAfter)
 
                         // Add averages of point-in-time measurements
-                        print("numMeasurements: \(cpuDataIter.count)")
                         cpuData.append(cpuDataIter.reduce(0.0, +) / Double(cpuDataIter.count))
                         threadData.append(threadDataIter.reduce(0.0, +) / Double(threadDataIter.count))
                         memoryData.append(memoryDataIter.reduce(0.0, +) / Double(memoryDataIter.count))
-
                     }
                 }
             }
@@ -142,9 +125,6 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
             print(err)
         }
     }
-
-    var mdbService: Apps.App.Services.Service!
-    var mdbRule: RuleResponse!
 
     func testInitialSync() {
         let testParam = TestParams(testName: "initialSync",
@@ -157,6 +137,10 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
             sleep(3)
         }
 
+    }
+
+    func testDataBlock() {
+        let dataBlock = DoubleDataBlock(data: [1.0, 1.1, 2.3, 2.4, 2.6, 2.9, 0.5], numOutliers: 1)
     }
 }
 
@@ -212,26 +196,6 @@ internal struct TestParams {
             "results": []
         ]
     }
-}
-
-private func hostCPULoadInfo() -> host_cpu_load_info? {
-
-    let hostCPULoadInfoCount = MemoryLayout<host_cpu_load_info>.stride / MemoryLayout<integer_t>.stride
-
-    var size = mach_msg_type_number_t(hostCPULoadInfoCount)
-    let hostInfo = host_cpu_load_info_t.allocate(capacity: 1)
-
-    let result = hostInfo.withMemoryRebound(to: integer_t.self, capacity: hostCPULoadInfoCount) {
-        host_statistics(mach_host_self(), HOST_CPU_LOAD_INFO, $0, &size)
-    }
-
-    if result != KERN_SUCCESS {
-        print("Error  - \(#file): \(#function) - kern_result_t = \(result)")
-        return nil
-    }
-    let data = hostInfo.move()
-    hostInfo.deallocate(capacity: 1)
-    return data
 }
 
 private func cpuUsage() -> (Int, Double) {
@@ -299,56 +263,93 @@ private func convertThreadInfoToThreadBasicInfo(_ threadInfo: [integer_t]) -> th
     return result
 }
 
-class RepeatingTimer {
-
-    let timeInterval: TimeInterval
-
-    init(timeInterval: TimeInterval) {
-        self.timeInterval = timeInterval
-    }
-
-    private lazy var timer: DispatchSourceTimer = {
-        let timeSource = DispatchSource.makeTimerSource()
-        timeSource.schedule(deadline: .now() + self.timeInterval, repeating: self.timeInterval)
-        timeSource.setEventHandler(handler: { [weak self] in
-            self?.eventHandler?()
-        })
-        return timeSource
-    }()
-
-    var eventHandler: (() -> Void)?
-
-    private enum State {
-        case suspended
-        case resumed
-    }
-
-    private var state: State = .suspended
-
-    deinit {
-        timer.setEventHandler {}
-        timer.cancel()
-        /*
-         If the timer is suspended, calling cancel without resuming
-         triggers a crash. This is documented here https://forums.developer.apple.com/thread/15902
-         */
-        resume()
-        eventHandler = nil
-    }
-
-    func resume() {
-        if state == .resumed {
-            return
+struct DoubleDataBlock {
+    var mean: Double = 0.0
+    var median: Double = 0.0
+    var max: Double = 0.0
+    var min: Double = 0.0
+    var stdDev: Double = 0.0
+    
+    init(data: [Double], numOutliers: Int) {
+        if data.count >= numOutliers * 2 {
+            let newData = data.sorted()[numOutliers ... (data.count - numOutliers - 1)]
+            
+            max = newData[0]
+            min = newData[newData.count - 1]
+            
+            let dataSize = newData.count
+            let middle = dataSize / 2
+            
+            if (dataSize % 2 == 0) {
+                median = (newData[middle] + newData[middle - 1]) / 2
+            } else {
+                median = newData[middle]
+            }
+            
+            mean = newData.reduce(0.0, +) / Double(newData.count)
+            let sumOfSquared = newData.map {($0 - mean) * ($0 - mean)}.reduce(0, +)
+            stdDev = sqrt(sumOfSquared / Double(newData.count))
         }
-        state = .resumed
-        timer.resume()
     }
+    
+    func toBson() -> Document {
+        return [
+            "mean": mean,
+            "median": median,
+            "max": max,
+            "min": min,
+            "stdDev": stdDev
+        ]
+    }
+}
 
-    func suspend() {
-        if state == .suspended {
-            return
-        }
-        state = .suspended
-        timer.suspend()
+struct RunResults {
+    let numDocs: Int
+    let docSize: Int
+    let numOutliers: Int
+    let time: DoubleDataBlock
+    let networkSentBytes: DoubleDataBlock
+    let networkReceivedBytes: DoubleDataBlock
+    let cpu: DoubleDataBlock
+    let memory: DoubleDataBlock
+    let disk: DoubleDataBlock
+    let threads: DoubleDataBlock
+    
+    init(numDocs: Int,
+         docSize: Int,
+         numOutliers: Int,
+         time: [Double],
+         networkSentBytes: [Double],
+         networkReceivedBytes: [Double],
+         cpu: [Double],
+         memory: [Double],
+         disk: [Double],
+         threads: [Double]) {
+        self.numDocs = numDocs
+        self.docSize = docSize
+        self.numOutliers = numOutliers
+        self.time = DoubleDataBlock(data: time, numOutliers: numOutliers)
+        self.networkSentBytes =
+            DoubleDataBlock(data: networkSentBytes, numOutliers: numOutliers)
+        self.networkReceivedBytes =
+            DoubleDataBlock(data: networkReceivedBytes, numOutliers: numOutliers)
+        self.cpu = DoubleDataBlock(data: cpu, numOutliers: numOutliers)
+        self.memory = DoubleDataBlock(data: memory, numOutliers: numOutliers)
+        self.disk = DoubleDataBlock(data: disk, numOutliers: numOutliers)
+        self.threads = DoubleDataBlock(data: threads, numOutliers: numOutliers)
+    }
+    
+    func toBson() -> Document {
+        return [
+            "numDocs": numDocs,
+            "docSize": docSize,
+            "timeMs": time.toBson(),
+            "networkSentBytes": networkSentBytes.toBson(),
+            "networkReceivedBytes": networkReceivedBytes.toBson(),
+            "cpu": cpu.toBson(),
+            "memoryBytes": memory.toBson(),
+            "diskBytes": disk.toBson(),
+            "threads": threads.toBson()
+        ]
     }
 }
