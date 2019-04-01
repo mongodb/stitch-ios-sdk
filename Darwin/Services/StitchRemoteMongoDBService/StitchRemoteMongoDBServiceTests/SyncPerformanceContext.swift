@@ -17,28 +17,28 @@ class SyncPerformanceContext {
     var collName = ""
     var userId = ""
 
-    let joiner = CallbackJoiner()
+    let joiner = ThrowingCallbackJoiner()
+    let streamJoiner = StreamJoiner()
     let testParams: TestParams?
     let transport: FoundationInstrumentedHTTPTransport?
     let harness: SyncPerformanceIntTestHarness?
 
     init(harness: SyncPerformanceIntTestHarness,
          testParams: TestParams,
-         transport: FoundationInstrumentedHTTPTransport) {
-        print("INIT")
+         transport: FoundationInstrumentedHTTPTransport) throws {
         self.testParams = testParams
         self.transport = transport
         self.harness = harness
         if testParams.stitchHostName == "https://stitch.mongodb.com" {
-            print("STITCH-Prod")
+            print("PerfLog: Context: Initializing STITCH-Prod")
             dbName = harness.stitchTestDbName
             collName = harness.stitchTestCollName
             client = harness.outputClient
             mongoClient = harness.outputMongoClient
             coll = mongoClient?.db(dbName).collection(collName)
+            print("PerfLog: Context: Finished initializing STITCH-Prod")
         } else {
-            print("STITCH-Local")
-
+            print("PerfLog: Context: Initializing STITCH-Local")
             dbName = ObjectId().oid
             collName = ObjectId().oid
 
@@ -52,14 +52,19 @@ class SyncPerformanceContext {
                                            schema: RuleCreator.Schema())
             _ = try! harness.addRule(toService: svc.1, withConfig: rule)
 
-            client = try! harness.appClient(forApp: app.0)
-            _ = client?.auth.login(withCredential: AnonymousCredential(), joiner.capture())
+            client = try! harness.appClient(forApp: app.0, withTransport: transport)
+            client?.auth.login(withCredential: AnonymousCredential(), joiner.capture())
+            let _: Any? = try joiner.value()
             userId = client?.auth.currentUser?.id ?? ""
 
             mongoClient = try! client?.serviceClient(fromFactory: remoteMongoClientFactory, withName: "mongodb1")
             coll = mongoClient?.db(dbName).collection(collName)
+            print("PerfLog: Context: Finished Initializing STITCH-Local")
         }
-        print("End")
+
+        coll?.sync.proxy.dataSynchronizer.isSyncThreadEnabled = false
+        coll?.sync.proxy.dataSynchronizer.stop() // Failing here occaisonally
+        print("PerfLog: Context: Done with initialization")
     }
 
     func runSingleIteration(numDocs: Int,
@@ -68,7 +73,7 @@ class SyncPerformanceContext {
                             customSetup: TestDefinition? = nil,
                             customTeardown: TestDefinition? = nil) throws -> IterationResult {
         // Perform custom setup if it exists
-        customSetup?(numDocs, docSize)
+        try customSetup?(self, numDocs, docSize)
 
         // Get starting values for disk space and time
         let timeBefore = Date().timeIntervalSince1970
@@ -81,18 +86,18 @@ class SyncPerformanceContext {
             (systemAttributes[FileAttributeKey.systemFreeSize] as? NSNumber)?.doubleValue ?? 0.0
 
         // Start repeating task
-        // TODO: Eventually move this out into a separate method / var
-        let metricCollector = MetricsCollector(timeInterval: 0.5)
-        metricCollector.resume()
+        let timeInterval = Double(testParams?.dataProbeGranularityMs ?? 500) / 1000.0
+        let metricsCollector = MetricsCollector(timeInterval: timeInterval)
+        metricsCollector.resume()
 
         // Run the desired function
-        testDefinition(numDocs, docSize)
+        try testDefinition(self, numDocs, docSize)
 
         // Get finish time
-        let timeMs = Double(Date().timeIntervalSince1970 - timeBefore)
+        let timeMs = Double(Date().timeIntervalSince1970 - timeBefore) * 1000
 
         // Get the point-in-time measurements
-        let (threads, cpu, memory) = metricCollector.suspend()
+        let (threads, cpu, memory) = metricsCollector.suspend()
 
         // Append remaining values
         let networkReceived = Double(transport?.bytesDownloaded ?? 0) - networkReceivedBefore
@@ -105,7 +110,7 @@ class SyncPerformanceContext {
         let diskUsed = freeSpaceBefore - freeSpaceAfter
 
         // Perform custom taredown if specified
-        customTeardown?(numDocs, docSize)
+        try customTeardown?(self, numDocs, docSize)
 
         return IterationResult(time: timeMs,
                                networkSentBytes: networkSent,
@@ -117,25 +122,92 @@ class SyncPerformanceContext {
     }
 
     func tearDown() throws {
-        print("TEARING DOWN CONTEXT")
         guard let coll = coll else {
             throw "Colleciton not valid"
         }
-        let syncedIds = coll.sync.syncedIds().map({$0.value})
-        coll.sync.desync(ids: syncedIds)
 
         if testParams?.stitchHostName == "https://stitch.mongodb.com" {
-            client?.callFunction(withName: "deleteAllAsSystemUser", withArgs: [], joiner.capture())
-        } else {
-            coll.deleteMany([:], joiner.capture())
-            harness?.tearDown()
-            coll.sync.proxy.dataSynchronizer.instanceChangeStreamDelegate.stop()
-            coll.sync.proxy.dataSynchronizer.stop()
+             client?.callFunction(withName: "deleteAllAsSystemUser", withArgs: [], joiner.capture())
+            let _: Any? = try joiner.value()
         }
+
+        if coll.sync.proxy.dataSynchronizer.instanceChangeStreamDelegate != nil {
+            coll.sync.proxy.dataSynchronizer.instanceChangeStreamDelegate.stop()
+        }
+
+        // swiftlint:disable force_cast
+        CoreLocalMongoDBService.shared.localInstances.forEach { client in
+            try! client.listDatabases().forEach {
+                try? client.db($0["name"] as! String).drop()
+            }
+        }
+        // swiftlint:enable force_cast
+    }
+
+    func waitForAllStreamsOpen() {
+        guard let coll = coll else {
+            print("PerfLog: (waitForAllStreamsOpen) Coll is nil")
+            return
+        }
+        while !coll.sync.proxy.dataSynchronizer.allStreamsAreOpen {
+            print("waiting for all streams to open before doing sync pass")
+            sleep(1)
+        }
+    }
+
+    func streamAndSync() throws {
+        guard let harness = harness, let coll = coll else {
+            print("PerfLog: (streamAndSync) Harness / Coll is nil")
+            return
+        }
+        if  harness.networkMonitor.state == .connected {
+            // add the stream joiner as a delegate of the stream so we can wait for events
+            if let iCSDel = coll.sync.proxy
+                .dataSynchronizer
+                .instanceChangeStreamDelegate,
+                let nsConfig = iCSDel[MongoNamespace(databaseName: dbName, collectionName: collName)] {
+                nsConfig.add(streamDelegate: streamJoiner)
+                streamJoiner.streamState = nsConfig.state
+            }
+
+            // wait for streams to open
+            waitForAllStreamsOpen()
+        }
+        _ = try coll.sync.proxy.dataSynchronizer.doSyncPass()
+    }
+
+    func powerCycleDevice() throws {
+        guard let coll = coll else {
+            print("PerfLog: (powerCycleDevice) Coll is nil")
+            return
+        }
+
+        try coll.sync.proxy.dataSynchronizer.reloadConfig()
+        if streamJoiner.streamState != nil {
+            streamJoiner.wait(forState: .closed)
+        }
+    }
+
+}
+
+func getMemoryUsage() -> Double {
+    var taskInfo = mach_task_basic_info()
+    var count = mach_msg_type_number_t(MemoryLayout<mach_task_basic_info>.size)/4
+    let kerr: kern_return_t = withUnsafeMutablePointer(to: &taskInfo) {
+        $0.withMemoryRebound(to: integer_t.self, capacity: 1) {
+            task_info(mach_task_self_, task_flavor_t(MACH_TASK_BASIC_INFO), $0, &count)
+        }
+    }
+
+    if kerr == KERN_SUCCESS {
+        return Double(taskInfo.resident_size)
+    } else {
+        print("Error getting memory")
+        return 0.0
     }
 }
 
-class MetricsCollector {
+internal class MetricsCollector {
     let timeSource: DispatchSourceTimer
     private var threadData: [Double] = []
     private var cpuData: [Double] = []
@@ -158,13 +230,14 @@ class MetricsCollector {
         memoryData = []
         timeSource.resume()
     }
-
+    // swiftlint:disable large_tuple
     func suspend() -> (Double, Double, Double) {
         timeSource.cancel()
         return (threadData.reduce(0.0, +) / Double(threadData.count),
                 cpuData.reduce(0.0, +) / Double(cpuData.count),
                 memoryData.reduce(0.0, +) / Double(memoryData.count))
     }
+    // swiftlint:enable large_tuple
 }
 
 // Helper functions to get usage stats
@@ -231,21 +304,4 @@ private func convertThreadInfoToThreadBasicInfo(_ threadInfo: [integer_t]) -> th
     result.sleep_time = threadInfo[9]
 
     return result
-}
-
-func getMemoryUsage() -> Double {
-    var taskInfo = mach_task_basic_info()
-    var count = mach_msg_type_number_t(MemoryLayout<mach_task_basic_info>.size)/4
-    let kerr: kern_return_t = withUnsafeMutablePointer(to: &taskInfo) {
-        $0.withMemoryRebound(to: integer_t.self, capacity: 1) {
-            task_info(mach_task_self_, task_flavor_t(MACH_TASK_BASIC_INFO), $0, &count)
-        }
-    }
-
-    if kerr == KERN_SUCCESS {
-        return Double(taskInfo.resident_size)
-    } else {
-        print("Error getting memory")
-        return 0.0
-    }
 }

@@ -131,6 +131,7 @@ tasks:
             echo export TWILIO_AUTH_TOKEN=${test_twilio_authtoken} >> creds
             echo export FCM_SENDER_ID=${test_fcm_sender_id} >> creds
             echo export FCM_API_KEY=${test_fcm_api_key} >> creds
+            echo export PERF_IOS_API_KEY=${perf_ios_api_key} >> creds
             echo export COVERALLS_TOKEN=${coveralls_repo_token} >> creds
       - command: shell.exec
         params:

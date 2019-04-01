@@ -9,7 +9,7 @@ import StitchDarwinCoreTestUtils
 import StitchCoreLocalMongoDBService
 @testable import StitchRemoteMongoDBService
 
-typealias TestDefinition = (_ numDoc: Int, _ docSize: Int) -> Void
+typealias TestDefinition = (_ ctx: SyncPerformanceContext, _ numDoc: Int, _ docSize: Int) throws -> Void
 
 class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
     // Typealias for testDefinition
@@ -21,7 +21,7 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
     private let stitchOutputDbName = "performance"
     private let stitchOutputCollName = "results"
     private let networkTransport = FoundationInstrumentedHTTPTransport()
-    private let callbackJoiner = CallbackJoiner()
+    private let callbackJoiner = ThrowingCallbackJoiner()
 
     // internal constants
     internal let stitchTestDbName = "performance"
@@ -38,20 +38,26 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
     internal var outputMongoClient: RemoteMongoClient?
     internal var outputColl: RemoteMongoCollection<Document>?
 
-    private var userId1: String!
-
     override func setUp() {
-        print("IN SETUP AGAIN")
         super.setUp()
-
         do {
-           outputClient = try Stitch.appClient(forAppID: stitchOutputAppName)
+            outputClient = try Stitch.appClient(forAppID: stitchOutputAppName)
         } catch {
-            outputClient = try! Stitch.initializeAppClient(withClientAppID: stitchOutputAppName)
+            let config = StitchAppClientConfigurationBuilder()
+                .with(transport: networkTransport)
+                .with(networkMonitor: networkMonitor).build()
+            outputClient = try! Stitch.initializeAppClient(withClientAppID: stitchOutputAppName, withConfig: config)
         }
 
         if !(outputClient?.auth.isLoggedIn ?? false) {
-            outputClient?.auth.login(withCredential: UserAPIKeyCredential(withKey: "X4X3OD4m2pbmN6cCy2MB0wZb2hDhUWUPajK5Gqr2ZZ8Cb8vPhbhpNxffs3rwDQ9J"), callbackJoiner.capture())
+            let apiKeyOpt = ProcessInfo.processInfo.environment["PERF_IOS_API_KEY"]
+            guard let apiKey = apiKeyOpt else {
+                XCTFail("No proper iOS-API-Key for stitch perf project gixen")
+                return
+            }
+
+            outputClient?.auth.login(withCredential: UserAPIKeyCredential(withKey: apiKey), callbackJoiner.capture())
+
         }
 
         outputMongoClient = try! outputClient?.serviceClient(fromFactory: remoteMongoClientFactory,
@@ -60,12 +66,7 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
     }
 
     override func tearDown() {
-//        ctx.teardown()
-//        CoreLocalMongoDBService.shared.localInstances.forEach { client in
-//            try! client.listDatabases().forEach {
-//                try? client.db($0["name"] as! String).drop()
-//            }
-//        }
+        super.tearDown()
     }
 
     func setUpIter() {
@@ -76,10 +77,22 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
 
     }
 
+    // swiftlint:disable function_body_length
     func runPerformanceTestWithParameters(testParams: TestParams,
                                           testDefinition: TestDefinition,
                                           customSetup: TestDefinition? = nil,
                                           customTeardown: TestDefinition? = nil) {
+        setUp()
+
+        let resultId = ObjectId()
+        if testParams.outputToStitch {
+            var params = testParams.toBson()
+            params["_id"] = resultId
+            params["status"] = "In Progress"
+            outputColl?.insertOne(params)
+        }
+
+        var iteration = 0
         do {
             for docSize in testParams.docSizes {
                 for numDoc in testParams.numDocs {
@@ -91,8 +104,11 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
                     var networkSentData: [Double] = []
                     var networkReceivedData: [Double] = []
 
-                    for _ in 1...testParams.numIters {
-                        let ctx = SyncPerformanceContext(harness: self, testParams: testParams, transport: networkTransport)
+                    for iter in 1...testParams.numIters {
+                        iteration = iter
+                        let ctx = try SyncPerformanceContext(harness: self,
+                                                         testParams: testParams,
+                                                         transport: networkTransport)
                         let iterResult = try ctx.runSingleIteration(numDocs: numDoc, docSize: docSize,
                                                                     testDefinition: testDefinition,
                                                                     customSetup: customSetup,
@@ -106,52 +122,45 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
                         networkReceivedData.append(iterResult.networkReceivedBytes)
 
                         try ctx.tearDown()
-//                        // Perform custom setup if it exists
-//                        customSetup?(numDoc, docSize)
-//
-//                        // Get starting values for disk space and time
-//                        let timeBefore = Date().timeIntervalSince1970
-//                        var systemAttributes =
-//                            try FileManager.default.attributesOfFileSystem(forPath: NSHomeDirectory() as String)
-//                        let freeSpaceBefore =
-//                            (systemAttributes[FileAttributeKey.systemFreeSize] as? NSNumber)?.doubleValue ?? 0.0
-//
-//                        // Start repeating task
-//                        // TODO: Eventually move this out into a separate method / var
-//                        let metricCollector = MetricsCollector(timeInterval: 0.5)
-//                        metricCollector.resume()
-//
-//                        // Run the desired function
-//                        testDefinition(numDoc, docSize)
-//
-//                        // Stop timing and add it to timeData
-//                        timeData.append(Double(Date().timeIntervalSince1970 - timeBefore))
-//
-//                        // Get the point-in-time measurements
-//                        let (threads, cpu, memory) = metricCollector.suspend()
-//                        threadData.append(threads)
-//                        cpuData.append(cpu)
-//                        memoryData.append(memory)
-//
-//                        // Append remaining values
-//                        timeData.append(Double(Date().timeIntervalSince1970 - timeBefore))
-//                        networkSentData.append(10.0)
-//                        networkReceivedData.append(10.90)
-//                        systemAttributes =
-//                            try FileManager.default.attributesOfFileSystem(forPath: NSHomeDirectory() as String)
-//                        let freeSpaceAfter =
-//                            (systemAttributes[FileAttributeKey.systemFreeSize] as? NSNumber)?.doubleValue ?? 0.0
-//                        diskData.append(freeSpaceBefore - freeSpaceAfter)
-//
-//                        // Perform custom taredown if specified
-//                        customTeardown?(numDoc, docSize)
+                    }
+
+                    let result = RunResults(numDocs: numDoc, docSize: docSize,
+                                            numOutliers: testParams.numOutliersEachSide,
+                                            time: timeData, networkSentBytes: networkSentData,
+                                            networkReceivedBytes: networkReceivedData, cpu: cpuData,
+                                            memory: memoryData, disk: diskData, threads: threadData)
+
+                    if testParams.outputToStdOut {
+                        print("PerfLog: \(result.toBson().canonicalExtendedJSON)")
+                    }
+
+                    if testParams.outputToStitch {
+                        _ = outputColl?.updateOne(filter: ["_id": resultId],
+                                                  update: ["$push": ["results": result.toBson()] as Document])
                     }
                 }
             }
+
+            if testParams.outputToStitch {
+                _ = outputColl?.updateOne(filter: ["_id": resultId],
+                                          update: ["$set": ["status": "Success"] as Document])
+            }
         } catch {
-            print(error.localizedDescription)
+            let failureMessage = """
+            Failed on iteration \(iteration) of \(testParams.numIters)
+            with error \(String(describing: error))
+            """
+
+            print("PerfLog: Harness Error: \(failureMessage)")
+            if testParams.outputToStitch {
+                _ = outputColl?.updateOne(filter: ["_id": resultId],
+                                          update: ["$set": ["status": "Failed",
+                                                            "failureReason": failureMessage] as Document])
+            XCTFail(failureMessage)
+            }
         }
     }
+    // swiftlint:enable function_body_length
 }
 
 internal struct TestParams {
@@ -217,7 +226,7 @@ struct DoubleDataBlock {
 
     init(data: [Double], numOutliers: Int) {
         if data.count >= numOutliers * 2 {
-            let newData = data.sorted()[numOutliers ... (data.count - numOutliers - 1)]
+            let newData = Array(data.sorted()[numOutliers ... (data.count - numOutliers - 1)])
             max = newData.first ?? 0.0
             min = newData.last ?? 0.0
 
@@ -284,6 +293,7 @@ private struct RunResults {
     let cpu: DoubleDataBlock
     let memory: DoubleDataBlock
     let disk: DoubleDataBlock
+    let diskEfficiencyRatio: DoubleDataBlock
     let threads: DoubleDataBlock
 
     init(numDocs: Int,
@@ -308,6 +318,10 @@ private struct RunResults {
         self.memory = DoubleDataBlock(data: memory, numOutliers: numOutliers)
         self.disk = DoubleDataBlock(data: disk, numOutliers: numOutliers)
         self.threads = DoubleDataBlock(data: threads, numOutliers: numOutliers)
+
+        let diskEfficiencyArr = disk.map({$0 / Double((docSize + 12) * numDocs)})
+        self.diskEfficiencyRatio = DoubleDataBlock(data: diskEfficiencyArr, numOutliers: numOutliers)
+
     }
 
     func toBson() -> Document {
@@ -320,6 +334,7 @@ private struct RunResults {
             "cpu": cpu.toBson(),
             "memoryBytes": memory.toBson(),
             "diskBytes": disk.toBson(),
+            "diskEfficiencyRatio": diskEfficiencyRatio.toBson(),
             "threads": threads.toBson()
         ]
     }
