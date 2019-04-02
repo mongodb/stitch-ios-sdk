@@ -72,7 +72,7 @@ open class BaseStitchIntTestCocoaTouch: BaseStitchIntTest {
         if let appClient = try? Stitch.appClient(forAppID: app.clientAppID) {
             return appClient
         }
-        
+
         var config = StitchAppClientConfigurationBuilder()
             .with(baseURL: stitchBaseURL)
             .with(networkMonitor: networkMonitor)

@@ -13,6 +13,11 @@ typealias TestDefinition = (_ ctx: SyncPerformanceContext, _ numDoc: Int, _ docS
 typealias SetupDefinition = (_ ctx: SyncPerformanceContext, _ numDoc: Int, _ docSize: Int) throws -> Void
 typealias TeardownDefinition = (_ ctx: SyncPerformanceContext, _ numDoc: Int, _ docSize: Int) throws -> Void
 
+// This is how we want to do things once we create the new test scheme and import the .h file as an
+// objective-c bridging header
+// let testStitchAPIKey = PERF_IOS_API_KEY.isEmpty ?
+//    ProcessInfo.processInfo.environment["PERF_IOS_API_KEY"] : PERF_IOS_API_KEY
+
 class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
     // Typealias for testDefinition
 

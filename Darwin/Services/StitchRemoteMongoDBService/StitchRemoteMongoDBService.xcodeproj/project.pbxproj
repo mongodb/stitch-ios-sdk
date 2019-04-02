@@ -95,6 +95,7 @@
 		1E5522652253E3F90013C7A9 /* ProductionPerformanceContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductionPerformanceContext.swift; sourceTree = "<group>"; };
 		1E5522672253E4080013C7A9 /* LocalPerformanceContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalPerformanceContext.swift; sourceTree = "<group>"; };
 		1E587ED4224E6E5900A0DE9C /* SyncPerformanceIntTestHarness.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncPerformanceIntTestHarness.swift; sourceTree = "<group>"; };
+		1EA9FF582254148A007B857B /* SyncPerformanceTestsConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SyncPerformanceTestsConstants.h; sourceTree = "<group>"; };
 		1ED94706224E8A5B00C1167E /* SyncPerformanceIntTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncPerformanceIntTests.swift; sourceTree = "<group>"; };
 		1ED94708224EA76600C1167E /* SyncPerformanceContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncPerformanceContext.swift; sourceTree = "<group>"; };
 		3D9068F1F7001FBEAB3ECED6 /* Pods-StitchRemoteMongoDBService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchRemoteMongoDBService.debug.xcconfig"; path = "Target Support Files/Pods-StitchRemoteMongoDBService/Pods-StitchRemoteMongoDBService.debug.xcconfig"; sourceTree = "<group>"; };
@@ -189,6 +190,7 @@
 				1ED94708224EA76600C1167E /* SyncPerformanceContext.swift */,
 				1E5522672253E4080013C7A9 /* LocalPerformanceContext.swift */,
 				1E5522652253E3F90013C7A9 /* ProductionPerformanceContext.swift */,
+				1EA9FF582254148A007B857B /* SyncPerformanceTestsConstants.h */,
 			);
 			path = StitchRemoteMongoDBServiceTests;
 			sourceTree = "<group>";
