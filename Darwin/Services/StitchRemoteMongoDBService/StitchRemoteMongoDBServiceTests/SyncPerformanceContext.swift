@@ -9,13 +9,13 @@ import StitchCoreLocalMongoDBService
 @testable import StitchRemoteMongoDBService
 
 class SyncPerformanceContext {
-    var client: StitchAppClient?
-    var mongoClient: RemoteMongoClient?
-    var coll: RemoteMongoCollection<Document>?
+    private(set) var client: StitchAppClient?
+    private(set) var mongoClient: RemoteMongoClient?
+    private(set) var coll: RemoteMongoCollection<Document>?
 
-    var dbName = ""
-    var collName = ""
-    var userId = ""
+    private(set) var dbName = ""
+    private(set) var collName = ""
+    private(set) var userId = ""
 
     let joiner = ThrowingCallbackJoiner()
     let streamJoiner = StreamJoiner()
@@ -70,10 +70,10 @@ class SyncPerformanceContext {
     func runSingleIteration(numDocs: Int,
                             docSize: Int,
                             testDefinition: TestDefinition,
-                            customSetup: TestDefinition? = nil,
-                            customTeardown: TestDefinition? = nil) throws -> IterationResult {
+                            setup: TestDefinition,
+                            teardown: TestDefinition) throws -> IterationResult {
         // Perform custom setup if it exists
-        try customSetup?(self, numDocs, docSize)
+        try setup(self, numDocs, docSize)
 
         // Get starting values for disk space and time
         let timeBefore = Date().timeIntervalSince1970
@@ -97,7 +97,7 @@ class SyncPerformanceContext {
         let timeMs = Double(Date().timeIntervalSince1970 - timeBefore) * 1000
 
         // Get the point-in-time measurements
-        let (threads, cpu, memory) = metricsCollector.suspend()
+        let pointInTimeMetrics = metricsCollector.suspend()
 
         // Append remaining values
         let networkReceived = Double(transport?.bytesDownloaded ?? 0) - networkReceivedBefore
@@ -110,15 +110,15 @@ class SyncPerformanceContext {
         let diskUsed = freeSpaceBefore - freeSpaceAfter
 
         // Perform custom taredown if specified
-        try customTeardown?(self, numDocs, docSize)
+        try teardown(self, numDocs, docSize)
 
         return IterationResult(time: timeMs,
                                networkSentBytes: networkSent,
                                networkReceivedBytes: networkReceived,
-                               cpu: cpu,
-                               memory: memory,
+                               cpu: pointInTimeMetrics.cpuData,
+                               memory: pointInTimeMetrics.memoryData,
                                disk: diskUsed,
-                               threads: threads)
+                               threads: pointInTimeMetrics.threadData)
     }
 
     func tearDown() throws {
@@ -207,6 +207,12 @@ func getMemoryUsage() -> Double {
     }
 }
 
+internal struct PointInTimeMetrics {
+    let threadData: Double
+    let cpuData: Double
+    let memoryData: Double
+}
+
 internal class MetricsCollector {
     let timeSource: DispatchSourceTimer
     private var threadData: [Double] = []
@@ -217,10 +223,11 @@ internal class MetricsCollector {
         timeSource = DispatchSource.makeTimerSource()
         timeSource.schedule(deadline: .now(), repeating: timeInterval)
         timeSource.setEventHandler(handler: { [weak self] in
+            guard let self = self else { return }
             let (numThreads, cpuPer) = cpuUsage()
-            self?.threadData.append(Double(numThreads))
-            self?.cpuData.append(cpuPer)
-            self?.memoryData.append(getMemoryUsage())
+            self.threadData.append(Double(numThreads))
+            self.cpuData.append(cpuPer)
+            self.memoryData.append(getMemoryUsage())
         })
     }
 
@@ -231,16 +238,16 @@ internal class MetricsCollector {
         timeSource.resume()
     }
     // swiftlint:disable large_tuple
-    func suspend() -> (Double, Double, Double) {
+    func suspend() -> PointInTimeMetrics {
         timeSource.cancel()
-        return (threadData.reduce(0.0, +) / Double(threadData.count),
-                cpuData.reduce(0.0, +) / Double(cpuData.count),
-                memoryData.reduce(0.0, +) / Double(memoryData.count))
+        return PointInTimeMetrics(threadData: threadData.reduce(0.0, +) / Double(threadData.count),
+                                  cpuData: cpuData.reduce(0.0, +) / Double(cpuData.count),
+                                  memoryData: memoryData.reduce(0.0, +) / Double(memoryData.count))
     }
-    // swiftlint:enable large_tuple
 }
 
 // Helper functions to get usage stats
+// Solution taken from: https://stackoverflow.com/questions/8223348/ios-get-cpu-usage-from-application
 private func cpuUsage() -> (Int, Double) {
     var kernelReturn: kern_return_t
     var taskInfoCount: mach_msg_type_number_t
@@ -260,7 +267,6 @@ private func cpuUsage() -> (Int, Double) {
             vm_deallocate(mach_task_self_, vm_address_t(UnsafePointer(threadList).pointee), vm_size_t(threadCount))
         }
     }
-
     kernelReturn = task_threads(mach_task_self_, &threadList, &threadCount)
 
     if kernelReturn != KERN_SUCCESS {
@@ -268,9 +274,7 @@ private func cpuUsage() -> (Int, Double) {
     }
 
     var totCPU: Double = 0
-
     if let threadList = threadList {
-
         for iter in 0 ..< Int(threadCount) {
             var threadInfoCount = mach_msg_type_number_t(THREAD_INFO_MAX)
             var thinfo = [integer_t](repeating: 0, count: Int(threadInfoCount))
@@ -281,11 +285,10 @@ private func cpuUsage() -> (Int, Double) {
             }
 
             let threadBasicInfo = convertThreadInfoToThreadBasicInfo(thinfo)
-
             if threadBasicInfo.flags != TH_FLAGS_IDLE {
                 totCPU += (Double(threadBasicInfo.cpu_usage) / Double(TH_USAGE_SCALE)) * 100.0
             }
-        } // for each thread
+        }
     }
 
     return (Int(threadCount), totCPU)
@@ -293,7 +296,6 @@ private func cpuUsage() -> (Int, Double) {
 
 private func convertThreadInfoToThreadBasicInfo(_ threadInfo: [integer_t]) -> thread_basic_info {
     var result = thread_basic_info()
-
     result.user_time = time_value_t(seconds: threadInfo[0], microseconds: threadInfo[1])
     result.system_time = time_value_t(seconds: threadInfo[2], microseconds: threadInfo[3])
     result.cpu_usage = threadInfo[4]
@@ -302,6 +304,5 @@ private func convertThreadInfoToThreadBasicInfo(_ threadInfo: [integer_t]) -> th
     result.flags = threadInfo[7]
     result.suspend_count = threadInfo[8]
     result.sleep_time = threadInfo[9]
-
     return result
 }

@@ -10,6 +10,8 @@ import StitchCoreLocalMongoDBService
 @testable import StitchRemoteMongoDBService
 
 typealias TestDefinition = (_ ctx: SyncPerformanceContext, _ numDoc: Int, _ docSize: Int) throws -> Void
+typealias SetupDefinition = (_ ctx: SyncPerformanceContext, _ numDoc: Int, _ docSize: Int) throws -> Void
+typealias TeardownDefinition = (_ ctx: SyncPerformanceContext, _ numDoc: Int, _ docSize: Int) throws -> Void
 
 class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
     // Typealias for testDefinition
@@ -25,7 +27,7 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
 
     // internal constants
     internal let stitchTestDbName = "performance"
-    internal let stitchTestCollName = "rawTestColl"
+    internal let stitchTestCollName = "rawTestCollSwift"
     internal let stitchProdHost = "https://stitch.mongodb.com"
 
     // Provate lazy vars
@@ -57,7 +59,6 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
             }
 
             outputClient?.auth.login(withCredential: UserAPIKeyCredential(withKey: apiKey), callbackJoiner.capture())
-
         }
 
         outputMongoClient = try! outputClient?.serviceClient(fromFactory: remoteMongoClientFactory,
@@ -69,21 +70,13 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
         super.tearDown()
     }
 
-    func setUpIter() {
-
-    }
-
-    func tearDownIter() {
-
-    }
-
     // swiftlint:disable function_body_length
     func runPerformanceTestWithParameters(testParams: TestParams,
                                           testDefinition: TestDefinition,
-                                          customSetup: TestDefinition? = nil,
-                                          customTeardown: TestDefinition? = nil) {
+                                          customSetup: SetupDefinition = { _, _, _ in },
+                                          customTeardown: TeardownDefinition = { _, _, _ in }) {
         setUp()
-
+        var failed = false
         let resultId = ObjectId()
         if testParams.outputToStitch {
             var params = testParams.toBson()
@@ -92,27 +85,26 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
             outputColl?.insertOne(params)
         }
 
-        var iteration = 0
-        do {
-            for docSize in testParams.docSizes {
-                for numDoc in testParams.numDocs {
-                    var timeData: [Double] = []
-                    var cpuData: [Double] = []
-                    var memoryData: [Double] = []
-                    var diskData: [Double] = []
-                    var threadData: [Double] = []
-                    var networkSentData: [Double] = []
-                    var networkReceivedData: [Double] = []
+        for docSize in testParams.docSizes {
+            nextTest: for numDoc in testParams.numDocs {
+                var timeData: [Double] = []
+                var cpuData: [Double] = []
+                var memoryData: [Double] = []
+                var diskData: [Double] = []
+                var threadData: [Double] = []
+                var networkSentData: [Double] = []
+                var networkReceivedData: [Double] = []
 
-                    for iter in 1...testParams.numIters {
-                        iteration = iter
+                for iter in 1...testParams.numIters {
+                    do {
                         let ctx = try SyncPerformanceContext(harness: self,
-                                                         testParams: testParams,
-                                                         transport: networkTransport)
-                        let iterResult = try ctx.runSingleIteration(numDocs: numDoc, docSize: docSize,
+                                                             testParams: testParams,
+                                                             transport: networkTransport)
+                        let iterResult = try ctx.runSingleIteration(numDocs: numDoc,
+                                                                    docSize: docSize,
                                                                     testDefinition: testDefinition,
-                                                                    customSetup: customSetup,
-                                                                    customTeardown: customTeardown)
+                                                                    setup: customSetup,
+                                                                    teardown: customTeardown)
                         timeData.append(iterResult.time)
                         cpuData.append(iterResult.cpu)
                         memoryData.append(iterResult.memory)
@@ -122,45 +114,65 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
                         networkReceivedData.append(iterResult.networkReceivedBytes)
 
                         try ctx.tearDown()
-                    }
-
-                    let result = RunResults(numDocs: numDoc, docSize: docSize,
-                                            numOutliers: testParams.numOutliersEachSide,
-                                            time: timeData, networkSentBytes: networkSentData,
-                                            networkReceivedBytes: networkReceivedData, cpu: cpuData,
-                                            memory: memoryData, disk: diskData, threads: threadData)
-
-                    if testParams.outputToStdOut {
-                        print("PerfLog: \(result.toBson().canonicalExtendedJSON)")
-                    }
-
-                    if testParams.outputToStitch {
-                        _ = outputColl?.updateOne(filter: ["_id": resultId],
-                                                  update: ["$push": ["results": result.toBson()] as Document])
+                    } catch {
+                        failed = true
+                        handleFailure(error: error, resultId: resultId, numDoc: numDoc, docSize: docSize,
+                                      iter: iter, numIters: testParams.numIters, outputToStitch: testParams.outputToStitch)
+                        continue nextTest
                     }
                 }
-            }
+                print("PerfLog: getting result")
+                let result = RunResults(numDocs: numDoc, docSize: docSize,
+                                        numOutliers: testParams.numOutliersEachSide,
+                                        time: timeData, networkSentBytes: networkSentData,
+                                        networkReceivedBytes: networkReceivedData, cpu: cpuData,
+                                        memory: memoryData, disk: diskData, threads: threadData)
 
-            if testParams.outputToStitch {
-                _ = outputColl?.updateOne(filter: ["_id": resultId],
-                                          update: ["$set": ["status": "Success"] as Document])
-            }
-        } catch {
-            let failureMessage = """
-            Failed on iteration \(iteration) of \(testParams.numIters)
-            with error \(String(describing: error))
-            """
+                if testParams.outputToStdOut {
+                    print("PerfLog: \(result.toBson().canonicalExtendedJSON)")
+                }
 
-            print("PerfLog: Harness Error: \(failureMessage)")
-            if testParams.outputToStitch {
-                _ = outputColl?.updateOne(filter: ["_id": resultId],
-                                          update: ["$set": ["status": "Failed",
-                                                            "failureReason": failureMessage] as Document])
-            XCTFail(failureMessage)
+                if testParams.outputToStitch {
+                    _ = outputColl?.updateOne(filter: ["_id": resultId],
+                                              update: ["$push": ["results": result.toBson()] as Document])
+                }
             }
+        }
+
+        if testParams.outputToStitch {
+            let resStr = failed ? "Failure" : "Success"
+            _ = outputColl?.updateOne(filter: ["_id": resultId],
+                                      update: ["$set": ["status": resStr] as Document])
+        }
+
+        if failed {
+            XCTFail("Failed Test \(testParams.testName)")
         }
     }
     // swiftlint:enable function_body_length
+
+    func handleFailure(error: Error, resultId: ObjectId, numDoc: Int, docSize: Int,
+                       iter: Int, numIters: Int, outputToStitch: Bool) {
+        let failureMessage = """
+        Failed on iteration \(iter) of \(numIters)
+        with error \(String(describing: error))
+        """
+
+        print("PerfLog: Harness Error: \(failureMessage)")
+        if outputToStitch {
+            let failureDoc: Document = [
+                "numDocs": numDoc,
+                "docSize": docSize,
+                "status": "failure",
+                "failureReason": failureMessage,
+                "failureCallStack": Thread.callStackSymbols
+            ]
+            _ = outputColl?.updateOne(filter: ["_id": resultId],
+                                      update: ["$push": ["results": failureDoc] as Document])
+        }
+        // XCTFail(failureMessage)
+        print("PerfLog: calling continue")
+    }
 }
 
 internal struct TestParams {
@@ -264,23 +276,6 @@ internal struct IterationResult {
     let memory: Double
     let disk: Double
     let threads: Double
-
-    init(time: Double,
-         networkSentBytes: Double,
-         networkReceivedBytes: Double,
-         cpu: Double,
-         memory: Double,
-         disk: Double,
-         threads: Double) {
-        self.time = time
-        self.networkSentBytes = networkSentBytes
-        self.networkReceivedBytes = networkReceivedBytes
-        self.cpu = cpu
-        self.memory = memory
-        self.disk = disk
-        self.threads = threads
-    }
-
 }
 
 private struct RunResults {
@@ -328,6 +323,7 @@ private struct RunResults {
         return [
             "numDocs": numDocs,
             "docSize": docSize,
+            "status": "success",
             "timeMs": time.toBson(),
             "networkSentBytes": networkSentBytes.toBson(),
             "networkReceivedBytes": networkReceivedBytes.toBson(),

@@ -1,10 +1,3 @@
-//
-//  SyncPerformanceIntTests.swift
-//  StitchRemoteMongoDBServiceTests
-//
-//  Created by Tyler Kaye on 3/29/19.
-//  Copyright © 2019 MongoDB. All rights reserved.
-//
 import XCTest
 @testable import MongoSwift
 import StitchCore
@@ -22,20 +15,30 @@ class SyncPerformanceIntTests: BaseStitchIntTestCocoaTouch {
     static let runId = ObjectId()
     let joiner = ThrowingCallbackJoiner()
 
-    override func setUp() {
-        super.setUp()
-    }
-
-    override func tearDown() {
-
+    func testFailure() {
+        let testParam = TestParams(testName: "shouldFail",
+                                   runId: SyncPerformanceIntTests.runId,
+                                   numIters: 3,
+                                   numDocs: [5, 5000, 2],
+                                   docSizes: [1, 10000, 3])
+        harness.runPerformanceTestWithParameters(testParams: testParam, testDefinition: {ctx, numDoc, docSize in
+            print("PerfLog: Test: \(numDoc) docs of size \(docSize)")
+            let docs = getDocuments(numDocs: numDoc, docSize: docSize)
+            ctx.coll?.insertMany(docs, joiner.capture())
+            let _: Any? = try joiner.value()
+        }, customSetup: {_, numDoc, docSize in
+            print("PerfLog: (Custom Setup) \(numDoc) docs of size \(docSize)")
+        }, customTeardown: {_, numDoc, docSize in
+            print("PerfLog: (Custom Teardown) \(numDoc) docs of size \(docSize)")
+        })
     }
 
     func testInitialSyncLocal() {
         let testParam = TestParams(testName: "initialSyncLocal",
                                    runId: SyncPerformanceIntTests.runId,
                                    numIters: 3,
-                                   numDocs: [5],
-                                   docSizes: [10])
+                                   numDocs: [5, 10],
+                                   docSizes: [10, 20])
         harness.runPerformanceTestWithParameters(testParams: testParam, testDefinition: {ctx, numDoc, docSize in
             print("PerfLog: Test: \(numDoc) docs of size \(docSize)")
             let docs = getDocuments(numDocs: numDoc, docSize: docSize)
@@ -46,54 +49,21 @@ class SyncPerformanceIntTests: BaseStitchIntTestCocoaTouch {
         }, customTeardown: {_, numDoc, docSize in
             print("PerfLog: (Custom Teardown) \(numDoc) docs of size \(docSize)")
         })
-    }
-
-    func testDisconnectReconnectLocal() {
-        let testParam = TestParams(testName: "disconnectReconnect",
-                                   runId: SyncPerformanceIntTests.runId,
-                                   numIters: 3,
-                                   numDocs: [10, 50, 100, 20],
-                                   docSizes: [100])
-        harness.runPerformanceTestWithParameters(testParams: testParam, testDefinition: {ctx, numDoc, docSize in
-            print("PerfLog: Test: \(numDoc) docs of size \(docSize)")
-            let docs = getDocuments(numDocs: numDoc, docSize: docSize)
-            ctx.coll?.insertMany(docs, joiner.capture())
-            let _: Any? = try joiner.value()
-        }, customSetup: nil, customTeardown: nil)
     }
 
     func testInitialSyncProd() {
         let testParam = TestParams(testName: "initialSyncProd",
                                    runId: SyncPerformanceIntTests.runId,
                                    numIters: 3,
-                                   numDocs: [50],
-                                   docSizes: [100],
+                                   numDocs: [5, 10],
+                                   docSizes: [10, 20],
                                    stitchHostName: "https://stitch.mongodb.com")
         harness.runPerformanceTestWithParameters(testParams: testParam, testDefinition: {ctx, numDoc, docSize in
             print("PerfLog: Test: \(numDoc) docs of size \(docSize)")
             let docs = getDocuments(numDocs: numDoc, docSize: docSize)
             ctx.coll?.insertMany(docs, joiner.capture())
             let _: Any? = try joiner.value()
-        }, customSetup: {_, numDoc, docSize in
-            print("PerfLog: (Custom Setup) \(numDoc) docs of size \(docSize)")
-        }, customTeardown: {_, numDoc, docSize in
-            print("PerfLog: (Custom Teardown) \(numDoc) docs of size \(docSize)")
         })
-    }
-
-    func testDisconnectReconnectProd() {
-        let testParam = TestParams(testName: "disconnectReconnectProd",
-                                   runId: SyncPerformanceIntTests.runId,
-                                   numIters: 3,
-                                   numDocs: [10, 50, 100, 20],
-                                   docSizes: [100],
-                                   stitchHostName: "https://stitch.mongodb.com")
-        harness.runPerformanceTestWithParameters(testParams: testParam, testDefinition: {ctx, numDoc, docSize in
-            print("PerfLog: Test: \(numDoc) docs of size \(docSize)")
-            let docs = getDocuments(numDocs: numDoc, docSize: docSize)
-            ctx.coll?.insertMany(docs, joiner.capture())
-            let _: Any? = try joiner.value()
-        }, customSetup: nil, customTeardown: nil)
     }
 
     func getDocuments(numDocs: Int, docSize: Int) -> [Document] {
