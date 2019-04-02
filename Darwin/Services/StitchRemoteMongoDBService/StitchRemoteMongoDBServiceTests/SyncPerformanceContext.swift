@@ -8,20 +8,33 @@ import StitchDarwinCoreTestUtils
 import StitchCoreLocalMongoDBService
 @testable import StitchRemoteMongoDBService
 
-class SyncPerformanceContext {
-    private(set) var client: StitchAppClient?
-    private(set) var mongoClient: RemoteMongoClient?
-    private(set) var coll: RemoteMongoCollection<Document>?
+protocol SyncPerformanceContextProtocol {
+    init(harness: SyncPerformanceIntTestHarness,
+         testParams: TestParams,
+         transport: FoundationInstrumentedHTTPTransport) throws
 
+    func runSingleIteration(numDocs: Int,
+                            docSize: Int,
+                            testDefinition: TestDefinition,
+                            setup: TestDefinition,
+                            teardown: TestDefinition) throws -> IterationResult
+
+    func tearDown() throws
+}
+
+class SyncPerformanceContext {
     private(set) var dbName = ""
     private(set) var collName = ""
     private(set) var userId = ""
 
+    let client: StitchAppClient
+    let mongoClient: RemoteMongoClient
+    let coll: RemoteMongoCollection<Document>
     let joiner = ThrowingCallbackJoiner()
     let streamJoiner = StreamJoiner()
-    let testParams: TestParams?
-    let transport: FoundationInstrumentedHTTPTransport?
-    let harness: SyncPerformanceIntTestHarness?
+    let testParams: TestParams
+    let transport: FoundationInstrumentedHTTPTransport
+    let harness: SyncPerformanceIntTestHarness
 
     init(harness: SyncPerformanceIntTestHarness,
          testParams: TestParams,
@@ -35,7 +48,7 @@ class SyncPerformanceContext {
             collName = harness.stitchTestCollName
             client = harness.outputClient
             mongoClient = harness.outputMongoClient
-            coll = mongoClient?.db(dbName).collection(collName)
+            coll = mongoClient.db(dbName).collection(collName)
             print("PerfLog: Context: Finished initializing STITCH-Prod")
         } else {
             print("PerfLog: Context: Initializing STITCH-Local")
@@ -53,17 +66,17 @@ class SyncPerformanceContext {
             _ = try! harness.addRule(toService: svc.1, withConfig: rule)
 
             client = try! harness.appClient(forApp: app.0, withTransport: transport)
-            client?.auth.login(withCredential: AnonymousCredential(), joiner.capture())
+            client.auth.login(withCredential: AnonymousCredential(), joiner.capture())
             let _: Any? = try joiner.value()
-            userId = client?.auth.currentUser?.id ?? ""
+            userId = client.auth.currentUser?.id ?? ""
 
-            mongoClient = try! client?.serviceClient(fromFactory: remoteMongoClientFactory, withName: "mongodb1")
-            coll = mongoClient?.db(dbName).collection(collName)
+            mongoClient = try! client.serviceClient(fromFactory: remoteMongoClientFactory, withName: "mongodb1")
+            coll = mongoClient.db(dbName).collection(collName)
             print("PerfLog: Context: Finished Initializing STITCH-Local")
         }
 
-        coll?.sync.proxy.dataSynchronizer.isSyncThreadEnabled = false
-        coll?.sync.proxy.dataSynchronizer.stop() // Failing here occaisonally
+        coll.sync.proxy.dataSynchronizer.isSyncThreadEnabled = false
+        coll.sync.proxy.dataSynchronizer.stop() // Failing here occaisonally
         print("PerfLog: Context: Done with initialization")
     }
 
@@ -77,8 +90,8 @@ class SyncPerformanceContext {
 
         // Get starting values for disk space and time
         let timeBefore = Date().timeIntervalSince1970
-        let networkReceivedBefore = Double(transport?.bytesDownloaded ?? 0)
-        let networkSentBefore = Double(transport?.bytesUploaded ?? 0)
+        let networkReceivedBefore = Double(transport.bytesDownloaded)
+        let networkSentBefore = Double(transport.bytesUploaded)
 
         var systemAttributes =
             try FileManager.default.attributesOfFileSystem(forPath: NSHomeDirectory() as String)
@@ -86,7 +99,7 @@ class SyncPerformanceContext {
             (systemAttributes[FileAttributeKey.systemFreeSize] as? NSNumber)?.doubleValue ?? 0.0
 
         // Start repeating task
-        let timeInterval = Double(testParams?.dataProbeGranularityMs ?? 500) / 1000.0
+        let timeInterval = Double(testParams.dataProbeGranularityMs) / 1000.0
         let metricsCollector = MetricsCollector(timeInterval: timeInterval)
         metricsCollector.resume()
 
@@ -100,8 +113,8 @@ class SyncPerformanceContext {
         let pointInTimeMetrics = metricsCollector.suspend()
 
         // Append remaining values
-        let networkReceived = Double(transport?.bytesDownloaded ?? 0) - networkReceivedBefore
-        let networkSent = Double(transport?.bytesUploaded ?? 0) - networkSentBefore
+        let networkReceived = Double(transport.bytesDownloaded) - networkReceivedBefore
+        let networkSent = Double(transport.bytesUploaded) - networkSentBefore
 
         systemAttributes =
             try FileManager.default.attributesOfFileSystem(forPath: NSHomeDirectory() as String)
@@ -122,12 +135,8 @@ class SyncPerformanceContext {
     }
 
     func tearDown() throws {
-        guard let coll = coll else {
-            throw "Colleciton not valid"
-        }
-
-        if testParams?.stitchHostName == "https://stitch.mongodb.com" {
-             client?.callFunction(withName: "deleteAllAsSystemUser", withArgs: [], joiner.capture())
+        if testParams.stitchHostName == "https://stitch.mongodb.com" {
+             client.callFunction(withName: "deleteAllAsSystemUser", withArgs: [], joiner.capture())
             let _: Any? = try joiner.value()
         }
 
@@ -145,10 +154,6 @@ class SyncPerformanceContext {
     }
 
     func waitForAllStreamsOpen() {
-        guard let coll = coll else {
-            print("PerfLog: (waitForAllStreamsOpen) Coll is nil")
-            return
-        }
         while !coll.sync.proxy.dataSynchronizer.allStreamsAreOpen {
             print("waiting for all streams to open before doing sync pass")
             sleep(1)
@@ -156,10 +161,6 @@ class SyncPerformanceContext {
     }
 
     func streamAndSync() throws {
-        guard let harness = harness, let coll = coll else {
-            print("PerfLog: (streamAndSync) Harness / Coll is nil")
-            return
-        }
         if  harness.networkMonitor.state == .connected {
             // add the stream joiner as a delegate of the stream so we can wait for events
             if let iCSDel = coll.sync.proxy
@@ -177,11 +178,6 @@ class SyncPerformanceContext {
     }
 
     func powerCycleDevice() throws {
-        guard let coll = coll else {
-            print("PerfLog: (powerCycleDevice) Coll is nil")
-            return
-        }
-
         try coll.sync.proxy.dataSynchronizer.reloadConfig()
         if streamJoiner.streamState != nil {
             streamJoiner.wait(forState: .closed)
@@ -237,7 +233,7 @@ internal class MetricsCollector {
         memoryData = []
         timeSource.resume()
     }
-    // swiftlint:disable large_tuple
+
     func suspend() -> PointInTimeMetrics {
         timeSource.cancel()
         return PointInTimeMetrics(threadData: threadData.reduce(0.0, +) / Double(threadData.count),

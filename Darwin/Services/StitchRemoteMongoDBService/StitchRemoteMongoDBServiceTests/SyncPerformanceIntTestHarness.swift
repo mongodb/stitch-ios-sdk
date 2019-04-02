@@ -36,9 +36,9 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
 
     // Internal vars
     internal lazy var mongodbUri: String = pList?[mongodbUriProp] as? String ?? "mongodb://localhost:26000"
-    internal var outputClient: StitchAppClient?
-    internal var outputMongoClient: RemoteMongoClient?
-    internal var outputColl: RemoteMongoCollection<Document>?
+    internal var outputClient: StitchAppClient!
+    internal var outputMongoClient: RemoteMongoClient!
+    internal var outputColl: RemoteMongoCollection<Document>!
 
     override func setUp() {
         super.setUp()
@@ -79,7 +79,8 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
         var failed = false
         let resultId = ObjectId()
         if testParams.outputToStitch {
-            var params = testParams.toBson()
+            var paramsNew = testParams
+            var params = paramsNew.asBson
             params["_id"] = resultId
             params["status"] = "In Progress"
             outputColl?.insertOne(params)
@@ -117,7 +118,8 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
                     } catch {
                         failed = true
                         handleFailure(error: error, resultId: resultId, numDoc: numDoc, docSize: docSize,
-                                      iter: iter, numIters: testParams.numIters, outputToStitch: testParams.outputToStitch)
+                                      iter: iter, numIters: testParams.numIters,
+                                      outputToStitch: testParams.outputToStitch)
                         continue nextTest
                     }
                 }
@@ -129,12 +131,12 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
                                         memory: memoryData, disk: diskData, threads: threadData)
 
                 if testParams.outputToStdOut {
-                    print("PerfLog: \(result.toBson().canonicalExtendedJSON)")
+                    print("PerfLog: \(result.asBson.canonicalExtendedJSON)")
                 }
 
                 if testParams.outputToStitch {
                     _ = outputColl?.updateOne(filter: ["_id": resultId],
-                                              update: ["$push": ["results": result.toBson()] as Document])
+                                              update: ["$push": ["results": result.asBson] as Document])
                 }
             }
         }
@@ -150,7 +152,7 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
         }
     }
     // swiftlint:enable function_body_length
-
+    // swiftlint:disable function_parameter_count
     func handleFailure(error: Error, resultId: ObjectId, numDoc: Int, docSize: Int,
                        iter: Int, numIters: Int, outputToStitch: Bool) {
         let failureMessage = """
@@ -173,6 +175,7 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
         // XCTFail(failureMessage)
         print("PerfLog: calling continue")
     }
+    // swiftlint:enable function_parameter_count
 }
 
 internal struct TestParams {
@@ -195,7 +198,7 @@ internal struct TestParams {
         numDocs: [Int] = [],
         docSizes: [Int] = [],
         dataProbeGranularityMs: Int = 1500,
-        numOutliersEachSide: Int = 1,
+        numOutliersEachSide: Int = 0,
         stitchHostName: String = "",
         outputToStdOut: Bool = true,
         outputToStitch: Bool = true,
@@ -214,27 +217,26 @@ internal struct TestParams {
         self.preserveRawOutput = preserveRawOutput
     }
 
-    func toBson() -> Document {
-        return [
-            "testName": testName,
-            "runId": runId,
-            "numIters": numIters,
-            "dataProbeGranularityMs": dataProbeGranularityMs,
-            "numOutliersEachSide": numOutliersEachSide,
-            "stitchHostName": stitchHostName, // Todo: fix this
-            "date": Date(),
-            "sdk": "ios",
-            "results": []
-        ]
-    }
+    lazy var asBson: Document = [
+        "testName": testName,
+        "runId": runId,
+        "numIters": numIters,
+        "dataProbeGranularityMs": dataProbeGranularityMs,
+        "numOutliersEachSide": numOutliersEachSide,
+        "stitchHostName": stitchHostName,
+        "date": Date(),
+        "sdk": "ios",
+        "results": []
+    ]
+
 }
 
-struct DoubleDataBlock {
-    var mean: Double = 0.0
-    var median: Double = 0.0
-    var max: Double = 0.0
-    var min: Double = 0.0
-    var stdDev: Double = 0.0
+class DataBlock {
+    let mean: Double
+    let median: Double
+    let max: Double
+    let min: Double
+    let stdDev: Double
 
     init(data: [Double], numOutliers: Int) {
         if data.count >= numOutliers * 2 {
@@ -252,23 +254,31 @@ struct DoubleDataBlock {
             }
 
             mean = newData.reduce(0.0, +) / Double(newData.count)
-            let sumOfSquared = newData.map {($0 - mean) * ($0 - mean)}.reduce(0, +)
+
+            var sumOfSquared = 0.0
+            for data in newData {
+                sumOfSquared += (data - mean) * (data - mean)
+            }
             stdDev = sqrt(sumOfSquared / Double(newData.count))
+        } else {
+            mean = 0.0
+            median = 0.0
+            max = 0.0
+            min = 0.0
+            stdDev = 0.0
         }
     }
 
-    func toBson() -> Document {
-        return [
-            "mean": mean,
-            "median": median,
-            "max": max,
-            "min": min,
-            "stdDev": stdDev
-        ]
-    }
+    lazy var asBson: Document = [
+        "mean": mean,
+        "median": median,
+        "max": max,
+        "min": min,
+        "stdDev": stdDev
+    ]
 }
 
-internal struct IterationResult {
+internal class IterationResult {
     let time: Double
     let networkSentBytes: Double
     let networkReceivedBytes: Double
@@ -276,20 +286,31 @@ internal struct IterationResult {
     let memory: Double
     let disk: Double
     let threads: Double
+
+    init(time: Double, networkSentBytes: Double, networkReceivedBytes: Double,
+         cpu: Double, memory: Double, disk: Double, threads: Double) {
+        self.time = time
+        self.networkSentBytes = networkSentBytes
+        self.networkReceivedBytes = networkReceivedBytes
+        self.cpu = cpu
+        self.memory = memory
+        self.disk = disk
+        self.threads = threads
+    }
 }
 
-private struct RunResults {
+private class RunResults {
     let numDocs: Int
     let docSize: Int
     let numOutliers: Int
-    let time: DoubleDataBlock
-    let networkSentBytes: DoubleDataBlock
-    let networkReceivedBytes: DoubleDataBlock
-    let cpu: DoubleDataBlock
-    let memory: DoubleDataBlock
-    let disk: DoubleDataBlock
-    let diskEfficiencyRatio: DoubleDataBlock
-    let threads: DoubleDataBlock
+    let time: DataBlock
+    let networkSentBytes: DataBlock
+    let networkReceivedBytes: DataBlock
+    let cpu: DataBlock
+    let memory: DataBlock
+    let disk: DataBlock
+    let diskEfficiencyRatio: DataBlock
+    let threads: DataBlock
 
     init(numDocs: Int,
          docSize: Int,
@@ -304,34 +325,30 @@ private struct RunResults {
         self.numDocs = numDocs
         self.docSize = docSize
         self.numOutliers = numOutliers
-        self.time = DoubleDataBlock(data: time, numOutliers: numOutliers)
-        self.networkSentBytes =
-            DoubleDataBlock(data: networkSentBytes, numOutliers: numOutliers)
-        self.networkReceivedBytes =
-            DoubleDataBlock(data: networkReceivedBytes, numOutliers: numOutliers)
-        self.cpu = DoubleDataBlock(data: cpu, numOutliers: numOutliers)
-        self.memory = DoubleDataBlock(data: memory, numOutliers: numOutliers)
-        self.disk = DoubleDataBlock(data: disk, numOutliers: numOutliers)
-        self.threads = DoubleDataBlock(data: threads, numOutliers: numOutliers)
+        self.time = DataBlock(data: time, numOutliers: numOutliers)
+        self.networkSentBytes = DataBlock(data: networkSentBytes, numOutliers: numOutliers)
+        self.networkReceivedBytes = DataBlock(data: networkReceivedBytes, numOutliers: numOutliers)
+        self.cpu = DataBlock(data: cpu, numOutliers: numOutliers)
+        self.memory = DataBlock(data: memory, numOutliers: numOutliers)
+        self.disk = DataBlock(data: disk, numOutliers: numOutliers)
+        self.threads = DataBlock(data: threads, numOutliers: numOutliers)
 
         let diskEfficiencyArr = disk.map({$0 / Double((docSize + 12) * numDocs)})
-        self.diskEfficiencyRatio = DoubleDataBlock(data: diskEfficiencyArr, numOutliers: numOutliers)
+        self.diskEfficiencyRatio = DataBlock(data: diskEfficiencyArr, numOutliers: numOutliers)
 
     }
 
-    func toBson() -> Document {
-        return [
-            "numDocs": numDocs,
-            "docSize": docSize,
-            "status": "success",
-            "timeMs": time.toBson(),
-            "networkSentBytes": networkSentBytes.toBson(),
-            "networkReceivedBytes": networkReceivedBytes.toBson(),
-            "cpu": cpu.toBson(),
-            "memoryBytes": memory.toBson(),
-            "diskBytes": disk.toBson(),
-            "diskEfficiencyRatio": diskEfficiencyRatio.toBson(),
-            "threads": threads.toBson()
-        ]
-    }
+    lazy var asBson: Document = [
+        "numDocs": numDocs,
+        "docSize": docSize,
+        "status": "success",
+        "timeMs": time.asBson,
+        "networkSentBytes": networkSentBytes.asBson,
+        "networkReceivedBytes": networkReceivedBytes.asBson,
+        "cpu": cpu.asBson,
+        "memoryBytes": memory.asBson,
+        "diskBytes": disk.asBson,
+        "diskEfficiencyRatio": diskEfficiencyRatio.asBson,
+        "threads": threads.asBson
+    ]
 }

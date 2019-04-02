@@ -24,7 +24,7 @@ class SyncPerformanceIntTests: BaseStitchIntTestCocoaTouch {
         harness.runPerformanceTestWithParameters(testParams: testParam, testDefinition: {ctx, numDoc, docSize in
             print("PerfLog: Test: \(numDoc) docs of size \(docSize)")
             let docs = getDocuments(numDocs: numDoc, docSize: docSize)
-            ctx.coll?.insertMany(docs, joiner.capture())
+            ctx.coll.insertMany(docs, joiner.capture())
             let _: Any? = try joiner.value()
         }, customSetup: {_, numDoc, docSize in
             print("PerfLog: (Custom Setup) \(numDoc) docs of size \(docSize)")
@@ -42,7 +42,7 @@ class SyncPerformanceIntTests: BaseStitchIntTestCocoaTouch {
         harness.runPerformanceTestWithParameters(testParams: testParam, testDefinition: {ctx, numDoc, docSize in
             print("PerfLog: Test: \(numDoc) docs of size \(docSize)")
             let docs = getDocuments(numDocs: numDoc, docSize: docSize)
-            ctx.coll?.insertMany(docs, joiner.capture())
+            ctx.coll.insertMany(docs, joiner.capture())
             let _: Any? = try joiner.value()
         }, customSetup: {_, numDoc, docSize in
             print("PerfLog: (Custom Setup) \(numDoc) docs of size \(docSize)")
@@ -61,7 +61,7 @@ class SyncPerformanceIntTests: BaseStitchIntTestCocoaTouch {
         harness.runPerformanceTestWithParameters(testParams: testParam, testDefinition: {ctx, numDoc, docSize in
             print("PerfLog: Test: \(numDoc) docs of size \(docSize)")
             let docs = getDocuments(numDocs: numDoc, docSize: docSize)
-            ctx.coll?.insertMany(docs, joiner.capture())
+            ctx.coll.insertMany(docs, joiner.capture())
             let _: Any? = try joiner.value()
         })
     }
