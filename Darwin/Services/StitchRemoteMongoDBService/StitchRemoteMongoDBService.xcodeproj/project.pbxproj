@@ -22,6 +22,8 @@
 		1169219220C9D2A100930DD8 /* RemoteMongoDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1169219120C9D2A100930DD8 /* RemoteMongoDatabase.swift */; };
 		1169219620C9FE3500930DD8 /* RemoteMongoReadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1169219520C9FE3500930DD8 /* RemoteMongoReadOperation.swift */; };
 		116ABEB0221CA01C003C1D18 /* InternalChangeStreamDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116ABEAF221CA01C003C1D18 /* InternalChangeStreamDelegate.swift */; };
+		1E5522662253E3F90013C7A9 /* ProductionPerformanceContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5522652253E3F90013C7A9 /* ProductionPerformanceContext.swift */; };
+		1E5522682253E4080013C7A9 /* LocalPerformanceContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5522672253E4080013C7A9 /* LocalPerformanceContext.swift */; };
 		1E587ED5224E6E5900A0DE9C /* SyncPerformanceIntTestHarness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E587ED4224E6E5900A0DE9C /* SyncPerformanceIntTestHarness.swift */; };
 		1ED94707224E8A5B00C1167E /* SyncPerformanceIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ED94706224E8A5B00C1167E /* SyncPerformanceIntTests.swift */; };
 		1ED94709224EA76600C1167E /* SyncPerformanceContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ED94708224EA76600C1167E /* SyncPerformanceContext.swift */; };
@@ -90,6 +92,8 @@
 		1169219120C9D2A100930DD8 /* RemoteMongoDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteMongoDatabase.swift; sourceTree = "<group>"; };
 		1169219520C9FE3500930DD8 /* RemoteMongoReadOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteMongoReadOperation.swift; sourceTree = "<group>"; };
 		116ABEAF221CA01C003C1D18 /* InternalChangeStreamDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalChangeStreamDelegate.swift; sourceTree = "<group>"; };
+		1E5522652253E3F90013C7A9 /* ProductionPerformanceContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductionPerformanceContext.swift; sourceTree = "<group>"; };
+		1E5522672253E4080013C7A9 /* LocalPerformanceContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalPerformanceContext.swift; sourceTree = "<group>"; };
 		1E587ED4224E6E5900A0DE9C /* SyncPerformanceIntTestHarness.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncPerformanceIntTestHarness.swift; sourceTree = "<group>"; };
 		1ED94706224E8A5B00C1167E /* SyncPerformanceIntTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncPerformanceIntTests.swift; sourceTree = "<group>"; };
 		1ED94708224EA76600C1167E /* SyncPerformanceContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncPerformanceContext.swift; sourceTree = "<group>"; };
@@ -183,6 +187,8 @@
 				1E587ED4224E6E5900A0DE9C /* SyncPerformanceIntTestHarness.swift */,
 				1ED94706224E8A5B00C1167E /* SyncPerformanceIntTests.swift */,
 				1ED94708224EA76600C1167E /* SyncPerformanceContext.swift */,
+				1E5522672253E4080013C7A9 /* LocalPerformanceContext.swift */,
+				1E5522652253E3F90013C7A9 /* ProductionPerformanceContext.swift */,
 			);
 			path = StitchRemoteMongoDBServiceTests;
 			sourceTree = "<group>";
@@ -459,10 +465,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E5522682253E4080013C7A9 /* LocalPerformanceContext.swift in Sources */,
 				1E587ED5224E6E5900A0DE9C /* SyncPerformanceIntTestHarness.swift in Sources */,
 				496BC5A721B1DC6400D68F91 /* CallbackJoiner.swift in Sources */,
 				499CD19D21C01D4A00CB4EBF /* SyncIntTests.swift in Sources */,
 				1ED94709224EA76600C1167E /* SyncPerformanceContext.swift in Sources */,
+				1E5522662253E3F90013C7A9 /* ProductionPerformanceContext.swift in Sources */,
 				1160C94F224BD12700BC0CDA /* FoundationInstrumentedHTTPTransport.swift in Sources */,
 				1169217720C9D04C00930DD8 /* RemoteMongoClientIntTests.swift in Sources */,
 				1160C951224BFCA800BC0CDA /* FoundationInstrumentedHTTPTransportIntTests.swift in Sources */,

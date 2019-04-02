@@ -1,4 +1,3 @@
-// swiftlint:disable force_try
 import MongoSwift
 import StitchCore
 import StitchCoreSDK
@@ -8,83 +7,32 @@ import StitchDarwinCoreTestUtils
 import StitchCoreLocalMongoDBService
 @testable import StitchRemoteMongoDBService
 
-protocol SyncPerformanceContextProtocol {
+protocol SyncPerformanceContext {
+    var dbName: String { get }
+    var collName: String { get }
+    var userId: String { get }
+    var client: StitchAppClient { get }
+    var mongoClient: RemoteMongoClient { get }
+    var coll: RemoteMongoCollection<Document> { get }
+    var testParams: TestParams { get }
+    var transport: FoundationInstrumentedHTTPTransport { get }
+    var harness: SyncPerformanceIntTestHarness { get }
+    var streamJoiner: StreamJoiner { get }
+    var joiner: ThrowingCallbackJoiner { get }
+
     init(harness: SyncPerformanceIntTestHarness,
          testParams: TestParams,
          transport: FoundationInstrumentedHTTPTransport) throws
 
-    func runSingleIteration(numDocs: Int,
-                            docSize: Int,
-                            testDefinition: TestDefinition,
-                            setup: TestDefinition,
-                            teardown: TestDefinition) throws -> IterationResult
-
     func tearDown() throws
 }
 
-class SyncPerformanceContext {
-    private(set) var dbName = ""
-    private(set) var collName = ""
-    private(set) var userId = ""
-
-    let client: StitchAppClient
-    let mongoClient: RemoteMongoClient
-    let coll: RemoteMongoCollection<Document>
-    let joiner = ThrowingCallbackJoiner()
-    let streamJoiner = StreamJoiner()
-    let testParams: TestParams
-    let transport: FoundationInstrumentedHTTPTransport
-    let harness: SyncPerformanceIntTestHarness
-
-    init(harness: SyncPerformanceIntTestHarness,
-         testParams: TestParams,
-         transport: FoundationInstrumentedHTTPTransport) throws {
-        self.testParams = testParams
-        self.transport = transport
-        self.harness = harness
-        if testParams.stitchHostName == "https://stitch.mongodb.com" {
-            print("PerfLog: Context: Initializing STITCH-Prod")
-            dbName = harness.stitchTestDbName
-            collName = harness.stitchTestCollName
-            client = harness.outputClient
-            mongoClient = harness.outputMongoClient
-            coll = mongoClient.db(dbName).collection(collName)
-            print("PerfLog: Context: Finished initializing STITCH-Prod")
-        } else {
-            print("PerfLog: Context: Initializing STITCH-Local")
-            dbName = ObjectId().oid
-            collName = ObjectId().oid
-
-            harness.setUp()
-            let app = try! harness.createApp()
-            _ = try! harness.addProvider(toApp: app.1, withConfig: ProviderConfigs.anon())
-            let svc = try! harness.addService(toApp: app.1, withType: "mongodb", withName: "mongodb1",
-                                         withConfig: ServiceConfigs.mongodb(name: "mongodb1", uri: harness.mongodbUri))
-            let rule = RuleCreator.mongoDb(database: dbName, collection: collName,
-                                           roles: [RuleCreator.Role(read: true, write: true)],
-                                           schema: RuleCreator.Schema())
-            _ = try! harness.addRule(toService: svc.1, withConfig: rule)
-
-            client = try! harness.appClient(forApp: app.0, withTransport: transport)
-            client.auth.login(withCredential: AnonymousCredential(), joiner.capture())
-            let _: Any? = try joiner.value()
-            userId = client.auth.currentUser?.id ?? ""
-
-            mongoClient = try! client.serviceClient(fromFactory: remoteMongoClientFactory, withName: "mongodb1")
-            coll = mongoClient.db(dbName).collection(collName)
-            print("PerfLog: Context: Finished Initializing STITCH-Local")
-        }
-
-        coll.sync.proxy.dataSynchronizer.isSyncThreadEnabled = false
-        coll.sync.proxy.dataSynchronizer.stop() // Failing here occaisonally
-        print("PerfLog: Context: Done with initialization")
-    }
-
+extension SyncPerformanceContext {
     func runSingleIteration(numDocs: Int,
                             docSize: Int,
                             testDefinition: TestDefinition,
-                            setup: TestDefinition,
-                            teardown: TestDefinition) throws -> IterationResult {
+                            setup: SetupDefinition,
+                            teardown: TeardownDefinition) throws -> IterationResult {
         // Perform custom setup if it exists
         try setup(self, numDocs, docSize)
 
@@ -134,25 +82,6 @@ class SyncPerformanceContext {
                                threads: pointInTimeMetrics.threadData)
     }
 
-    func tearDown() throws {
-        if testParams.stitchHostName == "https://stitch.mongodb.com" {
-             client.callFunction(withName: "deleteAllAsSystemUser", withArgs: [], joiner.capture())
-            let _: Any? = try joiner.value()
-        }
-
-        if coll.sync.proxy.dataSynchronizer.instanceChangeStreamDelegate != nil {
-            coll.sync.proxy.dataSynchronizer.instanceChangeStreamDelegate.stop()
-        }
-
-        // swiftlint:disable force_cast
-        CoreLocalMongoDBService.shared.localInstances.forEach { client in
-            try! client.listDatabases().forEach {
-                try? client.db($0["name"] as! String).drop()
-            }
-        }
-        // swiftlint:enable force_cast
-    }
-
     func waitForAllStreamsOpen() {
         while !coll.sync.proxy.dataSynchronizer.allStreamsAreOpen {
             print("waiting for all streams to open before doing sync pass")
@@ -183,7 +112,6 @@ class SyncPerformanceContext {
             streamJoiner.wait(forState: .closed)
         }
     }
-
 }
 
 func getMemoryUsage() -> Double {

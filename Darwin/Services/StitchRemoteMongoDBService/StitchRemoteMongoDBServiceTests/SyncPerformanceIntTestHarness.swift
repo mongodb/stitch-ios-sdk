@@ -98,9 +98,15 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
 
                 for iter in 1...testParams.numIters {
                     do {
-                        let ctx = try SyncPerformanceContext(harness: self,
-                                                             testParams: testParams,
-                                                             transport: networkTransport)
+                        var ctx: SyncPerformanceContext
+                        if testParams.stitchHostName == "https://stitch.mongodb.com" {
+                            ctx = try ProductionPerformanceContext(harness: self, testParams: testParams,
+                                                                   transport: networkTransport)
+                        } else {
+                            ctx = try LocalPerformanceContext(harness: self, testParams: testParams,
+                                                              transport: networkTransport)
+                        }
+
                         let iterResult = try ctx.runSingleIteration(numDocs: numDoc,
                                                                     docSize: docSize,
                                                                     testDefinition: testDefinition,
@@ -123,7 +129,7 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
                         continue nextTest
                     }
                 }
-                print("PerfLog: getting result")
+
                 let result = RunResults(numDocs: numDoc, docSize: docSize,
                                         numOutliers: testParams.numOutliersEachSide,
                                         time: timeData, networkSentBytes: networkSentData,
@@ -172,8 +178,6 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
             _ = outputColl?.updateOne(filter: ["_id": resultId],
                                       update: ["$push": ["results": failureDoc] as Document])
         }
-        // XCTFail(failureMessage)
-        print("PerfLog: calling continue")
     }
     // swiftlint:enable function_parameter_count
 }
