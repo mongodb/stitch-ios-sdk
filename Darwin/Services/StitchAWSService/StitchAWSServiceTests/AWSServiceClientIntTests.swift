@@ -15,8 +15,10 @@ let testAWSSecretAccessKey = TEST_AWS_SECRET_ACCESS_KEY.isEmpty ?
     ProcessInfo.processInfo.environment["AWS_SECRET_ACCESS_KEY"] : TEST_AWS_SECRET_ACCESS_KEY
 
 class AWSServiceClientIntTests: BaseStitchIntTestCocoaTouch {
+
     override func setUp() {
         super.setUp()
+
         guard !(testAWSAccessKeyID?.isEmpty ?? true),
             !(testAWSSecretAccessKey?.isEmpty ?? true) else {
                 XCTFail("No AWS_ACCESS_KEY_ID or AWS_SECRET_ACCESS_KEY in preprocessor macros; "
