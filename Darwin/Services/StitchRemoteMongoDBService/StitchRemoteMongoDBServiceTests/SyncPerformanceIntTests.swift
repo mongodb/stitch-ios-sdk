@@ -15,7 +15,7 @@ class SyncPerformanceIntTests: BaseStitchIntTestCocoaTouch {
     static let runId = ObjectId()
     let joiner = ThrowingCallbackJoiner()
 
-    func testFailure() {
+    /* func testFailure() {
         let testParam = TestParams(testName: "shouldFail",
                                    runId: SyncPerformanceIntTests.runId,
                                    numIters: 3,
@@ -31,7 +31,7 @@ class SyncPerformanceIntTests: BaseStitchIntTestCocoaTouch {
         }, customTeardown: {_, numDoc, docSize in
             print("PerfLog: (Custom Teardown) \(numDoc) docs of size \(docSize)")
         })
-    }
+    } */
 
     func testInitialSyncLocal() {
         let testParam = TestParams(testName: "initialSyncLocal",
