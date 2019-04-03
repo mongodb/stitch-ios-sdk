@@ -7,7 +7,7 @@ import StitchDarwinCoreTestUtils
 import StitchCoreLocalMongoDBService
 @testable import StitchRemoteMongoDBService
 
-protocol SyncPerformanceContext {
+protocol SyncPerformanceTestContext {
     var dbName: String { get }
     var collName: String { get }
     var userId: String { get }
@@ -27,7 +27,7 @@ protocol SyncPerformanceContext {
     func tearDown() throws
 }
 
-extension SyncPerformanceContext {
+extension SyncPerformanceTestContext {
     func runSingleIteration(numDocs: Int,
                             docSize: Int,
                             testDefinition: TestDefinition,

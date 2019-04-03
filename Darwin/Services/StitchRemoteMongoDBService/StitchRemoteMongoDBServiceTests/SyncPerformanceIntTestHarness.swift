@@ -9,9 +9,9 @@ import StitchDarwinCoreTestUtils
 import StitchCoreLocalMongoDBService
 @testable import StitchRemoteMongoDBService
 
-typealias TestDefinition = (_ ctx: SyncPerformanceContext, _ numDoc: Int, _ docSize: Int) throws -> Void
-typealias SetupDefinition = (_ ctx: SyncPerformanceContext, _ numDoc: Int, _ docSize: Int) throws -> Void
-typealias TeardownDefinition = (_ ctx: SyncPerformanceContext, _ numDoc: Int, _ docSize: Int) throws -> Void
+typealias TestDefinition = (_ ctx: SyncPerformanceTestContext, _ numDoc: Int, _ docSize: Int) throws -> Void
+typealias SetupDefinition = (_ ctx: SyncPerformanceTestContext, _ numDoc: Int, _ docSize: Int) throws -> Void
+typealias TeardownDefinition = (_ ctx: SyncPerformanceTestContext, _ numDoc: Int, _ docSize: Int) throws -> Void
 
 // This is how we want to do things once we create the new test scheme and import the .h file as an
 // objective-c bridging header

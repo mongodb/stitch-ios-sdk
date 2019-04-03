@@ -1,4 +1,3 @@
-// swiftlint:disable force_try
 import MongoSwift
 import StitchCore
 import StitchCoreSDK
@@ -8,7 +7,7 @@ import StitchDarwinCoreTestUtils
 import StitchCoreLocalMongoDBService
 @testable import StitchRemoteMongoDBService
 
-class ProductionPerformanceTestContext: SyncPerformanceContext {
+class ProductionPerformanceTestContext: SyncPerformanceTestContext {
     let dbName: String
     let collName: String
     let userId: String

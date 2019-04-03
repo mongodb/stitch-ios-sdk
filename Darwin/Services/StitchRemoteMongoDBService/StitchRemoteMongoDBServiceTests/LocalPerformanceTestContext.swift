@@ -8,7 +8,7 @@ import StitchDarwinCoreTestUtils
 import StitchCoreLocalMongoDBService
 @testable import StitchRemoteMongoDBService
 
-class LocalPerformanceTestContext: SyncPerformanceContext {
+class LocalPerformanceTestContext: SyncPerformanceTestContext {
     let dbName: String
     let collName: String
     let userId: String
