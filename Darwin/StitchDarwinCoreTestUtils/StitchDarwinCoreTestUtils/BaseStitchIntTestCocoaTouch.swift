@@ -68,12 +68,13 @@ open class BaseStitchIntTestCocoaTouch: BaseStitchIntTest {
 
     public let networkMonitor = TestNetworkMonitor()
 
-    public func appClient(forApp app: AppResponse, withTransport transport: Transport? = nil) throws -> StitchAppClient {
+    public func appClient(forApp app: AppResponse,
+                          withTransport transport: Transport? = nil) throws -> StitchAppClient {
         if let appClient = try? Stitch.appClient(forAppID: app.clientAppID) {
             return appClient
         }
 
-        var config = StitchAppClientConfigurationBuilder()
+        let config = StitchAppClientConfigurationBuilder()
             .with(baseURL: stitchBaseURL)
             .with(networkMonitor: networkMonitor)
         if let transport = transport {
