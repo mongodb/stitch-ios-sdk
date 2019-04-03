@@ -26,9 +26,9 @@ class SyncPerformanceIntTests: BaseStitchIntTestCocoaTouch {
             let docs = getDocuments(numDocs: numDoc, docSize: docSize)
             ctx.coll.insertMany(docs, joiner.capture())
             let _: Any? = try joiner.value()
-        }, customSetup: {_, numDoc, docSize in
+        }, beforeEach: {_, numDoc, docSize in
             print("PerfLog: (Custom Setup) \(numDoc) docs of size \(docSize)")
-        }, customTeardown: {_, numDoc, docSize in
+        }, afterEach: {_, numDoc, docSize in
             print("PerfLog: (Custom Teardown) \(numDoc) docs of size \(docSize)")
         })
     } */
@@ -48,11 +48,15 @@ class SyncPerformanceIntTests: BaseStitchIntTestCocoaTouch {
             let count = ctx.coll.count([:])
             try assertEqual(Int.self, count ?? 0, numDoc)
 
-        }, customSetup: {_, numDoc, docSize in
+        }, beforeEach: {_, numDoc, docSize in
             print("PerfLog: (Custom Setup) \(numDoc) docs of size \(docSize)")
-        }, customTeardown: {_, numDoc, docSize in
+        }, afterEach: {_, numDoc, docSize in
             print("PerfLog: (Custom Teardown) \(numDoc) docs of size \(docSize)")
         })
+    }
+
+    func testSample() {
+        print("hi")
     }
 
     func testInitialSyncProd() {

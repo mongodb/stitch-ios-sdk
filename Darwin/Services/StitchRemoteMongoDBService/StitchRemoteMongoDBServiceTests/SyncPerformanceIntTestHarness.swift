@@ -78,8 +78,8 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
     // swiftlint:disable function_body_length
     func runPerformanceTestWithParameters(testParams: TestParams,
                                           testDefinition: TestDefinition,
-                                          customSetup: SetupDefinition = { _, _, _ in },
-                                          customTeardown: TeardownDefinition = { _, _, _ in }) {
+                                          beforeEach: SetupDefinition = { _, _, _ in },
+                                          afterEach: TeardownDefinition = { _, _, _ in }) {
         setUp()
         var failed = false
         let resultId = ObjectId()
@@ -105,18 +105,18 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
                     do {
                         var ctx: SyncPerformanceContext
                         if testParams.stitchHostName == "https://stitch.mongodb.com" {
-                            ctx = try ProductionPerformanceContext(harness: self, testParams: testParams,
-                                                                   transport: networkTransport)
+                            ctx = try ProductionPerformanceTestContext(harness: self, testParams: testParams,
+                                                                       transport: networkTransport)
                         } else {
-                            ctx = try LocalPerformanceContext(harness: self, testParams: testParams,
-                                                              transport: networkTransport)
+                            ctx = try LocalPerformanceTestContext(harness: self, testParams: testParams,
+                                                                  transport: networkTransport)
                         }
 
                         let iterResult = try ctx.runSingleIteration(numDocs: numDoc,
                                                                     docSize: docSize,
                                                                     testDefinition: testDefinition,
-                                                                    setup: customSetup,
-                                                                    teardown: customTeardown)
+                                                                    setup: beforeEach,
+                                                                    teardown: afterEach)
                         timeData.append(iterResult.time)
                         cpuData.append(iterResult.cpu)
                         memoryData.append(iterResult.memory)
@@ -358,6 +358,6 @@ private class RunResults {
         "memoryBytes": memory.asBson,
         "diskBytes": disk.asBson,
         "diskEfficiencyRatio": diskEfficiencyRatio.asBson,
-        "threads": threads.asBson
+        "activeThreadCounts": threads.asBson
     ]
 }

@@ -8,7 +8,7 @@ import StitchDarwinCoreTestUtils
 import StitchCoreLocalMongoDBService
 @testable import StitchRemoteMongoDBService
 
-class ProductionPerformanceContext: SyncPerformanceContext {
+class ProductionPerformanceTestContext: SyncPerformanceContext {
     let dbName: String
     let collName: String
     let userId: String
@@ -49,9 +49,13 @@ class ProductionPerformanceContext: SyncPerformanceContext {
         }
 
         // swiftlint:disable force_cast
-        CoreLocalMongoDBService.shared.localInstances.forEach { client in
-            try! client.listDatabases().forEach {
-                try? client.db($0["name"] as! String).drop()
+        try CoreLocalMongoDBService.shared.localInstances.forEach { client in
+            do {
+                try client.listDatabases().forEach {
+                    try? client.db($0["name"] as! String).drop()
+                }
+            } catch {
+                throw "Could not drop databases in ProductionPerformanceTestContext.teardown()"
             }
         }
         // swiftlint:enable force_cast
