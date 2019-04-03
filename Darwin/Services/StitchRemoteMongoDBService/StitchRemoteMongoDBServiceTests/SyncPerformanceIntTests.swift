@@ -44,6 +44,10 @@ class SyncPerformanceIntTests: BaseStitchIntTestCocoaTouch {
             let docs = getDocuments(numDocs: numDoc, docSize: docSize)
             ctx.coll.insertMany(docs, joiner.capture())
             let _: Any? = try joiner.value()
+
+            let count = ctx.coll.count([:])
+            try assertEqual(Int.self, count ?? 0, numDoc)
+
         }, customSetup: {_, numDoc, docSize in
             print("PerfLog: (Custom Setup) \(numDoc) docs of size \(docSize)")
         }, customTeardown: {_, numDoc, docSize in
@@ -67,17 +71,25 @@ class SyncPerformanceIntTests: BaseStitchIntTestCocoaTouch {
     }
 
     func getDocuments(numDocs: Int, docSize: Int) -> [Document] {
-        var docs: [Document] = []
-        for iter in 1...numDocs {
-            do {
-                let newDoc: Document = try ["_id": ObjectId(),
-                                            "data": Binary(data: Data(repeating: UInt8(iter % 100), count: docSize),
-                                                           subtype: Binary.Subtype.userDefined)]
-                docs.append(newDoc)
-            } catch {
-                print("PerfLog: Failed to make array of documents with err: \(error.localizedDescription)")
+        return (0..<numDocs).map {iter in
+            guard let newDoc = try? ["_id": ObjectId(),
+                                     "data": Binary(data: Data(repeating: UInt8(iter % 100), count: docSize),
+                                                    subtype: Binary.Subtype.userDefined)] as Document else {
+                fatalError("Failed to create \(numDocs) documents of size \(docSize)")
             }
+            return newDoc
         }
-        return docs
+    }
+
+    // Custom assertEqual that throws so that the test fails if the assertion fails
+    func assertEqual<T: Equatable>(_ type: T.Type, _ val1: Any, _ val2: Any) throws {
+        guard let val1 = val1 as? T, let val2 = val2 as? T else {
+            throw "assertEqual not passed valid params"
+        }
+        print("PerfLog: trying to throw")
+        if val1 == val2 { return } else {
+            print("PerfLog: throwing")
+            throw "(\"\(val1)\") is not equal to (\"\(val2)\")"
+        }
     }
 }
