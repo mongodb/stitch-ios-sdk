@@ -1852,7 +1852,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         try ctx.streamAndSync()
 
         XCTAssertEqual(expectedDocument.sorted(), coll.findOne(doc1Filter)!.sorted())
-        XCTAssertEqual(docToInsertUser1.sorted(), SyncIntTestUtilities.withoutSyncVersion(remoteColl.findOne(doc1Filter)!.sorted()))
+        XCTAssertEqual(docToInsertUser1.sorted(),
+                       SyncIntTestUtilities.withoutSyncVersion(remoteColl.findOne(doc1Filter)!.sorted()))
         SyncIntTestUtilities.assertNoVersionFieldsInLocalColl(coll: coll)
 
         // switch to the other user. assert that there is no locally stored docToInsertUser1

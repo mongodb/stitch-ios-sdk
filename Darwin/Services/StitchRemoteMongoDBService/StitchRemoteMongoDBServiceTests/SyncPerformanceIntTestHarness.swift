@@ -103,7 +103,7 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
 
                 for iter in 1...testParams.numIters {
                     do {
-                        var ctx: SyncPerformanceContext
+                        var ctx: SyncPerformanceTestContext
                         if testParams.stitchHostName == "https://stitch.mongodb.com" {
                             ctx = try ProductionPerformanceTestContext(harness: self, testParams: testParams,
                                                                        transport: networkTransport)

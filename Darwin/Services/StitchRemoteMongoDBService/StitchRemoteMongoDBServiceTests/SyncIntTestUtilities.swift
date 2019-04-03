@@ -21,7 +21,9 @@ internal class SyncIntTestUtilities {
         return versionOf(document)["id"] as! String
     }
 
-    static internal func appendDocumentToKey(key: String, on document: Document, documentToAppend: Document) -> Document {
+    static internal func appendDocumentToKey(key: String,
+                                             on document: Document,
+                                             documentToAppend: Document) -> Document {
         var document = document
         if let value = document[key] as? Document {
             var values = value.map { ($0.key, $0.value) }
