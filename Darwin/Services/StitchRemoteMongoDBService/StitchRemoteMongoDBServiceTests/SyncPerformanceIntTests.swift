@@ -86,9 +86,7 @@ class SyncPerformanceIntTests: BaseStitchIntTestCocoaTouch {
         guard let val1 = val1 as? T, let val2 = val2 as? T else {
             throw "assertEqual not passed valid params"
         }
-        print("PerfLog: trying to throw")
         if val1 == val2 { return } else {
-            print("PerfLog: throwing")
             throw "(\"\(val1)\") is not equal to (\"\(val2)\")"
         }
     }
