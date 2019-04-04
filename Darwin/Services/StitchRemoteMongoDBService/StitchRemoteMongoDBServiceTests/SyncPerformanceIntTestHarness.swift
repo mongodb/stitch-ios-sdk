@@ -16,8 +16,9 @@ typealias TeardownDefinition = (_ ctx: SyncPerformanceTestContext, _ numDoc: Int
 
 // This is how we want to do things once we create the new test scheme and import the .h file as an
 // objective-c bridging header
-// let testStitchAPIKey = PERF_IOS_API_KEY.isEmpty ?
-//    ProcessInfo.processInfo.environment["PERF_IOS_API_KEY"] : PERF_IOS_API_KEY
+
+let testStitchAPIKey = PERF_IOS_API_KEY.isEmpty ?
+    ProcessInfo.processInfo.environment["PERF_IOS_API_KEY"] : PERF_IOS_API_KEY
 
 class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
     // Typealias for testDefinition
@@ -58,15 +59,21 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
                 outputClient = try! Stitch.initializeAppClient(withClientAppID: stitchOutputAppName, withConfig: config)
             }
         }
+        
+        guard let apiKey = testStitchAPIKey else {
+            XCTFail("No PERF_IOS_API_KEY preprocessor macros, failed to unwrap testStitchAPIKey")
+            return
+        }
+        
+        if apiKey.isEmpty {
+            XCTFail("No PERF_IOS_API_KEY preprocessor macros; "
+                + "failing test. See README for more details.")
+            return
+        }
 
         if !(outputClient?.auth.isLoggedIn ?? false) {
-            let apiKeyOpt = ProcessInfo.processInfo.environment["PERF_IOS_API_KEY"]
-            guard let apiKey = apiKeyOpt else {
-                XCTFail("No proper iOS-API-Key for stitch perf project gixen")
-                return
-            }
-
-            outputClient?.auth.login(withCredential: UserAPIKeyCredential(withKey: apiKey), callbackJoiner.capture())
+            outputClient?.auth.login(withCredential: UserAPIKeyCredential(withKey: apiKey),
+                                     callbackJoiner.capture())
         }
 
         outputMongoClient = try! outputClient?.serviceClient(fromFactory: remoteMongoClientFactory,
