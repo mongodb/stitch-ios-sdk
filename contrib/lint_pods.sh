@@ -32,5 +32,5 @@ declare -a PODSPECS=(
 for PODSPEC in "${PODSPECS[@]}"
 do
    echo "Linting $PODSPEC"
-   pod lib lint $PODSPEC --allow-warnings --verboze
+   pod lib lint $PODSPEC --allow-warnings --verbose
 done

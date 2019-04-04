@@ -32,5 +32,5 @@ declare -a PODSPECS=(
 for PODSPEC in "${PODSPECS[@]}"
 do
    echo "Publishing $PODSPEC"
-   pod trunk push $PODSPEC --allow-warnings --verboze
+   pod trunk push $PODSPEC --allow-warnings --verbose
 done
