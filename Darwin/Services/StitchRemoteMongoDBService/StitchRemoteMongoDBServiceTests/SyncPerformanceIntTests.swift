@@ -10,9 +10,10 @@ import StitchCoreLocalMongoDBService
 
 import Foundation
 
+let harness = SyncPerformanceIntTestHarness()
+let runId = ObjectId()
+
 class SyncPerformanceIntTests: XCTestCase {
-    let harness = SyncPerformanceIntTestHarness()
-    static let runId = ObjectId()
     let joiner = ThrowingCallbackJoiner()
 
     // This test should currently fail, it is just here to show proper test failure
@@ -35,25 +36,17 @@ class SyncPerformanceIntTests: XCTestCase {
     } */
 
     func testInitialSyncLocal() {
-//        let testParam = TestParams(testName: "initialSyncLocal",
-//                                   runId: SyncPerformanceIntTests.runId,
-//                                   numIters: 3,
-//                                   numDocs: [5, 10],
-//                                   docSizes: [10, 20])
-        let testParam = TestParams(testName: "initialSyncProd1",
-                                   runId: SyncPerformanceIntTests.runId,
+        let testParam = TestParams(testName: "initialSyncLocal",
+                                   runId: runId,
                                    numIters: 3,
-                                   numDocs: [5],
-                                   docSizes: [10],
-                                   stitchHostName: "https://stitch.mongodb.com")
+                                   numDocs: [5, 10],
+                                   docSizes: [10, 20])
         harness.runPerformanceTestWithParameters(testParams: testParam, testDefinition: {ctx, numDoc, docSize in
             print("PerfLog: Test: \(numDoc) docs of size \(docSize)")
             var docs = getDocuments(numDocs: numDoc, docSize: docSize)
-            print("PerfLog: before insertMany \(ctx.harness.networkTransport.bytesUploaded) : \(ctx.harness.networkTransport.bytesDownloaded)")
             ctx.coll.insertMany(docs, joiner.capture())
             let _: Any? = try joiner.value()
             try assertEqual(Int.self, ctx.coll.count([:]) ?? 0, numDoc)
-            print("PerfLog: after insertMany \(ctx.harness.networkTransport.bytesUploaded) : \(ctx.harness.networkTransport.bytesDownloaded)")
 
             let count = ctx.coll.count([:])
             try assertEqual(Int.self, count ?? 0, numDoc)
@@ -78,17 +71,11 @@ class SyncPerformanceIntTests: XCTestCase {
     }
 
     func testInitialSyncProd() {
-//        let testParam = TestParams(testName: "initialSyncProd",
-//                                   runId: SyncPerformanceIntTests.runId,
-//                                   numIters: 3,
-//                                   numDocs: [5, 10],
-//                                   docSizes: [10, 20],
-//                                   stitchHostName: "https://stitch.mongodb.com")
-        let testParam = TestParams(testName: "initialSyncProd2",
-                                   runId: SyncPerformanceIntTests.runId,
+        let testParam = TestParams(testName: "initialSyncProd",
+                                   runId: runId,
                                    numIters: 3,
-                                   numDocs: [5],
-                                   docSizes: [20],
+                                   numDocs: [5, 10],
+                                   docSizes: [10, 20],
                                    stitchHostName: "https://stitch.mongodb.com")
 
         harness.runPerformanceTestWithParameters(testParams: testParam, testDefinition: {ctx, numDoc, docSize in
@@ -96,11 +83,9 @@ class SyncPerformanceIntTests: XCTestCase {
             try assertEqual(Int.self, ctx.coll.count([:]) ?? 1, 0)
 
             var docs = getDocuments(numDocs: numDoc, docSize: docSize)
-            print("PerfLog: before insertMany \(ctx.harness.networkTransport.bytesUploaded) : \(ctx.harness.networkTransport.bytesDownloaded)")
             ctx.coll.insertMany(docs, joiner.capture())
             let _: Any? = try joiner.value()
             try assertEqual(Int.self, ctx.coll.count([:]) ?? 0, numDoc)
-            print("PerfLog: after insertMany \(ctx.harness.networkTransport.bytesUploaded) : \(ctx.harness.networkTransport.bytesDownloaded)")
 
             ctx.coll.sync.configure(conflictHandler: DefaultConflictHandler<Document>.remoteWins())
 

@@ -48,20 +48,15 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
     internal var outputColl: RemoteMongoCollection<Document>!
 
     func setupOutputClient() {
-        Stitch.clearApps()
         if outputClient == nil {
             do {
                 outputClient = try Stitch.appClient(forAppID: stitchOutputAppName)
-                print("PerfLog: *** Got cached appClient")
             } catch {
-                print("PerfLog: *** Initializing new app client")
                 let config = StitchAppClientConfigurationBuilder()
                     .with(transport: networkTransport)
                     .with(networkMonitor: networkMonitor).build()
                 outputClient = try! Stitch.initializeAppClient(withClientAppID: stitchOutputAppName, withConfig: config)
             }
-        } else {
-            print("PerfLog: *** Skipping getting the output client")
         }
 
         if !(outputClient?.auth.isLoggedIn ?? false) {
@@ -89,8 +84,6 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
                                           beforeEach: SetupDefinition = { _, _, _ in },
                                           afterEach: TeardownDefinition = { _, _, _ in }) {
         var failed = false
-        networkTransport = FoundationInstrumentedHTTPTransport()
-        print("PerfLog: after creation \(networkTransport.bytesUploaded) : \(networkTransport.bytesDownloaded)")
         setupOutputClient()
 
         let resultId = ObjectId()
@@ -103,7 +96,6 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
             outputColl?.insertOne(params)
         }
 
-         print("PerfLog: after stitch insert \(networkTransport.bytesUploaded) : \(networkTransport.bytesDownloaded)")
         for docSize in testParams.docSizes {
             nextTest: for numDoc in testParams.numDocs {
                 var timeData: [Double] = []
@@ -117,20 +109,17 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
                 for iter in 1...testParams.numIters {
                     do {
                         var ctx: SyncPerformanceTestContext
-                         print("PerfLog: before create context \(networkTransport.bytesUploaded) : \(networkTransport.bytesDownloaded)")
                         if testParams.stitchHostName == "https://stitch.mongodb.com" {
                             ctx = try ProductionPerformanceTestContext(harness: self, testParams: testParams)
                         } else {
                             ctx = try LocalPerformanceTestContext(harness: self, testParams: testParams)
                         }
-                        
-                        print("PerfLog: before run \(networkTransport.bytesUploaded) : \(networkTransport.bytesDownloaded)")
                         let iterResult = try ctx.runSingleIteration(numDocs: numDoc,
                                                                     docSize: docSize,
                                                                     testDefinition: testDefinition,
                                                                     setup: beforeEach,
                                                                     teardown: afterEach)
-                         print("PerfLog: after run \(networkTransport.bytesUploaded) : \(networkTransport.bytesDownloaded)")
+
                         timeData.append(iterResult.executionTimeMs)
                         cpuData.append(iterResult.cpuUsagePercent)
                         memoryData.append(iterResult.memoryUsageBytes)

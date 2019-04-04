@@ -37,7 +37,6 @@ class ProductionPerformanceTestContext: SyncPerformanceTestContext {
 
         try self.clearLocalDB()
         try clearRemoteDB()
-        print("PerfLog: within context init \(harness.networkTransport.bytesUploaded) : \(harness.networkTransport.bytesDownloaded)")
     }
 
     func tearDown() throws {
@@ -52,7 +51,7 @@ class ProductionPerformanceTestContext: SyncPerformanceTestContext {
     func clearRemoteDB() throws {
         for _ in 0..<15 {
             do {
-                //client.callFunction(withName: "deleteAllAsSystemUser", withArgs: [], joiner.capture())
+                // client.callFunction(withName: "deleteAllAsSystemUser", withArgs: [], joiner.capture())
                 coll.deleteMany([:], joiner.capture())
                 let _: Any? = try joiner.value()
                 break
