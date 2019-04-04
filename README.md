@@ -1,4 +1,4 @@
-![iOS](https://img.shields.io/badge/platform-iOS-blue.svg) [![Swift 4.0](https://img.shields.io/badge/swift-4.1-orange.svg)](https://developer.apple.com/swift/) ![Apache 2.0 License](https://img.shields.io/badge/license-Apache%202-lightgrey.svg) [![Cocoapods compatible](https://img.shields.io/badge/pod-v5.0.0-ff69b4.svg)](#CocoaPods)
+![iOS](https://img.shields.io/badge/platform-iOS-blue.svg) [![Swift 4.0](https://img.shields.io/badge/swift-4.1-orange.svg)](https://developer.apple.com/swift/) ![Apache 2.0 License](https://img.shields.io/badge/license-Apache%202-lightgrey.svg) [![Cocoapods compatible](https://img.shields.io/badge/pod-v5.1.0-ff69b4.svg)](#CocoaPods)
 
 # MongoDB Stitch iOS/Swift SDK 
 
@@ -30,7 +30,7 @@ The official [MongoDB Stitch](https://stitch.mongodb.com/) SDK for iOS/Swift.
 $ gem install cocoapods
 ```
 
-> CocoaPods 1.1.0+ is required to build Stitch iOS 4.0+.
+> CocoaPods 1.6.0+ is required to build Stitch the iOS SDK 5.0+.
 
 To integrate the iOS SDK into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
