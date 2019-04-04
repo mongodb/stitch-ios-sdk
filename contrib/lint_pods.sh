@@ -2,22 +2,35 @@
 
 set -e
 
-pod lib lint Core/StitchCoreSDK/StitchCoreSDK.podspec --allow-warnings --verbose
+# Let this be run from any directory
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $DIR
+cd ..
 
-pod lib lint Core/Services/StitchCoreAWSService/StitchCoreAWSService.podspec --allow-warnings --verbose
-pod lib lint Core/Services/StitchCoreFCMService/StitchCoreFCMService.podspec --allow-warnings --verbose
-pod lib lint Core/Services/StitchCoreLocalMongoDBService/StitchCoreLocalMongoDBService.podspec --allow-warnings --verbose
-pod lib lint Core/Services/StitchCoreRemoteMongoDBService/StitchCoreRemoteMongoDBService.podspec --allow-warnings --verbose
-pod lib lint Core/Services/StitchCoreTwilioService/StitchCoreTwilioService.podspec --allow-warnings --verbose
-pod lib lint Core/Services/StitchCoreHTTPService/StitchCoreHTTPService.podspec --allow-warnings --verbose
+# Declare the list of pods to be linted
+declare -a PODSPECS=(
+	"Core/StitchCoreSDK/StitchCoreSDK.podspec"
+	"Core/Services/StitchCoreAWSService/StitchCoreAWSService.podspec"
+	"Core/Services/StitchCoreFCMService/StitchCoreFCMService.podspec"
+	"Core/Services/StitchCoreLocalMongoDBService/StitchCoreLocalMongoDBService.podspec"
+	"Core/Services/StitchCoreRemoteMongoDBService/StitchCoreRemoteMongoDBService.podspec"
+	"Core/Services/StitchCoreTwilioService/StitchCoreTwilioService.podspec"
+	"Core/Services/StitchCoreHTTPService/StitchCoreHTTPService.podspec"
 
-pod lib lint Darwin/StitchCore/StitchCore.podspec --allow-warnings --verbose
+	"Darwin/StitchCore/StitchCore.podspec"
 
-pod lib lint Darwin/Services/StitchAWSService/StitchAWSService.podspec --allow-warnings --verbose
-pod lib lint Darwin/Services/StitchFCMService/StitchFCMService.podspec --allow-warnings --verbose
-pod lib lint Darwin/Services/StitchLocalMongoDBService/StitchLocalMongoDBService.podspec --allow-warnings --verbose
-pod lib lint Darwin/Services/StitchRemoteMongoDBService/StitchRemoteMongoDBService.podspec --allow-warnings --verbose
-pod lib lint Darwin/Services/StitchTwilioService/StitchTwilioService.podspec --allow-warnings --verbose
-pod lib lint Darwin/Services/StitchHTTPService/StitchHTTPService.podspec --allow-warnings --verbose
+	"Darwin/Services/StitchAWSService/StitchAWSService.podspec"
+	"Darwin/Services/StitchFCMService/StitchFCMService.podspec"
+	"Darwin/Services/StitchLocalMongoDBService/StitchLocalMongoDBService.podspec"
+	"Darwin/Services/StitchRemoteMongoDBService/StitchRemoteMongoDBService.podspec"
+	"Darwin/Services/StitchTwilioService/StitchTwilioService.podspec"
+	"Darwin/Services/StitchHTTPService/StitchHTTPService.podspec"
 
-pod lib lint StitchSDK.podspec --allow-warnings --verbose
+	"StitchSDK.podspec"
+)
+
+for PODSPEC in "${PODSPECS[@]}"
+do
+   echo "Linting $PODSPEC"
+   pod lib lint $PODSPEC --allow-warnings --verboze
+done

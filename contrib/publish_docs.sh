@@ -2,6 +2,11 @@
 
 set -e
 
+# Let this be run from any directory
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $DIR
+cd ..
+
 VERSION=`cat StitchSDK.podspec | grep "spec.version" | head -1 | cut -d \" -f2`
 VERSION_MAJOR=$(echo $VERSION | cut -d. -f1)
 VERSION_MINOR=$(echo $VERSION | cut -d. -f2)

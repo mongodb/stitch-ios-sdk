@@ -2,22 +2,35 @@
 
 set -e
 
-pod trunk push Core/StitchCoreSDK/StitchCoreSDK.podspec --allow-warnings --verbose
+# Let this be run from any directory
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $DIR
+cd ..
 
-pod trunk push Core/Services/StitchCoreAWSService/StitchCoreAWSService.podspec --allow-warnings --verbose
-pod trunk push Core/Services/StitchCoreFCMService/StitchCoreFCMService.podspec --allow-warnings --verbose
-pod trunk push Core/Services/StitchCoreLocalMongoDBService/StitchCoreLocalMongoDBService.podspec --allow-warnings --verbose
-pod trunk push Core/Services/StitchCoreRemoteMongoDBService/StitchCoreRemoteMongoDBService.podspec --allow-warnings --verbose
-pod trunk push Core/Services/StitchCoreTwilioService/StitchCoreTwilioService.podspec --allow-warnings --verbose
-pod trunk push Core/Services/StitchCoreHTTPService/StitchCoreHTTPService.podspec --allow-warnings --verbose
+# Declare the list of pods to be linted
+declare -a PODSPECS=(
+	"Core/StitchCoreSDK/StitchCoreSDK.podspec"
+	"Core/Services/StitchCoreAWSService/StitchCoreAWSService.podspec"
+	"Core/Services/StitchCoreFCMService/StitchCoreFCMService.podspec"
+	"Core/Services/StitchCoreLocalMongoDBService/StitchCoreLocalMongoDBService.podspec"
+	"Core/Services/StitchCoreRemoteMongoDBService/StitchCoreRemoteMongoDBService.podspec"
+	"Core/Services/StitchCoreTwilioService/StitchCoreTwilioService.podspec"
+	"Core/Services/StitchCoreHTTPService/StitchCoreHTTPService.podspec"
 
-pod trunk push Darwin/StitchCore/StitchCore.podspec --allow-warnings --verbose
+	"Darwin/StitchCore/StitchCore.podspec"
 
-pod trunk push Darwin/Services/StitchAWSService/StitchAWSService.podspec --allow-warnings --verbose
-pod trunk push Darwin/Services/StitchFCMService/StitchFCMService.podspec --allow-warnings --verbose
-pod trunk push Darwin/Services/StitchLocalMongoDBService/StitchLocalMongoDBService.podspec --allow-warnings --verbose
-pod trunk push Darwin/Services/StitchRemoteMongoDBService/StitchRemoteMongoDBService.podspec --allow-warnings --verbose
-pod trunk push Darwin/Services/StitchTwilioService/StitchTwilioService.podspec --allow-warnings --verbose
-pod trunk push Darwin/Services/StitchHTTPService/StitchHTTPService.podspec --allow-warnings --verbose
+	"Darwin/Services/StitchAWSService/StitchAWSService.podspec"
+	"Darwin/Services/StitchFCMService/StitchFCMService.podspec"
+	"Darwin/Services/StitchLocalMongoDBService/StitchLocalMongoDBService.podspec"
+	"Darwin/Services/StitchRemoteMongoDBService/StitchRemoteMongoDBService.podspec"
+	"Darwin/Services/StitchTwilioService/StitchTwilioService.podspec"
+	"Darwin/Services/StitchHTTPService/StitchHTTPService.podspec"
 
-pod trunk push StitchSDK.podspec --allow-warnings --verbose
+	"StitchSDK.podspec"
+)
+
+for PODSPEC in "${PODSPECS[@]}"
+do
+   echo "Publishing $PODSPEC"
+   pod trunk push $PODSPEC --allow-warnings --verboze
+done
