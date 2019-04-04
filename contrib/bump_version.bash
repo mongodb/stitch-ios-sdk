@@ -41,40 +41,38 @@ echo "Bumping $LAST_VERSION to $NEW_VERSION ($BUMP_TYPE)"
 
 # Update all of the podspecs
 echo "Updating podspecs"
-PODSPEC_SED_REGEX="s/([[:space:]]+s\.version[[[:space:]]+=).*$/\1 \"$NEW_VERSION\"/"
+REGEX_SAFE_LAST_VERSION="$LAST_VERSION_MAJOR\.$LAST_VERSION_MINOR\.$LAST_VERSION_PATCH"
+PODSPEC_SED_REGEX="s/$REGEX_SAFE_LAST_VERSION/$NEW_VERSION/g"
 
-sed -i "" -E "$PODSPEC_SED_REGEX" Core/StitchCoreSDK/StitchCoreSDK.podspec
+# Declare the list of podspecs to be modified
+declare -a PODSPECS=(
+	"Core/StitchCoreSDK/StitchCoreSDK.podspec"
+	"Core/Services/StitchCoreAWSService/StitchCoreAWSService.podspec"
+	"Core/Services/StitchCoreFCMService/StitchCoreFCMService.podspec"
+	"Core/Services/StitchCoreLocalMongoDBService/StitchCoreLocalMongoDBService.podspec"
+	"Core/Services/StitchCoreRemoteMongoDBService/StitchCoreRemoteMongoDBService.podspec"
+	"Core/Services/StitchCoreTwilioService/StitchCoreTwilioService.podspec"
+	"Core/Services/StitchCoreHTTPService/StitchCoreHTTPService.podspec"
 
-sed -i "" -E "$PODSPEC_SED_REGEX" Core/Services/StitchCoreAWSService/StitchCoreAWSService.podspec
-sed -i "" -E "$PODSPEC_SED_REGEX" Core/Services/StitchCoreFCMService/StitchCoreFCMService.podspec
-sed -i "" -E "$PODSPEC_SED_REGEX" Core/Services/StitchCoreLocalMongoDBService/StitchCoreLocalMongoDBService.podspec
-sed -i "" -E "$PODSPEC_SED_REGEX" Core/Services/StitchCoreRemoteMongoDBService/StitchCoreRemoteMongoDBService.podspec
-sed -i "" -E "$PODSPEC_SED_REGEX" Core/Services/StitchCoreTwilioService/StitchCoreTwilioService.podspec
-sed -i "" -E "$PODSPEC_SED_REGEX" Core/Services/StitchCoreHTTPService/StitchCoreHTTPService.podspec
+	"Darwin/StitchCore/StitchCore.podspec"
 
-sed -i "" -E "$PODSPEC_SED_REGEX" Darwin/StitchCore/StitchCore.podspec
+	"Darwin/Services/StitchAWSService/StitchAWSService.podspec"
+	"Darwin/Services/StitchFCMService/StitchFCMService.podspec"
+	"Darwin/Services/StitchLocalMongoDBService/StitchLocalMongoDBService.podspec"
+	"Darwin/Services/StitchRemoteMongoDBService/StitchRemoteMongoDBService.podspec"
+	"Darwin/Services/StitchTwilioService/StitchTwilioService.podspec"
+	"Darwin/Services/StitchHTTPService/StitchHTTPService.podspec"
 
-sed -i "" -E "$PODSPEC_SED_REGEX" Darwin/Services/StitchAWSService/StitchAWSService.podspec
-sed -i "" -E "$PODSPEC_SED_REGEX" Darwin/Services/StitchFCMService/StitchFCMService.podspec
-sed -i "" -E "$PODSPEC_SED_REGEX" Darwin/Services/StitchLocalMongoDBService/StitchLocalMongoDBService.podspec
-sed -i "" -E "$PODSPEC_SED_REGEX" Darwin/Services/StitchRemoteMongoDBService/StitchRemoteMongoDBService.podspec
-sed -i "" -E "$PODSPEC_SED_REGEX" Darwin/Services/StitchTwilioService/StitchTwilioService.podspec
-sed -i "" -E "$PODSPEC_SED_REGEX" Darwin/Services/StitchHTTPService/StitchHTTPService.podspec
+	"StitchSDK.podspec"
+)
 
-sed -i "" -E "$PODSPEC_SED_REGEX" StitchSDK.podspec
+for PODSPEC in "${PODSPECS[@]}"
+do
+   echo "Updating $PODSPEC"
+   sed -i "" -E "$PODSPEC_SED_REGEX" $PODSPEC
+#    git add $PODSPEC
+done
 
-# echo "Updating README"
-
-# for file in ./*.podspec ; do
-#   if grep 's\.dependency "StitchCore' > /dev/null $file; then
-# 	sed -i "" -E "s/([[:space:]]+s\.dependency[[:space:]]+\"StitchCore\",[[:space:]]+\"~>[[:space:]]+).*(\".*)$/\1$NEW_VERSION\2/" $file
-# 	sed -i "" -E "s/([[:space:]]+s\.version[[[:space:]]+=).*$/\1 \"$NEW_VERSION\"/" ./$file
-#   fi
-#   git add $file
-# done
-
-# git commit -m "Release $NEW_VERSION"
-# BODY=`git log --no-merges $LAST_VERSION..HEAD --pretty="format:%s (%h); %an"`
-# BODY="Changelog since $LAST_VERSION:
-# $BODY"
-# git tag -a "$NEW_VERSION" -m "$BODY"
+echo "Updating README"
+sed -i "" -E "$PODSPEC_SED_REGEX" README.md
+# git add README.md
