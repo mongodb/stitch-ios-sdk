@@ -70,9 +70,9 @@ for PODSPEC in "${PODSPECS[@]}"
 do
    echo "Updating $PODSPEC"
    sed -i "" -E "$PODSPEC_SED_REGEX" $PODSPEC
-#    git add $PODSPEC
+   git add $PODSPEC
 done
 
 echo "Updating README"
 sed -i "" -E "$PODSPEC_SED_REGEX" README.md
-# git add README.md
+git add README.md
