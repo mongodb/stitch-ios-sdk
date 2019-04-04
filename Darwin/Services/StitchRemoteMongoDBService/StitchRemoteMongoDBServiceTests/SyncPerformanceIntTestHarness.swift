@@ -1,4 +1,5 @@
 // swiftlint:disable force_try
+import Foundation
 import XCTest
 import MongoSwift
 import StitchCore
@@ -27,7 +28,7 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
     private let stitchOutputAppName = "ios-sdk-perf-testing-alfgp"
     private let stitchOutputDbName = "performance"
     private let stitchOutputCollName = "results"
-    private let networkTransport = FoundationInstrumentedHTTPTransport()
+    private var networkTransport = FoundationInstrumentedHTTPTransport()
     private let callbackJoiner = ThrowingCallbackJoiner()
 
     // internal constants
@@ -38,6 +39,7 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
     // Provate lazy vars
     private lazy var pList: [String: Any]? = fetchPlist(type(of: self))
     private lazy var stitchAPIKey: String = pList?[stitchAPIKeyProp] as? String ?? ""
+    private lazy var hostName = ProcessInfo.processInfo.environment["EVERGREEN_HOST"] ?? "Local"
 
     // Internal vars
     internal lazy var mongodbUri: String = pList?[mongodbUriProp] as? String ?? "mongodb://localhost:26000"
@@ -45,8 +47,7 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
     internal var outputMongoClient: RemoteMongoClient!
     internal var outputColl: RemoteMongoCollection<Document>!
 
-    override func setUp() {
-        super.setUp()
+    func setupOutputClient() {
         do {
             outputClient = try Stitch.appClient(forAppID: stitchOutputAppName)
         } catch {
@@ -71,8 +72,8 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
         outputColl = outputMongoClient?.db(stitchOutputDbName).collection(stitchOutputCollName)
     }
 
-    override func tearDown() {
-        super.tearDown()
+    override func setUp() {
+        super.setUp()
     }
 
     // swiftlint:disable function_body_length
@@ -80,14 +81,17 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
                                           testDefinition: TestDefinition,
                                           beforeEach: SetupDefinition = { _, _, _ in },
                                           afterEach: TeardownDefinition = { _, _, _ in }) {
-        setUp()
         var failed = false
+        networkTransport = FoundationInstrumentedHTTPTransport()
+        setupOutputClient()
+
         let resultId = ObjectId()
         if testParams.outputToStitch {
             var paramsNew = testParams
             var params = paramsNew.asBson
             params["_id"] = resultId
             params["status"] = "In Progress"
+            params["hostName"] = hostName
             outputColl?.insertOne(params)
         }
 
@@ -166,10 +170,7 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
     // swiftlint:disable function_parameter_count
     func handleFailure(error: Error, resultId: ObjectId, numDoc: Int, docSize: Int,
                        iter: Int, numIters: Int, outputToStitch: Bool) {
-        let failureMessage = """
-        Failed on iteration \(iter) of \(numIters)
-        with error \(String(describing: error))
-        """
+        let failureMessage = "Failed on iteration \(iter) of \(numIters) with error \(String(describing: error))"
 
         print("PerfLog: Harness Error: \(failureMessage)")
         if outputToStitch {
@@ -250,8 +251,8 @@ class DataBlock {
     init(data: [Double], numOutliers: Int) {
         if data.count >= numOutliers * 2 {
             let newData = Array(data.sorted()[numOutliers ... (data.count - numOutliers - 1)])
-            max = newData.first ?? 0.0
-            min = newData.last ?? 0.0
+            max = newData.last ?? 0.0
+            min = newData.first ?? 0.0
 
             let dataSize = newData.count
             let middle = dataSize / 2

@@ -112,6 +112,21 @@ extension SyncPerformanceTestContext {
             streamJoiner.wait(forState: .closed)
         }
     }
+
+    func clearLocalDB() throws {
+        // swiftlint:disable force_cast
+        coll.sync.desync(ids: coll.sync.syncedIds().map({$0.value}))
+        try CoreLocalMongoDBService.shared.localInstances.forEach { client in
+            do {
+                try client.listDatabases().forEach {
+                    try? client.db($0["name"] as! String).drop()
+                }
+            } catch {
+                throw "Could not drop databases in ProductionPerformanceTestContext.teardown()"
+            }
+        }
+        // swiftlint:enable force_cast
+    }
 }
 
 func getMemoryUsage() -> Double {

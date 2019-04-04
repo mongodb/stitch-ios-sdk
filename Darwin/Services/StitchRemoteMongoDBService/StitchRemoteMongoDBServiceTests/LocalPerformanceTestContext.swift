@@ -33,6 +33,7 @@ class LocalPerformanceTestContext: SyncPerformanceTestContext {
         collName = ObjectId().oid
 
         harness.setUp()
+
         let app = try! harness.createApp()
         _ = try! harness.addProvider(toApp: app.1, withConfig: ProviderConfigs.anon())
         let svc = try! harness.addService(toApp: app.1, withType: "mongodb", withName: "mongodb1",
@@ -51,6 +52,8 @@ class LocalPerformanceTestContext: SyncPerformanceTestContext {
         mongoClient = try! client.serviceClient(fromFactory: remoteMongoClientFactory, withName: "mongodb1")
         coll = mongoClient.db(dbName).collection(collName)
 
+        try clearLocalDB()
+
         coll.sync.proxy.dataSynchronizer.isSyncThreadEnabled = false
         coll.sync.proxy.dataSynchronizer.stop() // Failing here occaisonally
     }
@@ -60,16 +63,6 @@ class LocalPerformanceTestContext: SyncPerformanceTestContext {
             coll.sync.proxy.dataSynchronizer.instanceChangeStreamDelegate.stop()
         }
 
-        // swiftlint:disable force_cast
-        try CoreLocalMongoDBService.shared.localInstances.forEach { client in
-            do {
-                try client.listDatabases().forEach {
-                    try? client.db($0["name"] as! String).drop()
-                }
-            } catch {
-                throw "Could not drop databases in LocalPerformanceTestContext.teardown()"
-            }
-        }
-        // swiftlint:enable force_cast
+        try clearLocalDB()
     }
 }

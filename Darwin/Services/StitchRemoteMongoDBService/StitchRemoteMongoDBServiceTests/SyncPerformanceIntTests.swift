@@ -10,7 +10,7 @@ import StitchCoreLocalMongoDBService
 
 import Foundation
 
-class SyncPerformanceIntTests: BaseStitchIntTestCocoaTouch {
+class SyncPerformanceIntTests: XCTestCase {
     let harness = SyncPerformanceIntTestHarness()
     static let runId = ObjectId()
     let joiner = ThrowingCallbackJoiner()
@@ -41,22 +41,30 @@ class SyncPerformanceIntTests: BaseStitchIntTestCocoaTouch {
                                    docSizes: [10, 20])
         harness.runPerformanceTestWithParameters(testParams: testParam, testDefinition: {ctx, numDoc, docSize in
             print("PerfLog: Test: \(numDoc) docs of size \(docSize)")
-            let docs = getDocuments(numDocs: numDoc, docSize: docSize)
+            var docs = getDocuments(numDocs: numDoc, docSize: docSize)
             ctx.coll.insertMany(docs, joiner.capture())
             let _: Any? = try joiner.value()
 
             let count = ctx.coll.count([:])
             try assertEqual(Int.self, count ?? 0, numDoc)
 
+            ctx.coll.sync.configure(conflictHandler: DefaultConflictHandler<Document>.remoteWins())
+
+            docs = getDocuments(numDocs: numDoc, docSize: docSize)
+            ctx.coll.sync.insertMany(&docs)
+            _ = try ctx.coll.sync.proxy.dataSynchronizer.doSyncPass()
+            try assertEqual(Int.self, ctx.coll.sync.syncedIds().count, numDoc)
+
+            docs = getDocuments(numDocs: numDoc, docSize: docSize)
+            ctx.coll.sync.insertMany(&docs)
+            _ = try ctx.coll.sync.proxy.dataSynchronizer.doSyncPass()
+            try assertEqual(Int.self, ctx.coll.sync.syncedIds().count, 2 * numDoc)
+
         }, beforeEach: {_, numDoc, docSize in
             print("PerfLog: (Custom Setup) \(numDoc) docs of size \(docSize)")
         }, afterEach: {_, numDoc, docSize in
             print("PerfLog: (Custom Teardown) \(numDoc) docs of size \(docSize)")
         })
-    }
-
-    func testSample() {
-        print("hi")
     }
 
     func testInitialSyncProd() {
@@ -68,9 +76,25 @@ class SyncPerformanceIntTests: BaseStitchIntTestCocoaTouch {
                                    stitchHostName: "https://stitch.mongodb.com")
         harness.runPerformanceTestWithParameters(testParams: testParam, testDefinition: {ctx, numDoc, docSize in
             print("PerfLog: Test: \(numDoc) docs of size \(docSize)")
-            let docs = getDocuments(numDocs: numDoc, docSize: docSize)
+            try assertEqual(Int.self, ctx.coll.count([:]) ?? 1, 0)
+
+            var docs = getDocuments(numDocs: numDoc, docSize: docSize)
             ctx.coll.insertMany(docs, joiner.capture())
             let _: Any? = try joiner.value()
+
+            ctx.coll.sync.configure(conflictHandler: DefaultConflictHandler<Document>.remoteWins())
+
+            docs = getDocuments(numDocs: numDoc, docSize: docSize)
+            ctx.coll.sync.insertMany(&docs)
+            _ = try ctx.coll.sync.proxy.dataSynchronizer.doSyncPass()
+            try assertEqual(Int.self, ctx.coll.sync.syncedIds().count, numDoc)
+
+            docs = getDocuments(numDocs: numDoc, docSize: docSize)
+            ctx.coll.sync.insertMany(&docs)
+            _ = try ctx.coll.sync.proxy.dataSynchronizer.doSyncPass()
+            try assertEqual(Int.self, ctx.coll.sync.syncedIds().count, 2 * numDoc)
+
+            try assertEqual(Int.self, ctx.coll.count([:]) ?? 0, 3 * numDoc)
         })
     }
 

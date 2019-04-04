@@ -37,26 +37,33 @@ class ProductionPerformanceTestContext: SyncPerformanceTestContext {
 
         coll.sync.proxy.dataSynchronizer.isSyncThreadEnabled = false
         coll.sync.proxy.dataSynchronizer.stop() // Failing here occaisonally
+
+        try self.clearLocalDB()
+        try clearRemoteDB()
     }
 
     func tearDown() throws {
-        client.callFunction(withName: "deleteAllAsSystemUser", withArgs: [], joiner.capture())
-        let _: Any? = try joiner.value()
-
         if coll.sync.proxy.dataSynchronizer.instanceChangeStreamDelegate != nil {
             coll.sync.proxy.dataSynchronizer.instanceChangeStreamDelegate.stop()
         }
 
-        // swiftlint:disable force_cast
-        try CoreLocalMongoDBService.shared.localInstances.forEach { client in
+        try self.clearLocalDB()
+        try clearRemoteDB()
+    }
+
+    func clearRemoteDB() throws {
+        for _ in 0..<15 {
             do {
-                try client.listDatabases().forEach {
-                    try? client.db($0["name"] as! String).drop()
-                }
+                client.callFunction(withName: "deleteAllAsSystemUser", withArgs: [], joiner.capture())
+                let _: Any? = try joiner.value()
+                break
             } catch {
-                throw "Could not drop databases in ProductionPerformanceTestContext.teardown()"
+                print("PerfLog: error deleting all documents \(error.localizedDescription)")
             }
         }
-        // swiftlint:enable force_cast
+        let count = coll.count([:]) ?? 1
+        if count != 0 {
+            throw "Could not fully delete remote collection"
+        }
     }
 }
