@@ -14,7 +14,7 @@ class SyncPerformanceIntTests: XCTestCase {
     let harness = SyncPerformanceIntTestHarness()
     static let runId = ObjectId()
     let joiner = ThrowingCallbackJoiner()
-    
+
     // This test should currently fail, it is just here to show proper test failure
     /* func testFailure() {
         let testParam = TestParams(testName: "shouldFail",
