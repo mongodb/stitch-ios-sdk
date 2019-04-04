@@ -15,14 +15,12 @@ protocol SyncPerformanceTestContext {
     var mongoClient: RemoteMongoClient { get }
     var coll: RemoteMongoCollection<Document> { get }
     var testParams: TestParams { get }
-    var transport: FoundationInstrumentedHTTPTransport { get }
     var harness: SyncPerformanceIntTestHarness { get }
     var streamJoiner: StreamJoiner { get }
     var joiner: ThrowingCallbackJoiner { get }
 
     init(harness: SyncPerformanceIntTestHarness,
-         testParams: TestParams,
-         transport: FoundationInstrumentedHTTPTransport) throws
+         testParams: TestParams) throws
 
     func tearDown() throws
 }
@@ -38,8 +36,8 @@ extension SyncPerformanceTestContext {
 
         // Get starting values for disk space and time
         let timeBefore = Date().timeIntervalSince1970
-        let networkReceivedBefore = Double(transport.bytesDownloaded)
-        let networkSentBefore = Double(transport.bytesUploaded)
+        let networkReceivedBefore = Double(harness.networkTransport.bytesDownloaded)
+        let networkSentBefore = Double(harness.networkTransport.bytesUploaded)
 
         var systemAttributes =
             try FileManager.default.attributesOfFileSystem(forPath: NSHomeDirectory() as String)
@@ -61,8 +59,8 @@ extension SyncPerformanceTestContext {
         let pointInTimeMetrics = metricsCollector.suspend()
 
         // Append remaining values
-        let networkReceived = Double(transport.bytesDownloaded) - networkReceivedBefore
-        let networkSent = Double(transport.bytesUploaded) - networkSentBefore
+        let networkReceived = Double(harness.networkTransport.bytesDownloaded) - networkReceivedBefore
+        let networkSent = Double(harness.networkTransport.bytesUploaded) - networkSentBefore
 
         systemAttributes =
             try FileManager.default.attributesOfFileSystem(forPath: NSHomeDirectory() as String)
@@ -73,13 +71,13 @@ extension SyncPerformanceTestContext {
         // Perform custom taredown if specified
         try teardown(self, numDocs, docSize)
 
-        return IterationResult(time: timeMs,
+        return IterationResult(executionTimeMs: timeMs,
                                networkSentBytes: networkSent,
                                networkReceivedBytes: networkReceived,
-                               cpu: pointInTimeMetrics.cpuData,
-                               memory: pointInTimeMetrics.memoryData,
-                               disk: diskUsed,
-                               threads: pointInTimeMetrics.threadData)
+                               cpuUsagePercent: pointInTimeMetrics.cpuData,
+                               memoryUsageBytes: pointInTimeMetrics.memoryData,
+                               diskUsageBytes: diskUsed,
+                               activeThreadCount: pointInTimeMetrics.threadData)
     }
 
     func waitForAllStreamsOpen() {

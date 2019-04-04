@@ -16,17 +16,14 @@ class LocalPerformanceTestContext: SyncPerformanceTestContext {
     let mongoClient: RemoteMongoClient
     let coll: RemoteMongoCollection<Document>
     let testParams: TestParams
-    let transport: FoundationInstrumentedHTTPTransport
     let harness: SyncPerformanceIntTestHarness
 
     let joiner = ThrowingCallbackJoiner()
     let streamJoiner = StreamJoiner()
 
     required init(harness: SyncPerformanceIntTestHarness,
-                  testParams: TestParams,
-                  transport: FoundationInstrumentedHTTPTransport) throws {
+                  testParams: TestParams) throws {
         self.harness = harness
-        self.transport = transport
         self.testParams = testParams
 
         dbName = ObjectId().oid
@@ -44,7 +41,7 @@ class LocalPerformanceTestContext: SyncPerformanceTestContext {
                                        schema: RuleCreator.Schema())
         _ = try! harness.addRule(toService: svc.1, withConfig: rule)
 
-        client = try! harness.appClient(forApp: app.0, withTransport: transport)
+        client = try! harness.appClient(forApp: app.0, withTransport: harness.networkTransport)
         client.auth.login(withCredential: AnonymousCredential(), joiner.capture())
         let _: Any? = try joiner.value()
         userId = client.auth.currentUser?.id ?? ""

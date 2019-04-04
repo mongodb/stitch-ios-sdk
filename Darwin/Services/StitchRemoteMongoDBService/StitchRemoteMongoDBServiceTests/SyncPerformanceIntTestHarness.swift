@@ -2,7 +2,7 @@
 import Foundation
 import XCTest
 import MongoSwift
-import StitchCore
+@testable import StitchCore
 import StitchCoreSDK
 import StitchCoreAdminClient
 import StitchDarwinCoreTestUtils
@@ -28,7 +28,6 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
     private let stitchOutputAppName = "ios-sdk-perf-testing-alfgp"
     private let stitchOutputDbName = "performance"
     private let stitchOutputCollName = "results"
-    private var networkTransport = FoundationInstrumentedHTTPTransport()
     private let callbackJoiner = ThrowingCallbackJoiner()
 
     // internal constants
@@ -42,19 +41,27 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
     private lazy var hostName = ProcessInfo.processInfo.environment["EVERGREEN_HOST"] ?? "Local"
 
     // Internal vars
+    internal var networkTransport = FoundationInstrumentedHTTPTransport()
     internal lazy var mongodbUri: String = pList?[mongodbUriProp] as? String ?? "mongodb://localhost:26000"
     internal var outputClient: StitchAppClient!
     internal var outputMongoClient: RemoteMongoClient!
     internal var outputColl: RemoteMongoCollection<Document>!
 
     func setupOutputClient() {
-        do {
-            outputClient = try Stitch.appClient(forAppID: stitchOutputAppName)
-        } catch {
-            let config = StitchAppClientConfigurationBuilder()
-                .with(transport: networkTransport)
-                .with(networkMonitor: networkMonitor).build()
-            outputClient = try! Stitch.initializeAppClient(withClientAppID: stitchOutputAppName, withConfig: config)
+        Stitch.clearApps()
+        if outputClient == nil {
+            do {
+                outputClient = try Stitch.appClient(forAppID: stitchOutputAppName)
+                print("PerfLog: *** Got cached appClient")
+            } catch {
+                print("PerfLog: *** Initializing new app client")
+                let config = StitchAppClientConfigurationBuilder()
+                    .with(transport: networkTransport)
+                    .with(networkMonitor: networkMonitor).build()
+                outputClient = try! Stitch.initializeAppClient(withClientAppID: stitchOutputAppName, withConfig: config)
+            }
+        } else {
+            print("PerfLog: *** Skipping getting the output client")
         }
 
         if !(outputClient?.auth.isLoggedIn ?? false) {
@@ -83,6 +90,7 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
                                           afterEach: TeardownDefinition = { _, _, _ in }) {
         var failed = false
         networkTransport = FoundationInstrumentedHTTPTransport()
+        print("PerfLog: after creation \(networkTransport.bytesUploaded) : \(networkTransport.bytesDownloaded)")
         setupOutputClient()
 
         let resultId = ObjectId()
@@ -95,6 +103,7 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
             outputColl?.insertOne(params)
         }
 
+         print("PerfLog: after stitch insert \(networkTransport.bytesUploaded) : \(networkTransport.bytesDownloaded)")
         for docSize in testParams.docSizes {
             nextTest: for numDoc in testParams.numDocs {
                 var timeData: [Double] = []
@@ -108,24 +117,25 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
                 for iter in 1...testParams.numIters {
                     do {
                         var ctx: SyncPerformanceTestContext
+                         print("PerfLog: before create context \(networkTransport.bytesUploaded) : \(networkTransport.bytesDownloaded)")
                         if testParams.stitchHostName == "https://stitch.mongodb.com" {
-                            ctx = try ProductionPerformanceTestContext(harness: self, testParams: testParams,
-                                                                       transport: networkTransport)
+                            ctx = try ProductionPerformanceTestContext(harness: self, testParams: testParams)
                         } else {
-                            ctx = try LocalPerformanceTestContext(harness: self, testParams: testParams,
-                                                                  transport: networkTransport)
+                            ctx = try LocalPerformanceTestContext(harness: self, testParams: testParams)
                         }
-
+                        
+                        print("PerfLog: before run \(networkTransport.bytesUploaded) : \(networkTransport.bytesDownloaded)")
                         let iterResult = try ctx.runSingleIteration(numDocs: numDoc,
                                                                     docSize: docSize,
                                                                     testDefinition: testDefinition,
                                                                     setup: beforeEach,
                                                                     teardown: afterEach)
-                        timeData.append(iterResult.time)
-                        cpuData.append(iterResult.cpu)
-                        memoryData.append(iterResult.memory)
-                        diskData.append(iterResult.disk)
-                        threadData.append(iterResult.threads)
+                         print("PerfLog: after run \(networkTransport.bytesUploaded) : \(networkTransport.bytesDownloaded)")
+                        timeData.append(iterResult.executionTimeMs)
+                        cpuData.append(iterResult.cpuUsagePercent)
+                        memoryData.append(iterResult.memoryUsageBytes)
+                        diskData.append(iterResult.diskUsageBytes)
+                        threadData.append(iterResult.activeThreadCount)
                         networkSentData.append(iterResult.networkSentBytes)
                         networkReceivedData.append(iterResult.networkReceivedBytes)
 
@@ -289,23 +299,23 @@ class DataBlock {
 }
 
 internal class IterationResult {
-    let time: Double
+    let executionTimeMs: Double
     let networkSentBytes: Double
     let networkReceivedBytes: Double
-    let cpu: Double
-    let memory: Double
-    let disk: Double
-    let threads: Double
+    let cpuUsagePercent: Double
+    let memoryUsageBytes: Double
+    let diskUsageBytes: Double
+    let activeThreadCount: Double
 
-    init(time: Double, networkSentBytes: Double, networkReceivedBytes: Double,
-         cpu: Double, memory: Double, disk: Double, threads: Double) {
-        self.time = time
+    init(executionTimeMs: Double, networkSentBytes: Double, networkReceivedBytes: Double,
+         cpuUsagePercent: Double, memoryUsageBytes: Double, diskUsageBytes: Double, activeThreadCount: Double) {
+        self.executionTimeMs = executionTimeMs
         self.networkSentBytes = networkSentBytes
         self.networkReceivedBytes = networkReceivedBytes
-        self.cpu = cpu
-        self.memory = memory
-        self.disk = disk
-        self.threads = threads
+        self.cpuUsagePercent = cpuUsagePercent
+        self.memoryUsageBytes = memoryUsageBytes
+        self.diskUsageBytes = diskUsageBytes
+        self.activeThreadCount = activeThreadCount
     }
 }
 
@@ -313,14 +323,14 @@ private class RunResults {
     let numDocs: Int
     let docSize: Int
     let numOutliers: Int
-    let time: DataBlock
-    let networkSentBytes: DataBlock
-    let networkReceivedBytes: DataBlock
-    let cpu: DataBlock
-    let memory: DataBlock
-    let disk: DataBlock
-    let diskEfficiencyRatio: DataBlock
-    let threads: DataBlock
+    let executionTimeMsData: DataBlock
+    let networkSentBytesData: DataBlock
+    let networkReceivedBytesData: DataBlock
+    let cpuUsagePercentageData: DataBlock
+    let memoryUsageBytesData: DataBlock
+    let diskUsageBytesData: DataBlock
+    let diskEfficiencyRatioData: DataBlock
+    let activeThreadCountsData: DataBlock
 
     init(numDocs: Int,
          docSize: Int,
@@ -335,30 +345,30 @@ private class RunResults {
         self.numDocs = numDocs
         self.docSize = docSize
         self.numOutliers = numOutliers
-        self.time = DataBlock(data: time, numOutliers: numOutliers)
-        self.networkSentBytes = DataBlock(data: networkSentBytes, numOutliers: numOutliers)
-        self.networkReceivedBytes = DataBlock(data: networkReceivedBytes, numOutliers: numOutliers)
-        self.cpu = DataBlock(data: cpu, numOutliers: numOutliers)
-        self.memory = DataBlock(data: memory, numOutliers: numOutliers)
-        self.disk = DataBlock(data: disk, numOutliers: numOutliers)
-        self.threads = DataBlock(data: threads, numOutliers: numOutliers)
+        self.executionTimeMsData = DataBlock(data: time, numOutliers: numOutliers)
+        self.networkSentBytesData = DataBlock(data: networkSentBytes, numOutliers: numOutliers)
+        self.networkReceivedBytesData = DataBlock(data: networkReceivedBytes, numOutliers: numOutliers)
+        self.cpuUsagePercentageData = DataBlock(data: cpu, numOutliers: numOutliers)
+        self.memoryUsageBytesData = DataBlock(data: memory, numOutliers: numOutliers)
+        self.diskUsageBytesData = DataBlock(data: disk, numOutliers: numOutliers)
+        self.activeThreadCountsData = DataBlock(data: threads, numOutliers: numOutliers)
 
         let diskEfficiencyArr = disk.map({$0 / Double((docSize + 12) * numDocs)})
-        self.diskEfficiencyRatio = DataBlock(data: diskEfficiencyArr, numOutliers: numOutliers)
+        self.diskEfficiencyRatioData = DataBlock(data: diskEfficiencyArr, numOutliers: numOutliers)
 
     }
 
     lazy var asBson: Document = [
-        "numDocs": numDocs,
-        "docSize": docSize,
+        "numDocs": self.numDocs,
+        "docSize": self.docSize,
         "status": "success",
-        "timeMs": time.asBson,
-        "networkSentBytes": networkSentBytes.asBson,
-        "networkReceivedBytes": networkReceivedBytes.asBson,
-        "cpu": cpu.asBson,
-        "memoryBytes": memory.asBson,
-        "diskBytes": disk.asBson,
-        "diskEfficiencyRatio": diskEfficiencyRatio.asBson,
-        "activeThreadCounts": threads.asBson
+        "timeMs": self.executionTimeMsData.asBson,
+        "networkSentBytes": self.networkSentBytesData.asBson,
+        "networkReceivedBytes": self.networkReceivedBytesData.asBson,
+        "cpu": self.cpuUsagePercentageData.asBson,
+        "memoryBytes": self.memoryUsageBytesData.asBson,
+        "diskBytes": self.diskUsageBytesData.asBson,
+        "diskEfficiencyRatio": self.diskEfficiencyRatioData.asBson,
+        "activeThreadCounts": self.activeThreadCountsData.asBson
     ]
 }

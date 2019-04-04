@@ -185,6 +185,10 @@ public class Stitch {
         }
         return client
     }
+    
+    internal static func clearApps() {
+        appClients = [:]
+    }
 }
 
 /**
