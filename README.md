@@ -30,7 +30,7 @@ The official [MongoDB Stitch](https://stitch.mongodb.com/) SDK for iOS/Swift.
 $ gem install cocoapods
 ```
 
-> CocoaPods 1.6.0+ is required to build Stitch the iOS SDK 5.0+.
+> CocoaPods 1.6.0+ is required to build the Stitch iOS SDK 5.0+.
 
 To integrate the iOS SDK into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
