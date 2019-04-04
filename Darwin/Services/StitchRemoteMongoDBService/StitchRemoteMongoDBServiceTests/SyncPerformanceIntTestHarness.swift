@@ -59,12 +59,12 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
                 outputClient = try! Stitch.initializeAppClient(withClientAppID: stitchOutputAppName, withConfig: config)
             }
         }
-        
+
         guard let apiKey = testStitchAPIKey else {
             XCTFail("No PERF_IOS_API_KEY preprocessor macros, failed to unwrap testStitchAPIKey")
             return
         }
-        
+
         if apiKey.isEmpty {
             XCTFail("No PERF_IOS_API_KEY preprocessor macros; "
                 + "failing test. See README for more details.")
