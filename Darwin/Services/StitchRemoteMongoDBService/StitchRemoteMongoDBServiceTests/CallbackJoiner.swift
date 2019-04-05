@@ -97,3 +97,73 @@ class CallbackJoiner {
         }
     }
 }
+
+/// Synchronously capture the value of a asynchronous callback.
+class ThrowingCallbackJoiner {
+    /// Serial queue to run our work items on
+    private let joinerQueue = DispatchQueue.init(label: "throwingCallbackJoiner.\(ObjectId().oid)")
+    /// Synchronized queue of work items
+    private var joinerWorkItems = SynchronizedDispatchDeque()
+    /// The latest captured value
+    private var _capturedValue: Any?
+
+    /// The latest captured value.
+    func value<T>(asType type: T.Type = T.self) throws -> T? {
+        // wait for each work item to finish. if a new
+        // work item is added to the queue, it will be waited on
+        while joinerWorkItems.count > 0 {
+            let join = DispatchSemaphore.init(value: 0)
+            joinerWorkItems.removeFirst().notify(queue: joinerQueue) {
+                join.signal()
+            }
+            join.wait()
+        }
+        // coerce the latest captured value to type T,
+        // returning the result. previous capturedValues
+        // should always have been overwritten at this point
+        if let err = _capturedValue as? Error {
+            throw err
+        }
+
+        guard _capturedValue is T? else {
+            fatalError(
+                "Could not unwrap captured value of type " +
+                "\(String(describing: _capturedValue.self)) as \(type)")
+        }
+        return _capturedValue as? T
+    }
+
+    /*
+     Capture the value of a given callback. This value as the capturedValue,
+     or value methods.
+     */
+    func capture<T>() -> (StitchResult<T>) -> Void {
+        // If we want to be able to use this from multiple threads,
+        // multiple queues should be used, keyed on the thread ID
+        // they are called from. This is currently unnecessary in
+        // a testing context.
+        guard Thread.isMainThread else {
+            fatalError(
+                "Callback joiner will exhibit unpredicatable " +
+                "behavior if run on multiple threads")
+        }
+        var stitchResult: StitchResult<T>?
+        // synchronously allocate a new work item that handles the callback.
+        // append the new work item to our queue
+        let wkItem = DispatchWorkItem {
+            switch stitchResult! {
+            case .success(let result):
+                self._capturedValue = result
+            case .failure(let error):
+                self._capturedValue = error
+            }
+        }
+        self.joinerWorkItems.append(wkItem)
+        // return the expected callback, running our work item when it
+        // is eventually called
+        return { result in
+            stitchResult = result
+            self.joinerQueue.async(execute: wkItem)
+        }
+    }
+}

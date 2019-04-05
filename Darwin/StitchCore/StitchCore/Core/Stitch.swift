@@ -185,7 +185,6 @@ public class Stitch {
         }
         return client
     }
-
 }
 
 /**

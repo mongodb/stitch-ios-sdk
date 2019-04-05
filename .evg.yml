@@ -131,6 +131,8 @@ tasks:
             echo export TWILIO_AUTH_TOKEN=${test_twilio_authtoken} >> creds
             echo export FCM_SENDER_ID=${test_fcm_sender_id} >> creds
             echo export FCM_API_KEY=${test_fcm_api_key} >> creds
+            echo export PERF_IOS_API_KEY=${perf_ios_api_key} >> creds
+            echo export EVERGREEN_HOST=Evergreen >> creds
             echo export COVERALLS_TOKEN=${coveralls_repo_token} >> creds
       - command: shell.exec
         params:
@@ -153,7 +155,7 @@ tasks:
             xcodebuild test -verbose -workspace Stitch.xcworkspace/ -scheme "All Core Tests" -destination 'platform=iOS Simulator,name=iPhone 8,OS=12.0'
             echo "...testing Darwin"
             xcodebuild test -verbose -workspace Stitch.xcworkspace/ -scheme "All Darwin Tests" -destination 'platform=iOS Simulator,name=iPhone 8,OS=12.0' \
-              GCC_PREPROCESSOR_DEFINITIONS='FCM_SENDER_ID=$FCM_SENDER_ID FCM_API_KEY=$FCM_API_KEY TWILIO_SID=$TWILIO_SID TWILIO_AUTH_TOKEN=$TWILIO_AUTH_TOKEN AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY'
+              GCC_PREPROCESSOR_DEFINITIONS='FCM_SENDER_ID=$FCM_SENDER_ID FCM_API_KEY=$FCM_API_KEY TWILIO_SID=$TWILIO_SID TWILIO_AUTH_TOKEN=$TWILIO_AUTH_TOKEN AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY PERF_IOS_API_KEY=$PERF_IOS_API_KEY'
       - func: "clear_disk_space"
 buildvariants:
 - name: macos-1014-stitch
