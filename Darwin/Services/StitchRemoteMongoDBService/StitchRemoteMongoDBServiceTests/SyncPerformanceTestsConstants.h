@@ -9,4 +9,4 @@
 
 #import <Foundation/Foundation.h>
 
-static NSString* __nullable const PERF_IOS_API_KEY = __PERF_IOS_API_KEY;
+static NSString* __nullable const TEST_PERF_IOS_API_KEY = __PERF_IOS_API_KEY;
