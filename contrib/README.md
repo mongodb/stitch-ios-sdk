@@ -18,6 +18,9 @@ To add a new module the Stitch workspace, use this procedure.
 3. Add the appropriate dependencies as you would any other pod based project.
 4. Run `pod install`.
 5. Add the XCTest associated with your module to the appropriate scheme.
+6. Update the scripts in the `contrib` directory to include the newly added 
+   module. This includes documentation generation, version bumping, linting 
+   projects, linting pods, and publishing pods.
 
 ### Working with SwiftLint
 This project uses SwiftLint to lint source files. CocoaPods includes SwiftLint as a dependency and the projects are set up such that each project will automatically lint its source files. 
@@ -30,39 +33,53 @@ To avoid getting a lot of linter warnings, make sure the following whitespace se
 - Automatically trim trailing whitespace
     - Including whitespace-only lines
 
-### Publishing a New SDK version
-```bash
-# update podspecs for affected modules in relation to semver as it applies
-# Only StitchCore and pods depending on it are updated. For example this
-# excludes ExtendedJson. So if that were to update, you must manually bump
-# its version.
+### Publishing a New SDK version (MongoDB Internal Contributors Only)
 
-# run bump_version.bash with either patch, minor, or major
-./bump_version.bash <patch|minor|major>
+1. Run `contrib/bump_version.bash <patch|minor|major>`. This will 
+   update the version of the SDK in all of the appropriate Podfiles, it will 
+   update the version of the SDK in the root-level README.md so that it refers 
+   to the latest version of the SDK, and it will stage these changes in the 
+   Git repository.
 
-# make live
-git push upstream && git push upstream --tags
-VERSION=`cat StitchCore.podspec | grep "s.version" | head -1 | sed -E 's/[[:space:]]+s\.version.*=.*"(.*)"/\1/'`
-for spec in *.podspec ; do
-    name=`echo $spec | sed -E 's/(.*)\.podspec/\1/'`
-    if pod trunk info $name | grep "$VERSION" > /dev/null; then
-        continue
-    fi
-    echo pushing $name @ $VERSION to trunk
-    pod trunk push $spec
-done
+2. Review the changes made by the version bump script, and then commit the 
+   changes with `git commit -m "Release <VERSION>"`, substituting the
+   placeholder with the appropriate package version.
 
-# send an email detailing the changes to the https://groups.google.com/d/forum/mongodb-stitch-announce mailing list
-```
+3. Properly tag the release with the correct version number by running
+   `git tag <VERSION>`, substituting the placeholder with the 
+   appropriate package version. Once the tag is created, push the tag to the 
+   upstream remote with `git push upstream <VERSION>`. Depending on 
+   how your local git is configured, you may need to run
+   `git push origin <VERSION>`.
+
+4. If manual changes were made to any Podfile or podspec, run 
+   `contrib/lint_pods.sh` to ensure that the pods will be published 
+   successfully. This command may take a while (1-2 hours).
+
+5. Ensure that you are registered for CocoaPods Trunk on your local Mac system.
+   See https://guides.cocoapods.org/making/getting-setup-with-trunk.html for
+   more context on this step.
+
+6. Run `contrib/publish_pods.sh`. This publishes all of the pods for the 
+   project. This command may take a while (1-2 hours).
+
+7. Close XCode if it is already open, and run `contrib/generate_docs.sh`. This
+   generates the Jazzy documentation for the project, and publishes it to the 
+   appropriate AWS S3 bucket.
+
+8. Publish a release for the new SDK version on the GitHub repository and 
+   include relevant release notes. See
+   https://help.github.com/en/articles/creating-releases for context, and 
+   follow the general format of our previous releases.
 
 ### Patch Versions
 
-The work for a patch version should happen on a "support branch" (e.g. 1.2.x). The purpose of this is to be able to support a minor release while excluding changes from the mainstream (`master`) branch. If the changes in the patch are relevant to other branches, including `master`, they should be backported there. The general publishing flow can be followed using `patch` as the bump type in `bump_version`.
+The work for a patch version should happen on a "support branch" (e.g. 1.2.x). The purpose of this is to be able to support a minor release while excluding changes from the mainstream (`master`) branch. If the changes in the patch are relevant to other branches, including `master`, they should be backported there. The general publishing flow can be followed using `patch` as the bump type in `bump_version.bash`.
 
 ### Minor Versions
 
-The general publishing flow can be followed using `minor` as the bump type in `bump_version`.
+The general publishing flow can be followed using `minor` as the bump type in `bump_version.bash`.
 
 ### Major Versions
 
-The general publishing flow can be followed using `major` as the bump type in `bump_version`. In addition to this, the release on GitHub should be edited for a more readable format of key changes and include any migration steps needed to go from the last major version to this one.
+The general publishing flow can be followed using `major` as the bump type in `bump_version.bash`. In addition to this, the release on GitHub should be edited for a more readable format of key changes and include any migration steps needed to go from the last major version to this one.
