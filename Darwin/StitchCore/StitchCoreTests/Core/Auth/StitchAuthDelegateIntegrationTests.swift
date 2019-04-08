@@ -33,7 +33,7 @@ class StitchAuthDelegateIntTests: BaseStitchIntTestCocoaTouch {
     }
 
     func waitForDelegate(work: DispatchGroup) {
-        guard work.wait(timeout: .now() + 10) == .success else {
+        guard work.wait(timeout: .now() + 20) == .success else {
             // note: this is a fatalError so that there is a stack trace when debugging
             fatalError("expected assertion not called")
         }

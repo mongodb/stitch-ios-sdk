@@ -8,6 +8,7 @@ functions:
       params:
         script: |
           set -e
+          export DEVELOPER_DIR=/Applications/Xcode10.1.app
           mkdir -p SwiftLint
           pushd SwiftLint
           curl -o swiftlint.zip -L https://github.com/realm/SwiftLint/releases/download/0.29.1/portable_swiftlint.zip
@@ -19,6 +20,9 @@ functions:
         script: |
           set -e
           curl --silent ${mongodb_url} | tar xz
+          cd mongodb-*
+          mkdir db_files
+  "run_mongod":
     - command: shell.exec
       params:
         background: true
@@ -26,7 +30,6 @@ functions:
           set -e
           cd mongodb-*
           echo "starting mongod..."
-          mkdir db_files
           ./bin/mongod --dbpath ./db_files --port 26000 --replSet test
     - command: shell.exec
       params:
@@ -82,6 +85,18 @@ functions:
           echo "running stitch"
           # TODO: Probably better to get an API key added to mimic cloud
           go run $STITCH_PATH/cmd/auth/user.go addUser -domainID 000000000000000000000000 -mongoURI mongodb://localhost:26000 -salt 'DQOWene1723baqD!_@#' -id "unique_user@domain.com" -password "password"
+  "run_stitch":
+    - command: shell.exec
+      params:
+        background: true
+        script: |
+          export PATH=`pwd`/:$PATH
+          export GOROOT=`pwd`/go
+          export PATH=$GOROOT/bin:$PATH
+          export GOPATH=`pwd`
+          export STITCH_PATH=$GOPATH/src/github.com/10gen/stitch
+          export PATH="$PATH:$STITCH_PATH/etc/transpiler/bin"
+          export LD_LIBRARY_PATH="$STITCH_PATH/etc/dylib/lib"
           go run $STITCH_PATH/cmd/server/main.go --configFile $STITCH_PATH/etc/configs/test_config.json
     - command: shell.exec
       params:
@@ -101,10 +116,14 @@ functions:
         script: |
           rm -rf /Users/mci/Library/Developer/Xcode/DerivedData/
           rm -rf /Users/mci/Library/Caches/go-build
+          export DEVELOPER_DIR=/Applications/Xcode10.1.app
+          xcrun simctl delete __stitch__
   "setup_ios":
     - command: shell.exec
       params:
         script: |
+          set -e
+          export DEVELOPER_DIR=/Applications/Xcode10.1.app
           if pgrep CoreSimulator; then pkill -9 CoreSimulator; fi
           echo export AWS_ACCESS_KEY_ID=${test_aws_key} >> creds
           echo export AWS_SECRET_ACCESS_KEY=${test_aws_secret} >> creds
@@ -115,17 +134,21 @@ functions:
           echo export PERF_IOS_API_KEY=${perf_ios_api_key} >> creds
           echo export EVERGREEN_HOST=Evergreen >> creds
           echo export COVERALLS_TOKEN=${coveralls_repo_token} >> creds
-          echo export SIM_ID=`xcrun simctl create __stitch__ com.apple.CoreSimulator.SimDeviceType.iPhone-XS com.apple.CoreSimulator.SimRuntime.iOS-12-2` >> creds
+          SID=`python stitch-ios-sdk/etc/read_ios_runtime.py`
+          echo $SID
+          echo export SIM_ID=$SID >> creds
   "setup_pods":
     - command: shell.exec
       params:
         script: |
           set -e
-                      
+
           export DEVELOPER_DIR=/Applications/Xcode10.1.app
           cd stitch-ios-sdk
-          /opt/chef/embedded/bin/gem install cocoapods -v 1.6.0.beta.1
-          pod install || pod install --repo-update
+          export GEM_HOME=`pwd`
+          export GEM_PATH=`pwd`
+          /opt/chef/embedded/bin/gem install cocoapods -v 1.6.0.beta.1 --install-dir ./
+          bin/pod install --repo-update  --verbose
 tasks:
   - name: lint
     commands:
@@ -135,6 +158,7 @@ tasks:
         params: 
           script: |
             set -e
+            export DEVELOPER_DIR=/Applications/Xcode10.1.app
             pushd SwiftLint
             export PATH=`pwd`:$PATH
             popd
@@ -147,36 +171,130 @@ tasks:
           shell: "bash"
           script: |
             set -e
+            source ./creds
+            export DEVELOPER_DIR=/Applications/Xcode10.1.app
+            cd stitch-ios-sdk
+
             xcodebuild test \
               -verbose \
               -workspace Stitch.xcworkspace/ \
-              -scheme "StitchCoreSDK" \
-              -destination 'platform=iOS Simulator,name=iPhone 8,OS=12.0'
-  - name: run_tests
+              -scheme "All Core Tests" \
+              -destination id=$SIM_ID
+  - name: run_ios_core_tests
     commands:
-      - func: "fetch_source"
-      - func: "setup_mongod"
-      - func: "setup_stitch"
       - command: shell.exec
         params:
+          shell: "bash"
           script: |
             set -e
-
-            echo "running ios tests"
-            
             source ./creds
-            
             export DEVELOPER_DIR=/Applications/Xcode10.1.app
             cd stitch-ios-sdk
-            /opt/chef/embedded/bin/gem install cocoapods -v 1.6.0.beta.1
-            pod install || pod install --repo-update
-            # echo "...testing core"
-            # xcodebuild test -verbose -workspace Stitch.xcworkspace/ -scheme "All Core Tests" -destination 'platform=iOS Simulator,name=iPhone 8,OS=12.0'
-            # echo "...testing Darwin"
-            # xcodebuild test -verbose -workspace Stitch.xcworkspace/ -scheme "All Darwin Tests" -destination 'platform=iOS Simulator,name=iPhone 8,OS=12.0' \
-            #   GCC_PREPROCESSOR_DEFINITIONS='FCM_SENDER_ID=$FCM_SENDER_ID FCM_API_KEY=$FCM_API_KEY TWILIO_SID=$TWILIO_SID TWILIO_AUTH_TOKEN=$TWILIO_AUTH_TOKEN AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY PERF_IOS_API_KEY=$PERF_IOS_API_KEY'
-      - func: "clear_disk_space"
 
+            xcodebuild test \
+              -verbose \
+              -workspace Stitch.xcworkspace/ \
+              -scheme "StitchCore" \
+              -destination id=$SIM_ID
+  - name: run_ios_services_mongodb_remote_tests
+    commands:
+      - command: shell.exec
+        params:
+          shell: "bash"
+          script: |
+            set -e
+            source ./creds
+            export DEVELOPER_DIR=/Applications/Xcode10.1.app
+            cd stitch-ios-sdk
+
+            xcodebuild test \
+              -verbose \
+              -workspace Stitch.xcworkspace/ \
+              -scheme "StitchRemoteMongoDBService" \
+              -destination id=$SIM_ID
+  - name: run_ios_services_aws_tests
+    commands:
+      - command: shell.exec
+        params:
+          shell: "bash"
+          script: |
+            set -e
+            source ./creds
+            export DEVELOPER_DIR=/Applications/Xcode10.1.app
+            cd stitch-ios-sdk
+
+            xcodebuild test \
+              -verbose \
+              -workspace Stitch.xcworkspace/ \
+              -scheme "StitchAWSService" \
+              -destination id=$SIM_ID \
+              GCC_PREPROCESSOR_DEFINITIONS='AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY'
+  - name: run_ios_services_fcm_tests
+    commands:
+      - command: shell.exec
+        params:
+          shell: "bash"
+          script: |
+            set -e
+            source ./creds
+            export DEVELOPER_DIR=/Applications/Xcode10.1.app
+            cd stitch-ios-sdk
+
+            xcodebuild test \
+              -verbose \
+              -workspace Stitch.xcworkspace/ \
+              -scheme "StitchFCMService" \
+              -destination id=$SIM_ID \
+              GCC_PREPROCESSOR_DEFINITIONS='FCM_SENDER_ID=$FCM_SENDER_ID FCM_API_KEY=$FCM_API_KEY'
+  - name: run_ios_services_http_tests
+    commands:
+      - command: shell.exec
+        params:
+          shell: "bash"
+          script: |
+            set -e
+            source ./creds
+            export DEVELOPER_DIR=/Applications/Xcode10.1.app
+            cd stitch-ios-sdk
+
+            xcodebuild test \
+              -verbose \
+              -workspace Stitch.xcworkspace/ \
+              -scheme "StitchHTTPService" \
+              -destination id=$SIM_ID
+  - name: run_ios_services_mongodb_local_tests
+    commands:
+      - command: shell.exec
+        params:
+          shell: "bash"
+          script: |
+            set -e
+            source ./creds
+            export DEVELOPER_DIR=/Applications/Xcode10.1.app
+            cd stitch-ios-sdk
+
+            xcodebuild test \
+              -verbose \
+              -workspace Stitch.xcworkspace/ \
+              -scheme "StitchLocalMongoDBService" \
+              -destination id=$SIM_ID
+  - name: run_ios_services_twilio_tests
+    commands:
+      - command: shell.exec
+        params:
+          shell: "bash"
+          script: |
+            set -e
+            source ./creds
+            export DEVELOPER_DIR=/Applications/Xcode10.1.app
+            cd stitch-ios-sdk
+
+            xcodebuild test \
+              -verbose \
+              -workspace Stitch.xcworkspace/ \
+              -scheme "StitchTwilioService" \
+              -destination id=$SIM_ID \
+              GCC_PREPROCESSOR_DEFINITIONS='TWILIO_SID=$TWILIO_SID TWILIO_AUTH_TOKEN=$TWILIO_AUTH_TOKEN'
 task_groups:
   - name: run_core_tests
     setup_group_can_fail_task: true
@@ -187,54 +305,31 @@ task_groups:
       - func: "setup_pods"
     tasks:
       - run_core_sdk_tests
-      # - run_core_services_mongodb_remote_tests
-      # - run_core_services_aws_tests
-      # - run_core_services_aws_s3_tests
-      # - run_core_services_aws_ses_tests
-      # - run_core_services_fcm_tests
-      # - run_core_services_http_tests
-      # - run_core_services_mongodb_local_tests
-      # - run_core_services_twilio_tests
-  # - name: run_android_tests
-  #   setup_group_can_fail_task: true
-  #   max_hosts: 4
-  #   setup_group:
-  #     - func: "fetch_source"
-  #     - func: "setup_mongod"
-  #     - func: "setup_android"
-  #     - func: "run_mongod"
-  #     - func: "setup_stitch"
-  #     - func: "setup_test_creds"
-  #     - func: "setup_android_sdk_env_vars"
-  #     - func: "cleanup_adb"
-  #     - func: "create_emulator"
-  #     - func: "setup_logcat"
-  #   setup_task:
-  #     - func: "run_mongod"
-  #     - func: "run_stitch"
-  #     - func: "setup_emulator"
-  #   tasks:
-  #     - run_android_sdk_tests
-  #     - run_android_services_mongodb_remote_tests
-  #     - run_android_services_aws_tests
-  #     - run_android_services_aws_s3_tests
-  #     - run_android_services_aws_ses_tests
-  #     - run_android_services_fcm_tests
-  #     - run_android_services_http_tests
-  #     - run_android_services_mongodb_local_tests
-  #     - run_android_services_twilio_tests
-  # - name: run_linter
-  #   setup_group_can_fail_task: true
-  #   max_hosts: 2
-  #   setup_group:
-  #     - func: "fetch_source"
-  #     - func: "setup_android"
-  #   tasks:
-  #     - findbugs
-  #     - lint
-  #     - ktlint
-  #     - checkstyle
-  #     - pmd
+    teardown_group:
+      - func: "clear_disk_space"
+  - name: run_ios_tests
+    setup_group_can_fail_task: true
+    max_hosts: 3
+    setup_group:
+      - func: "fetch_source"
+      - func: "setup_mongod"
+      - func: "run_mongod"
+      - func: "setup_stitch"
+      - func: "setup_ios"
+      - func: "setup_pods"
+    setup_task:
+      - func: "run_mongod"
+      - func: "run_stitch"
+    tasks:
+      - run_ios_core_tests
+      - run_ios_services_mongodb_remote_tests
+      - run_ios_services_aws_tests
+      - run_ios_services_fcm_tests
+      - run_ios_services_http_tests
+      - run_ios_services_mongodb_local_tests
+      - run_ios_services_twilio_tests
+    teardown_group:
+      - func: "clear_disk_space"
 buildvariants:
 - name: macos-1014
   display_name: macos-1014
@@ -246,4 +341,5 @@ buildvariants:
     server_stitch_lib_url: 'https://s3.amazonaws.com/mciuploads/mongodb-mongo-master/stitch-support/osx-1010/80f9a13324fc36b2deb400e5a185968f6fa8f64a/stitch-support-4.1.7-319-g80f9a13324.tgz'
   tasks:
     - name: run_core_tests
-    # - name: lint
+    - name: run_ios_tests
+    - name: lint
