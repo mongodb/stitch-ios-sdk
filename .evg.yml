@@ -121,6 +121,7 @@ functions:
   "setup_ios":
     - command: shell.exec
       params:
+        silent: true
         script: |
           set -e
           export DEVELOPER_DIR=/Applications/Xcode10.1.app
@@ -135,7 +136,6 @@ functions:
           echo export EVERGREEN_HOST=Evergreen >> creds
           echo export COVERALLS_TOKEN=${coveralls_repo_token} >> creds
           SID=`python stitch-ios-sdk/etc/read_ios_runtime.py`
-          echo $SID
           echo export SIM_ID=$SID >> creds
   "setup_pods":
     - command: shell.exec
