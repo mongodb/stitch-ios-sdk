@@ -12,8 +12,6 @@
 		1135F7DB2215D88500300A19 /* ChangeStreamSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1135F7DA2215D88500300A19 /* ChangeStreamSession.swift */; };
 		1135F7DD2215D89000300A19 /* ChangeStreamDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1135F7DC2215D89000300A19 /* ChangeStreamDelegate.swift */; };
 		1159637820D029EA00B0179B /* StitchRemoteMongoDBServiceExports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1159637720D029EA00B0179B /* StitchRemoteMongoDBServiceExports.swift */; };
-		1160C94F224BD12700BC0CDA /* FoundationInstrumentedHTTPTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1160C94E224BD12700BC0CDA /* FoundationInstrumentedHTTPTransport.swift */; };
-		1160C951224BFCA800BC0CDA /* FoundationInstrumentedHTTPTransportIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1160C950224BFCA800BC0CDA /* FoundationInstrumentedHTTPTransportIntTests.swift */; };
 		1169217220C9D04C00930DD8 /* StitchRemoteMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1169216820C9D04C00930DD8 /* StitchRemoteMongoDBService.framework */; };
 		1169217720C9D04C00930DD8 /* RemoteMongoClientIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1169217620C9D04C00930DD8 /* RemoteMongoClientIntTests.swift */; };
 		1169218C20C9D27100930DD8 /* RemoteMongoClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1169218B20C9D27100930DD8 /* RemoteMongoClient.swift */; };
@@ -22,19 +20,26 @@
 		1169219220C9D2A100930DD8 /* RemoteMongoDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1169219120C9D2A100930DD8 /* RemoteMongoDatabase.swift */; };
 		1169219620C9FE3500930DD8 /* RemoteMongoReadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1169219520C9FE3500930DD8 /* RemoteMongoReadOperation.swift */; };
 		116ABEB0221CA01C003C1D18 /* InternalChangeStreamDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116ABEAF221CA01C003C1D18 /* InternalChangeStreamDelegate.swift */; };
-		1E5522662253E3F90013C7A9 /* ProductionPerformanceTestContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5522652253E3F90013C7A9 /* ProductionPerformanceTestContext.swift */; };
-		1E5522682253E4080013C7A9 /* LocalPerformanceTestContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5522672253E4080013C7A9 /* LocalPerformanceTestContext.swift */; };
-		1E587ED5224E6E5900A0DE9C /* SyncPerformanceIntTestHarness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E587ED4224E6E5900A0DE9C /* SyncPerformanceIntTestHarness.swift */; };
 		1E719B5522552CAC000F93A2 /* StreamJoiner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E719B5422552CAC000F93A2 /* StreamJoiner.swift */; };
 		1E719B5722552F17000F93A2 /* RemoteMongoCollection+SynchronousCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E719B5622552F17000F93A2 /* RemoteMongoCollection+SynchronousCRUD.swift */; };
-		1E719B5922552FE4000F93A2 /* SyncTestContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E719B5822552FE4000F93A2 /* SyncTestContext.swift */; };
 		1E719B5B2255344B000F93A2 /* SyncIntTestUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E719B5A2255344B000F93A2 /* SyncIntTestUtilities.swift */; };
-		1ED94707224E8A5B00C1167E /* SyncPerformanceIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ED94706224E8A5B00C1167E /* SyncPerformanceIntTests.swift */; };
-		1ED94709224EA76600C1167E /* SyncPerformanceTestContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ED94708224EA76600C1167E /* SyncPerformanceTestContext.swift */; };
 		491F9B4C21A3545500802A4D /* Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491F9B4B21A3545500802A4D /* Sync.swift */; };
 		491F9B4E21A3568800802A4D /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 491F9B4D21A3568800802A4D /* StitchCore.framework */; };
 		494335A42190FC99005B170D /* StitchDarwinCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494335A32190FC99005B170D /* StitchDarwinCoreTestUtils.framework */; };
 		494335B22192360A005B170D /* StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494335B12192360A005B170D /* StitchCoreAdminClient.framework */; };
+		494566AF2258BB4E00386E79 /* StitchSyncPerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494566AE2258BB4E00386E79 /* StitchSyncPerformanceTests.swift */; };
+		494566B12258BB4E00386E79 /* StitchRemoteMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1169216820C9D04C00930DD8 /* StitchRemoteMongoDBService.framework */; };
+		494566B72258BC1B00386E79 /* SyncTestContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E719B5822552FE4000F93A2 /* SyncTestContext.swift */; };
+		494566B82258BC3400386E79 /* ProductionPerformanceTestContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5522652253E3F90013C7A9 /* ProductionPerformanceTestContext.swift */; };
+		494566B92258BC3400386E79 /* FoundationInstrumentedHTTPTransportIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1160C950224BFCA800BC0CDA /* FoundationInstrumentedHTTPTransportIntTests.swift */; };
+		494566BA2258BC3400386E79 /* SyncPerformanceTestContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ED94708224EA76600C1167E /* SyncPerformanceTestContext.swift */; };
+		494566BB2258BC3400386E79 /* LocalPerformanceTestContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5522672253E4080013C7A9 /* LocalPerformanceTestContext.swift */; };
+		494566BC2258BC3400386E79 /* FoundationInstrumentedHTTPTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1160C94E224BD12700BC0CDA /* FoundationInstrumentedHTTPTransport.swift */; };
+		494566BD2258BC3400386E79 /* SyncPerformanceIntTestHarness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E587ED4224E6E5900A0DE9C /* SyncPerformanceIntTestHarness.swift */; };
+		494566BE2258BC3400386E79 /* SyncPerformanceIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ED94706224E8A5B00C1167E /* SyncPerformanceIntTests.swift */; };
+		494566C5225B676F00386E79 /* SyncIntTestUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E719B5A2255344B000F93A2 /* SyncIntTestUtilities.swift */; };
+		494566C6225B676F00386E79 /* StreamJoiner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E719B5422552CAC000F93A2 /* StreamJoiner.swift */; };
+		494566C7225B676F00386E79 /* CallbackJoiner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496BC5A621B1DC6400D68F91 /* CallbackJoiner.swift */; };
 		496BC5A721B1DC6400D68F91 /* CallbackJoiner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496BC5A621B1DC6400D68F91 /* CallbackJoiner.swift */; };
 		498E55DE2190B86100A02A03 /* StitchCoreRemoteMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E55DD2190B86100A02A03 /* StitchCoreRemoteMongoDBService.framework */; };
 		499CD19D21C01D4A00CB4EBF /* SyncIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499CD19C21C01D4A00CB4EBF /* SyncIntTests.swift */; };
@@ -49,6 +54,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 1169216720C9D04C00930DD8;
 			remoteInfo = "StitchCoreServicesMongoDbRemote-iOS";
+		};
+		494566B22258BB4E00386E79 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1169215F20C9D04C00930DD8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1169216720C9D04C00930DD8;
+			remoteInfo = StitchRemoteMongoDBService;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -111,6 +123,9 @@
 		491F9B4D21A3568800802A4D /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		494335A32190FC99005B170D /* StitchDarwinCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchDarwinCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		494335B12192360A005B170D /* StitchCoreAdminClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAdminClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		494566AC2258BB4E00386E79 /* StitchSyncPerformanceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StitchSyncPerformanceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		494566AE2258BB4E00386E79 /* StitchSyncPerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchSyncPerformanceTests.swift; sourceTree = "<group>"; };
+		494566B02258BB4E00386E79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		496BC5A621B1DC6400D68F91 /* CallbackJoiner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallbackJoiner.swift; sourceTree = "<group>"; };
 		498E55DD2190B86100A02A03 /* StitchCoreRemoteMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreRemoteMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		499CD19C21C01D4A00CB4EBF /* SyncIntTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncIntTests.swift; sourceTree = "<group>"; };
@@ -142,6 +157,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		494566A92258BB4E00386E79 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				494566B12258BB4E00386E79 /* StitchRemoteMongoDBService.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -150,6 +173,7 @@
 			children = (
 				1169216A20C9D04C00930DD8 /* StitchRemoteMongoDBService */,
 				1169217520C9D04C00930DD8 /* StitchRemoteMongoDBServiceTests */,
+				494566AD2258BB4E00386E79 /* StitchSyncPerformanceTests */,
 				1169216920C9D04C00930DD8 /* Products */,
 				1169218220C9D09300930DD8 /* Frameworks */,
 				370723020F2BFC65D0CFC3AA /* Pods */,
@@ -161,6 +185,7 @@
 			children = (
 				1169216820C9D04C00930DD8 /* StitchRemoteMongoDBService.framework */,
 				1169217120C9D04C00930DD8 /* StitchRemoteMongoDBServiceTests.xctest */,
+				494566AC2258BB4E00386E79 /* StitchSyncPerformanceTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -191,18 +216,9 @@
 				1E719B5622552F17000F93A2 /* RemoteMongoCollection+SynchronousCRUD.swift */,
 				499CD19C21C01D4A00CB4EBF /* SyncIntTests.swift */,
 				1E719B5A2255344B000F93A2 /* SyncIntTestUtilities.swift */,
-				1E719B5822552FE4000F93A2 /* SyncTestContext.swift */,
 				1E719B5422552CAC000F93A2 /* StreamJoiner.swift */,
 				496BC5A621B1DC6400D68F91 /* CallbackJoiner.swift */,
 				1169217820C9D04C00930DD8 /* Info.plist */,
-				1160C94E224BD12700BC0CDA /* FoundationInstrumentedHTTPTransport.swift */,
-				1160C950224BFCA800BC0CDA /* FoundationInstrumentedHTTPTransportIntTests.swift */,
-				1E587ED4224E6E5900A0DE9C /* SyncPerformanceIntTestHarness.swift */,
-				1ED94706224E8A5B00C1167E /* SyncPerformanceIntTests.swift */,
-				1ED94708224EA76600C1167E /* SyncPerformanceTestContext.swift */,
-				1E5522672253E4080013C7A9 /* LocalPerformanceTestContext.swift */,
-				1E5522652253E3F90013C7A9 /* ProductionPerformanceTestContext.swift */,
-				1EA9FF582254148A007B857B /* SyncPerformanceTestsConstants.h */,
 			);
 			path = StitchRemoteMongoDBServiceTests;
 			sourceTree = "<group>";
@@ -239,6 +255,24 @@
 			);
 			name = Pods;
 			path = ../../../Pods;
+			sourceTree = "<group>";
+		};
+		494566AD2258BB4E00386E79 /* StitchSyncPerformanceTests */ = {
+			isa = PBXGroup;
+			children = (
+				1160C94E224BD12700BC0CDA /* FoundationInstrumentedHTTPTransport.swift */,
+				1160C950224BFCA800BC0CDA /* FoundationInstrumentedHTTPTransportIntTests.swift */,
+				1E587ED4224E6E5900A0DE9C /* SyncPerformanceIntTestHarness.swift */,
+				1ED94706224E8A5B00C1167E /* SyncPerformanceIntTests.swift */,
+				1ED94708224EA76600C1167E /* SyncPerformanceTestContext.swift */,
+				1E5522672253E4080013C7A9 /* LocalPerformanceTestContext.swift */,
+				1E5522652253E3F90013C7A9 /* ProductionPerformanceTestContext.swift */,
+				1EA9FF582254148A007B857B /* SyncPerformanceTestsConstants.h */,
+				1E719B5822552FE4000F93A2 /* SyncTestContext.swift */,
+				494566AE2258BB4E00386E79 /* StitchSyncPerformanceTests.swift */,
+				494566B02258BB4E00386E79 /* Info.plist */,
+			);
+			path = StitchSyncPerformanceTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -296,13 +330,31 @@
 			productReference = 1169217120C9D04C00930DD8 /* StitchRemoteMongoDBServiceTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		494566AB2258BB4E00386E79 /* StitchSyncPerformanceTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 494566B62258BB4E00386E79 /* Build configuration list for PBXNativeTarget "StitchSyncPerformanceTests" */;
+			buildPhases = (
+				494566A82258BB4E00386E79 /* Sources */,
+				494566A92258BB4E00386E79 /* Frameworks */,
+				494566AA2258BB4E00386E79 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				494566B32258BB4E00386E79 /* PBXTargetDependency */,
+			);
+			name = StitchSyncPerformanceTests;
+			productName = StitchSyncPerformanceTests;
+			productReference = 494566AC2258BB4E00386E79 /* StitchSyncPerformanceTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		1169215F20C9D04C00930DD8 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0930;
+				LastSwiftUpdateCheck = 1020;
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = MongoDB;
 				TargetAttributes = {
@@ -312,6 +364,9 @@
 					};
 					1169217020C9D04C00930DD8 = {
 						CreatedOnToolsVersion = 9.3.1;
+					};
+					494566AB2258BB4E00386E79 = {
+						CreatedOnToolsVersion = 10.2;
 					};
 				};
 			};
@@ -329,6 +384,7 @@
 			targets = (
 				1169216720C9D04C00930DD8 /* StitchRemoteMongoDBService */,
 				1169217020C9D04C00930DD8 /* StitchRemoteMongoDBServiceTests */,
+				494566AB2258BB4E00386E79 /* StitchSyncPerformanceTests */,
 			);
 		};
 /* End PBXProject section */
@@ -342,6 +398,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		1169216F20C9D04C00930DD8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		494566AA2258BB4E00386E79 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -479,20 +542,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1E5522682253E4080013C7A9 /* LocalPerformanceTestContext.swift in Sources */,
 				1E719B5B2255344B000F93A2 /* SyncIntTestUtilities.swift in Sources */,
-				1E587ED5224E6E5900A0DE9C /* SyncPerformanceIntTestHarness.swift in Sources */,
 				496BC5A721B1DC6400D68F91 /* CallbackJoiner.swift in Sources */,
 				499CD19D21C01D4A00CB4EBF /* SyncIntTests.swift in Sources */,
-				1ED94709224EA76600C1167E /* SyncPerformanceTestContext.swift in Sources */,
-				1E5522662253E3F90013C7A9 /* ProductionPerformanceTestContext.swift in Sources */,
-				1160C94F224BD12700BC0CDA /* FoundationInstrumentedHTTPTransport.swift in Sources */,
 				1E719B5522552CAC000F93A2 /* StreamJoiner.swift in Sources */,
-				1E719B5922552FE4000F93A2 /* SyncTestContext.swift in Sources */,
 				1169217720C9D04C00930DD8 /* RemoteMongoClientIntTests.swift in Sources */,
-				1160C951224BFCA800BC0CDA /* FoundationInstrumentedHTTPTransportIntTests.swift in Sources */,
 				1E719B5722552F17000F93A2 /* RemoteMongoCollection+SynchronousCRUD.swift in Sources */,
-				1ED94707224E8A5B00C1167E /* SyncPerformanceIntTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		494566A82258BB4E00386E79 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				494566C5225B676F00386E79 /* SyncIntTestUtilities.swift in Sources */,
+				494566C6225B676F00386E79 /* StreamJoiner.swift in Sources */,
+				494566C7225B676F00386E79 /* CallbackJoiner.swift in Sources */,
+				494566BE2258BC3400386E79 /* SyncPerformanceIntTests.swift in Sources */,
+				494566B92258BC3400386E79 /* FoundationInstrumentedHTTPTransportIntTests.swift in Sources */,
+				494566B82258BC3400386E79 /* ProductionPerformanceTestContext.swift in Sources */,
+				494566BA2258BC3400386E79 /* SyncPerformanceTestContext.swift in Sources */,
+				494566B72258BC1B00386E79 /* SyncTestContext.swift in Sources */,
+				494566BD2258BC3400386E79 /* SyncPerformanceIntTestHarness.swift in Sources */,
+				494566BB2258BC3400386E79 /* LocalPerformanceTestContext.swift in Sources */,
+				494566AF2258BB4E00386E79 /* StitchSyncPerformanceTests.swift in Sources */,
+				494566BC2258BC3400386E79 /* FoundationInstrumentedHTTPTransport.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -503,6 +577,11 @@
 			isa = PBXTargetDependency;
 			target = 1169216720C9D04C00930DD8 /* StitchRemoteMongoDBService */;
 			targetProxy = 1169217320C9D04C00930DD8 /* PBXContainerItemProxy */;
+		};
+		494566B32258BB4E00386E79 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1169216720C9D04C00930DD8 /* StitchRemoteMongoDBService */;
+			targetProxy = 494566B22258BB4E00386E79 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -740,6 +819,47 @@
 			};
 			name = Release;
 		};
+		494566B42258BB4E00386E79 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4XWMY46275;
+				INFOPLIST_FILE = StitchSyncPerformanceTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = org.mongodb.StitchSyncPerformanceTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		494566B52258BB4E00386E79 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4XWMY46275;
+				INFOPLIST_FILE = StitchSyncPerformanceTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = org.mongodb.StitchSyncPerformanceTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -766,6 +886,15 @@
 			buildConfigurations = (
 				1169218020C9D04C00930DD8 /* Debug */,
 				1169218120C9D04C00930DD8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		494566B62258BB4E00386E79 /* Build configuration list for PBXNativeTarget "StitchSyncPerformanceTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				494566B42258BB4E00386E79 /* Debug */,
+				494566B52258BB4E00386E79 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
