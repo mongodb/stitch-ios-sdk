@@ -1142,7 +1142,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         exp.isInverted = true
         try expectStreamToClose(expectation: exp)
         coreRemoteMongoClient.onRebindEvent(AuthRebindEvent.userLoggedIn(loggedInUser: testUser))
-        wait(for: [exp], timeout: 0.1)
+        wait(for: [exp], timeout: 10)
     }
 
     func testStreamDoesNotCloseOnLogout() throws {
@@ -1150,7 +1150,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         exp.isInverted = true
         try expectStreamToClose(expectation: exp)
         coreRemoteMongoClient.onRebindEvent(AuthRebindEvent.userLoggedOut(loggedOutUser: testUser))
-        wait(for: [exp], timeout: 0.1)
+        wait(for: [exp], timeout: 10)
     }
 
     func testStreamDoesNotCloseOnRemove() throws {
@@ -1159,7 +1159,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         try expectStreamToClose(expectation: exp)
         coreRemoteMongoClient.dataSynchronizer.waitUntilInitialized()
         coreRemoteMongoClient.onRebindEvent(AuthRebindEvent.userRemoved(removedUser: testUser))
-        wait(for: [exp], timeout: 0.1)
+        wait(for: [exp], timeout: 10)
     }
 
     func testStreamDoesCloseOnSwitch() throws {
