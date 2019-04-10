@@ -1,11 +1,3 @@
-//
-//  StitchSyncPerformanceTests.swift
-//  StitchSyncPerformanceTests
-//
-//  Created by Jason Flax on 06/04/2019.
-//  Copyright © 2019 MongoDB. All rights reserved.
-//
-
 import XCTest
 
 class StitchSyncPerformanceTests: XCTestCase {
