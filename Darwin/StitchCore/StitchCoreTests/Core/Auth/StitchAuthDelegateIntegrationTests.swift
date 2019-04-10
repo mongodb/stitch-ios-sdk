@@ -115,7 +115,12 @@ class StitchAuthDelegateIntTests: BaseStitchIntTestCocoaTouch {
 
         // assert that onUserAdded was only called three times
         XCTAssertEqual(del.numCalls, 3)
-    }       var numCalls = 0
+    }
+
+    func testOnUserLoggedInDispatched() throws {
+        class TestAuthDelegate: StitchAuthDelegate {
+            let work = DispatchGroup()
+            var numCalls = 0
 
             func onUserLoggedIn(auth: StitchAuth, loggedInUser: StitchUser) {
                 XCTAssertNotNil(loggedInUser.id)
