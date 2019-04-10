@@ -76,6 +76,7 @@ class StitchAuthDelegateIntTests: BaseStitchIntTestCocoaTouch {
 
         // this should trigger another user added event
         del.work.enter()
+        exp = expectation(description: "should login successfully")
         var anonUser1Id = ""
         client.auth.login(withCredential: AnonymousCredential()) { (result: StitchResult<StitchUser>) in
             switch result {
@@ -84,13 +85,17 @@ class StitchAuthDelegateIntTests: BaseStitchIntTestCocoaTouch {
             case .failure(let error):
                 XCTFail("unexpected error: \(error.description)")
             }
+            exp.fulfill()
         }
         waitForDelegate(work: del.work)
+        wait(for: [exp], timeout: 10)
 
         // logging out of the anon user and logging back in should trigger an added user event
         // because logging out of an anon user removes the user
         exp = expectation(description: "should logout anon user")
-        client.auth.logoutUser(withId: anonUser1Id) { _ in exp.fulfill() }
+        client.auth.logoutUser(withId: anonUser1Id) { _ in
+            exp.fulfill()
+        }
         wait(for: [exp], timeout: 10)
 
         del.work.enter()
@@ -110,12 +115,7 @@ class StitchAuthDelegateIntTests: BaseStitchIntTestCocoaTouch {
 
         // assert that onUserAdded was only called three times
         XCTAssertEqual(del.numCalls, 3)
-    }
-
-    func testOnUserLoggedInDispatched() throws {
-        class TestAuthDelegate: StitchAuthDelegate {
-            let work = DispatchGroup()
-            var numCalls = 0
+    }       var numCalls = 0
 
             func onUserLoggedIn(auth: StitchAuth, loggedInUser: StitchUser) {
                 XCTAssertNotNil(loggedInUser.id)
