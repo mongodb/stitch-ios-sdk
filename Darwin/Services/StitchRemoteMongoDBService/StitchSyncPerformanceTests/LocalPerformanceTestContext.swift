@@ -15,16 +15,13 @@ class LocalPerformanceTestContext: SyncPerformanceTestContext {
     let client: StitchAppClient
     let mongoClient: RemoteMongoClient
     let coll: RemoteMongoCollection<Document>
-    let testParams: TestParams
     let harness: SyncPerformanceIntTestHarness
 
     let joiner = ThrowingCallbackJoiner()
     let streamJoiner = StreamJoiner()
 
-    required init(harness: SyncPerformanceIntTestHarness,
-                  testParams: TestParams) throws {
+    required init(harness: SyncPerformanceIntTestHarness) throws {
         self.harness = harness
-        self.testParams = testParams
 
         dbName = ObjectId().oid
         collName = ObjectId().oid

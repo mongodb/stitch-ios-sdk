@@ -14,13 +14,10 @@ typealias TestDefinition = (_ ctx: SyncPerformanceTestContext, _ numDoc: Int, _ 
 typealias SetupDefinition = (_ ctx: SyncPerformanceTestContext, _ numDoc: Int, _ docSize: Int) throws -> Void
 typealias TeardownDefinition = (_ ctx: SyncPerformanceTestContext, _ numDoc: Int, _ docSize: Int) throws -> Void
 
-// This is how we want to do things once we create the new test scheme and import the .h file as an
-// objective-c bridging header
 let testStitchAPIKey = TEST_PERF_IOS_API_KEY.isEmpty ?
     ProcessInfo.processInfo.environment["PERF_IOS_API_KEY"] : TEST_PERF_IOS_API_KEY
 
 class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
-    // Typealias for testDefinition
 
     // Private Constants
     private let mongodbUriProp = "test.stitch.mongodbURI"
@@ -67,9 +64,9 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
             }
 
             guard !(testStitchAPIKey.isEmpty) else {
-                    XCTFail("No PERF_IOS_API_KEY preprocessor macros; "
-                        + "failing test. See README for more details.")
-                    return
+                XCTFail("No PERF_IOS_API_KEY preprocessor macros; "
+                    + "failing test. See README for more details.")
+                return
             }
 
             outputClient?.auth.login(withCredential: UserAPIKeyCredential(withKey: testStitchAPIKey),
@@ -85,161 +82,115 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
         super.setUp()
     }
 
-    // swiftlint:disable function_body_length
-    func runPerformanceTestWithParameters(testParams: TestParams,
+    private func getPerformanceTestingContext() throws -> SyncPerformanceTestContext {
+        if SyncPerformanceTestUtils.configuredStitchHostName == "https://stitch.mongodb.com" {
+            return try ProductionPerformanceTestContext(harness: self)
+        } else {
+            return try LocalPerformanceTestContext(harness: self)
+        }
+    }
+
+    private func handleTestResults(runResults: Document, resultId: ObjectId) -> Bool {
+        let success = runResults.hasKey("timeMs")
+
+        if SyncPerformanceTestUtils.configuredShouldOutputToStdOut {
+            let successMsg = success ? "Success" : "Failure"
+            print("PerfLog: \(successMsg): \(runResults.canonicalExtendedJSON)")
+        }
+
+        if SyncPerformanceTestUtils.configuredShouldOutputToStitch {
+            _ = outputColl?.updateOne(filter: ["_id": resultId],
+                                      update: ["$push": ["results": runResults] as Document])
+        }
+
+        return success
+    }
+
+    func runPerformanceTestWithParameters(testName: String,
+                                          runId: ObjectId,
                                           testDefinition: TestDefinition,
                                           beforeEach: SetupDefinition = { _, _, _ in },
                                           afterEach: TeardownDefinition = { _, _, _ in }) {
         var failed = false
+        var testParams = TestParams(testName: testName, runId: runId)
         setupOutputClient()
 
+        if SyncPerformanceTestUtils.configuredShouldOutputToStdOut {
+            print("PerfLog: Starting Test: \(testParams.asBson)")
+        }
+
         let resultId = ObjectId()
-        if testParams.outputToStitch {
-            var paramsNew = testParams
-            var params = paramsNew.asBson
+        if SyncPerformanceTestUtils.configuredShouldOutputToStitch {
+            var params = testParams.asBson
             params["_id"] = resultId
             params["status"] = "In Progress"
             params["hostName"] = hostName
             outputColl?.insertOne(params)
         }
 
-        for docSize in testParams.docSizes {
-            nextTest: for numDoc in testParams.numDocs {
-                var timeData: [Double] = []
-                var cpuData: [Double] = []
-                var memoryData: [Double] = []
-                var diskData: [Double] = []
-                var threadData: [Double] = []
-                var networkSentData: [Double] = []
-                var networkReceivedData: [Double] = []
+        for docSize in SyncPerformanceTestUtils.configuredDocSizes {
+            for numDoc in SyncPerformanceTestUtils.configuredNumDocs {
 
-                for iter in 1...testParams.numIters {
+                let runResults = RunResults(numDocs: numDoc, docSize: docSize)
+                for iter in 1...SyncPerformanceTestUtils.configuredNumIters {
                     do {
-                        var ctx: SyncPerformanceTestContext
-                        if testParams.stitchHostName == "https://stitch.mongodb.com" {
-                            ctx = try ProductionPerformanceTestContext(harness: self, testParams: testParams)
-                        } else {
-                            ctx = try LocalPerformanceTestContext(harness: self, testParams: testParams)
-                        }
+                        let ctx = try getPerformanceTestingContext()
+
                         let iterResult = try ctx.runSingleIteration(numDocs: numDoc,
                                                                     docSize: docSize,
                                                                     testDefinition: testDefinition,
                                                                     setup: beforeEach,
                                                                     teardown: afterEach)
 
-                        timeData.append(iterResult.executionTimeMs)
-                        cpuData.append(iterResult.cpuUsagePercent)
-                        memoryData.append(iterResult.memoryUsageBytes)
-                        diskData.append(iterResult.diskUsageBytes)
-                        threadData.append(iterResult.activeThreadCount)
-                        networkSentData.append(iterResult.networkSentBytes)
-                        networkReceivedData.append(iterResult.networkReceivedBytes)
+                        runResults.addResults(iterResult: iterResult)
 
                         try ctx.tearDown()
                     } catch {
-                        failed = true
-                        handleFailure(error: error, resultId: resultId, numDoc: numDoc, docSize: docSize,
-                                      iter: iter, numIters: testParams.numIters,
-                                      outputToStitch: testParams.outputToStitch)
-                        continue nextTest
+                        let message = "Failed on iteration \(iter) of \(SyncPerformanceTestUtils.configuredNumIters)" +
+                        "with error \(String(describing: error))"
+                        runResults.addFailure(failureResult: FailureResult(
+                            iteration: iter,
+                            reason: message,
+                            stackTrace: Thread.callStackSymbols))
+
+                        if SyncPerformanceTestUtils.configuredShouldOutputToStdOut {
+                            print("PerfLog: ERROR: \(message)")
+                        }
                     }
                 }
 
-                let result = RunResults(numDocs: numDoc, docSize: docSize,
-                                        numOutliers: testParams.numOutliersEachSide,
-                                        time: timeData, networkSentBytes: networkSentData,
-                                        networkReceivedBytes: networkReceivedData, cpu: cpuData,
-                                        memory: memoryData, disk: diskData, threads: threadData)
-
-                if testParams.outputToStdOut {
-                    print("PerfLog: \(result.asBson.canonicalExtendedJSON)")
+                if handleTestResults(runResults: runResults.asBson, resultId: resultId) == false {
+                    failed = true
                 }
 
-                if testParams.outputToStitch {
-                    _ = outputColl?.updateOne(filter: ["_id": resultId],
-                                              update: ["$push": ["results": result.asBson] as Document])
-                }
             }
         }
 
-        if testParams.outputToStitch {
+        if SyncPerformanceTestUtils.configuredShouldOutputToStitch {
             let resStr = failed ? "Failure" : "Success"
             _ = outputColl?.updateOne(filter: ["_id": resultId],
                                       update: ["$set": ["status": resStr] as Document])
         }
-
-        if failed {
-            XCTFail("Failed Test \(testParams.testName)")
-        }
     }
-    // swiftlint:enable function_body_length
-    // swiftlint:disable function_parameter_count
-    func handleFailure(error: Error, resultId: ObjectId, numDoc: Int, docSize: Int,
-                       iter: Int, numIters: Int, outputToStitch: Bool) {
-        let failureMessage = "Failed on iteration \(iter) of \(numIters) with error \(String(describing: error))"
-
-        print("PerfLog: Harness Error: \(failureMessage)")
-        if outputToStitch {
-            let failureDoc: Document = [
-                "numDocs": numDoc,
-                "docSize": docSize,
-                "status": "failure",
-                "failureReason": failureMessage,
-                "failureCallStack": Thread.callStackSymbols
-            ]
-            _ = outputColl?.updateOne(filter: ["_id": resultId],
-                                      update: ["$push": ["results": failureDoc] as Document])
-        }
-    }
-    // swiftlint:enable function_parameter_count
 }
 
 internal struct TestParams {
     let testName: String
     let runId: ObjectId
-    let numIters: Int
-    let numDocs: [Int]
-    let docSizes: [Int]
-    let dataProbeGranularityMs: Int
-    let numOutliersEachSide: Int
-    let stitchHostName: String
-    let outputToStdOut: Bool
-    let outputToStitch: Bool
-    let preserveRawOutput: Bool
 
-    init(
-        testName: String,
-        runId: ObjectId,
-        numIters: Int = 12,
-        numDocs: [Int] = [],
-        docSizes: [Int] = [],
-        dataProbeGranularityMs: Int = 1500,
-        numOutliersEachSide: Int = 0,
-        stitchHostName: String = "",
-        outputToStdOut: Bool = true,
-        outputToStitch: Bool = true,
-        preserveRawOutput: Bool = false
-    ) {
+    init(testName: String, runId: ObjectId) {
         self.testName = testName
         self.runId = runId
-        self.numIters = numIters
-        self.numDocs = numDocs
-        self.docSizes = docSizes
-        self.dataProbeGranularityMs = dataProbeGranularityMs
-        self.numOutliersEachSide = numOutliersEachSide
-        self.stitchHostName = stitchHostName
-        self.outputToStdOut = outputToStdOut
-        self.outputToStitch = outputToStitch
-        self.preserveRawOutput = preserveRawOutput
     }
 
     lazy var asBson: Document = [
         "testName": testName,
         "runId": runId,
-        "numIters": numIters,
-        "dataProbeGranularityMs": dataProbeGranularityMs,
-        "numOutliersEachSide": numOutliersEachSide,
-        "stitchHostName": stitchHostName,
+        "numIters": SyncPerformanceTestUtils.configuredNumIters,
+        "dataProbeGranularityMs": SyncPerformanceTestUtils.configuredDataGranularity,
+        "numOutliersEachSide": SyncPerformanceTestUtils.configuredNumOutliers,
+        "stitchHostName": SyncPerformanceTestUtils.configuredStitchHostName,
+        "hostname": SyncPerformanceTestUtils.configuredHostname,
         "date": Date(),
         "sdk": "ios",
         "results": []
@@ -315,56 +266,85 @@ internal class IterationResult {
     }
 }
 
-private class RunResults {
-    let numDocs: Int
-    let docSize: Int
-    let numOutliers: Int
-    let executionTimeMsData: DataBlock
-    let networkSentBytesData: DataBlock
-    let networkReceivedBytesData: DataBlock
-    let cpuUsagePercentageData: DataBlock
-    let memoryUsageBytesData: DataBlock
-    let diskUsageBytesData: DataBlock
-    let diskEfficiencyRatioData: DataBlock
-    let activeThreadCountsData: DataBlock
+private class FailureResult {
+    private let iteration: Int
+    private let reason: String
+    private let stackTrace: [String]
 
-    init(numDocs: Int,
-         docSize: Int,
-         numOutliers: Int,
-         time: [Double],
-         networkSentBytes: [Double],
-         networkReceivedBytes: [Double],
-         cpu: [Double],
-         memory: [Double],
-         disk: [Double],
-         threads: [Double]) {
-        self.numDocs = numDocs
-        self.docSize = docSize
-        self.numOutliers = numOutliers
-        self.executionTimeMsData = DataBlock(data: time, numOutliers: numOutliers)
-        self.networkSentBytesData = DataBlock(data: networkSentBytes, numOutliers: numOutliers)
-        self.networkReceivedBytesData = DataBlock(data: networkReceivedBytes, numOutliers: numOutliers)
-        self.cpuUsagePercentageData = DataBlock(data: cpu, numOutliers: numOutliers)
-        self.memoryUsageBytesData = DataBlock(data: memory, numOutliers: numOutliers)
-        self.diskUsageBytesData = DataBlock(data: disk, numOutliers: numOutliers)
-        self.activeThreadCountsData = DataBlock(data: threads, numOutliers: numOutliers)
-
-        let diskEfficiencyArr = disk.map({$0 / Double((docSize + 12) * numDocs)})
-        self.diskEfficiencyRatioData = DataBlock(data: diskEfficiencyArr, numOutliers: numOutliers)
-
+    init(iteration: Int, reason: String, stackTrace: [String]) {
+        self.iteration = iteration
+        self.reason = reason
+        self.stackTrace = stackTrace
     }
 
     lazy var asBson: Document = [
-        "numDocs": self.numDocs,
-        "docSize": self.docSize,
-        "status": "success",
-        "timeMs": self.executionTimeMsData.asBson,
-        "networkSentBytes": self.networkSentBytesData.asBson,
-        "networkReceivedBytes": self.networkReceivedBytesData.asBson,
-        "cpu": self.cpuUsagePercentageData.asBson,
-        "memoryBytes": self.memoryUsageBytesData.asBson,
-        "diskBytes": self.diskUsageBytesData.asBson,
-        "diskEfficiencyRatio": self.diskEfficiencyRatioData.asBson,
-        "activeThreadCounts": self.activeThreadCountsData.asBson
+        "iteration": self.iteration,
+        "reason": self.reason,
+        "stackTrace": self.stackTrace
     ]
+}
+
+private class RunResults {
+    let numDocs: Int
+    let docSize: Int
+
+    private var timeData: [Double] = []
+    private var networkSentData: [Double] = []
+    private var networkRecData: [Double] = []
+    private var cpuUsageData: [Double] = []
+    private var memoryUsageData: [Double] = []
+    private var diskUsageData: [Double] = []
+    private var activeThreadCountsData: [Double] = []
+    private var failures: [FailureResult] = []
+
+    init(numDocs: Int, docSize: Int) {
+        self.numDocs = numDocs
+        self.docSize = docSize
+    }
+
+    func addResults(iterResult: IterationResult) {
+        self.timeData.append(iterResult.executionTimeMs)
+        self.cpuUsageData.append(iterResult.cpuUsagePercent)
+        self.memoryUsageData.append(iterResult.memoryUsageBytes)
+        self.diskUsageData.append(iterResult.diskUsageBytes)
+        self.activeThreadCountsData.append(iterResult.activeThreadCount)
+        self.networkSentData.append(iterResult.networkSentBytes)
+        self.networkRecData.append(iterResult.networkReceivedBytes)
+    }
+
+    func addFailure(failureResult: FailureResult) {
+        self.failures.append(failureResult)
+    }
+
+    var asBson: Document {
+        let failuresBson = self.failures.map {$0.asBson}
+        if failures.count < (SyncPerformanceTestUtils.configuredNumIters + 1) / 2 {
+            let numOutliers = SyncPerformanceTestUtils.configuredNumOutliers
+            return [
+                "numDocs": self.numDocs,
+                "docSize": self.docSize,
+                "success": true,
+                "timeMs": DataBlock(data: self.timeData, numOutliers: numOutliers).asBson,
+                "networkSentBytes": DataBlock(data: self.networkSentData, numOutliers: numOutliers).asBson,
+                "networkReceivedBytes": DataBlock(data: self.networkRecData, numOutliers: numOutliers).asBson,
+                "cpu": DataBlock(data: self.cpuUsageData, numOutliers: numOutliers).asBson,
+                "memoryBytes": DataBlock(data: self.memoryUsageData, numOutliers: numOutliers).asBson,
+                "diskBytes": DataBlock(data: self.diskUsageData, numOutliers: numOutliers).asBson,
+                "diskEfficiencyRatio": DataBlock(data: self.diskUsageData.map({
+                    $0 / Double((docSize + 12) * numDocs)
+                }), numOutliers: numOutliers).asBson,
+                "activeThreadCounts": DataBlock(data: self.activeThreadCountsData, numOutliers: numOutliers).asBson,
+                "numFailures": failures.count,
+                "failures": failuresBson
+            ]
+        } else {
+            return [
+                "numDocs": self.numDocs,
+                "docSize": self.docSize,
+                "success": false,
+                "numFailures": failures.count,
+                "failures": failuresBson
+            ]
+        }
+    }
 }

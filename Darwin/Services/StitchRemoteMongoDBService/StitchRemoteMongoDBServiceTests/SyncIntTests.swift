@@ -15,20 +15,6 @@ import StitchCoreLocalMongoDBService
 
 private let waitTimeout = UInt64(1e+10)
 
-internal extension Document {
-    func sorted() -> Document {
-        return self.sorted { (doc1, doc2) -> Bool in
-            doc1.key < doc2.key
-        }.reduce(into: Document()) { (doc, kvp) in
-            doc[kvp.key] = kvp.value
-        }
-    }
-}
-
-extension String: LocalizedError {
-    public var errorDescription: String? { return self }
-}
-
 class SyncIntTests: BaseStitchIntTestCocoaTouch {
     private let mongodbUriProp = "test.stitch.mongodbURI"
 

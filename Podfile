@@ -144,6 +144,13 @@ target :StitchCoreSDK do
             
             inherit! :search_paths
         end
+        
+        target :StitchSyncPerformanceTests do
+            swifter_pod
+            pod 'MongoMobile', '= 0.0.7'
+            
+            inherit! :search_paths
+        end
     end
 
     target :StitchLocalMongoDBService do

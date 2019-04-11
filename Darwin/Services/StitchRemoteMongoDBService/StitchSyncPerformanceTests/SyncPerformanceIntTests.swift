@@ -10,6 +10,26 @@ import StitchCoreLocalMongoDBService
 
 import Foundation
 
+class XCMongoMobileConfiguration: NSObject, XCTestObservation {
+    // This init is called first thing as the test bundle starts up and before any test
+    // initialization happens
+    override init() {
+        super.init()
+        // We don't need to do any real work, other than register for callbacks
+        // when the test suite progresses.
+        // XCTestObservation keeps a strong reference to observers
+        XCTestObservationCenter.shared.addTestObserver(self)
+    }
+
+    func testBundleWillStart(_ testBundle: Bundle) {
+        try? CoreLocalMongoDBService.shared.initialize()
+    }
+
+    func testBundleDidFinish(_ testBundle: Bundle) {
+        CoreLocalMongoDBService.shared.close()
+    }
+}
+
 let harness = SyncPerformanceIntTestHarness()
 let runId = ObjectId()
 
@@ -36,82 +56,36 @@ class SyncPerformanceIntTests: XCTestCase {
     } */
 
     func testInitialSyncLocal() {
-        let testParam = TestParams(testName: "initialSyncLocal",
-                                   runId: runId,
-                                   numIters: 3,
-                                   numDocs: [5, 10],
-                                   docSizes: [10, 20])
-        harness.runPerformanceTestWithParameters(testParams: testParam, testDefinition: {ctx, numDoc, docSize in
-            print("PerfLog: Test: \(numDoc) docs of size \(docSize)")
-            var docs = getDocuments(numDocs: numDoc, docSize: docSize)
-            ctx.coll.insertMany(docs, joiner.capture())
-            let _: Any? = try joiner.value()
-            try assertEqual(Int.self, ctx.coll.count([:]) ?? 0, numDoc)
+        harness.runPerformanceTestWithParameters(
+            testName: "intialSyncLocal",
+            runId: runId,
+            testDefinition: {ctx, numDoc, docSize in
+                print("PerfLog: Test: \(numDoc) docs of size \(docSize)")
 
-            let count = ctx.coll.count([:])
-            try assertEqual(Int.self, count ?? 0, numDoc)
+                if numDoc > 0 {
+                    let docs = SyncPerformanceTestUtils.generateDocuments(numDoc: numDoc, docSize: docSize)
+                    ctx.coll.insertMany(docs, joiner.capture())
+                    let _: Any? = try joiner.value()
+                    try assertEqual(Int.self, ctx.coll.count([:]) ?? 0, numDoc)
+                }
 
-            ctx.coll.sync.configure(conflictHandler: DefaultConflictHandler<Document>.remoteWins())
+                let count = ctx.coll.count([:])
+                try assertEqual(Int.self, count ?? 0, numDoc)
 
-            docs = getDocuments(numDocs: numDoc, docSize: docSize)
-            ctx.coll.sync.insertMany(&docs)
-            _ = try ctx.coll.sync.proxy.dataSynchronizer.doSyncPass()
-            try assertEqual(Int.self, ctx.coll.sync.syncedIds().count, numDoc)
+                ctx.coll.sync.configure(conflictHandler: DefaultConflictHandler<Document>.remoteWins())
 
-            docs = getDocuments(numDocs: numDoc, docSize: docSize)
-            ctx.coll.sync.insertMany(&docs)
-            _ = try ctx.coll.sync.proxy.dataSynchronizer.doSyncPass()
-            try assertEqual(Int.self, ctx.coll.sync.syncedIds().count, 2 * numDoc)
-
-        }, beforeEach: {_, numDoc, docSize in
-            print("PerfLog: (Custom Setup) \(numDoc) docs of size \(docSize)")
-        }, afterEach: {_, numDoc, docSize in
-            print("PerfLog: (Custom Teardown) \(numDoc) docs of size \(docSize)")
-        })
-    }
-
-    func testInitialSyncProd() {
-        let testParam = TestParams(testName: "initialSyncProd",
-                                   runId: runId,
-                                   numIters: 3,
-                                   numDocs: [5, 10],
-                                   docSizes: [10, 20],
-                                   stitchHostName: "https://stitch.mongodb.com")
-
-        harness.runPerformanceTestWithParameters(testParams: testParam, testDefinition: {ctx, numDoc, docSize in
-            print("PerfLog: Test: \(numDoc) docs of size \(docSize)")
-            try assertEqual(Int.self, ctx.coll.count([:]) ?? 1, 0)
-
-            var docs = getDocuments(numDocs: numDoc, docSize: docSize)
-            ctx.coll.insertMany(docs, joiner.capture())
-            let _: Any? = try joiner.value()
-            try assertEqual(Int.self, ctx.coll.count([:]) ?? 0, numDoc)
-
-            ctx.coll.sync.configure(conflictHandler: DefaultConflictHandler<Document>.remoteWins())
-
-            docs = getDocuments(numDocs: numDoc, docSize: docSize)
-            ctx.coll.sync.insertMany(&docs)
-            _ = try ctx.coll.sync.proxy.dataSynchronizer.doSyncPass()
-            try assertEqual(Int.self, ctx.coll.sync.syncedIds().count, numDoc)
-
-            docs = getDocuments(numDocs: numDoc, docSize: docSize)
-            ctx.coll.sync.insertMany(&docs)
-            _ = try ctx.coll.sync.proxy.dataSynchronizer.doSyncPass()
-            try assertEqual(Int.self, ctx.coll.sync.syncedIds().count, 2 * numDoc)
-
-            try assertEqual(Int.self, ctx.coll.count([:]) ?? 0, 3 * numDoc)
-        })
-    }
-
-    func getDocuments(numDocs: Int, docSize: Int) -> [Document] {
-        return (0..<numDocs).map {iter in
-            guard let newDoc = try? ["_id": ObjectId(),
-                                     "data": Binary(data: Data(repeating: UInt8(iter % 100), count: docSize),
-                                                    subtype: Binary.Subtype.userDefined)] as Document else {
-                fatalError("Failed to create \(numDocs) documents of size \(docSize)")
+                if numDoc > 0 {
+                    var docs = SyncPerformanceTestUtils.generateDocuments(numDoc: numDoc, docSize: docSize)
+                    ctx.coll.sync.insertMany(&docs)
+                    _ = try ctx.coll.sync.proxy.dataSynchronizer.doSyncPass()
+                    try assertEqual(Int.self, ctx.coll.sync.syncedIds().count, numDoc)
+                }
+            }, beforeEach: {_, numDoc, docSize in
+                print("PerfLog: (Custom Setup) \(numDoc) docs of size \(docSize)")
+            }, afterEach: {_, numDoc, docSize in
+                print("PerfLog: (Custom Teardown) \(numDoc) docs of size \(docSize)")
             }
-            return newDoc
-        }
+        )
     }
 
     // Custom assertEqual that throws so that the test fails if the assertion fails
