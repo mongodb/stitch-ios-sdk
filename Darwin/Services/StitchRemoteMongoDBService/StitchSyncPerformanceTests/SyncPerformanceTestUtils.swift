@@ -118,7 +118,7 @@ internal class SyncPerformanceTestUtils {
     }()
 
     private static func stringToIntArr(_ str: String) -> [Int] {
-        return str.split(separator: ",").map { Int($0) ?? 0 }
+        return str.split(separator: "-").map { Int($0) ?? 0 }
     }
 
     static func generateDocuments(numDoc: Int, docSize: Int) -> [Document] {
