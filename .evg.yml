@@ -133,7 +133,6 @@ functions:
           echo export FCM_SENDER_ID=${test_fcm_sender_id} >> creds
           echo export FCM_API_KEY=${test_fcm_api_key} >> creds
           echo export PERF_IOS_API_KEY=${perf_ios_api_key} >> creds
-          echo export EVERGREEN_HOST=Evergreen >> creds
           echo export COVERALLS_TOKEN=${coveralls_repo_token} >> creds
           SID=`python stitch-ios-sdk/etc/read_ios_runtime.py`
           echo export SIM_ID=$SID >> creds
@@ -311,7 +310,7 @@ tasks:
               -workspace Stitch.xcworkspace/ \
               -scheme "StitchSyncPerformanceTests" \
               -destination id=$SIM_ID \
-              GCC_PREPROCESSOR_DEFINITIONS='PERF_IOS_STITCH_HOST=https://stitch.mongodb.com PERF_IOS_HOSTNAME=Evergreen PERF_IOS_DOC_SIZES=11-22-44'
+              GCC_PREPROCESSOR_DEFINITIONS='PERF_IOS_API_KEY=$PERF_IOS_API_KEY PERF_IOS_STITCH_HOST=https://stitch.mongodb.com PERF_IOS_HOSTNAME=Evergreen PERF_IOS_DOC_SIZES=11-22 PERF_IOS_NUM_ITERS=1'
 task_groups:
   - name: run_core_tests
     setup_group_can_fail_task: true
