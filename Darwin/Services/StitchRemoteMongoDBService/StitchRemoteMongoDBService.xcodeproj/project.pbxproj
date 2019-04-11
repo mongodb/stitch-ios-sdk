@@ -32,9 +32,7 @@
 		491F9B4E21A3568800802A4D /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 491F9B4D21A3568800802A4D /* StitchCore.framework */; };
 		494335A42190FC99005B170D /* StitchDarwinCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494335A32190FC99005B170D /* StitchDarwinCoreTestUtils.framework */; };
 		494335B22192360A005B170D /* StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494335B12192360A005B170D /* StitchCoreAdminClient.framework */; };
-		494566AF2258BB4E00386E79 /* StitchSyncPerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494566AE2258BB4E00386E79 /* StitchSyncPerformanceTests.swift */; };
 		494566B12258BB4E00386E79 /* StitchRemoteMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1169216820C9D04C00930DD8 /* StitchRemoteMongoDBService.framework */; };
-		494566B72258BC1B00386E79 /* SyncTestContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E719B5822552FE4000F93A2 /* SyncTestContext.swift */; };
 		494566B82258BC3400386E79 /* ProductionPerformanceTestContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5522652253E3F90013C7A9 /* ProductionPerformanceTestContext.swift */; };
 		494566B92258BC3400386E79 /* FoundationInstrumentedHTTPTransportIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1160C950224BFCA800BC0CDA /* FoundationInstrumentedHTTPTransportIntTests.swift */; };
 		494566BA2258BC3400386E79 /* SyncPerformanceTestContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ED94708224EA76600C1167E /* SyncPerformanceTestContext.swift */; };
@@ -138,7 +136,6 @@
 		494335A32190FC99005B170D /* StitchDarwinCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchDarwinCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		494335B12192360A005B170D /* StitchCoreAdminClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAdminClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		494566AC2258BB4E00386E79 /* StitchSyncPerformanceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StitchSyncPerformanceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		494566AE2258BB4E00386E79 /* StitchSyncPerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchSyncPerformanceTests.swift; sourceTree = "<group>"; };
 		494566B02258BB4E00386E79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		496BC5A621B1DC6400D68F91 /* CallbackJoiner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallbackJoiner.swift; sourceTree = "<group>"; };
 		498E55DD2190B86100A02A03 /* StitchCoreRemoteMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreRemoteMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -296,7 +293,6 @@
 				1ED94708224EA76600C1167E /* SyncPerformanceTestContext.swift */,
 				1E5522672253E4080013C7A9 /* LocalPerformanceTestContext.swift */,
 				1E5522652253E3F90013C7A9 /* ProductionPerformanceTestContext.swift */,
-				494566AE2258BB4E00386E79 /* StitchSyncPerformanceTests.swift */,
 				1ED94706224E8A5B00C1167E /* SyncPerformanceIntTests.swift */,
 			);
 			path = StitchSyncPerformanceTests;
@@ -658,10 +654,8 @@
 				494566B92258BC3400386E79 /* FoundationInstrumentedHTTPTransportIntTests.swift in Sources */,
 				494566B82258BC3400386E79 /* ProductionPerformanceTestContext.swift in Sources */,
 				494566BA2258BC3400386E79 /* SyncPerformanceTestContext.swift in Sources */,
-				494566B72258BC1B00386E79 /* SyncTestContext.swift in Sources */,
 				494566BD2258BC3400386E79 /* SyncPerformanceIntTestHarness.swift in Sources */,
 				494566BB2258BC3400386E79 /* LocalPerformanceTestContext.swift in Sources */,
-				494566AF2258BB4E00386E79 /* StitchSyncPerformanceTests.swift in Sources */,
 				494566BC2258BC3400386E79 /* FoundationInstrumentedHTTPTransport.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
