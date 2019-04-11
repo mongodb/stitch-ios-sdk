@@ -44,7 +44,7 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
     internal var outputMongoClient: RemoteMongoClient!
     internal var outputColl: RemoteMongoCollection<Document>!
 
-    func setupOutputClient() {
+    func setupOutputClient() -> Bool {
         if outputClient == nil {
             do {
                 outputClient = try Stitch.appClient(forAppID: stitchOutputAppName)
@@ -60,13 +60,13 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
             guard let testStitchAPIKey = testStitchAPIKey else {
                 XCTFail("No PERF_IOS_API_KEY preprocessor macros; "
                     + "testStitchAPIKey is null")
-                return
+                return false
             }
 
             guard !(testStitchAPIKey.isEmpty) else {
                 XCTFail("No PERF_IOS_API_KEY preprocessor macros; "
                     + "failing test. See README for more details.")
-                return
+                return false
             }
 
             outputClient?.auth.login(withCredential: UserAPIKeyCredential(withKey: testStitchAPIKey),
@@ -76,6 +76,8 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
         outputMongoClient = try! outputClient?.serviceClient(fromFactory: remoteMongoClientFactory,
                                                              withName: "mongodb-atlas")
         outputColl = outputMongoClient?.db(stitchOutputDbName).collection(stitchOutputCollName)
+        
+        return true
     }
 
     override func setUp() {
@@ -113,7 +115,10 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
                                           afterEach: TeardownDefinition = { _, _, _ in }) {
         var failed = false
         var testParams = TestParams(testName: testName, runId: runId)
-        setupOutputClient()
+        
+        if setupOutputClient() == false {
+            return
+        }
 
         if SyncPerformanceTestUtils.configuredShouldOutputToStdOut {
             print("PerfLog: Starting Test: \(testParams.asBson)")
