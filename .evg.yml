@@ -295,6 +295,23 @@ tasks:
               -scheme "StitchTwilioService" \
               -destination id=$SIM_ID \
               GCC_PREPROCESSOR_DEFINITIONS='TWILIO_SID=$TWILIO_SID TWILIO_AUTH_TOKEN=$TWILIO_AUTH_TOKEN'
+  - name: run_ios_services_mongodb_remote_performance_tests
+    commands:
+      - command: shell.exec
+        params:
+          shell: "bash"
+          script: |
+            set -e
+            source ./creds
+            export DEVELOPER_DIR=/Applications/Xcode10.1.app
+            cd stitch-ios-sdk
+
+            xcodebuild test \
+              -verbose \
+              -workspace Stitch.xcworkspace/ \
+              -scheme "StitchSyncPerformanceTests" \
+              -destination id=$SIM_ID \
+              GCC_PREPROCESSOR_DEFINITIONS='PERF_IOS_STITCH_HOST=https://stitch.mongodb.com PERF_IOS_HOSTNAME=Evergreen PERF_IOS_DOC_SIZES=11,22,44'
 task_groups:
   - name: run_core_tests
     setup_group_can_fail_task: true
@@ -330,6 +347,23 @@ task_groups:
       - run_ios_services_twilio_tests
     teardown_group:
       - func: "clear_disk_space"
+  - name: run_ios_performance_tests
+    setup_group_can_fail_task: true
+    max_hosts: 1
+    setup_group:
+      - func: "fetch_source"
+      - func: "setup_mongod"
+      - func: "run_mongod"
+      - func: "setup_stitch"
+      - func: "setup_ios"
+      - func: "setup_pods"
+    setup_task:
+      - func: "run_mongod"
+      - func: "run_stitch"
+    tasks:
+      - run_ios_services_mongodb_remote_performance_tests
+    teardown_group:
+      - func: "clear_disk_space"
 buildvariants:
 - name: macos-1014
   display_name: macos-1014
@@ -342,4 +376,5 @@ buildvariants:
   tasks:
     - name: run_core_tests
     - name: run_ios_tests
+    - name: run_ios_performance_tests
     - name: lint
