@@ -24,7 +24,11 @@ internal class SyncPerformanceTestUtils {
 
     static let configuredStitchHostName: String = {
         if !TEST_PERF_IOS_STITCH_HOST.isEmpty {
-            return TEST_PERF_IOS_STITCH_HOST
+            if TEST_PERF_IOS_STITCH_HOST.lowercased() == "local" {
+                return defaultStitchHostName
+            } else if TEST_PERF_IOS_STITCH_HOST.lowercased() == "prod" {
+                return "https://stitch.mongodb.com"
+            }
         } else if let param = ProcessInfo.processInfo.environment["PERF_IOS_STITCH_HOST"] {
             return param
         }

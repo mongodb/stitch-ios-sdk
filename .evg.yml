@@ -310,7 +310,7 @@ tasks:
               -workspace Stitch.xcworkspace/ \
               -scheme "StitchSyncPerformanceTests" \
               -destination id=$SIM_ID \
-              GCC_PREPROCESSOR_DEFINITIONS='PERF_IOS_API_KEY=$PERF_IOS_API_KEY PERF_IOS_STITCH_HOST=https://stitch.mongodb.com PERF_IOS_HOSTNAME=Evergreen PERF_IOS_DOC_SIZES=11-22 PERF_IOS_NUM_DOCS=100-200 PERF_IOS_NUM_ITERS=1'
+              GCC_PREPROCESSOR_DEFINITIONS='PERF_IOS_API_KEY=$PERF_IOS_API_KEY PERF_IOS_STITCH_HOST=prod PERF_IOS_HOSTNAME=Evergreen PERF_IOS_DOC_SIZES=11-22 PERF_IOS_NUM_DOCS=100-200 PERF_IOS_NUM_ITERS=1'
 task_groups:
   - name: run_core_tests
     setup_group_can_fail_task: true
