@@ -108,23 +108,13 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
         return success
     }
 
-    func runPerformanceTestWithParameters(testName: String,
-                                          runId: ObjectId,
-                                          testDefinition: TestDefinition,
-                                          beforeEach: SetupDefinition = { _, _, _ in },
-                                          afterEach: TeardownDefinition = { _, _, _ in }) {
-        var failed = false
+    private func outputTestParams(testName: String, runId: ObjectId, resultId: ObjectId) {
         var testParams = TestParams(testName: testName, runId: runId)
-
-        if setupOutputClient() == false {
-            return
-        }
 
         if SyncPerformanceTestUtils.configuredShouldOutputToStdOut {
             print("PerfLog: Starting Test: \(testParams.asBson)")
         }
 
-        let resultId = ObjectId()
         if SyncPerformanceTestUtils.configuredShouldOutputToStitch {
             var params = testParams.asBson
             params["_id"] = resultId
@@ -132,6 +122,21 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
             params["hostName"] = hostName
             outputColl?.insertOne(params)
         }
+    }
+
+    func runPerformanceTestWithParameters(testName: String,
+                                          runId: ObjectId,
+                                          testDefinition: TestDefinition,
+                                          beforeEach: SetupDefinition = { _, _, _ in },
+                                          afterEach: TeardownDefinition = { _, _, _ in }) {
+        var failed = false
+        let resultId = ObjectId()
+
+        if setupOutputClient() == false {
+            return
+        }
+
+        outputTestParams(testName: testName, runId: runId, resultId: resultId)
 
         for docSize in SyncPerformanceTestUtils.configuredDocSizes {
             for numDoc in SyncPerformanceTestUtils.configuredNumDocs {
