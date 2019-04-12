@@ -7,13 +7,36 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 cd ..
 
+# Ensure that 'hub' is installed
+which hub
+
+# Ensure that there are no working changes that will accidentally get committed.
+STATUS="$(git status -s)"
+if [ -n "$STATUS" ]; then
+  echo "Git status is not clean. Refusing to commit."
+  echo "Finish your work, then run $0"
+  exit 1
+fi
+
 # Determine the bump type from the user input
 BUMP_TYPE=$1
 if [ "$BUMP_TYPE" != "patch" ] && [ "$BUMP_TYPE" != "minor" ] && [ "$BUMP_TYPE" != "major" ]; then
-	echo $"Usage: $0 <patch|minor|major>"
+	echo $"Usage: $0 <patch|minor|major> <jira_ticket>"
 	exit 1
 fi
 
+# Determine the JIRA ticket to include in the commit message for the pull request
+JIRA_TICKET=$2
+if [ -z "$JIRA_TICKET" ]
+    then
+        echo $"Usage: must provide Jira ticket number (Ex: STITCH-1234, or 1234)"
+        exit 1
+fi
+
+ if [[ $JIRA_TICKET != *"-"* ]] ; then
+    JIRA_TICKET="STITCH-$JIRA_TICKET"
+fi
+echo "Jira Ticket: $JIRA_TICKET"
 # Get the current package version
 LAST_VERSION=`cat StitchSDK.podspec | grep "spec.version" | head -1 | cut -d \" -f2`
 LAST_VERSION_MAJOR=$(echo $LAST_VERSION | cut -d. -f1)
@@ -39,6 +62,10 @@ fi
 NEW_VERSION=$NEW_VERSION_MAJOR.$NEW_VERSION_MINOR.$NEW_VERSION_PATCH
 
 echo "Bumping $LAST_VERSION to $NEW_VERSION ($BUMP_TYPE)"
+
+# Create the branch for the release PR
+git checkout -b "Release-$JIRA_TICKET"
+git push -u origin "Release-$JIRA_TICKET"
 
 # Update all of the podspecs
 echo "Updating podspecs"
@@ -77,3 +104,8 @@ done
 echo "Updating README"
 sed -i "" -E "$PODSPEC_SED_REGEX" README.md
 git add README.md
+
+git commit -m "$JIRA_TICKET Release $NEW_VERSION"
+
+echo "creating pull request in github..."
+hub pull-request -m "$JIRA_TICKET: Release $NEW_VERSION" --base mongodb:master --head mongodb:"Release-$JIRA_TICKET"

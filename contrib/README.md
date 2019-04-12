@@ -35,26 +35,26 @@ To avoid getting a lot of linter warnings, make sure the following whitespace se
 
 ### Publishing a New SDK version (MongoDB Internal Contributors Only)
 
-1. Run `contrib/bump_version.bash <patch|minor|major>`. This will 
-   update the version of the SDK in all of the appropriate Podfiles, it will 
-   update the version of the SDK in the root-level README.md so that it refers 
-   to the latest version of the SDK, and it will stage these changes in the 
-   Git repository.
-
-2. Review the changes made by the version bump script, and then commit the 
-   changes with `git commit -m "Release <VERSION>"`, substituting the
-   placeholder with the appropriate package version.
-
-3. Properly tag the release with the correct version number by running
-   `git tag <VERSION>`, substituting the placeholder with the 
-   appropriate package version. Once the tag is created, push the tag to the 
-   upstream remote with `git push upstream <VERSION>`. Depending on 
-   how your local git is configured, you may need to run
-   `git push origin <VERSION>`.
-
-4. If manual changes were made to any Podfile or podspec, run 
+1. If manual changes were made to any Podfile or podspec, run 
    `contrib/lint_pods.sh` to ensure that the pods will be published 
    successfully. This command may take a while (1-2 hours).
+
+2. Run `contrib/bump_version.sh <patch|minor|major> <jira_ticket>`. This will 
+   update the version of the SDK in all of the appropriate Podfiles, it will 
+   update the version of the SDK in the root-level README.md so that it refers 
+   to the latest version of the SDK, and it will open a pull request on Github
+   with these changes.
+
+3. Go to [iOS SDK](https://github.com/mongodb/stitch-ios-sdk/pulls) and 
+   request a reviewer on the pull request (mandatory) before merging and 
+   deleting the release branch.
+
+4. Properly tag the release with the correct version number by running
+   `git tag <VERSION>` on the master branch after merging, substituting the 
+   placeholder with the appropriate package version. Once the tag is created, 
+   push the tag to the upstream remote with `git push upstream <VERSION>`. 
+   Depending on how your local git is configured, you may need to run
+   `git push origin <VERSION>` instead.
 
 5. Ensure that you are registered for CocoaPods Trunk on your local Mac system.
    See https://guides.cocoapods.org/making/getting-setup-with-trunk.html for
