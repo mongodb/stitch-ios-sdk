@@ -59,8 +59,8 @@ class SyncPerformanceIntTests: XCTestCase {
         harness.runPerformanceTestWithParameters(
             testName: "intialSyncLocal",
             runId: runId,
-            testDefinition: {ctx, numDoc, docSize in
-                print("PerfLog: Test: \(numDoc) docs of size \(docSize)")
+            testDefinition: { ctx, numDoc, docSize in
+                harness.logMessage(message: "Running Test:  \(numDoc) docs of size \(docSize)")
 
                 if numDoc > 0 {
                     let docs = SyncPerformanceTestUtils.generateDocuments(numDoc: numDoc, docSize: docSize)
@@ -80,10 +80,10 @@ class SyncPerformanceIntTests: XCTestCase {
                     _ = try ctx.coll.sync.proxy.dataSynchronizer.doSyncPass()
                     try assertEqual(Int.self, ctx.coll.sync.syncedIds().count, numDoc)
                 }
-            }, beforeEach: {_, numDoc, docSize in
-                print("PerfLog: (Custom Setup) \(numDoc) docs of size \(docSize)")
-            }, afterEach: {_, numDoc, docSize in
-                print("PerfLog: (Custom Teardown) \(numDoc) docs of size \(docSize)")
+            }, beforeEach: { _, numDoc, docSize in
+                harness.logMessage(message: "(Custom Setup) \(numDoc) docs of size \(docSize)")
+            }, afterEach: { _, numDoc, docSize in
+                harness.logMessage(message: "(Custom Teardown) \(numDoc) docs of size \(docSize)")
             }
         )
     }

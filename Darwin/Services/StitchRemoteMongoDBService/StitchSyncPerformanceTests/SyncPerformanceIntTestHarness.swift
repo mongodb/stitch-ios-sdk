@@ -84,23 +84,20 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
         super.setUp()
     }
 
-    private func getPerformanceTestingContext() throws -> SyncPerformanceTestContext {
-        if SyncPerformanceTestUtils.configuredStitchHostName == "https://stitch.mongodb.com" {
-            return try ProductionPerformanceTestContext(harness: self)
+    var performanceTestingContext: SyncPerformanceTestContext? {
+        if SyncPerformanceTestUtils.stitchHostName == "https://stitch.mongodb.com" {
+            return try? ProductionPerformanceTestContext(harness: self)
         } else {
-            return try LocalPerformanceTestContext(harness: self)
+            return try? LocalPerformanceTestContext(harness: self)
         }
     }
 
     private func handleTestResults(runResults: Document, resultId: ObjectId) -> Bool {
         let success = runResults.hasKey("timeMs")
 
-        if SyncPerformanceTestUtils.configuredShouldOutputToStdOut {
-            let successMsg = success ? "Success" : "Failure"
-            print("PerfLog: \(successMsg): \(runResults.canonicalExtendedJSON)")
-        }
+        logMessage(message: "\(success ? "Success" : "Failure"): \(runResults.canonicalExtendedJSON)")
 
-        if SyncPerformanceTestUtils.configuredShouldOutputToStitch {
+        if SyncPerformanceTestUtils.shouldOutputToStitch {
             _ = outputColl?.updateOne(filter: ["_id": resultId],
                                       update: ["$push": ["results": runResults] as Document])
         }
@@ -109,18 +106,22 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
     }
 
     private func outputTestParams(testName: String, runId: ObjectId, resultId: ObjectId) {
-        var testParams = TestParams(testName: testName, runId: runId)
+        var testParams = TestParams(withTestName: testName, withRunId: runId)
 
-        if SyncPerformanceTestUtils.configuredShouldOutputToStdOut {
-            print("PerfLog: Starting Test: \(testParams.asBson)")
-        }
+        logMessage(message: "Starting Test: \(testParams.asBson)")
 
-        if SyncPerformanceTestUtils.configuredShouldOutputToStitch {
+        if SyncPerformanceTestUtils.shouldOutputToStitch {
             var params = testParams.asBson
             params["_id"] = resultId
             params["status"] = "In Progress"
             params["hostName"] = hostName
             outputColl?.insertOne(params)
+        }
+    }
+
+    internal func logMessage(message: String) {
+        if SyncPerformanceTestUtils.shouldOutputToStdOut {
+             print("PerfLog: \(message)")
         }
     }
 
@@ -132,37 +133,40 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
         var failed = false
         let resultId = ObjectId()
 
-        if setupOutputClient() == false {
+        guard setupOutputClient() == true else {
             return
         }
 
         outputTestParams(testName: testName, runId: runId, resultId: resultId)
 
-        for docSize in SyncPerformanceTestUtils.configuredDocSizes {
-            for numDoc in SyncPerformanceTestUtils.configuredNumDocs {
+        for docSize in SyncPerformanceTestUtils.docSizes {
+            for numDoc in SyncPerformanceTestUtils.numDocs {
 
                 let runResults = RunResults(numDocs: numDoc, docSize: docSize)
-                for iter in 1...SyncPerformanceTestUtils.configuredNumIters {
+                for iter in 0..<SyncPerformanceTestUtils.numIters {
                     do {
-                        let ctx = try getPerformanceTestingContext()
+                        guard let ctx = performanceTestingContext else {
+                            throw "Could not create Performance Testing Context"
+                        }
+
                         let iterResult = try ctx.runSingleIteration(numDocs: numDoc,
                                                                     docSize: docSize,
                                                                     testDefinition: testDefinition,
                                                                     setup: beforeEach,
                                                                     teardown: afterEach)
 
-                        runResults.addResults(iterResult: iterResult)
+                        runResults.addResult(iterResult: iterResult)
                         try ctx.tearDown()
                     } catch {
-                        let message = "Failed on iteration \(iter) of \(SyncPerformanceTestUtils.configuredNumIters)" +
+                        let message = "Failed on iteration \(iter) of \(SyncPerformanceTestUtils.numIters)" +
                         "with error \(String(describing: error))"
                         runResults.addFailure(failureResult: FailureResult(
                             iteration: iter,
                             reason: message,
                             stackTrace: Thread.callStackSymbols))
 
-                        if SyncPerformanceTestUtils.configuredShouldOutputToStdOut {
-                            print("PerfLog: ERROR: \(message)")
+                        if SyncPerformanceTestUtils.shouldOutputToStdOut {
+                            logMessage(message: "Error \(message)")
                         }
                     }
                 }
@@ -174,7 +178,7 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
             }
         }
 
-        if SyncPerformanceTestUtils.configuredShouldOutputToStitch {
+        if SyncPerformanceTestUtils.shouldOutputToStitch {
             let resStr = failed ? "Failure" : "Success"
             _ = outputColl?.updateOne(filter: ["_id": resultId],
                                       update: ["$set": ["status": resStr] as Document])
@@ -186,7 +190,7 @@ internal struct TestParams {
     let testName: String
     let runId: ObjectId
 
-    init(testName: String, runId: ObjectId) {
+    init(withTestName testName: String, withRunId runId: ObjectId) {
         self.testName = testName
         self.runId = runId
     }
@@ -194,11 +198,11 @@ internal struct TestParams {
     lazy var asBson: Document = [
         "testName": testName,
         "runId": runId,
-        "numIters": SyncPerformanceTestUtils.configuredNumIters,
-        "dataProbeGranularityMs": SyncPerformanceTestUtils.configuredDataGranularity,
-        "numOutliersEachSide": SyncPerformanceTestUtils.configuredNumOutliers,
-        "stitchHostName": SyncPerformanceTestUtils.configuredStitchHostName,
-        "hostname": SyncPerformanceTestUtils.configuredHostname,
+        "numIters": SyncPerformanceTestUtils.numIters,
+        "dataProbeGranularityMs": SyncPerformanceTestUtils.dataGranularity,
+        "numOutliersEachSide": SyncPerformanceTestUtils.numOutliers,
+        "stitchHostName": SyncPerformanceTestUtils.stitchHostName,
+        "hostname": SyncPerformanceTestUtils.hostname,
         "date": Date(),
         "sdk": "ios",
         "results": []
@@ -310,7 +314,7 @@ private class RunResults {
         self.docSize = docSize
     }
 
-    func addResults(iterResult: IterationResult) {
+    func addResult(iterResult: IterationResult) {
         self.timeData.append(iterResult.executionTimeMs)
         self.cpuUsageData.append(iterResult.cpuUsagePercent)
         self.memoryUsageData.append(iterResult.memoryUsageBytes)
@@ -325,9 +329,9 @@ private class RunResults {
     }
 
     var asBson: Document {
-        let failuresBson = self.failures.map {$0.asBson}
-        if failures.count < (SyncPerformanceTestUtils.configuredNumIters + 1) / 2 {
-            let numOutliers = SyncPerformanceTestUtils.configuredNumOutliers
+        let failuresBson = self.failures.map { $0.asBson }
+        if failures.count < (SyncPerformanceTestUtils.numIters + 1) / 2 {
+            let numOutliers = SyncPerformanceTestUtils.numOutliers
             return [
                 "numDocs": self.numDocs,
                 "docSize": self.docSize,

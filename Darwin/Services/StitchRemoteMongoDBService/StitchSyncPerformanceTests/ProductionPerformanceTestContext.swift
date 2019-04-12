@@ -53,7 +53,7 @@ class ProductionPerformanceTestContext: SyncPerformanceTestContext {
                 let _: Any? = try joiner.value()
                 break
             } catch {
-                print("PerfLog: error deleting all documents \(error.localizedDescription)")
+                harness.logMessage(message: "error deleting all documents \(error.localizedDescription)")
             }
         }
         let count = coll.count([:]) ?? 1

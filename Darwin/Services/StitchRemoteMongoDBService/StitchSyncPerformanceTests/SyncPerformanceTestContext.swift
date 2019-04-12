@@ -43,7 +43,7 @@ extension SyncPerformanceTestContext {
             (systemAttributes[FileAttributeKey.systemFreeSize] as? NSNumber)?.doubleValue ?? 0.0
 
         // Start repeating task
-        let timeInterval = SyncPerformanceTestUtils.configuredDataGranularity / 1000.0
+        let timeInterval = SyncPerformanceTestUtils.dataGranularity / 1000.0
         let metricsCollector = MetricsCollector(timeInterval: timeInterval)
         metricsCollector.resume()
 

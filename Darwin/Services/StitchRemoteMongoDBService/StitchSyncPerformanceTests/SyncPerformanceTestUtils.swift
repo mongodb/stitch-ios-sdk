@@ -22,7 +22,7 @@ internal class SyncPerformanceTestUtils {
     static private let defaultOutputToStitch = true
     static private let defaultPreserveRawOutput = false
 
-    static let configuredStitchHostName: String = {
+    static let stitchHostName: String = {
         if !TEST_PERF_IOS_STITCH_HOST.isEmpty {
             if TEST_PERF_IOS_STITCH_HOST.lowercased() == "local" {
                 return defaultStitchHostName
@@ -35,7 +35,7 @@ internal class SyncPerformanceTestUtils {
         return defaultStitchHostName
     }()
 
-    static let configuredNumIters: Int = {
+    static let numIters: Int = {
         if let param = Int(TEST_PERF_IOS_NUM_ITERS) {
             return param
         } else if let paramStr = ProcessInfo.processInfo.environment["PERF_IOS_NUM_ITERS"], let param = Int(paramStr) {
@@ -44,7 +44,7 @@ internal class SyncPerformanceTestUtils {
         return defaultNumIters
     }()
 
-    static let configuredHostname: String = {
+    static let hostname: String = {
         if !TEST_PERF_IOS_HOSTNAME.isEmpty {
             return TEST_PERF_IOS_HOSTNAME
         } else if let param = ProcessInfo.processInfo.environment["PERF_IOS_HOSTNAME"] {
@@ -53,7 +53,7 @@ internal class SyncPerformanceTestUtils {
         return defaultHostName
     }()
 
-    static let configuredDocSizes: [Int] = {
+    static let docSizes: [Int] = {
         if !TEST_PERF_IOS_DOC_SIZES.isEmpty {
             return stringToIntArr(TEST_PERF_IOS_DOC_SIZES)
         } else if let param = ProcessInfo.processInfo.environment["PERF_IOS_DOC_SIZES"] {
@@ -62,7 +62,7 @@ internal class SyncPerformanceTestUtils {
         return defaultDocSizes
     }()
 
-    static let configuredNumDocs: [Int] = {
+    static let numDocs: [Int] = {
         if !TEST_PERF_IOS_NUM_DOCS.isEmpty {
             return stringToIntArr(TEST_PERF_IOS_NUM_DOCS)
         } else if let param = ProcessInfo.processInfo.environment["PERF_IOS_NUM_DOCS"] {
@@ -71,7 +71,7 @@ internal class SyncPerformanceTestUtils {
         return defaultNumDocs
     }()
 
-    static let configuredDataGranularity: Double = {
+    static let dataGranularity: Double = {
         if let param = Double(TEST_PERF_IOS_DATA_GRANULARITY) {
             return param
         } else if let paramStr = ProcessInfo.processInfo.environment["PERF_IOS_DATA_GRANULARITY"],
@@ -81,7 +81,7 @@ internal class SyncPerformanceTestUtils {
         return defaultDataGranularity
     }()
 
-    static let configuredNumOutliers: Int = {
+    static let numOutliers: Int = {
         if let param = Int(TEST_PERF_IOS_NUM_OUTLIERS) {
             return param
         } else if let paramStr = ProcessInfo.processInfo.environment["PERF_IOS_NUM_OUTLIERS"],
@@ -91,7 +91,7 @@ internal class SyncPerformanceTestUtils {
         return defaultNumOutliers
     }()
 
-    static let configuredShouldOutputToStdOut: Bool = {
+    static let shouldOutputToStdOut: Bool = {
         if let param = Bool(TEST_PERF_IOS_OUTPUT_STDOUT) {
             return param
         } else if let paramStr = ProcessInfo.processInfo.environment["PERF_IOS_OUTPUT_STDOUT"],
@@ -101,7 +101,7 @@ internal class SyncPerformanceTestUtils {
         return defaultOutputToStdout
     }()
 
-    static let configuredShouldOutputToStitch: Bool = {
+    static let shouldOutputToStitch: Bool = {
         if let param = Bool(TEST_PERF_IOS_OUTPUT_STITCH) {
             return param
         } else if let paramStr = ProcessInfo.processInfo.environment["PERF_IOS_OUTPUT_STITCH"],
@@ -111,7 +111,7 @@ internal class SyncPerformanceTestUtils {
         return defaultOutputToStitch
     }()
 
-    static let configuredShouldOutputRaw: Bool = {
+    static let shouldOutputRaw: Bool = {
         if let param = Bool(TEST_PERF_IOS_OUTPUT_RAW) {
             return param
         } else if let paramStr = ProcessInfo.processInfo.environment["PERF_IOS_OUTPUT_RAW"],

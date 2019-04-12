@@ -375,5 +375,4 @@ buildvariants:
   tasks:
     - name: run_core_tests
     - name: run_ios_tests
-    - name: run_ios_performance_tests
     - name: lint
