@@ -1,8 +1,20 @@
 import StitchCoreSDK
 
 /**
- * A set of methods for retrieving or modifying the authentication state of a `StitchAppClient`.
- * An implementation can be instantiated with a `StitchAppClient` instance.
+ * The `StitchAuth` provides methods for retrieving or modifying the authentication
+ * state of a `StitchAppClient`.
+ *
+ * Each `StitchAppClient` has an instance of StitchAuth.
+ *
+ * Information about the logged-in `StitchUser` is available in the `currentUser` property.
+ *
+ * To watch for auth events, add a `StitchAuthDelegate`.
+ *
+ * - SeeAlso:
+ * `StitchAppClient`,
+ * `StitchUser`,
+ * `StitchAuthDelegate`
+ * 
  */
 public protocol StitchAuth {
 

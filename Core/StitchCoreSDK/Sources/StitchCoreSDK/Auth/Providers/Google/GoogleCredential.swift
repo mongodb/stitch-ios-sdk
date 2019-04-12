@@ -1,14 +1,17 @@
 import MongoSwift
 
 /**
- * A credential which can be used to log in as a Stitch user
- * using the Google authentication provider.
+ * The `GoogleCredential` is a `StitchCredential` that is used to log in
+ * using the [Google Authentication Provider](https://docs.mongodb.com/stitch/authentication/google/).
+ *
+ * - SeeAlso:
+ * `StitchAuth`
  */
 public struct GoogleCredential: StitchCredential {
     // MARK: Initializer
 
     /**
-     * Initializes this credential with the name of the provider, and a Google OAuth2 authentication code.
+     * Initializes this credential with the name of the provider and a Google OAuth2 authentication code.
      */
     public init(withProviderName providerName: String = providerType.name,
                 withAuthCode authCode: String) {

@@ -3,17 +3,32 @@ import StitchCoreSDK
 import Foundation
 
 /**
- * The fundamental set of methods for communicating with a MongoDB Stitch application.
- * Contains methods for executing Stitch functions and retrieving clients for Stitch services,
- * contains a `StitchAuth` object to manage the authentication state of the client, and contains a
- * `StitchPush` object to register the current user for push notifications. An implementation can be instantiated using
- * the `Stitch` utility class.
+ * The `StitchAppClient` has the fundamental set of methods for communicating with a MongoDB
+ * Stitch application backend.
+ *
+ * An implementation can be initialized or retrieved using the `Stitch` utility class.
+ *
+ * This protocol provides access to the `StitchAuth` for login and authentication.
+ *
+ * Using `serviceClient`, you can retrieve services, including the `RemoteMongoClient` for reading
+ * and writing on the database.
+ *
+ * You can also use it to execute Stitch [Functions](https://docs.mongodb.com/stitch/functions/).
+ * 
+ * Finally, its `StitchPush` object can register the current user for push notifications.
+ *
+ * - SeeAlso:
+ * `Stitch`,
+ * `StitchAuth`,
+ * `RemoteMongoClient`,
+ * `StitchPush`,
+ * [Functions](https://docs.mongodb.com/stitch/functions/)
  */
 public protocol StitchAppClient {
     // MARK: Authentication
 
     /**
-     * The StitchAuth object representing the authentication state of this client. Includes methods for logging in
+     * The `StitchAuth` object representing the authentication state of this client. Includes methods for logging in
      * and logging out.
      *
      * - important: Authentication state can be persisted beyond the lifetime of an application.

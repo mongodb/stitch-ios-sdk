@@ -1,8 +1,11 @@
 import MongoSwift
 
 /**
- * A credential which can be used to log in as a Stitch user
- * using the anonymous authentication provider.
+ * The `AnonymousCredential` is a `StitchCredential` that can be used to log in
+ * using the [Anonymous Authentication Provider](https://docs.mongodb.com/stitch/authentication/anonymous/).
+ *
+ * - SeeAlso:
+ * `StitchAuth`
  */
 public struct AnonymousCredential: StitchCredential {
     // MARK: Initializer

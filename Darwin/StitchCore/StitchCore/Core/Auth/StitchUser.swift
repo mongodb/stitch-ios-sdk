@@ -2,8 +2,15 @@ import Foundation
 import StitchCoreSDK
 
 /**
- * A set of methods and properties that represent a user that a `StitchAppClient` is currently authenticated as.
- * Can be retrieved from a `StitchAuth` or from the `StitchResult` of certain methods.
+ * The `StitchUser` represents the the user who is logged in to the `StitchAppClient`.
+ * 
+ * You can retrieve an instance from `StitchAuth` or from the `StitchResult` of certain methods.
+ *
+ * You will find information about the user such as name and email address in the `StitchUserProfile`
+ * property `profile`.
+ * 
+ * - SeeAlso:
+ * `StitchAuth`
  */
 public protocol StitchUser: CoreStitchUser {
     // MARK: Properties
@@ -14,22 +21,27 @@ public protocol StitchUser: CoreStitchUser {
     var id: String { get }
 
     /**
-     * The type of authentication provider used to log in as this user.
+     * The type of [Authentication Provider](https://docs.mongodb.com/stitch/authentication/providers/)
+     * used to log in as this user.
      */
     var loggedInProviderType: StitchProviderType { get }
 
     /**
-     * The name of the authentication provider used to log in as this user.
+     * The name of the [Authentication Provider](https://docs.mongodb.com/stitch/authentication/providers/)
+     * used to log in as this user.
      */
     var loggedInProviderName: String { get }
 
     /**
-     * A string describing the type of this user. (Either `server` or `normal`)
+     * A string describing the type of this user, either `"normal"` or `"server"`.
+     *
+     * `"server"` users are users authenticated via a server API key generated 
+     * in the MongoDB Stitch admin console. All other users are `"normal"` users.
      */
     var userType: String { get }
 
     /**
-     * A `StitchUserProfile` object describing this user.
+     * A `StitchUserProfile` describing this user.
      */
     var profile: StitchUserProfile { get }
 
@@ -40,13 +52,13 @@ public protocol StitchUser: CoreStitchUser {
     var identities: [StitchUserIdentity] { get }
 
     /**
-     * If this user is currently logged in
+     * If this user is currently logged in.
      */
     var isLoggedIn: Bool { get }
 
     /**
-     * The last time this user was logged into, logged out of, switched to, or switched from
-     * This is stored as the TimeInterval (seconds) since the Unix Epoch
+     * The last time this user was logged in, logged out, switched to, or switched from.
+     * This is stored as the `TimeInterval` (seconds) since the Unix Epoch.
      */
     var lastAuthActivity: TimeInterval { get }
 
@@ -56,8 +68,9 @@ public protocol StitchUser: CoreStitchUser {
     // swiftlint:disable line_length
     /**
      * Links the currently authenticated `StitchUser` with a new identity, where the identity is defined by the credential
-     * specified as a parameter. This will only be successful if this `StitchUser` is the currently authenticated
-     * `StitchUser` for the client from which it was created.
+     * specified as a parameter.
+     * 
+     * This will only be successful if this `StitchUser` is the currently authenticated `StitchUser`.
      *
      * - parameters:
      *     - withCredential: The `StitchCore.StitchCredential` used to link the user to a new

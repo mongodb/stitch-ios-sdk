@@ -2,8 +2,9 @@ import Foundation
 import StitchCoreSDK
 
 /**
- * Singleton class with static utility functions for initializing the MongoDB Stitch iOS SDK,
- * and for retrieving a `StitchAppClient`.
+ * `Stitch` is the singleton class with static utility functions for initializing the SDK.
+ * 
+ * Use it to initialize and retrieve a `StitchAppClient` for your Stitch app.
  */
 public class Stitch {
 

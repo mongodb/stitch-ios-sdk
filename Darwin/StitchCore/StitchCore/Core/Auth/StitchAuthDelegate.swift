@@ -1,9 +1,8 @@
 import StitchCoreSDK
 
 /**
-  A protocol to be inherited by classes that need to take action whenever a particular `StitchAppClient` performs an
-  authentication event. An instance of a `StitchAuthDelegate` must be registered with a `StitchAuth` for this to work
-  correctly.
+  `StitchAuthDelegate` is a protocol to be inherited when you need to take action on authentication events.
+  An instance of a `StitchAuthDelegate` must be added to a `StitchAuth`.
 
   - Note:
      This protocol uses an extension to provide default implementations. This is for your convenience, so you do not
@@ -14,13 +13,19 @@ import StitchCoreSDK
      for more context and potential workarounds, or open an issue in our GitHub repository.
 
     - Tag: StitchAuthDelegate
+
+  - SeeAlso:
+  `StitchAuth`,
+  [Working with Multiple User Accounts](https://docs.mongodb.com/stitch/authentication/implement-multi-user/)
  */
 public protocol StitchAuthDelegate: class {
     /**
-     * A method to be called whenever a `StitchAppClient` performs an authentication event.
-     * Note, when this method is invoked by a `StitchAuth` for which this delegate is registered,
-     * the invocation will be dispatched to a non-main dispatch queue, so be sure to dispatch any
-     * UI operations back to the main `DispatchQueue`.
+     * Called whenever a `StitchAppClient` performs an authentication event.
+     *
+     * - Note: 
+     *   When this method is invoked by a `StitchAuth` for which this delegate is registered,
+     *   the invocation will be dispatched to a non-main dispatch queue, so be sure to dispatch any
+     *   UI operations back to the main `DispatchQueue`.
      *
      * - parameters:
      *    - fromAuth: The `StitchAuth` object that caused the authentication event.
