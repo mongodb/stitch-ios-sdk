@@ -76,7 +76,7 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
         outputMongoClient = try! outputClient?.serviceClient(fromFactory: remoteMongoClientFactory,
                                                              withName: "mongodb-atlas")
         outputColl = outputMongoClient?.db(stitchOutputDbName).collection(stitchOutputCollName)
-        
+
         return true
     }
 
@@ -115,7 +115,7 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
                                           afterEach: TeardownDefinition = { _, _, _ in }) {
         var failed = false
         var testParams = TestParams(testName: testName, runId: runId)
-        
+
         if setupOutputClient() == false {
             return
         }
@@ -140,7 +140,6 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
                 for iter in 1...SyncPerformanceTestUtils.configuredNumIters {
                     do {
                         let ctx = try getPerformanceTestingContext()
-
                         let iterResult = try ctx.runSingleIteration(numDocs: numDoc,
                                                                     docSize: docSize,
                                                                     testDefinition: testDefinition,
@@ -148,7 +147,6 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
                                                                     teardown: afterEach)
 
                         runResults.addResults(iterResult: iterResult)
-
                         try ctx.tearDown()
                     } catch {
                         let message = "Failed on iteration \(iter) of \(SyncPerformanceTestUtils.configuredNumIters)" +
