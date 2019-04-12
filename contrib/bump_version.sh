@@ -8,7 +8,7 @@ cd $DIR
 cd ..
 
 # Ensure that 'hub' is installed
-which hub
+which hub || (echo "hub is not installed. Please see contrib/README.md for more info" && exit 1)
 
 # Ensure that there are no working changes that will accidentally get committed.
 STATUS="$(git status -s)"
