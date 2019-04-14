@@ -44,7 +44,7 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
     internal var outputMongoClient: RemoteMongoClient!
     internal var outputColl: RemoteMongoCollection<Document>!
 
-    func setupOutputClient() -> Bool {
+    lazy var setupOutputClient: Bool = {
         if outputClient == nil {
             do {
                 outputClient = try Stitch.appClient(forAppID: stitchOutputAppName)
@@ -78,17 +78,17 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
         outputColl = outputMongoClient?.db(stitchOutputDbName).collection(stitchOutputCollName)
 
         return true
-    }
+    }()
 
     override func setUp() {
         super.setUp()
     }
 
-    var performanceTestingContext: SyncPerformanceTestContext? {
+    func createPerformanceTestingContext() throws -> SyncPerformanceTestContext {
         if SyncPerformanceTestUtils.stitchHostName == "https://stitch.mongodb.com" {
-            return try? ProductionPerformanceTestContext(harness: self)
+            return try ProductionPerformanceTestContext(harness: self)
         } else {
-            return try? LocalPerformanceTestContext(harness: self)
+            return try LocalPerformanceTestContext(harness: self)
         }
     }
 
@@ -133,7 +133,7 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
         var failed = false
         let resultId = ObjectId()
 
-        guard setupOutputClient() == true else {
+        guard setupOutputClient == true else {
             return
         }
 
@@ -145,9 +145,7 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
                 let runResults = RunResults(numDocs: numDoc, docSize: docSize)
                 for iter in 0..<SyncPerformanceTestUtils.numIters {
                     do {
-                        guard let ctx = performanceTestingContext else {
-                            throw "Could not create Performance Testing Context"
-                        }
+                        let ctx = try createPerformanceTestingContext()
 
                         let iterResult = try ctx.runSingleIteration(numDocs: numDoc,
                                                                     docSize: docSize,
