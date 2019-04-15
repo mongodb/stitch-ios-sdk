@@ -58,7 +58,7 @@ public class Sync<DocumentT: Codable> {
         changeEventDelegate: CED? = nil,
         errorListener: ErrorListener? = nil,
         _ completionHandler: @escaping (StitchResult<Void>) -> Void
-        ) where CH.DocumentT == DocumentT, CED.DocumentT == DocumentT {
+    ) where CH.DocumentT == DocumentT, CED.DocumentT == DocumentT {
         queue.async {
             completionHandler(.success(result: self.proxy.configure(conflictHandler: conflictHandler,
                                                                     changeEventDelegate: changeEventDelegate,
@@ -70,8 +70,8 @@ public class Sync<DocumentT: Codable> {
      Requests that the given document _ids be synchronized.
      - parameter ids: the document _ids to synchronize.
      - parameter completionHandler: the handler to execute when the provided ids are marked as synced. The documents
-     will not necessarily exist in the local collection yet, but will get synced
-     down in the next background sync pass
+                                    will not necessarily exist in the local collection yet, but will get synced
+                                    down in the next background sync pass
      */
     public func sync(ids: [BSONValue], _ completionHandler: @escaping (StitchResult<Void>) -> Void) {
         queue.async {
@@ -89,7 +89,7 @@ public class Sync<DocumentT: Codable> {
      Stops synchronizing the given document _ids. Any uncommitted writes will be lost.
      - parameter ids: the _ids of the documents to desynchronize.
      - parameter completionHandler: the handler to execute when the provided ids are no longer marked as synced. The
-     documents will be deleted from the local collection, but not the remote collection.
+                                    documents will be deleted from the local collection, but not the remote collection.
      */
     public func desync(ids: [BSONValue], _ completionHandler: @escaping (StitchResult<Void>) -> Void) {
         queue.async {
@@ -117,7 +117,7 @@ public class Sync<DocumentT: Codable> {
     /**
      Return the set of synchronized document _ids in a namespace
      that have been paused due to an irrecoverable error.
-     
+
      - returns: the set of paused document _ids in a namespace
      */
     public func pausedIds(_ completionHandler: @escaping (StitchResult<Set<AnyBSONValue>>) -> Void) {
@@ -130,7 +130,7 @@ public class Sync<DocumentT: Codable> {
      A document that is paused no longer has remote updates applied to it.
      Any local updates to this document cause it to be resumed. An example of pausing a document
      is when a conflict is being resolved for that document and the handler throws an exception.
-     
+
      - parameter documentId: the id of the document to resume syncing
      - returns: true if successfully resumed, false if the document
      could not be found or there was an error resuming
