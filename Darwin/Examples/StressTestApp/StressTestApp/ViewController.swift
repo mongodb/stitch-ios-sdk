@@ -1,18 +1,10 @@
-//
-//  ViewController.swift
-//  StressTestApp
-//
-//  Created by Tyler Kaye on 3/14/19.
-//  Copyright © 2019 Tyler Kaye. All rights reserved.
-//
-
 import UIKit
 import StitchCore
 import MongoSwift
-import StitchRemoteMongoDBService
 import StitchLocalMongoDBService
 import StitchCoreSDK
-import StitchCoreRemoteMongoDBService
+@testable import StitchRemoteMongoDBService
+@testable import StitchCoreRemoteMongoDBService
 
 class ViewController: UIViewController {
     // Stitch Variables:
@@ -32,8 +24,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var syncPassButton: UIButton!
     
     @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var networkLabel: UILabel!
-    @IBOutlet weak var cpuLabel: UILabel!
+    @IBOutlet weak var networkSentLabel: UILabel!
+    @IBOutlet weak var networkReceivedLabel: UILabel!
+    
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,7 +50,7 @@ class ViewController: UIViewController {
             syncCollection?.configure(
                 conflictHandler: DefaultConflictHandler<Document>.remoteWins(),
                 changeEventDelegate: { documentId, event in
-                    self.log(" Sync received changeEvent of type: \(event.operationType) and body: \(event.fullDocument)")
+                    self.log(" Sync received changeEvent of type: \(event.operationType) and body: \(String(describing: event.fullDocument))")
                     if (event.hasUncommittedWrites) {
                         self.log(" Sync changeEvent has uncommitted writes")
                     }
@@ -72,9 +66,14 @@ class ViewController: UIViewController {
                     self.log("Failed to auth with error: \(error)");
                 }
             }
+            
+            syncCollection?.proxy.dataSynchronizer.isSyncThreadEnabled = false
+            syncCollection?.proxy.dataSynchronizer.stop()
         } catch (let err) {
             self.log("Failed initialize mongoClient with error: \(err)");
         }
+        
+        
 
     }
 
@@ -91,7 +90,11 @@ class ViewController: UIViewController {
         }
         
         timeLabel.text = "In Progress"
+        networkSentLabel.text = "In Progress"
+        networkReceivedLabel.text = "In Progress"
         let time = Date.init()
+        let networkRecieved = appDelegate.transport.bytesDownloaded
+        let networkSent = appDelegate.transport.bytesUploaded
         
         let numDocs = integer(from: numDocsToInsertInput);
         let docSize = integer(from: docSizeInput);
@@ -133,7 +136,9 @@ class ViewController: UIViewController {
                 case .success(result: _):
                     self.log("Succeffully synced \(docIds.count) docs");
                     let newTime = Date.init().msSinceEpoch - time.msSinceEpoch
-                    self.updateLabels(withTime: Int(newTime))
+                    let newBytesSent = self.appDelegate.transport.bytesUploaded - networkSent
+                    let newBytesRec = self.appDelegate.transport.bytesDownloaded - networkRecieved
+                    self.updateLabels(withTime: newTime, withNetworkSent: newBytesSent, withNetworkRec: newBytesRec)
                 case .failure(let error):
                      self.log("Failed to sync #\(docIds.count) docs with err: \(error.localizedDescription)")
                 }
@@ -148,38 +153,56 @@ class ViewController: UIViewController {
         }
         
         guard let syncCollection = syncCollection else {
-            self.log(" clearAllDocsClicked: Must be logged in")
+            self.log(" clearAllDocsClicked: Must have valid syncCollection")
             return;
         }
-        let syncedIds = syncCollection.syncedIds;
+        let syncedIds = syncCollection.syncedIds()
         if (syncedIds.count > 0) {
             syncCollection.desync(ids: syncedIds.map({return $0.value})) {result in
                 switch result {
                 case .success(result: _):
                     self.log("Succeffully de-synced \(syncedIds.count) docs");
+                    self.performSyncPass()
                 case .failure(let error):
                     self.log("Failed to de-sync #\(syncedIds.count) docs with err: \(error.localizedDescription)")
                 }
             }
         }
-
-        let numDocs = integer(from: numDocsToInsertInput)
-        DispatchQueue.main.async() {
-            self.timeLabel.text          = "T: \(String(describing: numDocs))"
-            self.networkLabel.text       = "N: \(String(describing: numDocs))"
-            self.cpuLabel.text           = "C: \(String(describing: numDocs))"
-            self.numSyncedDocsLabel.text = "S: \(String(describing: numDocs))"
-        }
     }
     
     @IBAction func syncPassClicked(_ sender: Any) {
-        let numDocs = integer(from: numDocsToInsertInput)
-        DispatchQueue.main.async() {
-            self.timeLabel.text          = "T: \(String(describing: numDocs))"
-            self.networkLabel.text       = "N: \(String(describing: numDocs))"
-            self.cpuLabel.text           = "C: \(String(describing: numDocs))"
-            self.numSyncedDocsLabel.text = "S: \(String(describing: numDocs))"
+        performSyncPass()
+    }
+    
+    func performSyncPass() {
+        guard let syncCollection = syncCollection else {
+            self.log(" clearAllDocsClicked: Must have valid syncCollection")
+            return;
         }
+        
+        DispatchQueue.main.async {
+            self.timeLabel.text = "In Progress"
+            self.networkSentLabel.text = "In Progress"
+            self.networkReceivedLabel.text = "In Progress"
+        }
+        let time = Date.init()
+        let networkRecieved = appDelegate.transport.bytesDownloaded
+        let networkSent = appDelegate.transport.bytesUploaded
+
+        self.log("Performing Sync Pass")
+        do {
+            let result = try syncCollection.proxy.dataSynchronizer.doSyncPass()
+            self.log("Finishing Sync Pass: \(result)")
+        } catch {
+            self.log("Failed to SyncPass() with err: \(error)")
+        }
+        
+        let newTime = Date.init().msSinceEpoch - time.msSinceEpoch
+        let newBytesSent = appDelegate.transport.bytesUploaded - networkSent
+        let newBytesRec = appDelegate.transport.bytesDownloaded - networkRecieved
+        self.updateLabels(withTime: newTime, withNetworkSent: newBytesSent, withNetworkRec: newBytesRec)
+        
+        syncCollection.proxy.dataSynchronizer.stop()
     }
     
     func integer(from textField: UITextField) -> Int {
@@ -197,12 +220,12 @@ class ViewController: UIViewController {
         print("(StressTest): \(logMsg)")
     }
     
-    func updateLabels(withTime time: Int = 0, withNetwork network: Double = 0.0, withCPU cpu: Double = 0.0) {
+    func updateLabels(withTime time: Int64 = 0, withNetworkSent networkSent: Int64 = 0, withNetworkRec networkRec: Int64 = 0) {
         DispatchQueue.main.async() {
-            self.timeLabel.text          = "\(String(describing: time))"
-            self.networkLabel.text       = "\(String(describing: network))"
-            self.cpuLabel.text           = "\(String(describing: cpu))"
-            self.numSyncedDocsLabel.text = "\(String(describing: self.syncCollection?.syncedIds.count ?? 0))"
+            self.timeLabel.text             = "\(String(describing: time))"
+            self.networkSentLabel.text      = "\(String(describing: networkSent))"
+            self.networkReceivedLabel.text  = "\(String(describing: networkRec))"
+            self.numSyncedDocsLabel.text    = "\(String(describing: self.syncCollection?.syncedIds().count ?? 0))"
         }
     }
 }

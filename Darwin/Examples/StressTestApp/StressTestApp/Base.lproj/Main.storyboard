@@ -135,19 +135,19 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="28" translatesAutoresizingMaskIntoConstraints="NO" id="ElY-QY-1er">
-                                <rect key="frame" x="66" y="502" width="242.5" height="117.5"/>
+                                <rect key="frame" x="64" y="502" width="247" height="117.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="lastBaseline" spacing="92" translatesAutoresizingMaskIntoConstraints="NO" id="gC6-hB-xZk">
-                                        <rect key="frame" x="0.0" y="0.0" width="242.5" height="20.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="247" height="20.5"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time (s)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Nu-yN-GXI">
-                                                <rect key="frame" x="0.0" y="0.0" width="75" height="20.5"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time (ms)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Nu-yN-GXI">
+                                                <rect key="frame" x="0.0" y="0.0" width="77.5" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100.3" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jge-Df-waG">
-                                                <rect key="frame" x="167" y="0.0" width="75.5" height="20.5"/>
+                                                <rect key="frame" x="169.5" y="0.0" width="77.5" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -155,16 +155,16 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="r2v-YU-EMg">
-                                        <rect key="frame" x="0.0" y="48.5" width="242.5" height="20.5"/>
+                                        <rect key="frame" x="0.0" y="48.5" width="247" height="20.5"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Network Usage (mb/s)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hki-sL-hVs">
-                                                <rect key="frame" x="0.0" y="0.0" width="173" height="20.5"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Network Sent (bytes)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hki-sL-hVs">
+                                                <rect key="frame" x="0.0" y="0.0" width="163" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="46.7" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3sb-jM-UXB">
-                                                <rect key="frame" x="208" y="0.0" width="34.5" height="20.5"/>
+                                                <rect key="frame" x="212.5" y="0.0" width="34.5" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -172,16 +172,16 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="swu-ES-kOc">
-                                        <rect key="frame" x="0.0" y="97" width="242.5" height="20.5"/>
+                                        <rect key="frame" x="0.0" y="97" width="247" height="20.5"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="CPU (%)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T8R-ug-gE4">
-                                                <rect key="frame" x="0.0" y="0.0" width="222" height="20.5"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Network Rec (bytes)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T8R-ug-gE4">
+                                                <rect key="frame" x="0.0" y="0.0" width="226.5" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="42" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NvW-Ge-bGB">
-                                                <rect key="frame" x="222" y="0.0" width="20.5" height="20.5"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="42" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NvW-Ge-bGB">
+                                                <rect key="frame" x="226.5" y="0.0" width="20.5" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -214,10 +214,10 @@
                     </view>
                     <connections>
                         <outlet property="clearAllDocsButton" destination="ubl-bI-V9h" id="UUJ-fo-bsk"/>
-                        <outlet property="cpuLabel" destination="NvW-Ge-bGB" id="sx8-fh-Sb4"/>
                         <outlet property="docSizeInput" destination="524-6V-rYY" id="w0i-WM-nEU"/>
                         <outlet property="insertManyButton" destination="XP1-6L-TvH" id="eQO-96-I06"/>
-                        <outlet property="networkLabel" destination="3sb-jM-UXB" id="9ne-5t-big"/>
+                        <outlet property="networkReceivedLabel" destination="NvW-Ge-bGB" id="8Z9-ga-8o8"/>
+                        <outlet property="networkSentLabel" destination="3sb-jM-UXB" id="ZTA-bz-Sew"/>
                         <outlet property="numDocsToInsertInput" destination="geX-Yq-d6P" id="1TS-GP-49Z"/>
                         <outlet property="numSyncedDocsLabel" destination="li4-Gr-2nL" id="y7r-Ml-J3Y"/>
                         <outlet property="syncPassButton" destination="FV1-6u-2CV" id="kFN-dX-u18"/>

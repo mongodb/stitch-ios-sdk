@@ -1,11 +1,3 @@
-//
-//  AppDelegate.swift
-//  StressTestApp
-//
-//  Created by Tyler Kaye on 3/14/19.
-//  Copyright © 2019 Tyler Kaye. All rights reserved.
-//
-
 import UIKit
 import StitchCore
 
@@ -15,15 +7,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 //    let jasonAppName: String = "stitch-tests-js-sdk-jntlj";
     let appName: String = "stitchdocsexamples-pqwyr"
+    let transport = FoundationInstrumentedHTTPTransport()
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         do {
             if (Stitch.defaultAppClient == nil) {
-                let _ = try Stitch.initializeDefaultAppClient(withClientAppID: appName)
+                let _ = try Stitch.initializeDefaultAppClient(withClientAppID: appName, withConfig: StitchAppClientConfigurationBuilder().with(transport: transport).build())
             }
-           let _ = try Stitch.initializeDefaultAppClient(withClientAppID: appName)
         } catch (let error) {
             print("Failed to inialize app client with error: \(error)")
         }

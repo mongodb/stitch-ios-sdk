@@ -382,24 +382,13 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             try nsConfig.nsLock.write {
                 let remoteChangeEvents =
                     instanceChangeStreamDelegate[nsConfig.namespace]?.dequeueEvents() ?? [:]
-                if remoteChangeEvents.count > 0 {
-                    print("(StressTest): In SyncRemoteToLocal (remoteChangeEvents) with \(remoteChangeEvents.count) docs")
-                    print("(StressTest): In SyncRemoteToLocal (remoteChangeEvents): \(remoteChangeEvents)")
-                }
                 var unseenIds = nsConfig.staleDocumentIds
-                if unseenIds.count > 0 {
-                    print("(StressTest): In SyncRemoteToLocal (nsConfig.staleDocumentIds): \(unseenIds.count)")
-                }
                 var latestDocumentMap =
                     try latestStaleDocumentsFromRemote(nsConfig: nsConfig, staleIds: unseenIds)
                         .reduce(into: [AnyBSONValue: Document](), { (result, document) in
                             guard let id = document["_id"] else { return }
                             result[AnyBSONValue(id)] = document
                         })
-                if latestDocumentMap.count > 0 {
-                    print("(StressTest): In SyncRemoteToLocal (latestStaleDocumentsFromRemote) with \(latestDocumentMap.count) docs")
-                    print("(StressTest): In SyncRemoteToLocal (latestStaleDocumentsFromRemote): \(latestDocumentMap)")
-                }
 
                 // a. For each unprocessed change event
                 for (id, event) in remoteChangeEvents {

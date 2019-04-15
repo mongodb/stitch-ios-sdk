@@ -1,11 +1,3 @@
-//
-//  StressTestAppUITests.swift
-//  StressTestAppUITests
-//
-//  Created by Tyler Kaye on 3/14/19.
-//  Copyright © 2019 Tyler Kaye. All rights reserved.
-//
-
 import XCTest
 
 class StressTestAppUITests: XCTestCase {

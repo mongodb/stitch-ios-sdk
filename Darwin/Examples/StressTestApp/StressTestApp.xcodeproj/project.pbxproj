@@ -20,6 +20,8 @@
 		1ED260B0223C438B001DBC53 /* StitchCoreRemoteMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1ED260AF223C438B001DBC53 /* StitchCoreRemoteMongoDBService.framework */; };
 		1ED260B2223C438B001DBC53 /* StitchCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1ED260B1223C438B001DBC53 /* StitchCoreSDK.framework */; };
 		1ED260C2223C438C001DBC53 /* StitchRemoteMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1ED260C1223C438C001DBC53 /* StitchRemoteMongoDBService.framework */; };
+		1EF756C02264FFC9004788EA /* RemoteMongoCollection+SynchronousCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF756BF2264FFC9004788EA /* RemoteMongoCollection+SynchronousCRUD.swift */; };
+		1EF756C222650B0D004788EA /* FoundationInstrumentedHTTPTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF756C122650B0D004788EA /* FoundationInstrumentedHTTPTransport.swift */; };
 		C66C31A209BDC9122111EA54 /* Pods_StressTestApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8163A346C8DE23DC2F7B2F5 /* Pods_StressTestApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -85,6 +87,8 @@
 		1ED260C1223C438C001DBC53 /* StitchRemoteMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchRemoteMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1ED260C3223C438C001DBC53 /* StitchSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1ED260C5223C438C001DBC53 /* StitchTwilioService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchTwilioService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1EF756BF2264FFC9004788EA /* RemoteMongoCollection+SynchronousCRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteMongoCollection+SynchronousCRUD.swift"; sourceTree = "<group>"; };
+		1EF756C122650B0D004788EA /* FoundationInstrumentedHTTPTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationInstrumentedHTTPTransport.swift; sourceTree = "<group>"; };
 		B4EF6C8B9B1A311A378352B3 /* Pods-StressTestApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StressTestApp.debug.xcconfig"; path = "Target Support Files/Pods-StressTestApp/Pods-StressTestApp.debug.xcconfig"; sourceTree = "<group>"; };
 		E8163A346C8DE23DC2F7B2F5 /* Pods_StressTestApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StressTestApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -152,6 +156,8 @@
 				1EB84F84223AFC2300B441BF /* Assets.xcassets */,
 				1EB84F86223AFC2300B441BF /* LaunchScreen.storyboard */,
 				1EB84F89223AFC2300B441BF /* Info.plist */,
+				1EF756BF2264FFC9004788EA /* RemoteMongoCollection+SynchronousCRUD.swift */,
+				1EF756C122650B0D004788EA /* FoundationInstrumentedHTTPTransport.swift */,
 			);
 			path = StressTestApp;
 			sourceTree = "<group>";
@@ -421,6 +427,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1EB84F80223AFC2100B441BF /* ViewController.swift in Sources */,
+				1EF756C02264FFC9004788EA /* RemoteMongoCollection+SynchronousCRUD.swift in Sources */,
+				1EF756C222650B0D004788EA /* FoundationInstrumentedHTTPTransport.swift in Sources */,
 				1EB84F7E223AFC2100B441BF /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
