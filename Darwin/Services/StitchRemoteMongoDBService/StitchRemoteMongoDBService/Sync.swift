@@ -15,11 +15,11 @@ import StitchCoreRemoteMongoDBService
 public class Sync<DocumentT: Codable> {
     internal let proxy: CoreSync<DocumentT>
     internal let queue = DispatchQueue.init(label: "sync", qos: .userInitiated)
-    
+
     internal init(proxy: CoreSync<DocumentT>) {
         self.proxy = proxy
     }
-    
+
     /**
      Set the conflict resolver and and change event listener on this collection.
      - parameter conflictHandler: the conflict resolver to invoke when a conflict happens between local
@@ -43,7 +43,7 @@ public class Sync<DocumentT: Codable> {
                                                                     errorListener: errorListener)))
         }
     }
-    
+
     /**
      Set the conflict resolver and and change event listener on this collection.
      - parameter conflictHandler: the conflict resolver to invoke when a conflict happens between local
@@ -65,7 +65,7 @@ public class Sync<DocumentT: Codable> {
                                                                     errorListener: errorListener)))
         }
     }
-    
+
     /**
      Requests that the given document _ids be synchronized.
      - parameter ids: the document _ids to synchronize.
@@ -84,7 +84,7 @@ public class Sync<DocumentT: Codable> {
             }
         }
     }
-    
+
     /**
      Stops synchronizing the given document _ids. Any uncommitted writes will be lost.
      - parameter ids: the _ids of the documents to desynchronize.
@@ -102,7 +102,7 @@ public class Sync<DocumentT: Codable> {
             }
         }
     }
-    
+
     /**
      Returns the set of synchronized document ids in a namespace.
      Remove custom AnyBSONValue after: https://jira.mongodb.org/browse/SWIFT-255
@@ -113,7 +113,7 @@ public class Sync<DocumentT: Codable> {
             completionHandler(.success(result: self.proxy.syncedIds))
         }
     }
-    
+
     /**
      Return the set of synchronized document _ids in a namespace
      that have been paused due to an irrecoverable error.
@@ -125,7 +125,7 @@ public class Sync<DocumentT: Codable> {
             completionHandler(.success(result: self.proxy.pausedIds))
         }
     }
-    
+
     /**
      A document that is paused no longer has remote updates applied to it.
      Any local updates to this document cause it to be resumed. An example of pausing a document
