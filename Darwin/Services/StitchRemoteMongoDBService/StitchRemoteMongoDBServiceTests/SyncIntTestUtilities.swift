@@ -4,6 +4,20 @@ import MongoSwift
 @testable import StitchCoreRemoteMongoDBService
 import StitchRemoteMongoDBService
 
+internal extension Document {
+    func sorted() -> Document {
+        return self.sorted { (doc1, doc2) -> Bool in
+            doc1.key < doc2.key
+            }.reduce(into: Document()) { (doc, kvp) in
+                doc[kvp.key] = kvp.value
+        }
+    }
+}
+
+extension String: LocalizedError {
+    public var errorDescription: String? { return self }
+}
+
 internal class SyncIntTestUtilities {
     static internal func hasVersionField(_ document: Document) -> Bool {
         return document["__stitch_sync_version"] != nil

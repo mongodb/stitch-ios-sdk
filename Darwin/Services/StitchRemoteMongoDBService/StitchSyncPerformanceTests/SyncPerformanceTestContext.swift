@@ -14,13 +14,11 @@ protocol SyncPerformanceTestContext {
     var client: StitchAppClient { get }
     var mongoClient: RemoteMongoClient { get }
     var coll: RemoteMongoCollection<Document> { get }
-    var testParams: TestParams { get }
     var harness: SyncPerformanceIntTestHarness { get }
     var streamJoiner: StreamJoiner { get }
     var joiner: ThrowingCallbackJoiner { get }
 
-    init(harness: SyncPerformanceIntTestHarness,
-         testParams: TestParams) throws
+    init(harness: SyncPerformanceIntTestHarness) throws
 
     func tearDown() throws
 }
@@ -45,7 +43,7 @@ extension SyncPerformanceTestContext {
             (systemAttributes[FileAttributeKey.systemFreeSize] as? NSNumber)?.doubleValue ?? 0.0
 
         // Start repeating task
-        let timeInterval = Double(testParams.dataProbeGranularityMs) / 1000.0
+        let timeInterval = SyncPerformanceTestUtils.dataGranularity / 1000.0
         let metricsCollector = MetricsCollector(timeInterval: timeInterval)
         metricsCollector.resume()
 

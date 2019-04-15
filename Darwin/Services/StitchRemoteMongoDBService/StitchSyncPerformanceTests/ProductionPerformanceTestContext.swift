@@ -14,15 +14,12 @@ class ProductionPerformanceTestContext: SyncPerformanceTestContext {
     let client: StitchAppClient
     let mongoClient: RemoteMongoClient
     let coll: RemoteMongoCollection<Document>
-    let testParams: TestParams
     let harness: SyncPerformanceIntTestHarness
     let joiner = ThrowingCallbackJoiner()
     let streamJoiner = StreamJoiner()
 
-    required init(harness: SyncPerformanceIntTestHarness,
-                  testParams: TestParams) throws {
+    required init(harness: SyncPerformanceIntTestHarness) throws {
         self.harness = harness
-        self.testParams = testParams
 
         dbName = harness.stitchTestDbName
         collName = harness.stitchTestCollName
@@ -51,12 +48,12 @@ class ProductionPerformanceTestContext: SyncPerformanceTestContext {
     func clearRemoteDB() throws {
         for _ in 0..<15 {
             do {
-                // client.callFunction(withName: "deleteAllAsSystemUser", withArgs: [], joiner.capture())
-                coll.deleteMany([:], joiner.capture())
+                client.callFunction(withName: "deleteAllAsSystemUser", withArgs: [], joiner.capture())
+                // coll.deleteMany([:], joiner.capture())
                 let _: Any? = try joiner.value()
                 break
             } catch {
-                print("PerfLog: error deleting all documents \(error.localizedDescription)")
+                harness.logMessage(message: "error deleting all documents \(error.localizedDescription)")
             }
         }
         let count = coll.count([:]) ?? 1

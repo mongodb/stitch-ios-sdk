@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01C10056143498915950DB5E /* Pods_StitchRemoteMongoDBServiceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1EBF3928225F7EA5005C6788 /* Pods_StitchRemoteMongoDBServiceTests.framework */; };
 		11190E62224C273E00939503 /* StitchCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11190E61224C273E00939503 /* StitchCoreTestUtils.framework */; };
 		112659ED223329D800F826BA /* Sync+CRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112659EC223329D800F826BA /* Sync+CRUD.swift */; };
 		1135F7DB2215D88500300A19 /* ChangeStreamSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1135F7DA2215D88500300A19 /* ChangeStreamSession.swift */; };
@@ -23,13 +24,15 @@
 		1E719B5522552CAC000F93A2 /* StreamJoiner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E719B5422552CAC000F93A2 /* StreamJoiner.swift */; };
 		1E719B5722552F17000F93A2 /* RemoteMongoCollection+SynchronousCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E719B5622552F17000F93A2 /* RemoteMongoCollection+SynchronousCRUD.swift */; };
 		1E719B5B2255344B000F93A2 /* SyncIntTestUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E719B5A2255344B000F93A2 /* SyncIntTestUtilities.swift */; };
+		1EBF3921225EA3A7005C6788 /* SyncIntTestUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E719B5A2255344B000F93A2 /* SyncIntTestUtilities.swift */; };
+		1EBF3923225EA4B5005C6788 /* SyncPerformanceTestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBF3922225EA4B5005C6788 /* SyncPerformanceTestUtils.swift */; };
+		1EFCDFFC225F880C00BDAEB0 /* RemoteMongoCollection+SynchronousCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E719B5622552F17000F93A2 /* RemoteMongoCollection+SynchronousCRUD.swift */; };
+		1EFCDFFE225F89EE00BDAEB0 /* StitchDarwinCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1EFCDFFD225F89EE00BDAEB0 /* StitchDarwinCoreTestUtils.framework */; };
 		491F9B4C21A3545500802A4D /* Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491F9B4B21A3545500802A4D /* Sync.swift */; };
 		491F9B4E21A3568800802A4D /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 491F9B4D21A3568800802A4D /* StitchCore.framework */; };
 		494335A42190FC99005B170D /* StitchDarwinCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494335A32190FC99005B170D /* StitchDarwinCoreTestUtils.framework */; };
 		494335B22192360A005B170D /* StitchCoreAdminClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494335B12192360A005B170D /* StitchCoreAdminClient.framework */; };
-		494566AF2258BB4E00386E79 /* StitchSyncPerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494566AE2258BB4E00386E79 /* StitchSyncPerformanceTests.swift */; };
 		494566B12258BB4E00386E79 /* StitchRemoteMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1169216820C9D04C00930DD8 /* StitchRemoteMongoDBService.framework */; };
-		494566B72258BC1B00386E79 /* SyncTestContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E719B5822552FE4000F93A2 /* SyncTestContext.swift */; };
 		494566B82258BC3400386E79 /* ProductionPerformanceTestContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5522652253E3F90013C7A9 /* ProductionPerformanceTestContext.swift */; };
 		494566B92258BC3400386E79 /* FoundationInstrumentedHTTPTransportIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1160C950224BFCA800BC0CDA /* FoundationInstrumentedHTTPTransportIntTests.swift */; };
 		494566BA2258BC3400386E79 /* SyncPerformanceTestContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ED94708224EA76600C1167E /* SyncPerformanceTestContext.swift */; };
@@ -37,13 +40,13 @@
 		494566BC2258BC3400386E79 /* FoundationInstrumentedHTTPTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1160C94E224BD12700BC0CDA /* FoundationInstrumentedHTTPTransport.swift */; };
 		494566BD2258BC3400386E79 /* SyncPerformanceIntTestHarness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E587ED4224E6E5900A0DE9C /* SyncPerformanceIntTestHarness.swift */; };
 		494566BE2258BC3400386E79 /* SyncPerformanceIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ED94706224E8A5B00C1167E /* SyncPerformanceIntTests.swift */; };
-		494566C5225B676F00386E79 /* SyncIntTestUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E719B5A2255344B000F93A2 /* SyncIntTestUtilities.swift */; };
 		494566C6225B676F00386E79 /* StreamJoiner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E719B5422552CAC000F93A2 /* StreamJoiner.swift */; };
 		494566C7225B676F00386E79 /* CallbackJoiner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496BC5A621B1DC6400D68F91 /* CallbackJoiner.swift */; };
 		494566C8225BC72F00386E79 /* SyncTestContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E719B5822552FE4000F93A2 /* SyncTestContext.swift */; };
 		496BC5A721B1DC6400D68F91 /* CallbackJoiner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496BC5A621B1DC6400D68F91 /* CallbackJoiner.swift */; };
 		498E55DE2190B86100A02A03 /* StitchCoreRemoteMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E55DD2190B86100A02A03 /* StitchCoreRemoteMongoDBService.framework */; };
 		499CD19D21C01D4A00CB4EBF /* SyncIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499CD19C21C01D4A00CB4EBF /* SyncIntTests.swift */; };
+		65783D57402A4E0E0071FE5D /* Pods_StitchRemoteMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1EBF3926225F7E8F005C6788 /* Pods_StitchRemoteMongoDBService.framework */; };
 		8CE6FD5AE732A98583AA6C97 /* Pods_StitchRemoteMongoDBServiceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07405BAEFBBEC9476B7340D /* Pods_StitchRemoteMongoDBServiceTests.framework */; };
 		B87BDBAF77B6E10CA0CD7802 /* Pods_StitchRemoteMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62BF72CF8056A42264AA842F /* Pods_StitchRemoteMongoDBService.framework */; };
 /* End PBXBuildFile section */
@@ -117,15 +120,22 @@
 		1E719B5822552FE4000F93A2 /* SyncTestContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncTestContext.swift; sourceTree = "<group>"; };
 		1E719B5A2255344B000F93A2 /* SyncIntTestUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncIntTestUtilities.swift; sourceTree = "<group>"; };
 		1EA9FF582254148A007B857B /* SyncPerformanceTestsConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SyncPerformanceTestsConstants.h; sourceTree = "<group>"; };
+		1EBF391F225EA24B005C6788 /* MongoSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MongoSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1EBF3922225EA4B5005C6788 /* SyncPerformanceTestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncPerformanceTestUtils.swift; sourceTree = "<group>"; };
+		1EBF3924225F7DEB005C6788 /* MongoSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MongoSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1EBF3926225F7E8F005C6788 /* Pods_StitchRemoteMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_StitchRemoteMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1EBF3928225F7EA5005C6788 /* Pods_StitchRemoteMongoDBServiceTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_StitchRemoteMongoDBServiceTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1ED94706224E8A5B00C1167E /* SyncPerformanceIntTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncPerformanceIntTests.swift; sourceTree = "<group>"; };
 		1ED94708224EA76600C1167E /* SyncPerformanceTestContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncPerformanceTestContext.swift; sourceTree = "<group>"; };
+		1EFCDFFD225F89EE00BDAEB0 /* StitchDarwinCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchDarwinCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2F5BB2F0A09C376ACAE1989F /* Pods-StitchSyncPerformanceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchSyncPerformanceTests.debug.xcconfig"; path = "Target Support Files/Pods-StitchSyncPerformanceTests/Pods-StitchSyncPerformanceTests.debug.xcconfig"; sourceTree = "<group>"; };
+		381D84DE3302665C2BC37FC1 /* Pods-StitchSyncPerformanceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchSyncPerformanceTests.release.xcconfig"; path = "Target Support Files/Pods-StitchSyncPerformanceTests/Pods-StitchSyncPerformanceTests.release.xcconfig"; sourceTree = "<group>"; };
 		3D9068F1F7001FBEAB3ECED6 /* Pods-StitchRemoteMongoDBService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchRemoteMongoDBService.debug.xcconfig"; path = "Target Support Files/Pods-StitchRemoteMongoDBService/Pods-StitchRemoteMongoDBService.debug.xcconfig"; sourceTree = "<group>"; };
 		491F9B4B21A3545500802A4D /* Sync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sync.swift; sourceTree = "<group>"; };
 		491F9B4D21A3568800802A4D /* StitchCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		494335A32190FC99005B170D /* StitchDarwinCoreTestUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchDarwinCoreTestUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		494335B12192360A005B170D /* StitchCoreAdminClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreAdminClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		494566AC2258BB4E00386E79 /* StitchSyncPerformanceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StitchSyncPerformanceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		494566AE2258BB4E00386E79 /* StitchSyncPerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchSyncPerformanceTests.swift; sourceTree = "<group>"; };
 		494566B02258BB4E00386E79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		496BC5A621B1DC6400D68F91 /* CallbackJoiner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallbackJoiner.swift; sourceTree = "<group>"; };
 		498E55DD2190B86100A02A03 /* StitchCoreRemoteMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreRemoteMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -133,6 +143,7 @@
 		62BF72CF8056A42264AA842F /* Pods_StitchRemoteMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchRemoteMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		922CFC4065796D5BCE74E3B5 /* Pods-StitchRemoteMongoDBServiceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchRemoteMongoDBServiceTests.debug.xcconfig"; path = "Target Support Files/Pods-StitchRemoteMongoDBServiceTests/Pods-StitchRemoteMongoDBServiceTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C07405BAEFBBEC9476B7340D /* Pods_StitchRemoteMongoDBServiceTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchRemoteMongoDBServiceTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0C6A1DD0F5EB637D1514AE9 /* Pods_StitchSyncPerformanceTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchSyncPerformanceTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +154,7 @@
 				491F9B4E21A3568800802A4D /* StitchCore.framework in Frameworks */,
 				498E55DE2190B86100A02A03 /* StitchCoreRemoteMongoDBService.framework in Frameworks */,
 				B87BDBAF77B6E10CA0CD7802 /* Pods_StitchRemoteMongoDBService.framework in Frameworks */,
+				65783D57402A4E0E0071FE5D /* Pods_StitchRemoteMongoDBService.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,6 +167,7 @@
 				494335A42190FC99005B170D /* StitchDarwinCoreTestUtils.framework in Frameworks */,
 				1169217220C9D04C00930DD8 /* StitchRemoteMongoDBService.framework in Frameworks */,
 				8CE6FD5AE732A98583AA6C97 /* Pods_StitchRemoteMongoDBServiceTests.framework in Frameworks */,
+				01C10056143498915950DB5E /* Pods_StitchRemoteMongoDBServiceTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,6 +175,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1EFCDFFE225F89EE00BDAEB0 /* StitchDarwinCoreTestUtils.framework in Frameworks */,
 				494566B12258BB4E00386E79 /* StitchRemoteMongoDBService.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -213,6 +227,7 @@
 		1169217520C9D04C00930DD8 /* StitchRemoteMongoDBServiceTests */ = {
 			isa = PBXGroup;
 			children = (
+				1E719B5822552FE4000F93A2 /* SyncTestContext.swift */,
 				1169217620C9D04C00930DD8 /* RemoteMongoClientIntTests.swift */,
 				1E719B5622552F17000F93A2 /* RemoteMongoCollection+SynchronousCRUD.swift */,
 				499CD19C21C01D4A00CB4EBF /* SyncIntTests.swift */,
@@ -227,6 +242,11 @@
 		1169218220C9D09300930DD8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1EFCDFFD225F89EE00BDAEB0 /* StitchDarwinCoreTestUtils.framework */,
+				1EBF3928225F7EA5005C6788 /* Pods_StitchRemoteMongoDBServiceTests.framework */,
+				1EBF3926225F7E8F005C6788 /* Pods_StitchRemoteMongoDBService.framework */,
+				1EBF3924225F7DEB005C6788 /* MongoSwift.framework */,
+				1EBF391F225EA24B005C6788 /* MongoSwift.framework */,
 				11190E61224C273E00939503 /* StitchCoreTestUtils.framework */,
 				491F9B4D21A3568800802A4D /* StitchCore.framework */,
 				494335B12192360A005B170D /* StitchCoreAdminClient.framework */,
@@ -234,6 +254,7 @@
 				498E55DD2190B86100A02A03 /* StitchCoreRemoteMongoDBService.framework */,
 				62BF72CF8056A42264AA842F /* Pods_StitchRemoteMongoDBService.framework */,
 				C07405BAEFBBEC9476B7340D /* Pods_StitchRemoteMongoDBServiceTests.framework */,
+				C0C6A1DD0F5EB637D1514AE9 /* Pods_StitchSyncPerformanceTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -253,6 +274,8 @@
 				0A5F1FC60AEE251C61086EA4 /* Pods-StitchRemoteMongoDBService.release.xcconfig */,
 				922CFC4065796D5BCE74E3B5 /* Pods-StitchRemoteMongoDBServiceTests.debug.xcconfig */,
 				0F05E8EDBE4F2463B891B9DD /* Pods-StitchRemoteMongoDBServiceTests.release.xcconfig */,
+				2F5BB2F0A09C376ACAE1989F /* Pods-StitchSyncPerformanceTests.debug.xcconfig */,
+				381D84DE3302665C2BC37FC1 /* Pods-StitchSyncPerformanceTests.release.xcconfig */,
 			);
 			name = Pods;
 			path = ../../../Pods;
@@ -261,17 +284,16 @@
 		494566AD2258BB4E00386E79 /* StitchSyncPerformanceTests */ = {
 			isa = PBXGroup;
 			children = (
+				494566B02258BB4E00386E79 /* Info.plist */,
 				1160C94E224BD12700BC0CDA /* FoundationInstrumentedHTTPTransport.swift */,
 				1160C950224BFCA800BC0CDA /* FoundationInstrumentedHTTPTransportIntTests.swift */,
 				1E587ED4224E6E5900A0DE9C /* SyncPerformanceIntTestHarness.swift */,
-				1ED94706224E8A5B00C1167E /* SyncPerformanceIntTests.swift */,
+				1EBF3922225EA4B5005C6788 /* SyncPerformanceTestUtils.swift */,
+				1EA9FF582254148A007B857B /* SyncPerformanceTestsConstants.h */,
 				1ED94708224EA76600C1167E /* SyncPerformanceTestContext.swift */,
 				1E5522672253E4080013C7A9 /* LocalPerformanceTestContext.swift */,
 				1E5522652253E3F90013C7A9 /* ProductionPerformanceTestContext.swift */,
-				1EA9FF582254148A007B857B /* SyncPerformanceTestsConstants.h */,
-				1E719B5822552FE4000F93A2 /* SyncTestContext.swift */,
-				494566AE2258BB4E00386E79 /* StitchSyncPerformanceTests.swift */,
-				494566B02258BB4E00386E79 /* Info.plist */,
+				1ED94706224E8A5B00C1167E /* SyncPerformanceIntTests.swift */,
 			);
 			path = StitchSyncPerformanceTests;
 			sourceTree = "<group>";
@@ -335,9 +357,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 494566B62258BB4E00386E79 /* Build configuration list for PBXNativeTarget "StitchSyncPerformanceTests" */;
 			buildPhases = (
+				050D31736674A1A1F52A78D1 /* [CP] Check Pods Manifest.lock */,
 				494566A82258BB4E00386E79 /* Sources */,
 				494566A92258BB4E00386E79 /* Frameworks */,
 				494566AA2258BB4E00386E79 /* Resources */,
+				D97D76DF92F7653EB7AF5410 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -415,6 +439,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		050D31736674A1A1F52A78D1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-StitchSyncPerformanceTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		11D465E521D68B2C00F0718F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -518,6 +564,48 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-StitchRemoteMongoDBServiceTests/Pods-StitchRemoteMongoDBServiceTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		D97D76DF92F7653EB7AF5410 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-StitchSyncPerformanceTests/Pods-StitchSyncPerformanceTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/MongoSwift/MongoSwift.framework",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework.dSYM",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework.dSYM",
+				"${BUILT_PRODUCTS_DIR}/MongoMobile/MongoMobile.framework",
+				"${PODS_ROOT}/mongo_embedded/iPhoneOS/Frameworks/mongo_embedded.framework",
+				"${PODS_ROOT}/mongo_embedded/iPhoneOS/Frameworks/mongo_embedded.framework.dSYM",
+				"${PODS_ROOT}/mongoc_embedded/iPhoneOS/Frameworks/mongoc_embedded.framework",
+				"${PODS_ROOT}/mongoc_embedded/iPhoneOS/Frameworks/mongoc_embedded.framework.dSYM",
+				"${BUILT_PRODUCTS_DIR}/Swifter/Swifter.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MongoSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/bson.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/bson.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongoc.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/mongoc.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MongoMobile.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongo_embedded.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/mongo_embedded.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongoc_embedded.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/mongoc_embedded.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Swifter.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-StitchSyncPerformanceTests/Pods-StitchSyncPerformanceTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -557,17 +645,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				494566C5225B676F00386E79 /* SyncIntTestUtilities.swift in Sources */,
+				1EFCDFFC225F880C00BDAEB0 /* RemoteMongoCollection+SynchronousCRUD.swift in Sources */,
+				1EBF3921225EA3A7005C6788 /* SyncIntTestUtilities.swift in Sources */,
 				494566C6225B676F00386E79 /* StreamJoiner.swift in Sources */,
 				494566C7225B676F00386E79 /* CallbackJoiner.swift in Sources */,
+				1EBF3923225EA4B5005C6788 /* SyncPerformanceTestUtils.swift in Sources */,
 				494566BE2258BC3400386E79 /* SyncPerformanceIntTests.swift in Sources */,
 				494566B92258BC3400386E79 /* FoundationInstrumentedHTTPTransportIntTests.swift in Sources */,
 				494566B82258BC3400386E79 /* ProductionPerformanceTestContext.swift in Sources */,
 				494566BA2258BC3400386E79 /* SyncPerformanceTestContext.swift in Sources */,
-				494566B72258BC1B00386E79 /* SyncTestContext.swift in Sources */,
 				494566BD2258BC3400386E79 /* SyncPerformanceIntTestHarness.swift in Sources */,
 				494566BB2258BC3400386E79 /* LocalPerformanceTestContext.swift in Sources */,
-				494566AF2258BB4E00386E79 /* StitchSyncPerformanceTests.swift in Sources */,
 				494566BC2258BC3400386E79 /* FoundationInstrumentedHTTPTransport.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -821,11 +909,12 @@
 		};
 		494566B42258BB4E00386E79 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2F5BB2F0A09C376ACAE1989F /* Pods-StitchSyncPerformanceTests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4XWMY46275;
 				INFOPLIST_FILE = StitchSyncPerformanceTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -836,18 +925,19 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.mongodb.StitchSyncPerformanceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = StitchSyncPerformanceTests/SyncPerformanceTestsConstants.h;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		494566B52258BB4E00386E79 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 381D84DE3302665C2BC37FC1 /* Pods-StitchSyncPerformanceTests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4XWMY46275;
 				INFOPLIST_FILE = StitchSyncPerformanceTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -857,7 +947,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.mongodb.StitchSyncPerformanceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = StitchSyncPerformanceTests/SyncPerformanceTestsConstants.h;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
