@@ -7,10 +7,10 @@ import StitchCoreRemoteMongoDBService
  * by the remote MongoDB service.
  */
 internal class InternalChangeStreamDelegate<T: Codable>: SSEStreamDelegate {
-    public var delegate: ChangeEventType<T>?
+    public var delegate: ChangeStreamType<T>?
     internal var rawStream: RawSSEStream?
 
-    public init(delegate: ChangeEventType<T>) {
+    public init(delegate: ChangeStreamType<T>) {
         self.delegate = delegate
     }
 

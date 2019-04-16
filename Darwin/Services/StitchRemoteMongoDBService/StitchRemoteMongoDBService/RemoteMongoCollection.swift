@@ -373,13 +373,13 @@ public class RemoteMongoCollection<T: Codable> {
      */
     public func watch (
         ids: [BSONValue],
-        withDelegateType changeEventType: ChangeEventType<T>
+        forStreamType streamType: ChangeStreamType<T>
     ) throws -> ChangeStreamSession<T> {
-        let session = ChangeStreamSession.init(changeEventType: changeEventType)
+        let session = ChangeStreamSession.init(changeEventType: streamType)
 
         let rawStream = try self.proxy.watch(ids: ids,
                                              delegate: session.internalDelegate,
-                                             shouldFetchFullDocument: changeEventType.shouldFetchFullDocument)
+                                             shouldFetchFullDocument: streamType.shouldFetchFullDocument)
         session.rawStream = rawStream
 
         return session

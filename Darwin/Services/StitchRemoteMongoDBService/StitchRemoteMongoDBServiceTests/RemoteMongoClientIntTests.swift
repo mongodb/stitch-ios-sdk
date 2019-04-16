@@ -1703,7 +1703,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
         testDelegate.expect(eventType: .streamOpened) { exp.fulfill() }
         let stream1 = try coll.watch(ids: [doc1["_id"]!],
-                                     withDelegateType: .fullDocument(withDelegate: testDelegate))
+                                     forStreamType: .fullDocument(withDelegate: testDelegate))
         wait(for: [exp], timeout: 5.0)
 
         // should receive an event for one document
@@ -1761,7 +1761,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
         exp = expectation(description: "notify on stream open")
         testDelegate.expect(eventType: .streamOpened) { exp.fulfill() }
-        let stream2 = try coll.watch(ids: [42, "blah"], withDelegateType: .fullDocument(withDelegate: testDelegate))
+        let stream2 = try coll.watch(ids: [42, "blah"], forStreamType: .fullDocument(withDelegate: testDelegate))
         wait(for: [exp], timeout: 5.0)
 
         exp = expectation(description: "doc2 inserted")
@@ -1807,7 +1807,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
         testDelegate.expect(eventType: .streamOpened) { exp.fulfill() }
         let stream1 = try coll.watch(ids: [doc1["_id"]!],
-                                     withDelegateType: .concise(withDelegate: testDelegate))
+                                     forStreamType: .compactDocument(withDelegate: testDelegate))
         wait(for: [exp], timeout: 5.0)
 
         // should receive an event for one document
@@ -1865,7 +1865,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
         exp = expectation(description: "notify on stream open")
         testDelegate.expect(eventType: .streamOpened) { exp.fulfill() }
-        let stream2 = try coll.watch(ids: [42, "blah"], withDelegateType: .concise(withDelegate: testDelegate))
+        let stream2 = try coll.watch(ids: [42, "blah"], forStreamType: .compactDocument(withDelegate: testDelegate))
         wait(for: [exp], timeout: 5.0)
 
         exp = expectation(description: "doc2 inserted")
@@ -1907,7 +1907,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         }
 
         let stream = try coll.watch(ids: ["my_string_id"],
-                                    withDelegateType: .fullDocument(withDelegate: testDelegate))
+                                    forStreamType: .fullDocument(withDelegate: testDelegate))
         wait(for: [exp], timeout: 5.0)
 
         // If this code is uncommented, the test should not compile, since you shouldn't be able to use a

@@ -143,7 +143,7 @@ internal class AnyChangeStreamDelegate<T: Codable> {
     }
 }
 
-public class ChangeEventType<T: Codable> {
+public class ChangeStreamType<T: Codable> {
     internal let shouldFetchFullDocument: Bool
     internal let delegate: AnyChangeStreamDelegate<T>
 
@@ -154,15 +154,15 @@ public class ChangeEventType<T: Codable> {
     }
 
     static func fullDocument<FullDelegateT: ChangeStreamDelegate>(withDelegate delegate: FullDelegateT) ->
-        ChangeEventType<FullDelegateT.DocumentT> {
-            return ChangeEventType<FullDelegateT.DocumentT>(
+        ChangeStreamType<FullDelegateT.DocumentT> {
+            return ChangeStreamType<FullDelegateT.DocumentT>(
                 shouldFetchFullDocument: true,
                 delegate: AnyChangeStreamDelegate(withDelegate: delegate))
     }
 
-    static func concise<ConciseDelegateT: ConciseChangeStreamDelegate>(withDelegate delegate: ConciseDelegateT) ->
-        ChangeEventType<ConciseDelegateT.DocumentT> {
-        return ChangeEventType<ConciseDelegateT.DocumentT>(
+    static func compactDocument<ConciseDelegateT: ConciseChangeStreamDelegate>(withDelegate delegate: ConciseDelegateT) ->
+        ChangeStreamType<ConciseDelegateT.DocumentT> {
+        return ChangeStreamType<ConciseDelegateT.DocumentT>(
             shouldFetchFullDocument: false,
             delegate: AnyChangeStreamDelegate(withDelegate: delegate))
     }

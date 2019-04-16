@@ -16,7 +16,7 @@ public class ChangeStreamSession<T: Codable> {
      *           deallocated, the stream will automatically close the next time an event is received. If you are
      *           setting a new delegate, make sure you do so before the previous delegate is deallocated.
      */
-    public var delegate: ChangeEventType<T>? {
+    public var delegate: ChangeStreamType<T>? {
         get {
             return self.internalDelegate.delegate
         }
@@ -48,7 +48,7 @@ public class ChangeStreamSession<T: Codable> {
     internal var internalDelegate: InternalChangeStreamDelegate<T>
     // swiftlint:enable weak_delegate
 
-    internal init(changeEventType: ChangeEventType<T>) {
+    internal init(changeEventType: ChangeStreamType<T>) {
         self.internalDelegate = InternalChangeStreamDelegate.init(delegate: changeEventType)
     }
 }
