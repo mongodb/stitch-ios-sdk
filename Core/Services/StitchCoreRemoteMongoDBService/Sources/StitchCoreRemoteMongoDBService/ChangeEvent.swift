@@ -5,7 +5,8 @@ public enum OperationType: String, Codable {
     case insert, delete, replace, update, unknown
 }
 
-protocol NonconcreteChangeEvent: Codable, Hashable {
+/// Base change event for either Compact or Full ChangeEvents.
+protocol BaseChangeEvent: Codable, Hashable {
     associatedtype DocumentT: Codable
 
     /// The type of operation that occurred
@@ -42,7 +43,7 @@ protocol NonconcreteChangeEvent: Codable, Hashable {
     var fullDocument: DocumentT? { get }
 }
 
-extension NonconcreteChangeEvent {
+extension BaseChangeEvent {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(AnyBSONValue(documentKey))
     }
@@ -55,7 +56,7 @@ extension NonconcreteChangeEvent {
 }
 
 /// Represents possible fields that a change stream response document can have.
-public struct ChangeEvent<DocumentType: Codable>: NonconcreteChangeEvent {
+public struct ChangeEvent<DocumentType: Codable>: BaseChangeEvent {
     typealias DocumentT = DocumentType
 
     enum CodingKeys: String, CodingKey {
@@ -71,7 +72,6 @@ public struct ChangeEvent<DocumentType: Codable>: NonconcreteChangeEvent {
     public let ns: MongoNamespace
     public let documentKey: Document
     public let updateDescription: UpdateDescription?
-
     public let hasUncommittedWrites: Bool
 
     init(id: AnyBSONValue,
@@ -118,7 +118,7 @@ public struct ChangeEvent<DocumentType: Codable>: NonconcreteChangeEvent {
 }
 
 /// Represents possible fields that a change stream response document can have.
-public struct ConciseChangeEvent<DocumentType: Codable>: NonconcreteChangeEvent {
+public struct CompactChangeEvent<DocumentType: Codable>: BaseChangeEvent {
     typealias DocumentT = DocumentType
 
     enum CodingKeys: String, CodingKey {
@@ -132,16 +132,18 @@ public struct ConciseChangeEvent<DocumentType: Codable>: NonconcreteChangeEvent 
     public let updateDescription: UpdateDescription?
     public let hasUncommittedWrites: Bool
     public let fullDocument: DocumentType?
+    /// The hash of the document
     public let stitchDocumentHash: Int64
+    /// The version of the document
     public let stitchDocumentVersion: DocumentVersionInfo.Version?
 
     init(operationType: OperationType,
+         fullDocument: DocumentT?,
          documentKey: Document,
          updateDescription: UpdateDescription?,
          hasUncommittedWrites: Bool,
          stitchDocumentHash: Int64,
-         stitchDocumentVersion: DocumentVersionInfo.Version,
-         fullDocument: DocumentT?) {
+         stitchDocumentVersion: DocumentVersionInfo.Version?) {
         self.operationType = operationType
         self.documentKey = documentKey
         self.updateDescription = updateDescription

@@ -35,6 +35,7 @@
 		498E55D02190A05C00A02A03 /* StitchCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E55CF2190A05C00A02A03 /* StitchCoreSDK.framework */; };
 		498E55D22190A08400A02A03 /* StitchCoreSDKMocks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E55D12190A08400A02A03 /* StitchCoreSDKMocks.framework */; };
 		499CD19B21BDFDFC00CB4EBF /* DataSynchronizerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499CD19A21BDFDFC00CB4EBF /* DataSynchronizerError.swift */; };
+		49C8C2F32266593600371839 /* CompactChangeEventUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C8C2F22266593600371839 /* CompactChangeEventUnitTests.swift */; };
 		49E8957B21991C1A003C3758 /* NamespaceSynchronizationConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E8957A21991C1A003C3758 /* NamespaceSynchronizationConfig.swift */; };
 		49F40F4C21A2FFE500FAB750 /* CoreSyncUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F40F4B21A2FFE500FAB750 /* CoreSyncUnitTests.swift */; };
 		49FA277D219A605700F9E3D4 /* ConflictHandlerUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA277C219A605700F9E3D4 /* ConflictHandlerUnitTests.swift */; };
@@ -106,6 +107,7 @@
 		498E55CF2190A05C00A02A03 /* StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		498E55D12190A08400A02A03 /* StitchCoreSDKMocks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDKMocks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		499CD19A21BDFDFC00CB4EBF /* DataSynchronizerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSynchronizerError.swift; sourceTree = "<group>"; };
+		49C8C2F22266593600371839 /* CompactChangeEventUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactChangeEventUnitTests.swift; sourceTree = "<group>"; };
 		49E8957A21991C1A003C3758 /* NamespaceSynchronizationConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamespaceSynchronizationConfig.swift; sourceTree = "<group>"; };
 		49F40F4B21A2FFE500FAB750 /* CoreSyncUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreSyncUnitTests.swift; sourceTree = "<group>"; };
 		49FA277C219A605700F9E3D4 /* ConflictHandlerUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConflictHandlerUnitTests.swift; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 				49FA2780219B2A8900F9E3D4 /* NamespaceSynchronizationConfigTests.swift */,
 				4943FC6B21968A0900DED08C /* CoreDocumentSynchronizationConfigTests.swift */,
 				49FA2784219B656000F9E3D4 /* ChangeEventUnitTests.swift */,
+				49C8C2F22266593600371839 /* CompactChangeEventUnitTests.swift */,
 				49FA2788219B748300F9E3D4 /* UpdateDescriptionUnitTests.swift */,
 				49FA277C219A605700F9E3D4 /* ConflictHandlerUnitTests.swift */,
 				49FA278A219B839F00F9E3D4 /* ChangeEventListenerUnitTests.swift */,
@@ -383,6 +386,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = OBJ_5;
@@ -556,6 +560,7 @@
 				49FA278D219B84F400F9E3D4 /* DocumentVersionInfoUnitTests.swift in Sources */,
 				49FA278B219B839F00F9E3D4 /* ChangeEventListenerUnitTests.swift in Sources */,
 				49FA2781219B2A8900F9E3D4 /* NamespaceSynchronizationConfigTests.swift in Sources */,
+				49C8C2F32266593600371839 /* CompactChangeEventUnitTests.swift in Sources */,
 				49F40F4C21A2FFE500FAB750 /* CoreSyncUnitTests.swift in Sources */,
 				49FA2785219B656000F9E3D4 /* ChangeEventUnitTests.swift in Sources */,
 				OBJ_201 /* CoreRemoteMongoCollectionUnitTests.swift in Sources */,

@@ -367,7 +367,9 @@ public class RemoteMongoCollection<T: Codable> {
      *
      * - Parameters:
      *   - ids: The list of _ids in the collection to watch.
-     *   - delegate: The delegate that will react to events and errors from the resulting change stream.
+     *   - streamType: Whether to use a full or compact stream.
+     *                 This contains the delegate that will react to events
+     *                 and errors from the resulting change stream.
      *
      * - Returns: A reference to the change stream opened by this method.
      */
@@ -379,7 +381,7 @@ public class RemoteMongoCollection<T: Codable> {
 
         let rawStream = try self.proxy.watch(ids: ids,
                                              delegate: session.internalDelegate,
-                                             shouldFetchFullDocument: streamType.shouldFetchFullDocument)
+                                             useCompactEvents: streamType.shouldFetchFullDocument)
         session.rawStream = rawStream
 
         return session

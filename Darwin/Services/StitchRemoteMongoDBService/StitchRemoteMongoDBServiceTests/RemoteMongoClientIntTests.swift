@@ -1545,7 +1545,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         XCTAssertEqual(["hello": "world1"], withoutId(result4))
     }
 
-    class WatchTestDelegate<DocumentT: Codable>: ChangeStreamDelegate, ConciseChangeStreamDelegate {
+    class WatchTestDelegate<DocumentT: Codable>: ChangeStreamDelegate, CompactChangeStreamDelegate {
         public init() {
             self.previousAssertionCalled = true
             self.expectedEventType = .streamOpened
@@ -1565,7 +1565,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
         private var assertion: (() -> Void)?
         private var eventAssertion: ((_ event: ChangeEvent<DocumentT>) -> Void)?
-        private var conciseEventAssertion: ((_ event: ConciseChangeEvent<DocumentT>) -> Void)?
+        private var CompactEventAssertion: ((_ event: CompactChangeEvent<DocumentT>) -> Void)?
 
         func expect(eventType: EventType, _ testAssertion: @escaping () -> Void) {
             guard previousAssertionCalled else {
@@ -1589,7 +1589,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             self.eventAssertion = assertion
         }
 
-        func expectConciseEvent(_ assertion: @escaping (_ event: ConciseChangeEvent<DocumentT>) -> Void) {
+        func expectCompactEvent(_ assertion: @escaping (_ event: CompactChangeEvent<DocumentT>) -> Void) {
             guard previousAssertionCalled else {
                 fatalError("the previous assertion for the expected event was not called")
             }
@@ -1597,7 +1597,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
             self.expectedEventType = .eventReceived
             self.assertion = nil
-            self.conciseEventAssertion = assertion
+            self.CompactEventAssertion = assertion
         }
 
         func didReceive(event: ChangeEvent<DocumentT>) {
@@ -1620,18 +1620,18 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             }
         }
 
-        func didReceive(event: ConciseChangeEvent<DocumentT>) {
-            print("got public delegate receieve concise event")
+        func didReceive(event: CompactChangeEvent<DocumentT>) {
+            print("got public delegate receieve Compact event")
             switch expectedEventType {
             case .eventReceived:
-                guard assertion != nil || conciseEventAssertion != nil else {
+                guard assertion != nil || CompactEventAssertion != nil else {
                     fatalError("test not configured correctly, must have an assertion when expecting an event")
                 }
 
                 if let assertion = assertion {
                     assertion()
                     previousAssertionCalled = true
-                } else if let eventAssertion = conciseEventAssertion {
+                } else if let eventAssertion = CompactEventAssertion {
                     eventAssertion(event)
                     previousAssertionCalled = true
                 }
@@ -1790,7 +1790,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         wait(for: [exp], timeout: 5.0)
     }
 
-    func testWatchConcise() throws {
+    func testWatchCompact() throws {
         let coll = getTestColl()
 
         let testDelegate = WatchTestDelegate<Document>.init()
@@ -1812,11 +1812,13 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
         // should receive an event for one document
         exp = expectation(description: "should receive an event for one document")
-        testDelegate.expectConciseEvent { event in
+        testDelegate.expectCompactEvent { event in
             XCTAssertTrue(bsonEquals(event.documentKey["_id"], doc1["_id"]))
             XCTAssertTrue(bsonEquals(doc1, event.fullDocument))
 
             XCTAssertEqual(event.operationType, OperationType.insert)
+            XCTAssertNotNil(event.stitchDocumentHash)
+            XCTAssertNil(event.stitchDocumentVersion)
             exp.fulfill()
         }
         coll.insertOne(doc1, joiner.capture())
@@ -1828,7 +1830,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             "$set": ["hello": "universe"] as Document
         ]
         exp = expectation(description: "should receive more events for a single document")
-        testDelegate.expectConciseEvent { event in
+        testDelegate.expectCompactEvent { event in
             XCTAssertTrue(bsonEquals(event.documentKey["_id"], doc1["_id"]))
             XCTAssertTrue(bsonEquals(doc1, event.fullDocument))
 
@@ -1869,20 +1871,23 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         wait(for: [exp], timeout: 5.0)
 
         exp = expectation(description: "doc2 inserted")
-        testDelegate.expectConciseEvent { event in
+        testDelegate.expectCompactEvent { event in
             XCTAssertTrue(bsonEquals(event.documentKey["_id"]!, 42))
             XCTAssertTrue(bsonEquals(event.fullDocument, doc2))
             XCTAssertEqual(event.operationType, OperationType.insert)
+            XCTAssertNotNil(event.stitchDocumentHash)
+            XCTAssertNil(event.stitchDocumentVersion)
             exp.fulfill()
         }
         coll.insertOne(doc2, joiner.capture())
         wait(for: [exp], timeout: 5.0)
 
         exp = expectation(description: "doc3 inserted")
-        testDelegate.expectConciseEvent { event in
+        testDelegate.expectCompactEvent { event in
             XCTAssertTrue(bsonEquals(event.documentKey["_id"]!, "blah"))
             XCTAssertTrue(bsonEquals(event.fullDocument, doc3))
             XCTAssertEqual(event.operationType, OperationType.insert)
+            XCTAssertNotNil(event.stitchDocumentHash)
             exp.fulfill()
         }
         coll.insertOne(doc3, joiner.capture())

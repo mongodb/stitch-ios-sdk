@@ -37,7 +37,7 @@ internal class InternalChangeStreamDelegate<T: Codable>: SSEStreamDelegate {
         }
 
         do {
-            if delegate.shouldFetchFullDocument {
+            if delegate.useCompactEvents {
                 guard let changeEvent: ChangeEvent<T> = try event.decodeStitchSSE() else {
                     self.on(error: StitchError.requestError(withMessage: "invalid event received from stream",
                                                             withRequestErrorCode: .decodingError))
@@ -46,7 +46,7 @@ internal class InternalChangeStreamDelegate<T: Codable>: SSEStreamDelegate {
 
                 delegate.didReceive(event: changeEvent)
             } else {
-                guard let changeEvent: ConciseChangeEvent<T> = try event.decodeStitchSSE() else {
+                guard let changeEvent: CompactChangeEvent<T> = try event.decodeStitchSSE() else {
                     self.on(error: StitchError.requestError(withMessage: "invalid event received from stream",
                                                             withRequestErrorCode: .decodingError))
                     return
