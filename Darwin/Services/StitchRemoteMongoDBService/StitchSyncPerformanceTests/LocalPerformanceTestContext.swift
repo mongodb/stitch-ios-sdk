@@ -9,6 +9,8 @@ import StitchCoreLocalMongoDBService
 @testable import StitchRemoteMongoDBService
 
 class LocalPerformanceTestContext: SyncPerformanceTestContext {
+    let networkMonitor: TestNetworkMonitor
+    let dataSynchronizer: DataSynchronizer
     let dbName: String
     let collName: String
     let userId: String
@@ -38,6 +40,7 @@ class LocalPerformanceTestContext: SyncPerformanceTestContext {
                                        schema: RuleCreator.Schema())
         _ = try! harness.addRule(toService: svc.1, withConfig: rule)
 
+        networkMonitor = harness.networkMonitor
         client = try! harness.appClient(forApp: app.0, withTransport: harness.networkTransport)
         client.auth.login(withCredential: AnonymousCredential(), joiner.capture())
         let _: Any? = try joiner.value()
@@ -46,6 +49,7 @@ class LocalPerformanceTestContext: SyncPerformanceTestContext {
         mongoClient = try! client.serviceClient(fromFactory: remoteMongoClientFactory, withName: "mongodb1")
         coll = mongoClient.db(dbName).collection(collName)
 
+        dataSynchronizer = coll.sync.proxy.dataSynchronizer
         try clearLocalDB()
 
         coll.sync.proxy.dataSynchronizer.isSyncThreadEnabled = false

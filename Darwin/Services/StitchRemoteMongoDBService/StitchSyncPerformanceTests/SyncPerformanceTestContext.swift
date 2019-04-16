@@ -17,6 +17,8 @@ protocol SyncPerformanceTestContext {
     var harness: SyncPerformanceIntTestHarness { get }
     var streamJoiner: StreamJoiner { get }
     var joiner: ThrowingCallbackJoiner { get }
+    var networkMonitor: TestNetworkMonitor { get }
+    var dataSynchronizer: DataSynchronizer { get }
 
     init(harness: SyncPerformanceIntTestHarness) throws
 

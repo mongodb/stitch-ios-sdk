@@ -88,6 +88,18 @@ class SyncPerformanceIntTests: XCTestCase {
         )
     }
 
+    func testL2ROnlyInitialSync() {
+        SyncL2ROnlyPerformanceTestDefinitions.testInitialSync(testHarness: harness, runId: runId)
+    }
+
+    func testL2ROnlyDisconnectReconnect() {
+        SyncL2ROnlyPerformanceTestDefinitions.testDisconnectReconnect(testHarness: harness, runId: runId)
+    }
+
+    func testL2ROnlySyncPass() {
+        SyncL2ROnlyPerformanceTestDefinitions.testSyncPass(testHarness: harness, runId: runId)
+    }
+
     // Custom assertEqual that throws so that the test fails if the assertion fails
     func assertEqual<T: Equatable>(_ type: T.Type, _ val1: Any, _ val2: Any) throws {
         guard let val1 = val1 as? T, let val2 = val2 as? T else {
