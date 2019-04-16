@@ -37,7 +37,7 @@ internal class InternalChangeStreamDelegate<T: Codable>: SSEStreamDelegate {
         }
 
         do {
-            if delegate.useCompactEvents {
+            if !delegate.useCompactEvents {
                 guard let changeEvent: ChangeEvent<T> = try event.decodeStitchSSE() else {
                     self.on(error: StitchError.requestError(withMessage: "invalid event received from stream",
                                                             withRequestErrorCode: .decodingError))

@@ -1565,7 +1565,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
         private var assertion: (() -> Void)?
         private var eventAssertion: ((_ event: ChangeEvent<DocumentT>) -> Void)?
-        private var CompactEventAssertion: ((_ event: CompactChangeEvent<DocumentT>) -> Void)?
+        private var compactEventAssertion: ((_ event: CompactChangeEvent<DocumentT>) -> Void)?
 
         func expect(eventType: EventType, _ testAssertion: @escaping () -> Void) {
             guard previousAssertionCalled else {
@@ -1597,7 +1597,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
             self.expectedEventType = .eventReceived
             self.assertion = nil
-            self.CompactEventAssertion = assertion
+            self.compactEventAssertion = assertion
         }
 
         func didReceive(event: ChangeEvent<DocumentT>) {
@@ -1624,14 +1624,14 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             print("got public delegate receieve Compact event")
             switch expectedEventType {
             case .eventReceived:
-                guard assertion != nil || CompactEventAssertion != nil else {
+                guard assertion != nil || compactEventAssertion != nil else {
                     fatalError("test not configured correctly, must have an assertion when expecting an event")
                 }
 
                 if let assertion = assertion {
                     assertion()
                     previousAssertionCalled = true
-                } else if let eventAssertion = CompactEventAssertion {
+                } else if let eventAssertion = compactEventAssertion {
                     eventAssertion(event)
                     previousAssertionCalled = true
                 }
@@ -1832,7 +1832,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         exp = expectation(description: "should receive more events for a single document")
         testDelegate.expectCompactEvent { event in
             XCTAssertTrue(bsonEquals(event.documentKey["_id"], doc1["_id"]))
-            XCTAssertTrue(bsonEquals(doc1, event.fullDocument))
+            XCTAssertNil(event.fullDocument)
 
             XCTAssertEqual(event.operationType, OperationType.update)
             exp.fulfill()

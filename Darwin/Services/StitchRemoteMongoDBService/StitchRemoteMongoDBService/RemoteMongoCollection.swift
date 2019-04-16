@@ -381,7 +381,7 @@ public class RemoteMongoCollection<T: Codable> {
 
         let rawStream = try self.proxy.watch(ids: ids,
                                              delegate: session.internalDelegate,
-                                             useCompactEvents: streamType.shouldFetchFullDocument)
+                                             useCompactEvents: streamType.useCompactEvents)
         session.rawStream = rawStream
 
         return session
