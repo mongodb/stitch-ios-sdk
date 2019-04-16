@@ -71,20 +71,20 @@ public protocol ChangeStreamDelegate: class {
  * be `Document`, but if you have specified your own Codable type, specify it instead.
  *
  * ````
- * public class MyNormalDelegate: ChangeStreamDelegate {
+ * public class MyNormalDelegate: CompactChangeStreamDelegate {
  *     typealias DocumentT = Document
  *
- *     public func didReceive(event: ChangeEvent<Document>) {
+ *     public func didReceive(event: CompactChangeEvent<Document>) {
  *         // react to events
  *     }
  *
  *     // ...other method implementations
  * }
 
- * public class MyCustomDelegate: ChangeStreamDelegate {
+ * public class MyCustomDelegate: CompactChangeStreamDelegate {
  *     typealias DocumentT = MyCustomType
  *
- *     public func didReceive(event: ChangeEvent<MyCustomType>) {
+ *     public func didReceive(event: CompactChangeEvent<MyCustomType>) {
  *         // react to events
  *     }
  *
