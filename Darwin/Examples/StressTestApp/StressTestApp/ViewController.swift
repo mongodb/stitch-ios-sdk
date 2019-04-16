@@ -127,6 +127,7 @@ class ViewController: UIViewController {
         }
         
         // When finished inserting the documents --> sync on the doc id's and collect time and network metrics
+        syncCollection.proxy.dataSynchronizer.stop()
         group.notify(queue: .main) {
             self.log("Finished with \(docIds.count) docs")
             syncCollection.sync(ids: docIds) {result in
