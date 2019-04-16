@@ -50,9 +50,9 @@ class ViewController: UIViewController {
             syncCollection?.configure(
                 conflictHandler: DefaultConflictHandler<Document>.remoteWins(),
                 changeEventDelegate: { documentId, event in
-                    self.log(" Sync received changeEvent of type: \(event.operationType) and body: \(String(describing: event.fullDocument))")
+                    self.log("Sync received changeEvent of type: \(event.operationType) and body: \(String(describing: event.fullDocument))")
                     if (event.hasUncommittedWrites) {
-                        self.log(" Sync changeEvent has uncommitted writes")
+                        self.log("Sync changeEvent has uncommitted writes")
                     }
             }, errorListener: self.on)
             
@@ -72,9 +72,6 @@ class ViewController: UIViewController {
         } catch (let err) {
             self.log("Failed initialize mongoClient with error: \(err)");
         }
-        
-        
-
     }
 
     @IBAction func insertManyClicked(_ sender: Any) {
@@ -89,9 +86,7 @@ class ViewController: UIViewController {
             return;
         }
         
-        timeLabel.text = "In Progress"
-        networkSentLabel.text = "In Progress"
-        networkReceivedLabel.text = "In Progress"
+        labelsInProgress()
         let time = Date.init()
         let networkRecieved = appDelegate.transport.bytesDownloaded
         let networkSent = appDelegate.transport.bytesUploaded
@@ -99,6 +94,7 @@ class ViewController: UIViewController {
         let numDocs = integer(from: numDocsToInsertInput);
         let docSize = integer(from: docSizeInput);
         
+        // Create the documents
         var docs: [Document] = [];
         for i in 1...numDocs {
             do {
@@ -112,6 +108,7 @@ class ViewController: UIViewController {
             }
         }
         
+        // Insert the documents in chunks
         let chunkSize = 500;
         let group  = DispatchGroup()
         var docIds : [BSONValue] = [];
@@ -129,6 +126,7 @@ class ViewController: UIViewController {
             }
         }
         
+        // When finished inserting the documents --> sync on the doc id's and collect time and network metrics
         group.notify(queue: .main) {
             self.log("Finished with \(docIds.count) docs")
             syncCollection.sync(ids: docIds) {result in
@@ -162,7 +160,6 @@ class ViewController: UIViewController {
                 switch result {
                 case .success(result: _):
                     self.log("Succeffully de-synced \(syncedIds.count) docs");
-                    self.performSyncPass()
                 case .failure(let error):
                     self.log("Failed to de-sync #\(syncedIds.count) docs with err: \(error.localizedDescription)")
                 }
@@ -180,11 +177,7 @@ class ViewController: UIViewController {
             return;
         }
         
-        DispatchQueue.main.async {
-            self.timeLabel.text = "In Progress"
-            self.networkSentLabel.text = "In Progress"
-            self.networkReceivedLabel.text = "In Progress"
-        }
+        labelsInProgress()
         let time = Date.init()
         let networkRecieved = appDelegate.transport.bytesDownloaded
         let networkSent = appDelegate.transport.bytesUploaded
@@ -226,6 +219,14 @@ class ViewController: UIViewController {
             self.networkSentLabel.text      = "\(String(describing: networkSent))"
             self.networkReceivedLabel.text  = "\(String(describing: networkRec))"
             self.numSyncedDocsLabel.text    = "\(String(describing: self.syncCollection?.syncedIds().count ?? 0))"
+        }
+    }
+    
+    func labelsInProgress() {
+        DispatchQueue.main.async {
+            self.timeLabel.text = "In Progress"
+            self.networkSentLabel.text = "In Progress"
+            self.networkReceivedLabel.text = "In Progress"
         }
     }
 }
