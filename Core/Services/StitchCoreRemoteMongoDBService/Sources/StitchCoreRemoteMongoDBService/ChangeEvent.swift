@@ -5,17 +5,23 @@ public enum OperationType: String, Codable {
     case insert, delete, replace, update, unknown
 }
 
-/// Represents possible fields that a change stream response document can have.
-public struct ChangeEvent<DocumentT: Codable>: Codable, Hashable {
-    enum CodingKeys: String, CodingKey {
-        case id = "_id", operationType, fullDocument, ns
-        case documentKey, updateDescription, hasUncommittedWrites
-    }
+protocol NonconcreteChangeEvent: Codable, Hashable {
+    associatedtype DocumentT: Codable
 
-    /// Metadata related to the operation.
-    public let id: AnyBSONValue
     /// The type of operation that occurred
-    public let operationType: OperationType
+    var operationType: OperationType { get }
+    /**
+     The ObjectID of the document created or modified by the
+     insert, replace, delete, update operations (i.e. CRUD operations).
+     */
+    var documentKey: Document { get }
+    /**
+     A document describing the fields that were updated or removed by
+     the update operation.
+     */
+    var updateDescription: UpdateDescription? { get }
+    /// Whether or not this ChangeEvent has pending writes.
+    var hasUncommittedWrites: Bool { get }
     /**
      The document created or modified by the insert, replace, delete,
      update operations (i.e. CRUD operations).
@@ -33,20 +39,39 @@ public struct ChangeEvent<DocumentT: Codable>: Codable, Hashable {
      the document between the original update operation and the full
      document lookup.
      */
-    public let fullDocument: DocumentT?
+    var fullDocument: DocumentT? { get }
+}
+
+extension NonconcreteChangeEvent {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(AnyBSONValue(documentKey))
+    }
+
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+        return bsonEquals(lhs.documentKey.value, rhs.documentKey.value) &&
+            lhs.operationType == rhs.operationType &&
+            lhs.hasUncommittedWrites == rhs.hasUncommittedWrites
+    }
+}
+
+/// Represents possible fields that a change stream response document can have.
+public struct ChangeEvent<DocumentType: Codable>: NonconcreteChangeEvent {
+    typealias DocumentT = DocumentType
+
+    enum CodingKeys: String, CodingKey {
+        case id = "_id", operationType, fullDocument, ns
+        case documentKey, updateDescription, hasUncommittedWrites
+    }
+
+    /// Metadata related to the operation.
+    public let id: AnyBSONValue
+    public let operationType: OperationType
+    public let fullDocument: DocumentType?
     /// The namespace (database and or collection) affected by the event.
     public let ns: MongoNamespace
-    /**
-     The ObjectID of the document created or modified by the
-     insert, replace, delete, update operations (i.e. CRUD operations).
-     */
     public let documentKey: Document
-    /**
-     A document describing the fields that were updated or removed by
-     the update operation.
-     */
     public let updateDescription: UpdateDescription?
-    /// Whether or not this ChangeEvent has pending writes.
+
     public let hasUncommittedWrites: Bool
 
     init(id: AnyBSONValue,
@@ -90,12 +115,68 @@ public struct ChangeEvent<DocumentT: Codable>: Codable, Hashable {
         try container.encode(updateDescription, forKey: .updateDescription)
         try container.encode(hasUncommittedWrites, forKey: .hasUncommittedWrites)
     }
+}
 
-    public static func == (lhs: ChangeEvent<DocumentT>, rhs: ChangeEvent<DocumentT>) -> Bool {
-        return bsonEquals(lhs.id.value, rhs.id.value)
+/// Represents possible fields that a change stream response document can have.
+public struct ConciseChangeEvent<DocumentType: Codable>: NonconcreteChangeEvent {
+    typealias DocumentT = DocumentType
+
+    enum CodingKeys: String, CodingKey {
+        case operationType = "ot", documentKey = "dk", updateDescription = "ud"
+        case hasUncommittedWrites, stitchDocumentHash = "sdh", stitchDocumentVersion = "sdv"
+        case fullDocument = "fd"
     }
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
+    public let operationType: OperationType
+    public let documentKey: Document
+    public let updateDescription: UpdateDescription?
+    public let hasUncommittedWrites: Bool
+    public let fullDocument: DocumentType?
+    public let stitchDocumentHash: Int64
+    public let stitchDocumentVersion: DocumentVersionInfo.Version?
+
+    init(operationType: OperationType,
+         documentKey: Document,
+         updateDescription: UpdateDescription?,
+         hasUncommittedWrites: Bool,
+         stitchDocumentHash: Int64,
+         stitchDocumentVersion: DocumentVersionInfo.Version,
+         fullDocument: DocumentT?) {
+        self.operationType = operationType
+        self.documentKey = documentKey
+        self.updateDescription = updateDescription
+        self.hasUncommittedWrites = hasUncommittedWrites
+        self.stitchDocumentHash = stitchDocumentHash
+        self.stitchDocumentVersion = stitchDocumentVersion
+        self.fullDocument = fullDocument
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        self.operationType = OperationType.init(
+            rawValue: try container.decode(String.self, forKey: .operationType)
+            ) ?? .unknown
+        self.documentKey = try container.decode(Document.self, forKey: .documentKey)
+        self.updateDescription = try container.decodeIfPresent(UpdateDescription.self,
+                                                               forKey: .updateDescription)
+        self.hasUncommittedWrites = try container.decodeIfPresent(Bool.self,
+                                                                  forKey: .hasUncommittedWrites) ?? false
+        self.fullDocument = try container.decodeIfPresent(DocumentT.self, forKey: .fullDocument)
+        self.stitchDocumentHash = try container.decode(Int64.self, forKey: .stitchDocumentHash)
+        self.stitchDocumentVersion = try container.decodeIfPresent(DocumentVersionInfo.Version.self,
+                                                          forKey: .stitchDocumentVersion)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(operationType, forKey: .operationType)
+        try container.encode(documentKey, forKey: .documentKey)
+        try container.encode(updateDescription, forKey: .updateDescription)
+        try container.encode(hasUncommittedWrites, forKey: .hasUncommittedWrites)
+        try container.encode(fullDocument, forKey: .fullDocument)
+        try container.encode(stitchDocumentHash, forKey: .stitchDocumentHash)
+        try container.encodeIfPresent(stitchDocumentVersion, forKey: .stitchDocumentVersion)
     }
 }

@@ -275,7 +275,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
             newAccessToken = try JSONDecoder().decode(APIAccessToken.self,
                                                       from: response.body!)
         } catch let err {
-            throw StitchError.requestError(withError: err, withRequestErrorCode: .decodingError)
+            throw StitchError.requestErrorFull(withError: err, withRequestErrorCode: .decodingError)
         }
 
         return newAccessToken

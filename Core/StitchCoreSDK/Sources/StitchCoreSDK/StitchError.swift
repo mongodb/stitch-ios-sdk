@@ -34,7 +34,7 @@ public enum StitchError: Error, CustomStringConvertible {
      * thrown when attempting to decode the response. An error code is included, which indicates whether the error
      * was a transport error or decoding error.
      */
-    case requestError(withError: Error, withRequestErrorCode: StitchRequestErrorCode)
+    case requestErrorFull(withError: Error, withRequestErrorCode: StitchRequestErrorCode)
 
     /**
      * Indicates that an error occurred when using the Stitch client, typically before the client performed a request.
@@ -48,6 +48,8 @@ public enum StitchError: Error, CustomStringConvertible {
             return "\(withMessage): \(withCode)"
         case .requestError(let withError, let withCode):
             return "\(withError): \(withCode)"
+        case .requestErrorFull(let error, let code):
+            return ""
         case .clientError(let withClientErrorCode):
             return "\(withClientErrorCode)"
         }

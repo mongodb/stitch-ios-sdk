@@ -6,7 +6,7 @@ import StitchCoreRemoteMongoDBService
  * A MongoDB Change Stream session. This can be used to get or change the delegate that reacts to change events on
  * this stream. It can also be used to close open streams.
  */
-public class ChangeStreamSession<DelegateT: ChangeStreamDelegate> {
+public class ChangeStreamSession<T: Codable> {
     /**
      * The delegate for this `ChangeStreamSession`. This is the class that will react to incoming events. A delegate is
      * set at the time the `watch` function is called, but a new delegate may also be set here. This delegate type
@@ -16,7 +16,7 @@ public class ChangeStreamSession<DelegateT: ChangeStreamDelegate> {
      *           deallocated, the stream will automatically close the next time an event is received. If you are
      *           setting a new delegate, make sure you do so before the previous delegate is deallocated.
      */
-    public var delegate: DelegateT? {
+    public var delegate: ChangeEventType<T>? {
         get {
             return self.internalDelegate.delegate
         }
@@ -45,10 +45,10 @@ public class ChangeStreamSession<DelegateT: ChangeStreamDelegate> {
     // We fully manage this delegate, and it gets deallocated when the session is deallocated, so we are not concerned
     // about reference cycles here
     // swiftlint:disable weak_delegate
-    internal var internalDelegate: InternalChangeStreamDelegate<DelegateT>
+    internal var internalDelegate: InternalChangeStreamDelegate<T>
     // swiftlint:enable weak_delegate
 
-    internal init(publicDelegate: DelegateT) {
-        self.internalDelegate = InternalChangeStreamDelegate.init(delegate: publicDelegate)
+    internal init(changeEventType: ChangeEventType<T>) {
+        self.internalDelegate = InternalChangeStreamDelegate.init(delegate: changeEventType)
     }
 }

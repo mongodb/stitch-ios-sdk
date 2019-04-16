@@ -414,11 +414,13 @@ public class CoreRemoteMongoCollection<T: Codable>: Closable {
      */
     public func watch(
         ids: [BSONValue],
-        delegate: SSEStreamDelegate
+        delegate: SSEStreamDelegate,
+        shouldFetchFullDocument: Bool
     ) throws -> RawSSEStream {
         var args = baseOperationArgs
 
         args["ids"] = ids
+        args["fullDocument"] = shouldFetchFullDocument
 
         let stream = try service.streamFunction(withName: "watch", withArgs: [args], delegate: delegate)
         self.streams.append(WeakReference(stream))

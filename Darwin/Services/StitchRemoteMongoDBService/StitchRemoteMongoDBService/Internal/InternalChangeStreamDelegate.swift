@@ -6,11 +6,11 @@ import StitchCoreRemoteMongoDBService
  * Internal class which serves as an intermediary between an internal RawSSEStream and a change stream as exposed
  * by the remote MongoDB service.
  */
-internal class InternalChangeStreamDelegate<PublicDelegateT: ChangeStreamDelegate>: SSEStreamDelegate {
-    public weak var delegate: PublicDelegateT?
+internal class InternalChangeStreamDelegate<T: Codable>: SSEStreamDelegate {
+    public var delegate: ChangeEventType<T>?
     internal var rawStream: RawSSEStream?
 
-    public init(delegate: PublicDelegateT) {
+    public init(delegate: ChangeEventType<T>) {
         self.delegate = delegate
     }
 
@@ -31,29 +31,36 @@ internal class InternalChangeStreamDelegate<PublicDelegateT: ChangeStreamDelegat
     }
 
     override final public func on(newEvent event: RawSSE) {
-        guard let delegate = delegate else {
+        guard let delegate = delegate?.delegate else {
             self.close()
             return
         }
 
         do {
-            let changeEvent: ChangeEvent<PublicDelegateT.DocumentT>? = try event.decodeStitchSSE()
-            guard let concreteChangeEvent = changeEvent else {
-                self.on(error: StitchError.requestError(withMessage: "invalid event received from stream",
-                                                        withRequestErrorCode: .decodingError))
-                return
+            if delegate.shouldFetchFullDocument {
+                guard let changeEvent: ChangeEvent<T> = try event.decodeStitchSSE() else {
+                    self.on(error: StitchError.requestError(withMessage: "invalid event received from stream",
+                                                            withRequestErrorCode: .decodingError))
+                    return
+                }
+
+                delegate.didReceive(event: changeEvent)
+            } else {
+                guard let changeEvent: ConciseChangeEvent<T> = try event.decodeStitchSSE() else {
+                    self.on(error: StitchError.requestError(withMessage: "invalid event received from stream",
+                                                            withRequestErrorCode: .decodingError))
+                    return
+                }
+
+                delegate.didReceive(event: changeEvent)
             }
-
-            // Dispatch change event to user stream
-            delegate.didReceive(event: concreteChangeEvent)
-
         } catch let err {
-            self.on(error: StitchError.requestError(withError: err, withRequestErrorCode: .decodingError))
+            self.on(error: StitchError.requestErrorFull(withError: err, withRequestErrorCode: .decodingError))
         }
     }
 
     override final public func on(error: Error) {
-        guard let delegate = delegate else {
+        guard let delegate = delegate?.delegate else {
             self.close()
             return
         }
@@ -63,7 +70,7 @@ internal class InternalChangeStreamDelegate<PublicDelegateT: ChangeStreamDelegat
     }
 
     override final public func on(stateChangedFor state: SSEStreamState) {
-        guard let delegate = delegate else {
+        guard let delegate = delegate?.delegate else {
             self.close()
             return
         }

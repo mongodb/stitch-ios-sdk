@@ -36,7 +36,7 @@ public class OperationDispatcher {
                     // this should not happen since StitchCoreSDK wraps all errors in a `StitchError`, but if there is
                     // a bug and an error is not wrapped, we will wrap it here with an unknown error code.
                     completionHandler(StitchResult<ResultType>.failure(
-                        error: StitchError.requestError(
+                        error: StitchError.requestErrorFull(
                             withError: error, withRequestErrorCode: .unknownError)
                         )
                     )

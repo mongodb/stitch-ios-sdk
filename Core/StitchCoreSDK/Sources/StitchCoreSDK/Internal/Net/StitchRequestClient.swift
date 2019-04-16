@@ -58,7 +58,7 @@ extension StitchRequestClient {
             response = try self.transport.roundTrip(request: self.buildRequest(stitchReq, url: url))
         } catch {
             // Wrap the error from the transport in a `StitchError.requestError`
-            throw StitchError.requestError(withError: error, withRequestErrorCode: .transportError)
+            throw StitchError.requestErrorFull(withError: error, withRequestErrorCode: .transportError)
         }
         return try inspectResponse(response: response)
     }
@@ -71,7 +71,7 @@ extension StitchRequestClient {
         do {
             return try transport.stream(request: buildRequest(stitchReq, url: url), delegate: delegate)
         } catch {
-            throw StitchError.requestError(withError: error, withRequestErrorCode: .transportError)
+            throw StitchError.requestErrorFull(withError: error, withRequestErrorCode: .transportError)
         }
     }
 
@@ -176,7 +176,7 @@ public class StitchAppRequestClientImpl: StitchRequestClient {
             self.appMetadata = try decoder.decode(AppMetadata.self, from: body)
         } catch {
             // Wrap the error from the transport in a `StitchError.requestError`
-            throw StitchError.requestError(withError: error,
+            throw StitchError.requestErrorFull(withError: error,
                                            withRequestErrorCode: .transportError)
         }
     }

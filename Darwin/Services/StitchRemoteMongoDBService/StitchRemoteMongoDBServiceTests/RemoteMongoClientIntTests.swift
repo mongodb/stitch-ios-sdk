@@ -1545,7 +1545,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         XCTAssertEqual(["hello": "world1"], withoutId(result4))
     }
 
-    class WatchTestDelegate<DocumentT: Codable>: ChangeStreamDelegate {
+    class WatchTestDelegate<DocumentT: Codable>: ChangeStreamDelegate, ConciseChangeStreamDelegate {
         public init() {
             self.previousAssertionCalled = true
             self.expectedEventType = .streamOpened
@@ -1565,6 +1565,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
         private var assertion: (() -> Void)?
         private var eventAssertion: ((_ event: ChangeEvent<DocumentT>) -> Void)?
+        private var conciseEventAssertion: ((_ event: ConciseChangeEvent<DocumentT>) -> Void)?
 
         func expect(eventType: EventType, _ testAssertion: @escaping () -> Void) {
             guard previousAssertionCalled else {
@@ -1588,6 +1589,17 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             self.eventAssertion = assertion
         }
 
+        func expectConciseEvent(_ assertion: @escaping (_ event: ConciseChangeEvent<DocumentT>) -> Void) {
+            guard previousAssertionCalled else {
+                fatalError("the previous assertion for the expected event was not called")
+            }
+            previousAssertionCalled = false
+
+            self.expectedEventType = .eventReceived
+            self.assertion = nil
+            self.conciseEventAssertion = assertion
+        }
+
         func didReceive(event: ChangeEvent<DocumentT>) {
             print("got public delegate receieve event")
             switch expectedEventType {
@@ -1600,6 +1612,26 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
                     assertion()
                     previousAssertionCalled = true
                 } else if let eventAssertion = eventAssertion {
+                    eventAssertion(event)
+                    previousAssertionCalled = true
+                }
+            default:
+                XCTFail("unexpected receive event, expected to get \(expectedEventType)")
+            }
+        }
+
+        func didReceive(event: ConciseChangeEvent<DocumentT>) {
+            print("got public delegate receieve concise event")
+            switch expectedEventType {
+            case .eventReceived:
+                guard assertion != nil || conciseEventAssertion != nil else {
+                    fatalError("test not configured correctly, must have an assertion when expecting an event")
+                }
+
+                if let assertion = assertion {
+                    assertion()
+                    previousAssertionCalled = true
+                } else if let eventAssertion = conciseEventAssertion {
                     eventAssertion(event)
                     previousAssertionCalled = true
                 }
@@ -1670,7 +1702,8 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         var exp = expectation(description: "should be notified on stream open")
 
         testDelegate.expect(eventType: .streamOpened) { exp.fulfill() }
-        let stream1 = try coll.watch(ids: [doc1["_id"]!], delegate: testDelegate)
+        let stream1 = try coll.watch(ids: [doc1["_id"]!],
+                                     withDelegateType: .fullDocument(withDelegate: testDelegate))
         wait(for: [exp], timeout: 5.0)
 
         // should receive an event for one document
@@ -1728,7 +1761,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
         exp = expectation(description: "notify on stream open")
         testDelegate.expect(eventType: .streamOpened) { exp.fulfill() }
-        let stream2 = try coll.watch(ids: [42, "blah"], delegate: testDelegate)
+        let stream2 = try coll.watch(ids: [42, "blah"], withDelegateType: .fullDocument(withDelegate: testDelegate))
         wait(for: [exp], timeout: 5.0)
 
         exp = expectation(description: "doc2 inserted")
@@ -1757,6 +1790,110 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         wait(for: [exp], timeout: 5.0)
     }
 
+    func testWatchConcise() throws {
+        let coll = getTestColl()
+
+        let testDelegate = WatchTestDelegate<Document>.init()
+        let doc1: Document = [
+            "_id": ObjectId.init(),
+            "hello": "universe"
+        ]
+
+        // set up CallbackJoiner to make synchronous calls to callback functions
+        let joiner = CallbackJoiner()
+
+        // should be notified on stream open
+        var exp = expectation(description: "should be notified on stream open")
+
+        testDelegate.expect(eventType: .streamOpened) { exp.fulfill() }
+        let stream1 = try coll.watch(ids: [doc1["_id"]!],
+                                     withDelegateType: .concise(withDelegate: testDelegate))
+        wait(for: [exp], timeout: 5.0)
+
+        // should receive an event for one document
+        exp = expectation(description: "should receive an event for one document")
+        testDelegate.expectConciseEvent { event in
+            XCTAssertTrue(bsonEquals(event.documentKey["_id"], doc1["_id"]))
+            XCTAssertTrue(bsonEquals(doc1, event.fullDocument))
+
+            XCTAssertEqual(event.operationType, OperationType.insert)
+            exp.fulfill()
+        }
+        coll.insertOne(doc1, joiner.capture())
+
+        wait(for: [exp], timeout: 5.0)
+
+        // should receive more events for a single document
+        let updateDoc: Document = [
+            "$set": ["hello": "universe"] as Document
+        ]
+        exp = expectation(description: "should receive more events for a single document")
+        testDelegate.expectConciseEvent { event in
+            XCTAssertTrue(bsonEquals(event.documentKey["_id"], doc1["_id"]))
+            XCTAssertTrue(bsonEquals(doc1, event.fullDocument))
+
+            XCTAssertEqual(event.operationType, OperationType.update)
+            exp.fulfill()
+        }
+        coll.updateOne(filter: ["_id": doc1["_id"]!], update: updateDoc, joiner.capture())
+
+        wait(for: [exp], timeout: 5.0)
+
+        // should be notified on stream close
+        exp = expectation(description: "should be notified on stream close")
+        testDelegate.expect(eventType: .streamClosed) { exp.fulfill() }
+        stream1.close()
+        wait(for: [exp], timeout: 5.0)
+
+        // should receive no more events after stream close
+        coll.updateOne(
+            filter: ["_id": doc1["_id"]!],
+            update: ["$set": ["you": "can't see me"] as Document ] as Document,
+            joiner.capture()
+        )
+
+        // should receive events for multiple documents being watched
+        let doc2: Document = [
+            "_id": 42,
+            "hello": "i am a number doc"
+        ]
+
+        let doc3: Document = [
+            "_id": "blah",
+            "hello": "i am a string doc"
+        ]
+
+        exp = expectation(description: "notify on stream open")
+        testDelegate.expect(eventType: .streamOpened) { exp.fulfill() }
+        let stream2 = try coll.watch(ids: [42, "blah"], withDelegateType: .concise(withDelegate: testDelegate))
+        wait(for: [exp], timeout: 5.0)
+
+        exp = expectation(description: "doc2 inserted")
+        testDelegate.expectConciseEvent { event in
+            XCTAssertTrue(bsonEquals(event.documentKey["_id"]!, 42))
+            XCTAssertTrue(bsonEquals(event.fullDocument, doc2))
+            XCTAssertEqual(event.operationType, OperationType.insert)
+            exp.fulfill()
+        }
+        coll.insertOne(doc2, joiner.capture())
+        wait(for: [exp], timeout: 5.0)
+
+        exp = expectation(description: "doc3 inserted")
+        testDelegate.expectConciseEvent { event in
+            XCTAssertTrue(bsonEquals(event.documentKey["_id"]!, "blah"))
+            XCTAssertTrue(bsonEquals(event.fullDocument, doc3))
+            XCTAssertEqual(event.operationType, OperationType.insert)
+            exp.fulfill()
+        }
+        coll.insertOne(doc3, joiner.capture())
+        wait(for: [exp], timeout: 5.0)
+
+        exp = expectation(description: "should be notified on stream close")
+        testDelegate.expect(eventType: .streamClosed) { exp.fulfill() }
+        stream2.close()
+        wait(for: [exp], timeout: 5.0)
+    }
+
     func testWatchWithCustomDocType() throws {
         let coll = getTestColl().withCollectionType(CustomType.self)
         let doc1 = CustomType.init(id: "my_string_id", intValue: 42)
@@ -1769,7 +1906,8 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
             exp.fulfill()
         }
 
-        let stream = try coll.watch(ids: ["my_string_id"], delegate: testDelegate)
+        let stream = try coll.watch(ids: ["my_string_id"],
+                                    withDelegateType: .fullDocument(withDelegate: testDelegate))
         wait(for: [exp], timeout: 5.0)
 
         // If this code is uncommented, the test should not compile, since you shouldn't be able to use a

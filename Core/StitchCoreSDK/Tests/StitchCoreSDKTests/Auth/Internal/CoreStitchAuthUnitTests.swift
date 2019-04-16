@@ -831,7 +831,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
 
         // Profile request does not work when `profileRequestShouldFail` is true
         requestClient.doRequestMock.doThrow(
-            error: StitchError.requestError(
+            error: StitchError.requestErrorFull(
                 withError: MongoError.invalidResponse(), // placeholder error
                 withRequestErrorCode: StitchRequestErrorCode.unknownError),
             forArg: Matcher<StitchRequest>.with(condition: { req -> Bool in

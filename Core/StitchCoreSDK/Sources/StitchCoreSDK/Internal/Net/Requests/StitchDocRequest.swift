@@ -43,7 +43,7 @@ public final class StitchDocRequestBuilder: StitchRequestBuilder {
         // computed properties can't throw errors, so `document.canonicalExtendedJSON`
         // returns an empty string if it could not encode the document
         if docString == "" {
-            throw StitchError.requestError(
+            throw StitchError.requestErrorFull(
                 withError: MongoError.bsonEncodeError(message: "could not encode document as extended JSON string"),
                 withRequestErrorCode: .encodingError
             )
