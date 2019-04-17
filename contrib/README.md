@@ -49,25 +49,18 @@ To avoid getting a lot of linter warnings, make sure the following whitespace se
    request a reviewer on the pull request (mandatory) before merging and 
    deleting the release branch.
 
-4. Properly tag the release with the correct version number by running
-   `git tag <VERSION>` on the master branch after merging, substituting the 
-   placeholder with the appropriate package version. Once the tag is created, 
-   push the tag to the upstream remote with `git push upstream <VERSION>`. 
-   Depending on how your local git is configured, you may need to run
-   `git push origin <VERSION>` instead.
-
-5. Ensure that you are registered for CocoaPods Trunk on your local Mac system.
+4. Ensure that you are registered for CocoaPods Trunk on your local Mac system.
    See https://guides.cocoapods.org/making/getting-setup-with-trunk.html for
    more context on this step.
 
-6. Run `contrib/publish_pods.sh`. This publishes all of the pods for the 
+5. Run `contrib/publish_pods.sh`. This publishes all of the pods for the 
    project. This command may take a while (1-2 hours).
 
-7. Close XCode if it is already open, and run `contrib/generate_docs.sh`. This
+6. Close XCode if it is already open, and run `contrib/generate_docs.sh`. This
    generates the Jazzy documentation for the project, and publishes it to the 
    appropriate AWS S3 bucket.
 
-8. Publish a release for the new SDK version on the GitHub repository and 
+7. Publish a release for the new SDK version on the GitHub repository and 
    include relevant release notes. See
    https://help.github.com/en/articles/creating-releases for context, and 
    follow the general format of our previous releases.

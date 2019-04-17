@@ -66,7 +66,7 @@ echo "Bumping $LAST_VERSION to $NEW_VERSION ($BUMP_TYPE)"
 # Create the branch for the release PR
 RELEASE_BRANCH="Release-$JIRA_TICKET"
 git checkout -b $RELEASE_BRANCH
-git push -u origin $RELEASE_BRANCH
+git push -u upstream $RELEASE_BRANCH
 
 # Update all of the podspecs
 echo "Updating podspecs"
@@ -107,7 +107,7 @@ sed -i "" -E "$PODSPEC_SED_REGEX" README.md
 git add README.md
 
 git commit -m "$JIRA_TICKET Release $NEW_VERSION"
-git push -u origin $RELEASE_BRANCH
+git push -u upstream $RELEASE_BRANCH
 
 echo "creating pull request in github..."
 hub pull-request -m "$JIRA_TICKET: Release $NEW_VERSION" --base mongodb:master --head mongodb:$RELEASE_BRANCH
