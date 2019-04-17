@@ -1,3 +1,4 @@
+// swiftlint:disable weak_delegate
 import Foundation
 import StitchCoreSDK
 import StitchCoreRemoteMongoDBService

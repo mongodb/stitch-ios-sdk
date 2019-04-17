@@ -768,7 +768,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
             let stitchError = error as? StitchError
             XCTAssertNotNil(error as? StitchError)
             if let err = stitchError {
-                guard case .requestError(_, let errorCode) = err else {
+                guard case .requestErrorFull(_, let errorCode) = err else {
                     XCTFail("doAuthenticatedRequest returned an incorrect error type")
                     return
                 }

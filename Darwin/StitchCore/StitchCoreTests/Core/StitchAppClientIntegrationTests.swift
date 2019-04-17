@@ -339,7 +339,7 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
                                         case .success:
                                             XCTFail("timeout error expected")
                                         case .failure(let error):
-                                            guard case .requestError(_, let errorCode) = error else {
+                                            guard case .requestErrorFull(_, let errorCode) = error else {
                                                 XCTFail("callFunction returned an incorrect error type")
                                                 return
                                             }

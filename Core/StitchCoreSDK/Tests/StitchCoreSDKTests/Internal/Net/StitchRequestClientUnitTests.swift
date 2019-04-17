@@ -157,7 +157,7 @@ class StitchRequestClientUnitTests: StitchXCTestCase {
             let stitchErr = error as? StitchError
             XCTAssertNotNil(stitchErr)
 
-            guard case .requestError(let error, let errorCode) = stitchErr! else {
+            guard case .requestErrorFull(let error, let errorCode) = stitchErr! else {
                 XCTFail("wrong StitchError error type was thrown")
                 return
             }
@@ -319,7 +319,7 @@ class StitchRequestClientUnitTests: StitchXCTestCase {
             let stitchErr = error as? StitchError
             XCTAssertNotNil(stitchErr)
 
-            guard case .requestError(let error, let errorCode) = stitchErr! else {
+            guard case .requestErrorFull(let error, let errorCode) = stitchErr! else {
                 XCTFail("wrong StitchError error type was thrown")
                 return
             }
@@ -433,7 +433,7 @@ class StitchRequestClientUnitTests: StitchXCTestCase {
             let stitchErr = error as? StitchError
             XCTAssertNotNil(stitchErr)
 
-            guard case .requestError(let underlyingError, let errorCode) = stitchErr! else {
+            guard case .requestErrorFull(let underlyingError, let errorCode) = stitchErr! else {
                 XCTFail("wrong StitchError error type was thrown")
                 return
             }
