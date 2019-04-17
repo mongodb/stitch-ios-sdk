@@ -36,7 +36,7 @@ class ProductionPerformanceTestContext: SyncPerformanceTestContext {
         coll.sync.proxy.dataSynchronizer.isSyncThreadEnabled = false
         coll.sync.proxy.dataSynchronizer.stop()
         dataSynchronizer = coll.sync.proxy.dataSynchronizer
-        
+
         try self.clearLocalDB()
         try clearRemoteDB()
     }

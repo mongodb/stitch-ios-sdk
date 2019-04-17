@@ -1,3 +1,5 @@
+// swiftlint:disable function_body_length
+
 import XCTest
 import Foundation
 import MongoSwift
@@ -169,8 +171,7 @@ class SyncL2ROnlyPerformanceTestDefinitions {
 
         // Local variable for the number of docs updated in the test
         // This should change for each iteration of the test.
-        var numberOfChangedDocs: Int? = nil
-        var documentsForCurrentTest: [Document] = []
+        var numberOfChangedDocs: Int?
 
         testHarness.runPerformanceTestWithParameters(
             testName: testName,
@@ -228,7 +229,7 @@ class SyncL2ROnlyPerformanceTestDefinitions {
             }
 
             numberOfChangedDocs = docsToUpdate.count
-        }, afterEach: { (ctx, numDocs, docSize) in
+        }, afterEach: { (ctx, numDocs, _) in
             // Verify that the test did indeed synchronize
             // the provided documents remotely
             let numOfDocsSynced = ctx.coll.count(Document())
