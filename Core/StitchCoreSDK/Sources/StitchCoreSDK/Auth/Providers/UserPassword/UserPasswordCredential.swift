@@ -1,8 +1,11 @@
 import MongoSwift
 
 /**
- * A credential which can be used to log in as a Stitch user
- * using the username/password authentication provider.
+ * The `UserPasswordCredential` is a `StitchCredential` that is used to log in
+ * using the [Username/Password Authentication Provider](https://docs.mongodb.com/stitch/authentication/userpass/).
+ *
+ * - SeeAlso:
+ * `StitchAuth`
  */
 public struct UserPasswordCredential: StitchCredential {
     // MARK: Initializer
