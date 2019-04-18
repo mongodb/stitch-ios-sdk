@@ -4,8 +4,13 @@ import StitchCore
 import StitchCoreRemoteMongoDBService
 
 /**
- * Represents a `find` or `aggregate` operation against a MongoDB collection. Use the methods in this class to execute
- * the operation and retrieve the results.
+ * `RemoteMongoReadOperation` represents a `find` or `aggregate` operation 
+ * on a `RemoteMongoCollection`.
+ * 
+ * The methods in this class execute the operation and retrieve the results.
+ *
+ * - SeeAlso:
+ * `RemoteMongoCollection`
  */
 public class RemoteMongoReadOperation<T: Codable> {
     private let proxy: CoreRemoteMongoReadOperation<T>
@@ -47,7 +52,7 @@ public class RemoteMongoReadOperation<T: Codable> {
     }
 
     /**
-     * Executes the operation and returns the result as an array. Deprecated in favor of toArray.
+     * Executes the operation and returns the result as an array. Deprecated in favor of `toArray(completionHandler:)`.
      *
      * - parameters:
      *   - completionHandler: The completion handler to call when the operation is completed or if the operation fails.
@@ -60,7 +65,7 @@ public class RemoteMongoReadOperation<T: Codable> {
     }
 
     /**
-     * Executes the operation and returns a cursor to its resulting documents.
+     * Executes the operation and returns a `RemoteMongoCursor` to its resulting documents.
      *
      * - parameters:
      *   - completionHandler: The completion handler to call when the operation is completed or if the operation fails.

@@ -4,7 +4,18 @@ import StitchCore
 import StitchCoreRemoteMongoDBService
 
 /**
- * A class representing a MongoDB database accesible via the Stitch MongoDB service.
+ * The `RemoteMongoDatabase` represents a MongoDB database, which holds a group
+ * of collections that contain your data.
+ *
+ * It can be retrieved from the `RemoteMongoClient`.
+ *
+ * Use it to get `RemoteMongoCollection`s for reading and writing data.
+ * 
+ * - Note:
+ * Before you can read or write data, a user must log in. See `StitchAuth`.
+ * 
+ * - SeeAlso:
+ * `RemoteMongoClient`, `RemoteMongoCollection`
  */
 public class RemoteMongoDatabase {
     private let dispatcher: OperationDispatcher
@@ -24,7 +35,7 @@ public class RemoteMongoDatabase {
     }
 
     /**
-     * Gets a collection.
+     * Gets a `RemoteMongoCollection`.
      *
      * - parameter name: the name of the collection to return
      * - returns: the collection
@@ -37,7 +48,7 @@ public class RemoteMongoDatabase {
     }
 
     /**
-     * Gets a collection with a specific default document type.
+     * Gets a `RemoteMongoCollection` with a specific default document type.
      *
      * - parameter name: the name of the collection to return
      * - parameter withCollectionType: the default class to cast any documents returned from the database into.

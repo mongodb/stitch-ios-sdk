@@ -1,11 +1,23 @@
+//swiftlint:disable file_length
 import Foundation
 import MongoSwift
 import StitchCore
 import StitchCoreRemoteMongoDBService
 
 /**
- * A class representing a MongoDB collection accesible via the Stitch MongoDB service. Operations against the Stitch
- * server are performed asynchronously.
+ * The `RemoteMongoCollection` represents a MongoDB collection.
+ *
+ * You can get an instance from a `RemoteMongoDatabase`.
+ *
+ * Create, read, update, and delete methods are available.
+ * 
+ * Operations against the Stitch server are performed asynchronously.
+ *
+ * - Note:
+ * Before you can read or write data, a user must log in. See `StitchAuth`.
+ * 
+ * - SeeAlso:
+ * `RemoteMongoClient`, `RemoteMongoDatabase`
  */
 public class RemoteMongoCollection<T: Codable> {
     private let dispatcher: OperationDispatcher
@@ -42,6 +54,7 @@ public class RemoteMongoCollection<T: Codable> {
      * This allows `CollectionType` values to be directly inserted into and
      * retrieved from the collection, by encoding/decoding them using the
      * `BSONEncoder` and `BSONDecoder`.
+     * 
      * This type association only exists in the context of this particular
      * `MongoCollection` instance. It is the responsibility of the user to
      * ensure that any data already stored in the collection was encoded
@@ -63,7 +76,7 @@ public class RemoteMongoCollection<T: Codable> {
     // MARK: CRUD Operations
 
     /**
-     * Finds the documents in this collection which match the provided filter.
+     * Finds the documents in this collection that match the provided filter.
      *
      * - parameters:
      *   - filter: A `Document` that should match the query.
@@ -85,12 +98,25 @@ public class RemoteMongoCollection<T: Codable> {
     /**
      * Runs an aggregation framework pipeline against this collection.
      *
-     * - Parameters:
-     *   - pipeline: An `[Document]` containing the pipeline of aggregation operations to perform.
+     * You can use any
+     * [aggregation stage](https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline/index.html)
+     * except for the following:      
+     *   - $collStats
+     *   - $currentOp
+     *   - $lookup
+     *   - $out
+     *   - $indexStats
+     *   - $facet
+     *   - $graphLookup
+     *   - $text
+     *   - $geoNear
      *
-     *   - important: Invoking this method by itself does not perform any network requests. You must call one of the
-     *                methods on the resulting `RemoteMongoReadOperation` instance to trigger the operation against
-     *                the database.
+     * - important: Invoking this method by itself does not perform any network requests. You must call one of the
+     *     methods on the resulting `RemoteMongoReadOperation` instance to trigger the operation against
+     *     the database.
+     *
+     * - Parameters:
+     *   - pipeline: An array of `Document`s containing the pipeline of aggregation operations to perform.
      *
      * - returns: A `RemoteMongoReadOperation` that allows retrieval of the resulting documents.
      */
@@ -101,7 +127,7 @@ public class RemoteMongoCollection<T: Codable> {
     }
 
     /**
-     * Finds a document in this collection which matches the provided filter.
+     * Finds a document in this collection that matches the provided filter.
      *
      * - parameters:
      *   - filter: A `Document` that should match the query.
@@ -136,8 +162,12 @@ public class RemoteMongoCollection<T: Codable> {
     }
 
     /**
-     * Encodes the provided value to BSON and inserts it. If the value is missing an identifier, one will be
+     * Encodes the provided value as BSON and inserts it. If the value is missing an identifier, one will be
      * generated for it.
+     *
+     * - important: If the insert failed due to a request timeout, it does not necessarily indicate that the insert
+     *              failed on the database. Application code should handle timeout errors with the assumption that the
+     *              document may or may not have been inserted.
      *
      * - parameters:
      *   - value: A `CollectionType` value to encode and insert.
@@ -146,9 +176,6 @@ public class RemoteMongoCollection<T: Codable> {
      *                        successful, the result will contain the result of attempting to perform the insert, as
      *                        a `RemoteInsertOneResult`.
      *
-     * - important: If the insert failed due to a request timeout, it does not necessarily indicate that the insert
-     *              failed on the database. Application code should handle timeout errors with the assumption that the
-     *              document may or may not have been inserted.
      */
     public func insertOne(_ value: CollectionType,
                           _ completionHandler: @escaping (StitchResult<RemoteInsertOneResult>) -> Void) {
@@ -158,8 +185,12 @@ public class RemoteMongoCollection<T: Codable> {
     }
 
     /**
-     * Encodes the provided values to BSON and inserts them. If any values are missing identifiers,
+     * Encodes the provided values as BSON and inserts them. If any values are missing identifiers,
      * they will be generated.
+     *
+     * - important: If the insert failed due to a request timeout, it does not necessarily indicate that the insert
+     *              failed on the database. Application code should handle timeout errors with the assumption that
+     *              documents may or may not have been inserted.
      *
      * - parameters:
      *   - documents: The `CollectionType` values to insert.
@@ -169,9 +200,6 @@ public class RemoteMongoCollection<T: Codable> {
      *                        successful, the result will contain the result of attempting to perform the insert, as
      *                        a `RemoteInsertManyResult`.
      *
-     * - important: If the insert failed due to a request timeout, it does not necessarily indicate that the insert
-     *              failed on the database. Application code should handle timeout errors with the assumption that
-     *              documents may or may not have been inserted.
      */
     public func insertMany(_ documents: [CollectionType],
                            _ completionHandler: @escaping (StitchResult<RemoteInsertManyResult>) -> Void) {
@@ -183,6 +211,10 @@ public class RemoteMongoCollection<T: Codable> {
     /**
      * Deletes a single matching document from the collection.
      *
+     * - important: If the delete failed due to a request timeout, it does not necessarily indicate that the delete
+     *              failed on the database. Application code should handle timeout errors with the assumption that
+     *              a document may or may not have been deleted.
+     *
      * - parameters:
      *   - filter: A `Document` representing the match criteria.
      *   - completionHandler: The completion handler to call when the delete is completed or if the operation fails.
@@ -190,9 +222,6 @@ public class RemoteMongoCollection<T: Codable> {
      *                        successful, the result will contain the result of performing the deletion, as
      *                        a `RemoteDeleteResult`.
      *
-     * - important: If the delete failed due to a request timeout, it does not necessarily indicate that the delete
-     *              failed on the database. Application code should handle timeout errors with the assumption that
-     *              a document may or may not have been deleted.
      */
     public func deleteOne(_ filter: Document,
                           _ completionHandler: @escaping (StitchResult<RemoteDeleteResult>) -> Void) {
@@ -204,6 +233,10 @@ public class RemoteMongoCollection<T: Codable> {
     /**
      * Deletes multiple documents from the collection.
      *
+     * - important: If the delete failed due to a request timeout, it does not necessarily indicate that the delete
+     *              failed on the database. Application code should handle timeout errors with the assumption that
+     *              documents may or may not have been deleted.
+     *
      * - parameters:
      *   - filter: A `Document` representing the match criteria.
      *   - completionHandler: The completion handler to call when the delete is completed or if the operation fails.
@@ -211,9 +244,6 @@ public class RemoteMongoCollection<T: Codable> {
      *                        successful, the result will contain the result of performing the deletion, as
      *                        a `RemoteDeleteResult`.
      *
-     * - important: If the delete failed due to a request timeout, it does not necessarily indicate that the delete
-     *              failed on the database. Application code should handle timeout errors with the assumption that
-     *              documents may or may not have been deleted.
      */
     public func deleteMany(_ filter: Document,
                            _ completionHandler: @escaping (StitchResult<RemoteDeleteResult>) -> Void) {
@@ -225,6 +255,10 @@ public class RemoteMongoCollection<T: Codable> {
     /**
      * Updates a single document matching the provided filter in this collection.
      *
+     * - important: If the update failed due to a request timeout, it does not necessarily indicate that the update
+     *              failed on the database. Application code should handle timeout errors with the assumption that
+     *              a document may or may not have been updated.
+     *
      * - parameters:
      *   - filter: A `Document` representing the match criteria.
      *   - update: A `Document` representing the update to be applied to a matching document.
@@ -234,9 +268,6 @@ public class RemoteMongoCollection<T: Codable> {
      *                        successful, the result will contain the result of attempting to update a document, as
      *                        a `RemoteUpdateResult`.
      *
-     * - important: If the update failed due to a request timeout, it does not necessarily indicate that the update
-     *              failed on the database. Application code should handle timeout errors with the assumption that
-     *              a document may or may not have been updated.
      */
     public func updateOne(filter: Document,
                           update: Document,
@@ -250,6 +281,10 @@ public class RemoteMongoCollection<T: Codable> {
     /**
      * Updates mutiple documents matching the provided filter in this collection.
      *
+     * - important: If the update failed due to a request timeout, it does not necessarily indicate that the update
+     *              failed on the database. Application code should handle timeout errors with the assumption that
+     *              documents may or may not have been updated.
+     *
      * - parameters:
      *   - filter: A `Document` representing the match criteria.
      *   - update: A `Document` representing the update to be applied to a matching document.
@@ -259,9 +294,6 @@ public class RemoteMongoCollection<T: Codable> {
      *                        successful, the result will contain the result of attempting to update multiple
      *                        documents, as a `RemoteUpdateResult`.
      *
-     * - important: If the update failed due to a request timeout, it does not necessarily indicate that the update
-     *              failed on the database. Application code should handle timeout errors with the assumption that
-     *              documents may or may not have been updated.
      */
     public func updateMany(filter: Document,
                            update: Document,
@@ -276,6 +308,10 @@ public class RemoteMongoCollection<T: Codable> {
      * Finds a document in this collection which matches the provided filter and
      * performs the given update on that document.
      *
+     * - important: If the update failed due to a request timeout, it does not necessarily indicate that the update
+     *              failed on the database. Application code should handle timeout errors with the assumption that
+     *              documents may or may not have been updated.
+     *
      * - parameters:
      *   - filter: A `Document` that should match the query.
      *   - update: A `Document` describing the update.
@@ -285,9 +321,6 @@ public class RemoteMongoCollection<T: Codable> {
      *                        successful, the result will contain the resulting document or nil if the query
      *                        matched no documents.
      *
-     * - important: If the update failed due to a request timeout, it does not necessarily indicate that the update
-     *              failed on the database. Application code should handle timeout errors with the assumption that
-     *              documents may or may not have been updated.
      */
     public func findOneAndUpdate(filter: Document,
                                  update: Document,
@@ -302,6 +335,10 @@ public class RemoteMongoCollection<T: Codable> {
      * Finds a document in this collection which matches the provided filter and
      * replaces that document with the given document.
      *
+     * - important: If the update failed due to a request timeout, it does not necessarily indicate that the update
+     *              failed on the database. Application code should handle timeout errors with the assumption that
+     *              documents may or may not have been updated.
+     *
      * - parameters:
      *   - filter: A `Document` that should match the query.
      *   - replacement: A `Document` to replace the matched document with.
@@ -311,9 +348,6 @@ public class RemoteMongoCollection<T: Codable> {
      *                        successful, the result will contain the resulting document or nil if the query
      *                        matched no documents.
      *
-     * - important: If the update failed due to a request timeout, it does not necessarily indicate that the update
-     *              failed on the database. Application code should handle timeout errors with the assumption that
-     *              documents may or may not have been updated.
      */
     public func findOneAndReplace(filter: Document,
                                   replacement: Document,
@@ -327,6 +361,10 @@ public class RemoteMongoCollection<T: Codable> {
     /**
      * Finds a document in this collection which matches the provided filter and delete the document.
      *
+     * - important: If the update failed due to a request timeout, it does not necessarily indicate that the update
+     *              failed on the database. Application code should handle timeout errors with the assumption that
+     *              documents may or may not have been updated.
+     *
      * - parameters:
      *   - filter: A `Document` that should match the query.
      *   - options: Optional `RemoteFindOneAndModifyOptions` to use when executing the command.
@@ -336,9 +374,6 @@ public class RemoteMongoCollection<T: Codable> {
      *                        successful, the result will contain the resulting document or nil if the query
      *                        matched no documents.
      *
-     * - important: If the update failed due to a request timeout, it does not necessarily indicate that the update
-     *              failed on the database. Application code should handle timeout errors with the assumption that
-     *              documents may or may not have been updated.
      */
     public func findOneAndDelete(filter: Document,
                                  options: RemoteFindOneAndModifyOptions? = nil,
