@@ -21,6 +21,8 @@ internal class SyncPerformanceTestUtils {
     static private let defaultOutputToStdout = true
     static private let defaultOutputToStitch = true
     static private let defaultPreserveRawOutput = false
+    static private let defaultChangeEventPercentages = [0.0, 0.01, 0.1, 0.25, 0.5, 1.0]
+    static private let defaultConflictPercentages = [0.0, 0.1, 0.5, 1.0]
 
     static let stitchHostName: String = {
         if !TEST_PERF_IOS_STITCH_HOST.isEmpty {
@@ -120,13 +122,43 @@ internal class SyncPerformanceTestUtils {
         }
         return defaultPreserveRawOutput
     }()
+    
+    static let changeEventPercentages: [Double] = {
+        if !TEST_PERF_IOS_CHANGE_EVENT_PERCENTAGES.isEmpty {
+            return stringToIntArr(TEST_PERF_IOS_CHANGE_EVENT_PERCENTAGES)
+        } else if let param = ProcessInfo.processInfo.environment["PERF_IOS_CHANGE_EVENT_PERCENTAGES"] {
+            return stringToIntArr(param)
+        }
+        return defaultChangeEventPercentages
+    }()
+    
+    static let conflictPercentages: [Double] = {
+        if !TEST_PERF_IOS_CONFLICT_PERCENTAGES.isEmpty {
+            return stringToIntArr(TEST_PERF_IOS_CONFLICT_PERCENTAGES)
+        } else if let param = ProcessInfo.processInfo.environment["PERF_IOS_CONFLICT_PERCENTAGES"] {
+            return stringToIntArr(param)
+        }
+        return defaultConflictPercentages
+    }()
 
     private static func stringToIntArr(_ str: String) -> [Int] {
         return str.split(separator: "-").map { Int($0) ?? 0 }
     }
 
+    // To generate the documents, we use 7-character field names, and 54-character
+    // strings as the field values. For each field, we expect 3 bytes of overhead.
+    // (the BSON string type code, and two null terminators). This way, each field is 64
+    // bytes. All of the doc sizes we use in this test are divisible by 64, so the number
+    // of fields we generate in the document will be the desired document size divided by
+    // 64. To account for the 5 byte overhead of defining a BSON document, and the 17 bytes
     static func generateDocuments(numDoc: Int, docSize: Int) -> [Document] {
-        return (0..<numDoc).map { _ in ["data": generateRandomString(len: docSize)] }
+        return (0..<numDoc).map {
+            var doc = Document(self.generateRandomString(len: 7), self.generateRandomString(len: 32))
+            for _ in 0..<(docSize / 64 - 1) {
+                doc.append(self.generateRandomString(len: 7), self.generateRandomString(len: 54))
+            }
+            return doc
+        }
     }
 
     static func generateRandomString(len: Int) -> String {

@@ -54,6 +54,12 @@ class SyncPerformanceIntTests: XCTestCase {
             print("PerfLog: (Custom Teardown) \(numDoc) docs of size \(docSize)")
         })
     } */
+    
+    func test() {
+        let docs = SyncPerformanceTestUtils.generateDocuments(numDoc: 2, docSize: 1024)
+        print(docs[0])
+        print(docs[1])
+    }
 
     func testInitialSyncLocal() {
         harness.runPerformanceTestWithParameters(
