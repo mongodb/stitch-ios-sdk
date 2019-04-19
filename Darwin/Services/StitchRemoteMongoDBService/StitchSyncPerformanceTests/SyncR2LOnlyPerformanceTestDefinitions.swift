@@ -18,6 +18,7 @@ class SyncR2LOnlyPerformanceTestDefinitions {
             testName: testName,
             runId: runId,
             beforeEach: { ctx, numDocs, docSize in
+                // Insert documents into the remote database and save the inserted ids
                 documentIdsForTest = try SyncPerformanceTestUtils.insertToRemote(ctx: ctx,
                                                                                  numDocs: numDocs,
                                                                                  docSize: docSize)
@@ -26,8 +27,8 @@ class SyncR2LOnlyPerformanceTestDefinitions {
                 throw "Setup function did not return document ids"
             }
 
-            let joiner = ThrowingCallbackJoiner()
             // Configure the data synchronizer
+            let joiner = ThrowingCallbackJoiner()
             ctx.coll.sync.configure(
                 conflictHandler: DefaultConflictHandler<Document>.remoteWins(),
                 changeEventDelegate: nil,
@@ -36,7 +37,7 @@ class SyncR2LOnlyPerformanceTestDefinitions {
             }, joiner.capture())
             let _: Any? = try joiner.value()
 
-            // Call syn on the given document ids
+            // Call sync() on the given document ids
             ctx.coll.sync.sync(ids: docIds, joiner.capture())
             let _: Any? = try joiner.value()
 
@@ -44,6 +45,7 @@ class SyncR2LOnlyPerformanceTestDefinitions {
             try SyncPerformanceTestUtils.doSyncPass(ctx: ctx)
 
         }, afterEach: { ctx, numDocs, _ in
+            // Ensure the sync pass behaved properly
             try SyncPerformanceTestUtils.assertLocalAndRemoteDBCount(ctx: ctx, numDocs: numDocs)
         })
     }

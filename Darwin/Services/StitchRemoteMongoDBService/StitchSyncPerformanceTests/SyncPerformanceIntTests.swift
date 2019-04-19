@@ -56,7 +56,7 @@ class SyncPerformanceIntTests: XCTestCase {
 
     /*
      * Before: Perform remote insert of numDoc documents, configure sync(), perform sync pass
-               Then remote update numChangeEvent documents remotely, and numConflict documents locally
+     *         Then remote update numChangeEvent documents remotely, and numConflict documents locally
      * Test: Perform sync pass
      * After: Ensure that the sync pass worked properly and that the local collection has received remote updates
      */

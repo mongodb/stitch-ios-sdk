@@ -254,7 +254,7 @@ internal class SyncPerformanceTestUtils {
     }
 
     static func doSyncPass(ctx: SyncPerformanceTestContext) throws {
-        // ctx.testNetworkMonitor.connectedState = true
+        ctx.harness.networkMonitor.state = .connected
         var iters = 0
         while !ctx.coll.sync.proxy.dataSynchronizer.allStreamsAreOpen {
             iters += 1
