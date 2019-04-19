@@ -16,7 +16,6 @@ class LocalPerformanceTestContext: SyncPerformanceTestContext {
     let mongoClient: RemoteMongoClient
     let coll: RemoteMongoCollection<Document>
     let harness: SyncPerformanceIntTestHarness
-
     let joiner = ThrowingCallbackJoiner()
     let streamJoiner = StreamJoiner()
 

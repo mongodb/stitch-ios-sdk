@@ -127,8 +127,8 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
 
     func runPerformanceTestWithParameters(testName: String,
                                           runId: ObjectId,
-                                          testDefinition: TestDefinition,
                                           beforeEach: SetupDefinition = { _, _, _ in },
+                                          testDefinition: TestDefinition,
                                           afterEach: TeardownDefinition = { _, _, _ in }) {
         var failed = false
         let resultId = ObjectId()
@@ -145,6 +145,7 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
                 let runResults = RunResults(numDocs: numDoc, docSize: docSize)
                 for iter in 0..<SyncPerformanceTestUtils.numIters {
                     do {
+                        logMessage(message: "Testing (numDocs: \(numDoc), docSize \(docSize), iter: \(iter))")
                         let ctx = try createPerformanceTestingContext()
 
                         let iterResult = try ctx.runSingleIteration(numDocs: numDoc,
@@ -156,16 +157,13 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
                         runResults.addResult(iterResult: iterResult)
                         try ctx.tearDown()
                     } catch {
-                        let message = "Failed on iteration \(iter) of \(SyncPerformanceTestUtils.numIters)" +
+                        let message = "Failed on iteration \(iter) of \(SyncPerformanceTestUtils.numIters) " +
                         "with error \(String(describing: error))"
                         runResults.addFailure(failureResult: FailureResult(
                             iteration: iter,
                             reason: message,
                             stackTrace: Thread.callStackSymbols))
-
-                        if SyncPerformanceTestUtils.shouldOutputToStdOut {
-                            logMessage(message: "Error \(message)")
-                        }
+                        logMessage(message: "Error \(message)")
                     }
                 }
 
