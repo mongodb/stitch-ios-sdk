@@ -1,7 +1,6 @@
 import UIKit
 import StitchCore
 import MongoSwift
-import StitchLocalMongoDBService
 import StitchCoreSDK
 @testable import StitchRemoteMongoDBService
 @testable import StitchCoreRemoteMongoDBService
@@ -47,16 +46,24 @@ class ViewController: UIViewController {
             mongoClient = try stitchClient.serviceClient(fromFactory: remoteMongoClientFactory, withName: "mongodb-atlas")
             mongoCollection = mongoClient?.db("stress").collection("tests");
             syncCollection = mongoCollection?.sync
+            
             syncCollection?.configure(
                 conflictHandler: DefaultConflictHandler<Document>.remoteWins(),
-                changeEventDelegate: { documentId, event in
+                changeEventDelegate:  { documentId, event in
                     self.log("Sync received changeEvent of type: \(event.operationType) and body: \(String(describing: event.fullDocument))")
                     if (event.hasUncommittedWrites) {
                         self.log("Sync changeEvent has uncommitted writes")
                     }
-            }, errorListener: self.on)
-            
-            self.log("successfuly setup mongoClient and mongoCollection");
+                }, errorListener: self.on(error:forDocumentId:)) { result in
+                    switch result {
+                    case .success:
+                        self.log("Successfully Configured sync");
+                        self.syncCollection?.proxy.dataSynchronizer.isSyncThreadEnabled = false
+                        self.syncCollection?.proxy.dataSynchronizer.stop()
+                    case .failure(let error):
+                        self.log("Failed to auth with error: \(error)");
+                    }
+                }
             
             stitchClient.auth.login(withCredential: AnonymousCredential()) { result in
                 switch result {
@@ -66,9 +73,6 @@ class ViewController: UIViewController {
                     self.log("Failed to auth with error: \(error)");
                 }
             }
-            
-            syncCollection?.proxy.dataSynchronizer.isSyncThreadEnabled = false
-            syncCollection?.proxy.dataSynchronizer.stop()
         } catch (let err) {
             self.log("Failed initialize mongoClient with error: \(err)");
         }
@@ -155,15 +159,21 @@ class ViewController: UIViewController {
             self.log(" clearAllDocsClicked: Must have valid syncCollection")
             return;
         }
-        let syncedIds = syncCollection.syncedIds()
-        if (syncedIds.count > 0) {
-            syncCollection.desync(ids: syncedIds.map({return $0.value})) {result in
-                switch result {
-                case .success(result: _):
-                    self.log("Succeffully de-synced \(syncedIds.count) docs");
-                case .failure(let error):
-                    self.log("Failed to de-sync #\(syncedIds.count) docs with err: \(error.localizedDescription)")
+        syncCollection.syncedIds() { result in
+            switch result {
+            case .success(let syncedIds):
+                if (syncedIds.count > 0) {
+                    syncCollection.desync(ids: syncedIds.map({return $0.value})) {result in
+                        switch result {
+                        case .success(result: _):
+                            self.log("Succeffully de-synced \(syncedIds.count) docs");
+                        case .failure(let error):
+                            self.log("Failed to de-sync #\(syncedIds.count) docs with err: \(error.localizedDescription)")
+                        }
+                    }
                 }
+            case .failure(let error):
+                self.log("Failed to get synced ids with err: \(error.localizedDescription)")
             }
         }
     }
@@ -215,11 +225,18 @@ class ViewController: UIViewController {
     }
     
     func updateLabels(withTime time: Int64 = 0, withNetworkSent networkSent: Int64 = 0, withNetworkRec networkRec: Int64 = 0) {
-        DispatchQueue.main.async() {
-            self.timeLabel.text             = "\(String(describing: time))"
-            self.networkSentLabel.text      = "\(String(describing: networkSent))"
-            self.networkReceivedLabel.text  = "\(String(describing: networkRec))"
-            self.numSyncedDocsLabel.text    = "\(String(describing: self.syncCollection?.syncedIds().count ?? 0))"
+        syncCollection?.syncedIds() { result in
+            switch result {
+            case .success(let syncedIds):
+                DispatchQueue.main.async() {
+                    self.timeLabel.text             = "\(String(describing: time))"
+                    self.networkSentLabel.text      = "\(String(describing: networkSent))"
+                    self.networkReceivedLabel.text  = "\(String(describing: networkRec))"
+                    self.numSyncedDocsLabel.text    = "\(String(describing: syncedIds.count))"
+                }
+            case .failure(let error):
+                self.log("Failed to get synced ids with err: \(error.localizedDescription)")
+            }
         }
     }
     
