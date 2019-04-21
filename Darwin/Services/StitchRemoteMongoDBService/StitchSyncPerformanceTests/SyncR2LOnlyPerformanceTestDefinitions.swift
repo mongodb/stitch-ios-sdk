@@ -1,9 +1,10 @@
+//swiftlint:disable function_body_length
 import XCTest
 import Foundation
 import MongoSwift
 @testable import StitchRemoteMongoDBService
 @testable import StitchCoreRemoteMongoDBService
-//swiftlint:disable function_body_length
+
 class SyncR2LOnlyPerformanceTestDefinitions {
 
     /*
