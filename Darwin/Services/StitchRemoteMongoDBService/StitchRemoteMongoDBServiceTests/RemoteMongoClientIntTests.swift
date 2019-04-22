@@ -1446,32 +1446,41 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
         // Collection should start out empty
         // This also tests the null return format
-        coll.findOneAndDelete(filter: [:], joiner.capture())
-        if let resErr = joiner.value(asType: Document.self) {
-            XCTFail("Found Document Where It Shouldnt Be \(resErr)")
+        if case let .success(document) =
+            await(coll.findOneAndDelete, [:], nil),
+            document != nil {
+            XCTFail("Found Document Where It Shouldnt Be: \(String(describing: document))")
             return
         }
 
         // Insert a sample Document
-        coll.insertOne(["hello": "world1", "num": 1], joiner.capture())
-        _ = joiner.capturedValue
-        coll.count([:], joiner.capture())
-        XCTAssertEqual(1, joiner.value(asType: Int.self))
+        guard case .success(let insertOneResult) =
+            await(coll.insertOne, ["hello": "world1", "num": 1]) else {
+            XCTFail("could not insert sample document")
+            return
+        }
+
+        guard case .success(1) = await(coll.count, [:], nil) else {
+            XCTFail("too many documents in collection")
+            return
+        }
 
         // Simple call to findOneAndDelete() where we delete the only document in the collection
-        coll.findOneAndDelete(
-            filter: [:],
-            joiner.capture())
-        guard let result1 = joiner.value(asType: Document.self) else {
+        guard case .success(
+            ["_id": insertOneResult.insertedId,
+             "hello": "world1",
+             "num": 1]) = await(coll.findOneAndDelete, [:], nil) else {
             XCTFail("document not found")
             return
         }
-        XCTAssertEqual(["hello": "world1", "num": 1], withoutId(result1))
 
         // There should be no documents in the collection
-        coll.count([:], joiner.capture())
-        XCTAssertEqual(0, joiner.value(asType: Int.self))
+        guard case .success(0) = await(coll.count, [:], nil) else {
+            XCTFail("too many documents in collection")
+            return
+        }
 
+        // TODO: Replace `joiner` with new await syntax
         // Insert a sample Document
         coll.insertOne(["hello": "world1", "num": 1], joiner.capture())
         _ = joiner.capturedValue
@@ -1716,10 +1725,24 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         )
 
         // should receive events for multiple documents being watched
+//        let doc2Oid = ObjectId()
         let doc2: Document = [
             "_id": 42,
             "hello": "i am a number doc"
         ]
+
+        let aaaa = ["_id": 42] as Document
+        let bbbb = ["_id": Int32(42)] as Document
+        let cccc = ["_id": Int64(42)] as Document
+
+        print(aaaa.extendedJSON)
+        print(aaaa.canonicalExtendedJSON)
+
+        print(bbbb.extendedJSON)
+        print(bbbb.canonicalExtendedJSON)
+
+        print(cccc.extendedJSON)
+        print(cccc.canonicalExtendedJSON)
 
         let doc3: Document = [
             "_id": "blah",

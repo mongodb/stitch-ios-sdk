@@ -167,3 +167,60 @@ class ThrowingCallbackJoiner {
         }
     }
 }
+
+private let queue = DispatchQueue.init(label: "async_await_queue")
+
+// swiftlint:disable identifier_name
+func await<T>(_ block: @escaping (@escaping (T) -> Void) -> Void) -> T {
+    let dispatchGroup = DispatchGroup()
+    dispatchGroup.enter()
+    var retVal: T!
+    block { result in
+        defer { dispatchGroup.leave() }
+        retVal = result
+    }
+    dispatchGroup.wait()
+    return retVal
+}
+
+func await<T, A>(_ block: ((@escaping (A, (@escaping (T) -> Void)) -> ())), _ a: A) -> T {
+    let dispatchGroup = DispatchGroup()
+    dispatchGroup.enter()
+    var retVal: T!
+    block(a) { result in
+        defer { dispatchGroup.leave() }
+        retVal = result
+    }
+    dispatchGroup.wait()
+    return retVal
+}
+
+func await<T, A, B>(_ block: ((@escaping (A, B, (@escaping (T) -> Void)) -> ())), _ a: A, _ b: B) -> T {
+    let dispatchGroup = DispatchGroup()
+    dispatchGroup.enter()
+    var retVal: T!
+    block(a, b) { result in
+        defer { dispatchGroup.leave() }
+        retVal = result
+    }
+    dispatchGroup.wait()
+    return retVal
+}
+
+func await<T, A, B, C>(_ block: ((@escaping (A, B, C, (@escaping (T) -> Void)) -> ())), _ a: A, _ b: B, _ c: C) -> T {
+    let dispatchGroup = DispatchGroup()
+    dispatchGroup.enter()
+    var retVal: T!
+    block(a, b, c) { result in
+        defer { dispatchGroup.leave() }
+        retVal = result
+    }
+    dispatchGroup.wait()
+    return retVal
+}
+
+func async(_ block: @escaping () -> Void) {
+    queue.async {
+        block()
+    }
+}

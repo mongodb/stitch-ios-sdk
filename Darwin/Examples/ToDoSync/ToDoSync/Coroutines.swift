@@ -4,10 +4,6 @@ import StitchSDK
 
 private let queue = DispatchQueue.init(label: "async_await_queue")
 
-private func dispatch<T>(_ block: (@escaping (StitchResult<T>) -> Void)) {
-
-}
-
 func await<T>(_ block: @escaping (@escaping (StitchResult<T>) -> Void) -> ()) -> T {
     let dispatchGroup = DispatchGroup()
     dispatchGroup.enter()
