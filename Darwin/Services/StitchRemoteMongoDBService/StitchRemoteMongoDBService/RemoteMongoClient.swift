@@ -18,15 +18,27 @@ private final class RemoteMongoClientFactory: NamedThrowingServiceClientFactory 
 }
 
 /**
- * Global factory const which can be used to create a `RemoteMongoClient` with a `StitchAppClient`. Pass into
- * `StitchAppClient.serviceClient(fromFactory:withName)` to get a `RemoteMongoClient.
+ * The `remoteMongoClientFactory` can be used to create a `RemoteMongoClient` with a `StitchAppClient`.
+ * 
+ * Use this with `StitchAppClient.serviceClient(fromFactory:withName)` to get a `RemoteMongoClient`.
  */
 public let remoteMongoClientFactory =
     AnyNamedThrowingServiceClientFactory<RemoteMongoClient>(factory: RemoteMongoClientFactory())
 
 /**
- * A class which can be used to get database and collection objects which can be used to interact with MongoDB data via
- * the Stitch MongoDB service.
+ * The `RemoteMongoClient` enables reading and writing on a MongoDB database via the Stitch MongoDB service.
+ *
+ * You can create one by using `remoteMongoClientFactory` with `StitchAppClient`'s
+ * `serviceClient(fromFactory:withName)` method.
+ *
+ * It provides access to instances of `RemoteMongoDatabase`, which in turn provide access to specific
+ * `RemoteMongoCollection`s that hold your data.
+ *
+ * - Note:
+ * Before you can read or write data, a user must log in. See `StitchAuth`.
+ *
+ * - SeeAlso:
+ * `StitchAppClient`, `RemoteMongoDatabase`, `RemoteMongoCollection`
  */
 public class RemoteMongoClient {
     private let dispatcher: OperationDispatcher
@@ -39,7 +51,7 @@ public class RemoteMongoClient {
     }
 
     /**
-     * Gets a `CoreRemoteMongoDatabase` instance for the given database name.
+     * Gets a `RemoteMongoDatabase` instance for the given database name.
      *
      * - parameter name: the name of the database to retrieve
      */

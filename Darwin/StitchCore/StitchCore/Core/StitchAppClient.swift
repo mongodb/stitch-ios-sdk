@@ -11,7 +11,8 @@ import Foundation
  * This protocol provides access to the `StitchAuth` for login and authentication.
  *
  * Using `serviceClient`, you can retrieve services, including the `RemoteMongoClient` for reading
- * and writing on the database.
+ * and writing on the database. To create a `RemoteMongoClient`, pass `remoteMongoClientFactory`
+ * into `serviceClient(fromFactory:withName)`.
  *
  * You can also use it to execute Stitch [Functions](https://docs.mongodb.com/stitch/functions/).
  * 

@@ -3,8 +3,15 @@ import StitchCore
 import StitchCoreRemoteMongoDBService
 
 /**
- * A cursor of documents which can be traversed asynchronously. A `RemoteMongoCursor` can be the result of a `find` or
- * `aggregate` operation.
+ * `RemoteMongoCursor` allows asynchronous traversal of the result of a `find` or
+ * `aggregate` operation on a `RemoteMongoCollection`.
+ * 
+ *  You can obtain an instance of the cursor by calling `RemoteMongoReadOperation`'s
+ * `iterator(completionHandler:)` method. `RemoteMongoReadOperation` is the result
+ * of a find or aggregate operation on a `RemoteMongoCollection`.
+ *
+ * - SeeAlso:
+ * `RemoteMongoCollection`, `RemoteMongoReadOperation`
  */
 public class RemoteMongoCursor<T: Codable> {
     private let dispatcher: OperationDispatcher
