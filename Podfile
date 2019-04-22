@@ -14,7 +14,7 @@ def shared_pods
 end
 
 def mongo_mobile
-    pod 'MongoMobile', :git => 'https://github.com/mongodb/swift-mongo-mobile/', :branch => 'master'
+    pod 'MongoMobile', '= 0.1.0'
 end
 
 def swifter_pod
@@ -218,7 +218,7 @@ target :ToDoSync do
 end
 
 target :StitchSDK do
-    pod 'MongoSwift', '= 0.1.0'
+    shared_pods
 
     project 'Darwin/StitchSDK/StitchSDK.xcodeproj'
 end

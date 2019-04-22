@@ -64,7 +64,7 @@ final class DocumentVersionInfo {
         /// the GUID instance id of this version
         let instanceId: String
         /// the version counter of this version
-        let versionCounter: Int
+        let versionCounter: Int64
     }
 
     private init(version: Document?,

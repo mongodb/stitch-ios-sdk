@@ -1725,24 +1725,10 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         )
 
         // should receive events for multiple documents being watched
-//        let doc2Oid = ObjectId()
         let doc2: Document = [
             "_id": 42,
             "hello": "i am a number doc"
         ]
-
-        let aaaa = ["_id": 42] as Document
-        let bbbb = ["_id": Int32(42)] as Document
-        let cccc = ["_id": Int64(42)] as Document
-
-        print(aaaa.extendedJSON)
-        print(aaaa.canonicalExtendedJSON)
-
-        print(bbbb.extendedJSON)
-        print(bbbb.canonicalExtendedJSON)
-
-        print(cccc.extendedJSON)
-        print(cccc.canonicalExtendedJSON)
 
         let doc3: Document = [
             "_id": "blah",
