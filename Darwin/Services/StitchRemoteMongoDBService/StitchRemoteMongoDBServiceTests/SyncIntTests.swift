@@ -997,20 +997,17 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         var docToInsert = ["hello": "world"] as Document
         let insertedId = coll.insertOne(&docToInsert)!.insertedId
 
-        var hasConflictHandlerBeenInvoked = false
-        var hasChangeEventListenerBeenInvoked = false
-
         // configure Sync, each entry with flags checking
         // that the listeners/handlers have been called
-        let changeEventListenerSemaphore = DispatchSemaphore.init(value: 0)
+        let conflictExp = expectation(description: "conflict handler invoked")
+        let listenerExp = expectation(description: "listener invoked")
         coll.configure(conflictHandler: { _, _, remoteEvent in
-            hasConflictHandlerBeenInvoked = true
             XCTAssertEqual(remoteEvent.fullDocument?["fly"] as? String, "away")
+            conflictExp.fulfill()
             return remoteEvent.fullDocument
         },
         changeEventDelegate: { _, _ in
-            hasChangeEventListenerBeenInvoked = true
-            changeEventListenerSemaphore.signal()
+            listenerExp.fulfill()
         },
         errorListener: nil
         )
@@ -1022,13 +1019,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         // change event listener have been called
         try ctx.streamAndSync()
 
-        guard case .success = changeEventListenerSemaphore
-            .wait(timeout: DispatchTime.init(uptimeNanoseconds: UInt64(1e+10))) else {
-            XCTFail("did not expect a conflict")
-            return
-        }
-        XCTAssertTrue(hasConflictHandlerBeenInvoked)
-        XCTAssertTrue(hasChangeEventListenerBeenInvoked)
+        wait(for: [conflictExp, listenerExp], timeout: 10)
 
         coll.verifyUndoCollectionEmpty()
     }

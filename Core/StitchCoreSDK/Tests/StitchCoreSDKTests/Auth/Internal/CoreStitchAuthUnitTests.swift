@@ -11,24 +11,30 @@ import MongoSwift
 import StitchCoreSDKMocks
 import StitchCoreTestUtils
 import Swifter
-
-import func JWT.encode
-import enum JWT.Algorithm
+import SwiftJWT
 
 private let baseJSONHeaders = [
     Headers.contentType.rawValue: ContentTypes.applicationJSON.rawValue
 ]
 
-private let testAccessToken = encode(Algorithm.hs256("foobar".data(using: .utf8)!)) {
-    var date = Date()
-    $0.issuedAt = date.addingTimeInterval(-1000)
-    $0.expiration = date.addingTimeInterval(1000)
-}
+private var utestAccessToken = JWT<ClaimsStandardJWT>.init(
+    claims: ClaimsStandardJWT.init(exp: Date().addingTimeInterval(1000),
+                                   iat: Date().addingTimeInterval(-1000)))
+let testAccessToken = try! utestAccessToken.sign(using: JWTSigner.hs256(key: "foobar".data(using: .utf8)!))
 
-private let testRefreshToken = encode(Algorithm.hs256("foobar".data(using: .utf8)!)) {
-    var date = Date()
-    $0.issuedAt = date.addingTimeInterval(-1000)
-}
+private var utestRefreshToken = JWT<ClaimsStandardJWT>.init(
+    claims: ClaimsStandardJWT.init(iat: Date().addingTimeInterval(-1000)))
+let testRefreshToken = try! utestRefreshToken.sign(using: JWTSigner.hs256(key: "foobar".data(using: .utf8)!))
+//private let testAccessToken = encode(Algorithm.hs256("foobar".data(using: .utf8)!)) {
+//    var date = Date()
+//    $0.issuedAt = date.addingTimeInterval(-1000)
+//    $0.expiration = date.addingTimeInterval(1000)
+//}
+//
+//private let testRefreshToken = encode(Algorithm.hs256("foobar".data(using: .utf8)!)) {
+//    var date = Date()
+//    $0.issuedAt = date.addingTimeInterval(-1000)
+//}
 
 /**
  * Gets a login response for testing that is always the same.
@@ -627,12 +633,11 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
 
         let user = try auth.loginInternal(withCredential: AnonymousCredential())
 
-        let refreshedToken = encode(Algorithm.hs256("refreshedJWT".data(using: .utf8)!)) {
-            let date = Date()
-            $0.issuedAt = date.addingTimeInterval(-1000)
-            $0.expiration = date.addingTimeInterval(1000)
-
-        }
+        var urefreshedToken = JWT<ClaimsStandardJWT>.init(
+            claims: ClaimsStandardJWT.init(exp: Date().addingTimeInterval(1000),
+                                           iat: Date().addingTimeInterval(-1000)))
+        let refreshedToken = try! urefreshedToken.sign(
+            using: JWTSigner.hs256(key: "refreshedJWT".data(using: .utf8)!))
 
         requestClient.doRequestMock.doReturn(
             result: Response.init(statusCode: 200,

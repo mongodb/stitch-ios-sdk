@@ -1063,17 +1063,34 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
             result: RawSSEStream.init(), forArg1: .any, forArg2: .any, forArg3: .any
         )
 
-        _ = try coll.watch(ids: ["blah"], delegate: UnitTestWatchDelegate.init())
+        _ = try coll.watch(ids: ["blah"], delegate: UnitTestWatchDelegate.init(), useCompactEvents: false)
 
         var (funcNameArg, funcArgsArg, _) = mockServiceClient.streamFunctionMock.capturedInvocations.last!
 
         XCTAssertEqual("watch", funcNameArg)
         XCTAssertEqual(1, funcArgsArg.count)
 
-        let expectedArgs: Document = [
+        var expectedArgs: Document = [
             "database": namespace.databaseName,
             "collection": namespace.collectionName,
-            "ids": ["blah"]
+            "ids": ["blah"],
+            "useCompactEvents": false
+        ]
+
+        XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
+
+        _ = try coll.watch(ids: ["blah"], delegate: UnitTestWatchDelegate.init(), useCompactEvents: true)
+
+        (funcNameArg, funcArgsArg, _) = mockServiceClient.streamFunctionMock.capturedInvocations.last!
+
+        XCTAssertEqual("watch", funcNameArg)
+        XCTAssertEqual(1, funcArgsArg.count)
+
+        expectedArgs = [
+            "database": namespace.databaseName,
+            "collection": namespace.collectionName,
+            "ids": ["blah"],
+            "useCompactEvents": true
         ]
 
         XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
@@ -1087,7 +1104,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         )
 
         do {
-            _ = try coll.watch(ids: ["blahblah"], delegate: UnitTestWatchDelegate.init())
+            _ = try coll.watch(ids: ["blahblah"], delegate: UnitTestWatchDelegate.init(), useCompactEvents: true)
             XCTFail("function did not fail where expected")
         } catch {
             // do nothing
@@ -1133,7 +1150,7 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
                                                       forArg3: .any)
 
         let del = MockDelegate.init(expectation)
-        let stream = try coll.watch(ids: [], delegate: del)
+        let stream = try coll.watch(ids: [], delegate: del, useCompactEvents: true)
         stream.delegate = del
     }
 

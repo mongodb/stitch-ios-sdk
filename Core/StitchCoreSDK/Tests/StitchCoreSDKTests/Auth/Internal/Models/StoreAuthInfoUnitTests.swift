@@ -1,6 +1,5 @@
 import XCTest
 import MongoSwift
-import JWT
 @testable import StitchCoreSDK
 
 let apiAuthInfoExample = APIAuthInfoImpl.init(

@@ -414,11 +414,13 @@ public class CoreRemoteMongoCollection<T: Codable>: Closable {
      */
     public func watch(
         ids: [BSONValue],
-        delegate: SSEStreamDelegate
+        delegate: SSEStreamDelegate,
+        useCompactEvents: Bool
     ) throws -> RawSSEStream {
         var args = baseOperationArgs
 
         args["ids"] = ids
+        args["useCompactEvents"] = useCompactEvents
 
         let stream = try service.streamFunction(withName: "watch", withArgs: [args], delegate: delegate)
         self.streams.append(WeakReference(stream))
