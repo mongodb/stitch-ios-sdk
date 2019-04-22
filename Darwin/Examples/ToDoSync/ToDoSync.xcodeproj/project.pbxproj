@@ -22,6 +22,7 @@
 		499CD1B221C184F700CB4EBF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 499CD1B121C184F700CB4EBF /* Assets.xcassets */; };
 		499CD1B521C184F700CB4EBF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 499CD1B321C184F700CB4EBF /* LaunchScreen.storyboard */; };
 		499CD1C221C189A200CB4EBF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 499CD1C121C189A200CB4EBF /* GoogleService-Info.plist */; };
+		49D968AA226A283B004EC638 /* Coroutines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D968A9226A283B004EC638 /* Coroutines.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		499CD1B421C184F700CB4EBF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		499CD1B621C184F700CB4EBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		499CD1C121C189A200CB4EBF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		49D968A9226A283B004EC638 /* Coroutines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coroutines.swift; sourceTree = "<group>"; };
 		B7008E4B0B7125658CB02373 /* Pods_ToDoSync.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ToDoSync.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8F007183DDB70FAECED24D8 /* Pods-ToDoSync.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToDoSync.release.xcconfig"; path = "../../../../Pods/Target Support Files/Pods-ToDoSync/Pods-ToDoSync.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -94,6 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				499CD1AA21C184F400CB4EBF /* AppDelegate.swift */,
+				49D968A9226A283B004EC638 /* Coroutines.swift */,
 				499CD1AC21C184F400CB4EBF /* TodoTableViewController.swift */,
 				4961565A21C89AF4003C7392 /* TodoTableViewCell.swift */,
 				4961565421C8963D003C7392 /* TodoItem.swift */,
@@ -267,6 +270,7 @@
 				499CD1AD21C184F400CB4EBF /* TodoTableViewController.swift in Sources */,
 				4961565521C8963E003C7392 /* TodoItem.swift in Sources */,
 				499CD1AB21C184F400CB4EBF /* AppDelegate.swift in Sources */,
+				49D968AA226A283B004EC638 /* Coroutines.swift in Sources */,
 				4961565B21C89AF4003C7392 /* TodoTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -427,7 +431,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.mongodb.ToDoSync;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -450,7 +454,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.mongodb.ToDoSync;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

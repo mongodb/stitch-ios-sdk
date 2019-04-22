@@ -54,7 +54,7 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
 
         coreDocSync.isPaused = isPaused
         coreDocSync.isStale = isStale
-        try coreDocSync.setSomePendingWrites(atTime: lastResolution,
+        try coreDocSync.setSomePendingWrites(atTime: Int64(lastResolution),
                                              atVersion: lastKnownRemoteVersion,
                                              changeEvent: lastUncommittedChangeEvent)
 
@@ -71,8 +71,8 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
             ] as? Document
         )
         XCTAssertEqual(
-            lastResolution,
-            encodedCoreDocSync[CoreDocumentSynchronization.CodingKeys.lastResolution.rawValue] as? Int64)
+            Int(lastResolution),
+            encodedCoreDocSync[CoreDocumentSynchronization.CodingKeys.lastResolution.rawValue] as? Int)
 
         let lastUncommittedChangeEventBin =
             encodedCoreDocSync[

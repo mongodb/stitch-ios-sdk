@@ -12,7 +12,7 @@ public extension Sync {
 
      - returns: the number of documents in the collection
      */
-    public func count(_ completionHandler: @escaping (StitchResult<Int>) -> Void) {
+    func count(_ completionHandler: @escaping (StitchResult<Int>) -> Void) {
         queue.async {
             do {
                 completionHandler(
@@ -33,9 +33,9 @@ public extension Sync {
      - parameter completionHandler: the callback for the count result
      - returns: the number of documents in the collection
      */
-    public func count(filter: Document,
-                      options: SyncCountOptions?,
-                      _ completionHandler: @escaping (StitchResult<Int>) -> Void) {
+    func count(filter: Document,
+               options: SyncCountOptions?,
+               _ completionHandler: @escaping (StitchResult<Int>) -> Void) {
         queue.async {
             do {
                 completionHandler(
@@ -54,7 +54,7 @@ public extension Sync {
      - parameter completionHandler: the callback for the find result
      - returns: the find iterable interface
      */
-    public func find(_ completionHandler: @escaping (StitchResult<MongoCursor<DocumentT>>) -> Void) {
+    func find(_ completionHandler: @escaping (StitchResult<MongoCursor<DocumentT>>) -> Void) {
         queue.async {
             do {
                 completionHandler(
@@ -74,7 +74,7 @@ public extension Sync {
      - parameter completionHandler: the callback for the find result
      - returns: the find iterable interface
      */
-    public func find(
+    func find(
         filter: Document,
         options: SyncFindOptions? = nil,
         _ completionHandler: @escaping (StitchResult<MongoCursor<DocumentT>>) -> Void) {
@@ -97,7 +97,7 @@ public extension Sync {
      - parameter completionHandler: the callback for the find result
      - returns: the document or nil if no such document existss
      */
-    public func findOne(
+    func findOne(
         filter: Document? = nil,
         options: SyncFindOptions? = nil,
         _ completionHandler: @escaping (StitchResult<DocumentT?>) -> Void) {
@@ -122,9 +122,9 @@ public extension Sync {
      - parameter options: the options for this aggregate op
      - returns: an iterable containing the result of the aggregation operation
      */
-    public func aggregate(pipeline: [Document],
-                          options: AggregateOptions?,
-                          _ completionHandler: @escaping (StitchResult<MongoCursor<Document>>) -> Void) {
+    func aggregate(pipeline: [Document],
+                   options: AggregateOptions?,
+                   _ completionHandler: @escaping (StitchResult<MongoCursor<Document>>) -> Void) {
         queue.async {
             do {
                 completionHandler(
@@ -143,8 +143,8 @@ public extension Sync {
      - parameter document: the document to insert
      - returns: the result of the insert one operation
      */
-    public func insertOne(document: DocumentT,
-                          _ completionHandler: @escaping (StitchResult<SyncInsertOneResult?>) -> Void) {
+    func insertOne(document: DocumentT,
+                   _ completionHandler: @escaping (StitchResult<SyncInsertOneResult?>) -> Void) {
         queue.async {
             do {
                 completionHandler(.success(result: try self.proxy.insertOne(document: document)))
@@ -162,8 +162,8 @@ public extension Sync {
      - parameter documents: the documents to insert
      - returns: the result of the insert many operation
      */
-    public func insertMany(documents: [DocumentT],
-                           _ completionHandler: @escaping (StitchResult<SyncInsertManyResult?>) -> Void) {
+    func insertMany(documents: [DocumentT],
+                    _ completionHandler: @escaping (StitchResult<SyncInsertManyResult?>) -> Void) {
         queue.async {
             do {
                 completionHandler(.success(result: try self.proxy.insertMany(documents: documents)))
@@ -183,8 +183,8 @@ public extension Sync {
      - parameter filter: the query filter to apply the the delete operation
      - returns: the result of the remove one operation
      */
-    public func deleteOne(filter: Document,
-                          _ completionHandler: @escaping (StitchResult<SyncDeleteResult?>) -> Void) {
+    func deleteOne(filter: Document,
+                   _ completionHandler: @escaping (StitchResult<SyncDeleteResult?>) -> Void) {
         queue.async {
             do {
                 completionHandler(.success(result: try self.proxy.deleteOne(filter: filter)))
@@ -203,8 +203,8 @@ public extension Sync {
      - parameter filter: the query filter to apply the the delete operation
      - returns: the result of the remove many operation
      */
-    public func deleteMany(filter: Document,
-                           _ completionHandler: @escaping (StitchResult<SyncDeleteResult?>) -> Void) {
+    func deleteMany(filter: Document,
+                    _ completionHandler: @escaping (StitchResult<SyncDeleteResult?>) -> Void) {
         queue.async {
             do {
                 completionHandler(.success(result: try self.proxy.deleteMany(filter: filter)))
@@ -226,10 +226,10 @@ public extension Sync {
      apply must include only update operators.
      - returns: the result of the update one operation
      */
-    public func updateOne(filter: Document,
-                          update: Document,
-                          options: SyncUpdateOptions?,
-                          _ completionHandler: @escaping (StitchResult<SyncUpdateResult?>) -> Void) {
+    func updateOne(filter: Document,
+                   update: Document,
+                   options: SyncUpdateOptions?,
+                   _ completionHandler: @escaping (StitchResult<SyncUpdateResult?>) -> Void) {
         queue.async {
             do {
                 completionHandler(.success(
@@ -255,10 +255,10 @@ public extension Sync {
      - parameter updateOptions: the options to apply to the update operation
      - returns: the result of the update many operation
      */
-    public func updateMany(filter: Document,
-                           update: Document,
-                           options: SyncUpdateOptions?,
-                           _ completionHandler: @escaping (StitchResult<SyncUpdateResult?>) -> Void) {
+    func updateMany(filter: Document,
+                    update: Document,
+                    options: SyncUpdateOptions?,
+                    _ completionHandler: @escaping (StitchResult<SyncUpdateResult?>) -> Void) {
         queue.async {
             do {
                 completionHandler(.success(

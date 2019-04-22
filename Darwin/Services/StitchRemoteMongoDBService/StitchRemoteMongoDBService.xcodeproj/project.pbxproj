@@ -47,6 +47,7 @@
 		498E55DE2190B86100A02A03 /* StitchCoreRemoteMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E55DD2190B86100A02A03 /* StitchCoreRemoteMongoDBService.framework */; };
 		499CD19D21C01D4A00CB4EBF /* SyncIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499CD19C21C01D4A00CB4EBF /* SyncIntTests.swift */; };
 		65783D57402A4E0E0071FE5D /* Pods_StitchRemoteMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1EBF3926225F7E8F005C6788 /* Pods_StitchRemoteMongoDBService.framework */; };
+		73B9F6A843A007E710723C4C /* Pods_StitchSyncPerformanceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0C6A1DD0F5EB637D1514AE9 /* Pods_StitchSyncPerformanceTests.framework */; };
 		8CE6FD5AE732A98583AA6C97 /* Pods_StitchRemoteMongoDBServiceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07405BAEFBBEC9476B7340D /* Pods_StitchRemoteMongoDBServiceTests.framework */; };
 		B87BDBAF77B6E10CA0CD7802 /* Pods_StitchRemoteMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62BF72CF8056A42264AA842F /* Pods_StitchRemoteMongoDBService.framework */; };
 /* End PBXBuildFile section */
@@ -177,6 +178,7 @@
 			files = (
 				1EFCDFFE225F89EE00BDAEB0 /* StitchDarwinCoreTestUtils.framework in Frameworks */,
 				494566B12258BB4E00386E79 /* StitchRemoteMongoDBService.framework in Frameworks */,
+				73B9F6A843A007E710723C4C /* Pods_StitchSyncPerformanceTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -824,7 +826,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -856,7 +858,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchRemoteMongoDBService;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -879,7 +881,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchRemoteMongoDBServiceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -902,7 +904,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchRemoteMongoDBServiceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -925,7 +927,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.mongodb.StitchSyncPerformanceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = StitchSyncPerformanceTests/SyncPerformanceTestsConstants.h;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -947,7 +949,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.mongodb.StitchSyncPerformanceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = StitchSyncPerformanceTests/SyncPerformanceTestsConstants.h;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

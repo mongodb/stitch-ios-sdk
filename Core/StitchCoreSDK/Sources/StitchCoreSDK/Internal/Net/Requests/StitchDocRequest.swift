@@ -44,7 +44,7 @@ public final class StitchDocRequestBuilder: StitchRequestBuilder {
         // returns an empty string if it could not encode the document
         if docString == "" {
             throw StitchError.requestError(
-                withError: MongoError.bsonEncodeError(message: "could not encode document as extended JSON string"),
+                withError: RuntimeError.internalError(message: "could not encode document as extended JSON string"),
                 withRequestErrorCode: .encodingError
             )
         }

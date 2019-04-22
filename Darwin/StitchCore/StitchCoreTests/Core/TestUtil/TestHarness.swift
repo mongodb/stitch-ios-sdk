@@ -125,7 +125,7 @@ final class TestHarness {
     }
 
     func addDefaultAnonProvider() -> AuthProviderResponse {
-        return self.addProvider(withConfig: .anon())
+        return self.addProvider(withConfig: .anon)
     }
 
     func enableDefaultAPIKeyProvider() -> AuthProviderResponse {

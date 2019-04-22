@@ -22,8 +22,8 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
 
     private lazy var mongodbUri: String = pList?[mongodbUriProp] as? String ?? "mongodb://localhost:26000"
 
-    private let dbName = ObjectId().oid
-    private let collName = ObjectId().oid
+    private let dbName = ObjectId().hex
+    private let collName = ObjectId().hex
 
     private var stitchClient: StitchAppClient!
     private var mongoClient: RemoteMongoClient!
@@ -62,7 +62,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
 
     private func prepareService() throws {
         let app = try self.createApp()
-        _ = try self.addProvider(toApp: app.1, withConfig: ProviderConfigs.anon())
+        _ = try self.addProvider(toApp: app.1, withConfig: ProviderConfigs.anon)
         _ = try self.addProvider(toApp: app.1, withConfig: ProviderConfigs.userpass(
             emailConfirmationURL: "http://emailConfirmURL.com",
             resetPasswordURL: "http://resetPasswordURL.com",
@@ -139,7 +139,7 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
             XCTAssertNil(localEvent.fullDocument![documentVersionField])
             XCTAssertNil(remoteEvent.fullDocument![documentVersionField])
 
-            if bsonEquals(id, doc1Id) {
+            if id.bsonEquals(doc1Id) {
                 let merged = localEvent.fullDocument!["foo"] as! Int +
                     (remoteEvent.fullDocument!["foo"] as! Int)
                 var newDocument = remoteEvent.fullDocument!

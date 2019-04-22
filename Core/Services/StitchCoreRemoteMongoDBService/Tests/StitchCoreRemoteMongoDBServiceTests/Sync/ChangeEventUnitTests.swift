@@ -16,7 +16,7 @@ class ChangeEventUnitTests: XCTestCase {
 
     private func compare<T: Codable>(expectedChangeEvent: ChangeEvent<T>,
                                      to actualChangeEvent: ChangeEvent<T>) throws {
-        XCTAssertTrue(bsonEquals(expectedChangeEvent.id.value, actualChangeEvent.id.value))
+        XCTAssertTrue(expectedChangeEvent.id.value.bsonEquals(actualChangeEvent.id.value))
         XCTAssertEqual(expectedChangeEvent.operationType, actualChangeEvent.operationType)
         XCTAssertEqual(try BSONEncoder().encode(expectedChangeEvent.fullDocument),
                        try BSONEncoder().encode(actualChangeEvent.fullDocument))
@@ -29,6 +29,7 @@ class ChangeEventUnitTests: XCTestCase {
 
     func testTransform() throws {
         struct TestTransform: Codable {
+            // swiftlint:disable identifier_name
             let _id: ObjectId
             let foo: Int
             let bar: String
@@ -44,7 +45,7 @@ class ChangeEventUnitTests: XCTestCase {
         let transformedChangeEvent: ChangeEvent<TestTransform> =
             try ChangeEvents.transform(changeEvent: originalChangeEvent)
 
-        XCTAssertTrue(bsonEquals(originalChangeEvent.id.value, transformedChangeEvent.id.value))
+        XCTAssertTrue(originalChangeEvent.id.value.bsonEquals(transformedChangeEvent.id.value))
         XCTAssertEqual(originalChangeEvent.operationType, transformedChangeEvent.operationType)
         XCTAssertEqual(originalChangeEvent.fullDocument?["foo"] as? Int, transformedChangeEvent.fullDocument?.foo)
         XCTAssertEqual(originalChangeEvent.fullDocument?["bar"] as? String, transformedChangeEvent.fullDocument?.bar)
@@ -135,14 +136,14 @@ class ChangeEventUnitTests: XCTestCase {
         let documentKey = ObjectId()
         let insertEvent = try BSONDecoder().decode(ChangeEvent<Document>.self, from: """
         {
-           "_id" : { "$oid": "\(id.oid)" },
+           "_id" : { "$oid": "\(id.hex)" },
            "operationType" : "insert",
            "fullDocument" : { "foo": "bar" },
            "ns" : {
               "db" : "database",
               "coll" : "collection"
            },
-           "documentKey" : { "_id" : "\(documentKey.oid)" },
+           "documentKey" : { "_id" : "\(documentKey.hex)" },
            "updateDescription" : null
         }
         """)
@@ -152,7 +153,7 @@ class ChangeEventUnitTests: XCTestCase {
             operationType: .insert,
             fullDocument: ["foo": "bar"],
             ns: MongoNamespace.init(databaseName: "database", collectionName: "collection"),
-            documentKey: ["_id": documentKey.oid],
+            documentKey: ["_id": documentKey.hex],
             updateDescription: nil,
             hasUncommittedWrites: false)
 
@@ -160,14 +161,14 @@ class ChangeEventUnitTests: XCTestCase {
 
         let unknownEvent = try BSONDecoder().decode(ChangeEvent<Document>.self, from: """
             {
-            "_id" : { "$oid": "\(id.oid)" },
+            "_id" : { "$oid": "\(id.hex)" },
             "operationType" : "__lolwut__",
             "fullDocument" : { "foo": "bar" },
             "ns" : {
             "db" : "database",
             "coll" : "collection"
             },
-            "documentKey" : { "_id" : "\(documentKey.oid)" },
+            "documentKey" : { "_id" : "\(documentKey.hex)" },
             "updateDescription" : null
             }
         """)
@@ -177,7 +178,7 @@ class ChangeEventUnitTests: XCTestCase {
             operationType: .unknown,
             fullDocument: ["foo": "bar"],
             ns: MongoNamespace.init(databaseName: "database", collectionName: "collection"),
-            documentKey: ["_id": documentKey.oid],
+            documentKey: ["_id": documentKey.hex],
             updateDescription: nil,
             hasUncommittedWrites: false)
 

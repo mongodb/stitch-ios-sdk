@@ -127,23 +127,23 @@ public protocol StitchAuthDelegate: class {
 
 // extensions that provide default implementations of the the auth delegate methods
 public extension StitchAuthDelegate {
-    public func onDelegateRegistered(auth: StitchAuth) { }
+    func onDelegateRegistered(auth: StitchAuth) { }
 
-    public func onAuthEvent(fromAuth: StitchAuth) { }
+    func onAuthEvent(fromAuth: StitchAuth) { }
 
-    public func onUserAdded(auth: StitchAuth, addedUser: StitchUser) { }
+    func onUserAdded(auth: StitchAuth, addedUser: StitchUser) { }
 
-    public func onUserLoggedIn(auth: StitchAuth, loggedInUser: StitchUser) { }
+    func onUserLoggedIn(auth: StitchAuth, loggedInUser: StitchUser) { }
 
-    public func onUserLinked(auth: StitchAuth, linkedUser: StitchUser) { }
+    func onUserLinked(auth: StitchAuth, linkedUser: StitchUser) { }
 
-    public func onUserLoggedOut(auth: StitchAuth, loggedOutUser: StitchUser) { }
+    func onUserLoggedOut(auth: StitchAuth, loggedOutUser: StitchUser) { }
 
-    public func onActiveUserChanged(auth: StitchAuth,
-                                    currentActiveUser: StitchUser?,
-                                    previousActiveUser: StitchUser?) { }
+    func onActiveUserChanged(auth: StitchAuth,
+                             currentActiveUser: StitchUser?,
+                             previousActiveUser: StitchUser?) { }
 
-    public func onUserRemoved(auth: StitchAuth, removedUser: StitchUser) { }
+    func onUserRemoved(auth: StitchAuth, removedUser: StitchUser) { }
 }
 
 // wrapper holding a weak reference to a StitchAuthDelegate
