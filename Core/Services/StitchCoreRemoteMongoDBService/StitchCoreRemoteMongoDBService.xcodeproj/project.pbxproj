@@ -35,6 +35,7 @@
 		498E55D02190A05C00A02A03 /* StitchCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E55CF2190A05C00A02A03 /* StitchCoreSDK.framework */; };
 		498E55D22190A08400A02A03 /* StitchCoreSDKMocks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E55D12190A08400A02A03 /* StitchCoreSDKMocks.framework */; };
 		499C69BA226E7020003134F1 /* CompactChangeEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499C69B9226E7020003134F1 /* CompactChangeEvent.swift */; };
+		499C69BC226E7047003134F1 /* BaseChangeEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499C69BB226E7047003134F1 /* BaseChangeEvent.swift */; };
 		499CD19B21BDFDFC00CB4EBF /* DataSynchronizerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499CD19A21BDFDFC00CB4EBF /* DataSynchronizerError.swift */; };
 		49C8C2F32266593600371839 /* CompactChangeEventUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C8C2F22266593600371839 /* CompactChangeEventUnitTests.swift */; };
 		49E8957B21991C1A003C3758 /* NamespaceSynchronizationConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E8957A21991C1A003C3758 /* NamespaceSynchronizationConfig.swift */; };
@@ -108,6 +109,7 @@
 		498E55CF2190A05C00A02A03 /* StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		498E55D12190A08400A02A03 /* StitchCoreSDKMocks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDKMocks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		499C69B9226E7020003134F1 /* CompactChangeEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactChangeEvent.swift; sourceTree = "<group>"; };
+		499C69BB226E7047003134F1 /* BaseChangeEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseChangeEvent.swift; sourceTree = "<group>"; };
 		499CD19A21BDFDFC00CB4EBF /* DataSynchronizerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSynchronizerError.swift; sourceTree = "<group>"; };
 		49C8C2F22266593600371839 /* CompactChangeEventUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactChangeEventUnitTests.swift; sourceTree = "<group>"; };
 		49E8957A21991C1A003C3758 /* NamespaceSynchronizationConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamespaceSynchronizationConfig.swift; sourceTree = "<group>"; };
@@ -257,6 +259,7 @@
 			children = (
 				OBJ_11 /* Internal */,
 				4943FC592196505500DED08C /* Sync */,
+				499C69BB226E7047003134F1 /* BaseChangeEvent.swift */,
 				4943FC5A2196506300DED08C /* ChangeEvent.swift */,
 				499C69B9226E7020003134F1 /* CompactChangeEvent.swift */,
 				4943FC60219650A200DED08C /* UpdateDescription.swift */,
@@ -543,6 +546,7 @@
 				OBJ_177 /* RemoteInsertOneResult.swift in Sources */,
 				498DF58D219F73AD009F1B3F /* DataSynchronizer.swift in Sources */,
 				4980B12D219A1AA500D6E49C /* InstanceSynchronizationConfig.swift in Sources */,
+				499C69BC226E7047003134F1 /* BaseChangeEvent.swift in Sources */,
 				OBJ_178 /* RemoteUpdateOptions.swift in Sources */,
 				4980B12B2199EBE100D6E49C /* ChangeEventDelegate.swift in Sources */,
 				49719ADE2241468A00E5CD6B /* Closable.swift in Sources */,
