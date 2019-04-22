@@ -123,9 +123,9 @@ private class TestCaseDataSynchronizer: DataSynchronizer {
 
 class XCMongoMobileTestCase: XCTestCase {
     let dataDirectory = URL.init(string: "\(FileManager().currentDirectoryPath)/\("sync")")!
-    lazy var appClientInfo = StitchAppClientInfo.init(clientAppID: instanceKey.oid,
+    lazy var appClientInfo = StitchAppClientInfo.init(clientAppID: instanceKey.hex,
                                                       dataDirectory: dataDirectory,
-                                                      localAppName: instanceKey.oid,
+                                                      localAppName: instanceKey.hex,
                                                       localAppVersion: "1.0",
                                                       networkMonitor: TestNetworkMonitor(),
                                                       authMonitor: TestAuthMonitor())
@@ -150,7 +150,7 @@ class XCMongoMobileTestCase: XCTestCase {
             if storedDataSynchronizer == nil {
                 storedDataSynchronizer = try! TestCaseDataSynchronizer.init(
                     deinitializing: true,
-                    instanceKey: instanceKey.oid,
+                    instanceKey: instanceKey.hex,
                     coreRemoteMongoClient: self.coreRemoteMongoClient,
                     appInfo: appClientInfo)
                 storedDataSynchronizer.isSyncThreadEnabled = false
@@ -181,7 +181,7 @@ class XCMongoMobileTestCase: XCTestCase {
         // initialize a new data synchronizer
         dataSynchronizer = try! TestCaseDataSynchronizer.init(
             deinitializing: deinitializing,
-            instanceKey: instanceKey.oid,
+            instanceKey: instanceKey.hex,
             coreRemoteMongoClient: self.coreRemoteMongoClient,
             appInfo: appClientInfo
         )

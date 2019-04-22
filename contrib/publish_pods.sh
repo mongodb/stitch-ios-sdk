@@ -7,6 +7,14 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 cd ..
 
+
+# Verify that we are on the master branch
+git status | head -n 1 | grep master || (echo "must be on master branch" && exit 1)
+
+CURRENT_VERSION=`cat StitchSDK.podspec | grep "spec.version" | head -1 | cut -d \" -f2`
+git tag CURRENT_VERSION
+git push upstream CURRENT_VERSION
+
 # Declare the list of pods to be linted
 declare -a PODSPECS=(
 	"Core/StitchCoreSDK/StitchCoreSDK.podspec"

@@ -62,7 +62,7 @@ class OperationDispatcherUnitTests: XCTestCase {
             case .success:
                 XCTFail("expected an error and none was thrown")
             case .failure(let error):
-                guard case .requestErrorFull(let underlyingError, let errorCode) = error else {
+                guard case .requestError(let underlyingError, let errorCode) = error else {
                     XCTFail("wrong error type")
                     return
                 }
@@ -105,7 +105,7 @@ class OperationDispatcherUnitTests: XCTestCase {
             case .success:
                 XCTFail("expected an error and none was thrown")
             case .failure(let error):
-                guard case .requestErrorFull(let underlyingError, let errorCode) = error else {
+                guard case .requestError(let underlyingError, let errorCode) = error else {
                     XCTFail("wrong error type")
                     return
                 }

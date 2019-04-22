@@ -23,8 +23,8 @@ class LocalPerformanceTestContext: SyncPerformanceTestContext {
     required init(harness: SyncPerformanceIntTestHarness) throws {
         self.harness = harness
 
-        dbName = ObjectId().oid
-        collName = ObjectId().oid
+        dbName = ObjectId().hex
+        collName = ObjectId().hex
 
         harness.setUp()
 

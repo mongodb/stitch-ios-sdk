@@ -8,7 +8,7 @@ functions:
       params:
         script: |
           set -e
-          export DEVELOPER_DIR=/Applications/Xcode10.1.app
+          export DEVELOPER_DIR=/Applications/Xcode10.2.app
           mkdir -p SwiftLint
           pushd SwiftLint
           curl -o swiftlint.zip -L https://github.com/realm/SwiftLint/releases/download/0.29.1/portable_swiftlint.zip
@@ -116,7 +116,7 @@ functions:
         script: |
           rm -rf /Users/mci/Library/Developer/Xcode/DerivedData/
           rm -rf /Users/mci/Library/Caches/go-build
-          export DEVELOPER_DIR=/Applications/Xcode10.1.app
+          export DEVELOPER_DIR=/Applications/Xcode10.2.app
           xcrun simctl delete __stitch__
   "setup_ios":
     - command: shell.exec
@@ -124,7 +124,7 @@ functions:
         silent: true
         script: |
           set -e
-          export DEVELOPER_DIR=/Applications/Xcode10.1.app
+          export DEVELOPER_DIR=/Applications/Xcode10.2.app
           if pgrep CoreSimulator; then pkill -9 CoreSimulator; fi
           echo export AWS_ACCESS_KEY_ID=${test_aws_key} >> creds
           echo export AWS_SECRET_ACCESS_KEY=${test_aws_secret} >> creds
@@ -142,7 +142,7 @@ functions:
         script: |
           set -e
 
-          export DEVELOPER_DIR=/Applications/Xcode10.1.app
+          export DEVELOPER_DIR=/Applications/Xcode10.2.app
           cd stitch-ios-sdk
           export GEM_HOME=`pwd`
           export GEM_PATH=`pwd`
@@ -157,7 +157,7 @@ tasks:
         params: 
           script: |
             set -e
-            export DEVELOPER_DIR=/Applications/Xcode10.1.app
+            export DEVELOPER_DIR=/Applications/Xcode10.2.app
             pushd SwiftLint
             export PATH=`pwd`:$PATH
             popd
@@ -171,7 +171,7 @@ tasks:
           script: |
             set -e
             source ./creds
-            export DEVELOPER_DIR=/Applications/Xcode10.1.app
+            export DEVELOPER_DIR=/Applications/Xcode10.2.app
             cd stitch-ios-sdk
 
             xcodebuild test \
@@ -187,7 +187,7 @@ tasks:
           script: |
             set -e
             source ./creds
-            export DEVELOPER_DIR=/Applications/Xcode10.1.app
+            export DEVELOPER_DIR=/Applications/Xcode10.2.app
             cd stitch-ios-sdk
 
             xcodebuild test \
@@ -203,7 +203,7 @@ tasks:
           script: |
             set -e
             source ./creds
-            export DEVELOPER_DIR=/Applications/Xcode10.1.app
+            export DEVELOPER_DIR=/Applications/Xcode10.2.app
             cd stitch-ios-sdk
 
             xcodebuild test \
@@ -219,7 +219,7 @@ tasks:
           script: |
             set -e
             source ./creds
-            export DEVELOPER_DIR=/Applications/Xcode10.1.app
+            export DEVELOPER_DIR=/Applications/Xcode10.2.app
             cd stitch-ios-sdk
 
             xcodebuild test \
@@ -236,7 +236,7 @@ tasks:
           script: |
             set -e
             source ./creds
-            export DEVELOPER_DIR=/Applications/Xcode10.1.app
+            export DEVELOPER_DIR=/Applications/Xcode10.2.app
             cd stitch-ios-sdk
 
             xcodebuild test \
@@ -253,7 +253,7 @@ tasks:
           script: |
             set -e
             source ./creds
-            export DEVELOPER_DIR=/Applications/Xcode10.1.app
+            export DEVELOPER_DIR=/Applications/Xcode10.2.app
             cd stitch-ios-sdk
 
             xcodebuild test \
@@ -269,7 +269,7 @@ tasks:
           script: |
             set -e
             source ./creds
-            export DEVELOPER_DIR=/Applications/Xcode10.1.app
+            export DEVELOPER_DIR=/Applications/Xcode10.2.app
             cd stitch-ios-sdk
 
             xcodebuild test \
@@ -285,7 +285,7 @@ tasks:
           script: |
             set -e
             source ./creds
-            export DEVELOPER_DIR=/Applications/Xcode10.1.app
+            export DEVELOPER_DIR=/Applications/Xcode10.2.app
             cd stitch-ios-sdk
 
             xcodebuild test \
@@ -302,7 +302,7 @@ tasks:
           script: |
             set -e
             source ./creds
-            export DEVELOPER_DIR=/Applications/Xcode10.1.app
+            export DEVELOPER_DIR=/Applications/Xcode10.2.app
             cd stitch-ios-sdk
 
             xcodebuild test \

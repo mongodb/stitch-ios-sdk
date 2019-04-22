@@ -1,18 +1,28 @@
 import MongoSwift
 
 /**
- * A credential which can be used to log in as a Stitch user. There is an implementation for each authentication
- * provider available in MongoDB Stitch. These implementations can be generated using an authentication provider
- * client.
+ * A `StitchCredential` can be used to log in.
+ * 
+ * There is an implementation for each available
+ * [Authentication Provider](https://docs.mongodb.com/stitch/authentication/providers/).
+ * These implementations can be generated using an `AuthProviderClientFactory`.
+ *
+ * To log in, pass a credential implementation for the provider you want to use
+ * to `StitchAuth`'s `loginWithCredential` method.
+ *
+ * - SeeAlso:
+ * `StitchAuth`
  */
 public protocol StitchCredential {
     /**
-     * The name of the authentication provider that this credential will be used to authenticate with.
+     * The name of the associated
+     * [Authentication Provider](https://docs.mongodb.com/stitch/authentication/providers/).
      */
     var providerName: String { get }
 
     /**
-     * The type of the authentication provider that this credential will be used to authenticate with.
+     * The type of the associated 
+     * [Authentication Provider](https://docs.mongodb.com/stitch/authentication/providers/).
      */
     static var providerType: StitchProviderType { get }
 

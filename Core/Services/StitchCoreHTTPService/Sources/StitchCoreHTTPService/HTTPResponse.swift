@@ -71,11 +71,11 @@ public struct HTTPResponse: Decodable {
             var cookies: [String: HTTPCookie] = [:]
             try decodedCookies.forEach { (key, bsonValue) in
                 guard let document = bsonValue as? Document else {
-                    throw MongoError.typeError(message: "unexpected cookie type in HTTP service response")
+                    throw RuntimeError.internalError(message: "unexpected cookie type in HTTP service response")
                 }
 
                 guard let value = document["value"] as? String else {
-                    throw MongoError.typeError(
+                    throw RuntimeError.internalError(
                         message: "expected string value for cookie value in HTTP service response"
                     )
                 }

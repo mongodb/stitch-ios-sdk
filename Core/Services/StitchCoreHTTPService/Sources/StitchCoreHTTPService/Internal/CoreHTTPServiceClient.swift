@@ -46,7 +46,7 @@ public final class CoreHTTPServiceClient {
                 throw stitchError
             }
 
-            throw StitchError.requestErrorFull(withError: error, withRequestErrorCode: .encodingError)
+            throw StitchError.requestError(withError: error, withRequestErrorCode: .encodingError)
         }
 
         return try service.callFunction(

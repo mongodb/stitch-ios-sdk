@@ -221,7 +221,7 @@ extension CoreStitchAuth {
         do {
             return try JSONDecoder().decode(APIAuthInfoImpl.self, from: body)
         } catch {
-            throw StitchError.requestErrorFull(withError: error, withRequestErrorCode: .decodingError)
+            throw StitchError.requestError(withError: error, withRequestErrorCode: .decodingError)
         }
     }
 
@@ -281,7 +281,7 @@ extension CoreStitchAuth {
         do {
             decodedProfile = try JSONDecoder.init().decode(APICoreUserProfileImpl.self, from: response.body!)
         } catch {
-            throw StitchError.requestErrorFull(withError: error, withRequestErrorCode: .decodingError)
+            throw StitchError.requestError(withError: error, withRequestErrorCode: .decodingError)
         }
 
         return StitchUserProfileImpl.init(userType: decodedProfile.userType,

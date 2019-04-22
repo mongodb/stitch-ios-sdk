@@ -24,17 +24,7 @@ public enum StitchError: Error, CustomStringConvertible {
      * thrown when attempting to decode the response. An error code is included, which indicates whether the error
      * was a transport error or decoding error.
      */
-    case requestError(withMessage: String, withRequestErrorCode: StitchRequestErrorCode)
-
-    /**
-     * Indicates that an error occurred while a request was being carried out. This could be due to (but is not
-     * limited to) an unreachable server, a connection timeout, or an inability to decode the result. In the case of
-     * transport errors, these errors are thrown by the underlying `Transport` of the Stitch client, and thus contain
-     * the error that the transport threw. Errors in decoding the result from the server include the specific error
-     * thrown when attempting to decode the response. An error code is included, which indicates whether the error
-     * was a transport error or decoding error.
-     */
-    case requestErrorFull(withError: Error, withRequestErrorCode: StitchRequestErrorCode)
+    case requestError(withError: Error, withRequestErrorCode: StitchRequestErrorCode)
 
     /**
      * Indicates that an error occurred when using the Stitch client, typically before the client performed a request.
@@ -48,8 +38,6 @@ public enum StitchError: Error, CustomStringConvertible {
             return "\(withMessage): \(withCode)"
         case .requestError(let withError, let withCode):
             return "\(withError): \(withCode)"
-        case .requestErrorFull(let error, let code):
-            return ""
         case .clientError(let withClientErrorCode):
             return "\(withClientErrorCode)"
         }

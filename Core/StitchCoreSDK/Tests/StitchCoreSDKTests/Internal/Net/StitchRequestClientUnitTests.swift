@@ -70,7 +70,7 @@ class StitchRequestClientUnitTests: StitchXCTestCase {
 
         XCTAssertEqual(response.statusCode, 200)
 
-        let expected = ["hello": "world", "a": 42] as Document
+        let expected = ["hello": "world", "a": 42 as Int32] as Document
         XCTAssertEqual(expected, try Document.init(fromJSON: response.body!))
 
         transport.mockRoundTrip.clearStubs()
@@ -157,7 +157,7 @@ class StitchRequestClientUnitTests: StitchXCTestCase {
             let stitchErr = error as? StitchError
             XCTAssertNotNil(stitchErr)
 
-            guard case .requestErrorFull(let error, let errorCode) = stitchErr! else {
+            guard case .requestError(let error, let errorCode) = stitchErr! else {
                 XCTFail("wrong StitchError error type was thrown")
                 return
             }
@@ -177,7 +177,7 @@ class StitchRequestClientUnitTests: StitchXCTestCase {
         )
 
         let path = "/path"
-        let document: Document = ["my": 24]
+        let document: Document = ["my": 24 as Int32]
         let builder = StitchDocRequestBuilder()
             .with(path: path)
             .with(method: .get)
@@ -230,7 +230,7 @@ class StitchRequestClientUnitTests: StitchXCTestCase {
 
         XCTAssertEqual(response.statusCode, 200)
 
-        let expected = ["hello": "world", "a": 42] as Document
+        let expected = ["hello": "world", "a": 42 as Int32] as Document
         XCTAssertEqual(expected, try Document.init(fromJSON: response.body!))
 
         transport.mockRoundTrip.clearStubs()
@@ -319,7 +319,7 @@ class StitchRequestClientUnitTests: StitchXCTestCase {
             let stitchErr = error as? StitchError
             XCTAssertNotNil(stitchErr)
 
-            guard case .requestErrorFull(let error, let errorCode) = stitchErr! else {
+            guard case .requestError(let error, let errorCode) = stitchErr! else {
                 XCTFail("wrong StitchError error type was thrown")
                 return
             }
@@ -433,7 +433,7 @@ class StitchRequestClientUnitTests: StitchXCTestCase {
             let stitchErr = error as? StitchError
             XCTAssertNotNil(stitchErr)
 
-            guard case .requestErrorFull(let underlyingError, let errorCode) = stitchErr! else {
+            guard case .requestError(let underlyingError, let errorCode) = stitchErr! else {
                 XCTFail("wrong StitchError error type was thrown")
                 return
             }

@@ -2,9 +2,11 @@ import Foundation
 import StitchCoreSDK
 
 /**
- * `StitchResult` holds the result to an asynchronous operation performed against the Stitch server. When the operation
- * was completed successfully, it holds the result of the operation. When the operation fails, it contains a
- * `StitchError` object describing the reason for the failure.
+ * `StitchResult` holds the result to an asynchronous operation performed against the Stitch server.
+ * 
+ * When an operation completes successfully, the `StitchResult` holds the result of the operation.
+ * When the operation fails, the `StitchResult` contains a `StitchError` object describing
+ * the reason for the failure.
  */
 public enum StitchResult<T> {
     /**

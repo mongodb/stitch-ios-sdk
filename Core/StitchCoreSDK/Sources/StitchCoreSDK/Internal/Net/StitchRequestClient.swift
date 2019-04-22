@@ -58,7 +58,7 @@ extension StitchRequestClient {
             response = try self.transport.roundTrip(request: self.buildRequest(stitchReq, url: url))
         } catch {
             // Wrap the error from the transport in a `StitchError.requestError`
-            throw StitchError.requestErrorFull(withError: error, withRequestErrorCode: .transportError)
+            throw StitchError.requestError(withError: error, withRequestErrorCode: .transportError)
         }
         return try inspectResponse(response: response)
     }
@@ -71,7 +71,7 @@ extension StitchRequestClient {
         do {
             return try transport.stream(request: buildRequest(stitchReq, url: url), delegate: delegate)
         } catch {
-            throw StitchError.requestErrorFull(withError: error, withRequestErrorCode: .transportError)
+            throw StitchError.requestError(withError: error, withRequestErrorCode: .transportError)
         }
     }
 
@@ -171,12 +171,13 @@ public class StitchAppRequestClientImpl: StitchRequestClient {
             let response = try doRequest(req, url: self.baseURL)
             guard let body = response.body else {
                 throw StitchError.requestError(
-                     withMessage: "empty body in location metadata", withRequestErrorCode: .decodingError)
+                    withError: RuntimeError.internalError(message: "empty body in location metadata"),
+                     withRequestErrorCode: .decodingError)
             }
             self.appMetadata = try decoder.decode(AppMetadata.self, from: body)
         } catch {
             // Wrap the error from the transport in a `StitchError.requestError`
-            throw StitchError.requestErrorFull(withError: error,
+            throw StitchError.requestError(withError: error,
                                            withRequestErrorCode: .transportError)
         }
     }

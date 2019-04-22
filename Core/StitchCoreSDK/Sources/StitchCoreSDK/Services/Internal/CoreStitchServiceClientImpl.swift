@@ -65,7 +65,7 @@ open class CoreStitchServiceClientImpl: CoreStitchServiceClient {
                 .with(method: .get)
                 .with(path: self.serviceRoutes.functionCallRoute +
                     stitchRequestQueryParam +
-                    body.extendedJSON.data(using: .utf8)!.base64EncodedString())
+                    body.canonicalExtendedJSON.data(using: .utf8)!.base64EncodedString())
 
         return try reqBuilder.build()
     }

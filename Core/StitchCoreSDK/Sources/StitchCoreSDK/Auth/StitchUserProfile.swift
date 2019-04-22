@@ -23,7 +23,11 @@ public protocol APIStitchUserProfile {
 }
 
 /**
- * A protocol containing the fields returned by the Stitch client API in the `data` field of a user profile request.
+ * The `ExtendedStitchUserProfile` contains the fields returned by the Stitch client API
+ * in the `data` field of a user profile request.
+ *
+ * - SeeAlso:
+ * `StitchUser`, `StitchAuth`
  */
 public protocol ExtendedStitchUserProfile {
     /**
@@ -73,12 +77,23 @@ public protocol ExtendedStitchUserProfile {
 }
 
 /**
- * The set of properties that describe a MongoDB Stitch user. See the documentation for `ExtendedStitchUserProfile` to
- * see the additional fields available on this type.
+ * The StitchUserProfile describes a `StitchUser`.
+ *
+ * Every `StitchUser` has a `StitchUserProfile` member.
+ * 
+ * See `ExtendedStitchUserProfile` for additional fields available on this type.
+ *
+ * - SeeAlso:
+ * `ExtendedStitchUserProfile`,
+ * `StitchUser`,
+ * `StitchAuth`
  */
 public protocol StitchUserProfile: ExtendedStitchUserProfile {
     /**
-     * A string describing the type of this user. (Either `server` or `normal`)
+     * A string describing the type of this user, either `"server"` or `"normal"`.
+     *
+     * `"server"` users are users authenticated via a server API key generated 
+     * in the MongoDB Stitch admin console. All other users are `"normal"` users.
      */
     var userType: String { get }
 

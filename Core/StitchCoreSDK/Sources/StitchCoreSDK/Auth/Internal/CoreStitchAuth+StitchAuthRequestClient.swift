@@ -39,7 +39,7 @@ extension CoreStitchAuth {
             do {
                 return try BSONDecoder().decode(T.self, from: responseString)
             } catch let err {
-                throw StitchError.requestErrorFull(withError: err, withRequestErrorCode: .decodingError)
+                throw StitchError.requestError(withError: err, withRequestErrorCode: .decodingError)
             }
         }
     }

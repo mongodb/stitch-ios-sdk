@@ -10,7 +10,7 @@ class UpdateDescriptionUnitTests: XCMongoMobileTestCase {
     override func setUp() {
         collection = localClient
             .db("dublin")
-            .collection("restaurants\(ObjectId().oid)")
+            .collection("restaurants\(ObjectId().hex)")
         super.setUp()
     }
 
@@ -21,7 +21,7 @@ class UpdateDescriptionUnitTests: XCMongoMobileTestCase {
         // inserted document equals our original document
         let originalJson = """
         {
-        "_id": { "$oid": "\(id.oid)" },
+        "_id": { "$oid": "\(id.hex)" },
         "shop_name": "nkd pizza",
         "address": {
         "street": "9 orwell rd",
@@ -57,7 +57,7 @@ class UpdateDescriptionUnitTests: XCMongoMobileTestCase {
             ).next())
         var afterDocument = try Document.init(fromJSON: """
             {
-            "_id": { "$oid": "\(id.oid)" },
+            "_id": { "$oid": "\(id.hex)" },
             "shop_name": "nkd pizza",
             "address": {
             "street": "10 orwell rd",
@@ -129,7 +129,7 @@ class UpdateDescriptionUnitTests: XCMongoMobileTestCase {
         beforeDocument = afterDocument
         afterDocument = try Document.init(fromJSON: """
             {
-            "_id": { "$oid": "\(id.oid)" },
+            "_id": { "$oid": "\(id.hex)" },
             "shop_name": "nkd pizza",
             "address": {
             "street": "10 orwell rd",

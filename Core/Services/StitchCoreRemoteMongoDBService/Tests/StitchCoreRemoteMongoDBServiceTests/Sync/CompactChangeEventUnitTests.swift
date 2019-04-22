@@ -22,7 +22,7 @@ class CompactChangeEventUnitTests: XCTestCase {
             {
             "ot" : "insert",
             "fd" : { "foo": "bar" },
-            "dk" : { "_id" : "\(documentKey.oid)" },
+            "dk" : { "_id" : "\(documentKey.hex)" },
             "ud" : null,
             "sdh": 42
             }
@@ -31,7 +31,7 @@ class CompactChangeEventUnitTests: XCTestCase {
         var expectedChangeEvent = CompactChangeEvent<Document>.init(
             operationType: .insert,
             fullDocument: ["foo": "bar"],
-            documentKey: ["_id": documentKey.oid],
+            documentKey: ["_id": documentKey.hex],
             updateDescription: nil,
             hasUncommittedWrites: false,
             stitchDocumentHash: 42,
@@ -43,7 +43,7 @@ class CompactChangeEventUnitTests: XCTestCase {
             {
             "ot" : "__lolwut__",
             "fd" : { "foo": "bar" },
-            "dk" : { "_id" : "\(documentKey.oid)" },
+            "dk" : { "_id" : "\(documentKey.hex)" },
             "ud" : null,
             "sdh": 42
             }
@@ -52,7 +52,7 @@ class CompactChangeEventUnitTests: XCTestCase {
         expectedChangeEvent = CompactChangeEvent<Document>.init(
             operationType: .unknown,
             fullDocument: ["foo": "bar"],
-            documentKey: ["_id": documentKey.oid],
+            documentKey: ["_id": documentKey.hex],
             updateDescription: nil,
             hasUncommittedWrites: false,
             stitchDocumentHash: 42,

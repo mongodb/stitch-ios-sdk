@@ -49,7 +49,7 @@ extension BaseChangeEvent {
     }
 
     public static func == (lhs: Self, rhs: Self) -> Bool {
-        return bsonEquals(lhs.documentKey.value, rhs.documentKey.value) &&
+        return lhs.documentKey.bsonEquals(rhs.documentKey) &&
             lhs.operationType == rhs.operationType &&
             lhs.hasUncommittedWrites == rhs.hasUncommittedWrites
     }

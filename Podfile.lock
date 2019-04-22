@@ -1,55 +1,76 @@
 PODS:
   - BEMCheckBox (1.4.1)
-  - JSONWebToken (2.2.0)
+  - BlueCryptor (1.0.27)
+  - BlueECC (1.2.1)
+  - BlueRSA (1.0.28)
+  - KituraContracts (1.1.2):
+    - LoggerAPI (~> 1.7)
+  - LoggerAPI (1.8.1)
   - mongo-embedded-c-driver (1.13.0-4.0.4)
   - mongo_embedded (4.0.4)
   - mongoc_embedded (4.0.4):
     - mongo-embedded-c-driver (~> 1.13.0-4.0.4)
     - mongo_embedded (~> 4.0.4)
-  - MongoMobile (0.0.7):
+  - MongoMobile (0.1.0):
     - mongo_embedded (~> 4.0.4)
     - mongoc_embedded (~> 4.0.4)
-    - MongoSwift (~> 0.0.9)
-  - MongoSwift (0.0.9):
+    - MongoSwift (~> 0.1.0)
+  - MongoSwift (0.1.0):
     - mongo-embedded-c-driver (~> 1.13.0-4.0.0)
   - Swifter (1.4.5)
+  - SwiftJWT (3.4.1):
+    - BlueCryptor (~> 1.0)
+    - BlueECC (~> 1.1)
+    - BlueRSA (~> 1.0)
+    - KituraContracts (~> 1.1)
+    - LoggerAPI (~> 1.7)
   - SwiftLint (0.31.0)
   - Toast-Swift (4.0.0)
 
 DEPENDENCIES:
   - BEMCheckBox (= 1.4.1)
-  - JSONWebToken (~> 2.2.0)
-  - MongoMobile (= 0.0.7)
-  - MongoSwift (= 0.0.9)
+  - MongoMobile (= 0.1.0)
+  - MongoSwift (= 0.1.0)
   - Swifter (~> 1.4.5)
+  - SwiftJWT
   - SwiftLint
   - Toast-Swift (= 4.0.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - BEMCheckBox
-    - JSONWebToken
+    - BlueCryptor
+    - BlueECC
+    - BlueRSA
+    - KituraContracts
+    - LoggerAPI
     - mongo-embedded-c-driver
     - mongo_embedded
     - mongoc_embedded
     - MongoMobile
     - MongoSwift
     - Swifter
+    - SwiftJWT
     - SwiftLint
     - Toast-Swift
 
 SPEC CHECKSUMS:
   BEMCheckBox: 5ba6e37ade3d3657b36caecc35c8b75c6c2b1a4e
-  JSONWebToken: 6fae32489632658d563dd6952a5c34020ea813e4
+  BlueCryptor: 152e16f87a647dd5b8f6a7420131c5c483bb3c82
+  BlueECC: 32d896437419950816dac90a377815cf69951e01
+  BlueRSA: a468fdcf3c3a456e7376ad55fd5d81bba0ca9270
+  KituraContracts: fdb9576d40d1ac737765128158bfd412705b1c3b
+  LoggerAPI: 7a807a0c8f512973f307a9cd226dba1bfdf3e3a7
   mongo-embedded-c-driver: b46360baa15fc142baae80628822f26663220bde
   mongo_embedded: e413134eb6b60544e7278add03007f8fe384a00c
   mongoc_embedded: 41aadbb756b07070d6f0471192a84750cb42c580
-  MongoMobile: 6059b76325afe5fbb1072ae0fe47addc122591c6
-  MongoSwift: c7420b38a7e223439667f8c50aefada29c270df8
+  MongoMobile: 988e8d2fd322761d6358570dde8a2b3d44801823
+  MongoSwift: e20f86eae1beb06bbba49c2d73bb570961cc4c85
   Swifter: eb2bc1d192a1c09169c7fefd01971565fa940521
+  SwiftJWT: b927e6f4ee6a9db6d4c9c4374d050e0a7b56ab6e
   SwiftLint: 7a0227733d786395817373b2d0ca799fd0093ff3
   Toast-Swift: 594b5c5e5129f15438e410207e43287f027b3c00
 
-PODFILE CHECKSUM: 0d0a955393ce7fef459fce3c303b3c37f6bdf759
+PODFILE CHECKSUM: 0d2080ca091bd9af8067b4d5ecd18fac490d080f
 
 COCOAPODS: 1.6.0.beta.2

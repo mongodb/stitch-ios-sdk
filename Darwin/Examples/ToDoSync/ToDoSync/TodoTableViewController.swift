@@ -22,50 +22,45 @@ private class ItemsCollectionDelegate: ChangeEventDelegate {
     }
 
     func onEvent(documentId: BSONValue, event: ChangeEvent<TodoItem>) {
-        guard let vc = self.vc else {
-            return
-        }
-
-        guard let id = event.documentKey["_id"] else {
-            return
-        }
-
-        if event.operationType == .delete {
-            guard let idx = vc.todoItems.firstIndex(where: { bsonEquals($0.id, id) }) else {
+        async {
+            guard let vc = self.vc else {
                 return
             }
-            vc.todoItems.remove(at: idx)
-        } else {
-            if let index = vc.todoItems.firstIndex(where: { bsonEquals($0.id, id) }) {
-                vc.todoItems[index] = event.fullDocument!
-            } else {
-                if !itemsCollection.sync.syncedIds.contains(where: { bsonEquals($0.value, id) }) {
-                    try! itemsCollection.sync.sync(ids: [id])
-                }
-                vc.todoItems.append(event.fullDocument!)
+
+            guard let id = event.documentKey["_id"] else {
+                return
             }
-        }
 
-        DispatchQueue.main.sync {
-            let toast = try! vc.view.toastViewForMessage(
-                "\(event.operationType) for item: '\(event.fullDocument?.task ?? "(removed)")'",
-                title: "items",
-                image: nil,
-                style: toastStyle)
-//            vc.view.showToast(toast)
+            if event.operationType == .delete {
+                guard let idx = vc.todoItems.firstIndex(where: { $0.id.bsonEquals(id) }) else {
+                    return
+                }
+                vc.todoItems.remove(at: idx)
+            } else {
+                if let index = vc.todoItems.firstIndex(where: { $0.id.bsonEquals(id) }) {
+                    vc.todoItems[index] = event.fullDocument!
+                } else {
+                    if !await(itemsCollection.sync.syncedIds).contains(where: { $0.value.bsonEquals(id) }) {
+                        await(itemsCollection.sync.sync, [id])
+                    }
+                    vc.todoItems.append(event.fullDocument!)
+                }
+            }
 
-            vc.todoItems.sort()
+            DispatchQueue.main.sync {
+                vc.todoItems.sort()
 
-            // if it's a change to the index, it will be handled elsewhere
-            if event.updateDescription?.updatedFields["index"] == nil {
-                vc.tableView.reloadData()
+                // if it's a change to the index, it will be handled elsewhere
+                if event.updateDescription?.updatedFields["index"] == nil {
+                    vc.tableView.reloadData()
+                }
             }
         }
     }
 }
 
 class TodoTableViewController:
-    UIViewController, UITableViewDataSource, UITableViewDelegate, ErrorListener, BEMCheckBoxDelegate {
+UIViewController, UITableViewDataSource, UITableViewDelegate, ErrorListener, BEMCheckBoxDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var toolBar: UIToolbar!
@@ -159,63 +154,67 @@ class TodoTableViewController:
     @objc func removeAll(_ sender: Any) {
         itemsCollection.deleteMany(["owner_id": userId!,
                                     "checked": true]) { result in
-            switch result {
-            case .failure(let error):
-                print(error.localizedDescription)
-            case .success(_):
-                listsCollection.sync.updateOne(
-                    filter: ["_id": self.userId ?? BSONNull()],
-                    update: ["$set": ["todos": self.todoItems.compactMap({ !$0.checked ? $0.id : nil })] as Document], options: nil) { _ in
-                    DispatchQueue.main.sync {
-                        self.checkBoxAll.on = false
-                    }
-                }
-            }
+                                        switch result {
+                                        case .failure(let error):
+                                            print(error.localizedDescription)
+                                        case .success(_):
+                                            listsCollection.sync.updateOne(
+                                                filter: ["_id": self.userId ?? BSONNull()],
+                                                update: ["$set": ["todos": self.todoItems.compactMap({ !$0.checked ? $0.id : nil })] as Document], options: nil) { _ in
+                                                    DispatchQueue.main.sync {
+                                                        self.checkBoxAll.on = false
+                                                    }
+                                            }
+                                        }
         }
     }
 
-    private func loggedIn() {
-        if listsCollection.sync.syncedIds.isEmpty {
-            listsCollection.sync.insertOne(document: TodoList(id: userId!)) { _ in }
+    private func loggedIn() { async {
+        if await(listsCollection.sync.syncedIds).isEmpty {
+            listsCollection.sync.insertOne(document: TodoList(id: self.userId!)) { _ in }
         }
-        if indexSwapsCollection.sync.syncedIds.isEmpty {
-            indexSwapsCollection.sync.insertOne(document: IndexSwap(id: userId!)) { _ in }
+        if await(indexSwapsCollection.sync.syncedIds).isEmpty {
+            indexSwapsCollection.sync.insertOne(document: IndexSwap(id: self.userId!)) { _ in }
         }
-        if itemsCollection.sync.syncedIds.isEmpty {
+        if await(itemsCollection.sync.syncedIds).isEmpty {
             listsCollection.find().first { result in
                 guard case let .success(todos) = result else {
                     fatalError()
                 }
 
-                try? itemsCollection.sync.sync(ids: todos?.todos ?? [])
+                await(itemsCollection.sync.sync, todos?.todos ?? [])
             }
         }
         // Configure sync to be remote wins on both collections meaning and conflict that occurs should
         // prefer the remote version as the resolution.
-        itemsCollection.sync.configure(
-            conflictHandler: DefaultConflictHandler<TodoItem>.remoteWins(),
-            changeEventDelegate: ItemsCollectionDelegate(self),
-            errorListener: self)
+        await(itemsCollection.sync.configure,
+              DefaultConflictHandler<TodoItem>.remoteWins(),
+              ItemsCollectionDelegate(self),
+              self)
 
-        listsCollection.sync.configure(
-            conflictHandler: DefaultConflictHandler<TodoList>.remoteWins(),
-            changeEventDelegate: { documentId, event in
-                if !event.hasUncommittedWrites {
-                    guard let todos = event.fullDocument?.todos else {
-                        self.todoItems.removeAll()
-                        DispatchQueue.main.sync {
-                            self.tableView.reloadData()
+        await(listsCollection.sync.configure,
+              DefaultConflictHandler<TodoList>.remoteWins(),
+              { documentId, event in
+                async {
+                    if !event.hasUncommittedWrites {
+                        guard let todos = event.fullDocument?.todos else {
+                            self.todoItems.removeAll()
+                            DispatchQueue.main.sync {
+                                self.tableView.reloadData()
+                            }
+                            await(
+                                itemsCollection.sync.desync,
+                                await(itemsCollection.sync.syncedIds).map { $0.value })
+                            return
                         }
-                        try! itemsCollection.sync.desync(ids: itemsCollection.sync.syncedIds.map { $0.value })
-                        return
+                        await(itemsCollection.sync.sync, todos)
                     }
-                    try! itemsCollection.sync.sync(ids: todos)
                 }
-        }, errorListener: self.on)
+        }, self.on)
 
-        indexSwapsCollection.sync.configure(
-            conflictHandler: DefaultConflictHandler<IndexSwap>.remoteWins(),
-            changeEventDelegate: { documentId, event in
+        await(indexSwapsCollection.sync.configure,
+              DefaultConflictHandler<IndexSwap>.remoteWins(),
+              { documentId, event in
                 guard !event.hasUncommittedWrites,
                     let fromIndex = event.fullDocument?.fromIndex,
                     let toIndex = event.fullDocument?.toIndex,
@@ -228,7 +227,7 @@ class TodoTableViewController:
                                            to: IndexPath(row: toIndex, section: 0))
                 }
         },
-            errorListener: self.on)
+              self.on)
 
         itemsCollection.sync.find { result in
             switch result {
@@ -241,16 +240,17 @@ class TodoTableViewController:
                 print(error.localizedDescription)
             }
         }
-    }
+        } }
+
     private func doLogin() {
-        stitch.auth.login(withCredential:
-        ServerAPIKeyCredential(withKey: "CWQMnJNbgekCq62zWMZAabeQtpRWpHDCKLtef7WLqoyHGvNC5Unn65AXloil1HOx")) {
-            switch $0 {
-            case .success(_):
-                self.loggedIn()
-            case .failure(let e):
-                print("error logging in \(e)")
+        async {
+            await(
+                stitch.auth.login,
+                ServerAPIKeyCredential(withKey: "CWQMnJNbgekCq62zWMZAabeQtpRWpHDCKLtef7WLqoyHGvNC5Unn65AXloil1HOx")) else {
+                print("error logging in")
             }
+
+            self.loggedIn()
         }
     }
 
@@ -300,7 +300,7 @@ class TodoTableViewController:
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoTableViewCell",
-                                             for: indexPath) as! TodoTableViewCell
+                                                 for: indexPath) as! TodoTableViewCell
         if todoItems.count >= indexPath.item {
             cell.set(todoItem: todoItems[indexPath.item])
         }

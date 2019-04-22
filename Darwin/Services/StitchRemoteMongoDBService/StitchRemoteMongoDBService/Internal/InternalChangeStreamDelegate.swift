@@ -2,6 +2,7 @@
 import Foundation
 import StitchCoreSDK
 import StitchCoreRemoteMongoDBService
+import MongoSwift
 
 /**
  * Internal class which serves as an intermediary between an internal RawSSEStream and a change stream as exposed
@@ -40,23 +41,25 @@ internal class InternalChangeStreamDelegate<T: Codable>: SSEStreamDelegate {
         do {
             if !delegate.useCompactEvents {
                 guard let changeEvent: ChangeEvent<T> = try event.decodeStitchSSE() else {
-                    self.on(error: StitchError.requestError(withMessage: "invalid event received from stream",
-                                                            withRequestErrorCode: .decodingError))
+                    self.on(error: StitchError.requestError(
+                        withError: RuntimeError.internalError(message: "invalid event received from stream"),
+                        withRequestErrorCode: .decodingError))
                     return
                 }
 
                 delegate.didReceive(event: changeEvent)
             } else {
                 guard let changeEvent: CompactChangeEvent<T> = try event.decodeStitchSSE() else {
-                    self.on(error: StitchError.requestError(withMessage: "invalid event received from stream",
-                                                            withRequestErrorCode: .decodingError))
+                    self.on(error: StitchError.requestError(
+                        withError: RuntimeError.internalError(message: "invalid event received from stream"),
+                        withRequestErrorCode: .decodingError))
                     return
                 }
 
                 delegate.didReceive(event: changeEvent)
             }
         } catch let err {
-            self.on(error: StitchError.requestErrorFull(withError: err, withRequestErrorCode: .decodingError))
+            self.on(error: StitchError.requestError(withError: err, withRequestErrorCode: .decodingError))
         }
     }
 
