@@ -98,6 +98,9 @@ class ViewController: UIViewController {
         let numDocs = integer(from: numDocsToInsertInput);
         let docSize = integer(from: docSizeInput);
         
+        self.syncCollection?.proxy.dataSynchronizer.isSyncThreadEnabled = false
+        self.syncCollection?.proxy.dataSynchronizer.stop()
+        
         // Create the documents
         var docs: [Document] = [];
         for i in 1...numDocs {
@@ -131,7 +134,6 @@ class ViewController: UIViewController {
         }
         
         // When finished inserting the documents --> sync on the doc id's and collect time and network metrics
-        syncCollection.proxy.dataSynchronizer.stop()
         group.notify(queue: .main) {
             self.log("Finished with \(docIds.count) docs")
             syncCollection.sync(ids: docIds) {result in
