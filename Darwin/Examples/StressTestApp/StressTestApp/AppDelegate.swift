@@ -6,10 +6,9 @@ import StitchCore
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-//    let jasonAppName: String = "stitch-tests-js-sdk-jntlj";
+
     let appName: String = "stitchdocsexamples-pqwyr"
     let transport = FoundationInstrumentedHTTPTransport()
-
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
