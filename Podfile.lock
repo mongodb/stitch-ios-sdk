@@ -6,11 +6,11 @@ PODS:
   - mongoc_embedded (4.0.4):
     - mongo-embedded-c-driver (~> 1.13.0-4.0.4)
     - mongo_embedded (~> 4.0.4)
-  - MongoMobile (0.0.7):
+  - MongoMobile (0.1.0):
     - mongo_embedded (~> 4.0.4)
     - mongoc_embedded (~> 4.0.4)
-    - MongoSwift (~> 0.0.9)
-  - MongoSwift (0.0.9):
+    - MongoSwift (~> 0.1.0)
+  - MongoSwift (0.1.0):
     - mongo-embedded-c-driver (~> 1.13.0-4.0.0)
   - Swifter (1.4.5)
   - SwiftLint (0.31.0)
@@ -19,8 +19,8 @@ PODS:
 DEPENDENCIES:
   - BEMCheckBox (= 1.4.1)
   - JSONWebToken (~> 2.2.0)
-  - MongoMobile (= 0.0.7)
-  - MongoSwift (= 0.0.9)
+  - MongoMobile (from `https://github.com/mongodb/swift-mongo-mobile/`, branch `master`)
+  - MongoSwift (= 0.1.0)
   - Swifter (~> 1.4.5)
   - SwiftLint
   - Toast-Swift (= 4.0.0)
@@ -32,11 +32,20 @@ SPEC REPOS:
     - mongo-embedded-c-driver
     - mongo_embedded
     - mongoc_embedded
-    - MongoMobile
     - MongoSwift
     - Swifter
     - SwiftLint
     - Toast-Swift
+
+EXTERNAL SOURCES:
+  MongoMobile:
+    :branch: master
+    :git: https://github.com/mongodb/swift-mongo-mobile/
+
+CHECKOUT OPTIONS:
+  MongoMobile:
+    :commit: 619c19532d142038718015a464aedd897c32f60c
+    :git: https://github.com/mongodb/swift-mongo-mobile/
 
 SPEC CHECKSUMS:
   BEMCheckBox: 5ba6e37ade3d3657b36caecc35c8b75c6c2b1a4e
@@ -44,12 +53,12 @@ SPEC CHECKSUMS:
   mongo-embedded-c-driver: b46360baa15fc142baae80628822f26663220bde
   mongo_embedded: e413134eb6b60544e7278add03007f8fe384a00c
   mongoc_embedded: 41aadbb756b07070d6f0471192a84750cb42c580
-  MongoMobile: 6059b76325afe5fbb1072ae0fe47addc122591c6
-  MongoSwift: c7420b38a7e223439667f8c50aefada29c270df8
+  MongoMobile: a6a22c1110eb7a679cc7982c9aef29b914d3fc45
+  MongoSwift: e20f86eae1beb06bbba49c2d73bb570961cc4c85
   Swifter: eb2bc1d192a1c09169c7fefd01971565fa940521
   SwiftLint: 7a0227733d786395817373b2d0ca799fd0093ff3
   Toast-Swift: 594b5c5e5129f15438e410207e43287f027b3c00
 
-PODFILE CHECKSUM: 0d0a955393ce7fef459fce3c303b3c37f6bdf759
+PODFILE CHECKSUM: 2f282bc5165ab3cd96d24257eddb114bb2d5e3a8
 
 COCOAPODS: 1.6.0.beta.2

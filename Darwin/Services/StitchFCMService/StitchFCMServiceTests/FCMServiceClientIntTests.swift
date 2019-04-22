@@ -21,7 +21,7 @@ class FCMServiceClientIntTests: BaseStitchIntTestCocoaTouch {
 
     func testSendMessage() throws {
         let app = try self.createApp()
-        _ = try self.addProvider(toApp: app.1, withConfig: ProviderConfigs.anon())
+        _ = try self.addProvider(toApp: app.1, withConfig: ProviderConfigs.anon)
         let svc = try self.addService(
             toApp: app.1,
             withType: "gcm",

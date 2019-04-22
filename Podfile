@@ -10,7 +10,11 @@ target :MockUtils do
 end
 
 def shared_pods
-    pod 'MongoSwift', '= 0.0.9'
+    pod 'MongoSwift', '= 0.1.0'
+end
+
+def mongo_mobile
+    pod 'MongoMobile', :git => 'https://github.com/mongodb/swift-mongo-mobile/', :branch => 'master'
 end
 
 def swifter_pod
@@ -60,23 +64,23 @@ target :StitchCoreSDK do
 
     target :StitchCoreRemoteMongoDBService do
         project 'Core/Services/StitchCoreRemoteMongoDBService/StitchCoreRemoteMongoDBService.xcodeproj'
-        pod 'MongoMobile', '= 0.0.7'
+        mongo_mobile
 
         inherit! :search_paths
         target :StitchCoreRemoteMongoDBServiceTests do
-            pod 'MongoMobile', '= 0.0.7'
+            mongo_mobile
             inherit! :search_paths
         end
     end
 
     target :StitchCoreLocalMongoDBService do
         project 'Core/Services/StitchCoreLocalMongoDBService/StitchCoreLocalMongoDBService.xcodeproj'
-        pod 'MongoMobile', '= 0.0.7'
+        mongo_mobile
 
         inherit! :search_paths
         target :StitchCoreLocalMongoDBServiceTests do
             shared_pods
-            pod 'MongoMobile', '= 0.0.7'
+            mongo_mobile
             inherit! :search_paths
         end
     end
@@ -140,14 +144,14 @@ target :StitchCoreSDK do
 
         target :StitchRemoteMongoDBServiceTests do
             swifter_pod
-            pod 'MongoMobile', '= 0.0.7'
+            mongo_mobile
             
             inherit! :search_paths
         end
         
         target :StitchSyncPerformanceTests do
             swifter_pod
-            pod 'MongoMobile', '= 0.0.7'
+            mongo_mobile
             
             inherit! :search_paths
         end
@@ -155,10 +159,10 @@ target :StitchCoreSDK do
 
     target :StitchLocalMongoDBService do
         project 'Darwin/Services/StitchLocalMongoDBService/StitchLocalMongoDBService.xcodeproj'
-        pod 'MongoMobile', '= 0.0.7'
+        mongo_mobile
 
         target :StitchLocalMongoDBServiceTests do
-            pod 'MongoMobile', '= 0.0.7'
+            mongo_mobile
             swifter_pod
             inherit! :search_paths
         end
@@ -208,13 +212,13 @@ end
 
 target :ToDoSync do
     project 'Darwin/Examples/ToDoSync/ToDoSync.xcodeproj'
-    pod 'MongoMobile', '= 0.0.7'
+    mongo_mobile
     pod 'Toast-Swift', '= 4.0.0'
     pod 'BEMCheckBox', '= 1.4.1'
 end
 
 target :StitchSDK do
-    pod 'MongoSwift', '= 0.0.9'
+    pod 'MongoSwift', '= 0.1.0'
 
     project 'Darwin/StitchSDK/StitchSDK.xcodeproj'
 end

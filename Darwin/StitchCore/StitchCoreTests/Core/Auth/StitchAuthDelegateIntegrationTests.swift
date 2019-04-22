@@ -19,7 +19,7 @@ class StitchAuthDelegateIntTests: BaseStitchIntTestCocoaTouch {
         do {
             self.app = try createApp()
 
-            _ = try addProvider(toApp: app.1, withConfig: .anon())
+            _ = try addProvider(toApp: app.1, withConfig: .anon)
             _ = try addProvider(toApp: app.1, withConfig: .userpass(
                 emailConfirmationURL: "http://emailConfirmURL.com",
                 resetPasswordURL: "http://resetPasswordURL.com",

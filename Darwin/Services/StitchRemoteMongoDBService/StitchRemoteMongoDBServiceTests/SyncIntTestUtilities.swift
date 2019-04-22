@@ -27,8 +27,8 @@ internal class SyncIntTestUtilities {
         return document["__stitch_sync_version"] as! Document
     }
 
-    static internal func versionCounterOf(_ document: Document) -> Int64 {
-        return versionOf(document)["v"] as! Int64
+    static internal func versionCounterOf(_ document: Document) -> Int {
+        return versionOf(document)["v"] as! Int
     }
 
     static internal func instanceIdOf(_ document: Document) -> String {

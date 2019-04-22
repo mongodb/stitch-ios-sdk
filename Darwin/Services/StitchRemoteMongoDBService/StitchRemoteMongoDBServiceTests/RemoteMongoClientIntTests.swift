@@ -42,8 +42,8 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
     private lazy var mongodbUri: String = pList?[mongodbUriProp] as? String ?? "mongodb://localhost:26000"
 
-    private let dbName = ObjectId().oid
-    private let collName = ObjectId().oid
+    private let dbName = ObjectId().hex
+    private let collName = ObjectId().hex
 
     private var mongoClient: RemoteMongoClient!
 
@@ -70,7 +70,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
     private func prepareService() throws {
         let app = try self.createApp()
-        _ = try self.addProvider(toApp: app.1, withConfig: ProviderConfigs.anon())
+        _ = try self.addProvider(toApp: app.1, withConfig: ProviderConfigs.anon)
         let svc = try self.addService(
             toApp: app.1,
             withType: "mongodb",
@@ -1676,8 +1676,8 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         // should receive an event for one document
         exp = expectation(description: "should receive an event for one document")
         testDelegate.expectEvent { event in
-            XCTAssertTrue(bsonEquals(event.documentKey["_id"], doc1["_id"]))
-            XCTAssertTrue(bsonEquals(doc1, event.fullDocument))
+            XCTAssertTrue(event.documentKey["_id"]?.bsonEquals(doc1["_id"]) ?? false)
+            XCTAssertTrue(doc1.bsonEquals(event.fullDocument))
 
             XCTAssertEqual(event.operationType, OperationType.insert)
             exp.fulfill()
@@ -1692,8 +1692,8 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         ]
         exp = expectation(description: "should receive more events for a single document")
         testDelegate.expectEvent { event in
-            XCTAssertTrue(bsonEquals(event.documentKey["_id"], doc1["_id"]))
-            XCTAssertTrue(bsonEquals(doc1, event.fullDocument))
+            XCTAssertTrue(event.documentKey["_id"]?.bsonEquals(doc1["_id"]) ?? false)
+            XCTAssertTrue(doc1.bsonEquals(event.fullDocument))
 
             XCTAssertEqual(event.operationType, OperationType.update)
             exp.fulfill()
@@ -1733,8 +1733,8 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
         exp = expectation(description: "doc2 inserted")
         testDelegate.expectEvent { event in
-            XCTAssertTrue(bsonEquals(event.documentKey["_id"]!, 42))
-            XCTAssertTrue(bsonEquals(event.fullDocument, doc2))
+            XCTAssertTrue(event.documentKey["_id"]?.bsonEquals(42) ?? false)
+            XCTAssertTrue(event.fullDocument?.bsonEquals(doc2) ?? false)
             XCTAssertEqual(event.operationType, OperationType.insert)
             exp.fulfill()
         }
@@ -1743,8 +1743,8 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
         exp = expectation(description: "doc3 inserted")
         testDelegate.expectEvent { event in
-            XCTAssertTrue(bsonEquals(event.documentKey["_id"]!, "blah"))
-            XCTAssertTrue(bsonEquals(event.fullDocument, doc3))
+            XCTAssertTrue(event.documentKey["_id"]?.bsonEquals("blah") ?? false)
+            XCTAssertTrue(event.fullDocument?.bsonEquals(doc3) ?? false)
             XCTAssertEqual(event.operationType, OperationType.insert)
             exp.fulfill()
         }
@@ -1780,7 +1780,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
         exp = expectation(description: "notifies on document insert")
         testDelegate.expectEvent { event in
-            XCTAssertTrue(bsonEquals(event.documentKey["_id"], doc1.id))
+            XCTAssertTrue(event.documentKey["_id"]?.bsonEquals(doc1.id) ?? false)
             XCTAssertEqual(event.fullDocument, doc1)
             XCTAssertEqual(event.operationType, OperationType.insert)
 

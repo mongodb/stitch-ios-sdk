@@ -797,7 +797,8 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
 
         let documentResult: Document = try auth.doAuthenticatedRequest(reqBuilder.build())
         XCTAssertEqual(expectedObjectID, documentResult["_id"] as! ObjectId)
-        XCTAssertEqual(42, documentResult["intValue"] as! Int)
+        print(documentResult)
+        XCTAssertEqual(42, documentResult["intValue"] as! Int32)
 
         let customObjResult: CustomType = try auth.doAuthenticatedRequest(reqBuilder.build())
         XCTAssertEqual(expectedObjectID, customObjResult.id)
@@ -832,7 +833,7 @@ class CoreStitchAuthUnitTests: StitchXCTestCase {
         // Profile request does not work when `profileRequestShouldFail` is true
         requestClient.doRequestMock.doThrow(
             error: StitchError.requestError(
-                withError: MongoError.invalidResponse(), // placeholder error
+                withError: RuntimeError.internalError(message: ""), // placeholder error
                 withRequestErrorCode: StitchRequestErrorCode.unknownError),
             forArg: Matcher<StitchRequest>.with(condition: { req -> Bool in
                 if profileRequestShouldFail && req.path.contains("profile") {

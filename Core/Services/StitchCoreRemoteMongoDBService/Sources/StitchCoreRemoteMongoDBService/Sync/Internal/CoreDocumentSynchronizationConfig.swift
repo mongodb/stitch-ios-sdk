@@ -366,7 +366,7 @@ final class CoreDocumentSynchronization: Codable, Hashable {
     }
 
     static func == (lhs: CoreDocumentSynchronization, rhs: CoreDocumentSynchronization) -> Bool {
-        return bsonEquals(lhs.documentId.value, rhs.documentId.value)
+        return lhs.documentId.value.bsonEquals(rhs.documentId.value)
     }
 
     func hash(into hasher: inout Hasher) {

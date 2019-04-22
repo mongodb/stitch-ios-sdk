@@ -293,8 +293,8 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
         resultDocs = try coll.aggregate([["$match": 1], ["sort": 2]]).toArray()
 
         let expectedPipeline: [Document] = [
-            ["$match": Int32(1)],
-            ["sort": Int32(2)]
+            ["$match": 1],
+            ["sort": 2]
         ]
 
         XCTAssertEqual(docs, resultDocs)

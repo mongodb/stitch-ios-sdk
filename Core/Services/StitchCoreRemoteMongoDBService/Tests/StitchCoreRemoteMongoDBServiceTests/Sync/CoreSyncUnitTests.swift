@@ -10,7 +10,7 @@ class CoreSyncUnitTests: XCMongoMobileTestCase {
         collectionName: namespace.collectionName))
 
     override func tearDown() {
-        try? localClient.db("sync_config" + instanceKey.oid).drop()
+        try? localClient.db("sync_config" + instanceKey.hex).drop()
     }
 
     func testSync_SyncedIds_Desync() throws {

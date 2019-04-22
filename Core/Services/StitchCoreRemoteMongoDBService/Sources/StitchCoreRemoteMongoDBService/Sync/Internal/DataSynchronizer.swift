@@ -1070,7 +1070,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
         let acceptRemote = (sanitizedRemoteDocument == nil && resolvedDocument == nil)
             || (sanitizedRemoteDocument != nil
-                && bsonEquals(sanitizedRemoteDocument, resolvedDocument))
+                && sanitizedRemoteDocument?.bsonEquals(resolvedDocument) ?? false)
 
         // a. If the resolved document is not nil:
         if let docForStorage = resolvedDocument {

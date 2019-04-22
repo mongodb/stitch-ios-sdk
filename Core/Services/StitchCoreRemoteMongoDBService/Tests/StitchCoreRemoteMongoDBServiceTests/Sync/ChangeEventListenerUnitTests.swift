@@ -8,6 +8,7 @@ import MongoSwift
 
 class ChangeEventDelegateUnitTests: XCTestCase {
     private struct TestCodable: Codable {
+        // swiftlint:disable identifier_name
         let _id: ObjectId
         let foo: Int
         let bar: String
@@ -18,7 +19,7 @@ class ChangeEventDelegateUnitTests: XCTestCase {
 
         func onEvent(documentId: BSONValue, event: ChangeEvent<ChangeEventDelegateUnitTests.TestCodable>) {
             XCTAssertEqual(ChangeEventDelegateUnitTests.documentId, documentId as! ObjectId)
-            XCTAssertTrue(bsonEquals(expectedChangeEvent.id.value, event.id.value))
+            XCTAssertTrue(expectedChangeEvent.id.value.bsonEquals(event.id.value))
             XCTAssertEqual(expectedChangeEvent.operationType, event.operationType)
             XCTAssertEqual(expectedChangeEvent.fullDocument?["foo"] as? Int, event.fullDocument?.foo)
             XCTAssertEqual(expectedChangeEvent.fullDocument?["bar"] as? String, event.fullDocument?.bar)

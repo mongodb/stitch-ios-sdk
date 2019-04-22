@@ -55,6 +55,6 @@ struct TodoItem: Codable, Hashable, Comparable {
     }
 
     func hash(into hasher: inout Hasher) {
-        hasher.combine(id.oid)
+        hasher.combine(id.hex)
     }
 }
