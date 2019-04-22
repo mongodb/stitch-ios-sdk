@@ -402,21 +402,17 @@ public class RemoteMongoCollection<T: Codable> {
      *
      * - Parameters:
      *   - ids: The list of _ids in the collection to watch.
-     *   - streamType: Whether to use a full or compact stream.
-     *                 This contains the delegate that will react to events
-     *                 and errors from the resulting change stream.
+     *   - delegate: The delegate that will react to events and errors from the resulting change stream.
      *
      * - Returns: A reference to the change stream opened by this method.
      */
-    public func watch (
+    public func watch<DelegateT: ChangeStreamDelegate>(
         ids: [BSONValue],
-        forStreamType streamType: ChangeStreamType<T>
-    ) throws -> ChangeStreamSession<T> {
-        let session = ChangeStreamSession.init(changeEventType: streamType)
+        delegate: DelegateT
+    ) throws -> ChangeStreamSession<DelegateT> where DelegateT.DocumentT == T {
+        let session = ChangeStreamSession<DelegateT>.init(publicDelegate: delegate)
 
-        let rawStream = try self.proxy.watch(ids: ids,
-                                             delegate: session.internalDelegate,
-                                             useCompactEvents: streamType.useCompactEvents)
+        let rawStream = try self.proxy.watch(ids: ids, delegate: session.internalDelegate)
         session.rawStream = rawStream
 
         return session

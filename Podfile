@@ -35,7 +35,7 @@ target :StitchCoreSDK do
     end
 
     target :StitchCoreSDKTests do
-        pod 'SwiftJWT'
+        pod 'JSONWebToken', '~> 2.2.0'
         swifter_pod
 
         shared_pods
@@ -110,7 +110,7 @@ target :StitchCoreSDK do
         inherit! :search_paths
 
         target :StitchCoreTests do
-            pod 'SwiftJWT'
+            pod 'JSONWebToken', '~> 2.2.0'
             swifter_pod
             shared_pods
             inherit! :search_paths
@@ -228,6 +228,11 @@ post_install do |installer|
         # this is to fix an issue that happens between cocoapods and xcode 10
         target.build_configurations.each do |config|
             config.build_settings['ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES'] = 'YES'
+        end
+
+        # this is to fix a bug in JSONWebToken
+        if target.name == 'JSONWebToken'
+            system("rm -rf Pods/JSONWebToken/CommonCrypto")
         end
     end
 end

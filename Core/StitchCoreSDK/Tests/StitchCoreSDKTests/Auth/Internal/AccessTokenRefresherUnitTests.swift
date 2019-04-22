@@ -1,17 +1,24 @@
 // swiftlint:disable function_body_length
-// swiftlint:disable force_try
-
 import XCTest
 import StitchCoreSDKMocks
-import MongoSwift
-import SwiftJWT
 @testable import StitchCoreSDK
+import MongoSwift
 
-var ufreshJWT = JWT<ClaimsStandardJWT>.init(claims: ClaimsStandardJWT.init(exp: Date().addingTimeInterval(20 * 60)))
-let freshJWT = try! ufreshJWT.sign(using: JWTSigner.hs256(key: "secret".data(using: .utf8)!))
+import func JWT.encode
+import enum JWT.Algorithm
+import class JWT.ClaimSetBuilder
 
-var uexpiredJWT = JWT<ClaimsStandardJWT>.init(claims: ClaimsStandardJWT.init(exp: Date().addingTimeInterval(-(Date.init().timeIntervalSince1970 - 10000.0))))
-let expiredJWT = try! uexpiredJWT.sign(using: JWTSigner.hs256(key: "secret".data(using: .utf8)!))
+let freshJWT = encode(Algorithm.hs256("secret".data(using: .utf8)!), closure: { (csb: ClaimSetBuilder) in
+    var date = Date()
+    date.addTimeInterval(20*60)
+    csb.expiration = date
+})
+
+let expiredJWT = encode(Algorithm.hs256("secret".data(using: .utf8)!), closure: { (csb: ClaimSetBuilder) in
+    var date = Date()
+    date.addTimeInterval(-(Date.init().timeIntervalSince1970 - 10000.0))
+    csb.expiration = date
+})
 
 final class StubUser: CoreStitchUser {
     var id: String = ""
