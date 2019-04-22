@@ -1,4 +1,3 @@
-// swiftlint:disable weak_delegate
 import Foundation
 import StitchCoreSDK
 import StitchCoreRemoteMongoDBService
@@ -8,12 +7,12 @@ import MongoSwift
  * Internal class which serves as an intermediary between an internal RawSSEStream and a change stream as exposed
  * by the remote MongoDB service.
  */
-internal class InternalChangeStreamDelegate<T: Codable>: SSEStreamDelegate {
-    public var delegate: ChangeStreamType<T>?
+internal class InternalChangeStreamDelegate<DocumentT: Codable>: SSEStreamDelegate {
+    public var changeStreamType: ChangeStreamType<DocumentT>?
     internal var rawStream: RawSSEStream?
 
-    public init(delegate: ChangeStreamType<T>) {
-        self.delegate = delegate
+    public init(changeStreamType: ChangeStreamType<DocumentT>) {
+        self.changeStreamType = changeStreamType
     }
 
     public func close() {
@@ -33,14 +32,14 @@ internal class InternalChangeStreamDelegate<T: Codable>: SSEStreamDelegate {
     }
 
     override final public func on(newEvent event: RawSSE) {
-        guard let delegate = delegate?.delegate else {
+        guard let delegate = changeStreamType?.delegate else {
             self.close()
             return
         }
 
         do {
             if !delegate.useCompactEvents {
-                guard let changeEvent: ChangeEvent<T> = try event.decodeStitchSSE() else {
+                guard let changeEvent: ChangeEvent<DocumentT> = try event.decodeStitchSSE() else {
                     self.on(error: StitchError.requestError(
                         withError: RuntimeError.internalError(message: "invalid event received from stream"),
                         withRequestErrorCode: .decodingError))
@@ -49,7 +48,7 @@ internal class InternalChangeStreamDelegate<T: Codable>: SSEStreamDelegate {
 
                 delegate.didReceive(event: changeEvent)
             } else {
-                guard let changeEvent: CompactChangeEvent<T> = try event.decodeStitchSSE() else {
+                guard let changeEvent: CompactChangeEvent<DocumentT> = try event.decodeStitchSSE() else {
                     self.on(error: StitchError.requestError(
                         withError: RuntimeError.internalError(message: "invalid event received from stream"),
                         withRequestErrorCode: .decodingError))
@@ -64,7 +63,7 @@ internal class InternalChangeStreamDelegate<T: Codable>: SSEStreamDelegate {
     }
 
     override final public func on(error: Error) {
-        guard let delegate = delegate?.delegate else {
+        guard let delegate = changeStreamType?.delegate else {
             self.close()
             return
         }
@@ -74,7 +73,7 @@ internal class InternalChangeStreamDelegate<T: Codable>: SSEStreamDelegate {
     }
 
     override final public func on(stateChangedFor state: SSEStreamState) {
-        guard let delegate = delegate?.delegate else {
+        guard let delegate = changeStreamType?.delegate else {
             self.close()
             return
         }

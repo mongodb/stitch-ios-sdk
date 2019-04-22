@@ -4,12 +4,12 @@ import Foundation
 /**
  A class representing the possible types of change streams.
 */
-public class ChangeStreamType<T: Codable> {
+public class ChangeStreamType<DocumentT: Codable> {
     internal let useCompactEvents: Bool
-    internal let delegate: AnyChangeStreamDelegate<T>
+    internal let delegate: AnyChangeStreamDelegate<DocumentT>
 
     private init(useCompactEvents: Bool,
-                 delegate: AnyChangeStreamDelegate<T>) {
+                 delegate: AnyChangeStreamDelegate<DocumentT>) {
         self.useCompactEvents = useCompactEvents
         self.delegate = delegate
     }

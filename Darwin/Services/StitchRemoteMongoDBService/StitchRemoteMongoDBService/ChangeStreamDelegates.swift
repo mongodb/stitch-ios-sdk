@@ -125,16 +125,16 @@ public protocol CompactChangeStreamDelegate: class {
     func didClose()
 }
 
-internal class AnyChangeStreamDelegate<T: Codable> {
-    private let _didReceiveFull: ((ChangeEvent<T>) -> Void)?
-    private let _didReceiveCompact: ((CompactChangeEvent<T>) -> Void)?
+internal class AnyChangeStreamDelegate<DocumentT: Codable> {
+    private let _didReceiveFull: ((ChangeEvent<DocumentT>) -> Void)?
+    private let _didReceiveCompact: ((CompactChangeEvent<DocumentT>) -> Void)?
     private let _didReceiveError: (Error) -> Void
     private let _didOpen: () -> Void
     private let _didClose: () -> Void
     internal let useCompactEvents: Bool
 
     init<FullDelegateT: ChangeStreamDelegate>(withDelegate delegate: FullDelegateT)
-        where FullDelegateT.DocumentT == T {
+        where FullDelegateT.DocumentT == DocumentT {
         self._didReceiveFull = delegate.didReceive(event:)
         self._didReceiveError = delegate.didReceive(streamError:)
         self._didOpen = delegate.didOpen
@@ -144,7 +144,7 @@ internal class AnyChangeStreamDelegate<T: Codable> {
     }
 
     init<CompactDelegateT: CompactChangeStreamDelegate>(withDelegate delegate: CompactDelegateT)
-        where CompactDelegateT.DocumentT == T {
+        where CompactDelegateT.DocumentT == DocumentT {
         self._didReceiveCompact = delegate.didReceive(event:)
         self._didReceiveError = delegate.didReceive(streamError:)
         self._didOpen = delegate.didOpen
@@ -153,11 +153,11 @@ internal class AnyChangeStreamDelegate<T: Codable> {
         self.useCompactEvents = true
     }
 
-    func didReceive(event: ChangeEvent<T>) {
+    func didReceive(event: ChangeEvent<DocumentT>) {
         self._didReceiveFull?(event)
     }
 
-    func didReceive(event: CompactChangeEvent<T>) {
+    func didReceive(event: CompactChangeEvent<DocumentT>) {
         self._didReceiveCompact?(event)
     }
 
