@@ -359,6 +359,44 @@ final class CoreDocumentSynchronization: Codable, Hashable {
             default:
                 break
             }
+        case .update:
+            switch newestChangeEvent.operationType {
+            case .update:
+                return ChangeEvent(id: newestChangeEvent.id,
+                                   operationType: .update,
+                                   fullDocument: newestChangeEvent.fullDocument,
+                                   ns: newestChangeEvent.ns,
+                                   documentKey: newestChangeEvent.documentKey,
+                                   updateDescription: lastUncommittedChangeEvent
+                                        .updateDescription?
+                                        .merge(with: newestChangeEvent.updateDescription ??
+                                            UpdateDescription.init(updatedFields: [:],
+                                                                   removedFields: [])),
+                                   hasUncommittedWrites: newestChangeEvent.hasUncommittedWrites)
+            case .replace:
+                return ChangeEvent(id: newestChangeEvent.id,
+                                   operationType: .replace,
+                                   fullDocument: newestChangeEvent.fullDocument,
+                                   ns: newestChangeEvent.ns,
+                                   documentKey: newestChangeEvent.documentKey,
+                                   updateDescription: nil,
+                                   hasUncommittedWrites: newestChangeEvent.hasUncommittedWrites)
+            default:
+                break
+            }
+        case .replace:
+            switch newestChangeEvent.operationType {
+            case .update:
+                return ChangeEvent(id: newestChangeEvent.id,
+                                   operationType: .replace,
+                                   fullDocument: newestChangeEvent.fullDocument,
+                                   ns: newestChangeEvent.ns,
+                                   documentKey: newestChangeEvent.documentKey,
+                                   updateDescription: nil,
+                                   hasUncommittedWrites: newestChangeEvent.hasUncommittedWrites)
+            default:
+                break
+            }
         default:
             break
         }

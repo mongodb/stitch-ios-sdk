@@ -9,26 +9,37 @@ public final class UpdateDescription: Codable {
         case updatedFields, removedFields
     }
 
-    public let updatedFields: Document
-    public let removedFields: [String]
+    public private(set) var updatedFields: Document
+    private var _removedFields: NSOrderedSet
+    public var removedFields: [String] {
+        return _removedFields.compactMap { $0 as? String }
+    }
 
     init(updatedFields: Document,
          removedFields: [String]) {
         self.updatedFields = updatedFields
-        self.removedFields = removedFields
+        self._removedFields = NSOrderedSet.init(array: removedFields)
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         self.updatedFields = try container.decodeIfPresent(Document.self, forKey: .updatedFields) ?? Document()
-        self.removedFields = try container.decodeIfPresent([String].self, forKey: .removedFields) ?? []
+        self._removedFields = NSOrderedSet(array: try container.decodeIfPresent([String].self,
+                                                                                forKey: .removedFields) ?? [])
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encodeIfPresent(self.updatedFields, forKey: .updatedFields)
+        try container.encode(self.removedFields, forKey: .removedFields)
     }
 
     /**
      * Lazily convert this update description to an update document.
      */
-    public lazy var asUpdateDocument: Document = {
+    public var asUpdateDocument: Document {
         var updateDocument = Document()
 
         if self.updatedFields.count > 0 {
@@ -44,7 +55,34 @@ public final class UpdateDescription: Codable {
         }
 
         return updateDocument
-    }()
+    }
+
+    /**
+     Unilaterally merge an update description into this update description.
+     - parameter otherDescription: the update description to merge into this
+     - returns: this merged update description
+     */
+    @discardableResult
+    public func merge(with otherDescription: UpdateDescription) -> UpdateDescription {
+        self.updatedFields = self.updatedFields.filter {
+            !otherDescription.removedFields.contains($0.key)
+        }
+        self._removedFields = NSOrderedSet(array: self.removedFields.filter {
+            return !otherDescription.updatedFields.keys.contains($0)
+        })
+
+        otherDescription.updatedFields.forEach {
+            self.updatedFields[$0.key] = $0.value
+        }
+
+        guard let mutableCopy = self._removedFields.mutableCopy() as? NSMutableOrderedSet else {
+            return self
+        }
+
+        mutableCopy.union(otherDescription._removedFields)
+        self._removedFields = mutableCopy
+        return self
+    }
 }
 
 /**

@@ -1908,4 +1908,43 @@ class SyncIntTests: BaseStitchIntTestCocoaTouch {
         XCTAssertNil(coll.findOne(doc2Filter))
         XCTAssertNil(coll.findOne(doc3Filter))
     }
+
+    func testUpdateUpdateCoalescence() throws {
+        let (remoteColl, coll) = ctx.remoteCollAndSync
+
+        let insertResult = remoteColl.insertOne(["hello": "world"])
+
+        // get the document
+        guard let doc1Id = insertResult?.insertedId else {
+            XCTFail("could not insert doc")
+            return
+        }
+
+        coll.configure(conflictHandler: DefaultConflictHandler<Document>.remoteWins(),
+                       changeEventDelegate: nil,
+                       errorListener: nil)
+
+        coll.sync(ids: [doc1Id])
+
+        try ctx.streamAndSync()
+
+        let filter = ["_id": doc1Id] as Document
+        XCTAssertNotNil(coll.findOne(filter))
+
+        _ = coll.updateOne(filter: filter, update: ["$set": ["a": "foo"] as Document])
+        _ = coll.updateOne(filter: filter, update: ["$set": ["b": "bar"] as Document])
+
+        try ctx.streamAndSync()
+
+        let expectedDoc = [
+            "_id": doc1Id,
+            "hello": "world",
+            "a": "foo",
+            "b": "bar"
+        ] as Document
+
+        XCTAssertEqual(expectedDoc, coll.findOne(filter))
+        XCTAssertEqual(coll.findOne(filter),
+                       SyncIntTestUtilities.withoutSyncVersion(remoteColl.findOne(filter)!))
+    }
 }

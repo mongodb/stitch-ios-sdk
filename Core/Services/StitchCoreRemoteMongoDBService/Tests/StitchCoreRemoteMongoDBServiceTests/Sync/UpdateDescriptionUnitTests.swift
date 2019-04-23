@@ -1,4 +1,5 @@
 // swiftlint:disable function_body_length
+// swiftlint:disable type_body_length
 import Foundation
 import MongoSwift
 import XCTest
@@ -12,6 +13,72 @@ class UpdateDescriptionUnitTests: XCMongoMobileTestCase {
             .db("dublin")
             .collection("restaurants\(ObjectId().hex)")
         super.setUp()
+    }
+
+    func testUpdateDescriptionMerge() {
+        let ud1 = UpdateDescription.init(
+            updatedFields: [
+                "Frodo Baggins": "Hobbit",
+                "Samwise Gamgee": "Hobbit",
+                "Gandalf the Grey": "Istari",
+                "Legolas": "Elf",
+                "Gimli": "Dwarf",
+                "Aragorn": "Human",
+                "Boromir": "Human",
+                "Merry": "Hobbit",
+                "Pippin": "Hobbit"
+            ],
+            removedFields: [])
+
+        let ud2 = UpdateDescription.init(
+            updatedFields: [],
+            removedFields: ["Boromir", "Gandalf the Grey"])
+
+        ud1.merge(with: ud2)
+
+        XCTAssertEqual(ud1.updatedFields, [
+            "Frodo Baggins": "Hobbit",
+            "Samwise Gamgee": "Hobbit",
+            "Legolas": "Elf",
+            "Gimli": "Dwarf",
+            "Aragorn": "Human",
+            "Merry": "Hobbit",
+            "Pippin": "Hobbit"
+        ])
+        XCTAssertEqual(ud1.removedFields, ["Boromir", "Gandalf the Grey"])
+
+        let ud3 = UpdateDescription.init(
+            updatedFields: ["Gandalf the White": "Istari"],
+            removedFields: ["Aragorn"])
+
+        ud1.merge(with: ud3)
+        XCTAssertEqual(ud1.updatedFields, [
+            "Frodo Baggins": "Hobbit",
+            "Samwise Gamgee": "Hobbit",
+            "Legolas": "Elf",
+            "Gimli": "Dwarf",
+            "Merry": "Hobbit",
+            "Pippin": "Hobbit",
+            "Gandalf the White": "Istari"
+        ])
+        XCTAssertEqual(ud1.removedFields, ["Boromir", "Gandalf the Grey", "Aragorn"])
+
+        let ud4 = UpdateDescription.init(
+            updatedFields: ["Aragorn": "King"],
+            removedFields: [])
+
+        ud1.merge(with: ud4)
+        XCTAssertEqual(ud1.updatedFields, [
+            "Frodo Baggins": "Hobbit",
+            "Samwise Gamgee": "Hobbit",
+            "Legolas": "Elf",
+            "Gimli": "Dwarf",
+            "Merry": "Hobbit",
+            "Pippin": "Hobbit",
+            "Gandalf the White": "Istari",
+            "Aragorn": "King"
+        ])
+        XCTAssertEqual(ud1.removedFields, ["Boromir", "Gandalf the Grey"])
     }
 
     func testUpdateDescriptionDiff() throws {

@@ -1973,7 +1973,6 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 options: FindOneAndUpdateOptions.init(returnDocument: .after,
                                                       upsert: options?.upsert)),
                 let documentId = unsanitizedDocumentAfterUpdate[idField] else {
-
                     if let documentIdBeforeUpdate = documentBeforeUpdate?[idField] {
                         try undoColl.deleteOne([idField: documentIdBeforeUpdate])
                     }
@@ -1981,6 +1980,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                     return nil
             }
 
+            print(documentBeforeUpdate)
+            print(unsanitizedDocumentAfterUpdate)
             // Ensure that the update didn't add any forbidden fields to the document, and remove them if
             // it did.
             let documentAfterUpdate =

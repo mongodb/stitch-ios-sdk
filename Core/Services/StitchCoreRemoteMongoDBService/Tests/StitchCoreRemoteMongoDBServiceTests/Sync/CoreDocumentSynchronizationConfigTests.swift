@@ -276,5 +276,63 @@ class CoreDocumentSynchronizationConfigTests: XCMongoMobileTestCase {
             lastUncommittedChangeEvent: lastUncomittedChangeEvent,
             newestChangeEvent: newestChangeEvent)
         XCTAssertEqual(newestChangeEvent, coalesceResult)
+
+        // update -> update should merge update descriptions
+        lastUncomittedChangeEvent = ChangeEvents.changeEventForLocalUpdate(
+            namespace: namespace,
+            documentId: documentId,
+            update: UpdateDescription.init(
+                updatedFields: ["foo": "bar"], removedFields: ["baz"]),
+            fullDocumentAfterUpdate: [:],
+            writePending: true)
+
+        newestChangeEvent = ChangeEvents.changeEventForLocalUpdate(
+            namespace: namespace,
+            documentId: documentId,
+            update: UpdateDescription.init(
+                updatedFields: ["qux": "quux"], removedFields: ["corge"]),
+            fullDocumentAfterUpdate: [:],
+            writePending: true)
+
+        coalesceResult = CoreDocumentSynchronization.coalesceChangeEvents(
+            lastUncommittedChangeEvent: lastUncomittedChangeEvent,
+            newestChangeEvent: newestChangeEvent)
+
+        XCTAssertEqual(["foo": "bar", "qux": "quux"],
+                       coalesceResult.updateDescription?.updatedFields)
+
+        XCTAssertEqual(["baz", "corge"],
+                       coalesceResult.updateDescription?.removedFields)
+
+        lastUncomittedChangeEvent = coalesceResult
+        // update -> replace should be coalesce to replace
+
+        newestChangeEvent = ChangeEvents.changeEventForLocalReplace(
+            namespace: namespace,
+            documentId: documentId,
+            document: ["foo": "bar"],
+            writePending: true)
+
+        coalesceResult = CoreDocumentSynchronization.coalesceChangeEvents(
+            lastUncommittedChangeEvent: lastUncomittedChangeEvent,
+            newestChangeEvent: newestChangeEvent)
+        XCTAssertEqual(newestChangeEvent, coalesceResult)
+
+        lastUncomittedChangeEvent = coalesceResult
+        // replace -> update should coalesce to replace
+
+        newestChangeEvent = ChangeEvents.changeEventForLocalUpdate(
+            namespace: namespace,
+            documentId: documentId,
+            update: UpdateDescription.init(
+                updatedFields: ["qux": "quux"], removedFields: ["corge"]),
+            fullDocumentAfterUpdate: ["foo": "bar", "qux": "quux"],
+            writePending: true)
+
+        coalesceResult = CoreDocumentSynchronization.coalesceChangeEvents(
+            lastUncommittedChangeEvent: lastUncomittedChangeEvent,
+            newestChangeEvent: newestChangeEvent)
+        XCTAssertEqual(coalesceResult.operationType, .replace)
+        XCTAssertEqual(coalesceResult.fullDocument, ["foo": "bar", "qux": "quux"])
     }
 }
