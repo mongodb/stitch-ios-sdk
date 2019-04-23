@@ -46,7 +46,7 @@ target '<Your Target Name>' do
     # optional: for using the AWS service
     pod 'StitchSDK/StitchAWSService', '= 5.1.0'
     # optional: for using the Firebase Cloud Messaging service
-    pod 'StitchFCMService', '= 5.1.0'
+    pod 'StitchSDK/StitchFCMService', '= 5.1.0'
     # optional: for using the HTTP service
     pod 'StitchSDK/StitchHTTPService', '= 5.1.0'
     # optional: for using the twilio service
@@ -95,7 +95,8 @@ See above for the list of optional Stitch service pods that you may add to your 
 5. Run `pod install`.
 6. Open the generated `.xcworkspace` file. Your app project will have all the necessary dependencies configured to communicate with MongoDB Stitch.
 7. To use basic Stitch features, `import StitchCore` in a source file.
-8. To access a remote MongoDB instance via Stitch, `import StitchRemoteMongoDBService` in a source file.
+8. To create BSON documents and BSON values like ObjectId, `import MongoSwift` in a source file.
+9. To access a remote MongoDB instance via Stitch, `import StitchRemoteMongoDBService` in a source file.
 
 #### Using the SDK
 
