@@ -14,7 +14,7 @@ VERSION_PATCH=$(echo $VERSION | cut -d. -f3 | cut -d- -f1)
 VERSION_QUALIFIER=$(echo $VERSION | cut -d- -f2 -s)
 VERSION_QUALIFIER_INC=$(echo $VERSION | cut -d- -f3 -s)
 
-contrib/generate_docs.sh
+contrib/generate_docs.sh analytics
 
 if ! which aws; then
    echo "aws CLI not found. see: https://docs.aws.amazon.com/cli/latest/userguide/installing.html"
