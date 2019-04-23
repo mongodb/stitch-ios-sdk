@@ -1980,8 +1980,6 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                     return nil
             }
 
-            print(documentBeforeUpdate)
-            print(unsanitizedDocumentAfterUpdate)
             // Ensure that the update didn't add any forbidden fields to the document, and remove them if
             // it did.
             let documentAfterUpdate =
