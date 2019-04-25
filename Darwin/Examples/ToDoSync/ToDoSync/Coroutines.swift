@@ -1,6 +1,13 @@
 import Foundation
+<<<<<<< HEAD
 import StitchCoreSDK
 import StitchCore
+||||||| merged common ancestors
+import StitchSDK
+
+=======
+import StitchCore
+>>>>>>> fixes
 
 private let queue = DispatchQueue.init(label: "async_await_queue")
 

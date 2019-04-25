@@ -220,7 +220,7 @@ end
 
 target :StressTestApp do
     project 'Darwin/Examples/StressTestApp/StressTestApp.xcodeproj'
-    pod 'MongoMobile', '= 0.0.7'
+    pod 'MongoMobile', '= 0.1.0'
 end
 
 target :StitchSDK do
