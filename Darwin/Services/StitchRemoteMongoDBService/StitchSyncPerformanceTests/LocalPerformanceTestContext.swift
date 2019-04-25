@@ -28,7 +28,7 @@ class LocalPerformanceTestContext: SyncPerformanceTestContext {
         harness.setUp()
 
         let app = try! harness.createApp()
-        _ = try! harness.addProvider(toApp: app.1, withConfig: ProviderConfigs.anon())
+        _ = try! harness.addProvider(toApp: app.1, withConfig: ProviderConfigs.anon)
         let svc = try! harness.addService(toApp: app.1, withType: "mongodb", withName: "mongodb1",
                                           withConfig: ServiceConfigs.mongodb(name: "mongodb1",
                                                                              uri: harness.mongodbUri))

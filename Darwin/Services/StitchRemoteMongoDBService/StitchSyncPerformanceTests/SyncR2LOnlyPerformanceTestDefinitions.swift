@@ -138,8 +138,7 @@ class SyncR2LOnlyPerformanceTestDefinitions {
                                    runId: ObjectId,
                                    changeEventPercentage: Double,
                                    conflictPercentage: Double) {
-        let testName = "R2L_SyncPass_\(Int(changeEventPercentage * 100))_PctDocsChanged_"
-            + "\(Int(conflictPercentage * 100))_PctDocsConflicts"
+        let testName = "R2L_SyncPass"
 
         var numRemoteDocsChanged: Int?
         testHarness.runPerformanceTestWithParameters(
@@ -209,6 +208,9 @@ class SyncR2LOnlyPerformanceTestDefinitions {
             }
             try SyncPerformanceTestUtils.assertIntsEqualOrThrow(remoteCount, localCount,
                                                                 message: "Number of local documents updated")
-        })
+        }, extraFields: [
+            "percentageChangeEvent": changeEventPercentage,
+            "percentageConflict": conflictPercentage]
+        )
     }
 }

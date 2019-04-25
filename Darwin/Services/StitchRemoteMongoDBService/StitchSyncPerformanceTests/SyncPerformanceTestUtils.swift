@@ -156,7 +156,7 @@ internal class SyncPerformanceTestUtils {
     // of fields we generate in the document will be the desired document size divided by
     // 64. To account for the 5 byte overhead of defining a BSON document, and the 17 bytes
     static func generateDocuments(numDoc: Int, docSize: Int) -> [Document] {
-        return (0..<numDoc).map { _ in
+        return (0 ..< numDoc).map { _ in
             var doc: Document = [self.generateRandomString(len: 7): self.generateRandomString(len: 32)]
             for _ in 0..<(docSize / 64 - 1) {
                 doc[self.generateRandomString(len: 7)] = self.generateRandomString(len: 54)
