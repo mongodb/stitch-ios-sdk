@@ -111,7 +111,7 @@ class ViewController: UIViewController {
                                                            subtype: Binary.Subtype.userDefined)]
                 docs.append(newDoc)
             } catch(let err) {
-                self.log("Failed to make array of documents with err: \(err.localizedDescription)")
+                self.log("Failed to make array of documents with error: \(err.localizedDescription)")
             }
         }
         
