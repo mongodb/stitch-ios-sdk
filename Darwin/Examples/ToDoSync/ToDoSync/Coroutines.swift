@@ -1,6 +1,6 @@
 import Foundation
-import StitchSDK
-
+import StitchCoreSDK
+import StitchCore
 
 private let queue = DispatchQueue.init(label: "async_await_queue")
 

@@ -3,19 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		34C3608EE2150B77671B917E /* Pods_ToDoSync.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7008E4B0B7125658CB02373 /* Pods_ToDoSync.framework */; };
-		4931698E21C982BE004C867C /* StitchRemoteMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4931698D21C982BE004C867C /* StitchRemoteMongoDBService.framework */; };
-		4931699021C982D2004C867C /* StitchCoreRemoteMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4931698F21C982D2004C867C /* StitchCoreRemoteMongoDBService.framework */; };
-		4931699221C98327004C867C /* StitchCoreLocalMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4931699121C98327004C867C /* StitchCoreLocalMongoDBService.framework */; };
 		493A157621D00F1900A04B6A /* TodoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493A157521D00F1900A04B6A /* TodoList.swift */; };
 		4961565521C8963E003C7392 /* TodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4961565421C8963D003C7392 /* TodoItem.swift */; };
 		4961565B21C89AF4003C7392 /* TodoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4961565A21C89AF4003C7392 /* TodoTableViewCell.swift */; };
-		497BD1BB21C9CE8200F90B1E /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 497BD1BA21C9CE8200F90B1E /* StitchCore.framework */; };
-		497BD1BD21C9CE8900F90B1E /* StitchCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 497BD1BC21C9CE8900F90B1E /* StitchCoreSDK.framework */; };
 		499CD1AB21C184F400CB4EBF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499CD1AA21C184F400CB4EBF /* AppDelegate.swift */; };
 		499CD1AD21C184F400CB4EBF /* TodoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499CD1AC21C184F400CB4EBF /* TodoTableViewController.swift */; };
 		499CD1B021C184F400CB4EBF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 499CD1AE21C184F400CB4EBF /* Main.storyboard */; };
@@ -53,11 +48,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				497BD1BD21C9CE8900F90B1E /* StitchCoreSDK.framework in Frameworks */,
-				497BD1BB21C9CE8200F90B1E /* StitchCore.framework in Frameworks */,
-				4931699221C98327004C867C /* StitchCoreLocalMongoDBService.framework in Frameworks */,
-				4931699021C982D2004C867C /* StitchCoreRemoteMongoDBService.framework in Frameworks */,
-				4931698E21C982BE004C867C /* StitchRemoteMongoDBService.framework in Frameworks */,
 				34C3608EE2150B77671B917E /* Pods_ToDoSync.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -199,38 +189,11 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ToDoSync/Pods-ToDoSync-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/MongoSwift/MongoSwift.framework",
-				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework",
-				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework.dSYM",
-				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework",
-				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework.dSYM",
-				"${BUILT_PRODUCTS_DIR}/BEMCheckBox/BEMCheckBox.framework",
-				"${BUILT_PRODUCTS_DIR}/MongoMobile/MongoMobile.framework",
-				"${BUILT_PRODUCTS_DIR}/Toast-Swift/Toast_Swift.framework",
-				"${PODS_ROOT}/mongo_embedded/iPhoneOS/Frameworks/mongo_embedded.framework",
-				"${PODS_ROOT}/mongo_embedded/iPhoneOS/Frameworks/mongo_embedded.framework.dSYM",
-				"${PODS_ROOT}/mongoc_embedded/iPhoneOS/Frameworks/mongoc_embedded.framework",
-				"${PODS_ROOT}/mongoc_embedded/iPhoneOS/Frameworks/mongoc_embedded.framework.dSYM",
+				"${PODS_ROOT}/Target Support Files/Pods-ToDoSync/Pods-ToDoSync-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MongoSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/bson.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/bson.framework.dSYM",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongoc.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/mongoc.framework.dSYM",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BEMCheckBox.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MongoMobile.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast_Swift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongo_embedded.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/mongo_embedded.framework.dSYM",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongoc_embedded.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/mongoc_embedded.framework.dSYM",
+				"${PODS_ROOT}/Target Support Files/Pods-ToDoSync/Pods-ToDoSync-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

@@ -212,7 +212,8 @@ end
 
 target :ToDoSync do
     project 'Darwin/Examples/ToDoSync/ToDoSync.xcodeproj'
-    mongo_mobile
+
+    pod 'StitchSDK', '= 6.0.0'
     pod 'Toast-Swift', '= 4.0.0'
     pod 'BEMCheckBox', '= 1.4.1'
 end
