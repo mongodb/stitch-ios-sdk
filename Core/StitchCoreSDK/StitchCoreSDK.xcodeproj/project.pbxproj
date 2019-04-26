@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -152,6 +152,7 @@
 		491A934A21B323AB00F60F59 /* RawSSEStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawSSEStream.swift; sourceTree = "<group>"; };
 		491A934E21B3248500F60F59 /* FoundationHTTPSSEStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationHTTPSSEStream.swift; sourceTree = "<group>"; };
 		491A935221B334A200F60F59 /* FoundationHTTPEventStreamUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationHTTPEventStreamUnitTests.swift; sourceTree = "<group>"; };
+		49627E6E22730BF40076B9B1 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		498060EC2185B57C00E2A3A2 /* StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4980617E2185B5C600E2A3A2 /* StitchCoreSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StitchCoreSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4980618E2185B5D500E2A3A2 /* StitchCoreSDKMocks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StitchCoreSDKMocks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -379,6 +380,7 @@
 		498061FC2185B6A100E2A3A2 /* StitchCoreSDK */ = {
 			isa = PBXGroup;
 			children = (
+				49627E6E22730BF40076B9B1 /* Info.plist */,
 				498061FD2185B6A100E2A3A2 /* StitchAppClientConfiguration.swift */,
 				498061FE2185B6A100E2A3A2 /* StitchAppClientInfo.swift */,
 				498061FF2185B6A100E2A3A2 /* Auth */,
@@ -809,7 +811,6 @@
 				498060E72185B57C00E2A3A2 /* Headers */,
 				498060E82185B57C00E2A3A2 /* Sources */,
 				498060E92185B57C00E2A3A2 /* Frameworks */,
-				498060EA2185B57C00E2A3A2 /* Resources */,
 				11D465E121D68B0300F0718F /* ShellScript */,
 			);
 			buildRules = (
@@ -903,13 +904,6 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		498060EA2185B57C00E2A3A2 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4980617C2185B5C600E2A3A2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1016,38 +1010,11 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-StitchCoreSDKTests/Pods-StitchCoreSDKTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/MongoSwift/MongoSwift.framework",
-				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework",
-				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework.dSYM",
-				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework",
-				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework.dSYM",
-				"${BUILT_PRODUCTS_DIR}/BlueCryptor/Cryptor.framework",
-				"${BUILT_PRODUCTS_DIR}/BlueECC/CryptorECC.framework",
-				"${BUILT_PRODUCTS_DIR}/BlueRSA/CryptorRSA.framework",
-				"${BUILT_PRODUCTS_DIR}/KituraContracts/KituraContracts.framework",
-				"${BUILT_PRODUCTS_DIR}/LoggerAPI/LoggerAPI.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftJWT/SwiftJWT.framework",
-				"${BUILT_PRODUCTS_DIR}/Swifter/Swifter.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-StitchCoreSDKTests/Pods-StitchCoreSDKTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MongoSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/bson.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/bson.framework.dSYM",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongoc.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/mongoc.framework.dSYM",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cryptor.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptorECC.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptorRSA.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KituraContracts.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LoggerAPI.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftJWT.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Swifter.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-StitchCoreSDKTests/Pods-StitchCoreSDKTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1330,6 +1297,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/StitchCoreSDK/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1357,6 +1325,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/StitchCoreSDK/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (

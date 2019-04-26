@@ -338,26 +338,11 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-StitchFCMServiceTests/Pods-StitchFCMServiceTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/MongoSwift/MongoSwift.framework",
-				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework",
-				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework.dSYM",
-				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework",
-				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework.dSYM",
-				"${BUILT_PRODUCTS_DIR}/Swifter/Swifter.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-StitchFCMServiceTests/Pods-StitchFCMServiceTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MongoSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/bson.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/bson.framework.dSYM",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongoc.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/mongoc.framework.dSYM",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Swifter.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-StitchFCMServiceTests/Pods-StitchFCMServiceTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -564,14 +549,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-					"$(inherited)",
-					"\"$(SRCROOT)/../../../Frameworks/macos\"",
-					"@executable_path/Frameworks",
-				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(inherited) \"$(SRCROOT)/../../../Frameworks/macos\" @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.StitchFCMService;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -624,10 +602,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
 				CODE_SIGN_STYLE = Automatic;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				"FRAMEWORK_SEARCH_PATHS[sdk=macosx10.13]" = (
-					"\"$(SRCROOT)/../../../Frameworks/macos\"",
-					"$(inherited)",
-				);
+				"FRAMEWORK_SEARCH_PATHS[sdk=macosx10.13]" = "\"$(SRCROOT)/../../../Frameworks/macos\" $(inherited)";
 				INFOPLIST_FILE = StitchFCMServiceTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
