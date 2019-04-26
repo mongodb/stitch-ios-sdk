@@ -57,8 +57,8 @@ To avoid getting a lot of linter warnings, make sure the following whitespace se
    project. This command may take a while (1-2 hours).
 
 6. Close XCode if it is already open, and run `contrib/generate_docs.sh`. This
-   generates the Jazzy documentation for the project, and publishes it to the 
-   appropriate AWS S3 bucket.
+   generates the Jazzy documentation for the project. Run `contrib/publish_docs.sh`
+   to generate the documentation and publish it to the appropriate AWS S3 bucket.
 
 7. Publish a release for the new SDK version on the GitHub repository and 
    include relevant release notes. See

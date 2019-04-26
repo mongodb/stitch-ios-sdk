@@ -2,7 +2,6 @@
     "author": "MongoDB",
     "author_url": "https://github.com/mongodb/stitch-ios-sdk",
     "module": "StitchSDK",
-    "theme": "fullwidth",
 
     "documentation":"DocGen/DocsSources/Pages/*.md",
     "abstract":"DocGen/DocsSources/Abstracts/*.md",
