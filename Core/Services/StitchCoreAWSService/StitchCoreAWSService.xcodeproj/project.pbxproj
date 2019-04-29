@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		49627E7122730CC40076B9B1 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 49627E7022730CC40076B9B1 /* Info.plist */; };
 		498062D32185B7C900E2A3A2 /* AWSRequestUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* AWSRequestUnitTests.swift */; };
 		498062D42185B7C900E2A3A2 /* CoreAWSServiceClientUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* CoreAWSServiceClientUnitTests.swift */; };
 		49E6DDC121905B6300AF0582 /* StitchCoreSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49E6DDC021905B6300AF0582 /* StitchCoreSDK.framework */; };
@@ -242,7 +241,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				49627E7122730CC40076B9B1 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
