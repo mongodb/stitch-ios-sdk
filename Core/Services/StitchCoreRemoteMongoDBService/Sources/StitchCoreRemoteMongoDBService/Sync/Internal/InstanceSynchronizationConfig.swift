@@ -81,7 +81,7 @@ final class InstanceSynchronization: Sequence, Codable {
         try instanceLock.read {
             var container = encoder.container(keyedBy: CodingKeys.self)
 
-            try container.encode(1, forKey: .schemaVersion)
+            try container.encode(DataSynchronizer.syncProtocolVersion, forKey: .schemaVersion)
             try container.encode(namespacesColl, forKey: .namespacesColl)
             try container.encode(docsColl, forKey: .docsColl)
         }

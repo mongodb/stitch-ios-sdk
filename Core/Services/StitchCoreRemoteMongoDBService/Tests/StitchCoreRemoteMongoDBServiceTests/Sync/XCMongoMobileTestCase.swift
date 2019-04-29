@@ -203,7 +203,7 @@ class XCMongoMobileTestCase: XCTestCase {
         try nsConfig.nsLock.read {
             let docConfig = nsConfig[documentId]!
 
-            try docConfig.setSomePendingWrites(atTime: dataSynchronizer.logicalT, changeEvent: event)
+            try docConfig.setSomePendingWritesAndSave(atTime: dataSynchronizer.logicalT, changeEvent: event)
         }
     }
 

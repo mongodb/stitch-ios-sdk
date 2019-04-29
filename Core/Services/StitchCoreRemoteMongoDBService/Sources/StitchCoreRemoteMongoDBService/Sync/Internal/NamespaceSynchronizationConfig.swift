@@ -27,8 +27,6 @@ final class NamespaceSynchronization: Sequence, Codable {
 
     /// Standard read-write lock.
     lazy var nsLock: ReadWriteLock = ReadWriteLock(label: "namespace_lock_\(namespace)")
-    /// The collection we are storing document configs in.
-    private let docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization>
     /// The error listener to propagate errors to.
     private weak var errorListener: FatalErrorListener?
     /// The conflict handler configured to this namespace.
@@ -39,6 +37,9 @@ final class NamespaceSynchronization: Sequence, Codable {
     /// The change event listener configured to this namespace.
     private(set) var changeEventDelegate: AnyChangeEventDelegate?
     // swiftlint:enable weak_delegate
+
+    /// The collection we are storing document configs in.
+    let docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization>
 
     var docs = [AnyBSONValue: CoreDocumentSynchronization]()
     let namespace: MongoNamespace

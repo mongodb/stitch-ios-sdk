@@ -4,11 +4,11 @@ import MongoSwift
 import StitchCoreSDK
 
 /**
- Returns a query filter for a document with a given
+ Returns a query filter for a document configuration with a given
  namespace and documentId.
  - parameter namespace: the namespace the document is in
  - parameter documentId: the id of the document
- - returns: a query filter to find a document
+ - returns: a query filter to find a document configuration
  */
 internal func docConfigFilter(forNamespace namespace: MongoNamespace,
                               withDocumentId documentId: AnyBSONValue) -> Document {
@@ -18,6 +18,25 @@ internal func docConfigFilter(forNamespace namespace: MongoNamespace,
     }
     return [CoreDocumentSynchronization.CodingKeys.namespace.rawValue: namespaceDoc,
             CoreDocumentSynchronization.CodingKeys.documentId.rawValue: documentId.value]
+}
+
+/**
+ Returns a query filter for a set of document configurations with a given
+ namespace and documentId.
+ - parameter namespace: the namespace the document is in
+ - parameter documentIds: the ids of the documents
+ - returns: a query filter to find a set document configurations
+ */
+internal func docConfigFilter(forNamespace namespace: MongoNamespace,
+                              withDocumentIds documentIds: [AnyBSONValue]) -> Document {
+    guard let namespaceDoc = try? BSONEncoder().encode(namespace) else {
+        return [CoreDocumentSynchronization.CodingKeys.namespace.rawValue: BSONNull(),
+                CoreDocumentSynchronization.CodingKeys.documentId.rawValue:
+                    ["$in": documentIds.map({$0.value})] as Document]
+    }
+    return [CoreDocumentSynchronization.CodingKeys.namespace.rawValue: namespaceDoc,
+            CoreDocumentSynchronization.CodingKeys.documentId.rawValue:
+                ["$in": documentIds.map({$0.value})] as Document]
 }
 
 /**
@@ -32,11 +51,10 @@ final class CoreDocumentSynchronization: Codable, Hashable {
     enum CodingKeys: String, CodingKey {
         // These are snake_case because we are trying to keep the internal
         // representation consistent across platforms
-        case namespace = "namespace", documentId = "document_id",
-        uncommittedChangeEvent = "last_uncommitted_change_event",
-        lastResolution = "last_resolution", lastKnownRemoteVersion = "last_known_remote_version",
-        isStale = "is_stale", isPaused = "is_paused", schemaVersion = "schema_version"
-        case docsColl = "docs_coll"
+        case namespace = "namespace", documentId = "document_id", lastResolution = "last_resolution",
+        uncommittedChangeEvent = "last_uncommitted_change_event", lastKnownRemoteVersion = "last_known_remote_version",
+        lastKnownHash = "last_known_hash", isStale = "is_stale", isPaused = "is_paused",
+        schemaVersion = "schema_version", docsColl = "docs_coll"
     }
 
     /// The collection we are storing document configs in.
@@ -81,6 +99,18 @@ final class CoreDocumentSynchronization: Codable, Hashable {
         set {
             docLock.assertWriteLocked()
             _lastKnownRemoteVersion = newValue
+        }
+    }
+
+    private var _lastKnownHash: Int64
+    /// The last known hash.
+    private(set) var lastKnownHash: Int64 {
+        get {
+            return docLock.read { _lastKnownHash }
+        }
+        set {
+            docLock.assertWriteLocked()
+            _lastKnownHash = newValue
         }
     }
 
@@ -145,6 +175,13 @@ final class CoreDocumentSynchronization: Codable, Hashable {
         return uncommittedChangeEvent != nil
     }
 
+    /// Returns this document configuration encoded as a Document.
+    public var asDocument: Document? {
+        return docLock.read {
+            return try? BSONEncoder().encode(self)
+        }
+    }
+
     init(docsColl: ThreadSafeMongoCollection<CoreDocumentSynchronization>,
          namespace: MongoNamespace,
          documentId: AnyBSONValue,
@@ -155,6 +192,7 @@ final class CoreDocumentSynchronization: Codable, Hashable {
         self._uncommittedChangeEvent = nil
         self._lastResolution = 0
         self._lastKnownRemoteVersion = nil
+        self._lastKnownHash = 0
         self._isStale = false
         self._isPaused = false
         self.errorListener = errorListener
@@ -165,7 +203,7 @@ final class CoreDocumentSynchronization: Codable, Hashable {
 
         // verify schema version
         let schemaVersion = try values.decode(Int32.self, forKey: .schemaVersion)
-        if schemaVersion != 1 {
+        if schemaVersion != DataSynchronizer.syncProtocolVersion {
             throw DataSynchronizerError.decodingError(
                 "unexpected schema version \(schemaVersion) for CoreDocumentSynchronization")
         }
@@ -175,6 +213,13 @@ final class CoreDocumentSynchronization: Codable, Hashable {
         if let lastKnownRemoteVersion =
             try values.decodeIfPresent(Document.self, forKey: .lastKnownRemoteVersion) {
             self._lastKnownRemoteVersion = lastKnownRemoteVersion
+        }
+
+        if let lastKnownHash =
+            try values.decodeIfPresent(Int64.self, forKey: .lastKnownHash) {
+            self._lastKnownHash = lastKnownHash
+        } else {
+            self._lastKnownHash = 0
         }
 
         if let eventBin = try values.decodeIfPresent(Binary.self, forKey: .uncommittedChangeEvent) {
@@ -198,7 +243,7 @@ final class CoreDocumentSynchronization: Codable, Hashable {
         try container.encode(documentId, forKey: .documentId)
 
         // verify schema version
-        try container.encode(1 as Int32, forKey: .schemaVersion)
+        try container.encode(DataSynchronizer.syncProtocolVersion, forKey: .schemaVersion)
 
         try container.encode(namespace, forKey: .namespace)
         try container.encode(_lastResolution, forKey: .lastResolution)
@@ -215,6 +260,7 @@ final class CoreDocumentSynchronization: Codable, Hashable {
             )
         }
 
+        try container.encode(_lastKnownHash, forKey: .lastKnownHash)
         try container.encode(_isStale, forKey: .isStale)
         try container.encode(_isPaused, forKey: .isPaused)
         try container.encode(docsColl, forKey: .docsColl)
@@ -227,8 +273,8 @@ final class CoreDocumentSynchronization: Codable, Hashable {
      - parameter atTime: the time at which the write occurred.
      - parameter changeEvent: the description of the write/change.
      */
-    func setSomePendingWrites(atTime: Int64,
-                              changeEvent: ChangeEvent<Document>) throws {
+    func setSomePendingWritesAndSave(atTime: Int64,
+                                     changeEvent: ChangeEvent<Document>) throws {
         // if we were frozen
         if self.isPaused {
             // unfreeze the document due to the local write
@@ -258,15 +304,13 @@ final class CoreDocumentSynchronization: Codable, Hashable {
      */
     func setSomePendingWrites(atTime: Int64,
                               atVersion: Document?,
-                              changeEvent: ChangeEvent<Document>) throws {
-        try docLock.write {
+                              atHash: Int64,
+                              changeEvent: ChangeEvent<Document>) {
+         docLock.write {
             self.uncommittedChangeEvent = changeEvent
             self.lastResolution = atTime
             self.lastKnownRemoteVersion = atVersion
-
-            try docsColl.replaceOne(filter: docConfigFilter(forNamespace: namespace,
-                                                            withDocumentId: documentId),
-                                    replacement: self)
+            self.lastKnownHash = atHash
         }
     }
 
@@ -277,32 +321,11 @@ final class CoreDocumentSynchronization: Codable, Hashable {
 
      - parameter atVersion: the version for which the write as completed on
      */
-    func setPendingWritesComplete(atVersion: Document?) throws {
-        try docLock.write {
+    func setPendingWritesComplete(atHash: Int64, atVersion: Document?) {
+        docLock.write {
             self.uncommittedChangeEvent = nil
             self.lastKnownRemoteVersion = atVersion
-
-            try docsColl.replaceOne(filter: docConfigFilter(forNamespace: namespace,
-                                                            withDocumentId: documentId),
-                                    replacement: self)
-        }
-    }
-
-    /**
-     Whether or not the last known remote version is equal to a given version.
-     - parameter versionInfo: A version to compare against the last known remote version
-     - returns: true if this config has the given committed version, false if not
-     */
-    public func hasCommittedVersion(versionInfo: DocumentVersionInfo?) throws -> Bool {
-        return try docLock.read {
-            let localVersionInfo = try DocumentVersionInfo.fromVersionDoc(versionDoc: self.lastKnownRemoteVersion)
-            if let newVersion = versionInfo?.version, let localVersion = localVersionInfo.version {
-                return (newVersion.syncProtocolVersion == localVersion.syncProtocolVersion)
-                    && (newVersion.instanceId == localVersion.instanceId)
-                    && (newVersion.versionCounter <= localVersion.versionCounter)
-            }
-
-            return false
+            self.lastKnownHash = atHash
         }
     }
 

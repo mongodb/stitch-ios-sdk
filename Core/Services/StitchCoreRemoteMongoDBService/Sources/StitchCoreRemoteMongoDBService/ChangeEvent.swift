@@ -98,4 +98,11 @@ public struct ChangeEvent<DocumentT: Codable>: Codable, Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
+
+    public func withoutUncommittedWrites() -> ChangeEvent<DocumentT> {
+        return ChangeEvent<DocumentT>(
+            id: self.id, operationType: self.operationType, fullDocument: self.fullDocument, ns: self.ns,
+            documentKey: self.documentKey, updateDescription: self.updateDescription, hasUncommittedWrites: false
+        )
+    }
 }

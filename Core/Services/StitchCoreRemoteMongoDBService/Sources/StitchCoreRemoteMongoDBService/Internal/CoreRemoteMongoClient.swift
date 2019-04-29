@@ -55,7 +55,7 @@ public class CoreRemoteMongoClient: StitchServiceBinder {
                         ref.close()
                         return $0
                     }
-                    self.dataSynchronizer.reinitialize(appInfo: appInfo)
+                    self.dataSynchronizer.reinitialize()
                 } else {
                     self.dataSynchronizer.stop()
                 }

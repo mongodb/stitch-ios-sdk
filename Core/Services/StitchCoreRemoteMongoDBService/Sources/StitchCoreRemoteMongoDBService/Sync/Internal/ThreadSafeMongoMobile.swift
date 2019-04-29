@@ -101,6 +101,12 @@ class ThreadSafeMongoCollection<T: Codable>: Codable {
         }
     }
 
+    func bulkWrite(_ requests: [WriteModel], options: BulkWriteOptions? = nil) throws -> BulkWriteResult? {
+        return try lock.write {
+            return try underlyingCollection().bulkWrite(requests, options: options)
+        }
+    }
+
     func count(_ filter: Document = Document(), options: CountOptions? = nil) throws -> Int {
         return try lock.write {
             return try underlyingCollection().count(filter, options: options)

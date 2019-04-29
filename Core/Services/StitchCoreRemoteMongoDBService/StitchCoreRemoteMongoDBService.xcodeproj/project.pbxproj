@@ -45,6 +45,10 @@
 		49FA2789219B748300F9E3D4 /* UpdateDescriptionUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA2788219B748300F9E3D4 /* UpdateDescriptionUnitTests.swift */; };
 		49FA278B219B839F00F9E3D4 /* ChangeEventListenerUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA278A219B839F00F9E3D4 /* ChangeEventListenerUnitTests.swift */; };
 		49FA278D219B84F400F9E3D4 /* DocumentVersionInfoUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA278C219B84F400F9E3D4 /* DocumentVersionInfoUnitTests.swift */; };
+		91BF6CD32264FEF90034B59C /* HashUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91BF6CD22264FEF90034B59C /* HashUtils.swift */; };
+		91DB43A0226E1F7C005A549E /* EventDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DB439F226E1F7C005A549E /* EventDispatcher.swift */; };
+		91E93FF62266656F002C0DB8 /* HashUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E93FF52266656F002C0DB8 /* HashUtilsTests.swift */; };
+		91E93FF822666E89002C0DB8 /* WriteModelContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E93FF722666E89002C0DB8 /* WriteModelContainer.swift */; };
 		D6D7930046A12C074CD77BDD /* Pods_StitchCoreRemoteMongoDBService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F235E164A012D569D890610 /* Pods_StitchCoreRemoteMongoDBService.framework */; };
 		OBJ_168 /* CoreRemoteMongoClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* CoreRemoteMongoClient.swift */; };
 		OBJ_169 /* CoreRemoteMongoCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* CoreRemoteMongoCollection.swift */; };
@@ -121,6 +125,10 @@
 		709AA19060D3B86D29BEB64E /* Pods_StitchCoreRemoteMongoDBServiceTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreRemoteMongoDBServiceTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7996BF2D43C5B862F229A1B4 /* Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService-StitchCoreRemoteMongoDBServiceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService-StitchCoreRemoteMongoDBServiceTests.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService-StitchCoreRemoteMongoDBServiceTests/Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService-StitchCoreRemoteMongoDBServiceTests.release.xcconfig"; sourceTree = "<group>"; };
 		7DACA4B4DE536C643AE7BB93 /* Pods-StitchCoreRemoteMongoDBServiceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreRemoteMongoDBServiceTests.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreRemoteMongoDBServiceTests/Pods-StitchCoreRemoteMongoDBServiceTests.release.xcconfig"; sourceTree = "<group>"; };
+		91BF6CD22264FEF90034B59C /* HashUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashUtils.swift; sourceTree = "<group>"; };
+		91DB439F226E1F7C005A549E /* EventDispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDispatcher.swift; sourceTree = "<group>"; };
+		91E93FF52266656F002C0DB8 /* HashUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashUtilsTests.swift; sourceTree = "<group>"; };
+		91E93FF722666E89002C0DB8 /* WriteModelContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteModelContainer.swift; sourceTree = "<group>"; };
 		9F235E164A012D569D890610 /* Pods_StitchCoreRemoteMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreRemoteMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1C6CB58888182B5A49347E5 /* Pods-StitchCoreRemoteMongoDBService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreRemoteMongoDBService.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreRemoteMongoDBService/Pods-StitchCoreRemoteMongoDBService.release.xcconfig"; sourceTree = "<group>"; };
 		OBJ_12 /* CoreRemoteMongoClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreRemoteMongoClient.swift; sourceTree = "<group>"; };
@@ -196,6 +204,9 @@
 				4943FC622196591F00DED08C /* CoreDocumentSynchronizationConfig.swift */,
 				491F9B4F21A372B500802A4D /* CoreRemoteMongoClientFactory.swift */,
 				116A1285221F5CBD00F83FEE /* BlockableDispatchGroup.swift */,
+				91BF6CD22264FEF90034B59C /* HashUtils.swift */,
+				91E93FF722666E89002C0DB8 /* WriteModelContainer.swift */,
+				91DB439F226E1F7C005A549E /* EventDispatcher.swift */,
 			);
 			path = Internal;
 			sourceTree = "<group>";
@@ -227,6 +238,7 @@
 				49FA277C219A605700F9E3D4 /* ConflictHandlerUnitTests.swift */,
 				49FA278A219B839F00F9E3D4 /* ChangeEventListenerUnitTests.swift */,
 				49FA278C219B84F400F9E3D4 /* DocumentVersionInfoUnitTests.swift */,
+				91E93FF52266656F002C0DB8 /* HashUtilsTests.swift */,
 			);
 			path = Sync;
 			sourceTree = "<group>";
@@ -515,6 +527,7 @@
 				4943FC6F219724E800DED08C /* DocumentVersionInfo.swift in Sources */,
 				11C4E8D72224C6190020A922 /* ChangeEvents.swift in Sources */,
 				49037A44219E0ECD0066E109 /* ErrorListener.swift in Sources */,
+				91DB43A0226E1F7C005A549E /* EventDispatcher.swift in Sources */,
 				498DF58B219F7393009F1B3F /* Log.swift in Sources */,
 				OBJ_170 /* CoreRemoteMongoCursor.swift in Sources */,
 				OBJ_171 /* CoreRemoteMongoDatabase.swift in Sources */,
@@ -525,12 +538,14 @@
 				4943FC5D2196508100DED08C /* MongoNamespace.swift in Sources */,
 				4943FC61219650A200DED08C /* UpdateDescription.swift in Sources */,
 				1E56167B222D8F600047927C /* RemoteFindOneAndModifyOptions.swift in Sources */,
+				91BF6CD32264FEF90034B59C /* HashUtils.swift in Sources */,
 				OBJ_175 /* RemoteFindOptions.swift in Sources */,
 				498DF58F219F73B4009F1B3F /* CoreSync.swift in Sources */,
 				491A934721B3227400F60F59 /* InstanceChangeStreamDelegate.swift in Sources */,
 				OBJ_176 /* RemoteInsertManyResult.swift in Sources */,
 				4961564B21C7E802003C7392 /* ThreadSafeMongoMobile.swift in Sources */,
 				49E8957B21991C1A003C3758 /* NamespaceSynchronizationConfig.swift in Sources */,
+				91E93FF822666E89002C0DB8 /* WriteModelContainer.swift in Sources */,
 				491A934921B3234D00F60F59 /* NamespaceChangeStreamDelegate.swift in Sources */,
 				OBJ_177 /* RemoteInsertOneResult.swift in Sources */,
 				498DF58D219F73AD009F1B3F /* DataSynchronizer.swift in Sources */,
@@ -553,6 +568,7 @@
 				OBJ_200 /* CoreRemoteMongoClientUnitTests.swift in Sources */,
 				49FA277D219A605700F9E3D4 /* ConflictHandlerUnitTests.swift in Sources */,
 				49FA2789219B748300F9E3D4 /* UpdateDescriptionUnitTests.swift in Sources */,
+				91E93FF62266656F002C0DB8 /* HashUtilsTests.swift in Sources */,
 				49FA278D219B84F400F9E3D4 /* DocumentVersionInfoUnitTests.swift in Sources */,
 				49FA278B219B839F00F9E3D4 /* ChangeEventListenerUnitTests.swift in Sources */,
 				49FA2781219B2A8900F9E3D4 /* NamespaceSynchronizationConfigTests.swift in Sources */,

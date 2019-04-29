@@ -34,13 +34,19 @@ public enum DataSynchronizerError: Error, CustomStringConvertible {
         that occur in the user's delegate class or
         callback.
     */
-    case resolutionError(_ error: Error)
+    case resolutionError(_ message: String, _ error: Error)
     /**
         A special type of error related to irrecoverable
         issues during the synchronization process. This
         will stop the DataSynchronizer.
     */
     case fatalError(_ error: Error)
+    /**
+        An error that occurs when for one reason or another
+        we can't determine what went wrong. Indicates a logic
+        error elsewhere in the SDK.
+     */
+    case unknownError(_ message: String)
 
     public var description: String {
         switch self {
@@ -54,8 +60,10 @@ public enum DataSynchronizerError: Error, CustomStringConvertible {
             return msg
         case .mongoDBError(let msg, let error):
             return "\(msg)::\(error.localizedDescription)"
-        case .resolutionError(let err):
-            return err.localizedDescription
+        case .resolutionError(let msg, let err):
+            return "\(msg)::\(err.localizedDescription)"
+        case .unknownError(let msg):
+            return msg
         }
     }
 
