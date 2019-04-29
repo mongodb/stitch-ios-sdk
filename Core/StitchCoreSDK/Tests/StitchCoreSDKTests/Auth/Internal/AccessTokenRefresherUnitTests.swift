@@ -10,7 +10,8 @@ import SwiftJWT
 var ufreshJWT = JWT<ClaimsStandardJWT>.init(claims: ClaimsStandardJWT.init(exp: Date().addingTimeInterval(20 * 60)))
 let freshJWT = try! ufreshJWT.sign(using: JWTSigner.hs256(key: "secret".data(using: .utf8)!))
 
-var uexpiredJWT = JWT<ClaimsStandardJWT>.init(claims: ClaimsStandardJWT.init(exp: Date().addingTimeInterval(-(Date.init().timeIntervalSince1970 - 10000.0))))
+var uexpiredJWT = JWT<ClaimsStandardJWT>.init(claims:
+    ClaimsStandardJWT.init(exp: Date().addingTimeInterval(-(Date.init().timeIntervalSince1970 - 10000.0))))
 let expiredJWT = try! uexpiredJWT.sign(using: JWTSigner.hs256(key: "secret".data(using: .utf8)!))
 
 final class StubUser: CoreStitchUser {
