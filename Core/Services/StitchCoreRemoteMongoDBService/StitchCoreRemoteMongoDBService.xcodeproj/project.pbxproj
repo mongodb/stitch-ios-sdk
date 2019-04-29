@@ -36,6 +36,7 @@
 		498E55D22190A08400A02A03 /* StitchCoreSDKMocks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498E55D12190A08400A02A03 /* StitchCoreSDKMocks.framework */; };
 		499C69BA226E7020003134F1 /* CompactChangeEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499C69B9226E7020003134F1 /* CompactChangeEvent.swift */; };
 		499C69BC226E7047003134F1 /* BaseChangeEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499C69BB226E7047003134F1 /* BaseChangeEvent.swift */; };
+		499C69BE226E7389003134F1 /* SyncFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499C69BD226E7389003134F1 /* SyncFrequency.swift */; };
 		499CD19B21BDFDFC00CB4EBF /* DataSynchronizerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499CD19A21BDFDFC00CB4EBF /* DataSynchronizerError.swift */; };
 		49C8C2F32266593600371839 /* CompactChangeEventUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C8C2F22266593600371839 /* CompactChangeEventUnitTests.swift */; };
 		49E8957B21991C1A003C3758 /* NamespaceSynchronizationConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E8957A21991C1A003C3758 /* NamespaceSynchronizationConfig.swift */; };
@@ -110,6 +111,7 @@
 		498E55D12190A08400A02A03 /* StitchCoreSDKMocks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreSDKMocks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		499C69B9226E7020003134F1 /* CompactChangeEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactChangeEvent.swift; sourceTree = "<group>"; };
 		499C69BB226E7047003134F1 /* BaseChangeEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseChangeEvent.swift; sourceTree = "<group>"; };
+		499C69BD226E7389003134F1 /* SyncFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SyncFrequency.swift; path = Sources/StitchCoreRemoteMongoDBService/Sync/internal/SyncFrequency.swift; sourceTree = SOURCE_ROOT; };
 		499CD19A21BDFDFC00CB4EBF /* DataSynchronizerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSynchronizerError.swift; sourceTree = "<group>"; };
 		49C8C2F22266593600371839 /* CompactChangeEventUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactChangeEventUnitTests.swift; sourceTree = "<group>"; };
 		49E8957A21991C1A003C3758 /* NamespaceSynchronizationConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamespaceSynchronizationConfig.swift; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 			isa = PBXGroup;
 			children = (
 				4943FC6E219724E800DED08C /* DocumentVersionInfo.swift */,
+				499C69BD226E7389003134F1 /* SyncFrequency.swift */,
 				498DF58A219F7392009F1B3F /* Log.swift */,
 				4961564A21C7E802003C7392 /* ThreadSafeMongoMobile.swift */,
 				498DF58E219F73B4009F1B3F /* CoreSync.swift */,
@@ -529,6 +532,7 @@
 				OBJ_173 /* RemoteCountOptions.swift in Sources */,
 				499CD19B21BDFDFC00CB4EBF /* DataSynchronizerError.swift in Sources */,
 				OBJ_174 /* RemoteDeleteResult.swift in Sources */,
+				499C69BE226E7389003134F1 /* SyncFrequency.swift in Sources */,
 				4943FC5D2196508100DED08C /* MongoNamespace.swift in Sources */,
 				4943FC61219650A200DED08C /* UpdateDescription.swift in Sources */,
 				1E56167B222D8F600047927C /* RemoteFindOneAndModifyOptions.swift in Sources */,
