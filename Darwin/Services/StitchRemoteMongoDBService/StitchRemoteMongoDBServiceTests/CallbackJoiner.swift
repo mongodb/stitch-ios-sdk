@@ -126,9 +126,8 @@ class ThrowingCallbackJoiner {
         }
 
         guard _capturedValue is T? else {
-            fatalError(
-                "Could not unwrap captured value of type " +
-                "\(String(describing: _capturedValue.self)) as \(type)")
+            throw "Could not unwrap captured value of type " +
+            "\(String(describing: _capturedValue.self)) as \(type)"
         }
         return _capturedValue as? T
     }

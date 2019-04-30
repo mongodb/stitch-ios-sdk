@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -24,6 +24,8 @@
 		1E719B5522552CAC000F93A2 /* StreamJoiner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E719B5422552CAC000F93A2 /* StreamJoiner.swift */; };
 		1E719B5722552F17000F93A2 /* RemoteMongoCollection+SynchronousCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E719B5622552F17000F93A2 /* RemoteMongoCollection+SynchronousCRUD.swift */; };
 		1E719B5B2255344B000F93A2 /* SyncIntTestUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E719B5A2255344B000F93A2 /* SyncIntTestUtilities.swift */; };
+		1E904CF4227895AA00AB7FF8 /* SyncPerformanceTestsConstants.h in Sources */ = {isa = PBXBuildFile; fileRef = 1EA9FF582254148A007B857B /* SyncPerformanceTestsConstants.h */; };
+		1E904CF6227895DF00AB7FF8 /* SyncR2LOnlyPerformanceTestDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E904CF5227895DF00AB7FF8 /* SyncR2LOnlyPerformanceTestDefinitions.swift */; };
 		1EBF3921225EA3A7005C6788 /* SyncIntTestUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E719B5A2255344B000F93A2 /* SyncIntTestUtilities.swift */; };
 		1EBF3923225EA4B5005C6788 /* SyncPerformanceTestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBF3922225EA4B5005C6788 /* SyncPerformanceTestUtils.swift */; };
 		1EFCDFFC225F880C00BDAEB0 /* RemoteMongoCollection+SynchronousCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E719B5622552F17000F93A2 /* RemoteMongoCollection+SynchronousCRUD.swift */; };
@@ -121,6 +123,7 @@
 		1E719B5622552F17000F93A2 /* RemoteMongoCollection+SynchronousCRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteMongoCollection+SynchronousCRUD.swift"; sourceTree = "<group>"; };
 		1E719B5822552FE4000F93A2 /* SyncTestContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncTestContext.swift; sourceTree = "<group>"; };
 		1E719B5A2255344B000F93A2 /* SyncIntTestUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncIntTestUtilities.swift; sourceTree = "<group>"; };
+		1E904CF5227895DF00AB7FF8 /* SyncR2LOnlyPerformanceTestDefinitions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncR2LOnlyPerformanceTestDefinitions.swift; sourceTree = "<group>"; };
 		1EA9FF582254148A007B857B /* SyncPerformanceTestsConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SyncPerformanceTestsConstants.h; sourceTree = "<group>"; };
 		1EBF391F225EA24B005C6788 /* MongoSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MongoSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EBF3922225EA4B5005C6788 /* SyncPerformanceTestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncPerformanceTestUtils.swift; sourceTree = "<group>"; };
@@ -289,6 +292,7 @@
 		494566AD2258BB4E00386E79 /* StitchSyncPerformanceTests */ = {
 			isa = PBXGroup;
 			children = (
+				1E904CF5227895DF00AB7FF8 /* SyncR2LOnlyPerformanceTestDefinitions.swift */,
 				494566B02258BB4E00386E79 /* Info.plist */,
 				1160C94E224BD12700BC0CDA /* FoundationInstrumentedHTTPTransport.swift */,
 				1160C950224BFCA800BC0CDA /* FoundationInstrumentedHTTPTransportIntTests.swift */,
@@ -601,6 +605,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E904CF4227895AA00AB7FF8 /* SyncPerformanceTestsConstants.h in Sources */,
 				1EFCDFFC225F880C00BDAEB0 /* RemoteMongoCollection+SynchronousCRUD.swift in Sources */,
 				1EBF3921225EA3A7005C6788 /* SyncIntTestUtilities.swift in Sources */,
 				494566C6225B676F00386E79 /* StreamJoiner.swift in Sources */,
@@ -613,6 +618,7 @@
 				494566BD2258BC3400386E79 /* SyncPerformanceIntTestHarness.swift in Sources */,
 				494566BB2258BC3400386E79 /* LocalPerformanceTestContext.swift in Sources */,
 				494566BC2258BC3400386E79 /* FoundationInstrumentedHTTPTransport.swift in Sources */,
+				1E904CF6227895DF00AB7FF8 /* SyncR2LOnlyPerformanceTestDefinitions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
