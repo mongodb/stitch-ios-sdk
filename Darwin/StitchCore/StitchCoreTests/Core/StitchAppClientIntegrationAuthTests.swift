@@ -1,15 +1,25 @@
 // swiftlint:disable function_body_length
 // swiftlint:disable type_body_length
+// swiftlint:disable force_try
 // swiftlint:disable cyclomatic_complexity
 
 import Foundation
 import XCTest
-import JWT
+import SwiftJWT
 import StitchCoreSDK
 import MongoSwift
 @testable import StitchCore
 
 class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
+    private struct CustomMetadataClaim: Claims {
+        var aud: String?
+        var nbf: Date?
+        var iat: Date?
+        var exp: Date?
+        var sub: String?
+        var stitch_meta: [String: String]?
+    }
+
     private func verifyBasicAuthInfo(loggedInList: [Bool],
                                      loggedIn: Bool,
                                      expectedProviderType: StitchProviderType? = nil,
@@ -84,20 +94,21 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
     }
 
     func testCustomLogin() throws {
-        let jwt = JWT.encode(JWT.Algorithm.hs256(
-            "abcdefghijklmnopqrstuvwxyz1234567890".data(using: .utf8)!)
-        ) { (builder: JWT.ClaimSetBuilder) in
-            builder.audience = harness.testApp?.clientAppID
-            builder.notBefore = Date()
-            builder.issuedAt = Date()
-            builder.expiration = Date().addingTimeInterval(TimeInterval(60 * 5))
-            builder["sub"] = "uniqueUserID"
-            builder["stitch_meta"] = [
-                "email": "name@example.com",
+        let customClaim = CustomMetadataClaim.init(
+            aud: harness.testApp?.clientAppID ?? "noAppIdPresent",
+            nbf: Date(),
+            iat: Date(),
+            exp: Date().addingTimeInterval(TimeInterval(60 * 5)),
+            sub: "uniqueUserID",
+            stitch_meta: [
                 "name": "Joe Bloggs",
-                "picture_url": "https://goo.gl/xqR6Jd"
-            ]
-        }
+                "picture_url": "https://goo.gl/xqR6Jd",
+                "email": "name@example.com"
+            ])
+
+        var unsignedJwt = JWT<CustomMetadataClaim>.init(claims: customClaim)
+        let jwt = try! unsignedJwt.sign(using:
+            JWTSigner.hs256(key: "abcdefghijklmnopqrstuvwxyz1234567890".data(using: .utf8)!))
 
         _ = self.harness.addDefaultCustomTokenProvider()
 
@@ -123,8 +134,8 @@ class StitchAppClientIntegrationAuthTests: StitchIntegrationTestCase {
                     expectedUserIndex: 1)
 
                 exp1.fulfill()
-            case .failure:
-                XCTFail("unexpected error")
+            case .failure(let err):
+                XCTFail("unexpected error: \(err)")
             }
         }
         wait(for: [exp1], timeout: defaultTimeoutSeconds)

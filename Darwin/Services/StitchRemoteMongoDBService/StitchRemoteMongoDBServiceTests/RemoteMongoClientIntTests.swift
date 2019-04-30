@@ -1822,8 +1822,8 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         // should receive an event for one document
         exp = expectation(description: "should receive an event for one document")
         testDelegate.expectCompactEvent { event in
-            XCTAssertTrue(bsonEquals(event.documentKey["_id"], doc1["_id"]))
-            XCTAssertTrue(bsonEquals(doc1, event.fullDocument))
+            XCTAssertTrue(event.documentKey["_id"]!.bsonEquals(doc1["_id"]))
+            XCTAssertTrue(doc1.bsonEquals(event.fullDocument))
 
             XCTAssertEqual(event.operationType, OperationType.insert)
             XCTAssertNotNil(event.stitchDocumentHash)
@@ -1840,7 +1840,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         ]
         exp = expectation(description: "should receive more events for a single document")
         testDelegate.expectCompactEvent { event in
-            XCTAssertTrue(bsonEquals(event.documentKey["_id"], doc1["_id"]))
+            XCTAssertTrue(event.documentKey["_id"]!.bsonEquals(doc1["_id"]))
             XCTAssertNil(event.fullDocument)
 
             XCTAssertEqual(event.operationType, OperationType.update)
@@ -1881,8 +1881,8 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
         exp = expectation(description: "doc2 inserted")
         testDelegate.expectCompactEvent { event in
-            XCTAssertTrue(bsonEquals(event.documentKey["_id"]!, 42))
-            XCTAssertTrue(bsonEquals(event.fullDocument, doc2))
+            XCTAssertTrue(event.documentKey["_id"]!.bsonEquals(42))
+            XCTAssertTrue(event.fullDocument!.bsonEquals(doc2))
             XCTAssertEqual(event.operationType, OperationType.insert)
             XCTAssertNotNil(event.stitchDocumentHash)
             XCTAssertNil(event.stitchDocumentVersion)
@@ -1893,8 +1893,8 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
 
         exp = expectation(description: "doc3 inserted")
         testDelegate.expectCompactEvent { event in
-            XCTAssertTrue(bsonEquals(event.documentKey["_id"]!, "blah"))
-            XCTAssertTrue(bsonEquals(event.fullDocument, doc3))
+            XCTAssertTrue(event.documentKey["_id"]!.bsonEquals("blah"))
+            XCTAssertTrue(event.fullDocument!.bsonEquals(doc3))
             XCTAssertEqual(event.operationType, OperationType.insert)
             XCTAssertNotNil(event.stitchDocumentHash)
             exp.fulfill()
@@ -2143,7 +2143,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         }
 
         XCTAssertEqual("b", actualDoc["a"] as? String)
-        XCTAssert(bsonEquals(insertOneResult?.insertedId ?? nil, actualDoc["_id"]))
+        XCTAssert((insertOneResult?.insertedId!.bsonEquals(actualDoc["_id"]))!)
         XCTAssertEqual("world", actualDoc["hello"] as? String)
         XCTAssertFalse(actualDoc.hasKey(documentVersionField))
         XCTAssertNil(cursor.next())
@@ -2180,7 +2180,7 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         }
 
         XCTAssertEqual("b", actualDoc["a"] as? String)
-        XCTAssert(bsonEquals(insertManyResult?.insertedIds[0] ?? nil, actualDoc["_id"]))
+        XCTAssert((insertManyResult?.insertedIds[0]!!.bsonEquals(actualDoc["_id"]))!)
         XCTAssertEqual("world", actualDoc["hello"] as? String)
         XCTAssertFalse(actualDoc.hasKey(documentVersionField))
         XCTAssertNotNil(cursor.next())

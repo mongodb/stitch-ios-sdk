@@ -23,7 +23,8 @@ class DocumentVersionInfoUnitTests: XCTestCase {
         XCTAssertEqual(documentVersion.version?.instanceId,
                        versionDocument[DocumentVersionInfo.Version.CodingKeys.instanceId.rawValue] as? String)
         XCTAssertEqual(documentVersion.version?.versionCounter,
-                       (versionDocument[DocumentVersionInfo.Version.CodingKeys.versionCounter.rawValue] as? BSONNumber)?.int64Value)
+                       (versionDocument[DocumentVersionInfo.Version.CodingKeys.versionCounter.rawValue]
+                        as? BSONNumber)?.int64Value)
 
         XCTAssertEqual(versionDocument, documentVersion.versionDoc)
 

@@ -92,17 +92,17 @@ SPEC CHECKSUMS:
   mongoc_embedded: 41aadbb756b07070d6f0471192a84750cb42c580
   MongoMobile: 988e8d2fd322761d6358570dde8a2b3d44801823
   MongoSwift: e20f86eae1beb06bbba49c2d73bb570961cc4c85
-  StitchCore: 51833589a41b1ee8ddcf34f189facb2c7fc5bb4a
-  StitchCoreLocalMongoDBService: 60efc99ee99579b6fdbca6cd4a4f1adcc76b4069
-  StitchCoreRemoteMongoDBService: b258558ae9ef6576713c2460d83a15b11bb020ff
-  StitchCoreSDK: f397b9612010e7f9fa270724ca1cc9697b5465c8
-  StitchRemoteMongoDBService: e39c9f2f9f2a57b0902d1f7adca973a515a307e2
-  StitchSDK: 4926c1f0a2670ccc86aba9ea0ba7916826cce98b
+  StitchCore: 6e51c5ae902c3104e702051079c008bb6ad932bd
+  StitchCoreLocalMongoDBService: 73b323302bb99083af8cd4575e9f8e076a42af91
+  StitchCoreRemoteMongoDBService: 725132e898507cca0a5f771391eaf6ab0b99a11c
+  StitchCoreSDK: dbdc54b237b764c36d4440c828131820d1fc6428
+  StitchRemoteMongoDBService: f1578c76ab56566dc4ce9be1685cbb91075ead4a
+  StitchSDK: a606b89ac83976050c228e94ce8833c83ac576c1
   Swifter: eb2bc1d192a1c09169c7fefd01971565fa940521
   SwiftJWT: b927e6f4ee6a9db6d4c9c4374d050e0a7b56ab6e
   SwiftLint: 7a0227733d786395817373b2d0ca799fd0093ff3
   Toast-Swift: 594b5c5e5129f15438e410207e43287f027b3c00
 
-PODFILE CHECKSUM: 440f2d55f7e909cf924aa67e2ed395f36decb800
+PODFILE CHECKSUM: b5221f9ef87819ece198657744baa29bc3c79140
 
 COCOAPODS: 1.7.0.beta.3
