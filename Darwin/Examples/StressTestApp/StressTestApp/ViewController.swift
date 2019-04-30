@@ -8,9 +8,9 @@ import StitchCoreSDK
 class ViewController: UIViewController {
     // Stitch Variables:
     private lazy var stitchClient = Stitch.defaultAppClient!
-    private var mongoClient: RemoteMongoClient?
-    private var mongoCollection: RemoteMongoCollection<Document>?
-    private var syncCollection: Sync<Document>?
+    private var mongoClient: RemoteMongoClient!
+    private var mongoCollection: RemoteMongoCollection<Document>!
+    private var syncCollection: Sync<Document>!
     
     // UI Elements
     @IBOutlet weak var numSyncedDocsLabel: UILabel!
@@ -42,39 +42,35 @@ class ViewController: UIViewController {
         self.view.addGestureRecognizer(tap)
         
         // Initialize Stitch RemoteMongoDBService and RemoteMongoCollection
-        do {
-            mongoClient = try stitchClient.serviceClient(fromFactory: remoteMongoClientFactory, withName: "mongodb-atlas")
-            mongoCollection = mongoClient?.db("stress").collection("tests");
-            syncCollection = mongoCollection?.sync
-            
-            syncCollection?.configure(
-                conflictHandler: DefaultConflictHandler<Document>.remoteWins(),
-                changeEventDelegate:  { documentId, event in
-                    self.log("Sync received changeEvent of type: \(event.operationType) and body: \(String(describing: event.fullDocument))")
-                    if (event.hasUncommittedWrites) {
-                        self.log("Sync changeEvent has uncommitted writes")
-                    }
-                }, errorListener: self.on(error:forDocumentId:)) { result in
-                    switch result {
-                    case .success:
-                        self.log("Successfully Configured sync");
-                        self.syncCollection?.proxy.dataSynchronizer.isSyncThreadEnabled = false
-                        self.syncCollection?.proxy.dataSynchronizer.stop()
-                    case .failure(let error):
-                        self.log("Failed to auth with error: \(error)");
-                    }
+        mongoClient = try! stitchClient.serviceClient(fromFactory: remoteMongoClientFactory, withName: "mongodb-atlas")
+        mongoCollection = mongoClient.db("stress").collection("tests");
+        syncCollection = mongoCollection.sync
+
+        syncCollection?.configure(
+            conflictHandler: DefaultConflictHandler<Document>.remoteWins(),
+            changeEventDelegate:  { documentId, event in
+                self.log("Sync received changeEvent of type: \(event.operationType) and body: \(String(describing: event.fullDocument))")
+                if (event.hasUncommittedWrites) {
+                    self.log("Sync changeEvent has uncommitted writes")
                 }
-            
-            stitchClient.auth.login(withCredential: AnonymousCredential()) { result in
+            }, errorListener: self.on(error:forDocumentId:)) { result in
                 switch result {
-                case .success(let user):
-                    self.log("Successfully authenticated with user: \(user.id)");
+                case .success:
+                    self.log("Successfully Configured sync");
+                    self.syncCollection.proxy.dataSynchronizer.isSyncThreadEnabled = false
+                    self.syncCollection.proxy.dataSynchronizer.stop()
                 case .failure(let error):
                     self.log("Failed to auth with error: \(error)");
                 }
             }
-        } catch (let err) {
-            self.log("Failed initialize mongoClient with error: \(err)");
+
+        stitchClient.auth.login(withCredential: AnonymousCredential()) { result in
+            switch result {
+            case .success(let user):
+                self.log("Successfully authenticated with user: \(user.id)");
+            case .failure(let error):
+                fatalError("Failed to auth with error: \(error)")
+            }
         }
     }
 
@@ -98,8 +94,8 @@ class ViewController: UIViewController {
         let numDocs = integer(from: numDocsToInsertInput);
         let docSize = integer(from: docSizeInput);
         
-        self.syncCollection?.proxy.dataSynchronizer.isSyncThreadEnabled = false
-        self.syncCollection?.proxy.dataSynchronizer.stop()
+        self.syncCollection.proxy.dataSynchronizer.isSyncThreadEnabled = false
+        self.syncCollection.proxy.dataSynchronizer.stop()
         
         // Create the documents
         var docs: [Document] = [];
