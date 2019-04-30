@@ -94,23 +94,24 @@ class SyncR2LOnlyPerformanceTestDefinitions {
                     if iters >= 1000 {
                         throw "Streams never closed"
                     }
-                    sleep(30)
+                    Thread.sleep(forTimeInterval: 30.0 / 1000)
                 }
         }, testDefinition: { ctx, _, _ in
             // Reconnect the network monitor
             ctx.harness.networkMonitor.state = .connected
+
+            // Wait for the streams to open up
             var iters = 0
             while !ctx.coll.sync.proxy.dataSynchronizer.allStreamsAreOpen {
                 iters += 1
                 if iters >= 1000 {
                     throw "Streams never opened"
                 }
-                sleep(30)
+                Thread.sleep(forTimeInterval: 30.0 / 1000)
             }
 
             // Perform a sync pass
             try SyncPerformanceTestUtils.doSyncPass(ctx: ctx)
-
         }, afterEach: { ctx, numDocs, _ in
             // Verify that the test did indeed synchronize the updates locally
             try SyncPerformanceTestUtils.assertLocalAndRemoteDBCount(ctx: ctx, numDocs: numDocs)

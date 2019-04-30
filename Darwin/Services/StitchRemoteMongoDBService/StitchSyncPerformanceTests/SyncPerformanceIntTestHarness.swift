@@ -152,7 +152,12 @@ class SyncPerformanceIntTestHarness: BaseStitchIntTestCocoaTouch {
                 let runResults = RunResults(numDocs: numDoc, docSize: docSize)
                 for iter in 0..<SyncPerformanceTestUtils.numIters {
                     do {
-                        logMessage(message: "Testing (numDocs: \(numDoc), docSize \(docSize), iter: \(iter))")
+                        var message = "Testing (numDocs: \(numDoc), docSize: \(docSize), iter: \(iter)"
+                        for (key, value) in extraFields {
+                            message += ", \(key): \(value)"
+                        }
+                        logMessage(message: message + ")")
+
                         let ctx = try createPerformanceTestingContext()
 
                         let iterResult = try ctx.runSingleIteration(numDocs: numDoc,
