@@ -21,6 +21,7 @@
 		1169219220C9D2A100930DD8 /* RemoteMongoDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1169219120C9D2A100930DD8 /* RemoteMongoDatabase.swift */; };
 		1169219620C9FE3500930DD8 /* RemoteMongoReadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1169219520C9FE3500930DD8 /* RemoteMongoReadOperation.swift */; };
 		116ABEB0221CA01C003C1D18 /* InternalChangeStreamDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116ABEAF221CA01C003C1D18 /* InternalChangeStreamDelegate.swift */; };
+		1E28779D2278CB4800F79271 /* FoundationInstrumentedHTTPTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1160C94E224BD12700BC0CDA /* FoundationInstrumentedHTTPTransport.swift */; };
 		1E719B5522552CAC000F93A2 /* StreamJoiner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E719B5422552CAC000F93A2 /* StreamJoiner.swift */; };
 		1E719B5722552F17000F93A2 /* RemoteMongoCollection+SynchronousCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E719B5622552F17000F93A2 /* RemoteMongoCollection+SynchronousCRUD.swift */; };
 		1E719B5B2255344B000F93A2 /* SyncIntTestUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E719B5A2255344B000F93A2 /* SyncIntTestUtilities.swift */; };
@@ -572,6 +573,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E28779D2278CB4800F79271 /* FoundationInstrumentedHTTPTransport.swift in Sources */,
 				1169218E20C9D28200930DD8 /* RemoteMongoCollection.swift in Sources */,
 				49C8C2F12266440E00371839 /* ChangeStreamType.swift in Sources */,
 				1169219220C9D2A100930DD8 /* RemoteMongoDatabase.swift in Sources */,

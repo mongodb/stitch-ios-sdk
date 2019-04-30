@@ -245,7 +245,7 @@ UIViewController, UITableViewDataSource, UITableViewDelegate, ErrorListener, BEM
     private func doLogin() {
         async {
             let _ = await(stitch.auth.login,
-                  ServerAPIKeyCredential(withKey: "CWQMnJNbgekCq62zWMZAabeQtpRWpHDCKLtef7WLqoyHGvNC5Unn65AXloil1HOx"))
+                          ServerAPIKeyCredential(withKey: "CWQMnJNbgekCq62zWMZAabeQtpRWpHDCKLtef7WLqoyHGvNC5Unn65AXloil1HOx"))
 
             self.loggedIn()
         }

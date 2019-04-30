@@ -218,6 +218,11 @@ target :ToDoSync do
     pod 'BEMCheckBox', '= 1.4.1'
 end
 
+target :StressTestApp do
+    project 'Darwin/Examples/StressTestApp/StressTestApp.xcodeproj'
+    pod 'MongoMobile', '= 0.1.0'
+end
+
 target :StitchSDK do
     shared_pods
 

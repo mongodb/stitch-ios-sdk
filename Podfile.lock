@@ -36,14 +36,14 @@ PODS:
     - StitchRemoteMongoDBService (= 6.0.0)
   - StitchSDK/StitchSDK (6.0.0):
     - StitchSDK/StitchRemoteMongoDBService
-  - Swifter (1.4.5)
+  - Swifter (1.4.6)
   - SwiftJWT (3.4.1):
     - BlueCryptor (~> 1.0)
     - BlueECC (~> 1.1)
     - BlueRSA (~> 1.0)
     - KituraContracts (~> 1.1)
     - LoggerAPI (~> 1.7)
-  - SwiftLint (0.31.0)
+  - SwiftLint (0.32.0)
   - Toast-Swift (4.0.0)
 
 DEPENDENCIES:
@@ -98,11 +98,11 @@ SPEC CHECKSUMS:
   StitchCoreSDK: dbdc54b237b764c36d4440c828131820d1fc6428
   StitchRemoteMongoDBService: f1578c76ab56566dc4ce9be1685cbb91075ead4a
   StitchSDK: a606b89ac83976050c228e94ce8833c83ac576c1
-  Swifter: eb2bc1d192a1c09169c7fefd01971565fa940521
+  Swifter: 2ed278fbf7b16cbe97269eb56d8e8749b1ec4042
   SwiftJWT: b927e6f4ee6a9db6d4c9c4374d050e0a7b56ab6e
-  SwiftLint: 7a0227733d786395817373b2d0ca799fd0093ff3
+  SwiftLint: 009a898ef2a1c851f45e1b59349bf6ff2ddc990d
   Toast-Swift: 594b5c5e5129f15438e410207e43287f027b3c00
 
-PODFILE CHECKSUM: b5221f9ef87819ece198657744baa29bc3c79140
+PODFILE CHECKSUM: ed787729049ae54d66114450249788d217c334c2
 
 COCOAPODS: 1.7.0.beta.3

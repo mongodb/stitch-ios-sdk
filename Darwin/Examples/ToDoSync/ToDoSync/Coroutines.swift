@@ -1,10 +1,9 @@
 import Foundation
-import StitchCoreSDK
 import StitchCore
 
 private let queue = DispatchQueue.init(label: "async_await_queue")
 
-func await<T>(_ block: @escaping (@escaping (StitchResult<T>) -> Void) -> ()) -> T {
+func await<T>(_ block: @escaping (@escaping (StitchResult<T>) -> Void) -> Void) -> T {
     let dispatchGroup = DispatchGroup()
     dispatchGroup.enter()
     var retVal: T!
@@ -19,7 +18,7 @@ func await<T>(_ block: @escaping (@escaping (StitchResult<T>) -> Void) -> ()) ->
     return retVal
 }
 
-func await<T, A>(_ block: ((@escaping (A, (@escaping (StitchResult<T>) -> Void)) -> ())), _ a: A) -> T {
+func await<T, A>(_ block: ((@escaping (A, (@escaping (StitchResult<T>) -> Void)) -> Void)), _ a: A) -> T {
     let dispatchGroup = DispatchGroup()
     dispatchGroup.enter()
     var retVal: T!
@@ -34,7 +33,7 @@ func await<T, A>(_ block: ((@escaping (A, (@escaping (StitchResult<T>) -> Void))
     return retVal
 }
 
-func await<T, A, B, C>(_ block: ((@escaping (A, B, C, (@escaping (StitchResult<T>) -> Void)) -> ())), _ a: A, _ b: B, _ c: C) -> T {
+func await<T, A, B, C>(_ block: ((@escaping (A, B, C, (@escaping (StitchResult<T>) -> Void)) -> Void)), _ a: A, _ b: B, _ c: C) -> T {
     let dispatchGroup = DispatchGroup()
     dispatchGroup.enter()
     var retVal: T!
