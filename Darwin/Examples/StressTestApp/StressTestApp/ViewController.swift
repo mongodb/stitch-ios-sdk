@@ -99,7 +99,7 @@ class ViewController: UIViewController {
         
         // Create the documents
         var docs: [Document] = [];
-        for i in 1...numDocs {
+        for i in 0 ..< numDocs {
             do {
                 let newDoc: Document = try ["_id": ObjectId(),
                                             "owner_id": userId,
