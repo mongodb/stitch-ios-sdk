@@ -17,7 +17,6 @@ PODS:
     - MongoSwift (~> 0.1.0)
   - MongoSwift (0.1.0):
     - mongo-embedded-c-driver (~> 1.13.0-4.0.0)
-<<<<<<< HEAD
   - StitchCore (6.0.0):
     - StitchCoreSDK (= 6.0.0)
   - StitchCoreLocalMongoDBService (6.0.0):
@@ -37,19 +36,14 @@ PODS:
     - StitchRemoteMongoDBService (= 6.0.0)
   - StitchSDK/StitchSDK (6.0.0):
     - StitchSDK/StitchRemoteMongoDBService
-  - Swifter (1.4.5)
-||||||| merged common ancestors
-  - Swifter (1.4.5)
-=======
   - Swifter (1.4.6)
->>>>>>> fixes
   - SwiftJWT (3.4.1):
     - BlueCryptor (~> 1.0)
     - BlueECC (~> 1.1)
     - BlueRSA (~> 1.0)
     - KituraContracts (~> 1.1)
     - LoggerAPI (~> 1.7)
-  - SwiftLint (0.31.0)
+  - SwiftLint (0.32.0)
   - Toast-Swift (4.0.0)
 
 DEPENDENCIES:
@@ -98,91 +92,17 @@ SPEC CHECKSUMS:
   mongoc_embedded: 41aadbb756b07070d6f0471192a84750cb42c580
   MongoMobile: 988e8d2fd322761d6358570dde8a2b3d44801823
   MongoSwift: e20f86eae1beb06bbba49c2d73bb570961cc4c85
-<<<<<<< HEAD
   StitchCore: 6e51c5ae902c3104e702051079c008bb6ad932bd
   StitchCoreLocalMongoDBService: 73b323302bb99083af8cd4575e9f8e076a42af91
   StitchCoreRemoteMongoDBService: 725132e898507cca0a5f771391eaf6ab0b99a11c
   StitchCoreSDK: dbdc54b237b764c36d4440c828131820d1fc6428
   StitchRemoteMongoDBService: f1578c76ab56566dc4ce9be1685cbb91075ead4a
   StitchSDK: a606b89ac83976050c228e94ce8833c83ac576c1
-  Swifter: eb2bc1d192a1c09169c7fefd01971565fa940521
-||||||| merged common ancestors
-  Swifter: eb2bc1d192a1c09169c7fefd01971565fa940521
-=======
   Swifter: 2ed278fbf7b16cbe97269eb56d8e8749b1ec4042
->>>>>>> fixes
   SwiftJWT: b927e6f4ee6a9db6d4c9c4374d050e0a7b56ab6e
-  SwiftLint: 7a0227733d786395817373b2d0ca799fd0093ff3
+  SwiftLint: 009a898ef2a1c851f45e1b59349bf6ff2ddc990d
   Toast-Swift: 594b5c5e5129f15438e410207e43287f027b3c00
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-PODFILE CHECKSUM: b5221f9ef87819ece198657744baa29bc3c79140
-||||||| merged common ancestors
-PODFILE CHECKSUM: 0d2080ca091bd9af8067b4d5ecd18fac490d080f
-=======
-<<<<<<< HEAD
-||||||| merged common ancestors
-=======
-<<<<<<< HEAD
->>>>>>> works
-PODFILE CHECKSUM: 0d2080ca091bd9af8067b4d5ecd18fac490d080f
-||||||| merged common ancestors
-PODFILE CHECKSUM: 0d0a955393ce7fef459fce3c303b3c37f6bdf759
-=======
-<<<<<<< HEAD
-PODFILE CHECKSUM: 0d0a955393ce7fef459fce3c303b3c37f6bdf759
-||||||| merged common ancestors
-PODFILE CHECKSUM: 69fa1b1c041915013903bb7cceaa04f2e4862fb5
-=======
-PODFILE CHECKSUM: 9ce8bd9e12ac920b0f41f14e1de6bc685dfaf514
->>>>>>> StressTest init
->>>>>>> StressTest init
-<<<<<<< HEAD
->>>>>>> StressTest init
-||||||| merged common ancestors
-=======
-||||||| merged common ancestors
-<<<<<<< HEAD
-PODFILE CHECKSUM: 0d0a955393ce7fef459fce3c303b3c37f6bdf759
-||||||| merged common ancestors
-PODFILE CHECKSUM: 69fa1b1c041915013903bb7cceaa04f2e4862fb5
-=======
-PODFILE CHECKSUM: 9ce8bd9e12ac920b0f41f14e1de6bc685dfaf514
->>>>>>> StressTest init
-=======
-PODFILE CHECKSUM: 336e487f1b07a42a59600591caaa32bb10593452
->>>>>>> works
->>>>>>> works
-||||||| merged common ancestors
-<<<<<<< HEAD
-<<<<<<< HEAD
-PODFILE CHECKSUM: 0d2080ca091bd9af8067b4d5ecd18fac490d080f
-||||||| merged common ancestors
-PODFILE CHECKSUM: 0d0a955393ce7fef459fce3c303b3c37f6bdf759
-=======
-<<<<<<< HEAD
-PODFILE CHECKSUM: 0d0a955393ce7fef459fce3c303b3c37f6bdf759
-||||||| merged common ancestors
-PODFILE CHECKSUM: 69fa1b1c041915013903bb7cceaa04f2e4862fb5
-=======
-PODFILE CHECKSUM: 9ce8bd9e12ac920b0f41f14e1de6bc685dfaf514
->>>>>>> StressTest init
->>>>>>> StressTest init
-||||||| merged common ancestors
-<<<<<<< HEAD
-PODFILE CHECKSUM: 0d0a955393ce7fef459fce3c303b3c37f6bdf759
-||||||| merged common ancestors
-PODFILE CHECKSUM: 69fa1b1c041915013903bb7cceaa04f2e4862fb5
-=======
-PODFILE CHECKSUM: 9ce8bd9e12ac920b0f41f14e1de6bc685dfaf514
->>>>>>> StressTest init
-=======
-PODFILE CHECKSUM: 336e487f1b07a42a59600591caaa32bb10593452
->>>>>>> works
-=======
-PODFILE CHECKSUM: 62d1479e7d02bb619bc1733f01e0c6589402ed37
->>>>>>> fixes
+PODFILE CHECKSUM: ed787729049ae54d66114450249788d217c334c2
 
 COCOAPODS: 1.7.0.beta.3
