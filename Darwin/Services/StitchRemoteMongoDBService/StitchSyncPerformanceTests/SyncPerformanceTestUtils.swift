@@ -1,3 +1,4 @@
+//swiftlint:disable type_body_length
 import Foundation
 import XCTest
 import MongoSwift
@@ -177,6 +178,17 @@ internal class SyncPerformanceTestUtils {
         }
     }
 
+    static func configureSync(ctx: SyncPerformanceTestContext) throws {
+        let joiner = ThrowingCallbackJoiner()
+        ctx.coll.sync.configure(
+            conflictHandler: DefaultConflictHandler<Document>.remoteWins(),
+            changeEventDelegate: nil,
+            errorListener: { err, id in
+                harness.logMessage(message: "Sync Error with id (\(id ?? "nil")): \(err)")
+        }, joiner.capture())
+        let _: Any? = try joiner.value()
+    }
+
     static func insertToRemote(ctx: SyncPerformanceTestContext, numDocs: Int, docSize: Int) throws -> [BSONValue] {
         let docs = generateDocuments(numDoc: numDocs, docSize: docSize)
         let joiner = ThrowingCallbackJoiner()
@@ -185,8 +197,27 @@ internal class SyncPerformanceTestUtils {
             throw "Failed to insert \(numDocs) documents of size \(docSize) to remote"
         }
 
-        try assertIntsEqualOrThrow(result.insertedIds.count, numDocs, message: "RemoteInstert.insertedIds.count")
+        try assertIntsEqualOrThrow(result.insertedIds.count, numDocs, message: "RemoteInsert.insertedIds.count")
         return result.insertedIds.map { $0.value }
+    }
+
+    static func insertToLocal(ctx: SyncPerformanceTestContext, numDocs: Int, docSize: Int) throws -> [BSONValue] {
+        let docs = generateDocuments(numDoc: numDocs, docSize: docSize)
+        let joiner = ThrowingCallbackJoiner()
+        ctx.coll.sync.insertMany(documents: docs, joiner.capture())
+        guard let result: SyncInsertManyResult = try joiner.value() else {
+            throw "Failed to insert \(numDocs) documents of size \(docSize) to remote"
+        }
+
+        var insertedIds: [BSONValue] = []
+        for res in result.insertedIds {
+            guard let value = res.value else {
+                throw "LocalInsert.insertedIds.val is null"
+            }
+            insertedIds.append(value)
+        }
+        try assertIntsEqualOrThrow(insertedIds.count, numDocs, message: "LocalInsert.insertedIds.count")
+        return insertedIds
     }
 
     static func performRemoteUpdate(ctx: SyncPerformanceTestContext, ids: [BSONValue]) throws {
@@ -209,7 +240,7 @@ internal class SyncPerformanceTestUtils {
         try assertIntsEqualOrThrow(countResult, ids.count, message: "Remote documents updated")
     }
 
-    static func performLocalUpdate(ctx: SyncPerformanceTestContext, ids: [BSONValue]) throws {
+    static func performLocalUpdate(ctx: SyncPerformanceTestContext, ids: [BSONValue], additionalCount: Int = 0) throws {
         let joiner = ThrowingCallbackJoiner()
         ctx.coll.sync.updateMany(filter: ["_id": ["$in": ids] as Document],
                                  update: ["$set": ["newField": "local"] as Document],
@@ -225,7 +256,7 @@ internal class SyncPerformanceTestUtils {
         guard let countResult: Int = try joiner.value() else {
             throw "Failed to get count in SyncPerformanceTestUtils.performLocalUpdate()"
         }
-        try assertIntsEqualOrThrow(countResult, ids.count, message: "Local documents updated")
+        try assertIntsEqualOrThrow(countResult, ids.count + additionalCount, message: "Local documents updated")
     }
 
     static func assertLocalAndRemoteDBCount(ctx: SyncPerformanceTestContext, numDocs: Int) throws {
@@ -265,6 +296,30 @@ internal class SyncPerformanceTestUtils {
         }
         guard try ctx.coll.sync.proxy.dataSynchronizer.doSyncPass() == true else {
             throw "Sync Pass Failed in doSyncPass()"
+        }
+    }
+
+    static func disconnectNetworkAndWaitForStreams(ctx: SyncPerformanceTestContext) throws {
+        ctx.harness.networkMonitor.state = .disconnected
+        var iters = 0
+        while ctx.coll.sync.proxy.dataSynchronizer.allStreamsAreOpen {
+            iters += 1
+            if iters >= 1000 {
+                throw "Streams never closed"
+            }
+            Thread.sleep(forTimeInterval: 30.0 / 1000)
+        }
+    }
+
+    static func connectNetworkAndWaitForStreams(ctx: SyncPerformanceTestContext) throws {
+        ctx.harness.networkMonitor.state = .connected
+        var iters = 0
+        while !ctx.coll.sync.proxy.dataSynchronizer.allStreamsAreOpen {
+            iters += 1
+            if iters >= 1000 {
+                throw "Streams never opened"
+            }
+            Thread.sleep(forTimeInterval: 30.0 / 1000)
         }
     }
 }

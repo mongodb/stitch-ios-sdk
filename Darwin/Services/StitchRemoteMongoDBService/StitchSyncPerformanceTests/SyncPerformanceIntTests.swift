@@ -36,6 +36,36 @@ let runId = ObjectId()
 class SyncPerformanceIntTests: XCTestCase {
     let joiner = ThrowingCallbackJoiner()
 
+    // Tests for L2R-only scenarios
+    /*
+     * Before: Perform local insert of numDoc documents
+     * Test: Configure sync to sync on the inserted docs and perform a sync pass
+     * After: Ensure that the initial sync worked as expected
+     */
+    func testL2ROnlyInitialSync() {
+        SyncL2ROnlyPerformanceTestDefinitions.testInitialSync(testHarness: harness, runId: runId)
+    }
+
+    /*
+     * Before: Perform local insert of numDoc documents, configure sync(),
+     *              perform sync pass, disconnect networkMonitor
+     * Test: Reconnect the network monitor and perform sync pass
+     * After: Ensure that the sync pass worked as expected
+     */
+    func testL2ROnlyDisconnectReconnect() {
+        SyncL2ROnlyPerformanceTestDefinitions.testDisconnectReconnect(testHarness: harness, runId: runId)
+    }
+
+    /*
+     * Before: Perform local insert of numDoc documents, configure sync(), perform sync pass
+     *              perform local update for numChangeEvent documents
+     * Test: Perform sync pass
+     * After: Ensure that the sync pass worked properly
+     */
+    func testL2ROnlySyncPass() {
+        SyncL2ROnlyPerformanceTestDefinitions.testSyncPass(testHarness: harness, runId: runId)
+    }
+
     /*
      * Before: Perform remote insert of numDoc documents
      * Test: Configure sync to sync on the inserted docs and perform a sync pass
@@ -62,5 +92,44 @@ class SyncPerformanceIntTests: XCTestCase {
      */
     func testR2LOnlySyncPass() {
         SyncR2LOnlyPerformanceTestDefinitions.testSyncPass(testHarness: harness, runId: runId)
+    }
+
+    // Tests for Mixed R2L-L2R Scenarios
+
+    /*
+     * Before: Perform remote insert of numDoc / 2 documents
+     *         Perform a local insert of numDoc / 2 documents
+     *         Ensure there are numConflict conflicts
+     * Test: Configure sync to sync on the inserted docs and perform a sync pass
+     * After: Ensure that the initial sync worked as expected
+     */
+    func testMixedInitialSync() {
+        SyncMixedPerformanceTestDefinitions.testInitialSync(testHarness: harness, runId: runId)
+    }
+
+    /*
+     * Before: Perform remote insert of numDoc / 2 documents
+     *         Perform a local insert of numDoc / 2 documents
+     *         Configure sync(), perform sync pass, disconnect networkMonitor
+     *         Ensure sync worked properly
+     * Test: Reconnect the network monitor and perform sync pass
+     * After: Ensure that the sync pass worked as expected
+     */
+    func testMixedDisconnectReconnect() {
+        SyncMixedPerformanceTestDefinitions.testDisconnectReconnect(testHarness: harness, runId: runId)
+    }
+
+    /*
+     * Before: Perform remote insert of numDoc / 2 documents
+     *         Perform a local insert of numDoc / 2 documents
+     *         Configure sync(), perform sync pass
+     *         Update numChangeEvents / 2 documents remotely
+     *         Update numChangeEvents / 2 documents locally
+     *              Where numConflicts docs are updates on the same documents
+     * Test: Perform sync pass
+     * After: Ensure that the sync pass worked properly
+     */
+    func testMixedOnlySyncPass() {
+        SyncMixedPerformanceTestDefinitions.testSyncPass(testHarness: harness, runId: runId)
     }
 }
