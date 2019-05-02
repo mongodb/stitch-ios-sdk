@@ -29,16 +29,10 @@ class SyncR2LOnlyPerformanceTestDefinitions {
             }
 
             // Configure the data synchronizer
-            let joiner = ThrowingCallbackJoiner()
-            ctx.coll.sync.configure(
-                conflictHandler: DefaultConflictHandler<Document>.remoteWins(),
-                changeEventDelegate: nil,
-                errorListener: { err, id in
-                    harness.logMessage(message: "Sync Error with id (\(id ?? "nil")): \(err)")
-            }, joiner.capture())
-            let _: Any? = try joiner.value()
+            try SyncPerformanceTestUtils.configureSync(ctx: ctx)
 
             // Call sync() on the given document ids
+            let joiner = ThrowingCallbackJoiner()
             ctx.coll.sync.sync(ids: docIds, joiner.capture())
             let _: Any? = try joiner.value()
 
@@ -67,16 +61,10 @@ class SyncR2LOnlyPerformanceTestDefinitions {
                 let docIds = try SyncPerformanceTestUtils.insertToRemote(ctx: ctx, numDocs: numDocs, docSize: docSize)
 
                 // Configure the data synchronizer
-                let joiner = ThrowingCallbackJoiner()
-                ctx.coll.sync.configure(
-                    conflictHandler: DefaultConflictHandler<Document>.remoteWins(),
-                    changeEventDelegate: nil,
-                    errorListener: { err, id in
-                        harness.logMessage(message: "Sync Error with id (\(id ?? "nil")): \(err)")
-                }, joiner.capture())
-                let _: Any? = try joiner.value()
+                try SyncPerformanceTestUtils.configureSync(ctx: ctx)
 
                 // Sync on the ids
+                let joiner = ThrowingCallbackJoiner()
                 ctx.coll.sync.sync(ids: docIds, joiner.capture())
                 let _: Any? = try joiner.value()
 
@@ -87,28 +75,13 @@ class SyncR2LOnlyPerformanceTestDefinitions {
                 try SyncPerformanceTestUtils.assertLocalAndRemoteDBCount(ctx: ctx, numDocs: numDocs)
 
                 // Disconnect the network monitor and wait until all streams are closed (max 30 seconds)
-                ctx.harness.networkMonitor.state = .disconnected
-                var iters = 0
-                while ctx.coll.sync.proxy.dataSynchronizer.allStreamsAreOpen {
-                    iters += 1
-                    if iters >= 1000 {
-                        throw "Streams never closed"
-                    }
-                    Thread.sleep(forTimeInterval: 30.0 / 1000)
-                }
+                try SyncPerformanceTestUtils.disconnectNetworkAndWaitForStreams(ctx: ctx)
         }, testDefinition: { ctx, _, _ in
             // Reconnect the network monitor
             ctx.harness.networkMonitor.state = .connected
 
             // Wait for the streams to open up
-            var iters = 0
-            while !ctx.coll.sync.proxy.dataSynchronizer.allStreamsAreOpen {
-                iters += 1
-                if iters >= 1000 {
-                    throw "Streams never opened"
-                }
-                Thread.sleep(forTimeInterval: 30.0 / 1000)
-            }
+            try SyncPerformanceTestUtils.connectNetworkAndWaitForStreams(ctx: ctx)
 
             // Perform a sync pass
             try SyncPerformanceTestUtils.doSyncPass(ctx: ctx)
@@ -150,16 +123,10 @@ class SyncR2LOnlyPerformanceTestDefinitions {
                 var docIds = try SyncPerformanceTestUtils.insertToRemote(ctx: ctx, numDocs: numDocs, docSize: docSize)
 
                 // Configure the data synchronizer
-                let joiner = ThrowingCallbackJoiner()
-                ctx.coll.sync.configure(
-                    conflictHandler: DefaultConflictHandler<Document>.remoteWins(),
-                    changeEventDelegate: nil,
-                    errorListener: { err, id in
-                        harness.logMessage(message: "Sync Error with id (\(id ?? "nil")): \(err)")
-                }, joiner.capture())
-                let _: Any? = try joiner.value()
+                try SyncPerformanceTestUtils.configureSync(ctx: ctx)
 
                 // Sync on the ids
+                let joiner = ThrowingCallbackJoiner()
                 ctx.coll.sync.sync(ids: docIds, joiner.capture())
                 let _: Any? = try joiner.value()
 

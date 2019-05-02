@@ -196,11 +196,13 @@ class SyncMixedPerformanceTestDefinitions {
         let testName = "Mixed_SyncPass"
 
         var documentsIds: [BSONValue]?
+        var updatedIds: Set<AnyBSONValue> = []
         testHarness.runPerformanceTestWithParameters(
             testName: testName,
             runId: runId,
             beforeEach: { ctx, numDocs, docSize in
                 let numEach = numDocs / 2
+                updatedIds = []
 
                 // Insert the documents into the remote collection
                 let remoteIds = try SyncPerformanceTestUtils.insertToRemote(
@@ -244,6 +246,9 @@ class SyncMixedPerformanceTestDefinitions {
                 try SyncPerformanceTestUtils.performRemoteUpdate(
                     ctx: ctx,
                     ids: [BSONValue](shuffledIds.prefix(numRemoteUpdates)))
+                shuffledIds.prefix(numRemoteUpdates).forEach {
+                    updatedIds.insert(AnyBSONValue($0))
+                }
 
                 documentsIds = shuffledIds
 
@@ -259,19 +264,28 @@ class SyncMixedPerformanceTestDefinitions {
 
             // Perform conflicting local updates
             try SyncPerformanceTestUtils.performLocalUpdate(ctx: ctx, ids: [BSONValue](ids.prefix(numConflicts)))
+            ids.prefix(numConflicts).forEach {
+                updatedIds.insert(AnyBSONValue($0))
+            }
 
             // Performing non-conflicting local updates
             try SyncPerformanceTestUtils.performLocalUpdate(
                 ctx: ctx,
                 ids: [BSONValue](ids.suffix(numRemoteUpdates - numConflicts)),
                 additionalCount: numConflicts)
+            ids.suffix(numRemoteUpdates - numConflicts).forEach {
+                updatedIds.insert(AnyBSONValue($0))
+            }
+
+            testHarness.logMessage(message: "Set of Updated Ids: \(updatedIds.count)")
 
             let joiner = ThrowingCallbackJoiner()
+            // This is just here for testing
             ctx.coll.aggregate([
                 ["$group": ["_id": "$newField", "count": ["$sum": 1] as Document] as Document] as Document
                 ]).toArray(joiner.capture())
             guard let arr: [Document] = try joiner.value() else {
-                throw "fuck"
+                throw "Error"
             }
             for doc in arr {
                 testHarness.logMessage(message: "Remote: \(doc.canonicalExtendedJSON)")
@@ -294,6 +308,9 @@ class SyncMixedPerformanceTestDefinitions {
             let numRemoteUpdates = Int(Double(numEach) * changeEventPercentage)
             let numConflicts = Int(Double(numRemoteUpdates) * conflictPercentage)
             let numLocalUpdates = numRemoteUpdates - numConflicts
+
+            testHarness.logMessage(message: "NumUpdates: \(numRemoteUpdates)")
+            testHarness.logMessage(message: "NumConflicts: \(numConflicts)")
 
             // Verify that the local and remote collections have the right number of documents
             try SyncPerformanceTestUtils.assertLocalAndRemoteDBCount(ctx: ctx, numDocs: numDocs)
