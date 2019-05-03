@@ -16,20 +16,19 @@ class LocalPerformanceTestContext: SyncPerformanceTestContext {
     let mongoClient: RemoteMongoClient
     let coll: RemoteMongoCollection<Document>
     let harness: SyncPerformanceIntTestHarness
-
     let joiner = ThrowingCallbackJoiner()
     let streamJoiner = StreamJoiner()
 
     required init(harness: SyncPerformanceIntTestHarness) throws {
         self.harness = harness
 
-        dbName = ObjectId().oid
-        collName = ObjectId().oid
+        dbName = ObjectId().hex
+        collName = ObjectId().hex
 
         harness.setUp()
 
         let app = try! harness.createApp()
-        _ = try! harness.addProvider(toApp: app.1, withConfig: ProviderConfigs.anon())
+        _ = try! harness.addProvider(toApp: app.1, withConfig: ProviderConfigs.anon)
         let svc = try! harness.addService(toApp: app.1, withType: "mongodb", withName: "mongodb1",
                                           withConfig: ServiceConfigs.mongodb(name: "mongodb1",
                                                                              uri: harness.mongodbUri))

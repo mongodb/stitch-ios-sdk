@@ -45,6 +45,7 @@
 		49FA2789219B748300F9E3D4 /* UpdateDescriptionUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA2788219B748300F9E3D4 /* UpdateDescriptionUnitTests.swift */; };
 		49FA278B219B839F00F9E3D4 /* ChangeEventListenerUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA278A219B839F00F9E3D4 /* ChangeEventListenerUnitTests.swift */; };
 		49FA278D219B84F400F9E3D4 /* DocumentVersionInfoUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA278C219B84F400F9E3D4 /* DocumentVersionInfoUnitTests.swift */; };
+		91824449227CAE0E006C024F /* SyncFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91824448227CAE0D006C024F /* SyncFrequency.swift */; };
 		91BF6CD32264FEF90034B59C /* HashUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91BF6CD22264FEF90034B59C /* HashUtils.swift */; };
 		91DB43A0226E1F7C005A549E /* EventDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DB439F226E1F7C005A549E /* EventDispatcher.swift */; };
 		91E93FF62266656F002C0DB8 /* HashUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E93FF52266656F002C0DB8 /* HashUtilsTests.swift */; };
@@ -125,6 +126,7 @@
 		709AA19060D3B86D29BEB64E /* Pods_StitchCoreRemoteMongoDBServiceTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreRemoteMongoDBServiceTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7996BF2D43C5B862F229A1B4 /* Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService-StitchCoreRemoteMongoDBServiceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService-StitchCoreRemoteMongoDBServiceTests.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService-StitchCoreRemoteMongoDBServiceTests/Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService-StitchCoreRemoteMongoDBServiceTests.release.xcconfig"; sourceTree = "<group>"; };
 		7DACA4B4DE536C643AE7BB93 /* Pods-StitchCoreRemoteMongoDBServiceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreRemoteMongoDBServiceTests.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreRemoteMongoDBServiceTests/Pods-StitchCoreRemoteMongoDBServiceTests.release.xcconfig"; sourceTree = "<group>"; };
+		91824448227CAE0D006C024F /* SyncFrequency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncFrequency.swift; sourceTree = "<group>"; };
 		91BF6CD22264FEF90034B59C /* HashUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashUtils.swift; sourceTree = "<group>"; };
 		91DB439F226E1F7C005A549E /* EventDispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDispatcher.swift; sourceTree = "<group>"; };
 		91E93FF52266656F002C0DB8 /* HashUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashUtilsTests.swift; sourceTree = "<group>"; };
@@ -206,6 +208,7 @@
 				116A1285221F5CBD00F83FEE /* BlockableDispatchGroup.swift */,
 				91BF6CD22264FEF90034B59C /* HashUtils.swift */,
 				91E93FF722666E89002C0DB8 /* WriteModelContainer.swift */,
+				91824448227CAE0D006C024F /* SyncFrequency.swift */,
 				91DB439F226E1F7C005A549E /* EventDispatcher.swift */,
 			);
 			path = Internal;
@@ -395,6 +398,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = OBJ_5;
@@ -536,6 +540,7 @@
 				499CD19B21BDFDFC00CB4EBF /* DataSynchronizerError.swift in Sources */,
 				OBJ_174 /* RemoteDeleteResult.swift in Sources */,
 				4943FC5D2196508100DED08C /* MongoNamespace.swift in Sources */,
+				91824449227CAE0E006C024F /* SyncFrequency.swift in Sources */,
 				4943FC61219650A200DED08C /* UpdateDescription.swift in Sources */,
 				1E56167B222D8F600047927C /* RemoteFindOneAndModifyOptions.swift in Sources */,
 				91BF6CD32264FEF90034B59C /* HashUtils.swift in Sources */,

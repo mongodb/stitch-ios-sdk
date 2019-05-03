@@ -1,5 +1,5 @@
-import StitchCoreSDK
 import MongoSwift
+import StitchCoreSDK
 import Foundation
 
 internal final class LRUCache<Key: Hashable, Value>: Sequence {
@@ -25,7 +25,7 @@ internal final class LRUCache<Key: Hashable, Value>: Sequence {
     typealias Iterator = LRUCacheIterator
     private var list = [Payload]()
     private let capacity: UInt
-    private let lock = ReadWriteLock.init(label: "lru_\(ObjectId().oid)")
+    private let lock = ReadWriteLock.init(label: "lru_\(ObjectId().hex)")
 
     struct LRUCacheIterator: IteratorProtocol {
         // Since this is only going to be a temporary class (will go away when Swift driver is thread-safe),

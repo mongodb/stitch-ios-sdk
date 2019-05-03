@@ -37,8 +37,8 @@
 		OBJ_11 /* CoreTwilioServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreTwilioServiceClient.swift; sourceTree = "<group>"; };
 		OBJ_14 /* CoreTwilioServiceClientUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreTwilioServiceClientUnitTests.swift; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
-		"StitchCoreTwilioService::StitchCoreTwilioService::Product" /* StitchCoreTwilioService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTwilioService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"StitchCoreTwilioService::StitchCoreTwilioServiceTests::Product" /* StitchCoreTwilioServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = StitchCoreTwilioServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		StitchCoreTwilioService::StitchCoreTwilioService::Product /* StitchCoreTwilioService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreTwilioService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		StitchCoreTwilioService::StitchCoreTwilioServiceTests::Product /* StitchCoreTwilioServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = StitchCoreTwilioServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,8 +106,8 @@
 		OBJ_126 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				"StitchCoreTwilioService::StitchCoreTwilioServiceTests::Product" /* StitchCoreTwilioServiceTests.xctest */,
-				"StitchCoreTwilioService::StitchCoreTwilioService::Product" /* StitchCoreTwilioService.framework */,
+				StitchCoreTwilioService::StitchCoreTwilioServiceTests::Product /* StitchCoreTwilioServiceTests.xctest */,
+				StitchCoreTwilioService::StitchCoreTwilioService::Product /* StitchCoreTwilioService.framework */,
 			);
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -144,7 +144,7 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		"StitchCoreTwilioService::StitchCoreTwilioService" /* StitchCoreTwilioService */ = {
+		StitchCoreTwilioService::StitchCoreTwilioService /* StitchCoreTwilioService */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_243 /* Build configuration list for PBXNativeTarget "StitchCoreTwilioService" */;
 			buildPhases = (
@@ -159,10 +159,10 @@
 			);
 			name = StitchCoreTwilioService;
 			productName = StitchCoreTwilioService;
-			productReference = "StitchCoreTwilioService::StitchCoreTwilioService::Product" /* StitchCoreTwilioService.framework */;
+			productReference = StitchCoreTwilioService::StitchCoreTwilioService::Product /* StitchCoreTwilioService.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		"StitchCoreTwilioService::StitchCoreTwilioServiceTests" /* StitchCoreTwilioServiceTests */ = {
+		StitchCoreTwilioService::StitchCoreTwilioServiceTests /* StitchCoreTwilioServiceTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_263 /* Build configuration list for PBXNativeTarget "StitchCoreTwilioServiceTests" */;
 			buildPhases = (
@@ -178,7 +178,7 @@
 			);
 			name = StitchCoreTwilioServiceTests;
 			productName = StitchCoreTwilioServiceTests;
-			productReference = "StitchCoreTwilioService::StitchCoreTwilioServiceTests::Product" /* StitchCoreTwilioServiceTests.xctest */;
+			productReference = StitchCoreTwilioService::StitchCoreTwilioServiceTests::Product /* StitchCoreTwilioServiceTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -194,6 +194,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = OBJ_5;
@@ -201,8 +202,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				"StitchCoreTwilioService::StitchCoreTwilioService" /* StitchCoreTwilioService */,
-				"StitchCoreTwilioService::StitchCoreTwilioServiceTests" /* StitchCoreTwilioServiceTests */,
+				StitchCoreTwilioService::StitchCoreTwilioService /* StitchCoreTwilioService */,
+				StitchCoreTwilioService::StitchCoreTwilioServiceTests /* StitchCoreTwilioServiceTests */,
 			);
 		};
 /* End PBXProject section */
@@ -252,8 +253,6 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-StitchCoreTwilioServiceTests/Pods-StitchCoreTwilioServiceTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/MongoSwift/MongoSwift.framework",
@@ -263,8 +262,6 @@
 				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework.dSYM",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MongoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/bson.framework",
@@ -323,7 +320,7 @@
 /* Begin PBXTargetDependency section */
 		OBJ_275 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = "StitchCoreTwilioService::StitchCoreTwilioService" /* StitchCoreTwilioService */;
+			target = StitchCoreTwilioService::StitchCoreTwilioService /* StitchCoreTwilioService */;
 			targetProxy = 498060362184CF4300E2A3A2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -351,7 +348,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGET_NAME = StitchCoreTwilioService;
 			};
 			name = Debug;
@@ -378,7 +375,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGET_NAME = StitchCoreTwilioService;
 			};
 			name = Release;
@@ -401,7 +398,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGET_NAME = StitchCoreTwilioServiceTests;
 			};
 			name = Debug;
@@ -424,7 +421,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGET_NAME = StitchCoreTwilioServiceTests;
 			};
 			name = Release;

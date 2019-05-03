@@ -36,65 +36,31 @@ let runId = ObjectId()
 class SyncPerformanceIntTests: XCTestCase {
     let joiner = ThrowingCallbackJoiner()
 
-    // This test should currently fail, it is just here to show proper test failure
-    /* func testFailure() {
-        let testParam = TestParams(testName: "shouldFail",
-                                   runId: SyncPerformanceIntTests.runId,
-                                   numIters: 3,
-                                   numDocs: [5, 5000, 2],
-                                   docSizes: [1, 10000, 3])
-        harness.runPerformanceTestWithParameters(testParams: testParam, testDefinition: {ctx, numDoc, docSize in
-            print("PerfLog: Test: \(numDoc) docs of size \(docSize)")
-            let docs = getDocuments(numDocs: numDoc, docSize: docSize)
-            ctx.coll.insertMany(docs, joiner.capture())
-            let _: Any? = try joiner.value()
-        }, beforeEach: {_, numDoc, docSize in
-            print("PerfLog: (Custom Setup) \(numDoc) docs of size \(docSize)")
-        }, afterEach: {_, numDoc, docSize in
-            print("PerfLog: (Custom Teardown) \(numDoc) docs of size \(docSize)")
-        })
-    } */
-
-    func testInitialSyncLocal() {
-        harness.runPerformanceTestWithParameters(
-            testName: "intialSyncLocal",
-            runId: runId,
-            testDefinition: { ctx, numDoc, docSize in
-                harness.logMessage(message: "Running Test:  \(numDoc) docs of size \(docSize)")
-
-                if numDoc > 0 {
-                    let docs = SyncPerformanceTestUtils.generateDocuments(numDoc: numDoc, docSize: docSize)
-                    ctx.coll.insertMany(docs, joiner.capture())
-                    let _: Any? = try joiner.value()
-                    try assertEqual(Int.self, ctx.coll.count([:]) ?? 0, numDoc)
-                }
-
-                let count = ctx.coll.count([:])
-                try assertEqual(Int.self, count ?? 0, numDoc)
-
-                ctx.coll.sync.configure(conflictHandler: DefaultConflictHandler<Document>.remoteWins())
-
-                if numDoc > 0 {
-                    var docs = SyncPerformanceTestUtils.generateDocuments(numDoc: numDoc, docSize: docSize)
-                    ctx.coll.sync.insertMany(&docs)
-                    _ = try ctx.coll.sync.proxy.dataSynchronizer.doSyncPass()
-                    try assertEqual(Int.self, ctx.coll.sync.syncedIds().count, numDoc)
-                }
-            }, beforeEach: { _, numDoc, docSize in
-                harness.logMessage(message: "(Custom Setup) \(numDoc) docs of size \(docSize)")
-            }, afterEach: { _, numDoc, docSize in
-                harness.logMessage(message: "(Custom Teardown) \(numDoc) docs of size \(docSize)")
-            }
-        )
+    /*
+     * Before: Perform remote insert of numDoc documents
+     * Test: Configure sync to sync on the inserted docs and perform a sync pass
+     * After: Ensure that the initial sync worked as expected
+     */
+    func testR2LOnlyInitialSync() {
+        SyncR2LOnlyPerformanceTestDefinitions.testInitialSync(testHarness: harness, runId: runId)
     }
 
-    // Custom assertEqual that throws so that the test fails if the assertion fails
-    func assertEqual<T: Equatable>(_ type: T.Type, _ val1: Any, _ val2: Any) throws {
-        guard let val1 = val1 as? T, let val2 = val2 as? T else {
-            throw "assertEqual not passed valid params"
-        }
-        if val1 == val2 { return } else {
-            throw "(\"\(val1)\") is not equal to (\"\(val2)\")"
-        }
+    /*
+     * Before: Perform remote insert of numDoc documents, configure sync(), perform sync pass, disconnect networkMonitor
+     * Test: Reconnect the network monitor and perform sync pass
+     * After: Ensure that the sync pass worked as expected
+     */
+    func testR2LOnlyDisconnectReconnect() {
+        SyncR2LOnlyPerformanceTestDefinitions.testDisconnectReconnect(testHarness: harness, runId: runId)
+    }
+
+    /*
+     * Before: Perform remote insert of numDoc documents, configure sync(), perform sync pass
+     *         Then remote update numChangeEvent documents remotely, and numConflict documents locally
+     * Test: Perform sync pass
+     * After: Ensure that the sync pass worked properly and that the local collection has received remote updates
+     */
+    func testR2LOnlySyncPass() {
+        SyncR2LOnlyPerformanceTestDefinitions.testSyncPass(testHarness: harness, runId: runId)
     }
 }

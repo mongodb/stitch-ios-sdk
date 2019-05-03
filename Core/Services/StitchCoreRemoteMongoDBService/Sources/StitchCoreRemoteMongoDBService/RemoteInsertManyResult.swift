@@ -19,7 +19,7 @@ public struct RemoteInsertManyResult: Decodable {
     public init(from decoder: Decoder) throws {
         let doc = try decoder.singleValueContainer().decode(Document.self)
         guard let insertedIdsArray = doc[CodingKeys.insertedIds.rawValue] as? [BSONValue] else {
-            throw MongoError.invalidResponse()
+            throw RuntimeError.internalError(message: "error decoding insert many result")
         }
 
         self.init(fromArray: insertedIdsArray)

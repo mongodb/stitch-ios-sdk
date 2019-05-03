@@ -3,9 +3,24 @@
 set -e
 
 # Let this be run from any directory
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-cd $DIR
-cd ..
+cd "$(dirname "$0")"/..
+
+function usage() {
+    echo "Usage: $0 [analytics]"
+    exit 1
+}
+
+# Enables builds with analytics
+if [ "$1" == "analytics" ]; then
+    # Use theme with analytics snippets
+    THEME="./contrib/docs-theme/fullwidth-analytics"
+elif [[ ! -z "$1" ]]; then
+    echo "Unrecognized argument: $1"
+    usage
+else
+    # Use default theme
+    THEME="fullwidth"
+fi
 
 sourcekitten doc --module-name StitchCoreSDK -- -workspace ./Stitch.xcworkspace -scheme StitchCoreSDK > .raw_docs.json
 
@@ -26,6 +41,7 @@ sourcekitten doc --module-name StitchRemoteMongoDBService -- -workspace ./Stitch
 sourcekitten doc --module-name StitchTwilioService -- -workspace ./Stitch.xcworkspace -scheme StitchTwilioService -sdk iphoneos >> .raw_docs.json
 
 python DocGen/Scripts/merge_json.py .raw_docs.json .raw_docs_merged.json
-jazzy -c --config jazzy.json --sourcekitten-sourcefile .raw_docs_merged.json
+
+jazzy -c --config jazzy.json --theme "$THEME" --sourcekitten-sourcefile .raw_docs_merged.json
 
 rm .raw_docs.json .raw_docs_merged.json

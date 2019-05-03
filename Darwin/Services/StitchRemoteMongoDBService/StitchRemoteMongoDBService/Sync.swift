@@ -4,7 +4,13 @@ import StitchCore
 import StitchCoreRemoteMongoDBService
 
 /**
- * A set of synchronization related operations for a collection.
+ * `Sync` is a set of synchronization-related operations for a `RemoteMongoCollection`.
+ *
+ * Using Sync, you can synchronize local and remote data.
+ *
+ * - SeeAlso:
+ * [Build a Mobile App with Sync](https://docs.mongodb.com/stitch/mongodb/mobile/build-sync/),
+ * RemoteMongoCollection
  */
 public class Sync<DocumentT: Codable> {
     internal let proxy: CoreSync<DocumentT>

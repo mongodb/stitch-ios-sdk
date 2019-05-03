@@ -58,6 +58,9 @@
          location = "container:"
          name = "Examples">
          <FileRef
+            location = "group:Darwin/Examples/StressTestApp/StressTestApp.xcodeproj">
+         </FileRef>
+         <FileRef
             location = "group:Darwin/Examples/ToDoSync/ToDoSync.xcodeproj">
          </FileRef>
       </Group>

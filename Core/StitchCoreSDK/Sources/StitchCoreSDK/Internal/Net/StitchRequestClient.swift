@@ -171,7 +171,8 @@ public class StitchAppRequestClientImpl: StitchRequestClient {
             let response = try doRequest(req, url: self.baseURL)
             guard let body = response.body else {
                 throw StitchError.requestError(
-                     withMessage: "empty body in location metadata", withRequestErrorCode: .decodingError)
+                    withError: RuntimeError.internalError(message: "empty body in location metadata"),
+                     withRequestErrorCode: .decodingError)
             }
             self.appMetadata = try decoder.decode(AppMetadata.self, from: body)
         } catch {

@@ -34,7 +34,7 @@ final class InstanceSynchronization: Sequence, Codable {
     }
 
     /// Make an iterator that will iterate over the associated namespaces.
-    func makeIterator() -> IndexingIterator<Dictionary<MongoNamespace, NamespaceSynchronization>.Values> {
+    func makeIterator() -> Dictionary<MongoNamespace, NamespaceSynchronization>.Values.Iterator {
         return namespaceConfigs.values.makeIterator()
     }
 

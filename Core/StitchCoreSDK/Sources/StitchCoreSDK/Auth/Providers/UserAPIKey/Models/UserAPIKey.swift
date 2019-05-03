@@ -30,7 +30,10 @@ public struct UserAPIKey: Decodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        self.id = try ObjectId.init(fromString: container.decode(String.self, forKey: .id))
+        guard let id = try ObjectId.init(container.decode(String.self, forKey: .id)) else {
+            throw RuntimeError.internalError(message: "malformed object id")
+        }
+        self.id = id
         self.key = try container.decodeIfPresent(String.self, forKey: .key)
         self.name = try container.decode(String.self, forKey: .name)
         self.disabled = try container.decode(Bool.self, forKey: .disabled)

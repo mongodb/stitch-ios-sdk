@@ -58,7 +58,7 @@ final class NamespaceSynchronization: Sequence, Codable {
     }
 
     /// Make an iterator that will iterate over the associated documents.
-    func makeIterator() -> IndexingIterator<Dictionary<AnyBSONValue, CoreDocumentSynchronization>.Values> {
+    func makeIterator() -> Dictionary<AnyBSONValue, CoreDocumentSynchronization>.Values.Iterator {
         return docs.values.makeIterator()
     }
 

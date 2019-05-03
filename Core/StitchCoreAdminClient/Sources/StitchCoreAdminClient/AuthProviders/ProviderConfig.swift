@@ -34,7 +34,7 @@ public enum ProviderConfigs: Encodable {
         public let name: String
     }
 
-    case anon()
+    case anon
     /// - parameter emailConfirmationURL: url to redirect user to for email confirmation
     /// - parameter resetPasswordURL: url to redirect user to for password reset
     /// - parameter confirmEmailSubject: subject of the email to confirm a new user

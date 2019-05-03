@@ -1,8 +1,11 @@
 import MongoSwift
 
 /**
- * A credential which can be used to log in as a Stitch user
- * using the Facebook authentication provider.
+ * The `FacebookCredential` is a `StitchCredential` that can be used log in
+ * using the [Facebook Authentication Provider](https://docs.mongodb.com/stitch/authentication/facebook/).
+ *
+ * - SeeAlso:
+ * `StitchAuth`
  */
 public struct FacebookCredential: StitchCredential {
     // MARK: Initializer

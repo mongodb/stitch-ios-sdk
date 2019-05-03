@@ -96,7 +96,7 @@ private func diffBetween(ourDocument: Document,
                             onKey: actualKey,
                             updatedFields: &updatedFields,
                             removedFields: &removedFields)
-            } else if !bsonEquals(ourValue, theirValue) {
+            } else if !ourValue.bsonEquals(theirValue) {
                 updatedFields[actualKey] = theirValue
             }
         } else {

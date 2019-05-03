@@ -32,7 +32,7 @@ open class SSEStreamDelegate: Hashable {
 }
 
 open class RawSSEStream {
-    private let queue = DispatchQueue.init(label: "sse-\(ObjectId().oid)")
+    private let queue = DispatchQueue.init(label: "sse-\(ObjectId().hex)")
     open var state: SSEStreamState = .closed {
         didSet {
             self.delegate?.on(stateChangedFor: self.state)

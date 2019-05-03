@@ -23,7 +23,7 @@ private func getVersionedFilter(documentId: BSONValue?,
     return filter
 }
 
-final class DocumentVersionInfo {
+public final class DocumentVersionInfo {
     let version: Version?
     let versionDoc: Document?
     /**
@@ -50,7 +50,7 @@ final class DocumentVersionInfo {
     }()
 
     /// The version information for a synchronized document.
-    struct Version: Codable {
+    public struct Version: Codable {
         // swiftlint:disable nesting
         enum CodingKeys: String, CodingKey {
             case syncProtocolVersion = "spv"

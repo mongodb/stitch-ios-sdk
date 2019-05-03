@@ -5,7 +5,7 @@ import MongoSwift
 /**
  * A basic implementation of the `Transport` protocol using the `URLSession.dataTask` method in the Foundation library.
  */
-public class FoundationInstrumentedHTTPTransport: FoundationHTTPTransport {
+internal class FoundationInstrumentedHTTPTransport: FoundationHTTPTransport {
     private var bytesUploadedForNormalRequests: Int64 = 0
     private var bytesDownloadedForNormalRequests: Int64 = 0
 

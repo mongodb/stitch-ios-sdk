@@ -4,11 +4,10 @@
  */
 public struct APIStitchUserIdentity: StitchUserIdentity, Hashable {
     /**
-     * The hash value of the id to provide conformance to `Hashable`.
+     * Hash the id to provide conformance to `Hashable`.
      */
-    // swiftlint:disable:next legacy_hashing
-    public var hashValue: Int {
-        return self.id.hashValue
+    public func hash(into hasher: inout Hasher) {
+        self.id.hash(into: &hasher)
     }
 
     /**

@@ -6,7 +6,7 @@ import MongoSwift
 @testable import StitchCoreRemoteMongoDBService
 
 private class SynchronizedDispatchDeque {
-    private let rwLock = ReadWriteLock(label: "sync_test_\(ObjectId().oid)")
+    private let rwLock = ReadWriteLock(label: "sync_test_\(ObjectId().hex)")
     private var workItems = [DispatchWorkItem]()
     var count: Int {
         return workItems.count
@@ -28,7 +28,7 @@ private class SynchronizedDispatchDeque {
 /// Synchronously capture the value of a asynchronous callback.
 class CallbackJoiner {
     /// Serial queue to run our work items on
-    private let joinerQueue = DispatchQueue.init(label: "callbackJoiner.\(ObjectId().oid)")
+    private let joinerQueue = DispatchQueue.init(label: "callbackJoiner.\(ObjectId().hex)")
     /// Synchronized queue of work items
     private var joinerWorkItems = SynchronizedDispatchDeque()
     /// The latest captured value
@@ -101,7 +101,7 @@ class CallbackJoiner {
 /// Synchronously capture the value of a asynchronous callback.
 class ThrowingCallbackJoiner {
     /// Serial queue to run our work items on
-    private let joinerQueue = DispatchQueue.init(label: "throwingCallbackJoiner.\(ObjectId().oid)")
+    private let joinerQueue = DispatchQueue.init(label: "throwingCallbackJoiner.\(ObjectId().hex)")
     /// Synchronized queue of work items
     private var joinerWorkItems = SynchronizedDispatchDeque()
     /// The latest captured value
@@ -126,9 +126,8 @@ class ThrowingCallbackJoiner {
         }
 
         guard _capturedValue is T? else {
-            fatalError(
-                "Could not unwrap captured value of type " +
-                "\(String(describing: _capturedValue.self)) as \(type)")
+            throw "Could not unwrap captured value of type " +
+            "\(String(describing: _capturedValue.self)) as \(type)"
         }
         return _capturedValue as? T
     }
@@ -165,5 +164,62 @@ class ThrowingCallbackJoiner {
             stitchResult = result
             self.joinerQueue.async(execute: wkItem)
         }
+    }
+}
+
+private let queue = DispatchQueue.init(label: "async_await_queue")
+
+// swiftlint:disable identifier_name
+func await<T>(_ block: @escaping (@escaping (T) -> Void) -> Void) -> T {
+    let dispatchGroup = DispatchGroup()
+    dispatchGroup.enter()
+    var retVal: T!
+    block { result in
+        defer { dispatchGroup.leave() }
+        retVal = result
+    }
+    dispatchGroup.wait()
+    return retVal
+}
+
+func await<T, A>(_ block: ((@escaping (A, (@escaping (T) -> Void)) -> Void)), _ a: A) -> T {
+    let dispatchGroup = DispatchGroup()
+    dispatchGroup.enter()
+    var retVal: T!
+    block(a) { result in
+        defer { dispatchGroup.leave() }
+        retVal = result
+    }
+    dispatchGroup.wait()
+    return retVal
+}
+
+func await<T, A, B>(_ block: ((@escaping (A, B, (@escaping (T) -> Void)) -> Void)), _ a: A, _ b: B) -> T {
+    let dispatchGroup = DispatchGroup()
+    dispatchGroup.enter()
+    var retVal: T!
+    block(a, b) { result in
+        defer { dispatchGroup.leave() }
+        retVal = result
+    }
+    dispatchGroup.wait()
+    return retVal
+}
+
+func await<T, A, B, C>(_ block: ((@escaping (A, B, C, (@escaping (T) -> Void)) -> Void)), _ a: A, _ b: B, _ c: C) -> T {
+    let dispatchGroup = DispatchGroup()
+    dispatchGroup.enter()
+    var retVal: T!
+    block(a, b, c) { result in
+        defer { dispatchGroup.leave() }
+        retVal = result
+    }
+    dispatchGroup.wait()
+    return retVal
+}
+
+func async(_ block: @escaping () -> Void) {
+    queue.async {
+        block()
     }
 }

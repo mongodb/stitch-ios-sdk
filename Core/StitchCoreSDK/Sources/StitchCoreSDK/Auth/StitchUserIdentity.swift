@@ -1,9 +1,15 @@
 /**
- * A protocol representing an identity that a Stitch user is linked to and can use to sign into their account.
+ * The `StitchUserIdentity` represents an identity that a `StitchUser` is linked to
+ * and can use to log in to their account.
+ *
+ * - SeeAlso:
+ * `StitchAuth`,
+ * `StitchUser`,
+ * [Stitch Users](https://docs.mongodb.com/stitch/users/)
  */
 public protocol StitchUserIdentity: Codable {
     /**
-     * The id of this identity in MongoDB Stitch
+     * The id of this identity in MongoDB Stitch.
      *
      * - important: This is **not** the id of the Stitch user.
      */
