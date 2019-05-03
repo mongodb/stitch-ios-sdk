@@ -4,7 +4,7 @@ import MongoSwift
  The update description for changed fields in a
  $changeStream operation.
 */
-public final class UpdateDescription: Codable {
+public final class UpdateDescription: Codable, CustomStringConvertible {
     enum CodingKeys: CodingKey {
         case updatedFields, removedFields
     }
@@ -45,6 +45,10 @@ public final class UpdateDescription: Codable {
 
         return updateDocument
     }()
+
+    public var description: String {
+        return "updated=\(updatedFields); removed=\(removedFields)"
+    }
 }
 
 /**

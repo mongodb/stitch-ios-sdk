@@ -8,8 +8,6 @@
 import MongoSwift
 import StitchCoreSDK
 
-typealias ModificationOp = (filter: Document, update: Document, many: Bool)
-
 /*
  * Abstract structure for collecting writes and applying them at a later time.
  */
@@ -25,7 +23,7 @@ class WriteModelContainer<CollectionT, DocumentT: Codable> {
 
     func add(_ writeOrNil: WriteModelWrapper<DocumentT>?) {
         if let write = writeOrNil {
-            bulkWriteModels.append(write)
+            self.bulkWriteModels.append(write)
         }
     }
 
@@ -161,7 +159,8 @@ final class LocalSyncWriteModelContainer {
         self.undoCollection = undoCollection
 
         self.localWrites = MongoCollectionWriteModelContainer<Document>(localCollection, dataSynchronizerLogTag)
-        self.configWrites = MongoCollectionWriteModelContainer<CoreDocumentSynchronization>(nsConfig.docsColl, dataSynchronizerLogTag)
+        self.configWrites = MongoCollectionWriteModelContainer<CoreDocumentSynchronization>(nsConfig.docsColl,
+                                                                                            dataSynchronizerLogTag)
         self.remoteWrites = RemoteCollectionWriteModelContainer(remoteCollection, dataSynchronizerLogTag)
 
         self.eventDispatcher = eventDispatcher
@@ -250,7 +249,8 @@ final class LocalSyncWriteModelContainer {
 extension MongoCollection.ReplaceOneModel where T == Document {
     init(docConfig: CoreDocumentSynchronization) throws {
         guard let docConfigAsDocument = docConfig.asDocument else {
-            throw StitchError.serviceError(withMessage: "failed to convert doc config to document", withServiceErrorCode: .mongoDBError)
+            throw StitchError.serviceError(withMessage: "failed to convert doc config to document",
+                                           withServiceErrorCode: .mongoDBError)
         }
 
         self.init(filter: docConfigFilter(forNamespace: docConfig.namespace,
@@ -263,7 +263,8 @@ extension MongoCollection.ReplaceOneModel where T == Document {
 extension MongoCollection.UpdateOneModel where T == Document {
     init(docConfig: CoreDocumentSynchronization) throws {
         guard let docConfigAsDocument = docConfig.asDocument else {
-            throw StitchError.serviceError(withMessage: "failed to convert doc config to document", withServiceErrorCode: .mongoDBError)
+            throw StitchError.serviceError(withMessage: "failed to convert doc config to document",
+                                           withServiceErrorCode: .mongoDBError)
         }
         self.init(filter: docConfigFilter(forNamespace: docConfig.namespace,
                                           withDocumentId: docConfig.documentId),

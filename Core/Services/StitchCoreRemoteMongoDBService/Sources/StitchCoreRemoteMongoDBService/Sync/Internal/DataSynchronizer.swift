@@ -438,25 +438,22 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                                     document: doc,
                                     writePending: false)
                         ))
-                        docConfig.isStale = false
-                        continue
+                    } else {
+                        // For synchronized documents that had no unprocessed change event, and did not have a
+                        // latest version when stale documents were queried, synthesize a remote delete event to
+                        // delete the local document.
+                        if versionOrNil != nil, !isPaused {
+                            try localSyncWriteModelContainer.merge(
+                                syncRemoteChangeEventToLocal(
+                                    nsConfig: nsConfig,
+                                    docConfig: docConfig,
+                                    remoteChangeEvent: ChangeEvents.changeEventForLocalDelete(
+                                        namespace: nsConfig.namespace,
+                                        documentId: id.value,
+                                        writePending: hasUncommittedWrites
+                                )))
+                        }
                     }
-
-                    // For synchronized documents that had no unprocessed change event, and did not have a
-                    // latest version when stale documents were queried, synthesize a remote delete event to
-                    // delete the local document.
-                    if versionOrNil != nil, !isPaused {
-                        try localSyncWriteModelContainer.merge(
-                            syncRemoteChangeEventToLocal(
-                                nsConfig: nsConfig,
-                                docConfig: docConfig,
-                                remoteChangeEvent: ChangeEvents.changeEventForLocalDelete(
-                                    namespace: nsConfig.namespace,
-                                    documentId: id.value,
-                                    writePending: hasUncommittedWrites
-                            )))
-                    }
-
                     docConfig.isStale = false
                 }
 
@@ -467,6 +464,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         logger.i("t='\(logicalT)': syncRemoteToLocal END")
     }
 
+    var syncR2LCtr = 0
     private func syncRemoteChangeEventToLocal(nsConfig: NamespaceSynchronization,
                                               docConfig: CoreDocumentSynchronization,
                                               remoteChangeEvent: ChangeEvent<Document>) throws -> LocalSyncWriteModelContainer? {
@@ -617,12 +615,12 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                             }
                         } else {
                             if remoteVersionInfo?.version != nil {
-                                // neither have a version
-                                action = .applyAndVersionFromRemote
+                                // remote has a version, last seen does not
+                                action = lastSeenHash != remoteHash ? .applyFromRemote : .dropEvent
                                 message = .emptyVersion
                             } else {
-                                // remote has version, last seen does not
-                                action = lastSeenHash != remoteHash ? .applyFromRemote : .dropEvent
+                                // neither has a version
+                                action = .applyAndVersionFromRemote
                                 message = .emptyVersion
                             }
                         }
@@ -630,11 +628,11 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 }
             }
         }
-
         return try enqueueAction(nsConfig: nsConfig, docConfig: docConfig, remoteChangeEvent: remoteChangeEvent, action: action,
                                  message: message, caller: SyncMessage.r2lMethod, error: nil)
     }
 
+    private var syncL2RCtr: Int = 0
     private func syncLocalToRemote() throws {
         logger.i(
             "t='\(logicalT)': \(SyncMessage.l2rMethod) START")
@@ -662,7 +660,6 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                             let localChangeEvent = docConfig.uncommittedChangeEvent else {
                                 return // exit the read lock closure
                         }
-
                         if docConfig.lastResolution == logicalT {
                             action = .wait
                             message = .simultaneousWrites
@@ -881,6 +878,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                                     }
                                     if action == nil { // if we haven't encountered an error/conflict already
                                         action = .deleteLocalAndDesync
+                                        message = .documentDeleted
                                     }
                                 default:
                                     action = .dropEventAndPause
@@ -906,21 +904,16 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                                 // iv. If no conflict has occurred, move on to the remote to local sync routine.
                                 // since we strip version information from documents before setting pending writes, we
                                 // don't have to worry about a stale document version in the event here.
-                                let committedEvent: ChangeEvent<Document>! = docConfig.uncommittedChangeEvent
+                                let uncommittedEvent: ChangeEvent<Document>! = docConfig.uncommittedChangeEvent
 
                                 if !suppressLocalEvent {
-                                    let localEventToEmit = committedEvent.withoutUncommittedWrites()
-
+                                    let localEventToEmit = uncommittedEvent.withoutUncommittedWrites()
                                     localSyncWriteModelContainer.addLocalChangeEvent(localChangeEvent: localEventToEmit)
                                 }
 
                                 // do this later before change is committed since it requires a write lock which we
                                 // cannot own while locking for read
                                 setPendingWritesComplete = true
-                                if case .delete = committedEvent.operationType {} else {
-                                    try localSyncWriteModelContainer.addConfigWrite(write:
-                                        MongoCollection<Document>.ReplaceOneModel(docConfig: docConfig))
-                                }
                                 remoteChangeEvent = nil
                             } else {
                                 // v. Otherwise, invoke the collection-level conflict handler with the local change
@@ -940,9 +933,17 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                         }
                     }
 
-                    if setPendingWritesComplete, let uncommittedDocument = docConfig.uncommittedChangeEvent?.fullDocument {
-                        docConfig.setPendingWritesComplete(atHash: HashUtils.hash(doc:
-                            DataSynchronizer.sanitizeDocument(uncommittedDocument)), atVersion: nextVersion)
+                    if setPendingWritesComplete, let uncommittedChangeEvent = docConfig.uncommittedChangeEvent {
+                        if let uncommittedDocument = uncommittedChangeEvent.fullDocument {
+                            docConfig.setPendingWritesComplete(atHash: HashUtils.hash(doc:
+                                DataSynchronizer.sanitizeDocument(uncommittedDocument)), atVersion: nextVersion)
+
+                            let opType: OperationType = uncommittedChangeEvent.operationType
+                            if case .delete = opType {} else {
+                                try localSyncWriteModelContainer.addConfigWrite(write:
+                                    MongoCollection<Document>.ReplaceOneModel(docConfig: docConfig))
+                            }
+                        }
                     }
 
                     if let actionToEnqueue = action {
@@ -950,9 +951,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                             try enqueueAction(nsConfig: nsConfig, docConfig: docConfig, remoteChangeEvent: remoteChangeEvent,
                                               action: actionToEnqueue, message: message, caller: SyncMessage.l2rMethod, error: syncError))
                     }
-
-                    localSyncWriteModelContainer.commitAndClear()
                 }
+                localSyncWriteModelContainer.commitAndClear()
             }
         }
         logger.i("t='\(logicalT)': \(SyncMessage.l2rMethod) END")
@@ -1167,7 +1167,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             resolvedDocument = try DataSynchronizer.resolveConflictWithResolver(
                 conflictResolver: conflictHandler,
                 documentId: documentId.value,
-                localEvent: remoteEvent,
+                localEvent: localEvent,
                 remoteEvent: remoteEvent)
         } catch {
             let errorPrefix = "t='\(logicalT)': resolveConflict ns=\(namespace) documentId=\(documentId.value) resolution "
@@ -1372,7 +1372,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         }
 
         let event: ChangeEvent<Document>
-        if remoteEvent.operationType == .delete {
+        if case .delete = remoteEvent.operationType {
             event = ChangeEvents.changeEventForLocalInsert(namespace: namespace,
                                                            document: docForStorage,
                                                            documentId: documentId.value,
@@ -2544,6 +2544,7 @@ enum SyncMessage: CustomStringConvertible {
     case applyFromRemote
     case cannotParseRemoteVersion
     case deleteFromRemote
+    case documentDeleted
     case duplicateKeyException
     case emptyVersion
     case emptyUpdateDescription
@@ -2584,6 +2585,8 @@ enum SyncMessage: CustomStringConvertible {
             return "got a remote document that could not have its version info parsed"
         case .deleteFromRemote:
             return "deleting local as there are no local pending writes"
+        case .documentDeleted:
+            return "remote document successfully deleted"
         case .duplicateKeyException:
             return "duplicate key exception on insert"
         case .emptyVersion:
