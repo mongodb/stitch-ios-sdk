@@ -57,7 +57,7 @@ final class MongoCollectionWriteModelContainer<DocumentT: Codable>:
     override func commit() -> Bool {
         if bulkWriteModels.count > 0 {
             if let result = try? collection.bulkWrite(bulkWriteModels.map({$0.writeModel})) {
-                return result?.matchedCount == result?.modifiedCount
+                return result.matchedCount == result.modifiedCount
             }
             return false
         }

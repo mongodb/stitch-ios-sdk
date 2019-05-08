@@ -523,8 +523,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 let lastSeenVersionInfo: DocumentVersionInfo? =
                     try? DocumentVersionInfo.fromVersionDoc(versionDoc: docConfig.lastKnownRemoteVersion)
 
-                var lastSeenHash: Int64 = docConfig.lastKnownHash
-                let remoteHash: Int64
+                var lastSeenHash: UInt64 = docConfig.lastKnownHash
+                let remoteHash: UInt64
                 if let fullDocument = remoteChangeEvent.fullDocument {
                     remoteHash = HashUtils.hash(doc: DataSynchronizer.sanitizeDocument(fullDocument))
                 } else {
@@ -1028,11 +1028,11 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 .find([idField: docConfig.documentId.value]).first() {
                 // we successfully found newest document
 
-                if let newestRemoteVersionInfo: DocumentVersionInfo? =
+                if let newestRemoteVersionInfo: DocumentVersionInfo =
                     try? DocumentVersionInfo.getRemoteVersionInfo(remoteDocument: newestRemoteDocument) {
                     // we successfully extracted document version info
                     var isStaleEvent: Bool = false
-                    if let newestRemoteVersion = newestRemoteVersionInfo?.version {
+                    if let newestRemoteVersion = newestRemoteVersionInfo.version {
                         if let lastSeenVersion = lastSeenVersionInfo?.version {
                             // both newest and last seen have versions
                             if lastSeenVersion.instanceId == newestRemoteVersion.instanceId {
@@ -1660,8 +1660,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         defer { self.operationsGroup.leave() }
 
         guard let lock = self.syncConfig[namespace]?.nsLock else {
-            throw StitchError.clientError(
-                withClientErrorCode: .couldNotLoadSyncInfo)
+            throw StitchError.clientError(withClientErrorCode: .couldNotLoadSyncInfo)
         }
         return try lock.read {
             return try localCollection(for: namespace, withType: Document.self)
@@ -1695,8 +1694,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         defer { self.operationsGroup.leave() }
 
         guard let lock = self.syncConfig[namespace]?.nsLock else {
-            throw StitchError.clientError(
-                withClientErrorCode: .couldNotLoadSyncInfo)
+            throw StitchError.clientError(withClientErrorCode: .couldNotLoadSyncInfo)
         }
         return try lock.read {
             return try localCollection(for: namespace).find(filter, options: options?.toFindOptions)
@@ -1715,8 +1713,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                                      options: SyncFindOptions?,
                                      in namespace: MongoNamespace) throws -> DocumentT? {
         guard let lock = self.syncConfig[namespace]?.nsLock else {
-            throw StitchError.clientError(
-                withClientErrorCode: .couldNotLoadSyncInfo)
+            throw StitchError.clientError(withClientErrorCode: .couldNotLoadSyncInfo)
         }
         return try lock.read {
             return try localCollection(for: namespace).findOne(filter, options: options?.toFindOptions)
@@ -1740,8 +1737,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         defer { self.operationsGroup.leave() }
 
         guard let lock = self.syncConfig[namespace]?.nsLock else {
-            throw StitchError.clientError(
-                withClientErrorCode: .couldNotLoadSyncInfo)
+            throw StitchError.clientError(withClientErrorCode: .couldNotLoadSyncInfo)
         }
         return try lock.read {
             return try localCollection(for: namespace, withType: Document.self).aggregate(

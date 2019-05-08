@@ -10,13 +10,13 @@ import MongoSwift
 import XCTest
 
 class HashUtilsTests: XCTestCase {
-    let expectedEmptyHashValue: Int64 = -6534195273556634272
-    let expectedHelloWorldHashValue: Int64 = 3488831889965352219
-    let expectedTypicalBSONDocumentHashValue: Int64 = 2637880642529775697
+    let expectedEmptyHashValue: UInt64 = UInt64(bitPattern: -6534195273556634272)
+    let expectedHelloWorldHashValue: UInt64 = 3488831889965352219
+    let expectedTypicalBSONDocumentHashValue: UInt64 = 2637880642529775697
 
     let emptyDocument: Document = Document()
     let helloWorldDocument = ["hello": "world"] as Document
-    let typicalDocument = ["_id": ObjectId(fromString: "5cb8a847a8d14019f59b99f0"),
+    let typicalDocument = ["_id": ObjectId("5cb8a847a8d14019f59b99f0")!,
                            "foo": ["hello": "world",
                                    "ways to leave":
                                     ["make a new plan, Stan",
@@ -24,7 +24,7 @@ class HashUtilsTests: XCTestCase {
                                      "no need to be coy, Roy",
                                      "just hop on the bus, Gus",
                                      "drop off the key, Lee"]] as Document,
-                           "bar": 42,
+                           "bar": Int32(42),
                            "baz": "metasyntactic variables rule",
                            "quux": true] as Document
 

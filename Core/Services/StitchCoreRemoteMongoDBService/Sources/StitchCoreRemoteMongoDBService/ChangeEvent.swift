@@ -61,15 +61,15 @@ public struct ChangeEvent<DocumentType: Codable>: BaseChangeEvent {
         try container.encode(hasUncommittedWrites, forKey: .hasUncommittedWrites)
     }
 
-    public static func == (lhs: ChangeEvent<DocumentT>, rhs: ChangeEvent<DocumentT>) -> Bool {
-        return bsonEquals(lhs.id.value, rhs.id.value)
+    public static func == (lhs: ChangeEvent<DocumentType>, rhs: ChangeEvent<DocumentType>) -> Bool {
+        return lhs.id.value.bsonEquals(rhs.id.value)
     }
 
     public func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
 
-    public func withoutUncommittedWrites() -> ChangeEvent<DocumentT> {
+    public func withoutUncommittedWrites() -> ChangeEvent<DocumentType> {
         return ChangeEvent<DocumentT>(
             id: self.id, operationType: self.operationType, fullDocument: self.fullDocument, ns: self.ns,
             documentKey: self.documentKey, updateDescription: self.updateDescription, hasUncommittedWrites: false

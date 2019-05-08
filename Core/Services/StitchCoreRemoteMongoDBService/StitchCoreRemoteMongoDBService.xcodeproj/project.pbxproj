@@ -46,6 +46,8 @@
 		49FA278B219B839F00F9E3D4 /* ChangeEventListenerUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA278A219B839F00F9E3D4 /* ChangeEventListenerUnitTests.swift */; };
 		49FA278D219B84F400F9E3D4 /* DocumentVersionInfoUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA278C219B84F400F9E3D4 /* DocumentVersionInfoUnitTests.swift */; };
 		91824449227CAE0E006C024F /* SyncFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91824448227CAE0D006C024F /* SyncFrequency.swift */; };
+		91824453227CB8A9006C024F /* BaseChangeEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91824451227CB8A9006C024F /* BaseChangeEvent.swift */; };
+		91824454227CB8A9006C024F /* CompactChangeEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91824452227CB8A9006C024F /* CompactChangeEvent.swift */; };
 		91BF6CD32264FEF90034B59C /* HashUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91BF6CD22264FEF90034B59C /* HashUtils.swift */; };
 		91DB43A0226E1F7C005A549E /* EventDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DB439F226E1F7C005A549E /* EventDispatcher.swift */; };
 		91E93FF62266656F002C0DB8 /* HashUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E93FF52266656F002C0DB8 /* HashUtilsTests.swift */; };
@@ -127,6 +129,8 @@
 		7996BF2D43C5B862F229A1B4 /* Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService-StitchCoreRemoteMongoDBServiceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService-StitchCoreRemoteMongoDBServiceTests.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService-StitchCoreRemoteMongoDBServiceTests/Pods-StitchCoreSDK-StitchCoreRemoteMongoDBService-StitchCoreRemoteMongoDBServiceTests.release.xcconfig"; sourceTree = "<group>"; };
 		7DACA4B4DE536C643AE7BB93 /* Pods-StitchCoreRemoteMongoDBServiceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreRemoteMongoDBServiceTests.release.xcconfig"; path = "Target Support Files/Pods-StitchCoreRemoteMongoDBServiceTests/Pods-StitchCoreRemoteMongoDBServiceTests.release.xcconfig"; sourceTree = "<group>"; };
 		91824448227CAE0D006C024F /* SyncFrequency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncFrequency.swift; sourceTree = "<group>"; };
+		91824451227CB8A9006C024F /* BaseChangeEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseChangeEvent.swift; path = Sources/StitchCoreRemoteMongoDBService/BaseChangeEvent.swift; sourceTree = SOURCE_ROOT; };
+		91824452227CB8A9006C024F /* CompactChangeEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CompactChangeEvent.swift; path = Sources/StitchCoreRemoteMongoDBService/CompactChangeEvent.swift; sourceTree = SOURCE_ROOT; };
 		91BF6CD22264FEF90034B59C /* HashUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashUtils.swift; sourceTree = "<group>"; };
 		91DB439F226E1F7C005A549E /* EventDispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDispatcher.swift; sourceTree = "<group>"; };
 		91E93FF52266656F002C0DB8 /* HashUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashUtilsTests.swift; sourceTree = "<group>"; };
@@ -217,6 +221,8 @@
 		4943FC592196505500DED08C /* Sync */ = {
 			isa = PBXGroup;
 			children = (
+				91824451227CB8A9006C024F /* BaseChangeEvent.swift */,
+				91824452227CB8A9006C024F /* CompactChangeEvent.swift */,
 				4928D53721E51A140040BB8D /* Internal */,
 				49037A43219E0ECD0066E109 /* ErrorListener.swift */,
 				4980B1282199E7E000D6E49C /* ConflictHandler.swift */,
@@ -479,8 +485,6 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-StitchCoreRemoteMongoDBServiceTests/Pods-StitchCoreRemoteMongoDBServiceTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/MongoSwift/MongoSwift.framework",
@@ -495,8 +499,6 @@
 				"${PODS_ROOT}/mongoc_embedded/iPhoneOS/Frameworks/mongoc_embedded.framework.dSYM",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MongoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/bson.framework",
@@ -522,6 +524,8 @@
 			buildActionMask = 0;
 			files = (
 				116A1286221F5CBD00F83FEE /* BlockableDispatchGroup.swift in Sources */,
+				91824453227CB8A9006C024F /* BaseChangeEvent.swift in Sources */,
+				91824454227CB8A9006C024F /* CompactChangeEvent.swift in Sources */,
 				OBJ_168 /* CoreRemoteMongoClient.swift in Sources */,
 				491F9B5021A372B500802A4D /* CoreRemoteMongoClientFactory.swift in Sources */,
 				4943FC5B2196506300DED08C /* ChangeEvent.swift in Sources */,
@@ -617,7 +621,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGET_NAME = StitchCoreRemoteMongoDBService;
 			};
 			name = Debug;
@@ -643,7 +647,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGET_NAME = StitchCoreRemoteMongoDBService;
 			};
 			name = Release;
@@ -666,7 +670,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGET_NAME = StitchCoreRemoteMongoDBServiceTests;
 			};
 			name = Debug;
@@ -689,7 +693,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGET_NAME = StitchCoreRemoteMongoDBServiceTests;
 			};
 			name = Release;

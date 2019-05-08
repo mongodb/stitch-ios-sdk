@@ -104,9 +104,9 @@ final class CoreDocumentSynchronization: Codable, Hashable {
         }
     }
 
-    private var _lastKnownHash: Int64
+    private var _lastKnownHash: UInt64
     /// The last known hash.
-    private(set) var lastKnownHash: Int64 {
+    private(set) var lastKnownHash: UInt64 {
         get {
             return docLock.read { _lastKnownHash }
         }
@@ -218,7 +218,7 @@ final class CoreDocumentSynchronization: Codable, Hashable {
         }
 
         if let lastKnownHash =
-            try values.decodeIfPresent(Int64.self, forKey: .lastKnownHash) {
+            try values.decodeIfPresent(UInt64.self, forKey: .lastKnownHash) {
             self._lastKnownHash = lastKnownHash
         } else {
             self._lastKnownHash = 0
@@ -306,7 +306,7 @@ final class CoreDocumentSynchronization: Codable, Hashable {
      */
     func setSomePendingWrites(atTime: Int64,
                               atVersion: Document?,
-                              atHash: Int64,
+                              atHash: UInt64,
                               changeEvent: ChangeEvent<Document>) {
          docLock.write {
             self.uncommittedChangeEvent = changeEvent
@@ -323,7 +323,7 @@ final class CoreDocumentSynchronization: Codable, Hashable {
 
      - parameter atVersion: the version for which the write as completed on
      */
-    func setPendingWritesComplete(atHash: Int64, atVersion: Document?) {
+    func setPendingWritesComplete(atHash: UInt64, atVersion: Document?) {
         docLock.write {
             self.uncommittedChangeEvent = nil
             self.lastKnownRemoteVersion = atVersion
