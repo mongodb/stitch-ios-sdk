@@ -23,7 +23,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     /// The amount of time to sleep between sync passes in an error-state.
     fileprivate static let longSleepSeconds: UInt32 = 5
     /// The current sync protocol version
-    public static let syncProtocolVersion: Int32 = 1
+    public static let currentSyncProtocolVersion: Int32 = 1
 
     /// The unique instance key for this DataSynchronizer
     private let instanceKey: String!
@@ -58,7 +58,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
     /// RW lock for the synchronizer
     private let syncLock: ReadWriteLock
     /// Local logger
-    private lazy var logger: Log! = Log.init(tag: "dataSynchronizer-\(self.instanceKey!)")
+    private lazy var logger: Log = Log.init(tag: "dataSynchronizer-\(self.instanceKey!)")
     /// Label for dispatch queue log messages
     private lazy var eventDispatchQueueLabel = "eventEmission-\(self.instanceKey!)"
     /// Dispatch queue for one-off events
@@ -409,9 +409,6 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                         syncRemoteChangeEventToLocal(nsConfig: nsConfig, docConfig: docConfig, remoteChangeEvent: event))
                 }
 
-                // For synchronized documents that had no unprocessed change event, but were marked as
-                // stale, synthesize a remote replace event to replace the local stale document with the
-                // latest remote copy.
                 for id in unseenIds {
                     guard let docConfig = nsConfig[id.value] else {
                         // means we aren't actually synchronizing on this remote doc
@@ -427,6 +424,9 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                         hasUncommittedWrites = docConfig.hasUncommittedWrites
                     }
 
+                    // For synchronized documents that had no unprocessed change event, but were marked as
+                    // stale, synthesize a remote replace event to replace the local stale document with the
+                    // latest remote copy.
                     if let doc = latestDocumentMap[id], !isPaused {
                         try localSyncWriteModelContainer.merge(
                             syncRemoteChangeEventToLocal(
@@ -464,18 +464,15 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
         logger.i("t='\(logicalT)': syncRemoteToLocal END")
     }
 
-    var syncR2LCtr = 0
     private func syncRemoteChangeEventToLocal(nsConfig: NamespaceSynchronization,
                                               docConfig: CoreDocumentSynchronization,
                                               remoteChangeEvent: ChangeEvent<Document>) throws -> LocalSyncWriteModelContainer? {
-        var action: SyncAction! = nil
-        var message: SyncMessage! = nil
-        var actionSet: Bool = false
+        var action: SyncAction?
+        var message: SyncMessage?
 
         if docConfig.hasUncommittedWrites && docConfig.lastResolution == logicalT {
             action = .wait
             message = .simultaneousWrites
-            actionSet = true
         }
 
         logger.d("t='\(logicalT)': \(SyncMessage.r2lMethod) ns=\(nsConfig.namespace) documentId=\(docConfig.documentId) processing operation='\(remoteChangeEvent.operationType)'")
@@ -497,25 +494,23 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
             isInsert = false
             action = .dropEventAndPause
             message = .unknownOptype(opType: remoteChangeEvent.operationType)
-            actionSet = true
         }
 
         var remoteVersionInfo: DocumentVersionInfo?
-        if !actionSet { // if we haven't encountered an error...
+        if action == nil { // if we haven't encountered an error...
             do {
                 remoteVersionInfo = try DocumentVersionInfo.getRemoteVersionInfo(
                     remoteDocument: remoteChangeEvent.fullDocument ?? [:])
             } catch {
                 action = .dropEventAndDesync
                 message = .cannotParseRemoteVersion
-                actionSet = true
                 remoteVersionInfo = nil
             }
         }
 
-        if !actionSet { // if we haven't encountered an error...
+        if action == nil { // if we haven't encountered an error...
             if let remoteVersion = remoteVersionInfo?.version,
-                remoteVersion.syncProtocolVersion != DataSynchronizer.syncProtocolVersion {
+                remoteVersion.syncProtocolVersion != DataSynchronizer.currentSyncProtocolVersion {
                 action = .dropEventAndDesync
                 message = .unknownRemoteProtocolVersion(version: remoteVersion.syncProtocolVersion)
             } else {
@@ -584,7 +579,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                         if let lastSeenVersion = lastSeenVersionInfo?.version {
                             if let remoteVersion = remoteVersionInfo?.version {
                                 // both have versions
-                                if lastSeenVersion.syncProtocolVersion != DataSynchronizer.syncProtocolVersion {
+                                if lastSeenVersion.syncProtocolVersion != DataSynchronizer.currentSyncProtocolVersion {
                                     action = .deleteLocalAndDesync
                                     message = .staleProtocolVersion(version: lastSeenVersion.syncProtocolVersion)
                                 } else {
@@ -628,11 +623,16 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                 }
             }
         }
-        return try enqueueAction(nsConfig: nsConfig, docConfig: docConfig, remoteChangeEvent: remoteChangeEvent, action: action,
-                                 message: message, caller: SyncMessage.r2lMethod, error: nil)
+
+        guard let actionResolved = action, let messageResolved = message else {
+            logger.e("No action was selected during sync pass.")
+            return nil
+        }
+
+        return try enqueueAction(nsConfig: nsConfig, docConfig: docConfig, remoteChangeEvent: remoteChangeEvent, action: actionResolved,
+                                 message: messageResolved, caller: SyncMessage.r2lMethod, error: nil)
     }
 
-    private var syncL2RCtr: Int = 0
     private func syncLocalToRemote() throws {
         logger.i(
             "t='\(logicalT)': \(SyncMessage.l2rMethod) START")
@@ -646,8 +646,8 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
                 // a. For each document that has local writes pending
                 for docConfig in nsConfig {
-                    var action: SyncAction! = nil
-                    var message: SyncMessage! = nil
+                    var action: SyncAction?
+                    var message: SyncMessage?
                     var syncError: DataSynchronizerError?
                     var remoteChangeEvent: ChangeEvent<Document>?
 
@@ -708,7 +708,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                                                 unprocessedEventVersion.versionCounter >= localVersion.versionCounter
 
                                             let hasCommittedVersion: Bool = instanceIdMatch
-                                                && localVersion.syncProtocolVersion == DataSynchronizer.syncProtocolVersion
+                                                && localVersion.syncProtocolVersion == DataSynchronizer.currentSyncProtocolVersion
                                                 && !lastSeenOlderThanRemote
 
                                             if !hasCommittedVersion {
@@ -751,13 +751,21 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                                                 action = .dropEventAndPause
                                                 message = .exceptionOnInsert(exception: error.localizedDescription)
                                                 suppressLocalEvent = true
-                                                syncError = .mongoDBError(message.description, error)
+                                                if let errMsg = message?.description {
+                                                    syncError = .mongoDBError(errMsg, error)
+                                                } else {
+                                                    syncError = .mongoDBError("unknown error", error)
+                                                }
                                             }
                                         } else {
                                             action = .dropEventAndPause
                                             message = .exceptionOnInsert(exception: error.localizedDescription)
                                             suppressLocalEvent = true
-                                            syncError = .mongoDBError(message.description, error)
+                                            if let errMsg = message?.description {
+                                                syncError = .mongoDBError(errMsg, error)
+                                            } else {
+                                                syncError = .mongoDBError("unknown error", error)
+                                            }
                                         }
                                     }
                                 // 2. REPLACE
@@ -778,7 +786,11 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                                             action = .dropEventAndPause
                                             message = .exceptionOnReplace(exception: error.localizedDescription)
                                             suppressLocalEvent = true
-                                            syncError = .mongoDBError(message.description, error)
+                                            if let errMsg = message?.description {
+                                                syncError = .mongoDBError(errMsg, error)
+                                            } else {
+                                                syncError = .mongoDBError("unknown error", error)
+                                            }
                                             resultOrNil = nil
                                         }
                                         // c. If no documents are matched, record that a conflict has occurred.
@@ -836,7 +848,11 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                                                     action = .dropEventAndPause
                                                     message = .exceptionOnUpdate(exception: error.localizedDescription)
                                                     suppressLocalEvent = true
-                                                    syncError = .mongoDBError(message.description, error)
+                                                    if let errMsg = message?.description {
+                                                        syncError = .mongoDBError(errMsg, error)
+                                                    } else {
+                                                        syncError = .mongoDBError("unknown error", error)
+                                                    }
                                                     resultOrNil = nil
                                                 }
                                                 if let result = resultOrNil, result.matchedCount == 0 {
@@ -863,7 +879,11 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                                     } catch {
                                         action = .dropEventAndPause
                                         message = .exceptionOnDelete(exception: error.localizedDescription)
-                                        syncError = .mongoDBError(message.description, error)
+                                        if let errMsg = message?.description {
+                                            syncError = .mongoDBError(errMsg, error)
+                                        } else {
+                                            syncError = .mongoDBError("unknown error", error)
+                                        }
                                         suppressLocalEvent = true
                                         resultOrNil = nil
                                     }
@@ -946,10 +966,10 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                         }
                     }
 
-                    if let actionToEnqueue = action {
+                    if let actionToEnqueue = action, let messageToEnqueue = message {
                         localSyncWriteModelContainer.merge(
                             try enqueueAction(nsConfig: nsConfig, docConfig: docConfig, remoteChangeEvent: remoteChangeEvent,
-                                              action: actionToEnqueue, message: message, caller: SyncMessage.l2rMethod, error: syncError))
+                                              action: actionToEnqueue, message: messageToEnqueue, caller: SyncMessage.l2rMethod, error: syncError))
                     }
                 }
                 localSyncWriteModelContainer.commitAndClear()
@@ -963,7 +983,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
 
     private func enqueueAction(nsConfig: NamespaceSynchronization, docConfig: CoreDocumentSynchronization,
                                remoteChangeEvent: ChangeEvent<Document>!, action: SyncAction, message: SyncMessage,
-                               caller: String, error: DataSynchronizerError!) throws -> LocalSyncWriteModelContainer? {
+                               caller: String, error: DataSynchronizerError?) throws -> LocalSyncWriteModelContainer? {
         let syncMessage: String = SyncMessage.constructMessage(action: action, message: message,
                                                                context: (logicalT: logicalT, caller: caller, namespace: nsConfig.namespace, documentId: docConfig.documentId))
 
@@ -1379,7 +1399,7 @@ public class DataSynchronizer: NetworkStateDelegate, FatalErrorListener {
                                                            writePending: true)
         } else {
             guard let unsanitizedRemoteDocument = remoteEvent.fullDocument else {
-                return nil // XXX should raise an error here?
+                return nil
             }
 
             let remoteDocument = DataSynchronizer.sanitizeDocument(unsanitizedRemoteDocument)

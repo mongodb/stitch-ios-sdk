@@ -1,10 +1,3 @@
-//
-//  EventDIspatcher.swift
-//  StitchCoreRemoteMongoDBService
-//
-//  Created by Douglas Kaminsky on 4/22/19.
-//
-
 import MongoSwift
 import StitchCoreSDK
 

@@ -1,10 +1,3 @@
-//
-//  WriteModelContainer.swift
-//  StitchCoreRemoteMongoDBService
-//
-//  Created by Douglas Kaminsky on 4/16/19.
-//
-
 import MongoSwift
 import StitchCoreSDK
 
@@ -14,7 +7,7 @@ import StitchCoreSDK
 class WriteModelContainer<CollectionT, DocumentT: Codable> {
     fileprivate let collection: CollectionT
     fileprivate var bulkWriteModels = [WriteModelWrapper<DocumentT>]()
-    fileprivate var logger: Log!
+    fileprivate var logger: Log
 
     fileprivate init(_ collection: CollectionT, _ dataSynchronizerLogTag: String) {
         self.collection = collection
@@ -40,8 +33,7 @@ class WriteModelContainer<CollectionT, DocumentT: Codable> {
     }
 
     func commit() -> Bool {
-        // no-op
-        return true
+        fatalError("commit() not implemented in superclass")
     }
 }
 

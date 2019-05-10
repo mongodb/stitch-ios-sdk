@@ -1,10 +1,3 @@
-//
-//  HashUtilsTests.swift
-//  StitchCoreRemoteMongoDBServiceTests
-//
-//  Created by Douglas Kaminsky on 4/16/19.
-//
-
 import MongoSwift
 @testable import StitchCoreRemoteMongoDBService
 import XCTest

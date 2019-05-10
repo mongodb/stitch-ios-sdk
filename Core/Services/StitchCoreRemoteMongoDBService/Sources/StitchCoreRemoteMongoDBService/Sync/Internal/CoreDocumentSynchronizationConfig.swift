@@ -205,7 +205,7 @@ final class CoreDocumentSynchronization: Codable, Hashable {
 
         // verify schema version
         let schemaVersion = try values.decode(Int32.self, forKey: .schemaVersion)
-        if schemaVersion != DataSynchronizer.syncProtocolVersion {
+        if schemaVersion != DataSynchronizer.currentSyncProtocolVersion {
             throw DataSynchronizerError.decodingError(
                 "unexpected schema version \(schemaVersion) for CoreDocumentSynchronization")
         }
@@ -245,7 +245,7 @@ final class CoreDocumentSynchronization: Codable, Hashable {
         try container.encode(documentId, forKey: .documentId)
 
         // verify schema version
-        try container.encode(DataSynchronizer.syncProtocolVersion, forKey: .schemaVersion)
+        try container.encode(DataSynchronizer.currentSyncProtocolVersion, forKey: .schemaVersion)
 
         try container.encode(namespace, forKey: .namespace)
         try container.encode(_lastResolution, forKey: .lastResolution)
