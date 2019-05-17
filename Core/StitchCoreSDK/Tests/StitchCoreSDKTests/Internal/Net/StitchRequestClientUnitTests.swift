@@ -442,4 +442,70 @@ class StitchRequestClientUnitTests: StitchXCTestCase {
             XCTAssertTrue(underlyingError is MockTimeoutError)
         }
     }
+
+    func testDoStreamRequestDoesntWrapServiceException() {
+        let domain = "http://domain.com"
+        let transport = MockTransport()
+        let stitchRequestClient = StitchRequestClientImpl.init(
+            baseURL: domain,
+            transport: transport,
+            defaultRequestTimeout: 1.5
+        )
+
+        let builder = StitchRequestBuilder()
+            .with(path: "/path")
+            .with(method: .get)
+
+        transport.mockStream.doThrow(
+            error: StitchError.serviceError(withMessage: "Invalid Session", withServiceErrorCode: .invalidSession),
+            forArg1: .any, forArg2: .any)
+
+        XCTAssertThrowsError(
+            try stitchRequestClient.doStreamRequest(builder.build(), delegate: nil)
+        ) { error in
+            let stitchErr = error as? StitchError
+            XCTAssertNotNil(stitchErr)
+
+            guard case .serviceError(let message, let errorCode) = stitchErr! else {
+                XCTFail("wrong StitchError error type was thrown")
+                return
+            }
+
+            XCTAssertEqual(errorCode, StitchServiceErrorCode.invalidSession)
+            XCTAssertEqual(message, "Invalid Session")
+        }
+    }
+
+    func testDoStreamRequestWrapsNonServiceExceptionsAsTransportError() {
+        let domain = "http://domain.com"
+        let transport = MockTransport()
+        let stitchRequestClient = StitchRequestClientImpl.init(
+            baseURL: domain,
+            transport: transport,
+            defaultRequestTimeout: 1.5
+        )
+
+        let builder = StitchRequestBuilder()
+            .with(path: "/path")
+            .with(method: .get)
+
+        transport.mockStream.doThrow(
+            error: MockTimeoutError.init(),
+            forArg1: .any, forArg2: .any)
+
+        XCTAssertThrowsError(
+            try stitchRequestClient.doStreamRequest(builder.build(), delegate: nil)
+        ) { error in
+            let stitchErr = error as? StitchError
+            XCTAssertNotNil(stitchErr)
+
+            guard case .requestError(let underlyingError, let errorCode) = stitchErr! else {
+                XCTFail("wrong StitchError error type was thrown")
+                return
+            }
+
+            XCTAssertEqual(errorCode, StitchRequestErrorCode.transportError)
+            XCTAssertTrue(underlyingError is MockTimeoutError)
+        }
+    }
 }

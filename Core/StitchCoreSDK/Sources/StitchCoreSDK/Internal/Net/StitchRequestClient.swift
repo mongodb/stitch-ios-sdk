@@ -71,7 +71,10 @@ extension StitchRequestClient {
         do {
             return try transport.stream(request: buildRequest(stitchReq, url: url), delegate: delegate)
         } catch {
-            throw StitchError.requestError(withError: error, withRequestErrorCode: .transportError)
+            guard let err = error as? StitchError else {
+                throw StitchError.requestError(withError: error, withRequestErrorCode: .transportError)
+            }
+            throw err
         }
     }
 
