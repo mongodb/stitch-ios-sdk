@@ -1695,7 +1695,168 @@ class RemoteMongoClientIntTests: BaseStitchIntTestCocoaTouch {
         }
     }
 
-    func testWatch() throws {
+    func testWatchFullCollection() throws {
+        let coll = getTestColl()
+
+        let testDelegate = WatchTestDelegate<Document>.init()
+        var doc1: Document = [
+            "_id": ObjectId.init(),
+            "hello": "world"
+        ]
+
+        var doc2: Document = [
+            "_id": ObjectId.init(),
+            "hello": "universe"
+        ]
+
+        // set up CallbackJoiner to make synchronous calls to callback functions
+        let joiner = CallbackJoiner()
+
+        // should be notified on stream open
+        var exp = expectation(description: "should be notified on stream open")
+
+        testDelegate.expect(eventType: .streamOpened) { exp.fulfill() }
+        let stream1 = try coll.watch(delegate: testDelegate)
+        wait(for: [exp], timeout: 5.0)
+
+        // should receive events for both documents
+        exp = expectation(description: "should receive an event for doc1")
+        testDelegate.expectEvent { event in
+            XCTAssertTrue(event.documentKey["_id"]?.bsonEquals(doc1["_id"]) ?? false)
+            XCTAssertTrue(doc1.bsonEquals(event.fullDocument))
+
+            XCTAssertEqual(event.operationType, OperationType.insert)
+            exp.fulfill()
+        }
+        coll.insertOne(doc1, joiner.capture())
+        wait(for: [exp], timeout: 5.0)
+
+        exp = expectation(description: "should receive an event for doc2")
+        testDelegate.expectEvent { event in
+            XCTAssertTrue(event.documentKey["_id"]?.bsonEquals(doc2["_id"]) ?? false)
+            XCTAssertTrue(doc2.bsonEquals(event.fullDocument))
+
+            XCTAssertEqual(event.operationType, OperationType.insert)
+            exp.fulfill()
+        }
+        coll.insertOne(doc2, joiner.capture())
+        wait(for: [exp], timeout: 5.0)
+
+        // should receive more events
+        let updateDoc: Document = [
+            "$set": ["goodbye": "test"] as Document
+        ]
+        exp = expectation(description: "should receive another event for doc1")
+        testDelegate.expectEvent { event in
+            XCTAssertTrue(event.documentKey["_id"]?.bsonEquals(doc1["_id"]) ?? false)
+            XCTAssertTrue(doc1.bsonEquals(event.fullDocument))
+
+            XCTAssertEqual(event.operationType, OperationType.update)
+            exp.fulfill()
+        }
+        doc1["goodbye"] = "test"
+        coll.updateOne(filter: ["_id": doc1["_id"]!], update: updateDoc, joiner.capture())
+        wait(for: [exp], timeout: 5.0)
+
+        exp = expectation(description: "should receive another event for doc2")
+        testDelegate.expectEvent { event in
+            XCTAssertTrue(event.documentKey["_id"]?.bsonEquals(doc2["_id"]) ?? false)
+            XCTAssertTrue(doc2.bsonEquals(event.fullDocument))
+
+            XCTAssertEqual(event.operationType, OperationType.update)
+            exp.fulfill()
+        }
+        doc2["goodbye"] = "test"
+        coll.updateOne(filter: ["_id": doc2["_id"]!], update: updateDoc, joiner.capture())
+        wait(for: [exp], timeout: 5.0)
+
+        // should be notified on stream close
+        exp = expectation(description: "should be notified on stream close")
+        testDelegate.expect(eventType: .streamClosed) { exp.fulfill() }
+        stream1.close()
+        wait(for: [exp], timeout: 5.0)
+
+        // should receive no more events after stream close
+        coll.updateOne(
+            filter: ["_id": doc1["_id"]!],
+            update: ["$set": ["you": "can't see me"] as Document ] as Document,
+            joiner.capture()
+        )
+    }
+
+    func testWatchWithFilter() throws {
+        let coll = getTestColl()
+
+        let testDelegate = WatchTestDelegate<Document>.init()
+        let doc1: Document = [
+            "_id": ObjectId.init(),
+            "hello": "world"
+        ]
+
+        var doc2: Document = [
+            "_id": ObjectId.init(),
+            "hello": "universe"
+        ]
+
+        // set up CallbackJoiner to make synchronous calls to callback functions
+        let joiner = CallbackJoiner()
+
+        // should be notified on stream open
+        var exp = expectation(description: "should be notified on stream open")
+
+        testDelegate.expect(eventType: .streamOpened) { exp.fulfill() }
+        let stream1 = try coll.watch(matchFilter: ["fullDocument.hello": "universe"] as Document,
+                                     delegate: testDelegate)
+        wait(for: [exp], timeout: 5.0)
+
+        // should receive an event for just one document
+        exp = expectation(description: "should receive an event for one document")
+        testDelegate.expectEvent { event in
+            XCTAssertTrue(event.documentKey["_id"]?.bsonEquals(doc2["_id"]) ?? false)
+            XCTAssertTrue(doc2.bsonEquals(event.fullDocument))
+
+            XCTAssertEqual(event.operationType, OperationType.insert)
+            exp.fulfill()
+        }
+        coll.insertOne(doc1, joiner.capture()) // should be filtered
+        coll.insertOne(doc2, joiner.capture())
+
+        wait(for: [exp], timeout: 5.0)
+
+        // should receive more events for a single document
+        let updateDoc: Document = [
+            "$set": ["goodbye": "test"] as Document
+        ]
+        exp = expectation(description: "should receive more events for a single document")
+        testDelegate.expectEvent { event in
+            XCTAssertTrue(event.documentKey["_id"]?.bsonEquals(doc2["_id"]) ?? false)
+            XCTAssertTrue(doc2.bsonEquals(event.fullDocument))
+
+            XCTAssertEqual(event.operationType, OperationType.update)
+            exp.fulfill()
+        }
+        coll.updateOne(filter: ["_id": doc1["_id"]!], update: updateDoc, joiner.capture()) // should be filtered
+
+        doc2["goodbye"] = "test"
+        coll.updateOne(filter: ["_id": doc2["_id"]!], update: updateDoc, joiner.capture())
+
+        wait(for: [exp], timeout: 5.0)
+
+        // should be notified on stream close
+        exp = expectation(description: "should be notified on stream close")
+        testDelegate.expect(eventType: .streamClosed) { exp.fulfill() }
+        stream1.close()
+        wait(for: [exp], timeout: 5.0)
+
+        // should receive no more events after stream close
+        coll.updateOne(
+            filter: ["_id": doc1["_id"]!],
+            update: ["$set": ["you": "can't see me"] as Document ] as Document,
+            joiner.capture()
+        )
+    }
+
+    func testWatchIds() throws {
         let coll = getTestColl()
 
         let testDelegate = WatchTestDelegate<Document>.init()
