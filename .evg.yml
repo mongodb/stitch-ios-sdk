@@ -146,7 +146,7 @@ functions:
           cd stitch-ios-sdk
           export GEM_HOME=`pwd`
           export GEM_PATH=`pwd`
-          /opt/chef/embedded/bin/gem install cocoapods -v 1.6.0.beta.1 --install-dir ./
+          /opt/chef/embedded/bin/gem install cocoapods -v 1.7.3 --install-dir ./
           bin/pod install --repo-update || (rm -rf ~/.cocoapods/repos && bin/pod install --repo-update) 
 tasks:
   - name: lint
