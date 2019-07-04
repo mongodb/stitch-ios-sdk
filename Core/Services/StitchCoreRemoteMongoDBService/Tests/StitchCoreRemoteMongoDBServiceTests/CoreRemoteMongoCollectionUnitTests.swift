@@ -1056,7 +1056,90 @@ final class CoreRemoteMongoCollectionUnitTests: XCMongoMobileTestCase {
 
     class UnitTestWatchDelegate: SSEStreamDelegate { }
 
-    func testWatch() throws {
+    func testWatchFullCollection() throws {
+        let coll = try remoteCollection()
+
+        mockServiceClient.streamFunctionMock.doReturn(
+            result: RawSSEStream.init(), forArg1: .any, forArg2: .any, forArg3: .any
+        )
+
+        _ = try coll.watch(delegate: UnitTestWatchDelegate.init())
+
+        var (funcNameArg, funcArgsArg, _) = mockServiceClient.streamFunctionMock.capturedInvocations.last!
+
+        XCTAssertEqual("watch", funcNameArg)
+        XCTAssertEqual(1, funcArgsArg.count)
+
+        let expectedArgs: Document = [
+            "database": namespace.databaseName,
+            "collection": namespace.collectionName,
+            "useCompactEvents": false
+        ]
+
+        XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
+
+        // should pass along errors
+        mockServiceClient.streamFunctionMock.doThrow(
+            error: StitchError.serviceError(withMessage: "whoops", withServiceErrorCode: .unknown),
+            forArg1: .any,
+            forArg2: .any,
+            forArg3: .any
+        )
+
+        do {
+            _ = try coll.watch(delegate: UnitTestWatchDelegate.init())
+            XCTFail("function did not fail where expected")
+        } catch {
+            // do nothing
+        }
+    }
+
+    func testWatchWithFilter() throws {
+        let coll = try remoteCollection()
+
+        mockServiceClient.streamFunctionMock.doReturn(
+            result: RawSSEStream.init(), forArg1: .any, forArg2: .any, forArg3: .any
+        )
+
+        _ = try coll.watch(
+            matchFilter: ["fullDocument.someField": "someValue"] as Document,
+            delegate: UnitTestWatchDelegate.init()
+        )
+
+        var (funcNameArg, funcArgsArg, _) = mockServiceClient.streamFunctionMock.capturedInvocations.last!
+
+        XCTAssertEqual("watch", funcNameArg)
+        XCTAssertEqual(1, funcArgsArg.count)
+
+        let expectedArgs: Document = [
+            "database": namespace.databaseName,
+            "collection": namespace.collectionName,
+            "filter": ["fullDocument.someField": "someValue"] as Document,
+            "useCompactEvents": false
+        ]
+
+        XCTAssertEqual(expectedArgs, funcArgsArg[0] as? Document)
+
+        // should pass along errors
+        mockServiceClient.streamFunctionMock.doThrow(
+            error: StitchError.serviceError(withMessage: "whoops", withServiceErrorCode: .unknown),
+            forArg1: .any,
+            forArg2: .any,
+            forArg3: .any
+        )
+
+        do {
+            _ = try coll.watch(
+                matchFilter: ["fullDocument.someField": "someValue"] as Document,
+                delegate: UnitTestWatchDelegate.init()
+            )
+            XCTFail("function did not fail where expected")
+        } catch {
+            // do nothing
+        }
+    }
+
+    func testWatchIds() throws {
         let coll = try remoteCollection()
 
         mockServiceClient.streamFunctionMock.doReturn(

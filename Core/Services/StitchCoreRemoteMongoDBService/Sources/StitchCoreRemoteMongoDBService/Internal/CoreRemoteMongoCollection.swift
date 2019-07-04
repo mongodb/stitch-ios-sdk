@@ -1,4 +1,5 @@
 // swiftlint:disable file_length
+// swiftlint:disable type_body_length
 
 import Foundation
 import MongoSwift
@@ -399,12 +400,56 @@ public class CoreRemoteMongoCollection<T: Codable>: Closable {
     }
 
     /**
+     * Opens a MongoDB change stream against the collection to watch for changes. The resulting stream will be notified
+     * of all events on this collection that the active user is authorized to see based on the configured MongoDB
+     * rules.
+     *
+     * - Parameters:
+     *   - delegate: The delegate that will react to events and errors from the resulting change stream.
+     *
+     * - Returns: A reference to the change stream opened by this method.
+     */
+    public func watch(delegate: SSEStreamDelegate) throws -> RawSSEStream {
+        var args = baseOperationArgs
+
+        args["useCompactEvents"] = false
+
+        let stream = try service.streamFunction(withName: "watch", withArgs: [args], delegate: delegate)
+        self.streams.append(WeakReference(stream))
+        return stream
+    }
+
+    /**
+     * Opens a MongoDB change stream against the collection to watch for changes. The provided BSON document will be
+     * used as a match expression filter on the change events coming from the stream.
+     *
+     * See https://docs.mongodb.com/manual/reference/operator/aggregation/match/ for documentation around how to define
+     * a match filter.
+     *
+     * Defining the match expression to filter ChangeEvents is similar to defining the match expression for triggers:
+     * https://docs.mongodb.com/stitch/triggers/database-triggers/
+     *
+     * - Parameters:
+     *   - matchFilter: The $match filter to apply to incoming change events
+     *   - delegate: The delegate that will react to events and errors from the resulting change stream.
+     *
+     * - Returns: A reference to the change stream opened by this method.
+     */
+    public func watch(matchFilter: Document, delegate: SSEStreamDelegate) throws -> RawSSEStream {
+        var args = baseOperationArgs
+
+        args["filter"] = matchFilter
+        args["useCompactEvents"] = false
+
+        let stream = try service.streamFunction(withName: "watch", withArgs: [args], delegate: delegate)
+        self.streams.append(WeakReference(stream))
+        return stream
+    }
+
+    /**
      * Opens a MongoDB change stream against the collection to watch for changes
      * made to specific documents. The documents to watch must be explicitly
      * specified by their _id.
-     *
-     * - This method does not support opening change streams on an entire collection
-     *        or a specific query.
      *
      * - Parameters:
      *   - ids: The list of _ids in the collection to watch.
