@@ -384,16 +384,83 @@ public class RemoteMongoCollection<T: Codable> {
     }
 
     /**
-     * Opens a MongoDB change stream against the collection to watch for changes
-     * made to specific documents. The documents to watch must be explicitly
-     * specified by their _id.
+     * Opens a MongoDB change stream against the collection to watch for changes. The resulting stream will be notified
+     * of all events on this collection that the active user is authorized to see based on the configured MongoDB
+     * rules.
      *
      * - This method has a generic type parameter of DelegateT, which is the type of the delegate that will react to
      *   events on the stream. This can be any type as long as it conforms to the `ChangeStreamDelegate` protocol, and
      *   the `DocumentT` type parameter on the delegate matches the `T` parameter of this collection.
      *
-     * - This method does not support opening change streams on an entire collection
-     *   or a specific query.
+     * - When this method returns the `ChangeStreamSession`, the change stream may not yet be open. The stream is
+     *   not open until the `didOpen` method is called on the provided delegate. This means that events that happen
+     *   after this method returns will not necessarily be received by this stream until the `didOpen` method is
+     *   called.
+     *
+     * - Parameters:
+     *   - delegate: The delegate that will react to events and errors from the resulting change stream.
+     *
+     * - Returns: A reference to the change stream opened by this method.
+     */
+    public func watch<DelegateT: ChangeStreamDelegate>(
+        delegate: DelegateT
+    ) throws -> ChangeStreamSession<T> where DelegateT.DocumentT == T {
+        let session = ChangeStreamSession.init(changeEventType: .fullDocument(withDelegate: delegate))
+
+        let rawStream = try self.proxy.watch(delegate: session.internalDelegate)
+        session.rawStream = rawStream
+
+        return session
+    }
+
+    /**
+     * Opens a MongoDB change stream against the collection to watch for changes. The provided BSON document will be
+     * used as a match expression filter on the change events coming from the stream.
+     *
+     * - See https://docs.mongodb.com/manual/reference/operator/aggregation/match/ for documentation around how to
+     *   define a match filter.
+     *
+     * - Defining the match expression to filter ChangeEvents is similar to defining the match expression for triggers:
+     *   https://docs.mongodb.com/stitch/triggers/database-triggers/
+     *
+     * - This method has a generic type parameter of DelegateT, which is the type of the delegate that will react to
+     *   events on the stream. This can be any type as long as it conforms to the `ChangeStreamDelegate` protocol, and
+     *   the `DocumentT` type parameter on the delegate matches the `T` parameter of this collection.
+     *
+     * - When this method returns the `ChangeStreamSession`, the change stream may not yet be open. The stream is
+     *   not open until the `didOpen` method is called on the provided delegate. This means that events that happen
+     *   after this method returns will not necessarily be received by this stream until the `didOpen` method is
+     *   called.
+     *
+     * - Parameters:
+     *   - matchFilter: The $match filter to apply to incoming change events
+     *   - delegate: The delegate that will react to events and errors from the resulting change stream.
+     *
+     * - Returns: A reference to the change stream opened by this method.
+     */
+    public func watch<DelegateT: ChangeStreamDelegate >(
+        matchFilter: Document,
+        delegate: DelegateT
+    ) throws -> ChangeStreamSession<T> where DelegateT.DocumentT == T {
+        let session = ChangeStreamSession.init(changeEventType: .fullDocument(withDelegate: delegate))
+
+        let rawStream = try self.proxy.watch(matchFilter: matchFilter,
+                                             delegate: session.internalDelegate)
+        session.rawStream = rawStream
+
+        return session
+    }
+
+    /**
+     * Opens a MongoDB change stream against the collection to watch for changes
+     * made to specific documents. The documents to watch must be explicitly
+     * specified by their _id.
+     *
+     * - This method's forStreamType can be initialized with generic type parameters of FullDelegateT or
+     *   CompactDelegateT, which are the type of the delegate that will react to events on the stream. These can be
+     *   any type as long as they conform to either the `ChangeStreamDelegate` protocol or
+     *   `CompactChangeStreamDelegate` protocol respectively, and the `DocumentT` type parameter on the delegate
+     *   matches the `T` parameter of this collection.
      *
      * - When this method returns the `ChangeStreamSession`, the change stream may not yet be open. The stream is
      *   not open until the `didOpen` method is called on the provided delegate. This means that events that happen
