@@ -17,6 +17,13 @@ private enum UserpassCodingKeys: String, CodingKey {
     case resetPasswordURL = "resetPasswordUrl"
     case confirmEmailSubject
     case resetPasswordSubject
+    case runResetFunction
+    case resetFunctionId
+    case resetFunctionName
+}
+
+private enum CustomFunctionCodingKeys: String, CodingKey {
+    case authFunctionId, authFunctionName
 }
 
 /// Convenience enum for creating a new provider config. Given that there
@@ -42,16 +49,24 @@ public enum ProviderConfigs: Encodable {
     case userpass(emailConfirmationURL: String,
                   resetPasswordURL: String,
                   confirmEmailSubject: String,
-                  resetPasswordSubject: String)
+                  resetPasswordSubject: String,
+                  runResetFunction: Bool = false,
+                  resetFunctionId: String? = nil,
+                  resetFunctionName: String? = nil)
     /// - parameter signingKey: key used to sign a JWT for `custom-token`
     case custom(signingKey: String,
                 metadataFields: [MetadataField])
+    /// - parameter authFunctionId: the id of the function that will be our authenticator
+    /// - parameter authFunctionName: the name of the function that will be our authenticator
+    case customFunction(authFunctionId: String,
+                        authFunctionName: String)
 
     private var type: StitchProviderType {
         switch self {
         case .anon: return .anonymous
         case .userpass: return .userPassword
         case .custom: return .custom
+        case .customFunction: return .function
         }
     }
 
@@ -63,19 +78,30 @@ public enum ProviderConfigs: Encodable {
         case .userpass(let emailConfirmationURL,
                        let resetPasswordURL,
                        let confirmEmailSubject,
-                       let resetPasswordSubject):
+                       let resetPasswordSubject,
+                       let runResetFunction,
+                       let resetFunctionId,
+                       let resetFunctionName):
             var configContainer = container.nestedContainer(keyedBy: UserpassCodingKeys.self,
                                                             forKey: .config)
             try configContainer.encode(emailConfirmationURL, forKey: .emailConfirmationURL)
             try configContainer.encode(resetPasswordURL, forKey: .resetPasswordURL)
             try configContainer.encode(confirmEmailSubject, forKey: .confirmEmailSubject)
             try configContainer.encode(resetPasswordSubject, forKey: .resetPasswordSubject)
+            try configContainer.encode(runResetFunction, forKey: .runResetFunction)
+            try configContainer.encode(resetFunctionId, forKey: .resetFunctionId)
+            try configContainer.encode(resetFunctionName, forKey: .resetFunctionName)
         case .custom(let signingKey,
                      let metadataFields):
             try container.encode(metadataFields, forKey: .metadataFields)
             var configContainer = container.nestedContainer(keyedBy: CustomTokenCodingKeys.self,
                                                             forKey: .config)
             try configContainer.encode(signingKey, forKey: .signingKey)
+        case .customFunction(let authFunctionId, let authFunctionName):
+            var configContainer = container.nestedContainer(keyedBy: CustomFunctionCodingKeys.self,
+                                                            forKey: .config)
+            try configContainer.encode(authFunctionId, forKey: .authFunctionId)
+            try configContainer.encode(authFunctionName, forKey: .authFunctionName)
         }
     }
 }
