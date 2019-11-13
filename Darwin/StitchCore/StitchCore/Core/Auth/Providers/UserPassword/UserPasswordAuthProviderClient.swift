@@ -81,6 +81,18 @@ public protocol UserPasswordAuthProviderClient {
      */
     func reset(password: String, withToken token: String, withTokenID tokenID: String, completionHandler: @escaping (StitchResult<Void>) -> Void)
 
+    /**
+     * Call a reset password function configured to the provider.
+     * @param email the email of the user
+     * @param password the new password to set
+     * @param args arguments to be provided to the reset function
+     * @return A {@link Task} that completes when the reqest request completes/fails.
+     */
+    func callResetPasswordFunction(email: String,
+                                   password: String,
+                                   args: [Any],
+                                   _ completionHandler: @escaping (StitchResult<Void>) -> Void)
+
     // swiftlint:enable line_length
 }
 
@@ -128,6 +140,17 @@ private class UserPasswordAuthProviderClientImpl: CoreUserPasswordAuthProviderCl
     func sendResetPasswordEmail(toEmail email: String, completionHandler: @escaping (StitchResult<Void>) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler) {
             _ = try super.sendResetPasswordEmail(toEmail: email)
+        }
+    }
+
+    func callResetPasswordFunction(email: String,
+                                   password: String,
+                                   args: [Any],
+                                   _ completionHandler: @escaping (StitchResult<Void>) -> Void) {
+        dispatcher.run(withCompletionHandler: completionHandler) {
+            _ = try super.callResetPasswordFunction(email: email,
+                                                    password: password,
+                                                    args: args)
         }
     }
 }

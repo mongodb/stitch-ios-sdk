@@ -1,6 +1,7 @@
 import Foundation
 import XCTest
 import StitchCoreSDK
+import StitchCoreAdminClient
 import MongoSwift
 @testable import StitchCore
 
@@ -188,5 +189,179 @@ class StitchAppClientIntegrationTests: StitchIntegrationTestCase {
 //                exp5.fulfill()
 //        }
 //        wait(for: [exp5], timeout: defaultTimeoutSeconds)
+    }
+
+    func testCustomFunctionLogin() throws {
+        _ = harness.createApp()
+
+        let function = try harness.app.functions.create(data: FunctionCreator(
+            name: "funkyAuth",
+            source: """
+            exports = function(payload) {
+                return payload.id;
+            };
+            """,
+            canEvaluate: nil,
+            isPrivate: false
+        ))
+
+        _ = harness.addProvider(withConfig: ProviderConfigs.customFunction(authFunctionId: function.id!,
+                                                                           authFunctionName: function.name!))
+
+        let client = harness.stitchAppClient
+
+        let id = "123abc"
+
+        let exp = expectation(description: "login with FunctionalCredential works")
+        var user: StitchUser!
+        client?.auth.login(withCredential: FunctionCredential(payload: ["id": id])) {
+            if case .success(let res) = $0 {
+                user = res
+            }
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: defaultTimeoutSeconds)
+
+        XCTAssertEqual(id, user.id)
+        XCTAssertEqual(id, user.identities[0].id)
+
+        XCTAssertEqual(FunctionAuthProvider.defaultName, user.loggedInProviderName)
+        XCTAssertEqual(FunctionAuthProvider.type, user.loggedInProviderType.name)
+        XCTAssertEqual(FunctionAuthProvider.type, user.identities[0].providerType)
+        XCTAssertTrue(client!.auth.isLoggedIn)
+    }
+
+    func testCustomFunctionLoginFail() throws {
+        _ = harness.createApp()
+
+        let function = try harness.app.functions.create(data: FunctionCreator(
+            name: "funkyAuth",
+            source: """
+            exports = function(payload) {
+                return 0;
+            };
+            """,
+            canEvaluate: nil,
+            isPrivate: false
+        ))
+
+        _ = harness.addProvider(withConfig: ProviderConfigs.customFunction(authFunctionId: function.id!,
+                                                                           authFunctionName: function.name!))
+
+        let client = harness.stitchAppClient
+
+        let exp = expectation(description: "login with FunctionalCredential works")
+        client?.auth.login(withCredential: FunctionCredential(payload: ["id": "123abc"])) {
+            if case .failure(_) = $0 {
+                exp.fulfill()
+            } else {
+                XCTFail("Login with function credential should not have been successful")
+            }
+        }
+        wait(for: [exp], timeout: defaultTimeoutSeconds)
+    }
+
+    func testCallResetPasswordFunction() throws {
+        _ = harness.createApp()
+
+        let function = try harness.app.functions.create(data: FunctionCreator(
+            name: "testResetPasswordFunction",
+            source: """
+            exports = function({email, password}, arg1, arg2) {
+                if (arg1 == 0 && arg2 == 1) {
+                    return { "status": "success" };
+                } else {
+                    return { "status": "fail" };
+                }
+            };
+            """,
+            canEvaluate: nil,
+            isPrivate: false))
+
+        _ = harness.addProvider(withConfig: ProviderConfigs.userpass(
+            emailConfirmationURL: "http://emailConfirmURL.com",
+            resetPasswordURL: "http://resetPasswordURL.com",
+            confirmEmailSubject: "email subject",
+            resetPasswordSubject: "password subject",
+            runResetFunction: true,
+            resetFunctionId: function.id!,
+            resetFunctionName: function.name!))
+
+        let client = harness.stitchAppClient!
+        let userPassClient = client.auth.providerClient(fromFactory: userPasswordClientFactory)
+
+        let email = "user@10gen.com"
+        let password1 = "password1"
+        let password2 = "password2"
+
+        let exp = expectation(description: "user pass should register")
+        userPassClient.register(withEmail: email, withPassword: password1) {
+            switch $0 {
+            case .success(_):
+                exp.fulfill()
+            case .failure(let error):
+                XCTFail(error.description)
+            }
+        }
+        wait(for: [exp], timeout: defaultTimeoutSeconds)
+
+        let conf = try harness.app.userRegistrations.sendConfirmation(toEmail: email)
+        let exp2 = expectation(description: "user pass should confirm user")
+        userPassClient.confirmUser(withToken: conf.token, withTokenID: conf.tokenID) {
+            switch $0 {
+            case .success(_):
+                exp2.fulfill()
+            case .failure(let error):
+                XCTFail(error.description)
+            }
+        }
+        wait(for: [exp2], timeout: defaultTimeoutSeconds)
+
+        let exp3 = expectation(description: "user pass should confirm user")
+        client.auth.login(withCredential: UserPasswordCredential(withUsername: email, withPassword: password1)) {
+            switch $0 {
+            case .success(_):
+                exp3.fulfill()
+            case .failure(let error):
+                XCTFail(error.description)
+            }
+        }
+        wait(for: [exp3], timeout: defaultTimeoutSeconds)
+
+        let exp4 = expectation(description: "call reset password function should succeed")
+        client.auth.providerClient(fromFactory: userPasswordClientFactory)
+            .callResetPasswordFunction(email: email, password: password2, args: [
+                0, 1
+            ]) {
+            switch $0 {
+            case .success(_):
+                exp4.fulfill()
+            case .failure(let error):
+                XCTFail(error.description)
+            }
+        }
+        wait(for: [exp4], timeout: defaultTimeoutSeconds)
+
+        let exp5 = expectation(description: "logout should succeed")
+        client.auth.logout() {
+            switch $0 {
+            case .success(_):
+                exp5.fulfill()
+            case .failure(let error):
+                XCTFail(error.description)
+            }
+        }
+        wait(for: [exp5], timeout: defaultTimeoutSeconds)
+
+        let exp6 = expectation(description: "logging in with new password should succeed")
+        client.auth.login(withCredential: UserPasswordCredential(withUsername: email, withPassword: password2)) {
+            switch $0 {
+            case .success(_):
+                exp6.fulfill()
+            case .failure(let error):
+                XCTFail(error.description)
+            }
+        }
+        wait(for: [exp6], timeout: defaultTimeoutSeconds)
     }
 }

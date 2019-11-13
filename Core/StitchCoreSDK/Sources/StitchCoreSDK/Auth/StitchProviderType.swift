@@ -43,6 +43,11 @@ public enum StitchProviderType: String, Codable {
     case userPassword
 
     /**
+     * The custom function authentication provider.
+     */
+    case function
+
+    /**
      * The default name of this provider in MongoDB Stitch.
      */
     public var name: String {
@@ -61,6 +66,8 @@ public enum StitchProviderType: String, Codable {
             return "api-key"
         case .userPassword:
             return "local-userpass"
+        case .function:
+            return "custom-function"
         }
     }
 }

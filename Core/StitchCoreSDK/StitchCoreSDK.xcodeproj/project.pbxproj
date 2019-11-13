@@ -18,6 +18,8 @@
 		491A934B21B323AB00F60F59 /* RawSSEStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A934A21B323AB00F60F59 /* RawSSEStream.swift */; };
 		491A934F21B3248500F60F59 /* FoundationHTTPSSEStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A934E21B3248500F60F59 /* FoundationHTTPSSEStream.swift */; };
 		491A935321B334A200F60F59 /* FoundationHTTPEventStreamUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A935221B334A200F60F59 /* FoundationHTTPEventStreamUnitTests.swift */; };
+		4922E3082371DAFD00BA8D40 /* FunctionAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4922E3072371DAFD00BA8D40 /* FunctionAuthProvider.swift */; };
+		4922E30A2371DB2B00BA8D40 /* FunctionCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4922E3092371DB2B00BA8D40 /* FunctionCredential.swift */; };
 		498062702185B6AF00E2A3A2 /* StitchUserProfileUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498062562185B6AF00E2A3A2 /* StitchUserProfileUnitTests.swift */; };
 		498062712185B6AF00E2A3A2 /* CoreUserPasswordAuthProviderClientUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498062592185B6AF00E2A3A2 /* CoreUserPasswordAuthProviderClientUnitTests.swift */; };
 		498062722185B6AF00E2A3A2 /* CoreUserAPIKeyAuthProviderClientUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4980625B2185B6AF00E2A3A2 /* CoreUserAPIKeyAuthProviderClientUnitTests.swift */; };
@@ -152,6 +154,8 @@
 		491A934A21B323AB00F60F59 /* RawSSEStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawSSEStream.swift; sourceTree = "<group>"; };
 		491A934E21B3248500F60F59 /* FoundationHTTPSSEStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationHTTPSSEStream.swift; sourceTree = "<group>"; };
 		491A935221B334A200F60F59 /* FoundationHTTPEventStreamUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationHTTPEventStreamUnitTests.swift; sourceTree = "<group>"; };
+		4922E3072371DAFD00BA8D40 /* FunctionAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionAuthProvider.swift; sourceTree = "<group>"; };
+		4922E3092371DB2B00BA8D40 /* FunctionCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionCredential.swift; sourceTree = "<group>"; };
 		49627E6E22730BF40076B9B1 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		498060EC2185B57C00E2A3A2 /* StitchCoreSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StitchCoreSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4980617E2185B5C600E2A3A2 /* StitchCoreSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StitchCoreSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -285,6 +289,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4922E3062371DAE500BA8D40 /* Function */ = {
+			isa = PBXGroup;
+			children = (
+				4922E3072371DAFD00BA8D40 /* FunctionAuthProvider.swift */,
+				4922E3092371DB2B00BA8D40 /* FunctionCredential.swift */,
+			);
+			path = Function;
+			sourceTree = "<group>";
+		};
 		498060E22185B57C00E2A3A2 = {
 			isa = PBXGroup;
 			children = (
@@ -410,6 +423,7 @@
 		498062022185B6A100E2A3A2 /* Providers */ = {
 			isa = PBXGroup;
 			children = (
+				4922E3062371DAE500BA8D40 /* Function */,
 				498062032185B6A100E2A3A2 /* Anonymous */,
 				498062062185B6A100E2A3A2 /* Google */,
 				498062092185B6A100E2A3A2 /* Internal */,
@@ -1064,6 +1078,7 @@
 				49AD953121B741DC002D8E05 /* RawSSE.swift in Sources */,
 				4980629A2185B6BC00E2A3A2 /* APIAccessToken.swift in Sources */,
 				4980629B2185B6BC00E2A3A2 /* StoreStitchUserIdentity.swift in Sources */,
+				4922E30A2371DB2B00BA8D40 /* FunctionCredential.swift in Sources */,
 				4980629C2185B6BC00E2A3A2 /* APIStitchUserIdentity.swift in Sources */,
 				4980629E2185B6BC00E2A3A2 /* APIAuthInfoImpl.swift in Sources */,
 				4980629F2185B6BC00E2A3A2 /* APICoreUserProfile.swift in Sources */,
@@ -1091,6 +1106,7 @@
 				1E0FAFF4220A064800C201CC /* CoreStitchAuth+LoginAndLink.swift in Sources */,
 				498062B32185B6BC00E2A3A2 /* Request.swift in Sources */,
 				498062B42185B6BC00E2A3A2 /* StitchAuthRequest.swift in Sources */,
+				4922E3082371DAFD00BA8D40 /* FunctionAuthProvider.swift in Sources */,
 				498062B52185B6BC00E2A3A2 /* Method.swift in Sources */,
 				498DF593219F7451009F1B3F /* NetworkMonitor.swift in Sources */,
 				498062B62185B6BC00E2A3A2 /* ContentType.swift in Sources */,

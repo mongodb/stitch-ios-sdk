@@ -47,12 +47,18 @@ private final class Routes {
      * The route for sending a password reset email to an existing user.
      */
     fileprivate lazy var sendResetPasswordEmailRoute = self.extensionRoute(forPath: "reset/send")
+
+    /**
+     * The route for resetting a password via a function.
+     */
+    fileprivate lazy var callResetPasswordFunction = self.extensionRoute(forPath: "reset/call")
 }
 
 private let emailKey = "email"
 private let passwordKey = "password"
 private let tokenKey = "token"
 private let tokenIDKey = "tokenId"
+private let argsKey = "arguments"
 
 /**
  * :nodoc:
@@ -176,6 +182,20 @@ open class CoreUserPasswordAuthProviderClient: CoreAuthProviderClient<StitchRequ
                                  tokenIDKey: tokenID,
                                  passwordKey: password])
                 .with(path: self.routes.resetPasswordRoute)
+                .build()
+        )
+    }
+
+    public func callResetPasswordFunction(email: String,
+                                          password: String,
+                                          args: [Any]) throws -> Response {
+        return try self.requestClient.doRequest(
+            StitchDocRequestBuilder()
+                .with(method: .post)
+                .with(document: [emailKey: email,
+                                 passwordKey: password,
+                                 argsKey: args])
+                .with(path: self.routes.callResetPasswordFunction)
                 .build()
         )
     }
