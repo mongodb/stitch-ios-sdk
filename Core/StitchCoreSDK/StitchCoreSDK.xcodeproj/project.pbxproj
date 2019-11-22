@@ -105,6 +105,8 @@
 		498062F82185C53A00E2A3A2 /* MockUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498062F72185C53A00E2A3A2 /* MockUtils.framework */; };
 		498DF593219F7451009F1B3F /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498DF592219F7451009F1B3F /* NetworkMonitor.swift */; };
 		498DF595219F748D009F1B3F /* AuthMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498DF594219F748D009F1B3F /* AuthMonitor.swift */; };
+		4993C1AA23882EBD0070FA81 /* AppleCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4993C1A923882EBD0070FA81 /* AppleCredential.swift */; };
+		4993C1AC23882EC90070FA81 /* AppleAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4993C1AB23882EC90070FA81 /* AppleAuthProvider.swift */; };
 		4999DEDA22142A240081D742 /* StitchServiceBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4999DED922142A240081D742 /* StitchServiceBinder.swift */; };
 		4999DEDC22142CA60081D742 /* WeakReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4999DEDB22142CA60081D742 /* WeakReference.swift */; };
 		4999DEDE22142FC80081D742 /* AuthRebindEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4999DEDD22142FC80081D742 /* AuthRebindEvent.swift */; };
@@ -245,6 +247,8 @@
 		498062F72185C53A00E2A3A2 /* MockUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MockUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		498DF592219F7451009F1B3F /* NetworkMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		498DF594219F748D009F1B3F /* AuthMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthMonitor.swift; sourceTree = "<group>"; };
+		4993C1A923882EBD0070FA81 /* AppleCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleCredential.swift; sourceTree = "<group>"; };
+		4993C1AB23882EC90070FA81 /* AppleAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleAuthProvider.swift; sourceTree = "<group>"; };
 		4999DED922142A240081D742 /* StitchServiceBinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchServiceBinder.swift; sourceTree = "<group>"; };
 		4999DEDB22142CA60081D742 /* WeakReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakReference.swift; sourceTree = "<group>"; };
 		4999DEDD22142FC80081D742 /* AuthRebindEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRebindEvent.swift; sourceTree = "<group>"; };
@@ -423,6 +427,7 @@
 		498062022185B6A100E2A3A2 /* Providers */ = {
 			isa = PBXGroup;
 			children = (
+				4993C1A823882EAB0070FA81 /* Apple */,
 				4922E3062371DAE500BA8D40 /* Function */,
 				498062032185B6A100E2A3A2 /* Anonymous */,
 				498062062185B6A100E2A3A2 /* Google */,
@@ -770,6 +775,15 @@
 			path = Internal;
 			sourceTree = "<group>";
 		};
+		4993C1A823882EAB0070FA81 /* Apple */ = {
+			isa = PBXGroup;
+			children = (
+				4993C1A923882EBD0070FA81 /* AppleCredential.swift */,
+				4993C1AB23882EC90070FA81 /* AppleAuthProvider.swift */,
+			);
+			path = Apple;
+			sourceTree = "<group>";
+		};
 		CC08727757358FF0F59F3D80 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1042,10 +1056,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4993C1AA23882EBD0070FA81 /* AppleCredential.swift in Sources */,
 				1E524A552202418D009D818D /* CoreStitchAuth+AuthStorage.swift in Sources */,
 				4980627F2185B6BC00E2A3A2 /* StitchAppClientConfiguration.swift in Sources */,
 				498062802185B6BC00E2A3A2 /* StitchAppClientInfo.swift in Sources */,
 				498062812185B6BC00E2A3A2 /* ProviderCapabilities.swift in Sources */,
+				4993C1AC23882EC90070FA81 /* AppleAuthProvider.swift in Sources */,
 				498062822185B6BC00E2A3A2 /* StitchProviderType.swift in Sources */,
 				498062832185B6BC00E2A3A2 /* AnonymousCredential.swift in Sources */,
 				491A934F21B3248500F60F59 /* FoundationHTTPSSEStream.swift in Sources */,

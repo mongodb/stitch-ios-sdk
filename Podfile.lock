@@ -57,7 +57,7 @@ DEPENDENCIES:
   - Toast-Swift (= 4.0.0)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - BEMCheckBox
     - BlueCryptor
     - BlueECC
@@ -105,4 +105,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: ed787729049ae54d66114450249788d217c334c2
 
-COCOAPODS: 1.7.3
+COCOAPODS: 1.8.4

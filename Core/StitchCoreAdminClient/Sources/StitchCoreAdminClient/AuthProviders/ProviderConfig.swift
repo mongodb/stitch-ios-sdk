@@ -7,6 +7,11 @@ private enum ConfigKeys: String, CodingKey {
 }
 
 /// Keys for the `custom-token` provider configuration
+private enum AppleCodingKeys: String, CodingKey {
+    case clientId, clientSecret
+}
+
+/// Keys for the `custom-token` provider configuration
 private enum CustomTokenCodingKeys: String, CodingKey {
     case signingKey
 }
@@ -42,6 +47,8 @@ public enum ProviderConfigs: Encodable {
     }
 
     case anon
+    case apple(clientId: String, clientSecret: String)
+
     /// - parameter emailConfirmationURL: url to redirect user to for email confirmation
     /// - parameter resetPasswordURL: url to redirect user to for password reset
     /// - parameter confirmEmailSubject: subject of the email to confirm a new user
@@ -67,6 +74,7 @@ public enum ProviderConfigs: Encodable {
         case .userpass: return .userPassword
         case .custom: return .custom
         case .customFunction: return .function
+        case .apple: return .apple
         }
     }
 
@@ -75,6 +83,11 @@ public enum ProviderConfigs: Encodable {
         try container.encode(self.type.name, forKey: .type)
         switch self {
         case .anon: break
+        case .apple(let clientId, let clientSecret):
+            var configContainer = container.nestedContainer(keyedBy: AppleCodingKeys.self,
+                                                            forKey: .config)
+            try configContainer.encode(clientId, forKey: .clientId)
+            try configContainer.encode(clientSecret, forKey: .clientSecret)
         case .userpass(let emailConfirmationURL,
                        let resetPasswordURL,
                        let confirmEmailSubject,
