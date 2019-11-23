@@ -1,7 +1,7 @@
 import MongoSwift
 
 /**
- * The `Apple` is a `StitchCredential` that is used to log in
+ * The `AppleCredential` is a `StitchCredential` that is used to log in
  * using the [Apple Authentication Provider](https://docs.mongodb.com/stitch/authentication/apple/).
  *
  * - SeeAlso:
@@ -11,12 +11,12 @@ public struct AppleCredential: StitchCredential {
     // MARK: Initializer
 
     /**
-     * Initializes this credential with the name of the provider and a Google OAuth2 authentication code.
+     * Initializes this credential with the name of the provider and a Apple OAuth2 identity token.
      */
     public init(withProviderName providerName: String = providerType.name,
-                withAuthCode authCode: String) {
+                identityToken: Data) {
         self.providerName = providerName
-        self.authCode = authCode
+        self.identityToken = String(data: identityToken, encoding: .utf8)!
     }
 
     // MARK: Properties
@@ -35,7 +35,7 @@ public struct AppleCredential: StitchCredential {
      * The contents of this credential as they will be passed to the Stitch server.
      */
     public var material: Document {
-        return ["authCode": authCode]
+        return ["id_token": identityToken]
     }
 
     /**
@@ -45,7 +45,7 @@ public struct AppleCredential: StitchCredential {
         ProviderCapabilities.init(reusesExistingSession: false)
 
     /**
-     * The Google OAuth2 authentication code contained within this credential.
+     * The Apple OAuth2 identity token contained within this credential.
      */
-    private let authCode: String
+    private let identityToken: String
 }

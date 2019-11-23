@@ -1,6 +1,6 @@
 /**
  * :nodoc:
- * The Google authentication provider.
+ * The Apple authentication provider.
  */
 public final class AppleAuthProvider {
     private init() {}
