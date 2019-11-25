@@ -13,6 +13,11 @@ public enum StitchProviderType: String, Codable {
     case anonymous
 
     /**
+     * The Apple OAuth2 authentication provider.
+     */
+    case apple
+
+    /**
      * The custom authentication provider.
      */
     case custom
@@ -54,6 +59,8 @@ public enum StitchProviderType: String, Codable {
         switch self {
         case .anonymous:
             return "anon-user"
+        case .apple:
+            return "oauth2-apple"
         case .custom:
             return "custom-token"
         case .facebook:
