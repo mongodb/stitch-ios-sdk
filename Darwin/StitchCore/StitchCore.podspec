@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
     spec.name       = File.basename(__FILE__, '.podspec')
-    spec.version    = "6.2.0"
+    spec.version    = "6.3.0"
     spec.summary    = "#{__FILE__} Module"
     spec.homepage   = "https://github.com/mongodb/stitch-ios-sdk"
     spec.license    = "Apache2"
@@ -12,7 +12,7 @@ Pod::Spec.new do |spec|
 
     spec.source     = {
       :git => "https://github.com/mongodb/stitch-ios-sdk.git",
-      :branch => "master", :tag => "6.2.0",
+      :branch => "master", :tag => "6.3.0",
     }
 
     spec.platform = :ios, "11.0"
@@ -21,5 +21,5 @@ Pod::Spec.new do |spec|
 
     spec.source_files = "Darwin/#{spec.name}/#{spec.name}/**/*.swift"
 
-    spec.dependency 'StitchCoreSDK', '6.2.0'
+    spec.dependency 'StitchCoreSDK', '6.3.0'
 end
