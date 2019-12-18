@@ -41,6 +41,7 @@
 		4902C6C9205174A100E53674 /* NamedServiceClientFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4902C6C8205174A100E53674 /* NamedServiceClientFactory.swift */; };
 		4919C9432216BC2D00B518C6 /* StitchAuthDelegateIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4919C9422216BC2D00B518C6 /* StitchAuthDelegateIntegrationTests.swift */; };
 		491F9C3021A46D1800802A4D /* DarwinNetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491F9C2F21A46D1800802A4D /* DarwinNetworkMonitor.swift */; };
+		4928E50F23AA474F002A366C /* StitchCustomUserDataIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4928E50E23AA474F002A366C /* StitchCustomUserDataIntTests.swift */; };
 		49368D6D2052F350006153D3 /* StitchAppClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49368D6C2052F350006153D3 /* StitchAppClientImpl.swift */; };
 		49368D702052F35B006153D3 /* StitchAuthImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49368D6F2052F35B006153D3 /* StitchAuthImpl.swift */; };
 		494C0A8920EBCEC400773B49 /* StitchDarwinCoreTestUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494C0A8820EBCEC400773B49 /* StitchDarwinCoreTestUtils.framework */; };
@@ -116,6 +117,9 @@
 		4902C6CE2051753000E53674 /* ServiceClientFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceClientFactory.swift; sourceTree = "<group>"; };
 		4919C9422216BC2D00B518C6 /* StitchAuthDelegateIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchAuthDelegateIntegrationTests.swift; sourceTree = "<group>"; };
 		491F9C2F21A46D1800802A4D /* DarwinNetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarwinNetworkMonitor.swift; sourceTree = "<group>"; };
+		4928E50E23AA474F002A366C /* StitchCustomUserDataIntTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchCustomUserDataIntTests.swift; sourceTree = "<group>"; };
+		4928E51023AA4960002A366C /* StitchRemoteMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchRemoteMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4928E51223AA4AF4002A366C /* StitchCoreRemoteMongoDBService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = StitchCoreRemoteMongoDBService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		49368D6C2052F350006153D3 /* StitchAppClientImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchAppClientImpl.swift; sourceTree = "<group>"; };
 		49368D6F2052F35B006153D3 /* StitchAuthImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StitchAuthImpl.swift; sourceTree = "<group>"; };
 		493A699B20EFD8E700BFE39E /* JWT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = JWT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -253,6 +257,7 @@
 				11981A262062C8190074BB11 /* Internal */,
 				111CCA04207C08A3002FEB4A /* StitchTests.swift */,
 				116168B5208A6B1000967A7E /* StitchAppClientIntegrationTests.swift */,
+				4928E50E23AA474F002A366C /* StitchCustomUserDataIntTests.swift */,
 				11B1840420A37ECA00B62ABB /* StitchAppClientIntegrationAuthTests.swift */,
 			);
 			path = Core;
@@ -333,6 +338,8 @@
 		4902C6872050076B00E53674 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4928E51223AA4AF4002A366C /* StitchCoreRemoteMongoDBService.framework */,
+				4928E51023AA4960002A366C /* StitchRemoteMongoDBService.framework */,
 				493A699B20EFD8E700BFE39E /* JWT.framework */,
 				494C21D620ED804E00A26734 /* StitchCoreSDK.framework */,
 				494C0A8820EBCEC400773B49 /* StitchDarwinCoreTestUtils.framework */,
@@ -627,32 +634,32 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-StitchCoreTests/Pods-StitchCoreTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/MongoSwift/MongoSwift.framework",
-				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework",
-				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework.dSYM",
-				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework",
-				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework.dSYM",
 				"${BUILT_PRODUCTS_DIR}/BlueCryptor/Cryptor.framework",
 				"${BUILT_PRODUCTS_DIR}/BlueECC/CryptorECC.framework",
 				"${BUILT_PRODUCTS_DIR}/BlueRSA/CryptorRSA.framework",
 				"${BUILT_PRODUCTS_DIR}/KituraContracts/KituraContracts.framework",
 				"${BUILT_PRODUCTS_DIR}/LoggerAPI/LoggerAPI.framework",
+				"${BUILT_PRODUCTS_DIR}/MongoSwift/MongoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftJWT/SwiftJWT.framework",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/bson.framework.dSYM",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework",
+				"${PODS_ROOT}/mongo-embedded-c-driver/iPhoneOS/Frameworks/mongoc.framework.dSYM",
 				"${BUILT_PRODUCTS_DIR}/Swifter/Swifter.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MongoSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/bson.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/bson.framework.dSYM",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongoc.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/mongoc.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cryptor.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptorECC.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptorRSA.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KituraContracts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LoggerAPI.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MongoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftJWT.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/bson.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/bson.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mongoc.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/mongoc.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Swifter.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -675,6 +682,7 @@
 				111CCA05207C08A3002FEB4A /* StitchTests.swift in Sources */,
 				116168B6208A6B1000967A7E /* StitchAppClientIntegrationTests.swift in Sources */,
 				11981A242062C4B60074BB11 /* OperationDispatcherUnitTests.swift in Sources */,
+				4928E50F23AA474F002A366C /* StitchCustomUserDataIntTests.swift in Sources */,
 				4919C9432216BC2D00B518C6 /* StitchAuthDelegateIntegrationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

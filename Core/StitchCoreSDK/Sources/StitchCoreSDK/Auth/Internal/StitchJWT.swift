@@ -1,4 +1,5 @@
 import Foundation
+import MongoSwift
 
 /**
  * A simple class representing a JWT issued by the Stitch server. Only contains claims relevant to the SDK.
@@ -26,9 +27,12 @@ internal final class StitchJWT {
      */
     public let issuedAt: TimeInterval?
 
+    public let userData: Document?
+
     enum CodingKeys: String, CodingKey {
         case expires = "exp"
         case issuedAt = "iat"
+        case userData = "user_data"
     }
 
     /**
@@ -61,12 +65,13 @@ internal final class StitchJWT {
             throw MalformedJWTError.couldNotDecodeBase64
         }
 
-        guard let token = ((try? JSONSerialization.jsonObject(with: json)) as? [String: Any]) else {
+        guard let token = try? Document(fromJSON: json) else {
             throw MalformedJWTError.couldNotParseJSON
         }
 
         self.expires = token[CodingKeys.expires.stringValue] as? TimeInterval
         self.issuedAt = token[CodingKeys.issuedAt.stringValue] as? TimeInterval
+        self.userData = token[CodingKeys.userData.stringValue] as? Document
     }
 
     /**

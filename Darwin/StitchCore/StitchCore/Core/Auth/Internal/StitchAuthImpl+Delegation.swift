@@ -86,6 +86,7 @@ extension StitchAuthImpl {
                                     withLoggedInProviderName: user.loggedInProviderName,
                                     withUserProfile: user.profile,
                                     withIsLoggedIn: user.isLoggedIn,
-                                    withLastAuthActivity: user.lastAuthActivity)
+                                    withLastAuthActivity: user.lastAuthActivity,
+                                    customData: user.customData)
     }
 }

@@ -14,7 +14,8 @@ internal final class StitchUserFactoryImpl: StitchUserFactory {
                   withLoggedInProviderName loggedInProviderName: String,
                   withUserProfile userProfile: StitchUserProfile,
                   withIsLoggedIn isLoggedIn: Bool,
-                  withLastAuthActivity lastAuthActivity: TimeInterval
+                  withLastAuthActivity lastAuthActivity: TimeInterval,
+                  customData: Document?
         ) -> StitchUserImpl {
         return StitchUserImpl.init(withID: id,
                                    withProviderType: loggedInProviderType,
@@ -22,7 +23,8 @@ internal final class StitchUserFactoryImpl: StitchUserFactory {
                                    withUserProfile: userProfile,
                                    withAuth: self.auth,
                                    withIsLoggedIn: isLoggedIn,
-                                   withLastAuthActivity: lastAuthActivity)
+                                   withLastAuthActivity: lastAuthActivity,
+                                   customData: customData)
     }
     //swiftlint:enable function_parameter_count
 

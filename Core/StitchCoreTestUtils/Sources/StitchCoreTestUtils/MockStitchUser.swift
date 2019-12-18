@@ -25,6 +25,8 @@ struct MockStitchUser: CoreStitchUser {
 
     var lastAuthActivity: TimeInterval = Date.init().timeIntervalSince1970
 
+    var customData: Document = [:]
+
     static func == (lhs: MockStitchUser,
                     rhs: MockStitchUser) -> Bool {
         return lhs.id == rhs.id
