@@ -334,7 +334,7 @@ internal final class StitchAuthImpl: CoreStitchAuth<StitchUserImpl>, StitchAuth 
         }
     }
 
-    func refreshCustomData(_ completionHandler: @escaping (StitchResult<Void>) -> Void) {
+    public func refreshCustomData(_ completionHandler: @escaping (StitchResult<Void>) -> Void) {
         dispatcher.run(withCompletionHandler: completionHandler, {
             try self.refreshAccessToken()
         })

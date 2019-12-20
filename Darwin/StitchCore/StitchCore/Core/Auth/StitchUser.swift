@@ -69,10 +69,10 @@ public protocol StitchUser: CoreStitchUser {
      For example, you might store a user’s preferred language,
      date of birth, or their local timezone.
 
-     If this value has not been configured, it will be empty.
+     If this functionality has not been configured, it will be empty.
      */
     var customData: Document { get }
-    
+
     // MARK: Methods
 
     // Disabled line length rule due to https://github.com/realm/jazzy/issues/896
