@@ -1,5 +1,6 @@
 // swiftlint:disable function_parameter_count
 import Foundation
+import MongoSwift
 
 /**
  * A protocol describing a factory that produces a generic Stitch user object conforming to `CoreStitchUser`.
@@ -19,7 +20,8 @@ public protocol StitchUserFactory {
                   withLoggedInProviderName loggedInProviderName: String,
                   withUserProfile userProfile: StitchUserProfile,
                   withIsLoggedIn isLoggedIn: Bool,
-                  withLastAuthActivity lastAuthActivity: TimeInterval) -> UserType
+                  withLastAuthActivity lastAuthActivity: TimeInterval,
+                  customData: Document?) -> UserType
 }
 
 /**
@@ -30,7 +32,7 @@ public class AnyStitchUserFactory<T: CoreStitchUser> {
     /**
      * A property containing the function that produces a Stitch user object.
      */
-    private let makeUserBlock: (String, StitchProviderType, String, StitchUserProfile, Bool, TimeInterval) -> T
+    private let makeUserBlock: (String, StitchProviderType, String, StitchUserProfile, Bool, TimeInterval, Document?) -> T
 
     /**
      * Initializes this `AnyStitchUserFactory` with an arbitrary `StitchUserFactory`.
@@ -43,7 +45,7 @@ public class AnyStitchUserFactory<T: CoreStitchUser> {
      * Initializes this `AnyStitchUserFactory` with an arbitrary closure.
      */
     public init(makeUserBlock:
-        @escaping (String, StitchProviderType, String, StitchUserProfile, Bool, TimeInterval) -> T) {
+        @escaping (String, StitchProviderType, String, StitchUserProfile, Bool, TimeInterval, Document?) -> T) {
         self.makeUserBlock = makeUserBlock
     }
 
@@ -55,13 +57,15 @@ public class AnyStitchUserFactory<T: CoreStitchUser> {
                          withLoggedInProviderName loggedInProviderName: String,
                          withUserProfile userProfile: StitchUserProfile,
                          withIsLoggedIn isLoggedIn: Bool,
-                         withLastAuthActivity lastAuthActivity: TimeInterval) -> T {
+                         withLastAuthActivity lastAuthActivity: TimeInterval,
+                         customData: Document?) -> T {
         return self.makeUserBlock(id,
                                   loggedInProviderType,
                                   loggedInProviderName,
                                   userProfile,
                                   isLoggedIn,
-                                  lastAuthActivity)
+                                  lastAuthActivity,
+                                  customData)
     }
 }
 // swiftlint:enable function_parameter_count

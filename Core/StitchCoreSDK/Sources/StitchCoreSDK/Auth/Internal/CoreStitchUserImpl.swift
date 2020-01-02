@@ -1,4 +1,5 @@
 import Foundation
+import MongoSwift
 
 open class CoreStitchUserImpl: CoreStitchUser {
     public let id: String
@@ -21,12 +22,18 @@ open class CoreStitchUserImpl: CoreStitchUser {
 
     public let isLoggedIn: Bool
 
+    internal var backingCustomData: Document?
+    public var customData: Document {
+        return backingCustomData ?? [:]
+    }
+
     public init(id: String,
                 loggedInProviderType: StitchProviderType,
                 loggedInProviderName: String,
                 profile: StitchUserProfile,
                 isLoggedIn: Bool,
-                lastAuthActivity: TimeInterval
+                lastAuthActivity: TimeInterval,
+                customData: Document?
     ) {
         self.id = id
         self.loggedInProviderType = loggedInProviderType
@@ -34,5 +41,6 @@ open class CoreStitchUserImpl: CoreStitchUser {
         self.profile = profile
         self.isLoggedIn = isLoggedIn
         self.lastAuthActivity = lastAuthActivity
+        self.backingCustomData = customData
     }
 }

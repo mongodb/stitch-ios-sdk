@@ -180,5 +180,6 @@ public protocol StitchAuth {
      */
     func add(authDelegate: StitchAuthDelegate)
 
+    func refreshCustomData(_ completionHandler: @escaping (StitchResult<Void>) -> Void)
     // swiftlint:enable line_length
 }

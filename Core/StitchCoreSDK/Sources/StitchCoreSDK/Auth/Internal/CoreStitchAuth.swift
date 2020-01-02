@@ -214,13 +214,19 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
      *
      * - important: This method must be called within a lock.
      */
-    internal func refreshAccessToken() throws {
+    public func refreshAccessToken() throws {
         objc_sync_enter(authOperationLock)
         defer { objc_sync_exit(authOperationLock) }
 
         // Get the new access token and update the activeUserAuthInfo
         let newAccessToken = try doRefreshAccessToken()
         activeUserAuthInfo = activeUserAuthInfo?.update(withAccessToken: newAccessToken.accessToken)
+
+        if let user = activeUser as? CoreStitchUserImpl {
+            let userData = try StitchJWT.init(fromEncodedJWT: newAccessToken.accessToken).userData
+            user.backingCustomData = userData
+        }
+
 
         if let authInfo = self.activeUserAuthInfo, let userID = authInfo.userID {
             // Update the user in the list of all users
@@ -271,6 +277,7 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
         )
 
         var newAccessToken: APIAccessToken!
+
         do {
             newAccessToken = try JSONDecoder().decode(APIAccessToken.self,
                                                       from: response.body!)
@@ -290,15 +297,18 @@ open class CoreStitchAuth<TStitchUser>: StitchAuthRequestClient where TStitchUse
               let userProfile = authInfo.userProfile,
               let lastAuthActivity = authInfo.lastAuthActivity,
               let loggedInProviderType = authInfo.loggedInProviderType,
-              let loggedInProviderName = authInfo.loggedInProviderName else {
+              let loggedInProviderName = authInfo.loggedInProviderName,
+              let accessToken = authInfo.accessToken else {
                 throw StitchError.clientError(withClientErrorCode: .userNotValid)
         }
 
-        return self.userFactory.makeUser(withID: userID,
-                                         withLoggedInProviderType: loggedInProviderType,
-                                         withLoggedInProviderName: loggedInProviderName,
-                                         withUserProfile: userProfile,
-                                         withIsLoggedIn: authInfo.isLoggedIn,
-                                         withLastAuthActivity: lastAuthActivity)
+        return self.userFactory.makeUser(
+            withID: userID,
+            withLoggedInProviderType: loggedInProviderType,
+            withLoggedInProviderName: loggedInProviderName,
+            withUserProfile: userProfile,
+            withIsLoggedIn: authInfo.isLoggedIn,
+            withLastAuthActivity: lastAuthActivity,
+            customData: try StitchJWT.init(fromEncodedJWT: accessToken).userData)
     }
 }

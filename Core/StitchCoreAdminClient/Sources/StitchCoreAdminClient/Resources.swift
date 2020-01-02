@@ -79,6 +79,7 @@ public protocol Creatable: Resource {
     associatedtype CreatorModel: Encodable
     associatedtype Model: Decodable
 }
+public struct Empty : Codable {}
 extension Creatable {
     public func create(data: CreatorModel) throws -> Model {
         let encodedCreation = try JSONEncoder().encode(data)
@@ -90,8 +91,21 @@ extension Creatable {
                 .build()
 
         let response = try adminAuth.doAuthenticatedRequest(req)
+
         try checkEmpty(response)
         return try JSONDecoder().decode(Model.self, from: response.body!)
+    }
+
+    public func create(data: CreatorModel, empty: Bool) throws {
+        let encodedCreation = try JSONEncoder().encode(data)
+        let req =
+            try StitchAuthRequestBuilder()
+                .with(method: .patch)
+                .with(path: self.url)
+                .with(body: encodedCreation)
+                .build()
+
+        _ = try adminAuth.doAuthenticatedRequest(req)
     }
 }
 
@@ -218,6 +232,11 @@ public final class Apps: BasicResource, Listable {
             }
         }
 
+        public final class CustomUserData: BasicResource, Creatable {
+            public typealias Model = Empty
+            public typealias CreatorModel = CustomUserConfigData
+        }
+
         public lazy var authProviders: AuthProviders =
             AuthProviders.init(adminAuth: self.adminAuth,
                                url: "\(self.url)/auth_providers")
@@ -236,6 +255,10 @@ public final class Apps: BasicResource, Listable {
         public lazy var services: Services =
             Services.init(adminAuth: self.adminAuth,
                           url: "\(self.url)/services")
+
+        public lazy var customUserData: CustomUserData =
+            CustomUserData.init(adminAuth: self.adminAuth,
+                                url: "\(self.url)/custom_user_data")
     }
 }
 //swiftlint:enable nesting

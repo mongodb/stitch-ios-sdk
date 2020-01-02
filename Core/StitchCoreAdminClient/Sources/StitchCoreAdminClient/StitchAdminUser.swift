@@ -1,5 +1,6 @@
 import StitchCoreSDK
 import Foundation
+import MongoSwift
 
 public final class StitchAdminUser: CoreStitchUser {
 
@@ -11,13 +12,15 @@ public final class StitchAdminUser: CoreStitchUser {
          withProviderName providerName: String,
          withUserProfile userProfile: StitchUserProfile,
          withIsLoggedIn isLoggedIn: Bool,
-         withLastAuthActivity lastAuthActivity: TimeInterval) {
+         withLastAuthActivity lastAuthActivity: TimeInterval,
+         customData: Document?) {
         self.id = id
         self.loggedInProviderType = providerType
         self.loggedInProviderName = providerName
         self.profile = userProfile
         self.isLoggedIn = isLoggedIn
         self.lastAuthActivity = lastAuthActivity
+        self.customData = customData ?? [:]
     }
 
     /**
@@ -65,6 +68,8 @@ public final class StitchAdminUser: CoreStitchUser {
     public var identities: [StitchUserIdentity] {
         return self.profile.identities
     }
+
+    public let customData: Document
 }
 
 public final class StitchAdminUserFactory: StitchUserFactory {
@@ -79,14 +84,15 @@ public final class StitchAdminUserFactory: StitchUserFactory {
                          withLoggedInProviderName loggedInProviderName: String,
                          withUserProfile userProfile: StitchUserProfile,
                          withIsLoggedIn isLoggedIn: Bool,
-                         withLastAuthActivity lastAuthActivity: TimeInterval
+                         withLastAuthActivity lastAuthActivity: TimeInterval,
+                         customData: Document?
         ) -> StitchAdminUser {
         return StitchAdminUser.init(withID: id,
                                     withProviderType: loggedInProviderType,
                                     withProviderName: loggedInProviderName,
                                     withUserProfile: userProfile,
                                     withIsLoggedIn: isLoggedIn,
-                                    withLastAuthActivity: lastAuthActivity)
+                                    withLastAuthActivity: lastAuthActivity, customData: customData)
     }
     //swiftlint:enable function_parameter_count
 
