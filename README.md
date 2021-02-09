@@ -1,5 +1,9 @@
 ![iOS](https://img.shields.io/badge/platform-iOS-blue.svg) [![Swift 4.0](https://img.shields.io/badge/swift-4.1-orange.svg)](https://developer.apple.com/swift/) ![Apache 2.0 License](https://img.shields.io/badge/license-Apache%202-lightgrey.svg) [![Cocoapods compatible](https://img.shields.io/badge/pod-v6.4.0-ff69b4.svg)](#CocoaPods)
 
+# Stitch SDK Deprecation Notice
+
+Stitch SDK functionality has been moved into the Realm SDKs. Applications using a Stitch SDK can be migrated to the corresponding Realm SDK by using one of the [Stitch SDK Migration Guides](https://docs.mongodb.com/realm/migrate). **Support for the Stitch SDKs will fully end on November 1, 2021.**
+
 # MongoDB Stitch iOS/Swift SDK 
 
 The official [MongoDB Stitch](https://stitch.mongodb.com/) SDK for iOS/Swift.
